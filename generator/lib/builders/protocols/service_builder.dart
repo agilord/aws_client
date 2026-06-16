@@ -165,9 +165,10 @@ String _encodeHeaderValue(Shape shape, String variable, {Member? member}) {
       return "$variable.map((e) => e.value).join(', ')";
     } else if (element.type == 'timestamp') {
       final fmt = element.timestampFormat ?? 'rfc822';
-      final item =
-          '_s.${fmt}ToJson(e)${fmt == 'unixTimestamp' ? '.toString()' : ''}';
-      return "$variable.map((e) => $item).join(', ')";
+      if (fmt == 'unixTimestamp') {
+        return "$variable.map((e) => _s.${fmt}ToJson(e).toString()).join(', ')";
+      }
+      return "$variable.map(_s.${fmt}ToJson).join(', ')";
     } else if (element.type == 'string') {
       return '_s.encodeHttpHeaderList($variable)';
     } else {

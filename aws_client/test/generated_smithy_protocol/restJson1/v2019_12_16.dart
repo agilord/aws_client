@@ -714,8 +714,7 @@ class RestJsonProtocol {
       if (headerStringSet != null)
         'X-StringSet': _s.encodeHttpHeaderList(headerStringSet),
       if (headerTimestampList != null)
-        'X-TimestampList':
-            headerTimestampList.map((e) => _s.rfc822ToJson(e)).join(', '),
+        'X-TimestampList': headerTimestampList.map(_s.rfc822ToJson).join(', '),
       if (headerTrueBool != null) 'X-Boolean1': headerTrueBool.toString(),
     };
     final response = await _protocol.sendRaw(
