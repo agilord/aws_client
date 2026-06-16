@@ -1,5 +1,4 @@
-import 'package:aws_client/api_gateway.dart'
-    show ApiGateway, NotFoundException;
+import 'package:aws_client/api_gateway.dart' show ApiGateway, NotFoundException;
 // Several services expose like-named exceptions (NotFoundException,
 // ResourceNotFoundException); import the newer services under a prefix so each
 // typed exception can be referenced unambiguously.

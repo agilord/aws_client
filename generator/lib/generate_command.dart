@@ -212,8 +212,8 @@ export 'src/credential_providers/aws_credential_providers.dart';
         File(p.join(_packageDir, 'README.template.md')).readAsStringSync();
     readmeTemplate = readmeTemplate.replaceAll('<!-- INSERT API LIST -->',
         readmeDescriptions.map((d) => '- $d').join('\n'));
-    readmeTemplate =
-        readmeTemplate.replaceAllMapped(RegExp(r'<!-- INCLUDE: (\S+) -->'), (m) {
+    readmeTemplate = readmeTemplate
+        .replaceAllMapped(RegExp(r'<!-- INCLUDE: (\S+) -->'), (m) {
       final rel = m.group(1)!;
       final lang = p.extension(rel).replaceFirst('.', '');
       final code =
