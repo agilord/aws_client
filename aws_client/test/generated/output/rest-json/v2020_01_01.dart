@@ -94,6 +94,7 @@ class JsonValueTrait {
   }
 }
 
+/// @nodoc
 class OutputShape {
   final Object? bodyField;
   final List<Object>? bodyListField;

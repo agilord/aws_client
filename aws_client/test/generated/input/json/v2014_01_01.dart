@@ -94,6 +94,7 @@ class Enum {
   }
 }
 
+/// @nodoc
 class EnumType {
   static const foo = EnumType._('foo');
   static const bar = EnumType._('bar');

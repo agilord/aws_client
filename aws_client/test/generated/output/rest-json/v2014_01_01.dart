@@ -92,6 +92,7 @@ class Enum {
   }
 }
 
+/// @nodoc
 class OutputShape {
   final RESTJSONEnumType? fooEnum;
   final RESTJSONEnumType? headerEnum;
@@ -115,6 +116,7 @@ class OutputShape {
   }
 }
 
+/// @nodoc
 class RESTJSONEnumType {
   static const foo = RESTJSONEnumType._('foo');
   static const bar = RESTJSONEnumType._('bar');
