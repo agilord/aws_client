@@ -4316,6 +4316,8 @@ class CloudTrail {
 }
 
 /// Returns the objects or data if successful. Otherwise, returns an error.
+///
+/// @nodoc
 class AddTagsResponse {
   AddTagsResponse();
 
@@ -4328,6 +4330,7 @@ class AddTagsResponse {
   }
 }
 
+/// @nodoc
 class CancelQueryResponse {
   /// The ID of the canceled query.
   final String queryId;
@@ -4369,6 +4372,7 @@ class CancelQueryResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelResponse {
   /// The Amazon Resource Name (ARN) of the new channel.
   final String? channelArn;
@@ -4423,6 +4427,7 @@ class CreateChannelResponse {
   }
 }
 
+/// @nodoc
 class CreateDashboardResponse {
   /// The ARN for the dashboard.
   final String? dashboardArn;
@@ -4496,6 +4501,7 @@ class CreateDashboardResponse {
   }
 }
 
+/// @nodoc
 class CreateEventDataStoreResponse {
   /// The advanced event selectors that were used to select the events for the
   /// data store.
@@ -4624,6 +4630,8 @@ class CreateEventDataStoreResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class CreateTrailResponse {
   /// Specifies the Amazon Resource Name (ARN) of the log group to which
   /// CloudTrail logs will be delivered.
@@ -4751,6 +4759,7 @@ class CreateTrailResponse {
   }
 }
 
+/// @nodoc
 class DeleteChannelResponse {
   DeleteChannelResponse();
 
@@ -4763,6 +4772,7 @@ class DeleteChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteDashboardResponse {
   DeleteDashboardResponse();
 
@@ -4775,6 +4785,7 @@ class DeleteDashboardResponse {
   }
 }
 
+/// @nodoc
 class DeleteEventDataStoreResponse {
   DeleteEventDataStoreResponse();
 
@@ -4787,6 +4798,7 @@ class DeleteEventDataStoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -4801,6 +4813,8 @@ class DeleteResourcePolicyResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class DeleteTrailResponse {
   DeleteTrailResponse();
 
@@ -4814,6 +4828,8 @@ class DeleteTrailResponse {
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
+///
+/// @nodoc
 class DeregisterOrganizationDelegatedAdminResponse {
   DeregisterOrganizationDelegatedAdminResponse();
 
@@ -4827,6 +4843,7 @@ class DeregisterOrganizationDelegatedAdminResponse {
   }
 }
 
+/// @nodoc
 class DescribeQueryResponse {
   /// The URI for the S3 bucket where CloudTrail delivered query results, if
   /// applicable.
@@ -4923,6 +4940,8 @@ class DescribeQueryResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class DescribeTrailsResponse {
   /// The list of trail objects. Trail objects with string values are only
   /// returned if values for the objects exist in a trail's configuration. For
@@ -4953,6 +4972,7 @@ class DescribeTrailsResponse {
   }
 }
 
+/// @nodoc
 class DisableFederationResponse {
   /// The ARN of the event data store for which you disabled Lake query
   /// federation.
@@ -4984,6 +5004,7 @@ class DisableFederationResponse {
   }
 }
 
+/// @nodoc
 class EnableFederationResponse {
   /// The ARN of the event data store for which you enabled Lake query federation.
   final String? eventDataStoreArn;
@@ -5021,6 +5042,7 @@ class EnableFederationResponse {
   }
 }
 
+/// @nodoc
 class GenerateQueryResponse {
   /// The account ID of the event data store owner.
   final String? eventDataStoreOwnerAccountId;
@@ -5061,6 +5083,7 @@ class GenerateQueryResponse {
   }
 }
 
+/// @nodoc
 class GetChannelResponse {
   /// The ARN of an channel returned by a <code>GetChannel</code> request.
   final String? channelArn;
@@ -5135,6 +5158,7 @@ class GetChannelResponse {
   }
 }
 
+/// @nodoc
 class GetDashboardResponse {
   /// The timestamp that shows when the dashboard was created.
   final DateTime? createdTimestamp;
@@ -5231,6 +5255,7 @@ class GetDashboardResponse {
   }
 }
 
+/// @nodoc
 class GetEventConfigurationResponse {
   /// The list of aggregation configurations that are configured for the trail.
   final List<AggregationConfiguration>? aggregationConfigurations;
@@ -5295,6 +5320,7 @@ class GetEventConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetEventDataStoreResponse {
   /// The advanced event selectors used to select events for the data store.
   final List<AdvancedEventSelector>? advancedEventSelectors;
@@ -5444,6 +5470,7 @@ class GetEventDataStoreResponse {
   }
 }
 
+/// @nodoc
 class GetEventSelectorsResponse {
   /// The advanced event selectors that are configured for the trail.
   final List<AdvancedEventSelector>? advancedEventSelectors;
@@ -5487,6 +5514,7 @@ class GetEventSelectorsResponse {
   }
 }
 
+/// @nodoc
 class GetImportResponse {
   /// The timestamp of the import's creation.
   final DateTime? createdTimestamp;
@@ -5585,6 +5613,7 @@ class GetImportResponse {
   }
 }
 
+/// @nodoc
 class GetInsightSelectorsResponse {
   /// The ARN of the source event data store that enabled Insights events.
   final String? eventDataStoreArn;
@@ -5638,6 +5667,7 @@ class GetInsightSelectorsResponse {
   }
 }
 
+/// @nodoc
 class GetQueryResultsResponse {
   /// The error message returned if a query failed.
   final String? errorMessage;
@@ -5701,6 +5731,7 @@ class GetQueryResultsResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The default resource-based policy that is automatically generated for the
   /// delegated administrator of an Organizations organization. This policy will
@@ -5755,6 +5786,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetTrailResponse {
   final Trail? trail;
 
@@ -5780,6 +5812,8 @@ class GetTrailResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class GetTrailStatusResponse {
   /// Whether the CloudTrail trail is currently logging Amazon Web Services API
   /// calls.
@@ -5973,6 +6007,7 @@ class GetTrailStatusResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsResponse {
   /// The list of channels in the account.
   final List<Channel>? channels;
@@ -6005,6 +6040,7 @@ class ListChannelsResponse {
   }
 }
 
+/// @nodoc
 class ListDashboardsResponse {
   /// Contains information about dashboards in the account, in the current Region
   /// that match the applied filters.
@@ -6038,6 +6074,7 @@ class ListDashboardsResponse {
   }
 }
 
+/// @nodoc
 class ListEventDataStoresResponse {
   /// Contains information about event data stores in the account, in the current
   /// Region.
@@ -6071,6 +6108,7 @@ class ListEventDataStoresResponse {
   }
 }
 
+/// @nodoc
 class ListImportFailuresResponse {
   /// Contains information about the import failures.
   final List<ImportFailureListItem>? failures;
@@ -6103,6 +6141,7 @@ class ListImportFailuresResponse {
   }
 }
 
+/// @nodoc
 class ListImportsResponse {
   /// The list of returned imports.
   final List<ImportsListItem>? imports;
@@ -6135,6 +6174,7 @@ class ListImportsResponse {
   }
 }
 
+/// @nodoc
 class ListInsightsDataResponse {
   /// A list of events returned based on the InsightSource, DataType or Dimensions
   /// specified. The events list is sorted by time. The most recent event is
@@ -6174,6 +6214,7 @@ class ListInsightsDataResponse {
   }
 }
 
+/// @nodoc
 class ListInsightsMetricDataResponse {
   /// Only returned if <code>InsightType</code> parameter was set to
   /// <code>ApiErrorRateInsight</code>.
@@ -6269,6 +6310,8 @@ class ListInsightsMetricDataResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class ListPublicKeysResponse {
   /// Reserved for future use.
   final String? nextToken;
@@ -6304,6 +6347,7 @@ class ListPublicKeysResponse {
   }
 }
 
+/// @nodoc
 class ListQueriesResponse {
   /// A token you can use to get the next page of results.
   final String? nextToken;
@@ -6339,6 +6383,8 @@ class ListQueriesResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class ListTagsResponse {
   /// Reserved for future use.
   final String? nextToken;
@@ -6371,6 +6417,7 @@ class ListTagsResponse {
   }
 }
 
+/// @nodoc
 class ListTrailsResponse {
   /// The token to use to get the next page of results after a previous API call.
   /// If the token does not appear, there are no more results to return. The token
@@ -6409,6 +6456,8 @@ class ListTrailsResponse {
 }
 
 /// Contains a response to a LookupEvents action.
+///
+/// @nodoc
 class LookupEventsResponse {
   /// A list of events returned based on the lookup attributes specified and the
   /// CloudTrail event. The events list is sorted by time. The most recent event
@@ -6448,6 +6497,7 @@ class LookupEventsResponse {
   }
 }
 
+/// @nodoc
 class PutEventConfigurationResponse {
   /// A list of aggregation configurations that are configured for the trail.
   final List<AggregationConfiguration>? aggregationConfigurations;
@@ -6511,6 +6561,7 @@ class PutEventConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutEventSelectorsResponse {
   /// Specifies the advanced event selectors configured for your trail.
   final List<AdvancedEventSelector>? advancedEventSelectors;
@@ -6557,6 +6608,7 @@ class PutEventSelectorsResponse {
   }
 }
 
+/// @nodoc
 class PutInsightSelectorsResponse {
   /// The Amazon Resource Name (ARN) of the source event data store for which you
   /// want to change or add Insights selectors.
@@ -6611,6 +6663,7 @@ class PutInsightSelectorsResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The default resource-based policy that is automatically generated for the
   /// delegated administrator of an Organizations organization. This policy will
@@ -6666,6 +6719,8 @@ class PutResourcePolicyResponse {
 }
 
 /// Returns the following response if successful. Otherwise, returns an error.
+///
+/// @nodoc
 class RegisterOrganizationDelegatedAdminResponse {
   RegisterOrganizationDelegatedAdminResponse();
 
@@ -6681,6 +6736,8 @@ class RegisterOrganizationDelegatedAdminResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class RemoveTagsResponse {
   RemoveTagsResponse();
 
@@ -6693,6 +6750,7 @@ class RemoveTagsResponse {
   }
 }
 
+/// @nodoc
 class RestoreEventDataStoreResponse {
   /// The advanced event selectors that were used to select events.
   final List<AdvancedEventSelector>? advancedEventSelectors;
@@ -6810,6 +6868,7 @@ class RestoreEventDataStoreResponse {
   }
 }
 
+/// @nodoc
 class SearchSampleQueriesResponse {
   /// A token you can use to get the next page of results.
   final String? nextToken;
@@ -6844,6 +6903,7 @@ class SearchSampleQueriesResponse {
   }
 }
 
+/// @nodoc
 class StartDashboardRefreshResponse {
   /// The refresh ID for the dashboard.
   final String? refreshId;
@@ -6866,6 +6926,7 @@ class StartDashboardRefreshResponse {
   }
 }
 
+/// @nodoc
 class StartEventDataStoreIngestionResponse {
   StartEventDataStoreIngestionResponse();
 
@@ -6879,6 +6940,7 @@ class StartEventDataStoreIngestionResponse {
   }
 }
 
+/// @nodoc
 class StartImportResponse {
   /// The timestamp for the import's creation.
   final DateTime? createdTimestamp;
@@ -6968,6 +7030,8 @@ class StartImportResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class StartLoggingResponse {
   StartLoggingResponse();
 
@@ -6980,6 +7044,7 @@ class StartLoggingResponse {
   }
 }
 
+/// @nodoc
 class StartQueryResponse {
   /// The account ID of the event data store owner.
   final String? eventDataStoreOwnerAccountId;
@@ -7011,6 +7076,7 @@ class StartQueryResponse {
   }
 }
 
+/// @nodoc
 class StopEventDataStoreIngestionResponse {
   StopEventDataStoreIngestionResponse();
 
@@ -7023,6 +7089,7 @@ class StopEventDataStoreIngestionResponse {
   }
 }
 
+/// @nodoc
 class StopImportResponse {
   /// The timestamp of the import's creation.
   final DateTime? createdTimestamp;
@@ -7120,6 +7187,8 @@ class StopImportResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class StopLoggingResponse {
   StopLoggingResponse();
 
@@ -7132,6 +7201,7 @@ class StopLoggingResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelResponse {
   /// The ARN of the channel that was updated.
   final String? channelArn;
@@ -7178,6 +7248,7 @@ class UpdateChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateDashboardResponse {
   /// The timestamp that shows when the dashboard was created.
   final DateTime? createdTimestamp;
@@ -7259,6 +7330,7 @@ class UpdateDashboardResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventDataStoreResponse {
   /// The advanced event selectors that are applied to the event data store.
   final List<AdvancedEventSelector>? advancedEventSelectors;
@@ -7399,6 +7471,8 @@ class UpdateEventDataStoreResponse {
 
 /// Returns the objects or data listed below if successful. Otherwise, returns
 /// an error.
+///
+/// @nodoc
 class UpdateTrailResponse {
   /// Specifies the Amazon Resource Name (ARN) of the log group to which
   /// CloudTrail logs are delivered.
@@ -7528,6 +7602,7 @@ class UpdateTrailResponse {
   }
 }
 
+/// @nodoc
 class EventDataStoreStatus {
   static const created = EventDataStoreStatus._('CREATED');
   static const enabled = EventDataStoreStatus._('ENABLED');
@@ -7564,6 +7639,7 @@ class EventDataStoreStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BillingMode {
   static const extendableRetentionPricing =
       BillingMode._('EXTENDABLE_RETENTION_PRICING');
@@ -7588,6 +7664,7 @@ class BillingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class FederationStatus {
   static const enabling = FederationStatus._('ENABLING');
   static const enabled = FederationStatus._('ENABLED');
@@ -7631,6 +7708,8 @@ class FederationStatus {
 /// For information about configurable advanced event selector fields, see <a
 /// href="https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html">AdvancedEventSelector</a>
 /// in the <i>CloudTrail API Reference</i>.
+///
+/// @nodoc
 class AdvancedEventSelector {
   /// Contains all selector statements in an advanced event selector.
   final List<AdvancedFieldSelector> fieldSelectors;
@@ -7665,6 +7744,8 @@ class AdvancedEventSelector {
 }
 
 /// A single selector statement in an advanced event selector.
+///
+/// @nodoc
 class AdvancedFieldSelector {
   /// A field in a CloudTrail event record on which to filter events to be logged.
   /// For event data stores for CloudTrail Insights events, Config configuration
@@ -7767,6 +7848,7 @@ class AdvancedFieldSelector {
   }
 }
 
+/// @nodoc
 class DashboardType {
   static const managed = DashboardType._('MANAGED');
   static const custom = DashboardType._('CUSTOM');
@@ -7792,6 +7874,8 @@ class DashboardType {
 }
 
 /// The schedule for a dashboard refresh.
+///
+/// @nodoc
 class RefreshSchedule {
   /// The frequency at which you want the dashboard refreshed.
   final RefreshScheduleFrequency? frequency;
@@ -7839,6 +7923,8 @@ class RefreshSchedule {
 ///
 /// For a custom dashboard, you can schedule a refresh for every 1, 6, 12, or 24
 /// hours, or every day.
+///
+/// @nodoc
 class RefreshScheduleFrequency {
   /// The unit to use for the refresh.
   ///
@@ -7884,6 +7970,7 @@ class RefreshScheduleFrequency {
   }
 }
 
+/// @nodoc
 class RefreshScheduleStatus {
   static const enabled = RefreshScheduleStatus._('ENABLED');
   static const disabled = RefreshScheduleStatus._('DISABLED');
@@ -7909,6 +7996,7 @@ class RefreshScheduleStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RefreshScheduleFrequencyUnit {
   static const hours = RefreshScheduleFrequencyUnit._('HOURS');
   static const days = RefreshScheduleFrequencyUnit._('DAYS');
@@ -7935,6 +8023,8 @@ class RefreshScheduleFrequencyUnit {
 }
 
 /// A widget on a CloudTrail Lake dashboard.
+///
+/// @nodoc
 class Widget {
   /// The query alias used to identify the query for the widget.
   final String? queryAlias;
@@ -7986,6 +8076,8 @@ class Widget {
 }
 
 /// Contains information about a widget on a CloudTrail Lake dashboard.
+///
+/// @nodoc
 class RequestWidget {
   /// The query statement for the widget. For custom dashboard widgets, you can
   /// query across multiple event data stores as long as all event data stores
@@ -8025,6 +8117,8 @@ class RequestWidget {
 }
 
 /// Contains information about the destination receiving events.
+///
+/// @nodoc
 class Destination {
   /// For channels used for a CloudTrail Lake integration, the location is the ARN
   /// of an event data store that receives events from a channel. For
@@ -8060,6 +8154,7 @@ class Destination {
   }
 }
 
+/// @nodoc
 class DestinationType {
   static const eventDataStore = DestinationType._('EVENT_DATA_STORE');
   static const awsService = DestinationType._('AWS_SERVICE');
@@ -8085,6 +8180,8 @@ class DestinationType {
 }
 
 /// The import source.
+///
+/// @nodoc
 class ImportSource {
   /// The source S3 bucket.
   final S3ImportSource s3;
@@ -8108,6 +8205,7 @@ class ImportSource {
   }
 }
 
+/// @nodoc
 class ImportStatus {
   static const initializing = ImportStatus._('INITIALIZING');
   static const inProgress = ImportStatus._('IN_PROGRESS');
@@ -8139,6 +8237,8 @@ class ImportStatus {
 /// such as <code>EventsCompleted</code> may be lower than the actual value,
 /// because CloudTrail updates statistics incrementally over the course of the
 /// import.
+///
+/// @nodoc
 class ImportStatistics {
   /// The number of trail events imported into the event data store.
   final int? eventsCompleted;
@@ -8190,6 +8290,8 @@ class ImportStatistics {
 }
 
 /// The settings for the source S3 bucket.
+///
+/// @nodoc
 class S3ImportSource {
   /// The IAM ARN role used to access the source S3 bucket.
   final String s3BucketAccessRoleArn;
@@ -8227,6 +8329,8 @@ class S3ImportSource {
 }
 
 /// A search result returned by the <code>SearchSampleQueries</code> operation.
+///
+/// @nodoc
 class SearchSampleQueriesSearchResult {
   /// A longer description of a sample query.
   final String? description;
@@ -8273,6 +8377,8 @@ class SearchSampleQueriesSearchResult {
 
 /// A custom key-value pair associated with a resource such as a CloudTrail
 /// trail, event data store, dashboard, or channel.
+///
+/// @nodoc
 class Tag {
   /// The key in a key-value pair. The key must be must be no longer than 128
   /// Unicode characters. The key must be unique for the resource to which it
@@ -8307,6 +8413,8 @@ class Tag {
 
 /// A JSON string that contains a list of Insights types that are logged on a
 /// trail or event data store.
+///
+/// @nodoc
 class InsightSelector {
   /// Select the event category on which Insights should be enabled.
   ///
@@ -8365,6 +8473,7 @@ class InsightSelector {
   }
 }
 
+/// @nodoc
 class InsightType {
   static const apiCallRateInsight = InsightType._('ApiCallRateInsight');
   static const apiErrorRateInsight = InsightType._('ApiErrorRateInsight');
@@ -8388,6 +8497,7 @@ class InsightType {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceEventCategory {
   static const management = SourceEventCategory._('Management');
   static const data = SourceEventCategory._('Data');
@@ -8425,6 +8535,8 @@ class SourceEventCategory {
 ///
 /// You cannot apply both event selectors and advanced event selectors to a
 /// trail.
+///
+/// @nodoc
 class EventSelector {
   /// CloudTrail supports data event logging for Amazon S3 objects in standard S3
   /// buckets, Lambda functions, and Amazon DynamoDB tables with basic event
@@ -8521,6 +8633,7 @@ class EventSelector {
   }
 }
 
+/// @nodoc
 class ReadWriteType {
   static const readOnly = ReadWriteType._('ReadOnly');
   static const writeOnly = ReadWriteType._('WriteOnly');
@@ -8622,6 +8735,8 @@ class ReadWriteType {
 /// <i>MyOtherLambdaFunction</i> does not match the function specified for the
 /// trail. The trail doesn’t log the event.
 /// </li> </ol>
+///
+/// @nodoc
 class DataResource {
   /// The resource type in which you want to log data events. You can specify the
   /// following <i>basic</i> event selector resource types:
@@ -8714,6 +8829,7 @@ class DataResource {
   }
 }
 
+/// @nodoc
 class MaxEventSize {
   static const standard = MaxEventSize._('Standard');
   static const large = MaxEventSize._('Large');
@@ -8738,6 +8854,8 @@ class MaxEventSize {
 }
 
 /// An object that contains configuration settings for aggregating events.
+///
+/// @nodoc
 class AggregationConfiguration {
   /// Specifies the event category for which aggregation should be performed.
   final EventCategoryAggregation eventCategory;
@@ -8772,6 +8890,7 @@ class AggregationConfiguration {
   }
 }
 
+/// @nodoc
 class EventCategoryAggregation {
   static const data = EventCategoryAggregation._('Data');
 
@@ -8799,6 +8918,8 @@ class EventCategoryAggregation {
 /// Specifies the type of the aggregation templates in the aggregation
 /// configuration. Valid values include API_ACTIVITY, RESOURCE_ACCESS and
 /// USER_ACTIONS.
+///
+/// @nodoc
 class Template {
   static const apiActivity = Template._('API_ACTIVITY');
   static const resourceAccess = Template._('RESOURCE_ACCESS');
@@ -8825,6 +8946,8 @@ class Template {
 
 /// An object that contains information types to be included in CloudTrail
 /// enriched events.
+///
+/// @nodoc
 class ContextKeySelector {
   /// A list of keys defined by Type to be included in CloudTrail enriched events.
   final List<String> equals;
@@ -8858,6 +8981,7 @@ class ContextKeySelector {
   }
 }
 
+/// @nodoc
 class Type {
   static const tagContext = Type._('TagContext');
   static const requestContext = Type._('RequestContext');
@@ -8883,6 +9007,8 @@ class Type {
 
 /// Contains information about an event that was returned by a lookup request.
 /// The result includes a representation of a CloudTrail event.
+///
+/// @nodoc
 class Event {
   /// The Amazon Web Services access key ID that was used to sign the request. If
   /// the request was made with temporary security credentials, this is the access
@@ -8968,6 +9094,8 @@ class Event {
 }
 
 /// Specifies the type and name of a resource referenced by an event.
+///
+/// @nodoc
 class Resource {
   /// The name of the resource referenced by the event returned. These are
   /// user-created names whose values will depend on the environment. For example,
@@ -9009,6 +9137,8 @@ class Resource {
 
 /// Specifies the event category for which aggregation configuration is enabled.
 /// Valid value is Data.
+///
+/// @nodoc
 class EventCategory {
   static const insight = EventCategory._('insight');
 
@@ -9033,6 +9163,8 @@ class EventCategory {
 }
 
 /// Specifies an attribute and value that filter the events returned.
+///
+/// @nodoc
 class LookupAttribute {
   /// Specifies an attribute on which to filter the events returned.
   final LookupAttributeKey attributeKey;
@@ -9060,6 +9192,7 @@ class LookupAttribute {
   }
 }
 
+/// @nodoc
 class LookupAttributeKey {
   static const eventId = LookupAttributeKey._('EventId');
   static const eventName = LookupAttributeKey._('EventName');
@@ -9102,6 +9235,8 @@ class LookupAttributeKey {
 
 /// Information about a CloudTrail trail, including the trail's name, home
 /// Region, and Amazon Resource Name (ARN).
+///
+/// @nodoc
 class TrailInfo {
   /// The Amazon Web Services Region in which a trail was created.
   final String? homeRegion;
@@ -9139,6 +9274,8 @@ class TrailInfo {
 }
 
 /// A resource tag.
+///
+/// @nodoc
 class ResourceTag {
   /// Specifies the ARN of the resource.
   final String? resourceId;
@@ -9173,6 +9310,8 @@ class ResourceTag {
 
 /// A SQL string of criteria about events that you want to collect in an event
 /// data store.
+///
+/// @nodoc
 class Query {
   /// The creation time of a query.
   final DateTime? creationTime;
@@ -9213,6 +9352,7 @@ class Query {
   }
 }
 
+/// @nodoc
 class QueryStatus {
   static const queued = QueryStatus._('QUEUED');
   static const running = QueryStatus._('RUNNING');
@@ -9248,6 +9388,8 @@ class QueryStatus {
 }
 
 /// Contains information about a returned public key.
+///
+/// @nodoc
 class PublicKey {
   /// The fingerprint of the public key.
   final String? fingerprint;
@@ -9293,6 +9435,7 @@ class PublicKey {
   }
 }
 
+/// @nodoc
 class InsightsMetricDataType {
   static const fillWithZeros = InsightsMetricDataType._('FillWithZeros');
   static const nonZeroData = InsightsMetricDataType._('NonZeroData');
@@ -9318,6 +9461,7 @@ class InsightsMetricDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class ListInsightsDataType {
   static const insightsEvents = ListInsightsDataType._('InsightsEvents');
 
@@ -9342,6 +9486,7 @@ class ListInsightsDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class ListInsightsDataDimensionKey {
   static const eventId = ListInsightsDataDimensionKey._('EventId');
   static const eventName = ListInsightsDataDimensionKey._('EventName');
@@ -9369,6 +9514,8 @@ class ListInsightsDataDimensionKey {
 }
 
 /// Contains information about an import that was returned by a lookup request.
+///
+/// @nodoc
 class ImportsListItem {
   /// The timestamp of the import's creation.
   final DateTime? createdTimestamp;
@@ -9426,6 +9573,8 @@ class ImportsListItem {
 }
 
 /// Provides information about an import failure.
+///
+/// @nodoc
 class ImportFailureListItem {
   /// Provides the reason the import failed.
   final String? errorMessage;
@@ -9477,6 +9626,7 @@ class ImportFailureListItem {
   }
 }
 
+/// @nodoc
 class ImportFailureStatus {
   static const failed = ImportFailureStatus._('FAILED');
   static const retry = ImportFailureStatus._('RETRY');
@@ -9508,6 +9658,8 @@ class ImportFailureStatus {
 /// account. To select events for an event data store, use <a
 /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-concepts.html#adv-event-selectors">advanced
 /// event selectors</a>.
+///
+/// @nodoc
 class EventDataStore {
   /// The advanced event selectors that were used to select events for the data
   /// store.
@@ -9608,6 +9760,8 @@ class EventDataStore {
 }
 
 /// Provides information about a CloudTrail Lake dashboard.
+///
+/// @nodoc
 class DashboardDetail {
   /// The ARN for the dashboard.
   final String? dashboardArn;
@@ -9638,6 +9792,8 @@ class DashboardDetail {
 }
 
 /// Contains information about a returned CloudTrail channel.
+///
+/// @nodoc
 class Channel {
   /// The Amazon Resource Name (ARN) of a channel.
   final String? channelArn;
@@ -9672,6 +9828,8 @@ class Channel {
 }
 
 /// The settings for a trail.
+///
+/// @nodoc
 class Trail {
   /// Specifies an Amazon Resource Name (ARN), a unique identifier that represents
   /// the log group to which CloudTrail logs will be delivered.
@@ -9829,6 +9987,8 @@ class Trail {
 }
 
 /// Metadata about a query, such as the number of results.
+///
+/// @nodoc
 class QueryStatistics {
   /// The total bytes that the query scanned in the event data store. This value
   /// matches the number of bytes for which your account is billed for the query,
@@ -9868,6 +10028,8 @@ class QueryStatistics {
 }
 
 /// Contains information about a partition key for an event data store.
+///
+/// @nodoc
 class PartitionKey {
   /// The name of the partition key.
   final String name;
@@ -9898,6 +10060,7 @@ class PartitionKey {
   }
 }
 
+/// @nodoc
 class DashboardStatus {
   static const creating = DashboardStatus._('CREATING');
   static const created = DashboardStatus._('CREATED');
@@ -9926,6 +10089,8 @@ class DashboardStatus {
 }
 
 /// Contains configuration information about the channel.
+///
+/// @nodoc
 class SourceConfig {
   /// The advanced event selectors that are configured for the channel.
   final List<AdvancedEventSelector>? advancedEventSelectors;
@@ -9961,6 +10126,8 @@ class SourceConfig {
 
 /// A table showing information about the most recent successful and failed
 /// attempts to ingest events.
+///
+/// @nodoc
 class IngestionStatus {
   /// The event ID of the most recent attempt to ingest events.
   final String? latestIngestionAttemptEventID;
@@ -10026,6 +10193,8 @@ class IngestionStatus {
 /// Gets metadata about a query, including the number of events that were
 /// matched, the total number of events scanned, the query run time in
 /// milliseconds, and the query's creation time.
+///
+/// @nodoc
 class QueryStatisticsForDescribeQuery {
   /// The total bytes that the query scanned in the event data store. This value
   /// matches the number of bytes for which your account is billed for the query,
@@ -10080,6 +10249,7 @@ class QueryStatisticsForDescribeQuery {
   }
 }
 
+/// @nodoc
 class DeliveryStatus {
   static const success = DeliveryStatus._('SUCCESS');
   static const failed = DeliveryStatus._('FAILED');
@@ -10122,11 +10292,13 @@ class DeliveryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AccountHasOngoingImportException extends _s.GenericAwsException {
   AccountHasOngoingImportException({String? type, String? message})
       : super(
@@ -10135,11 +10307,13 @@ class AccountHasOngoingImportException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccountNotFoundException extends _s.GenericAwsException {
   AccountNotFoundException({String? type, String? message})
       : super(type: type, code: 'AccountNotFoundException', message: message);
 }
 
+/// @nodoc
 class AccountNotRegisteredException extends _s.GenericAwsException {
   AccountNotRegisteredException({String? type, String? message})
       : super(
@@ -10148,11 +10322,13 @@ class AccountNotRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccountRegisteredException extends _s.GenericAwsException {
   AccountRegisteredException({String? type, String? message})
       : super(type: type, code: 'AccountRegisteredException', message: message);
 }
 
+/// @nodoc
 class CannotDelegateManagementAccountException extends _s.GenericAwsException {
   CannotDelegateManagementAccountException({String? type, String? message})
       : super(
@@ -10161,11 +10337,13 @@ class CannotDelegateManagementAccountException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ChannelARNInvalidException extends _s.GenericAwsException {
   ChannelARNInvalidException({String? type, String? message})
       : super(type: type, code: 'ChannelARNInvalidException', message: message);
 }
 
+/// @nodoc
 class ChannelAlreadyExistsException extends _s.GenericAwsException {
   ChannelAlreadyExistsException({String? type, String? message})
       : super(
@@ -10174,12 +10352,14 @@ class ChannelAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ChannelExistsForEDSException extends _s.GenericAwsException {
   ChannelExistsForEDSException({String? type, String? message})
       : super(
             type: type, code: 'ChannelExistsForEDSException', message: message);
 }
 
+/// @nodoc
 class ChannelMaxLimitExceededException extends _s.GenericAwsException {
   ChannelMaxLimitExceededException({String? type, String? message})
       : super(
@@ -10188,11 +10368,13 @@ class ChannelMaxLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ChannelNotFoundException extends _s.GenericAwsException {
   ChannelNotFoundException({String? type, String? message})
       : super(type: type, code: 'ChannelNotFoundException', message: message);
 }
 
+/// @nodoc
 class CloudTrailARNInvalidException extends _s.GenericAwsException {
   CloudTrailARNInvalidException({String? type, String? message})
       : super(
@@ -10201,6 +10383,7 @@ class CloudTrailARNInvalidException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudTrailAccessNotEnabledException extends _s.GenericAwsException {
   CloudTrailAccessNotEnabledException({String? type, String? message})
       : super(
@@ -10209,6 +10392,7 @@ class CloudTrailAccessNotEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudTrailInvalidClientTokenIdException extends _s.GenericAwsException {
   CloudTrailInvalidClientTokenIdException({String? type, String? message})
       : super(
@@ -10217,6 +10401,7 @@ class CloudTrailInvalidClientTokenIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudWatchLogsDeliveryUnavailableException
     extends _s.GenericAwsException {
   CloudWatchLogsDeliveryUnavailableException({String? type, String? message})
@@ -10226,6 +10411,7 @@ class CloudWatchLogsDeliveryUnavailableException
             message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -10234,11 +10420,13 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DelegatedAdminAccountLimitExceededException
     extends _s.GenericAwsException {
   DelegatedAdminAccountLimitExceededException({String? type, String? message})
@@ -10248,6 +10436,7 @@ class DelegatedAdminAccountLimitExceededException
             message: message);
 }
 
+/// @nodoc
 class EventDataStoreARNInvalidException extends _s.GenericAwsException {
   EventDataStoreARNInvalidException({String? type, String? message})
       : super(
@@ -10256,6 +10445,7 @@ class EventDataStoreARNInvalidException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventDataStoreAlreadyExistsException extends _s.GenericAwsException {
   EventDataStoreAlreadyExistsException({String? type, String? message})
       : super(
@@ -10264,6 +10454,7 @@ class EventDataStoreAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventDataStoreFederationEnabledException extends _s.GenericAwsException {
   EventDataStoreFederationEnabledException({String? type, String? message})
       : super(
@@ -10272,6 +10463,7 @@ class EventDataStoreFederationEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventDataStoreHasOngoingImportException extends _s.GenericAwsException {
   EventDataStoreHasOngoingImportException({String? type, String? message})
       : super(
@@ -10280,6 +10472,7 @@ class EventDataStoreHasOngoingImportException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventDataStoreMaxLimitExceededException extends _s.GenericAwsException {
   EventDataStoreMaxLimitExceededException({String? type, String? message})
       : super(
@@ -10288,6 +10481,7 @@ class EventDataStoreMaxLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventDataStoreNotFoundException extends _s.GenericAwsException {
   EventDataStoreNotFoundException({String? type, String? message})
       : super(
@@ -10296,6 +10490,7 @@ class EventDataStoreNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventDataStoreTerminationProtectedException
     extends _s.GenericAwsException {
   EventDataStoreTerminationProtectedException({String? type, String? message})
@@ -10305,16 +10500,19 @@ class EventDataStoreTerminationProtectedException
             message: message);
 }
 
+/// @nodoc
 class GenerateResponseException extends _s.GenericAwsException {
   GenerateResponseException({String? type, String? message})
       : super(type: type, code: 'GenerateResponseException', message: message);
 }
 
+/// @nodoc
 class ImportNotFoundException extends _s.GenericAwsException {
   ImportNotFoundException({String? type, String? message})
       : super(type: type, code: 'ImportNotFoundException', message: message);
 }
 
+/// @nodoc
 class InactiveEventDataStoreException extends _s.GenericAwsException {
   InactiveEventDataStoreException({String? type, String? message})
       : super(
@@ -10323,16 +10521,19 @@ class InactiveEventDataStoreException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InactiveQueryException extends _s.GenericAwsException {
   InactiveQueryException({String? type, String? message})
       : super(type: type, code: 'InactiveQueryException', message: message);
 }
 
+/// @nodoc
 class InsightNotEnabledException extends _s.GenericAwsException {
   InsightNotEnabledException({String? type, String? message})
       : super(type: type, code: 'InsightNotEnabledException', message: message);
 }
 
+/// @nodoc
 class InsufficientDependencyServiceAccessPermissionException
     extends _s.GenericAwsException {
   InsufficientDependencyServiceAccessPermissionException(
@@ -10343,6 +10544,7 @@ class InsufficientDependencyServiceAccessPermissionException
             message: message);
 }
 
+/// @nodoc
 class InsufficientEncryptionPolicyException extends _s.GenericAwsException {
   InsufficientEncryptionPolicyException({String? type, String? message})
       : super(
@@ -10351,6 +10553,7 @@ class InsufficientEncryptionPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientIAMAccessPermissionException extends _s.GenericAwsException {
   InsufficientIAMAccessPermissionException({String? type, String? message})
       : super(
@@ -10359,6 +10562,7 @@ class InsufficientIAMAccessPermissionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientS3BucketPolicyException extends _s.GenericAwsException {
   InsufficientS3BucketPolicyException({String? type, String? message})
       : super(
@@ -10367,6 +10571,7 @@ class InsufficientS3BucketPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientSnsTopicPolicyException extends _s.GenericAwsException {
   InsufficientSnsTopicPolicyException({String? type, String? message})
       : super(
@@ -10375,6 +10580,7 @@ class InsufficientSnsTopicPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCloudWatchLogsLogGroupArnException extends _s.GenericAwsException {
   InvalidCloudWatchLogsLogGroupArnException({String? type, String? message})
       : super(
@@ -10383,6 +10589,7 @@ class InvalidCloudWatchLogsLogGroupArnException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCloudWatchLogsRoleArnException extends _s.GenericAwsException {
   InvalidCloudWatchLogsRoleArnException({String? type, String? message})
       : super(
@@ -10391,11 +10598,13 @@ class InvalidCloudWatchLogsRoleArnException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDateRangeException extends _s.GenericAwsException {
   InvalidDateRangeException({String? type, String? message})
       : super(type: type, code: 'InvalidDateRangeException', message: message);
 }
 
+/// @nodoc
 class InvalidEventCategoryException extends _s.GenericAwsException {
   InvalidEventCategoryException({String? type, String? message})
       : super(
@@ -10404,6 +10613,7 @@ class InvalidEventCategoryException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidEventDataStoreCategoryException extends _s.GenericAwsException {
   InvalidEventDataStoreCategoryException({String? type, String? message})
       : super(
@@ -10412,6 +10622,7 @@ class InvalidEventDataStoreCategoryException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidEventDataStoreStatusException extends _s.GenericAwsException {
   InvalidEventDataStoreStatusException({String? type, String? message})
       : super(
@@ -10420,6 +10631,7 @@ class InvalidEventDataStoreStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidEventSelectorsException extends _s.GenericAwsException {
   InvalidEventSelectorsException({String? type, String? message})
       : super(
@@ -10428,17 +10640,20 @@ class InvalidEventSelectorsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidHomeRegionException extends _s.GenericAwsException {
   InvalidHomeRegionException({String? type, String? message})
       : super(type: type, code: 'InvalidHomeRegionException', message: message);
 }
 
+/// @nodoc
 class InvalidImportSourceException extends _s.GenericAwsException {
   InvalidImportSourceException({String? type, String? message})
       : super(
             type: type, code: 'InvalidImportSourceException', message: message);
 }
 
+/// @nodoc
 class InvalidInsightSelectorsException extends _s.GenericAwsException {
   InvalidInsightSelectorsException({String? type, String? message})
       : super(
@@ -10447,11 +10662,13 @@ class InvalidInsightSelectorsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidKmsKeyIdException extends _s.GenericAwsException {
   InvalidKmsKeyIdException({String? type, String? message})
       : super(type: type, code: 'InvalidKmsKeyIdException', message: message);
 }
 
+/// @nodoc
 class InvalidLookupAttributesException extends _s.GenericAwsException {
   InvalidLookupAttributesException({String? type, String? message})
       : super(
@@ -10460,16 +10677,19 @@ class InvalidLookupAttributesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidMaxResultsException extends _s.GenericAwsException {
   InvalidMaxResultsException({String? type, String? message})
       : super(type: type, code: 'InvalidMaxResultsException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -10478,11 +10698,13 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidQueryStatementException extends _s.GenericAwsException {
   InvalidQueryStatementException({String? type, String? message})
       : super(
@@ -10491,70 +10713,83 @@ class InvalidQueryStatementException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidQueryStatusException extends _s.GenericAwsException {
   InvalidQueryStatusException({String? type, String? message})
       : super(
             type: type, code: 'InvalidQueryStatusException', message: message);
 }
 
+/// @nodoc
 class InvalidS3BucketNameException extends _s.GenericAwsException {
   InvalidS3BucketNameException({String? type, String? message})
       : super(
             type: type, code: 'InvalidS3BucketNameException', message: message);
 }
 
+/// @nodoc
 class InvalidS3PrefixException extends _s.GenericAwsException {
   InvalidS3PrefixException({String? type, String? message})
       : super(type: type, code: 'InvalidS3PrefixException', message: message);
 }
 
+/// @nodoc
 class InvalidSnsTopicNameException extends _s.GenericAwsException {
   InvalidSnsTopicNameException({String? type, String? message})
       : super(
             type: type, code: 'InvalidSnsTopicNameException', message: message);
 }
 
+/// @nodoc
 class InvalidSourceException extends _s.GenericAwsException {
   InvalidSourceException({String? type, String? message})
       : super(type: type, code: 'InvalidSourceException', message: message);
 }
 
+/// @nodoc
 class InvalidTagParameterException extends _s.GenericAwsException {
   InvalidTagParameterException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTagParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidTimeRangeException extends _s.GenericAwsException {
   InvalidTimeRangeException({String? type, String? message})
       : super(type: type, code: 'InvalidTimeRangeException', message: message);
 }
 
+/// @nodoc
 class InvalidTokenException extends _s.GenericAwsException {
   InvalidTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidTrailNameException extends _s.GenericAwsException {
   InvalidTrailNameException({String? type, String? message})
       : super(type: type, code: 'InvalidTrailNameException', message: message);
 }
 
+/// @nodoc
 class KmsException extends _s.GenericAwsException {
   KmsException({String? type, String? message})
       : super(type: type, code: 'KmsException', message: message);
 }
 
+/// @nodoc
 class KmsKeyDisabledException extends _s.GenericAwsException {
   KmsKeyDisabledException({String? type, String? message})
       : super(type: type, code: 'KmsKeyDisabledException', message: message);
 }
 
+/// @nodoc
 class KmsKeyNotFoundException extends _s.GenericAwsException {
   KmsKeyNotFoundException({String? type, String? message})
       : super(type: type, code: 'KmsKeyNotFoundException', message: message);
 }
 
+/// @nodoc
 class MaxConcurrentQueriesException extends _s.GenericAwsException {
   MaxConcurrentQueriesException({String? type, String? message})
       : super(
@@ -10563,6 +10798,7 @@ class MaxConcurrentQueriesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaximumNumberOfTrailsExceededException extends _s.GenericAwsException {
   MaximumNumberOfTrailsExceededException({String? type, String? message})
       : super(
@@ -10571,6 +10807,7 @@ class MaximumNumberOfTrailsExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoManagementAccountSLRExistsException extends _s.GenericAwsException {
   NoManagementAccountSLRExistsException({String? type, String? message})
       : super(
@@ -10579,6 +10816,7 @@ class NoManagementAccountSLRExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NotOrganizationManagementAccountException extends _s.GenericAwsException {
   NotOrganizationManagementAccountException({String? type, String? message})
       : super(
@@ -10587,6 +10825,7 @@ class NotOrganizationManagementAccountException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NotOrganizationMasterAccountException extends _s.GenericAwsException {
   NotOrganizationMasterAccountException({String? type, String? message})
       : super(
@@ -10595,6 +10834,7 @@ class NotOrganizationMasterAccountException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationNotPermittedException extends _s.GenericAwsException {
   OperationNotPermittedException({String? type, String? message})
       : super(
@@ -10603,6 +10843,7 @@ class OperationNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
   OrganizationNotInAllFeaturesModeException({String? type, String? message})
       : super(
@@ -10611,6 +10852,7 @@ class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OrganizationsNotInUseException extends _s.GenericAwsException {
   OrganizationsNotInUseException({String? type, String? message})
       : super(
@@ -10619,22 +10861,26 @@ class OrganizationsNotInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class QueryIdNotFoundException extends _s.GenericAwsException {
   QueryIdNotFoundException({String? type, String? message})
       : super(type: type, code: 'QueryIdNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceARNNotValidException extends _s.GenericAwsException {
   ResourceARNNotValidException({String? type, String? message})
       : super(
             type: type, code: 'ResourceARNNotValidException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourcePolicyNotFoundException extends _s.GenericAwsException {
   ResourcePolicyNotFoundException({String? type, String? message})
       : super(
@@ -10643,6 +10889,7 @@ class ResourcePolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourcePolicyNotValidException extends _s.GenericAwsException {
   ResourcePolicyNotValidException({String? type, String? message})
       : super(
@@ -10651,6 +10898,7 @@ class ResourcePolicyNotValidException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceTypeNotSupportedException extends _s.GenericAwsException {
   ResourceTypeNotSupportedException({String? type, String? message})
       : super(
@@ -10659,6 +10907,7 @@ class ResourceTypeNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class S3BucketDoesNotExistException extends _s.GenericAwsException {
   S3BucketDoesNotExistException({String? type, String? message})
       : super(
@@ -10667,6 +10916,7 @@ class S3BucketDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -10675,32 +10925,38 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TagsLimitExceededException extends _s.GenericAwsException {
   TagsLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagsLimitExceededException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TrailAlreadyExistsException extends _s.GenericAwsException {
   TrailAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'TrailAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class TrailNotFoundException extends _s.GenericAwsException {
   TrailNotFoundException({String? type, String? message})
       : super(type: type, code: 'TrailNotFoundException', message: message);
 }
 
+/// @nodoc
 class TrailNotProvidedException extends _s.GenericAwsException {
   TrailNotProvidedException({String? type, String? message})
       : super(type: type, code: 'TrailNotProvidedException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

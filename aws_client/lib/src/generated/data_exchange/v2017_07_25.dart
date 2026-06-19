@@ -1313,6 +1313,7 @@ class DataExchange {
   }
 }
 
+/// @nodoc
 class AcceptDataGrantResponse {
   /// The acceptance state of the data grant.
   final DataGrantAcceptanceState acceptanceState;
@@ -1421,6 +1422,7 @@ class AcceptDataGrantResponse {
   }
 }
 
+/// @nodoc
 class CreateDataGrantResponse {
   /// The acceptance state of the data grant.
   final DataGrantAcceptanceState acceptanceState;
@@ -1544,6 +1546,7 @@ class CreateDataGrantResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSetResponse {
   /// The ARN for the data set.
   final String? arn;
@@ -1644,6 +1647,7 @@ class CreateDataSetResponse {
   }
 }
 
+/// @nodoc
 class CreateEventActionResponse {
   /// What occurs after a certain event.
   final Action? action;
@@ -1714,6 +1718,7 @@ class CreateEventActionResponse {
   }
 }
 
+/// @nodoc
 class CreateJobResponse {
   /// The ARN for the job.
   final String? arn;
@@ -1801,6 +1806,7 @@ class CreateJobResponse {
   }
 }
 
+/// @nodoc
 class CreateRevisionResponse {
   /// The ARN for the revision.
   final String? arn;
@@ -1912,6 +1918,7 @@ class CreateRevisionResponse {
   }
 }
 
+/// @nodoc
 class GetAssetResponse {
   /// The ARN for the asset.
   final String? arn;
@@ -2016,6 +2023,7 @@ class GetAssetResponse {
   }
 }
 
+/// @nodoc
 class GetDataGrantResponse {
   /// The acceptance state of the data grant.
   final DataGrantAcceptanceState acceptanceState;
@@ -2139,6 +2147,7 @@ class GetDataGrantResponse {
   }
 }
 
+/// @nodoc
 class GetDataSetResponse {
   /// The ARN for the data set.
   final String? arn;
@@ -2239,6 +2248,7 @@ class GetDataSetResponse {
   }
 }
 
+/// @nodoc
 class GetEventActionResponse {
   /// What occurs after a certain event.
   final Action? action;
@@ -2309,6 +2319,7 @@ class GetEventActionResponse {
   }
 }
 
+/// @nodoc
 class GetJobResponse {
   /// The ARN for the job.
   final String? arn;
@@ -2396,6 +2407,7 @@ class GetJobResponse {
   }
 }
 
+/// @nodoc
 class GetReceivedDataGrantResponse {
   /// The acceptance state of the data grant.
   final DataGrantAcceptanceState acceptanceState;
@@ -2504,6 +2516,7 @@ class GetReceivedDataGrantResponse {
   }
 }
 
+/// @nodoc
 class GetRevisionResponse {
   /// The ARN for the revision.
   final String? arn;
@@ -2615,6 +2628,7 @@ class GetRevisionResponse {
   }
 }
 
+/// @nodoc
 class ListDataGrantsResponse {
   /// An object that contains a list of data grant information.
   final List<DataGrantSummaryEntry>? dataGrantSummaries;
@@ -2648,6 +2662,7 @@ class ListDataGrantsResponse {
   }
 }
 
+/// @nodoc
 class ListDataSetRevisionsResponse {
   /// The token value retrieved from a previous call to access the next page of
   /// results.
@@ -2681,6 +2696,7 @@ class ListDataSetRevisionsResponse {
   }
 }
 
+/// @nodoc
 class ListDataSetsResponse {
   /// The data set objects listed by the request.
   final List<DataSetEntry>? dataSets;
@@ -2714,6 +2730,7 @@ class ListDataSetsResponse {
   }
 }
 
+/// @nodoc
 class ListEventActionsResponse {
   /// The event action objects listed by the request.
   final List<EventActionEntry>? eventActions;
@@ -2747,6 +2764,7 @@ class ListEventActionsResponse {
   }
 }
 
+/// @nodoc
 class ListJobsResponse {
   /// The jobs listed by the request.
   final List<JobEntry>? jobs;
@@ -2780,6 +2798,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class ListReceivedDataGrantsResponse {
   /// An object that contains a list of received data grant information.
   final List<ReceivedDataGrantSummariesEntry>? dataGrantSummaries;
@@ -2814,6 +2833,7 @@ class ListReceivedDataGrantsResponse {
   }
 }
 
+/// @nodoc
 class ListRevisionAssetsResponse {
   /// The asset objects listed by the request.
   final List<AssetEntry>? assets;
@@ -2847,6 +2867,7 @@ class ListRevisionAssetsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A label that consists of a customer-defined key and an optional value.
   final Map<String, String>? tags;
@@ -2870,6 +2891,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RevokeRevisionResponse {
   /// The ARN for the revision.
   final String? arn;
@@ -2972,6 +2994,7 @@ class RevokeRevisionResponse {
   }
 }
 
+/// @nodoc
 class SendApiAssetResponse {
   /// The response body from the underlying API tracked by the API asset.
   final String? body;
@@ -2993,6 +3016,7 @@ class SendApiAssetResponse {
   }
 }
 
+/// @nodoc
 class SendDataSetNotificationResponse {
   SendDataSetNotificationResponse();
 
@@ -3005,6 +3029,7 @@ class SendDataSetNotificationResponse {
   }
 }
 
+/// @nodoc
 class StartJobResponse {
   StartJobResponse();
 
@@ -3017,6 +3042,7 @@ class StartJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssetResponse {
   /// The ARN for the asset.
   final String? arn;
@@ -3113,6 +3139,7 @@ class UpdateAssetResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataSetResponse {
   /// The ARN for the data set.
   final String? arn;
@@ -3205,6 +3232,7 @@ class UpdateDataSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventActionResponse {
   /// What occurs after a certain event.
   final Action? action;
@@ -3267,6 +3295,7 @@ class UpdateEventActionResponse {
   }
 }
 
+/// @nodoc
 class UpdateRevisionResponse {
   /// The ARN for the revision.
   final String? arn;
@@ -3370,6 +3399,8 @@ class UpdateRevisionResponse {
 }
 
 /// What occurs after a certain event.
+///
+/// @nodoc
 class Action {
   /// Details for the export revision to Amazon S3 action.
   final AutoExportRevisionToS3RequestDetails? exportRevisionToS3;
@@ -3396,6 +3427,8 @@ class Action {
 }
 
 /// What occurs to start an action.
+///
+/// @nodoc
 class Event {
   /// What occurs to start the revision publish action.
   final RevisionPublished? revisionPublished;
@@ -3422,6 +3455,8 @@ class Event {
 }
 
 /// Information about the published revision.
+///
+/// @nodoc
 class RevisionPublished {
   /// The data set ID of the published revision.
   final String dataSetId;
@@ -3445,6 +3480,8 @@ class RevisionPublished {
 }
 
 /// Details of the operation to be performed by the job.
+///
+/// @nodoc
 class AutoExportRevisionToS3RequestDetails {
   /// A revision destination is the Amazon S3 bucket folder destination to where
   /// the export will be sent.
@@ -3484,6 +3521,8 @@ class AutoExportRevisionToS3RequestDetails {
 /// Encryption configuration of the export job. Includes the encryption type in
 /// addition to the AWS KMS key. The KMS key is only necessary if you chose the
 /// KMS encryption type.
+///
+/// @nodoc
 class ExportServerSideEncryption {
   /// The type of server side encryption used for encrypting the objects in Amazon
   /// S3.
@@ -3519,6 +3558,8 @@ class ExportServerSideEncryption {
 
 /// A revision destination is the Amazon S3 bucket folder destination to where
 /// the export will be sent.
+///
+/// @nodoc
 class AutoExportRevisionDestinationEntry {
   /// The Amazon S3 bucket that is the destination for the event action.
   final String bucket;
@@ -3552,6 +3593,7 @@ class AutoExportRevisionDestinationEntry {
   }
 }
 
+/// @nodoc
 class ServerSideEncryptionTypes {
   static const awsKms = ServerSideEncryptionTypes._('aws:kms');
   static const aes256 = ServerSideEncryptionTypes._('AES256');
@@ -3577,6 +3619,7 @@ class ServerSideEncryptionTypes {
   String toString() => value;
 }
 
+/// @nodoc
 class AssetType {
   static const s3Snapshot = AssetType._('S3_SNAPSHOT');
   static const redshiftDataShare = AssetType._('REDSHIFT_DATA_SHARE');
@@ -3610,6 +3653,7 @@ class AssetType {
   String toString() => value;
 }
 
+/// @nodoc
 class Origin {
   static const owned = Origin._('OWNED');
   static const entitled = Origin._('ENTITLED');
@@ -3634,6 +3678,8 @@ class Origin {
 }
 
 /// Details about the origin of the data set.
+///
+/// @nodoc
 class OriginDetails {
   /// The ID of the data grant.
   final String? dataGrantId;
@@ -3664,6 +3710,8 @@ class OriginDetails {
 }
 
 /// Details about the asset.
+///
+/// @nodoc
 class AssetDetails {
   /// Information about the API Gateway API asset.
   final ApiGatewayApiAsset? apiGatewayApiAsset;
@@ -3735,6 +3783,8 @@ class AssetDetails {
 }
 
 /// The Amazon S3 object that is the asset.
+///
+/// @nodoc
 class S3SnapshotAsset {
   /// The size of the Amazon S3 object that is the object.
   final double size;
@@ -3758,6 +3808,8 @@ class S3SnapshotAsset {
 }
 
 /// The Amazon Redshift datashare asset.
+///
+/// @nodoc
 class RedshiftDataShareAsset {
   /// The Amazon Resource Name (ARN) of the datashare asset.
   final String arn;
@@ -3781,6 +3833,8 @@ class RedshiftDataShareAsset {
 }
 
 /// The API Gateway API that is the asset.
+///
+/// @nodoc
 class ApiGatewayApiAsset {
   /// The API description of the API asset.
   final String? apiDescription;
@@ -3867,6 +3921,8 @@ class ApiGatewayApiAsset {
 }
 
 /// The Amazon S3 data access that is the asset.
+///
+/// @nodoc
 class S3DataAccessAsset {
   /// The Amazon S3 bucket hosting data to be shared in the S3 data access.
   final String bucket;
@@ -3938,6 +3994,8 @@ class S3DataAccessAsset {
 }
 
 /// The AWS Lake Formation data permission asset.
+///
+/// @nodoc
 class LakeFormationDataPermissionAsset {
   /// Details about the AWS Lake Formation data permission.
   final LakeFormationDataPermissionDetails lakeFormationDataPermissionDetails;
@@ -3994,6 +4052,8 @@ class LakeFormationDataPermissionAsset {
 }
 
 /// Details about the AWS Lake Formation data permission.
+///
+/// @nodoc
 class LakeFormationDataPermissionDetails {
   /// Details about the LF-tag policy.
   final LFTagPolicyDetails? lFTagPolicy;
@@ -4020,6 +4080,7 @@ class LakeFormationDataPermissionDetails {
   }
 }
 
+/// @nodoc
 class LakeFormationDataPermissionType {
   static const lFTagPolicy = LakeFormationDataPermissionType._('LFTagPolicy');
 
@@ -4044,6 +4105,7 @@ class LakeFormationDataPermissionType {
   String toString() => value;
 }
 
+/// @nodoc
 class LFPermission {
   static const describe = LFPermission._('DESCRIBE');
   static const select = LFPermission._('SELECT');
@@ -4068,6 +4130,8 @@ class LFPermission {
 }
 
 /// Details about the LF-tag policy.
+///
+/// @nodoc
 class LFTagPolicyDetails {
   /// The identifier for the AWS Glue Data Catalog.
   final String catalogId;
@@ -4107,6 +4171,7 @@ class LFTagPolicyDetails {
   }
 }
 
+/// @nodoc
 class LFResourceType {
   static const table = LFResourceType._('TABLE');
   static const database = LFResourceType._('DATABASE');
@@ -4133,6 +4198,8 @@ class LFResourceType {
 
 /// Details about the AWS Lake Formation resource (Table or Database) included
 /// in the AWS Lake Formation data permission.
+///
+/// @nodoc
 class LFResourceDetails {
   /// Details about the database resource included in the AWS Lake Formation data
   /// permission.
@@ -4170,6 +4237,8 @@ class LFResourceDetails {
 }
 
 /// The LF-tag policy for database resources.
+///
+/// @nodoc
 class DatabaseLFTagPolicy {
   /// A list of LF-tag conditions that apply to database resources.
   final List<LFTag> expression;
@@ -4196,6 +4265,8 @@ class DatabaseLFTagPolicy {
 }
 
 /// The LF-tag policy for a table resource.
+///
+/// @nodoc
 class TableLFTagPolicy {
   /// A list of LF-tag conditions that apply to table resources.
   final List<LFTag> expression;
@@ -4223,6 +4294,8 @@ class TableLFTagPolicy {
 
 /// A structure that allows an LF-admin to grant permissions on certain
 /// conditions.
+///
+/// @nodoc
 class LFTag {
   /// The key name for the LF-tag.
   final String tagKey;
@@ -4257,6 +4330,8 @@ class LFTag {
 
 /// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the shared
 /// S3 objects.
+///
+/// @nodoc
 class KmsKeyToGrant {
   /// The AWS KMS CMK (Key Management System Customer Managed Key) used to encrypt
   /// S3 objects in the shared S3 Bucket. AWS Data exchange will create a KMS
@@ -4282,6 +4357,7 @@ class KmsKeyToGrant {
   }
 }
 
+/// @nodoc
 class ProtocolType {
   static const rest = ProtocolType._('REST');
 
@@ -4305,6 +4381,8 @@ class ProtocolType {
 }
 
 /// Details about the scope of the notifications such as the affected resources.
+///
+/// @nodoc
 class ScopeDetails {
   /// Underlying LF resources that will be affected by this notification.
   final List<LakeFormationTagPolicyDetails>? lakeFormationTagPolicies;
@@ -4335,6 +4413,8 @@ class ScopeDetails {
 }
 
 /// Extra details specific to this notification.
+///
+/// @nodoc
 class NotificationDetails {
   /// Extra details specific to a data update type notification.
   final DataUpdateRequestDetails? dataUpdate;
@@ -4363,6 +4443,7 @@ class NotificationDetails {
   }
 }
 
+/// @nodoc
 class NotificationType {
   static const dataDelay = NotificationType._('DATA_DELAY');
   static const dataUpdate = NotificationType._('DATA_UPDATE');
@@ -4390,6 +4471,8 @@ class NotificationType {
 }
 
 /// Extra details specific to a data update type notification.
+///
+/// @nodoc
 class DataUpdateRequestDetails {
   /// A datetime in the past when the data was updated. This typically means that
   /// the underlying resource supporting the data set was updated.
@@ -4408,6 +4491,8 @@ class DataUpdateRequestDetails {
 }
 
 /// Extra details specific to a deprecation type notification.
+///
+/// @nodoc
 class DeprecationRequestDetails {
   /// A datetime in the future when the data set will be deprecated.
   final DateTime deprecationAt;
@@ -4425,6 +4510,8 @@ class DeprecationRequestDetails {
 }
 
 /// Extra details specific to this schema change type notification.
+///
+/// @nodoc
 class SchemaChangeRequestDetails {
   /// A date in the future when the schema change is taking effect.
   final DateTime schemaChangeAt;
@@ -4450,6 +4537,8 @@ class SchemaChangeRequestDetails {
 
 /// Object encompassing information about a schema change to a single,
 /// particular field, a notification can have up to 100 of these.
+///
+/// @nodoc
 class SchemaChangeDetails {
   /// Name of the changing field. This value can be up to 255 characters long.
   final String name;
@@ -4479,6 +4568,7 @@ class SchemaChangeDetails {
   }
 }
 
+/// @nodoc
 class SchemaChangeType {
   static const add = SchemaChangeType._('ADD');
   static const remove = SchemaChangeType._('REMOVE');
@@ -4506,6 +4596,8 @@ class SchemaChangeType {
 
 /// Extra details specific to the affected scope in this S3 Data Access data
 /// set.
+///
+/// @nodoc
 class S3DataAccessDetails {
   /// A list of the key prefixes affected by this notification. This can have up
   /// to 50 entries.
@@ -4531,6 +4623,8 @@ class S3DataAccessDetails {
 }
 
 /// Extra details specific to the affected scope in this Redshift data set.
+///
+/// @nodoc
 class RedshiftDataShareDetails {
   /// The ARN of the underlying Redshift data share that is being affected by this
   /// notification.
@@ -4584,6 +4678,8 @@ class RedshiftDataShareDetails {
 }
 
 /// Extra details specific to the affected scope in this LF data set.
+///
+/// @nodoc
 class LakeFormationTagPolicyDetails {
   /// The underlying Glue database that the notification is referring to.
   final String? database;
@@ -4616,6 +4712,8 @@ class LakeFormationTagPolicyDetails {
 /// Gateway APIs, Amazon Redshift datashares, AWS Lake Formation data
 /// permission, or Amazon S3 data access, you create an asset in AWS Data
 /// Exchange.
+///
+/// @nodoc
 class AssetEntry {
   /// The ARN for the asset.
   final String arn;
@@ -4713,6 +4811,8 @@ class AssetEntry {
 }
 
 /// Information about a received data grant.
+///
+/// @nodoc
 class ReceivedDataGrantSummariesEntry {
   /// The acceptance state of the data grant.
   final DataGrantAcceptanceState acceptanceState;
@@ -4806,6 +4906,7 @@ class ReceivedDataGrantSummariesEntry {
   }
 }
 
+/// @nodoc
 class DataGrantAcceptanceState {
   static const pendingReceiverAcceptance =
       DataGrantAcceptanceState._('PENDING_RECEIVER_ACCEPTANCE');
@@ -4832,6 +4933,7 @@ class DataGrantAcceptanceState {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceptanceStateFilterValue {
   static const pendingReceiverAcceptance =
       AcceptanceStateFilterValue._('PENDING_RECEIVER_ACCEPTANCE');
@@ -4862,6 +4964,8 @@ class AcceptanceStateFilterValue {
 /// create or copy assets. A data set owner can both import and export as they
 /// see fit. Someone with an entitlement to a data set can only export. Jobs are
 /// deleted 90 days after they are created.
+///
+/// @nodoc
 class JobEntry {
   /// The ARN for the job.
   final String arn;
@@ -4951,6 +5055,8 @@ class JobEntry {
 }
 
 /// The configuration for the asset, which can include tags.
+///
+/// @nodoc
 class AssetConfiguration {
   /// The tags to be applied to assets created by the job.
   final List<Tag>? tags;
@@ -4977,6 +5083,8 @@ class AssetConfiguration {
 }
 
 /// Details for the response.
+///
+/// @nodoc
 class ResponseDetails {
   /// Response details from the CreateS3DataAccessFromS3Bucket job.
   final CreateS3DataAccessFromS3BucketResponseDetails?
@@ -5102,6 +5210,7 @@ class ResponseDetails {
   }
 }
 
+/// @nodoc
 class State {
   static const waiting = State._('WAITING');
   static const inProgress = State._('IN_PROGRESS');
@@ -5136,6 +5245,7 @@ class State {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const importAssetsFromS3 = Type._('IMPORT_ASSETS_FROM_S3');
   static const importAssetFromSignedUrl =
@@ -5182,6 +5292,8 @@ class Type {
 }
 
 /// An error that occurred with the job request.
+///
+/// @nodoc
 class JobError {
   /// The code for the job error.
   final Code code;
@@ -5250,6 +5362,7 @@ class JobError {
   }
 }
 
+/// @nodoc
 class Code {
   static const accessDeniedException = Code._('ACCESS_DENIED_EXCEPTION');
   static const internalServerException = Code._('INTERNAL_SERVER_EXCEPTION');
@@ -5289,6 +5402,8 @@ class Code {
 }
 
 /// Information about the job error.
+///
+/// @nodoc
 class Details {
   /// Information about the job error.
   final ImportAssetFromSignedUrlJobErrorDetails?
@@ -5333,6 +5448,7 @@ class Details {
   }
 }
 
+/// @nodoc
 class JobErrorLimitName {
   static const assetsPerRevision = JobErrorLimitName._('Assets per revision');
   static const assetSizeInGb = JobErrorLimitName._('Asset size in GB');
@@ -5370,6 +5486,7 @@ class JobErrorLimitName {
   String toString() => value;
 }
 
+/// @nodoc
 class JobErrorResourceTypes {
   static const revision = JobErrorResourceTypes._('REVISION');
   static const asset = JobErrorResourceTypes._('ASSET');
@@ -5397,6 +5514,8 @@ class JobErrorResourceTypes {
 }
 
 /// Details about the job error.
+///
+/// @nodoc
 class ImportAssetFromSignedUrlJobErrorDetails {
   /// Details about the job error.
   final String assetName;
@@ -5421,6 +5540,8 @@ class ImportAssetFromSignedUrlJobErrorDetails {
 }
 
 /// The source of the assets.
+///
+/// @nodoc
 class AssetSourceEntry {
   /// The Amazon S3 bucket that's part of the source of the asset.
   final String bucket;
@@ -5451,6 +5572,8 @@ class AssetSourceEntry {
 }
 
 /// The details of the export to signed URL response.
+///
+/// @nodoc
 class ExportAssetToSignedUrlResponseDetails {
   /// The unique identifier for the asset associated with this export job.
   final String assetId;
@@ -5504,6 +5627,8 @@ class ExportAssetToSignedUrlResponseDetails {
 }
 
 /// Details about the export to Amazon S3 response.
+///
+/// @nodoc
 class ExportAssetsToS3ResponseDetails {
   /// The destination in Amazon S3 where the asset is exported.
   final List<AssetDestinationEntry> assetDestinations;
@@ -5554,6 +5679,8 @@ class ExportAssetsToS3ResponseDetails {
 }
 
 /// Details about the export revisions to Amazon S3 response.
+///
+/// @nodoc
 class ExportRevisionsToS3ResponseDetails {
   /// The unique identifier for the data set associated with this export job.
   final String dataSetId;
@@ -5608,6 +5735,8 @@ class ExportRevisionsToS3ResponseDetails {
 
 /// The details in the response for an import request, including the signed URL
 /// and other information.
+///
+/// @nodoc
 class ImportAssetFromSignedUrlResponseDetails {
   /// The name for the asset associated with this import job.
   final String assetName;
@@ -5669,6 +5798,8 @@ class ImportAssetFromSignedUrlResponseDetails {
 }
 
 /// Details from an import from Amazon S3 response.
+///
+/// @nodoc
 class ImportAssetsFromS3ResponseDetails {
   /// Is a list of Amazon S3 bucket and object key pairs.
   final List<AssetSourceEntry> assetSources;
@@ -5710,6 +5841,8 @@ class ImportAssetsFromS3ResponseDetails {
 }
 
 /// Details from an import from Amazon Redshift datashare response.
+///
+/// @nodoc
 class ImportAssetsFromRedshiftDataSharesResponseDetails {
   /// A list of Amazon Redshift datashare asset sources.
   final List<RedshiftDataShareAssetSourceEntry> assetSources;
@@ -5752,6 +5885,8 @@ class ImportAssetsFromRedshiftDataSharesResponseDetails {
 }
 
 /// The response details.
+///
+/// @nodoc
 class ImportAssetFromApiGatewayApiResponseDetails {
   /// The API ID.
   final String apiId;
@@ -5854,6 +5989,8 @@ class ImportAssetFromApiGatewayApiResponseDetails {
 
 /// Details about the response of the operation to create an S3 data access from
 /// an S3 bucket.
+///
+/// @nodoc
 class CreateS3DataAccessFromS3BucketResponseDetails {
   /// Details about the asset source from an Amazon S3 bucket.
   final S3DataAccessAssetSourceEntry assetSource;
@@ -5894,6 +6031,8 @@ class CreateS3DataAccessFromS3BucketResponseDetails {
 }
 
 /// Details from an import AWS Lake Formation tag policy job response.
+///
+/// @nodoc
 class ImportAssetsFromLakeFormationTagPolicyResponseDetails {
   /// The identifier for the AWS Glue Data Catalog.
   final String catalogId;
@@ -5960,6 +6099,8 @@ class ImportAssetsFromLakeFormationTagPolicyResponseDetails {
 }
 
 /// The LF-tag policy and permissions for database resources.
+///
+/// @nodoc
 class DatabaseLFTagPolicyAndPermissions {
   /// A list of LF-tag conditions that apply to database resources.
   final List<LFTag> expression;
@@ -5997,6 +6138,8 @@ class DatabaseLFTagPolicyAndPermissions {
 }
 
 /// The LF-tag policy and permissions that apply to table resources.
+///
+/// @nodoc
 class TableLFTagPolicyAndPermissions {
   /// A list of LF-tag conditions that apply to table resources.
   final List<LFTag> expression;
@@ -6032,6 +6175,7 @@ class TableLFTagPolicyAndPermissions {
   }
 }
 
+/// @nodoc
 class TableTagPolicyLFPermission {
   static const describe = TableTagPolicyLFPermission._('DESCRIBE');
   static const select = TableTagPolicyLFPermission._('SELECT');
@@ -6057,6 +6201,7 @@ class TableTagPolicyLFPermission {
   String toString() => value;
 }
 
+/// @nodoc
 class DatabaseLFTagPolicyPermission {
   static const describe = DatabaseLFTagPolicyPermission._('DESCRIBE');
 
@@ -6082,6 +6227,8 @@ class DatabaseLFTagPolicyPermission {
 }
 
 /// Source details for an Amazon S3 data access asset.
+///
+/// @nodoc
 class S3DataAccessAssetSourceEntry {
   /// The Amazon S3 bucket used for hosting shared data in the Amazon S3 data
   /// access.
@@ -6134,6 +6281,8 @@ class S3DataAccessAssetSourceEntry {
 }
 
 /// The source of the Amazon Redshift datashare asset.
+///
+/// @nodoc
 class RedshiftDataShareAssetSourceEntry {
   /// The Amazon Resource Name (ARN) of the datashare asset.
   final String dataShareArn;
@@ -6158,6 +6307,8 @@ class RedshiftDataShareAssetSourceEntry {
 }
 
 /// The destination where the assets in the revision will be exported.
+///
+/// @nodoc
 class RevisionDestinationEntry {
   /// The Amazon S3 bucket that is the destination for the assets in the revision.
   final String bucket;
@@ -6198,6 +6349,8 @@ class RevisionDestinationEntry {
 }
 
 /// The destination for the asset.
+///
+/// @nodoc
 class AssetDestinationEntry {
   /// The unique identifier for the asset.
   final String assetId;
@@ -6235,6 +6388,8 @@ class AssetDestinationEntry {
 }
 
 /// A tag consisting of a key-value pair that can be applied to a resource.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -6267,6 +6422,8 @@ class Tag {
 /// An event action is an object that defines the relationship between a
 /// specific event and an automated action that will be taken on behalf of the
 /// customer.
+///
+/// @nodoc
 class EventActionEntry {
   /// What occurs after a certain event.
   final Action action;
@@ -6328,6 +6485,8 @@ class EventActionEntry {
 }
 
 /// A data set is an AWS resource with one or more revisions.
+///
+/// @nodoc
 class DataSetEntry {
   /// The ARN for the data set.
   final String arn;
@@ -6421,6 +6580,8 @@ class DataSetEntry {
 }
 
 /// A revision is a container for one or more assets.
+///
+/// @nodoc
 class RevisionEntry {
   /// The ARN for the revision.
   final String arn;
@@ -6525,6 +6686,8 @@ class RevisionEntry {
 }
 
 /// Information about a data grant.
+///
+/// @nodoc
 class DataGrantSummaryEntry {
   /// The acceptance state of the data grant.
   final DataGrantAcceptanceState acceptanceState;
@@ -6625,6 +6788,7 @@ class DataGrantSummaryEntry {
   }
 }
 
+/// @nodoc
 class GrantDistributionScope {
   static const awsOrganization = GrantDistributionScope._('AWS_ORGANIZATION');
   static const none = GrantDistributionScope._('NONE');
@@ -6651,6 +6815,8 @@ class GrantDistributionScope {
 }
 
 /// The details for the request.
+///
+/// @nodoc
 class RequestDetails {
   /// Details of the request to create S3 data access from the Amazon S3 bucket.
   final CreateS3DataAccessFromS3BucketRequestDetails?
@@ -6731,6 +6897,8 @@ class RequestDetails {
 }
 
 /// Details of the operation to be performed by the job.
+///
+/// @nodoc
 class ExportAssetToSignedUrlRequestDetails {
   /// The unique identifier for the asset that is exported to a signed URL.
   final String assetId;
@@ -6760,6 +6928,8 @@ class ExportAssetToSignedUrlRequestDetails {
 }
 
 /// Details of the operation to be performed by the job.
+///
+/// @nodoc
 class ExportAssetsToS3RequestDetails {
   /// The destination for the asset.
   final List<AssetDestinationEntry> assetDestinations;
@@ -6795,6 +6965,8 @@ class ExportAssetsToS3RequestDetails {
 }
 
 /// Details of the operation to be performed by the job.
+///
+/// @nodoc
 class ExportRevisionsToS3RequestDetails {
   /// The unique identifier for the data set associated with this export job.
   final String dataSetId;
@@ -6824,6 +6996,8 @@ class ExportRevisionsToS3RequestDetails {
 }
 
 /// Details of the operation to be performed by the job.
+///
+/// @nodoc
 class ImportAssetFromSignedUrlRequestDetails {
   /// The name of the asset. When importing from Amazon S3, the Amazon S3 object
   /// key is used as the asset name.
@@ -6861,6 +7035,8 @@ class ImportAssetFromSignedUrlRequestDetails {
 }
 
 /// Details of the operation to be performed by the job.
+///
+/// @nodoc
 class ImportAssetsFromS3RequestDetails {
   /// Is a list of Amazon S3 bucket and object key pairs.
   final List<AssetSourceEntry> assetSources;
@@ -6890,6 +7066,8 @@ class ImportAssetsFromS3RequestDetails {
 }
 
 /// Details from an import from Amazon Redshift datashare request.
+///
+/// @nodoc
 class ImportAssetsFromRedshiftDataSharesRequestDetails {
   /// A list of Amazon Redshift datashare assets.
   final List<RedshiftDataShareAssetSourceEntry> assetSources;
@@ -6919,6 +7097,8 @@ class ImportAssetsFromRedshiftDataSharesRequestDetails {
 }
 
 /// The request details.
+///
+/// @nodoc
 class ImportAssetFromApiGatewayApiRequestDetails {
   /// The API Gateway API ID.
   final String apiId;
@@ -6986,6 +7166,8 @@ class ImportAssetFromApiGatewayApiRequestDetails {
 
 /// Details of the operation to create an Amazon S3 data access from an S3
 /// bucket.
+///
+/// @nodoc
 class CreateS3DataAccessFromS3BucketRequestDetails {
   /// Details about the S3 data access source asset.
   final S3DataAccessAssetSourceEntry assetSource;
@@ -7017,6 +7199,8 @@ class CreateS3DataAccessFromS3BucketRequestDetails {
 
 /// Details about the assets imported from an AWS Lake Formation tag policy
 /// request.
+///
+/// @nodoc
 class ImportAssetsFromLakeFormationTagPolicyRequestDetails {
   /// The identifier for the AWS Glue Data Catalog.
   final String catalogId;
@@ -7065,26 +7249,31 @@ class ImportAssetsFromLakeFormationTagPolicyRequestDetails {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceLimitExceededException extends _s.GenericAwsException {
   ServiceLimitExceededException({String? type, String? message})
       : super(
@@ -7093,11 +7282,13 @@ class ServiceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

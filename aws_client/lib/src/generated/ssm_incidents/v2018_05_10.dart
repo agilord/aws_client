@@ -1494,6 +1494,7 @@ class SsmIncidents {
   }
 }
 
+/// @nodoc
 class BatchGetIncidentFindingsOutput {
   /// A list of errors encountered during the operation.
   final List<BatchGetIncidentFindingsError> errors;
@@ -1530,6 +1531,7 @@ class BatchGetIncidentFindingsOutput {
   }
 }
 
+/// @nodoc
 class CreateReplicationSetOutput {
   /// The Amazon Resource Name (ARN) of the replication set.
   final String arn;
@@ -1552,6 +1554,7 @@ class CreateReplicationSetOutput {
   }
 }
 
+/// @nodoc
 class CreateResponsePlanOutput {
   /// The Amazon Resource Name (ARN) of the response plan.
   final String arn;
@@ -1574,6 +1577,7 @@ class CreateResponsePlanOutput {
   }
 }
 
+/// @nodoc
 class CreateTimelineEventOutput {
   /// The ID of the event for easy reference later.
   final String eventId;
@@ -1603,6 +1607,7 @@ class CreateTimelineEventOutput {
   }
 }
 
+/// @nodoc
 class DeleteIncidentRecordOutput {
   DeleteIncidentRecordOutput();
 
@@ -1615,6 +1620,7 @@ class DeleteIncidentRecordOutput {
   }
 }
 
+/// @nodoc
 class DeleteReplicationSetOutput {
   DeleteReplicationSetOutput();
 
@@ -1627,6 +1633,7 @@ class DeleteReplicationSetOutput {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyOutput {
   DeleteResourcePolicyOutput();
 
@@ -1639,6 +1646,7 @@ class DeleteResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class DeleteResponsePlanOutput {
   DeleteResponsePlanOutput();
 
@@ -1651,6 +1659,7 @@ class DeleteResponsePlanOutput {
   }
 }
 
+/// @nodoc
 class DeleteTimelineEventOutput {
   DeleteTimelineEventOutput();
 
@@ -1663,6 +1672,7 @@ class DeleteTimelineEventOutput {
   }
 }
 
+/// @nodoc
 class GetIncidentRecordOutput {
   /// Details the structure of the incident record.
   final IncidentRecord incidentRecord;
@@ -1687,6 +1697,7 @@ class GetIncidentRecordOutput {
   }
 }
 
+/// @nodoc
 class GetReplicationSetOutput {
   /// Details of the replication set.
   final ReplicationSet replicationSet;
@@ -1711,6 +1722,7 @@ class GetReplicationSetOutput {
   }
 }
 
+/// @nodoc
 class GetResourcePoliciesOutput {
   /// Details about the resource policy attached to the response plan.
   final List<ResourcePolicy> resourcePolicies;
@@ -1744,6 +1756,7 @@ class GetResourcePoliciesOutput {
   }
 }
 
+/// @nodoc
 class GetResponsePlanOutput {
   /// The ARN of the response plan.
   final String arn;
@@ -1830,6 +1843,7 @@ class GetResponsePlanOutput {
   }
 }
 
+/// @nodoc
 class GetTimelineEventOutput {
   /// Details about the timeline event.
   final TimelineEvent event;
@@ -1853,6 +1867,7 @@ class GetTimelineEventOutput {
   }
 }
 
+/// @nodoc
 class ListIncidentFindingsOutput {
   /// A list of findings that represent deployments that might be the potential
   /// cause of the incident.
@@ -1887,6 +1902,7 @@ class ListIncidentFindingsOutput {
   }
 }
 
+/// @nodoc
 class ListIncidentRecordsOutput {
   /// The details of each listed incident record.
   final List<IncidentRecordSummary> incidentRecordSummaries;
@@ -1921,6 +1937,7 @@ class ListIncidentRecordsOutput {
   }
 }
 
+/// @nodoc
 class ListRelatedItemsOutput {
   /// Details about each related item.
   final List<RelatedItem> relatedItems;
@@ -1954,6 +1971,7 @@ class ListRelatedItemsOutput {
   }
 }
 
+/// @nodoc
 class ListReplicationSetsOutput {
   /// The Amazon Resource Name (ARN) of the list replication set.
   final List<String> replicationSetArns;
@@ -1987,6 +2005,7 @@ class ListReplicationSetsOutput {
   }
 }
 
+/// @nodoc
 class ListResponsePlansOutput {
   /// Details of each response plan.
   final List<ResponsePlanSummary> responsePlanSummaries;
@@ -2021,6 +2040,7 @@ class ListResponsePlansOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags for the response plan or incident.
   final Map<String, String> tags;
@@ -2045,6 +2065,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTimelineEventsOutput {
   /// Details about each event that occurred during the incident.
   final List<EventSummary> eventSummaries;
@@ -2078,6 +2099,7 @@ class ListTimelineEventsOutput {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyOutput {
   /// The ID of the resource policy.
   final String policyId;
@@ -2100,6 +2122,7 @@ class PutResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class StartIncidentOutput {
   /// The ARN of the newly created incident record.
   final String incidentRecordArn;
@@ -2122,6 +2145,7 @@ class StartIncidentOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2134,6 +2158,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2146,6 +2171,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDeletionProtectionOutput {
   UpdateDeletionProtectionOutput();
 
@@ -2158,6 +2184,7 @@ class UpdateDeletionProtectionOutput {
   }
 }
 
+/// @nodoc
 class UpdateIncidentRecordOutput {
   UpdateIncidentRecordOutput();
 
@@ -2170,6 +2197,7 @@ class UpdateIncidentRecordOutput {
   }
 }
 
+/// @nodoc
 class UpdateRelatedItemsOutput {
   UpdateRelatedItemsOutput();
 
@@ -2182,6 +2210,7 @@ class UpdateRelatedItemsOutput {
   }
 }
 
+/// @nodoc
 class UpdateReplicationSetOutput {
   UpdateReplicationSetOutput();
 
@@ -2194,6 +2223,7 @@ class UpdateReplicationSetOutput {
   }
 }
 
+/// @nodoc
 class UpdateResponsePlanOutput {
   UpdateResponsePlanOutput();
 
@@ -2206,6 +2236,7 @@ class UpdateResponsePlanOutput {
   }
 }
 
+/// @nodoc
 class UpdateTimelineEventOutput {
   UpdateTimelineEventOutput();
 
@@ -2221,6 +2252,8 @@ class UpdateTimelineEventOutput {
 /// An item referenced in a <code>TimelineEvent</code> that is involved in or
 /// somehow associated with an incident. You can specify an Amazon Resource Name
 /// (ARN) for an Amazon Web Services resource or a <code>RelatedItem</code> ID.
+///
+/// @nodoc
 class EventReference {
   /// The ID of a <code>RelatedItem</code> referenced in a
   /// <code>TimelineEvent</code>.
@@ -2253,6 +2286,8 @@ class EventReference {
 }
 
 /// The Chatbot chat channel used for collaboration during an incident.
+///
+/// @nodoc
 class ChatChannel {
   /// The Amazon SNS targets that Chatbot uses to notify the chat channel of
   /// updates to an incident. You can also make updates to the incident through
@@ -2290,6 +2325,8 @@ class ChatChannel {
 }
 
 /// Information about third-party services integrated into a response plan.
+///
+/// @nodoc
 class Integration {
   /// Information about the PagerDuty service where the response plan creates an
   /// incident.
@@ -2318,6 +2355,8 @@ class Integration {
 }
 
 /// Details about the PagerDuty configuration for a response plan.
+///
+/// @nodoc
 class PagerDutyConfiguration {
   /// The name of the PagerDuty configuration.
   final String name;
@@ -2360,6 +2399,8 @@ class PagerDutyConfiguration {
 
 /// Details about the PagerDuty service where the response plan creates an
 /// incident.
+///
+/// @nodoc
 class PagerDutyIncidentConfiguration {
   /// The ID of the PagerDuty service that the response plan associates with an
   /// incident when it launches.
@@ -2385,6 +2426,8 @@ class PagerDutyIncidentConfiguration {
 
 /// The action that starts at the beginning of an incident. The response plan
 /// defines the action.
+///
+/// @nodoc
 class Action {
   /// The Systems Manager automation document to start as the runbook at the
   /// beginning of the incident.
@@ -2413,6 +2456,8 @@ class Action {
 
 /// Details about the Systems Manager automation document that will be used as a
 /// runbook during an incident.
+///
+/// @nodoc
 class SsmAutomation {
   /// The automation document's name.
   final String documentName;
@@ -2477,6 +2522,7 @@ class SsmAutomation {
   }
 }
 
+/// @nodoc
 class SsmTargetAccount {
   static const responsePlanOwnerAccount =
       SsmTargetAccount._('RESPONSE_PLAN_OWNER_ACCOUNT');
@@ -2503,6 +2549,8 @@ class SsmTargetAccount {
 }
 
 /// The dynamic SSM parameter value.
+///
+/// @nodoc
 class DynamicSsmParameterValue {
   /// Variable dynamic parameters. A parameter value is determined when an
   /// incident is created.
@@ -2526,6 +2574,7 @@ class DynamicSsmParameterValue {
   }
 }
 
+/// @nodoc
 class VariableType {
   static const incidentRecordArn = VariableType._('INCIDENT_RECORD_ARN');
   static const involvedResources = VariableType._('INVOLVED_RESOURCES');
@@ -2550,6 +2599,8 @@ class VariableType {
 }
 
 /// Used to remove the chat channel from an incident record or response plan.
+///
+/// @nodoc
 class EmptyChatChannel {
   EmptyChatChannel();
 
@@ -2563,6 +2614,8 @@ class EmptyChatChannel {
 }
 
 /// The SNS targets that are notified when updates are made to an incident.
+///
+/// @nodoc
 class NotificationTargetItem {
   /// The Amazon Resource Name (ARN) of the SNS topic.
   final String? snsTopicArn;
@@ -2586,6 +2639,8 @@ class NotificationTargetItem {
 }
 
 /// Details used when updating the replication set.
+///
+/// @nodoc
 class UpdateReplicationSetAction {
   /// Details about the Amazon Web Services Region that you're adding to the
   /// replication set.
@@ -2612,6 +2667,8 @@ class UpdateReplicationSetAction {
 
 /// Defines the Amazon Web Services Region and KMS key to add to the replication
 /// set.
+///
+/// @nodoc
 class AddRegionAction {
   /// The Amazon Web Services Region name to add to the replication set.
   final String regionName;
@@ -2636,6 +2693,8 @@ class AddRegionAction {
 
 /// Defines the information about the Amazon Web Services Region you're deleting
 /// from your replication set.
+///
+/// @nodoc
 class DeleteRegionAction {
   /// The name of the Amazon Web Services Region you're deleting from the
   /// replication set.
@@ -2654,6 +2713,8 @@ class DeleteRegionAction {
 }
 
 /// Details about the related item you're adding.
+///
+/// @nodoc
 class RelatedItemsUpdate {
   /// Details about the related item you're adding.
   final RelatedItem? itemToAdd;
@@ -2677,6 +2738,8 @@ class RelatedItemsUpdate {
 }
 
 /// Resources that responders use to triage and mitigate the incident.
+///
+/// @nodoc
 class RelatedItem {
   /// Details about the related item.
   final ItemIdentifier identifier;
@@ -2720,6 +2783,8 @@ class RelatedItem {
 }
 
 /// Details and type of a related item.
+///
+/// @nodoc
 class ItemIdentifier {
   /// The type of related item.
   final ItemType type;
@@ -2751,6 +2816,8 @@ class ItemIdentifier {
 }
 
 /// Describes a related item.
+///
+/// @nodoc
 class ItemValue {
   /// The Amazon Resource Name (ARN) of the related item, if the related item is
   /// an Amazon resource.
@@ -2799,6 +2866,7 @@ class ItemValue {
   }
 }
 
+/// @nodoc
 class ItemType {
   static const analysis = ItemType._('ANALYSIS');
   static const incident = ItemType._('INCIDENT');
@@ -2841,6 +2909,8 @@ class ItemType {
 
 /// Details about the PagerDuty incident associated with an incident created by
 /// an Incident Manager response plan.
+///
+/// @nodoc
 class PagerDutyIncidentDetail {
   /// The ID of the incident associated with the PagerDuty service for the
   /// response plan.
@@ -2881,6 +2951,7 @@ class PagerDutyIncidentDetail {
   }
 }
 
+/// @nodoc
 class IncidentRecordStatus {
   static const open = IncidentRecordStatus._('OPEN');
   static const resolved = IncidentRecordStatus._('RESOLVED');
@@ -2907,6 +2978,8 @@ class IncidentRecordStatus {
 }
 
 /// Details about what caused the incident to be created in Incident Manager.
+///
+/// @nodoc
 class TriggerDetails {
   /// Identifies the service that sourced the event. All events sourced from
   /// within Amazon Web Services begin with "<code>aws.</code>" Customer-generated
@@ -2947,6 +3020,8 @@ class TriggerDetails {
 }
 
 /// Details about a timeline event during an incident.
+///
+/// @nodoc
 class EventSummary {
   /// The timeline event ID.
   final String eventId;
@@ -3010,6 +3085,7 @@ class EventSummary {
   }
 }
 
+/// @nodoc
 class TimelineEventSort {
   static const eventTime = TimelineEventSort._('EVENT_TIME');
 
@@ -3033,6 +3109,7 @@ class TimelineEventSort {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -3057,6 +3134,8 @@ class SortOrder {
 }
 
 /// Filter the selection by using a condition.
+///
+/// @nodoc
 class Filter {
   /// The condition accepts before or after a specified time, equal to a string,
   /// or equal to an integer.
@@ -3085,6 +3164,8 @@ class Filter {
 /// are specified, the conditionals become an <code>AND</code>ed statement. If
 /// multiple values are specified for a conditional, the values are
 /// <code>OR</code>d.
+///
+/// @nodoc
 class Condition {
   /// After the specified timestamp.
   final DateTime? after;
@@ -3114,6 +3195,8 @@ class Condition {
 }
 
 /// Use the AttributeValueList to filter by string or integer values.
+///
+/// @nodoc
 class AttributeValueList {
   /// The list of integer values that the filter matches.
   final List<int>? integerValues;
@@ -3137,6 +3220,8 @@ class AttributeValueList {
 }
 
 /// Details of the response plan that are used when creating an incident.
+///
+/// @nodoc
 class ResponsePlanSummary {
   /// The Amazon Resource Name (ARN) of the response plan.
   final String arn;
@@ -3174,6 +3259,8 @@ class ResponsePlanSummary {
 }
 
 /// Details describing an incident record.
+///
+/// @nodoc
 class IncidentRecordSummary {
   /// The Amazon Resource Name (ARN) of the incident.
   final String arn;
@@ -3244,6 +3331,8 @@ class IncidentRecordSummary {
 }
 
 /// Details about what created the incident record and when it was created.
+///
+/// @nodoc
 class IncidentRecordSource {
   /// The principal that started the incident.
   final String createdBy;
@@ -3292,6 +3381,8 @@ class IncidentRecordSource {
 }
 
 /// Identifying information about the finding.
+///
+/// @nodoc
 class FindingSummary {
   /// The ID of the finding.
   final String id;
@@ -3323,6 +3414,8 @@ class FindingSummary {
 }
 
 /// A significant event that happened during the incident.
+///
+/// @nodoc
 class TimelineEvent {
   /// A short description of the event.
   final String eventData;
@@ -3395,6 +3488,8 @@ class TimelineEvent {
 
 /// Basic details used in creating a response plan. The response plan is then
 /// used to create an incident record.
+///
+/// @nodoc
 class IncidentTemplate {
   /// The impact of the incident on your customers and applications.
   /// <p class="title"> <b>Supported impact codes</b>
@@ -3497,6 +3592,8 @@ class IncidentTemplate {
 
 /// The resource policy that allows Incident Manager to perform actions on
 /// resources on your behalf.
+///
+/// @nodoc
 class ResourcePolicy {
   /// The JSON blob that describes the policy.
   final String policyDocument;
@@ -3535,6 +3632,8 @@ class ResourcePolicy {
 
 /// The set of Amazon Web Services Region that your Incident Manager data will
 /// be replicated to and the KMS key used to encrypt the data.
+///
+/// @nodoc
 class ReplicationSet {
   /// Details about who created the replication set.
   final String createdBy;
@@ -3615,6 +3714,7 @@ class ReplicationSet {
   }
 }
 
+/// @nodoc
 class ReplicationSetStatus {
   static const active = ReplicationSetStatus._('ACTIVE');
   static const creating = ReplicationSetStatus._('CREATING');
@@ -3644,6 +3744,8 @@ class ReplicationSetStatus {
 }
 
 /// Information about a Amazon Web Services Region in your replication set.
+///
+/// @nodoc
 class RegionInfo {
   /// The status of the Amazon Web Services Region in the replication set.
   final RegionStatus status;
@@ -3690,6 +3792,7 @@ class RegionInfo {
   }
 }
 
+/// @nodoc
 class RegionStatus {
   static const active = RegionStatus._('ACTIVE');
   static const creating = RegionStatus._('CREATING');
@@ -3716,6 +3819,8 @@ class RegionStatus {
 }
 
 /// The record of the incident that's created when an incident occurs.
+///
+/// @nodoc
 class IncidentRecord {
   /// The Amazon Resource Name (ARN) of the incident record.
   final String arn;
@@ -3871,6 +3976,8 @@ class IncidentRecord {
 
 /// The Systems Manager automation document process to start as the runbook at
 /// the beginning of the incident.
+///
+/// @nodoc
 class AutomationExecution {
   /// The Amazon Resource Name (ARN) of the automation process.
   final String? ssmExecutionArn;
@@ -3895,6 +4002,8 @@ class AutomationExecution {
 
 /// The mapping between a Amazon Web Services Region and the key that's used to
 /// encrypt the data.
+///
+/// @nodoc
 class RegionMapInputValue {
   /// The KMS key used to encrypt the data in your replication set.
   final String? sseKmsKeyId;
@@ -3913,6 +4022,8 @@ class RegionMapInputValue {
 
 /// Details about an error returned for a <a>BatchGetIncidentFindings</a>
 /// operation.
+///
+/// @nodoc
 class BatchGetIncidentFindingsError {
   /// The code associated with an error that was returned for a
   /// <code>BatchGetIncidentFindings</code> operation.
@@ -3955,6 +4066,8 @@ class BatchGetIncidentFindingsError {
 /// Information about a specific CodeDeploy deployment or CloudFormation stack
 /// creation or update that occurred around the time of a reported incident.
 /// These activities can be investigated as a potential cause of the incident.
+///
+/// @nodoc
 class Finding {
   /// The timestamp for when a finding was created.
   final DateTime creationTime;
@@ -4003,6 +4116,8 @@ class Finding {
 }
 
 /// Extended textual information about the finding.
+///
+/// @nodoc
 class FindingDetails {
   /// Information about the CloudFormation stack creation or update associated
   /// with the finding.
@@ -4043,6 +4158,8 @@ class FindingDetails {
 
 /// Information about a CodeDeploy deployment that occurred around the time of
 /// an incident and could be a possible cause of the incident.
+///
+/// @nodoc
 class CodeDeployDeployment {
   /// The Amazon Resource Name (ARN) of the CodeDeploy deployment group associated
   /// with the deployment.
@@ -4091,6 +4208,8 @@ class CodeDeployDeployment {
 /// Information about an CloudFormation stack creation or update that occurred
 /// around the time of an incident and could be a potential cause of the
 /// incident.
+///
+/// @nodoc
 class CloudFormationStackUpdate {
   /// The Amazon Resource Name (ARN) of the CloudFormation stack involved in the
   /// update.
@@ -4129,26 +4248,31 @@ class CloudFormationStackUpdate {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4157,11 +4281,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

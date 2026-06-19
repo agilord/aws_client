@@ -2195,6 +2195,7 @@ class S3Tables {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The user-defined tags that are applied to the resource. For more
   /// information, see <a
@@ -2221,6 +2222,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2233,6 +2235,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2245,6 +2248,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateNamespaceResponse {
   /// The name of the namespace.
   final List<String> namespace;
@@ -2278,6 +2282,7 @@ class CreateNamespaceResponse {
   }
 }
 
+/// @nodoc
 class GetNamespaceResponse {
   /// The date and time the namespace was created at.
   final DateTime createdAt;
@@ -2338,6 +2343,7 @@ class GetNamespaceResponse {
   }
 }
 
+/// @nodoc
 class ListNamespacesResponse {
   /// A list of namespaces.
   final List<NamespaceSummary> namespaces;
@@ -2370,6 +2376,7 @@ class ListNamespacesResponse {
   }
 }
 
+/// @nodoc
 class GetTableBucketEncryptionResponse {
   /// The encryption configuration for the table bucket.
   final EncryptionConfiguration encryptionConfiguration;
@@ -2394,6 +2401,7 @@ class GetTableBucketEncryptionResponse {
   }
 }
 
+/// @nodoc
 class GetTableBucketPolicyResponse {
   /// The <code>JSON</code> that defines the policy.
   final String resourcePolicy;
@@ -2416,6 +2424,7 @@ class GetTableBucketPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetTableBucketReplicationResponse {
   /// The replication configuration for the table bucket, including the IAM role
   /// and replication rules.
@@ -2451,6 +2460,7 @@ class GetTableBucketReplicationResponse {
   }
 }
 
+/// @nodoc
 class PutTableBucketReplicationResponse {
   /// The status of the replication configuration operation.
   final String status;
@@ -2481,6 +2491,7 @@ class PutTableBucketReplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateTableBucketResponse {
   /// The Amazon Resource Name (ARN) of the table bucket.
   final String arn;
@@ -2503,6 +2514,7 @@ class CreateTableBucketResponse {
   }
 }
 
+/// @nodoc
 class GetTableBucketResponse {
   /// The Amazon Resource Name (ARN) of the table bucket.
   final String arn;
@@ -2560,6 +2572,7 @@ class GetTableBucketResponse {
   }
 }
 
+/// @nodoc
 class GetTableBucketMaintenanceConfigurationResponse {
   /// Details about the maintenance configuration for the table bucket.
   final Map<TableBucketMaintenanceType,
@@ -2597,6 +2610,7 @@ class GetTableBucketMaintenanceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetTableBucketMetricsConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the table bucket.
   final String tableBucketARN;
@@ -2627,6 +2641,7 @@ class GetTableBucketMetricsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetTableBucketStorageClassResponse {
   /// The storage class configuration for the table bucket.
   final StorageClassConfiguration storageClassConfiguration;
@@ -2652,6 +2667,7 @@ class GetTableBucketStorageClassResponse {
   }
 }
 
+/// @nodoc
 class ListTableBucketsResponse {
   /// A list of table buckets.
   final List<TableBucketSummary> tableBuckets;
@@ -2685,6 +2701,7 @@ class ListTableBucketsResponse {
   }
 }
 
+/// @nodoc
 class GetTableEncryptionResponse {
   /// The encryption configuration for the table.
   final EncryptionConfiguration encryptionConfiguration;
@@ -2709,6 +2726,7 @@ class GetTableEncryptionResponse {
   }
 }
 
+/// @nodoc
 class GetTablePolicyResponse {
   /// The <code>JSON</code> that defines the policy.
   final String resourcePolicy;
@@ -2731,6 +2749,7 @@ class GetTablePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetTableReplicationResponse {
   /// The replication configuration for the table, including the IAM role and
   /// replication rules.
@@ -2765,6 +2784,7 @@ class GetTableReplicationResponse {
   }
 }
 
+/// @nodoc
 class GetTableReplicationStatusResponse {
   /// An array of status information for each replication destination, including
   /// the current state, last successful update, and any error messages.
@@ -2800,6 +2820,7 @@ class GetTableReplicationStatusResponse {
   }
 }
 
+/// @nodoc
 class PutTableReplicationResponse {
   /// The status of the replication configuration operation.
   final String status;
@@ -2829,6 +2850,7 @@ class PutTableReplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateTableResponse {
   /// The Amazon Resource Name (ARN) of the table.
   final String tableARN;
@@ -2858,6 +2880,7 @@ class CreateTableResponse {
   }
 }
 
+/// @nodoc
 class GetTableResponse {
   /// The date and time the table bucket was created at.
   final DateTime createdAt;
@@ -3000,6 +3023,7 @@ class GetTableResponse {
   }
 }
 
+/// @nodoc
 class GetTableMaintenanceConfigurationResponse {
   /// Details about the maintenance configuration for the table bucket.
   final Map<TableMaintenanceType, TableMaintenanceConfigurationValue>
@@ -3036,6 +3060,7 @@ class GetTableMaintenanceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetTableMaintenanceJobStatusResponse {
   /// The status of the maintenance job.
   final Map<TableMaintenanceJobType, TableMaintenanceJobStatusValue> status;
@@ -3071,6 +3096,7 @@ class GetTableMaintenanceJobStatusResponse {
   }
 }
 
+/// @nodoc
 class GetTableMetadataLocationResponse {
   /// The version token.
   final String versionToken;
@@ -3107,6 +3133,7 @@ class GetTableMetadataLocationResponse {
   }
 }
 
+/// @nodoc
 class GetTableRecordExpirationConfigurationResponse {
   /// The record expiration configuration for the table, including the status and
   /// retention settings.
@@ -3133,6 +3160,7 @@ class GetTableRecordExpirationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetTableRecordExpirationJobStatusResponse {
   /// The current status of the most recent expiration job.
   final TableRecordExpirationJobStatus status;
@@ -3184,6 +3212,7 @@ class GetTableRecordExpirationJobStatusResponse {
   }
 }
 
+/// @nodoc
 class GetTableStorageClassResponse {
   /// The storage class configuration for the table.
   final StorageClassConfiguration storageClassConfiguration;
@@ -3208,6 +3237,7 @@ class GetTableStorageClassResponse {
   }
 }
 
+/// @nodoc
 class ListTablesResponse {
   /// A list of tables.
   final List<TableSummary> tables;
@@ -3241,6 +3271,7 @@ class ListTablesResponse {
   }
 }
 
+/// @nodoc
 class UpdateTableMetadataLocationResponse {
   /// The metadata location of the table.
   final String metadataLocation;
@@ -3299,6 +3330,8 @@ class UpdateTableMetadataLocationResponse {
 /// of the configuration. If the status of the configuration is enabled, records
 /// expire and are automatically removed after the number of days specified in
 /// the record expiration settings for the table.
+///
+/// @nodoc
 class TableRecordExpirationConfigurationValue {
   /// The expiration settings for records in the table.
   final TableRecordExpirationSettings? settings;
@@ -3333,6 +3366,7 @@ class TableRecordExpirationConfigurationValue {
   }
 }
 
+/// @nodoc
 class TableRecordExpirationStatus {
   static const enabled = TableRecordExpirationStatus._('enabled');
   static const disabled = TableRecordExpirationStatus._('disabled');
@@ -3360,6 +3394,8 @@ class TableRecordExpirationStatus {
 
 /// The record expiration setting that specifies when records expire and are
 /// automatically removed from a table.
+///
+/// @nodoc
 class TableRecordExpirationSettings {
   /// If you enable record expiration for a table, you can specify the number of
   /// days to retain your table records. For example, to retain your table records
@@ -3384,6 +3420,7 @@ class TableRecordExpirationSettings {
   }
 }
 
+/// @nodoc
 class TableMaintenanceType {
   static const icebergCompaction = TableMaintenanceType._('icebergCompaction');
   static const icebergSnapshotManagement =
@@ -3411,6 +3448,8 @@ class TableMaintenanceType {
 }
 
 /// The values that define a maintenance configuration for a table.
+///
+/// @nodoc
 class TableMaintenanceConfigurationValue {
   /// Contains details about the settings for the maintenance configuration.
   final TableMaintenanceSettings? settings;
@@ -3444,6 +3483,7 @@ class TableMaintenanceConfigurationValue {
   }
 }
 
+/// @nodoc
 class MaintenanceStatus {
   static const enabled = MaintenanceStatus._('enabled');
   static const disabled = MaintenanceStatus._('disabled');
@@ -3469,6 +3509,8 @@ class MaintenanceStatus {
 }
 
 /// Contains details about maintenance settings for the table.
+///
+/// @nodoc
 class TableMaintenanceSettings {
   /// Contains details about the Iceberg compaction settings for the table.
   final IcebergCompactionSettings? icebergCompaction;
@@ -3507,6 +3549,8 @@ class TableMaintenanceSettings {
 }
 
 /// Contains details about the compaction settings for an Iceberg table.
+///
+/// @nodoc
 class IcebergCompactionSettings {
   /// The compaction strategy to use for the table. This determines how files are
   /// selected and combined during compaction operations.
@@ -3543,6 +3587,8 @@ class IcebergCompactionSettings {
 /// <code>maxSnapshotAgeHours</code> and the total number of snapshots exceeds
 /// the value for the minimum number of snapshots to keep
 /// <code>minSnapshotsToKeep</code>.
+///
+/// @nodoc
 class IcebergSnapshotManagementSettings {
   /// The maximum age of a snapshot before it can be expired.
   final int? maxSnapshotAgeHours;
@@ -3574,6 +3620,7 @@ class IcebergSnapshotManagementSettings {
   }
 }
 
+/// @nodoc
 class IcebergCompactionStrategy {
   static const auto = IcebergCompactionStrategy._('auto');
   static const binpack = IcebergCompactionStrategy._('binpack');
@@ -3602,6 +3649,8 @@ class IcebergCompactionStrategy {
 }
 
 /// Contains details about a table.
+///
+/// @nodoc
 class TableSummary {
   /// The date and time the table was created at.
   final DateTime createdAt;
@@ -3684,6 +3733,7 @@ class TableSummary {
   }
 }
 
+/// @nodoc
 class TableType {
   static const customer = TableType._('customer');
   static const aws = TableType._('aws');
@@ -3710,6 +3760,8 @@ class TableType {
 /// The configuration details for the storage class of tables or table buckets.
 /// This allows you to optimize storage costs by selecting the appropriate
 /// storage class based on your access patterns and performance requirements.
+///
+/// @nodoc
 class StorageClassConfiguration {
   /// The storage class for the table or table bucket. Valid values include
   /// storage classes optimized for different access patterns and cost profiles.
@@ -3734,6 +3786,7 @@ class StorageClassConfiguration {
   }
 }
 
+/// @nodoc
 class StorageClass {
   static const standard = StorageClass._('STANDARD');
   static const intelligentTiering = StorageClass._('INTELLIGENT_TIERING');
@@ -3757,6 +3810,7 @@ class StorageClass {
   String toString() => value;
 }
 
+/// @nodoc
 class TableRecordExpirationJobStatus {
   static const notYetRun = TableRecordExpirationJobStatus._('NotYetRun');
   static const successful = TableRecordExpirationJobStatus._('Successful');
@@ -3787,6 +3841,8 @@ class TableRecordExpirationJobStatus {
 /// Provides metrics for the record expiration job that most recently ran for a
 /// table. The metrics provide insight into the amount of data that was removed
 /// when the job ran.
+///
+/// @nodoc
 class TableRecordExpirationJobMetrics {
   /// The total number of data files that were removed when the job ran.
   final int? deletedDataFiles;
@@ -3824,6 +3880,7 @@ class TableRecordExpirationJobMetrics {
   }
 }
 
+/// @nodoc
 class TableMaintenanceJobType {
   static const icebergCompaction =
       TableMaintenanceJobType._('icebergCompaction');
@@ -3858,6 +3915,8 @@ class TableMaintenanceJobType {
 }
 
 /// Details about the status of a maintenance job.
+///
+/// @nodoc
 class TableMaintenanceJobStatusValue {
   /// The status of the job.
   final JobStatus status;
@@ -3895,6 +3954,7 @@ class TableMaintenanceJobStatusValue {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const notYetRun = JobStatus._('Not_Yet_Run');
   static const successful = JobStatus._('Successful');
@@ -3920,6 +3980,7 @@ class JobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OpenTableFormat {
   static const iceberg = OpenTableFormat._('ICEBERG');
 
@@ -3945,6 +4006,8 @@ class OpenTableFormat {
 
 /// Contains information about tables that are managed by S3 Tables, including
 /// replication information for replica tables.
+///
+/// @nodoc
 class ManagedTableInformation {
   /// If this table is a replica, contains information about the source table from
   /// which it is replicated.
@@ -3973,6 +4036,8 @@ class ManagedTableInformation {
 }
 
 /// Contains information about the source of a replicated table.
+///
+/// @nodoc
 class ReplicationInformation {
   /// The Amazon Resource Name (ARN) of the source table from which this table is
   /// replicated.
@@ -3997,6 +4062,8 @@ class ReplicationInformation {
 }
 
 /// Contains details about the table metadata.
+///
+/// @nodoc
 class TableMetadata {
   /// Contains details about the metadata of an Iceberg table.
   final IcebergMetadata? iceberg;
@@ -4016,6 +4083,8 @@ class TableMetadata {
 /// Configuration specifying how data should be encrypted. This structure
 /// defines the encryption algorithm and optional KMS key to be used for
 /// server-side encryption.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The server-side encryption algorithm to use. Valid values are
   /// <code>AES256</code> for S3-managed encryption keys, or <code>aws:kms</code>
@@ -4054,6 +4123,7 @@ class EncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class SSEAlgorithm {
   static const aes256 = SSEAlgorithm._('AES256');
   static const awsKms = SSEAlgorithm._('aws:kms');
@@ -4078,6 +4148,8 @@ class SSEAlgorithm {
 }
 
 /// Contains details about the metadata for an Iceberg table.
+///
+/// @nodoc
 class IcebergMetadata {
   /// The partition specification for the Iceberg table. Partitioning organizes
   /// data into separate files based on the values of one or more fields, which
@@ -4132,6 +4204,8 @@ class IcebergMetadata {
 }
 
 /// Contains details about the schema for an Iceberg table.
+///
+/// @nodoc
 class IcebergSchema {
   /// The schema fields for the table
   final List<SchemaField> fields;
@@ -4152,6 +4226,8 @@ class IcebergSchema {
 /// This schema format supports nested and complex data types such as
 /// <code>struct</code>, <code>list</code>, and <code>map</code>, in addition to
 /// primitive types.
+///
+/// @nodoc
 class IcebergSchemaV2 {
   /// The schema fields for the table. Each field defines a column in the table,
   /// including its name, type, and whether it is required.
@@ -4197,6 +4273,8 @@ class IcebergSchemaV2 {
 /// optimize query performance by organizing data into separate files based on
 /// field values. Each partition field specifies a transform to apply to a
 /// source field.
+///
+/// @nodoc
 class IcebergPartitionSpec {
   /// The list of partition fields that define how the table data is partitioned.
   /// Each field specifies a source field and a transform to apply. This field is
@@ -4224,6 +4302,8 @@ class IcebergPartitionSpec {
 
 /// Defines the sort order for data within an Iceberg table. Sorting data can
 /// improve query performance by enabling more efficient data skipping.
+///
+/// @nodoc
 class IcebergSortOrder {
   /// The list of sort fields that define how data is sorted within files. Each
   /// field specifies a source field, sort direction, and null ordering. This
@@ -4251,6 +4331,8 @@ class IcebergSortOrder {
 }
 
 /// Defines a single sort field in an Iceberg sort order specification.
+///
+/// @nodoc
 class IcebergSortField {
   /// The sort direction. Valid values are <code>asc</code> for ascending order or
   /// <code>desc</code> for descending order.
@@ -4291,6 +4373,7 @@ class IcebergSortField {
   }
 }
 
+/// @nodoc
 class IcebergSortDirection {
   static const asc = IcebergSortDirection._('asc');
   static const desc = IcebergSortDirection._('desc');
@@ -4316,6 +4399,7 @@ class IcebergSortDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class IcebergNullOrder {
   static const nullsFirst = IcebergNullOrder._('nulls-first');
   static const nullsLast = IcebergNullOrder._('nulls-last');
@@ -4341,6 +4425,8 @@ class IcebergNullOrder {
 }
 
 /// Defines a single partition field in an Iceberg partition specification.
+///
+/// @nodoc
 class IcebergPartitionField {
   /// The name for this partition field. This name is used in the partitioned file
   /// paths.
@@ -4383,6 +4469,7 @@ class IcebergPartitionField {
   }
 }
 
+/// @nodoc
 class SchemaV2FieldType {
   static const struct = SchemaV2FieldType._('struct');
 
@@ -4409,6 +4496,8 @@ class SchemaV2FieldType {
 /// Contains details about a schema field in the V2 format. This field format
 /// supports nested and complex data types such as <code>struct</code>,
 /// <code>list</code>, and <code>map</code>, in addition to primitive types.
+///
+/// @nodoc
 class SchemaV2Field {
   /// The unique identifier for the schema field. Field IDs are used by Apache
   /// Iceberg to track schema evolution and maintain compatibility across schema
@@ -4462,6 +4551,8 @@ class SchemaV2Field {
 }
 
 /// Contains details about a schema field.
+///
+/// @nodoc
 class SchemaField {
   /// The name of the field.
   final String name;
@@ -4506,6 +4597,8 @@ class SchemaField {
 
 /// The replication configuration for an individual table. This configuration
 /// defines how the table is replicated to destination tables.
+///
+/// @nodoc
 class TableReplicationConfiguration {
   /// The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to
   /// replicate the table on your behalf.
@@ -4541,6 +4634,8 @@ class TableReplicationConfiguration {
 }
 
 /// Defines a rule for replicating a table to one or more destination tables.
+///
+/// @nodoc
 class TableReplicationRule {
   /// An array of destination table buckets where this table should be replicated.
   final List<ReplicationDestination> destinations;
@@ -4568,6 +4663,8 @@ class TableReplicationRule {
 }
 
 /// Specifies a destination table bucket for replication.
+///
+/// @nodoc
 class ReplicationDestination {
   /// The Amazon Resource Name (ARN) of the destination table bucket where tables
   /// will be replicated.
@@ -4594,6 +4691,8 @@ class ReplicationDestination {
 
 /// Contains status information for a replication destination, including the
 /// current replication state, last successful update, and any error messages.
+///
+/// @nodoc
 class ReplicationDestinationStatusModel {
   /// The Amazon Resource Name (ARN) of the destination table bucket.
   final String destinationTableBucketArn;
@@ -4655,6 +4754,7 @@ class ReplicationDestinationStatusModel {
   }
 }
 
+/// @nodoc
 class ReplicationStatus {
   static const pending = ReplicationStatus._('pending');
   static const completed = ReplicationStatus._('completed');
@@ -4682,6 +4782,8 @@ class ReplicationStatus {
 
 /// Contains information about the most recent successful replication update to
 /// a destination.
+///
+/// @nodoc
 class LastSuccessfulReplicatedUpdate {
   /// The S3 location of the metadata that was successfully replicated.
   final String metadataLocation;
@@ -4711,6 +4813,7 @@ class LastSuccessfulReplicatedUpdate {
   }
 }
 
+/// @nodoc
 class TableBucketMaintenanceType {
   static const icebergUnreferencedFileRemoval =
       TableBucketMaintenanceType._('icebergUnreferencedFileRemoval');
@@ -4738,6 +4841,8 @@ class TableBucketMaintenanceType {
 
 /// Details about the values that define the maintenance configuration for a
 /// table bucket.
+///
+/// @nodoc
 class TableBucketMaintenanceConfigurationValue {
   /// Contains details about the settings of the maintenance configuration.
   final TableBucketMaintenanceSettings? settings;
@@ -4772,6 +4877,8 @@ class TableBucketMaintenanceConfigurationValue {
 }
 
 /// Contains details about the maintenance settings for the table bucket.
+///
+/// @nodoc
 class TableBucketMaintenanceSettings {
   /// The unreferenced file removal settings for the table bucket.
   final IcebergUnreferencedFileRemovalSettings? icebergUnreferencedFileRemoval;
@@ -4801,6 +4908,8 @@ class TableBucketMaintenanceSettings {
 
 /// Contains details about the unreferenced file removal settings for an Iceberg
 /// table bucket.
+///
+/// @nodoc
 class IcebergUnreferencedFileRemovalSettings {
   /// The number of days an object has to be non-current before it is deleted.
   final int? nonCurrentDays;
@@ -4833,6 +4942,8 @@ class IcebergUnreferencedFileRemovalSettings {
 }
 
 /// Contains details about a table bucket.
+///
+/// @nodoc
 class TableBucketSummary {
   /// The Amazon Resource Name (ARN) of the table bucket.
   final String arn;
@@ -4890,6 +5001,7 @@ class TableBucketSummary {
   }
 }
 
+/// @nodoc
 class TableBucketType {
   static const customer = TableBucketType._('customer');
   static const aws = TableBucketType._('aws');
@@ -4917,6 +5029,8 @@ class TableBucketType {
 /// The replication configuration for a table bucket. This configuration defines
 /// how tables in the source bucket are replicated to destination table buckets,
 /// including the IAM role used for replication.
+///
+/// @nodoc
 class TableBucketReplicationConfiguration {
   /// The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to
   /// replicate tables on your behalf.
@@ -4955,6 +5069,8 @@ class TableBucketReplicationConfiguration {
 
 /// Defines a rule for replicating tables from a source table bucket to one or
 /// more destination table buckets.
+///
+/// @nodoc
 class TableBucketReplicationRule {
   /// An array of destination table buckets where tables should be replicated.
   final List<ReplicationDestination> destinations;
@@ -4982,6 +5098,8 @@ class TableBucketReplicationRule {
 }
 
 /// Contains details about a namespace.
+///
+/// @nodoc
 class NamespaceSummary {
   /// The date and time the namespace was created at.
   final DateTime createdAt;
@@ -5043,6 +5161,7 @@ class NamespaceSummary {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -5051,42 +5170,50 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class MethodNotAllowedException extends _s.GenericAwsException {
   MethodNotAllowedException({String? type, String? message})
       : super(type: type, code: 'MethodNotAllowedException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

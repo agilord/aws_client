@@ -428,6 +428,7 @@ class IoTEventsData {
   }
 }
 
+/// @nodoc
 class BatchAcknowledgeAlarmResponse {
   /// A list of errors associated with the request, or <code>null</code> if there
   /// are no errors. Each error entry contains an entry ID that helps you identify
@@ -456,9 +457,10 @@ class BatchAcknowledgeAlarmResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteDetectorResponse {
   /// A list of errors associated with the request, or an empty array
-  /// (<code>[]</code>) if there are no errors. Each error entry contains a
+  /// (<code>\[\]</code>) if there are no errors. Each error entry contains a
   /// <code>messageId</code> that helps you identify the entry that failed.
   final List<BatchDeleteDetectorErrorEntry>? batchDeleteDetectorErrorEntries;
 
@@ -487,6 +489,7 @@ class BatchDeleteDetectorResponse {
   }
 }
 
+/// @nodoc
 class BatchDisableAlarmResponse {
   /// A list of errors associated with the request, or <code>null</code> if there
   /// are no errors. Each error entry contains an entry ID that helps you identify
@@ -515,6 +518,7 @@ class BatchDisableAlarmResponse {
   }
 }
 
+/// @nodoc
 class BatchEnableAlarmResponse {
   /// A list of errors associated with the request, or <code>null</code> if there
   /// are no errors. Each error entry contains an entry ID that helps you identify
@@ -543,6 +547,7 @@ class BatchEnableAlarmResponse {
   }
 }
 
+/// @nodoc
 class BatchPutMessageResponse {
   /// A list of any errors encountered when sending the messages.
   final List<BatchPutMessageErrorEntry>? batchPutMessageErrorEntries;
@@ -571,6 +576,7 @@ class BatchPutMessageResponse {
   }
 }
 
+/// @nodoc
 class BatchResetAlarmResponse {
   /// A list of errors associated with the request, or <code>null</code> if there
   /// are no errors. Each error entry contains an entry ID that helps you identify
@@ -599,6 +605,7 @@ class BatchResetAlarmResponse {
   }
 }
 
+/// @nodoc
 class BatchSnoozeAlarmResponse {
   /// A list of errors associated with the request, or <code>null</code> if there
   /// are no errors. Each error entry contains an entry ID that helps you identify
@@ -627,6 +634,7 @@ class BatchSnoozeAlarmResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateDetectorResponse {
   /// A list of those detector updates that resulted in errors. (If an error is
   /// listed here, the specific update did not occur.)
@@ -657,6 +665,7 @@ class BatchUpdateDetectorResponse {
   }
 }
 
+/// @nodoc
 class DescribeAlarmResponse {
   /// Contains information about an alarm.
   final Alarm? alarm;
@@ -681,6 +690,7 @@ class DescribeAlarmResponse {
   }
 }
 
+/// @nodoc
 class DescribeDetectorResponse {
   /// Information about the detector (instance).
   final Detector? detector;
@@ -705,6 +715,7 @@ class DescribeDetectorResponse {
   }
 }
 
+/// @nodoc
 class ListAlarmsResponse {
   /// A list that summarizes each alarm.
   final List<AlarmSummary>? alarmSummaries;
@@ -738,6 +749,7 @@ class ListAlarmsResponse {
   }
 }
 
+/// @nodoc
 class ListDetectorsResponse {
   /// A list of summary information about the detectors (instances).
   final List<DetectorSummary>? detectorSummaries;
@@ -772,6 +784,8 @@ class ListDetectorsResponse {
 }
 
 /// Information about the detector (instance).
+///
+/// @nodoc
 class DetectorSummary {
   /// The time the detector (instance) was created.
   final DateTime? creationTime;
@@ -836,6 +850,8 @@ class DetectorSummary {
 }
 
 /// Information about the detector state.
+///
+/// @nodoc
 class DetectorStateSummary {
   /// The name of the state.
   final String? stateName;
@@ -859,6 +875,8 @@ class DetectorStateSummary {
 }
 
 /// Contains a summary of an alarm.
+///
+/// @nodoc
 class AlarmSummary {
   /// The name of the alarm model.
   final String? alarmModelName;
@@ -954,6 +972,7 @@ class AlarmSummary {
   }
 }
 
+/// @nodoc
 class AlarmStateName {
   static const disabled = AlarmStateName._('DISABLED');
   static const normal = AlarmStateName._('NORMAL');
@@ -990,6 +1009,8 @@ class AlarmStateName {
 }
 
 /// Information about the detector (instance).
+///
+/// @nodoc
 class Detector {
   /// The time the detector (instance) was created.
   final DateTime? creationTime;
@@ -1054,6 +1075,8 @@ class Detector {
 }
 
 /// Information about the current state of the detector instance.
+///
+/// @nodoc
 class DetectorState {
   /// The name of the state.
   final String stateName;
@@ -1097,6 +1120,8 @@ class DetectorState {
 }
 
 /// The current state of a timer.
+///
+/// @nodoc
 class Timer {
   /// The name of the timer.
   final String name;
@@ -1127,6 +1152,8 @@ class Timer {
 }
 
 /// The current state of the variable.
+///
+/// @nodoc
 class Variable {
   /// The name of the variable.
   final String name;
@@ -1157,6 +1184,8 @@ class Variable {
 }
 
 /// Contains information about an alarm.
+///
+/// @nodoc
 class Alarm {
   /// The name of the alarm model.
   final String? alarmModelName;
@@ -1228,6 +1257,8 @@ class Alarm {
 }
 
 /// Contains information about the current state of the alarm.
+///
+/// @nodoc
 class AlarmState {
   /// Contains information about the action that you can take to respond to the
   /// alarm.
@@ -1315,6 +1346,8 @@ class AlarmState {
 }
 
 /// Information needed to evaluate data.
+///
+/// @nodoc
 class RuleEvaluation {
   /// Information needed to compare two values with a comparison operator.
   final SimpleRuleEvaluation? simpleRuleEvaluation;
@@ -1343,6 +1376,8 @@ class RuleEvaluation {
 
 /// Contains information about the action that you can take to respond to the
 /// alarm.
+///
+/// @nodoc
 class CustomerAction {
   /// Contains the configuration information of an acknowledge action.
   final AcknowledgeActionConfiguration? acknowledgeActionConfiguration;
@@ -1449,6 +1484,8 @@ class CustomerAction {
 }
 
 /// Contains information about alarm state changes.
+///
+/// @nodoc
 class SystemEvent {
   /// The event type. If the value is <code>STATE_CHANGE</code>, the event
   /// contains information about alarm state changes.
@@ -1483,6 +1520,7 @@ class SystemEvent {
   }
 }
 
+/// @nodoc
 class EventType {
   static const stateChange = EventType._('STATE_CHANGE');
 
@@ -1506,6 +1544,8 @@ class EventType {
 }
 
 /// Contains the configuration information of alarm state changes.
+///
+/// @nodoc
 class StateChangeConfiguration {
   /// The trigger type. If the value is <code>SNOOZE_TIMEOUT</code>, the snooze
   /// duration ends and the alarm automatically changes to the <code>NORMAL</code>
@@ -1531,6 +1571,7 @@ class StateChangeConfiguration {
   }
 }
 
+/// @nodoc
 class TriggerType {
   static const snoozeTimeout = TriggerType._('SNOOZE_TIMEOUT');
 
@@ -1553,6 +1594,7 @@ class TriggerType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomerActionName {
   static const snooze = CustomerActionName._('SNOOZE');
   static const enable = CustomerActionName._('ENABLE');
@@ -1582,6 +1624,8 @@ class CustomerActionName {
 }
 
 /// Contains the configuration information of a snooze action.
+///
+/// @nodoc
 class SnoozeActionConfiguration {
   /// The note that you can leave when you snooze the alarm.
   final String? note;
@@ -1613,6 +1657,8 @@ class SnoozeActionConfiguration {
 }
 
 /// Contains the configuration information of an enable action.
+///
+/// @nodoc
 class EnableActionConfiguration {
   /// The note that you can leave when you enable the alarm.
   final String? note;
@@ -1636,6 +1682,8 @@ class EnableActionConfiguration {
 }
 
 /// Contains the configuration information of a disable action.
+///
+/// @nodoc
 class DisableActionConfiguration {
   /// The note that you can leave when you disable the alarm.
   final String? note;
@@ -1659,6 +1707,8 @@ class DisableActionConfiguration {
 }
 
 /// Contains the configuration information of an acknowledge action.
+///
+/// @nodoc
 class AcknowledgeActionConfiguration {
   /// The note that you can leave when you acknowledge the alarm.
   final String? note;
@@ -1682,6 +1732,8 @@ class AcknowledgeActionConfiguration {
 }
 
 /// Contains the configuration information of a reset action.
+///
+/// @nodoc
 class ResetActionConfiguration {
   /// The note that you can leave when you reset the alarm.
   final String? note;
@@ -1705,6 +1757,8 @@ class ResetActionConfiguration {
 }
 
 /// Information needed to compare two values with a comparison operator.
+///
+/// @nodoc
 class SimpleRuleEvaluation {
   /// The value of the input property, on the left side of the comparison
   /// operator.
@@ -1743,6 +1797,7 @@ class SimpleRuleEvaluation {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const greater = ComparisonOperator._('GREATER');
   static const greaterOrEqual = ComparisonOperator._('GREATER_OR_EQUAL');
@@ -1781,6 +1836,8 @@ class ComparisonOperator {
 
 /// Information about the error that occurred when attempting to update a
 /// detector.
+///
+/// @nodoc
 class BatchUpdateDetectorErrorEntry {
   /// The error code.
   final ErrorCode? errorCode;
@@ -1819,6 +1876,7 @@ class BatchUpdateDetectorErrorEntry {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const resourceNotFoundException =
       ErrorCode._('ResourceNotFoundException');
@@ -1855,6 +1913,8 @@ class ErrorCode {
 }
 
 /// Information used to update the detector (instance).
+///
+/// @nodoc
 class UpdateDetectorRequest {
   /// The name of the detector model that created the detectors (instances).
   final String detectorModelName;
@@ -1894,6 +1954,8 @@ class UpdateDetectorRequest {
 
 /// The new state, variable values, and timer settings of the detector
 /// (instance).
+///
+/// @nodoc
 class DetectorStateDefinition {
   /// The name of the new state of the detector (instance).
   final String stateName;
@@ -1925,6 +1987,8 @@ class DetectorStateDefinition {
 }
 
 /// The new setting of a timer.
+///
+/// @nodoc
 class TimerDefinition {
   /// The name of the timer.
   final String name;
@@ -1949,6 +2013,8 @@ class TimerDefinition {
 }
 
 /// The new value of the variable.
+///
+/// @nodoc
 class VariableDefinition {
   /// The name of the variable.
   final String name;
@@ -1995,6 +2061,8 @@ class VariableDefinition {
 /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_BatchSnoozeAlarm.html">BatchSnoozeAlarm</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class BatchAlarmActionErrorEntry {
   /// The error code.
   final ErrorCode? errorCode;
@@ -2032,6 +2100,8 @@ class BatchAlarmActionErrorEntry {
 }
 
 /// Information needed to snooze the alarm.
+///
+/// @nodoc
 class SnoozeAlarmActionRequest {
   /// The name of the alarm model.
   final String alarmModelName;
@@ -2076,6 +2146,8 @@ class SnoozeAlarmActionRequest {
 }
 
 /// Information needed to reset the alarm.
+///
+/// @nodoc
 class ResetAlarmActionRequest {
   /// The name of the alarm model.
   final String alarmModelName;
@@ -2113,6 +2185,8 @@ class ResetAlarmActionRequest {
 }
 
 /// Contains information about the errors encountered.
+///
+/// @nodoc
 class BatchPutMessageErrorEntry {
   /// The error code.
   final ErrorCode? errorCode;
@@ -2151,6 +2225,8 @@ class BatchPutMessageErrorEntry {
 }
 
 /// Information about a message.
+///
+/// @nodoc
 class Message {
   /// The name of the input into which the message payload is transformed.
   final String inputName;
@@ -2188,6 +2264,8 @@ class Message {
 }
 
 /// Contains information about a timestamp.
+///
+/// @nodoc
 class TimestampValue {
   /// The value of the timestamp, in the Unix epoch format.
   final int? timeInMillis;
@@ -2205,6 +2283,8 @@ class TimestampValue {
 }
 
 /// Information needed to enable the alarm.
+///
+/// @nodoc
 class EnableAlarmActionRequest {
   /// The name of the alarm model.
   final String alarmModelName;
@@ -2242,6 +2322,8 @@ class EnableAlarmActionRequest {
 }
 
 /// Information used to disable the alarm.
+///
+/// @nodoc
 class DisableAlarmActionRequest {
   /// The name of the alarm model.
   final String alarmModelName;
@@ -2279,6 +2361,8 @@ class DisableAlarmActionRequest {
 }
 
 /// Contains error messages associated with the deletion request.
+///
+/// @nodoc
 class BatchDeleteDetectorErrorEntry {
   /// The error code.
   final ErrorCode? errorCode;
@@ -2319,6 +2403,8 @@ class BatchDeleteDetectorErrorEntry {
 }
 
 /// Information used to delete the detector model.
+///
+/// @nodoc
 class DeleteDetectorRequest {
   /// The name of the detector model that was used to create the detector
   /// instance.
@@ -2352,6 +2438,8 @@ class DeleteDetectorRequest {
 }
 
 /// Information needed to acknowledge the alarm.
+///
+/// @nodoc
 class AcknowledgeAlarmActionRequest {
   /// The name of the alarm model.
   final String alarmModelName;
@@ -2388,27 +2476,32 @@ class AcknowledgeAlarmActionRequest {
   }
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

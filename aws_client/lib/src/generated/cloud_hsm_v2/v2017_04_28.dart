@@ -1005,6 +1005,7 @@ class CloudHsmV2 {
   }
 }
 
+/// @nodoc
 class CopyBackupToRegionResponse {
   /// Information on the backup that will be copied to the destination region,
   /// including CreateTimestamp, SourceBackup, SourceCluster, and Source Region.
@@ -1037,6 +1038,7 @@ class CopyBackupToRegionResponse {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// Information about the cluster that was created.
   final Cluster? cluster;
@@ -1061,6 +1063,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateHsmResponse {
   /// Information about the HSM that was created.
   final Hsm? hsm;
@@ -1085,6 +1088,7 @@ class CreateHsmResponse {
   }
 }
 
+/// @nodoc
 class DeleteBackupResponse {
   /// Information on the <code>Backup</code> object deleted.
   final Backup? backup;
@@ -1109,6 +1113,7 @@ class DeleteBackupResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   /// Information about the cluster that was deleted.
   final Cluster? cluster;
@@ -1133,6 +1138,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteHsmResponse {
   /// The identifier (ID) of the HSM that was deleted.
   final String? hsmId;
@@ -1155,6 +1161,7 @@ class DeleteHsmResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   /// The policy previously attached to the resource.
   final String? policy;
@@ -1185,6 +1192,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeBackupsResponse {
   /// A list of backups.
   final List<Backup>? backups;
@@ -1219,6 +1227,7 @@ class DescribeBackupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeClustersResponse {
   /// A list of clusters.
   final List<Cluster>? clusters;
@@ -1253,6 +1262,7 @@ class DescribeClustersResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The policy attached to a resource.
   final String? policy;
@@ -1275,6 +1285,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class InitializeClusterResponse {
   /// The cluster's state.
   final ClusterState? state;
@@ -1304,6 +1315,7 @@ class InitializeClusterResponse {
   }
 }
 
+/// @nodoc
 class ListTagsResponse {
   /// A list of tags.
   final List<Tag> tagList;
@@ -1338,6 +1350,7 @@ class ListTagsResponse {
   }
 }
 
+/// @nodoc
 class ModifyBackupAttributesResponse {
   final Backup? backup;
 
@@ -1361,6 +1374,7 @@ class ModifyBackupAttributesResponse {
   }
 }
 
+/// @nodoc
 class ModifyClusterResponse {
   final Cluster? cluster;
 
@@ -1384,6 +1398,7 @@ class ModifyClusterResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The policy attached to a resource.
   final String? policy;
@@ -1413,6 +1428,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class RestoreBackupResponse {
   /// Information on the <code>Backup</code> object created.
   final Backup? backup;
@@ -1437,6 +1453,7 @@ class RestoreBackupResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1449,6 +1466,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1462,6 +1480,8 @@ class UntagResourceResponse {
 }
 
 /// Contains a tag. A tag is a key-value pair.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -1499,6 +1519,8 @@ class Tag {
 /// <code>SourceCluster</code>, and <code>SourceRegion</code> parameters. A
 /// backup that is pending deletion will include the
 /// <code>DeleteTimestamp</code> parameter.
+///
+/// @nodoc
 class Backup {
   /// The identifier (ID) of the backup.
   final String backupId;
@@ -1625,6 +1647,7 @@ class Backup {
   }
 }
 
+/// @nodoc
 class BackupState {
   static const createInProgress = BackupState._('CREATE_IN_PROGRESS');
   static const ready = BackupState._('READY');
@@ -1650,6 +1673,7 @@ class BackupState {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterMode {
   static const fips = ClusterMode._('FIPS');
   static const nonFips = ClusterMode._('NON_FIPS');
@@ -1674,6 +1698,8 @@ class ClusterMode {
 }
 
 /// Contains information about an CloudHSM cluster.
+///
+/// @nodoc
 class Cluster {
   /// The cluster's backup policy.
   final BackupPolicy? backupPolicy;
@@ -1847,6 +1873,7 @@ class Cluster {
   }
 }
 
+/// @nodoc
 class BackupPolicy {
   static const $default = BackupPolicy._('DEFAULT');
 
@@ -1870,6 +1897,8 @@ class BackupPolicy {
 }
 
 /// A policy that defines the number of days to retain backups.
+///
+/// @nodoc
 class BackupRetentionPolicy {
   /// The type of backup retention policy. For the <code>DAYS</code> type, the
   /// value is the number of days to retain backups.
@@ -1900,6 +1929,7 @@ class BackupRetentionPolicy {
   }
 }
 
+/// @nodoc
 class ClusterState {
   static const createInProgress = ClusterState._('CREATE_IN_PROGRESS');
   static const uninitialized = ClusterState._('UNINITIALIZED');
@@ -1944,6 +1974,7 @@ class ClusterState {
   String toString() => value;
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('IPV4');
   static const dualstack = NetworkType._('DUALSTACK');
@@ -1968,6 +1999,8 @@ class NetworkType {
 }
 
 /// Contains one or more certificates or a certificate signing request (CSR).
+///
+/// @nodoc
 class Certificates {
   /// The HSM hardware certificate issued (signed) by CloudHSM.
   final String? awsHardwareCertificate;
@@ -2026,6 +2059,8 @@ class Certificates {
 
 /// Contains information about a hardware security module (HSM) in an CloudHSM
 /// cluster.
+///
+/// @nodoc
 class Hsm {
   /// The HSM's identifier (ID).
   final String hsmId;
@@ -2111,6 +2146,7 @@ class Hsm {
   }
 }
 
+/// @nodoc
 class HsmState {
   static const createInProgress = HsmState._('CREATE_IN_PROGRESS');
   static const active = HsmState._('ACTIVE');
@@ -2143,6 +2179,7 @@ class HsmState {
   String toString() => value;
 }
 
+/// @nodoc
 class BackupRetentionType {
   static const days = BackupRetentionType._('DAYS');
 
@@ -2169,6 +2206,8 @@ class BackupRetentionType {
 
 /// Contains information about the backup that will be copied and created by the
 /// <a>CopyBackupToRegion</a> operation.
+///
+/// @nodoc
 class DestinationBackup {
   /// The date and time when both the source backup was created.
   final DateTime? createTimestamp;
@@ -2216,6 +2255,7 @@ class DestinationBackup {
   }
 }
 
+/// @nodoc
 class CloudHsmAccessDeniedException extends _s.GenericAwsException {
   CloudHsmAccessDeniedException({String? type, String? message})
       : super(
@@ -2224,6 +2264,7 @@ class CloudHsmAccessDeniedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudHsmInternalFailureException extends _s.GenericAwsException {
   CloudHsmInternalFailureException({String? type, String? message})
       : super(
@@ -2232,6 +2273,7 @@ class CloudHsmInternalFailureException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudHsmInvalidRequestException extends _s.GenericAwsException {
   CloudHsmInvalidRequestException({String? type, String? message})
       : super(
@@ -2240,6 +2282,7 @@ class CloudHsmInvalidRequestException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudHsmResourceLimitExceededException extends _s.GenericAwsException {
   CloudHsmResourceLimitExceededException({String? type, String? message})
       : super(
@@ -2248,6 +2291,7 @@ class CloudHsmResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudHsmResourceNotFoundException extends _s.GenericAwsException {
   CloudHsmResourceNotFoundException({String? type, String? message})
       : super(
@@ -2256,11 +2300,13 @@ class CloudHsmResourceNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudHsmServiceException extends _s.GenericAwsException {
   CloudHsmServiceException({String? type, String? message})
       : super(type: type, code: 'CloudHsmServiceException', message: message);
 }
 
+/// @nodoc
 class CloudHsmTagException extends _s.GenericAwsException {
   CloudHsmTagException({String? type, String? message})
       : super(type: type, code: 'CloudHsmTagException', message: message);

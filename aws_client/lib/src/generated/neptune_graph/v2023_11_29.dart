@@ -315,13 +315,13 @@ class NeptuneGraph {
   /// value can be from 1 to 128 Unicode characters in length. It can't be
   /// prefixed with <code>aws:</code> and can only contain the set of Unicode
   /// characters specified by this Java regular expression:
-  /// <code>"^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$")</code>.
+  /// <code>"^(\[\p{L}\p{Z}\p{N}_.:/=+\-\]*)$")</code>.
   ///
   /// <b>Value</b> (string) – A value is the optional value of the tag. The
   /// string value can be from 1 to 256 Unicode characters in length. It can't
   /// be prefixed with <code>aws:</code> and can only contain the set of Unicode
   /// characters specified by this Java regular expression:
-  /// <code>"^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$")</code>.
+  /// <code>"^(\[\p{L}\p{Z}\p{N}_.:/=+\-\]*)$")</code>.
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
@@ -1534,6 +1534,7 @@ class NeptuneGraph {
   }
 }
 
+/// @nodoc
 class ExecuteQueryOutput {
   /// The query results.
   final Uint8List payload;
@@ -1550,6 +1551,7 @@ class ExecuteQueryOutput {
   }
 }
 
+/// @nodoc
 class GetGraphSummaryOutput {
   /// The graph summary.
   final GraphDataSummary? graphSummary;
@@ -1593,6 +1595,7 @@ class GetGraphSummaryOutput {
   }
 }
 
+/// @nodoc
 class GetQueryOutput {
   /// The number of milliseconds the query has been running.
   final int? elapsed;
@@ -1643,6 +1646,7 @@ class GetQueryOutput {
   }
 }
 
+/// @nodoc
 class ListQueriesOutput {
   /// A list of current openCypher queries.
   final List<QuerySummary> queries;
@@ -1668,6 +1672,7 @@ class ListQueriesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of metadata tags associated with the resource.
   final Map<String, String>? tags;
@@ -1691,6 +1696,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1703,6 +1709,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1715,6 +1722,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateGraphOutput {
   /// The ARN of the graph.
   final String arn;
@@ -1855,6 +1863,7 @@ class CreateGraphOutput {
   }
 }
 
+/// @nodoc
 class DeleteGraphOutput {
   /// The ARN associated with the graph.
   final String arn;
@@ -1979,6 +1988,7 @@ class DeleteGraphOutput {
   }
 }
 
+/// @nodoc
 class GetGraphOutput {
   /// The ARN associated with the graph.
   final String arn;
@@ -2103,6 +2113,7 @@ class GetGraphOutput {
   }
 }
 
+/// @nodoc
 class ListGraphsOutput {
   /// A list of the graphs.
   final List<GraphSummary> graphs;
@@ -2139,6 +2150,7 @@ class ListGraphsOutput {
   }
 }
 
+/// @nodoc
 class ResetGraphOutput {
   /// The ARN associated with the graph.
   final String arn;
@@ -2262,6 +2274,7 @@ class ResetGraphOutput {
   }
 }
 
+/// @nodoc
 class RestoreGraphFromSnapshotOutput {
   /// The ARN associated with the graph.
   final String arn;
@@ -2385,6 +2398,7 @@ class RestoreGraphFromSnapshotOutput {
   }
 }
 
+/// @nodoc
 class StartGraphOutput {
   /// The ARN associated with the graph.
   final String arn;
@@ -2509,6 +2523,7 @@ class StartGraphOutput {
   }
 }
 
+/// @nodoc
 class StopGraphOutput {
   /// The ARN associated with the graph.
   final String arn;
@@ -2633,6 +2648,7 @@ class StopGraphOutput {
   }
 }
 
+/// @nodoc
 class UpdateGraphOutput {
   /// The ARN associated with the graph.
   final String arn;
@@ -2756,6 +2772,7 @@ class UpdateGraphOutput {
   }
 }
 
+/// @nodoc
 class CreatePrivateGraphEndpointOutput {
   /// Status of the private graph endpoint.
   final PrivateGraphEndpointStatus status;
@@ -2803,6 +2820,7 @@ class CreatePrivateGraphEndpointOutput {
   }
 }
 
+/// @nodoc
 class DeletePrivateGraphEndpointOutput {
   /// The status of the delete operation.
   final PrivateGraphEndpointStatus status;
@@ -2850,6 +2868,7 @@ class DeletePrivateGraphEndpointOutput {
   }
 }
 
+/// @nodoc
 class GetPrivateGraphEndpointOutput {
   /// The current status of the private endpoint.
   final PrivateGraphEndpointStatus status;
@@ -2897,6 +2916,7 @@ class GetPrivateGraphEndpointOutput {
   }
 }
 
+/// @nodoc
 class ListPrivateGraphEndpointsOutput {
   /// A list of private endpoints for the specified Neptune Analytics graph.
   final List<PrivateGraphEndpointSummary> privateGraphEndpoints;
@@ -2935,6 +2955,7 @@ class ListPrivateGraphEndpointsOutput {
   }
 }
 
+/// @nodoc
 class CreateGraphSnapshotOutput {
   /// The ARN of the snapshot created.
   final String arn;
@@ -3000,6 +3021,7 @@ class CreateGraphSnapshotOutput {
   }
 }
 
+/// @nodoc
 class DeleteGraphSnapshotOutput {
   /// The ARN of the graph snapshot.
   final String arn;
@@ -3069,6 +3091,7 @@ class DeleteGraphSnapshotOutput {
   }
 }
 
+/// @nodoc
 class GetGraphSnapshotOutput {
   /// The ARN of the graph snapshot.
   final String arn;
@@ -3138,6 +3161,7 @@ class GetGraphSnapshotOutput {
   }
 }
 
+/// @nodoc
 class ListGraphSnapshotsOutput {
   /// The requested list of snapshots.
   final List<GraphSnapshotSummary> graphSnapshots;
@@ -3174,6 +3198,7 @@ class ListGraphSnapshotsOutput {
   }
 }
 
+/// @nodoc
 class CancelExportTaskOutput {
   /// The Amazon S3 URI of the cancelled export task where data will be exported
   /// to.
@@ -3256,6 +3281,7 @@ class CancelExportTaskOutput {
   }
 }
 
+/// @nodoc
 class CancelImportTaskOutput {
   /// The ARN of the IAM role that will allow access to the data that is to be
   /// imported.
@@ -3329,6 +3355,7 @@ class CancelImportTaskOutput {
   }
 }
 
+/// @nodoc
 class CreateGraphUsingImportTaskOutput {
   /// The ARN of the IAM role that will allow access to the data that is to be
   /// imported.
@@ -3417,6 +3444,7 @@ class CreateGraphUsingImportTaskOutput {
   }
 }
 
+/// @nodoc
 class GetExportTaskOutput {
   /// The Amazon S3 URI of the export task where data will be exported.
   final String destination;
@@ -3516,6 +3544,7 @@ class GetExportTaskOutput {
   }
 }
 
+/// @nodoc
 class GetImportTaskOutput {
   /// The ARN of the IAM role that will allow access to the data that is to be
   /// imported.
@@ -3667,6 +3696,7 @@ class GetImportTaskOutput {
   }
 }
 
+/// @nodoc
 class ListExportTasksOutput {
   /// The requested list of export tasks.
   final List<ExportTaskSummary> tasks;
@@ -3699,6 +3729,7 @@ class ListExportTasksOutput {
   }
 }
 
+/// @nodoc
 class ListImportTasksOutput {
   /// The requested list of import tasks.
   final List<ImportTaskSummary> tasks;
@@ -3735,6 +3766,7 @@ class ListImportTasksOutput {
   }
 }
 
+/// @nodoc
 class StartExportTaskOutput {
   /// The Amazon S3 URI of the export task where data will be exported to.
   final String destination;
@@ -3824,6 +3856,7 @@ class StartExportTaskOutput {
   }
 }
 
+/// @nodoc
 class StartImportTaskOutput {
   /// The ARN of the IAM role that will allow access to the data that is to be
   /// imported.
@@ -3901,6 +3934,7 @@ class StartImportTaskOutput {
   }
 }
 
+/// @nodoc
 class Format {
   static const csv = Format._('CSV');
   static const openCypher = Format._('OPEN_CYPHER');
@@ -3926,6 +3960,7 @@ class Format {
   String toString() => value;
 }
 
+/// @nodoc
 class ParquetType {
   static const columnar = ParquetType._('COLUMNAR');
 
@@ -3948,6 +3983,7 @@ class ParquetType {
   String toString() => value;
 }
 
+/// @nodoc
 class ImportTaskStatus {
   static const initializing = ImportTaskStatus._('INITIALIZING');
   static const exporting = ImportTaskStatus._('EXPORTING');
@@ -3994,6 +4030,8 @@ class ImportTaskStatus {
 }
 
 /// Options for how to perform an import.
+///
+/// @nodoc
 class ImportOptions {
   /// Options for importing data from a Neptune database.
   final NeptuneImportOptions? neptune;
@@ -4020,6 +4058,8 @@ class ImportOptions {
 }
 
 /// Options for how to import Neptune data.
+///
+/// @nodoc
 class NeptuneImportOptions {
   /// The KMS key to use to encrypt data in the S3 bucket where the graph data is
   /// exported
@@ -4075,6 +4115,7 @@ class NeptuneImportOptions {
   }
 }
 
+/// @nodoc
 class BlankNodeHandling {
   static const convertToIri = BlankNodeHandling._('convertToIri');
 
@@ -4098,6 +4139,7 @@ class BlankNodeHandling {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportTaskStatus {
   static const initializing = ExportTaskStatus._('INITIALIZING');
   static const exporting = ExportTaskStatus._('EXPORTING');
@@ -4135,6 +4177,7 @@ class ExportTaskStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportFormat {
   static const parquet = ExportFormat._('PARQUET');
   static const csv = ExportFormat._('CSV');
@@ -4162,6 +4205,8 @@ class ExportFormat {
 /// ExportFilter is not provided, then all properties for all labels will be
 /// exported. If the ExportFilter is provided but is an empty object, then no
 /// data will be exported.
+///
+/// @nodoc
 class ExportFilter {
   /// Used to specify filters on a per-label basis for edges. This allows you to
   /// control which edge labels and properties are included in the export.
@@ -4197,6 +4242,8 @@ class ExportFilter {
 }
 
 /// Specifies which properties of that label should be included in the export.
+///
+/// @nodoc
 class ExportFilterElement {
   /// Each property is defined by a key-value pair, where the key is the desired
   /// output property name (e.g. "name"), and the value is an object.
@@ -4226,6 +4273,8 @@ class ExportFilterElement {
 
 /// A structure representing a property's attributes. It is a map object of
 /// outputType, sourcePropertyName and multiValueHandling.
+///
+/// @nodoc
 class ExportFilterPropertyAttributes {
   /// Specifies how to handle properties that have multiple values. Can be either
   /// <code>TO_LIST</code> to export all values as a list, or
@@ -4273,6 +4322,7 @@ class ExportFilterPropertyAttributes {
   }
 }
 
+/// @nodoc
 class MultiValueHandlingType {
   static const toList = MultiValueHandlingType._('TO_LIST');
   static const pickFirst = MultiValueHandlingType._('PICK_FIRST');
@@ -4299,6 +4349,8 @@ class MultiValueHandlingType {
 }
 
 /// Details about an import task.
+///
+/// @nodoc
 class ImportTaskSummary {
   /// The ARN of the IAM role that will allow access to the data that is to be
   /// imported.
@@ -4372,6 +4424,8 @@ class ImportTaskSummary {
 }
 
 /// Provides details about an export task.
+///
+/// @nodoc
 class ExportTaskSummary {
   /// The Amazon S3 URI of the export task where data will be exported to.
   final String destination;
@@ -4453,6 +4507,8 @@ class ExportTaskSummary {
 }
 
 /// Contains details about an import task.
+///
+/// @nodoc
 class ImportTaskDetails {
   /// The number of dictionary entries in the import task.
   final int dictionaryEntryCount;
@@ -4525,6 +4581,8 @@ class ImportTaskDetails {
 }
 
 /// Contains details about the specified export task.
+///
+/// @nodoc
 class ExportTaskDetails {
   /// The number of progress percentage of the export task.
   final int progressPercentage;
@@ -4577,6 +4635,8 @@ class ExportTaskDetails {
 
 /// Specifies the number of dimensions for vector embeddings loaded into the
 /// graph. Max = 65535
+///
+/// @nodoc
 class VectorSearchConfiguration {
   /// The number of dimensions.
   final int dimension;
@@ -4600,6 +4660,8 @@ class VectorSearchConfiguration {
 }
 
 /// Details about a graph snapshot.
+///
+/// @nodoc
 class GraphSnapshotSummary {
   /// The ARN of the graph snapshot.
   final String arn;
@@ -4669,6 +4731,7 @@ class GraphSnapshotSummary {
   }
 }
 
+/// @nodoc
 class SnapshotStatus {
   static const creating = SnapshotStatus._('CREATING');
   static const available = SnapshotStatus._('AVAILABLE');
@@ -4696,6 +4759,8 @@ class SnapshotStatus {
 }
 
 /// Details about a private graph endpoint.
+///
+/// @nodoc
 class PrivateGraphEndpointSummary {
   /// The status of the private graph endpoint.
   final PrivateGraphEndpointStatus status;
@@ -4743,6 +4808,7 @@ class PrivateGraphEndpointSummary {
   }
 }
 
+/// @nodoc
 class PrivateGraphEndpointStatus {
   static const creating = PrivateGraphEndpointStatus._('CREATING');
   static const available = PrivateGraphEndpointStatus._('AVAILABLE');
@@ -4770,6 +4836,7 @@ class PrivateGraphEndpointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GraphStatus {
   static const creating = GraphStatus._('CREATING');
   static const available = GraphStatus._('AVAILABLE');
@@ -4815,6 +4882,8 @@ class GraphStatus {
 }
 
 /// Summary details about a graph.
+///
+/// @nodoc
 class GraphSummary {
   /// The ARN associated with the graph.
   final String arn;
@@ -4902,6 +4971,8 @@ class GraphSummary {
 }
 
 /// Details of the query listed.
+///
+/// @nodoc
 class QuerySummary {
   /// The running time of the query, in milliseconds.
   final int? elapsed;
@@ -4954,6 +5025,7 @@ class QuerySummary {
   }
 }
 
+/// @nodoc
 class QueryState {
   static const running = QueryState._('RUNNING');
   static const waiting = QueryState._('WAITING');
@@ -4978,6 +5050,7 @@ class QueryState {
   String toString() => value;
 }
 
+/// @nodoc
 class QueryStateInput {
   static const all = QueryStateInput._('ALL');
   static const running = QueryStateInput._('RUNNING');
@@ -5005,6 +5078,8 @@ class QueryStateInput {
 }
 
 /// Summary information about the graph.
+///
+/// @nodoc
 class GraphDataSummary {
   /// A list of the edge labels in the graph.
   final List<String>? edgeLabels;
@@ -5145,6 +5220,8 @@ class GraphDataSummary {
 }
 
 /// Contains information about an edge in a Neptune Analytics graph.
+///
+/// @nodoc
 class EdgeStructure {
   /// The number of instances of the edge in the graph.
   final int? count;
@@ -5178,6 +5255,8 @@ class EdgeStructure {
 }
 
 /// Information about a node.
+///
+/// @nodoc
 class NodeStructure {
   /// The number of instances of this node.
   final int? count;
@@ -5221,6 +5300,7 @@ class NodeStructure {
   }
 }
 
+/// @nodoc
 class GraphSummaryMode {
   static const basic = GraphSummaryMode._('BASIC');
   static const detailed = GraphSummaryMode._('DETAILED');
@@ -5245,6 +5325,7 @@ class GraphSummaryMode {
   String toString() => value;
 }
 
+/// @nodoc
 class QueryLanguage {
   static const openCypher = QueryLanguage._('OPEN_CYPHER');
 
@@ -5268,6 +5349,7 @@ class QueryLanguage {
   String toString() => value;
 }
 
+/// @nodoc
 class PlanCacheType {
   static const enabled = PlanCacheType._('ENABLED');
   static const disabled = PlanCacheType._('DISABLED');
@@ -5293,6 +5375,7 @@ class PlanCacheType {
   String toString() => value;
 }
 
+/// @nodoc
 class ExplainMode {
   static const static = ExplainMode._('STATIC');
   static const details = ExplainMode._('DETAILS');
@@ -5316,6 +5399,7 @@ class ExplainMode {
   String toString() => value;
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -5324,26 +5408,31 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5352,16 +5441,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnprocessableException extends _s.GenericAwsException {
   UnprocessableException({String? type, String? message})
       : super(type: type, code: 'UnprocessableException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

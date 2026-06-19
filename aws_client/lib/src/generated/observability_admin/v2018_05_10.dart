@@ -1476,6 +1476,7 @@ class ObservabilityAdmin {
   }
 }
 
+/// @nodoc
 class CreateCentralizationRuleForOrganizationOutput {
   /// The Amazon Resource Name (ARN) of the created organization centralization
   /// rule.
@@ -1500,6 +1501,7 @@ class CreateCentralizationRuleForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class CreateS3TableIntegrationOutput {
   /// The Amazon Resource Name (ARN) of the created S3 Table integration.
   final String? arn;
@@ -1522,6 +1524,7 @@ class CreateS3TableIntegrationOutput {
   }
 }
 
+/// @nodoc
 class CreateTelemetryRuleOutput {
   /// The Amazon Resource Name (ARN) of the created telemetry rule.
   final String? ruleArn;
@@ -1544,6 +1547,7 @@ class CreateTelemetryRuleOutput {
   }
 }
 
+/// @nodoc
 class CreateTelemetryRuleForOrganizationOutput {
   /// The Amazon Resource Name (ARN) of the created organization telemetry rule.
   final String? ruleArn;
@@ -1567,6 +1571,7 @@ class CreateTelemetryRuleForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class GetCentralizationRuleForOrganizationOutput {
   /// The configuration details for the organization centralization rule.
   final CentralizationRule? centralizationRule;
@@ -1653,6 +1658,7 @@ class GetCentralizationRuleForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class GetS3TableIntegrationOutput {
   /// The Amazon Resource Name (ARN) of the S3 Table integration.
   final String? arn;
@@ -1715,6 +1721,7 @@ class GetS3TableIntegrationOutput {
   }
 }
 
+/// @nodoc
 class GetTelemetryEnrichmentStatusOutput {
   /// The Amazon Resource Name (ARN) of the Resource Explorer managed view used
   /// for resource tags for telemetry, if the feature is enabled.
@@ -1751,6 +1758,7 @@ class GetTelemetryEnrichmentStatusOutput {
   }
 }
 
+/// @nodoc
 class GetTelemetryEvaluationStatusOutput {
   /// Describes the reason for the failure status. The field will only be
   /// populated if <code>Status</code> is <code>FAILED_START</code> or
@@ -1806,6 +1814,7 @@ class GetTelemetryEvaluationStatusOutput {
   }
 }
 
+/// @nodoc
 class GetTelemetryEvaluationStatusForOrganizationOutput {
   /// This field describes the reason for the failure status. The field will only
   /// be populated if <code>Status</code> is <code>FAILED_START</code> or
@@ -1862,6 +1871,7 @@ class GetTelemetryEvaluationStatusForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class GetTelemetryRuleOutput {
   /// The timestamp when the telemetry rule was created.
   final int? createdTimeStamp;
@@ -1948,6 +1958,7 @@ class GetTelemetryRuleOutput {
   }
 }
 
+/// @nodoc
 class GetTelemetryRuleForOrganizationOutput {
   /// The timestamp when the organization telemetry rule was created.
   final int? createdTimeStamp;
@@ -2036,6 +2047,7 @@ class GetTelemetryRuleForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class ListCentralizationRulesForOrganizationOutput {
   /// A list of centralization rule summaries.
   final List<CentralizationRuleSummary>? centralizationRuleSummaries;
@@ -2072,6 +2084,7 @@ class ListCentralizationRulesForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class ListResourceTelemetryOutput {
   /// The token for the next set of items to return. A previous call generates
   /// this token.
@@ -2108,6 +2121,7 @@ class ListResourceTelemetryOutput {
   }
 }
 
+/// @nodoc
 class ListResourceTelemetryForOrganizationOutput {
   /// The token for the next set of items to return. A previous call provides this
   /// token.
@@ -2145,6 +2159,7 @@ class ListResourceTelemetryForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class ListS3TableIntegrationsOutput {
   /// A list of S3 Table integration summaries containing key information about
   /// each integration.
@@ -2179,6 +2194,7 @@ class ListS3TableIntegrationsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tags associated with the telemetry rule resource.
   final Map<String, String> tags;
@@ -2203,6 +2219,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class ListTelemetryRulesOutput {
   /// A token to resume pagination of results.
   final String? nextToken;
@@ -2236,6 +2253,7 @@ class ListTelemetryRulesOutput {
   }
 }
 
+/// @nodoc
 class ListTelemetryRulesForOrganizationOutput {
   /// A token to resume pagination of results.
   final String? nextToken;
@@ -2270,6 +2288,7 @@ class ListTelemetryRulesForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class StartTelemetryEnrichmentOutput {
   /// The Amazon Resource Name (ARN) of the Resource Explorer managed view created
   /// for resource tags for telemetry.
@@ -2306,6 +2325,7 @@ class StartTelemetryEnrichmentOutput {
   }
 }
 
+/// @nodoc
 class StopTelemetryEnrichmentOutput {
   /// The status of the resource tags for telemetry feature after the stop
   /// operation (<code>Running</code>, <code>Stopped</code>, or
@@ -2331,6 +2351,7 @@ class StopTelemetryEnrichmentOutput {
   }
 }
 
+/// @nodoc
 class TestTelemetryPipelineOutput {
   /// The results of processing the test records through the pipeline
   /// configuration, including any outputs or errors.
@@ -2357,6 +2378,7 @@ class TestTelemetryPipelineOutput {
   }
 }
 
+/// @nodoc
 class UpdateCentralizationRuleForOrganizationOutput {
   /// The Amazon Resource Name (ARN) of the updated organization centralization
   /// rule.
@@ -2381,6 +2403,7 @@ class UpdateCentralizationRuleForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class UpdateTelemetryRuleOutput {
   /// The Amazon Resource Name (ARN) of the updated telemetry rule.
   final String? ruleArn;
@@ -2403,6 +2426,7 @@ class UpdateTelemetryRuleOutput {
   }
 }
 
+/// @nodoc
 class UpdateTelemetryRuleForOrganizationOutput {
   /// The Amazon Resource Name (ARN) of the updated organization telemetry rule.
   final String? ruleArn;
@@ -2426,6 +2450,7 @@ class UpdateTelemetryRuleForOrganizationOutput {
   }
 }
 
+/// @nodoc
 class ValidateTelemetryPipelineConfigurationOutput {
   /// A list of validation errors found in the pipeline configuration, if any.
   final List<ValidationError>? errors;
@@ -2452,6 +2477,7 @@ class ValidateTelemetryPipelineConfigurationOutput {
   }
 }
 
+/// @nodoc
 class CreateTelemetryPipelineOutput {
   /// The Amazon Resource Name (ARN) of the created telemetry pipeline.
   final String? arn;
@@ -2474,6 +2500,7 @@ class CreateTelemetryPipelineOutput {
   }
 }
 
+/// @nodoc
 class GetTelemetryPipelineOutput {
   /// The complete telemetry pipeline resource information, including
   /// configuration, status, and metadata.
@@ -2499,6 +2526,7 @@ class GetTelemetryPipelineOutput {
   }
 }
 
+/// @nodoc
 class UpdateTelemetryPipelineOutput {
   UpdateTelemetryPipelineOutput();
 
@@ -2511,6 +2539,7 @@ class UpdateTelemetryPipelineOutput {
   }
 }
 
+/// @nodoc
 class DeleteTelemetryPipelineOutput {
   DeleteTelemetryPipelineOutput();
 
@@ -2523,6 +2552,7 @@ class DeleteTelemetryPipelineOutput {
   }
 }
 
+/// @nodoc
 class ListTelemetryPipelinesOutput {
   /// A token to resume pagination of results.
   final String? nextToken;
@@ -2559,6 +2589,8 @@ class ListTelemetryPipelinesOutput {
 
 /// Contains summary information about a telemetry pipeline for listing
 /// operations.
+///
+/// @nodoc
 class TelemetryPipelineSummary {
   /// The Amazon Resource Name (ARN) of the telemetry pipeline.
   final String? arn;
@@ -2630,6 +2662,7 @@ class TelemetryPipelineSummary {
   }
 }
 
+/// @nodoc
 class TelemetryPipelineStatus {
   static const creating = TelemetryPipelineStatus._('CREATING');
   static const active = TelemetryPipelineStatus._('ACTIVE');
@@ -2668,6 +2701,8 @@ class TelemetryPipelineStatus {
 
 /// Provides a summary of pipeline configuration components including sources,
 /// processors, and destinations.
+///
+/// @nodoc
 class ConfigurationSummary {
   /// The list of data sources that provide telemetry data to the pipeline.
   final List<DataSource>? dataSources;
@@ -2732,6 +2767,8 @@ class ConfigurationSummary {
 /// CloudWatch Logs sources, this includes both a name and type extracted from
 /// the log event metadata. For third-party sources (such as S3), this includes
 /// only a name, with the type field left empty.
+///
+/// @nodoc
 class DataSource {
   /// The name of the data source. For CloudWatch Logs sources, this corresponds
   /// to the <code>data_source_name</code> from the log event metadata. For
@@ -2771,6 +2808,8 @@ class DataSource {
 /// <code>cloudwatch_logs</code> or <code>s3</code>). Currently supports a
 /// single source per pipeline, but is structured as a list to accommodate
 /// multiple pipelines in the configuration.
+///
+/// @nodoc
 class Source {
   /// The plugin name of the source, such as <code>cloudwatch_logs</code> or
   /// <code>s3</code>.
@@ -2829,6 +2868,8 @@ class Source {
 /// can be found in the <a
 /// href="https://docs.aws.amazon.com/cloudwatch/latest/observabilityadmin/API_CreateTelemetryPipeline.html#API_CreateTelemetryPipeline_Examples">CreateTelemetryPipeline
 /// API docs</a>.
+///
+/// @nodoc
 class TelemetryPipelineConfiguration {
   /// The pipeline configuration body that defines the data processing rules and
   /// transformations.
@@ -2854,6 +2895,8 @@ class TelemetryPipelineConfiguration {
 
 /// Represents a complete telemetry pipeline resource with configuration,
 /// status, and metadata for data processing and transformation.
+///
+/// @nodoc
 class TelemetryPipeline {
   /// The Amazon Resource Name (ARN) of the telemetry pipeline.
   final String? arn;
@@ -2937,6 +2980,8 @@ class TelemetryPipeline {
 
 /// Provides detailed information about the status of a telemetry pipeline,
 /// including reasons for specific states.
+///
+/// @nodoc
 class TelemetryPipelineStatusReason {
   /// A description of the pipeline status reason, providing additional context
   /// about the current state.
@@ -2962,6 +3007,8 @@ class TelemetryPipelineStatusReason {
 
 /// Represents a detailed validation error with message, reason, and field
 /// mapping for comprehensive error reporting.
+///
+/// @nodoc
 class ValidationError {
   /// A mapping of field names to specific validation issues within the
   /// configuration.
@@ -3002,6 +3049,8 @@ class ValidationError {
 
 /// Defines how telemetry should be configured for specific Amazon Web Services
 /// resources.
+///
+/// @nodoc
 class TelemetryRule {
   /// The type of telemetry to collect (Logs, Metrics, or Traces).
   final TelemetryType telemetryType;
@@ -3112,6 +3161,7 @@ class TelemetryRule {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const awsEc2Instance = ResourceType._('AWS::EC2::Instance');
   static const awsEc2Vpc = ResourceType._('AWS::EC2::VPC');
@@ -3182,6 +3232,7 @@ class ResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class TelemetryType {
   static const logs = TelemetryType._('Logs');
   static const metrics = TelemetryType._('Metrics');
@@ -3209,6 +3260,8 @@ class TelemetryType {
 
 /// Configuration specifying where and how telemetry data should be delivered
 /// for Amazon Web Services resources.
+///
+/// @nodoc
 class TelemetryDestinationConfiguration {
   /// Configuration parameters specific to Amazon Web Services CloudTrail when
   /// CloudTrail is the source type.
@@ -3324,6 +3377,7 @@ class TelemetryDestinationConfiguration {
   }
 }
 
+/// @nodoc
 class DestinationType {
   static const cloudWatchLogs = DestinationType._('cloud-watch-logs');
 
@@ -3348,6 +3402,8 @@ class DestinationType {
 }
 
 /// Configuration parameters specific to VPC Flow Logs.
+///
+/// @nodoc
 class VPCFlowLogParameters {
   /// The format in which VPC Flow Log entries should be logged.
   final String? logFormat;
@@ -3387,6 +3443,8 @@ class VPCFlowLogParameters {
 
 /// Parameters specific to Amazon Web Services CloudTrail telemetry
 /// configuration.
+///
+/// @nodoc
 class CloudtrailParameters {
   /// The advanced event selectors to use for filtering Amazon Web Services
   /// CloudTrail events.
@@ -3416,6 +3474,8 @@ class CloudtrailParameters {
 
 /// Configuration parameters for ELB load balancer logging, including output
 /// format and field delimiter settings.
+///
+/// @nodoc
 class ELBLoadBalancerLoggingParameters {
   /// The delimiter character used to separate fields in ELB access log entries
   /// when using plain text format.
@@ -3449,6 +3509,8 @@ class ELBLoadBalancerLoggingParameters {
 
 /// Configuration parameters for WAF logging, including redacted fields and
 /// logging filters.
+///
+/// @nodoc
 class WAFLoggingParameters {
   /// The type of WAF logs to collect (currently supports WAF_LOGS).
   final WAFLogType? logType;
@@ -3494,6 +3556,8 @@ class WAFLoggingParameters {
 
 /// Configuration parameters for Amazon Bedrock AgentCore logging, including
 /// <code>logType</code> settings.
+///
+/// @nodoc
 class LogDeliveryParameters {
   /// The type of log that the source is sending.
   final List<LogType>? logTypes;
@@ -3521,6 +3585,8 @@ class LogDeliveryParameters {
 
 /// Configuration parameters for Amazon MSK cluster monitoring, including
 /// enhanced monitoring level settings.
+///
+/// @nodoc
 class MskMonitoringParameters {
   /// The level of enhanced monitoring for the MSK cluster.
   final MskEnhancedMonitoringLevel? enhancedMonitoring;
@@ -3547,6 +3613,8 @@ class MskMonitoringParameters {
 
 /// Enumeration of supported enhanced monitoring levels for Amazon MSK clusters:
 /// DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
+///
+/// @nodoc
 class MskEnhancedMonitoringLevel {
   static const $default = MskEnhancedMonitoringLevel._('DEFAULT');
   static const perBroker = MskEnhancedMonitoringLevel._('PER_BROKER');
@@ -3581,6 +3649,7 @@ class MskEnhancedMonitoringLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class LogType {
   static const applicationLogs = LogType._('APPLICATION_LOGS');
   static const usageLogs = LogType._('USAGE_LOGS');
@@ -3615,6 +3684,8 @@ class LogType {
 
 /// Configuration that determines which WAF log records to keep or drop based on
 /// specified conditions.
+///
+/// @nodoc
 class LoggingFilter {
   /// The default action (KEEP or DROP) for log records that don't match any
   /// filter conditions.
@@ -3651,6 +3722,8 @@ class LoggingFilter {
 
 /// Enumeration of supported WAF log types. Currently only WAF_LOGS is
 /// supported.
+///
+/// @nodoc
 class WAFLogType {
   static const wafLogs = WAFLogType._('WAF_LOGS');
 
@@ -3675,6 +3748,8 @@ class WAFLogType {
 
 /// Enumeration of filter actions: KEEP to include log records, DROP to exclude
 /// them.
+///
+/// @nodoc
 class FilterBehavior {
   static const keep = FilterBehavior._('KEEP');
   static const drop = FilterBehavior._('DROP');
@@ -3701,6 +3776,8 @@ class FilterBehavior {
 
 /// A single filter condition that specifies behavior, requirement, and matching
 /// conditions for WAF log records.
+///
+/// @nodoc
 class Filter {
   /// The action to take for log records matching this filter (KEEP or DROP).
   final FilterBehavior? behavior;
@@ -3744,6 +3821,8 @@ class Filter {
 
 /// Enumeration of condition matching requirements: MEETS_ALL requires all
 /// conditions to match, MEETS_ANY requires at least one.
+///
+/// @nodoc
 class FilterRequirement {
   static const meetsAll = FilterRequirement._('MEETS_ALL');
   static const meetsAny = FilterRequirement._('MEETS_ANY');
@@ -3769,6 +3848,8 @@ class FilterRequirement {
 }
 
 /// A single condition that can match based on WAF rule action or label name.
+///
+/// @nodoc
 class Condition {
   /// Matches log records based on the WAF rule action taken (ALLOW, BLOCK, COUNT,
   /// etc.).
@@ -3807,6 +3888,8 @@ class Condition {
 
 /// Condition that matches based on the specific WAF action taken on the
 /// request.
+///
+/// @nodoc
 class ActionCondition {
   /// The WAF action to match against (ALLOW, BLOCK, COUNT, CAPTCHA, CHALLENGE,
   /// EXCLUDED_AS_COUNT).
@@ -3832,6 +3915,8 @@ class ActionCondition {
 
 /// Condition that matches based on WAF rule labels, with label names limited to
 /// 1024 characters.
+///
+/// @nodoc
 class LabelNameCondition {
   /// The label name to match, supporting alphanumeric characters, underscores,
   /// hyphens, and colons.
@@ -3856,6 +3941,8 @@ class LabelNameCondition {
 }
 
 /// Enumeration of WAF actions that can be matched in filter conditions.
+///
+/// @nodoc
 class Action {
   static const allow = Action._('ALLOW');
   static const block = Action._('BLOCK');
@@ -3892,6 +3979,8 @@ class Action {
 
 /// Specifies a field in the request to redact from WAF logs, such as headers,
 /// query parameters, or body content.
+///
+/// @nodoc
 class FieldToMatch {
   /// Redacts the HTTP method from WAF logs.
   final String? method;
@@ -3939,6 +4028,8 @@ class FieldToMatch {
 
 /// Structure containing a name field limited to 64 characters for header or
 /// query parameter identification.
+///
+/// @nodoc
 class SingleHeader {
   /// The name value, limited to 64 characters.
   final String? name;
@@ -3963,6 +4054,8 @@ class SingleHeader {
 
 /// Enumeration of supported output formats for ELB access logs: PLAIN for
 /// space-delimited format, JSON for structured JSON format.
+///
+/// @nodoc
 class OutputFormat {
   static const plain = OutputFormat._('plain');
   static const json = OutputFormat._('json');
@@ -3988,6 +4081,8 @@ class OutputFormat {
 
 /// Advanced event selectors let you create fine-grained selectors for
 /// management, data, and network activity events.
+///
+/// @nodoc
 class AdvancedEventSelector {
   /// Contains all selector statements in an advanced event selector.
   final List<AdvancedFieldSelector> fieldSelectors;
@@ -4022,6 +4117,8 @@ class AdvancedEventSelector {
 }
 
 /// Defines criteria for selecting resources based on field values.
+///
+/// @nodoc
 class AdvancedFieldSelector {
   /// The name of the field to use for selection.
   final String field;
@@ -4104,6 +4201,8 @@ class AdvancedFieldSelector {
 
 /// Specifies the type of telemetry source for a resource, such as EKS cluster
 /// logs.
+///
+/// @nodoc
 class TelemetrySourceType {
   static const vpcFlowLogs = TelemetrySourceType._('VPC_FLOW_LOGS');
   static const route53ResolverQueryLogs =
@@ -4147,6 +4246,8 @@ class TelemetrySourceType {
 
 /// Defines how telemetry data should be centralized across an Amazon Web
 /// Services Organization, including source and destination configurations.
+///
+/// @nodoc
 class CentralizationRule {
   /// Configuration determining where the telemetry data should be centralized,
   /// backed up, as well as encryption configuration for the primary and backup
@@ -4184,6 +4285,8 @@ class CentralizationRule {
 }
 
 /// Configuration specifying the source of telemetry data to be centralized.
+///
+/// @nodoc
 class CentralizationRuleSource {
   /// The list of source regions from which telemetry data should be centralized.
   final List<String> regions;
@@ -4230,6 +4333,8 @@ class CentralizationRuleSource {
 
 /// Configuration specifying the primary destination for centralized telemetry
 /// data.
+///
+/// @nodoc
 class CentralizationRuleDestination {
   /// The primary destination region to which telemetry data should be
   /// centralized.
@@ -4274,6 +4379,8 @@ class CentralizationRuleDestination {
 
 /// Configuration for centralization destination log groups, including
 /// encryption and backup settings.
+///
+/// @nodoc
 class DestinationLogsConfiguration {
   /// Configuration defining the backup region and an optional KMS key for the
   /// backup destination.
@@ -4329,6 +4436,8 @@ class DestinationLogsConfiguration {
 /// Configuration for encrypting centralized log groups. This configuration is
 /// only applied to destination log groups for which the corresponding source
 /// log groups are encrypted using Customer Managed KMS Keys.
+///
+/// @nodoc
 class LogsEncryptionConfiguration {
   /// Configuration that determines the encryption strategy of the destination log
   /// groups. CUSTOMER_MANAGED uses the configured KmsKeyArn to encrypt newly
@@ -4379,6 +4488,8 @@ class LogsEncryptionConfiguration {
 }
 
 /// Configuration for backing up centralized log data to a secondary region.
+///
+/// @nodoc
 class LogsBackupConfiguration {
   /// Logs specific backup destination region within the primary destination
   /// account to which log data should be centralized.
@@ -4414,6 +4525,8 @@ class LogsBackupConfiguration {
 /// created during centralization. The pattern supports static text and dynamic
 /// variables that are replaced with source attributes when log groups are
 /// created.
+///
+/// @nodoc
 class LogGroupNameConfiguration {
   /// The pattern used to generate destination log group names during
   /// centralization. The pattern can contain static text and dynamic variables
@@ -4471,6 +4584,7 @@ class LogGroupNameConfiguration {
   }
 }
 
+/// @nodoc
 class EncryptionStrategy {
   static const customerManaged = EncryptionStrategy._('CUSTOMER_MANAGED');
   static const awsOwned = EncryptionStrategy._('AWS_OWNED');
@@ -4496,6 +4610,7 @@ class EncryptionStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionConflictResolutionStrategy {
   static const allow = EncryptionConflictResolutionStrategy._('ALLOW');
   static const skip = EncryptionConflictResolutionStrategy._('SKIP');
@@ -4523,6 +4638,8 @@ class EncryptionConflictResolutionStrategy {
 
 /// Configuration for selecting and handling source log groups for
 /// centralization.
+///
+/// @nodoc
 class SourceLogsConfiguration {
   /// A strategy determining whether to centralize source log groups that are
   /// encrypted with customer managed KMS keys (CMK). ALLOW will consider CMK
@@ -4573,6 +4690,7 @@ class SourceLogsConfiguration {
   }
 }
 
+/// @nodoc
 class EncryptedLogGroupStrategy {
   static const allow = EncryptedLogGroupStrategy._('ALLOW');
   static const skip = EncryptedLogGroupStrategy._('SKIP');
@@ -4600,6 +4718,8 @@ class EncryptedLogGroupStrategy {
 
 /// Contains the output from pipeline test operations, including processed
 /// records and any errors encountered.
+///
+/// @nodoc
 class PipelineOutput {
   /// Any error that occurred during the pipeline test operation for this record.
   final PipelineOutputError? error;
@@ -4635,6 +4755,8 @@ class PipelineOutput {
 
 /// Represents a test record structure used for pipeline testing operations to
 /// validate data processing.
+///
+/// @nodoc
 class Record {
   /// The data content of the test record used for pipeline validation.
   final String? data;
@@ -4667,6 +4789,8 @@ class Record {
 /// Contains detailed error information from pipeline test operations, providing
 /// structured error responses for better debugging and troubleshooting
 /// capabilities.
+///
+/// @nodoc
 class PipelineOutputError {
   /// The detailed error message describing what went wrong during the pipeline
   /// test operation for this record.
@@ -4690,6 +4814,7 @@ class PipelineOutputError {
   }
 }
 
+/// @nodoc
 class RecordFormat {
   static const string = RecordFormat._('STRING');
   static const json = RecordFormat._('JSON');
@@ -4713,6 +4838,7 @@ class RecordFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class TelemetryEnrichmentStatus {
   static const running = TelemetryEnrichmentStatus._('Running');
   static const stopped = TelemetryEnrichmentStatus._('Stopped');
@@ -4740,6 +4866,8 @@ class TelemetryEnrichmentStatus {
 }
 
 /// A summary of a telemetry rule's key properties.
+///
+/// @nodoc
 class TelemetryRuleSummary {
   /// The timestamp when the telemetry rule was created.
   final int? createdTimeStamp;
@@ -4816,6 +4944,8 @@ class TelemetryRuleSummary {
 
 /// Contains summary information about an S3 Table integration for listing
 /// operations.
+///
+/// @nodoc
 class IntegrationSummary {
   /// The Amazon Resource Name (ARN) of the S3 Table integration.
   final String? arn;
@@ -4845,6 +4975,7 @@ class IntegrationSummary {
   }
 }
 
+/// @nodoc
 class IntegrationStatus {
   static const active = IntegrationStatus._('ACTIVE');
   static const deleting = IntegrationStatus._('DELETING');
@@ -4871,6 +5002,8 @@ class IntegrationStatus {
 
 /// A model representing the state of a resource within an account according to
 /// telemetry config.
+///
+/// @nodoc
 class TelemetryConfiguration {
   /// The account ID which contains the resource managed in telemetry
   /// configuration. An example of a valid account ID is
@@ -4951,6 +5084,7 @@ class TelemetryConfiguration {
   }
 }
 
+/// @nodoc
 class TelemetryState {
   static const enabled = TelemetryState._('Enabled');
   static const disabled = TelemetryState._('Disabled');
@@ -4977,6 +5111,8 @@ class TelemetryState {
 }
 
 /// A summary of a centralization rule's key properties and status.
+///
+/// @nodoc
 class CentralizationRuleSummary {
   /// The Amazon Web Services region where the organization centralization rule
   /// was created.
@@ -5067,6 +5203,7 @@ class CentralizationRuleSummary {
   }
 }
 
+/// @nodoc
 class RuleHealth {
   static const healthy = RuleHealth._('Healthy');
   static const unhealthy = RuleHealth._('Unhealthy');
@@ -5091,6 +5228,7 @@ class RuleHealth {
   String toString() => value;
 }
 
+/// @nodoc
 class CentralizationFailureReason {
   static const trustedAccessNotEnabled =
       CentralizationFailureReason._('TRUSTED_ACCESS_NOT_ENABLED');
@@ -5127,6 +5265,8 @@ class CentralizationFailureReason {
 /// Represents the status of a multi-region operation in a specific Amazon Web
 /// Services Region. This structure is used to report per-region progress for
 /// both telemetry evaluation and telemetry rule replication.
+///
+/// @nodoc
 class RegionStatus {
   /// The reason for a failure status in this region. This field is only populated
   /// when <code>Status</code> indicates a failure.
@@ -5178,6 +5318,7 @@ class RegionStatus {
   }
 }
 
+/// @nodoc
 class Status {
   static const notStarted = Status._('NOT_STARTED');
   static const starting = Status._('STARTING');
@@ -5216,6 +5357,8 @@ class Status {
 
 /// Defines the encryption configuration for S3 Table integrations, including
 /// the encryption algorithm and KMS key settings.
+///
+/// @nodoc
 class Encryption {
   /// The server-side encryption algorithm used for encrypting data in the S3
   /// Table integration.
@@ -5248,6 +5391,7 @@ class Encryption {
   }
 }
 
+/// @nodoc
 class SSEAlgorithm {
   static const awsKms = SSEAlgorithm._('aws:kms');
   static const aes256 = SSEAlgorithm._('AES256');
@@ -5271,31 +5415,37 @@ class SSEAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5304,11 +5454,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

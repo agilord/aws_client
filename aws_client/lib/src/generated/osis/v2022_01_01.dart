@@ -848,6 +848,7 @@ class Osis {
   }
 }
 
+/// @nodoc
 class CreatePipelineResponse {
   /// Container for information about the created pipeline.
   final Pipeline? pipeline;
@@ -872,6 +873,7 @@ class CreatePipelineResponse {
   }
 }
 
+/// @nodoc
 class CreatePipelineEndpointResponse {
   /// The unique identifier of the pipeline endpoint.
   final String? endpointId;
@@ -916,6 +918,7 @@ class CreatePipelineEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeletePipelineResponse {
   DeletePipelineResponse();
 
@@ -928,6 +931,7 @@ class DeletePipelineResponse {
   }
 }
 
+/// @nodoc
 class DeletePipelineEndpointResponse {
   DeletePipelineEndpointResponse();
 
@@ -940,6 +944,7 @@ class DeletePipelineEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -952,6 +957,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetPipelineResponse {
   /// Detailed information about the requested pipeline.
   final Pipeline? pipeline;
@@ -976,6 +982,7 @@ class GetPipelineResponse {
   }
 }
 
+/// @nodoc
 class GetPipelineBlueprintResponse {
   /// The requested blueprint in YAML format.
   final PipelineBlueprint? blueprint;
@@ -1008,6 +1015,7 @@ class GetPipelineBlueprintResponse {
   }
 }
 
+/// @nodoc
 class GetPipelineChangeProgressResponse {
   /// The current status of the change happening on the pipeline.
   final List<ChangeProgressStatus>? changeProgressStatuses;
@@ -1035,6 +1043,7 @@ class GetPipelineChangeProgressResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The resource-based policy document in JSON format.
   final String? policy;
@@ -1064,6 +1073,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListPipelineBlueprintsResponse {
   /// A list of available blueprints for Data Prepper.
   final List<PipelineBlueprintSummary>? blueprints;
@@ -1090,6 +1100,7 @@ class ListPipelineBlueprintsResponse {
   }
 }
 
+/// @nodoc
 class ListPipelineEndpointConnectionsResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -1129,6 +1140,7 @@ class ListPipelineEndpointConnectionsResponse {
   }
 }
 
+/// @nodoc
 class ListPipelineEndpointsResponse {
   /// When <code>NextToken</code> is returned, there are more results available.
   /// The value of <code>NextToken</code> is a unique pagination token for each
@@ -1164,6 +1176,7 @@ class ListPipelineEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListPipelinesResponse {
   /// When <code>nextToken</code> is returned, there are more results available.
   /// The value of <code>nextToken</code> is a unique pagination token for each
@@ -1199,6 +1212,7 @@ class ListPipelinesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags associated with the given pipeline.
   final List<Tag>? tags;
@@ -1224,6 +1238,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The resource-based policy document that was attached to the resource.
   final String? policy;
@@ -1253,6 +1268,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class RevokePipelineEndpointConnectionsResponse {
   /// The Amazon Resource Name (ARN) of the pipeline from which endpoint
   /// connections were revoked.
@@ -1277,6 +1293,7 @@ class RevokePipelineEndpointConnectionsResponse {
   }
 }
 
+/// @nodoc
 class StartPipelineResponse {
   final Pipeline? pipeline;
 
@@ -1300,6 +1317,7 @@ class StartPipelineResponse {
   }
 }
 
+/// @nodoc
 class StopPipelineResponse {
   final Pipeline? pipeline;
 
@@ -1323,6 +1341,7 @@ class StopPipelineResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1335,6 +1354,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1347,6 +1367,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdatePipelineResponse {
   /// Container for information about the updated pipeline.
   final Pipeline? pipeline;
@@ -1371,6 +1392,7 @@ class UpdatePipelineResponse {
   }
 }
 
+/// @nodoc
 class ValidatePipelineResponse {
   /// A list of errors if the configuration is invalid.
   final List<ValidationMessage>? errors;
@@ -1405,6 +1427,8 @@ class ValidatePipelineResponse {
 
 /// A validation message associated with a <code>ValidatePipeline</code> request
 /// in OpenSearch Ingestion.
+///
+/// @nodoc
 class ValidationMessage {
   /// The validation message.
   final String? message;
@@ -1428,6 +1452,8 @@ class ValidationMessage {
 }
 
 /// Information about an existing OpenSearch Ingestion pipeline.
+///
+/// @nodoc
 class Pipeline {
   final BufferOptions? bufferOptions;
 
@@ -1607,6 +1633,7 @@ class Pipeline {
   }
 }
 
+/// @nodoc
 class PipelineStatus {
   static const creating = PipelineStatus._('CREATING');
   static const active = PipelineStatus._('ACTIVE');
@@ -1651,6 +1678,8 @@ class PipelineStatus {
 }
 
 /// Information about a pipeline's current status.
+///
+/// @nodoc
 class PipelineStatusReason {
   /// A description of why a pipeline has a certain status.
   final String? description;
@@ -1676,6 +1705,8 @@ class PipelineStatusReason {
 /// Container for the values required to configure logging for the pipeline. If
 /// you don't specify these values, OpenSearch Ingestion will not publish logs
 /// from your application to CloudWatch Logs.
+///
+/// @nodoc
 class LogPublishingOptions {
   /// The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch
   /// Logs. This parameter is required if <code>IsLoggingEnabled</code> is set to
@@ -1716,6 +1747,8 @@ class LogPublishingOptions {
 /// <code>EncryptionAtRestOptions</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/opensearch-service/latest/developerguide/osis-features-overview.html#persistent-buffering">Persistent
 /// buffering</a>.
+///
+/// @nodoc
 class BufferOptions {
   /// Whether persistent buffering should be enabled.
   final bool persistentBufferEnabled;
@@ -1740,6 +1773,8 @@ class BufferOptions {
 }
 
 /// Options to control how OpenSearch encrypts buffer data.
+///
+/// @nodoc
 class EncryptionAtRestOptions {
   /// The ARN of the KMS key used to encrypt buffer data. By default, data is
   /// encrypted using an Amazon Web Services owned key.
@@ -1764,6 +1799,8 @@ class EncryptionAtRestOptions {
 }
 
 /// A tag (key-value pair) for an OpenSearch Ingestion pipeline.
+///
+/// @nodoc
 class Tag {
   /// The tag key. Tag keys must be unique for the pipeline to which they are
   /// attached.
@@ -1798,6 +1835,8 @@ class Tag {
 }
 
 /// An object representing the destination of a pipeline.
+///
+/// @nodoc
 class PipelineDestination {
   /// The endpoint receiving data from the pipeline.
   final String? endpoint;
@@ -1829,6 +1868,8 @@ class PipelineDestination {
 
 /// A container for information about VPC endpoints that were created to other
 /// services
+///
+/// @nodoc
 class ServiceVpcEndpoint {
   /// The name of the service for which a VPC endpoint was created.
   final VpcEndpointServiceName? serviceName;
@@ -1859,6 +1900,7 @@ class ServiceVpcEndpoint {
   }
 }
 
+/// @nodoc
 class VpcEndpointServiceName {
   static const opensearchServerless =
       VpcEndpointServiceName._('OPENSEARCH_SERVERLESS');
@@ -1886,6 +1928,8 @@ class VpcEndpointServiceName {
 
 /// An OpenSearch Ingestion-managed VPC endpoint that will access one or more
 /// pipelines.
+///
+/// @nodoc
 class VpcEndpoint {
   /// The unique identifier of the endpoint.
   final String? vpcEndpointId;
@@ -1927,6 +1971,8 @@ class VpcEndpoint {
 
 /// Options that specify the subnets and security groups for an OpenSearch
 /// Ingestion VPC endpoint.
+///
+/// @nodoc
 class VpcOptions {
   /// A list of subnet IDs associated with the VPC endpoint.
   final List<String> subnetIds;
@@ -1984,6 +2030,8 @@ class VpcOptions {
 }
 
 /// Options for attaching a VPC to pipeline.
+///
+/// @nodoc
 class VpcAttachmentOptions {
   /// Whether a VPC is attached to the pipeline.
   final bool attachToVpc;
@@ -2014,6 +2062,7 @@ class VpcAttachmentOptions {
   }
 }
 
+/// @nodoc
 class VpcEndpointManagement {
   static const customer = VpcEndpointManagement._('CUSTOMER');
   static const service = VpcEndpointManagement._('SERVICE');
@@ -2040,6 +2089,8 @@ class VpcEndpointManagement {
 }
 
 /// The destination for OpenSearch Ingestion logs sent to Amazon CloudWatch.
+///
+/// @nodoc
 class CloudWatchLogDestination {
   /// The name of the CloudWatch Logs group to send pipeline logs to. You can
   /// specify an existing log group or create a new one. For example,
@@ -2065,6 +2116,8 @@ class CloudWatchLogDestination {
 }
 
 /// Summary information for an OpenSearch Ingestion pipeline.
+///
+/// @nodoc
 class PipelineSummary {
   /// The date and time when the pipeline was created.
   final DateTime? createdAt;
@@ -2160,6 +2213,8 @@ class PipelineSummary {
 
 /// Represents a VPC endpoint for an OpenSearch Ingestion pipeline, enabling
 /// private connectivity between your VPC and the pipeline.
+///
+/// @nodoc
 class PipelineEndpoint {
   /// The unique identifier for the pipeline endpoint.
   final String? endpointId;
@@ -2223,6 +2278,7 @@ class PipelineEndpoint {
   }
 }
 
+/// @nodoc
 class PipelineEndpointStatus {
   static const creating = PipelineEndpointStatus._('CREATING');
   static const active = PipelineEndpointStatus._('ACTIVE');
@@ -2261,6 +2317,8 @@ class PipelineEndpointStatus {
 
 /// Configuration settings for the VPC endpoint, specifying network access
 /// controls.
+///
+/// @nodoc
 class PipelineEndpointVpcOptions {
   /// A list of security group IDs that control network access to the pipeline
   /// endpoint.
@@ -2300,6 +2358,8 @@ class PipelineEndpointVpcOptions {
 
 /// Represents a connection to a pipeline endpoint, containing details about the
 /// endpoint association.
+///
+/// @nodoc
 class PipelineEndpointConnection {
   /// The unique identifier of the endpoint in the connection.
   final String? endpointId;
@@ -2346,6 +2406,8 @@ class PipelineEndpointConnection {
 }
 
 /// A summary of an OpenSearch Ingestion blueprint.
+///
+/// @nodoc
 class PipelineBlueprintSummary {
   /// The name of the blueprint.
   final String? blueprintName;
@@ -2397,6 +2459,8 @@ class PipelineBlueprintSummary {
 }
 
 /// The progress details of a pipeline configuration change.
+///
+/// @nodoc
 class ChangeProgressStatus {
   /// Information about the stages that the pipeline is going through to perform
   /// the configuration change.
@@ -2447,6 +2511,7 @@ class ChangeProgressStatus {
   }
 }
 
+/// @nodoc
 class ChangeProgressStatuses {
   static const pending = ChangeProgressStatuses._('PENDING');
   static const inProgress = ChangeProgressStatuses._('IN_PROGRESS');
@@ -2475,6 +2540,8 @@ class ChangeProgressStatuses {
 }
 
 /// Progress details for a specific stage of a pipeline configuration change.
+///
+/// @nodoc
 class ChangeProgressStage {
   /// A description of the stage.
   final String? description;
@@ -2520,6 +2587,7 @@ class ChangeProgressStage {
   }
 }
 
+/// @nodoc
 class ChangeProgressStageStatuses {
   static const pending = ChangeProgressStageStatuses._('PENDING');
   static const inProgress = ChangeProgressStageStatuses._('IN_PROGRESS');
@@ -2548,6 +2616,8 @@ class ChangeProgressStageStatuses {
 }
 
 /// Container for information about an OpenSearch Ingestion blueprint.
+///
+/// @nodoc
 class PipelineBlueprint {
   /// The name of the blueprint.
   final String? blueprintName;
@@ -2606,26 +2676,31 @@ class PipelineBlueprint {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DisabledOperationException extends _s.GenericAwsException {
   DisabledOperationException({String? type, String? message})
       : super(type: type, code: 'DisabledOperationException', message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InvalidPaginationTokenException extends _s.GenericAwsException {
   InvalidPaginationTokenException({String? type, String? message})
       : super(
@@ -2634,11 +2709,13 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -2647,11 +2724,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

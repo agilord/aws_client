@@ -1237,7 +1237,7 @@ class StorageGateway {
   /// used.
   ///
   /// A valid SMB file share name cannot contain the following characters:
-  /// <code>[</code>,<code>]</code>,<code>#</code>,<code>;</code>,<code><</code>,<code>></code>,<code>:</code>,<code>"</code>,<code>\</code>,<code>/</code>,<code>|</code>,<code>?</code>,<code>*</code>,<code>+</code>,
+  /// <code>\[</code>,<code>\]</code>,<code>#</code>,<code>;</code>,<code><</code>,<code>></code>,<code>:</code>,<code>"</code>,<code>\</code>,<code>/</code>,<code>|</code>,<code>?</code>,<code>*</code>,<code>+</code>,
   /// or ASCII control characters <code>1-31</code>.
   /// </note>
   ///
@@ -4123,7 +4123,7 @@ class StorageGateway {
   ///
   /// Parameter [folderList] :
   /// A comma-separated list of the paths of folders to refresh in the cache.
-  /// The default is [<code>"/"</code>]. The default refreshes objects and
+  /// The default is \[<code>"/"</code>\]. The default refreshes objects and
   /// folders at the root of the Amazon S3 bucket. If <code>Recursive</code> is
   /// set to <code>true</code>, the entire S3 bucket that the file share has
   /// access to is refreshed.
@@ -5441,7 +5441,7 @@ class StorageGateway {
   /// used.
   ///
   /// A valid SMB file share name cannot contain the following characters:
-  /// <code>[</code>,<code>]</code>,<code>#</code>,<code>;</code>,<code><</code>,<code>></code>,<code>:</code>,<code>"</code>,<code>\</code>,<code>/</code>,<code>|</code>,<code>?</code>,<code>*</code>,<code>+</code>,
+  /// <code>\[</code>,<code>\]</code>,<code>#</code>,<code>;</code>,<code><</code>,<code>></code>,<code>:</code>,<code>"</code>,<code>\</code>,<code>/</code>,<code>|</code>,<code>?</code>,<code>*</code>,<code>+</code>,
   /// or ASCII control characters <code>1-31</code>.
   /// </note>
   ///
@@ -5888,6 +5888,8 @@ class StorageGateway {
 /// the gateway name rather than the gateway ID. Changing the name of the
 /// gateway has no effect on the gateway ARN.
 /// </note>
+///
+/// @nodoc
 class ActivateGatewayOutput {
   final String? gatewayARN;
 
@@ -5909,6 +5911,7 @@ class ActivateGatewayOutput {
   }
 }
 
+/// @nodoc
 class AddCacheOutput {
   final String? gatewayARN;
 
@@ -5931,6 +5934,8 @@ class AddCacheOutput {
 }
 
 /// AddTagsToResourceOutput
+///
+/// @nodoc
 class AddTagsToResourceOutput {
   /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
   final String? resourceARN;
@@ -5953,6 +5958,7 @@ class AddTagsToResourceOutput {
   }
 }
 
+/// @nodoc
 class AddUploadBufferOutput {
   final String? gatewayARN;
 
@@ -5976,6 +5982,8 @@ class AddUploadBufferOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway for
 /// which working storage was configured.
+///
+/// @nodoc
 class AddWorkingStorageOutput {
   final String? gatewayARN;
 
@@ -5997,6 +6005,7 @@ class AddWorkingStorageOutput {
   }
 }
 
+/// @nodoc
 class AssignTapePoolOutput {
   /// The unique Amazon Resource Names (ARN) of the virtual tape that was added to
   /// the tape pool.
@@ -6020,6 +6029,7 @@ class AssignTapePoolOutput {
   }
 }
 
+/// @nodoc
 class AssociateFileSystemOutput {
   /// The ARN of the newly created file system association.
   final String? fileSystemAssociationARN;
@@ -6044,6 +6054,8 @@ class AssociateFileSystemOutput {
 }
 
 /// AttachVolumeOutput
+///
+/// @nodoc
 class AttachVolumeOutput {
   /// The Amazon Resource Name (ARN) of the volume target, which includes the
   /// iSCSI name for the initiator that was used to connect to the target.
@@ -6076,6 +6088,8 @@ class AttachVolumeOutput {
 }
 
 /// CancelArchivalOutput
+///
+/// @nodoc
 class CancelArchivalOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was
   /// canceled.
@@ -6099,6 +6113,7 @@ class CancelArchivalOutput {
   }
 }
 
+/// @nodoc
 class CancelCacheReportOutput {
   /// The Amazon Resource Name (ARN) of the cache report you want to cancel.
   final String? cacheReportARN;
@@ -6122,6 +6137,8 @@ class CancelCacheReportOutput {
 }
 
 /// CancelRetrievalOutput
+///
+/// @nodoc
 class CancelRetrievalOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was
   /// canceled.
@@ -6145,6 +6162,7 @@ class CancelRetrievalOutput {
   }
 }
 
+/// @nodoc
 class CreateCachediSCSIVolumeOutput {
   /// The Amazon Resource Name (ARN) of the volume target, which includes the
   /// iSCSI name that initiators can use to connect to the target.
@@ -6176,6 +6194,8 @@ class CreateCachediSCSIVolumeOutput {
 }
 
 /// CreateNFSFileShareOutput
+///
+/// @nodoc
 class CreateNFSFileShareOutput {
   /// The Amazon Resource Name (ARN) of the newly created file share.
   final String? fileShareARN;
@@ -6199,6 +6219,8 @@ class CreateNFSFileShareOutput {
 }
 
 /// CreateSMBFileShareOutput
+///
+/// @nodoc
 class CreateSMBFileShareOutput {
   /// The Amazon Resource Name (ARN) of the newly created file share.
   final String? fileShareARN;
@@ -6222,6 +6244,8 @@ class CreateSMBFileShareOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class CreateSnapshotOutput {
   /// The snapshot ID that is used to refer to the snapshot in future operations
   /// such as describing snapshots (Amazon Elastic Compute Cloud API
@@ -6255,6 +6279,7 @@ class CreateSnapshotOutput {
   }
 }
 
+/// @nodoc
 class CreateSnapshotFromVolumeRecoveryPointOutput {
   /// The ID of the snapshot.
   final String? snapshotId;
@@ -6296,6 +6321,8 @@ class CreateSnapshotFromVolumeRecoveryPointOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class CreateStorediSCSIVolumeOutput {
   /// The Amazon Resource Name (ARN) of the volume target, which includes the
   /// iSCSI name that initiators can use to connect to the target.
@@ -6333,6 +6360,7 @@ class CreateStorediSCSIVolumeOutput {
   }
 }
 
+/// @nodoc
 class CreateTapePoolOutput {
   /// The unique Amazon Resource Name (ARN) that represents the custom tape pool.
   /// Use the <a>ListTapePools</a> operation to return a list of tape pools for
@@ -6358,6 +6386,8 @@ class CreateTapePoolOutput {
 }
 
 /// CreateTapeOutput
+///
+/// @nodoc
 class CreateTapesOutput {
   /// A list of unique Amazon Resource Names (ARNs) that represents the virtual
   /// tapes that were created.
@@ -6385,6 +6415,8 @@ class CreateTapesOutput {
 }
 
 /// CreateTapeOutput
+///
+/// @nodoc
 class CreateTapeWithBarcodeOutput {
   /// A unique Amazon Resource Name (ARN) that represents the virtual tape that
   /// was created.
@@ -6408,6 +6440,7 @@ class CreateTapeWithBarcodeOutput {
   }
 }
 
+/// @nodoc
 class DeleteAutomaticTapeCreationPolicyOutput {
   final String? gatewayARN;
 
@@ -6432,6 +6465,8 @@ class DeleteAutomaticTapeCreationPolicyOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
 /// bandwidth rate information was deleted.
+///
+/// @nodoc
 class DeleteBandwidthRateLimitOutput {
   final String? gatewayARN;
 
@@ -6453,6 +6488,7 @@ class DeleteBandwidthRateLimitOutput {
   }
 }
 
+/// @nodoc
 class DeleteCacheReportOutput {
   /// The Amazon Resource Name (ARN) of the cache report you want to delete.
   final String? cacheReportARN;
@@ -6476,6 +6512,8 @@ class DeleteCacheReportOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class DeleteChapCredentialsOutput {
   /// The iSCSI initiator that connects to the target.
   final String? initiatorName;
@@ -6506,6 +6544,8 @@ class DeleteChapCredentialsOutput {
 }
 
 /// DeleteFileShareOutput
+///
+/// @nodoc
 class DeleteFileShareOutput {
   /// The Amazon Resource Name (ARN) of the deleted file share.
   final String? fileShareARN;
@@ -6529,6 +6569,8 @@ class DeleteFileShareOutput {
 }
 
 /// A JSON object containing the ID of the deleted gateway.
+///
+/// @nodoc
 class DeleteGatewayOutput {
   final String? gatewayARN;
 
@@ -6550,6 +6592,7 @@ class DeleteGatewayOutput {
   }
 }
 
+/// @nodoc
 class DeleteSnapshotScheduleOutput {
   /// The volume which snapshot schedule was deleted.
   final String? volumeARN;
@@ -6573,6 +6616,8 @@ class DeleteSnapshotScheduleOutput {
 }
 
 /// DeleteTapeOutput
+///
+/// @nodoc
 class DeleteTapeOutput {
   /// The Amazon Resource Name (ARN) of the deleted virtual tape.
   final String? tapeARN;
@@ -6596,6 +6641,8 @@ class DeleteTapeOutput {
 }
 
 /// DeleteTapeArchiveOutput
+///
+/// @nodoc
 class DeleteTapeArchiveOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the
   /// virtual tape shelf (VTS).
@@ -6619,6 +6666,7 @@ class DeleteTapeArchiveOutput {
   }
 }
 
+/// @nodoc
 class DeleteTapePoolOutput {
   /// The Amazon Resource Name (ARN) of the custom tape pool being deleted.
   final String? poolARN;
@@ -6643,6 +6691,8 @@ class DeleteTapePoolOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the storage
 /// volume that was deleted.
+///
+/// @nodoc
 class DeleteVolumeOutput {
   /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is
   /// the same ARN you provided in the request.
@@ -6666,6 +6716,7 @@ class DeleteVolumeOutput {
   }
 }
 
+/// @nodoc
 class DescribeAvailabilityMonitorTestOutput {
   final String? gatewayARN;
 
@@ -6706,6 +6757,8 @@ class DescribeAvailabilityMonitorTestOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class DescribeBandwidthRateLimitOutput {
   /// The average download bandwidth rate limit in bits per second. This field
   /// does not appear in the response if the download rate limit is not set.
@@ -6750,6 +6803,7 @@ class DescribeBandwidthRateLimitOutput {
   }
 }
 
+/// @nodoc
 class DescribeBandwidthRateLimitScheduleOutput {
   /// An array that contains the bandwidth rate limit intervals for a tape or
   /// volume gateway.
@@ -6785,6 +6839,7 @@ class DescribeBandwidthRateLimitScheduleOutput {
   }
 }
 
+/// @nodoc
 class DescribeCacheOutput {
   /// The amount of cache in bytes allocated to a gateway.
   final int? cacheAllocatedInBytes;
@@ -6861,6 +6916,8 @@ class DescribeCacheOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class DescribeCachediSCSIVolumesOutput {
   /// An array of objects where each object contains metadata about one cached
   /// volume.
@@ -6887,6 +6944,7 @@ class DescribeCachediSCSIVolumesOutput {
   }
 }
 
+/// @nodoc
 class DescribeCacheReportOutput {
   /// Contains all informational fields associated with a cache report. Includes
   /// name, ARN, tags, status, progress, filters, start time, and end time.
@@ -6914,6 +6972,8 @@ class DescribeCacheReportOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class DescribeChapCredentialsOutput {
   /// An array of <a>ChapInfo</a> objects that represent CHAP credentials. Each
   /// object in the array contains CHAP credential information for one
@@ -6962,6 +7022,7 @@ class DescribeChapCredentialsOutput {
   }
 }
 
+/// @nodoc
 class DescribeFileSystemAssociationsOutput {
   /// An array containing the <code>FileSystemAssociationInfo</code> data type of
   /// each file system association to be described.
@@ -6993,6 +7054,8 @@ class DescribeFileSystemAssociationsOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class DescribeGatewayInformationOutput {
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is
   /// used to monitor events in the gateway. This field only only exist and
@@ -7231,6 +7294,8 @@ class DescribeGatewayInformationOutput {
 /// <a>DescribeMaintenanceStartTimeOutput$Timezone</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DescribeMaintenanceStartTimeOutput {
   /// The day of the month component of the maintenance start time represented as
   /// an ordinal number from 1 to 28, where 1 represents the first day of the
@@ -7322,6 +7387,8 @@ class DescribeMaintenanceStartTimeOutput {
 }
 
 /// DescribeNFSFileSharesOutput
+///
+/// @nodoc
 class DescribeNFSFileSharesOutput {
   /// An array containing a description for each requested file share.
   final List<NFSFileShareInfo>? nFSFileShareInfoList;
@@ -7349,6 +7416,8 @@ class DescribeNFSFileSharesOutput {
 }
 
 /// DescribeSMBFileSharesOutput
+///
+/// @nodoc
 class DescribeSMBFileSharesOutput {
   /// An array containing a description for each requested file share.
   final List<SMBFileShareInfo>? sMBFileShareInfoList;
@@ -7375,6 +7444,7 @@ class DescribeSMBFileSharesOutput {
   }
 }
 
+/// @nodoc
 class DescribeSMBSettingsOutput {
   /// Indicates the status of a gateway that is a member of the Active Directory
   /// domain.
@@ -7515,6 +7585,7 @@ class DescribeSMBSettingsOutput {
   }
 }
 
+/// @nodoc
 class DescribeSnapshotScheduleOutput {
   /// The snapshot description.
   final String? description;
@@ -7581,6 +7652,7 @@ class DescribeSnapshotScheduleOutput {
   }
 }
 
+/// @nodoc
 class DescribeStorediSCSIVolumesOutput {
   /// Describes a single unit of output from <a>DescribeStorediSCSIVolumes</a>.
   /// The following fields are returned:
@@ -7674,6 +7746,8 @@ class DescribeStorediSCSIVolumesOutput {
 }
 
 /// DescribeTapeArchivesOutput
+///
+/// @nodoc
 class DescribeTapeArchivesOutput {
   /// An opaque string that indicates the position at which the virtual tapes that
   /// were fetched for description ended. Use this marker in your next request to
@@ -7715,6 +7789,8 @@ class DescribeTapeArchivesOutput {
 }
 
 /// DescribeTapeRecoveryPointsOutput
+///
+/// @nodoc
 class DescribeTapeRecoveryPointsOutput {
   final String? gatewayARN;
 
@@ -7761,6 +7837,8 @@ class DescribeTapeRecoveryPointsOutput {
 }
 
 /// DescribeTapesOutput
+///
+/// @nodoc
 class DescribeTapesOutput {
   /// An opaque string that can be used as part of a subsequent
   /// <code>DescribeTapes</code> call to retrieve the next page of results.
@@ -7797,6 +7875,7 @@ class DescribeTapesOutput {
   }
 }
 
+/// @nodoc
 class DescribeUploadBufferOutput {
   /// An array of the gateway's local disk IDs that are configured as working
   /// storage. Each local disk ID is specified as a string (minimum length of 1
@@ -7846,6 +7925,8 @@ class DescribeUploadBufferOutput {
 }
 
 /// DescribeVTLDevicesOutput
+///
+/// @nodoc
 class DescribeVTLDevicesOutput {
   final String? gatewayARN;
 
@@ -7889,6 +7970,8 @@ class DescribeVTLDevicesOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class DescribeWorkingStorageOutput {
   /// An array of the gateway's local disk IDs that are configured as working
   /// storage. Each local disk ID is specified as a string (minimum length of 1
@@ -7940,6 +8023,8 @@ class DescribeWorkingStorageOutput {
 }
 
 /// AttachVolumeOutput
+///
+/// @nodoc
 class DetachVolumeOutput {
   /// The Amazon Resource Name (ARN) of the volume that was detached.
   final String? volumeARN;
@@ -7963,6 +8048,8 @@ class DetachVolumeOutput {
 }
 
 /// DisableGatewayOutput
+///
+/// @nodoc
 class DisableGatewayOutput {
   /// The unique Amazon Resource Name (ARN) of the disabled gateway.
   final String? gatewayARN;
@@ -7985,6 +8072,7 @@ class DisableGatewayOutput {
   }
 }
 
+/// @nodoc
 class DisassociateFileSystemOutput {
   /// The Amazon Resource Name (ARN) of the deleted file system association.
   final String? fileSystemAssociationARN;
@@ -8008,6 +8096,7 @@ class DisassociateFileSystemOutput {
   }
 }
 
+/// @nodoc
 class EvictFilesFailingUploadOutput {
   /// The randomly generated ID of the CloudWatch notification associated with the
   /// cache clean operation. This ID is in UUID format.
@@ -8032,6 +8121,8 @@ class EvictFilesFailingUploadOutput {
 }
 
 /// JoinDomainOutput
+///
+/// @nodoc
 class JoinDomainOutput {
   /// Indicates the status of the gateway as a member of the Active Directory
   /// domain.
@@ -8103,6 +8194,7 @@ class JoinDomainOutput {
   }
 }
 
+/// @nodoc
 class ListAutomaticTapeCreationPoliciesOutput {
   /// Gets a listing of information about the gateway's automatic tape creation
   /// policies, including the automatic tape creation rules and the gateway that
@@ -8135,6 +8227,7 @@ class ListAutomaticTapeCreationPoliciesOutput {
   }
 }
 
+/// @nodoc
 class ListCacheReportsOutput {
   /// A list of existing cache reports for all file shares associated with your
   /// Amazon Web Services account. This list includes all information provided by
@@ -8172,6 +8265,8 @@ class ListCacheReportsOutput {
 }
 
 /// ListFileShareOutput
+///
+/// @nodoc
 class ListFileSharesOutput {
   /// An array of information about the S3 File Gateway's file shares.
   final List<FileShareInfo>? fileShareInfoList;
@@ -8214,6 +8309,7 @@ class ListFileSharesOutput {
   }
 }
 
+/// @nodoc
 class ListFileSystemAssociationsOutput {
   /// An array of information about the Amazon FSx gateway's file system
   /// associations.
@@ -8261,6 +8357,7 @@ class ListFileSystemAssociationsOutput {
   }
 }
 
+/// @nodoc
 class ListGatewaysOutput {
   /// An array of <a>GatewayInfo</a> objects.
   final List<GatewayInfo>? gateways;
@@ -8295,6 +8392,7 @@ class ListGatewaysOutput {
   }
 }
 
+/// @nodoc
 class ListLocalDisksOutput {
   /// A JSON object containing the following fields:
   ///
@@ -8332,6 +8430,8 @@ class ListLocalDisksOutput {
 }
 
 /// ListTagsForResourceOutput
+///
+/// @nodoc
 class ListTagsForResourceOutput {
   /// An opaque string that indicates the position at which to stop returning the
   /// list of tags.
@@ -8373,6 +8473,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class ListTapePoolsOutput {
   /// A string that indicates the position at which to begin the returned list of
   /// tape pools. Use the marker in your next request to continue pagination of
@@ -8420,6 +8521,8 @@ class ListTapePoolsOutput {
 /// <a>ListTapesOutput$VolumeInfos</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ListTapesOutput {
   /// A string that indicates the position at which to begin returning the next
   /// list of tapes. Use the marker in your next request to continue pagination of
@@ -8454,6 +8557,8 @@ class ListTapesOutput {
 }
 
 /// ListVolumeInitiatorsOutput
+///
+/// @nodoc
 class ListVolumeInitiatorsOutput {
   /// The host names and port numbers of all iSCSI initiators that are connected
   /// to the gateway.
@@ -8480,6 +8585,7 @@ class ListVolumeInitiatorsOutput {
   }
 }
 
+/// @nodoc
 class ListVolumeRecoveryPointsOutput {
   final String? gatewayARN;
 
@@ -8523,6 +8629,8 @@ class ListVolumeRecoveryPointsOutput {
 /// <a>ListVolumesOutput$VolumeInfos</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ListVolumesOutput {
   final String? gatewayARN;
 
@@ -8533,7 +8641,7 @@ class ListVolumesOutput {
 
   /// An array of <a>VolumeInfo</a> objects, where each object describes an iSCSI
   /// volume. If no volumes are defined for the gateway, then
-  /// <code>VolumeInfos</code> is an empty array "[]".
+  /// <code>VolumeInfos</code> is an empty array "\[\]".
   final List<VolumeInfo>? volumeInfos;
 
   ListVolumesOutput({
@@ -8565,6 +8673,7 @@ class ListVolumesOutput {
   }
 }
 
+/// @nodoc
 class NotifyWhenUploadedOutput {
   final String? fileShareARN;
   final String? notificationId;
@@ -8592,6 +8701,8 @@ class NotifyWhenUploadedOutput {
 }
 
 /// RefreshCacheOutput
+///
+/// @nodoc
 class RefreshCacheOutput {
   final String? fileShareARN;
   final String? notificationId;
@@ -8619,6 +8730,8 @@ class RefreshCacheOutput {
 }
 
 /// RemoveTagsFromResourceOutput
+///
+/// @nodoc
 class RemoveTagsFromResourceOutput {
   /// The Amazon Resource Name (ARN) of the resource that the tags were removed
   /// from.
@@ -8642,6 +8755,7 @@ class RemoveTagsFromResourceOutput {
   }
 }
 
+/// @nodoc
 class ResetCacheOutput {
   final String? gatewayARN;
 
@@ -8664,6 +8778,8 @@ class ResetCacheOutput {
 }
 
 /// RetrieveTapeArchiveOutput
+///
+/// @nodoc
 class RetrieveTapeArchiveOutput {
   /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
   final String? tapeARN;
@@ -8687,6 +8803,8 @@ class RetrieveTapeArchiveOutput {
 }
 
 /// RetrieveTapeRecoveryPointOutput
+///
+/// @nodoc
 class RetrieveTapeRecoveryPointOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery
   /// point was retrieved.
@@ -8710,6 +8828,7 @@ class RetrieveTapeRecoveryPointOutput {
   }
 }
 
+/// @nodoc
 class SetLocalConsolePasswordOutput {
   final String? gatewayARN;
 
@@ -8731,6 +8850,7 @@ class SetLocalConsolePasswordOutput {
   }
 }
 
+/// @nodoc
 class SetSMBGuestPasswordOutput {
   final String? gatewayARN;
 
@@ -8754,6 +8874,8 @@ class SetSMBGuestPasswordOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
 /// was shut down.
+///
+/// @nodoc
 class ShutdownGatewayOutput {
   final String? gatewayARN;
 
@@ -8775,6 +8897,7 @@ class ShutdownGatewayOutput {
   }
 }
 
+/// @nodoc
 class StartAvailabilityMonitorTestOutput {
   final String? gatewayARN;
 
@@ -8797,6 +8920,7 @@ class StartAvailabilityMonitorTestOutput {
   }
 }
 
+/// @nodoc
 class StartCacheReportOutput {
   /// The Amazon Resource Name (ARN) of the cache report generated by the
   /// <code>StartCacheReport</code> request.
@@ -8822,6 +8946,8 @@ class StartCacheReportOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
 /// was restarted.
+///
+/// @nodoc
 class StartGatewayOutput {
   final String? gatewayARN;
 
@@ -8843,6 +8969,7 @@ class StartGatewayOutput {
   }
 }
 
+/// @nodoc
 class UpdateAutomaticTapeCreationPolicyOutput {
   final String? gatewayARN;
 
@@ -8867,6 +8994,8 @@ class UpdateAutomaticTapeCreationPolicyOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
 /// throttle information was updated.
+///
+/// @nodoc
 class UpdateBandwidthRateLimitOutput {
   final String? gatewayARN;
 
@@ -8888,6 +9017,7 @@ class UpdateBandwidthRateLimitOutput {
   }
 }
 
+/// @nodoc
 class UpdateBandwidthRateLimitScheduleOutput {
   final String? gatewayARN;
 
@@ -8911,6 +9041,8 @@ class UpdateBandwidthRateLimitScheduleOutput {
 }
 
 /// A JSON object containing the following fields:
+///
+/// @nodoc
 class UpdateChapCredentialsOutput {
   /// The iSCSI initiator that connects to the target. This is the same initiator
   /// name specified in the request.
@@ -8942,6 +9074,7 @@ class UpdateChapCredentialsOutput {
   }
 }
 
+/// @nodoc
 class UpdateFileSystemAssociationOutput {
   /// The ARN of the updated file system association.
   final String? fileSystemAssociationARN;
@@ -8968,6 +9101,8 @@ class UpdateFileSystemAssociationOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
 /// was updated.
+///
+/// @nodoc
 class UpdateGatewayInformationOutput {
   final String? gatewayARN;
 
@@ -8998,6 +9133,8 @@ class UpdateGatewayInformationOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway that
 /// was updated.
+///
+/// @nodoc
 class UpdateGatewaySoftwareNowOutput {
   final String? gatewayARN;
 
@@ -9021,6 +9158,8 @@ class UpdateGatewaySoftwareNowOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the gateway whose
 /// maintenance start time is updated.
+///
+/// @nodoc
 class UpdateMaintenanceStartTimeOutput {
   final String? gatewayARN;
 
@@ -9043,6 +9182,8 @@ class UpdateMaintenanceStartTimeOutput {
 }
 
 /// UpdateNFSFileShareOutput
+///
+/// @nodoc
 class UpdateNFSFileShareOutput {
   /// The Amazon Resource Name (ARN) of the updated file share.
   final String? fileShareARN;
@@ -9066,6 +9207,8 @@ class UpdateNFSFileShareOutput {
 }
 
 /// UpdateSMBFileShareOutput
+///
+/// @nodoc
 class UpdateSMBFileShareOutput {
   /// The Amazon Resource Name (ARN) of the updated SMB file share.
   final String? fileShareARN;
@@ -9088,6 +9231,7 @@ class UpdateSMBFileShareOutput {
   }
 }
 
+/// @nodoc
 class UpdateSMBFileShareVisibilityOutput {
   final String? gatewayARN;
 
@@ -9110,6 +9254,7 @@ class UpdateSMBFileShareVisibilityOutput {
   }
 }
 
+/// @nodoc
 class UpdateSMBLocalGroupsOutput {
   final String? gatewayARN;
 
@@ -9131,6 +9276,7 @@ class UpdateSMBLocalGroupsOutput {
   }
 }
 
+/// @nodoc
 class UpdateSMBSecurityStrategyOutput {
   final String? gatewayARN;
 
@@ -9154,6 +9300,8 @@ class UpdateSMBSecurityStrategyOutput {
 
 /// A JSON object containing the Amazon Resource Name (ARN) of the updated
 /// storage volume.
+///
+/// @nodoc
 class UpdateSnapshotScheduleOutput {
   /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
   /// operation to return a list of gateway volumes.
@@ -9178,6 +9326,8 @@ class UpdateSnapshotScheduleOutput {
 }
 
 /// UpdateVTLDeviceTypeOutput
+///
+/// @nodoc
 class UpdateVTLDeviceTypeOutput {
   /// The Amazon Resource Name (ARN) of the medium changer you have selected.
   final String? vTLDeviceARN;
@@ -9203,6 +9353,8 @@ class UpdateVTLDeviceTypeOutput {
 /// A key-value pair that helps you manage, filter, and search for your
 /// resource. Allowed characters: letters, white space, and numbers,
 /// representable in UTF-8, and the following characters: + - = . _ : /.
+///
+/// @nodoc
 class Tag {
   /// Tag key. The key can't start with aws:.
   final String key;
@@ -9232,6 +9384,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class SMBSecurityStrategy {
   static const clientSpecified = SMBSecurityStrategy._('ClientSpecified');
   static const mandatorySigning = SMBSecurityStrategy._('MandatorySigning');
@@ -9268,6 +9421,8 @@ class SMBSecurityStrategy {
 
 /// A list of Active Directory users and groups that have special permissions
 /// for SMB file shares on the gateway.
+///
+/// @nodoc
 class SMBLocalGroups {
   /// A list of Active Directory users and groups that have local Gateway Admin
   /// permissions. Acceptable formats include: <code>DOMAIN\User1</code>,
@@ -9298,6 +9453,7 @@ class SMBLocalGroups {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const sseS3 = EncryptionType._('SseS3');
   static const sseKms = EncryptionType._('SseKms');
@@ -9326,6 +9482,8 @@ class EncryptionType {
 /// A value that sets the access control list (ACL) permission for objects in
 /// the S3 bucket that an S3 File Gateway puts objects into. The default value
 /// is <code>private</code>.
+///
+/// @nodoc
 class ObjectACL {
   static const private = ObjectACL._('private');
   static const publicRead = ObjectACL._('public-read');
@@ -9363,6 +9521,7 @@ class ObjectACL {
   String toString() => value;
 }
 
+/// @nodoc
 class CaseSensitivity {
   static const clientSpecified = CaseSensitivity._('ClientSpecified');
   static const caseSensitive = CaseSensitivity._('CaseSensitive');
@@ -9388,6 +9547,8 @@ class CaseSensitivity {
 }
 
 /// The refresh cache information for the file share or FSx file systems.
+///
+/// @nodoc
 class CacheAttributes {
   /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the
   /// length of time since the last refresh after which access to the directory
@@ -9423,6 +9584,8 @@ class CacheAttributes {
 /// Storage Gateway, the S3 objects that represent files and folders are
 /// assigned these default Unix permissions. This operation is only supported
 /// for S3 File Gateways.
+///
+/// @nodoc
 class NFSFileShareDefaults {
   /// The Unix directory mode in the form "nnnn". For example, <code>0666</code>
   /// represents the default access mode for all directories inside the file
@@ -9474,6 +9637,8 @@ class NFSFileShareDefaults {
 
 /// A set of variables indicating the software update preferences for the
 /// gateway.
+///
+/// @nodoc
 class SoftwareUpdatePreferences {
   /// Indicates the automatic update policy for a gateway.
   ///
@@ -9507,6 +9672,7 @@ class SoftwareUpdatePreferences {
   }
 }
 
+/// @nodoc
 class AutomaticUpdatePolicy {
   static const allVersions = AutomaticUpdatePolicy._('ALL_VERSIONS');
   static const emergencyVersionsOnly =
@@ -9533,6 +9699,7 @@ class AutomaticUpdatePolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class GatewayCapacity {
   static const small = GatewayCapacity._('Small');
   static const medium = GatewayCapacity._('Medium');
@@ -9566,6 +9733,8 @@ class GatewayCapacity {
 /// <note>
 /// FSx File Gateway does not support this feature.
 /// </note>
+///
+/// @nodoc
 class BandwidthRateLimitInterval {
   /// The days of the week component of the bandwidth rate limit interval,
   /// represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6
@@ -9668,6 +9837,8 @@ class BandwidthRateLimitInterval {
 /// information about automatic tape creation, see <a
 /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/GettingStartedCreateTapes.html#CreateTapesAutomatically">Creating
 /// Tapes Automatically</a>.
+///
+/// @nodoc
 class AutomaticTapeCreationRule {
   /// The minimum number of available virtual tapes that the gateway maintains at
   /// all times. If the number of tapes on the gateway goes below this value, the
@@ -9740,6 +9911,8 @@ class AutomaticTapeCreationRule {
 /// <code>StartCacheReport</code> request. Multiple instances of the same filter
 /// parameter are combined with an OR operation, while different parameters are
 /// combined with an AND operation.
+///
+/// @nodoc
 class CacheReportFilter {
   /// The parameter name for a filter that determines which files are included or
   /// excluded from a cache report.
@@ -9787,6 +9960,7 @@ class CacheReportFilter {
   }
 }
 
+/// @nodoc
 class CacheReportFilterName {
   static const uploadState = CacheReportFilterName._('UploadState');
   static const uploadFailureReason =
@@ -9814,6 +9988,8 @@ class CacheReportFilterName {
 }
 
 /// Describes a storage volume object.
+///
+/// @nodoc
 class VolumeInfo {
   final String? gatewayARN;
 
@@ -9899,6 +10075,8 @@ class VolumeInfo {
 }
 
 /// Describes a storage volume recovery point object.
+///
+/// @nodoc
 class VolumeRecoveryPointInfo {
   /// The Amazon Resource Name (ARN) of the volume target.
   final String? volumeARN;
@@ -9948,6 +10126,8 @@ class VolumeRecoveryPointInfo {
 }
 
 /// Describes a virtual tape.
+///
+/// @nodoc
 class TapeInfo {
   /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
   /// operation to return a list of gateways for your account and Amazon Web
@@ -10029,6 +10209,8 @@ class TapeInfo {
 }
 
 /// Describes a custom tape pool.
+///
+/// @nodoc
 class PoolInfo {
   /// The Amazon Resource Name (ARN) of the custom tape pool. Use the
   /// <a>ListTapePools</a> operation to return a list of custom tape pools for
@@ -10103,6 +10285,7 @@ class PoolInfo {
   }
 }
 
+/// @nodoc
 class TapeStorageClass {
   static const deepArchive = TapeStorageClass._('DEEP_ARCHIVE');
   static const glacier = TapeStorageClass._('GLACIER');
@@ -10127,6 +10310,7 @@ class TapeStorageClass {
   String toString() => value;
 }
 
+/// @nodoc
 class RetentionLockType {
   static const compliance = RetentionLockType._('COMPLIANCE');
   static const governance = RetentionLockType._('GOVERNANCE');
@@ -10152,6 +10336,7 @@ class RetentionLockType {
   String toString() => value;
 }
 
+/// @nodoc
 class PoolStatus {
   static const active = PoolStatus._('ACTIVE');
   static const deleted = PoolStatus._('DELETED');
@@ -10176,6 +10361,8 @@ class PoolStatus {
 }
 
 /// Represents a gateway's local disk.
+///
+/// @nodoc
 class Disk {
   /// The iSCSI qualified name (IQN) that is defined for a disk. This field is not
   /// included in the response if the local disk is not defined as an iSCSI
@@ -10253,6 +10440,8 @@ class Disk {
 }
 
 /// Describes a gateway object.
+///
+/// @nodoc
 class GatewayInfo {
   /// Date after which this gateway will not receive software updates for new
   /// features and bug fixes.
@@ -10366,6 +10555,7 @@ class GatewayInfo {
   }
 }
 
+/// @nodoc
 class HostEnvironment {
   static const vmware = HostEnvironment._('VMWARE');
   static const hyperV = HostEnvironment._('HYPER-V');
@@ -10396,6 +10586,8 @@ class HostEnvironment {
 
 /// Gets the summary returned by <code>ListFileSystemAssociation</code>, which
 /// is a summary of a created file system association.
+///
+/// @nodoc
 class FileSystemAssociationSummary {
   /// The Amazon Resource Name (ARN) of the file system association.
   final String? fileSystemAssociationARN;
@@ -10444,6 +10636,8 @@ class FileSystemAssociationSummary {
 }
 
 /// Describes a file share. Only supported S3 File Gateway.
+///
+/// @nodoc
 class FileShareInfo {
   final String? fileShareARN;
   final String? fileShareId;
@@ -10487,6 +10681,8 @@ class FileShareInfo {
 }
 
 /// The type of the file share.
+///
+/// @nodoc
 class FileShareType {
   static const nfs = FileShareType._('NFS');
   static const smb = FileShareType._('SMB');
@@ -10513,6 +10709,8 @@ class FileShareType {
 
 /// Contains all informational fields associated with a cache report. Includes
 /// name, ARN, tags, status, progress, filters, start time, and end time.
+///
+/// @nodoc
 class CacheReportInfo {
   /// The Amazon Resource Name (ARN) of the cache report you want to describe.
   final String? cacheReportARN;
@@ -10623,6 +10821,7 @@ class CacheReportInfo {
   }
 }
 
+/// @nodoc
 class CacheReportStatus {
   static const inProgress = CacheReportStatus._('IN_PROGRESS');
   static const completed = CacheReportStatus._('COMPLETED');
@@ -10653,6 +10852,8 @@ class CacheReportStatus {
 /// Information about the gateway's automatic tape creation policies, including
 /// the automatic tape creation rules and the gateway that is using the
 /// policies.
+///
+/// @nodoc
 class AutomaticTapeCreationPolicyInfo {
   /// An automatic tape creation policy consists of a list of automatic tape
   /// creation rules. This returns the rules that determine when and how to
@@ -10687,6 +10888,7 @@ class AutomaticTapeCreationPolicyInfo {
   }
 }
 
+/// @nodoc
 class ActiveDirectoryStatus {
   static const accessDenied = ActiveDirectoryStatus._('ACCESS_DENIED');
   static const detached = ActiveDirectoryStatus._('DETACHED');
@@ -10729,6 +10931,8 @@ class ActiveDirectoryStatus {
 }
 
 /// Represents a device object associated with a tape gateway.
+///
+/// @nodoc
 class VTLDevice {
   /// A list of iSCSI information about a VTL device.
   final DeviceiSCSIAttributes? deviceiSCSIAttributes;
@@ -10786,6 +10990,8 @@ class VTLDevice {
 }
 
 /// Lists iSCSI information about a VTL device.
+///
+/// @nodoc
 class DeviceiSCSIAttributes {
   /// Indicates whether mutual CHAP is enabled for the iSCSI target.
   final bool? chapEnabled;
@@ -10832,6 +11038,8 @@ class DeviceiSCSIAttributes {
 }
 
 /// Describes a virtual tape object.
+///
+/// @nodoc
 class Tape {
   final String? kMSKey;
 
@@ -10953,6 +11161,8 @@ class Tape {
 }
 
 /// Describes a recovery point.
+///
+/// @nodoc
 class TapeRecoveryPointInfo {
   /// The Amazon Resource Name (ARN) of the virtual tape.
   final String? tapeARN;
@@ -11002,6 +11212,8 @@ class TapeRecoveryPointInfo {
 }
 
 /// Represents a virtual tape that is archived in the virtual tape shelf (VTS).
+///
+/// @nodoc
 class TapeArchive {
   /// The time that the archiving of the virtual tape was completed.
   ///
@@ -11126,6 +11338,8 @@ class TapeArchive {
 }
 
 /// Describes an iSCSI stored volume.
+///
+/// @nodoc
 class StorediSCSIVolume {
   /// The date the volume was created. Volumes created prior to March 28, 2017
   /// don’t have this timestamp.
@@ -11282,6 +11496,8 @@ class StorediSCSIVolume {
 }
 
 /// Lists iSCSI information about a volume.
+///
+/// @nodoc
 class VolumeiSCSIAttributes {
   /// Indicates whether mutual CHAP is enabled for the iSCSI target.
   final bool? chapEnabled;
@@ -11336,6 +11552,8 @@ class VolumeiSCSIAttributes {
 /// The Windows file permissions and ownership information assigned, by default,
 /// to native S3 objects when S3 File Gateway discovers them in S3 buckets. This
 /// operation is only supported for S3 File Gateways.
+///
+/// @nodoc
 class SMBFileShareInfo {
   /// Indicates whether <code>AccessBasedEnumeration</code> is enabled.
   final bool? accessBasedEnumeration;
@@ -11689,6 +11907,8 @@ class SMBFileShareInfo {
 /// The Unix file permissions and ownership information assigned, by default, to
 /// native S3 objects when an S3 File Gateway discovers them in S3 buckets. This
 /// operation is only supported in S3 File Gateways.
+///
+/// @nodoc
 class NFSFileShareInfo {
   /// The Amazon Resource Name (ARN) of the storage used for audit logs.
   final String? auditDestinationARN;
@@ -11966,6 +12186,8 @@ class NFSFileShareInfo {
 }
 
 /// Describes a gateway's network interface.
+///
+/// @nodoc
 class NetworkInterface {
   /// The Internet Protocol version 4 (IPv4) address of the interface.
   final String? ipv4Address;
@@ -12011,6 +12233,8 @@ class NetworkInterface {
 
 /// Describes the object returned by <code>DescribeFileSystemAssociations</code>
 /// that describes a created file system association.
+///
+/// @nodoc
 class FileSystemAssociationInfo {
   /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
   final String? auditDestinationARN;
@@ -12122,6 +12346,8 @@ class FileSystemAssociationInfo {
 
 /// Specifies network configuration information for the gateway associated with
 /// the Amazon FSx file system.
+///
+/// @nodoc
 class EndpointNetworkConfiguration {
   /// A list of gateway IP addresses on which the associated Amazon FSx file
   /// system is available.
@@ -12153,6 +12379,8 @@ class EndpointNetworkConfiguration {
 }
 
 /// Detailed information on file system association status.
+///
+/// @nodoc
 class FileSystemAssociationStatusDetail {
   /// The error code for a given file system association status.
   final String? errorCode;
@@ -12178,6 +12406,8 @@ class FileSystemAssociationStatusDetail {
 
 /// Describes Challenge-Handshake Authentication Protocol (CHAP) information
 /// that supports authentication between your gateway and iSCSI initiators.
+///
+/// @nodoc
 class ChapInfo {
   /// The iSCSI initiator that connects to the target.
   final String? initiatorName;
@@ -12230,6 +12460,8 @@ class ChapInfo {
 }
 
 /// Describes an iSCSI cached volume.
+///
+/// @nodoc
 class CachediSCSIVolume {
   /// The date the volume was created. Volumes created prior to March 28, 2017
   /// don’t have this timestamp.
@@ -12373,6 +12605,7 @@ class CachediSCSIVolume {
   }
 }
 
+/// @nodoc
 class AvailabilityMonitorTestStatus {
   static const complete = AvailabilityMonitorTestStatus._('COMPLETE');
   static const failed = AvailabilityMonitorTestStatus._('FAILED');
@@ -12399,11 +12632,13 @@ class AvailabilityMonitorTestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidGatewayRequestException extends _s.GenericAwsException {
   InvalidGatewayRequestException({String? type, String? message})
       : super(
@@ -12412,6 +12647,7 @@ class InvalidGatewayRequestException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableError extends _s.GenericAwsException {
   ServiceUnavailableError({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailableError', message: message);

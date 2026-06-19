@@ -1326,6 +1326,7 @@ class SocialMessaging {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The status code of the response.
   final int? statusCode;
@@ -1358,6 +1359,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   /// The status code of the tag resource operation.
   final int? statusCode;
@@ -1380,6 +1382,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   /// The status code of the untag resource operation.
   final int? statusCode;
@@ -1402,6 +1405,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class AssociateWhatsAppBusinessAccountOutput {
   /// The ID of the WhatsApp Business Account that was linked to your Amazon Web
   /// Services account.
@@ -1447,6 +1451,7 @@ class AssociateWhatsAppBusinessAccountOutput {
   }
 }
 
+/// @nodoc
 class GetLinkedWhatsAppBusinessAccountOutput {
   /// The details of the linked WhatsApp Business Account.
   final LinkedWhatsAppBusinessAccount? account;
@@ -1473,6 +1478,7 @@ class GetLinkedWhatsAppBusinessAccountOutput {
   }
 }
 
+/// @nodoc
 class DisassociateWhatsAppBusinessAccountOutput {
   DisassociateWhatsAppBusinessAccountOutput();
 
@@ -1486,6 +1492,7 @@ class DisassociateWhatsAppBusinessAccountOutput {
   }
 }
 
+/// @nodoc
 class ListLinkedWhatsAppBusinessAccountsOutput {
   /// A list of WhatsApp Business Accounts linked to your Amazon Web Services
   /// account.
@@ -1521,6 +1528,7 @@ class ListLinkedWhatsAppBusinessAccountsOutput {
   }
 }
 
+/// @nodoc
 class CreateWhatsAppFlowOutput {
   /// The unique identifier assigned to the Flow by Meta.
   final String? flowId;
@@ -1554,6 +1562,7 @@ class CreateWhatsAppFlowOutput {
   }
 }
 
+/// @nodoc
 class CreateWhatsAppMessageTemplateOutput {
   /// The category of the template, such as UTILITY or MARKETING.
   final String? category;
@@ -1591,6 +1600,7 @@ class CreateWhatsAppMessageTemplateOutput {
   }
 }
 
+/// @nodoc
 class CreateWhatsAppMessageTemplateFromLibraryOutput {
   /// The category of the template (for example, UTILITY or MARKETING).
   final String? category;
@@ -1628,6 +1638,7 @@ class CreateWhatsAppMessageTemplateFromLibraryOutput {
   }
 }
 
+/// @nodoc
 class CreateWhatsAppMessageTemplateMediaOutput {
   /// The handle assigned to the uploaded media by Meta, used to reference the
   /// media in templates.
@@ -1652,6 +1663,7 @@ class CreateWhatsAppMessageTemplateMediaOutput {
   }
 }
 
+/// @nodoc
 class DeleteWhatsAppFlowOutput {
   DeleteWhatsAppFlowOutput();
 
@@ -1664,6 +1676,7 @@ class DeleteWhatsAppFlowOutput {
   }
 }
 
+/// @nodoc
 class DeleteWhatsAppMessageTemplateOutput {
   DeleteWhatsAppMessageTemplateOutput();
 
@@ -1676,6 +1689,7 @@ class DeleteWhatsAppMessageTemplateOutput {
   }
 }
 
+/// @nodoc
 class DeprecateWhatsAppFlowOutput {
   DeprecateWhatsAppFlowOutput();
 
@@ -1688,6 +1702,7 @@ class DeprecateWhatsAppFlowOutput {
   }
 }
 
+/// @nodoc
 class GetWhatsAppFlowOutput {
   /// The unique identifier of the Flow.
   final String flowId;
@@ -1809,6 +1824,7 @@ class GetWhatsAppFlowOutput {
   }
 }
 
+/// @nodoc
 class GetWhatsAppFlowPreviewOutput {
   /// The unique identifier of the Flow.
   final String flowId;
@@ -1840,6 +1856,7 @@ class GetWhatsAppFlowPreviewOutput {
   }
 }
 
+/// @nodoc
 class GetWhatsAppMessageTemplateOutput {
   /// The complete template definition as a JSON string (maximum 6000 characters).
   final String? template;
@@ -1862,6 +1879,7 @@ class GetWhatsAppMessageTemplateOutput {
   }
 }
 
+/// @nodoc
 class ListWhatsAppFlowAssetsOutput {
   /// A list of Flow assets with download URLs.
   final List<MetaFlowAsset> flowAssets;
@@ -1894,6 +1912,7 @@ class ListWhatsAppFlowAssetsOutput {
   }
 }
 
+/// @nodoc
 class ListWhatsAppFlowsOutput {
   /// A list of Flow summaries.
   final List<MetaFlowSummary> flows;
@@ -1926,6 +1945,7 @@ class ListWhatsAppFlowsOutput {
   }
 }
 
+/// @nodoc
 class ListWhatsAppMessageTemplatesOutput {
   /// The token to retrieve the next page of results, if any.
   final String? nextToken;
@@ -1959,6 +1979,7 @@ class ListWhatsAppMessageTemplatesOutput {
   }
 }
 
+/// @nodoc
 class ListWhatsAppTemplateLibraryOutput {
   /// A list of templates from Meta's library.
   final List<MetaLibraryTemplateDefinition>? metaLibraryTemplates;
@@ -1994,6 +2015,7 @@ class ListWhatsAppTemplateLibraryOutput {
   }
 }
 
+/// @nodoc
 class PublishWhatsAppFlowOutput {
   PublishWhatsAppFlowOutput();
 
@@ -2006,6 +2028,7 @@ class PublishWhatsAppFlowOutput {
   }
 }
 
+/// @nodoc
 class PutWhatsAppBusinessAccountEventDestinationsOutput {
   PutWhatsAppBusinessAccountEventDestinationsOutput();
 
@@ -2019,6 +2042,7 @@ class PutWhatsAppBusinessAccountEventDestinationsOutput {
   }
 }
 
+/// @nodoc
 class UpdateWhatsAppFlowOutput {
   UpdateWhatsAppFlowOutput();
 
@@ -2031,6 +2055,7 @@ class UpdateWhatsAppFlowOutput {
   }
 }
 
+/// @nodoc
 class UpdateWhatsAppFlowAssetsOutput {
   /// A list of validation errors returned by Meta, if any. Validation errors must
   /// be resolved before the Flow can be published.
@@ -2057,6 +2082,7 @@ class UpdateWhatsAppFlowAssetsOutput {
   }
 }
 
+/// @nodoc
 class UpdateWhatsAppMessageTemplateOutput {
   UpdateWhatsAppMessageTemplateOutput();
 
@@ -2069,6 +2095,7 @@ class UpdateWhatsAppMessageTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
   /// The WABA identifier linked to the phone number, formatted as
   /// <code>waba-01234567890123456789012345678901</code>.
@@ -2104,6 +2131,7 @@ class GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
   }
 }
 
+/// @nodoc
 class DeleteWhatsAppMessageMediaOutput {
   /// Success indicator for deleting the media file.
   final bool? success;
@@ -2126,6 +2154,7 @@ class DeleteWhatsAppMessageMediaOutput {
   }
 }
 
+/// @nodoc
 class GetWhatsAppMessageMediaOutput {
   /// The size of the media file, in KB.
   final int? fileSize;
@@ -2155,6 +2184,7 @@ class GetWhatsAppMessageMediaOutput {
   }
 }
 
+/// @nodoc
 class PostWhatsAppMessageMediaOutput {
   /// The unique identifier of the posted WhatsApp message.
   final String? mediaId;
@@ -2177,6 +2207,7 @@ class PostWhatsAppMessageMediaOutput {
   }
 }
 
+/// @nodoc
 class SendWhatsAppMessageOutput {
   /// The unique identifier of the message.
   final String? messageId;
@@ -2203,6 +2234,8 @@ class SendWhatsAppMessageOutput {
 /// S3 without updating your bucket policy. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html">Working
 /// with presigned URLs</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class S3PresignedUrl {
   /// A map of headers and their values. You must specify the
   /// <code>Content-Type</code> header when using
@@ -2230,6 +2263,8 @@ class S3PresignedUrl {
 }
 
 /// Contains information for the S3 bucket that contains media files.
+///
+/// @nodoc
 class S3File {
   /// The bucket name.
   final String bucketName;
@@ -2262,6 +2297,8 @@ class S3File {
 }
 
 /// The details of your WhatsApp phone number.
+///
+/// @nodoc
 class WhatsAppPhoneNumberDetail {
   /// The ARN of the WhatsApp phone number.
   final String arn;
@@ -2337,6 +2374,8 @@ class WhatsAppPhoneNumberDetail {
 }
 
 /// The category that classifies the business purpose of a WhatsApp Flow.
+///
+/// @nodoc
 class MetaFlowCategory {
   static const signUp = MetaFlowCategory._('SIGN_UP');
   static const signIn = MetaFlowCategory._('SIGN_IN');
@@ -2379,6 +2418,8 @@ class MetaFlowCategory {
 }
 
 /// Contains information on the event destination.
+///
+/// @nodoc
 class WhatsAppBusinessAccountEventDestination {
   /// The ARN of the event destination.
   final String eventDestinationArn;
@@ -2411,6 +2452,8 @@ class WhatsAppBusinessAccountEventDestination {
 }
 
 /// Defines the complete structure and content of a template in Meta's library.
+///
+/// @nodoc
 class MetaLibraryTemplateDefinition {
   /// The body text of the template.
   final String? templateBody;
@@ -2516,6 +2559,8 @@ class MetaLibraryTemplateDefinition {
 }
 
 /// Defines a button in a template from Meta's library.
+///
+/// @nodoc
 class LibraryTemplateButtonList {
   /// The type of one-time password for OTP buttons.
   final String? otpType;
@@ -2586,6 +2631,8 @@ class LibraryTemplateButtonList {
 }
 
 /// Provides a summary of a WhatsApp message template's key attributes.
+///
+/// @nodoc
 class TemplateSummary {
   /// The numeric ID assigned to the template by Meta.
   final String? metaTemplateId;
@@ -2647,6 +2694,8 @@ class TemplateSummary {
 
 /// Contains summary information about a WhatsApp Flow, including its ID, name,
 /// status, and categories.
+///
+/// @nodoc
 class MetaFlowSummary {
   /// The categories that classify the business purpose of the Flow.
   final List<MetaFlowCategory> flowCategories;
@@ -2706,6 +2755,8 @@ class MetaFlowSummary {
 
 /// Represents a single asset file associated with a WhatsApp Flow, including a
 /// presigned download URL.
+///
+/// @nodoc
 class MetaFlowAsset {
   /// The type of asset. Currently the only supported value is FLOW_JSON.
   final String assetType;
@@ -2745,6 +2796,8 @@ class MetaFlowAsset {
 
 /// Contains the preview URL for testing a WhatsApp Flow and its expiration
 /// timestamp.
+///
+/// @nodoc
 class MetaFlowPreviewInfo {
   /// The timestamp when the preview URL expires.
   final String expiresAt;
@@ -2777,6 +2830,8 @@ class MetaFlowPreviewInfo {
 
 /// Contains WhatsApp Business Account metadata associated with a Flow, as
 /// returned by Meta.
+///
+/// @nodoc
 class MetaFlowWhatsAppBusinessAccountInfo {
   /// The WhatsApp Business Account ID from Meta.
   final String id;
@@ -2830,6 +2885,8 @@ class MetaFlowWhatsAppBusinessAccountInfo {
 }
 
 /// Contains the Meta application metadata associated with a WhatsApp Flow.
+///
+/// @nodoc
 class MetaFlowApplicationInfo {
   /// The unique identifier of the Meta application.
   final String id;
@@ -2868,6 +2925,8 @@ class MetaFlowApplicationInfo {
 
 /// Contains the overall health status and per-entity breakdown for a WhatsApp
 /// Flow.
+///
+/// @nodoc
 class MetaFlowHealthStatus {
   /// The overall messaging availability status (for example, AVAILABLE, LIMITED,
   /// or BLOCKED).
@@ -2902,6 +2961,8 @@ class MetaFlowHealthStatus {
 }
 
 /// Represents a single entity in the health status check for a WhatsApp Flow.
+///
+/// @nodoc
 class MetaFlowHealthEntity {
   /// The messaging availability status for this entity (for example, AVAILABLE,
   /// LIMITED, or BLOCKED).
@@ -2940,6 +3001,8 @@ class MetaFlowHealthEntity {
 }
 
 /// Represents a template from Meta's library with customization options.
+///
+/// @nodoc
 class MetaLibraryTemplate {
   /// The name of the template in Meta's library.
   final String libraryTemplateName;
@@ -2990,6 +3053,8 @@ class MetaLibraryTemplate {
 
 /// Configuration options for customizing the body content of a template from
 /// Meta's library.
+///
+/// @nodoc
 class LibraryTemplateBodyInputs {
   /// When true, includes a contact number in the template body.
   final bool? addContactNumber;
@@ -3035,6 +3100,8 @@ class LibraryTemplateBodyInputs {
 
 /// Configuration options for customizing buttons in a template from Meta's
 /// library.
+///
+/// @nodoc
 class LibraryTemplateButtonInput {
   /// The type of one-time password for OTP buttons.
   final String? otpType;
@@ -3083,6 +3150,8 @@ class LibraryTemplateButtonInput {
 }
 
 /// The details of a linked WhatsApp Business Account.
+///
+/// @nodoc
 class LinkedWhatsAppBusinessAccountSummary {
   /// The ARN of the linked WhatsApp Business Account.
   final String arn;
@@ -3166,6 +3235,7 @@ class LinkedWhatsAppBusinessAccountSummary {
   }
 }
 
+/// @nodoc
 class RegistrationStatus {
   static const complete = RegistrationStatus._('COMPLETE');
   static const incomplete = RegistrationStatus._('INCOMPLETE');
@@ -3192,6 +3262,8 @@ class RegistrationStatus {
 }
 
 /// The details of your linked WhatsApp Business Account.
+///
+/// @nodoc
 class LinkedWhatsAppBusinessAccount {
   /// The ARN of the linked WhatsApp Business Account.
   final String arn;
@@ -3286,6 +3358,8 @@ class LinkedWhatsAppBusinessAccount {
 }
 
 /// The details of a linked phone number.
+///
+/// @nodoc
 class WhatsAppPhoneNumberSummary {
   /// The full Amazon Resource Name (ARN) for the phone number.
   final String arn;
@@ -3361,6 +3435,8 @@ class WhatsAppPhoneNumberSummary {
 }
 
 /// Contains the results of WhatsAppSignupCallback.
+///
+/// @nodoc
 class WhatsAppSignupCallbackResult {
   /// An Amazon Web Services access token generated by
   /// <code>WhatsAppSignupCallback</code> and used by
@@ -3404,6 +3480,8 @@ class WhatsAppSignupCallbackResult {
 
 /// Contains your WhatsApp registration status and details of any unregistered
 /// WhatsApp phone number.
+///
+/// @nodoc
 class LinkedWhatsAppBusinessAccountIdMetaData {
   /// The name of your account.
   final String? accountName;
@@ -3458,6 +3536,8 @@ class LinkedWhatsAppBusinessAccountIdMetaData {
 }
 
 /// Contains the <code>accessToken</code> provided by Meta during signup.
+///
+/// @nodoc
 class WhatsAppSignupCallback {
   /// The access token for your WhatsApp Business Account. The
   /// <code>accessToken</code> value is provided by Meta.
@@ -3483,6 +3563,8 @@ class WhatsAppSignupCallback {
 
 /// The details of linking a WhatsApp Business Account to your Amazon Web
 /// Services account.
+///
+/// @nodoc
 class WhatsAppSetupFinalization {
   /// An Amazon Web Services access token generated by
   /// <code>WhatsAppSignupCallback</code> and used by
@@ -3524,6 +3606,8 @@ class WhatsAppSetupFinalization {
 }
 
 /// The registration details for a linked WhatsApp Business Account.
+///
+/// @nodoc
 class WabaSetupFinalization {
   /// The event destinations for the linked WhatsApp Business Account.
   final List<WhatsAppBusinessAccountEventDestination>? eventDestinations;
@@ -3554,6 +3638,8 @@ class WabaSetupFinalization {
 }
 
 /// The tag for a resource.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   final String key;
@@ -3584,6 +3670,8 @@ class Tag {
 }
 
 /// The registration details for a linked phone number.
+///
+/// @nodoc
 class WabaPhoneNumberSetupFinalization {
   /// The unique identifier of the originating phone number associated with the
   /// media. Phone number identifiers are formatted as
@@ -3684,37 +3772,44 @@ class WabaPhoneNumberSetupFinalization {
   }
 }
 
+/// @nodoc
 class AccessDeniedByMetaException extends _s.GenericAwsException {
   AccessDeniedByMetaException({String? type, String? message})
       : super(
             type: type, code: 'AccessDeniedByMetaException', message: message);
 }
 
+/// @nodoc
 class DependencyException extends _s.GenericAwsException {
   DependencyException({String? type, String? message})
       : super(type: type, code: 'DependencyException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidParametersException extends _s.GenericAwsException {
   InvalidParametersException({String? type, String? message})
       : super(type: type, code: 'InvalidParametersException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottledRequestException extends _s.GenericAwsException {
   ThrottledRequestException({String? type, String? message})
       : super(type: type, code: 'ThrottledRequestException', message: message);

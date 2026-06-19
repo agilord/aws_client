@@ -1173,6 +1173,7 @@ class PI {
   }
 }
 
+/// @nodoc
 class CreatePerformanceAnalysisReportResponse {
   /// A unique identifier for the created analysis report.
   final String? analysisReportId;
@@ -1196,6 +1197,7 @@ class CreatePerformanceAnalysisReportResponse {
   }
 }
 
+/// @nodoc
 class DeletePerformanceAnalysisReportResponse {
   DeletePerformanceAnalysisReportResponse();
 
@@ -1209,6 +1211,7 @@ class DeletePerformanceAnalysisReportResponse {
   }
 }
 
+/// @nodoc
 class DescribeDimensionKeysResponse {
   /// The end time for the returned dimension keys, after alignment to a granular
   /// boundary (as specified by <code>PeriodInSeconds</code>).
@@ -1279,6 +1282,7 @@ class DescribeDimensionKeysResponse {
   }
 }
 
+/// @nodoc
 class GetDimensionKeyDetailsResponse {
   /// The details for the requested dimensions.
   final List<DimensionKeyDetail>? dimensions;
@@ -1304,6 +1308,7 @@ class GetDimensionKeyDetailsResponse {
   }
 }
 
+/// @nodoc
 class GetPerformanceAnalysisReportResponse {
   /// The summary of the performance analysis report created for a time period.
   final AnalysisReport? analysisReport;
@@ -1330,6 +1335,7 @@ class GetPerformanceAnalysisReportResponse {
   }
 }
 
+/// @nodoc
 class GetResourceMetadataResponse {
   /// The metadata for different features. For example, the metadata might
   /// indicate that a feature is turned on or off on a specific DB instance.
@@ -1365,6 +1371,7 @@ class GetResourceMetadataResponse {
   }
 }
 
+/// @nodoc
 class GetResourceMetricsResponse {
   /// The end time for the returned metrics, after alignment to a granular
   /// boundary (as specified by <code>PeriodInSeconds</code>).
@@ -1433,6 +1440,7 @@ class GetResourceMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListAvailableResourceDimensionsResponse {
   /// The dimension information returned for requested metric types.
   final List<MetricDimensionGroups>? metricDimensions;
@@ -1468,6 +1476,7 @@ class ListAvailableResourceDimensionsResponse {
   }
 }
 
+/// @nodoc
 class ListAvailableResourceMetricsResponse {
   /// An array of metrics available to query. Each array element contains the full
   /// name, description, and unit of the metric.
@@ -1506,6 +1515,7 @@ class ListAvailableResourceMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListPerformanceAnalysisReportRecommendationsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the token,
@@ -1541,6 +1551,7 @@ class ListPerformanceAnalysisReportRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListPerformanceAnalysisReportsResponse {
   /// List of reports including the report identifier, start and end time,
   /// creation time, and status.
@@ -1577,6 +1588,7 @@ class ListPerformanceAnalysisReportsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The metadata assigned to an Amazon RDS resource consisting of a key-value
   /// pair.
@@ -1603,6 +1615,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1615,6 +1628,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1627,6 +1641,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class ServiceType {
   static const rds = ServiceType._('RDS');
   static const docdb = ServiceType._('DOCDB');
@@ -1651,19 +1666,21 @@ class ServiceType {
 }
 
 /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+///
+/// @nodoc
 class Tag {
   /// A key is the required name of the tag. The string value can be from 1 to 128
   /// Unicode characters in length and can't be prefixed with <code>aws:</code> or
   /// <code>rds:</code>. The string can only contain only the set of Unicode
   /// letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java
-  /// regex: <code>"^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"</code>).
+  /// regex: <code>"^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@\]*)$"</code>).
   final String key;
 
   /// A value is the optional value of the tag. The string value can be from 1 to
   /// 256 Unicode characters in length and can't be prefixed with
   /// <code>aws:</code> or <code>rds:</code>. The string can only contain only the
   /// set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+',
-  /// '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
+  /// '-', '@' (Java regex: "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@\]*)$").
   final String value;
 
   Tag({
@@ -1689,6 +1706,8 @@ class Tag {
 }
 
 /// Retrieves the details of the performance analysis report.
+///
+/// @nodoc
 class AnalysisReportSummary {
   /// The name of the analysis report.
   final String? analysisReportId;
@@ -1749,6 +1768,7 @@ class AnalysisReportSummary {
   }
 }
 
+/// @nodoc
 class AnalysisStatus {
   static const running = AnalysisStatus._('RUNNING');
   static const succeeded = AnalysisStatus._('SUCCEEDED');
@@ -1775,6 +1795,8 @@ class AnalysisStatus {
 }
 
 /// The list of recommendations for the insight.
+///
+/// @nodoc
 class Recommendation {
   /// The recommendation details to help resolve the performance issue. For
   /// example, <code>Investigate the following SQLs that contributed to 100% of
@@ -1817,6 +1839,8 @@ class Recommendation {
 }
 
 /// An object that contains the full name, description, and unit of a metric.
+///
+/// @nodoc
 class ResponseResourceMetric {
   /// The description of the metric.
   final String? description;
@@ -1854,6 +1878,8 @@ class ResponseResourceMetric {
 }
 
 /// The available dimension information for a metric type.
+///
+/// @nodoc
 class MetricDimensionGroups {
   /// The available dimension groups for a metric type.
   final List<DimensionGroupDetail>? groups;
@@ -1887,6 +1913,8 @@ class MetricDimensionGroups {
 }
 
 /// Information about dimensions within a dimension group.
+///
+/// @nodoc
 class DimensionGroupDetail {
   /// The dimensions within a dimension group.
   final List<DimensionDetail>? dimensions;
@@ -1920,6 +1948,8 @@ class DimensionGroupDetail {
 }
 
 /// The information about a dimension.
+///
+/// @nodoc
 class DimensionDetail {
   /// The identifier of a dimension.
   final String? identifier;
@@ -1942,6 +1972,7 @@ class DimensionDetail {
   }
 }
 
+/// @nodoc
 class FineGrainedAction {
   static const describeDimensionKeys =
       FineGrainedAction._('DescribeDimensionKeys');
@@ -1975,6 +2006,8 @@ class FineGrainedAction {
 
 /// A time-ordered series of data points, corresponding to a dimension of a
 /// Performance Insights metric.
+///
+/// @nodoc
 class MetricKeyDataPoints {
   /// An array of timestamp-value pairs, representing measurements over a period
   /// of time.
@@ -2013,6 +2046,8 @@ class MetricKeyDataPoints {
 
 /// An object describing a Performance Insights metric and one or more
 /// dimensions for that metric.
+///
+/// @nodoc
 class ResponseResourceMetricKey {
   /// The name of a Performance Insights metric to be measured.
   ///
@@ -2077,6 +2112,8 @@ class ResponseResourceMetricKey {
 
 /// A timestamp, and a single numerical value, which together represent a
 /// measurement at a particular point in time.
+///
+/// @nodoc
 class DataPoint {
   /// The time, in epoch format, associated with a particular <code>Value</code>.
   final DateTime timestamp;
@@ -2106,6 +2143,7 @@ class DataPoint {
   }
 }
 
+/// @nodoc
 class PeriodAlignment {
   static const endTime = PeriodAlignment._('END_TIME');
   static const startTime = PeriodAlignment._('START_TIME');
@@ -2139,6 +2177,8 @@ class PeriodAlignment {
 /// the specified metric. Optionally, you can request that the data points be
 /// aggregated by dimension group (<code>GroupBy</code>), and return only those
 /// data points that match your criteria (<code>Filter</code>).
+///
+/// @nodoc
 class MetricQuery {
   /// The name of a Performance Insights metric to be measured.
   ///
@@ -2242,6 +2282,8 @@ class MetricQuery {
 /// Each response element returns a maximum of 500 bytes. For larger elements,
 /// such as SQL statements, only the first 500 bytes are returned.
 /// </note>
+///
+/// @nodoc
 class DimensionGroup {
   /// The name of the dimension group. Valid values are as follows:
   ///
@@ -2539,6 +2581,8 @@ class DimensionGroup {
 
 /// The metadata for a feature. For example, the metadata might indicate that a
 /// feature is turned on or off on a specific DB instance.
+///
+/// @nodoc
 class FeatureMetadata {
   /// The status of the feature on the DB instance. Possible values include the
   /// following:
@@ -2585,6 +2629,7 @@ class FeatureMetadata {
   }
 }
 
+/// @nodoc
 class FeatureStatus {
   static const enabled = FeatureStatus._('ENABLED');
   static const disabled = FeatureStatus._('DISABLED');
@@ -2623,6 +2668,8 @@ class FeatureStatus {
 
 /// Retrieves the summary of the performance analysis report created for a time
 /// period.
+///
+/// @nodoc
 class AnalysisReport {
   /// The name of the analysis report.
   final String analysisReportId;
@@ -2709,6 +2756,8 @@ class AnalysisReport {
 }
 
 /// Retrieves the list of performance issues which are identified.
+///
+/// @nodoc
 class Insight {
   /// The unique identifier for the insight. For example,
   /// <code>insight-12345678901234567</code>.
@@ -2823,6 +2872,7 @@ class Insight {
   }
 }
 
+/// @nodoc
 class ContextType {
   static const causal = ContextType._('CAUSAL');
   static const contextual = ContextType._('CONTEXTUAL');
@@ -2846,6 +2896,7 @@ class ContextType {
   String toString() => value;
 }
 
+/// @nodoc
 class Severity {
   static const low = Severity._('LOW');
   static const medium = Severity._('MEDIUM');
@@ -2874,6 +2925,8 @@ class Severity {
 /// can be used to determine the PI metric to render for the insight. This data
 /// type also includes static values for the metrics for the Insight that were
 /// calculated and included in text and annotations on the DB load chart.
+///
+/// @nodoc
 class Data {
   /// This field determines the Performance Insights metric to render for the
   /// insight. The <code>name</code> field refers to a Performance Insights
@@ -2904,6 +2957,8 @@ class Data {
 
 /// This data type helps to determine Performance Insights metric to render for
 /// the insight.
+///
+/// @nodoc
 class PerformanceInsightsMetric {
   /// A dimension map that contains the dimensions for this partition.
   final Map<String, String>? dimensions;
@@ -2957,6 +3012,7 @@ class PerformanceInsightsMetric {
   }
 }
 
+/// @nodoc
 class TextFormat {
   static const plainText = TextFormat._('PLAIN_TEXT');
   static const markdown = TextFormat._('MARKDOWN');
@@ -2980,6 +3036,7 @@ class TextFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceptLanguage {
   static const enUs = AcceptLanguage._('EN_US');
 
@@ -3004,6 +3061,8 @@ class AcceptLanguage {
 }
 
 /// An object that describes the details for a specified dimension.
+///
+/// @nodoc
 class DimensionKeyDetail {
   /// The full name of the dimension. The full name includes the group name and
   /// key name. The following values are valid:
@@ -3078,6 +3137,7 @@ class DimensionKeyDetail {
   }
 }
 
+/// @nodoc
 class DetailStatus {
   static const available = DetailStatus._('AVAILABLE');
   static const processing = DetailStatus._('PROCESSING');
@@ -3104,6 +3164,8 @@ class DetailStatus {
 
 /// An object that includes the requested dimension key values and aggregated
 /// metric values within a dimension group.
+///
+/// @nodoc
 class DimensionKeyDescription {
   /// A map that contains the value for each additional metric.
   final Map<String, double>? additionalMetrics;
@@ -3157,6 +3219,8 @@ class DimensionKeyDescription {
 /// If <code>PartitionBy</code> was specified in a
 /// <code>DescribeDimensionKeys</code> request, the dimensions are returned in
 /// an array. Each element in the array specifies one dimension.
+///
+/// @nodoc
 class ResponsePartitionKey {
   /// A dimension map that contains the dimensions for this partition.
   final Map<String, String> dimensions;
@@ -3181,16 +3245,19 @@ class ResponsePartitionKey {
   }
 }
 
+/// @nodoc
 class InternalServiceError extends _s.GenericAwsException {
   InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);

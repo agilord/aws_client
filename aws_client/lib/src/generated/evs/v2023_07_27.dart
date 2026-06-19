@@ -1301,6 +1301,7 @@ class Evs {
   }
 }
 
+/// @nodoc
 class GetVersionsResponse {
   /// A list of EC2 instance types and their available ESX versions.
   final List<InstanceTypeEsxVersionsInfo> instanceTypeEsxVersions;
@@ -1339,6 +1340,7 @@ class GetVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -1362,6 +1364,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1374,6 +1377,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1386,6 +1390,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentResponse {
   /// A description of the created environment.
   final Environment? environment;
@@ -1410,6 +1415,7 @@ class CreateEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetEnvironmentResponse {
   /// A description of the requested environment.
   final Environment? environment;
@@ -1434,6 +1440,7 @@ class GetEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentResponse {
   /// A description of the deleted environment.
   final Environment? environment;
@@ -1458,6 +1465,7 @@ class DeleteEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsResponse {
   /// A list of environments with summarized environment details.
   final List<EnvironmentSummary>? environmentSummaries;
@@ -1492,6 +1500,7 @@ class ListEnvironmentsResponse {
   }
 }
 
+/// @nodoc
 class AssociateEipToVlanResponse {
   final Vlan? vlan;
 
@@ -1515,6 +1524,7 @@ class AssociateEipToVlanResponse {
   }
 }
 
+/// @nodoc
 class CreateEntitlementResponse {
   /// A list of the created entitlements.
   final List<VmEntitlement>? entitlements;
@@ -1540,6 +1550,7 @@ class CreateEntitlementResponse {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentConnectorResponse {
   /// A description of the created connector.
   final Connector? connector;
@@ -1565,6 +1576,7 @@ class CreateEnvironmentConnectorResponse {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentHostResponse {
   /// A summary of the environment that the host is created in.
   final EnvironmentSummary? environmentSummary;
@@ -1599,6 +1611,7 @@ class CreateEnvironmentHostResponse {
   }
 }
 
+/// @nodoc
 class DeleteEntitlementResponse {
   /// A list of the deleted entitlements.
   final List<VmEntitlement>? entitlements;
@@ -1624,6 +1637,7 @@ class DeleteEntitlementResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentConnectorResponse {
   /// A description of the deleted connector.
   final Connector? connector;
@@ -1659,6 +1673,7 @@ class DeleteEnvironmentConnectorResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentHostResponse {
   /// A summary of the environment that the host was deleted from.
   final EnvironmentSummary? environmentSummary;
@@ -1693,6 +1708,7 @@ class DeleteEnvironmentHostResponse {
   }
 }
 
+/// @nodoc
 class DisassociateEipFromVlanResponse {
   final Vlan? vlan;
 
@@ -1716,6 +1732,7 @@ class DisassociateEipFromVlanResponse {
   }
 }
 
+/// @nodoc
 class GetDepotUrlResponse {
   /// The URL for accessing the Amazon EVS Custom Addon depot. This URL includes
   /// the authentication token as a path component.
@@ -1747,6 +1764,7 @@ class GetDepotUrlResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentConnectorsResponse {
   /// A list of connectors in the environment.
   final List<Connector>? connectors;
@@ -1781,6 +1799,7 @@ class ListEnvironmentConnectorsResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentHostsResponse {
   /// A list of hosts in the environment.
   final List<Host>? environmentHosts;
@@ -1814,6 +1833,7 @@ class ListEnvironmentHostsResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentVlansResponse {
   /// A list of VLANs that are associated with the specified environment.
   final List<Vlan>? environmentVlans;
@@ -1847,6 +1867,7 @@ class ListEnvironmentVlansResponse {
   }
 }
 
+/// @nodoc
 class ListVmEntitlementsResponse {
   /// A list of entitlements for virtual machines in the environment.
   final List<VmEntitlement>? entitlements;
@@ -1880,6 +1901,7 @@ class ListVmEntitlementsResponse {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentConnectorResponse {
   /// A description of the updated connector.
   final Connector? connector;
@@ -1908,6 +1930,8 @@ class UpdateEnvironmentConnectorResponse {
 /// An object that represents a connector for an Amazon EVS environment. A
 /// connector establishes a vCenter connection using the credentials stored in
 /// Amazon Web Services Secrets Manager.
+///
+/// @nodoc
 class Connector {
   /// The fully qualified domain name (FQDN) of the VCF appliance that the
   /// connector connects to.
@@ -2005,6 +2029,7 @@ class Connector {
   }
 }
 
+/// @nodoc
 class ConnectorType {
   static const vcenter = ConnectorType._('VCENTER');
 
@@ -2028,6 +2053,7 @@ class ConnectorType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectorState {
   static const creating = ConnectorState._('CREATING');
   static const createFailed = ConnectorState._('CREATE_FAILED');
@@ -2065,6 +2091,7 @@ class ConnectorState {
   String toString() => value;
 }
 
+/// @nodoc
 class CheckResult {
   static const passed = CheckResult._('PASSED');
   static const failed = CheckResult._('FAILED');
@@ -2090,6 +2117,8 @@ class CheckResult {
 }
 
 /// A check on a connector to identify connectivity health.
+///
+/// @nodoc
 class ConnectorCheck {
   /// The time when connector health began to be impaired.
   final DateTime? impairedSince;
@@ -2135,6 +2164,7 @@ class ConnectorCheck {
   }
 }
 
+/// @nodoc
 class CheckType {
   static const keyReuse = CheckType._('KEY_REUSE');
   static const keyCoverage = CheckType._('KEY_COVERAGE');
@@ -2173,6 +2203,8 @@ class CheckType {
 
 /// An object that represents a Windows Server License entitlement for a virtual
 /// machine in an Amazon EVS environment.
+///
+/// @nodoc
 class VmEntitlement {
   /// The unique ID of the connector associated with the entitlement.
   final String? connectorId;
@@ -2261,6 +2293,7 @@ class VmEntitlement {
   }
 }
 
+/// @nodoc
 class EntitlementType {
   static const windowsServer = EntitlementType._('WINDOWS_SERVER');
 
@@ -2284,6 +2317,7 @@ class EntitlementType {
   String toString() => value;
 }
 
+/// @nodoc
 class EntitlementStatus {
   static const creating = EntitlementStatus._('CREATING');
   static const created = EntitlementStatus._('CREATED');
@@ -2320,6 +2354,8 @@ class EntitlementStatus {
 }
 
 /// An object that contains error details for an entitlement.
+///
+/// @nodoc
 class ErrorDetail {
   /// The error code.
   final String errorCode;
@@ -2350,6 +2386,8 @@ class ErrorDetail {
 }
 
 /// The VLANs that Amazon EVS creates during environment creation.
+///
+/// @nodoc
 class Vlan {
   /// The availability zone of the VLAN.
   final String? availabilityZone;
@@ -2455,6 +2493,7 @@ class Vlan {
   }
 }
 
+/// @nodoc
 class VlanState {
   static const creating = VlanState._('CREATING');
   static const created = VlanState._('CREATED');
@@ -2483,6 +2522,8 @@ class VlanState {
 
 /// An Elastic IP address association with the elastic network interface in the
 /// VLAN subnet.
+///
+/// @nodoc
 class EipAssociation {
   /// The Elastic IP address allocation ID.
   final String? allocationId;
@@ -2523,6 +2564,8 @@ class EipAssociation {
 /// created in an Amazon EVS environment during environment creation. You can
 /// add hosts to an environment using the <code>CreateEnvironmentHost</code>
 /// operation. Amazon EVS supports 4-32 hosts per environment.
+///
+/// @nodoc
 class Host {
   /// The date and time that the host was created.
   final DateTime? createdAt;
@@ -2631,6 +2674,7 @@ class Host {
   }
 }
 
+/// @nodoc
 class InstanceType {
   static const i4iMetal = InstanceType._('i4i.metal');
   static const i7iMetal_24xl = InstanceType._('i7i.metal-24xl');
@@ -2654,6 +2698,7 @@ class InstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class HostState {
   static const creating = HostState._('CREATING');
   static const created = HostState._('CREATED');
@@ -2694,6 +2739,8 @@ class HostState {
 /// Amazon EVS provisions two identically configured ENIs in the VMkernel
 /// management subnet during host creation. One ENI is active, and the other is
 /// in standby mode for automatic switchover during a failure scenario.
+///
+/// @nodoc
 class NetworkInterface {
   /// The unique ID of the elastic network interface.
   final String? networkInterfaceId;
@@ -2717,6 +2764,8 @@ class NetworkInterface {
 }
 
 /// A list of environments with summarized environment details.
+///
+/// @nodoc
 class EnvironmentSummary {
   /// The date and time that the environment was created.
   final DateTime? createdAt;
@@ -2792,6 +2841,7 @@ class EnvironmentSummary {
   }
 }
 
+/// @nodoc
 class VcfVersion {
   static const vcf_5_2_1 = VcfVersion._('VCF-5.2.1');
   static const vcf_5_2_2 = VcfVersion._('VCF-5.2.2');
@@ -2815,6 +2865,7 @@ class VcfVersion {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentState {
   static const creating = EnvironmentState._('CREATING');
   static const created = EnvironmentState._('CREATED');
@@ -2849,6 +2900,8 @@ class EnvironmentState {
 /// <code>HostInfoForCreate</code>object. This results in a
 /// <code>ValidationException</code> response.
 /// </note>
+///
+/// @nodoc
 class HostInfoForCreate {
   /// The DNS hostname of the host. DNS hostnames for hosts must be unique across
   /// Amazon EVS environments and within VCF.
@@ -2891,6 +2944,8 @@ class HostInfoForCreate {
 }
 
 /// An object that represents an Amazon EVS environment.
+///
+/// @nodoc
 class Environment {
   /// A check on the environment to identify instance health and VMware VCF
   /// licensing issues.
@@ -3115,6 +3170,8 @@ class Environment {
 /// you specify two route server peer IDs. During environment creation, the
 /// route server endpoints peer with the NSX uplink VLAN for connectivity to the
 /// NSX overlay network.
+///
+/// @nodoc
 class ConnectivityInfo {
   /// The unique IDs for private route server peers.
   final List<String> privateRouteServerPeerings;
@@ -3148,6 +3205,8 @@ class ConnectivityInfo {
 ///
 /// VMware VCF requires the deployment of two NSX Edge nodes, and three NSX
 /// Manager virtual machines.
+///
+/// @nodoc
 class VcfHostnames {
   /// The hostname for VMware Cloud Builder.
   final String cloudBuilder;
@@ -3230,6 +3289,8 @@ class VcfHostnames {
 /// and your VPC for Amazon EVS service access. If a security group is not
 /// specified, Amazon EVS uses the default security group in your account for
 /// service access.
+///
+/// @nodoc
 class ServiceAccessSecurityGroups {
   /// The security groups that allow service access.
   final List<String>? securityGroups;
@@ -3263,6 +3324,8 @@ class ServiceAccessSecurityGroups {
 /// environment. Amazon EVS does not provide managed rotation of secrets. We
 /// recommend that you rotate secrets regularly to ensure that secrets are not
 /// long-lived.
+///
+/// @nodoc
 class Secret {
   /// The Amazon Resource Name (ARN) of the secret.
   final String? secretArn;
@@ -3287,6 +3350,8 @@ class Secret {
 
 /// A check on the environment to identify environment health and validate
 /// VMware VCF licensing compliance.
+///
+/// @nodoc
 class Check {
   /// The time when environment health began to be impaired.
   final DateTime? impairedSince;
@@ -3354,6 +3419,8 @@ class Check {
 /// The license information that Amazon EVS requires to create an environment.
 /// Amazon EVS requires two license keys: a VCF solution key and a vSAN license
 /// key.
+///
+/// @nodoc
 class LicenseInfo {
   /// The VCF solution key. This license unlocks VMware VCF product features,
   /// including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution
@@ -3389,6 +3456,8 @@ class LicenseInfo {
 /// The initial VLAN subnets for the environment. Amazon EVS VLAN subnets have a
 /// minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN
 /// subnet CIDR blocks must not overlap with other subnets in the VPC.
+///
+/// @nodoc
 class InitialVlans {
   /// The edge VTEP VLAN subnet. This VLAN subnet manages traffic flowing between
   /// the internal network and external networks, including internet access and
@@ -3517,6 +3586,8 @@ class InitialVlans {
 /// block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a
 /// maximum size of /24.
 /// </note>
+///
+/// @nodoc
 class InitialVlanInfo {
   /// The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon
   /// EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of
@@ -3537,6 +3608,8 @@ class InitialVlanInfo {
 }
 
 /// Information about ESX versions offered for each EC2 instance type.
+///
+/// @nodoc
 class InstanceTypeEsxVersionsInfo {
   /// The list of ESX versions offered for this instance type.
   final List<String> esxVersions;
@@ -3572,6 +3645,8 @@ class InstanceTypeEsxVersionsInfo {
 
 /// Information about a VCF versions provided by Amazon EVS, including its
 /// status, default ESX version, and EC2 instance types.
+///
+/// @nodoc
 class VcfVersionInfo {
   /// The default ESX version for this VCF version. It is based on Broadcom's Bill
   /// Of Materials (BOM).
@@ -3634,16 +3709,19 @@ class VcfVersionInfo {
   }
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3652,21 +3730,25 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TagPolicyException extends _s.GenericAwsException {
   TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

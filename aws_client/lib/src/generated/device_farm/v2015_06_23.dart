@@ -3698,6 +3698,8 @@ class DeviceFarm {
 }
 
 /// Represents the result of a create device pool request.
+///
+/// @nodoc
 class CreateDevicePoolResult {
   /// The newly created device pool.
   final DevicePool? devicePool;
@@ -3722,6 +3724,7 @@ class CreateDevicePoolResult {
   }
 }
 
+/// @nodoc
 class CreateInstanceProfileResult {
   /// An object that contains information about your instance profile.
   final InstanceProfile? instanceProfile;
@@ -3747,6 +3750,7 @@ class CreateInstanceProfileResult {
   }
 }
 
+/// @nodoc
 class CreateNetworkProfileResult {
   /// The network profile that is returned by the create network profile request.
   final NetworkProfile? networkProfile;
@@ -3773,6 +3777,8 @@ class CreateNetworkProfileResult {
 }
 
 /// Represents the result of a create project request.
+///
+/// @nodoc
 class CreateProjectResult {
   /// The newly created project.
   final Project? project;
@@ -3799,6 +3805,8 @@ class CreateProjectResult {
 
 /// Represents the server response from a request to create a remote access
 /// session.
+///
+/// @nodoc
 class CreateRemoteAccessSessionResult {
   /// A container that describes the remote access session when the request to
   /// create a remote access session is sent.
@@ -3826,6 +3834,7 @@ class CreateRemoteAccessSessionResult {
   }
 }
 
+/// @nodoc
 class CreateTestGridProjectResult {
   /// ARN of the Selenium testing project that was created.
   final TestGridProject? testGridProject;
@@ -3851,6 +3860,7 @@ class CreateTestGridProjectResult {
   }
 }
 
+/// @nodoc
 class CreateTestGridUrlResult {
   /// The number of seconds the URL from <a>CreateTestGridUrlResult$url</a> stays
   /// active.
@@ -3883,6 +3893,8 @@ class CreateTestGridUrlResult {
 }
 
 /// Represents the result of a create upload request.
+///
+/// @nodoc
 class CreateUploadResult {
   /// The newly created upload.
   final Upload? upload;
@@ -3907,6 +3919,7 @@ class CreateUploadResult {
   }
 }
 
+/// @nodoc
 class CreateVPCEConfigurationResult {
   /// An object that contains information about your VPC endpoint configuration.
   final VPCEConfiguration? vpceConfiguration;
@@ -3933,6 +3946,8 @@ class CreateVPCEConfigurationResult {
 }
 
 /// Represents the result of a delete device pool request.
+///
+/// @nodoc
 class DeleteDevicePoolResult {
   DeleteDevicePoolResult();
 
@@ -3945,6 +3960,7 @@ class DeleteDevicePoolResult {
   }
 }
 
+/// @nodoc
 class DeleteInstanceProfileResult {
   DeleteInstanceProfileResult();
 
@@ -3957,6 +3973,7 @@ class DeleteInstanceProfileResult {
   }
 }
 
+/// @nodoc
 class DeleteNetworkProfileResult {
   DeleteNetworkProfileResult();
 
@@ -3970,6 +3987,8 @@ class DeleteNetworkProfileResult {
 }
 
 /// Represents the result of a delete project request.
+///
+/// @nodoc
 class DeleteProjectResult {
   DeleteProjectResult();
 
@@ -3984,6 +4003,8 @@ class DeleteProjectResult {
 
 /// The response from the server when a request is made to delete the remote
 /// access session.
+///
+/// @nodoc
 class DeleteRemoteAccessSessionResult {
   DeleteRemoteAccessSessionResult();
 
@@ -3997,6 +4018,8 @@ class DeleteRemoteAccessSessionResult {
 }
 
 /// Represents the result of a delete run request.
+///
+/// @nodoc
 class DeleteRunResult {
   DeleteRunResult();
 
@@ -4009,6 +4032,7 @@ class DeleteRunResult {
   }
 }
 
+/// @nodoc
 class DeleteTestGridProjectResult {
   DeleteTestGridProjectResult();
 
@@ -4022,6 +4046,8 @@ class DeleteTestGridProjectResult {
 }
 
 /// Represents the result of a delete upload request.
+///
+/// @nodoc
 class DeleteUploadResult {
   DeleteUploadResult();
 
@@ -4034,6 +4060,7 @@ class DeleteUploadResult {
   }
 }
 
+/// @nodoc
 class DeleteVPCEConfigurationResult {
   DeleteVPCEConfigurationResult();
 
@@ -4048,6 +4075,8 @@ class DeleteVPCEConfigurationResult {
 
 /// Represents the account settings return values from the
 /// <code>GetAccountSettings</code> request.
+///
+/// @nodoc
 class GetAccountSettingsResult {
   /// The account settings.
   final AccountSettings? accountSettings;
@@ -4074,6 +4103,8 @@ class GetAccountSettingsResult {
 }
 
 /// Represents the result of a get device request.
+///
+/// @nodoc
 class GetDeviceResult {
   /// An object that contains information about the requested device.
   final Device? device;
@@ -4098,6 +4129,7 @@ class GetDeviceResult {
   }
 }
 
+/// @nodoc
 class GetDeviceInstanceResult {
   /// An object that contains information about your device instance.
   final DeviceInstance? deviceInstance;
@@ -4124,6 +4156,8 @@ class GetDeviceInstanceResult {
 }
 
 /// Represents the result of a get device pool request.
+///
+/// @nodoc
 class GetDevicePoolResult {
   /// An object that contains information about the requested device pool.
   final DevicePool? devicePool;
@@ -4149,6 +4183,8 @@ class GetDevicePoolResult {
 }
 
 /// Represents the result of describe device pool compatibility request.
+///
+/// @nodoc
 class GetDevicePoolCompatibilityResult {
   /// Information about compatible devices.
   final List<DevicePoolCompatibilityResult>? compatibleDevices;
@@ -4187,6 +4223,7 @@ class GetDevicePoolCompatibilityResult {
   }
 }
 
+/// @nodoc
 class GetInstanceProfileResult {
   /// An object that contains information about an instance profile.
   final InstanceProfile? instanceProfile;
@@ -4213,6 +4250,8 @@ class GetInstanceProfileResult {
 }
 
 /// Represents the result of a get job request.
+///
+/// @nodoc
 class GetJobResult {
   /// An object that contains information about the requested job.
   final Job? job;
@@ -4237,6 +4276,7 @@ class GetJobResult {
   }
 }
 
+/// @nodoc
 class GetNetworkProfileResult {
   /// The network profile.
   final NetworkProfile? networkProfile;
@@ -4263,6 +4303,8 @@ class GetNetworkProfileResult {
 }
 
 /// Returns the status result for a device offering.
+///
+/// @nodoc
 class GetOfferingStatusResult {
   /// When specified, gets the offering status for the current period.
   final Map<String, OfferingStatus>? current;
@@ -4303,6 +4345,8 @@ class GetOfferingStatusResult {
 }
 
 /// Represents the result of a get project request.
+///
+/// @nodoc
 class GetProjectResult {
   /// The project to get information about.
   final Project? project;
@@ -4329,6 +4373,8 @@ class GetProjectResult {
 
 /// Represents the response from the server that lists detailed information
 /// about the remote access session.
+///
+/// @nodoc
 class GetRemoteAccessSessionResult {
   /// A container that lists detailed information about the remote access session.
   final RemoteAccessSession? remoteAccessSession;
@@ -4356,6 +4402,8 @@ class GetRemoteAccessSessionResult {
 }
 
 /// Represents the result of a get run request.
+///
+/// @nodoc
 class GetRunResult {
   /// The run to get results from.
   final Run? run;
@@ -4381,6 +4429,8 @@ class GetRunResult {
 }
 
 /// Represents the result of a get suite request.
+///
+/// @nodoc
 class GetSuiteResult {
   /// A collection of one or more tests.
   final Suite? suite;
@@ -4406,6 +4456,8 @@ class GetSuiteResult {
 }
 
 /// Represents the result of a get test request.
+///
+/// @nodoc
 class GetTestResult {
   /// A test condition that is evaluated.
   final Test? test;
@@ -4430,6 +4482,7 @@ class GetTestResult {
   }
 }
 
+/// @nodoc
 class GetTestGridProjectResult {
   /// A <a>TestGridProject</a>.
   final TestGridProject? testGridProject;
@@ -4455,6 +4508,7 @@ class GetTestGridProjectResult {
   }
 }
 
+/// @nodoc
 class GetTestGridSessionResult {
   /// The <a>TestGridSession</a> that was requested.
   final TestGridSession? testGridSession;
@@ -4481,6 +4535,8 @@ class GetTestGridSessionResult {
 }
 
 /// Represents the result of a get upload request.
+///
+/// @nodoc
 class GetUploadResult {
   /// An app or a set of one or more tests to upload or that have been uploaded.
   final Upload? upload;
@@ -4505,6 +4561,7 @@ class GetUploadResult {
   }
 }
 
+/// @nodoc
 class GetVPCEConfigurationResult {
   /// An object that contains information about your VPC endpoint configuration.
   final VPCEConfiguration? vpceConfiguration;
@@ -4532,6 +4589,8 @@ class GetVPCEConfigurationResult {
 
 /// Represents the response from the server after AWS Device Farm makes a
 /// request to install to a remote access session.
+///
+/// @nodoc
 class InstallToRemoteAccessSessionResult {
   /// An app to upload or that has been uploaded.
   final Upload? appUpload;
@@ -4558,6 +4617,8 @@ class InstallToRemoteAccessSessionResult {
 }
 
 /// Represents the result of a list artifacts operation.
+///
+/// @nodoc
 class ListArtifactsResult {
   /// Information about the artifacts.
   final List<Artifact>? artifacts;
@@ -4592,6 +4653,7 @@ class ListArtifactsResult {
   }
 }
 
+/// @nodoc
 class ListDeviceInstancesResult {
   /// An object that contains information about your device instances.
   final List<DeviceInstance>? deviceInstances;
@@ -4626,6 +4688,8 @@ class ListDeviceInstancesResult {
 }
 
 /// Represents the result of a list device pools request.
+///
+/// @nodoc
 class ListDevicePoolsResult {
   /// Information about the device pools.
   final List<DevicePool>? devicePools;
@@ -4661,6 +4725,8 @@ class ListDevicePoolsResult {
 }
 
 /// Represents the result of a list devices operation.
+///
+/// @nodoc
 class ListDevicesResult {
   /// Information about the devices.
   final List<Device>? devices;
@@ -4695,6 +4761,7 @@ class ListDevicesResult {
   }
 }
 
+/// @nodoc
 class ListInstanceProfilesResult {
   /// An object that contains information about your instance profiles.
   final List<InstanceProfile>? instanceProfiles;
@@ -4729,6 +4796,8 @@ class ListInstanceProfilesResult {
 }
 
 /// Represents the result of a list jobs request.
+///
+/// @nodoc
 class ListJobsResult {
   /// Information about the jobs.
   final List<Job>? jobs;
@@ -4763,6 +4832,7 @@ class ListJobsResult {
   }
 }
 
+/// @nodoc
 class ListNetworkProfilesResult {
   /// A list of the available network profiles.
   final List<NetworkProfile>? networkProfiles;
@@ -4796,6 +4866,7 @@ class ListNetworkProfilesResult {
   }
 }
 
+/// @nodoc
 class ListOfferingPromotionsResult {
   /// An identifier to be used in the next call to this operation, to return the
   /// next set of items in the list.
@@ -4830,6 +4901,8 @@ class ListOfferingPromotionsResult {
 }
 
 /// Represents the return values of the list of offerings.
+///
+/// @nodoc
 class ListOfferingsResult {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
@@ -4864,6 +4937,8 @@ class ListOfferingsResult {
 }
 
 /// Returns the transaction log of the specified offerings.
+///
+/// @nodoc
 class ListOfferingTransactionsResult {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
@@ -4900,6 +4975,8 @@ class ListOfferingTransactionsResult {
 }
 
 /// Represents the result of a list projects request.
+///
+/// @nodoc
 class ListProjectsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
@@ -4936,6 +5013,8 @@ class ListProjectsResult {
 
 /// Represents the response from the server after AWS Device Farm makes a
 /// request to return information about the remote access session.
+///
+/// @nodoc
 class ListRemoteAccessSessionsResult {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
@@ -4972,6 +5051,8 @@ class ListRemoteAccessSessionsResult {
 }
 
 /// Represents the result of a list runs request.
+///
+/// @nodoc
 class ListRunsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
@@ -5007,6 +5088,8 @@ class ListRunsResult {
 }
 
 /// Represents the result of a list samples request.
+///
+/// @nodoc
 class ListSamplesResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
@@ -5042,6 +5125,8 @@ class ListSamplesResult {
 }
 
 /// Represents the result of a list suites request.
+///
+/// @nodoc
 class ListSuitesResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
@@ -5076,6 +5161,7 @@ class ListSuitesResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags to add to the resource. A tag is an array of key-value pairs. Tag
   /// keys can have a maximum character length of 128 characters. Tag values can
@@ -5103,6 +5189,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTestGridProjectsResult {
   /// Used for pagination. Pass into <a>ListTestGridProjects</a> to get more
   /// results in a paginated request.
@@ -5136,6 +5223,7 @@ class ListTestGridProjectsResult {
   }
 }
 
+/// @nodoc
 class ListTestGridSessionActionsResult {
   /// The action taken by the session.
   final List<TestGridSessionAction>? actions;
@@ -5168,6 +5256,7 @@ class ListTestGridSessionActionsResult {
   }
 }
 
+/// @nodoc
 class ListTestGridSessionArtifactsResult {
   /// A list of test grid session artifacts for a <a>TestGridSession</a>.
   final List<TestGridSessionArtifact>? artifacts;
@@ -5202,6 +5291,7 @@ class ListTestGridSessionArtifactsResult {
   }
 }
 
+/// @nodoc
 class ListTestGridSessionsResult {
   /// Pagination token.
   final String? nextToken;
@@ -5236,6 +5326,8 @@ class ListTestGridSessionsResult {
 }
 
 /// Represents the result of a list tests request.
+///
+/// @nodoc
 class ListTestsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
@@ -5271,6 +5363,8 @@ class ListTestsResult {
 }
 
 /// Represents the result of a list unique problems request.
+///
+/// @nodoc
 class ListUniqueProblemsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
@@ -5336,6 +5430,8 @@ class ListUniqueProblemsResult {
 }
 
 /// Represents the result of a list uploads request.
+///
+/// @nodoc
 class ListUploadsResult {
   /// If the number of items that are returned is significantly large, this is an
   /// identifier that is also returned. It can be used in a subsequent call to
@@ -5370,6 +5466,7 @@ class ListUploadsResult {
   }
 }
 
+/// @nodoc
 class ListVPCEConfigurationsResult {
   /// An identifier that was returned from the previous call to this operation,
   /// which can be used to return the next set of items in the list.
@@ -5405,6 +5502,8 @@ class ListVPCEConfigurationsResult {
 }
 
 /// The result of the purchase offering (for example, success or failure).
+///
+/// @nodoc
 class PurchaseOfferingResult {
   /// Represents the offering transaction for the purchase result.
   final OfferingTransaction? offeringTransaction;
@@ -5432,6 +5531,8 @@ class PurchaseOfferingResult {
 }
 
 /// The result of a renewal offering.
+///
+/// @nodoc
 class RenewOfferingResult {
   /// Represents the status of the offering transaction for the renewal.
   final OfferingTransaction? offeringTransaction;
@@ -5459,6 +5560,8 @@ class RenewOfferingResult {
 }
 
 /// Represents the result of a schedule run request.
+///
+/// @nodoc
 class ScheduleRunResult {
   /// Information about the scheduled run.
   final Run? run;
@@ -5483,6 +5586,7 @@ class ScheduleRunResult {
   }
 }
 
+/// @nodoc
 class StopJobResult {
   /// The job that was stopped.
   final Job? job;
@@ -5509,6 +5613,8 @@ class StopJobResult {
 
 /// Represents the response from the server that describes the remote access
 /// session when AWS Device Farm stops the session.
+///
+/// @nodoc
 class StopRemoteAccessSessionResult {
   /// A container that represents the metadata from the service about the remote
   /// access session you are stopping.
@@ -5537,6 +5643,8 @@ class StopRemoteAccessSessionResult {
 }
 
 /// Represents the results of your stop run attempt.
+///
+/// @nodoc
 class StopRunResult {
   /// The run that was stopped.
   final Run? run;
@@ -5561,6 +5669,7 @@ class StopRunResult {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5573,6 +5682,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5585,6 +5695,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDeviceInstanceResult {
   /// An object that contains information about your device instance.
   final DeviceInstance? deviceInstance;
@@ -5611,6 +5722,8 @@ class UpdateDeviceInstanceResult {
 }
 
 /// Represents the result of an update device pool request.
+///
+/// @nodoc
 class UpdateDevicePoolResult {
   /// The device pool you just updated.
   final DevicePool? devicePool;
@@ -5635,6 +5748,7 @@ class UpdateDevicePoolResult {
   }
 }
 
+/// @nodoc
 class UpdateInstanceProfileResult {
   /// An object that contains information about your instance profile.
   final InstanceProfile? instanceProfile;
@@ -5660,6 +5774,7 @@ class UpdateInstanceProfileResult {
   }
 }
 
+/// @nodoc
 class UpdateNetworkProfileResult {
   /// A list of the available network profiles.
   final NetworkProfile? networkProfile;
@@ -5686,6 +5801,8 @@ class UpdateNetworkProfileResult {
 }
 
 /// Represents the result of an update project request.
+///
+/// @nodoc
 class UpdateProjectResult {
   /// The project to update.
   final Project? project;
@@ -5710,6 +5827,7 @@ class UpdateProjectResult {
   }
 }
 
+/// @nodoc
 class UpdateTestGridProjectResult {
   /// The project, including updated information.
   final TestGridProject? testGridProject;
@@ -5735,6 +5853,7 @@ class UpdateTestGridProjectResult {
   }
 }
 
+/// @nodoc
 class UpdateUploadResult {
   /// A test spec uploaded to Device Farm.
   final Upload? upload;
@@ -5759,6 +5878,7 @@ class UpdateUploadResult {
   }
 }
 
+/// @nodoc
 class UpdateVPCEConfigurationResult {
   /// An object that contains information about your VPC endpoint configuration.
   final VPCEConfiguration? vpceConfiguration;
@@ -5785,6 +5905,8 @@ class UpdateVPCEConfigurationResult {
 }
 
 /// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.
+///
+/// @nodoc
 class VPCEConfiguration {
   /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
   final String? arn;
@@ -5843,6 +5965,8 @@ class VPCEConfiguration {
 }
 
 /// An app or a set of one or more tests to upload or that have been uploaded.
+///
+/// @nodoc
 class Upload {
   /// The upload's ARN.
   final String? arn;
@@ -6050,6 +6174,7 @@ class Upload {
   }
 }
 
+/// @nodoc
 class UploadType {
   static const androidApp = UploadType._('ANDROID_APP');
   static const iosApp = UploadType._('IOS_APP');
@@ -6155,6 +6280,7 @@ class UploadType {
   String toString() => value;
 }
 
+/// @nodoc
 class UploadStatus {
   static const initialized = UploadStatus._('INITIALIZED');
   static const processing = UploadStatus._('PROCESSING');
@@ -6180,6 +6306,7 @@ class UploadStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UploadCategory {
   static const curated = UploadCategory._('CURATED');
   static const private = UploadCategory._('PRIVATE');
@@ -6206,6 +6333,8 @@ class UploadCategory {
 
 /// A Selenium testing project. Projects are used to collect and collate
 /// sessions.
+///
+/// @nodoc
 class TestGridProject {
   /// The ARN for the project.
   final String? arn;
@@ -6260,6 +6389,8 @@ class TestGridProject {
 }
 
 /// The VPC security groups and subnets that are attached to a project.
+///
+/// @nodoc
 class TestGridVpcConfig {
   /// A list of VPC security group IDs in your Amazon VPC.
   final List<String> securityGroupIds;
@@ -6304,6 +6435,8 @@ class TestGridVpcConfig {
 
 /// Represents an operating-system neutral workspace for running and managing
 /// tests.
+///
+/// @nodoc
 class Project {
   /// The project's ARN.
   final String? arn;
@@ -6378,6 +6511,8 @@ class Project {
 
 /// Contains the VPC configuration data necessary to interface with AWS Device
 /// Farm's services.
+///
+/// @nodoc
 class VpcConfig {
   /// An array of one or more security groups IDs in your Amazon VPC.
   final List<String> securityGroupIds;
@@ -6421,6 +6556,8 @@ class VpcConfig {
 }
 
 /// Information about an environment variable for a project or a run.
+///
+/// @nodoc
 class EnvironmentVariable {
   /// The name of the environment variable.
   final String name;
@@ -6451,6 +6588,8 @@ class EnvironmentVariable {
 }
 
 /// An array of settings that describes characteristics of a network profile.
+///
+/// @nodoc
 class NetworkProfile {
   /// The Amazon Resource Name (ARN) of the network profile.
   final String? arn;
@@ -6559,6 +6698,7 @@ class NetworkProfile {
   }
 }
 
+/// @nodoc
 class NetworkProfileType {
   static const curated = NetworkProfileType._('CURATED');
   static const private = NetworkProfileType._('PRIVATE');
@@ -6585,6 +6725,8 @@ class NetworkProfileType {
 }
 
 /// Represents the instance profile.
+///
+/// @nodoc
 class InstanceProfile {
   /// The Amazon Resource Name (ARN) of the instance profile.
   final String? arn;
@@ -6654,6 +6796,8 @@ class InstanceProfile {
 }
 
 /// Represents a collection of device types.
+///
+/// @nodoc
 class DevicePool {
   /// The device pool's ARN.
   final String? arn;
@@ -6733,6 +6877,7 @@ class DevicePool {
   }
 }
 
+/// @nodoc
 class DevicePoolType {
   static const curated = DevicePoolType._('CURATED');
   static const private = DevicePoolType._('PRIVATE');
@@ -6758,6 +6903,8 @@ class DevicePoolType {
 }
 
 /// Represents a condition for a device pool.
+///
+/// @nodoc
 class Rule {
   /// The rule's stringified attribute. For example, specify the value as
   /// <code>"\"abc\""</code>.
@@ -6870,6 +7017,7 @@ class Rule {
   }
 }
 
+/// @nodoc
 class DeviceAttribute {
   static const arn = DeviceAttribute._('ARN');
   static const platform = DeviceAttribute._('PLATFORM');
@@ -6919,6 +7067,7 @@ class DeviceAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleOperator {
   static const equals = RuleOperator._('EQUALS');
   static const lessThan = RuleOperator._('LESS_THAN');
@@ -6958,6 +7107,8 @@ class RuleOperator {
 }
 
 /// Represents the device instance.
+///
+/// @nodoc
 class DeviceInstance {
   /// The Amazon Resource Name (ARN) of the device instance.
   final String? arn;
@@ -7019,6 +7170,7 @@ class DeviceInstance {
   }
 }
 
+/// @nodoc
 class InstanceStatus {
   static const inUse = InstanceStatus._('IN_USE');
   static const preparing = InstanceStatus._('PREPARING');
@@ -7049,6 +7201,8 @@ class InstanceStatus {
 /// organize it. Each tag consists of a key and an optional value, both of which
 /// you define. Tag keys can have a maximum character length of 128 characters.
 /// Tag values can have a maximum length of 256 characters.
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that makes up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
@@ -7082,6 +7236,8 @@ class Tag {
 
 /// Represents a test run on a set of devices with a given app package, test
 /// parameters, and so on.
+///
+/// @nodoc
 class Run {
   /// An app to upload or that has been uploaded.
   final String? appUpload;
@@ -7507,6 +7663,7 @@ class Run {
   }
 }
 
+/// @nodoc
 class TestType {
   static const builtinFuzz = TestType._('BUILTIN_FUZZ');
   static const appiumJavaJunit = TestType._('APPIUM_JAVA_JUNIT');
@@ -7557,6 +7714,7 @@ class TestType {
   String toString() => value;
 }
 
+/// @nodoc
 class DevicePlatform {
   static const android = DevicePlatform._('ANDROID');
   static const ios = DevicePlatform._('IOS');
@@ -7581,6 +7739,7 @@ class DevicePlatform {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const pending = ExecutionStatus._('PENDING');
   static const pendingConcurrency = ExecutionStatus._('PENDING_CONCURRENCY');
@@ -7622,6 +7781,7 @@ class ExecutionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionResult {
   static const pending = ExecutionResult._('PENDING');
   static const passed = ExecutionResult._('PASSED');
@@ -7660,6 +7820,8 @@ class ExecutionResult {
 }
 
 /// Represents entity counters.
+///
+/// @nodoc
 class Counters {
   /// The number of errored entities.
   final int? errored;
@@ -7724,6 +7886,7 @@ class Counters {
   }
 }
 
+/// @nodoc
 class BillingMethod {
   static const metered = BillingMethod._('METERED');
   static const unmetered = BillingMethod._('UNMETERED');
@@ -7750,6 +7913,8 @@ class BillingMethod {
 
 /// Represents the total (metered or unmetered) minutes used by the resource to
 /// run tests. Contains the sum of minutes consumed by all children.
+///
+/// @nodoc
 class DeviceMinutes {
   /// When specified, represents only the sum of metered minutes used by the
   /// resource to run tests.
@@ -7791,6 +7956,8 @@ class DeviceMinutes {
 
 /// Represents the http/s proxy configuration that will be applied to a device
 /// during a run.
+///
+/// @nodoc
 class DeviceProxy {
   /// Hostname or IPv4 address of the proxy.
   final String host;
@@ -7820,6 +7987,7 @@ class DeviceProxy {
   }
 }
 
+/// @nodoc
 class ExecutionResultCode {
   static const parsingFailed = ExecutionResultCode._('PARSING_FAILED');
   static const vpcEndpointSetupFailed =
@@ -7848,6 +8016,8 @@ class ExecutionResultCode {
 
 /// Represents the set of radios and their states on a device. Examples of
 /// radios include Wi-Fi, GPS, Bluetooth, and NFC.
+///
+/// @nodoc
 class Radios {
   /// True if Bluetooth is enabled at the beginning of the test. Otherwise, false.
   final bool? bluetooth;
@@ -7895,6 +8065,8 @@ class Radios {
 /// system degrees (for example, 47.6204, -122.3491).
 ///
 /// Elevation is currently not supported.
+///
+/// @nodoc
 class Location {
   /// The latitude.
   final double latitude;
@@ -7932,6 +8104,8 @@ class Location {
 ///
 /// For web app tests, you can specify both <code>iosPaths</code> and
 /// <code>androidPaths</code>.
+///
+/// @nodoc
 class CustomerArtifactPaths {
   /// Comma-separated list of paths on the Android device where the artifacts
   /// generated by the customer's tests are pulled from.
@@ -7983,6 +8157,8 @@ class CustomerArtifactPaths {
 /// Contains the run results requested by the device selection configuration and
 /// how many devices were returned. For an example of the JSON response syntax,
 /// see <a>ScheduleRun</a>.
+///
+/// @nodoc
 class DeviceSelectionResult {
   /// The filters in a device selection result.
   final List<DeviceFilter>? filters;
@@ -8033,6 +8209,8 @@ class DeviceSelectionResult {
 /// It is also passed in as the <code>filters</code> parameter to
 /// <code>ListDevices</code>. For an example of the JSON request syntax, see
 /// <a>ListDevices</a>.
+///
+/// @nodoc
 class DeviceFilter {
   /// The aspect of a device such as platform or model used as the selection
   /// criteria in a device filter.
@@ -8169,6 +8347,7 @@ class DeviceFilter {
   }
 }
 
+/// @nodoc
 class DeviceFilterAttribute {
   static const arn = DeviceFilterAttribute._('ARN');
   static const platform = DeviceFilterAttribute._('PLATFORM');
@@ -8220,6 +8399,8 @@ class DeviceFilterAttribute {
 }
 
 /// Represents information about the remote access session.
+///
+/// @nodoc
 class RemoteAccessSession {
   /// The ARN for the app to be installed onto your device.
   final String? appUpload;
@@ -8460,6 +8641,8 @@ class RemoteAccessSession {
 }
 
 /// Represents a device type that an app is tested against.
+///
+/// @nodoc
 class Device {
   /// The device's ARN.
   final String? arn;
@@ -8661,6 +8844,7 @@ class Device {
   }
 }
 
+/// @nodoc
 class InteractionMode {
   static const interactive = InteractionMode._('INTERACTIVE');
   static const noVideo = InteractionMode._('NO_VIDEO');
@@ -8688,6 +8872,8 @@ class InteractionMode {
 
 /// Represents the remote endpoints for viewing and controlling a device during
 /// a remote access session.
+///
+/// @nodoc
 class RemoteAccessEndpoints {
   /// URL for viewing and interacting with the device during the remote access
   /// session.
@@ -8721,6 +8907,7 @@ class RemoteAccessEndpoints {
   }
 }
 
+/// @nodoc
 class DeviceFormFactor {
   static const phone = DeviceFormFactor._('PHONE');
   static const tablet = DeviceFormFactor._('TABLET');
@@ -8747,6 +8934,8 @@ class DeviceFormFactor {
 
 /// Represents the amount of CPU that an app is using on a physical device. Does
 /// not represent system-wide CPU usage.
+///
+/// @nodoc
 class CPU {
   /// The CPU's architecture (for example, x86 or ARM).
   final String? architecture;
@@ -8786,6 +8975,8 @@ class CPU {
 
 /// Represents the screen resolution of a device in height and width, expressed
 /// in pixels.
+///
+/// @nodoc
 class Resolution {
   /// The screen resolution's height, expressed in pixels.
   final int? height;
@@ -8815,6 +9006,7 @@ class Resolution {
   }
 }
 
+/// @nodoc
 class DeviceAvailability {
   static const temporaryNotAvailable =
       DeviceAvailability._('TEMPORARY_NOT_AVAILABLE');
@@ -8849,6 +9041,8 @@ class DeviceAvailability {
 }
 
 /// Represents a device.
+///
+/// @nodoc
 class Job {
   /// The job's ARN.
   final String? arn;
@@ -9086,6 +9280,8 @@ class Job {
 /// devices to be included in the run. It is passed in as the
 /// <code>deviceSelectionConfiguration</code> request parameter in
 /// <a>ScheduleRun</a>.
+///
+/// @nodoc
 class DeviceSelectionConfiguration {
   /// Used to dynamically select a set of devices for a test run. A filter is made
   /// up of an attribute, an operator, and one or more values.
@@ -9220,6 +9416,8 @@ class DeviceSelectionConfiguration {
 /// Represents test settings. This data structure is passed in as the test
 /// parameter to ScheduleRun. For an example of the JSON request syntax, see
 /// <a>ScheduleRun</a>.
+///
+/// @nodoc
 class ScheduleRunTest {
   /// The test's type.
   ///
@@ -9397,6 +9595,8 @@ class ScheduleRunTest {
 
 /// Represents the settings for a run. Includes things like location, radio
 /// states, auxiliary apps, and network profiles.
+///
+/// @nodoc
 class ScheduleRunConfiguration {
   /// A list of upload ARNs for app packages to be installed with your app.
   final List<String>? auxiliaryApps;
@@ -9495,6 +9695,8 @@ class ScheduleRunConfiguration {
 
 /// Represents configuration information about a test run, such as the execution
 /// timeout (in minutes).
+///
+/// @nodoc
 class ExecutionConfiguration {
   /// True if account cleanup is enabled at the beginning of the test. Otherwise,
   /// false.
@@ -9545,6 +9747,8 @@ class ExecutionConfiguration {
 }
 
 /// Represents the metadata of an offering transaction.
+///
+/// @nodoc
 class OfferingTransaction {
   /// The cost of an offering transaction.
   final MonetaryAmount? cost;
@@ -9602,6 +9806,8 @@ class OfferingTransaction {
 }
 
 /// The status of the offering.
+///
+/// @nodoc
 class OfferingStatus {
   /// The date on which the offering is effective.
   final DateTime? effectiveOn;
@@ -9648,6 +9854,8 @@ class OfferingStatus {
 }
 
 /// A number that represents the monetary amount for an offering or transaction.
+///
+/// @nodoc
 class MonetaryAmount {
   /// The numerical amount of an offering or transaction.
   final double? amount;
@@ -9679,6 +9887,7 @@ class MonetaryAmount {
   }
 }
 
+/// @nodoc
 class CurrencyCode {
   static const usd = CurrencyCode._('USD');
 
@@ -9701,6 +9910,7 @@ class CurrencyCode {
   String toString() => value;
 }
 
+/// @nodoc
 class OfferingTransactionType {
   static const purchase = OfferingTransactionType._('PURCHASE');
   static const renew = OfferingTransactionType._('RENEW');
@@ -9728,6 +9938,8 @@ class OfferingTransactionType {
 }
 
 /// Represents the metadata of a device offering.
+///
+/// @nodoc
 class Offering {
   /// A string that describes the offering.
   final String? description;
@@ -9782,6 +9994,7 @@ class Offering {
   }
 }
 
+/// @nodoc
 class OfferingType {
   static const recurring = OfferingType._('RECURRING');
 
@@ -9805,6 +10018,8 @@ class OfferingType {
 }
 
 /// Specifies whether charges for devices are recurring.
+///
+/// @nodoc
 class RecurringCharge {
   /// The cost of the recurring charge.
   final MonetaryAmount? cost;
@@ -9837,6 +10052,7 @@ class RecurringCharge {
   }
 }
 
+/// @nodoc
 class RecurringChargeFrequency {
   static const monthly = RecurringChargeFrequency._('MONTHLY');
 
@@ -9862,6 +10078,8 @@ class RecurringChargeFrequency {
 }
 
 /// A collection of one or more problems, grouped by their result.
+///
+/// @nodoc
 class UniqueProblem {
   /// A message about the unique problems' result.
   final String? message;
@@ -9895,6 +10113,8 @@ class UniqueProblem {
 }
 
 /// Represents a specific warning or failure.
+///
+/// @nodoc
 class Problem {
   /// Information about the associated device.
   final Device? device;
@@ -9996,6 +10216,8 @@ class Problem {
 }
 
 /// Information about a problem detail.
+///
+/// @nodoc
 class ProblemDetail {
   /// The problem detail's ARN.
   final String? arn;
@@ -10026,6 +10248,8 @@ class ProblemDetail {
 }
 
 /// Represents a condition that is evaluated.
+///
+/// @nodoc
 class Test {
   /// The test's ARN.
   final String? arn;
@@ -10230,6 +10454,8 @@ class Test {
 
 /// A <a>TestGridSession</a> is a single instance of a browser launched from the
 /// URL provided by a call to <a>CreateTestGridUrl</a>.
+///
+/// @nodoc
 class TestGridSession {
   /// The ARN of the session.
   final String? arn;
@@ -10288,6 +10514,7 @@ class TestGridSession {
   }
 }
 
+/// @nodoc
 class TestGridSessionStatus {
   static const active = TestGridSessionStatus._('ACTIVE');
   static const closed = TestGridSessionStatus._('CLOSED');
@@ -10320,6 +10547,8 @@ class TestGridSessionStatus {
 /// Video elements might be broken up into multiple artifacts as they grow in
 /// size during creation.
 /// </note>
+///
+/// @nodoc
 class TestGridSessionArtifact {
   /// The file name of the artifact.
   final String? filename;
@@ -10357,6 +10586,7 @@ class TestGridSessionArtifact {
   }
 }
 
+/// @nodoc
 class TestGridSessionArtifactType {
   static const unknown = TestGridSessionArtifactType._('UNKNOWN');
   static const video = TestGridSessionArtifactType._('VIDEO');
@@ -10383,6 +10613,7 @@ class TestGridSessionArtifactType {
   String toString() => value;
 }
 
+/// @nodoc
 class TestGridSessionArtifactCategory {
   static const video = TestGridSessionArtifactCategory._('VIDEO');
   static const log = TestGridSessionArtifactCategory._('LOG');
@@ -10409,6 +10640,8 @@ class TestGridSessionArtifactCategory {
 }
 
 /// An action taken by a <a>TestGridSession</a> browser instance.
+///
+/// @nodoc
 class TestGridSessionAction {
   /// The action taken by the session.
   final String? action;
@@ -10460,6 +10693,8 @@ class TestGridSessionAction {
 }
 
 /// Represents a collection of one or more tests.
+///
+/// @nodoc
 class Suite {
   /// The suite's ARN.
   final String? arn;
@@ -10663,6 +10898,8 @@ class Suite {
 }
 
 /// Represents a sample of performance data.
+///
+/// @nodoc
 class Sample {
   /// The sample's ARN.
   final String? arn;
@@ -10761,6 +10998,7 @@ class Sample {
   }
 }
 
+/// @nodoc
 class SampleType {
   static const cpu = SampleType._('CPU');
   static const memory = SampleType._('MEMORY');
@@ -10818,6 +11056,8 @@ class SampleType {
 }
 
 /// Represents information about an offering promotion.
+///
+/// @nodoc
 class OfferingPromotion {
   /// A string that describes the offering promotion.
   final String? description;
@@ -10849,6 +11089,8 @@ class OfferingPromotion {
 
 /// Represents the output of a test. Examples of artifacts include logs and
 /// screenshots.
+///
+/// @nodoc
 class Artifact {
   /// The artifact's ARN.
   final String? arn;
@@ -10969,6 +11211,7 @@ class Artifact {
   }
 }
 
+/// @nodoc
 class ArtifactType {
   static const unknown = ArtifactType._('UNKNOWN');
   static const screenshot = ArtifactType._('SCREENSHOT');
@@ -11052,6 +11295,7 @@ class ArtifactType {
   String toString() => value;
 }
 
+/// @nodoc
 class ArtifactCategory {
   static const screenshot = ArtifactCategory._('SCREENSHOT');
   static const file = ArtifactCategory._('FILE');
@@ -11078,6 +11322,8 @@ class ArtifactCategory {
 }
 
 /// Represents a device pool compatibility result.
+///
+/// @nodoc
 class DevicePoolCompatibilityResult {
   /// Whether the result was compatible with the device pool.
   final bool? compatible;
@@ -11122,6 +11368,8 @@ class DevicePoolCompatibilityResult {
 }
 
 /// Represents information about incompatibility.
+///
+/// @nodoc
 class IncompatibilityMessage {
   /// A message about the incompatibility.
   final String? message;
@@ -11175,6 +11423,8 @@ class IncompatibilityMessage {
 }
 
 /// A container for account-level settings in AWS Device Farm.
+///
+/// @nodoc
 class AccountSettings {
   /// The AWS account number specified in the <code>AccountSettings</code>
   /// container.
@@ -11271,6 +11521,8 @@ class AccountSettings {
 }
 
 /// Represents information about free trial device minutes for an AWS account.
+///
+/// @nodoc
 class TrialMinutes {
   /// The number of free trial minutes remaining in the account.
   final double? remaining;
@@ -11302,6 +11554,8 @@ class TrialMinutes {
 
 /// Configuration settings for a remote access session, including billing
 /// method.
+///
+/// @nodoc
 class CreateRemoteAccessSessionConfiguration {
   /// A list of upload ARNs for app packages to be installed onto your device.
   /// (Maximum 3)
@@ -11339,61 +11593,73 @@ class CreateRemoteAccessSessionConfiguration {
   }
 }
 
+/// @nodoc
 class ArgumentException extends _s.GenericAwsException {
   ArgumentException({String? type, String? message})
       : super(type: type, code: 'ArgumentException', message: message);
 }
 
+/// @nodoc
 class CannotDeleteException extends _s.GenericAwsException {
   CannotDeleteException({String? type, String? message})
       : super(type: type, code: 'CannotDeleteException', message: message);
 }
 
+/// @nodoc
 class IdempotencyException extends _s.GenericAwsException {
   IdempotencyException({String? type, String? message})
       : super(type: type, code: 'IdempotencyException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidOperationException extends _s.GenericAwsException {
   InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotEligibleException extends _s.GenericAwsException {
   NotEligibleException({String? type, String? message})
       : super(type: type, code: 'NotEligibleException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceAccountException extends _s.GenericAwsException {
   ServiceAccountException({String? type, String? message})
       : super(type: type, code: 'ServiceAccountException', message: message);
 }
 
+/// @nodoc
 class TagOperationException extends _s.GenericAwsException {
   TagOperationException({String? type, String? message})
       : super(type: type, code: 'TagOperationException', message: message);
 }
 
+/// @nodoc
 class TagPolicyException extends _s.GenericAwsException {
   TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

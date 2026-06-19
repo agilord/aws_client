@@ -3051,6 +3051,7 @@ class Macie2 {
   }
 }
 
+/// @nodoc
 class AcceptInvitationResponse {
   AcceptInvitationResponse();
 
@@ -3063,6 +3064,7 @@ class AcceptInvitationResponse {
   }
 }
 
+/// @nodoc
 class BatchGetCustomDataIdentifiersResponse {
   /// An array of objects, one for each custom data identifier that matches the
   /// criteria specified in the request.
@@ -3105,6 +3107,7 @@ class BatchGetCustomDataIdentifiersResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateAutomatedDiscoveryAccountsResponse {
   /// An array of objects, one for each account whose status wasn't changed. Each
   /// object identifies the account and explains why the status of automated
@@ -3135,6 +3138,7 @@ class BatchUpdateAutomatedDiscoveryAccountsResponse {
   }
 }
 
+/// @nodoc
 class CreateAllowListResponse {
   /// The Amazon Resource Name (ARN) of the allow list.
   final String? arn;
@@ -3164,6 +3168,7 @@ class CreateAllowListResponse {
   }
 }
 
+/// @nodoc
 class CreateClassificationJobResponse {
   /// The Amazon Resource Name (ARN) of the job.
   final String? jobArn;
@@ -3193,6 +3198,7 @@ class CreateClassificationJobResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomDataIdentifierResponse {
   /// The unique identifier for the custom data identifier that was created.
   final String? customDataIdentifierId;
@@ -3217,6 +3223,7 @@ class CreateCustomDataIdentifierResponse {
   }
 }
 
+/// @nodoc
 class CreateFindingsFilterResponse {
   /// The Amazon Resource Name (ARN) of the filter that was created.
   final String? arn;
@@ -3246,6 +3253,7 @@ class CreateFindingsFilterResponse {
   }
 }
 
+/// @nodoc
 class CreateInvitationsResponse {
   /// An array of objects, one for each account whose invitation hasn't been
   /// processed. Each object identifies the account and explains why the
@@ -3274,6 +3282,7 @@ class CreateInvitationsResponse {
   }
 }
 
+/// @nodoc
 class CreateMemberResponse {
   /// The Amazon Resource Name (ARN) of the account that was associated with the
   /// administrator account.
@@ -3297,6 +3306,7 @@ class CreateMemberResponse {
   }
 }
 
+/// @nodoc
 class CreateSampleFindingsResponse {
   CreateSampleFindingsResponse();
 
@@ -3309,6 +3319,7 @@ class CreateSampleFindingsResponse {
   }
 }
 
+/// @nodoc
 class DeclineInvitationsResponse {
   /// An array of objects, one for each account whose invitation hasn't been
   /// declined. Each object identifies the account and explains why the request
@@ -3337,6 +3348,7 @@ class DeclineInvitationsResponse {
   }
 }
 
+/// @nodoc
 class DeleteAllowListResponse {
   DeleteAllowListResponse();
 
@@ -3349,6 +3361,7 @@ class DeleteAllowListResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomDataIdentifierResponse {
   DeleteCustomDataIdentifierResponse();
 
@@ -3361,6 +3374,7 @@ class DeleteCustomDataIdentifierResponse {
   }
 }
 
+/// @nodoc
 class DeleteFindingsFilterResponse {
   DeleteFindingsFilterResponse();
 
@@ -3373,6 +3387,7 @@ class DeleteFindingsFilterResponse {
   }
 }
 
+/// @nodoc
 class DeleteInvitationsResponse {
   /// An array of objects, one for each account whose invitation hasn't been
   /// deleted. Each object identifies the account and explains why the request
@@ -3401,6 +3416,7 @@ class DeleteInvitationsResponse {
   }
 }
 
+/// @nodoc
 class DeleteMemberResponse {
   DeleteMemberResponse();
 
@@ -3413,6 +3429,7 @@ class DeleteMemberResponse {
   }
 }
 
+/// @nodoc
 class DescribeBucketsResponse {
   /// An array of objects, one for each bucket that matches the filter criteria
   /// specified in the request.
@@ -3447,6 +3464,7 @@ class DescribeBucketsResponse {
   }
 }
 
+/// @nodoc
 class DescribeClassificationJobResponse {
   /// An array of unique identifiers, one for each allow list that the job is
   /// configured to use when it analyzes data.
@@ -3745,6 +3763,7 @@ class DescribeClassificationJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConfigurationResponse {
   /// Specifies whether Amazon Macie is enabled automatically for accounts that
   /// are added to the organization.
@@ -3778,6 +3797,7 @@ class DescribeOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DisableMacieResponse {
   DisableMacieResponse();
 
@@ -3790,6 +3810,7 @@ class DisableMacieResponse {
   }
 }
 
+/// @nodoc
 class DisableOrganizationAdminAccountResponse {
   DisableOrganizationAdminAccountResponse();
 
@@ -3803,6 +3824,7 @@ class DisableOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFromAdministratorAccountResponse {
   DisassociateFromAdministratorAccountResponse();
 
@@ -3816,6 +3838,7 @@ class DisassociateFromAdministratorAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFromMasterAccountResponse {
   DisassociateFromMasterAccountResponse();
 
@@ -3829,6 +3852,7 @@ class DisassociateFromMasterAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMemberResponse {
   DisassociateMemberResponse();
 
@@ -3841,6 +3865,7 @@ class DisassociateMemberResponse {
   }
 }
 
+/// @nodoc
 class EnableMacieResponse {
   EnableMacieResponse();
 
@@ -3853,6 +3878,7 @@ class EnableMacieResponse {
   }
 }
 
+/// @nodoc
 class EnableOrganizationAdminAccountResponse {
   EnableOrganizationAdminAccountResponse();
 
@@ -3866,6 +3892,7 @@ class EnableOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class GetAdministratorAccountResponse {
   /// The Amazon Web Services account ID for the administrator account. If the
   /// accounts are associated by an Amazon Macie membership invitation, this
@@ -3893,6 +3920,7 @@ class GetAdministratorAccountResponse {
   }
 }
 
+/// @nodoc
 class GetAllowListResponse {
   /// The Amazon Resource Name (ARN) of the allow list.
   final String? arn;
@@ -3983,6 +4011,7 @@ class GetAllowListResponse {
   }
 }
 
+/// @nodoc
 class GetAutomatedDiscoveryConfigurationResponse {
   /// Specifies whether automated sensitive data discovery is enabled
   /// automatically for accounts in the organization. Possible values are: ALL,
@@ -4074,6 +4103,7 @@ class GetAutomatedDiscoveryConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetBucketStatisticsResponse {
   /// The total number of buckets.
   final int? bucketCount;
@@ -4263,6 +4293,7 @@ class GetBucketStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetClassificationExportConfigurationResponse {
   /// The location where data classification results are stored, and the
   /// encryption settings that are used when storing results in that location.
@@ -4290,6 +4321,7 @@ class GetClassificationExportConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetClassificationScopeResponse {
   /// The unique identifier for the classification scope.
   final String? id;
@@ -4328,6 +4360,7 @@ class GetClassificationScopeResponse {
   }
 }
 
+/// @nodoc
 class GetCustomDataIdentifierResponse {
   /// The Amazon Resource Name (ARN) of the custom data identifier.
   final String? arn;
@@ -4457,6 +4490,7 @@ class GetCustomDataIdentifierResponse {
   }
 }
 
+/// @nodoc
 class GetFindingsResponse {
   /// An array of objects, one for each finding that matches the criteria
   /// specified in the request.
@@ -4483,6 +4517,7 @@ class GetFindingsResponse {
   }
 }
 
+/// @nodoc
 class GetFindingsFilterResponse {
   /// The action that's performed on findings that match the filter criteria
   /// (findingCriteria). Possible values are: ARCHIVE, suppress (automatically
@@ -4564,6 +4599,7 @@ class GetFindingsFilterResponse {
   }
 }
 
+/// @nodoc
 class GetFindingsPublicationConfigurationResponse {
   /// The configuration settings that determine which findings are published to
   /// Security Hub.
@@ -4592,6 +4628,7 @@ class GetFindingsPublicationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetFindingStatisticsResponse {
   /// An array of objects, one for each group of findings that matches the filter
   /// criteria specified in the request.
@@ -4618,6 +4655,7 @@ class GetFindingStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetInvitationsCountResponse {
   /// The total number of invitations that were received by the account, not
   /// including the currently accepted invitation.
@@ -4641,6 +4679,7 @@ class GetInvitationsCountResponse {
   }
 }
 
+/// @nodoc
 class GetMacieSessionResponse {
   /// The date and time, in UTC and extended ISO 8601 format, when the Amazon
   /// Macie account was created.
@@ -4703,6 +4742,7 @@ class GetMacieSessionResponse {
   }
 }
 
+/// @nodoc
 class GetMasterAccountResponse {
   /// (Deprecated) The Amazon Web Services account ID for the administrator
   /// account. If the accounts are associated by a Macie membership invitation,
@@ -4730,6 +4770,7 @@ class GetMasterAccountResponse {
   }
 }
 
+/// @nodoc
 class GetMemberResponse {
   /// The Amazon Web Services account ID for the account.
   final String? accountId;
@@ -4821,6 +4862,7 @@ class GetMemberResponse {
   }
 }
 
+/// @nodoc
 class GetResourceProfileResponse {
   /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie
   /// most recently recalculated sensitive data discovery statistics and details
@@ -4880,6 +4922,7 @@ class GetResourceProfileResponse {
   }
 }
 
+/// @nodoc
 class GetRevealConfigurationResponse {
   /// The KMS key that's used to encrypt the sensitive data, and the status of the
   /// configuration for the Amazon Macie account.
@@ -4917,6 +4960,7 @@ class GetRevealConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetSensitiveDataOccurrencesResponse {
   /// If an error occurred when Amazon Macie attempted to retrieve occurrences of
   /// sensitive data reported by the finding, a description of the error that
@@ -4983,6 +5027,7 @@ class GetSensitiveDataOccurrencesResponse {
   }
 }
 
+/// @nodoc
 class GetSensitiveDataOccurrencesAvailabilityResponse {
   /// Specifies whether occurrences of sensitive data can be retrieved for the
   /// finding. Possible values are: AVAILABLE, the sensitive data can be
@@ -5091,6 +5136,7 @@ class GetSensitiveDataOccurrencesAvailabilityResponse {
   }
 }
 
+/// @nodoc
 class GetSensitivityInspectionTemplateResponse {
   /// The custom description of the template.
   final String? description;
@@ -5154,6 +5200,7 @@ class GetSensitivityInspectionTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetUsageStatisticsResponse {
   /// The string to use in a subsequent request to get the next page of results in
   /// a paginated response. This value is null if there are no additional pages.
@@ -5198,6 +5245,7 @@ class GetUsageStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetUsageTotalsResponse {
   /// The inclusive time period that the usage data applies to. Possible values
   /// are: MONTH_TO_DATE, for the current calendar month to date; and,
@@ -5233,6 +5281,7 @@ class GetUsageTotalsResponse {
   }
 }
 
+/// @nodoc
 class ListAllowListsResponse {
   /// An array of objects, one for each allow list.
   final List<AllowListSummary>? allowLists;
@@ -5266,6 +5315,7 @@ class ListAllowListsResponse {
   }
 }
 
+/// @nodoc
 class ListAutomatedDiscoveryAccountsResponse {
   /// An array of objects, one for each account specified in the request. Each
   /// object specifies the Amazon Web Services account ID for an account and the
@@ -5303,6 +5353,7 @@ class ListAutomatedDiscoveryAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListClassificationJobsResponse {
   /// An array of objects, one for each job that matches the filter criteria
   /// specified in the request.
@@ -5337,6 +5388,7 @@ class ListClassificationJobsResponse {
   }
 }
 
+/// @nodoc
 class ListClassificationScopesResponse {
   /// An array that specifies the unique identifier and name of the classification
   /// scope for the account.
@@ -5373,6 +5425,7 @@ class ListClassificationScopesResponse {
   }
 }
 
+/// @nodoc
 class ListCustomDataIdentifiersResponse {
   /// An array of objects, one for each custom data identifier.
   final List<CustomDataIdentifierSummary>? items;
@@ -5408,6 +5461,7 @@ class ListCustomDataIdentifiersResponse {
   }
 }
 
+/// @nodoc
 class ListFindingsResponse {
   /// An array of strings, where each string is the unique identifier for a
   /// finding that matches the filter criteria specified in the request.
@@ -5442,6 +5496,7 @@ class ListFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListFindingsFiltersResponse {
   /// An array of objects, one for each filter that's associated with the account.
   final List<FindingsFilterListItem>? findingsFilterListItems;
@@ -5477,6 +5532,7 @@ class ListFindingsFiltersResponse {
   }
 }
 
+/// @nodoc
 class ListInvitationsResponse {
   /// An array of objects, one for each invitation that was received by the
   /// account.
@@ -5511,6 +5567,7 @@ class ListInvitationsResponse {
   }
 }
 
+/// @nodoc
 class ListManagedDataIdentifiersResponse {
   /// An array of objects, one for each managed data identifier.
   final List<ManagedDataIdentifierSummary>? items;
@@ -5546,6 +5603,7 @@ class ListManagedDataIdentifiersResponse {
   }
 }
 
+/// @nodoc
 class ListMembersResponse {
   /// An array of objects, one for each account that's associated with the
   /// administrator account and matches the criteria specified in the request.
@@ -5580,6 +5638,7 @@ class ListMembersResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationAdminAccountsResponse {
   /// An array of objects, one for each delegated Amazon Macie administrator
   /// account for the organization. Only one of these accounts can have a status
@@ -5616,6 +5675,7 @@ class ListOrganizationAdminAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListResourceProfileArtifactsResponse {
   /// An array of objects, one for each of 1-100 S3 objects that Amazon Macie
   /// selected for analysis.
@@ -5659,6 +5719,7 @@ class ListResourceProfileArtifactsResponse {
   }
 }
 
+/// @nodoc
 class ListResourceProfileDetectionsResponse {
   /// An array of objects, one for each type of sensitive data that Amazon Macie
   /// found in the bucket. Each object reports the number of occurrences of the
@@ -5696,6 +5757,7 @@ class ListResourceProfileDetectionsResponse {
   }
 }
 
+/// @nodoc
 class ListSensitivityInspectionTemplatesResponse {
   /// The string to use in a subsequent request to get the next page of results in
   /// a paginated response. This value is null if there are no additional pages.
@@ -5735,6 +5797,7 @@ class ListSensitivityInspectionTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of key-value pairs that specifies which tags (keys and values) are
   /// associated with the resource.
@@ -5759,6 +5822,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutClassificationExportConfigurationResponse {
   /// The location where the data classification results are stored, and the
   /// encryption settings that are used when storing results in that location.
@@ -5786,6 +5850,7 @@ class PutClassificationExportConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutFindingsPublicationConfigurationResponse {
   PutFindingsPublicationConfigurationResponse();
 
@@ -5799,6 +5864,7 @@ class PutFindingsPublicationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class SearchResourcesResponse {
   /// An array of objects, one for each resource that matches the filter criteria
   /// specified in the request.
@@ -5833,6 +5899,7 @@ class SearchResourcesResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5845,6 +5912,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TestCustomDataIdentifierResponse {
   /// The number of occurrences of sample text that matched the criteria specified
   /// by the custom data identifier.
@@ -5868,6 +5936,7 @@ class TestCustomDataIdentifierResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5880,6 +5949,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAllowListResponse {
   /// The Amazon Resource Name (ARN) of the allow list.
   final String? arn;
@@ -5909,6 +5979,7 @@ class UpdateAllowListResponse {
   }
 }
 
+/// @nodoc
 class UpdateAutomatedDiscoveryConfigurationResponse {
   UpdateAutomatedDiscoveryConfigurationResponse();
 
@@ -5922,6 +5993,7 @@ class UpdateAutomatedDiscoveryConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateClassificationJobResponse {
   UpdateClassificationJobResponse();
 
@@ -5934,6 +6006,7 @@ class UpdateClassificationJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateClassificationScopeResponse {
   UpdateClassificationScopeResponse();
 
@@ -5946,6 +6019,7 @@ class UpdateClassificationScopeResponse {
   }
 }
 
+/// @nodoc
 class UpdateFindingsFilterResponse {
   /// The Amazon Resource Name (ARN) of the filter that was updated.
   final String? arn;
@@ -5975,6 +6049,7 @@ class UpdateFindingsFilterResponse {
   }
 }
 
+/// @nodoc
 class UpdateMacieSessionResponse {
   UpdateMacieSessionResponse();
 
@@ -5987,6 +6062,7 @@ class UpdateMacieSessionResponse {
   }
 }
 
+/// @nodoc
 class UpdateMemberSessionResponse {
   UpdateMemberSessionResponse();
 
@@ -5999,6 +6075,7 @@ class UpdateMemberSessionResponse {
   }
 }
 
+/// @nodoc
 class UpdateOrganizationConfigurationResponse {
   UpdateOrganizationConfigurationResponse();
 
@@ -6012,6 +6089,7 @@ class UpdateOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceProfileResponse {
   UpdateResourceProfileResponse();
 
@@ -6024,6 +6102,7 @@ class UpdateResourceProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceProfileDetectionsResponse {
   UpdateResourceProfileDetectionsResponse();
 
@@ -6037,6 +6116,7 @@ class UpdateResourceProfileDetectionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateRevealConfigurationResponse {
   /// The KMS key to use to encrypt the sensitive data, and the status of the
   /// configuration for the Amazon Macie account.
@@ -6075,6 +6155,7 @@ class UpdateRevealConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSensitivityInspectionTemplateResponse {
   UpdateSensitivityInspectionTemplateResponse();
 
@@ -6093,6 +6174,8 @@ class UpdateSensitivityInspectionTemplateResponse {
 /// identifiers that Amazon Macie currently provides, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
 /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
+///
+/// @nodoc
 class SensitivityInspectionTemplateExcludes {
   /// An array of unique identifiers, one for each managed data identifier to
   /// exclude. To retrieve a list of valid values, use the
@@ -6129,6 +6212,8 @@ class SensitivityInspectionTemplateExcludes {
 /// data identifiers that Amazon Macie currently provides, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
 /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
+///
+/// @nodoc
 class SensitivityInspectionTemplateIncludes {
   /// An array of unique identifiers, one for each allow list to include.
   final List<String>? allowListIds;
@@ -6191,6 +6276,8 @@ class SensitivityInspectionTemplateIncludes {
 /// Service (KMS) key to use to encrypt sensitive data that's retrieved. When
 /// you enable the configuration for the first time, your request must specify
 /// an KMS key. Otherwise, an error occurs.
+///
+/// @nodoc
 class RevealConfiguration {
   /// The status of the configuration for the Amazon Macie account. In a response,
   /// possible values are: ENABLED, the configuration is currently enabled for the
@@ -6241,6 +6328,8 @@ class RevealConfiguration {
 
 /// Provides information about the access method and settings that are used to
 /// retrieve occurrences of sensitive data reported by findings.
+///
+/// @nodoc
 class RetrievalConfiguration {
   /// The access method that's used to retrieve sensitive data from affected S3
   /// objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the
@@ -6295,6 +6384,8 @@ class RetrievalConfiguration {
 
 /// The access method to use when retrieving occurrences of sensitive data
 /// reported by findings. Valid values are:
+///
+/// @nodoc
 class RetrievalMode {
   static const callerCredentials = RetrievalMode._('CALLER_CREDENTIALS');
   static const assumeRole = RetrievalMode._('ASSUME_ROLE');
@@ -6321,6 +6412,8 @@ class RetrievalMode {
 
 /// The status of the configuration for retrieving occurrences of sensitive data
 /// reported by findings. Valid values are:
+///
+/// @nodoc
 class RevealStatus {
   static const enabled = RevealStatus._('ENABLED');
   static const disabled = RevealStatus._('DISABLED');
@@ -6353,6 +6446,8 @@ class RevealStatus {
 /// href="https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html">Configuration
 /// options for retrieving sensitive data samples</a> in the <i>Amazon Macie
 /// User Guide</i>.
+///
+/// @nodoc
 class UpdateRetrievalConfiguration {
   /// The access method to use when retrieving sensitive data from affected S3
   /// objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the
@@ -6391,6 +6486,8 @@ class UpdateRetrievalConfiguration {
 
 /// Specifies a custom data identifier or managed data identifier that detected
 /// a type of sensitive data to exclude from an S3 bucket's sensitivity score.
+///
+/// @nodoc
 class SuppressDataIdentifier {
   /// The unique identifier for the custom data identifier or managed data
   /// identifier that detected the type of sensitive data to exclude from the
@@ -6419,6 +6516,8 @@ class SuppressDataIdentifier {
 
 /// The type of data identifier that detected a specific type of sensitive data
 /// in an S3 bucket. Possible values are:
+///
+/// @nodoc
 class DataIdentifierType {
   static const custom = DataIdentifierType._('CUSTOM');
   static const managed = DataIdentifierType._('MANAGED');
@@ -6445,6 +6544,8 @@ class DataIdentifierType {
 }
 
 /// The status of an Amazon Macie account. Valid values are:
+///
+/// @nodoc
 class MacieStatus {
   static const paused = MacieStatus._('PAUSED');
   static const enabled = MacieStatus._('ENABLED');
@@ -6475,6 +6576,8 @@ class MacieStatus {
 /// href="https://docs.aws.amazon.com/macie/latest/user/findings-monitor.html">Monitoring
 /// and processing findings</a> in the <i>Amazon Macie User Guide</i>. Valid
 /// values are:
+///
+/// @nodoc
 class FindingPublishingFrequency {
   static const fifteenMinutes = FindingPublishingFrequency._('FIFTEEN_MINUTES');
   static const oneHour = FindingPublishingFrequency._('ONE_HOUR');
@@ -6504,6 +6607,8 @@ class FindingPublishingFrequency {
 /// The action to perform on findings that match the filter criteria. To
 /// suppress (automatically archive) findings that match the criteria, set this
 /// value to ARCHIVE. Valid values are:
+///
+/// @nodoc
 class FindingsFilterAction {
   static const archive = FindingsFilterAction._('ARCHIVE');
   static const noop = FindingsFilterAction._('NOOP');
@@ -6531,6 +6636,8 @@ class FindingsFilterAction {
 
 /// Specifies, as a map, one or more property-based conditions that filter the
 /// results of a query for findings.
+///
+/// @nodoc
 class FindingCriteria {
   /// A condition that specifies the property, operator, and one or more values to
   /// use to filter the results.
@@ -6563,6 +6670,8 @@ class FindingCriteria {
 /// each operator, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/findings-filter-basics.html">Fundamentals
 /// of filtering findings</a> in the <i>Amazon Macie User Guide</i>.
+///
+/// @nodoc
 class CriterionAdditionalProperties {
   /// The value for the property matches (equals) the specified value. If you
   /// specify multiple values, Macie uses OR logic to join the values.
@@ -6643,6 +6752,8 @@ class CriterionAdditionalProperties {
 
 /// Specifies changes to the list of S3 buckets that are excluded from automated
 /// sensitive data discovery for an Amazon Macie account.
+///
+/// @nodoc
 class S3ClassificationScopeUpdate {
   /// The names of the S3 buckets to add or remove from the list.
   final S3ClassificationScopeExclusionUpdate excludes;
@@ -6661,6 +6772,8 @@ class S3ClassificationScopeUpdate {
 
 /// Specifies S3 buckets to add or remove from the exclusion list defined by the
 /// classification scope for an Amazon Macie account.
+///
+/// @nodoc
 class S3ClassificationScopeExclusionUpdate {
   /// Depending on the value specified for the update operation
   /// (ClassificationScopeUpdateOperation), an array of strings that: lists the
@@ -6703,6 +6816,8 @@ class S3ClassificationScopeExclusionUpdate {
 
 /// Specifies how to apply changes to the S3 bucket exclusion list defined by
 /// the classification scope for an Amazon Macie account. Valid values are:
+///
+/// @nodoc
 class ClassificationScopeUpdateOperation {
   static const add = ClassificationScopeUpdateOperation._('ADD');
   static const replace = ClassificationScopeUpdateOperation._('REPLACE');
@@ -6730,6 +6845,8 @@ class ClassificationScopeUpdateOperation {
 }
 
 /// The status of a classification job. Possible values are:
+///
+/// @nodoc
 class JobStatus {
   static const running = JobStatus._('RUNNING');
   static const paused = JobStatus._('PAUSED');
@@ -6767,6 +6884,8 @@ class JobStatus {
 /// Specifies whether to automatically enable automated sensitive data discovery
 /// for accounts that are part of an organization in Amazon Macie. Valid values
 /// are:
+///
+/// @nodoc
 class AutoEnableMode {
   static const all = AutoEnableMode._('ALL');
   static const $new = AutoEnableMode._('NEW');
@@ -6795,6 +6914,8 @@ class AutoEnableMode {
 /// The status of the automated sensitive data discovery configuration for an
 /// organization in Amazon Macie or a standalone Macie account. Valid values
 /// are:
+///
+/// @nodoc
 class AutomatedDiscoveryStatus {
   static const enabled = AutomatedDiscoveryStatus._('ENABLED');
   static const disabled = AutomatedDiscoveryStatus._('DISABLED');
@@ -6823,6 +6944,8 @@ class AutomatedDiscoveryStatus {
 /// Specifies the criteria for an allow list. The criteria must specify a
 /// regular expression (regex) or an S3 object (s3WordsList). It can't specify
 /// both.
+///
+/// @nodoc
 class AllowListCriteria {
   /// The regular expression (<i>regex</i>) that defines the text pattern to
   /// ignore. The expression can contain as many as 512 characters.
@@ -6856,6 +6979,8 @@ class AllowListCriteria {
 }
 
 /// Provides information about an S3 object that lists specific text to ignore.
+///
+/// @nodoc
 class S3WordsList {
   /// The full name of the S3 bucket that contains the object.
   final String bucketName;
@@ -6887,6 +7012,8 @@ class S3WordsList {
 
 /// Provides statistical data and other information about an Amazon Web Services
 /// resource that Amazon Macie monitors and analyzes for your account.
+///
+/// @nodoc
 class MatchingResource {
   /// The details of an S3 bucket that Amazon Macie monitors and analyzes for your
   /// account.
@@ -6925,6 +7052,8 @@ class MatchingResource {
 /// information about the bucket or the bucket's objects, the value for many of
 /// these properties is null. Key exceptions are accountId and bucketName. To
 /// identify the cause, refer to the errorCode and errorMessage values.
+///
+/// @nodoc
 class MatchingBucket {
   /// The unique identifier for the Amazon Web Services account that owns the
   /// bucket.
@@ -7144,6 +7273,8 @@ class MatchingBucket {
 
 /// Specifies whether automated sensitive data discovery is currently configured
 /// to analyze objects in an S3 bucket. Possible values are:
+///
+/// @nodoc
 class AutomatedDiscoveryMonitoringStatus {
   static const monitored = AutomatedDiscoveryMonitoringStatus._('MONITORED');
   static const notMonitored =
@@ -7172,6 +7303,8 @@ class AutomatedDiscoveryMonitoringStatus {
 
 /// The code for an error or issue that prevented Amazon Macie from retrieving
 /// and processing information about an S3 bucket and the bucket's objects.
+///
+/// @nodoc
 class BucketMetadataErrorCode {
   static const accessDenied = BucketMetadataErrorCode._('ACCESS_DENIED');
   static const bucketCountExceedsQuota =
@@ -7201,6 +7334,8 @@ class BucketMetadataErrorCode {
 /// Specifies whether any one-time or recurring classification jobs are
 /// configured to analyze objects in an S3 bucket, and, if so, the details of
 /// the job that ran most recently.
+///
+/// @nodoc
 class JobDetails {
   /// Specifies whether any one-time or recurring jobs are configured to analyze
   /// objects in the bucket. Possible values are:
@@ -7303,6 +7438,8 @@ class JobDetails {
 /// Provides information about the number of objects that are in an S3 bucket
 /// and use certain types of server-side encryption, use client-side encryption,
 /// or aren't encrypted.
+///
+/// @nodoc
 class ObjectCountByEncryptionType {
   /// The total number of objects that are encrypted with customer-provided keys.
   /// The objects use server-side encryption with customer-provided keys (SSE-C).
@@ -7368,6 +7505,8 @@ class ObjectCountByEncryptionType {
 /// buckets in the query results. If versioning is enabled for a bucket, storage
 /// size values are based on the size of the latest version of each applicable
 /// object in the bucket.
+///
+/// @nodoc
 class ObjectLevelStatistics {
   /// The total storage size (in bytes) or number of objects that Amazon Macie
   /// can't analyze because the objects don't have a file name extension for a
@@ -7409,6 +7548,7 @@ class ObjectLevelStatistics {
   }
 }
 
+/// @nodoc
 class IsDefinedInJob {
   static const $true = IsDefinedInJob._('TRUE');
   static const $false = IsDefinedInJob._('FALSE');
@@ -7434,6 +7574,7 @@ class IsDefinedInJob {
   String toString() => value;
 }
 
+/// @nodoc
 class IsMonitoredByJob {
   static const $true = IsMonitoredByJob._('TRUE');
   static const $false = IsMonitoredByJob._('FALSE');
@@ -7462,6 +7603,8 @@ class IsMonitoredByJob {
 /// Specifies property- and tag-based conditions that define filter criteria for
 /// including or excluding S3 buckets from the query results. Exclude conditions
 /// take precedence over include conditions.
+///
+/// @nodoc
 class SearchResourcesBucketCriteria {
   /// The property- and tag-based conditions that determine which buckets to
   /// exclude from the results.
@@ -7488,6 +7631,8 @@ class SearchResourcesBucketCriteria {
 
 /// Specifies criteria for sorting the results of a query for information about
 /// Amazon Web Services resources that Amazon Macie monitors and analyzes.
+///
+/// @nodoc
 class SearchResourcesSortCriteria {
   /// The property to sort the results by.
   final SearchResourcesSortAttributeName? attributeName;
@@ -7513,6 +7658,8 @@ class SearchResourcesSortCriteria {
 }
 
 /// The property to sort the query results by. Valid values are:
+///
+/// @nodoc
 class SearchResourcesSortAttributeName {
   static const accountId = SearchResourcesSortAttributeName._('ACCOUNT_ID');
   static const resourceName =
@@ -7548,6 +7695,7 @@ class SearchResourcesSortAttributeName {
   String toString() => value;
 }
 
+/// @nodoc
 class OrderBy {
   static const asc = OrderBy._('ASC');
   static const desc = OrderBy._('DESC');
@@ -7573,6 +7721,8 @@ class OrderBy {
 
 /// Specifies property- and tag-based conditions that define filter criteria for
 /// including or excluding Amazon Web Services resources from the query results.
+///
+/// @nodoc
 class SearchResourcesCriteriaBlock {
   /// An array of objects, one for each property- or tag-based condition that
   /// includes or excludes resources from the query results. If you specify more
@@ -7593,6 +7743,8 @@ class SearchResourcesCriteriaBlock {
 
 /// Specifies a property- or tag-based filter condition for including or
 /// excluding Amazon Web Services resources from the query results.
+///
+/// @nodoc
 class SearchResourcesCriteria {
   /// A property-based condition that defines a property, operator, and one or
   /// more values for including or excluding resources from the results.
@@ -7620,6 +7772,8 @@ class SearchResourcesCriteria {
 
 /// Specifies a property-based filter condition that determines which Amazon Web
 /// Services resources are included or excluded from the query results.
+///
+/// @nodoc
 class SearchResourcesSimpleCriterion {
   /// The operator to use in the condition. Valid values are EQ (equals) and NE
   /// (not equals).
@@ -7683,6 +7837,8 @@ class SearchResourcesSimpleCriterion {
 
 /// Specifies a tag-based filter condition that determines which Amazon Web
 /// Services resources are included or excluded from the query results.
+///
+/// @nodoc
 class SearchResourcesTagCriterion {
   /// The operator to use in the condition. Valid values are EQ (equals) and NE
   /// (not equals).
@@ -7709,6 +7865,8 @@ class SearchResourcesTagCriterion {
 
 /// The operator to use in a condition that filters the results of a query.
 /// Valid values are:
+///
+/// @nodoc
 class SearchResourcesComparator {
   static const eq = SearchResourcesComparator._('EQ');
   static const ne = SearchResourcesComparator._('NE');
@@ -7738,6 +7896,8 @@ class SearchResourcesComparator {
 /// in a tag-based filter condition for a query. Tag keys and values are case
 /// sensitive. Also, Amazon Macie doesn't support use of partial values or
 /// wildcard characters in tag-based filter conditions.
+///
+/// @nodoc
 class SearchResourcesTagCriterionPair {
   /// The value for the tag key to use in the condition.
   final String? key;
@@ -7762,6 +7922,8 @@ class SearchResourcesTagCriterionPair {
 
 /// The property to use in a condition that filters the query results. Valid
 /// values are:
+///
+/// @nodoc
 class SearchResourcesSimpleCriterionKey {
   static const accountId = SearchResourcesSimpleCriterionKey._('ACCOUNT_ID');
   static const s3BucketName =
@@ -7806,6 +7968,8 @@ class SearchResourcesSimpleCriterionKey {
 /// findings to Security Hub, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/securityhub-integration.html">Evaluating
 /// findings with Security Hub</a> in the <i>Amazon Macie User Guide</i>.
+///
+/// @nodoc
 class SecurityHubConfiguration {
   /// Specifies whether to publish sensitive data findings to Security Hub. If you
   /// set this value to true, Amazon Macie automatically publishes all sensitive
@@ -7845,6 +8009,8 @@ class SecurityHubConfiguration {
 /// Specifies where to store data classification results, and the encryption
 /// settings to use when storing results in that location. The location must be
 /// an S3 general purpose bucket.
+///
+/// @nodoc
 class ClassificationExportConfiguration {
   /// The S3 bucket to store data classification results in, and the encryption
   /// settings to use when storing results in that bucket.
@@ -7878,6 +8044,8 @@ class ClassificationExportConfiguration {
 /// account or a bucket that another account owns. If another account owns the
 /// bucket, you must specify both the unique identifier for the account and the
 /// name of the bucket.
+///
+/// @nodoc
 class S3Destination {
   /// The name of the bucket. This must be the name of an existing general purpose
   /// bucket.
@@ -7930,6 +8098,8 @@ class S3Destination {
 
 /// Provides information about the sensitivity inspection template for an Amazon
 /// Macie account.
+///
+/// @nodoc
 class SensitivityInspectionTemplatesEntry {
   /// The unique identifier for the sensitivity inspection template.
   final String? id;
@@ -7966,6 +8136,8 @@ class SensitivityInspectionTemplatesEntry {
 /// account. The information also specifies the custom or managed data
 /// identifier that detected the data. This information is available only if
 /// automated sensitive data discovery has been enabled for the account.
+///
+/// @nodoc
 class Detection {
   /// If the sensitive data was detected by a custom data identifier, the Amazon
   /// Resource Name (ARN) of the custom data identifier that detected the data.
@@ -8039,6 +8211,8 @@ class Detection {
 /// analysis while performing automated sensitive data discovery for an account,
 /// and the status and results of the analysis. This information is available
 /// only if automated sensitive data discovery has been enabled for the account.
+///
+/// @nodoc
 class ResourceProfileArtifact {
   /// The Amazon Resource Name (ARN) of the object.
   final String arn;
@@ -8092,6 +8266,8 @@ class ResourceProfileArtifact {
 
 /// Provides information about the delegated Amazon Macie administrator account
 /// for an organization in Organizations.
+///
+/// @nodoc
 class AdminAccount {
   /// The Amazon Web Services account ID for the account.
   final String? accountId;
@@ -8124,6 +8300,8 @@ class AdminAccount {
 
 /// The current status of an account as the delegated Amazon Macie administrator
 /// account for an organization in Organizations. Possible values are:
+///
+/// @nodoc
 class AdminStatus {
   static const enabled = AdminStatus._('ENABLED');
   static const disablingInProgress = AdminStatus._('DISABLING_IN_PROGRESS');
@@ -8149,6 +8327,8 @@ class AdminStatus {
 
 /// Provides information about an account that's associated with an Amazon Macie
 /// administrator account.
+///
+/// @nodoc
 class Member {
   /// The Amazon Web Services account ID for the account.
   final String? accountId;
@@ -8242,6 +8422,8 @@ class Member {
 
 /// The current status of the relationship between an account and an associated
 /// Amazon Macie administrator account. Possible values are:
+///
+/// @nodoc
 class RelationshipStatus {
   static const enabled = RelationshipStatus._('Enabled');
   static const paused = RelationshipStatus._('Paused');
@@ -8292,6 +8474,8 @@ class RelationshipStatus {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html">Using
 /// managed data identifiers</a> in the <i>Amazon Macie User Guide</i>.
+///
+/// @nodoc
 class ManagedDataIdentifierSummary {
   /// The category of sensitive data that the managed data identifier detects:
   /// CREDENTIALS, for credentials data such as private keys or Amazon Web
@@ -8334,6 +8518,8 @@ class ManagedDataIdentifierSummary {
 /// For a finding, the category of sensitive data that was detected and produced
 /// the finding. For a managed data identifier, the category of sensitive data
 /// that the managed data identifier detects. Possible values are:
+///
+/// @nodoc
 class SensitiveDataItemCategory {
   static const financialInformation =
       SensitiveDataItemCategory._('FINANCIAL_INFORMATION');
@@ -8370,6 +8556,8 @@ class SensitiveDataItemCategory {
 }
 
 /// Provides information about an Amazon Macie membership invitation.
+///
+/// @nodoc
 class Invitation {
   /// The Amazon Web Services account ID for the account that sent the invitation.
   final String? accountId;
@@ -8418,6 +8606,8 @@ class Invitation {
 }
 
 /// Provides information about a findings filter.
+///
+/// @nodoc
 class FindingsFilterListItem {
   /// The action that's performed on findings that match the filter criteria.
   /// Possible values are: ARCHIVE, suppress (automatically archive) the findings;
@@ -8473,6 +8663,8 @@ class FindingsFilterListItem {
 }
 
 /// Specifies criteria for sorting the results of a request for findings.
+///
+/// @nodoc
 class SortCriteria {
   /// The name of the property to sort the results by. Valid values are: count,
   /// createdAt, policyDetails.action.apiCallDetails.firstSeen,
@@ -8501,6 +8693,8 @@ class SortCriteria {
 }
 
 /// Provides information about a custom data identifier.
+///
+/// @nodoc
 class CustomDataIdentifierSummary {
   /// The Amazon Resource Name (ARN) of the custom data identifier.
   final String? arn;
@@ -8555,6 +8749,8 @@ class CustomDataIdentifierSummary {
 /// Provides information about the classification scope for an Amazon Macie
 /// account. Macie uses the scope's settings when it performs automated
 /// sensitive data discovery for the account.
+///
+/// @nodoc
 class ClassificationScopeSummary {
   /// The unique identifier for the classification scope.
   final String? id;
@@ -8586,6 +8782,8 @@ class ClassificationScopeSummary {
 
 /// Provides information about a classification job, including the current
 /// status of the job.
+///
+/// @nodoc
 class JobSummary {
   /// The property- and tag-based conditions that determine which S3 buckets are
   /// included or excluded from the job's analysis. Each time the job runs, the
@@ -8734,6 +8932,8 @@ class JobSummary {
 /// Specifies property- and tag-based conditions that define criteria for
 /// including or excluding S3 buckets from a classification job. Exclude
 /// conditions take precedence over include conditions.
+///
+/// @nodoc
 class S3BucketCriteriaForJob {
   /// The property- and tag-based conditions that determine which buckets to
   /// exclude from the job.
@@ -8772,6 +8972,8 @@ class S3BucketCriteriaForJob {
 }
 
 /// The schedule for running a classification job. Valid values are:
+///
+/// @nodoc
 class JobType {
   static const oneTime = JobType._('ONE_TIME');
   static const scheduled = JobType._('SCHEDULED');
@@ -8800,6 +9002,8 @@ class JobType {
 /// investigate these errors, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-monitor-cw-logs.html">Monitoring
 /// sensitive data discovery jobs</a> in the <i>Amazon Macie User Guide</i>.
+///
+/// @nodoc
 class LastRunErrorStatus {
   /// Specifies whether any account- or bucket-level access errors occurred when
   /// the job ran. For a recurring job, this value indicates the error status of
@@ -8842,6 +9046,8 @@ class LastRunErrorStatus {
 /// resumed. This object is present only if a job's current status (jobStatus)
 /// is USER_PAUSED. The information in this object applies only to a job that
 /// was paused while it had a status of RUNNING.
+///
+/// @nodoc
 class UserPausedDetails {
   /// The date and time, in UTC and extended ISO 8601 format, when the job or job
   /// run will expire and be cancelled if you don't resume it first.
@@ -8889,6 +9095,8 @@ class UserPausedDetails {
 /// Specifies whether any account- or bucket-level access errors occurred during
 /// the run of a one-time classification job or the most recent run of a
 /// recurring classification job. Possible values are:
+///
+/// @nodoc
 class LastRunErrorStatusCode {
   static const none = LastRunErrorStatusCode._('NONE');
   static const error = LastRunErrorStatusCode._('ERROR');
@@ -8917,6 +9125,8 @@ class LastRunErrorStatusCode {
 /// Specifies an Amazon Web Services account that owns S3 buckets for a
 /// classification job to analyze, and one or more specific buckets to analyze
 /// for that account.
+///
+/// @nodoc
 class S3BucketDefinitionForJob {
   /// The unique identifier for the Amazon Web Services account that owns the
   /// buckets.
@@ -8952,6 +9162,8 @@ class S3BucketDefinitionForJob {
 
 /// Specifies one or more property- and tag-based conditions that define
 /// criteria for including or excluding S3 buckets from a classification job.
+///
+/// @nodoc
 class CriteriaBlockForJob {
   /// An array of conditions, one for each condition that determines which buckets
   /// to include or exclude from the job. If you specify more than one condition,
@@ -8981,6 +9193,8 @@ class CriteriaBlockForJob {
 
 /// Specifies a property- or tag-based condition that defines criteria for
 /// including or excluding S3 buckets from a classification job.
+///
+/// @nodoc
 class CriteriaForJob {
   /// A property-based condition that defines a property, operator, and one or
   /// more values for including or excluding buckets from the job.
@@ -9020,6 +9234,8 @@ class CriteriaForJob {
 
 /// Specifies a property-based condition that determines whether an S3 bucket is
 /// included or excluded from a classification job.
+///
+/// @nodoc
 class SimpleCriterionForJob {
   /// The operator to use in the condition. Valid values are EQ (equals) and NE
   /// (not equals).
@@ -9087,6 +9303,8 @@ class SimpleCriterionForJob {
 
 /// Specifies a tag-based condition that determines whether an S3 bucket is
 /// included or excluded from a classification job.
+///
+/// @nodoc
 class TagCriterionForJob {
   /// The operator to use in the condition. Valid values are EQ (equals) and NE
   /// (not equals).
@@ -9125,6 +9343,8 @@ class TagCriterionForJob {
 
 /// The operator to use in a condition. Depending on the type of condition,
 /// possible values are:
+///
+/// @nodoc
 class JobComparator {
   static const eq = JobComparator._('EQ');
   static const gt = JobComparator._('GT');
@@ -9160,6 +9380,8 @@ class JobComparator {
 /// excluded from a classification job. Tag keys and values are case sensitive.
 /// Also, Amazon Macie doesn't support use of partial values or wildcard
 /// characters in tag-based conditions.
+///
+/// @nodoc
 class TagCriterionPairForJob {
   /// The value for the tag key to use in the condition.
   final String? key;
@@ -9191,6 +9413,8 @@ class TagCriterionPairForJob {
 
 /// The property to use in a condition that determines whether an S3 bucket is
 /// included or excluded from a classification job. Valid values are:
+///
+/// @nodoc
 class SimpleCriterionKeyForJob {
   static const accountId = SimpleCriterionKeyForJob._('ACCOUNT_ID');
   static const s3BucketName = SimpleCriterionKeyForJob._('S3_BUCKET_NAME');
@@ -9227,6 +9451,8 @@ class SimpleCriterionKeyForJob {
 
 /// Specifies criteria for filtering the results of a request for information
 /// about classification jobs.
+///
+/// @nodoc
 class ListJobsFilterCriteria {
   /// An array of objects, one for each condition that determines which jobs to
   /// exclude from the results.
@@ -9253,6 +9479,8 @@ class ListJobsFilterCriteria {
 
 /// Specifies criteria for sorting the results of a request for information
 /// about classification jobs.
+///
+/// @nodoc
 class ListJobsSortCriteria {
   /// The property to sort the results by.
   final ListJobsSortAttributeName? attributeName;
@@ -9278,6 +9506,8 @@ class ListJobsSortCriteria {
 }
 
 /// The property to sort the results by. Valid values are:
+///
+/// @nodoc
 class ListJobsSortAttributeName {
   static const createdAt = ListJobsSortAttributeName._('createdAt');
   static const jobStatus = ListJobsSortAttributeName._('jobStatus');
@@ -9308,6 +9538,8 @@ class ListJobsSortAttributeName {
 /// Specifies a condition that filters the results of a request for information
 /// about classification jobs. Each condition consists of a property, an
 /// operator, and one or more values.
+///
+/// @nodoc
 class ListJobsFilterTerm {
   /// The operator to use to filter the results.
   final JobComparator? comparator;
@@ -9337,6 +9569,8 @@ class ListJobsFilterTerm {
 }
 
 /// The property to use to filter the results. Valid values are:
+///
+/// @nodoc
 class ListJobsFilterKey {
   static const jobType = ListJobsFilterKey._('jobType');
   static const jobStatus = ListJobsFilterKey._('jobStatus');
@@ -9365,6 +9599,8 @@ class ListJobsFilterKey {
 
 /// Provides information about the status of automated sensitive data discovery
 /// for an Amazon Macie account.
+///
+/// @nodoc
 class AutomatedDiscoveryAccount {
   /// The Amazon Web Services account ID for the account.
   final String? accountId;
@@ -9400,6 +9636,8 @@ class AutomatedDiscoveryAccount {
 
 /// The status of automated sensitive data discovery for an Amazon Macie
 /// account. Valid values are:
+///
+/// @nodoc
 class AutomatedDiscoveryAccountStatus {
   static const enabled = AutomatedDiscoveryAccountStatus._('ENABLED');
   static const disabled = AutomatedDiscoveryAccountStatus._('DISABLED');
@@ -9426,6 +9664,8 @@ class AutomatedDiscoveryAccountStatus {
 }
 
 /// Provides a subset of information about an allow list.
+///
+/// @nodoc
 class AllowListSummary {
   /// The Amazon Resource Name (ARN) of the allow list.
   final String? arn;
@@ -9487,6 +9727,8 @@ class AllowListSummary {
 
 /// An inclusive time period that Amazon Macie usage data applies to. Possible
 /// values are:
+///
+/// @nodoc
 class TimeRange {
   static const monthToDate = TimeRange._('MONTH_TO_DATE');
   static const past_30Days = TimeRange._('PAST_30_DAYS');
@@ -9514,6 +9756,8 @@ class TimeRange {
 /// metric reports estimated usage data for an account for the preceding 30 days
 /// or the current calendar month to date, depending on the time period
 /// (timeRange) specified in the request.
+///
+/// @nodoc
 class UsageTotal {
   /// The type of currency that the value for the metric (estimatedCost) is
   /// reported in.
@@ -9557,6 +9801,8 @@ class UsageTotal {
 
 /// The type of currency that the data for an Amazon Macie usage metric is
 /// reported in. Possible values are:
+///
+/// @nodoc
 class Currency {
   static const usd = Currency._('USD');
 
@@ -9581,6 +9827,8 @@ class Currency {
 
 /// The name of an Amazon Macie usage metric for an account. Possible values
 /// are:
+///
+/// @nodoc
 class UsageType {
   static const dataInventoryEvaluation =
       UsageType._('DATA_INVENTORY_EVALUATION');
@@ -9615,6 +9863,8 @@ class UsageType {
 }
 
 /// Provides quota and aggregated usage data for an Amazon Macie account.
+///
+/// @nodoc
 class UsageRecord {
   /// The unique identifier for the Amazon Web Services account that the data
   /// applies to.
@@ -9675,6 +9925,8 @@ class UsageRecord {
 
 /// Provides data for a specific usage metric and the corresponding quota for an
 /// Amazon Macie account.
+///
+/// @nodoc
 class UsageByAccount {
   /// The type of currency that the value for the metric (estimatedCost) is
   /// reported in.
@@ -9727,6 +9979,8 @@ class UsageByAccount {
 }
 
 /// Specifies a current quota for an Amazon Macie account.
+///
+/// @nodoc
 class ServiceLimit {
   /// Specifies whether the account has met the quota that corresponds to the
   /// metric specified by the UsageByAccount.type field in the response.
@@ -9765,6 +10019,7 @@ class ServiceLimit {
   }
 }
 
+/// @nodoc
 class Unit {
   static const terabytes = Unit._('TERABYTES');
 
@@ -9789,6 +10044,8 @@ class Unit {
 
 /// Specifies criteria for sorting the results of a query for Amazon Macie
 /// account quotas and usage data.
+///
+/// @nodoc
 class UsageStatisticsSortBy {
   /// The field to sort the results by.
   final UsageStatisticsSortKey? key;
@@ -9815,6 +10072,8 @@ class UsageStatisticsSortBy {
 
 /// The field to use to sort the results of a query for Amazon Macie account
 /// quotas and usage data. Valid values are:
+///
+/// @nodoc
 class UsageStatisticsSortKey {
   static const accountId = UsageStatisticsSortKey._('accountId');
   static const total = UsageStatisticsSortKey._('total');
@@ -9851,6 +10110,8 @@ class UsageStatisticsSortKey {
 
 /// Specifies a condition for filtering the results of a query for quota and
 /// usage data for one or more Amazon Macie accounts.
+///
+/// @nodoc
 class UsageStatisticsFilter {
   /// The operator to use in the condition. If the value for the key property is
   /// accountId, this value must be CONTAINS. If the value for the key property is
@@ -9905,6 +10166,8 @@ class UsageStatisticsFilter {
 
 /// The operator to use in a condition that filters the results of a query for
 /// Amazon Macie account quotas and usage data. Valid values are:
+///
+/// @nodoc
 class UsageStatisticsFilterComparator {
   static const gt = UsageStatisticsFilterComparator._('GT');
   static const gte = UsageStatisticsFilterComparator._('GTE');
@@ -9937,6 +10200,8 @@ class UsageStatisticsFilterComparator {
 
 /// The field to use in a condition that filters the results of a query for
 /// Amazon Macie account quotas and usage data. Valid values are:
+///
+/// @nodoc
 class UsageStatisticsFilterKey {
   static const accountId = UsageStatisticsFilterKey._('accountId');
   static const serviceLimit = UsageStatisticsFilterKey._('serviceLimit');
@@ -9967,6 +10232,8 @@ class UsageStatisticsFilterKey {
 
 /// Specifies whether occurrences of sensitive data can be retrieved for a
 /// finding. Possible values are:
+///
+/// @nodoc
 class AvailabilityCode {
   static const available = AvailabilityCode._('AVAILABLE');
   static const unavailable = AvailabilityCode._('UNAVAILABLE');
@@ -9993,6 +10260,8 @@ class AvailabilityCode {
 
 /// Specifies why occurrences of sensitive data can't be retrieved for a
 /// finding. Possible values are:
+///
+/// @nodoc
 class UnavailabilityReasonCode {
   static const objectExceedsSizeQuota =
       UnavailabilityReasonCode._('OBJECT_EXCEEDS_SIZE_QUOTA');
@@ -10052,6 +10321,8 @@ class UnavailabilityReasonCode {
 
 /// The status of a request to retrieve occurrences of sensitive data reported
 /// by a finding. Possible values are:
+///
+/// @nodoc
 class RevealRequestStatus {
   static const success = RevealRequestStatus._('SUCCESS');
   static const processing = RevealRequestStatus._('PROCESSING');
@@ -10080,6 +10351,8 @@ class RevealRequestStatus {
 
 /// Specifies 1-10 occurrences of a specific type of sensitive data reported by
 /// a finding.
+///
+/// @nodoc
 class DetectedDataDetails {
   /// An occurrence of the specified type of sensitive data. Each occurrence
   /// contains 1-128 characters.
@@ -10108,6 +10381,8 @@ class DetectedDataDetails {
 /// automated sensitive data discovery has been enabled for the account. The
 /// data captures the results of automated sensitive data discovery activities
 /// that Macie has performed for the bucket.
+///
+/// @nodoc
 class ResourceStatistics {
   /// The total amount of data, in bytes, that Amazon Macie has analyzed in the
   /// bucket.
@@ -10219,6 +10494,8 @@ class ResourceStatistics {
 
 /// Provides a group of results for a query that retrieved aggregated
 /// statistical data about findings.
+///
+/// @nodoc
 class GroupCount {
   /// The total number of findings in the group of query results.
   final int? count;
@@ -10249,6 +10526,7 @@ class GroupCount {
   }
 }
 
+/// @nodoc
 class GroupBy {
   static const resourcesAffectedS3BucketName =
       GroupBy._('resourcesAffected.s3Bucket.name');
@@ -10283,6 +10561,8 @@ class GroupBy {
 
 /// Specifies criteria for sorting the results of a query that retrieves
 /// aggregated statistical data about findings.
+///
+/// @nodoc
 class FindingStatisticsSortCriteria {
   /// The grouping to sort the results by. Valid values are: count, sort the
   /// results by the number of findings in each group of results; and, groupKey,
@@ -10310,6 +10590,8 @@ class FindingStatisticsSortCriteria {
 }
 
 /// The grouping to sort the results by. Valid values are:
+///
+/// @nodoc
 class FindingStatisticsSortAttributeName {
   static const groupKey = FindingStatisticsSortAttributeName._('groupKey');
   static const count = FindingStatisticsSortAttributeName._('count');
@@ -10336,6 +10618,8 @@ class FindingStatisticsSortAttributeName {
 }
 
 /// Provides the details of a finding.
+///
+/// @nodoc
 class Finding {
   /// The unique identifier for the Amazon Web Services account that the finding
   /// applies to. This is typically the account that owns the affected resource.
@@ -10503,6 +10787,8 @@ class Finding {
 }
 
 /// The category of the finding. Possible values are:
+///
+/// @nodoc
 class FindingCategory {
   static const classification = FindingCategory._('CLASSIFICATION');
   static const policy = FindingCategory._('POLICY');
@@ -10529,6 +10815,8 @@ class FindingCategory {
 
 /// Provides information about a sensitive data finding and the details of the
 /// finding.
+///
+/// @nodoc
 class ClassificationDetails {
   /// The path to the folder or file in Amazon S3 that contains the corresponding
   /// sensitive data discovery result for the finding. If a finding applies to a
@@ -10594,6 +10882,8 @@ class ClassificationDetails {
 }
 
 /// Provides the details of a policy finding.
+///
+/// @nodoc
 class PolicyDetails {
   /// The action that produced the finding.
   final FindingAction? action;
@@ -10628,6 +10918,8 @@ class PolicyDetails {
 }
 
 /// Provides information about the resources that a finding applies to.
+///
+/// @nodoc
 class ResourcesAffected {
   /// The details of the S3 bucket that the finding applies to.
   final S3Bucket? s3Bucket;
@@ -10663,6 +10955,8 @@ class ResourcesAffected {
 
 /// Provides the numerical and qualitative representations of a finding's
 /// severity.
+///
+/// @nodoc
 class Severity {
   /// The qualitative representation of the finding's severity, ranging from Low
   /// (least severe) to High (most severe).
@@ -10698,6 +10992,8 @@ class Severity {
 /// The type of finding. For details about each type, see <a
 /// href="https://docs.aws.amazon.com/macie/latest/user/findings-types.html">Types
 /// of findings</a> in the <i>Amazon Macie User Guide</i>. Possible values are:
+///
+/// @nodoc
 class FindingType {
   static const sensitiveDataS3ObjectMultiple =
       FindingType._('SensitiveData:S3Object/Multiple');
@@ -10755,6 +11051,8 @@ class FindingType {
 
 /// The qualitative representation of the finding's severity. Possible values
 /// are:
+///
+/// @nodoc
 class SeverityDescription {
   static const low = SeverityDescription._('Low');
   static const medium = SeverityDescription._('Medium');
@@ -10786,6 +11084,8 @@ class SeverityDescription {
 /// information prior to generating the finding, the following values are
 /// UNKNOWN or null: allowsUnencryptedObjectUploads,
 /// defaultServerSideEncryption, publicAccess, and tags.
+///
+/// @nodoc
 class S3Bucket {
   /// Specifies whether the bucket policy for the bucket requires server-side
   /// encryption of objects when objects are added to the bucket. Possible values
@@ -10900,6 +11200,8 @@ class S3Bucket {
 }
 
 /// Provides information about the S3 object that a finding applies to.
+///
+/// @nodoc
 class S3Object {
   /// The Amazon Resource Name (ARN) of the bucket that contains the object.
   final String? bucketArn;
@@ -11016,6 +11318,8 @@ class S3Object {
 
 /// Provides information about the default server-side encryption settings for
 /// an S3 bucket or the encryption settings for an S3 object.
+///
+/// @nodoc
 class ServerSideEncryption {
   /// The server-side encryption algorithm that's used when storing data in the
   /// bucket or object. If default encryption settings aren't configured for the
@@ -11052,6 +11356,8 @@ class ServerSideEncryption {
 }
 
 /// The storage class of the S3 object. Possible values are:
+///
+/// @nodoc
 class StorageClass {
   static const standard = StorageClass._('STANDARD');
   static const reducedRedundancy = StorageClass._('REDUCED_REDUNDANCY');
@@ -11094,6 +11400,8 @@ class StorageClass {
 
 /// Provides information about the tags that are associated with an S3 bucket or
 /// object. Each tag consists of a required tag key and an associated tag value.
+///
+/// @nodoc
 class KeyValuePair {
   /// One part of a key-value pair that comprises a tag. A tag key is a general
   /// label that acts as a category for more specific tag values.
@@ -11128,6 +11436,8 @@ class KeyValuePair {
 /// The server-side encryption algorithm that was used to encrypt an S3 object
 /// or is used by default to encrypt objects that are added to an S3 bucket.
 /// Possible values are:
+///
+/// @nodoc
 class EncryptionType {
   static const none = EncryptionType._('NONE');
   static const aes256 = EncryptionType._('AES256');
@@ -11155,6 +11465,7 @@ class EncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class AllowsUnencryptedObjectUploads {
   static const $true = AllowsUnencryptedObjectUploads._('TRUE');
   static const $false = AllowsUnencryptedObjectUploads._('FALSE');
@@ -11183,6 +11494,8 @@ class AllowsUnencryptedObjectUploads {
 
 /// Provides information about the Amazon Web Services account that owns an S3
 /// bucket.
+///
+/// @nodoc
 class S3BucketOwner {
   /// The display name of the account that owns the bucket.
   final String? displayName;
@@ -11214,6 +11527,8 @@ class S3BucketOwner {
 
 /// Provides information about the permissions settings that determine whether
 /// an S3 bucket is publicly accessible.
+///
+/// @nodoc
 class BucketPublicAccess {
   /// Specifies whether the bucket is publicly accessible due to the combination
   /// of permissions settings that apply to the bucket. Possible values are:
@@ -11263,6 +11578,7 @@ class BucketPublicAccess {
   }
 }
 
+/// @nodoc
 class EffectivePermission {
   static const public = EffectivePermission._('PUBLIC');
   static const notPublic = EffectivePermission._('NOT_PUBLIC');
@@ -11291,6 +11607,8 @@ class EffectivePermission {
 
 /// Provides information about the account-level and bucket-level permissions
 /// settings for an S3 bucket.
+///
+/// @nodoc
 class BucketPermissionConfiguration {
   /// The account-level permissions settings that apply to the bucket.
   final AccountLevelPermissions? accountLevelPermissions;
@@ -11330,6 +11648,8 @@ class BucketPermissionConfiguration {
 
 /// Provides information about the account-level permissions settings that apply
 /// to an S3 bucket.
+///
+/// @nodoc
 class AccountLevelPermissions {
   /// The block public access settings for the Amazon Web Services account that
   /// owns the bucket.
@@ -11358,6 +11678,8 @@ class AccountLevelPermissions {
 
 /// Provides information about the bucket-level permissions settings for an S3
 /// bucket.
+///
+/// @nodoc
 class BucketLevelPermissions {
   /// The permissions settings of the access control list (ACL) for the bucket.
   /// This value is null if an ACL hasn't been defined for the bucket.
@@ -11406,6 +11728,8 @@ class BucketLevelPermissions {
 
 /// Provides information about the permissions settings of the bucket-level
 /// access control list (ACL) for an S3 bucket.
+///
+/// @nodoc
 class AccessControlList {
   /// Specifies whether the ACL grants the general public with read access
   /// permissions for the bucket.
@@ -11445,6 +11769,8 @@ class AccessControlList {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html">Blocking
 /// public access to your Amazon S3 storage</a> in the <i>Amazon Simple Storage
 /// Service User Guide</i>.
+///
+/// @nodoc
 class BlockPublicAccess {
   /// Specifies whether Amazon S3 blocks public access control lists (ACLs) for
   /// the bucket and objects in the bucket.
@@ -11493,6 +11819,8 @@ class BlockPublicAccess {
 
 /// Provides information about the permissions settings of the bucket policy for
 /// an S3 bucket.
+///
+/// @nodoc
 class BucketPolicy {
   /// Specifies whether the bucket policy allows the general public to have read
   /// access to the bucket.
@@ -11528,6 +11856,8 @@ class BucketPolicy {
 
 /// Provides information about an action that occurred for a resource and
 /// produced a policy finding.
+///
+/// @nodoc
 class FindingAction {
   /// The type of action that occurred for the affected resource. This value is
   /// typically AWS_API_CALL, which indicates that an entity invoked an API
@@ -11566,6 +11896,8 @@ class FindingAction {
 
 /// Provides information about an entity that performed an action that produced
 /// a policy finding for a resource.
+///
+/// @nodoc
 class FindingActor {
   /// The domain name of the device that the entity used to perform the action on
   /// the affected resource.
@@ -11617,6 +11949,8 @@ class FindingActor {
 
 /// Provides information about the domain name of the device that an entity used
 /// to perform an action on an affected resource.
+///
+/// @nodoc
 class DomainDetails {
   /// The name of the domain.
   final String? domainName;
@@ -11641,6 +11975,8 @@ class DomainDetails {
 
 /// Provides information about the IP address of the device that an entity used
 /// to perform an action on an affected resource.
+///
+/// @nodoc
 class IpAddressDetails {
   /// The Internet Protocol version 4 (IPv4) address of the device.
   final String? ipAddressV4;
@@ -11703,6 +12039,8 @@ class IpAddressDetails {
 
 /// Provides information about the type and other characteristics of an entity
 /// that performed an action on an affected resource.
+///
+/// @nodoc
 class UserIdentity {
   /// If the action was performed with temporary security credentials that were
   /// obtained using the AssumeRole operation of the Security Token Service (STS)
@@ -11793,6 +12131,8 @@ class UserIdentity {
 /// affected resource by using temporary security credentials. The credentials
 /// were obtained using the AssumeRole operation of the Security Token Service
 /// (STS) API.
+///
+/// @nodoc
 class AssumedRole {
   /// The Amazon Web Services access key ID that identifies the credentials.
   final String? accessKeyId;
@@ -11853,6 +12193,8 @@ class AssumedRole {
 /// performed an action on an affected resource. The action was performed using
 /// the credentials for an Amazon Web Services account other than your own
 /// account.
+///
+/// @nodoc
 class AwsAccount {
   /// The unique identifier for the Amazon Web Services account.
   final String? accountId;
@@ -11884,6 +12226,8 @@ class AwsAccount {
 
 /// Provides information about an Amazon Web Service that performed an action on
 /// an affected resource.
+///
+/// @nodoc
 class AwsService {
   /// The name of the Amazon Web Service that performed the action.
   final String? invokedBy;
@@ -11910,6 +12254,8 @@ class AwsService {
 /// affected resource by using temporary security credentials. The credentials
 /// were obtained using the GetFederationToken operation of the Security Token
 /// Service (STS) API.
+///
+/// @nodoc
 class FederatedUser {
   /// The Amazon Web Services access key ID that identifies the credentials.
   final String? accessKeyId;
@@ -11968,6 +12314,8 @@ class FederatedUser {
 
 /// Provides information about an Identity and Access Management (IAM) user who
 /// performed an action on an affected resource.
+///
+/// @nodoc
 class IamUser {
   /// The unique identifier for the Amazon Web Services account that's associated
   /// with the IAM user who performed the action.
@@ -12017,6 +12365,8 @@ class IamUser {
 /// Provides information about an Amazon Web Services account and entity that
 /// performed an action on an affected resource. The action was performed using
 /// the credentials for your Amazon Web Services account.
+///
+/// @nodoc
 class UserIdentityRoot {
   /// The unique identifier for the Amazon Web Services account.
   final String? accountId;
@@ -12057,6 +12407,8 @@ class UserIdentityRoot {
 
 /// The type of entity that performed the action on the affected resource.
 /// Possible values are:
+///
+/// @nodoc
 class UserIdentityType {
   static const assumedRole = UserIdentityType._('AssumedRole');
   static const iAMUser = UserIdentityType._('IAMUser');
@@ -12094,6 +12446,8 @@ class UserIdentityType {
 
 /// Provides information about a session that was created for an entity that
 /// performed an action by using temporary security credentials.
+///
+/// @nodoc
 class SessionContext {
   /// The date and time when the credentials were issued, and whether the
   /// credentials were authenticated with a multi-factor authentication (MFA)
@@ -12133,6 +12487,8 @@ class SessionContext {
 
 /// Provides information about the context in which temporary security
 /// credentials were issued to an entity.
+///
+/// @nodoc
 class SessionContextAttributes {
   /// The date and time, in UTC and ISO 8601 format, when the credentials were
   /// issued.
@@ -12166,6 +12522,8 @@ class SessionContextAttributes {
 
 /// Provides information about the source and type of temporary security
 /// credentials that were issued to an entity.
+///
+/// @nodoc
 class SessionIssuer {
   /// The unique identifier for the Amazon Web Services account that owns the
   /// entity that was used to get the credentials.
@@ -12222,6 +12580,8 @@ class SessionIssuer {
 }
 
 /// Provides information about the city that an IP address originated from.
+///
+/// @nodoc
 class IpCity {
   /// The name of the city.
   final String? name;
@@ -12245,6 +12605,8 @@ class IpCity {
 }
 
 /// Provides information about the country that an IP address originated from.
+///
+/// @nodoc
 class IpCountry {
   /// The two-character code, in ISO 3166-1 alpha-2 format, for the country that
   /// the IP address originated from. For example, US for the United States.
@@ -12277,6 +12639,8 @@ class IpCountry {
 
 /// Provides geographic coordinates that indicate where a specified IP address
 /// originated from.
+///
+/// @nodoc
 class IpGeoLocation {
   /// The latitude coordinate of the location, rounded to four decimal places.
   final double? lat;
@@ -12307,6 +12671,8 @@ class IpGeoLocation {
 }
 
 /// Provides information about the registered owner of an IP address.
+///
+/// @nodoc
 class IpOwner {
   /// The autonomous system number (ASN) for the autonomous system that included
   /// the IP address.
@@ -12354,6 +12720,8 @@ class IpOwner {
 
 /// The type of action that occurred for the resource and produced the policy
 /// finding:
+///
+/// @nodoc
 class FindingActionType {
   static const awsApiCall = FindingActionType._('AWS_API_CALL');
 
@@ -12379,6 +12747,8 @@ class FindingActionType {
 
 /// Provides information about an API operation that an entity invoked for an
 /// affected resource.
+///
+/// @nodoc
 class ApiCallDetails {
   /// The name of the operation that was invoked most recently and produced the
   /// finding.
@@ -12428,6 +12798,8 @@ class ApiCallDetails {
 
 /// Specifies how Amazon Macie found the sensitive data that produced a finding.
 /// Possible values are:
+///
+/// @nodoc
 class OriginType {
   static const sensitiveDataDiscoveryJob =
       OriginType._('SENSITIVE_DATA_DISCOVERY_JOB');
@@ -12459,6 +12831,8 @@ class OriginType {
 /// Provides the details of a sensitive data finding, including the types,
 /// number of occurrences, and locations of the sensitive data that was
 /// detected.
+///
+/// @nodoc
 class ClassificationResult {
   /// Specifies whether Amazon Macie detected additional occurrences of sensitive
   /// data in the S3 object. A finding includes location data for a maximum of 15
@@ -12541,6 +12915,8 @@ class ClassificationResult {
 /// Provides information about custom data identifiers that produced a sensitive
 /// data finding, and the number of occurrences of the data that they detected
 /// for the finding.
+///
+/// @nodoc
 class CustomDataIdentifiers {
   /// The custom data identifiers that detected the data, and the number of
   /// occurrences of the data that each identifier detected.
@@ -12576,6 +12952,8 @@ class CustomDataIdentifiers {
 }
 
 /// Provides information about the status of a sensitive data finding.
+///
+/// @nodoc
 class ClassificationResultStatus {
   /// The status of the finding. Possible values are:
   ///
@@ -12734,6 +13112,8 @@ class ClassificationResultStatus {
 
 /// Provides information about the category, types, and occurrences of sensitive
 /// data that produced a sensitive data finding.
+///
+/// @nodoc
 class SensitiveDataItem {
   /// The category of sensitive data that was detected. For example: CREDENTIALS,
   /// for credentials data such as private keys or Amazon Web Services secret
@@ -12784,6 +13164,8 @@ class SensitiveDataItem {
 
 /// Provides information about a type of sensitive data that was detected by a
 /// managed data identifier and produced a sensitive data finding.
+///
+/// @nodoc
 class DefaultDetection {
   /// The total number of occurrences of the type of sensitive data that was
   /// detected.
@@ -12829,6 +13211,8 @@ class DefaultDetection {
 /// Specifies the location of 1-15 occurrences of sensitive data that was
 /// detected by a managed data identifier or a custom data identifier and
 /// produced a sensitive data finding.
+///
+/// @nodoc
 class Occurrences {
   /// An array of objects, one for each occurrence of sensitive data in a
   /// Microsoft Excel workbook, CSV file, or TSV file. This value is null for all
@@ -12921,6 +13305,8 @@ class Occurrences {
 
 /// Specifies the location of an occurrence of sensitive data in an Apache Avro
 /// object container, Apache Parquet file, JSON file, or JSON Lines file.
+///
+/// @nodoc
 class Record {
   /// The path, as a JSONPath expression, to the sensitive data. For an Avro
   /// object container or Parquet file, this is the path to the field in the
@@ -12967,6 +13353,8 @@ class Record {
 
 /// Specifies the location of an occurrence of sensitive data in an Adobe
 /// Portable Document Format file.
+///
+/// @nodoc
 class Page {
   /// Reserved for future use.
   final Range? lineRange;
@@ -13009,6 +13397,8 @@ class Page {
 
 /// Specifies the location of an occurrence of sensitive data in an email
 /// message or a non-binary text file such as an HTML, TXT, or XML file.
+///
+/// @nodoc
 class Range {
   /// The number of lines from the beginning of the file to the end of the
   /// sensitive data.
@@ -13051,6 +13441,8 @@ class Range {
 
 /// Specifies the location of an occurrence of sensitive data in a Microsoft
 /// Excel workbook, CSV file, or TSV file.
+///
+/// @nodoc
 class Cell {
   /// The location of the cell, as an absolute cell reference, that contains the
   /// sensitive data, for example Sheet2!C5 for cell C5 on Sheet2 in a Microsoft
@@ -13102,6 +13494,8 @@ class Cell {
 /// Provides information about a custom data identifier that produced a
 /// sensitive data finding, and the sensitive data that it detected for the
 /// finding.
+///
+/// @nodoc
 class CustomDetection {
   /// The unique identifier for the custom data identifier.
   final String? arn;
@@ -13154,6 +13548,8 @@ class CustomDetection {
 /// produces. A severity level determines which severity is assigned to the
 /// findings, based on the number of occurrences of text that match the custom
 /// data identifier's detection criteria.
+///
+/// @nodoc
 class SeverityLevel {
   /// The minimum number of occurrences of text that must match the custom data
   /// identifier's detection criteria in order to produce a finding with the
@@ -13192,6 +13588,8 @@ class SeverityLevel {
 
 /// The severity of a finding, ranging from LOW, for least severe, to HIGH, for
 /// most severe. Valid values are:
+///
+/// @nodoc
 class DataIdentifierSeverity {
   static const low = DataIdentifierSeverity._('LOW');
   static const medium = DataIdentifierSeverity._('MEDIUM');
@@ -13220,6 +13618,8 @@ class DataIdentifierSeverity {
 
 /// Specifies the S3 buckets that are excluded from automated sensitive data
 /// discovery for an Amazon Macie account.
+///
+/// @nodoc
 class S3ClassificationScope {
   /// The S3 buckets that are excluded.
   final S3ClassificationScopeExclusion excludes;
@@ -13246,6 +13646,8 @@ class S3ClassificationScope {
 
 /// Specifies the names of the S3 buckets that are excluded from automated
 /// sensitive data discovery.
+///
+/// @nodoc
 class S3ClassificationScopeExclusion {
   /// An array of strings, one for each S3 bucket that is excluded. Each string is
   /// the full name of an excluded bucket.
@@ -13274,6 +13676,8 @@ class S3ClassificationScopeExclusion {
 
 /// Provides information about the number of S3 buckets that are publicly
 /// accessible due to a combination of permissions settings for each bucket.
+///
+/// @nodoc
 class BucketCountByEffectivePermission {
   /// The total number of buckets that allow the general public to have read or
   /// write access to the bucket.
@@ -13329,6 +13733,8 @@ class BucketCountByEffectivePermission {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html">Setting
 /// default server-side encryption behavior for Amazon S3 buckets</a> in the
 /// <i>Amazon Simple Storage Service User Guide</i>.
+///
+/// @nodoc
 class BucketCountByEncryptionType {
   /// The total number of buckets whose default encryption settings are configured
   /// to encrypt new objects with an KMS key, either an Amazon Web Services
@@ -13385,6 +13791,8 @@ class BucketCountByEncryptionType {
 /// Provides information about the number of S3 buckets whose bucket policies do
 /// or don't require server-side encryption of objects when objects are added to
 /// the buckets.
+///
+/// @nodoc
 class BucketCountPolicyAllowsUnencryptedObjectUploads {
   /// The total number of buckets that don't have a bucket policy or have a bucket
   /// policy that doesn't require server-side encryption of new objects. If a
@@ -13447,6 +13855,8 @@ class BucketCountPolicyAllowsUnencryptedObjectUploads {
 /// this data, an <i>Amazon Macie organization</i> is defined as a set of Macie
 /// accounts that are centrally managed as a group of related accounts through
 /// Organizations or by Macie invitation.
+///
+/// @nodoc
 class BucketCountBySharedAccessType {
   /// The total number of buckets that are shared with one or more of the
   /// following or any combination of the following: an Amazon CloudFront OAI, a
@@ -13504,6 +13914,8 @@ class BucketCountBySharedAccessType {
 /// that apply to S3 buckets, grouped by bucket sensitivity score
 /// (sensitivityScore). If automated sensitive data discovery is currently
 /// disabled for your account, the value for most of these metrics is 0.
+///
+/// @nodoc
 class BucketStatisticsBySensitivity {
   /// The aggregated statistical data for all buckets that have a sensitivity
   /// score of -1.
@@ -13570,6 +13982,8 @@ class BucketStatisticsBySensitivity {
 /// value or within a specified range (BucketStatisticsBySensitivity). If
 /// automated sensitive data discovery is currently disabled for your account,
 /// the value for most fields is 0.
+///
+/// @nodoc
 class SensitivityAggregations {
   /// The total storage size, in bytes, of all the objects that Amazon Macie can
   /// analyze in the buckets. These objects use a supported storage class and have
@@ -13629,6 +14043,8 @@ class SensitivityAggregations {
 
 /// Provides information about the current status of an allow list, which
 /// indicates whether Amazon Macie can access and use the list's criteria.
+///
+/// @nodoc
 class AllowListStatus {
   /// The current status of the allow list. If the list's criteria specify a
   /// regular expression (regex), this value is typically OK. Amazon Macie can
@@ -13715,6 +14131,8 @@ class AllowListStatus {
 
 /// Indicates the current status of an allow list. Depending on the type of
 /// criteria that the list specifies, possible values are:
+///
+/// @nodoc
 class AllowListStatusCode {
   static const ok = AllowListStatusCode._('OK');
   static const s3ObjectNotFound = AllowListStatusCode._('S3_OBJECT_NOT_FOUND');
@@ -13759,6 +14177,8 @@ class AllowListStatusCode {
 
 /// The selection type that determines which managed data identifiers a
 /// classification job uses to analyze data. Valid values are:
+///
+/// @nodoc
 class ManagedDataIdentifierSelector {
   static const all = ManagedDataIdentifierSelector._('ALL');
   static const exclude = ManagedDataIdentifierSelector._('EXCLUDE');
@@ -13793,6 +14213,8 @@ class ManagedDataIdentifierSelector {
 /// job analyzes objects in the same predefined set of buckets each time the job
 /// runs. If it's dynamic, the job analyzes objects in any buckets that match
 /// the specified criteria each time the job starts to run.
+///
+/// @nodoc
 class S3JobDefinition {
   /// The property- and tag-based conditions that determine which S3 buckets to
   /// include or exclude from the analysis. Each time the job runs, the job uses
@@ -13849,6 +14271,8 @@ class S3JobDefinition {
 }
 
 /// Specifies the recurrence pattern for running a classification job.
+///
+/// @nodoc
 class JobScheduleFrequency {
   /// Specifies a daily recurrence pattern for running the job.
   final DailySchedule? dailySchedule;
@@ -13895,6 +14319,8 @@ class JobScheduleFrequency {
 }
 
 /// Provides processing statistics for a classification job.
+///
+/// @nodoc
 class Statistics {
   /// The approximate number of objects that the job has yet to process during its
   /// current run.
@@ -13931,6 +14357,8 @@ class Statistics {
 
 /// Specifies that a classification job runs once a day, every day. This is an
 /// empty object.
+///
+/// @nodoc
 class DailySchedule {
   DailySchedule();
 
@@ -13944,6 +14372,8 @@ class DailySchedule {
 }
 
 /// Specifies a monthly recurrence pattern for running a classification job.
+///
+/// @nodoc
 class MonthlySchedule {
   /// The numeric day of the month when Amazon Macie runs the job. This value can
   /// be an integer from 1 through 31.
@@ -13974,6 +14404,8 @@ class MonthlySchedule {
 }
 
 /// Specifies a weekly recurrence pattern for running a classification job.
+///
+/// @nodoc
 class WeeklySchedule {
   /// The day of the week when Amazon Macie runs the job.
   final DayOfWeek? dayOfWeek;
@@ -13996,6 +14428,7 @@ class WeeklySchedule {
   }
 }
 
+/// @nodoc
 class DayOfWeek {
   static const sunday = DayOfWeek._('SUNDAY');
   static const monday = DayOfWeek._('MONDAY');
@@ -14035,6 +14468,8 @@ class DayOfWeek {
 /// Specifies one or more property- and tag-based conditions that define
 /// criteria for including or excluding S3 objects from a classification job.
 /// Exclude conditions take precedence over include conditions.
+///
+/// @nodoc
 class Scoping {
   /// The property- and tag-based conditions that determine which objects to
   /// exclude from the analysis.
@@ -14072,6 +14507,8 @@ class Scoping {
 
 /// Specifies one or more property- and tag-based conditions that define
 /// criteria for including or excluding S3 objects from a classification job.
+///
+/// @nodoc
 class JobScopingBlock {
   /// An array of conditions, one for each property- or tag-based condition that
   /// determines which objects to include or exclude from the job. If you specify
@@ -14103,6 +14540,8 @@ class JobScopingBlock {
 /// including or excluding S3 objects from a classification job. A JobScopeTerm
 /// object can contain only one simpleScopeTerm object or one tagScopeTerm
 /// object.
+///
+/// @nodoc
 class JobScopeTerm {
   /// A property-based condition that defines a property, operator, and one or
   /// more values for including or excluding objects from the job.
@@ -14141,6 +14580,8 @@ class JobScopeTerm {
 
 /// Specifies a property-based condition that determines whether an S3 object is
 /// included or excluded from a classification job.
+///
+/// @nodoc
 class SimpleScopeTerm {
   /// The operator to use in the condition. Valid values for each supported
   /// property (key) are:
@@ -14228,6 +14669,8 @@ class SimpleScopeTerm {
 
 /// Specifies a tag-based condition that determines whether an S3 object is
 /// included or excluded from a classification job.
+///
+/// @nodoc
 class TagScopeTerm {
   /// The operator to use in the condition. Valid values are EQ (equals) or NE
   /// (not equals).
@@ -14279,6 +14722,8 @@ class TagScopeTerm {
 }
 
 /// The type of object to apply a tag-based condition to. Valid values are:
+///
+/// @nodoc
 class TagTarget {
   static const s3Object = TagTarget._('S3_OBJECT');
 
@@ -14306,6 +14751,8 @@ class TagTarget {
 /// a classification job. Tag keys and values are case sensitive. Also, Amazon
 /// Macie doesn't support use of partial values or wildcard characters in
 /// tag-based conditions.
+///
+/// @nodoc
 class TagValuePair {
   /// The value for the tag key to use in the condition.
   final String? key;
@@ -14339,6 +14786,8 @@ class TagValuePair {
 
 /// The property to use in a condition that determines whether an S3 object is
 /// included or excluded from a classification job. Valid values are:
+///
+/// @nodoc
 class ScopeFilterKey {
   static const objectExtension = ScopeFilterKey._('OBJECT_EXTENSION');
   static const objectLastModifiedDate =
@@ -14385,6 +14834,8 @@ class ScopeFilterKey {
 /// or UNKNOWN. Key exceptions are accountId, bucketArn, bucketCreatedAt,
 /// bucketName, lastUpdated, and region. To identify the cause, refer to the
 /// errorCode and errorMessage values.
+///
+/// @nodoc
 class BucketMetadata {
   /// The unique identifier for the Amazon Web Services account that owns the
   /// bucket.
@@ -14758,6 +15209,8 @@ class BucketMetadata {
 /// Provides information about settings that define whether one or more objects
 /// in an S3 bucket are replicated to S3 buckets for other Amazon Web Services
 /// accounts and, if so, which accounts.
+///
+/// @nodoc
 class ReplicationDetails {
   /// Specifies whether the bucket is configured to replicate one or more objects
   /// to any destination.
@@ -14811,6 +15264,8 @@ class ReplicationDetails {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html">Setting
 /// default server-side encryption behavior for Amazon S3 buckets</a> in the
 /// <i>Amazon Simple Storage Service User Guide</i>.
+///
+/// @nodoc
 class BucketServerSideEncryption {
   /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key
   /// that's used by default to encrypt objects that are added to the bucket. This
@@ -14865,6 +15320,7 @@ class BucketServerSideEncryption {
   }
 }
 
+/// @nodoc
 class SharedAccess {
   static const external = SharedAccess._('EXTERNAL');
   static const internal = SharedAccess._('INTERNAL');
@@ -14890,6 +15346,7 @@ class SharedAccess {
   String toString() => value;
 }
 
+/// @nodoc
 class Type {
   static const none = Type._('NONE');
   static const aes256 = Type._('AES256');
@@ -14917,6 +15374,8 @@ class Type {
 
 /// Specifies criteria for sorting the results of a query for information about
 /// S3 buckets.
+///
+/// @nodoc
 class BucketSortCriteria {
   /// The name of the bucket property to sort the results by. This value can be
   /// one of the following properties that Amazon Macie defines as bucket
@@ -14946,6 +15405,8 @@ class BucketSortCriteria {
 
 /// Specifies the operator to use in a property-based condition that filters the
 /// results of a query for information about S3 buckets.
+///
+/// @nodoc
 class BucketCriteriaAdditionalProperties {
   /// The value for the property matches (equals) the specified value. If you
   /// specify multiple values, Amazon Macie uses OR logic to join the values.
@@ -15003,6 +15464,8 @@ class BucketCriteriaAdditionalProperties {
 
 /// Provides information about an account-related request that hasn't been
 /// processed.
+///
+/// @nodoc
 class UnprocessedAccount {
   /// The Amazon Web Services account ID for the account that the request applies
   /// to.
@@ -15041,6 +15504,8 @@ class UnprocessedAccount {
 }
 
 /// The source of an issue or delay. Possible values are:
+///
+/// @nodoc
 class ErrorCode {
   static const clientError = ErrorCode._('ClientError');
   static const internalError = ErrorCode._('InternalError');
@@ -15066,6 +15531,8 @@ class ErrorCode {
 
 /// Specifies the details of an account to associate with an Amazon Macie
 /// administrator account.
+///
+/// @nodoc
 class AccountDetail {
   /// The Amazon Web Services account ID for the account.
   final String accountId;
@@ -15090,6 +15557,8 @@ class AccountDetail {
 
 /// Provides information about a request that failed to change the status of
 /// automated sensitive data discovery for an Amazon Macie account.
+///
+/// @nodoc
 class AutomatedDiscoveryAccountUpdateError {
   /// The Amazon Web Services account ID for the account that the request applied
   /// to.
@@ -15129,6 +15598,8 @@ class AutomatedDiscoveryAccountUpdateError {
 /// The error code that indicates why a request failed to change the status of
 /// automated sensitive data discovery for an Amazon Macie account. Possible
 /// values are:
+///
+/// @nodoc
 class AutomatedDiscoveryAccountUpdateErrorCode {
   static const accountPaused =
       AutomatedDiscoveryAccountUpdateErrorCode._('ACCOUNT_PAUSED');
@@ -15158,6 +15629,8 @@ class AutomatedDiscoveryAccountUpdateErrorCode {
 
 /// Changes the status of automated sensitive data discovery for an Amazon Macie
 /// account.
+///
+/// @nodoc
 class AutomatedDiscoveryAccountUpdate {
   /// The Amazon Web Services account ID for the account.
   final String? accountId;
@@ -15184,6 +15657,8 @@ class AutomatedDiscoveryAccountUpdate {
 }
 
 /// Provides information about a custom data identifier.
+///
+/// @nodoc
 class BatchGetCustomDataIdentifierSummary {
   /// The Amazon Resource Name (ARN) of the custom data identifier.
   final String? arn;
@@ -15245,26 +15720,31 @@ class BatchGetCustomDataIdentifierSummary {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -15273,17 +15753,20 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnprocessableEntityException extends _s.GenericAwsException {
   UnprocessableEntityException({String? type, String? message})
       : super(
             type: type, code: 'UnprocessableEntityException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

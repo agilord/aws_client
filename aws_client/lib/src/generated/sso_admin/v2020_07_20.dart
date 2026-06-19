@@ -4198,6 +4198,7 @@ class SsoAdmin {
   }
 }
 
+/// @nodoc
 class AddRegionResponse {
   /// The status of the Region after the Add operation. The status is ADDING when
   /// the asynchronous workflow is in progress and changes to ACTIVE when
@@ -4222,6 +4223,7 @@ class AddRegionResponse {
   }
 }
 
+/// @nodoc
 class AttachCustomerManagedPolicyReferenceToPermissionSetResponse {
   AttachCustomerManagedPolicyReferenceToPermissionSetResponse();
 
@@ -4235,6 +4237,7 @@ class AttachCustomerManagedPolicyReferenceToPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class AttachManagedPolicyToPermissionSetResponse {
   AttachManagedPolicyToPermissionSetResponse();
 
@@ -4248,6 +4251,7 @@ class AttachManagedPolicyToPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class CreateAccountAssignmentResponse {
   /// The status object for the account assignment creation operation.
   final AccountAssignmentOperationStatus? accountAssignmentCreationStatus;
@@ -4277,6 +4281,7 @@ class CreateAccountAssignmentResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// Specifies the ARN of the application.
   final String? applicationArn;
@@ -4318,6 +4323,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationAssignmentResponse {
   CreateApplicationAssignmentResponse();
 
@@ -4330,6 +4336,7 @@ class CreateApplicationAssignmentResponse {
   }
 }
 
+/// @nodoc
 class CreateInstanceResponse {
   /// The ARN of the instance of IAM Identity Center under which the operation
   /// will run.
@@ -4358,6 +4365,7 @@ class CreateInstanceResponse {
   }
 }
 
+/// @nodoc
 class CreateInstanceAccessControlAttributeConfigurationResponse {
   CreateInstanceAccessControlAttributeConfigurationResponse();
 
@@ -4371,6 +4379,7 @@ class CreateInstanceAccessControlAttributeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreatePermissionSetResponse {
   /// Defines the level of access on an Amazon Web Services account.
   final PermissionSet? permissionSet;
@@ -4396,6 +4405,7 @@ class CreatePermissionSetResponse {
   }
 }
 
+/// @nodoc
 class CreateTrustedTokenIssuerResponse {
   /// The ARN of the new trusted token issuer configuration.
   final String? trustedTokenIssuerArn;
@@ -4419,6 +4429,7 @@ class CreateTrustedTokenIssuerResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccountAssignmentResponse {
   /// The status object for the account assignment deletion operation.
   final AccountAssignmentOperationStatus? accountAssignmentDeletionStatus;
@@ -4448,6 +4459,7 @@ class DeleteAccountAssignmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -4460,6 +4472,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationAssignmentResponse {
   DeleteApplicationAssignmentResponse();
 
@@ -4472,6 +4485,7 @@ class DeleteApplicationAssignmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteInlinePolicyFromPermissionSetResponse {
   DeleteInlinePolicyFromPermissionSetResponse();
 
@@ -4485,6 +4499,7 @@ class DeleteInlinePolicyFromPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteInstanceResponse {
   DeleteInstanceResponse();
 
@@ -4497,6 +4512,7 @@ class DeleteInstanceResponse {
   }
 }
 
+/// @nodoc
 class DeleteInstanceAccessControlAttributeConfigurationResponse {
   DeleteInstanceAccessControlAttributeConfigurationResponse();
 
@@ -4510,6 +4526,7 @@ class DeleteInstanceAccessControlAttributeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeletePermissionsBoundaryFromPermissionSetResponse {
   DeletePermissionsBoundaryFromPermissionSetResponse();
 
@@ -4523,6 +4540,7 @@ class DeletePermissionsBoundaryFromPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class DeletePermissionSetResponse {
   DeletePermissionSetResponse();
 
@@ -4535,6 +4553,7 @@ class DeletePermissionSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteTrustedTokenIssuerResponse {
   DeleteTrustedTokenIssuerResponse();
 
@@ -4547,6 +4566,7 @@ class DeleteTrustedTokenIssuerResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountAssignmentCreationStatusResponse {
   /// The status object for the account assignment creation operation.
   final AccountAssignmentOperationStatus? accountAssignmentCreationStatus;
@@ -4577,6 +4597,7 @@ class DescribeAccountAssignmentCreationStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountAssignmentDeletionStatusResponse {
   /// The status object for the account assignment deletion operation.
   final AccountAssignmentOperationStatus? accountAssignmentDeletionStatus;
@@ -4607,6 +4628,7 @@ class DescribeAccountAssignmentDeletionStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationResponse {
   /// The account ID.
   final String? applicationAccount;
@@ -4710,6 +4732,7 @@ class DescribeApplicationResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationAssignmentResponse {
   /// Specifies the ARN of the application. For more information about ARNs, see
   /// <a href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
@@ -4755,6 +4778,7 @@ class DescribeApplicationAssignmentResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationProviderResponse {
   /// The ARN of the application provider.
   final String applicationProviderArn;
@@ -4808,6 +4832,7 @@ class DescribeApplicationProviderResponse {
   }
 }
 
+/// @nodoc
 class DescribeInstanceResponse {
   /// The date the instance was created.
   final DateTime? createdDate;
@@ -4896,6 +4921,7 @@ class DescribeInstanceResponse {
   }
 }
 
+/// @nodoc
 class DescribeInstanceAccessControlAttributeConfigurationResponse {
   /// Gets the list of IAM Identity Center identity store attributes that have
   /// been added to your ABAC configuration.
@@ -4944,6 +4970,7 @@ class DescribeInstanceAccessControlAttributeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribePermissionSetResponse {
   /// Describes the level of access on an Amazon Web Services account.
   final PermissionSet? permissionSet;
@@ -4969,6 +4996,7 @@ class DescribePermissionSetResponse {
   }
 }
 
+/// @nodoc
 class DescribePermissionSetProvisioningStatusResponse {
   /// The status object for the permission set provisioning operation.
   final PermissionSetProvisioningStatus? permissionSetProvisioningStatus;
@@ -4999,6 +5027,7 @@ class DescribePermissionSetProvisioningStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeRegionResponse {
   /// The timestamp when the Region was added to the IAM Identity Center instance.
   /// For the primary Region, this is the IAM Identity Center instance creation
@@ -5050,6 +5079,7 @@ class DescribeRegionResponse {
   }
 }
 
+/// @nodoc
 class DescribeTrustedTokenIssuerResponse {
   /// The name of the trusted token issuer configuration.
   final String? name;
@@ -5105,6 +5135,7 @@ class DescribeTrustedTokenIssuerResponse {
   }
 }
 
+/// @nodoc
 class DetachCustomerManagedPolicyReferenceFromPermissionSetResponse {
   DetachCustomerManagedPolicyReferenceFromPermissionSetResponse();
 
@@ -5118,6 +5149,7 @@ class DetachCustomerManagedPolicyReferenceFromPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class DetachManagedPolicyFromPermissionSetResponse {
   DetachManagedPolicyFromPermissionSetResponse();
 
@@ -5131,6 +5163,7 @@ class DetachManagedPolicyFromPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationAssignmentConfigurationResponse {
   /// If <code>AssignmentsRequired</code> is <code>true</code> (default value),
   /// users don’t have access to the application unless an assignment is created
@@ -5158,6 +5191,7 @@ class GetApplicationAssignmentConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationSessionConfigurationResponse {
   /// The status of user background sessions for the application.
   final UserBackgroundSessionApplicationStatus?
@@ -5187,6 +5221,7 @@ class GetApplicationSessionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetInlinePolicyForPermissionSetResponse {
   /// The inline policy that is attached to the permission set.
   /// <note>
@@ -5214,6 +5249,7 @@ class GetInlinePolicyForPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class GetPermissionsBoundaryForPermissionSetResponse {
   /// The permissions boundary attached to the specified permission set.
   final PermissionsBoundary? permissionsBoundary;
@@ -5241,6 +5277,7 @@ class GetPermissionsBoundaryForPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class ListAccountAssignmentCreationStatusResponse {
   /// The status object for the account assignment creation operation.
   final List<AccountAssignmentOperationStatusMetadata>?
@@ -5280,6 +5317,7 @@ class ListAccountAssignmentCreationStatusResponse {
   }
 }
 
+/// @nodoc
 class ListAccountAssignmentDeletionStatusResponse {
   /// The status object for the account assignment deletion operation.
   final List<AccountAssignmentOperationStatusMetadata>?
@@ -5319,6 +5357,7 @@ class ListAccountAssignmentDeletionStatusResponse {
   }
 }
 
+/// @nodoc
 class ListAccountAssignmentsResponse {
   /// The list of assignments that match the input Amazon Web Services account and
   /// permission set.
@@ -5353,6 +5392,7 @@ class ListAccountAssignmentsResponse {
   }
 }
 
+/// @nodoc
 class ListAccountAssignmentsForPrincipalResponse {
   /// An array list of the account assignments for the principal.
   final List<AccountAssignmentForPrincipal>? accountAssignments;
@@ -5392,6 +5432,7 @@ class ListAccountAssignmentsForPrincipalResponse {
   }
 }
 
+/// @nodoc
 class ListAccountsForProvisionedPermissionSetResponse {
   /// The list of Amazon Web Services <code>AccountIds</code>.
   final List<String>? accountIds;
@@ -5426,6 +5467,7 @@ class ListAccountsForProvisionedPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationAssignmentsResponse {
   /// The list of users assigned to an application.
   final List<ApplicationAssignment>? applicationAssignments;
@@ -5465,6 +5507,7 @@ class ListApplicationAssignmentsResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationAssignmentsForPrincipalResponse {
   /// An array list of the application assignments for the specified principal.
   final List<ApplicationAssignmentForPrincipal>? applicationAssignments;
@@ -5505,6 +5548,7 @@ class ListApplicationAssignmentsForPrincipalResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationProvidersResponse {
   /// An array list of structures that describe application providers.
   final List<ApplicationProvider>? applicationProviders;
@@ -5543,6 +5587,7 @@ class ListApplicationProvidersResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// Retrieves all applications associated with the instance.
   final List<Application>? applications;
@@ -5580,6 +5625,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomerManagedPolicyReferencesInPermissionSetResponse {
   /// Specifies the names and paths of the customer managed policies that you have
   /// attached to your permission set.
@@ -5619,6 +5665,7 @@ class ListCustomerManagedPolicyReferencesInPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class ListInstancesResponse {
   /// Lists the IAM Identity Center instances that the caller has access to.
   final List<InstanceMetadata>? instances;
@@ -5652,6 +5699,7 @@ class ListInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListManagedPoliciesInPermissionSetResponse {
   /// An array of the <a>AttachedManagedPolicy</a> data type object.
   final List<AttachedManagedPolicy>? attachedManagedPolicies;
@@ -5687,6 +5735,7 @@ class ListManagedPoliciesInPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionSetProvisioningStatusResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
@@ -5726,6 +5775,7 @@ class ListPermissionSetProvisioningStatusResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionSetsResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
@@ -5759,6 +5809,7 @@ class ListPermissionSetsResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionSetsProvisionedToAccountResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
@@ -5793,6 +5844,7 @@ class ListPermissionSetsProvisionedToAccountResponse {
   }
 }
 
+/// @nodoc
 class ListRegionsResponse {
   /// The pagination token to be used in subsequent calls. If the value is null,
   /// then there are no more entries.
@@ -5827,6 +5879,7 @@ class ListRegionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
@@ -5860,6 +5913,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTrustedTokenIssuersResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -5899,6 +5953,7 @@ class ListTrustedTokenIssuersResponse {
   }
 }
 
+/// @nodoc
 class ProvisionPermissionSetResponse {
   /// The status object for the permission set provisioning operation.
   final PermissionSetProvisioningStatus? permissionSetProvisioningStatus;
@@ -5928,6 +5983,7 @@ class ProvisionPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class PutApplicationAssignmentConfigurationResponse {
   PutApplicationAssignmentConfigurationResponse();
 
@@ -5941,6 +5997,7 @@ class PutApplicationAssignmentConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutApplicationSessionConfigurationResponse {
   PutApplicationSessionConfigurationResponse();
 
@@ -5954,6 +6011,7 @@ class PutApplicationSessionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutInlinePolicyToPermissionSetResponse {
   PutInlinePolicyToPermissionSetResponse();
 
@@ -5967,6 +6025,7 @@ class PutInlinePolicyToPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class PutPermissionsBoundaryToPermissionSetResponse {
   PutPermissionsBoundaryToPermissionSetResponse();
 
@@ -5980,6 +6039,7 @@ class PutPermissionsBoundaryToPermissionSetResponse {
   }
 }
 
+/// @nodoc
 class RemoveRegionResponse {
   /// The status of the Region after the remove operation. The status is REMOVING
   /// when the asynchronous workflow is in progress. The Region record is deleted
@@ -6004,6 +6064,7 @@ class RemoveRegionResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6016,6 +6077,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6028,6 +6090,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   UpdateApplicationResponse();
 
@@ -6040,6 +6103,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateInstanceResponse {
   UpdateInstanceResponse();
 
@@ -6052,6 +6116,7 @@ class UpdateInstanceResponse {
   }
 }
 
+/// @nodoc
 class UpdateInstanceAccessControlAttributeConfigurationResponse {
   UpdateInstanceAccessControlAttributeConfigurationResponse();
 
@@ -6065,6 +6130,7 @@ class UpdateInstanceAccessControlAttributeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdatePermissionSetResponse {
   UpdatePermissionSetResponse();
 
@@ -6077,6 +6143,7 @@ class UpdatePermissionSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrustedTokenIssuerResponse {
   UpdateTrustedTokenIssuerResponse();
 
@@ -6089,6 +6156,7 @@ class UpdateTrustedTokenIssuerResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationAccessScopeResponse {
   /// The name of the access scope that can be used with the authorized targets.
   final String scope;
@@ -6122,6 +6190,7 @@ class GetApplicationAccessScopeResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationAccessScopesResponse {
   /// An array list of access scopes and their authorized targets that are
   /// associated with the application.
@@ -6161,6 +6230,7 @@ class ListApplicationAccessScopesResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationAuthenticationMethodResponse {
   /// A structure that contains details about the requested authentication method.
   final AuthenticationMethod? authenticationMethod;
@@ -6188,6 +6258,7 @@ class GetApplicationAuthenticationMethodResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationAuthenticationMethodsResponse {
   /// An array list of authentication methods for the specified application.
   final List<AuthenticationMethodItem>? authenticationMethods;
@@ -6228,6 +6299,7 @@ class ListApplicationAuthenticationMethodsResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationGrantResponse {
   /// A structure that describes the requested grant.
   final Grant grant;
@@ -6251,6 +6323,7 @@ class GetApplicationGrantResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationGrantsResponse {
   /// An array list of structures that describe the requested grants.
   final List<GrantItem> grants;
@@ -6289,6 +6362,8 @@ class ListApplicationGrantsResponse {
 }
 
 /// A structure that defines a single grant and its configuration.
+///
+/// @nodoc
 class GrantItem {
   /// The configuration structure for the selected grant.
   final Grant grant;
@@ -6319,6 +6394,7 @@ class GrantItem {
   }
 }
 
+/// @nodoc
 class GrantType {
   static const authorizationCode = GrantType._('authorization_code');
   static const refreshToken = GrantType._('refresh_token');
@@ -6354,6 +6430,8 @@ class GrantType {
 /// The Grant union represents the set of possible configuration options for the
 /// selected grant type. Exactly one member of the union must be specified, and
 /// must match the grant type selected.
+///
+/// @nodoc
 class Grant {
   /// Configuration options for the <code>authorization_code</code> grant type.
   final AuthorizationCodeGrant? authorizationCode;
@@ -6412,6 +6490,8 @@ class Grant {
 
 /// A structure that defines configuration settings for an application that
 /// supports the OAuth 2.0 Authorization Code Grant.
+///
+/// @nodoc
 class AuthorizationCodeGrant {
   /// A list of URIs that are valid locations to redirect a user's browser after
   /// the user is authorized.
@@ -6447,6 +6527,8 @@ class AuthorizationCodeGrant {
 /// <code>AuthorizedAudience</code> field is the aud claim. For more
 /// information, see <a href="https://datatracker.ietf.org/doc/html/rfc7523">RFC
 /// 7523</a>.
+///
+/// @nodoc
 class JwtBearerGrant {
   /// A list of allowed token issuers trusted by the Identity Center instances for
   /// this application.
@@ -6482,6 +6564,8 @@ class JwtBearerGrant {
 /// supports the OAuth 2.0 Refresh Token Grant. For more, see <a
 /// href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.5">RFC
 /// 6749</a>.
+///
+/// @nodoc
 class RefreshTokenGrant {
   RefreshTokenGrant();
 
@@ -6497,6 +6581,8 @@ class RefreshTokenGrant {
 /// A structure that defines configuration settings for an application that
 /// supports the OAuth 2.0 Token Exchange Grant. For more information, see <a
 /// href="https://datatracker.ietf.org/doc/html/rfc8693">RFC 8693</a>.
+///
+/// @nodoc
 class TokenExchangeGrant {
   TokenExchangeGrant();
 
@@ -6511,6 +6597,8 @@ class TokenExchangeGrant {
 
 /// A structure that describes a trusted token issuer and associates it with a
 /// set of authorized audiences.
+///
+/// @nodoc
 class AuthorizedTokenIssuer {
   /// An array list of authorized audiences, or applications, that can consume the
   /// tokens generated by the associated trusted token issuer.
@@ -6547,6 +6635,8 @@ class AuthorizedTokenIssuer {
 }
 
 /// A structure that describes an authentication method and its type.
+///
+/// @nodoc
 class AuthenticationMethodItem {
   /// A structure that describes an authentication method. The contents of this
   /// structure is determined by the <code>AuthenticationMethodType</code>.
@@ -6583,6 +6673,7 @@ class AuthenticationMethodItem {
   }
 }
 
+/// @nodoc
 class AuthenticationMethodType {
   static const iam = AuthenticationMethodType._('IAM');
 
@@ -6609,6 +6700,8 @@ class AuthenticationMethodType {
 
 /// A structure that describes an authentication method that can be used by an
 /// application.
+///
+/// @nodoc
 class AuthenticationMethod {
   /// A structure that describes details for IAM authentication.
   final IamAuthenticationMethod? iam;
@@ -6635,6 +6728,8 @@ class AuthenticationMethod {
 }
 
 /// A structure that describes details for authentication that uses IAM.
+///
+/// @nodoc
 class IamAuthenticationMethod {
   /// An IAM policy document in JSON.
   final Object actorPolicy;
@@ -6659,6 +6754,8 @@ class IamAuthenticationMethod {
 
 /// A structure that describes an IAM Identity Center access scope and its
 /// authorized targets.
+///
+/// @nodoc
 class ScopeDetails {
   /// The name of the access scope.
   final String scope;
@@ -6694,6 +6791,8 @@ class ScopeDetails {
 /// A structure that contains details to be updated for a trusted token issuer
 /// configuration. The structure and settings that you can include depend on the
 /// type of the trusted token issuer being updated.
+///
+/// @nodoc
 class TrustedTokenIssuerUpdateConfiguration {
   /// A structure that describes an updated configuration for a trusted token
   /// issuer that uses OpenID Connect (OIDC) with JSON web tokens (JWT).
@@ -6714,6 +6813,8 @@ class TrustedTokenIssuerUpdateConfiguration {
 
 /// A structure that describes updated configuration settings for a trusted
 /// token issuer that supports OpenID Connect (OIDC) and JSON Web Tokens (JWTs).
+///
+/// @nodoc
 class OidcJwtUpdateConfiguration {
   /// The path of the source attribute in the JWT from the trusted token issuer.
   /// The attribute mapped by this JMESPath expression is compared against the
@@ -6751,6 +6852,7 @@ class OidcJwtUpdateConfiguration {
   }
 }
 
+/// @nodoc
 class JwksRetrievalOption {
   static const openIdDiscovery = JwksRetrievalOption._('OPEN_ID_DISCOVERY');
 
@@ -6777,6 +6879,8 @@ class JwksRetrievalOption {
 
 /// Specifies the attributes to add to your attribute-based access control
 /// (ABAC) configuration.
+///
+/// @nodoc
 class InstanceAccessControlAttributeConfiguration {
   /// Lists the attributes that are configured for ABAC in the specified IAM
   /// Identity Center instance.
@@ -6813,6 +6917,8 @@ class InstanceAccessControlAttributeConfiguration {
 /// and specify <code>AccessControlAttributes</code>, IAM Identity Center passes
 /// the attribute values of the authenticated user into IAM for use in policy
 /// evaluation.
+///
+/// @nodoc
 class AccessControlAttribute {
   /// The name of the attribute associated with your identities in your identity
   /// source. This is used to map a specified attribute in your identity source
@@ -6850,6 +6956,8 @@ class AccessControlAttribute {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html">Attribute
 /// mappings</a> in the <i>IAM Identity Center User Guide</i>.
+///
+/// @nodoc
 class AccessControlAttributeValue {
   /// The identity source to use when mapping a specified attribute to IAM
   /// Identity Center.
@@ -6878,6 +6986,8 @@ class AccessControlAttributeValue {
 
 /// A structure that specifies the KMS key type and KMS key ARN used to encrypt
 /// data in your IAM Identity Center instance.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The type of KMS key used for encryption.
   final KmsKeyType keyType;
@@ -6901,6 +7011,7 @@ class EncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class KmsKeyType {
   static const awsOwnedKmsKey = KmsKeyType._('AWS_OWNED_KMS_KEY');
   static const customerManagedKey = KmsKeyType._('CUSTOMER_MANAGED_KEY');
@@ -6924,6 +7035,7 @@ class KmsKeyType {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const enabled = ApplicationStatus._('ENABLED');
   static const disabled = ApplicationStatus._('DISABLED');
@@ -6950,6 +7062,8 @@ class ApplicationStatus {
 
 /// A structure that describes the options for the access portal associated with
 /// an application that can be updated.
+///
+/// @nodoc
 class UpdateApplicationPortalOptions {
   final SignInOptions? signInOptions;
 
@@ -6966,6 +7080,8 @@ class UpdateApplicationPortalOptions {
 }
 
 /// A structure that describes the sign-in options for an application portal.
+///
+/// @nodoc
 class SignInOptions {
   /// This determines how IAM Identity Center navigates the user to the target
   /// application. It can be one of the following values:
@@ -7010,6 +7126,7 @@ class SignInOptions {
   }
 }
 
+/// @nodoc
 class SignInOrigin {
   static const identityCenter = SignInOrigin._('IDENTITY_CENTER');
   static const application = SignInOrigin._('APPLICATION');
@@ -7036,6 +7153,8 @@ class SignInOrigin {
 /// A set of key-value pairs that are used to manage the resource. Tags can only
 /// be applied to permission sets and cannot be applied to corresponding roles
 /// that IAM Identity Center creates in Amazon Web Services accounts.
+///
+/// @nodoc
 class Tag {
   /// The key for the tag.
   final String key;
@@ -7065,6 +7184,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class RegionStatus {
   static const active = RegionStatus._('ACTIVE');
   static const adding = RegionStatus._('ADDING');
@@ -7105,6 +7225,8 @@ class RegionStatus {
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">IAM
 /// JSON policy evaluation logic</a> in the <i>IAM User Guide</i>.
 /// </important>
+///
+/// @nodoc
 class PermissionsBoundary {
   /// Specifies the name and path of a customer managed policy. You must have an
   /// IAM policy that matches the name and path in each Amazon Web Services
@@ -7145,6 +7267,8 @@ class PermissionsBoundary {
 /// Specifies the name and path of a customer managed policy. You must have an
 /// IAM policy that matches the name and path in each Amazon Web Services
 /// account where you want to deploy your permission set.
+///
+/// @nodoc
 class CustomerManagedPolicyReference {
   /// The name of the IAM policy that you have configured in each account where
   /// you want to deploy your permission set.
@@ -7179,6 +7303,7 @@ class CustomerManagedPolicyReference {
   }
 }
 
+/// @nodoc
 class UserBackgroundSessionApplicationStatus {
   static const enabled = UserBackgroundSessionApplicationStatus._('ENABLED');
   static const disabled = UserBackgroundSessionApplicationStatus._('DISABLED');
@@ -7206,6 +7331,8 @@ class UserBackgroundSessionApplicationStatus {
 
 /// A structure that is used to provide the status of the provisioning operation
 /// for a specified permission set.
+///
+/// @nodoc
 class PermissionSetProvisioningStatus {
   /// The identifier of the Amazon Web Services account from which to list the
   /// assignments.
@@ -7270,6 +7397,7 @@ class PermissionSetProvisioningStatus {
   }
 }
 
+/// @nodoc
 class StatusValues {
   static const inProgress = StatusValues._('IN_PROGRESS');
   static const failed = StatusValues._('FAILED');
@@ -7294,6 +7422,7 @@ class StatusValues {
   String toString() => value;
 }
 
+/// @nodoc
 class ProvisionTargetType {
   static const awsAccount = ProvisionTargetType._('AWS_ACCOUNT');
   static const allProvisionedAccounts =
@@ -7321,6 +7450,8 @@ class ProvisionTargetType {
 }
 
 /// A structure that describes a trusted token issuer.
+///
+/// @nodoc
 class TrustedTokenIssuerMetadata {
   /// The name of the trusted token issuer configuration in the instance of IAM
   /// Identity Center.
@@ -7362,6 +7493,7 @@ class TrustedTokenIssuerMetadata {
   }
 }
 
+/// @nodoc
 class TrustedTokenIssuerType {
   static const oidcJwt = TrustedTokenIssuerType._('OIDC_JWT');
 
@@ -7389,6 +7521,8 @@ class TrustedTokenIssuerType {
 /// Contains information about an enabled Region of an IAM Identity Center
 /// instance, including the Region name, status, date added, and whether it is
 /// the primary Region.
+///
+/// @nodoc
 class RegionMetadata {
   /// The timestamp when the Region was added to the IAM Identity Center instance.
   /// For the primary Region, this is the instance creation time.
@@ -7436,6 +7570,7 @@ class RegionMetadata {
   }
 }
 
+/// @nodoc
 class ProvisioningStatus {
   static const latestPermissionSetProvisioned =
       ProvisioningStatus._('LATEST_PERMISSION_SET_PROVISIONED');
@@ -7467,6 +7602,8 @@ class ProvisioningStatus {
 }
 
 /// Provides information about the permission set provisioning status.
+///
+/// @nodoc
 class PermissionSetProvisioningStatusMetadata {
   /// The date that the permission set was created.
   final DateTime? createdDate;
@@ -7506,6 +7643,8 @@ class PermissionSetProvisioningStatusMetadata {
 }
 
 /// Filters the operation status list based on the passed attribute value.
+///
+/// @nodoc
 class OperationStatusFilter {
   /// Filters the list operations result based on the status attribute.
   final StatusValues? status;
@@ -7524,6 +7663,8 @@ class OperationStatusFilter {
 
 /// A structure that stores a list of managed policy ARNs that describe the
 /// associated Amazon Web Services managed policy.
+///
+/// @nodoc
 class AttachedManagedPolicy {
   /// The ARN of the Amazon Web Services managed policy. For more information
   /// about ARNs, see <a
@@ -7558,6 +7699,8 @@ class AttachedManagedPolicy {
 }
 
 /// Provides information about the IAM Identity Center instance.
+///
+/// @nodoc
 class InstanceMetadata {
   /// The date and time that the Identity Center instance was created.
   final DateTime? createdDate;
@@ -7632,6 +7775,7 @@ class InstanceMetadata {
   }
 }
 
+/// @nodoc
 class InstanceStatus {
   static const createInProgress = InstanceStatus._('CREATE_IN_PROGRESS');
   static const createFailed = InstanceStatus._('CREATE_FAILED');
@@ -7665,6 +7809,8 @@ class InstanceStatus {
 
 /// A structure that describes an application that uses IAM Identity Center for
 /// access management.
+///
+/// @nodoc
 class Application {
   /// The Amazon Web Services account ID number of the application.
   final String? applicationAccount;
@@ -7768,6 +7914,8 @@ class Application {
 
 /// A structure that describes the options for the access portal associated with
 /// an application.
+///
+/// @nodoc
 class PortalOptions {
   /// A structure that describes the sign-in options for the access portal.
   final SignInOptions? signInOptions;
@@ -7801,6 +7949,7 @@ class PortalOptions {
   }
 }
 
+/// @nodoc
 class ApplicationVisibility {
   static const enabled = ApplicationVisibility._('ENABLED');
   static const disabled = ApplicationVisibility._('DISABLED');
@@ -7827,6 +7976,8 @@ class ApplicationVisibility {
 }
 
 /// A structure that describes a filter for applications.
+///
+/// @nodoc
 class ListApplicationsFilter {
   /// An Amazon Web Services account ID number that filters the results in the
   /// response.
@@ -7855,6 +8006,8 @@ class ListApplicationsFilter {
 /// A structure that describes a provider that can be used to connect an Amazon
 /// Web Services managed application or customer managed application to IAM
 /// Identity Center.
+///
+/// @nodoc
 class ApplicationProvider {
   /// The ARN of the application provider.
   final String applicationProviderArn;
@@ -7907,6 +8060,7 @@ class ApplicationProvider {
   }
 }
 
+/// @nodoc
 class FederationProtocol {
   static const saml = FederationProtocol._('SAML');
   static const oauth = FederationProtocol._('OAUTH');
@@ -7934,6 +8088,8 @@ class FederationProtocol {
 
 /// A structure that describes how the portal represents an application
 /// provider.
+///
+/// @nodoc
 class DisplayData {
   /// The description of the application provider that appears in the portal.
   final String? description;
@@ -7971,6 +8127,8 @@ class DisplayData {
 }
 
 /// A structure that describes the configuration of a resource server.
+///
+/// @nodoc
 class ResourceServerConfig {
   /// A list of the IAM Identity Center access scopes that are associated with
   /// this resource server.
@@ -7997,6 +8155,8 @@ class ResourceServerConfig {
 
 /// A structure that describes details for an IAM Identity Center access scope
 /// that is associated with a resource server.
+///
+/// @nodoc
 class ResourceServerScopeDetails {
   /// The title of an access scope for a resource server.
   final String? detailedTitle;
@@ -8027,6 +8187,8 @@ class ResourceServerScopeDetails {
 }
 
 /// A structure that describes an application to which a principal is assigned.
+///
+/// @nodoc
 class ApplicationAssignmentForPrincipal {
   /// The ARN of the application to which the specified principal is assigned.
   final String? applicationArn;
@@ -8065,6 +8227,7 @@ class ApplicationAssignmentForPrincipal {
   }
 }
 
+/// @nodoc
 class PrincipalType {
   static const user = PrincipalType._('USER');
   static const group = PrincipalType._('GROUP');
@@ -8090,6 +8253,8 @@ class PrincipalType {
 }
 
 /// A structure that describes a filter for application assignments.
+///
+/// @nodoc
 class ListApplicationAssignmentsFilter {
   /// The ARN of an application.
   final String? applicationArn;
@@ -8107,6 +8272,8 @@ class ListApplicationAssignmentsFilter {
 }
 
 /// A structure that describes an assignment of a principal to an application.
+///
+/// @nodoc
 class ApplicationAssignment {
   /// The ARN of the application that has principals assigned.
   final String applicationArn;
@@ -8146,6 +8313,8 @@ class ApplicationAssignment {
 
 /// A structure that describes an assignment of an Amazon Web Services account
 /// to a principal and the permissions that principal has in the account.
+///
+/// @nodoc
 class AccountAssignmentForPrincipal {
   /// The account ID number of the Amazon Web Services account.
   final String? accountId;
@@ -8192,6 +8361,8 @@ class AccountAssignmentForPrincipal {
 }
 
 /// A structure that describes a filter for account assignments.
+///
+/// @nodoc
 class ListAccountAssignmentsFilter {
   /// The ID number of an Amazon Web Services account that filters the results in
   /// the response.
@@ -8215,6 +8386,8 @@ class ListAccountAssignmentsFilter {
 /// The term <i>principal</i> here refers to a user or group that is defined in
 /// IAM Identity Center.
 /// </note>
+///
+/// @nodoc
 class AccountAssignment {
   /// The identifier of the Amazon Web Services account.
   final String? accountId;
@@ -8267,6 +8440,8 @@ class AccountAssignment {
 }
 
 /// Provides information about the <a>AccountAssignment</a> creation request.
+///
+/// @nodoc
 class AccountAssignmentOperationStatusMetadata {
   /// The date that the permission set was created.
   final DateTime? createdDate;
@@ -8308,6 +8483,8 @@ class AccountAssignmentOperationStatusMetadata {
 /// A structure that describes the configuration of a trusted token issuer. The
 /// structure and available settings are determined by the type of the trusted
 /// token issuer.
+///
+/// @nodoc
 class TrustedTokenIssuerConfiguration {
   /// A structure that describes the settings for a trusted token issuer that
   /// works with OpenID Connect (OIDC) by using JSON Web Tokens (JWT).
@@ -8337,6 +8514,8 @@ class TrustedTokenIssuerConfiguration {
 
 /// A structure that describes configuration settings for a trusted token issuer
 /// that supports OpenID Connect (OIDC) and JSON Web Tokens (JWTs).
+///
+/// @nodoc
 class OidcJwtConfiguration {
   /// The path of the source attribute in the JWT from the trusted token issuer.
   /// The attribute mapped by this JMESPath expression is compared against the
@@ -8392,6 +8571,8 @@ class OidcJwtConfiguration {
 }
 
 /// An entity that contains IAM policies.
+///
+/// @nodoc
 class PermissionSet {
   /// The date that the permission set was created.
   final DateTime? createdDate;
@@ -8454,6 +8635,7 @@ class PermissionSet {
   }
 }
 
+/// @nodoc
 class InstanceAccessControlAttributeConfigurationStatus {
   static const enabled =
       InstanceAccessControlAttributeConfigurationStatus._('ENABLED');
@@ -8489,6 +8671,8 @@ class InstanceAccessControlAttributeConfigurationStatus {
 
 /// The encryption configuration of your IAM Identity Center instance, including
 /// the key type, KMS key ARN, and current encryption status.
+///
+/// @nodoc
 class EncryptionConfigurationDetails {
   /// The current status of encryption configuration.
   final KmsKeyStatus? encryptionStatus;
@@ -8539,6 +8723,7 @@ class EncryptionConfigurationDetails {
   }
 }
 
+/// @nodoc
 class KmsKeyStatus {
   static const updating = KmsKeyStatus._('UPDATING');
   static const enabled = KmsKeyStatus._('ENABLED');
@@ -8565,6 +8750,8 @@ class KmsKeyStatus {
 
 /// The status of the creation or deletion operation of an assignment that a
 /// principal needs to access an account.
+///
+/// @nodoc
 class AccountAssignmentOperationStatus {
   /// The date that the permission set was created.
   final DateTime? createdDate;
@@ -8654,6 +8841,7 @@ class AccountAssignmentOperationStatus {
   }
 }
 
+/// @nodoc
 class TargetType {
   static const awsAccount = TargetType._('AWS_ACCOUNT');
 
@@ -8676,26 +8864,31 @@ class TargetType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8704,11 +8897,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

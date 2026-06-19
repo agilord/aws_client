@@ -1388,6 +1388,7 @@ class ApplicationDiscovery {
   }
 }
 
+/// @nodoc
 class AssociateConfigurationItemsToApplicationResponse {
   AssociateConfigurationItemsToApplicationResponse();
 
@@ -1401,6 +1402,7 @@ class AssociateConfigurationItemsToApplicationResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteAgentsResponse {
   /// A list of agent IDs that failed to delete during the deletion task, each
   /// paired with an error message.
@@ -1427,6 +1429,7 @@ class BatchDeleteAgentsResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteImportDataResponse {
   /// Error messages returned for each import task that you deleted as a response
   /// for this command.
@@ -1454,6 +1457,7 @@ class BatchDeleteImportDataResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// The configuration ID of an application to be created.
   final String? configurationId;
@@ -1476,6 +1480,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateTagsResponse {
   CreateTagsResponse();
 
@@ -1488,6 +1493,7 @@ class CreateTagsResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationsResponse {
   DeleteApplicationsResponse();
 
@@ -1500,6 +1506,7 @@ class DeleteApplicationsResponse {
   }
 }
 
+/// @nodoc
 class DeleteTagsResponse {
   DeleteTagsResponse();
 
@@ -1512,6 +1519,7 @@ class DeleteTagsResponse {
   }
 }
 
+/// @nodoc
 class DescribeAgentsResponse {
   /// Lists agents or the collector by ID or lists all agents/collectors
   /// associated with your user, if you did not specify an agent/collector ID. The
@@ -1552,6 +1560,7 @@ class DescribeAgentsResponse {
   }
 }
 
+/// @nodoc
 class DescribeBatchDeleteConfigurationTaskResponse {
   /// The <code>BatchDeleteConfigurationTask</code> that represents the deletion
   /// task being executed.
@@ -1579,6 +1588,7 @@ class DescribeBatchDeleteConfigurationTaskResponse {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationsResponse {
   /// A key in the response map. The value is an array of data.
   final List<Map<String, String>>? configurations;
@@ -1605,6 +1615,7 @@ class DescribeConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeContinuousExportsResponse {
   /// A list of continuous export descriptions.
   final List<ContinuousExportDescription>? descriptions;
@@ -1639,6 +1650,7 @@ class DescribeContinuousExportsResponse {
   }
 }
 
+/// @nodoc
 class DescribeExportConfigurationsResponse {
   ///
   final List<ExportInfo>? exportsInfo;
@@ -1672,6 +1684,7 @@ class DescribeExportConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeExportTasksResponse {
   /// Contains one or more sets of export request details. When the status of a
   /// request is <code>SUCCEEDED</code>, the response includes a URL for an Amazon
@@ -1710,6 +1723,7 @@ class DescribeExportTasksResponse {
   }
 }
 
+/// @nodoc
 class DescribeImportTasksResponse {
   /// The token to request the next page of results.
   final String? nextToken;
@@ -1743,6 +1757,7 @@ class DescribeImportTasksResponse {
   }
 }
 
+/// @nodoc
 class DescribeTagsResponse {
   /// The call returns a token. Use this token to get the next set of results.
   final String? nextToken;
@@ -1776,6 +1791,7 @@ class DescribeTagsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateConfigurationItemsFromApplicationResponse {
   DisassociateConfigurationItemsFromApplicationResponse();
 
@@ -1789,6 +1805,7 @@ class DisassociateConfigurationItemsFromApplicationResponse {
   }
 }
 
+/// @nodoc
 class ExportConfigurationsResponse {
   /// A unique identifier that you can use to query the export status.
   final String? exportId;
@@ -1811,6 +1828,7 @@ class ExportConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class GetDiscoverySummaryResponse {
   /// Details about discovered agents, including agent status and health.
   final CustomerAgentInfo? agentSummary;
@@ -1898,6 +1916,7 @@ class GetDiscoverySummaryResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationsResponse {
   /// Returns configuration details, including the configuration ID, attribute
   /// names, and attribute values.
@@ -1936,6 +1955,7 @@ class ListConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListServerNeighborsResponse {
   /// List of distinct servers that are one hop away from the given server.
   final List<NeighborConnectionDetail> neighbors;
@@ -1981,6 +2001,7 @@ class ListServerNeighborsResponse {
   }
 }
 
+/// @nodoc
 class StartBatchDeleteConfigurationTaskResponse {
   /// The unique identifier associated with the newly started deletion task.
   final String? taskId;
@@ -2004,6 +2025,7 @@ class StartBatchDeleteConfigurationTaskResponse {
   }
 }
 
+/// @nodoc
 class StartContinuousExportResponse {
   /// The type of data collector used to gather this data (currently only offered
   /// for AGENT).
@@ -2065,6 +2087,7 @@ class StartContinuousExportResponse {
   }
 }
 
+/// @nodoc
 class StartDataCollectionByAgentIdsResponse {
   /// Information about agents that were instructed to start collecting data.
   /// Information includes the agent ID, a description of the operation performed,
@@ -2095,6 +2118,7 @@ class StartDataCollectionByAgentIdsResponse {
   }
 }
 
+/// @nodoc
 class StartExportTaskResponse {
   /// A unique identifier used to query the status of an export request.
   final String? exportId;
@@ -2117,6 +2141,7 @@ class StartExportTaskResponse {
   }
 }
 
+/// @nodoc
 class StartImportTaskResponse {
   /// An array of information related to the import task request including status
   /// information, times, IDs, the Amazon S3 Object URL for the import file, and
@@ -2143,6 +2168,7 @@ class StartImportTaskResponse {
   }
 }
 
+/// @nodoc
 class StopContinuousExportResponse {
   /// Timestamp that represents when this continuous export started collecting
   /// data.
@@ -2173,6 +2199,7 @@ class StopContinuousExportResponse {
   }
 }
 
+/// @nodoc
 class StopDataCollectionByAgentIdsResponse {
   /// Information about the agents that were instructed to stop collecting data.
   /// Information includes the agent ID, a description of the operation performed,
@@ -2203,6 +2230,7 @@ class StopDataCollectionByAgentIdsResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   UpdateApplicationResponse();
 
@@ -2218,6 +2246,8 @@ class UpdateApplicationResponse {
 /// Information about agents that were instructed to start collecting data.
 /// Information includes the agent ID, a description of the operation, and
 /// whether the agent configuration was updated.
+///
+/// @nodoc
 class AgentConfigurationStatus {
   /// The agent ID.
   final String? agentId;
@@ -2260,6 +2290,8 @@ class AgentConfigurationStatus {
 /// An array of information related to the import task request that includes
 /// status information, times, IDs, the Amazon S3 Object URL for the import
 /// file, and more.
+///
+/// @nodoc
 class ImportTask {
   /// The total number of application records in the import file that failed to be
   /// imported.
@@ -2412,6 +2444,7 @@ class ImportTask {
   }
 }
 
+/// @nodoc
 class ImportStatus {
   static const importInProgress = ImportStatus._('IMPORT_IN_PROGRESS');
   static const importComplete = ImportStatus._('IMPORT_COMPLETE');
@@ -2463,6 +2496,7 @@ class ImportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FileClassification {
   static const modelizeitExport = FileClassification._('MODELIZEIT_EXPORT');
   static const rvtoolsExport = FileClassification._('RVTOOLS_EXPORT');
@@ -2499,6 +2533,8 @@ class FileClassification {
 /// <code>ExportPreferences</code> can be enabled for a <a
 /// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html">StartExportTask</a>
 /// action.
+///
+/// @nodoc
 class ExportPreferences {
   /// If enabled, exported data includes EC2 instance type matches for on-premises
   /// servers discovered through Amazon Web Services Application Discovery
@@ -2521,6 +2557,8 @@ class ExportPreferences {
 /// Indicates that the exported data must include EC2 instance type matches for
 /// on-premises servers that are discovered through Amazon Web Services
 /// Application Discovery Service.
+///
+/// @nodoc
 class Ec2RecommendationsExportPreferences {
   /// The recommended EC2 instance type that matches the CPU usage metric of
   /// server performance data.
@@ -2588,6 +2626,8 @@ class Ec2RecommendationsExportPreferences {
 
 /// Specifies the performance metrics to use for the server that is used for
 /// recommendations.
+///
+/// @nodoc
 class UsageMetricBasis {
   /// A utilization metric that is used by the recommendations.
   final String? name;
@@ -2611,6 +2651,7 @@ class UsageMetricBasis {
   }
 }
 
+/// @nodoc
 class Tenancy {
   static const dedicated = Tenancy._('DEDICATED');
   static const shared = Tenancy._('SHARED');
@@ -2635,6 +2676,8 @@ class Tenancy {
 }
 
 /// Used to provide Reserved Instance preferences for the recommendation.
+///
+/// @nodoc
 class ReservedInstanceOptions {
   /// The flexibility to change the instance types needed for your Reserved
   /// Instance.
@@ -2664,6 +2707,7 @@ class ReservedInstanceOptions {
   }
 }
 
+/// @nodoc
 class PurchasingOption {
   static const allUpfront = PurchasingOption._('ALL_UPFRONT');
   static const partialUpfront = PurchasingOption._('PARTIAL_UPFRONT');
@@ -2689,6 +2733,7 @@ class PurchasingOption {
   String toString() => value;
 }
 
+/// @nodoc
 class OfferingClass {
   static const standard = OfferingClass._('STANDARD');
   static const convertible = OfferingClass._('CONVERTIBLE');
@@ -2713,6 +2758,7 @@ class OfferingClass {
   String toString() => value;
 }
 
+/// @nodoc
 class TermLength {
   static const oneYear = TermLength._('ONE_YEAR');
   static const threeYear = TermLength._('THREE_YEAR');
@@ -2740,6 +2786,8 @@ class TermLength {
 /// be selected for export using the <a
 /// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html">StartExportTask</a>
 /// action.
+///
+/// @nodoc
 class ExportFilter {
   /// Supported condition: <code>EQUALS</code>
   final String condition;
@@ -2773,6 +2821,7 @@ class ExportFilter {
   }
 }
 
+/// @nodoc
 class ExportDataFormat {
   static const csv = ExportDataFormat._('CSV');
 
@@ -2796,6 +2845,7 @@ class ExportDataFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSource {
   static const agent = DataSource._('AGENT');
 
@@ -2818,6 +2868,7 @@ class DataSource {
   String toString() => value;
 }
 
+/// @nodoc
 class DeletionConfigurationItemType {
   static const server = DeletionConfigurationItemType._('SERVER');
 
@@ -2843,6 +2894,8 @@ class DeletionConfigurationItemType {
 }
 
 /// Details about neighboring servers.
+///
+/// @nodoc
 class NeighborConnectionDetail {
   /// The number of open network connections with the neighboring server.
   final int connectionsCount;
@@ -2893,6 +2946,7 @@ class NeighborConnectionDetail {
   }
 }
 
+/// @nodoc
 class ConfigurationItemType {
   static const server = ConfigurationItemType._('SERVER');
   static const process = ConfigurationItemType._('PROCESS');
@@ -2921,6 +2975,8 @@ class ConfigurationItemType {
 }
 
 /// A field and direction for ordered output.
+///
+/// @nodoc
 class OrderByElement {
   /// The field on which to order.
   final String fieldName;
@@ -2943,6 +2999,7 @@ class OrderByElement {
   }
 }
 
+/// @nodoc
 class OrderString {
   static const asc = OrderString._('ASC');
   static const desc = OrderString._('DESC');
@@ -2972,6 +3029,8 @@ class OrderString {
 /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html">Querying
 /// Discovered Configuration Items</a> in the <i>Amazon Web Services Application
 /// Discovery Service User Guide</i>.
+///
+/// @nodoc
 class Filter {
   /// A conditional operator. The following operators are valid: EQUALS,
   /// NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the
@@ -3009,6 +3068,8 @@ class Filter {
 }
 
 /// Inventory data for installed discovery agents.
+///
+/// @nodoc
 class CustomerAgentInfo {
   /// Number of active discovery agents.
   final int activeAgents;
@@ -3074,6 +3135,8 @@ class CustomerAgentInfo {
 }
 
 /// Inventory data for installed discovery connectors.
+///
+/// @nodoc
 class CustomerConnectorInfo {
   /// Number of active discovery connectors.
   final int activeConnectors;
@@ -3139,6 +3202,8 @@ class CustomerConnectorInfo {
 }
 
 /// The inventory data for installed Migration Evaluator collectors.
+///
+/// @nodoc
 class CustomerMeCollectorInfo {
   /// The number of active Migration Evaluator collectors.
   final int activeMeCollectors;
@@ -3205,6 +3270,8 @@ class CustomerMeCollectorInfo {
 }
 
 /// The inventory data for installed Agentless Collector collectors.
+///
+/// @nodoc
 class CustomerAgentlessCollectorInfo {
   /// The number of active Agentless Collector collectors.
   final int activeAgentlessCollectors;
@@ -3278,6 +3345,8 @@ class CustomerAgentlessCollectorInfo {
 
 /// Tags for a configuration item. Tags are metadata that help you categorize IT
 /// assets.
+///
+/// @nodoc
 class ConfigurationTag {
   /// The configuration ID for the item to tag. You can specify a list of keys and
   /// values.
@@ -3336,6 +3405,8 @@ class ConfigurationTag {
 
 /// The tag filter. Valid names are: <code>tagKey</code>, <code>tagValue</code>,
 /// <code>configurationId</code>.
+///
+/// @nodoc
 class TagFilter {
   /// A name of the tag filter.
   final String name;
@@ -3364,6 +3435,8 @@ class TagFilter {
 /// <note>
 /// When filtering by import status, all other filter values are ignored.
 /// </note>
+///
+/// @nodoc
 class ImportTaskFilter {
   /// The name, status, or import task ID for a specific import task.
   final ImportTaskFilterName? name;
@@ -3388,6 +3461,7 @@ class ImportTaskFilter {
   }
 }
 
+/// @nodoc
 class ImportTaskFilterName {
   static const importTaskId = ImportTaskFilterName._('IMPORT_TASK_ID');
   static const status = ImportTaskFilterName._('STATUS');
@@ -3418,6 +3492,8 @@ class ImportTaskFilterName {
 
 /// Information regarding the export status of discovered data. The value is an
 /// array of objects.
+///
+/// @nodoc
 class ExportInfo {
   /// A unique identifier used to query an export.
   final String exportId;
@@ -3502,6 +3578,7 @@ class ExportInfo {
   }
 }
 
+/// @nodoc
 class ExportStatus {
   static const failed = ExportStatus._('FAILED');
   static const succeeded = ExportStatus._('SUCCEEDED');
@@ -3527,6 +3604,8 @@ class ExportStatus {
 }
 
 /// A list of continuous export descriptions.
+///
+/// @nodoc
 class ContinuousExportDescription {
   /// The type of data collector used to gather this data (currently only offered
   /// for AGENT).
@@ -3730,6 +3809,7 @@ class ContinuousExportDescription {
   }
 }
 
+/// @nodoc
 class ContinuousExportStatus {
   static const startInProgress = ContinuousExportStatus._('START_IN_PROGRESS');
   static const startFailed = ContinuousExportStatus._('START_FAILED');
@@ -3769,6 +3849,8 @@ class ContinuousExportStatus {
 }
 
 /// A metadata object that represents the deletion task being executed.
+///
+/// @nodoc
 class BatchDeleteConfigurationTask {
   /// The type of configuration item to delete. Supported types are: SERVER.
   final DeletionConfigurationItemType? configurationType;
@@ -3871,6 +3953,7 @@ class BatchDeleteConfigurationTask {
   }
 }
 
+/// @nodoc
 class BatchDeleteConfigurationTaskStatus {
   static const initializing =
       BatchDeleteConfigurationTaskStatus._('INITIALIZING');
@@ -3901,6 +3984,8 @@ class BatchDeleteConfigurationTaskStatus {
 }
 
 /// A configuration ID paired with a warning message.
+///
+/// @nodoc
 class DeletionWarning {
   /// The unique identifier of the configuration that produced a warning.
   final String? configurationId;
@@ -3939,6 +4024,8 @@ class DeletionWarning {
 }
 
 /// A configuration ID paired with an error message.
+///
+/// @nodoc
 class FailedConfiguration {
   /// The unique identifier of the configuration the failed to delete.
   final String? configurationId;
@@ -3980,6 +4067,8 @@ class FailedConfiguration {
 /// account. Information includes agent IDs, IP addresses, media access control
 /// (MAC) addresses, agent or collector status, hostname where the agent
 /// resides, and agent version for each agent.
+///
+/// @nodoc
 class AgentInfo {
   /// The agent or collector ID.
   final String? agentId;
@@ -4070,6 +4159,7 @@ class AgentInfo {
   }
 }
 
+/// @nodoc
 class AgentStatus {
   static const healthy = AgentStatus._('HEALTHY');
   static const unhealthy = AgentStatus._('UNHEALTHY');
@@ -4105,6 +4195,8 @@ class AgentStatus {
 }
 
 /// Network details about the host where the agent/collector resides.
+///
+/// @nodoc
 class AgentNetworkInfo {
   /// The IP address for the host where the agent/collector resides.
   final String? ipAddress;
@@ -4138,6 +4230,8 @@ class AgentNetworkInfo {
 /// <important>
 /// Do not store sensitive information (like personal data) in tags.
 /// </important>
+///
+/// @nodoc
 class Tag {
   /// The type of tag on which to filter.
   final String key;
@@ -4162,6 +4256,8 @@ class Tag {
 
 /// Error messages returned for each import task that you deleted as a response
 /// for this command.
+///
+/// @nodoc
 class BatchDeleteImportDataError {
   /// The type of error that occurred for a specific import task.
   final BatchDeleteImportDataErrorCode? errorCode;
@@ -4199,6 +4295,7 @@ class BatchDeleteImportDataError {
   }
 }
 
+/// @nodoc
 class BatchDeleteImportDataErrorCode {
   static const notFound = BatchDeleteImportDataErrorCode._('NOT_FOUND');
   static const internalServerError =
@@ -4228,6 +4325,8 @@ class BatchDeleteImportDataErrorCode {
 
 /// An object representing the agent or data collector that failed to delete,
 /// each containing agentId, errorMessage, and errorCode.
+///
+/// @nodoc
 class BatchDeleteAgentError {
   /// The ID of the agent or data collector to delete.
   final String agentId;
@@ -4266,6 +4365,7 @@ class BatchDeleteAgentError {
   }
 }
 
+/// @nodoc
 class DeleteAgentErrorCode {
   static const notFound = DeleteAgentErrorCode._('NOT_FOUND');
   static const internalServerError =
@@ -4295,6 +4395,8 @@ class DeleteAgentErrorCode {
 
 /// An object representing the agent or data collector to be deleted along with
 /// the optional configurations for error handling.
+///
+/// @nodoc
 class DeleteAgent {
   /// The ID of the agent or data collector to delete.
   final String agentId;
@@ -4321,27 +4423,32 @@ class DeleteAgent {
   }
 }
 
+/// @nodoc
 class AuthorizationErrorException extends _s.GenericAwsException {
   AuthorizationErrorException({String? type, String? message})
       : super(
             type: type, code: 'AuthorizationErrorException', message: message);
 }
 
+/// @nodoc
 class ConflictErrorException extends _s.GenericAwsException {
   ConflictErrorException({String? type, String? message})
       : super(type: type, code: 'ConflictErrorException', message: message);
 }
 
+/// @nodoc
 class HomeRegionNotSetException extends _s.GenericAwsException {
   HomeRegionNotSetException({String? type, String? message})
       : super(type: type, code: 'HomeRegionNotSetException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -4350,11 +4457,13 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class OperationNotPermittedException extends _s.GenericAwsException {
   OperationNotPermittedException({String? type, String? message})
       : super(
@@ -4363,16 +4472,19 @@ class OperationNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServerInternalErrorException extends _s.GenericAwsException {
   ServerInternalErrorException({String? type, String? message})
       : super(

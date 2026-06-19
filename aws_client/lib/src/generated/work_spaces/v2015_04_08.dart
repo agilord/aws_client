@@ -4198,6 +4198,7 @@ class WorkSpaces {
   }
 }
 
+/// @nodoc
 class AcceptAccountLinkInvitationResult {
   /// Information about the account link.
   final AccountLink? accountLink;
@@ -4223,6 +4224,7 @@ class AcceptAccountLinkInvitationResult {
   }
 }
 
+/// @nodoc
 class AssociateConnectionAliasResult {
   /// The identifier of the connection alias association. You use the connection
   /// identifier in the DNS TXT record when you're configuring your DNS routing
@@ -4248,6 +4250,7 @@ class AssociateConnectionAliasResult {
   }
 }
 
+/// @nodoc
 class AssociateIpGroupsResult {
   AssociateIpGroupsResult();
 
@@ -4260,6 +4263,7 @@ class AssociateIpGroupsResult {
   }
 }
 
+/// @nodoc
 class AssociateWorkspaceApplicationResult {
   /// Information about the association between the specified WorkSpace and the
   /// specified application.
@@ -4287,6 +4291,7 @@ class AssociateWorkspaceApplicationResult {
   }
 }
 
+/// @nodoc
 class AuthorizeIpRulesResult {
   AuthorizeIpRulesResult();
 
@@ -4299,6 +4304,7 @@ class AuthorizeIpRulesResult {
   }
 }
 
+/// @nodoc
 class CopyWorkspaceImageResult {
   /// The identifier of the image.
   final String? imageId;
@@ -4321,6 +4327,7 @@ class CopyWorkspaceImageResult {
   }
 }
 
+/// @nodoc
 class CreateAccountLinkInvitationResult {
   /// Information about the account link.
   final AccountLink? accountLink;
@@ -4346,6 +4353,7 @@ class CreateAccountLinkInvitationResult {
   }
 }
 
+/// @nodoc
 class CreateConnectClientAddInResult {
   /// The client add-in identifier.
   final String? addInId;
@@ -4368,6 +4376,7 @@ class CreateConnectClientAddInResult {
   }
 }
 
+/// @nodoc
 class CreateConnectionAliasResult {
   /// The identifier of the connection alias.
   final String? aliasId;
@@ -4390,6 +4399,7 @@ class CreateConnectionAliasResult {
   }
 }
 
+/// @nodoc
 class CreateIpGroupResult {
   /// The identifier of the group.
   final String? groupId;
@@ -4412,6 +4422,7 @@ class CreateIpGroupResult {
   }
 }
 
+/// @nodoc
 class CreateStandbyWorkspacesResult {
   /// Information about the standby WorkSpace that could not be created.
   final List<FailedCreateStandbyWorkspacesRequest>? failedStandbyRequests;
@@ -4451,6 +4462,7 @@ class CreateStandbyWorkspacesResult {
   }
 }
 
+/// @nodoc
 class CreateTagsResult {
   CreateTagsResult();
 
@@ -4463,6 +4475,7 @@ class CreateTagsResult {
   }
 }
 
+/// @nodoc
 class CreateUpdatedWorkspaceImageResult {
   /// The identifier of the new updated WorkSpace image.
   final String? imageId;
@@ -4486,6 +4499,7 @@ class CreateUpdatedWorkspaceImageResult {
   }
 }
 
+/// @nodoc
 class CreateWorkspaceBundleResult {
   final WorkspaceBundle? workspaceBundle;
 
@@ -4510,6 +4524,7 @@ class CreateWorkspaceBundleResult {
   }
 }
 
+/// @nodoc
 class CreateWorkspaceImageResult {
   /// The date when the image was created.
   final DateTime? created;
@@ -4589,6 +4604,7 @@ class CreateWorkspaceImageResult {
   }
 }
 
+/// @nodoc
 class CreateWorkspacesResult {
   /// Information about the WorkSpaces that could not be created.
   final List<FailedCreateWorkspaceRequest>? failedRequests;
@@ -4630,6 +4646,7 @@ class CreateWorkspacesResult {
   }
 }
 
+/// @nodoc
 class CreateWorkspacesPoolResult {
   /// Indicates the pool to create.
   final WorkspacesPool? workspacesPool;
@@ -4655,6 +4672,7 @@ class CreateWorkspacesPoolResult {
   }
 }
 
+/// @nodoc
 class DeleteAccountLinkInvitationResult {
   /// Information about the account link.
   final AccountLink? accountLink;
@@ -4680,6 +4698,7 @@ class DeleteAccountLinkInvitationResult {
   }
 }
 
+/// @nodoc
 class DeleteClientBrandingResult {
   DeleteClientBrandingResult();
 
@@ -4692,6 +4711,7 @@ class DeleteClientBrandingResult {
   }
 }
 
+/// @nodoc
 class DeleteConnectClientAddInResult {
   DeleteConnectClientAddInResult();
 
@@ -4704,6 +4724,7 @@ class DeleteConnectClientAddInResult {
   }
 }
 
+/// @nodoc
 class DeleteConnectionAliasResult {
   DeleteConnectionAliasResult();
 
@@ -4716,6 +4737,7 @@ class DeleteConnectionAliasResult {
   }
 }
 
+/// @nodoc
 class DeleteIpGroupResult {
   DeleteIpGroupResult();
 
@@ -4728,6 +4750,7 @@ class DeleteIpGroupResult {
   }
 }
 
+/// @nodoc
 class DeleteTagsResult {
   DeleteTagsResult();
 
@@ -4740,6 +4763,7 @@ class DeleteTagsResult {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceBundleResult {
   DeleteWorkspaceBundleResult();
 
@@ -4752,6 +4776,7 @@ class DeleteWorkspaceBundleResult {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceImageResult {
   DeleteWorkspaceImageResult();
 
@@ -4764,6 +4789,7 @@ class DeleteWorkspaceImageResult {
   }
 }
 
+/// @nodoc
 class DeployWorkspaceApplicationsResult {
   /// The list of deployed associations and information about them.
   final WorkSpaceApplicationDeployment? deployment;
@@ -4790,6 +4816,7 @@ class DeployWorkspaceApplicationsResult {
   }
 }
 
+/// @nodoc
 class DeregisterWorkspaceDirectoryResult {
   DeregisterWorkspaceDirectoryResult();
 
@@ -4802,6 +4829,7 @@ class DeregisterWorkspaceDirectoryResult {
   }
 }
 
+/// @nodoc
 class DescribeAccountResult {
   /// The type of linked account.
   final DedicatedTenancyAccountType? dedicatedTenancyAccountType;
@@ -4860,6 +4888,7 @@ class DescribeAccountResult {
   }
 }
 
+/// @nodoc
 class DescribeAccountModificationsResult {
   /// The list of modifications to the configuration of BYOL.
   final List<AccountModification>? accountModifications;
@@ -4895,6 +4924,7 @@ class DescribeAccountModificationsResult {
   }
 }
 
+/// @nodoc
 class DescribeApplicationAssociationsResult {
   /// List of associations and information about them.
   final List<ApplicationResourceAssociation>? associations;
@@ -4930,6 +4960,7 @@ class DescribeApplicationAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeApplicationsResult {
   /// List of information about the specified applications.
   final List<WorkSpaceApplication>? applications;
@@ -4963,6 +4994,7 @@ class DescribeApplicationsResult {
   }
 }
 
+/// @nodoc
 class DescribeBundleAssociationsResult {
   /// List of information about the specified associations.
   final List<BundleResourceAssociation>? associations;
@@ -4989,6 +5021,7 @@ class DescribeBundleAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeClientBrandingResult {
   /// The branding information for Android devices.
   final DefaultClientBrandingAttributes? deviceTypeAndroid;
@@ -5064,6 +5097,7 @@ class DescribeClientBrandingResult {
   }
 }
 
+/// @nodoc
 class DescribeClientPropertiesResult {
   /// Information about the specified Amazon WorkSpaces clients.
   final List<ClientPropertiesResult>? clientPropertiesList;
@@ -5091,6 +5125,7 @@ class DescribeClientPropertiesResult {
   }
 }
 
+/// @nodoc
 class DescribeConnectClientAddInsResult {
   /// Information about client add-ins.
   final List<ConnectClientAddIn>? addIns;
@@ -5125,6 +5160,7 @@ class DescribeConnectClientAddInsResult {
   }
 }
 
+/// @nodoc
 class DescribeConnectionAliasesResult {
   /// Information about the specified connection aliases.
   final List<ConnectionAlias>? connectionAliases;
@@ -5158,6 +5194,7 @@ class DescribeConnectionAliasesResult {
   }
 }
 
+/// @nodoc
 class DescribeConnectionAliasPermissionsResult {
   /// The identifier of the connection alias.
   final String? aliasId;
@@ -5201,6 +5238,7 @@ class DescribeConnectionAliasPermissionsResult {
   }
 }
 
+/// @nodoc
 class DescribeCustomWorkspaceImageImportResult {
   /// The timestamp when the WorkSpace image import was created.
   final DateTime? created;
@@ -5301,6 +5339,7 @@ class DescribeCustomWorkspaceImageImportResult {
   }
 }
 
+/// @nodoc
 class DescribeImageAssociationsResult {
   /// List of information about the specified associations.
   final List<ImageResourceAssociation>? associations;
@@ -5327,6 +5366,7 @@ class DescribeImageAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeIpGroupsResult {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -5360,6 +5400,7 @@ class DescribeIpGroupsResult {
   }
 }
 
+/// @nodoc
 class DescribeTagsResult {
   /// The tags.
   final List<Tag>? tagList;
@@ -5385,6 +5426,7 @@ class DescribeTagsResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceAssociationsResult {
   /// List of information about the specified associations.
   final List<WorkspaceResourceAssociation>? associations;
@@ -5412,6 +5454,7 @@ class DescribeWorkspaceAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceBundlesResult {
   /// Information about the bundles.
   final List<WorkspaceBundle>? bundles;
@@ -5446,6 +5489,7 @@ class DescribeWorkspaceBundlesResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceDirectoriesResult {
   /// Information about the directories.
   final List<WorkspaceDirectory>? directories;
@@ -5480,6 +5524,7 @@ class DescribeWorkspaceDirectoriesResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceImagePermissionsResult {
   /// The identifier of the image.
   final String? imageId;
@@ -5522,6 +5567,7 @@ class DescribeWorkspaceImagePermissionsResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceImagesResult {
   /// Information about the images.
   final List<WorkspaceImage>? images;
@@ -5555,6 +5601,7 @@ class DescribeWorkspaceImagesResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspacesResult {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -5591,6 +5638,7 @@ class DescribeWorkspacesResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspacesConnectionStatusResult {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -5627,6 +5675,7 @@ class DescribeWorkspacesConnectionStatusResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceSnapshotsResult {
   /// Information about the snapshots that can be used to rebuild a WorkSpace.
   /// These snapshots include the user volume.
@@ -5664,6 +5713,7 @@ class DescribeWorkspaceSnapshotsResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspacesPoolsResult {
   /// If you received a <code>NextToken</code> from a previous call that was
   /// paginated, provide this token to receive the next set of results.
@@ -5697,6 +5747,7 @@ class DescribeWorkspacesPoolsResult {
   }
 }
 
+/// @nodoc
 class DescribeWorkspacesPoolSessionsResult {
   /// If you received a <code>NextToken</code> from a previous call that was
   /// paginated, provide this token to receive the next set of results.
@@ -5731,6 +5782,7 @@ class DescribeWorkspacesPoolSessionsResult {
   }
 }
 
+/// @nodoc
 class DisassociateConnectionAliasResult {
   DisassociateConnectionAliasResult();
 
@@ -5743,6 +5795,7 @@ class DisassociateConnectionAliasResult {
   }
 }
 
+/// @nodoc
 class DisassociateIpGroupsResult {
   DisassociateIpGroupsResult();
 
@@ -5755,6 +5808,7 @@ class DisassociateIpGroupsResult {
   }
 }
 
+/// @nodoc
 class DisassociateWorkspaceApplicationResult {
   /// Information about the targeted association.
   final WorkspaceResourceAssociation? association;
@@ -5781,6 +5835,7 @@ class DisassociateWorkspaceApplicationResult {
   }
 }
 
+/// @nodoc
 class GetAccountLinkResult {
   /// The account link of the account link to retrieve.
   final AccountLink? accountLink;
@@ -5805,6 +5860,7 @@ class GetAccountLinkResult {
   }
 }
 
+/// @nodoc
 class ImportClientBrandingResult {
   /// The branding information configured for Android devices.
   final DefaultClientBrandingAttributes? deviceTypeAndroid;
@@ -5880,6 +5936,7 @@ class ImportClientBrandingResult {
   }
 }
 
+/// @nodoc
 class ImportCustomWorkspaceImageResult {
   /// The identifier of the WorkSpace image.
   final String? imageId;
@@ -5910,6 +5967,7 @@ class ImportCustomWorkspaceImageResult {
   }
 }
 
+/// @nodoc
 class ImportWorkspaceImageResult {
   /// The identifier of the WorkSpace image.
   final String? imageId;
@@ -5932,6 +5990,7 @@ class ImportWorkspaceImageResult {
   }
 }
 
+/// @nodoc
 class ListAccountLinksResult {
   /// Information about the account links.
   final List<AccountLink>? accountLinks;
@@ -5965,6 +6024,7 @@ class ListAccountLinksResult {
   }
 }
 
+/// @nodoc
 class ListAvailableManagementCidrRangesResult {
   /// The list of available IP address ranges, specified as IPv4 CIDR blocks.
   final List<String>? managementCidrRanges;
@@ -6000,6 +6060,7 @@ class ListAvailableManagementCidrRangesResult {
   }
 }
 
+/// @nodoc
 class MigrateWorkspaceResult {
   /// The original identifier of the WorkSpace that is being migrated.
   final String? sourceWorkspaceId;
@@ -6031,6 +6092,7 @@ class MigrateWorkspaceResult {
   }
 }
 
+/// @nodoc
 class ModifyAccountResult {
   /// The text message to describe the status of BYOL modification.
   final String? message;
@@ -6053,6 +6115,7 @@ class ModifyAccountResult {
   }
 }
 
+/// @nodoc
 class ModifyCertificateBasedAuthPropertiesResult {
   ModifyCertificateBasedAuthPropertiesResult();
 
@@ -6066,6 +6129,7 @@ class ModifyCertificateBasedAuthPropertiesResult {
   }
 }
 
+/// @nodoc
 class ModifyClientPropertiesResult {
   ModifyClientPropertiesResult();
 
@@ -6078,6 +6142,7 @@ class ModifyClientPropertiesResult {
   }
 }
 
+/// @nodoc
 class ModifyEndpointEncryptionModeResponse {
   ModifyEndpointEncryptionModeResponse();
 
@@ -6091,6 +6156,7 @@ class ModifyEndpointEncryptionModeResponse {
   }
 }
 
+/// @nodoc
 class ModifySamlPropertiesResult {
   ModifySamlPropertiesResult();
 
@@ -6103,6 +6169,7 @@ class ModifySamlPropertiesResult {
   }
 }
 
+/// @nodoc
 class ModifySelfservicePermissionsResult {
   ModifySelfservicePermissionsResult();
 
@@ -6115,6 +6182,7 @@ class ModifySelfservicePermissionsResult {
   }
 }
 
+/// @nodoc
 class ModifyStreamingPropertiesResult {
   ModifyStreamingPropertiesResult();
 
@@ -6127,6 +6195,7 @@ class ModifyStreamingPropertiesResult {
   }
 }
 
+/// @nodoc
 class ModifyWorkspaceAccessPropertiesResult {
   ModifyWorkspaceAccessPropertiesResult();
 
@@ -6140,6 +6209,7 @@ class ModifyWorkspaceAccessPropertiesResult {
   }
 }
 
+/// @nodoc
 class ModifyWorkspaceCreationPropertiesResult {
   ModifyWorkspaceCreationPropertiesResult();
 
@@ -6153,6 +6223,7 @@ class ModifyWorkspaceCreationPropertiesResult {
   }
 }
 
+/// @nodoc
 class ModifyWorkspacePropertiesResult {
   ModifyWorkspacePropertiesResult();
 
@@ -6165,6 +6236,7 @@ class ModifyWorkspacePropertiesResult {
   }
 }
 
+/// @nodoc
 class ModifyWorkspaceStateResult {
   ModifyWorkspaceStateResult();
 
@@ -6177,6 +6249,7 @@ class ModifyWorkspaceStateResult {
   }
 }
 
+/// @nodoc
 class RebootWorkspacesResult {
   /// Information about the WorkSpaces that could not be rebooted.
   final List<FailedWorkspaceChangeRequest>? failedRequests;
@@ -6203,6 +6276,7 @@ class RebootWorkspacesResult {
   }
 }
 
+/// @nodoc
 class RebuildWorkspacesResult {
   /// Information about the WorkSpace that could not be rebuilt.
   final List<FailedWorkspaceChangeRequest>? failedRequests;
@@ -6229,6 +6303,7 @@ class RebuildWorkspacesResult {
   }
 }
 
+/// @nodoc
 class RegisterWorkspaceDirectoryResult {
   /// The identifier of the directory.
   final String? directoryId;
@@ -6259,6 +6334,7 @@ class RegisterWorkspaceDirectoryResult {
   }
 }
 
+/// @nodoc
 class RejectAccountLinkInvitationResult {
   /// Information about the account link.
   final AccountLink? accountLink;
@@ -6284,6 +6360,7 @@ class RejectAccountLinkInvitationResult {
   }
 }
 
+/// @nodoc
 class RestoreWorkspaceResult {
   RestoreWorkspaceResult();
 
@@ -6296,6 +6373,7 @@ class RestoreWorkspaceResult {
   }
 }
 
+/// @nodoc
 class RevokeIpRulesResult {
   RevokeIpRulesResult();
 
@@ -6308,6 +6386,7 @@ class RevokeIpRulesResult {
   }
 }
 
+/// @nodoc
 class StartWorkspacesResult {
   /// Information about the WorkSpaces that could not be started.
   final List<FailedWorkspaceChangeRequest>? failedRequests;
@@ -6334,6 +6413,7 @@ class StartWorkspacesResult {
   }
 }
 
+/// @nodoc
 class StartWorkspacesPoolResult {
   StartWorkspacesPoolResult();
 
@@ -6346,6 +6426,7 @@ class StartWorkspacesPoolResult {
   }
 }
 
+/// @nodoc
 class StopWorkspacesResult {
   /// Information about the WorkSpaces that could not be stopped.
   final List<FailedWorkspaceChangeRequest>? failedRequests;
@@ -6372,6 +6453,7 @@ class StopWorkspacesResult {
   }
 }
 
+/// @nodoc
 class StopWorkspacesPoolResult {
   StopWorkspacesPoolResult();
 
@@ -6384,6 +6466,7 @@ class StopWorkspacesPoolResult {
   }
 }
 
+/// @nodoc
 class TerminateWorkspacesResult {
   /// Information about the WorkSpaces that could not be terminated.
   final List<FailedWorkspaceChangeRequest>? failedRequests;
@@ -6410,6 +6493,7 @@ class TerminateWorkspacesResult {
   }
 }
 
+/// @nodoc
 class TerminateWorkspacesPoolResult {
   TerminateWorkspacesPoolResult();
 
@@ -6422,6 +6506,7 @@ class TerminateWorkspacesPoolResult {
   }
 }
 
+/// @nodoc
 class TerminateWorkspacesPoolSessionResult {
   TerminateWorkspacesPoolSessionResult();
 
@@ -6435,6 +6520,7 @@ class TerminateWorkspacesPoolSessionResult {
   }
 }
 
+/// @nodoc
 class UpdateConnectClientAddInResult {
   UpdateConnectClientAddInResult();
 
@@ -6447,6 +6533,7 @@ class UpdateConnectClientAddInResult {
   }
 }
 
+/// @nodoc
 class UpdateConnectionAliasPermissionResult {
   UpdateConnectionAliasPermissionResult();
 
@@ -6460,6 +6547,7 @@ class UpdateConnectionAliasPermissionResult {
   }
 }
 
+/// @nodoc
 class UpdateRulesOfIpGroupResult {
   UpdateRulesOfIpGroupResult();
 
@@ -6472,6 +6560,7 @@ class UpdateRulesOfIpGroupResult {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceBundleResult {
   UpdateWorkspaceBundleResult();
 
@@ -6484,6 +6573,7 @@ class UpdateWorkspaceBundleResult {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceImagePermissionResult {
   UpdateWorkspaceImagePermissionResult();
 
@@ -6497,6 +6587,7 @@ class UpdateWorkspaceImagePermissionResult {
   }
 }
 
+/// @nodoc
 class UpdateWorkspacesPoolResult {
   /// Describes the specified pool.
   final WorkspacesPool? workspacesPool;
@@ -6523,6 +6614,8 @@ class UpdateWorkspacesPoolResult {
 }
 
 /// Describes a pool of WorkSpaces.
+///
+/// @nodoc
 class WorkspacesPool {
   /// The identifier of the bundle used by the pool.
   final String bundleId;
@@ -6647,6 +6740,8 @@ class WorkspacesPool {
 }
 
 /// Describes the capacity status for a pool of WorkSpaces.
+///
+/// @nodoc
 class CapacityStatus {
   /// The number of user sessions currently being used for your pool.
   final int activeUserSessions;
@@ -6698,6 +6793,7 @@ class CapacityStatus {
   }
 }
 
+/// @nodoc
 class WorkspacesPoolState {
   static const creating = WorkspacesPoolState._('CREATING');
   static const deleting = WorkspacesPoolState._('DELETING');
@@ -6737,6 +6833,8 @@ class WorkspacesPoolState {
 }
 
 /// Describes the persistent application settings for WorkSpaces Pools users.
+///
+/// @nodoc
 class ApplicationSettingsResponse {
   /// Specifies whether persistent application settings are enabled for users
   /// during their pool sessions.
@@ -6780,6 +6878,8 @@ class ApplicationSettingsResponse {
 }
 
 /// Describes the timeout settings for a pool of WorkSpaces.
+///
+/// @nodoc
 class TimeoutSettings {
   /// Specifies the amount of time, in seconds, that a streaming session remains
   /// active after users disconnect. If users try to reconnect to the streaming
@@ -6828,6 +6928,7 @@ class TimeoutSettings {
   }
 }
 
+/// @nodoc
 class PoolsRunningMode {
   static const autoStop = PoolsRunningMode._('AUTO_STOP');
   static const alwaysOn = PoolsRunningMode._('ALWAYS_ON');
@@ -6852,6 +6953,7 @@ class PoolsRunningMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationSettingsStatusEnum {
   static const disabled = ApplicationSettingsStatusEnum._('DISABLED');
   static const enabled = ApplicationSettingsStatusEnum._('ENABLED');
@@ -6878,6 +6980,8 @@ class ApplicationSettingsStatusEnum {
 }
 
 /// Describes a pool error.
+///
+/// @nodoc
 class WorkspacesPoolError {
   /// The error code.
   final WorkspacesPoolErrorCode? errorCode;
@@ -6908,6 +7012,7 @@ class WorkspacesPoolError {
   }
 }
 
+/// @nodoc
 class WorkspacesPoolErrorCode {
   static const iamServiceRoleIsMissing =
       WorkspacesPoolErrorCode._('IAM_SERVICE_ROLE_IS_MISSING');
@@ -7054,6 +7159,8 @@ class WorkspacesPoolErrorCode {
 }
 
 /// Describes the user capacity for a pool of WorkSpaces.
+///
+/// @nodoc
 class Capacity {
   /// The desired number of user sessions for the WorkSpaces in the pool.
   final int desiredUserSessions;
@@ -7071,6 +7178,8 @@ class Capacity {
 }
 
 /// The persistent application settings for WorkSpaces Pools users.
+///
+/// @nodoc
 class ApplicationSettingsRequest {
   /// Enables or disables persistent application settings for users during their
   /// pool sessions.
@@ -7098,6 +7207,8 @@ class ApplicationSettingsRequest {
 }
 
 /// Describes a rule for an IP access control group.
+///
+/// @nodoc
 class IpRuleItem {
   /// The IP address range, in CIDR notation.
   final String? ipRule;
@@ -7131,6 +7242,8 @@ class IpRuleItem {
 /// used for cross-Region redirection. For more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+///
+/// @nodoc
 class ConnectionAliasPermission {
   /// Indicates whether the specified Amazon Web Services account is allowed to
   /// associate the connection alias with a directory.
@@ -7166,6 +7279,8 @@ class ConnectionAliasPermission {
 /// rebuilt (<a>RebuildWorkspaces</a>), restored (<a>RestoreWorkspace</a>),
 /// terminated (<a>TerminateWorkspaces</a>), started (<a>StartWorkspaces</a>),
 /// or stopped (<a>StopWorkspaces</a>).
+///
+/// @nodoc
 class FailedWorkspaceChangeRequest {
   /// The error code that is returned if the WorkSpace cannot be rebooted.
   final String? errorCode;
@@ -7204,6 +7319,8 @@ class FailedWorkspaceChangeRequest {
 }
 
 /// Describes the information used to terminate a WorkSpace.
+///
+/// @nodoc
 class TerminateRequest {
   /// The identifier of the WorkSpace.
   final String workspaceId;
@@ -7221,6 +7338,8 @@ class TerminateRequest {
 }
 
 /// Describes the information used to stop a WorkSpace.
+///
+/// @nodoc
 class StopRequest {
   /// The identifier of the WorkSpace.
   final String? workspaceId;
@@ -7238,6 +7357,8 @@ class StopRequest {
 }
 
 /// Information used to start a WorkSpace.
+///
+/// @nodoc
 class StartRequest {
   /// The identifier of the WorkSpace.
   final String? workspaceId;
@@ -7255,6 +7376,8 @@ class StartRequest {
 }
 
 /// Information about about the account link.
+///
+/// @nodoc
 class AccountLink {
   /// The identifier of the account link.
   final String? accountLinkId;
@@ -7300,6 +7423,7 @@ class AccountLink {
   }
 }
 
+/// @nodoc
 class AccountLinkStatusEnum {
   static const linked = AccountLinkStatusEnum._('LINKED');
   static const linkingFailed = AccountLinkStatusEnum._('LINKING_FAILED');
@@ -7335,6 +7459,7 @@ class AccountLinkStatusEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkspaceDirectoryState {
   static const registering = WorkspaceDirectoryState._('REGISTERING');
   static const registered = WorkspaceDirectoryState._('REGISTERED');
@@ -7369,6 +7494,7 @@ class WorkspaceDirectoryState {
   String toString() => value;
 }
 
+/// @nodoc
 class Tenancy {
   static const dedicated = Tenancy._('DEDICATED');
   static const shared = Tenancy._('SHARED');
@@ -7392,6 +7518,7 @@ class Tenancy {
   String toString() => value;
 }
 
+/// @nodoc
 class UserIdentityType {
   static const customerManaged = UserIdentityType._('CUSTOMER_MANAGED');
   static const awsDirectoryService =
@@ -7424,6 +7551,8 @@ class UserIdentityType {
 }
 
 /// Specifies the configurations of the Microsoft Entra.
+///
+/// @nodoc
 class MicrosoftEntraConfig {
   /// The Amazon Resource Name (ARN) of the application config.
   final String? applicationConfigSecretArn;
@@ -7454,6 +7583,7 @@ class MicrosoftEntraConfig {
   }
 }
 
+/// @nodoc
 class WorkspaceType {
   static const personal = WorkspaceType._('PERSONAL');
   static const pools = WorkspaceType._('POOLS');
@@ -7479,6 +7609,8 @@ class WorkspaceType {
 }
 
 /// Information about the Active Directory config.
+///
+/// @nodoc
 class ActiveDirectoryConfig {
   /// The name of the domain.
   final String domainName;
@@ -7510,6 +7642,8 @@ class ActiveDirectoryConfig {
 }
 
 /// Describes a tag.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -7540,6 +7674,8 @@ class Tag {
 }
 
 /// Describes the information used to rebuild a WorkSpace.
+///
+/// @nodoc
 class RebuildRequest {
   /// The identifier of the WorkSpace.
   final String workspaceId;
@@ -7557,6 +7693,8 @@ class RebuildRequest {
 }
 
 /// Describes the information used to reboot a WorkSpace.
+///
+/// @nodoc
 class RebootRequest {
   /// The identifier of the WorkSpace.
   final String workspaceId;
@@ -7573,6 +7711,7 @@ class RebootRequest {
   }
 }
 
+/// @nodoc
 class TargetWorkspaceState {
   static const available = TargetWorkspaceState._('AVAILABLE');
   static const adminMaintenance = TargetWorkspaceState._('ADMIN_MAINTENANCE');
@@ -7599,6 +7738,8 @@ class TargetWorkspaceState {
 }
 
 /// Describes a WorkSpace.
+///
+/// @nodoc
 class WorkspaceProperties {
   /// The compute type. For more information, see <a
   /// href="http://aws.amazon.com/workspaces/details/#Amazon_WorkSpaces_Bundles">Amazon
@@ -7723,6 +7864,7 @@ class WorkspaceProperties {
   }
 }
 
+/// @nodoc
 class DataReplication {
   static const noReplication = DataReplication._('NO_REPLICATION');
   static const primaryAsSource = DataReplication._('PRIMARY_AS_SOURCE');
@@ -7747,6 +7889,7 @@ class DataReplication {
   String toString() => value;
 }
 
+/// @nodoc
 class RunningMode {
   static const autoStop = RunningMode._('AUTO_STOP');
   static const alwaysOn = RunningMode._('ALWAYS_ON');
@@ -7771,6 +7914,7 @@ class RunningMode {
   String toString() => value;
 }
 
+/// @nodoc
 class Compute {
   static const $value = Compute._('VALUE');
   static const standard = Compute._('STANDARD');
@@ -7839,6 +7983,7 @@ class Compute {
   String toString() => value;
 }
 
+/// @nodoc
 class OperatingSystemName {
   static const amazonLinux_2 = OperatingSystemName._('AMAZON_LINUX_2');
   static const ubuntu_18_04 = OperatingSystemName._('UBUNTU_18_04');
@@ -7896,6 +8041,8 @@ class OperatingSystemName {
 }
 
 /// Describes the Global Accelerator for WorkSpaces.
+///
+/// @nodoc
 class GlobalAcceleratorForWorkSpace {
   /// Indicates if Global Accelerator for WorkSpaces is enabled, disabled, or the
   /// same mode as the associated directory.
@@ -7928,6 +8075,7 @@ class GlobalAcceleratorForWorkSpace {
   }
 }
 
+/// @nodoc
 class AGAModeForWorkSpaceEnum {
   static const enabledAuto = AGAModeForWorkSpaceEnum._('ENABLED_AUTO');
   static const disabled = AGAModeForWorkSpaceEnum._('DISABLED');
@@ -7954,6 +8102,7 @@ class AGAModeForWorkSpaceEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AGAPreferredProtocolForWorkSpace {
   static const tcp = AGAPreferredProtocolForWorkSpace._('TCP');
   static const none = AGAPreferredProtocolForWorkSpace._('NONE');
@@ -7980,6 +8129,7 @@ class AGAPreferredProtocolForWorkSpace {
   String toString() => value;
 }
 
+/// @nodoc
 class Protocol {
   static const pcoip = Protocol._('PCOIP');
   static const wsp = Protocol._('WSP');
@@ -8007,6 +8157,8 @@ class Protocol {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html">Update
 /// Directory Details for Your WorkSpaces</a>.
+///
+/// @nodoc
 class WorkspaceCreationProperties {
   /// The identifier of your custom security group.
   final String? customSecurityGroupId;
@@ -8083,6 +8235,8 @@ class WorkspaceCreationProperties {
 /// WorkSpace. For more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-network-requirements.html">Amazon
 /// WorkSpaces Client Network Requirements</a>.
+///
+/// @nodoc
 class WorkspaceAccessProperties {
   /// Specifies the configuration for accessing the WorkSpace.
   final AccessEndpointConfig? accessEndpointConfig;
@@ -8190,6 +8344,7 @@ class WorkspaceAccessProperties {
   }
 }
 
+/// @nodoc
 class AccessPropertyValue {
   static const allow = AccessPropertyValue._('ALLOW');
   static const deny = AccessPropertyValue._('DENY');
@@ -8216,6 +8371,8 @@ class AccessPropertyValue {
 }
 
 /// Describes the access endpoint configuration for a WorkSpace.
+///
+/// @nodoc
 class AccessEndpointConfig {
   /// Indicates a list of access endpoints associated with this directory.
   final List<AccessEndpoint> accessEndpoints;
@@ -8254,6 +8411,7 @@ class AccessEndpointConfig {
   }
 }
 
+/// @nodoc
 class InternetFallbackProtocol {
   static const pcoip = InternetFallbackProtocol._('PCOIP');
 
@@ -8279,6 +8437,8 @@ class InternetFallbackProtocol {
 }
 
 /// Describes the access type and endpoint for a WorkSpace.
+///
+/// @nodoc
 class AccessEndpoint {
   /// Indicates the type of access endpoint.
   final AccessEndpointType? accessEndpointType;
@@ -8310,6 +8470,7 @@ class AccessEndpoint {
   }
 }
 
+/// @nodoc
 class AccessEndpointType {
   static const streamingWsp = AccessEndpointType._('STREAMING_WSP');
 
@@ -8335,6 +8496,8 @@ class AccessEndpointType {
 }
 
 /// Describes the streaming properties.
+///
+/// @nodoc
 class StreamingProperties {
   /// Indicates the Global Accelerator properties.
   final GlobalAcceleratorForDirectory? globalAccelerator;
@@ -8393,6 +8556,7 @@ class StreamingProperties {
   }
 }
 
+/// @nodoc
 class StreamingExperiencePreferredProtocolEnum {
   static const tcp = StreamingExperiencePreferredProtocolEnum._('TCP');
   static const udp = StreamingExperiencePreferredProtocolEnum._('UDP');
@@ -8419,6 +8583,8 @@ class StreamingExperiencePreferredProtocolEnum {
 }
 
 /// Describes the Global Accelerator for directory
+///
+/// @nodoc
 class GlobalAcceleratorForDirectory {
   /// Indicates if Global Accelerator for directory is enabled or disabled.
   final AGAModeForDirectoryEnum mode;
@@ -8450,6 +8616,7 @@ class GlobalAcceleratorForDirectory {
   }
 }
 
+/// @nodoc
 class AGAModeForDirectoryEnum {
   static const enabledAuto = AGAModeForDirectoryEnum._('ENABLED_AUTO');
   static const disabled = AGAModeForDirectoryEnum._('DISABLED');
@@ -8475,6 +8642,7 @@ class AGAModeForDirectoryEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AGAPreferredProtocolForDirectory {
   static const tcp = AGAPreferredProtocolForDirectory._('TCP');
   static const none = AGAPreferredProtocolForDirectory._('NONE');
@@ -8501,6 +8669,8 @@ class AGAPreferredProtocolForDirectory {
 }
 
 /// Describes the storage connector.
+///
+/// @nodoc
 class StorageConnector {
   /// The type of connector used to save user files.
   final StorageConnectorTypeEnum connectorType;
@@ -8532,6 +8702,7 @@ class StorageConnector {
   }
 }
 
+/// @nodoc
 class StorageConnectorTypeEnum {
   static const homeFolder = StorageConnectorTypeEnum._('HOME_FOLDER');
 
@@ -8556,6 +8727,7 @@ class StorageConnectorTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageConnectorStatusEnum {
   static const enabled = StorageConnectorStatusEnum._('ENABLED');
   static const disabled = StorageConnectorStatusEnum._('DISABLED');
@@ -8582,6 +8754,8 @@ class StorageConnectorStatusEnum {
 }
 
 /// Information about the user's permission settings.
+///
+/// @nodoc
 class UserSetting {
   /// Indicates the type of action.
   final UserSettingActionEnum action;
@@ -8620,6 +8794,7 @@ class UserSetting {
   }
 }
 
+/// @nodoc
 class UserSettingActionEnum {
   static const clipboardCopyFromLocalDevice =
       UserSettingActionEnum._('CLIPBOARD_COPY_FROM_LOCAL_DEVICE');
@@ -8655,6 +8830,7 @@ class UserSettingActionEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class UserSettingPermissionEnum {
   static const enabled = UserSettingPermissionEnum._('ENABLED');
   static const disabled = UserSettingPermissionEnum._('DISABLED');
@@ -8684,6 +8860,8 @@ class UserSettingPermissionEnum {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/enable-user-self-service-workspace-management.html">Enable
 /// Self-Service WorkSpace Management Capabilities for Your Users</a>.
+///
+/// @nodoc
 class SelfservicePermissions {
   /// Specifies whether users can change the compute type (bundle) for their
   /// WorkSpace.
@@ -8745,6 +8923,7 @@ class SelfservicePermissions {
   }
 }
 
+/// @nodoc
 class ReconnectEnum {
   static const enabled = ReconnectEnum._('ENABLED');
   static const disabled = ReconnectEnum._('DISABLED');
@@ -8772,6 +8951,8 @@ class ReconnectEnum {
 /// Describes the enablement status, user access URL, and relay state parameter
 /// name that are used for configuring federation with an SAML 2.0 identity
 /// provider.
+///
+/// @nodoc
 class SamlProperties {
   /// The relay state parameter name supported by the SAML 2.0 identity provider
   /// (IdP). When the end user is redirected to the user access URL from the
@@ -8840,6 +9021,7 @@ class SamlProperties {
   }
 }
 
+/// @nodoc
 class DeletableSamlProperty {
   static const samlPropertiesUserAccessUrl =
       DeletableSamlProperty._('SAML_PROPERTIES_USER_ACCESS_URL');
@@ -8870,6 +9052,7 @@ class DeletableSamlProperty {
   String toString() => value;
 }
 
+/// @nodoc
 class SamlStatusEnum {
   static const disabled = SamlStatusEnum._('DISABLED');
   static const enabled = SamlStatusEnum._('ENABLED');
@@ -8896,6 +9079,7 @@ class SamlStatusEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointEncryptionMode {
   static const standardTls = EndpointEncryptionMode._('STANDARD_TLS');
   static const fipsValidated = EndpointEncryptionMode._('FIPS_VALIDATED');
@@ -8922,6 +9106,8 @@ class EndpointEncryptionMode {
 }
 
 /// Describes an Amazon WorkSpaces client.
+///
+/// @nodoc
 class ClientProperties {
   /// Specifies whether users can upload diagnostic log files of Amazon WorkSpaces
   /// client directly to WorkSpaces to troubleshoot issues when using the
@@ -8958,6 +9144,7 @@ class ClientProperties {
   }
 }
 
+/// @nodoc
 class LogUploadEnum {
   static const enabled = LogUploadEnum._('ENABLED');
   static const disabled = LogUploadEnum._('DISABLED');
@@ -8984,6 +9171,8 @@ class LogUploadEnum {
 
 /// Describes the properties of the certificate-based authentication you want to
 /// use with your WorkSpaces.
+///
+/// @nodoc
 class CertificateBasedAuthProperties {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate
   /// Manager Private CA resource.
@@ -9016,6 +9205,7 @@ class CertificateBasedAuthProperties {
   }
 }
 
+/// @nodoc
 class DeletableCertificateBasedAuthProperty {
   static const certificateBasedAuthPropertiesCertificateAuthorityArn =
       DeletableCertificateBasedAuthProperty._(
@@ -9042,6 +9232,7 @@ class DeletableCertificateBasedAuthProperty {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateBasedAuthStatusEnum {
   static const disabled = CertificateBasedAuthStatusEnum._('DISABLED');
   static const enabled = CertificateBasedAuthStatusEnum._('ENABLED');
@@ -9067,6 +9258,7 @@ class CertificateBasedAuthStatusEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class DedicatedTenancySupportEnum {
   static const enabled = DedicatedTenancySupportEnum._('ENABLED');
 
@@ -9091,6 +9283,7 @@ class DedicatedTenancySupportEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkspaceImageIngestionProcess {
   static const byolRegular = WorkspaceImageIngestionProcess._('BYOL_REGULAR');
   static const byolGraphics = WorkspaceImageIngestionProcess._('BYOL_GRAPHICS');
@@ -9137,6 +9330,7 @@ class WorkspaceImageIngestionProcess {
   String toString() => value;
 }
 
+/// @nodoc
 class Application {
   static const microsoftOffice_2016 = Application._('Microsoft_Office_2016');
   static const microsoftOffice_2019 = Application._('Microsoft_Office_2019');
@@ -9160,6 +9354,7 @@ class Application {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomWorkspaceImageImportState {
   static const pending = CustomWorkspaceImageImportState._('PENDING');
   static const inProgress = CustomWorkspaceImageImportState._('IN_PROGRESS');
@@ -9219,6 +9414,7 @@ class CustomWorkspaceImageImportState {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageComputeType {
   static const base = ImageComputeType._('BASE');
   static const graphicsG4dn = ImageComputeType._('GRAPHICS_G4DN');
@@ -9244,6 +9440,7 @@ class ImageComputeType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomImageProtocol {
   static const pcoip = CustomImageProtocol._('PCOIP');
   static const dcv = CustomImageProtocol._('DCV');
@@ -9271,6 +9468,8 @@ class CustomImageProtocol {
 }
 
 /// Describes the image import source.
+///
+/// @nodoc
 class ImageSourceIdentifier {
   /// The identifier of the EC2 image.
   final String? ec2ImageId;
@@ -9309,6 +9508,7 @@ class ImageSourceIdentifier {
   }
 }
 
+/// @nodoc
 class Platform {
   static const windows = Platform._('WINDOWS');
 
@@ -9331,6 +9531,7 @@ class Platform {
   String toString() => value;
 }
 
+/// @nodoc
 class OSVersion {
   static const windows_10 = OSVersion._('Windows_10');
   static const windows_11 = OSVersion._('Windows_11');
@@ -9360,6 +9561,8 @@ class OSVersion {
 /// Client branding attributes are public facing. Ensure that you don't include
 /// sensitive information.
 /// </important>
+///
+/// @nodoc
 class DefaultClientBrandingAttributes {
   /// The forgotten password link. This is the web address that users can go to if
   /// they forget the password for their WorkSpace.
@@ -9446,6 +9649,8 @@ class DefaultClientBrandingAttributes {
 /// Client branding attributes are public facing. Ensure you do not include
 /// sensitive information.
 /// </important>
+///
+/// @nodoc
 class IosClientBrandingAttributes {
   /// The forgotten password link. This is the web address that users can go to if
   /// they forget the password for their WorkSpace.
@@ -9562,6 +9767,8 @@ class IosClientBrandingAttributes {
 /// Client branding attributes are public facing. Ensure that you do not include
 /// sensitive information.
 /// </important>
+///
+/// @nodoc
 class DefaultImportClientBrandingAttributes {
   /// The forgotten password link. This is the web address that users can go to if
   /// they forget the password for their WorkSpace.
@@ -9637,6 +9844,8 @@ class DefaultImportClientBrandingAttributes {
 /// Client branding attributes are public facing. Ensure you do not include
 /// sensitive information.
 /// </important>
+///
+/// @nodoc
 class IosImportClientBrandingAttributes {
   /// The forgotten password link. This is the web address that users can go to if
   /// they forget the password for their WorkSpace.
@@ -9735,6 +9944,8 @@ class IosImportClientBrandingAttributes {
 }
 
 /// Describes the association between an application and a WorkSpace resource.
+///
+/// @nodoc
 class WorkspaceResourceAssociation {
   /// The identifier of the associated resource.
   final String? associatedResourceId;
@@ -9806,6 +10017,7 @@ class WorkspaceResourceAssociation {
   }
 }
 
+/// @nodoc
 class WorkSpaceAssociatedResourceType {
   static const application = WorkSpaceAssociatedResourceType._('APPLICATION');
 
@@ -9830,6 +10042,7 @@ class WorkSpaceAssociatedResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class AssociationState {
   static const pendingInstall = AssociationState._('PENDING_INSTALL');
   static const pendingInstallDeployment =
@@ -9875,6 +10088,8 @@ class AssociationState {
 
 /// Indicates the reason that the association deployment failed, including the
 /// error code and error message.
+///
+/// @nodoc
 class AssociationStateReason {
   /// The error code of the association deployment failure.
   final AssociationErrorCode? errorCode;
@@ -9905,6 +10120,7 @@ class AssociationStateReason {
   }
 }
 
+/// @nodoc
 class AssociationErrorCode {
   static const validationErrorInsufficientDiskSpace =
       AssociationErrorCode._('ValidationError.InsufficientDiskSpace');
@@ -9948,6 +10164,8 @@ class AssociationErrorCode {
 }
 
 /// Describes a pool session.
+///
+/// @nodoc
 class WorkspacesPoolSession {
   /// The identifier of the pool.
   final String poolId;
@@ -10035,6 +10253,7 @@ class WorkspacesPoolSession {
   }
 }
 
+/// @nodoc
 class AuthenticationType {
   static const saml = AuthenticationType._('SAML');
 
@@ -10059,6 +10278,7 @@ class AuthenticationType {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionConnectionState {
   static const connected = SessionConnectionState._('CONNECTED');
   static const notConnected = SessionConnectionState._('NOT_CONNECTED');
@@ -10085,6 +10305,8 @@ class SessionConnectionState {
 }
 
 /// Describes the network details of a WorkSpaces Pool.
+///
+/// @nodoc
 class NetworkAccessConfiguration {
   /// The resource identifier of the elastic network interface that is attached to
   /// instances in your VPC. All network interfaces have the eni-xxxxxxxx resource
@@ -10119,6 +10341,8 @@ class NetworkAccessConfiguration {
 }
 
 /// Describes the filter conditions for WorkSpaces Pools to return.
+///
+/// @nodoc
 class DescribeWorkspacesPoolsFilter {
   /// The name of the pool to filter.
   final DescribeWorkspacesPoolsFilterName name;
@@ -10147,6 +10371,7 @@ class DescribeWorkspacesPoolsFilter {
   }
 }
 
+/// @nodoc
 class DescribeWorkspacesPoolsFilterName {
   static const poolName = DescribeWorkspacesPoolsFilterName._('PoolName');
 
@@ -10171,6 +10396,7 @@ class DescribeWorkspacesPoolsFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class DescribeWorkspacesPoolsFilterOperator {
   static const equals = DescribeWorkspacesPoolsFilterOperator._('EQUALS');
   static const notequals = DescribeWorkspacesPoolsFilterOperator._('NOTEQUALS');
@@ -10200,6 +10426,8 @@ class DescribeWorkspacesPoolsFilterOperator {
 }
 
 /// Describes a snapshot.
+///
+/// @nodoc
 class Snapshot {
   /// The time when the snapshot was created.
   final DateTime? snapshotTime;
@@ -10224,6 +10452,8 @@ class Snapshot {
 }
 
 /// Describes the connection status of a WorkSpace.
+///
+/// @nodoc
 class WorkspaceConnectionStatus {
   /// The connection state of the WorkSpace. The connection state is unknown if
   /// the WorkSpace is stopped.
@@ -10276,6 +10506,7 @@ class WorkspaceConnectionStatus {
   }
 }
 
+/// @nodoc
 class ConnectionState {
   static const connected = ConnectionState._('CONNECTED');
   static const disconnected = ConnectionState._('DISCONNECTED');
@@ -10302,6 +10533,8 @@ class ConnectionState {
 }
 
 /// Describes a WorkSpace.
+///
+/// @nodoc
 class Workspace {
   /// The identifier of the bundle used to create the WorkSpace.
   final String? bundleId;
@@ -10556,6 +10789,7 @@ class Workspace {
   }
 }
 
+/// @nodoc
 class WorkspaceState {
   static const pending = WorkspaceState._('PENDING');
   static const available = WorkspaceState._('AVAILABLE');
@@ -10614,6 +10848,8 @@ class WorkspaceState {
 }
 
 /// Describes the data replication settings.
+///
+/// @nodoc
 class DataReplicationSettings {
   /// Indicates whether data replication is enabled, and if enabled, the type of
   /// data replication.
@@ -10648,6 +10884,8 @@ class DataReplicationSettings {
 }
 
 /// Describes the properties of the related standby WorkSpaces.
+///
+/// @nodoc
 class StandbyWorkspacesProperties {
   /// Indicates whether data replication is enabled, and if enabled, the type of
   /// data replication.
@@ -10690,6 +10928,8 @@ class StandbyWorkspacesProperties {
 
 /// Describes the related WorkSpace. The related WorkSpace could be a standby
 /// WorkSpace or primary WorkSpace related to the specified WorkSpace.
+///
+/// @nodoc
 class RelatedWorkspaceProperties {
   /// The Region of the related WorkSpace.
   final String? region;
@@ -10734,6 +10974,7 @@ class RelatedWorkspaceProperties {
   }
 }
 
+/// @nodoc
 class StandbyWorkspaceRelationshipType {
   static const primary = StandbyWorkspaceRelationshipType._('PRIMARY');
   static const standby = StandbyWorkspaceRelationshipType._('STANDBY');
@@ -10760,6 +11001,8 @@ class StandbyWorkspaceRelationshipType {
 }
 
 /// Describes a WorkSpace modification.
+///
+/// @nodoc
 class ModificationState {
   /// The resource.
   final ModificationResourceEnum? resource;
@@ -10790,6 +11033,7 @@ class ModificationState {
   }
 }
 
+/// @nodoc
 class ModificationResourceEnum {
   static const rootVolume = ModificationResourceEnum._('ROOT_VOLUME');
   static const userVolume = ModificationResourceEnum._('USER_VOLUME');
@@ -10817,6 +11061,7 @@ class ModificationResourceEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class ModificationStateEnum {
   static const updateInitiated = ModificationStateEnum._('UPDATE_INITIATED');
   static const updateInProgress = ModificationStateEnum._('UPDATE_IN_PROGRESS');
@@ -10844,6 +11089,8 @@ class ModificationStateEnum {
 }
 
 /// Describes a WorkSpace image.
+///
+/// @nodoc
 class WorkspaceImage {
   /// The date when the image was created. If the image has been shared, the
   /// Amazon Web Services account that the image has been shared with sees the
@@ -10960,6 +11207,8 @@ class WorkspaceImage {
 }
 
 /// The operating system that the image is running.
+///
+/// @nodoc
 class OperatingSystem {
   /// The operating system.
   final OperatingSystemType? type;
@@ -10982,6 +11231,7 @@ class OperatingSystem {
   }
 }
 
+/// @nodoc
 class WorkspaceImageState {
   static const available = WorkspaceImageState._('AVAILABLE');
   static const pending = WorkspaceImageState._('PENDING');
@@ -11008,6 +11258,7 @@ class WorkspaceImageState {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkspaceImageRequiredTenancy {
   static const $default = WorkspaceImageRequiredTenancy._('DEFAULT');
   static const dedicated = WorkspaceImageRequiredTenancy._('DEDICATED');
@@ -11039,6 +11290,8 @@ class WorkspaceImageRequiredTenancy {
 /// Only Windows 10 WorkSpace images can be programmatically updated at this
 /// time.
 /// </note>
+///
+/// @nodoc
 class UpdateResult {
   /// A description of whether updates for the WorkSpace image are pending or
   /// available.
@@ -11072,6 +11325,8 @@ class UpdateResult {
 
 /// Describes in-depth details about the error. These details include the
 /// possible causes of the error and troubleshooting information.
+///
+/// @nodoc
 class ErrorDetails {
   /// Indicates the error code returned.
   final WorkspaceImageErrorDetailCode? errorCode;
@@ -11102,6 +11357,7 @@ class ErrorDetails {
   }
 }
 
+/// @nodoc
 class WorkspaceImageErrorDetailCode {
   static const outdatedPowershellVersion =
       WorkspaceImageErrorDetailCode._('OutdatedPowershellVersion');
@@ -11264,6 +11520,7 @@ class WorkspaceImageErrorDetailCode {
   String toString() => value;
 }
 
+/// @nodoc
 class OperatingSystemType {
   static const windows = OperatingSystemType._('WINDOWS');
   static const linux = OperatingSystemType._('LINUX');
@@ -11289,6 +11546,7 @@ class OperatingSystemType {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageType {
   static const owned = ImageType._('OWNED');
   static const shared = ImageType._('SHARED');
@@ -11316,6 +11574,8 @@ class ImageType {
 /// to use a shared image. For more information about sharing images, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
 /// Share or Unshare a Custom WorkSpaces Image</a>.
+///
+/// @nodoc
 class ImagePermission {
   /// The identifier of the Amazon Web Services account that an image has been
   /// shared with.
@@ -11340,6 +11600,8 @@ class ImagePermission {
 }
 
 /// Describes a directory that is used with Amazon WorkSpaces.
+///
+/// @nodoc
 class WorkspaceDirectory {
   /// Information about the Active Directory config.
   final ActiveDirectoryConfig? activeDirectoryConfig;
@@ -11634,6 +11896,7 @@ class WorkspaceDirectory {
   }
 }
 
+/// @nodoc
 class WorkspaceDirectoryType {
   static const simpleAd = WorkspaceDirectoryType._('SIMPLE_AD');
   static const adConnector = WorkspaceDirectoryType._('AD_CONNECTOR');
@@ -11671,6 +11934,8 @@ class WorkspaceDirectoryType {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html">Update
 /// Directory Details for Your WorkSpaces</a>.
+///
+/// @nodoc
 class DefaultWorkspaceCreationProperties {
   /// The identifier of the default security group to apply to WorkSpaces when
   /// they are created. For more information, see <a
@@ -11754,6 +12019,8 @@ class DefaultWorkspaceCreationProperties {
 }
 
 /// Specifies the configurations of the identity center.
+///
+/// @nodoc
 class IDCConfig {
   /// The Amazon Resource Name (ARN) of the application.
   final String? applicationArn;
@@ -11784,6 +12051,8 @@ class IDCConfig {
 }
 
 /// Describes the filter conditions for the WorkSpaces to return.
+///
+/// @nodoc
 class DescribeWorkspaceDirectoriesFilter {
   /// The name of the WorkSpaces to filter.
   final DescribeWorkspaceDirectoriesFilterName name;
@@ -11806,6 +12075,7 @@ class DescribeWorkspaceDirectoriesFilter {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceDirectoriesFilterName {
   static const userIdentityType =
       DescribeWorkspaceDirectoriesFilterName._('USER_IDENTITY_TYPE');
@@ -11834,6 +12104,8 @@ class DescribeWorkspaceDirectoriesFilterName {
 }
 
 /// Describes a WorkSpace bundle.
+///
+/// @nodoc
 class WorkspaceBundle {
   /// The identifier of the bundle.
   final String? bundleId;
@@ -11945,6 +12217,8 @@ class WorkspaceBundle {
 }
 
 /// Describes the root volume for a WorkSpace bundle.
+///
+/// @nodoc
 class RootStorage {
   /// The size of the root volume.
   final String capacity;
@@ -11968,6 +12242,8 @@ class RootStorage {
 }
 
 /// Describes the user volume for a WorkSpace bundle.
+///
+/// @nodoc
 class UserStorage {
   /// The size of the user volume.
   final String capacity;
@@ -11991,6 +12267,8 @@ class UserStorage {
 }
 
 /// Describes the compute type of the bundle.
+///
+/// @nodoc
 class ComputeType {
   /// The compute type.
   final Compute? name;
@@ -12013,6 +12291,7 @@ class ComputeType {
   }
 }
 
+/// @nodoc
 class WorkspaceBundleState {
   static const available = WorkspaceBundleState._('AVAILABLE');
   static const pending = WorkspaceBundleState._('PENDING');
@@ -12039,6 +12318,7 @@ class WorkspaceBundleState {
   String toString() => value;
 }
 
+/// @nodoc
 class BundleType {
   static const regular = BundleType._('REGULAR');
   static const standby = BundleType._('STANDBY');
@@ -12063,6 +12343,8 @@ class BundleType {
 }
 
 /// Describes an IP access control group.
+///
+/// @nodoc
 class WorkspacesIpGroup {
   /// The description of the group.
   final String? groupDesc;
@@ -12110,6 +12392,8 @@ class WorkspacesIpGroup {
 }
 
 /// Describes the association between an application and an image resource.
+///
+/// @nodoc
 class ImageResourceAssociation {
   /// The identifier of the associated resource.
   final String? associatedResourceId;
@@ -12181,6 +12465,7 @@ class ImageResourceAssociation {
   }
 }
 
+/// @nodoc
 class ImageAssociatedResourceType {
   static const application = ImageAssociatedResourceType._('APPLICATION');
 
@@ -12207,6 +12492,8 @@ class ImageAssociatedResourceType {
 
 /// Describes in-depth details about the error. These details include the
 /// possible causes of the error and troubleshooting information.
+///
+/// @nodoc
 class CustomWorkspaceImageImportErrorDetails {
   /// The error code that is returned for the image import.
   final String? errorCode;
@@ -12241,6 +12528,8 @@ class CustomWorkspaceImageImportErrorDetails {
 /// redirection. For more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+///
+/// @nodoc
 class ConnectionAlias {
   /// The identifier of the connection alias.
   final String? aliasId;
@@ -12298,6 +12587,7 @@ class ConnectionAlias {
   }
 }
 
+/// @nodoc
 class ConnectionAliasState {
   static const creating = ConnectionAliasState._('CREATING');
   static const created = ConnectionAliasState._('CREATED');
@@ -12328,6 +12618,8 @@ class ConnectionAliasState {
 /// redirection. For more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+///
+/// @nodoc
 class ConnectionAliasAssociation {
   /// The identifier of the Amazon Web Services account that associated the
   /// connection alias with a directory.
@@ -12378,6 +12670,7 @@ class ConnectionAliasAssociation {
   }
 }
 
+/// @nodoc
 class AssociationStatus {
   static const notAssociated = AssociationStatus._('NOT_ASSOCIATED');
   static const associatedWithOwnerAccount =
@@ -12415,6 +12708,8 @@ class AssociationStatus {
 }
 
 /// Describes an Connect Customer client add-in.
+///
+/// @nodoc
 class ConnectClientAddIn {
   /// The client add-in identifier.
   final String? addInId;
@@ -12459,6 +12754,8 @@ class ConnectClientAddIn {
 }
 
 /// Information about the Amazon WorkSpaces client.
+///
+/// @nodoc
 class ClientPropertiesResult {
   /// Information about the Amazon WorkSpaces client.
   final ClientProperties? clientProperties;
@@ -12492,6 +12789,8 @@ class ClientPropertiesResult {
 }
 
 /// Describes the association between an application and a bundle resource.
+///
+/// @nodoc
 class BundleResourceAssociation {
   /// The identifier of the associated resource.
   final String? associatedResourceId;
@@ -12563,6 +12862,7 @@ class BundleResourceAssociation {
   }
 }
 
+/// @nodoc
 class BundleAssociatedResourceType {
   static const application = BundleAssociatedResourceType._('APPLICATION');
 
@@ -12588,6 +12888,8 @@ class BundleAssociatedResourceType {
 }
 
 /// Describes the WorkSpace application.
+///
+/// @nodoc
 class WorkSpaceApplication {
   /// The identifier of the application.
   final String? applicationId;
@@ -12679,6 +12981,7 @@ class WorkSpaceApplication {
   }
 }
 
+/// @nodoc
 class WorkSpaceApplicationLicenseType {
   static const licensed = WorkSpaceApplicationLicenseType._('LICENSED');
   static const unlicensed = WorkSpaceApplicationLicenseType._('UNLICENSED');
@@ -12704,6 +13007,7 @@ class WorkSpaceApplicationLicenseType {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkSpaceApplicationState {
   static const pending = WorkSpaceApplicationState._('PENDING');
   static const error = WorkSpaceApplicationState._('ERROR');
@@ -12733,6 +13037,8 @@ class WorkSpaceApplicationState {
 
 /// Describes the association between an application and an application
 /// resource.
+///
+/// @nodoc
 class ApplicationResourceAssociation {
   /// The identifier of the application.
   final String? applicationId;
@@ -12804,6 +13110,7 @@ class ApplicationResourceAssociation {
   }
 }
 
+/// @nodoc
 class ApplicationAssociatedResourceType {
   static const workspace = ApplicationAssociatedResourceType._('WORKSPACE');
   static const bundle = ApplicationAssociatedResourceType._('BUNDLE');
@@ -12832,6 +13139,8 @@ class ApplicationAssociatedResourceType {
 
 /// Describes a modification to the configuration of Bring Your Own License
 /// (BYOL) for the specified account.
+///
+/// @nodoc
 class AccountModification {
   /// The IP address range, specified as an IPv4 CIDR block, for the management
   /// network interface used for the account.
@@ -12900,6 +13209,7 @@ class AccountModification {
   }
 }
 
+/// @nodoc
 class DedicatedTenancyModificationStateEnum {
   static const pending = DedicatedTenancyModificationStateEnum._('PENDING');
   static const completed = DedicatedTenancyModificationStateEnum._('COMPLETED');
@@ -12926,6 +13236,7 @@ class DedicatedTenancyModificationStateEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class DedicatedTenancySupportResultEnum {
   static const enabled = DedicatedTenancySupportResultEnum._('ENABLED');
   static const disabled = DedicatedTenancySupportResultEnum._('DISABLED');
@@ -12951,6 +13262,7 @@ class DedicatedTenancySupportResultEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class DedicatedTenancyAccountType {
   static const sourceAccount = DedicatedTenancyAccountType._('SOURCE_ACCOUNT');
   static const targetAccount = DedicatedTenancyAccountType._('TARGET_ACCOUNT');
@@ -12977,6 +13289,8 @@ class DedicatedTenancyAccountType {
 }
 
 /// Describes the WorkSpace application deployment.
+///
+/// @nodoc
 class WorkSpaceApplicationDeployment {
   /// The associations between the applications and the associated resources.
   final List<WorkspaceResourceAssociation>? associations;
@@ -13003,6 +13317,7 @@ class WorkSpaceApplicationDeployment {
   }
 }
 
+/// @nodoc
 class ClientDeviceType {
   static const deviceTypeWindows = ClientDeviceType._('DeviceTypeWindows');
   static const deviceTypeOsx = ClientDeviceType._('DeviceTypeOsx');
@@ -13039,6 +13354,8 @@ class ClientDeviceType {
 }
 
 /// Describes a WorkSpace that cannot be created.
+///
+/// @nodoc
 class FailedCreateWorkspaceRequest {
   /// The error code that is returned if the WorkSpace cannot be created.
   final String? errorCode;
@@ -13080,6 +13397,8 @@ class FailedCreateWorkspaceRequest {
 }
 
 /// Describes the information used to create a WorkSpace.
+///
+/// @nodoc
 class WorkspaceRequest {
   /// The identifier of the bundle for the WorkSpace. You can use
   /// <a>DescribeWorkspaceBundles</a> to list the available bundles.
@@ -13095,7 +13414,7 @@ class WorkspaceRequest {
   /// The username is not case-sensitive, but we recommend matching the case in
   /// the Directory Service directory to avoid potential incompatibilities.
   ///
-  /// The reserved keyword, <code>[UNDEFINED]</code>, is used when creating
+  /// The reserved keyword, <code>\[UNDEFINED\]</code>, is used when creating
   /// user-decoupled WorkSpaces.
   final String userName;
 
@@ -13118,7 +13437,7 @@ class WorkspaceRequest {
   /// The name of the user-decoupled WorkSpace.
   /// <note>
   /// <code>WorkspaceName</code> is required if <code>UserName</code> is
-  /// <code>[UNDEFINED]</code> for user-decoupled WorkSpaces.
+  /// <code>\[UNDEFINED\]</code> for user-decoupled WorkSpaces.
   /// <code>WorkspaceName</code> is not applicable if <code>UserName</code> is
   /// specified for user-assigned WorkSpaces.
   /// </note>
@@ -13192,6 +13511,8 @@ class WorkspaceRequest {
 }
 
 /// Information about the standby WorkSpace.
+///
+/// @nodoc
 class PendingCreateStandbyWorkspacesRequest {
   /// The identifier of the directory for the standby WorkSpace.
   final String? directoryId;
@@ -13244,6 +13565,8 @@ class PendingCreateStandbyWorkspacesRequest {
 }
 
 /// Describes the standby WorkSpace that could not be created.
+///
+/// @nodoc
 class FailedCreateStandbyWorkspacesRequest {
   /// The error code that is returned if the standby WorkSpace could not be
   /// created.
@@ -13288,6 +13611,8 @@ class FailedCreateStandbyWorkspacesRequest {
 }
 
 /// Describes a standby WorkSpace.
+///
+/// @nodoc
 class StandbyWorkspace {
   /// The identifier of the directory for the standby WorkSpace.
   final String directoryId;
@@ -13344,11 +13669,13 @@ class StandbyWorkspace {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ApplicationNotSupportedException extends _s.GenericAwsException {
   ApplicationNotSupportedException({String? type, String? message})
       : super(
@@ -13357,6 +13684,7 @@ class ApplicationNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ComputeNotCompatibleException extends _s.GenericAwsException {
   ComputeNotCompatibleException({String? type, String? message})
       : super(
@@ -13365,11 +13693,13 @@ class ComputeNotCompatibleException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class IncompatibleApplicationsException extends _s.GenericAwsException {
   IncompatibleApplicationsException({String? type, String? message})
       : super(
@@ -13378,11 +13708,13 @@ class IncompatibleApplicationsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -13391,6 +13723,7 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterValuesException extends _s.GenericAwsException {
   InvalidParameterValuesException({String? type, String? message})
       : super(
@@ -13399,6 +13732,7 @@ class InvalidParameterValuesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidResourceStateException extends _s.GenericAwsException {
   InvalidResourceStateException({String? type, String? message})
       : super(
@@ -13407,6 +13741,7 @@ class InvalidResourceStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperatingSystemNotCompatibleException extends _s.GenericAwsException {
   OperatingSystemNotCompatibleException({String? type, String? message})
       : super(
@@ -13415,12 +13750,14 @@ class OperatingSystemNotCompatibleException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationInProgressException extends _s.GenericAwsException {
   OperationInProgressException({String? type, String? message})
       : super(
             type: type, code: 'OperationInProgressException', message: message);
 }
 
+/// @nodoc
 class OperationNotSupportedException extends _s.GenericAwsException {
   OperationNotSupportedException({String? type, String? message})
       : super(
@@ -13429,6 +13766,7 @@ class OperationNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -13437,12 +13775,14 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceAssociatedException extends _s.GenericAwsException {
   ResourceAssociatedException({String? type, String? message})
       : super(
             type: type, code: 'ResourceAssociatedException', message: message);
 }
 
+/// @nodoc
 class ResourceCreationFailedException extends _s.GenericAwsException {
   ResourceCreationFailedException({String? type, String? message})
       : super(
@@ -13451,11 +13791,13 @@ class ResourceCreationFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -13464,17 +13806,20 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class UnsupportedNetworkConfigurationException extends _s.GenericAwsException {
   UnsupportedNetworkConfigurationException({String? type, String? message})
       : super(
@@ -13483,6 +13828,7 @@ class UnsupportedNetworkConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedWorkspaceConfigurationException
     extends _s.GenericAwsException {
   UnsupportedWorkspaceConfigurationException({String? type, String? message})
@@ -13492,11 +13838,13 @@ class UnsupportedWorkspaceConfigurationException
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
+/// @nodoc
 class WorkspacesDefaultRoleNotFoundException extends _s.GenericAwsException {
   WorkspacesDefaultRoleNotFoundException({String? type, String? message})
       : super(

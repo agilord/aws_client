@@ -2782,6 +2782,7 @@ class ChimeSdkMessaging {
   }
 }
 
+/// @nodoc
 class BatchCreateChannelMembershipResponse {
   /// The list of channel memberships in the response.
   final BatchChannelMemberships? batchChannelMemberships;
@@ -2822,6 +2823,7 @@ class BatchCreateChannelMembershipResponse {
   }
 }
 
+/// @nodoc
 class ChannelFlowCallbackResponse {
   /// The call back ID passed in the request.
   final String? callbackId;
@@ -2851,6 +2853,7 @@ class ChannelFlowCallbackResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -2873,6 +2876,7 @@ class CreateChannelResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelBanResponse {
   /// The ARN of the response to the ban request.
   final String? channelArn;
@@ -2905,6 +2909,7 @@ class CreateChannelBanResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelFlowResponse {
   /// The ARN of the channel flow.
   final String? channelFlowArn;
@@ -2927,6 +2932,7 @@ class CreateChannelFlowResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelMembershipResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -2965,6 +2971,7 @@ class CreateChannelMembershipResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelModeratorResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -2996,6 +3003,7 @@ class CreateChannelModeratorResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelResponse {
   /// The channel details.
   final Channel? channel;
@@ -3020,6 +3028,7 @@ class DescribeChannelResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelBanResponse {
   /// The details of the ban.
   final ChannelBan? channelBan;
@@ -3044,6 +3053,7 @@ class DescribeChannelBanResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelFlowResponse {
   /// The channel flow details.
   final ChannelFlow? channelFlow;
@@ -3068,6 +3078,7 @@ class DescribeChannelFlowResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelMembershipResponse {
   /// The details of the membership.
   final ChannelMembership? channelMembership;
@@ -3094,6 +3105,7 @@ class DescribeChannelMembershipResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelMembershipForAppInstanceUserResponse {
   /// The channel to which a user belongs.
   final ChannelMembershipForAppInstanceUserSummary? channelMembership;
@@ -3120,6 +3132,7 @@ class DescribeChannelMembershipForAppInstanceUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelModeratedByAppInstanceUserResponse {
   /// The moderated channel.
   final ChannelModeratedByAppInstanceUserSummary? channel;
@@ -3146,6 +3159,7 @@ class DescribeChannelModeratedByAppInstanceUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeChannelModeratorResponse {
   /// The details of the channel moderator.
   final ChannelModerator? channelModerator;
@@ -3171,6 +3185,7 @@ class DescribeChannelModeratorResponse {
   }
 }
 
+/// @nodoc
 class GetChannelMembershipPreferencesResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -3213,6 +3228,7 @@ class GetChannelMembershipPreferencesResponse {
   }
 }
 
+/// @nodoc
 class GetChannelMessageResponse {
   /// The details of and content in the message.
   final ChannelMessage? channelMessage;
@@ -3238,6 +3254,7 @@ class GetChannelMessageResponse {
   }
 }
 
+/// @nodoc
 class GetChannelMessageStatusResponse {
   /// The message status and details.
   final ChannelMessageStatusStructure? status;
@@ -3263,6 +3280,7 @@ class GetChannelMessageStatusResponse {
   }
 }
 
+/// @nodoc
 class GetMessagingSessionEndpointResponse {
   /// The endpoint returned in the response.
   final MessagingSessionEndpoint? endpoint;
@@ -3289,6 +3307,7 @@ class GetMessagingSessionEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetMessagingStreamingConfigurationsResponse {
   /// The streaming settings.
   final List<StreamingConfiguration>? streamingConfigurations;
@@ -3317,6 +3336,7 @@ class GetMessagingStreamingConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListChannelBansResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -3357,6 +3377,7 @@ class ListChannelBansResponse {
   }
 }
 
+/// @nodoc
 class ListChannelFlowsResponse {
   /// The information about each channel flow.
   final List<ChannelFlowSummary>? channelFlows;
@@ -3390,6 +3411,7 @@ class ListChannelFlowsResponse {
   }
 }
 
+/// @nodoc
 class ListChannelMembershipsResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -3431,6 +3453,7 @@ class ListChannelMembershipsResponse {
   }
 }
 
+/// @nodoc
 class ListChannelMembershipsForAppInstanceUserResponse {
   /// The information for the requested channel memberships.
   final List<ChannelMembershipForAppInstanceUserSummary>? channelMemberships;
@@ -3466,6 +3489,7 @@ class ListChannelMembershipsForAppInstanceUserResponse {
   }
 }
 
+/// @nodoc
 class ListChannelMessagesResponse {
   /// The ARN of the channel containing the requested messages.
   final String? channelArn;
@@ -3513,6 +3537,7 @@ class ListChannelMessagesResponse {
   }
 }
 
+/// @nodoc
 class ListChannelModeratorsResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -3554,6 +3579,7 @@ class ListChannelModeratorsResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsResponse {
   /// The information about each channel.
   final List<ChannelSummary>? channels;
@@ -3587,6 +3613,7 @@ class ListChannelsResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsAssociatedWithChannelFlowResponse {
   /// The information about each channel.
   final List<ChannelAssociatedWithFlowSummary>? channels;
@@ -3622,6 +3649,7 @@ class ListChannelsAssociatedWithChannelFlowResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsModeratedByAppInstanceUserResponse {
   /// The moderated channels in the request.
   final List<ChannelModeratedByAppInstanceUserSummary>? channels;
@@ -3657,6 +3685,7 @@ class ListChannelsModeratedByAppInstanceUserResponse {
   }
 }
 
+/// @nodoc
 class ListSubChannelsResponse {
   /// The ARN of elastic channel.
   final String? channelArn;
@@ -3697,6 +3726,7 @@ class ListSubChannelsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tag key-value pairs.
   final List<Tag>? tags;
@@ -3722,6 +3752,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutChannelExpirationSettingsResponse {
   /// The channel ARN.
   final String? channelArn;
@@ -3755,6 +3786,7 @@ class PutChannelExpirationSettingsResponse {
   }
 }
 
+/// @nodoc
 class PutChannelMembershipPreferencesResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -3797,6 +3829,7 @@ class PutChannelMembershipPreferencesResponse {
   }
 }
 
+/// @nodoc
 class PutMessagingStreamingConfigurationsResponse {
   /// The requested streaming configurations.
   final List<StreamingConfiguration>? streamingConfigurations;
@@ -3825,6 +3858,7 @@ class PutMessagingStreamingConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class RedactChannelMessageResponse {
   /// The ARN of the channel containing the messages that you want to redact.
   final String? channelArn;
@@ -3865,6 +3899,7 @@ class RedactChannelMessageResponse {
   }
 }
 
+/// @nodoc
 class SearchChannelsResponse {
   /// A list of the channels in the request.
   final List<ChannelSummary>? channels;
@@ -3898,6 +3933,7 @@ class SearchChannelsResponse {
   }
 }
 
+/// @nodoc
 class SendChannelMessageResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -3944,6 +3980,7 @@ class SendChannelMessageResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -3966,6 +4003,7 @@ class UpdateChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelFlowResponse {
   /// The ARN of the channel flow.
   final String? channelFlowArn;
@@ -3988,6 +4026,7 @@ class UpdateChannelFlowResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelMessageResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -4034,6 +4073,7 @@ class UpdateChannelMessageResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelReadMarkerResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -4057,6 +4097,8 @@ class UpdateChannelReadMarkerResponse {
 }
 
 /// Stores information about a message status.
+///
+/// @nodoc
 class ChannelMessageStatusStructure {
   /// Contains more details about the message status.
   final String? detail;
@@ -4086,6 +4128,7 @@ class ChannelMessageStatusStructure {
   }
 }
 
+/// @nodoc
 class ChannelMessageStatus {
   static const sent = ChannelMessageStatus._('SENT');
   static const pending = ChannelMessageStatus._('PENDING');
@@ -4114,6 +4157,8 @@ class ChannelMessageStatus {
 }
 
 /// The information about a processor in a channel flow.
+///
+/// @nodoc
 class Processor {
   /// The information about the type of processor and its identifier.
   final ProcessorConfiguration configuration;
@@ -4171,6 +4216,8 @@ class Processor {
 }
 
 /// A processor's metadata.
+///
+/// @nodoc
 class ProcessorConfiguration {
   /// Indicates that the processor is of type Lambda.
   final LambdaConfiguration lambda;
@@ -4195,6 +4242,7 @@ class ProcessorConfiguration {
   }
 }
 
+/// @nodoc
 class FallbackAction {
   static const $continue = FallbackAction._('CONTINUE');
   static const abort = FallbackAction._('ABORT');
@@ -4220,6 +4268,8 @@ class FallbackAction {
 }
 
 /// Stores metadata about a Lambda processor.
+///
+/// @nodoc
 class LambdaConfiguration {
   /// Controls how the Lambda function is invoked.
   final InvocationType invocationType;
@@ -4250,6 +4300,7 @@ class LambdaConfiguration {
   }
 }
 
+/// @nodoc
 class InvocationType {
   static const async = InvocationType._('ASYNC');
 
@@ -4273,6 +4324,7 @@ class InvocationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ChannelMode {
   static const unrestricted = ChannelMode._('UNRESTRICTED');
   static const restricted = ChannelMode._('RESTRICTED');
@@ -4297,6 +4349,8 @@ class ChannelMode {
 }
 
 /// A tag object containing a key-value pair.
+///
+/// @nodoc
 class Tag {
   /// The key in a tag.
   final String key;
@@ -4326,6 +4380,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ChannelMessageType {
   static const standard = ChannelMessageType._('STANDARD');
   static const control = ChannelMessageType._('CONTROL');
@@ -4351,6 +4406,7 @@ class ChannelMessageType {
   String toString() => value;
 }
 
+/// @nodoc
 class ChannelMessagePersistenceType {
   static const persistent = ChannelMessagePersistenceType._('PERSISTENT');
   static const nonPersistent =
@@ -4378,6 +4434,8 @@ class ChannelMessagePersistenceType {
 }
 
 /// The push notification configuration of the message.
+///
+/// @nodoc
 class PushNotificationConfiguration {
   /// The body of the push notification.
   final String? body;
@@ -4412,6 +4470,8 @@ class PushNotificationConfiguration {
 /// sender can view targeted messages. Only users who can see targeted messages
 /// can take actions on them. However, administrators can delete targeted
 /// messages that they can’t see.
+///
+/// @nodoc
 class Target {
   /// The ARN of the target channel member.
   final String? memberArn;
@@ -4435,6 +4495,8 @@ class Target {
 }
 
 /// A list of message attribute values.
+///
+/// @nodoc
 class MessageAttributeValue {
   /// The strings in a message attribute value.
   final List<String>? stringValues;
@@ -4460,6 +4522,7 @@ class MessageAttributeValue {
   }
 }
 
+/// @nodoc
 class PushNotificationType {
   static const $default = PushNotificationType._('DEFAULT');
   static const voip = PushNotificationType._('VOIP');
@@ -4486,6 +4549,8 @@ class PushNotificationType {
 }
 
 /// Summary of the details of a <code>Channel</code>.
+///
+/// @nodoc
 class ChannelSummary {
   /// The ARN of the channel.
   final String? channelArn;
@@ -4545,6 +4610,7 @@ class ChannelSummary {
   }
 }
 
+/// @nodoc
 class ChannelPrivacy {
   static const public = ChannelPrivacy._('PUBLIC');
   static const private = ChannelPrivacy._('PRIVATE');
@@ -4574,6 +4640,8 @@ class ChannelPrivacy {
 /// This operation isn't supported for <code>AppInstanceUsers</code> with a
 /// large number of memberships.
 /// </note>
+///
+/// @nodoc
 class SearchField {
   /// An <code>enum</code> value that indicates the key to search the channel on.
   /// <code>MEMBERS</code> allows you to search channels based on memberships. You
@@ -4615,6 +4683,7 @@ class SearchField {
   }
 }
 
+/// @nodoc
 class SearchFieldKey {
   static const members = SearchFieldKey._('MEMBERS');
 
@@ -4638,6 +4707,7 @@ class SearchFieldKey {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchFieldOperator {
   static const equals = SearchFieldOperator._('EQUALS');
   static const includes = SearchFieldOperator._('INCLUDES');
@@ -4664,6 +4734,8 @@ class SearchFieldOperator {
 }
 
 /// The configuration for connecting a messaging stream to Amazon Kinesis.
+///
+/// @nodoc
 class StreamingConfiguration {
   /// The data type of the configuration.
   final MessagingDataType dataType;
@@ -4694,6 +4766,7 @@ class StreamingConfiguration {
   }
 }
 
+/// @nodoc
 class MessagingDataType {
   static const channel = MessagingDataType._('Channel');
   static const channelMessage = MessagingDataType._('ChannelMessage');
@@ -4719,6 +4792,8 @@ class MessagingDataType {
 }
 
 /// The details of a user or bot.
+///
+/// @nodoc
 class Identity {
   /// The ARN in an Identity.
   final String? arn;
@@ -4749,6 +4824,8 @@ class Identity {
 }
 
 /// The channel membership preferences for an <code>AppInstanceUser</code>.
+///
+/// @nodoc
 class ChannelMembershipPreferences {
   /// The push notification configuration of a message.
   final PushNotificationPreferences? pushNotifications;
@@ -4775,6 +4852,8 @@ class ChannelMembershipPreferences {
 }
 
 /// The channel membership preferences for push notification.
+///
+/// @nodoc
 class PushNotificationPreferences {
   /// Enum value that indicates which push notifications to send to the requested
   /// member of a channel. <code>ALL</code> sends all push notifications,
@@ -4809,6 +4888,7 @@ class PushNotificationPreferences {
   }
 }
 
+/// @nodoc
 class AllowNotifications {
   static const all = AllowNotifications._('ALL');
   static const none = AllowNotifications._('NONE');
@@ -4836,6 +4916,8 @@ class AllowNotifications {
 }
 
 /// Settings that control the interval after which a channel is deleted.
+///
+/// @nodoc
 class ExpirationSettings {
   /// The conditions that must be met for a channel to expire.
   final ExpirationCriterion expirationCriterion;
@@ -4866,6 +4948,7 @@ class ExpirationSettings {
   }
 }
 
+/// @nodoc
 class ExpirationCriterion {
   static const createdTimestamp = ExpirationCriterion._('CREATED_TIMESTAMP');
   static const lastMessageTimestamp =
@@ -4893,6 +4976,8 @@ class ExpirationCriterion {
 }
 
 /// Summary of the sub-channels associated with the elastic channel.
+///
+/// @nodoc
 class SubChannelSummary {
   /// The number of members in a SubChannel.
   final int? membershipCount;
@@ -4923,6 +5008,8 @@ class SubChannelSummary {
 }
 
 /// Summary of the details of a moderated channel.
+///
+/// @nodoc
 class ChannelModeratedByAppInstanceUserSummary {
   /// Summary of the details of a <code>Channel</code>.
   final ChannelSummary? channelSummary;
@@ -4950,6 +5037,8 @@ class ChannelModeratedByAppInstanceUserSummary {
 }
 
 /// Summary of details of a channel associated with channel flow.
+///
+/// @nodoc
 class ChannelAssociatedWithFlowSummary {
   /// The ARN of the channel.
   final String? channelArn;
@@ -5001,6 +5090,8 @@ class ChannelAssociatedWithFlowSummary {
 }
 
 /// Summary of the details of a <code>ChannelModerator</code>.
+///
+/// @nodoc
 class ChannelModeratorSummary {
   /// The data for a moderator.
   final Identity? moderator;
@@ -5026,6 +5117,8 @@ class ChannelModeratorSummary {
 }
 
 /// Summary of the messages in a <code>Channel</code>.
+///
+/// @nodoc
 class ChannelMessageSummary {
   /// The content of the channel message. For Amazon Lex V2 bot responses, this
   /// field holds a list of messages originating from the bot. For more
@@ -5167,6 +5260,7 @@ class ChannelMessageSummary {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -5192,6 +5286,8 @@ class SortOrder {
 
 /// Summary of the channel membership details of an
 /// <code>AppInstanceUser</code>.
+///
+/// @nodoc
 class ChannelMembershipForAppInstanceUserSummary {
   /// Returns the channel membership data for an <code>AppInstance</code>.
   final AppInstanceUserMembershipSummary? appInstanceUserMembershipSummary;
@@ -5233,6 +5329,8 @@ class ChannelMembershipForAppInstanceUserSummary {
 }
 
 /// Summary of the membership details of an <code>AppInstanceUser</code>.
+///
+/// @nodoc
 class AppInstanceUserMembershipSummary {
   /// The time at which an <code>AppInstanceUser</code> last marked a channel as
   /// read.
@@ -5272,6 +5370,7 @@ class AppInstanceUserMembershipSummary {
   }
 }
 
+/// @nodoc
 class ChannelMembershipType {
   static const $default = ChannelMembershipType._('DEFAULT');
   static const hidden = ChannelMembershipType._('HIDDEN');
@@ -5298,6 +5397,8 @@ class ChannelMembershipType {
 }
 
 /// Summary of the details of a <code>ChannelMembership</code>.
+///
+/// @nodoc
 class ChannelMembershipSummary {
   /// A member's summary data.
   final Identity? member;
@@ -5323,6 +5424,8 @@ class ChannelMembershipSummary {
 }
 
 /// Summary of details of a channel flow.
+///
+/// @nodoc
 class ChannelFlowSummary {
   /// The ARN of the channel flow.
   final String? channelFlowArn;
@@ -5363,6 +5466,8 @@ class ChannelFlowSummary {
 }
 
 /// Summary of the details of a <code>ChannelBan</code>.
+///
+/// @nodoc
 class ChannelBanSummary {
   /// The member being banned from a channel.
   final Identity? member;
@@ -5388,6 +5493,8 @@ class ChannelBanSummary {
 }
 
 /// The websocket endpoint used to connect to Amazon Chime SDK messaging.
+///
+/// @nodoc
 class MessagingSessionEndpoint {
   /// The endpoint to which you establish a websocket connection.
   final String? url;
@@ -5410,6 +5517,7 @@ class MessagingSessionEndpoint {
   }
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4Only = NetworkType._('IPV4_ONLY');
   static const dualStack = NetworkType._('DUAL_STACK');
@@ -5434,6 +5542,8 @@ class NetworkType {
 }
 
 /// The details of a message in a channel.
+///
+/// @nodoc
 class ChannelMessage {
   /// The ARN of the channel.
   final String? channelArn;
@@ -5595,6 +5705,8 @@ class ChannelMessage {
 }
 
 /// The details of a channel moderator.
+///
+/// @nodoc
 class ChannelModerator {
   /// The ARN of the moderator's channel.
   final String? channelArn;
@@ -5644,6 +5756,8 @@ class ChannelModerator {
 }
 
 /// The details of a channel member.
+///
+/// @nodoc
 class ChannelMembership {
   /// The ARN of the member's channel.
   final String? channelArn;
@@ -5715,6 +5829,8 @@ class ChannelMembership {
 }
 
 /// The details of a channel flow.
+///
+/// @nodoc
 class ChannelFlow {
   /// The ARN of the channel flow.
   final String? channelFlowArn;
@@ -5771,6 +5887,8 @@ class ChannelFlow {
 }
 
 /// The details of a channel ban.
+///
+/// @nodoc
 class ChannelBan {
   /// The ARN of the channel from which a member is being banned.
   final String? channelArn;
@@ -5820,6 +5938,8 @@ class ChannelBan {
 }
 
 /// The details of a channel.
+///
+/// @nodoc
 class Channel {
   /// The ARN of a channel.
   final String? channelArn;
@@ -5934,6 +6054,8 @@ class Channel {
 
 /// The attributes required to configure and create an elastic channel. An
 /// elastic channel can support a maximum of 1-million members.
+///
+/// @nodoc
 class ElasticChannelConfiguration {
   /// The maximum number of SubChannels that you want to allow in the elastic
   /// channel.
@@ -5976,6 +6098,8 @@ class ElasticChannelConfiguration {
 }
 
 /// Stores information about a callback.
+///
+/// @nodoc
 class ChannelMessageCallback {
   /// The message ID.
   final String messageId;
@@ -6043,6 +6167,7 @@ class ChannelMessageCallback {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const badRequest = ErrorCode._('BadRequest');
   static const conflict = ErrorCode._('Conflict');
@@ -6099,6 +6224,8 @@ class ErrorCode {
 
 /// The membership information, including member ARNs, the channel ARN, and
 /// membership types.
+///
+/// @nodoc
 class BatchChannelMemberships {
   /// The ARN of the channel to which you're adding members.
   final String? channelArn;
@@ -6155,6 +6282,8 @@ class BatchChannelMemberships {
 }
 
 /// A list of failed member ARNs, error codes, and error messages.
+///
+/// @nodoc
 class BatchCreateChannelMembershipError {
   /// The error code.
   final ErrorCode? errorCode;
@@ -6193,26 +6322,31 @@ class BatchCreateChannelMembershipError {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -6221,22 +6355,26 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceFailureException extends _s.GenericAwsException {
   ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottledClientException extends _s.GenericAwsException {
   ThrottledClientException({String? type, String? message})
       : super(type: type, code: 'ThrottledClientException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedClientException extends _s.GenericAwsException {
   UnauthorizedClientException({String? type, String? message})
       : super(

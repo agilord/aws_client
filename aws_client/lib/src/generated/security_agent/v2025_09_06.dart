@@ -2068,6 +2068,7 @@ class SecurityAgent {
   }
 }
 
+/// @nodoc
 class AddArtifactOutput {
   /// The unique identifier assigned to the uploaded artifact.
   final String artifactId;
@@ -2091,6 +2092,8 @@ class AddArtifactOutput {
 }
 
 /// Output for the BatchDeleteCodeReviews operation.
+///
+/// @nodoc
 class BatchDeleteCodeReviewsOutput {
   /// The list of identifiers of the code reviews that were successfully deleted.
   final List<String>? deleted;
@@ -2127,6 +2130,8 @@ class BatchDeleteCodeReviewsOutput {
 }
 
 /// Output for the BatchDeletePentests operation.
+///
+/// @nodoc
 class BatchDeletePentestsOutput {
   /// The list of pentests that were successfully deleted.
   final List<Pentest>? deleted;
@@ -2163,6 +2168,7 @@ class BatchDeletePentestsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetArtifactMetadataOutput {
   /// The list of artifact metadata items that were found.
   final List<ArtifactMetadataItem> artifactMetadataList;
@@ -2190,6 +2196,8 @@ class BatchGetArtifactMetadataOutput {
 }
 
 /// Output for the BatchGetCodeReviewJobs operation.
+///
+/// @nodoc
 class BatchGetCodeReviewJobsOutput {
   /// The list of code review jobs that were found.
   final List<CodeReviewJob>? codeReviewJobs;
@@ -2226,6 +2234,8 @@ class BatchGetCodeReviewJobsOutput {
 }
 
 /// Output for the BatchGetCodeReviewJobTasks operation.
+///
+/// @nodoc
 class BatchGetCodeReviewJobTasksOutput {
   /// The list of code review job tasks that were found.
   final List<CodeReviewJobTask>? codeReviewJobTasks;
@@ -2262,6 +2272,8 @@ class BatchGetCodeReviewJobTasksOutput {
 }
 
 /// Output for the BatchGetCodeReviews operation.
+///
+/// @nodoc
 class BatchGetCodeReviewsOutput {
   /// The list of code reviews that were found.
   final List<CodeReview>? codeReviews;
@@ -2298,6 +2310,8 @@ class BatchGetCodeReviewsOutput {
 }
 
 /// Output for the BatchGetFindings operation.
+///
+/// @nodoc
 class BatchGetFindingsOutput {
   /// The list of findings that were found.
   final List<Finding>? findings;
@@ -2334,6 +2348,8 @@ class BatchGetFindingsOutput {
 }
 
 /// Output for the BatchGetPentestJobs operation.
+///
+/// @nodoc
 class BatchGetPentestJobsOutput {
   /// The list of pentest job identifiers that were not found.
   final List<String>? notFound;
@@ -2370,6 +2386,8 @@ class BatchGetPentestJobsOutput {
 }
 
 /// Output for the BatchGetPentestJobTasks operation.
+///
+/// @nodoc
 class BatchGetPentestJobTasksOutput {
   /// The list of task identifiers that were not found.
   final List<String>? notFound;
@@ -2406,6 +2424,8 @@ class BatchGetPentestJobTasksOutput {
 }
 
 /// Output for the BatchGetPentests operation.
+///
+/// @nodoc
 class BatchGetPentestsOutput {
   /// The list of pentest identifiers that were not found.
   final List<String>? notFound;
@@ -2442,6 +2462,8 @@ class BatchGetPentestsOutput {
 }
 
 /// Output for the CreateCodeReview operation.
+///
+/// @nodoc
 class CreateCodeReviewOutput {
   /// The unique identifier of the created code review.
   final String codeReviewId;
@@ -2527,6 +2549,8 @@ class CreateCodeReviewOutput {
 }
 
 /// Response structure for adding a single member to an agent space.
+///
+/// @nodoc
 class CreateMembershipResponse {
   CreateMembershipResponse();
 
@@ -2540,6 +2564,8 @@ class CreateMembershipResponse {
 }
 
 /// Output for the CreatePentest operation.
+///
+/// @nodoc
 class CreatePentestOutput {
   /// The unique identifier of the agent space that contains the pentest.
   final String? agentSpaceId;
@@ -2626,6 +2652,7 @@ class CreatePentestOutput {
   }
 }
 
+/// @nodoc
 class DeleteArtifactOutput {
   DeleteArtifactOutput();
 
@@ -2639,6 +2666,8 @@ class DeleteArtifactOutput {
 }
 
 /// Response structure for removing a single member from an agent space.
+///
+/// @nodoc
 class DeleteMembershipResponse {
   DeleteMembershipResponse();
 
@@ -2651,6 +2680,7 @@ class DeleteMembershipResponse {
   }
 }
 
+/// @nodoc
 class GetArtifactOutput {
   /// The unique identifier of the agent space that contains the artifact.
   final String agentSpaceId;
@@ -2702,6 +2732,7 @@ class GetArtifactOutput {
   }
 }
 
+/// @nodoc
 class InitiateProviderRegistrationOutput {
   /// The CSRF state token to use when completing the OAuth flow.
   final String csrfState;
@@ -2732,6 +2763,7 @@ class InitiateProviderRegistrationOutput {
   }
 }
 
+/// @nodoc
 class ListArtifactsOutput {
   /// The list of artifact summaries.
   final List<ArtifactSummary> artifactSummaries;
@@ -2767,6 +2799,8 @@ class ListArtifactsOutput {
 }
 
 /// Output for the ListCodeReviewJobsForCodeReview operation.
+///
+/// @nodoc
 class ListCodeReviewJobsForCodeReviewOutput {
   /// The list of code review job summaries.
   final List<CodeReviewJobSummary>? codeReviewJobSummaries;
@@ -2804,6 +2838,8 @@ class ListCodeReviewJobsForCodeReviewOutput {
 }
 
 /// Output for the ListCodeReviewJobTasks operation.
+///
+/// @nodoc
 class ListCodeReviewJobTasksOutput {
   /// The list of code review job task summaries.
   final List<CodeReviewJobTaskSummary>? codeReviewJobTaskSummaries;
@@ -2841,6 +2877,8 @@ class ListCodeReviewJobTasksOutput {
 }
 
 /// Output for the ListCodeReviews operation.
+///
+/// @nodoc
 class ListCodeReviewsOutput {
   /// The list of code review summaries.
   final List<CodeReviewSummary>? codeReviewSummaries;
@@ -2877,6 +2915,8 @@ class ListCodeReviewsOutput {
 }
 
 /// Output for the ListDiscoveredEndpoints operation.
+///
+/// @nodoc
 class ListDiscoveredEndpointsOutput {
   /// The list of discovered endpoints.
   final List<DiscoveredEndpoint>? discoveredEndpoints;
@@ -2913,6 +2953,8 @@ class ListDiscoveredEndpointsOutput {
 }
 
 /// Output for the ListFindings operation.
+///
+/// @nodoc
 class ListFindingsOutput {
   /// The list of finding summaries.
   final List<FindingSummary>? findingsSummaries;
@@ -2947,6 +2989,7 @@ class ListFindingsOutput {
   }
 }
 
+/// @nodoc
 class ListIntegratedResourcesOutput {
   /// The list of integrated resource summaries.
   final List<IntegratedResourceSummary> integratedResourceSummaries;
@@ -2984,6 +3027,8 @@ class ListIntegratedResourcesOutput {
 }
 
 /// Response structure for listing members associated to an agent space.
+///
+/// @nodoc
 class ListMembershipsResponse {
   /// The list of membership summaries.
   final List<MembershipSummary> membershipSummaries;
@@ -3019,6 +3064,8 @@ class ListMembershipsResponse {
 }
 
 /// Output for the ListPentestJobsForPentest operation.
+///
+/// @nodoc
 class ListPentestJobsForPentestOutput {
   /// A token to use for paginating results that are returned in the response. Set
   /// the value of this parameter to null for the first request. For subsequent
@@ -3055,6 +3102,8 @@ class ListPentestJobsForPentestOutput {
 }
 
 /// Output for the ListPentestJobTasks operation.
+///
+/// @nodoc
 class ListPentestJobTasksOutput {
   /// A token to use for paginating results that are returned in the response. Set
   /// the value of this parameter to null for the first request. For subsequent
@@ -3090,6 +3139,8 @@ class ListPentestJobTasksOutput {
 }
 
 /// Output for the ListPentests operation.
+///
+/// @nodoc
 class ListPentestsOutput {
   /// A token to use for paginating results that are returned in the response. Set
   /// the value of this parameter to null for the first request. For subsequent
@@ -3125,6 +3176,8 @@ class ListPentestsOutput {
 }
 
 /// Output for ListTagsForResource operation.
+///
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The tags associated with the resource.
   final Map<String, String>? tags;
@@ -3149,6 +3202,8 @@ class ListTagsForResourceOutput {
 }
 
 /// Output for the StartCodeRemediation operation.
+///
+/// @nodoc
 class StartCodeRemediationOutput {
   StartCodeRemediationOutput();
 
@@ -3162,6 +3217,8 @@ class StartCodeRemediationOutput {
 }
 
 /// Output for the StartCodeReviewJob operation.
+///
+/// @nodoc
 class StartCodeReviewJobOutput {
   /// The unique identifier of the code review.
   final String codeReviewId;
@@ -3227,6 +3284,8 @@ class StartCodeReviewJobOutput {
 }
 
 /// Output for the StartPentestJob operation.
+///
+/// @nodoc
 class StartPentestJobOutput {
   /// The unique identifier of the agent space.
   final String? agentSpaceId;
@@ -3292,6 +3351,8 @@ class StartPentestJobOutput {
 }
 
 /// Output for the StopCodeReviewJob operation.
+///
+/// @nodoc
 class StopCodeReviewJobOutput {
   StopCodeReviewJobOutput();
 
@@ -3305,6 +3366,8 @@ class StopCodeReviewJobOutput {
 }
 
 /// Output for the StopPentestJob operation.
+///
+/// @nodoc
 class StopPentestJobOutput {
   StopPentestJobOutput();
 
@@ -3318,6 +3381,8 @@ class StopPentestJobOutput {
 }
 
 /// Output for TagResource operation.
+///
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -3331,6 +3396,8 @@ class TagResourceOutput {
 }
 
 /// Output for UntagResource operation.
+///
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -3344,6 +3411,8 @@ class UntagResourceOutput {
 }
 
 /// Output for the UpdateCodeReview operation.
+///
+/// @nodoc
 class UpdateCodeReviewOutput {
   /// The unique identifier of the code review.
   final String codeReviewId;
@@ -3429,6 +3498,8 @@ class UpdateCodeReviewOutput {
 }
 
 /// Output for the UpdateFinding operation.
+///
+/// @nodoc
 class UpdateFindingOutput {
   UpdateFindingOutput();
 
@@ -3441,6 +3512,7 @@ class UpdateFindingOutput {
   }
 }
 
+/// @nodoc
 class UpdateIntegratedResourcesOutput {
   UpdateIntegratedResourcesOutput();
 
@@ -3454,6 +3526,8 @@ class UpdateIntegratedResourcesOutput {
 }
 
 /// Output for the UpdatePentest operation.
+///
+/// @nodoc
 class UpdatePentestOutput {
   /// The unique identifier of the agent space that contains the pentest.
   final String? agentSpaceId;
@@ -3542,6 +3616,8 @@ class UpdatePentestOutput {
 
 /// Output for verifying ownership for a registered target domain in an agent
 /// space.
+///
+/// @nodoc
 class VerifyTargetDomainOutput {
   /// The date and time the target domain was created, in UTC format.
   final DateTime? createdAt;
@@ -3608,6 +3684,8 @@ class VerifyTargetDomainOutput {
 }
 
 /// Output for the CreateAgentSpace operation.
+///
+/// @nodoc
 class CreateAgentSpaceOutput {
   /// The unique identifier of the created agent space.
   final String agentSpaceId;
@@ -3695,6 +3773,8 @@ class CreateAgentSpaceOutput {
 }
 
 /// Output for the UpdateAgentSpace operation.
+///
+/// @nodoc
 class UpdateAgentSpaceOutput {
   /// The unique identifier of the updated agent space.
   final String agentSpaceId;
@@ -3775,6 +3855,8 @@ class UpdateAgentSpaceOutput {
 }
 
 /// Output for the DeleteAgentSpace operation.
+///
+/// @nodoc
 class DeleteAgentSpaceOutput {
   /// The unique identifier of the deleted agent space.
   final String? agentSpaceId;
@@ -3798,6 +3880,8 @@ class DeleteAgentSpaceOutput {
 }
 
 /// Output for the ListAgentSpaces operation.
+///
+/// @nodoc
 class ListAgentSpacesOutput {
   /// The list of agent space summaries.
   final List<AgentSpaceSummary>? agentSpaceSummaries;
@@ -3834,6 +3918,8 @@ class ListAgentSpacesOutput {
 }
 
 /// Output for the BatchGetAgentSpaces operation.
+///
+/// @nodoc
 class BatchGetAgentSpacesOutput {
   /// The list of agent spaces that were found.
   final List<AgentSpace>? agentSpaces;
@@ -3869,6 +3955,7 @@ class BatchGetAgentSpacesOutput {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// The unique identifier of the created application.
   final String applicationId;
@@ -3891,6 +3978,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// The unique identifier of the application.
   final String applicationId;
@@ -3953,6 +4041,7 @@ class GetApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   /// The unique identifier of the updated application.
   final String applicationId;
@@ -3975,6 +4064,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// The list of application summaries.
   final List<ApplicationSummary> applicationSummaries;
@@ -4010,6 +4100,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class CreateIntegrationOutput {
   /// The unique identifier of the created integration.
   final String integrationId;
@@ -4032,6 +4123,7 @@ class CreateIntegrationOutput {
   }
 }
 
+/// @nodoc
 class GetIntegrationOutput {
   /// The installation identifier from the integration provider.
   final String installationId;
@@ -4091,6 +4183,7 @@ class GetIntegrationOutput {
   }
 }
 
+/// @nodoc
 class DeleteIntegrationOutput {
   DeleteIntegrationOutput();
 
@@ -4103,6 +4196,7 @@ class DeleteIntegrationOutput {
   }
 }
 
+/// @nodoc
 class ListIntegrationsOutput {
   /// The list of integration summaries.
   final List<IntegrationSummary> integrationSummaries;
@@ -4139,6 +4233,8 @@ class ListIntegrationsOutput {
 }
 
 /// Output for the CreateTargetDomain operation.
+///
+/// @nodoc
 class CreateTargetDomainOutput {
   /// The domain name of the target domain.
   final String domainName;
@@ -4211,6 +4307,8 @@ class CreateTargetDomainOutput {
 }
 
 /// Output for the UpdateTargetDomain operation.
+///
+/// @nodoc
 class UpdateTargetDomainOutput {
   /// The domain name of the target domain.
   final String domainName;
@@ -4282,6 +4380,8 @@ class UpdateTargetDomainOutput {
 }
 
 /// Output for the DeleteTargetDomain operation.
+///
+/// @nodoc
 class DeleteTargetDomainOutput {
   /// The unique identifier of the deleted target domain.
   final String? targetDomainId;
@@ -4305,6 +4405,8 @@ class DeleteTargetDomainOutput {
 }
 
 /// Output for the ListTargetDomains operation.
+///
+/// @nodoc
 class ListTargetDomainsOutput {
   /// A token to use for paginating results that are returned in the response. Set
   /// the value of this parameter to null for the first request. For subsequent
@@ -4341,6 +4443,8 @@ class ListTargetDomainsOutput {
 }
 
 /// Output for the BatchGetTargetDomains operation.
+///
+/// @nodoc
 class BatchGetTargetDomainsOutput {
   /// The list of target domain identifiers that were not found.
   final List<String>? notFound;
@@ -4379,6 +4483,8 @@ class BatchGetTargetDomainsOutput {
 /// Represents a target domain registered for penetration testing. A target
 /// domain must be verified through DNS TXT or HTTP route verification before it
 /// can be used in pentests.
+///
+/// @nodoc
 class TargetDomain {
   /// The domain name of the target domain.
   final String domainName;
@@ -4451,6 +4557,8 @@ class TargetDomain {
 }
 
 /// Verification status of a target domain.
+///
+/// @nodoc
 class TargetDomainStatus {
   static const pending = TargetDomainStatus._('PENDING');
   static const verified = TargetDomainStatus._('VERIFIED');
@@ -4480,6 +4588,8 @@ class TargetDomainStatus {
 
 /// Contains the verification details for a target domain, including the
 /// verification method and provider-specific details.
+///
+/// @nodoc
 class VerificationDetails {
   /// The DNS TXT verification details.
   final DnsVerification? dnsTxt;
@@ -4522,6 +4632,8 @@ class VerificationDetails {
 }
 
 /// Method used to verify domain ownership.
+///
+/// @nodoc
 class DomainVerificationMethod {
   static const dnsTxt = DomainVerificationMethod._('DNS_TXT');
   static const httpRoute = DomainVerificationMethod._('HTTP_ROUTE');
@@ -4550,6 +4662,8 @@ class DomainVerificationMethod {
 
 /// Contains DNS verification details for a target domain, including the DNS
 /// record to create for domain ownership verification.
+///
+/// @nodoc
 class DnsVerification {
   /// The name of the DNS record to create for verification.
   final String? dnsRecordName;
@@ -4589,6 +4703,8 @@ class DnsVerification {
 
 /// Contains HTTP route verification details for a target domain, including the
 /// route path and token to serve for domain ownership verification.
+///
+/// @nodoc
 class HttpVerification {
   /// The HTTP route path where the verification token must be served.
   final String? routePath;
@@ -4619,6 +4735,8 @@ class HttpVerification {
 }
 
 /// Type of DNS record.
+///
+/// @nodoc
 class DNSRecordType {
   static const txt = DNSRecordType._('TXT');
 
@@ -4643,6 +4761,8 @@ class DNSRecordType {
 }
 
 /// Contains summary information about a target domain.
+///
+/// @nodoc
 class TargetDomainSummary {
   /// The domain name of the target domain.
   final String domainName;
@@ -4682,6 +4802,8 @@ class TargetDomainSummary {
 }
 
 /// Contains summary information about an integration.
+///
+/// @nodoc
 class IntegrationSummary {
   /// The display name of the integration.
   final String displayName;
@@ -4734,6 +4856,8 @@ class IntegrationSummary {
 }
 
 /// Third-party provider type.
+///
+/// @nodoc
 class Provider {
   static const github = Provider._('GITHUB');
 
@@ -4757,6 +4881,8 @@ class Provider {
 }
 
 /// Type of provider integration.
+///
+/// @nodoc
 class ProviderType {
   static const sourceCode = ProviderType._('SOURCE_CODE');
   static const documentation = ProviderType._('DOCUMENTATION');
@@ -4782,6 +4908,8 @@ class ProviderType {
 
 /// A filter for listing integrations. This is a union type where you can filter
 /// by provider or provider type.
+///
+/// @nodoc
 class IntegrationFilter {
   /// Filter integrations by provider.
   final Provider? provider;
@@ -4806,6 +4934,8 @@ class IntegrationFilter {
 
 /// The provider-specific input for creating an integration. This is a union
 /// type that contains provider-specific configuration.
+///
+/// @nodoc
 class ProviderInput {
   /// The GitHub-specific input for creating an integration.
   final GitHubIntegrationInput? github;
@@ -4824,6 +4954,8 @@ class ProviderInput {
 
 /// The input required to create a GitHub integration, including the OAuth
 /// authorization code and CSRF state.
+///
+/// @nodoc
 class GitHubIntegrationInput {
   /// The OAuth authorization code received from GitHub.
   final String code;
@@ -4853,6 +4985,8 @@ class GitHubIntegrationInput {
 }
 
 /// Contains summary information about an application.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The unique identifier of the application.
   final String applicationId;
@@ -4898,6 +5032,8 @@ class ApplicationSummary {
 }
 
 /// The IAM Identity Center configuration for an application.
+///
+/// @nodoc
 class IdCConfiguration {
   /// The Amazon Resource Name (ARN) of the IAM Identity Center application.
   final String? idcApplicationArn;
@@ -4930,6 +5066,8 @@ class IdCConfiguration {
 /// Represents an agent space, which is a dedicated workspace for securing a
 /// specific application. An agent space contains the configuration, resources,
 /// and settings needed for security testing.
+///
+/// @nodoc
 class AgentSpace {
   /// The unique identifier of the agent space.
   final String agentSpaceId;
@@ -5018,6 +5156,8 @@ class AgentSpace {
 
 /// The AWS resources associated with an agent space, including VPCs, log
 /// groups, S3 buckets, secrets, Lambda functions, and IAM roles.
+///
+/// @nodoc
 class AWSResources {
   /// The IAM roles associated with the agent space.
   final List<String>? iamRoles;
@@ -5099,6 +5239,8 @@ class AWSResources {
 
 /// The code review settings for an agent space, controlling which types of
 /// scanning are enabled.
+///
+/// @nodoc
 class CodeReviewSettings {
   /// Indicates whether controls scanning is enabled for code reviews.
   final bool controlsScanning;
@@ -5131,6 +5273,8 @@ class CodeReviewSettings {
 
 /// The VPC configuration for a pentest, specifying the VPC, security groups,
 /// and subnets to use during testing.
+///
+/// @nodoc
 class VpcConfig {
   /// The Amazon Resource Names (ARNs) of the security groups for the VPC
   /// configuration.
@@ -5175,6 +5319,8 @@ class VpcConfig {
 }
 
 /// Contains summary information about an agent space.
+///
+/// @nodoc
 class AgentSpaceSummary {
   /// The unique identifier of the agent space.
   final String agentSpaceId;
@@ -5221,6 +5367,8 @@ class AgentSpaceSummary {
 /// The collection of assets used in a pentest configuration, including
 /// endpoints, actors, documents, source code repositories, and integrated
 /// repositories.
+///
+/// @nodoc
 class Assets {
   /// The list of actors used during penetration testing.
   final List<Actor>? actors;
@@ -5288,6 +5436,8 @@ class Assets {
 }
 
 /// The Amazon CloudWatch Logs configuration for pentest job logging.
+///
+/// @nodoc
 class CloudWatchLog {
   /// The name of the CloudWatch log group.
   final String? logGroup;
@@ -5318,6 +5468,8 @@ class CloudWatchLog {
 }
 
 /// Type of security risk.
+///
+/// @nodoc
 class RiskType {
   static const crossSiteScripting = RiskType._('CROSS_SITE_SCRIPTING');
   static const defaultCredentials = RiskType._('DEFAULT_CREDENTIALS');
@@ -5404,6 +5556,8 @@ class RiskType {
 
 /// Represents a code repository that is integrated with the service through a
 /// third-party provider.
+///
+/// @nodoc
 class IntegratedRepository {
   /// The unique identifier of the integration that provides access to the
   /// repository.
@@ -5436,6 +5590,8 @@ class IntegratedRepository {
 
 /// Represents a source code repository used for security analysis during a
 /// pentest.
+///
+/// @nodoc
 class SourceCodeRepository {
   /// The Amazon S3 location of the source code repository archive.
   final String? s3Location;
@@ -5459,6 +5615,8 @@ class SourceCodeRepository {
 }
 
 /// Represents a document that provides context for security testing.
+///
+/// @nodoc
 class DocumentInfo {
   /// The unique identifier of the artifact associated with the document.
   final String? artifactId;
@@ -5491,6 +5649,8 @@ class DocumentInfo {
 /// Represents an actor used during penetration testing. An actor defines a user
 /// or entity that interacts with the target application, including
 /// authentication credentials and target URIs.
+///
+/// @nodoc
 class Actor {
   /// The authentication configuration for the actor.
   final Authentication? authentication;
@@ -5539,6 +5699,8 @@ class Actor {
 
 /// The authentication configuration for an actor, specifying the provider type
 /// and credentials.
+///
+/// @nodoc
 class Authentication {
   /// The type of authentication provider. Valid values include SECRETS_MANAGER,
   /// AWS_LAMBDA, AWS_IAM_ROLE, and AWS_INTERNAL.
@@ -5572,6 +5734,8 @@ class Authentication {
 }
 
 /// Type of authentication provider.
+///
+/// @nodoc
 class AuthenticationProviderType {
   static const secretsManager = AuthenticationProviderType._('SECRETS_MANAGER');
   static const awsLambda = AuthenticationProviderType._('AWS_LAMBDA');
@@ -5600,6 +5764,8 @@ class AuthenticationProviderType {
 }
 
 /// Represents a target endpoint for penetration testing.
+///
+/// @nodoc
 class Endpoint {
   /// The URI of the endpoint.
   final String? uri;
@@ -5624,6 +5790,8 @@ class Endpoint {
 
 /// The network traffic configuration for a pentest, including custom headers
 /// and traffic rules.
+///
+/// @nodoc
 class NetworkTrafficConfig {
   /// The list of custom HTTP headers to include in network traffic during
   /// testing.
@@ -5662,6 +5830,8 @@ class NetworkTrafficConfig {
 }
 
 /// Strategy for automated code remediation.
+///
+/// @nodoc
 class CodeRemediationStrategy {
   static const automatic = CodeRemediationStrategy._('AUTOMATIC');
   static const disabled = CodeRemediationStrategy._('DISABLED');
@@ -5689,6 +5859,8 @@ class CodeRemediationStrategy {
 
 /// A custom HTTP header to include in network traffic during penetration
 /// testing.
+///
+/// @nodoc
 class CustomHeader {
   /// The name of the custom header.
   final String? name;
@@ -5720,6 +5892,8 @@ class CustomHeader {
 
 /// A rule that controls network traffic during penetration testing by allowing
 /// or denying traffic to specific URL patterns.
+///
+/// @nodoc
 class NetworkTrafficRule {
   /// The effect of the rule. Valid values are ALLOW and DENY.
   final NetworkTrafficRuleEffect? effect;
@@ -5760,6 +5934,8 @@ class NetworkTrafficRule {
 }
 
 /// Effect of a network traffic rule.
+///
+/// @nodoc
 class NetworkTrafficRuleEffect {
   static const allow = NetworkTrafficRuleEffect._('ALLOW');
   static const deny = NetworkTrafficRuleEffect._('DENY');
@@ -5786,6 +5962,8 @@ class NetworkTrafficRuleEffect {
 }
 
 /// Type of network traffic rule.
+///
+/// @nodoc
 class NetworkTrafficRuleType {
   static const url = NetworkTrafficRuleType._('URL');
 
@@ -5812,6 +5990,8 @@ class NetworkTrafficRuleType {
 
 /// Represents an input item for updating integrated resources, including the
 /// resource and its capabilities.
+///
+/// @nodoc
 class IntegratedResourceInputItem {
   /// The integrated resource to update.
   final IntegratedResource resource;
@@ -5836,6 +6016,8 @@ class IntegratedResourceInputItem {
 
 /// Represents an integrated resource from a third-party provider. This is a
 /// union type that contains provider-specific resource information.
+///
+/// @nodoc
 class IntegratedResource {
   /// The GitHub repository resource information.
   final GitHubRepositoryResource? githubRepository;
@@ -5854,6 +6036,8 @@ class IntegratedResource {
 
 /// The capabilities for an integrated resource from a third-party provider.
 /// This is a union type that contains provider-specific capabilities.
+///
+/// @nodoc
 class ProviderResourceCapabilities {
   /// The GitHub-specific resource capabilities.
   final GitHubResourceCapabilities? github;
@@ -5880,6 +6064,8 @@ class ProviderResourceCapabilities {
 }
 
 /// The capabilities enabled for a GitHub resource integration.
+///
+/// @nodoc
 class GitHubResourceCapabilities {
   /// Indicates whether the integration can leave comments on pull requests.
   final bool? leaveComments;
@@ -5910,6 +6096,8 @@ class GitHubResourceCapabilities {
 }
 
 /// Represents a GitHub repository resource used in an integration.
+///
+/// @nodoc
 class GitHubRepositoryResource {
   /// The name of the GitHub repository.
   final String name;
@@ -5933,6 +6121,8 @@ class GitHubRepositoryResource {
 }
 
 /// Risk severity level.
+///
+/// @nodoc
 class RiskLevel {
   static const unknown = RiskLevel._('UNKNOWN');
   static const informational = RiskLevel._('INFORMATIONAL');
@@ -5961,6 +6151,8 @@ class RiskLevel {
 }
 
 /// Finding status.
+///
+/// @nodoc
 class FindingStatus {
   static const active = FindingStatus._('ACTIVE');
   static const resolved = FindingStatus._('RESOLVED');
@@ -5988,6 +6180,8 @@ class FindingStatus {
 }
 
 /// Status of a pentest job.
+///
+/// @nodoc
 class JobStatus {
   static const inProgress = JobStatus._('IN_PROGRESS');
   static const stopping = JobStatus._('STOPPING');
@@ -6015,6 +6209,8 @@ class JobStatus {
 }
 
 /// Contains summary information about a pentest.
+///
+/// @nodoc
 class PentestSummary {
   /// The unique identifier of the agent space that contains the pentest.
   final String agentSpaceId;
@@ -6066,6 +6262,8 @@ class PentestSummary {
 }
 
 /// Contains summary information about a task.
+///
+/// @nodoc
 class TaskSummary {
   /// The unique identifier of the task.
   final String taskId;
@@ -6146,6 +6344,8 @@ class TaskSummary {
 }
 
 /// Execution status of a task.
+///
+/// @nodoc
 class TaskExecutionStatus {
   static const inProgress = TaskExecutionStatus._('IN_PROGRESS');
   static const aborted = TaskExecutionStatus._('ABORTED');
@@ -6175,6 +6375,8 @@ class TaskExecutionStatus {
 }
 
 /// Pentest job step names.
+///
+/// @nodoc
 class StepName {
   static const preflight = StepName._('PREFLIGHT');
   static const staticAnalysis = StepName._('STATIC_ANALYSIS');
@@ -6201,6 +6403,8 @@ class StepName {
 }
 
 /// Contains summary information about a pentest job.
+///
+/// @nodoc
 class PentestJobSummary {
   /// The unique identifier of the pentest associated with the job.
   final String pentestId;
@@ -6259,6 +6463,8 @@ class PentestJobSummary {
 }
 
 /// Contains summary information about a membership.
+///
+/// @nodoc
 class MembershipSummary {
   /// The unique identifier of the agent space.
   final String agentSpaceId;
@@ -6350,6 +6556,8 @@ class MembershipSummary {
 }
 
 /// Type of membership.
+///
+/// @nodoc
 class MembershipType {
   static const user = MembershipType._('USER');
 
@@ -6375,6 +6583,8 @@ class MembershipType {
 
 /// The configuration for a membership. This is a union type that contains
 /// member-type-specific configuration.
+///
+/// @nodoc
 class MembershipConfig {
   /// The user configuration for the membership.
   final UserConfig? user;
@@ -6401,6 +6611,8 @@ class MembershipConfig {
 
 /// Contains metadata about a member. This is a union type that contains
 /// member-type-specific metadata.
+///
+/// @nodoc
 class MemberMetadata {
   /// The user metadata for the member.
   final UserMetadata? user;
@@ -6427,6 +6639,8 @@ class MemberMetadata {
 
 /// Contains metadata about a user member, including the username and email
 /// address.
+///
+/// @nodoc
 class UserMetadata {
   /// The email address of the user.
   final String email;
@@ -6458,6 +6672,8 @@ class UserMetadata {
 
 /// The configuration for a user membership, including the role assigned to the
 /// user within the agent space.
+///
+/// @nodoc
 class UserConfig {
   /// The role assigned to the user. Currently, only MEMBER is supported.
   final UserRole? role;
@@ -6481,6 +6697,8 @@ class UserConfig {
 }
 
 /// Role of a user member associated to an agent space.
+///
+/// @nodoc
 class UserRole {
   static const member = UserRole._('MEMBER');
 
@@ -6504,6 +6722,8 @@ class UserRole {
 }
 
 /// Filter for member type in list operations.
+///
+/// @nodoc
 class MembershipTypeFilter {
   static const user = MembershipTypeFilter._('USER');
   static const all = MembershipTypeFilter._('ALL');
@@ -6530,6 +6750,8 @@ class MembershipTypeFilter {
 }
 
 /// Contains summary information about an integrated resource.
+///
+/// @nodoc
 class IntegratedResourceSummary {
   /// The unique identifier of the integration that provides access to the
   /// resource.
@@ -6574,6 +6796,8 @@ class IntegratedResourceSummary {
 
 /// Contains metadata about an integrated resource. This is a union type that
 /// contains provider-specific metadata.
+///
+/// @nodoc
 class IntegratedResourceMetadata {
   /// The GitHub repository metadata.
   final GitHubRepositoryMetadata? githubRepository;
@@ -6601,6 +6825,8 @@ class IntegratedResourceMetadata {
 
 /// Contains metadata about a GitHub repository that is integrated with the
 /// service.
+///
+/// @nodoc
 class GitHubRepositoryMetadata {
   /// The name of the GitHub repository.
   final String name;
@@ -6647,6 +6873,8 @@ class GitHubRepositoryMetadata {
 
 /// Defines the visibility level of provider resources. PRIVATE indicates
 /// restricted access, while PUBLIC indicates open access.
+///
+/// @nodoc
 class AccessType {
   static const private = AccessType._('PRIVATE');
   static const public = AccessType._('PUBLIC');
@@ -6671,6 +6899,8 @@ class AccessType {
 }
 
 /// Type of resource.
+///
+/// @nodoc
 class ResourceType {
   static const codeRepository = ResourceType._('CODE_REPOSITORY');
 
@@ -6694,6 +6924,8 @@ class ResourceType {
 }
 
 /// Contains summary information about a security finding.
+///
+/// @nodoc
 class FindingSummary {
   /// The unique identifier of the agent space associated with the finding.
   final String agentSpaceId;
@@ -6802,6 +7034,8 @@ class FindingSummary {
 }
 
 /// Finding confidence level.
+///
+/// @nodoc
 class ConfidenceLevel {
   static const falsePositive = ConfidenceLevel._('FALSE_POSITIVE');
   static const unconfirmed = ConfidenceLevel._('UNCONFIRMED');
@@ -6830,6 +7064,8 @@ class ConfidenceLevel {
 }
 
 /// Represents an endpoint discovered during a pentest job.
+///
+/// @nodoc
 class DiscoveredEndpoint {
   /// The unique identifier of the agent space associated with the discovered
   /// endpoint.
@@ -6896,6 +7132,8 @@ class DiscoveredEndpoint {
 }
 
 /// Contains summary information about a code review.
+///
+/// @nodoc
 class CodeReviewSummary {
   /// The unique identifier of the agent space that contains the code review.
   final String agentSpaceId;
@@ -6947,6 +7185,8 @@ class CodeReviewSummary {
 }
 
 /// Contains summary information about a code review job task.
+///
+/// @nodoc
 class CodeReviewJobTaskSummary {
   /// The unique identifier of the task.
   final String taskId;
@@ -7027,6 +7267,8 @@ class CodeReviewJobTaskSummary {
 }
 
 /// Contains summary information about a code review job.
+///
+/// @nodoc
 class CodeReviewJobSummary {
   /// The unique identifier of the code review associated with the job.
   final String codeReviewId;
@@ -7085,6 +7327,8 @@ class CodeReviewJobSummary {
 }
 
 /// Contains summary information about an artifact.
+///
+/// @nodoc
 class ArtifactSummary {
   /// The unique identifier of the artifact.
   final String artifactId;
@@ -7123,6 +7367,8 @@ class ArtifactSummary {
 }
 
 /// Supported file extension types for artifacts.
+///
+/// @nodoc
 class ArtifactType {
   static const txt = ArtifactType._('TXT');
   static const png = ArtifactType._('PNG');
@@ -7155,6 +7401,8 @@ class ArtifactType {
 
 /// Represents an artifact that provides context for security testing, such as
 /// documentation, diagrams, or configuration files.
+///
+/// @nodoc
 class Artifact {
   /// The content of the artifact.
   final String contents;
@@ -7187,6 +7435,8 @@ class Artifact {
 /// Represents a pentest configuration that defines the parameters for security
 /// testing, including target assets, risk type exclusions, and infrastructure
 /// settings.
+///
+/// @nodoc
 class Pentest {
   /// The unique identifier of the agent space that contains the pentest.
   final String agentSpaceId;
@@ -7303,6 +7553,8 @@ class Pentest {
 
 /// Represents an individual security test task within a pentest job. Each task
 /// targets a specific risk type or endpoint and executes independently.
+///
+/// @nodoc
 class Task {
   /// The unique identifier of the task.
   final String taskId;
@@ -7419,6 +7671,8 @@ class Task {
 
 /// The log location for a task, specifying where task execution logs are
 /// stored.
+///
+/// @nodoc
 class LogLocation {
   /// The CloudWatch Logs location for the task logs.
   final CloudWatchLog? cloudWatchLog;
@@ -7452,6 +7706,8 @@ class LogLocation {
 }
 
 /// Type of log storage.
+///
+/// @nodoc
 class LogType {
   static const cloudwatch = LogType._('CLOUDWATCH');
 
@@ -7475,6 +7731,8 @@ class LogType {
 }
 
 /// Represents a category assigned to a security testing task.
+///
+/// @nodoc
 class Category {
   /// Indicates whether this is the primary category for the task.
   final bool? isPrimary;
@@ -7507,6 +7765,8 @@ class Category {
 /// Represents a pentest job, which is an execution instance of a pentest. A
 /// pentest job progresses through preflight, static analysis, pentest, and
 /// finalizing steps.
+///
+/// @nodoc
 class PentestJob {
   /// The list of actors used during the pentest job.
   final List<Actor>? actors;
@@ -7729,6 +7989,8 @@ class PentestJob {
 }
 
 /// Contains error information for a pentest job that encountered an error.
+///
+/// @nodoc
 class ErrorInformation {
   /// The error code. Valid values include CLIENT_ERROR, INTERNAL_ERROR, and
   /// STOPPED_BY_USER.
@@ -7760,6 +8022,8 @@ class ErrorInformation {
 }
 
 /// Error code for pentest job failure.
+///
+/// @nodoc
 class ErrorCode {
   static const clientError = ErrorCode._('CLIENT_ERROR');
   static const internalError = ErrorCode._('INTERNAL_ERROR');
@@ -7786,6 +8050,8 @@ class ErrorCode {
 
 /// Contains contextual information about the execution of a pentest job, such
 /// as errors, warnings, or informational messages.
+///
+/// @nodoc
 class ExecutionContext {
   /// The context message.
   final String? context;
@@ -7825,6 +8091,8 @@ class ExecutionContext {
 }
 
 /// Category of execution context.
+///
+/// @nodoc
 class ContextType {
   static const error = ContextType._('ERROR');
   static const clientError = ContextType._('CLIENT_ERROR');
@@ -7852,6 +8120,8 @@ class ContextType {
 
 /// Represents a step in the pentest job execution pipeline. Steps include
 /// preflight, static analysis, pentest, and finalizing.
+///
+/// @nodoc
 class Step {
   /// The date and time the step was created, in UTC format.
   final DateTime? createdAt;
@@ -7897,6 +8167,8 @@ class Step {
 }
 
 /// Pentest job step status.
+///
+/// @nodoc
 class StepStatus {
   static const notStarted = StepStatus._('NOT_STARTED');
   static const inProgress = StepStatus._('IN_PROGRESS');
@@ -7926,6 +8198,8 @@ class StepStatus {
 /// Represents a security finding discovered during a pentest job. A finding
 /// contains details about a vulnerability, including its risk level,
 /// confidence, and remediation status.
+///
+/// @nodoc
 class Finding {
   /// The unique identifier of the agent space associated with the finding.
   final String agentSpaceId;
@@ -8115,6 +8389,8 @@ class Finding {
 
 /// Represents a code remediation task that was initiated to fix a security
 /// finding.
+///
+/// @nodoc
 class CodeRemediationTask {
   /// The current status of the code remediation task.
   final CodeRemediationTaskStatus status;
@@ -8159,6 +8435,8 @@ class CodeRemediationTask {
 
 /// Contains metadata for a verification script that can be used to reproduce a
 /// security finding.
+///
+/// @nodoc
 class VerificationScript {
   /// The list of environment variables required to run the verification script.
   final List<VerificationScriptEnvVar>? envVars;
@@ -8208,6 +8486,8 @@ class VerificationScript {
 }
 
 /// Represents an environment variable required to run a verification script.
+///
+/// @nodoc
 class VerificationScriptEnvVar {
   /// The name of the environment variable.
   final String? name;
@@ -8238,6 +8518,8 @@ class VerificationScriptEnvVar {
 }
 
 /// Represents a location in source code associated with a security finding.
+///
+/// @nodoc
 class CodeLocation {
   /// The absolute path to the file containing the code location.
   final String filePath;
@@ -8282,6 +8564,8 @@ class CodeLocation {
 }
 
 /// Code remediation task status.
+///
+/// @nodoc
 class CodeRemediationTaskStatus {
   static const inProgress = CodeRemediationTaskStatus._('IN_PROGRESS');
   static const completed = CodeRemediationTaskStatus._('COMPLETED');
@@ -8310,6 +8594,8 @@ class CodeRemediationTaskStatus {
 
 /// Contains details about a code remediation task, including links to the code
 /// diff and pull request.
+///
+/// @nodoc
 class CodeRemediationTaskDetails {
   /// The link to the code diff for the remediation.
   final String? codeDiffLink;
@@ -8349,6 +8635,8 @@ class CodeRemediationTaskDetails {
 /// Represents a code review configuration that defines the parameters for
 /// automated security-focused code analysis, including target assets and
 /// logging configuration.
+///
+/// @nodoc
 class CodeReview {
   /// The unique identifier of the agent space that contains the code review.
   final String agentSpaceId;
@@ -8434,6 +8722,8 @@ class CodeReview {
 
 /// Represents an individual security test task within a code review job. Each
 /// task targets a specific risk type and executes independently.
+///
+/// @nodoc
 class CodeReviewJobTask {
   /// The unique identifier of the task.
   final String taskId;
@@ -8542,6 +8832,8 @@ class CodeReviewJobTask {
 /// Represents a code review job, which is an execution instance of a code
 /// review. A code review job progresses through preflight, static analysis, and
 /// finalizing steps.
+///
+/// @nodoc
 class CodeReviewJob {
   /// The code remediation strategy for the code review job.
   final CodeRemediationStrategy? codeRemediationStrategy;
@@ -8693,6 +8985,8 @@ class CodeReviewJob {
 }
 
 /// Contains metadata about an artifact.
+///
+/// @nodoc
 class ArtifactMetadataItem {
   /// The unique identifier of the agent space that contains the artifact.
   final String agentSpaceId;
@@ -8737,6 +9031,8 @@ class ArtifactMetadataItem {
 }
 
 /// Contains information about a pentest that failed to delete.
+///
+/// @nodoc
 class DeletePentestFailure {
   /// The unique identifier of the pentest that failed to delete.
   final String? pentestId;
@@ -8767,6 +9063,8 @@ class DeletePentestFailure {
 }
 
 /// Contains information about a code review that failed to delete.
+///
+/// @nodoc
 class DeleteCodeReviewFailure {
   /// The unique identifier of the code review that failed to delete.
   final String? codeReviewId;
@@ -8796,31 +9094,37 @@ class DeleteCodeReviewFailure {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

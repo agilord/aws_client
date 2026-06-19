@@ -2199,6 +2199,7 @@ class Route53GlobalResolver {
   }
 }
 
+/// @nodoc
 class DisassociateHostedZoneOutput {
   /// The date and time when the association was originally created.
   final DateTime createdAt;
@@ -2273,6 +2274,7 @@ class DisassociateHostedZoneOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// An array of user-defined keys and optional values. These tags can be used
   /// for categorization and organization.
@@ -2297,6 +2299,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2309,6 +2312,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2321,6 +2325,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateAccessSourceOutput {
   /// The Amazon Resource Name (ARN) of the access source.
   final String arn;
@@ -2409,6 +2414,7 @@ class CreateAccessSourceOutput {
   }
 }
 
+/// @nodoc
 class GetAccessSourceOutput {
   /// The Amazon Resource Name (ARN) of the access source.
   final String arn;
@@ -2496,6 +2502,7 @@ class GetAccessSourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateAccessSourceOutput {
   /// The Amazon Resource Name (ARN) of the updated access source.
   final String arn;
@@ -2582,6 +2589,7 @@ class UpdateAccessSourceOutput {
   }
 }
 
+/// @nodoc
 class DeleteAccessSourceOutput {
   /// The Amazon Resource Name (ARN) of the deleted access source.
   final String arn;
@@ -2668,6 +2676,7 @@ class DeleteAccessSourceOutput {
   }
 }
 
+/// @nodoc
 class ListAccessSourcesOutput {
   /// An array containing information about the access sources, such as the ID,
   /// CIDR etc.
@@ -2703,6 +2712,7 @@ class ListAccessSourcesOutput {
   }
 }
 
+/// @nodoc
 class CreateAccessTokenOutput {
   /// The Amazon Resource Name (ARN) of the access token.
   final String arn;
@@ -2783,6 +2793,7 @@ class CreateAccessTokenOutput {
   }
 }
 
+/// @nodoc
 class GetAccessTokenOutput {
   /// The Amazon Resource Name (ARN) of the token.
   final String arn;
@@ -2877,6 +2888,7 @@ class GetAccessTokenOutput {
   }
 }
 
+/// @nodoc
 class UpdateAccessTokenOutput {
   /// The ID of the token.
   final String id;
@@ -2906,6 +2918,7 @@ class UpdateAccessTokenOutput {
   }
 }
 
+/// @nodoc
 class DeleteAccessTokenOutput {
   /// The date and time when the access token was deleted.
   final DateTime deletedAt;
@@ -2942,6 +2955,7 @@ class DeleteAccessTokenOutput {
   }
 }
 
+/// @nodoc
 class ListAccessTokensOutput {
   /// List of the tokens.
   final List<AccessTokenItem>? accessTokens;
@@ -2976,6 +2990,7 @@ class ListAccessTokensOutput {
   }
 }
 
+/// @nodoc
 class CreateDNSViewOutput {
   /// The Amazon Resource Name (ARN) of the DNS view.
   final String arn;
@@ -3081,6 +3096,7 @@ class CreateDNSViewOutput {
   }
 }
 
+/// @nodoc
 class GetDNSViewOutput {
   /// Amazon Resource Name (ARN) of the DNS view.
   final String arn;
@@ -3189,6 +3205,7 @@ class GetDNSViewOutput {
   }
 }
 
+/// @nodoc
 class UpdateDNSViewOutput {
   /// The Amazon Resource Name (ARN) of the updated DNS view.
   final String arn;
@@ -3293,6 +3310,7 @@ class UpdateDNSViewOutput {
   }
 }
 
+/// @nodoc
 class DeleteDNSViewOutput {
   /// The Amazon Resource Name (ARN) of the deleted DNS view.
   final String arn;
@@ -3398,6 +3416,7 @@ class DeleteDNSViewOutput {
   }
 }
 
+/// @nodoc
 class ListDNSViewsOutput {
   /// An array of information about the DNS views, such as whether DNSSEC is
   /// enabled, creation time, etc.
@@ -3433,6 +3452,7 @@ class ListDNSViewsOutput {
   }
 }
 
+/// @nodoc
 class DisableDNSViewOutput {
   /// The Amazon Resource Name (ARN) of the disabled DNS view.
   final String arn;
@@ -3537,6 +3557,7 @@ class DisableDNSViewOutput {
   }
 }
 
+/// @nodoc
 class EnableDNSViewOutput {
   /// The Amazon Resource Name (ARN) of the enabled DNS view.
   final String arn;
@@ -3641,6 +3662,7 @@ class EnableDNSViewOutput {
   }
 }
 
+/// @nodoc
 class CreateFirewallDomainListOutput {
   /// An Amazon Resource Name (ARN) for the domain list.
   final String arn;
@@ -3720,6 +3742,7 @@ class CreateFirewallDomainListOutput {
   }
 }
 
+/// @nodoc
 class GetFirewallDomainListOutput {
   /// Amazon Resource Name (ARN) of the domain list.
   final String arn;
@@ -3814,6 +3837,7 @@ class GetFirewallDomainListOutput {
   }
 }
 
+/// @nodoc
 class DeleteFirewallDomainListOutput {
   /// The Amazon Resource Name (ARN) of the deleted firewall domain list.
   final String arn;
@@ -3857,6 +3881,7 @@ class DeleteFirewallDomainListOutput {
   }
 }
 
+/// @nodoc
 class ListFirewallDomainListsOutput {
   /// List of the DNS Firewall domain lists.
   final List<FirewallDomainListsItem> firewallDomainLists;
@@ -3892,6 +3917,7 @@ class ListFirewallDomainListsOutput {
   }
 }
 
+/// @nodoc
 class ImportFirewallDomainsOutput {
   /// ID of the DNS Firewall domain list that you imported the domain list to.
   final String id;
@@ -3928,6 +3954,7 @@ class ImportFirewallDomainsOutput {
   }
 }
 
+/// @nodoc
 class ListFirewallDomainsOutput {
   /// List of domains in the specified domain list.
   final List<String> domains;
@@ -3962,6 +3989,7 @@ class ListFirewallDomainsOutput {
   }
 }
 
+/// @nodoc
 class UpdateFirewallDomainsOutput {
   /// The ID of the DNS Firewall domain list.
   final String id;
@@ -3998,6 +4026,7 @@ class UpdateFirewallDomainsOutput {
   }
 }
 
+/// @nodoc
 class CreateFirewallRuleOutput {
   /// The action that DNS Firewall takes on DNS queries that match this rule.
   final FirewallRuleAction action;
@@ -4143,6 +4172,7 @@ class CreateFirewallRuleOutput {
   }
 }
 
+/// @nodoc
 class GetFirewallRuleOutput {
   /// The action that DNS Firewall should take on a DNS query when it matches one
   /// of the domains in the rule's domain list, or a threat in a DNS Firewall
@@ -4301,6 +4331,7 @@ class GetFirewallRuleOutput {
   }
 }
 
+/// @nodoc
 class UpdateFirewallRuleOutput {
   /// The action that DNS Firewall should take on a DNS query when it matches one
   /// of the domains in the rule's domain list, or a threat in a DNS Firewall
@@ -4459,6 +4490,7 @@ class UpdateFirewallRuleOutput {
   }
 }
 
+/// @nodoc
 class DeleteFirewallRuleOutput {
   /// The action that was configured for the deleted firewall rule.
   final FirewallRuleAction action;
@@ -4608,6 +4640,7 @@ class DeleteFirewallRuleOutput {
   }
 }
 
+/// @nodoc
 class ListFirewallRulesOutput {
   /// List of the firewall rules and information about them.
   final List<FirewallRulesItem> firewallRules;
@@ -4642,6 +4675,7 @@ class ListFirewallRulesOutput {
   }
 }
 
+/// @nodoc
 class BatchCreateFirewallRuleOutput {
   /// High level information about the DNS Firewall rules that failed to create.
   final List<BatchCreateFirewallRuleOutputItem> failures;
@@ -4679,6 +4713,7 @@ class BatchCreateFirewallRuleOutput {
   }
 }
 
+/// @nodoc
 class BatchDeleteFirewallRuleOutput {
   /// High level information about the DNS Firewall rules that failed to delete.
   final List<BatchDeleteFirewallRuleOutputItem> failures;
@@ -4717,6 +4752,7 @@ class BatchDeleteFirewallRuleOutput {
   }
 }
 
+/// @nodoc
 class BatchUpdateFirewallRuleOutput {
   /// High level information about the DNS Firewall rules that failed to update.
   final List<BatchUpdateFirewallRuleOutputItem> failures;
@@ -4755,6 +4791,7 @@ class BatchUpdateFirewallRuleOutput {
   }
 }
 
+/// @nodoc
 class CreateGlobalResolverOutput {
   /// The Amazon Resource Name (ARN) of the Route 53 Global Resolver.
   final String arn;
@@ -4890,6 +4927,7 @@ class CreateGlobalResolverOutput {
   }
 }
 
+/// @nodoc
 class GetGlobalResolverOutput {
   /// The Amazon Resource Name (ARN) of the Global Resolver.
   final String arn;
@@ -5019,6 +5057,7 @@ class GetGlobalResolverOutput {
   }
 }
 
+/// @nodoc
 class UpdateGlobalResolverOutput {
   /// The Amazon Resource Name (ARN) of the Global Resolver.
   final String arn;
@@ -5148,6 +5187,7 @@ class UpdateGlobalResolverOutput {
   }
 }
 
+/// @nodoc
 class DeleteGlobalResolverOutput {
   /// The Amazon Resource Name (ARN) of the deleted Route 53 Global Resolver.
   final String arn;
@@ -5279,6 +5319,7 @@ class DeleteGlobalResolverOutput {
   }
 }
 
+/// @nodoc
 class ListGlobalResolversOutput {
   /// Paginated list of Global Resolvers.
   final List<GlobalResolversItem> globalResolvers;
@@ -5313,6 +5354,7 @@ class ListGlobalResolversOutput {
   }
 }
 
+/// @nodoc
 class AssociateHostedZoneOutput {
   /// The date and time the private hosted zone association was created.
   final DateTime createdAt;
@@ -5387,6 +5429,7 @@ class AssociateHostedZoneOutput {
   }
 }
 
+/// @nodoc
 class GetHostedZoneAssociationOutput {
   /// The time and date the private hosted zone association was created.
   final DateTime createdAt;
@@ -5460,6 +5503,7 @@ class GetHostedZoneAssociationOutput {
   }
 }
 
+/// @nodoc
 class UpdateHostedZoneAssociationOutput {
   /// The time and date the private hosted zone association was created.
   final DateTime createdAt;
@@ -5533,6 +5577,7 @@ class UpdateHostedZoneAssociationOutput {
   }
 }
 
+/// @nodoc
 class ListHostedZoneAssociationsOutput {
   /// List of the private hosted zone associations.
   final List<HostedZoneAssociationSummary> hostedZoneAssociations;
@@ -5569,6 +5614,7 @@ class ListHostedZoneAssociationsOutput {
   }
 }
 
+/// @nodoc
 class GetManagedFirewallDomainListOutput {
   /// ID of the Managed Domain List.
   final String id;
@@ -5614,6 +5660,7 @@ class GetManagedFirewallDomainListOutput {
   }
 }
 
+/// @nodoc
 class ListManagedFirewallDomainListsOutput {
   /// List of the Managed Domain Lists.
   final List<ManagedFirewallDomainListsItem> managedFirewallDomainLists;
@@ -5652,6 +5699,8 @@ class ListManagedFirewallDomainListsOutput {
 }
 
 /// Summary information about a managed firewall domain list.
+///
+/// @nodoc
 class ManagedFirewallDomainListsItem {
   /// The unique identifier of the managed firewall domain list.
   final String id;
@@ -5696,6 +5745,8 @@ class ManagedFirewallDomainListsItem {
 }
 
 /// Summary information about a hosted zone association.
+///
+/// @nodoc
 class HostedZoneAssociationSummary {
   /// The date and time when the hosted zone association was created.
   final DateTime createdAt;
@@ -5769,6 +5820,7 @@ class HostedZoneAssociationSummary {
   }
 }
 
+/// @nodoc
 class HostedZoneAssociationStatus {
   static const creating = HostedZoneAssociationStatus._('CREATING');
   static const operational = HostedZoneAssociationStatus._('OPERATIONAL');
@@ -5796,6 +5848,8 @@ class HostedZoneAssociationStatus {
 }
 
 /// Summary information about a global resolver.
+///
+/// @nodoc
 class GlobalResolversItem {
   /// The Amazon Resource Name (ARN) of the global resolver.
   final String arn;
@@ -5922,6 +5976,7 @@ class GlobalResolversItem {
   }
 }
 
+/// @nodoc
 class CRResourceStatus {
   static const creating = CRResourceStatus._('CREATING');
   static const operational = CRResourceStatus._('OPERATIONAL');
@@ -5948,6 +6003,7 @@ class CRResourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GlobalResolverIpAddressType {
   static const ipv4 = GlobalResolverIpAddressType._('IPV4');
   static const dualStack = GlobalResolverIpAddressType._('DUAL_STACK');
@@ -5974,6 +6030,8 @@ class GlobalResolverIpAddressType {
 }
 
 /// The result of updating a firewall rule in a batch operation.
+///
+/// @nodoc
 class BatchUpdateFirewallRuleOutputItem {
   /// The response code for the update operation.
   final int code;
@@ -6014,6 +6072,8 @@ class BatchUpdateFirewallRuleOutputItem {
 }
 
 /// Information about a firewall rule that was updated in a batch operation.
+///
+/// @nodoc
 class BatchUpdateFirewallRuleResult {
   /// The unique identifier of the updated firewall rule.
   final String id;
@@ -6169,6 +6229,7 @@ class BatchUpdateFirewallRuleResult {
   }
 }
 
+/// @nodoc
 class FirewallRuleAction {
   static const allow = FirewallRuleAction._('ALLOW');
   static const alert = FirewallRuleAction._('ALERT');
@@ -6195,6 +6256,7 @@ class FirewallRuleAction {
   String toString() => value;
 }
 
+/// @nodoc
 class BlockOverrideDnsQueryType {
   static const cname = BlockOverrideDnsQueryType._('CNAME');
 
@@ -6219,6 +6281,7 @@ class BlockOverrideDnsQueryType {
   String toString() => value;
 }
 
+/// @nodoc
 class FirewallBlockResponse {
   static const nodata = FirewallBlockResponse._('NODATA');
   static const nxdomain = FirewallBlockResponse._('NXDOMAIN');
@@ -6245,6 +6308,7 @@ class FirewallBlockResponse {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfidenceThreshold {
   static const low = ConfidenceThreshold._('LOW');
   static const medium = ConfidenceThreshold._('MEDIUM');
@@ -6271,6 +6335,7 @@ class ConfidenceThreshold {
   String toString() => value;
 }
 
+/// @nodoc
 class DnsAdvancedProtection {
   static const dga = DnsAdvancedProtection._('DGA');
   static const dnsTunneling = DnsAdvancedProtection._('DNS_TUNNELING');
@@ -6298,6 +6363,8 @@ class DnsAdvancedProtection {
 }
 
 /// Information for updating a firewall rule in a batch operation.
+///
+/// @nodoc
 class BatchUpdateFirewallRuleInputItem {
   /// The unique identifier of the firewall rule to update.
   final String firewallRuleId;
@@ -6379,6 +6446,8 @@ class BatchUpdateFirewallRuleInputItem {
 }
 
 /// The result of deleting a firewall rule in a batch operation.
+///
+/// @nodoc
 class BatchDeleteFirewallRuleOutputItem {
   /// The response code for the delete operation.
   final int code;
@@ -6419,6 +6488,8 @@ class BatchDeleteFirewallRuleOutputItem {
 }
 
 /// Information about a firewall rule that was deleted in a batch operation.
+///
+/// @nodoc
 class BatchDeleteFirewallRuleResult {
   /// The unique identifier of the deleted firewall rule.
   final String id;
@@ -6463,6 +6534,8 @@ class BatchDeleteFirewallRuleResult {
 }
 
 /// Information about a DNS Firewall rule to delete in a batch operation.
+///
+/// @nodoc
 class BatchDeleteFirewallRuleInputItem {
   /// The ID of the DNS Firewall rule to delete.
   final String firewallRuleId;
@@ -6481,6 +6554,8 @@ class BatchDeleteFirewallRuleInputItem {
 
 /// Information about the result of creating a DNS Firewall rule in a batch
 /// operation.
+///
+/// @nodoc
 class BatchCreateFirewallRuleOutputItem {
   /// The HTTP response code for the batch operation result.
   final int code;
@@ -6522,6 +6597,8 @@ class BatchCreateFirewallRuleOutputItem {
 }
 
 /// The result of creating a firewall rule in a batch operation.
+///
+/// @nodoc
 class BatchCreateFirewallRuleResult {
   /// The action configured for the created firewall rule.
   final FirewallRuleAction action;
@@ -6687,6 +6764,8 @@ class BatchCreateFirewallRuleResult {
 }
 
 /// Information about a DNS Firewall rule to create in a batch operation.
+///
+/// @nodoc
 class BatchCreateFirewallRuleInputItem {
   /// The action to take when a DNS query matches the firewall rule.
   final FirewallRuleAction action;
@@ -6787,6 +6866,8 @@ class BatchCreateFirewallRuleInputItem {
 }
 
 /// Summary information about a firewall rule.
+///
+/// @nodoc
 class FirewallRulesItem {
   /// The action configured for the firewall rule.
   final FirewallRuleAction action;
@@ -6932,6 +7013,8 @@ class FirewallRulesItem {
 }
 
 /// Summary information about a firewall domain list.
+///
+/// @nodoc
 class FirewallDomainListsItem {
   /// The Amazon Resource Name (ARN) of the firewall domain list.
   final String arn;
@@ -7004,6 +7087,7 @@ class FirewallDomainListsItem {
   }
 }
 
+/// @nodoc
 class DnsSecValidationType {
   static const enabled = DnsSecValidationType._('ENABLED');
   static const disabled = DnsSecValidationType._('DISABLED');
@@ -7029,6 +7113,7 @@ class DnsSecValidationType {
   String toString() => value;
 }
 
+/// @nodoc
 class EdnsClientSubnetType {
   static const enabled = EdnsClientSubnetType._('ENABLED');
   static const disabled = EdnsClientSubnetType._('DISABLED');
@@ -7054,6 +7139,7 @@ class EdnsClientSubnetType {
   String toString() => value;
 }
 
+/// @nodoc
 class FirewallRulesFailOpenType {
   static const enabled = FirewallRulesFailOpenType._('ENABLED');
   static const disabled = FirewallRulesFailOpenType._('DISABLED');
@@ -7079,6 +7165,7 @@ class FirewallRulesFailOpenType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProfileResourceStatus {
   static const creating = ProfileResourceStatus._('CREATING');
   static const operational = ProfileResourceStatus._('OPERATIONAL');
@@ -7118,6 +7205,8 @@ class ProfileResourceStatus {
 }
 
 /// Summary information about a DNS view.
+///
+/// @nodoc
 class DNSViewSummary {
   /// The Amazon Resource Name (ARN) of the DNS view.
   final String arn;
@@ -7222,6 +7311,8 @@ class DNSViewSummary {
 }
 
 /// Summary information about a token.
+///
+/// @nodoc
 class AccessTokenItem {
   /// The Amazon Resource Name (ARN) of the token.
   final String arn;
@@ -7300,6 +7391,7 @@ class AccessTokenItem {
   }
 }
 
+/// @nodoc
 class TokenStatus {
   static const creating = TokenStatus._('CREATING');
   static const operational = TokenStatus._('OPERATIONAL');
@@ -7325,6 +7417,8 @@ class TokenStatus {
 }
 
 /// Summary information about an access source.
+///
+/// @nodoc
 class AccessSourcesItem {
   /// The Amazon Resource Name (ARN) of the access source.
   final String arn;
@@ -7411,6 +7505,7 @@ class AccessSourcesItem {
   }
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('IPV4');
   static const ipv6 = IpAddressType._('IPV6');
@@ -7435,6 +7530,7 @@ class IpAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class DnsProtocol {
   static const do53 = DnsProtocol._('DO53');
   static const doh = DnsProtocol._('DOH');
@@ -7459,26 +7555,31 @@ class DnsProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -7487,11 +7588,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -4677,6 +4677,7 @@ class QConnect {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
@@ -4700,6 +4701,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -4712,6 +4714,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -4724,6 +4727,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateAssistantResponse {
   /// Information about the assistant.
   final AssistantData? assistant;
@@ -4748,6 +4752,7 @@ class CreateAssistantResponse {
   }
 }
 
+/// @nodoc
 class GetAssistantResponse {
   /// Information about the assistant.
   final AssistantData? assistant;
@@ -4772,6 +4777,7 @@ class GetAssistantResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssistantResponse {
   DeleteAssistantResponse();
 
@@ -4784,6 +4790,7 @@ class DeleteAssistantResponse {
   }
 }
 
+/// @nodoc
 class ListAssistantsResponse {
   /// Information about the assistants.
   final List<AssistantSummary> assistantSummaries;
@@ -4817,6 +4824,7 @@ class ListAssistantsResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationsResponse {
   /// The recommendations.
   final List<RecommendationData> recommendations;
@@ -4852,6 +4860,7 @@ class GetRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListModelsResponse {
   /// The summaries of the models available to the assistant.
   final List<ModelSummary> modelSummaries;
@@ -4885,6 +4894,7 @@ class ListModelsResponse {
   }
 }
 
+/// @nodoc
 class NotifyRecommendationsReceivedResponse {
   /// The identifiers of recommendations that are causing errors.
   final List<NotifyRecommendationsReceivedError>? errors;
@@ -4922,6 +4932,7 @@ class NotifyRecommendationsReceivedResponse {
   }
 }
 
+/// @nodoc
 class PutFeedbackResponse {
   /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
   final String assistantArn;
@@ -4974,6 +4985,7 @@ class PutFeedbackResponse {
   }
 }
 
+/// @nodoc
 class QueryAssistantResponse {
   /// The results of the query.
   final List<ResultData> results;
@@ -5007,6 +5019,7 @@ class QueryAssistantResponse {
   }
 }
 
+/// @nodoc
 class RemoveAssistantAIAgentResponse {
   RemoveAssistantAIAgentResponse();
 
@@ -5019,6 +5032,7 @@ class RemoveAssistantAIAgentResponse {
   }
 }
 
+/// @nodoc
 class RetrieveResponse {
   /// The results of the content retrieval operation.
   final List<RetrieveResult> results;
@@ -5044,6 +5058,7 @@ class RetrieveResponse {
   }
 }
 
+/// @nodoc
 class SearchSessionsResponse {
   /// Summary information about the sessions.
   final List<SessionSummary> sessionSummaries;
@@ -5077,6 +5092,7 @@ class SearchSessionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssistantAIAgentResponse {
   final AssistantData? assistant;
 
@@ -5100,6 +5116,7 @@ class UpdateAssistantAIAgentResponse {
   }
 }
 
+/// @nodoc
 class CreateAIAgentResponse {
   /// The data of the created AI Agent.
   final AIAgentData? aiAgent;
@@ -5124,6 +5141,7 @@ class CreateAIAgentResponse {
   }
 }
 
+/// @nodoc
 class GetAIAgentResponse {
   /// The data of the AI Agent.
   final AIAgentData? aiAgent;
@@ -5157,6 +5175,7 @@ class GetAIAgentResponse {
   }
 }
 
+/// @nodoc
 class UpdateAIAgentResponse {
   /// The data of the updated Amazon Q in Connect AI Agent.
   final AIAgentData? aiAgent;
@@ -5181,6 +5200,7 @@ class UpdateAIAgentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIAgentResponse {
   DeleteAIAgentResponse();
 
@@ -5193,6 +5213,7 @@ class DeleteAIAgentResponse {
   }
 }
 
+/// @nodoc
 class ListAIAgentsResponse {
   /// The summaries of AI Agents.
   final List<AIAgentSummary> aiAgentSummaries;
@@ -5226,6 +5247,7 @@ class ListAIAgentsResponse {
   }
 }
 
+/// @nodoc
 class CreateAIAgentVersionResponse {
   /// The data of the AI Agent version.
   final AIAgentData? aiAgent;
@@ -5257,6 +5279,7 @@ class CreateAIAgentVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIAgentVersionResponse {
   DeleteAIAgentVersionResponse();
 
@@ -5269,6 +5292,7 @@ class DeleteAIAgentVersionResponse {
   }
 }
 
+/// @nodoc
 class ListAIAgentVersionsResponse {
   /// The summaries of AI Agent versions.
   final List<AIAgentVersionSummary> aiAgentVersionSummaries;
@@ -5303,6 +5327,7 @@ class ListAIAgentVersionsResponse {
   }
 }
 
+/// @nodoc
 class CreateAIGuardrailResponse {
   /// The data of the AI Guardrail.
   final AIGuardrailData? aiGuardrail;
@@ -5328,6 +5353,7 @@ class CreateAIGuardrailResponse {
   }
 }
 
+/// @nodoc
 class GetAIGuardrailResponse {
   /// The data of the AI Guardrail.
   final AIGuardrailData? aiGuardrail;
@@ -5362,6 +5388,7 @@ class GetAIGuardrailResponse {
   }
 }
 
+/// @nodoc
 class UpdateAIGuardrailResponse {
   /// The data of the updated Amazon Q in Connect AI Guardrail.
   final AIGuardrailData? aiGuardrail;
@@ -5387,6 +5414,7 @@ class UpdateAIGuardrailResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIGuardrailResponse {
   DeleteAIGuardrailResponse();
 
@@ -5399,6 +5427,7 @@ class DeleteAIGuardrailResponse {
   }
 }
 
+/// @nodoc
 class ListAIGuardrailsResponse {
   /// The summaries of the AI Guardrails.
   final List<AIGuardrailSummary> aiGuardrailSummaries;
@@ -5433,6 +5462,7 @@ class ListAIGuardrailsResponse {
   }
 }
 
+/// @nodoc
 class CreateAIGuardrailVersionResponse {
   /// The data of the AI Guardrail version.
   final AIGuardrailData? aiGuardrail;
@@ -5465,6 +5495,7 @@ class CreateAIGuardrailVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIGuardrailVersionResponse {
   DeleteAIGuardrailVersionResponse();
 
@@ -5477,6 +5508,7 @@ class DeleteAIGuardrailVersionResponse {
   }
 }
 
+/// @nodoc
 class ListAIGuardrailVersionsResponse {
   /// The summaries of the AI Guardrail versions.
   final List<AIGuardrailVersionSummary> aiGuardrailVersionSummaries;
@@ -5512,6 +5544,7 @@ class ListAIGuardrailVersionsResponse {
   }
 }
 
+/// @nodoc
 class CreateAIPromptResponse {
   /// The data of the AI Prompt.
   final AIPromptData? aiPrompt;
@@ -5536,6 +5569,7 @@ class CreateAIPromptResponse {
   }
 }
 
+/// @nodoc
 class GetAIPromptResponse {
   /// The data of the AI Prompt.
   final AIPromptData? aiPrompt;
@@ -5569,6 +5603,7 @@ class GetAIPromptResponse {
   }
 }
 
+/// @nodoc
 class UpdateAIPromptResponse {
   /// The data of the updated Amazon Q in Connect AI Prompt.
   final AIPromptData? aiPrompt;
@@ -5593,6 +5628,7 @@ class UpdateAIPromptResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIPromptResponse {
   DeleteAIPromptResponse();
 
@@ -5605,6 +5641,7 @@ class DeleteAIPromptResponse {
   }
 }
 
+/// @nodoc
 class ListAIPromptsResponse {
   /// The summaries of the AI Prompts.
   final List<AIPromptSummary> aiPromptSummaries;
@@ -5638,6 +5675,7 @@ class ListAIPromptsResponse {
   }
 }
 
+/// @nodoc
 class CreateAIPromptVersionResponse {
   /// The data of the AI Prompt version.
   final AIPromptData? aiPrompt;
@@ -5669,6 +5707,7 @@ class CreateAIPromptVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAIPromptVersionResponse {
   DeleteAIPromptVersionResponse();
 
@@ -5681,6 +5720,7 @@ class DeleteAIPromptVersionResponse {
   }
 }
 
+/// @nodoc
 class ListAIPromptVersionsResponse {
   /// The summaries of the AI Prompt versions.
   final List<AIPromptVersionSummary> aiPromptVersionSummaries;
@@ -5716,6 +5756,7 @@ class ListAIPromptVersionsResponse {
   }
 }
 
+/// @nodoc
 class CreateAssistantAssociationResponse {
   /// The assistant association.
   final AssistantAssociationData? assistantAssociation;
@@ -5743,6 +5784,7 @@ class CreateAssistantAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetAssistantAssociationResponse {
   /// The assistant association.
   final AssistantAssociationData? assistantAssociation;
@@ -5769,6 +5811,7 @@ class GetAssistantAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssistantAssociationResponse {
   DeleteAssistantAssociationResponse();
 
@@ -5781,6 +5824,7 @@ class DeleteAssistantAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListAssistantAssociationsResponse {
   /// Summary information about assistant associations.
   final List<AssistantAssociationSummary> assistantAssociationSummaries;
@@ -5818,6 +5862,7 @@ class ListAssistantAssociationsResponse {
   }
 }
 
+/// @nodoc
 class CreateSessionResponse {
   /// The session.
   final SessionData? session;
@@ -5842,6 +5887,7 @@ class CreateSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// The session.
   final SessionData? session;
@@ -5866,6 +5912,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class UpdateSessionResponse {
   final SessionData? session;
 
@@ -5889,6 +5936,7 @@ class UpdateSessionResponse {
   }
 }
 
+/// @nodoc
 class GetNextMessageResponse {
   /// The state of current conversation.
   final ConversationState conversationState;
@@ -5962,6 +6010,7 @@ class GetNextMessageResponse {
   }
 }
 
+/// @nodoc
 class ListMessagesResponse {
   /// The message information.
   final List<MessageOutput> messages;
@@ -5995,6 +6044,7 @@ class ListMessagesResponse {
   }
 }
 
+/// @nodoc
 class ListSpansResponse {
   /// Array of span objects for the session
   final List<Span> spans;
@@ -6027,6 +6077,7 @@ class ListSpansResponse {
   }
 }
 
+/// @nodoc
 class SendMessageResponse {
   /// The token for the next message, used by GetNextMessage.
   final String nextMessageToken;
@@ -6068,6 +6119,7 @@ class SendMessageResponse {
   }
 }
 
+/// @nodoc
 class UpdateSessionDataResponse {
   /// Data stored in the session.
   final List<RuntimeSessionData> data;
@@ -6116,6 +6168,7 @@ class UpdateSessionDataResponse {
   }
 }
 
+/// @nodoc
 class CreateKnowledgeBaseResponse {
   /// The knowledge base.
   final KnowledgeBaseData? knowledgeBase;
@@ -6141,6 +6194,7 @@ class CreateKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class GetKnowledgeBaseResponse {
   /// The knowledge base.
   final KnowledgeBaseData? knowledgeBase;
@@ -6166,6 +6220,7 @@ class GetKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteKnowledgeBaseResponse {
   DeleteKnowledgeBaseResponse();
 
@@ -6178,6 +6233,7 @@ class DeleteKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class ListKnowledgeBasesResponse {
   /// Information about the knowledge bases.
   final List<KnowledgeBaseSummary> knowledgeBaseSummaries;
@@ -6212,6 +6268,7 @@ class ListKnowledgeBasesResponse {
   }
 }
 
+/// @nodoc
 class DeleteImportJobResponse {
   DeleteImportJobResponse();
 
@@ -6224,6 +6281,7 @@ class DeleteImportJobResponse {
   }
 }
 
+/// @nodoc
 class GetImportJobResponse {
   /// The import job.
   final ImportJobData? importJob;
@@ -6248,6 +6306,7 @@ class GetImportJobResponse {
   }
 }
 
+/// @nodoc
 class ListImportJobsResponse {
   /// Summary information about the import jobs.
   final List<ImportJobSummary> importJobSummaries;
@@ -6281,6 +6340,7 @@ class ListImportJobsResponse {
   }
 }
 
+/// @nodoc
 class RemoveKnowledgeBaseTemplateUriResponse {
   RemoveKnowledgeBaseTemplateUriResponse();
 
@@ -6294,6 +6354,7 @@ class RemoveKnowledgeBaseTemplateUriResponse {
   }
 }
 
+/// @nodoc
 class SearchContentResponse {
   /// Summary information about the content.
   final List<ContentSummary> contentSummaries;
@@ -6327,6 +6388,7 @@ class SearchContentResponse {
   }
 }
 
+/// @nodoc
 class SearchMessageTemplatesResponse {
   /// The results of the message template search.
   final List<MessageTemplateSearchResultData> results;
@@ -6361,6 +6423,7 @@ class SearchMessageTemplatesResponse {
   }
 }
 
+/// @nodoc
 class SearchQuickResponsesResponse {
   /// The results of the quick response search.
   final List<QuickResponseSearchResultData> results;
@@ -6395,6 +6458,7 @@ class SearchQuickResponsesResponse {
   }
 }
 
+/// @nodoc
 class StartContentUploadResponse {
   /// The headers to include in the upload.
   final Map<String, String> headersToInclude;
@@ -6440,6 +6504,7 @@ class StartContentUploadResponse {
   }
 }
 
+/// @nodoc
 class StartImportJobResponse {
   /// The import job.
   final ImportJobData? importJob;
@@ -6464,6 +6529,7 @@ class StartImportJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateKnowledgeBaseTemplateUriResponse {
   /// The knowledge base to update.
   final KnowledgeBaseData? knowledgeBase;
@@ -6490,6 +6556,7 @@ class UpdateKnowledgeBaseTemplateUriResponse {
   }
 }
 
+/// @nodoc
 class CreateContentResponse {
   /// The content.
   final ContentData? content;
@@ -6514,6 +6581,7 @@ class CreateContentResponse {
   }
 }
 
+/// @nodoc
 class GetContentResponse {
   /// The content.
   final ContentData? content;
@@ -6538,6 +6606,7 @@ class GetContentResponse {
   }
 }
 
+/// @nodoc
 class UpdateContentResponse {
   /// The content.
   final ContentData? content;
@@ -6562,6 +6631,7 @@ class UpdateContentResponse {
   }
 }
 
+/// @nodoc
 class DeleteContentResponse {
   DeleteContentResponse();
 
@@ -6574,6 +6644,7 @@ class DeleteContentResponse {
   }
 }
 
+/// @nodoc
 class ListContentsResponse {
   /// Information about the content.
   final List<ContentSummary> contentSummaries;
@@ -6607,6 +6678,7 @@ class ListContentsResponse {
   }
 }
 
+/// @nodoc
 class GetContentSummaryResponse {
   /// The content summary.
   final ContentSummary? contentSummary;
@@ -6632,6 +6704,7 @@ class GetContentSummaryResponse {
   }
 }
 
+/// @nodoc
 class CreateContentAssociationResponse {
   /// The association between Amazon Q in Connect content and another resource.
   final ContentAssociationData? contentAssociation;
@@ -6657,6 +6730,7 @@ class CreateContentAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetContentAssociationResponse {
   /// The association between Amazon Q in Connect content and another resource.
   final ContentAssociationData? contentAssociation;
@@ -6682,6 +6756,7 @@ class GetContentAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteContentAssociationResponse {
   DeleteContentAssociationResponse();
 
@@ -6694,6 +6769,7 @@ class DeleteContentAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListContentAssociationsResponse {
   /// Summary information about content associations.
   final List<ContentAssociationSummary> contentAssociationSummaries;
@@ -6729,6 +6805,7 @@ class ListContentAssociationsResponse {
   }
 }
 
+/// @nodoc
 class CreateMessageTemplateResponse {
   /// The message template.
   final MessageTemplateData? messageTemplate;
@@ -6754,6 +6831,7 @@ class CreateMessageTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetMessageTemplateResponse {
   /// The message template.
   final ExtendedMessageTemplateData? messageTemplate;
@@ -6779,6 +6857,7 @@ class GetMessageTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateMessageTemplateResponse {
   /// The message template.
   final MessageTemplateData? messageTemplate;
@@ -6804,6 +6883,7 @@ class UpdateMessageTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteMessageTemplateResponse {
   DeleteMessageTemplateResponse();
 
@@ -6816,6 +6896,7 @@ class DeleteMessageTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListMessageTemplatesResponse {
   /// Summary information about the message template.
   final List<MessageTemplateSummary> messageTemplateSummaries;
@@ -6851,6 +6932,7 @@ class ListMessageTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ActivateMessageTemplateResponse {
   /// The Amazon Resource Name (ARN) of the message template.
   final String messageTemplateArn;
@@ -6887,6 +6969,7 @@ class ActivateMessageTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateMessageTemplateAttachmentResponse {
   /// The message template attachment.
   final MessageTemplateAttachment? attachment;
@@ -6913,6 +6996,7 @@ class CreateMessageTemplateAttachmentResponse {
   }
 }
 
+/// @nodoc
 class CreateMessageTemplateVersionResponse {
   /// The message template.
   final ExtendedMessageTemplateData? messageTemplate;
@@ -6939,6 +7023,7 @@ class CreateMessageTemplateVersionResponse {
   }
 }
 
+/// @nodoc
 class DeactivateMessageTemplateResponse {
   /// The Amazon Resource Name (ARN) of the message template.
   final String messageTemplateArn;
@@ -6977,6 +7062,7 @@ class DeactivateMessageTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteMessageTemplateAttachmentResponse {
   DeleteMessageTemplateAttachmentResponse();
 
@@ -6990,6 +7076,7 @@ class DeleteMessageTemplateAttachmentResponse {
   }
 }
 
+/// @nodoc
 class ListMessageTemplateVersionsResponse {
   /// Summary information about the versions of a message template.
   final List<MessageTemplateVersionSummary> messageTemplateVersionSummaries;
@@ -7028,6 +7115,7 @@ class ListMessageTemplateVersionsResponse {
   }
 }
 
+/// @nodoc
 class RenderMessageTemplateResponse {
   /// The message template attachments.
   final List<MessageTemplateAttachment>? attachments;
@@ -7086,6 +7174,7 @@ class RenderMessageTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateMessageTemplateMetadataResponse {
   /// The message template.
   final MessageTemplateData? messageTemplate;
@@ -7112,6 +7201,7 @@ class UpdateMessageTemplateMetadataResponse {
   }
 }
 
+/// @nodoc
 class CreateQuickResponseResponse {
   /// The quick response.
   final QuickResponseData? quickResponse;
@@ -7137,6 +7227,7 @@ class CreateQuickResponseResponse {
   }
 }
 
+/// @nodoc
 class GetQuickResponseResponse {
   /// The quick response.
   final QuickResponseData? quickResponse;
@@ -7162,6 +7253,7 @@ class GetQuickResponseResponse {
   }
 }
 
+/// @nodoc
 class UpdateQuickResponseResponse {
   /// The quick response.
   final QuickResponseData? quickResponse;
@@ -7187,6 +7279,7 @@ class UpdateQuickResponseResponse {
   }
 }
 
+/// @nodoc
 class DeleteQuickResponseResponse {
   DeleteQuickResponseResponse();
 
@@ -7199,6 +7292,7 @@ class DeleteQuickResponseResponse {
   }
 }
 
+/// @nodoc
 class ListQuickResponsesResponse {
   /// Summary information about the quick responses.
   final List<QuickResponseSummary> quickResponseSummaries;
@@ -7234,6 +7328,8 @@ class ListQuickResponsesResponse {
 }
 
 /// The summary information about the quick response.
+///
+/// @nodoc
 class QuickResponseSummary {
   /// The media type of the quick response content.
   ///
@@ -7365,6 +7461,7 @@ class QuickResponseSummary {
   }
 }
 
+/// @nodoc
 class QuickResponseStatus {
   static const createInProgress = QuickResponseStatus._('CREATE_IN_PROGRESS');
   static const createFailed = QuickResponseStatus._('CREATE_FAILED');
@@ -7406,6 +7503,8 @@ class QuickResponseStatus {
 }
 
 /// Information about the quick response.
+///
+/// @nodoc
 class QuickResponseData {
   /// The media type of the quick response content.
   ///
@@ -7581,6 +7680,8 @@ class QuickResponseData {
 }
 
 /// The content of the quick response stored in different media types.
+///
+/// @nodoc
 class QuickResponseContents {
   final QuickResponseContentProvider? markdown;
   final QuickResponseContentProvider? plainText;
@@ -7614,6 +7715,8 @@ class QuickResponseContents {
 }
 
 /// The configuration information of the grouping of Amazon Q in Connect users.
+///
+/// @nodoc
 class GroupingConfiguration {
   /// The criteria used for grouping Amazon Q in Connect users.
   ///
@@ -7669,6 +7772,8 @@ class GroupingConfiguration {
 }
 
 /// The container quick response content.
+///
+/// @nodoc
 class QuickResponseContentProvider {
   /// The content of the quick response.
   final String? content;
@@ -7692,6 +7797,8 @@ class QuickResponseContentProvider {
 }
 
 /// The container of quick response data.
+///
+/// @nodoc
 class QuickResponseDataProvider {
   /// The content of the quick response.
   final String? content;
@@ -7709,6 +7816,8 @@ class QuickResponseDataProvider {
 }
 
 /// The data of a message template.
+///
+/// @nodoc
 class MessageTemplateData {
   /// The channel subtype this message template applies to.
   final ChannelSubtype channelSubtype;
@@ -7891,6 +8000,7 @@ class MessageTemplateData {
   }
 }
 
+/// @nodoc
 class ChannelSubtype {
   static const email = ChannelSubtype._('EMAIL');
   static const sms = ChannelSubtype._('SMS');
@@ -7918,6 +8028,8 @@ class ChannelSubtype {
 }
 
 /// The container of message template content.
+///
+/// @nodoc
 class MessageTemplateContentProvider {
   /// The content of the message template that applies to the email channel
   /// subtype.
@@ -7974,6 +8086,8 @@ class MessageTemplateContentProvider {
 }
 
 /// The container of message template source configuration summary.
+///
+/// @nodoc
 class MessageTemplateSourceConfigurationSummary {
   /// The sourceConfiguration summary of the message template that applies to the
   /// WHATSAPP channel subtype.
@@ -8002,6 +8116,8 @@ class MessageTemplateSourceConfigurationSummary {
 }
 
 /// The attributes that are used with the message template.
+///
+/// @nodoc
 class MessageTemplateAttributes {
   /// The agent attributes that are used with the message template.
   final AgentAttributes? agentAttributes;
@@ -8056,6 +8172,7 @@ class MessageTemplateAttributes {
   }
 }
 
+/// @nodoc
 class MessageTemplateAttributeType {
   static const system = MessageTemplateAttributeType._('SYSTEM');
   static const agent = MessageTemplateAttributeType._('AGENT');
@@ -8085,6 +8202,8 @@ class MessageTemplateAttributeType {
 }
 
 /// The system attributes that are used with the message template.
+///
+/// @nodoc
 class SystemAttributes {
   /// The CustomerEndpoint attribute.
   final SystemEndpointAttributes? customerEndpoint;
@@ -8128,6 +8247,8 @@ class SystemAttributes {
 }
 
 /// Information about an agent.
+///
+/// @nodoc
 class AgentAttributes {
   /// The agent’s first name as entered in their Amazon Connect user account.
   final String? firstName;
@@ -8158,6 +8279,8 @@ class AgentAttributes {
 }
 
 /// The customer profile attributes that are used with the message template.
+///
+/// @nodoc
 class CustomerProfileAttributes {
   /// A unique account number that you have given to the customer.
   final String? accountNumber;
@@ -8586,6 +8709,8 @@ class CustomerProfileAttributes {
 }
 
 /// The system endpoint attributes that are used with the message template.
+///
+/// @nodoc
 class SystemEndpointAttributes {
   /// The customer's phone number if used with <code>customerEndpoint</code>, or
   /// the number the customer dialed to call your contact center if used with
@@ -8611,6 +8736,8 @@ class SystemEndpointAttributes {
 }
 
 /// Configuration information about the external data source.
+///
+/// @nodoc
 class WhatsAppMessageTemplateSourceConfigurationSummary {
   /// The ID of the End User Messaging WhatsApp Business Account to associate with
   /// this template.
@@ -8682,6 +8809,7 @@ class WhatsAppMessageTemplateSourceConfigurationSummary {
   }
 }
 
+/// @nodoc
 class WhatsAppSourceConfigurationStatus {
   static const valid = WhatsAppSourceConfigurationStatus._('VALID');
   static const invalid = WhatsAppSourceConfigurationStatus._('INVALID');
@@ -8710,6 +8838,8 @@ class WhatsAppSourceConfigurationStatus {
 
 /// The content of the message template that applies to the email channel
 /// subtype.
+///
+/// @nodoc
 class EmailMessageTemplateContent {
   /// The body to use in email messages.
   final EmailMessageTemplateContentBody? body;
@@ -8753,6 +8883,8 @@ class EmailMessageTemplateContent {
 }
 
 /// The content of the message template that applies to the SMS channel subtype.
+///
+/// @nodoc
 class SMSMessageTemplateContent {
   /// The body to use in SMS messages.
   final SMSMessageTemplateContentBody? body;
@@ -8780,6 +8912,8 @@ class SMSMessageTemplateContent {
 
 /// The content of the message template that applies to the WHATSAPP channel
 /// subtype.
+///
+/// @nodoc
 class WhatsAppMessageTemplateContent {
   /// The data.
   final String? data;
@@ -8804,6 +8938,8 @@ class WhatsAppMessageTemplateContent {
 
 /// The content of the message template that applies to the push channel
 /// subtype.
+///
+/// @nodoc
 class PushMessageTemplateContent {
   /// The content of the message template that applies to ADM (Amazon Device
   /// Messaging) notification service.
@@ -8865,6 +9001,8 @@ class PushMessageTemplateContent {
 
 /// The content of the push message template that applies to ADM (Amazon Device
 /// Messaging) notification service.
+///
+/// @nodoc
 class PushADMMessageTemplateContent {
   /// The action to occur if a recipient taps a push notification that is based on
   /// the message template. Valid values are:
@@ -8980,6 +9118,8 @@ class PushADMMessageTemplateContent {
 
 /// The content of the push message template that applies to APNS (Apple Push
 /// Notification service) notification service.
+///
+/// @nodoc
 class PushAPNSMessageTemplateContent {
   /// The action to occur if a recipient taps a push notification that is based on
   /// the message template. Valid values are:
@@ -9082,6 +9222,8 @@ class PushAPNSMessageTemplateContent {
 
 /// The content of the push message template that applies to FCM (Firebase Cloud
 /// Messaging) notification service.
+///
+/// @nodoc
 class PushFCMMessageTemplateContent {
   /// The action to occur if a recipient taps a push notification that is based on
   /// the message template. Valid values are:
@@ -9197,6 +9339,8 @@ class PushFCMMessageTemplateContent {
 
 /// The content of the push message template that applies to Baidu notification
 /// service.
+///
+/// @nodoc
 class PushBaiduMessageTemplateContent {
   /// The action to occur if a recipient taps a push notification that is based on
   /// the message template. Valid values are:
@@ -9311,6 +9455,8 @@ class PushBaiduMessageTemplateContent {
 }
 
 /// The container of the message template body.
+///
+/// @nodoc
 class MessageTemplateBodyContentProvider {
   /// The content of the message template.
   final String? content;
@@ -9334,6 +9480,7 @@ class MessageTemplateBodyContentProvider {
   }
 }
 
+/// @nodoc
 class PushMessageAction {
   static const openApp = PushMessageAction._('OPEN_APP');
   static const deepLink = PushMessageAction._('DEEP_LINK');
@@ -9360,6 +9507,8 @@ class PushMessageAction {
 }
 
 /// The body to use in SMS messages.
+///
+/// @nodoc
 class SMSMessageTemplateContentBody {
   /// The message body to use in SMS messages.
   final MessageTemplateBodyContentProvider? plainText;
@@ -9386,6 +9535,8 @@ class SMSMessageTemplateContentBody {
 }
 
 /// The body to use in email messages.
+///
+/// @nodoc
 class EmailMessageTemplateContentBody {
   /// The message body, in HTML format, to use in email messages that are based on
   /// the message template. We recommend using HTML format for email clients that
@@ -9428,6 +9579,8 @@ class EmailMessageTemplateContentBody {
 }
 
 /// The email header to include in email messages.
+///
+/// @nodoc
 class EmailHeader {
   /// The name of the email header.
   final String? name;
@@ -9458,6 +9611,8 @@ class EmailHeader {
 }
 
 /// Information about the message template attachment.
+///
+/// @nodoc
 class MessageTemplateAttachment {
   /// The identifier of the attachment file.
   final String attachmentId;
@@ -9517,6 +9672,7 @@ class MessageTemplateAttachment {
   }
 }
 
+/// @nodoc
 class ContentDisposition {
   static const attachment = ContentDisposition._('ATTACHMENT');
 
@@ -9542,6 +9698,8 @@ class ContentDisposition {
 }
 
 /// The summary of the message template version.
+///
+/// @nodoc
 class MessageTemplateVersionSummary {
   /// The channel subtype this message template applies to.
   final ChannelSubtype channelSubtype;
@@ -9622,6 +9780,8 @@ class MessageTemplateVersionSummary {
 }
 
 /// The extended data of a message template.
+///
+/// @nodoc
 class ExtendedMessageTemplateData {
   /// The channel subtype this message template applies to.
   final ChannelSubtype channelSubtype;
@@ -9830,6 +9990,8 @@ class ExtendedMessageTemplateData {
 }
 
 /// The summary of the message template.
+///
+/// @nodoc
 class MessageTemplateSummary {
   /// The channel subtype this message template applies to.
   final ChannelSubtype channelSubtype;
@@ -9951,6 +10113,8 @@ class MessageTemplateSummary {
 }
 
 /// The container of message template source configuration.
+///
+/// @nodoc
 class MessageTemplateSourceConfiguration {
   /// The sourceConfiguration of the message template that applies to the WHATSAPP
   /// channel subtype.
@@ -9979,6 +10143,8 @@ class MessageTemplateSourceConfiguration {
 }
 
 /// Configuration information about the external data source.
+///
+/// @nodoc
 class WhatsAppMessageTemplateSourceConfiguration {
   /// The ID of the End User Messaging WhatsApp Business Account to associate with
   /// this template.
@@ -10022,6 +10188,8 @@ class WhatsAppMessageTemplateSourceConfiguration {
 }
 
 /// Summary information about a content association.
+///
+/// @nodoc
 class ContentAssociationSummary {
   /// The content association.
   final ContentAssociationContents associationData;
@@ -10105,6 +10273,7 @@ class ContentAssociationSummary {
   }
 }
 
+/// @nodoc
 class ContentAssociationType {
   static const amazonConnectGuide =
       ContentAssociationType._('AMAZON_CONNECT_GUIDE');
@@ -10131,6 +10300,8 @@ class ContentAssociationType {
 }
 
 /// The contents of a content association.
+///
+/// @nodoc
 class ContentAssociationContents {
   /// The data of the step-by-step guide association.
   final AmazonConnectGuideAssociationData? amazonConnectGuideAssociation;
@@ -10161,6 +10332,8 @@ class ContentAssociationContents {
 /// Content association data for a <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html">step-by-step
 /// guide</a>.
+///
+/// @nodoc
 class AmazonConnectGuideAssociationData {
   /// The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step
   /// guides are a type of flow.
@@ -10186,6 +10359,8 @@ class AmazonConnectGuideAssociationData {
 }
 
 /// Information about the content association.
+///
+/// @nodoc
 class ContentAssociationData {
   /// The content association.
   final ContentAssociationContents associationData;
@@ -10270,6 +10445,8 @@ class ContentAssociationData {
 }
 
 /// Summary information about the content.
+///
+/// @nodoc
 class ContentSummary {
   /// The Amazon Resource Name (ARN) of the content.
   final String contentArn;
@@ -10369,6 +10546,7 @@ class ContentSummary {
   }
 }
 
+/// @nodoc
 class ContentStatus {
   static const createInProgress = ContentStatus._('CREATE_IN_PROGRESS');
   static const createFailed = ContentStatus._('CREATE_FAILED');
@@ -10407,6 +10585,8 @@ class ContentStatus {
 }
 
 /// Information about the content.
+///
+/// @nodoc
 class ContentData {
   /// The Amazon Resource Name (ARN) of the content.
   final String contentArn;
@@ -10527,6 +10707,8 @@ class ContentData {
 }
 
 /// Information about the knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseData {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String knowledgeBaseArn;
@@ -10682,6 +10864,7 @@ class KnowledgeBaseData {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseType {
   static const external = KnowledgeBaseType._('EXTERNAL');
   static const custom = KnowledgeBaseType._('CUSTOM');
@@ -10715,6 +10898,7 @@ class KnowledgeBaseType {
   String toString() => value;
 }
 
+/// @nodoc
 class KnowledgeBaseStatus {
   static const createInProgress = KnowledgeBaseStatus._('CREATE_IN_PROGRESS');
   static const createFailed = KnowledgeBaseStatus._('CREATE_FAILED');
@@ -10752,6 +10936,8 @@ class KnowledgeBaseStatus {
 }
 
 /// Contains details about how to ingest the documents in a data source.
+///
+/// @nodoc
 class VectorIngestionConfiguration {
   /// Details about how to chunk the documents in the data source. A chunk refers
   /// to an excerpt from a data source that is returned when the knowledge base
@@ -10792,6 +10978,8 @@ class VectorIngestionConfiguration {
 }
 
 /// Configuration information about the external data source.
+///
+/// @nodoc
 class SourceConfiguration {
   /// Configuration information for Amazon AppIntegrations to automatically ingest
   /// content.
@@ -10830,6 +11018,8 @@ class SourceConfiguration {
 }
 
 /// Information about how to render the content.
+///
+/// @nodoc
 class RenderingConfiguration {
   /// A URI template containing exactly one variable in <code>${variableName}
   /// </code>format. This can only be set for <code>EXTERNAL</code> knowledge
@@ -10877,6 +11067,8 @@ class RenderingConfiguration {
 
 /// The configuration information for the customer managed key used for
 /// encryption.
+///
+/// @nodoc
 class ServerSideEncryptionConfiguration {
   /// The customer managed key used for encryption. For more information about
   /// setting up a customer managed key for Amazon Q in Connect, see <a
@@ -10906,6 +11098,7 @@ class ServerSideEncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class SyncStatus {
   static const syncFailed = SyncStatus._('SYNC_FAILED');
   static const syncingInProgress = SyncStatus._('SYNCING_IN_PROGRESS');
@@ -10938,6 +11131,8 @@ class SyncStatus {
 
 /// Configuration information for Amazon AppIntegrations to automatically ingest
 /// content.
+///
+/// @nodoc
 class AppIntegrationsConfiguration {
   /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use
   /// for ingesting content.
@@ -11047,6 +11242,8 @@ class AppIntegrationsConfiguration {
 }
 
 /// Source configuration for managed resources.
+///
+/// @nodoc
 class ManagedSourceConfiguration {
   /// Configuration data for web crawler data source.
   final WebCrawlerConfiguration? webCrawlerConfiguration;
@@ -11074,6 +11271,8 @@ class ManagedSourceConfiguration {
 }
 
 /// The configuration details for the web data source.
+///
+/// @nodoc
 class WebCrawlerConfiguration {
   /// The configuration of the URL/URLs for the web content that you want to
   /// crawl. You should be authorized to crawl the URLs.
@@ -11151,6 +11350,8 @@ class WebCrawlerConfiguration {
 
 /// The configuration of the URL/URLs for the web content that you want to
 /// crawl. You should be authorized to crawl the URLs.
+///
+/// @nodoc
 class UrlConfiguration {
   /// List of URLs for crawling.
   final List<SeedUrl>? seedUrls;
@@ -11177,6 +11378,8 @@ class UrlConfiguration {
 }
 
 /// The configuration of crawl limits for the web URLs.
+///
+/// @nodoc
 class WebCrawlerLimits {
   /// Rate of web URLs retrieved per minute.
   final int? rateLimit;
@@ -11199,6 +11402,7 @@ class WebCrawlerLimits {
   }
 }
 
+/// @nodoc
 class WebScopeType {
   static const hostOnly = WebScopeType._('HOST_ONLY');
   static const subdomains = WebScopeType._('SUBDOMAINS');
@@ -11223,6 +11427,8 @@ class WebScopeType {
 }
 
 /// A URL for crawling.
+///
+/// @nodoc
 class SeedUrl {
   /// URL for crawling
   final String? url;
@@ -11248,6 +11454,8 @@ class SeedUrl {
 /// Details about how to chunk the documents in the data source. A chunk refers
 /// to an excerpt from a data source that is returned when the knowledge base
 /// that it belongs to is queried.
+///
+/// @nodoc
 class ChunkingConfiguration {
   /// Knowledge base can split your source data into chunks. A chunk refers to an
   /// excerpt from a data source that is returned when the knowledge base that it
@@ -11324,6 +11532,8 @@ class ChunkingConfiguration {
 /// improve processing of PDF files with tables and images, you can configure
 /// the data source to convert the pages of text into images and use a model to
 /// describe the contents of each page.
+///
+/// @nodoc
 class ParsingConfiguration {
   /// The parsing strategy for the data source.
   final ParsingStrategy parsingStrategy;
@@ -11363,6 +11573,7 @@ class ParsingConfiguration {
   }
 }
 
+/// @nodoc
 class ParsingStrategy {
   static const bedrockFoundationModel =
       ParsingStrategy._('BEDROCK_FOUNDATION_MODEL');
@@ -11388,6 +11599,8 @@ class ParsingStrategy {
 }
 
 /// Settings for a foundation model used to parse documents for a data source.
+///
+/// @nodoc
 class BedrockFoundationModelConfigurationForParsing {
   /// The ARN of the foundation model.
   final String modelArn;
@@ -11422,6 +11635,8 @@ class BedrockFoundationModelConfigurationForParsing {
 }
 
 /// Instructions for interpreting the contents of a document.
+///
+/// @nodoc
 class ParsingPrompt {
   /// Instructions for interpreting the contents of a document.
   final String parsingPromptText;
@@ -11444,6 +11659,7 @@ class ParsingPrompt {
   }
 }
 
+/// @nodoc
 class ChunkingStrategy {
   static const fixedSize = ChunkingStrategy._('FIXED_SIZE');
   static const none = ChunkingStrategy._('NONE');
@@ -11472,6 +11688,8 @@ class ChunkingStrategy {
 
 /// Configurations for when you choose fixed-size chunking. If you set the
 /// <code>chunkingStrategy</code> as <code>NONE</code>, exclude this field.
+///
+/// @nodoc
 class FixedSizeChunkingConfiguration {
   /// The maximum number of tokens to include in a chunk.
   final int maxTokens;
@@ -11505,6 +11723,8 @@ class FixedSizeChunkingConfiguration {
 /// chunking splits documents into layers of chunks where the first layer
 /// contains large chunks, and the second layer contains smaller chunks derived
 /// from the first layer.
+///
+/// @nodoc
 class HierarchicalChunkingConfiguration {
   /// Token settings for each layer.
   final List<HierarchicalChunkingLevelConfiguration> levelConfigurations;
@@ -11542,6 +11762,8 @@ class HierarchicalChunkingConfiguration {
 /// Settings for semantic document chunking for a data source. Semantic chunking
 /// splits a document into smaller documents based on groups of similar content
 /// derived from the text with natural language processing.
+///
+/// @nodoc
 class SemanticChunkingConfiguration {
   /// The dissimilarity threshold for splitting chunks.
   final int breakpointPercentileThreshold;
@@ -11580,6 +11802,8 @@ class SemanticChunkingConfiguration {
 }
 
 /// Token settings for each layer.
+///
+/// @nodoc
 class HierarchicalChunkingLevelConfiguration {
   /// The maximum number of tokens that a chunk can contain in this layer.
   final int maxTokens;
@@ -11604,6 +11828,8 @@ class HierarchicalChunkingLevelConfiguration {
 }
 
 /// Summary information about the import job.
+///
+/// @nodoc
 class ImportJobData {
   /// The timestamp when the import job was created.
   final DateTime createdTime;
@@ -11717,6 +11943,7 @@ class ImportJobData {
   }
 }
 
+/// @nodoc
 class ImportJobType {
   static const quickResponses = ImportJobType._('QUICK_RESPONSES');
 
@@ -11740,6 +11967,7 @@ class ImportJobType {
   String toString() => value;
 }
 
+/// @nodoc
 class ImportJobStatus {
   static const startInProgress = ImportJobStatus._('START_IN_PROGRESS');
   static const failed = ImportJobStatus._('FAILED');
@@ -11776,6 +12004,8 @@ class ImportJobStatus {
 }
 
 /// The configuration information of the external data source.
+///
+/// @nodoc
 class ExternalSourceConfiguration {
   /// The configuration information of the external data source.
   final Configuration configuration;
@@ -11807,6 +12037,7 @@ class ExternalSourceConfiguration {
   }
 }
 
+/// @nodoc
 class ExternalSource {
   static const amazonConnect = ExternalSource._('AMAZON_CONNECT');
 
@@ -11831,6 +12062,8 @@ class ExternalSource {
 }
 
 /// The configuration information of the external data source.
+///
+/// @nodoc
 class Configuration {
   /// The configuration information of the Amazon Connect data source.
   final ConnectConfiguration? connectConfiguration;
@@ -11858,6 +12091,8 @@ class Configuration {
 }
 
 /// The configuration information of the Amazon Connect data source.
+///
+/// @nodoc
 class ConnectConfiguration {
   /// The identifier of the Amazon Connect instance. You can find the instanceId
   /// in the ARN of the instance.
@@ -11882,6 +12117,8 @@ class ConnectConfiguration {
 }
 
 /// The result of quick response search.
+///
+/// @nodoc
 class QuickResponseSearchResultData {
   /// The media type of the quick response content.
   ///
@@ -12076,6 +12313,8 @@ class QuickResponseSearchResultData {
 }
 
 /// Information about the import job.
+///
+/// @nodoc
 class QuickResponseSearchExpression {
   /// The configuration of filtering rules applied to quick response query
   /// results.
@@ -12147,6 +12386,8 @@ class QuickResponseSearchExpression {
 /// groupingConfiguration.values
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class QuickResponseOrderField {
   /// The name of the attribute to order the quick response query results by.
   final String name;
@@ -12169,6 +12410,7 @@ class QuickResponseOrderField {
   }
 }
 
+/// @nodoc
 class Order {
   static const asc = Order._('ASC');
   static const desc = Order._('DESC');
@@ -12234,6 +12476,8 @@ class Order {
 /// groupingConfiguration.values
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class QuickResponseFilterField {
   /// The name of the attribute field to filter the quick responses by.
   final String name;
@@ -12268,6 +12512,7 @@ class QuickResponseFilterField {
   }
 }
 
+/// @nodoc
 class QuickResponseFilterOperator {
   static const equals = QuickResponseFilterOperator._('EQUALS');
   static const prefix = QuickResponseFilterOperator._('PREFIX');
@@ -12311,6 +12556,8 @@ class QuickResponseFilterOperator {
 /// shortcutKey
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class QuickResponseQueryField {
   /// The name of the attribute to query the quick responses by.
   final String name;
@@ -12355,6 +12602,7 @@ class QuickResponseQueryField {
   }
 }
 
+/// @nodoc
 class QuickResponseQueryOperator {
   static const contains = QuickResponseQueryOperator._('CONTAINS');
   static const containsAndPrefix =
@@ -12381,6 +12629,7 @@ class QuickResponseQueryOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class Priority {
   static const high = Priority._('HIGH');
   static const medium = Priority._('MEDIUM');
@@ -12406,6 +12655,8 @@ class Priority {
 }
 
 /// The result of message template search.
+///
+/// @nodoc
 class MessageTemplateSearchResultData {
   /// The channel subtype this message template applies to.
   final ChannelSubtype channelSubtype;
@@ -12556,6 +12807,8 @@ class MessageTemplateSearchResultData {
 }
 
 /// The search expression of the message template.
+///
+/// @nodoc
 class MessageTemplateSearchExpression {
   /// The configuration of filtering rules applied to message template query
   /// results.
@@ -12624,6 +12877,8 @@ class MessageTemplateSearchExpression {
 /// groupingConfiguration.values
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MessageTemplateOrderField {
   /// The name of the message template.
   final String name;
@@ -12684,6 +12939,8 @@ class MessageTemplateOrderField {
 /// groupingConfiguration.values
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MessageTemplateFilterField {
   /// The name of the attribute field to filter the message templates by.
   final String name;
@@ -12718,6 +12975,7 @@ class MessageTemplateFilterField {
   }
 }
 
+/// @nodoc
 class MessageTemplateFilterOperator {
   static const equals = MessageTemplateFilterOperator._('EQUALS');
   static const prefix = MessageTemplateFilterOperator._('PREFIX');
@@ -12754,6 +13012,8 @@ class MessageTemplateFilterOperator {
 /// description
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MessageTemplateQueryField {
   /// The name of the attribute to query the message templates by.
   final String name;
@@ -12798,6 +13058,7 @@ class MessageTemplateQueryField {
   }
 }
 
+/// @nodoc
 class MessageTemplateQueryOperator {
   static const contains = MessageTemplateQueryOperator._('CONTAINS');
   static const containsAndPrefix =
@@ -12825,6 +13086,8 @@ class MessageTemplateQueryOperator {
 }
 
 /// The search expression.
+///
+/// @nodoc
 class SearchExpression {
   /// The search expression filters.
   final List<Filter> filters;
@@ -12842,6 +13105,8 @@ class SearchExpression {
 }
 
 /// A search filter.
+///
+/// @nodoc
 class Filter {
   /// The field on which to filter.
   final FilterField field;
@@ -12870,6 +13135,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterField {
   static const name = FilterField._('NAME');
 
@@ -12892,6 +13158,7 @@ class FilterField {
   String toString() => value;
 }
 
+/// @nodoc
 class FilterOperator {
   static const equals = FilterOperator._('EQUALS');
 
@@ -12916,6 +13183,8 @@ class FilterOperator {
 }
 
 /// Summary information about the import job.
+///
+/// @nodoc
 class ImportJobSummary {
   /// The timestamp when the import job was created.
   final DateTime createdTime;
@@ -13011,6 +13280,8 @@ class ImportJobSummary {
 }
 
 /// Summary information about the knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseSummary {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String knowledgeBaseArn;
@@ -13135,6 +13406,7 @@ class KnowledgeBaseSummary {
   }
 }
 
+/// @nodoc
 class SessionDataNamespace {
   static const custom = SessionDataNamespace._('Custom');
 
@@ -13160,6 +13432,8 @@ class SessionDataNamespace {
 }
 
 /// The list of key-value pairs that are stored on the session.
+///
+/// @nodoc
 class RuntimeSessionData {
   /// The key of the data stored on the session.
   final String key;
@@ -13192,6 +13466,8 @@ class RuntimeSessionData {
 }
 
 /// A union type that specifies the data stored on the session.
+///
+/// @nodoc
 class RuntimeSessionDataValue {
   /// The string value of the data stored on the session.
   final String? stringValue;
@@ -13217,6 +13493,8 @@ class RuntimeSessionDataValue {
 /// The configuration for a <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_amazon-q-connect_SendMessage.html">SendMessage</a>
 /// request.
+///
+/// @nodoc
 class MessageConfiguration {
   /// Configuration for generating chunked messages.
   final bool? generateChunkedMessage;
@@ -13248,6 +13526,7 @@ class MessageConfiguration {
   }
 }
 
+/// @nodoc
 class MessageType {
   static const text = MessageType._('TEXT');
   static const toolUseResult = MessageType._('TOOL_USE_RESULT');
@@ -13272,6 +13551,8 @@ class MessageType {
 }
 
 /// The message input.
+///
+/// @nodoc
 class MessageInput {
   /// The message input value.
   final MessageData value;
@@ -13289,6 +13570,8 @@ class MessageInput {
 }
 
 /// The conversation context to include in SendMessage.
+///
+/// @nodoc
 class ConversationContext {
   /// The self service conversation history before the Amazon Q in Connect
   /// session.
@@ -13308,6 +13591,8 @@ class ConversationContext {
 
 /// The conversation history data to included in conversation context data
 /// before the Amazon Q in Connect session.
+///
+/// @nodoc
 class SelfServiceConversationHistory {
   /// The bot response of the conversation history data.
   final String? botResponse;
@@ -13343,6 +13628,8 @@ class SelfServiceConversationHistory {
 }
 
 /// The message data.
+///
+/// @nodoc
 class MessageData {
   /// The message data in text type.
   final TextMessage? text;
@@ -13378,6 +13665,8 @@ class MessageData {
 }
 
 /// The message data in text type.
+///
+/// @nodoc
 class TextMessage {
   /// The AI Guardrail assessment for the text message.
   final AIGuardrailAssessment? aiGuardrailAssessment;
@@ -13422,6 +13711,8 @@ class TextMessage {
 }
 
 /// Data about the result of tool usage.
+///
+/// @nodoc
 class ToolUseResultData {
   /// The name of the tool that was used.
   final String toolName;
@@ -13466,6 +13757,8 @@ class ToolUseResultData {
 }
 
 /// The assessment information from the AI Guardrail.
+///
+/// @nodoc
 class AIGuardrailAssessment {
   /// Indicates whether the AI Guardrail blocked the content.
   final bool blocked;
@@ -13489,6 +13782,8 @@ class AIGuardrailAssessment {
 }
 
 /// A citation that references source content.
+///
+/// @nodoc
 class Citation {
   final CitationSpan citationSpan;
 
@@ -13550,6 +13845,8 @@ class Citation {
 
 /// Contains information about where the text with a citation begins and ends in
 /// the generated output.
+///
+/// @nodoc
 class CitationSpan {
   /// Where the text with a citation starts in the generated output.
   final int? beginOffsetInclusive;
@@ -13580,6 +13877,7 @@ class CitationSpan {
   }
 }
 
+/// @nodoc
 class ReferenceType {
   static const webCrawler = ReferenceType._('WEB_CRAWLER');
   static const knowledgeBase = ReferenceType._('KNOWLEDGE_BASE');
@@ -13626,6 +13924,8 @@ class ReferenceType {
 
 /// A span represents a unit of work during AI agent execution, capturing
 /// timing, status, and contextual attributes.
+///
+/// @nodoc
 class Span {
   /// UUID of the Connect AI Assistant resource
   final String assistantId;
@@ -13734,6 +14034,7 @@ class Span {
   }
 }
 
+/// @nodoc
 class SpanType {
   static const client = SpanType._('CLIENT');
   static const server = SpanType._('SERVER');
@@ -13758,6 +14059,7 @@ class SpanType {
   String toString() => value;
 }
 
+/// @nodoc
 class SpanStatus {
   static const ok = SpanStatus._('OK');
   static const error = SpanStatus._('ERROR');
@@ -13784,6 +14086,8 @@ class SpanStatus {
 
 /// Contextual attributes capturing operation details, LLM configuration, usage
 /// metrics, and conversation data
+///
+/// @nodoc
 class SpanAttributes {
   /// Amazon Connect agent ID
   final String? agentId;
@@ -14075,6 +14379,7 @@ class SpanAttributes {
   }
 }
 
+/// @nodoc
 class AIAgentType {
   static const manualSearch = AIAgentType._('MANUAL_SEARCH');
   static const answerRecommendation = AIAgentType._('ANSWER_RECOMMENDATION');
@@ -14115,6 +14420,7 @@ class AIAgentType {
   String toString() => value;
 }
 
+/// @nodoc
 class AIPromptType {
   static const answerGeneration = AIPromptType._('ANSWER_GENERATION');
   static const intentLabelingGeneration =
@@ -14169,6 +14475,8 @@ class AIPromptType {
 /// Result of a single guardrail assessment, covering either the input
 /// (customer/user message) or the output (LLM response) of a Bedrock Converse
 /// call.
+///
+/// @nodoc
 class SpanGuardrailAssessment {
   /// Outcome of the guardrail assessment.
   final GuardrailAction action;
@@ -14223,6 +14531,8 @@ class SpanGuardrailAssessment {
 }
 
 /// Content source for a guardrail assessment.
+///
+/// @nodoc
 class GuardrailSource {
   static const input = GuardrailSource._('INPUT');
   static const output = GuardrailSource._('OUTPUT');
@@ -14248,6 +14558,8 @@ class GuardrailSource {
 }
 
 /// The outcome of a guardrail assessment.
+///
+/// @nodoc
 class GuardrailAction {
   static const none = GuardrailAction._('NONE');
   static const blocked = GuardrailAction._('BLOCKED');
@@ -14275,6 +14587,8 @@ class GuardrailAction {
 
 /// Per-policy guardrail assessment result. Captures which policy triggered, its
 /// outcome, and a policy-specific detail string.
+///
+/// @nodoc
 class GuardrailPolicyResult {
   /// Outcome of this specific policy.
   final GuardrailAction action;
@@ -14313,6 +14627,8 @@ class GuardrailPolicyResult {
 }
 
 /// Classification of a guardrail policy.
+///
+/// @nodoc
 class GuardrailPolicyType {
   static const contentFilter = GuardrailPolicyType._('CONTENT_FILTER');
   static const topic = GuardrailPolicyType._('TOPIC');
@@ -14354,6 +14670,8 @@ class GuardrailPolicyType {
 
 /// Message content value - can be text, tool invocation, tool result, or
 /// reasoning
+///
+/// @nodoc
 class SpanMessageValue {
   final SpanReasoningValue? reasoning;
 
@@ -14407,6 +14725,8 @@ class SpanMessageValue {
 }
 
 /// Text message content
+///
+/// @nodoc
 class SpanTextValue {
   /// String content of the message text
   final String value;
@@ -14451,6 +14771,8 @@ class SpanTextValue {
 }
 
 /// Tool invocation message content
+///
+/// @nodoc
 class SpanToolUseValue {
   /// The tool input arguments
   final Object arguments;
@@ -14488,6 +14810,8 @@ class SpanToolUseValue {
 }
 
 /// Tool result message content
+///
+/// @nodoc
 class SpanToolResultValue {
   /// Relates this result back to the tool invocation
   final String toolUseId;
@@ -14528,6 +14852,8 @@ class SpanToolResultValue {
 }
 
 /// Model reasoning and it's internal decision making process
+///
+/// @nodoc
 class SpanReasoningValue {
   /// The reasoning text content
   final String value;
@@ -14551,6 +14877,8 @@ class SpanReasoningValue {
 }
 
 /// A citation that spans a specific range of text.
+///
+/// @nodoc
 class SpanCitation {
   /// The identifier of the content being cited in the span.
   final String? contentId;
@@ -14597,6 +14925,8 @@ class SpanCitation {
 
 /// A message in the conversation history with participant role and content
 /// values
+///
+/// @nodoc
 class SpanMessage {
   /// Unique message identifier
   final String messageId;
@@ -14644,6 +14974,7 @@ class SpanMessage {
   }
 }
 
+/// @nodoc
 class Participant {
   static const customer = Participant._('CUSTOMER');
   static const agent = Participant._('AGENT');
@@ -14669,6 +15000,8 @@ class Participant {
 }
 
 /// The message output.
+///
+/// @nodoc
 class MessageOutput {
   /// The identifier of a message.
   final String messageId;
@@ -14714,6 +15047,7 @@ class MessageOutput {
   }
 }
 
+/// @nodoc
 class MessageFilterType {
   static const all = MessageFilterType._('ALL');
   static const textOnly = MessageFilterType._('TEXT_ONLY');
@@ -14739,6 +15073,8 @@ class MessageFilterType {
 }
 
 /// The conversation state associated to a message.
+///
+/// @nodoc
 class ConversationState {
   /// The status of the conversation state.
   final ConversationStatus status;
@@ -14769,6 +15105,7 @@ class ConversationState {
   }
 }
 
+/// @nodoc
 class ConversationStatus {
   static const closed = ConversationStatus._('CLOSED');
   static const ready = ConversationStatus._('READY');
@@ -14795,6 +15132,7 @@ class ConversationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConversationStatusReason {
   static const success = ConversationStatusReason._('SUCCESS');
   static const failed = ConversationStatusReason._('FAILED');
@@ -14822,6 +15160,8 @@ class ConversationStatusReason {
 }
 
 /// Information about the session.
+///
+/// @nodoc
 class SessionData {
   /// The name of the session.
   final String name;
@@ -14931,6 +15271,8 @@ class SessionData {
 }
 
 /// The configuration information for the session integration.
+///
+/// @nodoc
 class SessionIntegrationConfiguration {
   /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for
   /// streaming chat messages.
@@ -14956,6 +15298,8 @@ class SessionIntegrationConfiguration {
 }
 
 /// An object that can be used to specify Tag conditions.
+///
+/// @nodoc
 class TagFilter {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -15002,6 +15346,7 @@ class TagFilter {
   }
 }
 
+/// @nodoc
 class Origin {
   static const system = Origin._('SYSTEM');
   static const customer = Origin._('CUSTOMER');
@@ -15026,6 +15371,8 @@ class Origin {
 }
 
 /// An entry in the orchestrator configuration list.
+///
+/// @nodoc
 class OrchestratorConfigurationEntry {
   /// The use case for the orchestrator configuration. (for example
   /// Connect.SelfService, Connect.AgentAssistance)
@@ -15058,6 +15405,8 @@ class OrchestratorConfigurationEntry {
 
 /// A type that specifies the AI Agent ID configuration data when mapping an AI
 /// Agents to be used for an AI Agent type on a session or assistant.
+///
+/// @nodoc
 class AIAgentConfigurationData {
   /// The ID of the AI Agent to be configured.
   final String aiAgentId;
@@ -15081,6 +15430,8 @@ class AIAgentConfigurationData {
 }
 
 /// A leaf node condition which can be used to specify a tag condition.
+///
+/// @nodoc
 class TagCondition {
   /// The tag key in the tag condition.
   final String key;
@@ -15112,6 +15463,8 @@ class TagCondition {
 
 /// A list of conditions which would be applied together with an <code>OR</code>
 /// condition.
+///
+/// @nodoc
 class OrCondition {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -15148,6 +15501,8 @@ class OrCondition {
 }
 
 /// Summary information about the assistant association.
+///
+/// @nodoc
 class AssistantAssociationSummary {
   /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
   final String assistantArn;
@@ -15217,6 +15572,7 @@ class AssistantAssociationSummary {
   }
 }
 
+/// @nodoc
 class AssociationType {
   static const knowledgeBase = AssociationType._('KNOWLEDGE_BASE');
   static const externalBedrockKnowledgeBase =
@@ -15243,6 +15599,8 @@ class AssociationType {
 }
 
 /// The data that is output as a result of the assistant association.
+///
+/// @nodoc
 class AssistantAssociationOutputData {
   /// The configuration for an external Bedrock knowledge base association in the
   /// output data.
@@ -15286,6 +15644,8 @@ class AssistantAssociationOutputData {
 }
 
 /// Association information about the knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseAssociationData {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String? knowledgeBaseArn;
@@ -15316,6 +15676,8 @@ class KnowledgeBaseAssociationData {
 }
 
 /// Configuration for an external Bedrock knowledge base.
+///
+/// @nodoc
 class ExternalBedrockKnowledgeBaseConfig {
   /// The Amazon Resource Name (ARN) of the IAM role used to access the external
   /// Bedrock knowledge base.
@@ -15349,6 +15711,8 @@ class ExternalBedrockKnowledgeBaseConfig {
 }
 
 /// Information about the assistant association.
+///
+/// @nodoc
 class AssistantAssociationData {
   /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
   final String assistantArn;
@@ -15420,6 +15784,8 @@ class AssistantAssociationData {
 
 /// The data that is input into Amazon Q in Connect as a result of the assistant
 /// association.
+///
+/// @nodoc
 class AssistantAssociationInputData {
   /// The configuration for an external Bedrock knowledge base association.
   final ExternalBedrockKnowledgeBaseConfig? externalBedrockKnowledgeBaseConfig;
@@ -15447,6 +15813,8 @@ class AssistantAssociationInputData {
 }
 
 /// The summary of the AI Prompt version.
+///
+/// @nodoc
 class AIPromptVersionSummary {
   /// The date for the summary of the AI Prompt version.
   final AIPromptSummary? aiPromptSummary;
@@ -15480,6 +15848,8 @@ class AIPromptVersionSummary {
 }
 
 /// The summary of the AI Prompt.
+///
+/// @nodoc
 class AIPromptSummary {
   /// The Amazon Resource Name (ARN) of the AI Prompt.
   final String aiPromptArn;
@@ -15609,6 +15979,7 @@ class AIPromptSummary {
   }
 }
 
+/// @nodoc
 class AIPromptTemplateType {
   static const text = AIPromptTemplateType._('TEXT');
 
@@ -15633,6 +16004,7 @@ class AIPromptTemplateType {
   String toString() => value;
 }
 
+/// @nodoc
 class AIPromptAPIFormat {
   static const anthropicClaudeMessages =
       AIPromptAPIFormat._('ANTHROPIC_CLAUDE_MESSAGES');
@@ -15666,6 +16038,7 @@ class AIPromptAPIFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class VisibilityStatus {
   static const saved = VisibilityStatus._('SAVED');
   static const published = VisibilityStatus._('PUBLISHED');
@@ -15690,6 +16063,7 @@ class VisibilityStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const createInProgress = Status._('CREATE_IN_PROGRESS');
   static const createFailed = Status._('CREATE_FAILED');
@@ -15725,6 +16099,8 @@ class Status {
 }
 
 /// The data for the AI Prompt
+///
+/// @nodoc
 class AIPromptData {
   /// The Amazon Resource Name (ARN) of the AI Prompt.
   final String aiPromptArn;
@@ -15930,6 +16306,8 @@ class AIPromptData {
 
 /// A typed union that specifies the configuration for a prompt template based
 /// on its type.
+///
+/// @nodoc
 class AIPromptTemplateConfiguration {
   /// The configuration for a prompt template that supports full textual prompt
   /// configuration using a YAML prompt.
@@ -15963,6 +16341,8 @@ class AIPromptTemplateConfiguration {
 }
 
 /// The configuration for inference parameters when using AI Prompts.
+///
+/// @nodoc
 class AIPromptInferenceConfiguration {
   /// The maximum number of tokens to generate in the response.
   final int? maxTokensToSample;
@@ -16009,6 +16389,8 @@ class AIPromptInferenceConfiguration {
 
 /// The configuration for a prompt template that supports full textual prompt
 /// configuration using a YAML prompt.
+///
+/// @nodoc
 class TextFullAIPromptEditTemplateConfiguration {
   /// The YAML text for the AI Prompt template.
   final String text;
@@ -16033,6 +16415,8 @@ class TextFullAIPromptEditTemplateConfiguration {
 }
 
 /// The summary of the AI Guardrail version.
+///
+/// @nodoc
 class AIGuardrailVersionSummary {
   /// The data for the summary of the AI Guardrail version.
   final AIGuardrailSummary? aiGuardrailSummary;
@@ -16066,6 +16450,8 @@ class AIGuardrailVersionSummary {
 }
 
 /// The summary of the AI Guardrail.
+///
+/// @nodoc
 class AIGuardrailSummary {
   /// The Amazon Resource Name (ARN) of the AI Guardrail.
   final String aiGuardrailArn;
@@ -16156,6 +16542,8 @@ class AIGuardrailSummary {
 }
 
 /// The data for the AI Guardrail
+///
+/// @nodoc
 class AIGuardrailData {
   /// The Amazon Resource Name (ARN) of the AI Guardrail.
   final String aiGuardrailArn;
@@ -16326,6 +16714,8 @@ class AIGuardrailData {
 
 /// Contains details about topics that the AI Guardrail should identify and
 /// deny.
+///
+/// @nodoc
 class AIGuardrailTopicPolicyConfig {
   /// A list of policies related to topics that the AI Guardrail should deny.
   final List<GuardrailTopicConfig> topicsConfig;
@@ -16352,6 +16742,8 @@ class AIGuardrailTopicPolicyConfig {
 }
 
 /// Contains details about how to handle harmful content.
+///
+/// @nodoc
 class AIGuardrailContentPolicyConfig {
   /// Contains the type of the content filter and how strongly it should apply to
   /// prompts and model responses.
@@ -16380,6 +16772,8 @@ class AIGuardrailContentPolicyConfig {
 }
 
 /// Contains details about the word policy to configured for the AI Guardrail.
+///
+/// @nodoc
 class AIGuardrailWordPolicyConfig {
   /// A list of managed words to configure for the AI Guardrail.
   final List<GuardrailManagedWordsConfig>? managedWordListsConfig;
@@ -16419,6 +16813,8 @@ class AIGuardrailWordPolicyConfig {
 
 /// Contains details about PII entities and regular expressions to configure for
 /// the AI Guardrail.
+///
+/// @nodoc
 class AIGuardrailSensitiveInformationPolicyConfig {
   /// A list of PII entities to configure to the AI Guardrail.
   final List<GuardrailPiiEntityConfig>? piiEntitiesConfig;
@@ -16458,6 +16854,8 @@ class AIGuardrailSensitiveInformationPolicyConfig {
 
 /// The policy configuration details for the AI Guardrail's contextual grounding
 /// policy.
+///
+/// @nodoc
 class AIGuardrailContextualGroundingPolicyConfig {
   /// The filter configuration details for the AI Guardrails contextual grounding
   /// policy.
@@ -16488,6 +16886,8 @@ class AIGuardrailContextualGroundingPolicyConfig {
 
 /// The filter configuration details for the AI Guardrail's contextual grounding
 /// filter.
+///
+/// @nodoc
 class GuardrailContextualGroundingFilterConfig {
   /// The threshold details for the AI Guardrail's contextual grounding filter.
   final double threshold;
@@ -16520,6 +16920,8 @@ class GuardrailContextualGroundingFilterConfig {
 }
 
 /// Type of contextual grounding filter
+///
+/// @nodoc
 class GuardrailContextualGroundingFilterType {
   static const grounding =
       GuardrailContextualGroundingFilterType._('GROUNDING');
@@ -16548,6 +16950,8 @@ class GuardrailContextualGroundingFilterType {
 }
 
 /// The regular expression to configure for the AI Guardrail.
+///
+/// @nodoc
 class GuardrailRegexConfig {
   /// The AI Guardrail action to configure when matching regular expression is
   /// detected.
@@ -16594,6 +16998,8 @@ class GuardrailRegexConfig {
 }
 
 /// Options for sensitive information action.
+///
+/// @nodoc
 class GuardrailSensitiveInformationAction {
   static const block = GuardrailSensitiveInformationAction._('BLOCK');
   static const anonymize = GuardrailSensitiveInformationAction._('ANONYMIZE');
@@ -16620,6 +17026,8 @@ class GuardrailSensitiveInformationAction {
 }
 
 /// The PII entity to configure for the AI Guardrail.
+///
+/// @nodoc
 class GuardrailPiiEntityConfig {
   /// Configure AI Guardrail's action when the PII entity is detected.
   final GuardrailSensitiveInformationAction action;
@@ -16911,6 +17319,8 @@ class GuardrailPiiEntityConfig {
 }
 
 /// The currently supported PII entities
+///
+/// @nodoc
 class GuardrailPiiEntityType {
   static const address = GuardrailPiiEntityType._('ADDRESS');
   static const age = GuardrailPiiEntityType._('AGE');
@@ -17012,6 +17422,8 @@ class GuardrailPiiEntityType {
 }
 
 /// The managed word list to configure for the AI Guardrail.
+///
+/// @nodoc
 class GuardrailManagedWordsConfig {
   /// The managed word type to configure for the AI Guardrail.
   final GuardrailManagedWordsType type;
@@ -17036,6 +17448,8 @@ class GuardrailManagedWordsConfig {
 }
 
 /// Options for managed words.
+///
+/// @nodoc
 class GuardrailManagedWordsType {
   static const profanity = GuardrailManagedWordsType._('PROFANITY');
 
@@ -17061,6 +17475,8 @@ class GuardrailManagedWordsType {
 }
 
 /// A word to configure for the AI Guardrail.
+///
+/// @nodoc
 class GuardrailWordConfig {
   /// Text of the word configured for the AI Guardrail to block.
   final String text;
@@ -17120,6 +17536,8 @@ class GuardrailWordConfig {
 /// example, a single statement can be classified as <i>Hate</i> with HIGH
 /// confidence, <i> Insults</i> with LOW confidence, <i>Sexual</i> with NONE
 /// confidence, and <i>Violence</i> with MEDIUM confidence.
+///
+/// @nodoc
 class GuardrailContentFilterConfig {
   /// The strength of the content filter to apply to prompts. As you increase the
   /// filter strength, the likelihood of filtering harmful content increases and
@@ -17165,6 +17583,8 @@ class GuardrailContentFilterConfig {
 }
 
 /// Type of text to text filter in content policy
+///
+/// @nodoc
 class GuardrailContentFilterType {
   static const sexual = GuardrailContentFilterType._('SEXUAL');
   static const violence = GuardrailContentFilterType._('VIOLENCE');
@@ -17202,6 +17622,8 @@ class GuardrailContentFilterType {
 }
 
 /// Strength for filters
+///
+/// @nodoc
 class GuardrailFilterStrength {
   static const none = GuardrailFilterStrength._('NONE');
   static const low = GuardrailFilterStrength._('LOW');
@@ -17230,6 +17652,8 @@ class GuardrailFilterStrength {
 }
 
 /// Details about topics for the AI Guardrail to identify and deny.
+///
+/// @nodoc
 class GuardrailTopicConfig {
   /// A definition of the topic to deny.
   final String definition;
@@ -17278,6 +17702,8 @@ class GuardrailTopicConfig {
 }
 
 /// Type of topic in a policy
+///
+/// @nodoc
 class GuardrailTopicType {
   static const deny = GuardrailTopicType._('DENY');
 
@@ -17303,6 +17729,8 @@ class GuardrailTopicType {
 }
 
 /// The summary of the AI Agent version.
+///
+/// @nodoc
 class AIAgentVersionSummary {
   /// The data for the summary of the AI Agent version.
   final AIAgentSummary? aiAgentSummary;
@@ -17336,6 +17764,8 @@ class AIAgentVersionSummary {
 }
 
 /// The summary of the AI Agent.
+///
+/// @nodoc
 class AIAgentSummary {
   /// The Amazon Resource Name (ARN) of the AI agent.
   final String aiAgentArn;
@@ -17453,6 +17883,8 @@ class AIAgentSummary {
 
 /// A typed union that specifies the configuration based on the type of AI
 /// Agent.
+///
+/// @nodoc
 class AIAgentConfiguration {
   /// The configuration for AI Agents of type <code>ANSWER_RECOMMENDATION</code>.
   final AnswerRecommendationAIAgentConfiguration?
@@ -17602,6 +18034,8 @@ class AIAgentConfiguration {
 }
 
 /// The configuration for the <code>MANUAL_SEARCH</code> AI Agent type.
+///
+/// @nodoc
 class ManualSearchAIAgentConfiguration {
   /// The AI Guardrail identifier for the Answer Generation guardrail used by the
   /// MANUAL_SEARCH AI Agent.
@@ -17663,6 +18097,8 @@ class ManualSearchAIAgentConfiguration {
 }
 
 /// The configuration for the <code>ANSWER_RECOMMENDATION</code> AI Agent type.
+///
+/// @nodoc
 class AnswerRecommendationAIAgentConfiguration {
   /// The AI Guardrail identifier for the Answer Generation Guardrail used by the
   /// <code>ANSWER_RECOMMENDATION</code> AI Agent.
@@ -17757,6 +18193,8 @@ class AnswerRecommendationAIAgentConfiguration {
 }
 
 /// The configuration for AI Agents of type SELF_SERVICE.
+///
+/// @nodoc
 class SelfServiceAIAgentConfiguration {
   /// The association configurations for overriding behavior on this AI Agent.
   final List<AssociationConfiguration>? associationConfigurations;
@@ -17818,6 +18256,8 @@ class SelfServiceAIAgentConfiguration {
 
 /// Configuration settings for the EMAIL_RESPONSE AI agent including prompts,
 /// locale, and knowledge base associations.
+///
+/// @nodoc
 class EmailResponseAIAgentConfiguration {
   /// Configuration settings for knowledge base associations used by the email
   /// response agent.
@@ -17877,6 +18317,8 @@ class EmailResponseAIAgentConfiguration {
 
 /// Configuration settings for the EMAIL_OVERVIEW AI agent including prompt ID
 /// and locale settings.
+///
+/// @nodoc
 class EmailOverviewAIAgentConfiguration {
   /// The ID of the System AI prompt used for generating structured email
   /// conversation summaries.
@@ -17912,6 +18354,8 @@ class EmailOverviewAIAgentConfiguration {
 
 /// Configuration settings for the EMAIL_GENERATIVE_ANSWER AI agent including
 /// prompts, locale, and knowledge base associations.
+///
+/// @nodoc
 class EmailGenerativeAnswerAIAgentConfiguration {
   /// Configuration settings for knowledge base associations used by the email
   /// generative answer agent.
@@ -17972,6 +18416,8 @@ class EmailGenerativeAnswerAIAgentConfiguration {
 }
 
 /// The configuration for AI Agents of type <code>ORCHESTRATION</code>.
+///
+/// @nodoc
 class OrchestrationAIAgentConfiguration {
   /// The AI Prompt identifier used by the Orchestration AI Agent.
   final String orchestrationAIPromptId;
@@ -18030,6 +18476,8 @@ class OrchestrationAIAgentConfiguration {
 }
 
 /// The configuration for AI Agents of type <code>NOTE_TAKING</code>.
+///
+/// @nodoc
 class NoteTakingAIAgentConfiguration {
   /// The locale setting for language-specific case summarization generation (for
   /// example, en_US, es_ES).
@@ -18070,6 +18518,8 @@ class NoteTakingAIAgentConfiguration {
 }
 
 /// The configuration for AI Agents of type <code>CASE_SUMMARIZATION</code>.
+///
+/// @nodoc
 class CaseSummarizationAIAgentConfiguration {
   /// The AI Guardrail identifier used by the Case Summarization AI Agent.
   final String? caseSummarizationAIGuardrailId;
@@ -18112,6 +18562,8 @@ class CaseSummarizationAIAgentConfiguration {
 }
 
 /// Configuration settings for a tool used by AI Agents.
+///
+/// @nodoc
 class ToolConfiguration {
   /// The name of the tool.
   final String toolName;
@@ -18229,6 +18681,7 @@ class ToolConfiguration {
   }
 }
 
+/// @nodoc
 class ToolType {
   static const modelContextProtocol = ToolType._('MODEL_CONTEXT_PROTOCOL');
   static const returnToControl = ToolType._('RETURN_TO_CONTROL');
@@ -18254,6 +18707,8 @@ class ToolType {
 }
 
 /// Instructions for using a tool.
+///
+/// @nodoc
 class ToolInstruction {
   /// Examples for using the tool.
   final List<String>? examples;
@@ -18287,6 +18742,8 @@ class ToolInstruction {
 }
 
 /// An annotation that provides additional context or metadata.
+///
+/// @nodoc
 class Annotation {
   /// A hint indicating that the annotation contains potentially destructive
   /// content.
@@ -18318,6 +18775,8 @@ class Annotation {
 }
 
 /// Configuration for user interaction settings.
+///
+/// @nodoc
 class UserInteractionConfiguration {
   /// Indicates whether user confirmation is required for the interaction.
   final bool? isUserConfirmationRequired;
@@ -18342,6 +18801,8 @@ class UserInteractionConfiguration {
 }
 
 /// Filter configuration for tool output.
+///
+/// @nodoc
 class ToolOutputFilter {
   /// The JSON path for filtering tool output.
   final String jsonPath;
@@ -18376,6 +18837,8 @@ class ToolOutputFilter {
 }
 
 /// Configuration for tool output handling.
+///
+/// @nodoc
 class ToolOutputConfiguration {
   /// Override the tool output results to different variable name.
   final String? outputVariableNameOverride;
@@ -18408,6 +18871,8 @@ class ToolOutputConfiguration {
 }
 
 /// An input value override for tools.
+///
+/// @nodoc
 class ToolOverrideInputValue {
   /// The JSON path for the input value override.
   final String jsonPath;
@@ -18440,6 +18905,8 @@ class ToolOverrideInputValue {
 }
 
 /// Configuration for overriding tool input values.
+///
+/// @nodoc
 class ToolOverrideInputValueConfiguration {
   /// Constant input value configuration for tool override.
   final ToolOverrideConstantInputValue? constant;
@@ -18467,6 +18934,8 @@ class ToolOverrideInputValueConfiguration {
 }
 
 /// A constant input value for tool override.
+///
+/// @nodoc
 class ToolOverrideConstantInputValue {
   /// Override tool input value with constant values
   final ToolOverrideInputValueType type;
@@ -18497,6 +18966,7 @@ class ToolOverrideConstantInputValue {
   }
 }
 
+/// @nodoc
 class ToolOverrideInputValueType {
   static const string = ToolOverrideInputValueType._('STRING');
   static const number = ToolOverrideInputValueType._('NUMBER');
@@ -18524,6 +18994,8 @@ class ToolOverrideInputValueType {
 }
 
 /// The configuration for an Amazon Q in Connect Assistant Association.
+///
+/// @nodoc
 class AssociationConfiguration {
   /// The data of the configuration for an Amazon Q in Connect Assistant
   /// Association.
@@ -18566,6 +19038,7 @@ class AssociationConfiguration {
   }
 }
 
+/// @nodoc
 class AIAgentAssociationConfigurationType {
   static const knowledgeBase =
       AIAgentAssociationConfigurationType._('KNOWLEDGE_BASE');
@@ -18593,6 +19066,8 @@ class AIAgentAssociationConfigurationType {
 
 /// A typed union of the data of the configuration for an Amazon Q in Connect
 /// Assistant Association.
+///
+/// @nodoc
 class AssociationConfigurationData {
   /// The data of the configuration for a <code>KNOWLEDGE_BASE</code> type Amazon
   /// Q in Connect Assistant Association.
@@ -18627,6 +19102,8 @@ class AssociationConfigurationData {
 
 /// The data of the configuration for a <code>KNOWLEDGE_BASE</code> type Amazon
 /// Q in Connect Assistant Association.
+///
+/// @nodoc
 class KnowledgeBaseAssociationConfigurationData {
   final TagFilter? contentTagFilter;
 
@@ -18672,6 +19149,7 @@ class KnowledgeBaseAssociationConfigurationData {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseSearchType {
   static const hybrid = KnowledgeBaseSearchType._('HYBRID');
   static const semantic = KnowledgeBaseSearchType._('SEMANTIC');
@@ -18698,6 +19176,8 @@ class KnowledgeBaseSearchType {
 }
 
 /// The data for the AI Agent.
+///
+/// @nodoc
 class AIAgentData {
   /// The Amazon Resource Name (ARN) of the AI agent.
   final String aiAgentArn;
@@ -18813,6 +19293,8 @@ class AIAgentData {
 }
 
 /// The assistant data.
+///
+/// @nodoc
 class AssistantData {
   /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
   final String assistantArn;
@@ -18956,6 +19438,7 @@ class AssistantData {
   }
 }
 
+/// @nodoc
 class AssistantType {
   static const agent = AssistantType._('AGENT');
 
@@ -18979,6 +19462,7 @@ class AssistantType {
   String toString() => value;
 }
 
+/// @nodoc
 class AssistantStatus {
   static const createInProgress = AssistantStatus._('CREATE_IN_PROGRESS');
   static const createFailed = AssistantStatus._('CREATE_FAILED');
@@ -19016,6 +19500,8 @@ class AssistantStatus {
 
 /// The configuration information for the Amazon Q in Connect assistant
 /// integration.
+///
+/// @nodoc
 class AssistantIntegrationConfiguration {
   /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for
   /// streaming chat messages.
@@ -19042,6 +19528,8 @@ class AssistantIntegrationConfiguration {
 }
 
 /// The capability configuration for an Amazon Q in Connect assistant.
+///
+/// @nodoc
 class AssistantCapabilityConfiguration {
   /// The type of Amazon Q in Connect assistant capability.
   final AssistantCapabilityType? type;
@@ -19064,6 +19552,7 @@ class AssistantCapabilityConfiguration {
   }
 }
 
+/// @nodoc
 class AssistantCapabilityType {
   static const v1 = AssistantCapabilityType._('V1');
   static const v2 = AssistantCapabilityType._('V2');
@@ -19090,6 +19579,8 @@ class AssistantCapabilityType {
 }
 
 /// Summary information about the session.
+///
+/// @nodoc
 class SessionSummary {
   /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
   final String assistantArn;
@@ -19134,6 +19625,8 @@ class SessionSummary {
 }
 
 /// A single result from a content retrieval operation.
+///
+/// @nodoc
 class RetrieveResult {
   /// The identifier of the assistant association for the retrieved result.
   final String associationId;
@@ -19180,6 +19673,8 @@ class RetrieveResult {
 }
 
 /// Configuration for content retrieval operations.
+///
+/// @nodoc
 class RetrievalConfiguration {
   /// The knowledge source configuration for content retrieval.
   final KnowledgeSource knowledgeSource;
@@ -19218,6 +19713,8 @@ class RetrievalConfiguration {
 }
 
 /// A knowledge source that provides content for recommendations.
+///
+/// @nodoc
 class KnowledgeSource {
   /// The list of assistant association identifiers for the knowledge source.
   final List<String>? assistantAssociationIds;
@@ -19236,6 +19733,8 @@ class KnowledgeSource {
 }
 
 /// Configuration for filtering content during retrieval operations.
+///
+/// @nodoc
 class RetrievalFilterConfiguration {
   /// Filter configuration that requires all conditions to be met.
   final List<RetrievalFilterConfiguration>? andAll;
@@ -19326,6 +19825,8 @@ class RetrievalFilterConfiguration {
 }
 
 /// An attribute used for filtering.
+///
+/// @nodoc
 class FilterAttribute {
   /// The key of the filter attribute.
   final String key;
@@ -19349,6 +19850,8 @@ class FilterAttribute {
 }
 
 /// Information about the result.
+///
+/// @nodoc
 class ResultData {
   /// The identifier of the result data.
   final String resultId;
@@ -19404,6 +19907,8 @@ class ResultData {
 }
 
 /// The document.
+///
+/// @nodoc
 class Document {
   /// A reference to the content resource.
   final ContentReference contentReference;
@@ -19447,6 +19952,8 @@ class Document {
 }
 
 /// Summary of the data.
+///
+/// @nodoc
 class DataSummary {
   /// Details about the data.
   final DataDetails details;
@@ -19480,6 +19987,7 @@ class DataSummary {
   }
 }
 
+/// @nodoc
 class QueryResultType {
   static const knowledgeContent = QueryResultType._('KNOWLEDGE_CONTENT');
   static const intentAnswer = QueryResultType._('INTENT_ANSWER');
@@ -19540,6 +20048,8 @@ class QueryResultType {
 }
 
 /// Reference data.
+///
+/// @nodoc
 class DataReference {
   final ContentReference? contentReference;
 
@@ -19587,6 +20097,8 @@ class DataReference {
 }
 
 /// Details about the data.
+///
+/// @nodoc
 class DataDetails {
   /// Details about case summarization chunk data.
   final CaseSummarizationChunkDataDetails? caseSummarizationChunkData;
@@ -19731,6 +20243,8 @@ class DataDetails {
 }
 
 /// Details about the content data.
+///
+/// @nodoc
 class ContentDataDetails {
   /// Details about the content ranking data.
   final RankingData rankingData;
@@ -19764,6 +20278,8 @@ class ContentDataDetails {
 }
 
 /// Details about generative data.
+///
+/// @nodoc
 class GenerativeDataDetails {
   /// The LLM response.
   final String completion;
@@ -19806,6 +20322,8 @@ class GenerativeDataDetails {
 }
 
 /// Details about the detected intent.
+///
+/// @nodoc
 class IntentDetectedDataDetails {
   /// The detected intent.
   final String intent;
@@ -19844,6 +20362,8 @@ class IntentDetectedDataDetails {
 }
 
 /// Details about the source content data.
+///
+/// @nodoc
 class SourceContentDataDetails {
   /// The identifier of the source content.
   final String id;
@@ -19901,6 +20421,8 @@ class SourceContentDataDetails {
 }
 
 /// Details about the generative chunk data.
+///
+/// @nodoc
 class GenerativeChunkDataDetails {
   /// A chunk of the LLM response.
   final String? completion;
@@ -19943,6 +20465,8 @@ class GenerativeChunkDataDetails {
 
 /// Details of streaming chunk data for email responses including completion
 /// text and pagination tokens.
+///
+/// @nodoc
 class EmailResponseChunkDataDetails {
   /// The partial or complete professional email response text with appropriate
   /// greetings and closings.
@@ -19976,6 +20500,8 @@ class EmailResponseChunkDataDetails {
 
 /// Details of streaming chunk data for email overview including completion text
 /// and pagination tokens.
+///
+/// @nodoc
 class EmailOverviewChunkDataDetails {
   /// The partial or complete overview text content in structured HTML format with
   /// customer issues, resolutions, and next steps.
@@ -20009,6 +20535,8 @@ class EmailOverviewChunkDataDetails {
 
 /// Details of streaming chunk data for email generative answers including
 /// completion text and references.
+///
+/// @nodoc
 class EmailGenerativeAnswerChunkDataDetails {
   /// The partial or complete text content of the generative answer response.
   final String? completion;
@@ -20052,6 +20580,8 @@ class EmailGenerativeAnswerChunkDataDetails {
 }
 
 /// Details about case summarization chunk data.
+///
+/// @nodoc
 class CaseSummarizationChunkDataDetails {
   /// A chunk of the case summarization completion.
   final String? completion;
@@ -20084,6 +20614,8 @@ class CaseSummarizationChunkDataDetails {
 }
 
 /// Details about suggested message data.
+///
+/// @nodoc
 class SuggestedMessageDataDetails {
   /// The text content of the suggested message.
   final String messageText;
@@ -20107,6 +20639,8 @@ class SuggestedMessageDataDetails {
 }
 
 /// Details about notes data.
+///
+/// @nodoc
 class NotesDataDetails {
   /// The completion data for notes.
   final String? completion;
@@ -20130,6 +20664,8 @@ class NotesDataDetails {
 }
 
 /// Details about notes chunk data.
+///
+/// @nodoc
 class NotesChunkDataDetails {
   /// A chunk of the notes completion.
   final String? completion;
@@ -20159,6 +20695,7 @@ class NotesChunkDataDetails {
   }
 }
 
+/// @nodoc
 class SourceContentType {
   static const knowledgeContent = SourceContentType._('KNOWLEDGE_CONTENT');
 
@@ -20183,6 +20720,8 @@ class SourceContentType {
 }
 
 /// Details about the source content text data.
+///
+/// @nodoc
 class TextData {
   final DocumentText? excerpt;
   final DocumentText? title;
@@ -20214,6 +20753,8 @@ class TextData {
 }
 
 /// Details about the source content ranking data.
+///
+/// @nodoc
 class RankingData {
   /// The relevance score of the content.
   final RelevanceLevel? relevanceLevel;
@@ -20244,6 +20785,7 @@ class RankingData {
   }
 }
 
+/// @nodoc
 class RelevanceLevel {
   static const high = RelevanceLevel._('HIGH');
   static const medium = RelevanceLevel._('MEDIUM');
@@ -20270,6 +20812,8 @@ class RelevanceLevel {
 }
 
 /// The text of the document.
+///
+/// @nodoc
 class DocumentText {
   /// Highlights in the document text.
   final List<Highlight>? highlights;
@@ -20304,6 +20848,8 @@ class DocumentText {
 
 /// Offset specification to describe highlighting of document excerpts for
 /// rendering search results and recommendations.
+///
+/// @nodoc
 class Highlight {
   /// The offset for the start of the highlight.
   final int? beginOffsetInclusive;
@@ -20335,6 +20881,8 @@ class Highlight {
 }
 
 /// Reference information about the content.
+///
+/// @nodoc
 class ContentReference {
   /// The Amazon Resource Name (ARN) of the content.
   final String? contentArn;
@@ -20395,6 +20943,8 @@ class ContentReference {
 }
 
 /// Reference information about generative content.
+///
+/// @nodoc
 class GenerativeReference {
   /// The identifier of the LLM model.
   final String? generationId;
@@ -20425,6 +20975,8 @@ class GenerativeReference {
 }
 
 /// Reference information for a suggested message.
+///
+/// @nodoc
 class SuggestedMessageReference {
   /// The Amazon Resource Name (ARN) of the AI Agent that generated the suggested
   /// message.
@@ -20456,6 +21008,8 @@ class SuggestedMessageReference {
 }
 
 /// Input information for the query.
+///
+/// @nodoc
 class QueryInputData {
   /// Input data for case summarization queries.
   final CaseSummarizationInputData? caseSummarizationInputData;
@@ -20486,6 +21040,8 @@ class QueryInputData {
 }
 
 /// Information about the text to search for.
+///
+/// @nodoc
 class QueryTextInputData {
   /// The text to search for.
   final String text;
@@ -20503,6 +21059,8 @@ class QueryTextInputData {
 }
 
 /// Information about the Amazon Q intent.
+///
+/// @nodoc
 class IntentInputData {
   /// The identifier of the Amazon Q intent.
   final String intentId;
@@ -20520,6 +21078,8 @@ class IntentInputData {
 }
 
 /// Input data for case summarization.
+///
+/// @nodoc
 class CaseSummarizationInputData {
   /// The Amazon Resource Name (ARN) of the case for summarization.
   final String caseArn;
@@ -20537,6 +21097,8 @@ class CaseSummarizationInputData {
 }
 
 /// Information about how to query content.
+///
+/// @nodoc
 class QueryCondition {
   /// The condition for the query.
   final QueryConditionItem? single;
@@ -20554,6 +21116,8 @@ class QueryCondition {
 }
 
 /// The condition for the query.
+///
+/// @nodoc
 class QueryConditionItem {
   /// The comparison operator for query condition to query on.
   final QueryConditionComparisonOperator comparator;
@@ -20582,6 +21146,7 @@ class QueryConditionItem {
   }
 }
 
+/// @nodoc
 class QueryConditionFieldName {
   static const resultType = QueryConditionFieldName._('RESULT_TYPE');
 
@@ -20606,6 +21171,7 @@ class QueryConditionFieldName {
   String toString() => value;
 }
 
+/// @nodoc
 class QueryConditionComparisonOperator {
   static const equals = QueryConditionComparisonOperator._('EQUALS');
 
@@ -20630,6 +21196,7 @@ class QueryConditionComparisonOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetType {
   static const recommendation = TargetType._('RECOMMENDATION');
   static const result = TargetType._('RESULT');
@@ -20655,6 +21222,8 @@ class TargetType {
 }
 
 /// Information about the feedback.
+///
+/// @nodoc
 class ContentFeedbackData {
   /// Information about the feedback for a generative target type.
   final GenerativeContentFeedbackData? generativeContentFeedbackData;
@@ -20683,6 +21252,8 @@ class ContentFeedbackData {
 }
 
 /// The feedback information for a generative target type.
+///
+/// @nodoc
 class GenerativeContentFeedbackData {
   /// The relevance of the feedback.
   final Relevance relevance;
@@ -20705,6 +21276,7 @@ class GenerativeContentFeedbackData {
   }
 }
 
+/// @nodoc
 class Relevance {
   static const helpful = Relevance._('HELPFUL');
   static const notHelpful = Relevance._('NOT_HELPFUL');
@@ -20729,6 +21301,8 @@ class Relevance {
 }
 
 /// An error occurred when creating a recommendation.
+///
+/// @nodoc
 class NotifyRecommendationsReceivedError {
   /// A recommendation is causing an error.
   final String? message;
@@ -20760,6 +21334,8 @@ class NotifyRecommendationsReceivedError {
 }
 
 /// The summary of a model available to an Amazon Q in Connect assistant.
+///
+/// @nodoc
 class ModelSummary {
   /// The display name of the model.
   final String displayName;
@@ -20850,6 +21426,7 @@ class ModelSummary {
   }
 }
 
+/// @nodoc
 class CrossRegionStatus {
   static const none = CrossRegionStatus._('NONE');
   static const regional = CrossRegionStatus._('REGIONAL');
@@ -20875,6 +21452,7 @@ class CrossRegionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelLifecycle {
   static const active = ModelLifecycle._('ACTIVE');
   static const legacy = ModelLifecycle._('LEGACY');
@@ -20902,6 +21480,8 @@ class ModelLifecycle {
 /// A recommendation trigger provides context on the event that produced the
 /// referenced recommendations. Recommendations are only referenced in
 /// <code>recommendationIds</code> by a single RecommendationTrigger.
+///
+/// @nodoc
 class RecommendationTrigger {
   /// A union type containing information related to the trigger.
   final RecommendationTriggerData data;
@@ -20969,6 +21549,7 @@ class RecommendationTrigger {
   }
 }
 
+/// @nodoc
 class RecommendationTriggerType {
   static const query = RecommendationTriggerType._('QUERY');
   static const generative = RecommendationTriggerType._('GENERATIVE');
@@ -20994,6 +21575,7 @@ class RecommendationTriggerType {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationSourceType {
   static const issueDetection = RecommendationSourceType._('ISSUE_DETECTION');
   static const ruleEvaluation = RecommendationSourceType._('RULE_EVALUATION');
@@ -21021,6 +21603,8 @@ class RecommendationSourceType {
 }
 
 /// A union type containing information related to the trigger.
+///
+/// @nodoc
 class RecommendationTriggerData {
   /// Data associated with the QUERY RecommendationTriggerType.
   final QueryRecommendationTriggerData? query;
@@ -21047,6 +21631,8 @@ class RecommendationTriggerData {
 }
 
 /// Data associated with the QUERY RecommendationTriggerType.
+///
+/// @nodoc
 class QueryRecommendationTriggerData {
   /// The text associated with the recommendation trigger.
   final String? text;
@@ -21070,6 +21656,8 @@ class QueryRecommendationTriggerData {
 }
 
 /// Information about the recommendation.
+///
+/// @nodoc
 class RecommendationData {
   /// The identifier of the recommendation.
   final String recommendationId;
@@ -21132,6 +21720,7 @@ class RecommendationData {
   }
 }
 
+/// @nodoc
 class RecommendationType {
   static const knowledgeContent = RecommendationType._('KNOWLEDGE_CONTENT');
   static const generativeResponse = RecommendationType._('GENERATIVE_RESPONSE');
@@ -21197,6 +21786,8 @@ class RecommendationType {
 }
 
 /// Summary information about the assistant.
+///
+/// @nodoc
 class AssistantSummary {
   /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
   final String assistantArn;
@@ -21340,37 +21931,44 @@ class AssistantSummary {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DependencyFailedException extends _s.GenericAwsException {
   DependencyFailedException({String? type, String? message})
       : super(type: type, code: 'DependencyFailedException', message: message);
 }
 
+/// @nodoc
 class PreconditionFailedException extends _s.GenericAwsException {
   PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
+/// @nodoc
 class RequestTimeoutException extends _s.GenericAwsException {
   RequestTimeoutException({String? type, String? message})
       : super(type: type, code: 'RequestTimeoutException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -21379,21 +21977,25 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class UnprocessableContentException extends _s.GenericAwsException {
   UnprocessableContentException({String? type, String? message})
       : super(
@@ -21402,6 +22004,7 @@ class UnprocessableContentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

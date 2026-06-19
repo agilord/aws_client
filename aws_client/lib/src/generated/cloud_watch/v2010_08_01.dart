@@ -1236,8 +1236,8 @@ class CloudWatch {
   /// <b>GROUP BY</b> clause returns a single time-series (TS), and can be used
   /// as input for a metric math expression that expects a single time series. A
   /// Metrics Insights query with a <b>GROUP BY</b> clause returns an array of
-  /// time-series (TS[]), and can be used as input for a metric math expression
-  /// that expects an array of time series.
+  /// time-series (TS\[\]), and can be used as input for a metric math
+  /// expression that expects an array of time series.
   ///
   /// May throw [InvalidNextToken].
   ///
@@ -2114,12 +2114,12 @@ class CloudWatch {
   /// "DatabaseConnectionAlarm", you would create an IAM policy with one
   /// statement granting <code>cloudwatch:PutAlarmMuteRule</code> on the alarm
   /// mute rule resource
-  /// (<code>arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute-rule:*</code>),
+  /// (<code>arn:aws:cloudwatch:\[REGION\]:123456789012:alarm-mute-rule:*</code>),
   /// and another statement granting <code>cloudwatch:PutAlarmMuteRule</code> on
   /// the targeted alarm resources
-  /// (<code>arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm</code>
+  /// (<code>arn:aws:cloudwatch:\[REGION\]:123456789012:alarm:WebServerCPUAlarm</code>
   /// and
-  /// <code>arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm</code>).
+  /// <code>arn:aws:cloudwatch:\[REGION\]:123456789012:alarm:DatabaseConnectionAlarm</code>).
   ///
   /// You can also use IAM policy conditions to allow targeting alarms based on
   /// resource tags. For example, you can restrict users to create/update mute
@@ -2494,7 +2494,7 @@ class CloudWatch {
   /// <code>ALARM</code> state from any other state. Each action is specified as
   /// an Amazon Resource Name (ARN).
   ///
-  /// Valid Values: ]
+  /// Valid Values: \]
   ///
   /// <b>Amazon SNS actions:</b>
   ///
@@ -2538,7 +2538,7 @@ class CloudWatch {
   /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
   /// specified as an Amazon Resource Name (ARN).
   ///
-  /// Valid Values: ]
+  /// Valid Values: \]
   ///
   /// <b>Amazon SNS actions:</b>
   ///
@@ -2570,7 +2570,7 @@ class CloudWatch {
   /// state from any other state. Each action is specified as an Amazon Resource
   /// Name (ARN).
   ///
-  /// Valid Values: ]
+  /// Valid Values: \]
   ///
   /// <b>Amazon SNS actions:</b>
   ///
@@ -4218,6 +4218,7 @@ class CloudWatch {
   }
 }
 
+/// @nodoc
 class DeleteAnomalyDetectorOutput {
   DeleteAnomalyDetectorOutput();
 
@@ -4230,6 +4231,7 @@ class DeleteAnomalyDetectorOutput {
   }
 }
 
+/// @nodoc
 class DeleteDashboardsOutput {
   DeleteDashboardsOutput();
 
@@ -4242,6 +4244,7 @@ class DeleteDashboardsOutput {
   }
 }
 
+/// @nodoc
 class DeleteInsightRulesOutput {
   /// An array listing the rules that could not be deleted. You cannot delete
   /// built-in rules.
@@ -4268,6 +4271,7 @@ class DeleteInsightRulesOutput {
   }
 }
 
+/// @nodoc
 class DeleteMetricStreamOutput {
   DeleteMetricStreamOutput();
 
@@ -4280,6 +4284,7 @@ class DeleteMetricStreamOutput {
   }
 }
 
+/// @nodoc
 class DescribeAlarmContributorsOutput {
   /// A list of alarm contributors that provide details about the individual time
   /// series contributing to the alarm's state.
@@ -4313,6 +4318,7 @@ class DescribeAlarmContributorsOutput {
   }
 }
 
+/// @nodoc
 class DescribeAlarmHistoryOutput {
   /// The alarm histories, in JSON format.
   final List<AlarmHistoryItem>? alarmHistoryItems;
@@ -4345,6 +4351,7 @@ class DescribeAlarmHistoryOutput {
   }
 }
 
+/// @nodoc
 class DescribeAlarmsOutput {
   /// The information about any composite alarms returned by the operation.
   final List<CompositeAlarm>? compositeAlarms;
@@ -4387,6 +4394,7 @@ class DescribeAlarmsOutput {
   }
 }
 
+/// @nodoc
 class DescribeAlarmsForMetricOutput {
   /// The information for each alarm with the specified metric.
   final List<MetricAlarm>? metricAlarms;
@@ -4412,6 +4420,7 @@ class DescribeAlarmsForMetricOutput {
   }
 }
 
+/// @nodoc
 class DescribeAnomalyDetectorsOutput {
   /// The list of anomaly detection models returned by the operation.
   final List<AnomalyDetector>? anomalyDetectors;
@@ -4445,6 +4454,7 @@ class DescribeAnomalyDetectorsOutput {
   }
 }
 
+/// @nodoc
 class DescribeInsightRulesOutput {
   /// The rules returned by the operation.
   final List<InsightRule>? insightRules;
@@ -4478,6 +4488,7 @@ class DescribeInsightRulesOutput {
   }
 }
 
+/// @nodoc
 class DisableInsightRulesOutput {
   /// An array listing the rules that could not be disabled. You cannot disable
   /// built-in rules.
@@ -4504,6 +4515,7 @@ class DisableInsightRulesOutput {
   }
 }
 
+/// @nodoc
 class EnableInsightRulesOutput {
   /// An array listing the rules that could not be enabled. You cannot disable or
   /// enable built-in rules.
@@ -4530,6 +4542,7 @@ class EnableInsightRulesOutput {
   }
 }
 
+/// @nodoc
 class GetAlarmMuteRuleOutput {
   /// The Amazon Resource Name (ARN) of the alarm mute rule.
   final String? alarmMuteRuleArn;
@@ -4623,6 +4636,7 @@ class GetAlarmMuteRuleOutput {
   }
 }
 
+/// @nodoc
 class GetDashboardOutput {
   /// The Amazon Resource Name (ARN) of the dashboard.
   final String? dashboardArn;
@@ -4663,6 +4677,7 @@ class GetDashboardOutput {
   }
 }
 
+/// @nodoc
 class GetInsightRuleReportOutput {
   /// The sum of the values from all individual contributors that match the rule.
   final double? aggregateValue;
@@ -4740,6 +4755,7 @@ class GetInsightRuleReportOutput {
   }
 }
 
+/// @nodoc
 class GetMetricDataOutput {
   /// Contains a message about this <code>GetMetricData</code> operation, if the
   /// operation results in such a message. An example of a message that might be
@@ -4791,6 +4807,7 @@ class GetMetricDataOutput {
   }
 }
 
+/// @nodoc
 class GetMetricStatisticsOutput {
   /// The data points for the specified metric.
   final List<Datapoint>? datapoints;
@@ -4823,6 +4840,7 @@ class GetMetricStatisticsOutput {
   }
 }
 
+/// @nodoc
 class GetMetricStreamOutput {
   /// The ARN of the metric stream.
   final String? arn;
@@ -4954,6 +4972,7 @@ class GetMetricStreamOutput {
   }
 }
 
+/// @nodoc
 class GetMetricWidgetImageOutput {
   /// The image of the graph, in the output format specified. The output is
   /// base64-encoded.
@@ -4979,6 +4998,7 @@ class GetMetricWidgetImageOutput {
   }
 }
 
+/// @nodoc
 class GetOTelEnrichmentOutput {
   /// The status of OTel enrichment for the account. Valid values are
   /// <code>Running</code> (enrichment is enabled) and <code>Stopped</code>
@@ -5004,6 +5024,7 @@ class GetOTelEnrichmentOutput {
   }
 }
 
+/// @nodoc
 class ListAlarmMuteRulesOutput {
   /// A list of alarm mute rule summaries.
   final List<AlarmMuteRuleSummary>? alarmMuteRuleSummaries;
@@ -5038,6 +5059,7 @@ class ListAlarmMuteRulesOutput {
   }
 }
 
+/// @nodoc
 class ListDashboardsOutput {
   /// The list of matching dashboards.
   final List<DashboardEntry>? dashboardEntries;
@@ -5070,6 +5092,7 @@ class ListDashboardsOutput {
   }
 }
 
+/// @nodoc
 class ListManagedInsightRulesOutput {
   /// The managed rules that are available for the specified Amazon Web Services
   /// resource.
@@ -5105,6 +5128,7 @@ class ListManagedInsightRulesOutput {
   }
 }
 
+/// @nodoc
 class ListMetricsOutput {
   /// The metrics that match your request.
   final List<Metric>? metrics;
@@ -5152,6 +5176,7 @@ class ListMetricsOutput {
   }
 }
 
+/// @nodoc
 class ListMetricStreamsOutput {
   /// The array of metric stream information.
   final List<MetricStreamEntry>? entries;
@@ -5186,6 +5211,7 @@ class ListMetricStreamsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tag keys and values associated with the resource you specified.
   final List<Tag>? tags;
@@ -5211,6 +5237,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PutAnomalyDetectorOutput {
   PutAnomalyDetectorOutput();
 
@@ -5223,6 +5250,7 @@ class PutAnomalyDetectorOutput {
   }
 }
 
+/// @nodoc
 class PutDashboardOutput {
   /// If the input for <code>PutDashboard</code> was correct and the dashboard was
   /// successfully created or modified, this result is empty.
@@ -5259,6 +5287,7 @@ class PutDashboardOutput {
   }
 }
 
+/// @nodoc
 class PutInsightRuleOutput {
   PutInsightRuleOutput();
 
@@ -5271,6 +5300,7 @@ class PutInsightRuleOutput {
   }
 }
 
+/// @nodoc
 class PutManagedInsightRulesOutput {
   /// An array that lists the rules that could not be enabled.
   final List<PartialFailure>? failures;
@@ -5296,6 +5326,7 @@ class PutManagedInsightRulesOutput {
   }
 }
 
+/// @nodoc
 class PutMetricStreamOutput {
   /// The ARN of the metric stream.
   final String? arn;
@@ -5318,6 +5349,7 @@ class PutMetricStreamOutput {
   }
 }
 
+/// @nodoc
 class StartMetricStreamsOutput {
   StartMetricStreamsOutput();
 
@@ -5330,6 +5362,7 @@ class StartMetricStreamsOutput {
   }
 }
 
+/// @nodoc
 class StartOTelEnrichmentOutput {
   StartOTelEnrichmentOutput();
 
@@ -5342,6 +5375,7 @@ class StartOTelEnrichmentOutput {
   }
 }
 
+/// @nodoc
 class StopMetricStreamsOutput {
   StopMetricStreamsOutput();
 
@@ -5354,6 +5388,7 @@ class StopMetricStreamsOutput {
   }
 }
 
+/// @nodoc
 class StopOTelEnrichmentOutput {
   StopOTelEnrichmentOutput();
 
@@ -5366,6 +5401,7 @@ class StopOTelEnrichmentOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -5378,6 +5414,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -5391,6 +5428,8 @@ class UntagResourceOutput {
 }
 
 /// A key-value pair associated with a CloudWatch resource.
+///
+/// @nodoc
 class Tag {
   /// A string that you can use to assign a value. The combination of tag keys and
   /// values can help you organize and categorize your resources.
@@ -5421,6 +5460,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class StateValue {
   static const ok = StateValue._('OK');
   static const alarm = StateValue._('ALARM');
@@ -5445,6 +5485,7 @@ class StateValue {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricStreamOutputFormat {
   static const json = MetricStreamOutputFormat._('json');
   static const opentelemetry0_7 =
@@ -5480,6 +5521,8 @@ class MetricStreamOutputFormat {
 /// information about statistics, see CloudWatch, listed in <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
 /// CloudWatch statistics definitions</a>.
+///
+/// @nodoc
 class MetricStreamStatisticsConfiguration {
   /// The list of additional statistics that are to be streamed for the metrics
   /// listed in the <code>IncludeMetrics</code> array in this structure. This list
@@ -5539,6 +5582,8 @@ class MetricStreamStatisticsConfiguration {
 
 /// This object contains the information for one metric that is to be streamed
 /// with additional statistics.
+///
+/// @nodoc
 class MetricStreamStatisticsMetric {
   /// The name of the metric.
   final String metricName;
@@ -5575,6 +5620,8 @@ class MetricStreamStatisticsMetric {
 /// applies to the sum of namespace names and metric names in the filters. For
 /// example, this could include 10 metric namespace filters with 99 metrics
 /// each, or 20 namespace filters with 49 metrics specified in each filter.
+///
+/// @nodoc
 class MetricStreamFilter {
   /// The names of the metrics to either include or exclude from the metric
   /// stream.
@@ -5622,6 +5669,8 @@ class MetricStreamFilter {
 /// A set of metrics that are associated with an entity, such as a specific
 /// service or resource. Contains the entity and the list of metric data
 /// associated with it.
+///
+/// @nodoc
 class EntityMetricData {
   /// The entity associated with the metrics.
   final Entity? entity;
@@ -5649,6 +5698,8 @@ class EntityMetricData {
 /// example, metrics from an Amazon EC2 instance could be associated with that
 /// instance as the entity. Similarly, metrics from a service that you own could
 /// be associated with that service as the entity.
+///
+/// @nodoc
 class Entity {
   /// Additional attributes of the entity that are not used to specify the
   /// identity of the entity. A list of key-value pairs.
@@ -5691,6 +5742,8 @@ class Entity {
 
 /// Encapsulates the information sent to either create a metric or add new
 /// values to be aggregated into an existing metric.
+///
+/// @nodoc
 class MetricDatum {
   /// The name of the metric.
   final String metricName;
@@ -5792,6 +5845,8 @@ class MetricDatum {
 }
 
 /// Represents a set of statistics that describes a specific metric.
+///
+/// @nodoc
 class StatisticSet {
   /// The maximum value of the sample set.
   final double maximum;
@@ -5826,6 +5881,7 @@ class StatisticSet {
   }
 }
 
+/// @nodoc
 class StandardUnit {
   static const seconds = StandardUnit._('Seconds');
   static const microseconds = StandardUnit._('Microseconds');
@@ -5910,6 +5966,8 @@ class StandardUnit {
 /// the value for that dimension.
 ///
 /// You can assign up to 30 dimensions to a metric.
+///
+/// @nodoc
 class Dimension {
   /// The name of the dimension. Dimension names must contain only ASCII
   /// characters, must include at least one non-whitespace character, and cannot
@@ -5944,6 +6002,7 @@ class Dimension {
   }
 }
 
+/// @nodoc
 class Statistic {
   static const sampleCount = Statistic._('SampleCount');
   static const average = Statistic._('Average');
@@ -5970,6 +6029,7 @@ class Statistic {
   String toString() => value;
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const greaterThanOrEqualToThreshold =
       ComparisonOperator._('GreaterThanOrEqualToThreshold');
@@ -6016,6 +6076,8 @@ class ComparisonOperator {
 
 /// The evaluation criteria for an alarm. This is a union type that currently
 /// supports <code>PromQLCriteria</code>.
+///
+/// @nodoc
 class EvaluationCriteria {
   /// The PromQL criteria for the alarm evaluation.
   final AlarmPromQLCriteria? promQLCriteria;
@@ -6044,6 +6106,8 @@ class EvaluationCriteria {
 /// Contains the configuration that determines how a PromQL alarm evaluates its
 /// contributors, including the query to run and the durations that define when
 /// contributors transition between states.
+///
+/// @nodoc
 class AlarmPromQLCriteria {
   /// The PromQL query that the alarm evaluates. The query must return a result of
   /// vector type. Each entry in the vector result represents an alarm
@@ -6115,6 +6179,8 @@ class AlarmPromQLCriteria {
 /// you are using this structure in a <code>GetMetricData</code> operation or a
 /// <code>PutMetricAlarm</code> operation. These differences are explained in
 /// the following parameter list.
+///
+/// @nodoc
 class MetricDataQuery {
   /// A short name used to tie this object to the results in the response. This
   /// name must be unique within a single call to <code>GetMetricData</code>. If
@@ -6237,6 +6303,8 @@ class MetricDataQuery {
 
 /// This structure defines the metric to be returned, along with the statistics,
 /// period, and units.
+///
+/// @nodoc
 class MetricStat {
   /// The metric to return, including the metric name, namespace, and dimensions.
   final Metric metric;
@@ -6317,6 +6385,8 @@ class MetricStat {
 }
 
 /// Represents a specific metric.
+///
+/// @nodoc
 class Metric {
   /// The dimensions for the metric.
   final List<Dimension>? dimensions;
@@ -6359,6 +6429,8 @@ class Metric {
 /// This array is empty if the API operation was successful for all the rules
 /// specified in the request. If the operation could not process one of the
 /// rules, the following data is returned for each of those rules.
+///
+/// @nodoc
 class PartialFailure {
   /// The type of error.
   final String? exceptionType;
@@ -6404,6 +6476,8 @@ class PartialFailure {
 
 /// Contains the information that's required to enable a managed Contributor
 /// Insights rule for an Amazon Web Services resource.
+///
+/// @nodoc
 class ManagedRule {
   /// The ARN of an Amazon Web Services resource that has managed Contributor
   /// Insights rules.
@@ -6444,6 +6518,8 @@ class ManagedRule {
 }
 
 /// An error or warning for the operation.
+///
+/// @nodoc
 class DashboardValidationMessage {
   /// The data path related to the message.
   final String? dataPath;
@@ -6476,6 +6552,8 @@ class DashboardValidationMessage {
 /// The configuration specifies details about how the anomaly detection model is
 /// to be trained, including time ranges to exclude from use for training the
 /// model and the time zone to use for the metric.
+///
+/// @nodoc
 class AnomalyDetectorConfiguration {
   /// An array of time ranges to exclude from use when the anomaly detection model
   /// is trained. Use this to make sure that events that could cause unusual
@@ -6519,6 +6597,8 @@ class AnomalyDetectorConfiguration {
 
 /// This object includes parameters that you can use to provide information to
 /// CloudWatch to help it build more accurate anomaly detection models.
+///
+/// @nodoc
 class MetricCharacteristics {
   /// Set this parameter to <code>true</code> if values for this metric
   /// consistently include spikes that should not be considered to be anomalies.
@@ -6549,6 +6629,8 @@ class MetricCharacteristics {
 /// the anomaly detector uses as input. If you have enabled unified
 /// cross-account observability, and this account is a monitoring account, the
 /// metric can be in the same account or a source account.
+///
+/// @nodoc
 class SingleMetricAnomalyDetector {
   /// If the CloudWatch metric that provides the time series that the anomaly
   /// detector uses as input is in another account, specify that account ID here.
@@ -6607,6 +6689,8 @@ class SingleMetricAnomalyDetector {
 /// Indicates the CloudWatch math expression that provides the time series the
 /// anomaly detector uses as input. The designated math expression must return a
 /// single time series.
+///
+/// @nodoc
 class MetricMathAnomalyDetector {
   /// An array of metric data query structures that enables you to create an
   /// anomaly detector based on the result of a metric math expression. Each item
@@ -6642,6 +6726,8 @@ class MetricMathAnomalyDetector {
 
 /// Specifies one range of days or times to exclude from use for training an
 /// anomaly detection model.
+///
+/// @nodoc
 class Range {
   /// The end time of the range to exclude. The format is
   /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
@@ -6680,6 +6766,8 @@ class Range {
 /// The rule contains a schedule that specifies when and how long alarms should
 /// be muted. The schedule can be a recurring pattern using cron expressions or
 /// a one-time mute window using at expressions.
+///
+/// @nodoc
 class Rule {
   /// The schedule configuration that defines when the mute rule activates and how
   /// long it remains active.
@@ -6709,6 +6797,8 @@ class Rule {
 /// You can target up to 100 specific alarms by name. When a mute rule is
 /// active, the targeted alarms continue to evaluate metrics and transition
 /// between states, but their configured actions are muted.
+///
+/// @nodoc
 class MuteTargets {
   /// The list of alarm names that this mute rule targets. You can specify up to
   /// 100 alarm names.
@@ -6744,6 +6834,8 @@ class MuteTargets {
 /// The schedule uses either a cron expression for recurring mute windows or an
 /// at expression for one-time mute windows. When the schedule activates, the
 /// mute rule mutes alarm actions for the specified duration.
+///
+/// @nodoc
 class Schedule {
   /// The length of time that alarms remain muted when the schedule activates. The
   /// duration must be between 1 and 50 characters in length.
@@ -6890,6 +6982,8 @@ class Schedule {
 
 /// This structure contains the configuration information about one metric
 /// stream.
+///
+/// @nodoc
 class MetricStreamEntry {
   /// The ARN of the metric stream.
   final String? arn;
@@ -6961,6 +7055,7 @@ class MetricStreamEntry {
   }
 }
 
+/// @nodoc
 class RecentlyActive {
   static const pt3h = RecentlyActive._('PT3H');
 
@@ -6985,6 +7080,8 @@ class RecentlyActive {
 }
 
 /// Represents filters for a dimension.
+///
+/// @nodoc
 class DimensionFilter {
   /// The dimension name to be matched.
   final String name;
@@ -7009,6 +7106,8 @@ class DimensionFilter {
 
 /// Contains information about managed Contributor Insights rules, as returned
 /// by <code>ListManagedInsightRules</code>.
+///
+/// @nodoc
 class ManagedRuleDescription {
   /// If a managed rule is enabled, this is the ARN for the related Amazon Web
   /// Services resource.
@@ -7052,6 +7151,8 @@ class ManagedRuleDescription {
 }
 
 /// The status of a managed Contributor Insights rule.
+///
+/// @nodoc
 class ManagedRuleState {
   /// The name of the Contributor Insights rule that contains data for the
   /// specified Amazon Web Services resource.
@@ -7083,6 +7184,8 @@ class ManagedRuleState {
 }
 
 /// Represents a specific dashboard.
+///
+/// @nodoc
 class DashboardEntry {
   /// The Amazon Resource Name (ARN) of the dashboard.
   final String? dashboardArn;
@@ -7131,6 +7234,8 @@ class DashboardEntry {
 
 /// Summary information about an alarm mute rule, including its name, status,
 /// and configuration details.
+///
+/// @nodoc
 class AlarmMuteRuleSummary {
   /// The Amazon Resource Name (ARN) of the alarm mute rule.
   final String? alarmMuteRuleArn;
@@ -7185,6 +7290,7 @@ class AlarmMuteRuleSummary {
   }
 }
 
+/// @nodoc
 class AlarmMuteRuleStatus {
   static const scheduled = AlarmMuteRuleStatus._('SCHEDULED');
   static const active = AlarmMuteRuleStatus._('ACTIVE');
@@ -7212,6 +7318,8 @@ class AlarmMuteRuleStatus {
 }
 
 /// The status of OTel enrichment for the account.
+///
+/// @nodoc
 class OTelEnrichmentStatus {
   static const running = OTelEnrichmentStatus._('Running');
   static const stopped = OTelEnrichmentStatus._('Stopped');
@@ -7238,6 +7346,8 @@ class OTelEnrichmentStatus {
 }
 
 /// Encapsulates the statistical data that CloudWatch computes from metric data.
+///
+/// @nodoc
 class Datapoint {
   /// The average of the metric values that correspond to the data point.
   final double? average;
@@ -7319,6 +7429,8 @@ class Datapoint {
 /// retrieve cross region data</code>, you can correct the problem by running
 /// the <code>GetMetricData</code> operation in the same Region where the metric
 /// data is.
+///
+/// @nodoc
 class MessageData {
   /// The error code or status code associated with the message.
   final String? code;
@@ -7352,6 +7464,8 @@ class MessageData {
 /// <code>MetricDataResult</code> structures. Each of these structures includes
 /// the data points for that metric, along with the timestamps of those data
 /// points and other identifying information.
+///
+/// @nodoc
 class MetricDataResult {
   /// The short name you specified to represent this metric.
   final String? id;
@@ -7374,12 +7488,12 @@ class MetricDataResult {
 
   /// The timestamps for the data points, formatted in Unix timestamp format. The
   /// number of timestamps always matches the number of values and the value for
-  /// Timestamps[x] is Values[x].
+  /// Timestamps\[x\] is Values\[x\].
   final List<DateTime>? timestamps;
 
   /// The data points for the metric corresponding to <code>Timestamps</code>. The
   /// number of values always matches the number of timestamps and the timestamp
-  /// for Values[x] is Timestamps[x].
+  /// for Values\[x\] is Timestamps\[x\].
   final List<double>? values;
 
   MetricDataResult({
@@ -7428,6 +7542,7 @@ class MetricDataResult {
   }
 }
 
+/// @nodoc
 class StatusCode {
   static const complete = StatusCode._('Complete');
   static const internalError = StatusCode._('InternalError');
@@ -7453,6 +7568,7 @@ class StatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanBy {
   static const timestampDescending = ScanBy._('TimestampDescending');
   static const timestampAscending = ScanBy._('TimestampAscending');
@@ -7485,6 +7601,8 @@ class ScanBy {
 /// dynamic expressions in labels, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/graph-dynamic-labels.html">Using
 /// Dynamic Labels</a>.
+///
+/// @nodoc
 class LabelOptions {
   /// The time zone to use for metric data return in this operation. The format is
   /// <code>+</code> or <code>-</code> followed by four digits. The first two
@@ -7510,6 +7628,8 @@ class LabelOptions {
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>.
+///
+/// @nodoc
 class InsightRuleMetricDatapoint {
   /// The timestamp of the data point.
   final DateTime timestamp;
@@ -7618,6 +7738,8 @@ class InsightRuleMetricDatapoint {
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>.
+///
+/// @nodoc
 class InsightRuleContributor {
   /// An approximation of the aggregate value that comes from this contributor.
   final double approximateAggregateValue;
@@ -7670,6 +7792,8 @@ class InsightRuleContributor {
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>
 /// and <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_InsightRuleContributor.html">InsightRuleContributor</a>.
+///
+/// @nodoc
 class InsightRuleContributorDatapoint {
   /// The approximate value that this contributor added during this timestamp.
   final double approximateValue;
@@ -7704,6 +7828,8 @@ class InsightRuleContributorDatapoint {
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html">
 /// Using Constributor Insights to analyze high-cardinality data</a> in the
 /// <i>Amazon CloudWatch User Guide</i>.
+///
+/// @nodoc
 class InsightRule {
   /// The definition of the rule, as a JSON object. The definition contains the
   /// keywords used to define contributors, the value to aggregate on if this rule
@@ -7780,6 +7906,8 @@ class InsightRule {
 /// If you have enabled unified cross-account observability, and this account is
 /// a monitoring account, the metric can be in the same account or a source
 /// account.
+///
+/// @nodoc
 class AnomalyDetector {
   /// The configuration specifies details about how the anomaly detection model is
   /// to be trained, including time ranges to exclude from use for training the
@@ -7882,6 +8010,7 @@ class AnomalyDetector {
   }
 }
 
+/// @nodoc
 class AnomalyDetectorStateValue {
   static const pendingTraining =
       AnomalyDetectorStateValue._('PENDING_TRAINING');
@@ -7910,6 +8039,7 @@ class AnomalyDetectorStateValue {
   String toString() => value;
 }
 
+/// @nodoc
 class AnomalyDetectorType {
   static const singleMetric = AnomalyDetectorType._('SINGLE_METRIC');
   static const metricMath = AnomalyDetectorType._('METRIC_MATH');
@@ -7936,6 +8066,8 @@ class AnomalyDetectorType {
 }
 
 /// The details about a metric alarm.
+///
+/// @nodoc
 class MetricAlarm {
   /// Indicates whether actions should be executed during any changes to the alarm
   /// state.
@@ -8247,6 +8379,7 @@ class MetricAlarm {
   }
 }
 
+/// @nodoc
 class EvaluationState {
   static const partialData = EvaluationState._('PARTIAL_DATA');
   static const evaluationFailure = EvaluationState._('EVALUATION_FAILURE');
@@ -8273,6 +8406,8 @@ class EvaluationState {
 }
 
 /// The details about a composite alarm.
+///
+/// @nodoc
 class CompositeAlarm {
   /// Indicates whether actions should be executed during any changes to the alarm
   /// state.
@@ -8477,6 +8612,7 @@ class CompositeAlarm {
   }
 }
 
+/// @nodoc
 class ActionsSuppressedBy {
   static const waitPeriod = ActionsSuppressedBy._('WaitPeriod');
   static const extensionPeriod = ActionsSuppressedBy._('ExtensionPeriod');
@@ -8503,6 +8639,7 @@ class ActionsSuppressedBy {
   String toString() => value;
 }
 
+/// @nodoc
 class AlarmType {
   static const compositeAlarm = AlarmType._('CompositeAlarm');
   static const metricAlarm = AlarmType._('MetricAlarm');
@@ -8527,6 +8664,8 @@ class AlarmType {
 }
 
 /// Represents the history of a specific alarm.
+///
+/// @nodoc
 class AlarmHistoryItem {
   /// A map of attributes that describe the alarm contributor associated with this
   /// history item, providing context about the contributor's characteristics at
@@ -8605,6 +8744,7 @@ class AlarmHistoryItem {
   }
 }
 
+/// @nodoc
 class HistoryItemType {
   static const configurationUpdate = HistoryItemType._('ConfigurationUpdate');
   static const stateUpdate = HistoryItemType._('StateUpdate');
@@ -8643,6 +8783,8 @@ class HistoryItemType {
 /// Represents an individual contributor to a multi-timeseries alarm, containing
 /// information about a specific time series and its contribution to the alarm's
 /// state.
+///
+/// @nodoc
 class AlarmContributor {
   /// A map of attributes that describe the contributor, such as metric dimensions
   /// and other identifying characteristics.
@@ -8694,6 +8836,7 @@ class AlarmContributor {
   }
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -8702,36 +8845,43 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DashboardInvalidInputError extends _s.GenericAwsException {
   DashboardInvalidInputError({String? type, String? message})
       : super(type: type, code: 'DashboardInvalidInputError', message: message);
 }
 
+/// @nodoc
 class DashboardNotFoundError extends _s.GenericAwsException {
   DashboardNotFoundError({String? type, String? message})
       : super(type: type, code: 'DashboardNotFoundError', message: message);
 }
 
+/// @nodoc
 class InternalServiceFault extends _s.GenericAwsException {
   InternalServiceFault({String? type, String? message})
       : super(type: type, code: 'InternalServiceFault', message: message);
 }
 
+/// @nodoc
 class InvalidFormatFault extends _s.GenericAwsException {
   InvalidFormatFault({String? type, String? message})
       : super(type: type, code: 'InvalidFormatFault', message: message);
 }
 
+/// @nodoc
 class InvalidNextToken extends _s.GenericAwsException {
   InvalidNextToken({String? type, String? message})
       : super(type: type, code: 'InvalidNextToken', message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -8740,6 +8890,7 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -8748,16 +8899,19 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class LimitExceededFault extends _s.GenericAwsException {
   LimitExceededFault({String? type, String? message})
       : super(type: type, code: 'LimitExceededFault', message: message);
 }
 
+/// @nodoc
 class MissingRequiredParameterException extends _s.GenericAwsException {
   MissingRequiredParameterException({String? type, String? message})
       : super(
@@ -8766,11 +8920,13 @@ class MissingRequiredParameterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFound extends _s.GenericAwsException {
   ResourceNotFound({String? type, String? message})
       : super(type: type, code: 'ResourceNotFound', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

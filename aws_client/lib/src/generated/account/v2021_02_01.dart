@@ -953,6 +953,7 @@ class Account {
   }
 }
 
+/// @nodoc
 class GetAccountInformationResponse {
   /// The date and time the account was created.
   final DateTime? accountCreatedDate;
@@ -1020,6 +1021,7 @@ class GetAccountInformationResponse {
   }
 }
 
+/// @nodoc
 class GetAlternateContactResponse {
   /// A structure that contains the details for the specified alternate contact.
   final AlternateContact? alternateContact;
@@ -1045,6 +1047,7 @@ class GetAlternateContactResponse {
   }
 }
 
+/// @nodoc
 class GetGovCloudAccountInformationResponse {
   /// The account state of the linked GovCloud account.
   final AwsAccountState accountState;
@@ -1076,6 +1079,7 @@ class GetGovCloudAccountInformationResponse {
   }
 }
 
+/// @nodoc
 class GetContactInformationResponse {
   /// Contains the details of the primary contact information associated with an
   /// Amazon Web Services account.
@@ -1102,6 +1106,7 @@ class GetContactInformationResponse {
   }
 }
 
+/// @nodoc
 class AcceptPrimaryEmailUpdateResponse {
   /// Retrieves the status of the accepted primary email update request.
   final PrimaryEmailUpdateStatus? status;
@@ -1125,6 +1130,7 @@ class AcceptPrimaryEmailUpdateResponse {
   }
 }
 
+/// @nodoc
 class GetPrimaryEmailResponse {
   /// Retrieves the primary email address associated with the specified account.
   final String? primaryEmail;
@@ -1147,6 +1153,7 @@ class GetPrimaryEmailResponse {
   }
 }
 
+/// @nodoc
 class StartPrimaryEmailUpdateResponse {
   /// The status of the primary email update request.
   final PrimaryEmailUpdateStatus? status;
@@ -1170,6 +1177,7 @@ class StartPrimaryEmailUpdateResponse {
   }
 }
 
+/// @nodoc
 class GetRegionOptStatusResponse {
   /// The Region code that was passed in.
   final String? regionName;
@@ -1201,6 +1209,7 @@ class GetRegionOptStatusResponse {
   }
 }
 
+/// @nodoc
 class ListRegionsResponse {
   /// If there is more data to be returned, this will be populated. It should be
   /// passed into the <code>next-token</code> request parameter of
@@ -1239,6 +1248,8 @@ class ListRegionsResponse {
 
 /// This is a structure that expresses the Region for a given account,
 /// consisting of a name and opt-in status.
+///
+/// @nodoc
 class Region {
   /// The Region code of a given Region (for example, <code>us-east-1</code>).
   final String? regionName;
@@ -1270,6 +1281,7 @@ class Region {
   }
 }
 
+/// @nodoc
 class RegionOptStatus {
   static const enabled = RegionOptStatus._('ENABLED');
   static const enabling = RegionOptStatus._('ENABLING');
@@ -1303,6 +1315,7 @@ class RegionOptStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PrimaryEmailUpdateStatus {
   static const pending = PrimaryEmailUpdateStatus._('PENDING');
   static const accepted = PrimaryEmailUpdateStatus._('ACCEPTED');
@@ -1330,6 +1343,8 @@ class PrimaryEmailUpdateStatus {
 
 /// Contains the details of the primary contact information associated with an
 /// Amazon Web Services account.
+///
+/// @nodoc
 class ContactInformation {
   /// The first line of the primary contact address.
   final String addressLine1;
@@ -1437,6 +1452,7 @@ class ContactInformation {
   }
 }
 
+/// @nodoc
 class AwsAccountState {
   static const pendingActivation = AwsAccountState._('PENDING_ACTIVATION');
   static const active = AwsAccountState._('ACTIVE');
@@ -1463,6 +1479,7 @@ class AwsAccountState {
   String toString() => value;
 }
 
+/// @nodoc
 class AlternateContactType {
   static const billing = AlternateContactType._('BILLING');
   static const operations = AlternateContactType._('OPERATIONS');
@@ -1491,6 +1508,8 @@ class AlternateContactType {
 
 /// A structure that contains the details of an alternate contact associated
 /// with an Amazon Web Services account
+///
+/// @nodoc
 class AlternateContact {
   /// The type of alternate contact.
   final AlternateContactType? alternateContactType;
@@ -1543,6 +1562,7 @@ class AlternateContact {
   }
 }
 
+/// @nodoc
 class AccountState {
   static const pendingActivation = AccountState._('PENDING_ACTIVATION');
   static const active = AccountState._('ACTIVE');
@@ -1568,37 +1588,44 @@ class AccountState {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

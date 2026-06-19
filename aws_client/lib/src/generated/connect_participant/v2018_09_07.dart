@@ -201,7 +201,7 @@ class ConnectParticipant {
   /// For chat, you need to publish the following on the established websocket
   /// connection:
   ///
-  /// <code>{"topic":"aws/subscribe","content":{"topics":["aws/chat"]}}</code>
+  /// <code>{"topic":"aws/subscribe","content":{"topics":\["aws/chat"\]}}</code>
   ///
   /// Upon websocket URL expiry, as specified in the response ConnectionExpiry
   /// parameter, clients need to call this API again to obtain a new websocket
@@ -858,6 +858,7 @@ class ConnectParticipant {
   }
 }
 
+/// @nodoc
 class CancelParticipantAuthenticationResponse {
   CancelParticipantAuthenticationResponse();
 
@@ -871,6 +872,7 @@ class CancelParticipantAuthenticationResponse {
   }
 }
 
+/// @nodoc
 class CompleteAttachmentUploadResponse {
   CompleteAttachmentUploadResponse();
 
@@ -883,6 +885,7 @@ class CompleteAttachmentUploadResponse {
   }
 }
 
+/// @nodoc
 class CreateParticipantConnectionResponse {
   /// Creates the participant's connection credentials. The authentication token
   /// associated with the participant's connection.
@@ -931,6 +934,7 @@ class CreateParticipantConnectionResponse {
   }
 }
 
+/// @nodoc
 class DescribeViewResponse {
   /// A view resource object. Contains metadata and content necessary to render
   /// the view.
@@ -956,6 +960,7 @@ class DescribeViewResponse {
   }
 }
 
+/// @nodoc
 class DisconnectParticipantResponse {
   DisconnectParticipantResponse();
 
@@ -968,6 +973,7 @@ class DisconnectParticipantResponse {
   }
 }
 
+/// @nodoc
 class GetAttachmentResponse {
   /// The size of the attachment in bytes.
   final int attachmentSizeInBytes;
@@ -1007,6 +1013,7 @@ class GetAttachmentResponse {
   }
 }
 
+/// @nodoc
 class GetAuthenticationUrlResponse {
   /// The URL where the customer will sign in to the identity provider. This URL
   /// contains the authorize endpoint for the Cognito UserPool used in the
@@ -1031,6 +1038,7 @@ class GetAuthenticationUrlResponse {
   }
 }
 
+/// @nodoc
 class GetTranscriptResponse {
   /// The initial contact ID for the contact.
   final String? initialContactId;
@@ -1071,6 +1079,7 @@ class GetTranscriptResponse {
   }
 }
 
+/// @nodoc
 class SendEventResponse {
   /// The time when the event was sent.
   ///
@@ -1103,6 +1112,7 @@ class SendEventResponse {
   }
 }
 
+/// @nodoc
 class SendMessageResponse {
   /// The time when the message was sent.
   ///
@@ -1145,6 +1155,7 @@ class SendMessageResponse {
   }
 }
 
+/// @nodoc
 class StartAttachmentUploadResponse {
   /// A unique identifier for the attachment.
   final String? attachmentId;
@@ -1178,6 +1189,8 @@ class StartAttachmentUploadResponse {
 }
 
 /// Fields to be used while uploading the attachment.
+///
+/// @nodoc
 class UploadMetadata {
   /// The headers to be provided while uploading the file to the URL.
   final Map<String, String>? headersToInclude;
@@ -1219,6 +1232,8 @@ class UploadMetadata {
 }
 
 /// Contains metadata for chat messages.
+///
+/// @nodoc
 class MessageProcessingMetadata {
   /// The status of Message Processing for the message.
   final MessageProcessingStatus? messageProcessingStatus;
@@ -1243,6 +1258,7 @@ class MessageProcessingMetadata {
   }
 }
 
+/// @nodoc
 class MessageProcessingStatus {
   static const processing = MessageProcessingStatus._('PROCESSING');
   static const failed = MessageProcessingStatus._('FAILED');
@@ -1270,6 +1286,8 @@ class MessageProcessingStatus {
 }
 
 /// An item - message or event - that has been sent.
+///
+/// @nodoc
 class Item {
   /// The time when the message or event was sent.
   ///
@@ -1385,6 +1403,7 @@ class Item {
   }
 }
 
+/// @nodoc
 class ChatItemType {
   static const typing = ChatItemType._('TYPING');
   static const participantJoined = ChatItemType._('PARTICIPANT_JOINED');
@@ -1431,6 +1450,7 @@ class ChatItemType {
   String toString() => value;
 }
 
+/// @nodoc
 class ParticipantRole {
   static const agent = ParticipantRole._('AGENT');
   static const customer = ParticipantRole._('CUSTOMER');
@@ -1459,6 +1479,8 @@ class ParticipantRole {
 }
 
 /// Contains metadata related to a message.
+///
+/// @nodoc
 class MessageMetadata {
   /// The identifier of the message that contains the metadata information.
   final String? messageId;
@@ -1501,6 +1523,8 @@ class MessageMetadata {
 }
 
 /// The receipt for the message delivered to the recipient.
+///
+/// @nodoc
 class Receipt {
   /// The time when the message was delivered to the recipient.
   final String? deliveredTimestamp;
@@ -1540,6 +1564,8 @@ class Receipt {
 
 /// The case-insensitive input to indicate standard MIME type that describes the
 /// format of the file that will be uploaded.
+///
+/// @nodoc
 class AttachmentItem {
   /// A unique identifier for the attachment.
   final String? attachmentId;
@@ -1586,6 +1612,7 @@ class AttachmentItem {
   }
 }
 
+/// @nodoc
 class ArtifactStatus {
   static const approved = ArtifactStatus._('APPROVED');
   static const rejected = ArtifactStatus._('REJECTED');
@@ -1611,6 +1638,7 @@ class ArtifactStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanDirection {
   static const forward = ScanDirection._('FORWARD');
   static const backward = ScanDirection._('BACKWARD');
@@ -1635,6 +1663,7 @@ class ScanDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class SortKey {
   static const descending = SortKey._('DESCENDING');
   static const ascending = SortKey._('ASCENDING');
@@ -1660,6 +1689,8 @@ class SortKey {
 
 /// A filtering option for where to start. For example, if you sent 100
 /// messages, start with message 50.
+///
+/// @nodoc
 class StartPosition {
   /// The time in ISO format where to start.
   ///
@@ -1693,6 +1724,8 @@ class StartPosition {
 
 /// A view resource object. Contains metadata and content necessary to render
 /// the view.
+///
+/// @nodoc
 class View {
   /// The Amazon Resource Name (ARN) of the view.
   final String? arn;
@@ -1748,6 +1781,8 @@ class View {
 
 /// View content containing all content necessary to render a view except for
 /// runtime input data.
+///
+/// @nodoc
 class ViewContent {
   /// A list of actions possible from the view
   final List<String>? actions;
@@ -1787,6 +1822,8 @@ class ViewContent {
 }
 
 /// The websocket for the participant's connection.
+///
+/// @nodoc
 class Websocket {
   /// The URL expiration timestamp in ISO date format.
   ///
@@ -1820,6 +1857,8 @@ class Websocket {
 }
 
 /// Connection credentials.
+///
+/// @nodoc
 class ConnectionCredentials {
   /// The connection token.
   final String? connectionToken;
@@ -1854,6 +1893,8 @@ class ConnectionCredentials {
 
 /// Creates the participant’s WebRTC connection data required for the client
 /// application (mobile or web) to connect to the call.
+///
+/// @nodoc
 class WebRTCConnection {
   final Attendee? attendee;
 
@@ -1887,6 +1928,8 @@ class WebRTCConnection {
 }
 
 /// The attendee information, including attendee ID and join token.
+///
+/// @nodoc
 class Attendee {
   /// The Amazon Chime SDK attendee ID.
   final String? attendeeId;
@@ -1917,6 +1960,8 @@ class Attendee {
 }
 
 /// A meeting created using the Amazon Chime SDK.
+///
+/// @nodoc
 class WebRTCMeeting {
   /// The media placement for the meeting.
   final WebRTCMediaPlacement? mediaPlacement;
@@ -1959,6 +2004,8 @@ class WebRTCMeeting {
 
 /// A set of endpoints used by clients to connect to the media service group for
 /// an Amazon Chime SDK meeting.
+///
+/// @nodoc
 class WebRTCMediaPlacement {
   /// The audio fallback URL.
   final String? audioFallbackUrl;
@@ -2003,6 +2050,8 @@ class WebRTCMediaPlacement {
 }
 
 /// The configuration settings of the features available to a meeting.
+///
+/// @nodoc
 class MeetingFeaturesConfiguration {
   /// The configuration settings for the audio features available to a meeting.
   final AudioFeatures? audio;
@@ -2029,6 +2078,8 @@ class MeetingFeaturesConfiguration {
 
 /// Has audio-specific configurations as the operating parameter for Echo
 /// Reduction.
+///
+/// @nodoc
 class AudioFeatures {
   /// Makes echo reduction available to clients who connect to the meeting.
   final MeetingFeatureStatus? echoReduction;
@@ -2052,6 +2103,7 @@ class AudioFeatures {
   }
 }
 
+/// @nodoc
 class MeetingFeatureStatus {
   static const available = MeetingFeatureStatus._('AVAILABLE');
   static const unavailable = MeetingFeatureStatus._('UNAVAILABLE');
@@ -2077,6 +2129,7 @@ class MeetingFeatureStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionType {
   static const websocket = ConnectionType._('WEBSOCKET');
   static const connectionCredentials =
@@ -2103,26 +2156,31 @@ class ConnectionType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2131,11 +2189,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

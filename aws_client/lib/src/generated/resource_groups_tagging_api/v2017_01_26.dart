@@ -120,7 +120,7 @@ class ResourceGroupsTaggingApi {
   /// Parameter [resourceTypeFilters] :
   /// Specifies that you want the response to include information for only
   /// resources of the specified types. The format of each resource type is
-  /// <code>service[:resourceType]</code>. For example, specifying a resource
+  /// <code>service\[:resourceType\]</code>. For example, specifying a resource
   /// type of <code>ec2</code> returns all Amazon EC2 resources (which includes
   /// EC2 instances). Specifying a resource type of <code>ec2:instance</code>
   /// returns only EC2 instances.
@@ -299,7 +299,7 @@ class ResourceGroupsTaggingApi {
   ///
   /// Parameter [resourceTypeFilters] :
   /// Specifies the resource types that you want included in the response. The
-  /// format of each resource type is <code>service[:resourceType]</code>. For
+  /// format of each resource type is <code>service\[:resourceType\]</code>. For
   /// example, specifying a service of <code>ec2</code> returns all Amazon EC2
   /// resources (which includes EC2 instances). Specifying a resource type of
   /// <code>ec2:instance</code> returns only EC2 instances.
@@ -354,7 +354,8 @@ class ResourceGroupsTaggingApi {
   /// If you <i>don't</i> specify a <code>TagFilter</code>, the response
   /// includes all resources that are currently tagged or ever had a tag.
   /// Resources that were previously tagged, <i>but do not currently</i> have
-  /// tags, are shown with an empty tag set, like this: <code>"Tags": []</code>.
+  /// tags, are shown with an empty tag set, like this: <code>"Tags":
+  /// \[\]</code>.
   /// </li>
   /// <li>
   /// If you specify more than one filter in a single request, the response
@@ -839,6 +840,7 @@ class ResourceGroupsTaggingApi {
   }
 }
 
+/// @nodoc
 class DescribeReportCreationOutput {
   /// Details of the common errors that all operations return.
   final String? errorMessage;
@@ -902,6 +904,7 @@ class DescribeReportCreationOutput {
   }
 }
 
+/// @nodoc
 class GetComplianceSummaryOutput {
   /// A string that indicates that there is more data available than this response
   /// contains. To receive the next part of the response, specify this response
@@ -937,6 +940,7 @@ class GetComplianceSummaryOutput {
   }
 }
 
+/// @nodoc
 class GetResourcesOutput {
   /// A string that indicates that there is more data available than this response
   /// contains. To receive the next part of the response, specify this response
@@ -973,6 +977,7 @@ class GetResourcesOutput {
   }
 }
 
+/// @nodoc
 class GetTagKeysOutput {
   /// A string that indicates that there is more data available than this response
   /// contains. To receive the next part of the response, specify this response
@@ -1006,6 +1011,7 @@ class GetTagKeysOutput {
   }
 }
 
+/// @nodoc
 class GetTagValuesOutput {
   /// A string that indicates that there is more data available than this response
   /// contains. To receive the next part of the response, specify this response
@@ -1042,6 +1048,7 @@ class GetTagValuesOutput {
   }
 }
 
+/// @nodoc
 class ListRequiredTagsOutput {
   /// A token for requesting another page of required tags if the
   /// <code>NextToken</code> response element indicates that more required tags
@@ -1078,6 +1085,7 @@ class ListRequiredTagsOutput {
   }
 }
 
+/// @nodoc
 class StartReportCreationOutput {
   StartReportCreationOutput();
 
@@ -1090,6 +1098,7 @@ class StartReportCreationOutput {
   }
 }
 
+/// @nodoc
 class TagResourcesOutput {
   /// A map containing a key-value pair for each failed item that couldn't be
   /// tagged. The key is the ARN of the failed resource. The value is a
@@ -1118,6 +1127,7 @@ class TagResourcesOutput {
   }
 }
 
+/// @nodoc
 class UntagResourcesOutput {
   /// A map containing a key-value pair for each failed item that couldn't be
   /// untagged. The key is the ARN of the failed resource. The value is a
@@ -1178,6 +1188,8 @@ class UntagResourcesOutput {
 /// </ul>
 /// For more information on errors that are generated from other Amazon Web
 /// Services services, see the documentation for that service.
+///
+/// @nodoc
 class FailureInfo {
   /// The code of the common error. Valid values include
   /// <code>InternalServiceException</code>,
@@ -1218,6 +1230,7 @@ class FailureInfo {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const internalServiceException =
       ErrorCode._('InternalServiceException');
@@ -1244,6 +1257,8 @@ class ErrorCode {
 }
 
 /// Information that describes the required tags for a given resource type.
+///
+/// @nodoc
 class RequiredTag {
   /// Describes the CloudFormation resource type assigned the required tag keys.
   final List<String>? cloudFormationResourceTypes;
@@ -1291,6 +1306,8 @@ class RequiredTag {
 
 /// A list of resource ARNs and the tags (keys and values) that are associated
 /// with each.
+///
+/// @nodoc
 class ResourceTagMapping {
   /// Information that shows whether a resource is compliant with the effective
   /// tag policy, including details on any noncompliant tag keys.
@@ -1337,6 +1354,8 @@ class ResourceTagMapping {
 
 /// Information that shows whether a resource is compliant with the effective
 /// tag policy, including details on any noncompliant tag keys.
+///
+/// @nodoc
 class ComplianceDetails {
   /// Whether a resource is compliant with the effective tag policy.
   final bool? complianceStatus;
@@ -1400,6 +1419,8 @@ class ComplianceDetails {
 /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
 /// Amazon Web Services Resources</a> in the <i>Amazon Web Services General
 /// Reference</i>.
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that makes up a tag. A key is a general label
   /// that acts like a category for more specific tag values.
@@ -1433,6 +1454,8 @@ class Tag {
 
 /// A list of tags (keys and values) that are used to specify the associated
 /// resources.
+///
+/// @nodoc
 class TagFilter {
   /// One part of a key-value pair that makes up a tag. A key is a general label
   /// that acts like a category for more specific tag values.
@@ -1458,6 +1481,8 @@ class TagFilter {
 }
 
 /// A count of noncompliant resources.
+///
+/// @nodoc
 class Summary {
   /// The timestamp that shows when this summary was generated in this Region.
   final String? lastUpdated;
@@ -1520,6 +1545,7 @@ class Summary {
   }
 }
 
+/// @nodoc
 class TargetIdType {
   static const account = TargetIdType._('ACCOUNT');
   static const ou = TargetIdType._('OU');
@@ -1544,6 +1570,7 @@ class TargetIdType {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupByAttribute {
   static const targetId = GroupByAttribute._('TARGET_ID');
   static const region = GroupByAttribute._('REGION');
@@ -1569,6 +1596,7 @@ class GroupByAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -1577,22 +1605,26 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConstraintViolationException extends _s.GenericAwsException {
   ConstraintViolationException({String? type, String? message})
       : super(
             type: type, code: 'ConstraintViolationException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class PaginationTokenExpiredException extends _s.GenericAwsException {
   PaginationTokenExpiredException({String? type, String? message})
       : super(
@@ -1601,6 +1633,7 @@ class PaginationTokenExpiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottledException extends _s.GenericAwsException {
   ThrottledException({String? type, String? message})
       : super(type: type, code: 'ThrottledException', message: message);

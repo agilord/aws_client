@@ -1970,6 +1970,7 @@ class Amplify {
   }
 }
 
+/// @nodoc
 class CreateAppResult {
   final App app;
 
@@ -1993,6 +1994,8 @@ class CreateAppResult {
 }
 
 /// The result structure for the create backend environment request.
+///
+/// @nodoc
 class CreateBackendEnvironmentResult {
   /// Describes the backend environment for an Amplify app.
   final BackendEnvironment backendEnvironment;
@@ -2018,6 +2021,8 @@ class CreateBackendEnvironmentResult {
 }
 
 /// The result structure for create branch request.
+///
+/// @nodoc
 class CreateBranchResult {
   /// Describes the branch for an Amplify app, which maps to a third-party
   /// repository branch.
@@ -2043,6 +2048,8 @@ class CreateBranchResult {
 }
 
 /// The result structure for the create a new deployment request.
+///
+/// @nodoc
 class CreateDeploymentResult {
   /// When the <code>fileMap</code> argument is provided in the request,
   /// <code>fileUploadUrls</code> will contain a map of file names to upload URLs.
@@ -2084,6 +2091,8 @@ class CreateDeploymentResult {
 }
 
 /// The result structure for the create domain association request.
+///
+/// @nodoc
 class CreateDomainAssociationResult {
   /// Describes the structure of a domain association, which associates a custom
   /// domain with an Amplify app.
@@ -2110,6 +2119,8 @@ class CreateDomainAssociationResult {
 }
 
 /// The result structure for the create webhook request.
+///
+/// @nodoc
 class CreateWebhookResult {
   /// Describes a webhook that connects repository events to an Amplify app.
   final Webhook webhook;
@@ -2134,6 +2145,8 @@ class CreateWebhookResult {
 }
 
 /// The result structure for the delete app request.
+///
+/// @nodoc
 class DeleteAppResult {
   final App app;
 
@@ -2157,6 +2170,8 @@ class DeleteAppResult {
 }
 
 /// The result structure of the delete backend environment result.
+///
+/// @nodoc
 class DeleteBackendEnvironmentResult {
   /// Describes the backend environment for an Amplify app.
   final BackendEnvironment backendEnvironment;
@@ -2182,6 +2197,8 @@ class DeleteBackendEnvironmentResult {
 }
 
 /// The result structure for the delete branch request.
+///
+/// @nodoc
 class DeleteBranchResult {
   /// The branch for an Amplify app, which maps to a third-party repository
   /// branch.
@@ -2206,6 +2223,7 @@ class DeleteBranchResult {
   }
 }
 
+/// @nodoc
 class DeleteDomainAssociationResult {
   final DomainAssociation domainAssociation;
 
@@ -2230,6 +2248,8 @@ class DeleteDomainAssociationResult {
 }
 
 /// The result structure for the delete job request.
+///
+/// @nodoc
 class DeleteJobResult {
   final JobSummary jobSummary;
 
@@ -2254,6 +2274,8 @@ class DeleteJobResult {
 }
 
 /// The result structure for the delete webhook request.
+///
+/// @nodoc
 class DeleteWebhookResult {
   /// Describes a webhook that connects repository events to an Amplify app.
   final Webhook webhook;
@@ -2278,6 +2300,8 @@ class DeleteWebhookResult {
 }
 
 /// The result structure for the generate access logs request.
+///
+/// @nodoc
 class GenerateAccessLogsResult {
   /// The pre-signed URL for the requested access logs.
   final String? logUrl;
@@ -2300,6 +2324,7 @@ class GenerateAccessLogsResult {
   }
 }
 
+/// @nodoc
 class GetAppResult {
   final App app;
 
@@ -2323,6 +2348,8 @@ class GetAppResult {
 }
 
 /// Returns the result structure for the get artifact request.
+///
+/// @nodoc
 class GetArtifactUrlResult {
   /// The unique ID for an artifact.
   final String artifactId;
@@ -2353,6 +2380,8 @@ class GetArtifactUrlResult {
 }
 
 /// The result structure for the get backend environment result.
+///
+/// @nodoc
 class GetBackendEnvironmentResult {
   /// Describes the backend environment for an Amplify app.
   final BackendEnvironment backendEnvironment;
@@ -2377,6 +2406,7 @@ class GetBackendEnvironmentResult {
   }
 }
 
+/// @nodoc
 class GetBranchResult {
   final Branch branch;
 
@@ -2400,6 +2430,8 @@ class GetBranchResult {
 }
 
 /// The result structure for the get domain association request.
+///
+/// @nodoc
 class GetDomainAssociationResult {
   /// Describes the structure of a domain association, which associates a custom
   /// domain with an Amplify app.
@@ -2425,6 +2457,7 @@ class GetDomainAssociationResult {
   }
 }
 
+/// @nodoc
 class GetJobResult {
   final Job job;
 
@@ -2448,6 +2481,8 @@ class GetJobResult {
 }
 
 /// The result structure for the get webhook request.
+///
+/// @nodoc
 class GetWebhookResult {
   /// Describes the structure of a webhook.
   final Webhook webhook;
@@ -2472,6 +2507,8 @@ class GetWebhookResult {
 }
 
 /// The result structure for an Amplify app list request.
+///
+/// @nodoc
 class ListAppsResult {
   /// A list of Amplify apps.
   final List<App> apps;
@@ -2507,6 +2544,8 @@ class ListAppsResult {
 }
 
 /// The result structure for the list artifacts request.
+///
+/// @nodoc
 class ListArtifactsResult {
   /// A list of artifacts.
   final List<Artifact> artifacts;
@@ -2541,6 +2580,8 @@ class ListArtifactsResult {
 }
 
 /// The result structure for the list backend environments result.
+///
+/// @nodoc
 class ListBackendEnvironmentsResult {
   /// The list of backend environments for an Amplify app.
   final List<BackendEnvironment> backendEnvironments;
@@ -2575,6 +2616,8 @@ class ListBackendEnvironmentsResult {
 }
 
 /// The result structure for the list branches request.
+///
+/// @nodoc
 class ListBranchesResult {
   /// A list of branches for an Amplify app.
   final List<Branch> branches;
@@ -2609,6 +2652,8 @@ class ListBranchesResult {
 }
 
 /// The result structure for the list domain association request.
+///
+/// @nodoc
 class ListDomainAssociationsResult {
   /// A list of domain associations.
   final List<DomainAssociation> domainAssociations;
@@ -2643,6 +2688,8 @@ class ListDomainAssociationsResult {
 }
 
 /// The maximum number of records to list in a single response.
+///
+/// @nodoc
 class ListJobsResult {
   /// The result structure for the list job result request.
   final List<JobSummary> jobSummaries;
@@ -2677,6 +2724,8 @@ class ListJobsResult {
 }
 
 /// The response for the list tags for resource request.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags for the specified The Amazon Resource Name (ARN).
   final Map<String, String>? tags;
@@ -2701,6 +2750,8 @@ class ListTagsForResourceResponse {
 }
 
 /// The result structure for the list webhooks request.
+///
+/// @nodoc
 class ListWebhooksResult {
   /// A list of webhooks.
   final List<Webhook> webhooks;
@@ -2735,6 +2786,8 @@ class ListWebhooksResult {
 }
 
 /// The result structure for the start a deployment request.
+///
+/// @nodoc
 class StartDeploymentResult {
   /// The summary for the job.
   final JobSummary jobSummary;
@@ -2760,6 +2813,8 @@ class StartDeploymentResult {
 }
 
 /// The result structure for the run job request.
+///
+/// @nodoc
 class StartJobResult {
   /// The summary for the job.
   final JobSummary jobSummary;
@@ -2785,6 +2840,8 @@ class StartJobResult {
 }
 
 /// The result structure for the stop job request.
+///
+/// @nodoc
 class StopJobResult {
   /// The summary for the job.
   final JobSummary jobSummary;
@@ -2810,6 +2867,8 @@ class StopJobResult {
 }
 
 /// The response for the tag resource request.
+///
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2823,6 +2882,8 @@ class TagResourceResponse {
 }
 
 /// The response for the untag resource request.
+///
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2836,6 +2897,8 @@ class UntagResourceResponse {
 }
 
 /// The result structure for an Amplify app update request.
+///
+/// @nodoc
 class UpdateAppResult {
   /// Represents the updated Amplify app.
   final App app;
@@ -2860,6 +2923,8 @@ class UpdateAppResult {
 }
 
 /// The result structure for the update branch request.
+///
+/// @nodoc
 class UpdateBranchResult {
   /// The branch for an Amplify app, which maps to a third-party repository
   /// branch.
@@ -2885,6 +2950,8 @@ class UpdateBranchResult {
 }
 
 /// The result structure for the update domain association request.
+///
+/// @nodoc
 class UpdateDomainAssociationResult {
   /// Describes a domain association, which associates a custom domain with an
   /// Amplify app.
@@ -2911,6 +2978,8 @@ class UpdateDomainAssociationResult {
 }
 
 /// The result structure for the update webhook request.
+///
+/// @nodoc
 class UpdateWebhookResult {
   /// Describes a webhook that connects repository events to an Amplify app.
   final Webhook webhook;
@@ -2935,6 +3004,8 @@ class UpdateWebhookResult {
 }
 
 /// Describes a webhook that connects repository events to an Amplify app.
+///
+/// @nodoc
 class Webhook {
   /// The name for a branch that is part of an Amplify app.
   final String branchName;
@@ -3007,6 +3078,8 @@ class Webhook {
 }
 
 /// Describes the association between a custom domain and an Amplify app.
+///
+/// @nodoc
 class DomainAssociation {
   /// The Amazon Resource Name (ARN) for the domain association.
   final String domainAssociationArn;
@@ -3149,6 +3222,7 @@ class DomainAssociation {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const pendingVerification = DomainStatus._('PENDING_VERIFICATION');
   static const inProgress = DomainStatus._('IN_PROGRESS');
@@ -3192,6 +3266,7 @@ class DomainStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateStatus {
   static const requestingCertificate = UpdateStatus._('REQUESTING_CERTIFICATE');
   static const pendingVerification = UpdateStatus._('PENDING_VERIFICATION');
@@ -3233,6 +3308,8 @@ class UpdateStatus {
 /// you are using <code>CreateDomainAssociation</code> to create a new domain
 /// association, <code>Certificate</code> describes the new certificate that you
 /// are creating.
+///
+/// @nodoc
 class Certificate {
   /// The type of SSL/TLS certificate that you want to use.
   ///
@@ -3287,6 +3364,7 @@ class Certificate {
   }
 }
 
+/// @nodoc
 class CertificateType {
   static const amplifyManaged = CertificateType._('AMPLIFY_MANAGED');
   static const custom = CertificateType._('CUSTOM');
@@ -3312,6 +3390,8 @@ class CertificateType {
 }
 
 /// The subdomain for the domain association.
+///
+/// @nodoc
 class SubDomain {
   /// The DNS record for the subdomain.
   final String dnsRecord;
@@ -3351,6 +3431,8 @@ class SubDomain {
 }
 
 /// Describes the settings for the subdomain.
+///
+/// @nodoc
 class SubDomainSetting {
   /// The branch name setting for the subdomain.
   final String branchName;
@@ -3383,6 +3465,8 @@ class SubDomainSetting {
 /// The type of SSL/TLS certificate to use for your custom domain. If a
 /// certificate type isn't specified, Amplify uses the default
 /// <code>AMPLIFY_MANAGED</code> certificate.
+///
+/// @nodoc
 class CertificateSettings {
   /// The certificate type.
   ///
@@ -3422,6 +3506,8 @@ class CertificateSettings {
 
 /// The branch for an Amplify app, which maps to a third-party repository
 /// branch.
+///
+/// @nodoc
 class Branch {
   /// The ID of the active job for a branch of an Amplify app.
   final String activeJobId;
@@ -3689,6 +3775,7 @@ class Branch {
   }
 }
 
+/// @nodoc
 class Stage {
   static const production = Stage._('PRODUCTION');
   static const beta = Stage._('BETA');
@@ -3726,6 +3813,8 @@ class Stage {
 /// This property is available to Amplify Gen 2 apps only. When you deploy an
 /// application with Amplify Gen 2, you provision the app's backend
 /// infrastructure using Typescript code.
+///
+/// @nodoc
 class Backend {
   /// The Amazon Resource Name (ARN) for the CloudFormation stack.
   final String? stackArn;
@@ -3750,6 +3839,8 @@ class Backend {
 
 /// Represents the different branches of a repository for building, deploying,
 /// and hosting an Amplify app.
+///
+/// @nodoc
 class App {
   /// The Amazon Resource Name (ARN) of the Amplify app.
   final String appArn;
@@ -4031,6 +4122,7 @@ class App {
   }
 }
 
+/// @nodoc
 class Platform {
   static const web = Platform._('WEB');
   static const webDynamic = Platform._('WEB_DYNAMIC');
@@ -4056,6 +4148,8 @@ class Platform {
 }
 
 /// Describes the information about a production branch for an Amplify app.
+///
+/// @nodoc
 class ProductionBranch {
   /// The branch name for the production branch.
   final String? branchName;
@@ -4101,6 +4195,8 @@ class ProductionBranch {
 }
 
 /// Describes the automated branch creation configuration.
+///
+/// @nodoc
 class AutoBranchCreationConfig {
   /// The basic authorization credentials for the autocreated branch. You must
   /// base64-encode the authorization credentials and provide them in the format
@@ -4199,6 +4295,7 @@ class AutoBranchCreationConfig {
   }
 }
 
+/// @nodoc
 class RepositoryCloneMethod {
   static const ssh = RepositoryCloneMethod._('SSH');
   static const token = RepositoryCloneMethod._('TOKEN');
@@ -4232,6 +4329,8 @@ class RepositoryCloneMethod {
 /// served, see <a
 /// href="https://docs.aws.amazon.com/amplify/latest/userguide/managing-cache-configuration">Managing
 /// cache configuration</a> in the <i>Amplify User guide</i>.
+///
+/// @nodoc
 class CacheConfig {
   /// The type of cache configuration to use for an Amplify app.
   ///
@@ -4268,6 +4367,8 @@ class CacheConfig {
 /// an Amplify application, see <a
 /// href="https://docs.aws.amazon.com/amplify/latest/userguide/WAF-integration.html">Firewall
 /// support for hosted sites</a> in the <i>Amplify User Guide</i>.
+///
+/// @nodoc
 class WafConfiguration {
   /// The reason for the current status of the Firewall configuration.
   final String? statusReason;
@@ -4314,6 +4415,8 @@ class WafConfiguration {
 /// app. For more information about customizable build instances, see <a
 /// href="https://docs.aws.amazon.com/amplify/latest/userguide/custom-build-instance.html">Custom
 /// build instances</a> in the <i>Amplify User Guide</i>.
+///
+/// @nodoc
 class JobConfig {
   /// Specifies the size of the build instance. Amplify supports three instance
   /// sizes: <code>STANDARD_8GB</code>, <code>LARGE_16GB</code>, and
@@ -4377,6 +4480,7 @@ class JobConfig {
   }
 }
 
+/// @nodoc
 class BuildComputeType {
   static const standard_8gb = BuildComputeType._('STANDARD_8GB');
   static const large_16gb = BuildComputeType._('LARGE_16GB');
@@ -4402,6 +4506,7 @@ class BuildComputeType {
   String toString() => value;
 }
 
+/// @nodoc
 class WafStatus {
   static const associating = WafStatus._('ASSOCIATING');
   static const associationFailed = WafStatus._('ASSOCIATION_FAILED');
@@ -4434,6 +4539,7 @@ class WafStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CacheConfigType {
   static const amplifyManaged = CacheConfigType._('AMPLIFY_MANAGED');
   static const amplifyManagedNoCookies =
@@ -4460,6 +4566,8 @@ class CacheConfigType {
 }
 
 /// Describes a custom rewrite or redirect rule.
+///
+/// @nodoc
 class CustomRule {
   /// The source pattern for a URL rewrite or redirect rule.
   final String source;
@@ -4516,6 +4624,8 @@ class CustomRule {
 }
 
 /// Describes the summary for an execution job for an Amplify app.
+///
+/// @nodoc
 class JobSummary {
   /// The commit ID from a third-party repository provider for the job.
   final String commitId;
@@ -4622,6 +4732,7 @@ class JobSummary {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const created = JobStatus._('CREATED');
   static const pending = JobStatus._('PENDING');
@@ -4660,6 +4771,7 @@ class JobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class JobType {
   static const release = JobType._('RELEASE');
   static const retry = JobType._('RETRY');
@@ -4685,6 +4797,7 @@ class JobType {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceUrlType {
   static const zip = SourceUrlType._('ZIP');
   static const bucketPrefix = SourceUrlType._('BUCKET_PREFIX');
@@ -4712,6 +4825,8 @@ class SourceUrlType {
 /// Describes the backend environment associated with a <code>Branch</code> of a
 /// Gen 1 Amplify app. Amplify Gen 1 applications are created using Amplify
 /// Studio or the Amplify command line interface (CLI).
+///
+/// @nodoc
 class BackendEnvironment {
   /// The Amazon Resource Name (ARN) for a backend environment that is part of an
   /// Amplify app.
@@ -4774,6 +4889,8 @@ class BackendEnvironment {
 }
 
 /// Describes an artifact.
+///
+/// @nodoc
 class Artifact {
   /// The file name for the artifact.
   final String artifactFileName;
@@ -4804,6 +4921,8 @@ class Artifact {
 }
 
 /// Describes an execution job for an Amplify app.
+///
+/// @nodoc
 class Job {
   /// The execution steps for an execution job, for an Amplify app.
   final List<Step> steps;
@@ -4838,6 +4957,8 @@ class Job {
 }
 
 /// Describes an execution step, for an execution job, for an Amplify app.
+///
+/// @nodoc
 class Step {
   /// The end date and time of the execution step.
   final DateTime endTime;
@@ -4932,11 +5053,13 @@ class Step {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class DependentServiceFailureException extends _s.GenericAwsException {
   DependentServiceFailureException({String? type, String? message})
       : super(
@@ -4945,26 +5068,31 @@ class DependentServiceFailureException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

@@ -6129,6 +6129,8 @@ class Lambda {
 }
 
 /// The response from the CheckpointDurableExecution operation.
+///
+/// @nodoc
 class CheckpointDurableExecutionResponse {
   /// Updated execution state information that includes any changes that occurred
   /// since the last checkpoint, such as completed callbacks or expired timers.
@@ -6165,6 +6167,7 @@ class CheckpointDurableExecutionResponse {
   }
 }
 
+/// @nodoc
 class DeleteFunctionResponse {
   /// The HTTP status code returned by the operation.
   final int? statusCode;
@@ -6185,6 +6188,7 @@ class DeleteFunctionResponse {
   }
 }
 
+/// @nodoc
 class GetAccountSettingsResponse {
   /// Limits that are related to concurrency and code storage.
   final AccountLimit? accountLimit;
@@ -6220,6 +6224,8 @@ class GetAccountSettingsResponse {
 
 /// The response from the GetDurableExecution operation, containing detailed
 /// information about the durable execution.
+///
+/// @nodoc
 class GetDurableExecutionResponse {
   /// The Amazon Resource Name (ARN) of the durable execution.
   final String durableExecutionArn;
@@ -6337,6 +6343,8 @@ class GetDurableExecutionResponse {
 
 /// The response from the GetDurableExecutionHistory operation, containing the
 /// execution history and events.
+///
+/// @nodoc
 class GetDurableExecutionHistoryResponse {
   /// An array of execution history events, ordered chronologically unless
   /// <code>ReverseOrder</code> is set to <code>true</code>. Each event represents
@@ -6377,6 +6385,8 @@ class GetDurableExecutionHistoryResponse {
 
 /// The response from the GetDurableExecutionState operation, containing the
 /// current execution state for replay.
+///
+/// @nodoc
 class GetDurableExecutionStateResponse {
   /// An array of operations that represent the current state of the durable
   /// execution. Operations are ordered by their start sequence number in
@@ -6413,6 +6423,7 @@ class GetDurableExecutionStateResponse {
   }
 }
 
+/// @nodoc
 class FunctionEventInvokeConfig {
   /// A destination for events after they have been sent to a function for
   /// processing.
@@ -6494,6 +6505,8 @@ class FunctionEventInvokeConfig {
 
 /// The response from the ListDurableExecutionsByFunction operation, containing
 /// a list of durable executions and pagination information.
+///
+/// @nodoc
 class ListDurableExecutionsByFunctionResponse {
   /// List of durable execution summaries matching the filter criteria.
   final List<Execution>? durableExecutions;
@@ -6528,6 +6541,7 @@ class ListDurableExecutionsByFunctionResponse {
   }
 }
 
+/// @nodoc
 class ListFunctionEventInvokeConfigsResponse {
   /// A list of configurations.
   final List<FunctionEventInvokeConfig>? functionEventInvokeConfigs;
@@ -6563,6 +6577,7 @@ class ListFunctionEventInvokeConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsResponse {
   /// The function's tags.
   final Map<String, String>? tags;
@@ -6586,6 +6601,7 @@ class ListTagsResponse {
   }
 }
 
+/// @nodoc
 class SendDurableExecutionCallbackFailureResponse {
   SendDurableExecutionCallbackFailureResponse();
 
@@ -6599,6 +6615,7 @@ class SendDurableExecutionCallbackFailureResponse {
   }
 }
 
+/// @nodoc
 class SendDurableExecutionCallbackHeartbeatResponse {
   SendDurableExecutionCallbackHeartbeatResponse();
 
@@ -6612,6 +6629,7 @@ class SendDurableExecutionCallbackHeartbeatResponse {
   }
 }
 
+/// @nodoc
 class SendDurableExecutionCallbackSuccessResponse {
   SendDurableExecutionCallbackSuccessResponse();
 
@@ -6625,6 +6643,7 @@ class SendDurableExecutionCallbackSuccessResponse {
   }
 }
 
+/// @nodoc
 class StopDurableExecutionResponse {
   /// The timestamp when the execution was stopped (ISO 8601 format).
   final DateTime stopTimestamp;
@@ -6647,6 +6666,7 @@ class StopDurableExecutionResponse {
   }
 }
 
+/// @nodoc
 class CreateCapacityProviderResponse {
   /// Information about the capacity provider that was created.
   final CapacityProvider capacityProvider;
@@ -6671,6 +6691,7 @@ class CreateCapacityProviderResponse {
   }
 }
 
+/// @nodoc
 class GetCapacityProviderResponse {
   /// Information about the capacity provider, including its configuration and
   /// current state.
@@ -6696,6 +6717,7 @@ class GetCapacityProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdateCapacityProviderResponse {
   /// Information about the updated capacity provider.
   final CapacityProvider capacityProvider;
@@ -6720,6 +6742,7 @@ class UpdateCapacityProviderResponse {
   }
 }
 
+/// @nodoc
 class DeleteCapacityProviderResponse {
   /// Information about the deleted capacity provider.
   final CapacityProvider capacityProvider;
@@ -6744,6 +6767,7 @@ class DeleteCapacityProviderResponse {
   }
 }
 
+/// @nodoc
 class ListCapacityProvidersResponse {
   /// A list of capacity providers in your account.
   final List<CapacityProvider> capacityProviders;
@@ -6776,6 +6800,7 @@ class ListCapacityProvidersResponse {
   }
 }
 
+/// @nodoc
 class ListFunctionVersionsByCapacityProviderResponse {
   /// The Amazon Resource Name (ARN) of the capacity provider.
   final String capacityProviderArn;
@@ -6817,6 +6842,7 @@ class ListFunctionVersionsByCapacityProviderResponse {
   }
 }
 
+/// @nodoc
 class CreateCodeSigningConfigResponse {
   /// The code signing configuration.
   final CodeSigningConfig codeSigningConfig;
@@ -6841,6 +6867,7 @@ class CreateCodeSigningConfigResponse {
   }
 }
 
+/// @nodoc
 class ListCodeSigningConfigsResponse {
   /// The code signing configurations
   final List<CodeSigningConfig>? codeSigningConfigs;
@@ -6873,6 +6900,7 @@ class ListCodeSigningConfigsResponse {
   }
 }
 
+/// @nodoc
 class DeleteCodeSigningConfigResponse {
   DeleteCodeSigningConfigResponse();
 
@@ -6885,6 +6913,7 @@ class DeleteCodeSigningConfigResponse {
   }
 }
 
+/// @nodoc
 class GetCodeSigningConfigResponse {
   /// The code signing configuration
   final CodeSigningConfig codeSigningConfig;
@@ -6909,6 +6938,7 @@ class GetCodeSigningConfigResponse {
   }
 }
 
+/// @nodoc
 class ListFunctionsByCodeSigningConfigResponse {
   /// The function ARNs.
   final List<String>? functionArns;
@@ -6942,6 +6972,7 @@ class ListFunctionsByCodeSigningConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateCodeSigningConfigResponse {
   /// The code signing configuration
   final CodeSigningConfig codeSigningConfig;
@@ -6968,6 +6999,8 @@ class UpdateCodeSigningConfigResponse {
 
 /// A mapping between an Amazon Web Services resource and a Lambda function. For
 /// details, see <a>CreateEventSourceMapping</a>.
+///
+/// @nodoc
 class EventSourceMappingConfiguration {
   /// Specific configuration settings for an Amazon Managed Streaming for Apache
   /// Kafka (Amazon MSK) event source.
@@ -7371,6 +7404,7 @@ class EventSourceMappingConfiguration {
   }
 }
 
+/// @nodoc
 class ListEventSourceMappingsResponse {
   /// A list of event source mappings.
   final List<EventSourceMappingConfiguration>? eventSourceMappings;
@@ -7407,6 +7441,8 @@ class ListEventSourceMappingsResponse {
 }
 
 /// Details about a function's configuration.
+///
+/// @nodoc
 class FunctionConfiguration {
   /// The instruction set architecture that the function supports. Architecture is
   /// a string array with one of the valid values. The default architecture value
@@ -7836,6 +7872,8 @@ class FunctionConfiguration {
 }
 
 /// A list of Lambda functions.
+///
+/// @nodoc
 class ListFunctionsResponse {
   /// A list of Lambda functions.
   final List<FunctionConfiguration>? functions;
@@ -7868,6 +7906,7 @@ class ListFunctionsResponse {
   }
 }
 
+/// @nodoc
 class CreateFunctionUrlConfigResponse {
   /// The type of authentication that your function URL uses. Set to
   /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
@@ -7951,6 +7990,7 @@ class CreateFunctionUrlConfigResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionConcurrencyResponse {
   /// The number of simultaneous executions that are reserved for the function.
   final int? reservedConcurrentExecutions;
@@ -7975,6 +8015,7 @@ class GetFunctionConcurrencyResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionUrlConfigResponse {
   /// The type of authentication that your function URL uses. Set to
   /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
@@ -8067,6 +8108,7 @@ class GetFunctionUrlConfigResponse {
   }
 }
 
+/// @nodoc
 class ListFunctionUrlConfigsResponse {
   /// A list of function URL configurations.
   final List<FunctionUrlConfig> functionUrlConfigs;
@@ -8099,6 +8141,7 @@ class ListFunctionUrlConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListProvisionedConcurrencyConfigsResponse {
   /// The pagination token that's included if more results are available.
   final String? nextMarker;
@@ -8136,6 +8179,7 @@ class ListProvisionedConcurrencyConfigsResponse {
   }
 }
 
+/// @nodoc
 class Concurrency {
   /// The number of concurrent executions that are reserved for this function. For
   /// more information, see <a
@@ -8163,6 +8207,7 @@ class Concurrency {
   }
 }
 
+/// @nodoc
 class UpdateFunctionUrlConfigResponse {
   /// The type of authentication that your function URL uses. Set to
   /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
@@ -8255,6 +8300,7 @@ class UpdateFunctionUrlConfigResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionResponse {
   /// The deployment package of the function or version.
   final FunctionCodeLocation? code;
@@ -8320,6 +8366,7 @@ class GetFunctionResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionCodeSigningConfigResponse {
   /// The The Amazon Resource Name (ARN) of the code signing configuration.
   final String codeSigningConfigArn;
@@ -8366,6 +8413,7 @@ class GetFunctionCodeSigningConfigResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionRecursionConfigResponse {
   /// If your function's recursive loop detection configuration is
   /// <code>Allow</code>, Lambda doesn't take any action when it detects your
@@ -8401,6 +8449,7 @@ class GetFunctionRecursionConfigResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionScalingConfigResponse {
   /// The scaling configuration that is currently applied to the function. This
   /// represents the actual scaling settings in effect.
@@ -8447,6 +8496,7 @@ class GetFunctionScalingConfigResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyResponse {
   /// The resource-based policy.
   final String? policy;
@@ -8476,6 +8526,7 @@ class GetPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetRuntimeManagementConfigResponse {
   /// The Amazon Resource Name (ARN) of your function.
   final String? functionArn;
@@ -8516,6 +8567,7 @@ class GetRuntimeManagementConfigResponse {
   }
 }
 
+/// @nodoc
 class InvocationResponse {
   /// The ARN of the durable execution that was started. This is returned when
   /// invoking a durable function and provides a unique identifier for tracking
@@ -8566,6 +8618,8 @@ class InvocationResponse {
 
 /// A success response (<code>202 Accepted</code>) indicates that the request is
 /// queued for invocation.
+///
+/// @nodoc
 class InvokeAsyncResponse {
   /// The status code.
   final int? status;
@@ -8586,6 +8640,7 @@ class InvokeAsyncResponse {
   }
 }
 
+/// @nodoc
 class InvokeWithResponseStreamResponse {
   /// The stream of response payloads.
   final InvokeWithResponseStreamResponseEvent? eventStream;
@@ -8620,6 +8675,7 @@ class InvokeWithResponseStreamResponse {
   }
 }
 
+/// @nodoc
 class PutFunctionCodeSigningConfigResponse {
   /// The The Amazon Resource Name (ARN) of the code signing configuration.
   final String codeSigningConfigArn;
@@ -8666,6 +8722,7 @@ class PutFunctionCodeSigningConfigResponse {
   }
 }
 
+/// @nodoc
 class PutFunctionRecursionConfigResponse {
   /// The status of your function's recursive loop detection configuration.
   ///
@@ -8697,6 +8754,7 @@ class PutFunctionRecursionConfigResponse {
   }
 }
 
+/// @nodoc
 class PutFunctionScalingConfigResponse {
   /// The current state of the function after applying the scaling configuration.
   final State? functionState;
@@ -8719,6 +8777,7 @@ class PutFunctionScalingConfigResponse {
   }
 }
 
+/// @nodoc
 class PutRuntimeManagementConfigResponse {
   /// The ARN of the function
   final String functionArn;
@@ -8761,6 +8820,8 @@ class PutRuntimeManagementConfigResponse {
 
 /// Provides configuration information about a Lambda function <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html">alias</a>.
+///
+/// @nodoc
 class AliasConfiguration {
   /// The Amazon Resource Name (ARN) of the alias.
   final String? aliasArn;
@@ -8823,6 +8884,7 @@ class AliasConfiguration {
   }
 }
 
+/// @nodoc
 class ListAliasesResponse {
   /// A list of aliases.
   final List<AliasConfiguration>? aliases;
@@ -8855,6 +8917,7 @@ class ListAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListVersionsByFunctionResponse {
   /// The pagination token that's included if more results are available.
   final String? nextMarker;
@@ -8887,6 +8950,7 @@ class ListVersionsByFunctionResponse {
   }
 }
 
+/// @nodoc
 class ListLayersResponse {
   /// A list of function layers.
   final List<LayersListItem>? layers;
@@ -8919,6 +8983,7 @@ class ListLayersResponse {
   }
 }
 
+/// @nodoc
 class ListLayerVersionsResponse {
   /// A list of versions.
   final List<LayerVersionsListItem>? layerVersions;
@@ -8951,6 +9016,7 @@ class ListLayerVersionsResponse {
   }
 }
 
+/// @nodoc
 class AddLayerVersionPermissionResponse {
   /// A unique identifier for the current revision of the policy.
   final String? revisionId;
@@ -8981,6 +9047,7 @@ class AddLayerVersionPermissionResponse {
   }
 }
 
+/// @nodoc
 class GetLayerVersionResponse {
   /// A list of compatible <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
@@ -9084,6 +9151,7 @@ class GetLayerVersionResponse {
   }
 }
 
+/// @nodoc
 class GetLayerVersionPolicyResponse {
   /// The policy document.
   final String? policy;
@@ -9113,6 +9181,7 @@ class GetLayerVersionPolicyResponse {
   }
 }
 
+/// @nodoc
 class PublishLayerVersionResponse {
   /// A list of compatible <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
@@ -9216,6 +9285,7 @@ class PublishLayerVersionResponse {
   }
 }
 
+/// @nodoc
 class AddPermissionResponse {
   /// The permission statement that's added to the function policy.
   final String? statement;
@@ -9238,6 +9308,7 @@ class AddPermissionResponse {
   }
 }
 
+/// @nodoc
 class PutProvisionedConcurrencyConfigResponse {
   /// The amount of provisioned concurrency allocated. When a weighted alias is
   /// used during linear and canary deployments, this value fluctuates depending
@@ -9314,6 +9385,7 @@ class PutProvisionedConcurrencyConfigResponse {
   }
 }
 
+/// @nodoc
 class GetProvisionedConcurrencyConfigResponse {
   /// The amount of provisioned concurrency allocated. When a weighted alias is
   /// used during linear and canary deployments, this value fluctuates depending
@@ -9390,6 +9462,7 @@ class GetProvisionedConcurrencyConfigResponse {
   }
 }
 
+/// @nodoc
 class ProvisionedConcurrencyStatusEnum {
   static const inProgress = ProvisionedConcurrencyStatusEnum._('IN_PROGRESS');
   static const ready = ProvisionedConcurrencyStatusEnum._('READY');
@@ -9416,6 +9489,7 @@ class ProvisionedConcurrencyStatusEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class FunctionUrlAuthType {
   static const none = FunctionUrlAuthType._('NONE');
   static const awsIam = FunctionUrlAuthType._('AWS_IAM');
@@ -9444,6 +9518,8 @@ class FunctionUrlAuthType {
 /// Details about a version of an <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
 /// layer</a>.
+///
+/// @nodoc
 class LayerVersionContentOutput {
   /// The SHA-256 hash of the layer archive.
   final String? codeSha256;
@@ -9495,6 +9571,7 @@ class LayerVersionContentOutput {
   }
 }
 
+/// @nodoc
 class Architecture {
   static const x86_64 = Architecture._('x86_64');
   static const arm64 = Architecture._('arm64');
@@ -9518,6 +9595,7 @@ class Architecture {
   String toString() => value;
 }
 
+/// @nodoc
 class Runtime {
   static const nodejs = Runtime._('nodejs');
   static const nodejs4_3 = Runtime._('nodejs4.3');
@@ -9636,6 +9714,8 @@ class Runtime {
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
 /// layer</a>. You can specify either an Amazon S3 location, or upload a layer
 /// archive directly.
+///
+/// @nodoc
 class LayerVersionContentInput {
   /// The Amazon S3 bucket of the layer archive.
   final String? s3Bucket;
@@ -9674,6 +9754,8 @@ class LayerVersionContentInput {
 /// Details about a version of an <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
 /// layer</a>.
+///
+/// @nodoc
 class LayerVersionsListItem {
   /// A list of compatible <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html">instruction
@@ -9762,6 +9844,8 @@ class LayerVersionsListItem {
 /// Details about an <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
 /// layer</a>.
+///
+/// @nodoc
 class LayersListItem {
   /// The newest version of the layer.
   final LayerVersionsListItem? latestMatchingVersion;
@@ -9802,6 +9886,7 @@ class LayersListItem {
   }
 }
 
+/// @nodoc
 class FunctionVersionLatestPublished {
   static const latestPublished =
       FunctionVersionLatestPublished._('LATEST_PUBLISHED');
@@ -9830,6 +9915,8 @@ class FunctionVersionLatestPublished {
 /// The <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">traffic-shifting</a>
 /// configuration of a Lambda function alias.
+///
+/// @nodoc
 class AliasRoutingConfiguration {
   /// The second version, and the percentage of traffic that's routed to it.
   final Map<String, double>? additionalVersionWeights;
@@ -9855,6 +9942,7 @@ class AliasRoutingConfiguration {
   }
 }
 
+/// @nodoc
 class UpdateRuntimeOn {
   static const auto = UpdateRuntimeOn._('Auto');
   static const manual = UpdateRuntimeOn._('Manual');
@@ -9880,6 +9968,7 @@ class UpdateRuntimeOn {
   String toString() => value;
 }
 
+/// @nodoc
 class State {
   static const pending = State._('Pending');
   static const active = State._('Active');
@@ -9921,6 +10010,8 @@ class State {
 /// Configuration that defines the scaling behavior for a Lambda Managed
 /// Instances function, including the minimum and maximum number of execution
 /// environments that can be provisioned.
+///
+/// @nodoc
 class FunctionScalingConfig {
   /// The maximum number of execution environments that can be provisioned for the
   /// function.
@@ -9953,6 +10044,7 @@ class FunctionScalingConfig {
   }
 }
 
+/// @nodoc
 class RecursiveLoop {
   static const allow = RecursiveLoop._('Allow');
   static const terminate = RecursiveLoop._('Terminate');
@@ -9979,6 +10071,8 @@ class RecursiveLoop {
 
 /// An object that includes a chunk of the response payload. When the stream has
 /// ended, Lambda includes a <code>InvokeComplete</code> object.
+///
+/// @nodoc
 class InvokeWithResponseStreamResponseEvent {
   /// An object that's returned when the stream has ended and all the payload
   /// chunks have been returned.
@@ -10017,6 +10111,8 @@ class InvokeWithResponseStreamResponseEvent {
 }
 
 /// A chunk of the streamed response payload.
+///
+/// @nodoc
 class InvokeResponseStreamUpdate {
   /// Data returned by your Lambda function.
   final Uint8List? payload;
@@ -10040,6 +10136,8 @@ class InvokeResponseStreamUpdate {
 }
 
 /// A response confirming that the event stream is complete.
+///
+/// @nodoc
 class InvokeWithResponseStreamCompleteEvent {
   /// An error code.
   final String? errorCode;
@@ -10077,6 +10175,7 @@ class InvokeWithResponseStreamCompleteEvent {
   }
 }
 
+/// @nodoc
 class ResponseStreamingInvocationType {
   static const requestResponse =
       ResponseStreamingInvocationType._('RequestResponse');
@@ -10103,6 +10202,7 @@ class ResponseStreamingInvocationType {
   String toString() => value;
 }
 
+/// @nodoc
 class LogType {
   static const none = LogType._('None');
   static const tail = LogType._('Tail');
@@ -10126,6 +10226,7 @@ class LogType {
   String toString() => value;
 }
 
+/// @nodoc
 class InvocationType {
   static const event = InvocationType._('Event');
   static const requestResponse = InvocationType._('RequestResponse');
@@ -10152,6 +10253,8 @@ class InvocationType {
 }
 
 /// Details about a function's deployment package.
+///
+/// @nodoc
 class FunctionCodeLocation {
   /// URI of a container image in the Amazon ECR registry.
   final String? imageUri;
@@ -10207,6 +10310,8 @@ class FunctionCodeLocation {
 }
 
 /// An object that contains details about an error related to retrieving tags.
+///
+/// @nodoc
 class TagsError {
   /// The error code.
   final String errorCode;
@@ -10242,6 +10347,8 @@ class TagsError {
 /// to grant access to your function URL from any origin. You can also use CORS
 /// to control access for specific HTTP headers and methods in requests to your
 /// function URL.
+///
+/// @nodoc
 class Cors {
   /// Whether to allow cookies or other credentials in requests to your function
   /// URL. The default is <code>false</code>.
@@ -10325,6 +10432,7 @@ class Cors {
   }
 }
 
+/// @nodoc
 class InvokeMode {
   static const buffered = InvokeMode._('BUFFERED');
   static const responseStream = InvokeMode._('RESPONSE_STREAM');
@@ -10352,6 +10460,8 @@ class InvokeMode {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">Configuring
 /// a Lambda function to access resources in a VPC</a>.
+///
+/// @nodoc
 class VpcConfig {
   /// Allows outbound IPv6 traffic on VPC functions that are connected to
   /// dual-stack subnets.
@@ -10386,6 +10496,8 @@ class VpcConfig {
 /// variables to adjust your function's behavior without updating code. An
 /// environment variable is a pair of strings that are stored in a function's
 /// version-specific configuration.
+///
+/// @nodoc
 class Environment {
   /// Environment variable key-value pairs. For more information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html">Using
@@ -10407,6 +10519,8 @@ class Environment {
 /// The <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-dlq">dead-letter
 /// queue</a> for failed asynchronous invocations.
+///
+/// @nodoc
 class DeadLetterConfig {
   /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
   final String? targetArn;
@@ -10433,6 +10547,8 @@ class DeadLetterConfig {
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html">X-Ray</a>
 /// tracing configuration. To sample and record incoming requests, set
 /// <code>Mode</code> to <code>Active</code>.
+///
+/// @nodoc
 class TracingConfig {
   /// The tracing mode.
   final TracingMode? mode;
@@ -10453,6 +10569,8 @@ class TracingConfig {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms">Container
 /// image settings</a>.
+///
+/// @nodoc
 class ImageConfig {
   /// Specifies parameters that you want to pass in with ENTRYPOINT.
   final List<String>? command;
@@ -10499,6 +10617,8 @@ class ImageConfig {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage">Configuring
 /// ephemeral storage (console)</a>.
+///
+/// @nodoc
 class EphemeralStorage {
   /// The size of the function's <code>/tmp</code> directory.
   final int size;
@@ -10526,6 +10646,8 @@ class EphemeralStorage {
 /// SnapStart</a> setting. Set <code>ApplyOn</code> to
 /// <code>PublishedVersions</code> to create a snapshot of the initialized
 /// execution environment when you publish a function version.
+///
+/// @nodoc
 class SnapStart {
   /// Set to <code>PublishedVersions</code> to create a snapshot of the
   /// initialized execution environment when you publish a function version.
@@ -10544,6 +10666,8 @@ class SnapStart {
 }
 
 /// The function's Amazon CloudWatch Logs configuration settings.
+///
+/// @nodoc
 class LoggingConfig {
   /// Set this property to filter the application logs for your function that
   /// Lambda sends to CloudWatch. Lambda only sends application logs at the
@@ -10602,6 +10726,8 @@ class LoggingConfig {
 
 /// Configuration for the capacity provider that manages compute resources for
 /// Lambda functions.
+///
+/// @nodoc
 class CapacityProviderConfig {
   /// Configuration for Lambda-managed instances used by the capacity provider.
   final LambdaManagedInstancesCapacityProviderConfig
@@ -10635,6 +10761,8 @@ class CapacityProviderConfig {
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
 /// functions</a>, including execution timeout and retention period for
 /// execution history.
+///
+/// @nodoc
 class DurableConfig {
   /// The maximum time (in seconds) that a durable execution can run before timing
   /// out. This timeout applies to the entire durable execution, not individual
@@ -10670,6 +10798,8 @@ class DurableConfig {
 }
 
 /// Configuration for Lambda-managed instances used by the capacity provider.
+///
+/// @nodoc
 class LambdaManagedInstancesCapacityProviderConfig {
   /// The Amazon Resource Name (ARN) of the capacity provider.
   final String capacityProviderArn;
@@ -10716,6 +10846,7 @@ class LambdaManagedInstancesCapacityProviderConfig {
   }
 }
 
+/// @nodoc
 class LogFormat {
   static const json = LogFormat._('JSON');
   static const text = LogFormat._('Text');
@@ -10739,6 +10870,7 @@ class LogFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationLogLevel {
   static const trace = ApplicationLogLevel._('TRACE');
   static const debug = ApplicationLogLevel._('DEBUG');
@@ -10768,6 +10900,7 @@ class ApplicationLogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class SystemLogLevel {
   static const debug = SystemLogLevel._('DEBUG');
   static const info = SystemLogLevel._('INFO');
@@ -10793,6 +10926,7 @@ class SystemLogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class SnapStartApplyOn {
   static const publishedVersions = SnapStartApplyOn._('PublishedVersions');
   static const none = SnapStartApplyOn._('None');
@@ -10822,6 +10956,8 @@ class SnapStartApplyOn {
 /// EFS file system</a> or an <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html">Amazon
 /// S3 Files file system</a>.
+///
+/// @nodoc
 class FileSystemConfig {
   /// The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access
   /// point that provides access to the file system.
@@ -10853,6 +10989,7 @@ class FileSystemConfig {
   }
 }
 
+/// @nodoc
 class TracingMode {
   static const active = TracingMode._('Active');
   static const passThrough = TracingMode._('PassThrough');
@@ -10878,6 +11015,8 @@ class TracingMode {
 
 /// Details about the provisioned concurrency configuration for a function alias
 /// or version.
+///
+/// @nodoc
 class ProvisionedConcurrencyConfigListItem {
   /// The amount of provisioned concurrency allocated. When a weighted alias is
   /// used during linear and canary deployments, this value fluctuates depending
@@ -10962,6 +11101,8 @@ class ProvisionedConcurrencyConfigListItem {
 }
 
 /// Details about a Lambda function URL.
+///
+/// @nodoc
 class FunctionUrlConfig {
   /// The type of authentication that your function URL uses. Set to
   /// <code>AWS_IAM</code> if you want to restrict access to authenticated users
@@ -11054,6 +11195,7 @@ class FunctionUrlConfig {
   }
 }
 
+/// @nodoc
 class FunctionVersion {
   static const all = FunctionVersion._('ALL');
 
@@ -11078,6 +11220,8 @@ class FunctionVersion {
 }
 
 /// The VPC security groups and subnets that are attached to a Lambda function.
+///
+/// @nodoc
 class VpcConfigResponse {
   /// Allows outbound IPv6 traffic on VPC functions that are connected to
   /// dual-stack subnets.
@@ -11132,6 +11276,8 @@ class VpcConfigResponse {
 /// The results of an operation to update or read environment variables. If the
 /// operation succeeds, the response contains the environment variables. If it
 /// fails, the response contains details about the error.
+///
+/// @nodoc
 class EnvironmentResponse {
   /// Error messages for environment variables that couldn't be applied.
   final EnvironmentError? error;
@@ -11165,6 +11311,8 @@ class EnvironmentResponse {
 }
 
 /// The function's X-Ray tracing configuration.
+///
+/// @nodoc
 class TracingConfigResponse {
   /// The tracing mode.
   final TracingMode? mode;
@@ -11187,6 +11335,7 @@ class TracingConfigResponse {
   }
 }
 
+/// @nodoc
 class StateReasonCode {
   static const idle = StateReasonCode._('Idle');
   static const creating = StateReasonCode._('Creating');
@@ -11302,6 +11451,7 @@ class StateReasonCode {
   String toString() => value;
 }
 
+/// @nodoc
 class LastUpdateStatus {
   static const successful = LastUpdateStatus._('Successful');
   static const failed = LastUpdateStatus._('Failed');
@@ -11327,6 +11477,7 @@ class LastUpdateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LastUpdateStatusReasonCode {
   static const eniLimitExceeded =
       LastUpdateStatusReasonCode._('EniLimitExceeded');
@@ -11446,6 +11597,7 @@ class LastUpdateStatusReasonCode {
   String toString() => value;
 }
 
+/// @nodoc
 class PackageType {
   static const zip = PackageType._('Zip');
   static const image = PackageType._('Image');
@@ -11470,6 +11622,8 @@ class PackageType {
 }
 
 /// Response to a <code>GetFunctionConfiguration</code> request.
+///
+/// @nodoc
 class ImageConfigResponse {
   /// Error response to <code>GetFunctionConfiguration</code>.
   final ImageConfigError? error;
@@ -11506,6 +11660,8 @@ class ImageConfigResponse {
 /// The function's <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html">SnapStart</a>
 /// setting.
+///
+/// @nodoc
 class SnapStartResponse {
   /// When set to <code>PublishedVersions</code>, Lambda creates a snapshot of the
   /// execution environment when you publish a function version.
@@ -11542,6 +11698,8 @@ class SnapStartResponse {
 }
 
 /// The ARN of the runtime and any errors that occured.
+///
+/// @nodoc
 class RuntimeVersionConfig {
   /// Error response when Lambda is unable to retrieve the runtime version for a
   /// function.
@@ -11578,6 +11736,8 @@ class RuntimeVersionConfig {
 /// This allows you to configure specific tenant isolation strategies for your
 /// function invocations. Tenant isolation configuration cannot be modified
 /// after function creation.
+///
+/// @nodoc
 class TenancyConfig {
   /// Tenant isolation mode allows for invocation to be sent to a corresponding
   /// execution environment dedicated to a specific tenant ID.
@@ -11602,6 +11762,7 @@ class TenancyConfig {
   }
 }
 
+/// @nodoc
 class TenantIsolationMode {
   static const perTenant = TenantIsolationMode._('PER_TENANT');
 
@@ -11628,6 +11789,8 @@ class TenantIsolationMode {
 
 /// Any error returned when the runtime version information for the function
 /// could not be retrieved.
+///
+/// @nodoc
 class RuntimeVersionError {
   /// The error code.
   final String? errorCode;
@@ -11657,6 +11820,7 @@ class RuntimeVersionError {
   }
 }
 
+/// @nodoc
 class SnapStartOptimizationStatus {
   static const on = SnapStartOptimizationStatus._('On');
   static const off = SnapStartOptimizationStatus._('Off');
@@ -11683,6 +11847,8 @@ class SnapStartOptimizationStatus {
 }
 
 /// Error response to <code>GetFunctionConfiguration</code>.
+///
+/// @nodoc
 class ImageConfigError {
   /// Error code.
   final String? errorCode;
@@ -11715,6 +11881,8 @@ class ImageConfigError {
 /// An <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
 /// layer</a>.
+///
+/// @nodoc
 class Layer {
   /// The Amazon Resource Name (ARN) of the function layer.
   final String? arn;
@@ -11760,6 +11928,8 @@ class Layer {
 }
 
 /// Error messages for environment variables that couldn't be applied.
+///
+/// @nodoc
 class EnvironmentError {
   /// The error code.
   final String? errorCode;
@@ -11792,6 +11962,8 @@ class EnvironmentError {
 /// The code for the Lambda function. You can either specify an object in Amazon
 /// S3, upload a .zip file archive deployment package directly, or specify the
 /// URI of a container image.
+///
+/// @nodoc
 class FunctionCode {
   /// URI of a <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html">container
@@ -11847,6 +12019,8 @@ class FunctionCode {
 }
 
 /// An object that contains the filters for an event source.
+///
+/// @nodoc
 class FilterCriteria {
   /// A list of filters.
   final List<Filter>? filters;
@@ -11876,6 +12050,8 @@ class FilterCriteria {
 /// Lambda processes it. For more information, see <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations">Adding
 /// a destination</a>.
+///
+/// @nodoc
 class DestinationConfig {
   /// The destination configuration for failed invocations.
   final OnFailure? onFailure;
@@ -11913,6 +12089,8 @@ class DestinationConfig {
 
 /// (Amazon SQS only) The scaling configuration for the event source. To remove
 /// the configuration, pass an empty value.
+///
+/// @nodoc
 class ScalingConfig {
   /// Limits the number of concurrent instances that the Amazon SQS event source
   /// can invoke.
@@ -11938,6 +12116,8 @@ class ScalingConfig {
 
 /// Specific configuration settings for an Amazon Managed Streaming for Apache
 /// Kafka (Amazon MSK) event source.
+///
+/// @nodoc
 class AmazonManagedKafkaEventSourceConfig {
   /// The identifier for the Kafka consumer group to join. The consumer group ID
   /// must be unique among all your Kafka event sources. After creating a Kafka
@@ -11979,6 +12159,8 @@ class AmazonManagedKafkaEventSourceConfig {
 
 /// Specific configuration settings for a self-managed Apache Kafka event
 /// source.
+///
+/// @nodoc
 class SelfManagedKafkaEventSourceConfig {
   /// The identifier for the Kafka consumer group to join. The consumer group ID
   /// must be unique among all your Kafka event sources. After creating a Kafka
@@ -12019,6 +12201,8 @@ class SelfManagedKafkaEventSourceConfig {
 }
 
 /// Specific configuration settings for a DocumentDB event source.
+///
+/// @nodoc
 class DocumentDBEventSourceConfig {
   /// The name of the collection to consume within the database. If you do not
   /// specify a collection, Lambda consumes all collections.
@@ -12063,6 +12247,8 @@ class DocumentDBEventSourceConfig {
 /// The metrics configuration for your event source. Use this configuration
 /// object to define which metrics you want your event source mapping to
 /// produce.
+///
+/// @nodoc
 class EventSourceMappingMetricsConfig {
   /// The metrics you want your event source mapping to produce, including
   /// <code>EventCount</code>, <code>ErrorCount</code>, <code>KafkaMetrics</code>.
@@ -12112,6 +12298,8 @@ class EventSourceMappingMetricsConfig {
 /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration
 /// for your event source. Use this configuration object to define the level of
 /// logs for your event source mapping.
+///
+/// @nodoc
 class EventSourceMappingLoggingConfig {
   /// The log level you want your event source mapping to use. Lambda event poller
   /// only sends system logs at the selected level of detail and lower, where
@@ -12145,6 +12333,8 @@ class EventSourceMappingLoggingConfig {
 /// provisioned mode</a> configuration for the event source. Use Provisioned
 /// Mode to customize the minimum and maximum number of event pollers for your
 /// event source.
+///
+/// @nodoc
 class ProvisionedPollerConfig {
   /// The maximum number of event pollers this event source can scale up to. For
   /// Amazon SQS events source mappings, default is 200, and minimum value allowed
@@ -12192,6 +12382,7 @@ class ProvisionedPollerConfig {
   }
 }
 
+/// @nodoc
 class EventSourceMappingSystemLogLevel {
   static const debug = EventSourceMappingSystemLogLevel._('DEBUG');
   static const info = EventSourceMappingSystemLogLevel._('INFO');
@@ -12218,6 +12409,7 @@ class EventSourceMappingSystemLogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class EventSourceMappingMetric {
   static const eventCount = EventSourceMappingMetric._('EventCount');
   static const errorCount = EventSourceMappingMetric._('ErrorCount');
@@ -12244,6 +12436,7 @@ class EventSourceMappingMetric {
   String toString() => value;
 }
 
+/// @nodoc
 class FullDocument {
   static const updateLookup = FullDocument._('UpdateLookup');
   static const $default = FullDocument._('Default');
@@ -12268,6 +12461,8 @@ class FullDocument {
 }
 
 /// Specific configuration settings for a Kafka schema registry.
+///
+/// @nodoc
 class KafkaSchemaRegistryConfig {
   /// An array of access configuration objects that tell Lambda how to
   /// authenticate with your schema registry.
@@ -12348,6 +12543,7 @@ class KafkaSchemaRegistryConfig {
   }
 }
 
+/// @nodoc
 class SchemaRegistryEventRecordFormat {
   static const json = SchemaRegistryEventRecordFormat._('JSON');
   static const source = SchemaRegistryEventRecordFormat._('SOURCE');
@@ -12376,6 +12572,8 @@ class SchemaRegistryEventRecordFormat {
 /// Specific schema validation configuration settings that tell Lambda the
 /// message attributes you want to validate and filter using your schema
 /// registry.
+///
+/// @nodoc
 class KafkaSchemaValidationConfig {
   /// The attributes you want your schema registry to validate and filter for. If
   /// you selected <code>JSON</code> as the <code>EventRecordFormat</code>, Lambda
@@ -12401,6 +12599,7 @@ class KafkaSchemaValidationConfig {
   }
 }
 
+/// @nodoc
 class KafkaSchemaValidationAttribute {
   static const key = KafkaSchemaValidationAttribute._('KEY');
   static const $value = KafkaSchemaValidationAttribute._('VALUE');
@@ -12436,6 +12635,8 @@ class KafkaSchemaValidationAttribute {
 /// If you're working with a Confluent schema registry, choose the
 /// authentication method in the <code>Type</code> field, and provide the
 /// Secrets Manager secret ARN in the <code>URI</code> field.
+///
+/// @nodoc
 class KafkaSchemaRegistryAccessConfig {
   /// The type of authentication Lambda uses to access your schema registry.
   final KafkaSchemaRegistryAuthType? type;
@@ -12467,6 +12668,7 @@ class KafkaSchemaRegistryAccessConfig {
   }
 }
 
+/// @nodoc
 class KafkaSchemaRegistryAuthType {
   static const basicAuth = KafkaSchemaRegistryAuthType._('BASIC_AUTH');
   static const clientCertificateTlsAuth =
@@ -12499,6 +12701,7 @@ class KafkaSchemaRegistryAuthType {
   String toString() => value;
 }
 
+/// @nodoc
 class FunctionResponseType {
   static const reportBatchItemFailures =
       FunctionResponseType._('ReportBatchItemFailures');
@@ -12526,6 +12729,8 @@ class FunctionResponseType {
 
 /// To secure and define access to your event source, you can specify the
 /// authentication protocol, VPC components, or virtual host.
+///
+/// @nodoc
 class SourceAccessConfiguration {
   /// The type of authentication protocol, VPC components, or virtual host for
   /// your event source. For example: <code>"Type":"SASL_SCRAM_512_AUTH"</code>.
@@ -12607,6 +12812,7 @@ class SourceAccessConfiguration {
   }
 }
 
+/// @nodoc
 class SourceAccessType {
   static const basicAuth = SourceAccessType._('BASIC_AUTH');
   static const vpcSubnet = SourceAccessType._('VPC_SUBNET');
@@ -12659,6 +12865,8 @@ class SourceAccessType {
 /// <code>CreateEventSourceMapping</code> or
 /// <code>UpdateEventSourceMapping</code> requests.
 /// </note>
+///
+/// @nodoc
 class OnSuccess {
   /// The Amazon Resource Name (ARN) of the destination resource.
   /// <note>
@@ -12693,6 +12901,8 @@ class OnSuccess {
 /// <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations">Adding
 /// a destination</a>.
+///
+/// @nodoc
 class OnFailure {
   /// The Amazon Resource Name (ARN) of the destination resource.
   ///
@@ -12746,6 +12956,8 @@ class OnFailure {
 
 /// A structure within a <code>FilterCriteria</code> object that defines an
 /// event filtering pattern.
+///
+/// @nodoc
 class Filter {
   /// A filter pattern. For more information on the syntax of a filter pattern,
   /// see <a
@@ -12771,6 +12983,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class EventSourcePosition {
   static const trimHorizon = EventSourcePosition._('TRIM_HORIZON');
   static const latest = EventSourcePosition._('LATEST');
@@ -12798,10 +13011,12 @@ class EventSourcePosition {
 }
 
 /// The self-managed Apache Kafka cluster for your event source.
+///
+/// @nodoc
 class SelfManagedEventSource {
   /// The list of bootstrap servers for your Kafka brokers in the following
   /// format: <code>"KAFKA_BOOTSTRAP_SERVERS":
-  /// ["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"]</code>.
+  /// \["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"\]</code>.
   final Map<EndPointType, List<String>>? endpoints;
 
   SelfManagedEventSource({
@@ -12827,6 +13042,8 @@ class SelfManagedEventSource {
 
 /// An object that contains details about an error related to filter criteria
 /// encryption.
+///
+/// @nodoc
 class FilterCriteriaError {
   /// The KMS exception that resulted from filter criteria encryption or
   /// decryption.
@@ -12857,6 +13074,7 @@ class FilterCriteriaError {
   }
 }
 
+/// @nodoc
 class EndPointType {
   static const kafkaBootstrapServers =
       EndPointType._('KAFKA_BOOTSTRAP_SERVERS');
@@ -12883,6 +13101,8 @@ class EndPointType {
 /// Details about a <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html">Code
 /// signing configuration</a>.
+///
+/// @nodoc
 class CodeSigningConfig {
   /// List of allowed publishers.
   final AllowedPublishers allowedPublishers;
@@ -12947,6 +13167,8 @@ class CodeSigningConfig {
 }
 
 /// List of signing profiles that can sign a code package.
+///
+/// @nodoc
 class AllowedPublishers {
   /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing
   /// profile defines a trusted user who can sign a code package.
@@ -12977,6 +13199,8 @@ class AllowedPublishers {
 /// Code signing configuration <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies">policies</a>
 /// specify the validation failure action for signature mismatch or expiry.
+///
+/// @nodoc
 class CodeSigningPolicies {
   /// Code signing configuration policy for deployment validation failure. If you
   /// set the policy to <code>Enforce</code>, Lambda blocks the deployment request
@@ -13009,6 +13233,7 @@ class CodeSigningPolicies {
   }
 }
 
+/// @nodoc
 class CodeSigningPolicy {
   static const warn = CodeSigningPolicy._('Warn');
   static const enforce = CodeSigningPolicy._('Enforce');
@@ -13035,6 +13260,8 @@ class CodeSigningPolicy {
 
 /// Information about a function version that uses a specific capacity provider,
 /// including its ARN and current state.
+///
+/// @nodoc
 class FunctionVersionsByCapacityProviderListItem {
   /// The Amazon Resource Name (ARN) of the function version.
   final String functionArn;
@@ -13066,6 +13293,8 @@ class FunctionVersionsByCapacityProviderListItem {
 }
 
 /// A capacity provider manages compute resources for Lambda functions.
+///
+/// @nodoc
 class CapacityProvider {
   /// The Amazon Resource Name (ARN) of the capacity provider.
   final String capacityProviderArn;
@@ -13159,6 +13388,7 @@ class CapacityProvider {
   }
 }
 
+/// @nodoc
 class CapacityProviderState {
   static const pending = CapacityProviderState._('Pending');
   static const active = CapacityProviderState._('Active');
@@ -13188,6 +13418,8 @@ class CapacityProviderState {
 
 /// VPC configuration that specifies the network settings for compute instances
 /// managed by the capacity provider.
+///
+/// @nodoc
 class CapacityProviderVpcConfig {
   /// A list of security group IDs that control network access for compute
   /// instances managed by the capacity provider.
@@ -13226,6 +13458,8 @@ class CapacityProviderVpcConfig {
 
 /// Configuration that specifies the permissions required for the capacity
 /// provider to manage compute resources.
+///
+/// @nodoc
 class CapacityProviderPermissionsConfig {
   /// The ARN of the IAM role that the capacity provider uses to manage compute
   /// instances and other Amazon Web Services resources.
@@ -13254,6 +13488,8 @@ class CapacityProviderPermissionsConfig {
 
 /// Specifications that define the characteristics and constraints for compute
 /// instances used by the capacity provider.
+///
+/// @nodoc
 class InstanceRequirements {
   /// A list of EC2 instance types that the capacity provider is allowed to use.
   /// If not specified, all compatible instance types are allowed.
@@ -13307,6 +13543,8 @@ class InstanceRequirements {
 
 /// Configuration that defines how the capacity provider scales compute
 /// instances based on demand and policies.
+///
+/// @nodoc
 class CapacityProviderScalingConfig {
   /// The maximum number of vCPUs that the capacity provider can provision across
   /// all compute instances.
@@ -13353,6 +13591,8 @@ class CapacityProviderScalingConfig {
 
 /// Configuration for tag propagation to managed resources launched by the
 /// capacity provider.
+///
+/// @nodoc
 class PropagateTags {
   /// A list of tags to apply to managed resources when <code>Mode</code> is set
   /// to <code>Explicit</code>. You can specify up to 40 tags.
@@ -13386,6 +13626,7 @@ class PropagateTags {
   }
 }
 
+/// @nodoc
 class PropagateTagsMode {
   static const none = PropagateTagsMode._('None');
   static const explicit = PropagateTagsMode._('Explicit');
@@ -13410,6 +13651,7 @@ class PropagateTagsMode {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityProviderScalingMode {
   static const auto = CapacityProviderScalingMode._('Auto');
   static const manual = CapacityProviderScalingMode._('Manual');
@@ -13437,6 +13679,8 @@ class CapacityProviderScalingMode {
 
 /// A scaling policy for the capacity provider that automatically adjusts
 /// capacity to maintain a target value for a specific metric.
+///
+/// @nodoc
 class TargetTrackingScalingPolicy {
   /// The predefined metric type to track for scaling decisions.
   final CapacityProviderPredefinedMetricType predefinedMetricType;
@@ -13468,6 +13712,7 @@ class TargetTrackingScalingPolicy {
   }
 }
 
+/// @nodoc
 class CapacityProviderPredefinedMetricType {
   static const lambdaCapacityProviderAverageCPUUtilization =
       CapacityProviderPredefinedMetricType._(
@@ -13495,6 +13740,8 @@ class CapacityProviderPredefinedMetricType {
 }
 
 /// An object that contains error information.
+///
+/// @nodoc
 class ErrorObject {
   /// Machine-readable error data.
   final String? errorData;
@@ -13544,6 +13791,8 @@ class ErrorObject {
 /// Information about a <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
 /// execution</a>.
+///
+/// @nodoc
 class Execution {
   /// The Amazon Resource Name (ARN) of the durable execution, if this execution
   /// is a durable execution.
@@ -13608,6 +13857,7 @@ class Execution {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const running = ExecutionStatus._('RUNNING');
   static const succeeded = ExecutionStatus._('SUCCEEDED');
@@ -13636,6 +13886,8 @@ class ExecutionStatus {
 }
 
 /// Information about an operation within a durable execution.
+///
+/// @nodoc
 class Operation {
   /// The unique identifier for this operation.
   final String id;
@@ -13768,6 +14020,7 @@ class Operation {
   }
 }
 
+/// @nodoc
 class OperationType {
   static const execution = OperationType._('EXECUTION');
   static const context = OperationType._('CONTEXT');
@@ -13803,6 +14056,7 @@ class OperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class OperationStatus {
   static const started = OperationStatus._('STARTED');
   static const pending = OperationStatus._('PENDING');
@@ -13845,6 +14099,8 @@ class OperationStatus {
 /// Details about a <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
 /// execution</a>.
+///
+/// @nodoc
 class ExecutionDetails {
   /// The original input payload provided for the durable execution.
   final String? inputPayload;
@@ -13868,6 +14124,8 @@ class ExecutionDetails {
 }
 
 /// Details about a durable execution context.
+///
+/// @nodoc
 class ContextDetails {
   /// Details about the context failure.
   final ErrorObject? error;
@@ -13909,6 +14167,8 @@ class ContextDetails {
 }
 
 /// Details about a step operation.
+///
+/// @nodoc
 class StepDetails {
   /// The current attempt number for this step.
   final int? attempt;
@@ -13959,6 +14219,8 @@ class StepDetails {
 }
 
 /// Details about a wait operation.
+///
+/// @nodoc
 class WaitDetails {
   /// The date and time when the wait operation is scheduled to complete, in <a
   /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
@@ -13986,6 +14248,8 @@ class WaitDetails {
 
 /// Contains details about a callback operation in a durable execution,
 /// including the callback token and timeout configuration.
+///
+/// @nodoc
 class CallbackDetails {
   /// The callback ID. Callback IDs are generated by the
   /// <code>DurableContext</code> when a durable function calls
@@ -14028,6 +14292,8 @@ class CallbackDetails {
 
 /// Contains details about a chained function invocation in a durable execution,
 /// including the target function and invocation parameters.
+///
+/// @nodoc
 class ChainedInvokeDetails {
   /// Details about the chained invocation failure.
   final ErrorObject? error;
@@ -14060,6 +14326,8 @@ class ChainedInvokeDetails {
 }
 
 /// An event that occurred during the execution of a durable function.
+///
+/// @nodoc
 class Event {
   final CallbackFailedDetails? callbackFailedDetails;
   final CallbackStartedDetails? callbackStartedDetails;
@@ -14379,6 +14647,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class EventType {
   static const executionStarted = EventType._('ExecutionStarted');
   static const executionSucceeded = EventType._('ExecutionSucceeded');
@@ -14450,6 +14719,8 @@ class EventType {
 }
 
 /// Details about a durable execution that started.
+///
+/// @nodoc
 class ExecutionStartedDetails {
   /// The maximum amount of time that the durable execution is allowed to run, in
   /// seconds.
@@ -14484,6 +14755,8 @@ class ExecutionStartedDetails {
 /// Details about a <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
 /// execution</a> that succeeded.
+///
+/// @nodoc
 class ExecutionSucceededDetails {
   /// The response payload from the successful operation.
   final EventResult result;
@@ -14510,6 +14783,8 @@ class ExecutionSucceededDetails {
 /// Details about a failed <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
 /// execution</a>.
+///
+/// @nodoc
 class ExecutionFailedDetails {
   /// Details about the execution failure.
   final EventError error;
@@ -14536,6 +14811,8 @@ class ExecutionFailedDetails {
 /// Details about a <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
 /// execution</a> that timed out.
+///
+/// @nodoc
 class ExecutionTimedOutDetails {
   /// Details about the execution timeout.
   final EventError? error;
@@ -14563,6 +14840,8 @@ class ExecutionTimedOutDetails {
 /// Details about a <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html">durable
 /// execution</a> that stopped.
+///
+/// @nodoc
 class ExecutionStoppedDetails {
   /// Details about why the execution stopped.
   final EventError error;
@@ -14587,6 +14866,8 @@ class ExecutionStoppedDetails {
 }
 
 /// Details about a context that has started.
+///
+/// @nodoc
 class ContextStartedDetails {
   ContextStartedDetails();
 
@@ -14600,6 +14881,8 @@ class ContextStartedDetails {
 }
 
 /// Details about a context that succeeded.
+///
+/// @nodoc
 class ContextSucceededDetails {
   /// The JSON response payload from the successful context.
   final EventResult result;
@@ -14624,6 +14907,8 @@ class ContextSucceededDetails {
 }
 
 /// Details about a context that failed.
+///
+/// @nodoc
 class ContextFailedDetails {
   /// Details about the context failure.
   final EventError error;
@@ -14648,6 +14933,8 @@ class ContextFailedDetails {
 }
 
 /// Details about a wait operation that has started.
+///
+/// @nodoc
 class WaitStartedDetails {
   /// The duration to wait, in seconds.
   final int duration;
@@ -14681,6 +14968,8 @@ class WaitStartedDetails {
 }
 
 /// Details about a wait operation that succeeded.
+///
+/// @nodoc
 class WaitSucceededDetails {
   /// The wait duration, in seconds.
   final int? duration;
@@ -14704,6 +14993,8 @@ class WaitSucceededDetails {
 }
 
 /// Details about a wait operation that was cancelled.
+///
+/// @nodoc
 class WaitCancelledDetails {
   /// Details about why the wait operation was cancelled.
   final EventError? error;
@@ -14729,6 +15020,8 @@ class WaitCancelledDetails {
 }
 
 /// Details about a step that has started.
+///
+/// @nodoc
 class StepStartedDetails {
   StepStartedDetails();
 
@@ -14742,6 +15035,8 @@ class StepStartedDetails {
 }
 
 /// Details about a step that succeeded.
+///
+/// @nodoc
 class StepSucceededDetails {
   /// The response payload from the successful operation.
   final EventResult result;
@@ -14775,6 +15070,8 @@ class StepSucceededDetails {
 }
 
 /// Details about a step that failed.
+///
+/// @nodoc
 class StepFailedDetails {
   /// Details about the step failure.
   final EventError error;
@@ -14809,6 +15106,8 @@ class StepFailedDetails {
 
 /// Contains details about a chained function invocation that has started
 /// execution, including start time and execution context.
+///
+/// @nodoc
 class ChainedInvokeStartedDetails {
   /// The name or ARN of the Lambda function being invoked.
   final String functionName;
@@ -14863,6 +15162,8 @@ class ChainedInvokeStartedDetails {
 }
 
 /// Details about a chained invocation that succeeded.
+///
+/// @nodoc
 class ChainedInvokeSucceededDetails {
   /// The response payload from the successful operation.
   final EventResult result;
@@ -14888,6 +15189,8 @@ class ChainedInvokeSucceededDetails {
 
 /// Contains details about a failed chained function invocation, including error
 /// information and failure reason.
+///
+/// @nodoc
 class ChainedInvokeFailedDetails {
   /// Details about the chained invocation failure.
   final EventError error;
@@ -14912,6 +15215,8 @@ class ChainedInvokeFailedDetails {
 }
 
 /// Details about a chained invocation that timed out.
+///
+/// @nodoc
 class ChainedInvokeTimedOutDetails {
   /// Details about the chained invocation timeout.
   final EventError error;
@@ -14936,6 +15241,8 @@ class ChainedInvokeTimedOutDetails {
 }
 
 /// Details about a chained invocation that was stopped.
+///
+/// @nodoc
 class ChainedInvokeStoppedDetails {
   /// Details about why the chained invocation stopped.
   final EventError error;
@@ -14961,6 +15268,8 @@ class ChainedInvokeStoppedDetails {
 
 /// Contains details about a callback operation that has started, including
 /// timing information and callback metadata.
+///
+/// @nodoc
 class CallbackStartedDetails {
   /// The callback ID. Callback IDs are generated by the
   /// <code>DurableContext</code> when a durable function calls
@@ -15001,6 +15310,8 @@ class CallbackStartedDetails {
 
 /// Contains details about a successfully completed callback operation,
 /// including the result data and completion timestamp.
+///
+/// @nodoc
 class CallbackSucceededDetails {
   /// The response payload from the successful operation.
   final EventResult result;
@@ -15026,6 +15337,8 @@ class CallbackSucceededDetails {
 
 /// Contains details about a failed callback operation, including error
 /// information and the reason for failure.
+///
+/// @nodoc
 class CallbackFailedDetails {
   /// An error object that contains details about the failure.
   final EventError error;
@@ -15051,6 +15364,8 @@ class CallbackFailedDetails {
 
 /// Contains details about a callback operation that timed out, including
 /// timeout duration and any partial results.
+///
+/// @nodoc
 class CallbackTimedOutDetails {
   /// Details about the callback timeout.
   final EventError error;
@@ -15075,6 +15390,8 @@ class CallbackTimedOutDetails {
 }
 
 /// Details about a function invocation that completed.
+///
+/// @nodoc
 class InvocationCompletedDetails {
   /// The date and time when the invocation ended, in <a
   /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
@@ -15125,6 +15442,8 @@ class InvocationCompletedDetails {
 }
 
 /// Error information for an event.
+///
+/// @nodoc
 class EventError {
   /// The error payload.
   final ErrorObject? payload;
@@ -15157,6 +15476,8 @@ class EventError {
 }
 
 /// Result information for an event.
+///
+/// @nodoc
 class EventResult {
   /// The result payload.
   final String? payload;
@@ -15187,6 +15508,8 @@ class EventResult {
 }
 
 /// Input information for an event.
+///
+/// @nodoc
 class EventInput {
   /// The input payload.
   final String? payload;
@@ -15217,6 +15540,8 @@ class EventInput {
 }
 
 /// Information about retry attempts for an operation.
+///
+/// @nodoc
 class RetryDetails {
   /// The current attempt number for this operation.
   final int? currentAttempt;
@@ -15248,6 +15573,8 @@ class RetryDetails {
 }
 
 /// Contains trace headers for the Lambda durable execution.
+///
+/// @nodoc
 class TraceHeader {
   /// The X-Ray trace header associated with the durable execution.
   final String? xAmznTraceId;
@@ -15272,6 +15599,8 @@ class TraceHeader {
 
 /// Limits that are related to concurrency and storage. All file and storage
 /// sizes are in bytes.
+///
+/// @nodoc
 class AccountLimit {
   /// The maximum size of a function's deployment package and layers when they're
   /// extracted.
@@ -15330,6 +15659,8 @@ class AccountLimit {
 }
 
 /// The number of functions and amount of storage in use.
+///
+/// @nodoc
 class AccountUsage {
   /// The number of Lambda functions.
   final int? functionCount;
@@ -15362,6 +15693,8 @@ class AccountUsage {
 
 /// Contains operations that have been updated since the last checkpoint, such
 /// as completed asynchronous work like timers or callbacks.
+///
+/// @nodoc
 class CheckpointUpdatedExecutionState {
   /// Indicates that more results are available. Use this value in a subsequent
   /// call to retrieve the next page of results.
@@ -15396,6 +15729,8 @@ class CheckpointUpdatedExecutionState {
 }
 
 /// An update to be applied to an operation during checkpointing.
+///
+/// @nodoc
 class OperationUpdate {
   /// The action to take on the operation.
   final OperationAction action;
@@ -15482,6 +15817,7 @@ class OperationUpdate {
   }
 }
 
+/// @nodoc
 class OperationAction {
   static const start = OperationAction._('START');
   static const succeed = OperationAction._('SUCCEED');
@@ -15510,6 +15846,8 @@ class OperationAction {
 }
 
 /// Configuration options for a durable execution context.
+///
+/// @nodoc
 class ContextOptions {
   /// Whether the state data of children of the completed context should be
   /// included in the invoke payload and <code>GetDurableExecutionState</code>
@@ -15529,6 +15867,8 @@ class ContextOptions {
 }
 
 /// Configuration options for a step operation.
+///
+/// @nodoc
 class StepOptions {
   /// The delay in seconds before the next retry attempt.
   final int? nextAttemptDelaySeconds;
@@ -15547,6 +15887,8 @@ class StepOptions {
 }
 
 /// Specifies how long to pause the durable execution.
+///
+/// @nodoc
 class WaitOptions {
   /// The duration to wait, in seconds.
   final int? waitSeconds;
@@ -15565,6 +15907,8 @@ class WaitOptions {
 
 /// Configuration options for callback operations in durable executions,
 /// including timeout settings and retry behavior.
+///
+/// @nodoc
 class CallbackOptions {
   /// The heartbeat timeout for the callback operation, in seconds. If not
   /// specified or set to 0, heartbeat timeout is disabled.
@@ -15592,6 +15936,8 @@ class CallbackOptions {
 
 /// Configuration options for chained function invocations in durable
 /// executions, including retry settings and timeout configuration.
+///
+/// @nodoc
 class ChainedInvokeOptions {
   /// The name or ARN of the Lambda function to invoke.
   final String functionName;
@@ -15614,11 +15960,13 @@ class ChainedInvokeOptions {
   }
 }
 
+/// @nodoc
 class CallbackTimeoutException extends _s.GenericAwsException {
   CallbackTimeoutException({String? type, String? message})
       : super(type: type, code: 'CallbackTimeoutException', message: message);
 }
 
+/// @nodoc
 class CapacityProviderLimitExceededException extends _s.GenericAwsException {
   CapacityProviderLimitExceededException({String? type, String? message})
       : super(
@@ -15627,6 +15975,7 @@ class CapacityProviderLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CodeSigningConfigNotFoundException extends _s.GenericAwsException {
   CodeSigningConfigNotFoundException({String? type, String? message})
       : super(
@@ -15635,12 +15984,14 @@ class CodeSigningConfigNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CodeStorageExceededException extends _s.GenericAwsException {
   CodeStorageExceededException({String? type, String? message})
       : super(
             type: type, code: 'CodeStorageExceededException', message: message);
 }
 
+/// @nodoc
 class CodeVerificationFailedException extends _s.GenericAwsException {
   CodeVerificationFailedException({String? type, String? message})
       : super(
@@ -15649,6 +16000,7 @@ class CodeVerificationFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DurableExecutionAlreadyStartedException extends _s.GenericAwsException {
   DurableExecutionAlreadyStartedException({String? type, String? message})
       : super(
@@ -15657,26 +16009,31 @@ class DurableExecutionAlreadyStartedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EC2AccessDeniedException extends _s.GenericAwsException {
   EC2AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'EC2AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class EC2ThrottledException extends _s.GenericAwsException {
   EC2ThrottledException({String? type, String? message})
       : super(type: type, code: 'EC2ThrottledException', message: message);
 }
 
+/// @nodoc
 class EC2UnexpectedException extends _s.GenericAwsException {
   EC2UnexpectedException({String? type, String? message})
       : super(type: type, code: 'EC2UnexpectedException', message: message);
 }
 
+/// @nodoc
 class EFSIOException extends _s.GenericAwsException {
   EFSIOException({String? type, String? message})
       : super(type: type, code: 'EFSIOException', message: message);
 }
 
+/// @nodoc
 class EFSMountConnectivityException extends _s.GenericAwsException {
   EFSMountConnectivityException({String? type, String? message})
       : super(
@@ -15685,21 +16042,25 @@ class EFSMountConnectivityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EFSMountFailureException extends _s.GenericAwsException {
   EFSMountFailureException({String? type, String? message})
       : super(type: type, code: 'EFSMountFailureException', message: message);
 }
 
+/// @nodoc
 class EFSMountTimeoutException extends _s.GenericAwsException {
   EFSMountTimeoutException({String? type, String? message})
       : super(type: type, code: 'EFSMountTimeoutException', message: message);
 }
 
+/// @nodoc
 class ENILimitReachedException extends _s.GenericAwsException {
   ENILimitReachedException({String? type, String? message})
       : super(type: type, code: 'ENILimitReachedException', message: message);
 }
 
+/// @nodoc
 class FunctionVersionsPerCapacityProviderLimitExceededException
     extends _s.GenericAwsException {
   FunctionVersionsPerCapacityProviderLimitExceededException(
@@ -15710,6 +16071,7 @@ class FunctionVersionsPerCapacityProviderLimitExceededException
             message: message);
 }
 
+/// @nodoc
 class InvalidCodeSignatureException extends _s.GenericAwsException {
   InvalidCodeSignatureException({String? type, String? message})
       : super(
@@ -15718,6 +16080,7 @@ class InvalidCodeSignatureException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -15726,6 +16089,7 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestContentException extends _s.GenericAwsException {
   InvalidRequestContentException({String? type, String? message})
       : super(
@@ -15734,11 +16098,13 @@ class InvalidRequestContentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRuntimeException extends _s.GenericAwsException {
   InvalidRuntimeException({String? type, String? message})
       : super(type: type, code: 'InvalidRuntimeException', message: message);
 }
 
+/// @nodoc
 class InvalidSecurityGroupIDException extends _s.GenericAwsException {
   InvalidSecurityGroupIDException({String? type, String? message})
       : super(
@@ -15747,42 +16113,50 @@ class InvalidSecurityGroupIDException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSubnetIDException extends _s.GenericAwsException {
   InvalidSubnetIDException({String? type, String? message})
       : super(type: type, code: 'InvalidSubnetIDException', message: message);
 }
 
+/// @nodoc
 class InvalidZipFileException extends _s.GenericAwsException {
   InvalidZipFileException({String? type, String? message})
       : super(type: type, code: 'InvalidZipFileException', message: message);
 }
 
+/// @nodoc
 class KMSAccessDeniedException extends _s.GenericAwsException {
   KMSAccessDeniedException({String? type, String? message})
       : super(type: type, code: 'KMSAccessDeniedException', message: message);
 }
 
+/// @nodoc
 class KMSDisabledException extends _s.GenericAwsException {
   KMSDisabledException({String? type, String? message})
       : super(type: type, code: 'KMSDisabledException', message: message);
 }
 
+/// @nodoc
 class KMSInvalidStateException extends _s.GenericAwsException {
   KMSInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateException', message: message);
 }
 
+/// @nodoc
 class KMSNotFoundException extends _s.GenericAwsException {
   KMSNotFoundException({String? type, String? message})
       : super(type: type, code: 'KMSNotFoundException', message: message);
 }
 
+/// @nodoc
 class NoPublishedVersionException extends _s.GenericAwsException {
   NoPublishedVersionException({String? type, String? message})
       : super(
             type: type, code: 'NoPublishedVersionException', message: message);
 }
 
+/// @nodoc
 class PolicyLengthExceededException extends _s.GenericAwsException {
   PolicyLengthExceededException({String? type, String? message})
       : super(
@@ -15791,12 +16165,14 @@ class PolicyLengthExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PreconditionFailedException extends _s.GenericAwsException {
   PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
+/// @nodoc
 class ProvisionedConcurrencyConfigNotFoundException
     extends _s.GenericAwsException {
   ProvisionedConcurrencyConfigNotFoundException({String? type, String? message})
@@ -15806,37 +16182,44 @@ class ProvisionedConcurrencyConfigNotFoundException
             message: message);
 }
 
+/// @nodoc
 class RecursiveInvocationException extends _s.GenericAwsException {
   RecursiveInvocationException({String? type, String? message})
       : super(
             type: type, code: 'RecursiveInvocationException', message: message);
 }
 
+/// @nodoc
 class RequestTooLargeException extends _s.GenericAwsException {
   RequestTooLargeException({String? type, String? message})
       : super(type: type, code: 'RequestTooLargeException', message: message);
 }
 
+/// @nodoc
 class ResourceConflictException extends _s.GenericAwsException {
   ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotReadyException extends _s.GenericAwsException {
   ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
+/// @nodoc
 class S3FilesMountConnectivityException extends _s.GenericAwsException {
   S3FilesMountConnectivityException({String? type, String? message})
       : super(
@@ -15845,18 +16228,21 @@ class S3FilesMountConnectivityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class S3FilesMountFailureException extends _s.GenericAwsException {
   S3FilesMountFailureException({String? type, String? message})
       : super(
             type: type, code: 'S3FilesMountFailureException', message: message);
 }
 
+/// @nodoc
 class S3FilesMountTimeoutException extends _s.GenericAwsException {
   S3FilesMountTimeoutException({String? type, String? message})
       : super(
             type: type, code: 'S3FilesMountTimeoutException', message: message);
 }
 
+/// @nodoc
 class SerializedRequestEntityTooLargeException extends _s.GenericAwsException {
   SerializedRequestEntityTooLargeException({String? type, String? message})
       : super(
@@ -15865,26 +16251,31 @@ class SerializedRequestEntityTooLargeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceException extends _s.GenericAwsException {
   ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+/// @nodoc
 class SnapStartException extends _s.GenericAwsException {
   SnapStartException({String? type, String? message})
       : super(type: type, code: 'SnapStartException', message: message);
 }
 
+/// @nodoc
 class SnapStartNotReadyException extends _s.GenericAwsException {
   SnapStartNotReadyException({String? type, String? message})
       : super(type: type, code: 'SnapStartNotReadyException', message: message);
 }
 
+/// @nodoc
 class SnapStartTimeoutException extends _s.GenericAwsException {
   SnapStartTimeoutException({String? type, String? message})
       : super(type: type, code: 'SnapStartTimeoutException', message: message);
 }
 
+/// @nodoc
 class SubnetIPAddressLimitReachedException extends _s.GenericAwsException {
   SubnetIPAddressLimitReachedException({String? type, String? message})
       : super(
@@ -15893,11 +16284,13 @@ class SubnetIPAddressLimitReachedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnsupportedMediaTypeException extends _s.GenericAwsException {
   UnsupportedMediaTypeException({String? type, String? message})
       : super(

@@ -4241,6 +4241,7 @@ class NetworkManager {
   }
 }
 
+/// @nodoc
 class AcceptAttachmentResponse {
   /// The response to the attachment request.
   final Attachment? attachment;
@@ -4265,6 +4266,7 @@ class AcceptAttachmentResponse {
   }
 }
 
+/// @nodoc
 class AssociateConnectPeerResponse {
   /// The response to the Connect peer request.
   final ConnectPeerAssociation? connectPeerAssociation;
@@ -4291,6 +4293,7 @@ class AssociateConnectPeerResponse {
   }
 }
 
+/// @nodoc
 class AssociateCustomerGatewayResponse {
   /// The customer gateway association.
   final CustomerGatewayAssociation? customerGatewayAssociation;
@@ -4317,6 +4320,7 @@ class AssociateCustomerGatewayResponse {
   }
 }
 
+/// @nodoc
 class AssociateLinkResponse {
   /// The link association.
   final LinkAssociation? linkAssociation;
@@ -4342,6 +4346,7 @@ class AssociateLinkResponse {
   }
 }
 
+/// @nodoc
 class AssociateTransitGatewayConnectPeerResponse {
   /// The transit gateway Connect peer association.
   final TransitGatewayConnectPeerAssociation?
@@ -4374,6 +4379,7 @@ class AssociateTransitGatewayConnectPeerResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectAttachmentResponse {
   /// The response to a Connect attachment request.
   final ConnectAttachment? connectAttachment;
@@ -4399,6 +4405,7 @@ class CreateConnectAttachmentResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectionResponse {
   /// Information about the connection.
   final Connection? connection;
@@ -4423,6 +4430,7 @@ class CreateConnectionResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectPeerResponse {
   /// The response to the request.
   final ConnectPeer? connectPeer;
@@ -4447,6 +4455,7 @@ class CreateConnectPeerResponse {
   }
 }
 
+/// @nodoc
 class CreateCoreNetworkResponse {
   /// Returns details about a core network.
   final CoreNetwork? coreNetwork;
@@ -4471,6 +4480,7 @@ class CreateCoreNetworkResponse {
   }
 }
 
+/// @nodoc
 class CreateCoreNetworkPrefixListAssociationResponse {
   /// The ID of the core network associated with the prefix list.
   final String? coreNetworkId;
@@ -4508,6 +4518,7 @@ class CreateCoreNetworkPrefixListAssociationResponse {
   }
 }
 
+/// @nodoc
 class CreateDeviceResponse {
   /// Information about the device.
   final Device? device;
@@ -4532,6 +4543,7 @@ class CreateDeviceResponse {
   }
 }
 
+/// @nodoc
 class CreateDirectConnectGatewayAttachmentResponse {
   /// Describes the details of a <code>CreateDirectConnectGatewayAttachment</code>
   /// request.
@@ -4561,6 +4573,7 @@ class CreateDirectConnectGatewayAttachmentResponse {
   }
 }
 
+/// @nodoc
 class CreateGlobalNetworkResponse {
   /// Information about the global network object.
   final GlobalNetwork? globalNetwork;
@@ -4586,6 +4599,7 @@ class CreateGlobalNetworkResponse {
   }
 }
 
+/// @nodoc
 class CreateLinkResponse {
   /// Information about the link.
   final Link? link;
@@ -4610,6 +4624,7 @@ class CreateLinkResponse {
   }
 }
 
+/// @nodoc
 class CreateSiteResponse {
   /// Information about the site.
   final Site? site;
@@ -4634,6 +4649,7 @@ class CreateSiteResponse {
   }
 }
 
+/// @nodoc
 class CreateSiteToSiteVpnAttachmentResponse {
   /// Details about a site-to-site VPN attachment.
   final SiteToSiteVpnAttachment? siteToSiteVpnAttachment;
@@ -4661,6 +4677,7 @@ class CreateSiteToSiteVpnAttachmentResponse {
   }
 }
 
+/// @nodoc
 class CreateTransitGatewayPeeringResponse {
   /// Returns information about the transit gateway peering connection request.
   final TransitGatewayPeering? transitGatewayPeering;
@@ -4688,6 +4705,7 @@ class CreateTransitGatewayPeeringResponse {
   }
 }
 
+/// @nodoc
 class CreateTransitGatewayRouteTableAttachmentResponse {
   /// The route table associated with the create transit gateway route table
   /// attachment request.
@@ -4720,6 +4738,7 @@ class CreateTransitGatewayRouteTableAttachmentResponse {
   }
 }
 
+/// @nodoc
 class CreateVpcAttachmentResponse {
   /// Provides details about the VPC attachment.
   final VpcAttachment? vpcAttachment;
@@ -4745,6 +4764,7 @@ class CreateVpcAttachmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAttachmentResponse {
   /// Information about the deleted attachment.
   final Attachment? attachment;
@@ -4769,6 +4789,7 @@ class DeleteAttachmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectionResponse {
   /// Information about the connection.
   final Connection? connection;
@@ -4793,6 +4814,7 @@ class DeleteConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectPeerResponse {
   /// Information about the deleted Connect peer.
   final ConnectPeer? connectPeer;
@@ -4817,6 +4839,7 @@ class DeleteConnectPeerResponse {
   }
 }
 
+/// @nodoc
 class DeleteCoreNetworkResponse {
   /// Information about the deleted core network.
   final CoreNetwork? coreNetwork;
@@ -4841,6 +4864,7 @@ class DeleteCoreNetworkResponse {
   }
 }
 
+/// @nodoc
 class DeleteCoreNetworkPolicyVersionResponse {
   /// Returns information about the deleted policy version.
   final CoreNetworkPolicy? coreNetworkPolicy;
@@ -4867,6 +4891,7 @@ class DeleteCoreNetworkPolicyVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteCoreNetworkPrefixListAssociationResponse {
   /// The ID of the core network from which the prefix list association was
   /// deleted.
@@ -4898,6 +4923,7 @@ class DeleteCoreNetworkPrefixListAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteDeviceResponse {
   /// Information about the device.
   final Device? device;
@@ -4922,6 +4948,7 @@ class DeleteDeviceResponse {
   }
 }
 
+/// @nodoc
 class DeleteGlobalNetworkResponse {
   /// Information about the global network.
   final GlobalNetwork? globalNetwork;
@@ -4947,6 +4974,7 @@ class DeleteGlobalNetworkResponse {
   }
 }
 
+/// @nodoc
 class DeleteLinkResponse {
   /// Information about the link.
   final Link? link;
@@ -4971,6 +4999,7 @@ class DeleteLinkResponse {
   }
 }
 
+/// @nodoc
 class DeletePeeringResponse {
   /// Information about a deleted peering connection.
   final Peering? peering;
@@ -4995,6 +5024,7 @@ class DeletePeeringResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -5007,6 +5037,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteSiteResponse {
   /// Information about the site.
   final Site? site;
@@ -5031,6 +5062,7 @@ class DeleteSiteResponse {
   }
 }
 
+/// @nodoc
 class DeregisterTransitGatewayResponse {
   /// The transit gateway registration information.
   final TransitGatewayRegistration? transitGatewayRegistration;
@@ -5057,6 +5089,7 @@ class DeregisterTransitGatewayResponse {
   }
 }
 
+/// @nodoc
 class DescribeGlobalNetworksResponse {
   /// Information about the global networks.
   final List<GlobalNetwork>? globalNetworks;
@@ -5089,6 +5122,7 @@ class DescribeGlobalNetworksResponse {
   }
 }
 
+/// @nodoc
 class DisassociateConnectPeerResponse {
   /// Describes the Connect peer association.
   final ConnectPeerAssociation? connectPeerAssociation;
@@ -5115,6 +5149,7 @@ class DisassociateConnectPeerResponse {
   }
 }
 
+/// @nodoc
 class DisassociateCustomerGatewayResponse {
   /// Information about the customer gateway association.
   final CustomerGatewayAssociation? customerGatewayAssociation;
@@ -5142,6 +5177,7 @@ class DisassociateCustomerGatewayResponse {
   }
 }
 
+/// @nodoc
 class DisassociateLinkResponse {
   /// Information about the link association.
   final LinkAssociation? linkAssociation;
@@ -5167,6 +5203,7 @@ class DisassociateLinkResponse {
   }
 }
 
+/// @nodoc
 class DisassociateTransitGatewayConnectPeerResponse {
   /// The transit gateway Connect peer association.
   final TransitGatewayConnectPeerAssociation?
@@ -5199,6 +5236,7 @@ class DisassociateTransitGatewayConnectPeerResponse {
   }
 }
 
+/// @nodoc
 class ExecuteCoreNetworkChangeSetResponse {
   ExecuteCoreNetworkChangeSetResponse();
 
@@ -5211,6 +5249,7 @@ class ExecuteCoreNetworkChangeSetResponse {
   }
 }
 
+/// @nodoc
 class GetConnectAttachmentResponse {
   /// Details about the Connect attachment.
   final ConnectAttachment? connectAttachment;
@@ -5236,6 +5275,7 @@ class GetConnectAttachmentResponse {
   }
 }
 
+/// @nodoc
 class GetConnectionsResponse {
   /// Information about the connections.
   final List<Connection>? connections;
@@ -5268,6 +5308,7 @@ class GetConnectionsResponse {
   }
 }
 
+/// @nodoc
 class GetConnectPeerResponse {
   /// Returns information about a core network Connect peer.
   final ConnectPeer? connectPeer;
@@ -5292,6 +5333,7 @@ class GetConnectPeerResponse {
   }
 }
 
+/// @nodoc
 class GetConnectPeerAssociationsResponse {
   /// Displays a list of Connect peer associations.
   final List<ConnectPeerAssociation>? connectPeerAssociations;
@@ -5327,6 +5369,7 @@ class GetConnectPeerAssociationsResponse {
   }
 }
 
+/// @nodoc
 class GetCoreNetworkResponse {
   /// Details about a core network.
   final CoreNetwork? coreNetwork;
@@ -5351,6 +5394,7 @@ class GetCoreNetworkResponse {
   }
 }
 
+/// @nodoc
 class GetCoreNetworkChangeEventsResponse {
   /// The response to <code>GetCoreNetworkChangeEventsRequest</code>.
   final List<CoreNetworkChangeEvent>? coreNetworkChangeEvents;
@@ -5386,6 +5430,7 @@ class GetCoreNetworkChangeEventsResponse {
   }
 }
 
+/// @nodoc
 class GetCoreNetworkChangeSetResponse {
   /// Describes a core network changes.
   final List<CoreNetworkChange>? coreNetworkChanges;
@@ -5418,6 +5463,7 @@ class GetCoreNetworkChangeSetResponse {
   }
 }
 
+/// @nodoc
 class GetCoreNetworkPolicyResponse {
   /// The details about a core network policy.
   final CoreNetworkPolicy? coreNetworkPolicy;
@@ -5443,6 +5489,7 @@ class GetCoreNetworkPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetCustomerGatewayAssociationsResponse {
   /// The customer gateway associations.
   final List<CustomerGatewayAssociation>? customerGatewayAssociations;
@@ -5479,6 +5526,7 @@ class GetCustomerGatewayAssociationsResponse {
   }
 }
 
+/// @nodoc
 class GetDevicesResponse {
   /// The devices.
   final List<Device>? devices;
@@ -5511,6 +5559,7 @@ class GetDevicesResponse {
   }
 }
 
+/// @nodoc
 class GetDirectConnectGatewayAttachmentResponse {
   /// Shows details about the Direct Connect gateway attachment.
   final DirectConnectGatewayAttachment? directConnectGatewayAttachment;
@@ -5539,6 +5588,7 @@ class GetDirectConnectGatewayAttachmentResponse {
   }
 }
 
+/// @nodoc
 class GetLinkAssociationsResponse {
   /// The link associations.
   final List<LinkAssociation>? linkAssociations;
@@ -5571,6 +5621,7 @@ class GetLinkAssociationsResponse {
   }
 }
 
+/// @nodoc
 class GetLinksResponse {
   /// The links.
   final List<Link>? links;
@@ -5603,6 +5654,7 @@ class GetLinksResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkResourceCountsResponse {
   /// The count of resources.
   final List<NetworkResourceCount>? networkResourceCounts;
@@ -5636,6 +5688,7 @@ class GetNetworkResourceCountsResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkResourceRelationshipsResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -5669,6 +5722,7 @@ class GetNetworkResourceRelationshipsResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkResourcesResponse {
   /// The network resources.
   final List<NetworkResource>? networkResources;
@@ -5701,6 +5755,7 @@ class GetNetworkResourcesResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkRoutesResponse {
   /// Describes a core network segment edge.
   final CoreNetworkSegmentEdgeIdentifier? coreNetworkSegmentEdge;
@@ -5760,6 +5815,7 @@ class GetNetworkRoutesResponse {
   }
 }
 
+/// @nodoc
 class GetNetworkTelemetryResponse {
   /// The network telemetry.
   final List<NetworkTelemetry>? networkTelemetry;
@@ -5792,6 +5848,7 @@ class GetNetworkTelemetryResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The resource policy document.
   final Object? policyDocument;
@@ -5816,6 +5873,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetRouteAnalysisResponse {
   /// The route analysis.
   final RouteAnalysis? routeAnalysis;
@@ -5841,6 +5899,7 @@ class GetRouteAnalysisResponse {
   }
 }
 
+/// @nodoc
 class GetSitesResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -5873,6 +5932,7 @@ class GetSitesResponse {
   }
 }
 
+/// @nodoc
 class GetSiteToSiteVpnAttachmentResponse {
   /// Describes the site-to-site attachment.
   final SiteToSiteVpnAttachment? siteToSiteVpnAttachment;
@@ -5900,6 +5960,7 @@ class GetSiteToSiteVpnAttachmentResponse {
   }
 }
 
+/// @nodoc
 class GetTransitGatewayConnectPeerAssociationsResponse {
   /// The token to use for the next page of results.
   final String? nextToken;
@@ -5939,6 +6000,7 @@ class GetTransitGatewayConnectPeerAssociationsResponse {
   }
 }
 
+/// @nodoc
 class GetTransitGatewayPeeringResponse {
   /// Returns information about a transit gateway peering.
   final TransitGatewayPeering? transitGatewayPeering;
@@ -5965,6 +6027,7 @@ class GetTransitGatewayPeeringResponse {
   }
 }
 
+/// @nodoc
 class GetTransitGatewayRegistrationsResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -6001,6 +6064,7 @@ class GetTransitGatewayRegistrationsResponse {
   }
 }
 
+/// @nodoc
 class GetTransitGatewayRouteTableAttachmentResponse {
   /// Returns information about the transit gateway route table attachment.
   final TransitGatewayRouteTableAttachment? transitGatewayRouteTableAttachment;
@@ -6032,6 +6096,7 @@ class GetTransitGatewayRouteTableAttachmentResponse {
   }
 }
 
+/// @nodoc
 class GetVpcAttachmentResponse {
   /// Returns details about a VPC attachment.
   final VpcAttachment? vpcAttachment;
@@ -6057,6 +6122,7 @@ class GetVpcAttachmentResponse {
   }
 }
 
+/// @nodoc
 class ListAttachmentRoutingPolicyAssociationsResponse {
   /// The list of attachment routing policy associations.
   final List<AttachmentRoutingPolicyAssociationSummary>?
@@ -6096,6 +6162,7 @@ class ListAttachmentRoutingPolicyAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListAttachmentsResponse {
   /// Describes the list of attachments.
   final List<Attachment>? attachments;
@@ -6128,6 +6195,7 @@ class ListAttachmentsResponse {
   }
 }
 
+/// @nodoc
 class ListConnectPeersResponse {
   /// Describes the Connect peers.
   final List<ConnectPeerSummary>? connectPeers;
@@ -6160,6 +6228,7 @@ class ListConnectPeersResponse {
   }
 }
 
+/// @nodoc
 class ListCoreNetworkPolicyVersionsResponse {
   /// Describes core network policy versions.
   final List<CoreNetworkPolicyVersion>? coreNetworkPolicyVersions;
@@ -6195,6 +6264,7 @@ class ListCoreNetworkPolicyVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListCoreNetworkPrefixListAssociationsResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -6229,6 +6299,7 @@ class ListCoreNetworkPrefixListAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListCoreNetworkRoutingInformationResponse {
   /// The list of routing information for the core network.
   final List<CoreNetworkRoutingInformation>? coreNetworkRoutingInformation;
@@ -6265,6 +6336,7 @@ class ListCoreNetworkRoutingInformationResponse {
   }
 }
 
+/// @nodoc
 class ListCoreNetworksResponse {
   /// Describes the list of core networks.
   final List<CoreNetworkSummary>? coreNetworks;
@@ -6297,6 +6369,7 @@ class ListCoreNetworksResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationServiceAccessStatusResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -6330,6 +6403,7 @@ class ListOrganizationServiceAccessStatusResponse {
   }
 }
 
+/// @nodoc
 class ListPeeringsResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -6363,6 +6437,7 @@ class ListPeeringsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags.
   final List<Tag>? tagList;
@@ -6388,6 +6463,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutAttachmentRoutingPolicyLabelResponse {
   /// The ID of the attachment that received the routing policy label.
   final String? attachmentId;
@@ -6425,6 +6501,7 @@ class PutAttachmentRoutingPolicyLabelResponse {
   }
 }
 
+/// @nodoc
 class PutCoreNetworkPolicyResponse {
   /// Describes the changed core network policy.
   final CoreNetworkPolicy? coreNetworkPolicy;
@@ -6450,6 +6527,7 @@ class PutCoreNetworkPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   PutResourcePolicyResponse();
 
@@ -6462,6 +6540,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class RegisterTransitGatewayResponse {
   /// Information about the transit gateway registration.
   final TransitGatewayRegistration? transitGatewayRegistration;
@@ -6488,6 +6567,7 @@ class RegisterTransitGatewayResponse {
   }
 }
 
+/// @nodoc
 class RejectAttachmentResponse {
   /// Describes the rejected attachment request.
   final Attachment? attachment;
@@ -6512,6 +6592,7 @@ class RejectAttachmentResponse {
   }
 }
 
+/// @nodoc
 class RemoveAttachmentRoutingPolicyLabelResponse {
   /// The ID of the attachment from which the routing policy label was removed.
   final String? attachmentId;
@@ -6549,6 +6630,7 @@ class RemoveAttachmentRoutingPolicyLabelResponse {
   }
 }
 
+/// @nodoc
 class RestoreCoreNetworkPolicyVersionResponse {
   /// Describes the restored core network policy.
   final CoreNetworkPolicy? coreNetworkPolicy;
@@ -6575,6 +6657,7 @@ class RestoreCoreNetworkPolicyVersionResponse {
   }
 }
 
+/// @nodoc
 class StartOrganizationServiceAccessUpdateResponse {
   /// The status of the service access update request for an Amazon Web Services
   /// Organization.
@@ -6602,6 +6685,7 @@ class StartOrganizationServiceAccessUpdateResponse {
   }
 }
 
+/// @nodoc
 class StartRouteAnalysisResponse {
   /// The route analysis.
   final RouteAnalysis? routeAnalysis;
@@ -6627,6 +6711,7 @@ class StartRouteAnalysisResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6639,6 +6724,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6651,6 +6737,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectionResponse {
   /// Information about the connection.
   final Connection? connection;
@@ -6675,6 +6762,7 @@ class UpdateConnectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateCoreNetworkResponse {
   /// Returns information about a core network update.
   final CoreNetwork? coreNetwork;
@@ -6699,6 +6787,7 @@ class UpdateCoreNetworkResponse {
   }
 }
 
+/// @nodoc
 class UpdateDeviceResponse {
   /// Information about the device.
   final Device? device;
@@ -6723,6 +6812,7 @@ class UpdateDeviceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDirectConnectGatewayAttachmentResponse {
   /// Returns details of the Direct Connect gateway attachment with the updated
   /// edge locations.
@@ -6752,6 +6842,7 @@ class UpdateDirectConnectGatewayAttachmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateGlobalNetworkResponse {
   /// Information about the global network object.
   final GlobalNetwork? globalNetwork;
@@ -6777,6 +6868,7 @@ class UpdateGlobalNetworkResponse {
   }
 }
 
+/// @nodoc
 class UpdateLinkResponse {
   /// Information about the link.
   final Link? link;
@@ -6801,6 +6893,7 @@ class UpdateLinkResponse {
   }
 }
 
+/// @nodoc
 class UpdateNetworkResourceMetadataResponse {
   /// The updated resource metadata.
   final Map<String, String>? metadata;
@@ -6832,6 +6925,7 @@ class UpdateNetworkResourceMetadataResponse {
   }
 }
 
+/// @nodoc
 class UpdateSiteResponse {
   /// Information about the site.
   final Site? site;
@@ -6856,6 +6950,7 @@ class UpdateSiteResponse {
   }
 }
 
+/// @nodoc
 class UpdateVpcAttachmentResponse {
   /// Describes the updated VPC attachment.
   final VpcAttachment? vpcAttachment;
@@ -6882,6 +6977,8 @@ class UpdateVpcAttachmentResponse {
 }
 
 /// Describes a VPC attachment.
+///
+/// @nodoc
 class VpcAttachment {
   /// Provides details about the VPC attachment.
   final Attachment? attachment;
@@ -6926,6 +7023,8 @@ class VpcAttachment {
 }
 
 /// Describes a core network attachment.
+///
+/// @nodoc
 class Attachment {
   /// The ID of the attachment.
   final String? attachmentId;
@@ -7098,6 +7197,8 @@ class Attachment {
 }
 
 /// Describes the VPC options.
+///
+/// @nodoc
 class VpcOptions {
   /// Indicates whether appliance mode is supported. If enabled, traffic flow
   /// between a source and destination use the same Availability Zone for the VPC
@@ -7150,6 +7251,7 @@ class VpcOptions {
   }
 }
 
+/// @nodoc
 class AttachmentType {
   static const connect = AttachmentType._('CONNECT');
   static const siteToSiteVpn = AttachmentType._('SITE_TO_SITE_VPN');
@@ -7185,6 +7287,7 @@ class AttachmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class AttachmentState {
   static const rejected = AttachmentState._('REJECTED');
   static const pendingAttachmentAcceptance =
@@ -7231,6 +7334,8 @@ class AttachmentState {
 
 /// Describes a proposed segment change. In some cases, the segment change must
 /// first be evaluated and accepted.
+///
+/// @nodoc
 class ProposedSegmentChange {
   /// The rule number in the policy document that applies to this change.
   final int? attachmentPolicyRuleNumber;
@@ -7272,6 +7377,8 @@ class ProposedSegmentChange {
 }
 
 /// Describes proposed changes to a network function group.
+///
+/// @nodoc
 class ProposedNetworkFunctionGroupChange {
   /// The proposed new attachment policy rule number for the network function
   /// group.
@@ -7317,6 +7424,8 @@ class ProposedNetworkFunctionGroupChange {
 }
 
 /// Describes the error associated with an attachment request.
+///
+/// @nodoc
 class AttachmentError {
   /// The error code for the attachment request.
   final AttachmentErrorCode? code;
@@ -7360,6 +7469,7 @@ class AttachmentError {
   }
 }
 
+/// @nodoc
 class AttachmentErrorCode {
   static const vpcNotFound = AttachmentErrorCode._('VPC_NOT_FOUND');
   static const subnetNotFound = AttachmentErrorCode._('SUBNET_NOT_FOUND');
@@ -7422,6 +7532,8 @@ class AttachmentErrorCode {
 }
 
 /// Describes a tag.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   ///
@@ -7456,6 +7568,8 @@ class Tag {
 }
 
 /// Describes a site.
+///
+/// @nodoc
 class Site {
   /// The date and time that the site was created.
   final DateTime? createdAt;
@@ -7533,6 +7647,8 @@ class Site {
 }
 
 /// Describes a location.
+///
+/// @nodoc
 class Location {
   /// The physical address.
   final String? address;
@@ -7569,6 +7685,7 @@ class Location {
   }
 }
 
+/// @nodoc
 class SiteState {
   static const pending = SiteState._('PENDING');
   static const available = SiteState._('AVAILABLE');
@@ -7595,6 +7712,8 @@ class SiteState {
 }
 
 /// Describes a link.
+///
+/// @nodoc
 class Link {
   /// The bandwidth for the link.
   final Bandwidth? bandwidth;
@@ -7693,6 +7812,8 @@ class Link {
 }
 
 /// Describes bandwidth information.
+///
+/// @nodoc
 class Bandwidth {
   /// Download speed in Mbps.
   final int? downloadSpeed;
@@ -7722,6 +7843,7 @@ class Bandwidth {
   }
 }
 
+/// @nodoc
 class LinkState {
   static const pending = LinkState._('PENDING');
   static const available = LinkState._('AVAILABLE');
@@ -7750,6 +7872,8 @@ class LinkState {
 /// Describes a global network. This is a single private network acting as a
 /// high-level container for your network objects, including an Amazon Web
 /// Services-managed Core Network.
+///
+/// @nodoc
 class GlobalNetwork {
   /// The date and time that the global network was created.
   final DateTime? createdAt;
@@ -7810,6 +7934,7 @@ class GlobalNetwork {
   }
 }
 
+/// @nodoc
 class GlobalNetworkState {
   static const pending = GlobalNetworkState._('PENDING');
   static const available = GlobalNetworkState._('AVAILABLE');
@@ -7838,6 +7963,8 @@ class GlobalNetworkState {
 }
 
 /// Describes a Direct Connect gateway attachment.
+///
+/// @nodoc
 class DirectConnectGatewayAttachment {
   final Attachment? attachment;
 
@@ -7870,6 +7997,8 @@ class DirectConnectGatewayAttachment {
 }
 
 /// Describes a device.
+///
+/// @nodoc
 class Device {
   /// The Amazon Web Services location of the device.
   final AWSLocation? awsLocation;
@@ -7991,6 +8120,8 @@ class Device {
 }
 
 /// Specifies a location in Amazon Web Services.
+///
+/// @nodoc
 class AWSLocation {
   /// The Amazon Resource Name (ARN) of the subnet that the device is located in.
   final String? subnetArn;
@@ -8021,6 +8152,7 @@ class AWSLocation {
   }
 }
 
+/// @nodoc
 class DeviceState {
   static const pending = DeviceState._('PENDING');
   static const available = DeviceState._('AVAILABLE');
@@ -8047,6 +8179,8 @@ class DeviceState {
 }
 
 /// Describes a core network.
+///
+/// @nodoc
 class CoreNetwork {
   /// The ARN of a core network.
   final String? coreNetworkArn;
@@ -8146,6 +8280,7 @@ class CoreNetwork {
   }
 }
 
+/// @nodoc
 class CoreNetworkState {
   static const creating = CoreNetworkState._('CREATING');
   static const updating = CoreNetworkState._('UPDATING');
@@ -8173,6 +8308,8 @@ class CoreNetworkState {
 }
 
 /// Describes a core network edge.
+///
+/// @nodoc
 class CoreNetworkEdge {
   /// The ASN of a core network edge.
   final int? asn;
@@ -8213,6 +8350,8 @@ class CoreNetworkEdge {
 }
 
 /// Describes a network function group.
+///
+/// @nodoc
 class CoreNetworkNetworkFunctionGroup {
   /// The core network edge locations.
   final List<String>? edgeLocations;
@@ -8256,6 +8395,8 @@ class CoreNetworkNetworkFunctionGroup {
 }
 
 /// Describes the segments associated with the service insertion action.
+///
+/// @nodoc
 class ServiceInsertionSegments {
   /// The list of segments associated with the <code>send-to</code> action.
   final List<String>? sendTo;
@@ -8289,6 +8430,8 @@ class ServiceInsertionSegments {
 
 /// Describes a core network segment, which are dedicated routes. Only
 /// attachments within this segment can communicate with each other.
+///
+/// @nodoc
 class CoreNetworkSegment {
   /// The Regions where the edges are located.
   final List<String>? edgeLocations;
@@ -8332,6 +8475,8 @@ class CoreNetworkSegment {
 }
 
 /// Describes a connection.
+///
+/// @nodoc
 class Connection {
   /// The ID of the second device in the connection.
   final String? connectedDeviceId;
@@ -8427,6 +8572,7 @@ class Connection {
   }
 }
 
+/// @nodoc
 class ConnectionState {
   static const pending = ConnectionState._('PENDING');
   static const available = ConnectionState._('AVAILABLE');
@@ -8454,6 +8600,8 @@ class ConnectionState {
 }
 
 /// Describes a route analysis.
+///
+/// @nodoc
 class RouteAnalysis {
   /// The destination.
   final RouteAnalysisEndpointOptions? destination;
@@ -8561,6 +8709,7 @@ class RouteAnalysis {
   }
 }
 
+/// @nodoc
 class RouteAnalysisStatus {
   static const running = RouteAnalysisStatus._('RUNNING');
   static const completed = RouteAnalysisStatus._('COMPLETED');
@@ -8588,6 +8737,8 @@ class RouteAnalysisStatus {
 }
 
 /// Describes a source or a destination.
+///
+/// @nodoc
 class RouteAnalysisEndpointOptions {
   /// The IP address.
   final String? ipAddress;
@@ -8627,6 +8778,8 @@ class RouteAnalysisEndpointOptions {
 }
 
 /// Describes a route analysis path.
+///
+/// @nodoc
 class RouteAnalysisPath {
   /// The status of the analysis at completion.
   final RouteAnalysisCompletion? completionStatus;
@@ -8663,6 +8816,8 @@ class RouteAnalysisPath {
 }
 
 /// Describes the status of an analysis at completion.
+///
+/// @nodoc
 class RouteAnalysisCompletion {
   /// The reason code. Available only if a connection is not found.
   ///
@@ -8743,6 +8898,8 @@ class RouteAnalysisCompletion {
 }
 
 /// Describes a path component.
+///
+/// @nodoc
 class PathComponent {
   /// The destination CIDR block in the route table.
   final String? destinationCidrBlock;
@@ -8784,6 +8941,8 @@ class PathComponent {
 }
 
 /// Describes a network resource.
+///
+/// @nodoc
 class NetworkResourceSummary {
   /// Information about the resource, in JSON format. Network Manager gets this
   /// information by describing the resource using its Describe API call.
@@ -8843,6 +9002,7 @@ class NetworkResourceSummary {
   }
 }
 
+/// @nodoc
 class RouteAnalysisCompletionResultCode {
   static const connected = RouteAnalysisCompletionResultCode._('CONNECTED');
   static const notConnected =
@@ -8869,6 +9029,7 @@ class RouteAnalysisCompletionResultCode {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteAnalysisCompletionReasonCode {
   static const transitGatewayAttachmentNotFound =
       RouteAnalysisCompletionReasonCode._(
@@ -8933,6 +9094,8 @@ class RouteAnalysisCompletionReasonCode {
 }
 
 /// Describes a source or a destination.
+///
+/// @nodoc
 class RouteAnalysisEndpointOptionsSpecification {
   /// The IP address.
   final String? ipAddress;
@@ -8958,6 +9121,8 @@ class RouteAnalysisEndpointOptionsSpecification {
 
 /// The status of an Amazon Web Services Organization and the accounts within
 /// that organization.
+///
+/// @nodoc
 class OrganizationStatus {
   /// The current service-linked role (SLR) deployment status for an Amazon Web
   /// Services Organization's accounts. This will be either <code>SUCCEEDED</code>
@@ -9015,6 +9180,8 @@ class OrganizationStatus {
 
 /// Describes the current status of an account within an Amazon Web Services
 /// Organization, including service-linked roles (SLRs).
+///
+/// @nodoc
 class AccountStatus {
   /// The ID of an account within the Amazon Web Services Organization.
   final String? accountId;
@@ -9046,6 +9213,8 @@ class AccountStatus {
 }
 
 /// Describes a core network policy. You can have only one LIVE Core Policy.
+///
+/// @nodoc
 class CoreNetworkPolicy {
   /// Whether a core network policy is the current LIVE policy or the most
   /// recently submitted policy.
@@ -9125,6 +9294,7 @@ class CoreNetworkPolicy {
   }
 }
 
+/// @nodoc
 class CoreNetworkPolicyAlias {
   static const live = CoreNetworkPolicyAlias._('LIVE');
   static const latest = CoreNetworkPolicyAlias._('LATEST');
@@ -9150,6 +9320,7 @@ class CoreNetworkPolicyAlias {
   String toString() => value;
 }
 
+/// @nodoc
 class ChangeSetState {
   static const pendingGeneration = ChangeSetState._('PENDING_GENERATION');
   static const failedGeneration = ChangeSetState._('FAILED_GENERATION');
@@ -9186,6 +9357,8 @@ class ChangeSetState {
 }
 
 /// Provides details about an error in a core network policy.
+///
+/// @nodoc
 class CoreNetworkPolicyError {
   /// The error code associated with a core network policy error.
   final String errorCode;
@@ -9223,6 +9396,8 @@ class CoreNetworkPolicyError {
 }
 
 /// Describes the registration of a transit gateway to a global network.
+///
+/// @nodoc
 class TransitGatewayRegistration {
   /// The ID of the global network.
   final String? globalNetworkId;
@@ -9263,6 +9438,8 @@ class TransitGatewayRegistration {
 }
 
 /// Describes the status of a transit gateway registration.
+///
+/// @nodoc
 class TransitGatewayRegistrationStateReason {
   /// The code for the state reason.
   final TransitGatewayRegistrationState? code;
@@ -9294,6 +9471,7 @@ class TransitGatewayRegistrationStateReason {
   }
 }
 
+/// @nodoc
 class TransitGatewayRegistrationState {
   static const pending = TransitGatewayRegistrationState._('PENDING');
   static const available = TransitGatewayRegistrationState._('AVAILABLE');
@@ -9323,6 +9501,8 @@ class TransitGatewayRegistrationState {
 }
 
 /// Describes a peering connection.
+///
+/// @nodoc
 class Peering {
   /// The ARN of a core network.
   final String? coreNetworkArn;
@@ -9423,6 +9603,7 @@ class Peering {
   }
 }
 
+/// @nodoc
 class PeeringType {
   static const transitGateway = PeeringType._('TRANSIT_GATEWAY');
 
@@ -9445,6 +9626,7 @@ class PeeringType {
   String toString() => value;
 }
 
+/// @nodoc
 class PeeringState {
   static const creating = PeeringState._('CREATING');
   static const failed = PeeringState._('FAILED');
@@ -9471,6 +9653,8 @@ class PeeringState {
 }
 
 /// Describes an error associated with a peering request.
+///
+/// @nodoc
 class PeeringError {
   /// The error code for the peering request.
   final PeeringErrorCode? code;
@@ -9526,6 +9710,7 @@ class PeeringError {
   }
 }
 
+/// @nodoc
 class PeeringErrorCode {
   static const transitGatewayNotFound =
       PeeringErrorCode._('TRANSIT_GATEWAY_NOT_FOUND');
@@ -9566,6 +9751,8 @@ class PeeringErrorCode {
 }
 
 /// Describes additional information about missing permissions.
+///
+/// @nodoc
 class PermissionsErrorContext {
   /// The missing permissions.
   final String? missingPermission;
@@ -9589,6 +9776,8 @@ class PermissionsErrorContext {
 }
 
 /// Returns summary information about a core network.
+///
+/// @nodoc
 class CoreNetworkSummary {
   /// a core network ARN.
   final String? coreNetworkArn;
@@ -9658,6 +9847,8 @@ class CoreNetworkSummary {
 
 /// Routing information for a core network, including route details and BGP
 /// attributes.
+///
+/// @nodoc
 class CoreNetworkRoutingInformation {
   /// The BGP AS path for the route.
   final List<String>? asPath;
@@ -9723,6 +9914,8 @@ class CoreNetworkRoutingInformation {
 }
 
 /// Information about the next hop for a route in the core network.
+///
+/// @nodoc
 class RoutingInformationNextHop {
   /// The ID of the core network attachment for the next hop.
   final String? coreNetworkAttachmentId;
@@ -9782,6 +9975,8 @@ class RoutingInformationNextHop {
 }
 
 /// Information about a prefix list association with a core network.
+///
+/// @nodoc
 class PrefixListAssociation {
   /// The core network id in the association.
   final String? coreNetworkId;
@@ -9819,6 +10014,8 @@ class PrefixListAssociation {
 }
 
 /// Describes a core network policy version.
+///
+/// @nodoc
 class CoreNetworkPolicyVersion {
   /// Whether a core network policy is the current policy or the most recently
   /// submitted policy.
@@ -9879,6 +10076,8 @@ class CoreNetworkPolicyVersion {
 }
 
 /// Summary description of a Connect peer.
+///
+/// @nodoc
 class ConnectPeerSummary {
   /// The ID of a Connect peer attachment.
   final String? connectAttachmentId;
@@ -9955,6 +10154,7 @@ class ConnectPeerSummary {
   }
 }
 
+/// @nodoc
 class ConnectPeerState {
   static const creating = ConnectPeerState._('CREATING');
   static const failed = ConnectPeerState._('FAILED');
@@ -9982,6 +10182,8 @@ class ConnectPeerState {
 }
 
 /// Summary information about routing policy associations for an attachment.
+///
+/// @nodoc
 class AttachmentRoutingPolicyAssociationSummary {
   /// The list of routing policies currently associated with the attachment.
   final List<String>? associatedRoutingPolicies;
@@ -10036,6 +10238,8 @@ class AttachmentRoutingPolicyAssociationSummary {
 }
 
 /// Describes a transit gateway route table attachment.
+///
+/// @nodoc
 class TransitGatewayRouteTableAttachment {
   final Attachment? attachment;
 
@@ -10079,6 +10283,8 @@ class TransitGatewayRouteTableAttachment {
 }
 
 /// Describes a transit gateway peering attachment.
+///
+/// @nodoc
 class TransitGatewayPeering {
   /// Describes a transit gateway peer connection.
   final Peering? peering;
@@ -10121,6 +10327,8 @@ class TransitGatewayPeering {
 }
 
 /// Describes a transit gateway Connect peer association.
+///
+/// @nodoc
 class TransitGatewayConnectPeerAssociation {
   /// The ID of the device.
   final String? deviceId;
@@ -10175,6 +10383,7 @@ class TransitGatewayConnectPeerAssociation {
   }
 }
 
+/// @nodoc
 class TransitGatewayConnectPeerAssociationState {
   static const pending = TransitGatewayConnectPeerAssociationState._('PENDING');
   static const available =
@@ -10206,6 +10415,8 @@ class TransitGatewayConnectPeerAssociationState {
 }
 
 /// Creates a site-to-site VPN attachment.
+///
+/// @nodoc
 class SiteToSiteVpnAttachment {
   /// Provides details about a site-to-site VPN attachment.
   final Attachment? attachment;
@@ -10238,6 +10449,8 @@ class SiteToSiteVpnAttachment {
 }
 
 /// Describes the telemetry information for a resource.
+///
+/// @nodoc
 class NetworkTelemetry {
   /// The Amazon Web Services account ID.
   final String? accountId;
@@ -10320,6 +10533,8 @@ class NetworkTelemetry {
 }
 
 /// Describes connection health.
+///
+/// @nodoc
 class ConnectionHealth {
   /// The connection status.
   final ConnectionStatus? status;
@@ -10356,6 +10571,7 @@ class ConnectionHealth {
   }
 }
 
+/// @nodoc
 class ConnectionType {
   static const bgp = ConnectionType._('BGP');
   static const ipsec = ConnectionType._('IPSEC');
@@ -10380,6 +10596,7 @@ class ConnectionType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const up = ConnectionStatus._('UP');
   static const down = ConnectionStatus._('DOWN');
@@ -10405,6 +10622,8 @@ class ConnectionStatus {
 }
 
 /// Returns details about a core network edge.
+///
+/// @nodoc
 class CoreNetworkSegmentEdgeIdentifier {
   /// The ID of a core network.
   final String? coreNetworkId;
@@ -10441,6 +10660,7 @@ class CoreNetworkSegmentEdgeIdentifier {
   }
 }
 
+/// @nodoc
 class RouteTableType {
   static const transitGatewayRouteTable =
       RouteTableType._('TRANSIT_GATEWAY_ROUTE_TABLE');
@@ -10473,6 +10693,8 @@ class RouteTableType {
 }
 
 /// Describes a network route.
+///
+/// @nodoc
 class NetworkRoute {
   /// A unique identifier for the route, such as a CIDR block.
   final String? destinationCidrBlock;
@@ -10530,6 +10752,7 @@ class NetworkRoute {
   }
 }
 
+/// @nodoc
 class RouteState {
   static const active = RouteState._('ACTIVE');
   static const blackhole = RouteState._('BLACKHOLE');
@@ -10553,6 +10776,7 @@ class RouteState {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteType {
   static const propagated = RouteType._('PROPAGATED');
   static const static = RouteType._('STATIC');
@@ -10577,6 +10801,8 @@ class RouteType {
 }
 
 /// Describes the destination of a network route.
+///
+/// @nodoc
 class NetworkRouteDestination {
   /// The ID of a core network attachment.
   final String? coreNetworkAttachmentId;
@@ -10645,6 +10871,8 @@ class NetworkRouteDestination {
 }
 
 /// Describes a route table.
+///
+/// @nodoc
 class RouteTableIdentifier {
   /// The route table identifier associated with the network function group.
   final CoreNetworkNetworkFunctionGroupIdentifier?
@@ -10681,6 +10909,8 @@ class RouteTableIdentifier {
 }
 
 /// Describes a core network
+///
+/// @nodoc
 class CoreNetworkNetworkFunctionGroupIdentifier {
   /// The ID of the core network.
   final String? coreNetworkId;
@@ -10711,6 +10941,8 @@ class CoreNetworkNetworkFunctionGroupIdentifier {
 }
 
 /// Describes a network resource.
+///
+/// @nodoc
 class NetworkResource {
   /// The Amazon Web Services account ID.
   final String? accountId;
@@ -10875,6 +11107,8 @@ class NetworkResource {
 }
 
 /// Describes a resource relationship.
+///
+/// @nodoc
 class Relationship {
   /// The ARN of the resource.
   final String? from;
@@ -10905,6 +11139,8 @@ class Relationship {
 }
 
 /// Describes a resource count.
+///
+/// @nodoc
 class NetworkResourceCount {
   /// The resource count.
   final int? count;
@@ -10935,6 +11171,8 @@ class NetworkResourceCount {
 }
 
 /// Describes the association between a device and a link.
+///
+/// @nodoc
 class LinkAssociation {
   /// The device ID for the link association.
   final String? deviceId;
@@ -10980,6 +11218,7 @@ class LinkAssociation {
   }
 }
 
+/// @nodoc
 class LinkAssociationState {
   static const pending = LinkAssociationState._('PENDING');
   static const available = LinkAssociationState._('AVAILABLE');
@@ -11008,6 +11247,8 @@ class LinkAssociationState {
 }
 
 /// Describes the association between a customer gateway, a device, and a link.
+///
+/// @nodoc
 class CustomerGatewayAssociation {
   /// The Amazon Resource Name (ARN) of the customer gateway.
   final String? customerGatewayArn;
@@ -11059,6 +11300,7 @@ class CustomerGatewayAssociation {
   }
 }
 
+/// @nodoc
 class CustomerGatewayAssociationState {
   static const pending = CustomerGatewayAssociationState._('PENDING');
   static const available = CustomerGatewayAssociationState._('AVAILABLE');
@@ -11087,6 +11329,8 @@ class CustomerGatewayAssociationState {
 }
 
 /// Details describing a core network change.
+///
+/// @nodoc
 class CoreNetworkChange {
   /// The action to take for a core network.
   final ChangeAction? action;
@@ -11152,6 +11396,7 @@ class CoreNetworkChange {
   }
 }
 
+/// @nodoc
 class ChangeType {
   static const coreNetworkSegment = ChangeType._('CORE_NETWORK_SEGMENT');
   static const networkFunctionGroup = ChangeType._('NETWORK_FUNCTION_GROUP');
@@ -11209,6 +11454,7 @@ class ChangeType {
   String toString() => value;
 }
 
+/// @nodoc
 class ChangeAction {
   static const add = ChangeAction._('ADD');
   static const modify = ChangeAction._('MODIFY');
@@ -11234,6 +11480,8 @@ class ChangeAction {
 }
 
 /// Describes a core network change.
+///
+/// @nodoc
 class CoreNetworkChangeValues {
   /// The ASN of a core network.
   final int? asn;
@@ -11405,6 +11653,7 @@ class CoreNetworkChangeValues {
   }
 }
 
+/// @nodoc
 class RoutingPolicyDirection {
   static const inbound = RoutingPolicyDirection._('inbound');
   static const outbound = RoutingPolicyDirection._('outbound');
@@ -11431,6 +11680,8 @@ class RoutingPolicyDirection {
 }
 
 /// Information about a routing policy association.
+///
+/// @nodoc
 class RoutingPolicyAssociationDetail {
   /// The names of the routing policies in the association.
   final List<String>? routingPolicyNames;
@@ -11469,6 +11720,8 @@ class RoutingPolicyAssociationDetail {
 
 /// Describes the action that the service insertion will take for any segments
 /// associated with it.
+///
+/// @nodoc
 class ServiceInsertionAction {
   /// The action the service insertion takes for traffic. <code>send-via</code>
   /// sends east-west traffic between attachments. <code>send-to</code> sends
@@ -11530,6 +11783,7 @@ class ServiceInsertionAction {
   }
 }
 
+/// @nodoc
 class SegmentActionServiceInsertion {
   static const sendVia = SegmentActionServiceInsertion._('send-via');
   static const sendTo = SegmentActionServiceInsertion._('send-to');
@@ -11555,6 +11809,7 @@ class SegmentActionServiceInsertion {
   String toString() => value;
 }
 
+/// @nodoc
 class SendViaMode {
   static const dualHop = SendViaMode._('dual-hop');
   static const singleHop = SendViaMode._('single-hop');
@@ -11580,6 +11835,8 @@ class SendViaMode {
 
 /// Displays a list of the destination segments. Used only when the service
 /// insertion action is <code>send-to</code>.
+///
+/// @nodoc
 class WhenSentTo {
   /// The list of destination segments when the service insertion action is
   /// <code>send-to</code>.
@@ -11610,6 +11867,8 @@ class WhenSentTo {
 /// The list of network function groups and edge overrides for the service
 /// insertion action. Used for both the <code>send-to</code> and
 /// <code>send-via</code> actions.
+///
+/// @nodoc
 class Via {
   /// The list of network function groups associated with the service insertion
   /// action.
@@ -11649,6 +11908,8 @@ class Via {
 }
 
 /// Describes the edge that's used for the override.
+///
+/// @nodoc
 class EdgeOverride {
   /// The list of edge locations.
   final List<List<String>>? edgeSets;
@@ -11682,6 +11943,8 @@ class EdgeOverride {
 }
 
 /// Describes a network function group for service insertion.
+///
+/// @nodoc
 class NetworkFunctionGroup {
   /// The name of the network function group.
   final String? name;
@@ -11706,6 +11969,8 @@ class NetworkFunctionGroup {
 
 /// Describes a core network change event. This can be a change to a segment,
 /// attachment, route, etc.
+///
+/// @nodoc
 class CoreNetworkChangeEvent {
   /// The action taken for the change event.
   final ChangeAction? action;
@@ -11768,6 +12033,7 @@ class CoreNetworkChangeEvent {
   }
 }
 
+/// @nodoc
 class ChangeStatus {
   static const notStarted = ChangeStatus._('NOT_STARTED');
   static const inProgress = ChangeStatus._('IN_PROGRESS');
@@ -11794,6 +12060,8 @@ class ChangeStatus {
 }
 
 /// Describes a core network change event.
+///
+/// @nodoc
 class CoreNetworkChangeEventValues {
   /// The ID of the attachment if the change event is associated with an
   /// attachment.
@@ -11879,6 +12147,8 @@ class CoreNetworkChangeEventValues {
 }
 
 /// Describes a core network Connect peer association.
+///
+/// @nodoc
 class ConnectPeerAssociation {
   /// The ID of the Connect peer.
   final String? connectPeerId;
@@ -11930,6 +12200,7 @@ class ConnectPeerAssociation {
   }
 }
 
+/// @nodoc
 class ConnectPeerAssociationState {
   static const pending = ConnectPeerAssociationState._('PENDING');
   static const available = ConnectPeerAssociationState._('AVAILABLE');
@@ -11958,6 +12229,8 @@ class ConnectPeerAssociationState {
 }
 
 /// Describes a core network Connect peer.
+///
+/// @nodoc
 class ConnectPeer {
   /// The configuration of the Connect peer.
   final ConnectPeerConfiguration? configuration;
@@ -12056,6 +12329,8 @@ class ConnectPeer {
 }
 
 /// Describes a core network Connect peer configuration.
+///
+/// @nodoc
 class ConnectPeerConfiguration {
   /// The Connect peer BGP configurations.
   final List<ConnectPeerBgpConfiguration>? bgpConfigurations;
@@ -12114,6 +12389,8 @@ class ConnectPeerConfiguration {
 }
 
 /// Describes an error associated with a Connect peer request
+///
+/// @nodoc
 class ConnectPeerError {
   /// The error code for the Connect peer request.
   final ConnectPeerErrorCode? code;
@@ -12157,6 +12434,7 @@ class ConnectPeerError {
   }
 }
 
+/// @nodoc
 class ConnectPeerErrorCode {
   static const edgeLocationNoFreeIps =
       ConnectPeerErrorCode._('EDGE_LOCATION_NO_FREE_IPS');
@@ -12198,6 +12476,7 @@ class ConnectPeerErrorCode {
   String toString() => value;
 }
 
+/// @nodoc
 class TunnelProtocol {
   static const gre = TunnelProtocol._('GRE');
   static const noEncap = TunnelProtocol._('NO_ENCAP');
@@ -12223,6 +12502,8 @@ class TunnelProtocol {
 }
 
 /// Describes a core network BGP configuration.
+///
+/// @nodoc
 class ConnectPeerBgpConfiguration {
   /// The address of a core network.
   final String? coreNetworkAddress;
@@ -12267,6 +12548,8 @@ class ConnectPeerBgpConfiguration {
 }
 
 /// Describes a core network Connect attachment.
+///
+/// @nodoc
 class ConnectAttachment {
   /// The attachment details.
   final Attachment? attachment;
@@ -12310,6 +12593,8 @@ class ConnectAttachment {
 }
 
 /// Describes a core network Connect attachment options.
+///
+/// @nodoc
 class ConnectAttachmentOptions {
   /// The protocol used for the attachment connection.
   final TunnelProtocol? protocol;
@@ -12333,6 +12618,8 @@ class ConnectAttachmentOptions {
 }
 
 /// Describes the BGP options.
+///
+/// @nodoc
 class BgpOptions {
   /// The Peer ASN of the BGP.
   final int? peerAsn;
@@ -12349,31 +12636,37 @@ class BgpOptions {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class CoreNetworkPolicyException extends _s.GenericAwsException {
   CoreNetworkPolicyException({String? type, String? message})
       : super(type: type, code: 'CoreNetworkPolicyException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -12382,11 +12675,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1195,6 +1195,7 @@ class AppFabric {
   }
 }
 
+/// @nodoc
 class BatchGetUserAccessTasksResponse {
   /// Contains a list of user access results.
   final List<UserAccessResultItem>? userAccessResultsList;
@@ -1221,6 +1222,7 @@ class BatchGetUserAccessTasksResponse {
   }
 }
 
+/// @nodoc
 class ConnectAppAuthorizationResponse {
   /// Contains a summary of the app authorization.
   final AppAuthorizationSummary appAuthorizationSummary;
@@ -1245,6 +1247,7 @@ class ConnectAppAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class CreateAppAuthorizationResponse {
   /// Contains information about an app authorization.
   final AppAuthorization appAuthorization;
@@ -1269,6 +1272,7 @@ class CreateAppAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class CreateAppBundleResponse {
   /// Contains information about an app bundle.
   final AppBundle appBundle;
@@ -1293,6 +1297,7 @@ class CreateAppBundleResponse {
   }
 }
 
+/// @nodoc
 class CreateIngestionResponse {
   /// Contains information about an ingestion.
   final Ingestion ingestion;
@@ -1317,6 +1322,7 @@ class CreateIngestionResponse {
   }
 }
 
+/// @nodoc
 class CreateIngestionDestinationResponse {
   /// Contains information about an ingestion destination.
   final IngestionDestination ingestionDestination;
@@ -1342,6 +1348,7 @@ class CreateIngestionDestinationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppAuthorizationResponse {
   DeleteAppAuthorizationResponse();
 
@@ -1354,6 +1361,7 @@ class DeleteAppAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppBundleResponse {
   DeleteAppBundleResponse();
 
@@ -1366,6 +1374,7 @@ class DeleteAppBundleResponse {
   }
 }
 
+/// @nodoc
 class DeleteIngestionResponse {
   DeleteIngestionResponse();
 
@@ -1378,6 +1387,7 @@ class DeleteIngestionResponse {
   }
 }
 
+/// @nodoc
 class DeleteIngestionDestinationResponse {
   DeleteIngestionDestinationResponse();
 
@@ -1390,6 +1400,7 @@ class DeleteIngestionDestinationResponse {
   }
 }
 
+/// @nodoc
 class GetAppAuthorizationResponse {
   /// Contains information about an app authorization.
   final AppAuthorization appAuthorization;
@@ -1414,6 +1425,7 @@ class GetAppAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class GetAppBundleResponse {
   /// Contains information about an app bundle.
   final AppBundle appBundle;
@@ -1438,6 +1450,7 @@ class GetAppBundleResponse {
   }
 }
 
+/// @nodoc
 class GetIngestionResponse {
   /// Contains information about an ingestion.
   final Ingestion ingestion;
@@ -1462,6 +1475,7 @@ class GetIngestionResponse {
   }
 }
 
+/// @nodoc
 class GetIngestionDestinationResponse {
   /// Contains information about an ingestion destination.
   final IngestionDestination ingestionDestination;
@@ -1486,6 +1500,7 @@ class GetIngestionDestinationResponse {
   }
 }
 
+/// @nodoc
 class ListAppAuthorizationsResponse {
   /// Contains a list of app authorization summaries.
   final List<AppAuthorizationSummary> appAuthorizationSummaryList;
@@ -1525,6 +1540,7 @@ class ListAppAuthorizationsResponse {
   }
 }
 
+/// @nodoc
 class ListAppBundlesResponse {
   /// Contains a list of app bundle summaries.
   final List<AppBundleSummary> appBundleSummaryList;
@@ -1563,6 +1579,7 @@ class ListAppBundlesResponse {
   }
 }
 
+/// @nodoc
 class ListIngestionDestinationsResponse {
   /// Contains a list of ingestion destination summaries.
   final List<IngestionDestinationSummary> ingestionDestinations;
@@ -1603,6 +1620,7 @@ class ListIngestionDestinationsResponse {
   }
 }
 
+/// @nodoc
 class ListIngestionsResponse {
   /// Contains a list of ingestion summaries.
   final List<IngestionSummary> ingestions;
@@ -1640,6 +1658,7 @@ class ListIngestionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of the key-value pairs for the tag or tags assigned to the specified
   /// resource.
@@ -1666,6 +1685,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartIngestionResponse {
   StartIngestionResponse();
 
@@ -1678,6 +1698,7 @@ class StartIngestionResponse {
   }
 }
 
+/// @nodoc
 class StartUserAccessTasksResponse {
   /// Contains a list of user access task information.
   final List<UserAccessTaskItem>? userAccessTasksList;
@@ -1704,6 +1725,7 @@ class StartUserAccessTasksResponse {
   }
 }
 
+/// @nodoc
 class StopIngestionResponse {
   StopIngestionResponse();
 
@@ -1716,6 +1738,7 @@ class StopIngestionResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1728,6 +1751,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1740,6 +1764,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppAuthorizationResponse {
   /// Contains information about an app authorization.
   final AppAuthorization appAuthorization;
@@ -1764,6 +1789,7 @@ class UpdateAppAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class UpdateIngestionDestinationResponse {
   /// Contains information about an ingestion destination.
   final IngestionDestination ingestionDestination;
@@ -1790,6 +1816,8 @@ class UpdateIngestionDestinationResponse {
 }
 
 /// Contains information about an ingestion destination.
+///
+/// @nodoc
 class IngestionDestination {
   /// The Amazon Resource Name (ARN) of the ingestion destination.
   final String arn;
@@ -1884,6 +1912,8 @@ class IngestionDestination {
 }
 
 /// Contains information about how ingested data is processed.
+///
+/// @nodoc
 class ProcessingConfiguration {
   /// Contains information about an audit log processing configuration.
   final AuditLogProcessingConfiguration? auditLog;
@@ -1910,6 +1940,8 @@ class ProcessingConfiguration {
 }
 
 /// Contains information about the destination of ingested data.
+///
+/// @nodoc
 class DestinationConfiguration {
   /// Contains information about an audit log destination configuration.
   final AuditLogDestinationConfiguration? auditLog;
@@ -1935,6 +1967,7 @@ class DestinationConfiguration {
   }
 }
 
+/// @nodoc
 class IngestionDestinationStatus {
   static const active = IngestionDestinationStatus._('Active');
   static const failed = IngestionDestinationStatus._('Failed');
@@ -1961,6 +1994,8 @@ class IngestionDestinationStatus {
 }
 
 /// Contains information about an audit log destination configuration.
+///
+/// @nodoc
 class AuditLogDestinationConfiguration {
   /// Contains information about an audit log destination.
   final Destination destination;
@@ -1986,6 +2021,8 @@ class AuditLogDestinationConfiguration {
 }
 
 /// Contains information about an audit log destination.
+///
+/// @nodoc
 class Destination {
   /// Contains information about an Amazon Kinesis Data Firehose delivery stream.
   final FirehoseStream? firehoseStream;
@@ -2021,6 +2058,8 @@ class Destination {
 }
 
 /// Contains information about an Amazon S3 bucket.
+///
+/// @nodoc
 class S3Bucket {
   /// The name of the Amazon S3 bucket.
   final String bucketName;
@@ -2051,6 +2090,8 @@ class S3Bucket {
 }
 
 /// Contains information about an Amazon Kinesis Data Firehose delivery stream.
+///
+/// @nodoc
 class FirehoseStream {
   /// The name of the Amazon Kinesis Data Firehose delivery stream.
   final String streamName;
@@ -2074,6 +2115,8 @@ class FirehoseStream {
 }
 
 /// Contains information about an audit log processing configuration.
+///
+/// @nodoc
 class AuditLogProcessingConfiguration {
   /// The format in which the audit logs need to be formatted.
   final Format format;
@@ -2103,6 +2146,7 @@ class AuditLogProcessingConfiguration {
   }
 }
 
+/// @nodoc
 class Schema {
   static const ocsf = Schema._('ocsf');
   static const raw = Schema._('raw');
@@ -2126,6 +2170,7 @@ class Schema {
   String toString() => value;
 }
 
+/// @nodoc
 class Format {
   static const json = Format._('json');
   static const parquet = Format._('parquet');
@@ -2150,6 +2195,8 @@ class Format {
 }
 
 /// Contains information about an app authorization.
+///
+/// @nodoc
 class AppAuthorization {
   /// The name of the application.
   final String app;
@@ -2265,6 +2312,8 @@ class AppAuthorization {
 }
 
 /// Contains information about an application tenant.
+///
+/// @nodoc
 class Tenant {
   /// The display name of the tenant.
   final String tenantDisplayName;
@@ -2294,6 +2343,7 @@ class Tenant {
   }
 }
 
+/// @nodoc
 class AuthType {
   static const oauth2 = AuthType._('oauth2');
   static const apiKey = AuthType._('apiKey');
@@ -2317,6 +2367,7 @@ class AuthType {
   String toString() => value;
 }
 
+/// @nodoc
 class AppAuthorizationStatus {
   static const pendingConnect = AppAuthorizationStatus._('PendingConnect');
   static const connected = AppAuthorizationStatus._('Connected');
@@ -2351,6 +2402,7 @@ class AppAuthorizationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Persona {
   static const admin = Persona._('admin');
   static const endUser = Persona._('endUser');
@@ -2375,6 +2427,8 @@ class Persona {
 }
 
 /// Contains credential information for an application.
+///
+/// @nodoc
 class Credential {
   /// Contains API key credential information.
   final ApiKeyCredential? apiKeyCredential;
@@ -2398,6 +2452,8 @@ class Credential {
 }
 
 /// Contains OAuth2 client credential information.
+///
+/// @nodoc
 class Oauth2Credential {
   /// The client ID of the client application.
   final String clientId;
@@ -2421,6 +2477,8 @@ class Oauth2Credential {
 }
 
 /// Contains API key credential information.
+///
+/// @nodoc
 class ApiKeyCredential {
   /// An API key for an application.
   final String apiKey;
@@ -2439,6 +2497,8 @@ class ApiKeyCredential {
 
 /// The key or keys of the key-value pairs for the tag or tags assigned to a
 /// resource.
+///
+/// @nodoc
 class Tag {
   /// Tag key.
   final String key;
@@ -2469,6 +2529,8 @@ class Tag {
 }
 
 /// Contains information about a user access task.
+///
+/// @nodoc
 class UserAccessTaskItem {
   /// The name of the application.
   final String app;
@@ -2515,6 +2577,8 @@ class UserAccessTaskItem {
 }
 
 /// Contains information about an error returned from a user access task.
+///
+/// @nodoc
 class TaskError {
   /// The code of the error.
   final String? errorCode;
@@ -2545,6 +2609,8 @@ class TaskError {
 }
 
 /// Contains a summary of an ingestion.
+///
+/// @nodoc
 class IngestionSummary {
   /// The name of the application.
   final String app;
@@ -2588,6 +2654,7 @@ class IngestionSummary {
   }
 }
 
+/// @nodoc
 class IngestionState {
   static const enabled = IngestionState._('enabled');
   static const disabled = IngestionState._('disabled');
@@ -2613,6 +2680,8 @@ class IngestionState {
 }
 
 /// Contains a summary of an ingestion destination.
+///
+/// @nodoc
 class IngestionDestinationSummary {
   /// The Amazon Resource Name (ARN) of the ingestion destination.
   final String arn;
@@ -2636,6 +2705,8 @@ class IngestionDestinationSummary {
 }
 
 /// Contains a summary of an app bundle.
+///
+/// @nodoc
 class AppBundleSummary {
   /// The Amazon Resource Name (ARN) of the app bundle.
   final String arn;
@@ -2659,6 +2730,8 @@ class AppBundleSummary {
 }
 
 /// Contains a summary of an app authorization.
+///
+/// @nodoc
 class AppAuthorizationSummary {
   /// The name of the application.
   final String app;
@@ -2744,6 +2817,8 @@ class AppAuthorizationSummary {
 }
 
 /// Contains information about an ingestion.
+///
+/// @nodoc
 class Ingestion {
   /// The name of the application.
   final String app;
@@ -2816,6 +2891,7 @@ class Ingestion {
   }
 }
 
+/// @nodoc
 class IngestionType {
   static const auditLog = IngestionType._('auditLog');
 
@@ -2840,6 +2916,8 @@ class IngestionType {
 }
 
 /// Contains information about an app bundle.
+///
+/// @nodoc
 class AppBundle {
   /// The Amazon Resource Name (ARN) of the app bundle.
   final String arn;
@@ -2873,6 +2951,8 @@ class AppBundle {
 
 /// Contains authorization request information, which is required for Amazon Web
 /// Services AppFabric to get the OAuth2 access token for an application.
+///
+/// @nodoc
 class AuthRequest {
   /// The authorization code returned by the application after permission is
   /// granted in the application OAuth page (after clicking on the AuthURL).
@@ -2898,6 +2978,8 @@ class AuthRequest {
 }
 
 /// Contains information about a user's access to an application.
+///
+/// @nodoc
 class UserAccessResultItem {
   /// The name of the application.
   final String? app;
@@ -3017,6 +3099,7 @@ class UserAccessResultItem {
   }
 }
 
+/// @nodoc
 class ResultStatus {
   static const inProgress = ResultStatus._('IN_PROGRESS');
   static const completed = ResultStatus._('COMPLETED');
@@ -3042,26 +3125,31 @@ class ResultStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3070,11 +3158,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

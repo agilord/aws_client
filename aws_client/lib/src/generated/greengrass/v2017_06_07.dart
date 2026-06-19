@@ -2726,6 +2726,7 @@ class Greengrass {
   }
 }
 
+/// @nodoc
 class AssociateRoleToGroupResponse {
   /// The time, in milliseconds since the epoch, when the role ARN was associated
   /// with the group.
@@ -2749,6 +2750,7 @@ class AssociateRoleToGroupResponse {
   }
 }
 
+/// @nodoc
 class AssociateServiceRoleToAccountResponse {
   /// The time when the service role was associated with the account.
   final String? associatedAt;
@@ -2772,6 +2774,7 @@ class AssociateServiceRoleToAccountResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectorDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -2839,6 +2842,7 @@ class CreateConnectorDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectorDefinitionVersionResponse {
   /// The ARN of the version.
   final String? arn;
@@ -2883,6 +2887,7 @@ class CreateConnectorDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateCoreDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -2949,6 +2954,7 @@ class CreateCoreDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateCoreDefinitionVersionResponse {
   /// The ARN of the version.
   final String? arn;
@@ -2993,6 +2999,7 @@ class CreateCoreDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateDeploymentResponse {
   /// The ARN of the deployment.
   final String? deploymentArn;
@@ -3022,6 +3029,7 @@ class CreateDeploymentResponse {
   }
 }
 
+/// @nodoc
 class CreateDeviceDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -3088,6 +3096,7 @@ class CreateDeviceDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateDeviceDefinitionVersionResponse {
   /// The ARN of the version.
   final String? arn;
@@ -3132,6 +3141,7 @@ class CreateDeviceDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateFunctionDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -3198,6 +3208,7 @@ class CreateFunctionDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateFunctionDefinitionVersionResponse {
   /// The ARN of the version.
   final String? arn;
@@ -3242,6 +3253,7 @@ class CreateFunctionDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -3308,6 +3320,7 @@ class CreateGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupCertificateAuthorityResponse {
   /// The ARN of the group certificate authority.
   final String? groupCertificateAuthorityArn;
@@ -3333,6 +3346,7 @@ class CreateGroupCertificateAuthorityResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupVersionResponse {
   /// The ARN of the version.
   final String? arn;
@@ -3376,6 +3390,7 @@ class CreateGroupVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateLoggerDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -3442,6 +3457,7 @@ class CreateLoggerDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateLoggerDefinitionVersionResponse {
   /// The ARN of the version.
   final String? arn;
@@ -3486,6 +3502,7 @@ class CreateLoggerDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -3552,6 +3569,7 @@ class CreateResourceDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceDefinitionVersionResponse {
   /// The ARN of the version.
   final String? arn;
@@ -3596,6 +3614,7 @@ class CreateResourceDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateSoftwareUpdateJobResponse {
   /// The IoT Job ARN corresponding to this update.
   final String? iotJobArn;
@@ -3633,6 +3652,7 @@ class CreateSoftwareUpdateJobResponse {
   }
 }
 
+/// @nodoc
 class CreateSubscriptionDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -3700,6 +3720,7 @@ class CreateSubscriptionDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateSubscriptionDefinitionVersionResponse {
   /// The ARN of the version.
   final String? arn;
@@ -3744,6 +3765,7 @@ class CreateSubscriptionDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectorDefinitionResponse {
   DeleteConnectorDefinitionResponse();
 
@@ -3756,6 +3778,7 @@ class DeleteConnectorDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteCoreDefinitionResponse {
   DeleteCoreDefinitionResponse();
 
@@ -3768,6 +3791,7 @@ class DeleteCoreDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDeviceDefinitionResponse {
   DeleteDeviceDefinitionResponse();
 
@@ -3780,6 +3804,7 @@ class DeleteDeviceDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteFunctionDefinitionResponse {
   DeleteFunctionDefinitionResponse();
 
@@ -3792,6 +3817,7 @@ class DeleteFunctionDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteGroupResponse {
   DeleteGroupResponse();
 
@@ -3804,6 +3830,7 @@ class DeleteGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteLoggerDefinitionResponse {
   DeleteLoggerDefinitionResponse();
 
@@ -3816,6 +3843,7 @@ class DeleteLoggerDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourceDefinitionResponse {
   DeleteResourceDefinitionResponse();
 
@@ -3828,6 +3856,7 @@ class DeleteResourceDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteSubscriptionDefinitionResponse {
   DeleteSubscriptionDefinitionResponse();
 
@@ -3841,6 +3870,7 @@ class DeleteSubscriptionDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DisassociateRoleFromGroupResponse {
   /// The time, in milliseconds since the epoch, when the role was disassociated
   /// from the group.
@@ -3865,6 +3895,7 @@ class DisassociateRoleFromGroupResponse {
   }
 }
 
+/// @nodoc
 class DisassociateServiceRoleFromAccountResponse {
   /// The time when the service role was disassociated from the account.
   final String? disassociatedAt;
@@ -3888,6 +3919,7 @@ class DisassociateServiceRoleFromAccountResponse {
   }
 }
 
+/// @nodoc
 class GetAssociatedRoleResponse {
   /// The time when the role was associated with the group.
   final String? associatedAt;
@@ -3917,6 +3949,7 @@ class GetAssociatedRoleResponse {
   }
 }
 
+/// @nodoc
 class GetBulkDeploymentStatusResponse {
   /// Relevant metrics on input records processed during bulk deployment.
   final BulkDeploymentMetrics? bulkDeploymentMetrics;
@@ -3984,6 +4017,7 @@ class GetBulkDeploymentStatusResponse {
   }
 }
 
+/// @nodoc
 class GetConnectivityInfoResponse {
   /// Connectivity info list.
   final List<ConnectivityInfo>? connectivityInfo;
@@ -4016,6 +4050,7 @@ class GetConnectivityInfoResponse {
   }
 }
 
+/// @nodoc
 class GetConnectorDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -4090,6 +4125,7 @@ class GetConnectorDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetConnectorDefinitionVersionResponse {
   /// The ARN of the connector definition version.
   final String? arn;
@@ -4153,6 +4189,7 @@ class GetConnectorDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class GetCoreDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -4227,6 +4264,7 @@ class GetCoreDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetCoreDefinitionVersionResponse {
   /// The ARN of the core definition version.
   final String? arn;
@@ -4289,6 +4327,7 @@ class GetCoreDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class GetDeploymentStatusResponse {
   /// The status of the deployment: ''InProgress'', ''Building'', ''Success'', or
   /// ''Failure''.
@@ -4345,6 +4384,7 @@ class GetDeploymentStatusResponse {
   }
 }
 
+/// @nodoc
 class GetDeviceDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -4419,6 +4459,7 @@ class GetDeviceDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetDeviceDefinitionVersionResponse {
   /// The ARN of the device definition version.
   final String? arn;
@@ -4482,6 +4523,7 @@ class GetDeviceDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -4556,6 +4598,7 @@ class GetFunctionDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetFunctionDefinitionVersionResponse {
   /// The ARN of the function definition version.
   final String? arn;
@@ -4619,6 +4662,7 @@ class GetFunctionDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class GetGroupResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -4693,6 +4737,7 @@ class GetGroupResponse {
   }
 }
 
+/// @nodoc
 class GetGroupCertificateAuthorityResponse {
   /// The ARN of the certificate authority for the group.
   final String? groupCertificateAuthorityArn;
@@ -4735,6 +4780,7 @@ class GetGroupCertificateAuthorityResponse {
   }
 }
 
+/// @nodoc
 class GetGroupCertificateConfigurationResponse {
   /// The amount of time remaining before the certificate authority expires, in
   /// milliseconds.
@@ -4781,6 +4827,7 @@ class GetGroupCertificateConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetGroupVersionResponse {
   /// The ARN of the group version.
   final String? arn;
@@ -4834,6 +4881,7 @@ class GetGroupVersionResponse {
   }
 }
 
+/// @nodoc
 class GetLoggerDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -4908,6 +4956,7 @@ class GetLoggerDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetLoggerDefinitionVersionResponse {
   /// The ARN of the logger definition version.
   final String? arn;
@@ -4963,6 +5012,7 @@ class GetLoggerDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class GetResourceDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -5037,6 +5087,7 @@ class GetResourceDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetResourceDefinitionVersionResponse {
   /// Arn of the resource definition version.
   final String? arn;
@@ -5092,6 +5143,7 @@ class GetResourceDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class GetServiceRoleForAccountResponse {
   /// The time when the service role was associated with the account.
   final String? associatedAt;
@@ -5121,6 +5173,7 @@ class GetServiceRoleForAccountResponse {
   }
 }
 
+/// @nodoc
 class GetSubscriptionDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -5196,6 +5249,7 @@ class GetSubscriptionDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetSubscriptionDefinitionVersionResponse {
   /// The ARN of the subscription definition version.
   final String? arn;
@@ -5259,6 +5313,7 @@ class GetSubscriptionDefinitionVersionResponse {
   }
 }
 
+/// @nodoc
 class GetThingRuntimeConfigurationResponse {
   /// Runtime configuration for a thing.
   final RuntimeConfiguration? runtimeConfiguration;
@@ -5286,6 +5341,7 @@ class GetThingRuntimeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListBulkDeploymentDetailedReportsResponse {
   /// A list of the individual group deployments in the bulk deployment operation.
   final List<BulkDeploymentResult>? deployments;
@@ -5320,6 +5376,7 @@ class ListBulkDeploymentDetailedReportsResponse {
   }
 }
 
+/// @nodoc
 class ListBulkDeploymentsResponse {
   /// A list of bulk deployments.
   final List<BulkDeployment>? bulkDeployments;
@@ -5353,6 +5410,7 @@ class ListBulkDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorDefinitionsResponse {
   /// Information about a definition.
   final List<DefinitionInformation>? definitions;
@@ -5386,6 +5444,7 @@ class ListConnectorDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
@@ -5420,6 +5479,7 @@ class ListConnectorDefinitionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListCoreDefinitionsResponse {
   /// Information about a definition.
   final List<DefinitionInformation>? definitions;
@@ -5453,6 +5513,7 @@ class ListCoreDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListCoreDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
@@ -5487,6 +5548,7 @@ class ListCoreDefinitionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListDeploymentsResponse {
   /// A list of deployments for the requested groups.
   final List<Deployment>? deployments;
@@ -5520,6 +5582,7 @@ class ListDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class ListDeviceDefinitionsResponse {
   /// Information about a definition.
   final List<DefinitionInformation>? definitions;
@@ -5553,6 +5616,7 @@ class ListDeviceDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListDeviceDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
@@ -5587,6 +5651,7 @@ class ListDeviceDefinitionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListFunctionDefinitionsResponse {
   /// Information about a definition.
   final List<DefinitionInformation>? definitions;
@@ -5620,6 +5685,7 @@ class ListFunctionDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListFunctionDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
@@ -5654,6 +5720,7 @@ class ListFunctionDefinitionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupCertificateAuthoritiesResponse {
   /// A list of certificate authorities associated with the group.
   final List<GroupCertificateAuthorityProperties>? groupCertificateAuthorities;
@@ -5683,6 +5750,7 @@ class ListGroupCertificateAuthoritiesResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsResponse {
   /// Information about a group.
   final List<GroupInformation>? groups;
@@ -5716,6 +5784,7 @@ class ListGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
@@ -5749,6 +5818,7 @@ class ListGroupVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListLoggerDefinitionsResponse {
   /// Information about a definition.
   final List<DefinitionInformation>? definitions;
@@ -5782,6 +5852,7 @@ class ListLoggerDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListLoggerDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
@@ -5816,6 +5887,7 @@ class ListLoggerDefinitionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListResourceDefinitionsResponse {
   /// Information about a definition.
   final List<DefinitionInformation>? definitions;
@@ -5849,6 +5921,7 @@ class ListResourceDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListResourceDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
@@ -5883,6 +5956,7 @@ class ListResourceDefinitionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListSubscriptionDefinitionsResponse {
   /// Information about a definition.
   final List<DefinitionInformation>? definitions;
@@ -5917,6 +5991,7 @@ class ListSubscriptionDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListSubscriptionDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
@@ -5951,6 +6026,7 @@ class ListSubscriptionDefinitionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   final Map<String, String>? tags;
 
@@ -5973,6 +6049,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ResetDeploymentsResponse {
   /// The ARN of the deployment.
   final String? deploymentArn;
@@ -6002,6 +6079,7 @@ class ResetDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class StartBulkDeploymentResponse {
   /// The ARN of the bulk deployment.
   final String? bulkDeploymentArn;
@@ -6031,6 +6109,7 @@ class StartBulkDeploymentResponse {
   }
 }
 
+/// @nodoc
 class StopBulkDeploymentResponse {
   StopBulkDeploymentResponse();
 
@@ -6043,6 +6122,7 @@ class StopBulkDeploymentResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectivityInfoResponse {
   /// A message about the connectivity info update request.
   final String? message;
@@ -6072,6 +6152,7 @@ class UpdateConnectivityInfoResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectorDefinitionResponse {
   UpdateConnectorDefinitionResponse();
 
@@ -6084,6 +6165,7 @@ class UpdateConnectorDefinitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateCoreDefinitionResponse {
   UpdateCoreDefinitionResponse();
 
@@ -6096,6 +6178,7 @@ class UpdateCoreDefinitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateDeviceDefinitionResponse {
   UpdateDeviceDefinitionResponse();
 
@@ -6108,6 +6191,7 @@ class UpdateDeviceDefinitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateFunctionDefinitionResponse {
   UpdateFunctionDefinitionResponse();
 
@@ -6120,6 +6204,7 @@ class UpdateFunctionDefinitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateGroupResponse {
   UpdateGroupResponse();
 
@@ -6132,6 +6217,7 @@ class UpdateGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateGroupCertificateConfigurationResponse {
   /// The amount of time remaining before the certificate authority expires, in
   /// milliseconds.
@@ -6178,6 +6264,7 @@ class UpdateGroupCertificateConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateLoggerDefinitionResponse {
   UpdateLoggerDefinitionResponse();
 
@@ -6190,6 +6277,7 @@ class UpdateLoggerDefinitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceDefinitionResponse {
   UpdateResourceDefinitionResponse();
 
@@ -6202,6 +6290,7 @@ class UpdateResourceDefinitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateSubscriptionDefinitionResponse {
   UpdateSubscriptionDefinitionResponse();
 
@@ -6215,6 +6304,7 @@ class UpdateSubscriptionDefinitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateThingRuntimeConfigurationResponse {
   UpdateThingRuntimeConfigurationResponse();
 
@@ -6229,6 +6319,8 @@ class UpdateThingRuntimeConfigurationResponse {
 }
 
 /// Configuration settings for running telemetry.
+///
+/// @nodoc
 class TelemetryConfigurationUpdate {
   /// Configure telemetry to be on or off.
   final Telemetry telemetry;
@@ -6245,6 +6337,7 @@ class TelemetryConfigurationUpdate {
   }
 }
 
+/// @nodoc
 class Telemetry {
   static const on = Telemetry._('On');
   static const off = Telemetry._('Off');
@@ -6269,6 +6362,8 @@ class Telemetry {
 }
 
 /// Information about a Greengrass core's connectivity.
+///
+/// @nodoc
 class ConnectivityInfo {
   /// The endpoint for the Greengrass core. Can be an IP address or DNS.
   final String? hostAddress;
@@ -6313,6 +6408,8 @@ class ConnectivityInfo {
 }
 
 /// Information about a version.
+///
+/// @nodoc
 class VersionInformation {
   /// The ARN of the version.
   final String? arn;
@@ -6357,6 +6454,8 @@ class VersionInformation {
 }
 
 /// Information about a definition.
+///
+/// @nodoc
 class DefinitionInformation {
   /// The ARN of the definition.
   final String? arn;
@@ -6432,6 +6531,8 @@ class DefinitionInformation {
 }
 
 /// Information about a group.
+///
+/// @nodoc
 class GroupInformation {
   /// The ARN of the group.
   final String? arn;
@@ -6498,6 +6599,8 @@ class GroupInformation {
 }
 
 /// Information about a certificate authority for a group.
+///
+/// @nodoc
 class GroupCertificateAuthorityProperties {
   /// The ARN of the certificate authority for the group.
   final String? groupCertificateAuthorityArn;
@@ -6533,6 +6636,8 @@ class GroupCertificateAuthorityProperties {
 }
 
 /// Information about a deployment.
+///
+/// @nodoc
 class Deployment {
   /// The time, in milliseconds since the epoch, when the deployment was created.
   final String? createdAt;
@@ -6586,6 +6691,8 @@ class Deployment {
 
 /// The type of deployment. When used for ''CreateDeployment'', only
 /// ''NewDeployment'' and ''Redeployment'' are valid.
+///
+/// @nodoc
 class DeploymentType {
   static const newDeployment = DeploymentType._('NewDeployment');
   static const redeployment = DeploymentType._('Redeployment');
@@ -6619,6 +6726,8 @@ class DeploymentType {
 
 /// Information about a bulk deployment. You cannot start a new bulk deployment
 /// while another one is still running or in a non-terminal state.
+///
+/// @nodoc
 class BulkDeployment {
   /// The ARN of the bulk deployment.
   final String? bulkDeploymentArn;
@@ -6657,6 +6766,8 @@ class BulkDeployment {
 
 /// Information about an individual group deployment in a bulk deployment
 /// operation.
+///
+/// @nodoc
 class BulkDeploymentResult {
   /// The time, in ISO format, when the deployment was created.
   final String? createdAt;
@@ -6734,6 +6845,8 @@ class BulkDeploymentResult {
 }
 
 /// Details about the error.
+///
+/// @nodoc
 class ErrorDetail {
   /// A detailed error code.
   final String? detailedErrorCode;
@@ -6765,6 +6878,8 @@ class ErrorDetail {
 }
 
 /// Runtime configuration for a thing.
+///
+/// @nodoc
 class RuntimeConfiguration {
   /// Configuration for telemetry service.
   final TelemetryConfiguration? telemetryConfiguration;
@@ -6792,6 +6907,8 @@ class RuntimeConfiguration {
 }
 
 /// Configuration settings for running telemetry.
+///
+/// @nodoc
 class TelemetryConfiguration {
   /// Configure telemetry to be on or off.
   final Telemetry telemetry;
@@ -6824,6 +6941,7 @@ class TelemetryConfiguration {
   }
 }
 
+/// @nodoc
 class ConfigurationSyncStatus {
   static const inSync = ConfigurationSyncStatus._('InSync');
   static const outOfSync = ConfigurationSyncStatus._('OutOfSync');
@@ -6850,6 +6968,8 @@ class ConfigurationSyncStatus {
 }
 
 /// Information about a subscription definition version.
+///
+/// @nodoc
 class SubscriptionDefinitionVersion {
   /// A list of subscriptions.
   final List<Subscription>? subscriptions;
@@ -6876,10 +6996,12 @@ class SubscriptionDefinitionVersion {
 }
 
 /// Information about a subscription.
+///
+/// @nodoc
 class Subscription {
   /// A descriptive or arbitrary ID for the subscription. This value must be
   /// unique within the subscription definition version. Max length is 128
-  /// characters with pattern ''[a-zA-Z0-9:_-]+''.
+  /// characters with pattern ''\[a-zA-Z0-9:_-\]+''.
   final String id;
 
   /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a
@@ -6926,6 +7048,8 @@ class Subscription {
 }
 
 /// Information about a resource definition version.
+///
+/// @nodoc
 class ResourceDefinitionVersion {
   /// A list of resources.
   final List<Resource>? resources;
@@ -6952,14 +7076,16 @@ class ResourceDefinitionVersion {
 }
 
 /// Information about a resource.
+///
+/// @nodoc
 class Resource {
   /// The resource ID, used to refer to a resource in the Lambda function
   /// configuration. Max length is 128 characters with pattern
-  /// ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
+  /// ''\[a-zA-Z0-9:_-\]+''. This must be unique within a Greengrass group.
   final String id;
 
   /// The descriptive resource name, which is displayed on the AWS IoT Greengrass
-  /// console. Max length 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This
+  /// console. Max length 128 characters with pattern ''\[a-zA-Z0-9:_-\]+''. This
   /// must be unique within a Greengrass group.
   final String name;
 
@@ -6999,6 +7125,8 @@ class Resource {
 /// ''LocalVolumeResourceData'', ''SageMakerMachineLearningModelResourceData'',
 /// ''S3MachineLearningModelResourceData'',
 /// ''SecretsManagerSecretResourceData''.
+///
+/// @nodoc
 class ResourceDataContainer {
   /// Attributes that define the local device resource.
   final LocalDeviceResourceData? localDeviceResourceData;
@@ -7083,6 +7211,8 @@ class ResourceDataContainer {
 }
 
 /// Attributes that define a local device resource.
+///
+/// @nodoc
 class LocalDeviceResourceData {
   /// Group/owner related settings for local resources.
   final GroupOwnerSetting? groupOwnerSetting;
@@ -7118,6 +7248,8 @@ class LocalDeviceResourceData {
 }
 
 /// Attributes that define a local volume resource.
+///
+/// @nodoc
 class LocalVolumeResourceData {
   /// The absolute local path of the resource inside the Lambda environment.
   final String? destinationPath;
@@ -7160,6 +7292,8 @@ class LocalVolumeResourceData {
 }
 
 /// Attributes that define an Amazon S3 machine learning resource.
+///
+/// @nodoc
 class S3MachineLearningModelResourceData {
   /// The absolute local path of the resource inside the Lambda environment.
   final String? destinationPath;
@@ -7200,6 +7334,8 @@ class S3MachineLearningModelResourceData {
 }
 
 /// Attributes that define an Amazon SageMaker machine learning resource.
+///
+/// @nodoc
 class SageMakerMachineLearningModelResourceData {
   /// The absolute local path of the resource inside the Lambda environment.
   final String? destinationPath;
@@ -7243,6 +7379,8 @@ class SageMakerMachineLearningModelResourceData {
 /// Secrets Manager. AWS IoT Greengrass stores a local, encrypted copy of the
 /// secret on the Greengrass core, where it can be securely accessed by
 /// connectors and Lambda functions.
+///
+/// @nodoc
 class SecretsManagerSecretResourceData {
   /// The ARN of the Secrets Manager secret to make available on the core. The
   /// value of the secret's latest version (represented by the ''AWSCURRENT''
@@ -7282,6 +7420,8 @@ class SecretsManagerSecretResourceData {
 }
 
 /// The owner setting for downloaded machine learning resources.
+///
+/// @nodoc
 class ResourceDownloadOwnerSetting {
   /// The group owner of the resource. This is the name of an existing Linux OS
   /// group on the system or a GID. The group's permissions are added to the
@@ -7316,6 +7456,8 @@ class ResourceDownloadOwnerSetting {
 }
 
 /// The type of permission a function has to access a resource.
+///
+/// @nodoc
 class Permission {
   static const ro = Permission._('ro');
   static const rw = Permission._('rw');
@@ -7340,6 +7482,8 @@ class Permission {
 }
 
 /// Group owner related settings for local resources.
+///
+/// @nodoc
 class GroupOwnerSetting {
   /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group
   /// owner of the resource to the Lambda process privileges. Thus the Lambda
@@ -7373,6 +7517,8 @@ class GroupOwnerSetting {
 }
 
 /// Information about a logger definition version.
+///
+/// @nodoc
 class LoggerDefinitionVersion {
   /// A list of loggers.
   final List<Logger>? loggers;
@@ -7399,13 +7545,15 @@ class LoggerDefinitionVersion {
 }
 
 /// Information about a logger
+///
+/// @nodoc
 class Logger {
   /// The component that will be subject to logging.
   final LoggerComponent component;
 
   /// A descriptive or arbitrary ID for the logger. This value must be unique
   /// within the logger definition version. Max length is 128 characters with
-  /// pattern ''[a-zA-Z0-9:_-]+''.
+  /// pattern ''\[a-zA-Z0-9:_-\]+''.
   final String id;
 
   /// The level of the logs.
@@ -7453,6 +7601,7 @@ class Logger {
   }
 }
 
+/// @nodoc
 class LoggerComponent {
   static const greengrassSystem = LoggerComponent._('GreengrassSystem');
   static const lambda = LoggerComponent._('Lambda');
@@ -7477,6 +7626,7 @@ class LoggerComponent {
   String toString() => value;
 }
 
+/// @nodoc
 class LoggerLevel {
   static const debug = LoggerLevel._('DEBUG');
   static const info = LoggerLevel._('INFO');
@@ -7503,6 +7653,7 @@ class LoggerLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class LoggerType {
   static const fileSystem = LoggerType._('FileSystem');
   static const awsCloudWatch = LoggerType._('AWSCloudWatch');
@@ -7527,6 +7678,8 @@ class LoggerType {
 }
 
 /// Information about a group version.
+///
+/// @nodoc
 class GroupVersion {
   /// The ARN of the connector definition version for this group.
   final String? connectorDefinitionVersionArn;
@@ -7604,6 +7757,8 @@ class GroupVersion {
 }
 
 /// Information about a function definition version.
+///
+/// @nodoc
 class FunctionDefinitionVersion {
   /// The default configuration that applies to all Lambda functions in this
   /// function definition version. Individual Lambda functions can override these
@@ -7643,6 +7798,8 @@ class FunctionDefinitionVersion {
 
 /// The default configuration that applies to all Lambda functions in the group.
 /// Individual Lambda functions can override these settings.
+///
+/// @nodoc
 class FunctionDefaultConfig {
   final FunctionDefaultExecutionConfig? execution;
 
@@ -7668,10 +7825,12 @@ class FunctionDefaultConfig {
 }
 
 /// Information about a Lambda function.
+///
+/// @nodoc
 class $Function {
   /// A descriptive or arbitrary ID for the function. This value must be unique
   /// within the function definition version. Max length is 128 characters with
-  /// pattern ''[a-zA-Z0-9:_-]+''.
+  /// pattern ''\[a-zA-Z0-9:_-\]+''.
   final String id;
 
   /// The ARN of the Lambda function.
@@ -7711,6 +7870,8 @@ class $Function {
 }
 
 /// The configuration of the Lambda function.
+///
+/// @nodoc
 class FunctionConfiguration {
   /// The expected encoding type of the input payload for the function. The
   /// default is ''json''.
@@ -7794,6 +7955,7 @@ class FunctionConfiguration {
   }
 }
 
+/// @nodoc
 class EncodingType {
   static const binary = EncodingType._('binary');
   static const json = EncodingType._('json');
@@ -7818,6 +7980,8 @@ class EncodingType {
 }
 
 /// The environment configuration of the function.
+///
+/// @nodoc
 class FunctionConfigurationEnvironment {
   /// If true, the Lambda function is allowed to access the host's /sys folder.
   /// Use this when the Lambda function needs to read device information from
@@ -7876,6 +8040,8 @@ class FunctionConfigurationEnvironment {
 }
 
 /// Configuration information that specifies how a Lambda function runs.
+///
+/// @nodoc
 class FunctionExecutionConfig {
   final FunctionIsolationMode? isolationMode;
   final FunctionRunAsConfig? runAs;
@@ -7906,6 +8072,8 @@ class FunctionExecutionConfig {
 }
 
 /// A policy used by the function to access a resource.
+///
+/// @nodoc
 class ResourceAccessPolicy {
   /// The ID of the resource. (This ID is assigned to the resource when you create
   /// the resource definiton.)
@@ -7942,6 +8110,8 @@ class ResourceAccessPolicy {
 /// you run without containerization, we recommend that you run in a Greengrass
 /// container. Omit this value to run the Lambda function with the default
 /// containerization for the group.
+///
+/// @nodoc
 class FunctionIsolationMode {
   static const greengrassContainer =
       FunctionIsolationMode._('GreengrassContainer');
@@ -7975,6 +8145,8 @@ class FunctionIsolationMode {
 /// To run as root, you must set ''IsolationMode'' to ''NoContainer'' and update
 /// config.json in ''greengrass-root/config'' to set
 /// ''allowFunctionsToRunAsRoot'' to ''yes''.
+///
+/// @nodoc
 class FunctionRunAsConfig {
   /// The group ID whose permissions are used to run a Lambda function.
   final int? gid;
@@ -8005,6 +8177,8 @@ class FunctionRunAsConfig {
 }
 
 /// Configuration information that specifies how a Lambda function runs.
+///
+/// @nodoc
 class FunctionDefaultExecutionConfig {
   final FunctionIsolationMode? isolationMode;
   final FunctionRunAsConfig? runAs;
@@ -8035,6 +8209,8 @@ class FunctionDefaultExecutionConfig {
 }
 
 /// Information about a device definition version.
+///
+/// @nodoc
 class DeviceDefinitionVersion {
   /// A list of devices in the definition version.
   final List<Device>? devices;
@@ -8061,13 +8237,15 @@ class DeviceDefinitionVersion {
 }
 
 /// Information about a device.
+///
+/// @nodoc
 class Device {
   /// The ARN of the certificate associated with the device.
   final String certificateArn;
 
   /// A descriptive or arbitrary ID for the device. This value must be unique
   /// within the device definition version. Max length is 128 characters with
-  /// pattern ''[a-zA-Z0-9:_-]+''.
+  /// pattern ''\[a-zA-Z0-9:_-\]+''.
   final String id;
 
   /// The thing ARN of the device.
@@ -8108,6 +8286,8 @@ class Device {
 }
 
 /// Information about a core definition version.
+///
+/// @nodoc
 class CoreDefinitionVersion {
   /// A list of cores in the core definition version.
   final List<Core>? cores;
@@ -8134,13 +8314,15 @@ class CoreDefinitionVersion {
 }
 
 /// Information about a core.
+///
+/// @nodoc
 class Core {
   /// The ARN of the certificate associated with the core.
   final String certificateArn;
 
   /// A descriptive or arbitrary ID for the core. This value must be unique within
   /// the core definition version. Max length is 128 characters with pattern
-  /// ''[a-zA-Z0-9:_-]+''.
+  /// ''\[a-zA-Z0-9:_-\]+''.
   final String id;
 
   /// The ARN of the thing which is the core.
@@ -8181,6 +8363,8 @@ class Core {
 
 /// Information about the connector definition version, which is a container for
 /// connectors.
+///
+/// @nodoc
 class ConnectorDefinitionVersion {
   /// A list of references to connectors in this version, with their corresponding
   /// configuration settings.
@@ -8210,13 +8394,15 @@ class ConnectorDefinitionVersion {
 /// Information about a connector. Connectors run on the Greengrass core and
 /// contain built-in integration with local infrastructure, device protocols,
 /// AWS, and other cloud services.
+///
+/// @nodoc
 class Connector {
   /// The ARN of the connector.
   final String connectorArn;
 
   /// A descriptive or arbitrary ID for the connector. This value must be unique
   /// within the connector definition version. Max length is 128 characters with
-  /// pattern [a-zA-Z0-9:_-]+.
+  /// pattern \[a-zA-Z0-9:_-\]+.
   final String id;
 
   /// The parameters or configuration that the connector uses.
@@ -8250,6 +8436,8 @@ class Connector {
 }
 
 /// Relevant metrics on input records processed during bulk deployment.
+///
+/// @nodoc
 class BulkDeploymentMetrics {
   /// The total number of records that returned a non-retryable error. For
   /// example, this can occur if a group record from the input file uses an
@@ -8295,6 +8483,8 @@ class BulkDeploymentMetrics {
 }
 
 /// The current status of the bulk deployment.
+///
+/// @nodoc
 class BulkDeploymentStatus {
   static const initializing = BulkDeploymentStatus._('Initializing');
   static const running = BulkDeploymentStatus._('Running');
@@ -8332,6 +8522,8 @@ class BulkDeploymentStatus {
 }
 
 /// The piece of software on the Greengrass core that will be updated.
+///
+/// @nodoc
 class SoftwareToUpdate {
   static const core = SoftwareToUpdate._('core');
   static const otaAgent = SoftwareToUpdate._('ota_agent');
@@ -8358,6 +8550,8 @@ class SoftwareToUpdate {
 
 /// The minimum level of log statements that should be logged by the OTA Agent
 /// during an update.
+///
+/// @nodoc
 class UpdateAgentLogLevel {
   static const none = UpdateAgentLogLevel._('NONE');
   static const trace = UpdateAgentLogLevel._('TRACE');
@@ -8390,6 +8584,8 @@ class UpdateAgentLogLevel {
 }
 
 /// The architecture of the cores which are the targets of an update.
+///
+/// @nodoc
 class UpdateTargetsArchitecture {
   static const armv6l = UpdateTargetsArchitecture._('armv6l');
   static const armv7l = UpdateTargetsArchitecture._('armv7l');
@@ -8418,6 +8614,8 @@ class UpdateTargetsArchitecture {
 }
 
 /// The operating system of the cores which are the targets of an update.
+///
+/// @nodoc
 class UpdateTargetsOperatingSystem {
   static const ubuntu = UpdateTargetsOperatingSystem._('ubuntu');
   static const raspbian = UpdateTargetsOperatingSystem._('raspbian');
@@ -8445,11 +8643,13 @@ class UpdateTargetsOperatingSystem {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(

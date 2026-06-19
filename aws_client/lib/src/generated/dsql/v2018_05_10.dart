@@ -769,6 +769,7 @@ class Dsql {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// A map of key and value pairs that you used to tag your resource.
   final Map<String, String>? tags;
@@ -793,6 +794,8 @@ class ListTagsForResourceOutput {
 }
 
 /// The output of a created cluster.
+///
+/// @nodoc
 class CreateClusterOutput {
   /// The ARN of the created cluster.
   final String arn;
@@ -875,6 +878,8 @@ class CreateClusterOutput {
 }
 
 /// The output of a cluster.
+///
+/// @nodoc
 class GetClusterOutput {
   /// The ARN of the retrieved cluster.
   final String arn;
@@ -962,6 +967,8 @@ class GetClusterOutput {
 }
 
 /// The details of the cluster after it has been updated.
+///
+/// @nodoc
 class UpdateClusterOutput {
   /// The ARN of the updated cluster.
   final String arn;
@@ -1006,6 +1013,8 @@ class UpdateClusterOutput {
 }
 
 /// The output from a deleted cluster.
+///
+/// @nodoc
 class DeleteClusterOutput {
   /// The ARN of the deleted cluster.
   final String arn;
@@ -1049,6 +1058,7 @@ class DeleteClusterOutput {
   }
 }
 
+/// @nodoc
 class ListClustersOutput {
   /// An array of the returned clusters.
   final List<ClusterSummary> clusters;
@@ -1083,6 +1093,7 @@ class ListClustersOutput {
   }
 }
 
+/// @nodoc
 class DeleteClusterPolicyOutput {
   /// The version of the policy that was deleted.
   final String policyVersion;
@@ -1105,6 +1116,7 @@ class DeleteClusterPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetClusterPolicyOutput {
   /// The resource-based policy document attached to the cluster, returned as a
   /// JSON string.
@@ -1136,6 +1148,7 @@ class GetClusterPolicyOutput {
   }
 }
 
+/// @nodoc
 class GetVpcEndpointServiceNameOutput {
   /// The VPC endpoint service name.
   final String serviceName;
@@ -1165,6 +1178,7 @@ class GetVpcEndpointServiceNameOutput {
   }
 }
 
+/// @nodoc
 class PutClusterPolicyOutput {
   /// The version of the policy after it has been updated or created.
   final String policyVersion;
@@ -1188,6 +1202,8 @@ class PutClusterPolicyOutput {
 }
 
 /// The output of a created stream.
+///
+/// @nodoc
 class CreateStreamOutput {
   /// The ARN of the created stream.
   final String arn;
@@ -1253,6 +1269,8 @@ class CreateStreamOutput {
 }
 
 /// The output of a retrieved stream.
+///
+/// @nodoc
 class GetStreamOutput {
   /// The ARN of the retrieved stream.
   final String arn;
@@ -1345,6 +1363,8 @@ class GetStreamOutput {
 }
 
 /// The output from a deleted stream.
+///
+/// @nodoc
 class DeleteStreamOutput {
   /// The ARN of the deleted stream.
   final String arn;
@@ -1395,6 +1415,7 @@ class DeleteStreamOutput {
   }
 }
 
+/// @nodoc
 class ListStreamsOutput {
   /// An array of the returned streams.
   final List<StreamSummary> streams;
@@ -1430,6 +1451,8 @@ class ListStreamsOutput {
 }
 
 /// Summary information about a stream.
+///
+/// @nodoc
 class StreamSummary {
   /// The ARN of the stream.
   final String arn;
@@ -1494,6 +1517,8 @@ class StreamSummary {
 /// </dd> <dt>IMPAIRED</dt> <dd>
 /// The stream is impaired and may not be processing changes correctly.
 /// </dd> </dl>
+///
+/// @nodoc
 class StreamStatus {
   static const creating = StreamStatus._('CREATING');
   static const active = StreamStatus._('ACTIVE');
@@ -1525,6 +1550,8 @@ class StreamStatus {
 /// <dl> <dt>UNORDERED</dt> <dd>
 /// Changes are streamed without ordering guarantees.
 /// </dd> </dl>
+///
+/// @nodoc
 class StreamOrdering {
   static const unordered = StreamOrdering._('UNORDERED');
 
@@ -1552,6 +1579,8 @@ class StreamOrdering {
 /// <dl> <dt>JSON</dt> <dd>
 /// Stream records are formatted as JSON.
 /// </dd> </dl>
+///
+/// @nodoc
 class StreamFormat {
   static const json = StreamFormat._('JSON');
 
@@ -1575,6 +1604,8 @@ class StreamFormat {
 }
 
 /// Target definition for stream destination.
+///
+/// @nodoc
 class TargetDefinition {
   /// Kinesis stream target configuration.
   final KinesisTargetDefinition? kinesis;
@@ -1601,6 +1632,8 @@ class TargetDefinition {
 }
 
 /// Stream status reason with error and timestamp.
+///
+/// @nodoc
 class StatusReason {
   /// The error code for the stream failure.
   final StreamFailureErrorCode error;
@@ -1649,6 +1682,8 @@ class StatusReason {
 /// </dd> <dt>INTERNAL_ERROR</dt> <dd>
 /// An internal error occurred.
 /// </dd> </dl>
+///
+/// @nodoc
 class StreamFailureErrorCode {
   static const kinesisThroughputExceeded =
       StreamFailureErrorCode._('KINESIS_THROUGHPUT_EXCEEDED');
@@ -1697,6 +1732,8 @@ class StreamFailureErrorCode {
 }
 
 /// Kinesis stream target configuration.
+///
+/// @nodoc
 class KinesisTargetDefinition {
   /// The ARN of the IAM role that grants permission to write to the Kinesis
   /// stream. This can be a standard role
@@ -1731,6 +1768,8 @@ class KinesisTargetDefinition {
 }
 
 /// A summary of the properties of a cluster.
+///
+/// @nodoc
 class ClusterSummary {
   /// The ARN of the cluster.
   final String arn;
@@ -1761,6 +1800,8 @@ class ClusterSummary {
 }
 
 /// The current status of a cluster.
+///
+/// @nodoc
 class ClusterStatus {
   static const creating = ClusterStatus._('CREATING');
   static const active = ClusterStatus._('ACTIVE');
@@ -1806,6 +1847,8 @@ class ClusterStatus {
 
 /// Defines the structure for multi-Region cluster configurations, containing
 /// the witness region and linked cluster settings.
+///
+/// @nodoc
 class MultiRegionProperties {
   /// The set of peered clusters that form the multi-Region cluster configuration.
   /// Each peered cluster represents a database instance in a different Region.
@@ -1842,6 +1885,8 @@ class MultiRegionProperties {
 
 /// Configuration details about encryption for the cluster including the KMS key
 /// ARN, encryption type, and encryption status.
+///
+/// @nodoc
 class EncryptionDetails {
   /// The status of encryption for the cluster.
   final EncryptionStatus encryptionStatus;
@@ -1880,6 +1925,7 @@ class EncryptionDetails {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const awsOwnedKmsKey = EncryptionType._('AWS_OWNED_KMS_KEY');
   static const customerManagedKmsKey =
@@ -1905,6 +1951,7 @@ class EncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionStatus {
   static const enabled = EncryptionStatus._('ENABLED');
   static const updating = EncryptionStatus._('UPDATING');
@@ -1931,21 +1978,25 @@ class EncryptionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1954,11 +2005,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

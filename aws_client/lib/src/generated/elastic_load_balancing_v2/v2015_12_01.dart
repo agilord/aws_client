@@ -247,7 +247,7 @@ class ElasticLoadBalancingV2 {
   /// The Amazon Resource Name (ARN) of the load balancer.
   ///
   /// Parameter [alpnPolicy] :
-  /// [TLS listeners] The name of the Application-Layer Protocol Negotiation
+  /// \[TLS listeners\] The name of the Application-Layer Protocol Negotiation
   /// (ALPN) policy. You can specify one policy name. The following are the
   /// possible values:
   ///
@@ -273,12 +273,12 @@ class ElasticLoadBalancingV2 {
   /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// Parameter [certificates] :
-  /// [HTTPS and TLS listeners] The default certificate for the listener. You
+  /// \[HTTPS and TLS listeners\] The default certificate for the listener. You
   /// must provide exactly one certificate. Set <code>CertificateArn</code> to
   /// the certificate ARN but do not set <code>IsDefault</code>.
   ///
   /// Parameter [mutualAuthentication] :
-  /// [HTTPS listeners] The mutual authentication configuration information.
+  /// \[HTTPS listeners\] The mutual authentication configuration information.
   ///
   /// Parameter [port] :
   /// The port on which the load balancer is listening. You can't specify a port
@@ -293,8 +293,8 @@ class ElasticLoadBalancingV2 {
   /// protocol for a Gateway Load Balancer.
   ///
   /// Parameter [sslPolicy] :
-  /// [HTTPS and TLS listeners] The security policy that defines which protocols
-  /// and ciphers are supported.
+  /// \[HTTPS and TLS listeners\] The security policy that defines which
+  /// protocols and ciphers are supported.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html">Security
@@ -416,28 +416,29 @@ class ElasticLoadBalancingV2 {
   /// begin or end with a hyphen, and must not begin with "internal-".
   ///
   /// Parameter [customerOwnedIpv4Pool] :
-  /// [Application Load Balancers on Outposts] The ID of the customer-owned
+  /// \[Application Load Balancers on Outposts\] The ID of the customer-owned
   /// address pool (CoIP pool).
   ///
   /// Parameter [enablePrefixForIpv6SourceNat] :
-  /// [Network Load Balancers with UDP listeners] Indicates whether to use an
+  /// \[Network Load Balancers with UDP listeners\] Indicates whether to use an
   /// IPv6 prefix from each subnet for source NAT. The IP address type must be
   /// <code>dualstack</code>. The default value is <code>off</code>.
   ///
   /// Parameter [ipAddressType] :
   /// The IP address type. Internal load balancers must use <code>ipv4</code>.
   ///
-  /// [Application Load Balancers] The possible values are <code>ipv4</code>
+  /// \[Application Load Balancers\] The possible values are <code>ipv4</code>
   /// (IPv4 addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
   /// <code>dualstack-without-public-ipv4</code> (public IPv6 addresses and
   /// private IPv4 and IPv6 addresses).
   ///
-  /// [Network Load Balancers and Gateway Load Balancers] The possible values
+  /// \[Network Load Balancers and Gateway Load Balancers\] The possible values
   /// are <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4
   /// and IPv6 addresses).
   ///
   /// Parameter [ipamPools] :
-  /// [Application Load Balancers] The IPAM pools to use with the load balancer.
+  /// \[Application Load Balancers\] The IPAM pools to use with the load
+  /// balancer.
   ///
   /// Parameter [scheme] :
   /// The nodes of an Internet-facing load balancer have public IP addresses.
@@ -456,31 +457,31 @@ class ElasticLoadBalancingV2 {
   /// You can't specify a scheme for a Gateway Load Balancer.
   ///
   /// Parameter [securityGroups] :
-  /// [Application Load Balancers and Network Load Balancers] The IDs of the
+  /// \[Application Load Balancers and Network Load Balancers\] The IDs of the
   /// security groups for the load balancer.
   ///
   /// Parameter [subnetMappings] :
   /// The IDs of the subnets. You can specify only one subnet per Availability
   /// Zone. You must specify either subnets or subnet mappings, but not both.
   ///
-  /// [Application Load Balancers] You must specify subnets from at least two
+  /// \[Application Load Balancers\] You must specify subnets from at least two
   /// Availability Zones. You can't specify Elastic IP addresses for your
   /// subnets.
   ///
-  /// [Application Load Balancers on Outposts] You must specify one Outpost
+  /// \[Application Load Balancers on Outposts\] You must specify one Outpost
   /// subnet.
   ///
-  /// [Application Load Balancers on Local Zones] You can specify subnets from
+  /// \[Application Load Balancers on Local Zones\] You can specify subnets from
   /// one or more Local Zones.
   ///
-  /// [Network Load Balancers] You can specify subnets from one or more
+  /// \[Network Load Balancers\] You can specify subnets from one or more
   /// Availability Zones. You can specify one Elastic IP address per subnet if
   /// you need static IP addresses for your internet-facing load balancer. For
   /// internal load balancers, you can specify one private IP address per subnet
   /// from the IPv4 range of the subnet. For internet-facing load balancer, you
   /// can specify one IPv6 address per subnet.
   ///
-  /// [Gateway Load Balancers] You can specify subnets from one or more
+  /// \[Gateway Load Balancers\] You can specify subnets from one or more
   /// Availability Zones. You can't specify Elastic IP addresses for your
   /// subnets.
   ///
@@ -489,16 +490,16 @@ class ElasticLoadBalancingV2 {
   /// Zone. You must specify either subnets or subnet mappings, but not both. To
   /// specify an Elastic IP address, specify subnet mappings instead of subnets.
   ///
-  /// [Application Load Balancers] You must specify subnets from at least two
+  /// \[Application Load Balancers\] You must specify subnets from at least two
   /// Availability Zones.
   ///
-  /// [Application Load Balancers on Outposts] You must specify one Outpost
+  /// \[Application Load Balancers on Outposts\] You must specify one Outpost
   /// subnet.
   ///
-  /// [Application Load Balancers on Local Zones] You can specify subnets from
+  /// \[Application Load Balancers on Local Zones\] You can specify subnets from
   /// one or more Local Zones.
   ///
-  /// [Network Load Balancers and Gateway Load Balancers] You can specify
+  /// \[Network Load Balancers and Gateway Load Balancers\] You can specify
   /// subnets from one or more Availability Zones.
   ///
   /// Parameter [tags] :
@@ -726,13 +727,13 @@ class ElasticLoadBalancingV2 {
   /// seconds.
   ///
   /// Parameter [healthCheckPath] :
-  /// [HTTP/HTTPS health checks] The destination for health checks on the
+  /// \[HTTP/HTTPS health checks\] The destination for health checks on the
   /// targets.
   ///
-  /// [HTTP1 or HTTP2 protocol version] The ping path. The default is /.
+  /// \[HTTP1 or HTTP2 protocol version\] The ping path. The default is /.
   ///
-  /// [GRPC protocol version] The path of a custom health check method with the
-  /// format /package.service/method. The default is /Amazon Web
+  /// \[GRPC protocol version\] The path of a custom health check method with
+  /// the format /package.service/method. The default is /Amazon Web
   /// Services.ALB/healthcheck.
   ///
   /// Parameter [healthCheckPort] :
@@ -769,11 +770,11 @@ class ElasticLoadBalancingV2 {
   /// The IP address type. The default value is <code>ipv4</code>.
   ///
   /// Parameter [matcher] :
-  /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for
-  /// a successful response from a target. For target groups with a protocol of
-  /// TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range is 200-599. For target
-  /// groups with a protocol of HTTP or HTTPS, the range is 200-499. For target
-  /// groups with a protocol of GENEVE, the range is 200-399.
+  /// \[HTTP/HTTPS health checks\] The HTTP or gRPC codes to use when checking
+  /// for a successful response from a target. For target groups with a protocol
+  /// of TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range is 200-599. For
+  /// target groups with a protocol of HTTP or HTTPS, the range is 200-499. For
+  /// target groups with a protocol of GENEVE, the range is 200-399.
   ///
   /// Parameter [port] :
   /// The port on which the targets receive traffic. This port is used unless
@@ -791,7 +792,7 @@ class ElasticLoadBalancingV2 {
   /// target is a Lambda function, this parameter does not apply.
   ///
   /// Parameter [protocolVersion] :
-  /// [HTTP/HTTPS protocol] The protocol version. Specify <code>GRPC</code> to
+  /// \[HTTP/HTTPS protocol\] The protocol version. Specify <code>GRPC</code> to
   /// send requests to targets using gRPC. Specify <code>HTTP2</code> to send
   /// requests to targets using HTTP/2. The default is <code>HTTP1</code>, which
   /// sends requests to targets using HTTP/1.1.
@@ -2144,7 +2145,7 @@ class ElasticLoadBalancingV2 {
     return ModifyCapacityReservationOutput.fromXml($result);
   }
 
-  /// [Application Load Balancers] Modify the IP pool associated to a load
+  /// \[Application Load Balancers\] Modify the IP pool associated to a load
   /// balancer.
   ///
   /// May throw [LoadBalancerNotFoundException].
@@ -2222,7 +2223,7 @@ class ElasticLoadBalancingV2 {
   /// The Amazon Resource Name (ARN) of the listener.
   ///
   /// Parameter [alpnPolicy] :
-  /// [TLS listeners] The name of the Application-Layer Protocol Negotiation
+  /// \[TLS listeners\] The name of the Application-Layer Protocol Negotiation
   /// (ALPN) policy. You can specify one policy name. The following are the
   /// possible values:
   ///
@@ -2248,7 +2249,7 @@ class ElasticLoadBalancingV2 {
   /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// Parameter [certificates] :
-  /// [HTTPS and TLS listeners] The default certificate for the listener. You
+  /// \[HTTPS and TLS listeners\] The default certificate for the listener. You
   /// must provide exactly one certificate. Set <code>CertificateArn</code> to
   /// the certificate ARN but do not set <code>IsDefault</code>.
   ///
@@ -2256,7 +2257,7 @@ class ElasticLoadBalancingV2 {
   /// The actions for the default rule.
   ///
   /// Parameter [mutualAuthentication] :
-  /// [HTTPS listeners] The mutual authentication configuration information.
+  /// \[HTTPS listeners\] The mutual authentication configuration information.
   ///
   /// Parameter [port] :
   /// The port for connections from clients to the load balancer. You can't
@@ -2271,8 +2272,8 @@ class ElasticLoadBalancingV2 {
   /// Gateway Load Balancer.
   ///
   /// Parameter [sslPolicy] :
-  /// [HTTPS and TLS listeners] The security policy that defines which protocols
-  /// and ciphers are supported.
+  /// \[HTTPS and TLS listeners\] The security policy that defines which
+  /// protocols and ciphers are supported.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html">Security
@@ -2513,13 +2514,13 @@ class ElasticLoadBalancingV2 {
   /// individual target.
   ///
   /// Parameter [healthCheckPath] :
-  /// [HTTP/HTTPS health checks] The destination for health checks on the
+  /// \[HTTP/HTTPS health checks\] The destination for health checks on the
   /// targets.
   ///
-  /// [HTTP1 or HTTP2 protocol version] The ping path. The default is /.
+  /// \[HTTP1 or HTTP2 protocol version\] The ping path. The default is /.
   ///
-  /// [GRPC protocol version] The path of a custom health check method with the
-  /// format /package.service/method. The default is /Amazon Web
+  /// \[GRPC protocol version\] The path of a custom health check method with
+  /// the format /package.service/method. The default is /Amazon Web
   /// Services.ALB/healthcheck.
   ///
   /// Parameter [healthCheckPort] :
@@ -2536,17 +2537,17 @@ class ElasticLoadBalancingV2 {
   /// health checks.
   ///
   /// Parameter [healthCheckTimeoutSeconds] :
-  /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no
-  /// response means a failed health check.
+  /// \[HTTP/HTTPS health checks\] The amount of time, in seconds, during which
+  /// no response means a failed health check.
   ///
   /// Parameter [healthyThresholdCount] :
   /// The number of consecutive health checks successes required before
   /// considering an unhealthy target healthy.
   ///
   /// Parameter [matcher] :
-  /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for
-  /// a successful response from a target. For target groups with a protocol of
-  /// TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a
+  /// \[HTTP/HTTPS health checks\] The HTTP or gRPC codes to use when checking
+  /// for a successful response from a target. For target groups with a protocol
+  /// of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a
   /// protocol of HTTP or HTTPS, the range is 200-499. For target groups with a
   /// protocol of GENEVE, the range is 200-399.
   ///
@@ -2889,7 +2890,7 @@ class ElasticLoadBalancingV2 {
   /// Parameter [ipAddressType] :
   /// The IP address type. Internal load balancers must use <code>ipv4</code>.
   ///
-  /// [Application Load Balancers] The possible values are <code>ipv4</code>
+  /// \[Application Load Balancers\] The possible values are <code>ipv4</code>
   /// (IPv4 addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
   /// <code>dualstack-without-public-ipv4</code> (public IPv6 addresses and
   /// private IPv4 and IPv6 addresses).
@@ -2899,7 +2900,7 @@ class ElasticLoadBalancingV2 {
   /// Without a public IPv4 address the load balancer can't complete the
   /// authentication process, resulting in HTTP 500 errors.
   ///
-  /// [Network Load Balancers and Gateway Load Balancers] The possible values
+  /// \[Network Load Balancers and Gateway Load Balancers\] The possible values
   /// are <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4
   /// and IPv6 addresses).
   ///
@@ -3029,19 +3030,19 @@ class ElasticLoadBalancingV2 {
   /// The Amazon Resource Name (ARN) of the load balancer.
   ///
   /// Parameter [enablePrefixForIpv6SourceNat] :
-  /// [Network Load Balancers with UDP listeners] Indicates whether to use an
+  /// \[Network Load Balancers with UDP listeners\] Indicates whether to use an
   /// IPv6 prefix from each subnet for source NAT. The IP address type must be
   /// <code>dualstack</code>. The default value is <code>off</code>.
   ///
   /// Parameter [ipAddressType] :
   /// The IP address type.
   ///
-  /// [Application Load Balancers] The possible values are <code>ipv4</code>
+  /// \[Application Load Balancers\] The possible values are <code>ipv4</code>
   /// (IPv4 addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
   /// <code>dualstack-without-public-ipv4</code> (public IPv6 addresses and
   /// private IPv4 and IPv6 addresses).
   ///
-  /// [Network Load Balancers and Gateway Load Balancers] The possible values
+  /// \[Network Load Balancers and Gateway Load Balancers\] The possible values
   /// are <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4
   /// and IPv6 addresses).
   ///
@@ -3049,43 +3050,43 @@ class ElasticLoadBalancingV2 {
   /// The IDs of the public subnets. You can specify only one subnet per
   /// Availability Zone. You must specify either subnets or subnet mappings.
   ///
-  /// [Application Load Balancers] You must specify subnets from at least two
+  /// \[Application Load Balancers\] You must specify subnets from at least two
   /// Availability Zones. You can't specify Elastic IP addresses for your
   /// subnets.
   ///
-  /// [Application Load Balancers on Outposts] You must specify one Outpost
+  /// \[Application Load Balancers on Outposts\] You must specify one Outpost
   /// subnet.
   ///
-  /// [Application Load Balancers on Local Zones] You can specify subnets from
+  /// \[Application Load Balancers on Local Zones\] You can specify subnets from
   /// one or more Local Zones.
   ///
-  /// [Network Load Balancers] You can specify subnets from one or more
+  /// \[Network Load Balancers\] You can specify subnets from one or more
   /// Availability Zones. You can specify one Elastic IP address per subnet if
   /// you need static IP addresses for your internet-facing load balancer. For
   /// internal load balancers, you can specify one private IP address per subnet
   /// from the IPv4 range of the subnet. For internet-facing load balancer, you
   /// can specify one IPv6 address per subnet.
   ///
-  /// [Gateway Load Balancers] You can specify subnets from one or more
+  /// \[Gateway Load Balancers\] You can specify subnets from one or more
   /// Availability Zones.
   ///
   /// Parameter [subnets] :
   /// The IDs of the public subnets. You can specify only one subnet per
   /// Availability Zone. You must specify either subnets or subnet mappings.
   ///
-  /// [Application Load Balancers] You must specify subnets from at least two
+  /// \[Application Load Balancers\] You must specify subnets from at least two
   /// Availability Zones.
   ///
-  /// [Application Load Balancers on Outposts] You must specify one Outpost
+  /// \[Application Load Balancers on Outposts\] You must specify one Outpost
   /// subnet.
   ///
-  /// [Application Load Balancers on Local Zones] You can specify subnets from
+  /// \[Application Load Balancers on Local Zones\] You can specify subnets from
   /// one or more Local Zones.
   ///
-  /// [Network Load Balancers] You can specify subnets from one or more
+  /// \[Network Load Balancers\] You can specify subnets from one or more
   /// Availability Zones.
   ///
-  /// [Gateway Load Balancers] You can specify subnets from one or more
+  /// \[Gateway Load Balancers\] You can specify subnets from one or more
   /// Availability Zones. You must include all subnets that were enabled
   /// previously, with their existing configurations, plus any additional
   /// subnets.
@@ -3128,6 +3129,7 @@ class ElasticLoadBalancingV2 {
   }
 }
 
+/// @nodoc
 class AddListenerCertificatesOutput {
   /// Information about the certificates in the certificate list.
   final List<Certificate>? certificates;
@@ -3150,6 +3152,7 @@ class AddListenerCertificatesOutput {
   }
 }
 
+/// @nodoc
 class AddTagsOutput {
   AddTagsOutput();
   factory AddTagsOutput.fromXml(
@@ -3163,6 +3166,7 @@ class AddTagsOutput {
   }
 }
 
+/// @nodoc
 class AddTrustStoreRevocationsOutput {
   /// Information about the revocation file added to the trust store.
   final List<TrustStoreRevocation>? trustStoreRevocations;
@@ -3190,6 +3194,7 @@ class AddTrustStoreRevocationsOutput {
   }
 }
 
+/// @nodoc
 class CreateListenerOutput {
   /// Information about the listener.
   final List<Listener>? listeners;
@@ -3212,6 +3217,7 @@ class CreateListenerOutput {
   }
 }
 
+/// @nodoc
 class CreateLoadBalancerOutput {
   /// Information about the load balancer.
   final List<LoadBalancer>? loadBalancers;
@@ -3234,6 +3240,7 @@ class CreateLoadBalancerOutput {
   }
 }
 
+/// @nodoc
 class CreateRuleOutput {
   /// Information about the rule.
   final List<Rule>? rules;
@@ -3256,6 +3263,7 @@ class CreateRuleOutput {
   }
 }
 
+/// @nodoc
 class CreateTargetGroupOutput {
   /// Information about the target group.
   final List<TargetGroup>? targetGroups;
@@ -3278,6 +3286,7 @@ class CreateTargetGroupOutput {
   }
 }
 
+/// @nodoc
 class CreateTrustStoreOutput {
   /// Information about the trust store created.
   final List<TrustStore>? trustStores;
@@ -3300,6 +3309,7 @@ class CreateTrustStoreOutput {
   }
 }
 
+/// @nodoc
 class DeleteListenerOutput {
   DeleteListenerOutput();
   factory DeleteListenerOutput.fromXml(
@@ -3313,6 +3323,7 @@ class DeleteListenerOutput {
   }
 }
 
+/// @nodoc
 class DeleteLoadBalancerOutput {
   DeleteLoadBalancerOutput();
   factory DeleteLoadBalancerOutput.fromXml(
@@ -3326,6 +3337,7 @@ class DeleteLoadBalancerOutput {
   }
 }
 
+/// @nodoc
 class DeleteRuleOutput {
   DeleteRuleOutput();
   factory DeleteRuleOutput.fromXml(
@@ -3339,6 +3351,7 @@ class DeleteRuleOutput {
   }
 }
 
+/// @nodoc
 class DeleteSharedTrustStoreAssociationOutput {
   DeleteSharedTrustStoreAssociationOutput();
   factory DeleteSharedTrustStoreAssociationOutput.fromXml(
@@ -3352,6 +3365,7 @@ class DeleteSharedTrustStoreAssociationOutput {
   }
 }
 
+/// @nodoc
 class DeleteTargetGroupOutput {
   DeleteTargetGroupOutput();
   factory DeleteTargetGroupOutput.fromXml(
@@ -3365,6 +3379,7 @@ class DeleteTargetGroupOutput {
   }
 }
 
+/// @nodoc
 class DeleteTrustStoreOutput {
   DeleteTrustStoreOutput();
   factory DeleteTrustStoreOutput.fromXml(
@@ -3378,6 +3393,7 @@ class DeleteTrustStoreOutput {
   }
 }
 
+/// @nodoc
 class DeregisterTargetsOutput {
   DeregisterTargetsOutput();
   factory DeregisterTargetsOutput.fromXml(
@@ -3391,6 +3407,7 @@ class DeregisterTargetsOutput {
   }
 }
 
+/// @nodoc
 class DescribeAccountLimitsOutput {
   /// Information about the limits.
   final List<Limit>? limits;
@@ -3421,6 +3438,7 @@ class DescribeAccountLimitsOutput {
   }
 }
 
+/// @nodoc
 class DescribeCapacityReservationOutput {
   /// The state of the capacity reservation.
   final List<ZonalCapacityReservationState>? capacityReservationState;
@@ -3475,6 +3493,7 @@ class DescribeCapacityReservationOutput {
   }
 }
 
+/// @nodoc
 class DescribeListenerAttributesOutput {
   /// Information about the listener attributes.
   final List<ListenerAttribute>? attributes;
@@ -3497,6 +3516,7 @@ class DescribeListenerAttributesOutput {
   }
 }
 
+/// @nodoc
 class DescribeListenerCertificatesOutput {
   /// Information about the certificates.
   final List<Certificate>? certificates;
@@ -3527,6 +3547,7 @@ class DescribeListenerCertificatesOutput {
   }
 }
 
+/// @nodoc
 class DescribeListenersOutput {
   /// Information about the listeners.
   final List<Listener>? listeners;
@@ -3557,6 +3578,7 @@ class DescribeListenersOutput {
   }
 }
 
+/// @nodoc
 class DescribeLoadBalancerAttributesOutput {
   /// Information about the load balancer attributes.
   final List<LoadBalancerAttribute>? attributes;
@@ -3581,6 +3603,7 @@ class DescribeLoadBalancerAttributesOutput {
   }
 }
 
+/// @nodoc
 class DescribeLoadBalancersOutput {
   /// Information about the load balancers.
   final List<LoadBalancer>? loadBalancers;
@@ -3611,6 +3634,7 @@ class DescribeLoadBalancersOutput {
   }
 }
 
+/// @nodoc
 class DescribeRulesOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
@@ -3641,6 +3665,7 @@ class DescribeRulesOutput {
   }
 }
 
+/// @nodoc
 class DescribeSSLPoliciesOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
@@ -3671,6 +3696,7 @@ class DescribeSSLPoliciesOutput {
   }
 }
 
+/// @nodoc
 class DescribeTagsOutput {
   /// Information about the tags.
   final List<TagDescription>? tagDescriptions;
@@ -3694,6 +3720,7 @@ class DescribeTagsOutput {
   }
 }
 
+/// @nodoc
 class DescribeTargetGroupAttributesOutput {
   /// Information about the target group attributes
   final List<TargetGroupAttribute>? attributes;
@@ -3718,6 +3745,7 @@ class DescribeTargetGroupAttributesOutput {
   }
 }
 
+/// @nodoc
 class DescribeTargetGroupsOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
@@ -3748,6 +3776,7 @@ class DescribeTargetGroupsOutput {
   }
 }
 
+/// @nodoc
 class DescribeTargetHealthOutput {
   /// Information about the health of the targets.
   final List<TargetHealthDescription>? targetHealthDescriptions;
@@ -3775,6 +3804,7 @@ class DescribeTargetHealthOutput {
   }
 }
 
+/// @nodoc
 class DescribeTrustStoreAssociationsOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
@@ -3810,6 +3840,7 @@ class DescribeTrustStoreAssociationsOutput {
   }
 }
 
+/// @nodoc
 class DescribeTrustStoreRevocationsOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
@@ -3845,6 +3876,7 @@ class DescribeTrustStoreRevocationsOutput {
   }
 }
 
+/// @nodoc
 class DescribeTrustStoresOutput {
   /// If there are additional results, this is the marker for the next set of
   /// results. Otherwise, this is null.
@@ -3875,6 +3907,7 @@ class DescribeTrustStoresOutput {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyOutput {
   /// The content of the resource policy.
   final String? policy;
@@ -3896,6 +3929,7 @@ class GetResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class GetTrustStoreCaCertificatesBundleOutput {
   /// The ca certificate bundles Amazon S3 URI.
   final String? location;
@@ -3917,6 +3951,7 @@ class GetTrustStoreCaCertificatesBundleOutput {
   }
 }
 
+/// @nodoc
 class GetTrustStoreRevocationContentOutput {
   /// The revocation files Amazon S3 URI.
   final String? location;
@@ -3938,6 +3973,7 @@ class GetTrustStoreRevocationContentOutput {
   }
 }
 
+/// @nodoc
 class ModifyCapacityReservationOutput {
   /// The state of the capacity reservation.
   final List<ZonalCapacityReservationState>? capacityReservationState;
@@ -3992,6 +4028,7 @@ class ModifyCapacityReservationOutput {
   }
 }
 
+/// @nodoc
 class ModifyIpPoolsOutput {
   /// The IPAM pool ID.
   final IpamPools? ipamPools;
@@ -4013,6 +4050,7 @@ class ModifyIpPoolsOutput {
   }
 }
 
+/// @nodoc
 class ModifyListenerOutput {
   /// Information about the modified listener.
   final List<Listener>? listeners;
@@ -4035,6 +4073,7 @@ class ModifyListenerOutput {
   }
 }
 
+/// @nodoc
 class ModifyListenerAttributesOutput {
   /// Information about the listener attributes.
   final List<ListenerAttribute>? attributes;
@@ -4057,6 +4096,7 @@ class ModifyListenerAttributesOutput {
   }
 }
 
+/// @nodoc
 class ModifyLoadBalancerAttributesOutput {
   /// Information about the load balancer attributes.
   final List<LoadBalancerAttribute>? attributes;
@@ -4081,6 +4121,7 @@ class ModifyLoadBalancerAttributesOutput {
   }
 }
 
+/// @nodoc
 class ModifyRuleOutput {
   /// Information about the modified rule.
   final List<Rule>? rules;
@@ -4103,6 +4144,7 @@ class ModifyRuleOutput {
   }
 }
 
+/// @nodoc
 class ModifyTargetGroupOutput {
   /// Information about the modified target group.
   final List<TargetGroup>? targetGroups;
@@ -4125,6 +4167,7 @@ class ModifyTargetGroupOutput {
   }
 }
 
+/// @nodoc
 class ModifyTargetGroupAttributesOutput {
   /// Information about the target group attributes.
   final List<TargetGroupAttribute>? attributes;
@@ -4149,6 +4192,7 @@ class ModifyTargetGroupAttributesOutput {
   }
 }
 
+/// @nodoc
 class ModifyTrustStoreOutput {
   /// Information about the modified trust store.
   final List<TrustStore>? trustStores;
@@ -4171,6 +4215,7 @@ class ModifyTrustStoreOutput {
   }
 }
 
+/// @nodoc
 class RegisterTargetsOutput {
   RegisterTargetsOutput();
   factory RegisterTargetsOutput.fromXml(
@@ -4184,6 +4229,7 @@ class RegisterTargetsOutput {
   }
 }
 
+/// @nodoc
 class RemoveListenerCertificatesOutput {
   RemoveListenerCertificatesOutput();
   factory RemoveListenerCertificatesOutput.fromXml(
@@ -4197,6 +4243,7 @@ class RemoveListenerCertificatesOutput {
   }
 }
 
+/// @nodoc
 class RemoveTagsOutput {
   RemoveTagsOutput();
   factory RemoveTagsOutput.fromXml(
@@ -4210,6 +4257,7 @@ class RemoveTagsOutput {
   }
 }
 
+/// @nodoc
 class RemoveTrustStoreRevocationsOutput {
   RemoveTrustStoreRevocationsOutput();
   factory RemoveTrustStoreRevocationsOutput.fromXml(
@@ -4223,6 +4271,7 @@ class RemoveTrustStoreRevocationsOutput {
   }
 }
 
+/// @nodoc
 class SetIpAddressTypeOutput {
   /// The IP address type.
   final IpAddressType? ipAddressType;
@@ -4246,6 +4295,7 @@ class SetIpAddressTypeOutput {
   }
 }
 
+/// @nodoc
 class SetRulePrioritiesOutput {
   /// Information about the rules.
   final List<Rule>? rules;
@@ -4268,6 +4318,7 @@ class SetRulePrioritiesOutput {
   }
 }
 
+/// @nodoc
 class SetSecurityGroupsOutput {
   /// Indicates whether to evaluate inbound security group rules for traffic sent
   /// to a Network Load Balancer through Amazon Web Services PrivateLink.
@@ -4307,11 +4358,12 @@ class SetSecurityGroupsOutput {
   }
 }
 
+/// @nodoc
 class SetSubnetsOutput {
   /// Information about the subnets.
   final List<AvailabilityZone>? availabilityZones;
 
-  /// [Network Load Balancers] Indicates whether to use an IPv6 prefix from each
+  /// \[Network Load Balancers\] Indicates whether to use an IPv6 prefix from each
   /// subnet for source NAT.
   final EnablePrefixForIpv6SourceNatEnum? enablePrefixForIpv6SourceNat;
 
@@ -4352,6 +4404,7 @@ class SetSubnetsOutput {
   }
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('ipv4');
   static const dualstack = IpAddressType._('dualstack');
@@ -4378,6 +4431,7 @@ class IpAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class EnablePrefixForIpv6SourceNatEnum {
   static const on = EnablePrefixForIpv6SourceNatEnum._('on');
   static const off = EnablePrefixForIpv6SourceNatEnum._('off');
@@ -4404,17 +4458,19 @@ class EnablePrefixForIpv6SourceNatEnum {
 }
 
 /// Information about an Availability Zone.
+///
+/// @nodoc
 class AvailabilityZone {
-  /// [Network Load Balancers] If you need static IP addresses for your load
+  /// \[Network Load Balancers\] If you need static IP addresses for your load
   /// balancer, you can specify one Elastic IP address per Availability Zone when
   /// you create an internal-facing load balancer. For internal load balancers,
   /// you can specify a private IP address from the IPv4 range of the subnet.
   final List<LoadBalancerAddress>? loadBalancerAddresses;
 
-  /// [Application Load Balancers on Outposts] The ID of the Outpost.
+  /// \[Application Load Balancers on Outposts\] The ID of the Outpost.
   final String? outpostId;
 
-  /// [Network Load Balancers with UDP listeners] The IPv6 prefixes to use for
+  /// \[Network Load Balancers with UDP listeners\] The IPv6 prefixes to use for
   /// source NAT. For each subnet, specify an IPv6 prefix (/80 netmask) from the
   /// subnet CIDR block or <code>auto_assigned</code> to use an IPv6 prefix
   /// selected at random from the subnet CIDR block.
@@ -4469,18 +4525,20 @@ class AvailabilityZone {
 }
 
 /// Information about a static IP address for a load balancer.
+///
+/// @nodoc
 class LoadBalancerAddress {
-  /// [Network Load Balancers] The allocation ID of the Elastic IP address for an
-  /// internal-facing load balancer.
+  /// \[Network Load Balancers\] The allocation ID of the Elastic IP address for
+  /// an internal-facing load balancer.
   final String? allocationId;
 
-  /// [Network Load Balancers] The IPv6 address.
+  /// \[Network Load Balancers\] The IPv6 address.
   final String? iPv6Address;
 
   /// The static IP address.
   final String? ipAddress;
 
-  /// [Network Load Balancers] The private IPv4 address for an internal load
+  /// \[Network Load Balancers\] The private IPv4 address for an internal load
   /// balancer.
   final String? privateIPv4Address;
 
@@ -4514,19 +4572,21 @@ class LoadBalancerAddress {
 }
 
 /// Information about a subnet mapping.
+///
+/// @nodoc
 class SubnetMapping {
-  /// [Network Load Balancers] The allocation ID of the Elastic IP address for an
-  /// internet-facing load balancer.
+  /// \[Network Load Balancers\] The allocation ID of the Elastic IP address for
+  /// an internet-facing load balancer.
   final String? allocationId;
 
-  /// [Network Load Balancers] The IPv6 address.
+  /// \[Network Load Balancers\] The IPv6 address.
   final String? iPv6Address;
 
-  /// [Network Load Balancers] The private IPv4 address for an internal load
+  /// \[Network Load Balancers\] The private IPv4 address for an internal load
   /// balancer.
   final String? privateIPv4Address;
 
-  /// [Network Load Balancers with UDP listeners] The IPv6 prefix to use for
+  /// \[Network Load Balancers with UDP listeners\] The IPv6 prefix to use for
   /// source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet CIDR block
   /// or <code>auto_assigned</code> to use an IPv6 prefix selected at random from
   /// the subnet CIDR block.
@@ -4576,6 +4636,7 @@ class SubnetMapping {
   }
 }
 
+/// @nodoc
 class EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
   static const on =
       EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._('on');
@@ -4608,6 +4669,8 @@ class EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
 }
 
 /// Information about a rule.
+///
+/// @nodoc
 class Rule {
   /// The actions. Each rule must include exactly one of the following types of
   /// actions: <code>forward</code>, <code>redirect</code>, or
@@ -4675,6 +4738,8 @@ class Rule {
 
 /// Information about a transform to apply to requests that match a rule.
 /// Transforms are applied to requests before they are sent to targets.
+///
+/// @nodoc
 class RuleTransform {
   /// The type of transform.
   ///
@@ -4745,6 +4810,7 @@ class RuleTransform {
   }
 }
 
+/// @nodoc
 class TransformTypeEnum {
   static const hostHeaderRewrite = TransformTypeEnum._('host-header-rewrite');
   static const urlRewrite = TransformTypeEnum._('url-rewrite');
@@ -4772,6 +4838,8 @@ class TransformTypeEnum {
 /// Information about a host header rewrite transform. This transform matches a
 /// pattern in the host header in an HTTP request and replaces it with the
 /// specified string.
+///
+/// @nodoc
 class HostHeaderRewriteConfig {
   /// The host header rewrite transform. Each transform consists of a regular
   /// expression to match and a replacement string.
@@ -4810,6 +4878,8 @@ class HostHeaderRewriteConfig {
 
 /// Information about a URL rewrite transform. This transform matches a pattern
 /// in the request URL and replaces it with the specified string.
+///
+/// @nodoc
 class UrlRewriteConfig {
   /// The URL rewrite transform to apply to the request. The transform consists of
   /// a regular expression to match and a replacement string.
@@ -4848,6 +4918,8 @@ class UrlRewriteConfig {
 
 /// Information about a rewrite transform. This transform matches a pattern and
 /// replaces it with the specified string.
+///
+/// @nodoc
 class RewriteConfig {
   /// The regular expression to match in the input string. The maximum length of
   /// the string is 1,024 characters.
@@ -4897,22 +4969,24 @@ class RewriteConfig {
 /// Optionally, a rule for an HTTPS listener can also include one of the
 /// following user authentication actions: <code>authenticate-oidc</code>,
 /// <code>authenticate-cognito</code>, or <code>jwt-validation</code>.
+///
+/// @nodoc
 class Action {
   /// The type of action.
   final ActionTypeEnum type;
 
-  /// [HTTPS listeners] Information for using Amazon Cognito to authenticate
+  /// \[HTTPS listeners\] Information for using Amazon Cognito to authenticate
   /// users. Specify only when <code>Type</code> is
   /// <code>authenticate-cognito</code>.
   final AuthenticateCognitoActionConfig? authenticateCognitoConfig;
 
-  /// [HTTPS listeners] Information about an identity provider that is compliant
+  /// \[HTTPS listeners\] Information about an identity provider that is compliant
   /// with OpenID Connect (OIDC). Specify only when <code>Type</code> is
   /// <code>authenticate-oidc</code>.
   final AuthenticateOidcActionConfig? authenticateOidcConfig;
 
-  /// [Application Load Balancer] Information for creating an action that returns
-  /// a custom HTTP response. Specify only when <code>Type</code> is
+  /// \[Application Load Balancer\] Information for creating an action that
+  /// returns a custom HTTP response. Specify only when <code>Type</code> is
   /// <code>fixed-response</code>.
   final FixedResponseActionConfig? fixedResponseConfig;
 
@@ -4925,7 +4999,7 @@ class Action {
   /// <code>TargetGroupArn</code>.
   final ForwardActionConfig? forwardConfig;
 
-  /// [HTTPS listeners] Information for validating JWT access tokens in client
+  /// \[HTTPS listeners\] Information for validating JWT access tokens in client
   /// requests. Specify only when <code>Type</code> is
   /// <code>jwt-validation</code>.
   final JwtValidationActionConfig? jwtValidationConfig;
@@ -4934,7 +5008,7 @@ class Action {
   /// actions. The action with the lowest value for order is performed first.
   final int? order;
 
-  /// [Application Load Balancer] Information for creating a redirect action.
+  /// \[Application Load Balancer\] Information for creating a redirect action.
   /// Specify only when <code>Type</code> is <code>redirect</code>.
   final RedirectActionConfig? redirectConfig;
 
@@ -5046,6 +5120,7 @@ class Action {
   }
 }
 
+/// @nodoc
 class ActionTypeEnum {
   static const forward = ActionTypeEnum._('forward');
   static const authenticateOidc = ActionTypeEnum._('authenticate-oidc');
@@ -5083,6 +5158,8 @@ class ActionTypeEnum {
 
 /// Request parameters when using an identity provider (IdP) that is compliant
 /// with OpenID Connect (OIDC) to authenticate users.
+///
+/// @nodoc
 class AuthenticateOidcActionConfig {
   /// The authorization endpoint of the IdP. This must be a full URL, including
   /// the HTTPS protocol, the domain, and the path.
@@ -5271,6 +5348,8 @@ class AuthenticateOidcActionConfig {
 
 /// Request parameters to use when integrating with Amazon Cognito to
 /// authenticate users.
+///
+/// @nodoc
 class AuthenticateCognitoActionConfig {
   /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool.
   final String userPoolArn;
@@ -5440,6 +5519,8 @@ class AuthenticateCognitoActionConfig {
 /// </ul>
 /// For example, you can change the path to "/new/#{path}", the hostname to
 /// "example.#{host}", or the query to "#{query}&value=xyz".
+///
+/// @nodoc
 class RedirectActionConfig {
   /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or
   /// temporary (HTTP 302).
@@ -5523,6 +5604,8 @@ class RedirectActionConfig {
 }
 
 /// Information about an action that returns a custom HTTP response.
+///
+/// @nodoc
 class FixedResponseActionConfig {
   /// The HTTP response code (2XX, 4XX, or 5XX).
   final String statusCode;
@@ -5573,6 +5656,8 @@ class FixedResponseActionConfig {
 }
 
 /// Information about a forward action.
+///
+/// @nodoc
 class ForwardActionConfig {
   /// The target group stickiness for the rule.
   final TargetGroupStickinessConfig? targetGroupStickinessConfig;
@@ -5623,6 +5708,8 @@ class ForwardActionConfig {
 }
 
 /// Information about a JSON Web Token (JWT) validation action.
+///
+/// @nodoc
 class JwtValidationActionConfig {
   /// The issuer of the JWT. The maximum length is 256 characters.
   final String issuer;
@@ -5686,6 +5773,8 @@ class JwtValidationActionConfig {
 }
 
 /// Information about an additional claim to validate.
+///
+/// @nodoc
 class JwtValidationActionAdditionalClaim {
   /// The format of the claim value.
   final JwtValidationActionAdditionalClaimFormatEnum format;
@@ -5742,6 +5831,7 @@ class JwtValidationActionAdditionalClaim {
   }
 }
 
+/// @nodoc
 class JwtValidationActionAdditionalClaimFormatEnum {
   static const singleString =
       JwtValidationActionAdditionalClaimFormatEnum._('single-string');
@@ -5774,8 +5864,10 @@ class JwtValidationActionAdditionalClaimFormatEnum {
 }
 
 /// Information about the target group stickiness for a rule.
+///
+/// @nodoc
 class TargetGroupStickinessConfig {
-  /// [Application Load Balancers] The time period, in seconds, during which
+  /// \[Application Load Balancers\] The time period, in seconds, during which
   /// requests from a client should be routed to the same target group. The range
   /// is 1-604800 seconds (7 days). You must specify this value when enabling
   /// target group stickiness.
@@ -5817,6 +5909,8 @@ class TargetGroupStickinessConfig {
 
 /// Information about how traffic will be distributed between multiple target
 /// groups in a forward rule.
+///
+/// @nodoc
 class TargetGroupTuple {
   /// The Amazon Resource Name (ARN) of the target group.
   final String? targetGroupArn;
@@ -5854,6 +5948,7 @@ class TargetGroupTuple {
   }
 }
 
+/// @nodoc
 class RedirectActionStatusCodeEnum {
   static const http_301 = RedirectActionStatusCodeEnum._('HTTP_301');
   static const http_302 = RedirectActionStatusCodeEnum._('HTTP_302');
@@ -5879,6 +5974,7 @@ class RedirectActionStatusCodeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticateCognitoActionConditionalBehaviorEnum {
   static const deny =
       AuthenticateCognitoActionConditionalBehaviorEnum._('deny');
@@ -5911,6 +6007,7 @@ class AuthenticateCognitoActionConditionalBehaviorEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticateOidcActionConditionalBehaviorEnum {
   static const deny = AuthenticateOidcActionConditionalBehaviorEnum._('deny');
   static const allow = AuthenticateOidcActionConditionalBehaviorEnum._('allow');
@@ -5952,6 +6049,8 @@ class AuthenticateOidcActionConditionalBehaviorEnum {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
 /// for your Application Load Balancers</a>.
+///
+/// @nodoc
 class RuleCondition {
   /// The field in the HTTP request. The following are the possible values:
   ///
@@ -6169,6 +6268,8 @@ class RuleCondition {
 }
 
 /// Information about a host header condition.
+///
+/// @nodoc
 class HostHeaderConditionConfig {
   /// The regular expressions to compare against the host header. The maximum
   /// length of each string is 128 characters.
@@ -6229,6 +6330,8 @@ class HostHeaderConditionConfig {
 }
 
 /// Information about a path pattern condition.
+///
+/// @nodoc
 class PathPatternConditionConfig {
   /// The regular expressions to compare against the request URL. The maximum
   /// length of each string is 128 characters.
@@ -6295,6 +6398,8 @@ class PathPatternConditionConfig {
 ///
 /// There is a set of standard HTTP header fields. You can also define custom
 /// HTTP header fields.
+///
+/// @nodoc
 class HttpHeaderConditionConfig {
   /// The name of the HTTP header field. The maximum length is 40 characters. The
   /// header name is case insensitive. The allowed characters are specified by RFC
@@ -6380,6 +6485,8 @@ class HttpHeaderConditionConfig {
 /// query string contains key/value pairs separated by '&' characters. The
 /// allowed characters are specified by RFC 3986. Any character can be
 /// percentage encoded.
+///
+/// @nodoc
 class QueryStringConditionConfig {
   /// The key/value pairs or values to find in the query string. The maximum
   /// length of each string is 128 characters. The comparison is case insensitive.
@@ -6431,6 +6538,8 @@ class QueryStringConditionConfig {
 /// more information, see the <a
 /// href="https://www.iana.org/assignments/http-methods/http-methods.xhtml">HTTP
 /// Method Registry</a>. You can also define custom HTTP methods.
+///
+/// @nodoc
 class HttpRequestMethodConditionConfig {
   /// The name of the request method. The maximum length is 40 characters. The
   /// allowed characters are A-Z, hyphen (-), and underscore (_). The comparison
@@ -6479,6 +6588,8 @@ class HttpRequestMethodConditionConfig {
 /// You can use this condition to route based on the IP address of the source
 /// that connects to the load balancer. If a client is behind a proxy, this is
 /// the IP address of the proxy not the IP address of the client.
+///
+/// @nodoc
 class SourceIpConditionConfig {
   /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6
   /// addresses. Wildcards are not supported.
@@ -6525,6 +6636,8 @@ class SourceIpConditionConfig {
 }
 
 /// Information about a key/value pair.
+///
+/// @nodoc
 class QueryStringKeyValuePair {
   /// The key. You can omit the key.
   final String? key;
@@ -6563,6 +6676,8 @@ class QueryStringKeyValuePair {
 }
 
 /// Information about the priorities for the rules for a listener.
+///
+/// @nodoc
 class RulePriorityPair {
   /// The rule priority.
   final int? priority;
@@ -6595,6 +6710,8 @@ class RulePriorityPair {
 }
 
 /// Information about an SSL server certificate.
+///
+/// @nodoc
 class Certificate {
   /// The Amazon Resource Name (ARN) of the certificate.
   final String? certificateArn;
@@ -6636,6 +6753,8 @@ class Certificate {
 }
 
 /// Information about a target.
+///
+/// @nodoc
 class TargetDescription {
   /// The ID of the target. If the target type of the target group is
   /// <code>instance</code>, specify an instance ID. If the target type is
@@ -6731,6 +6850,8 @@ class TargetDescription {
 }
 
 /// Information about a trust store.
+///
+/// @nodoc
 class TrustStore {
   /// The name of the trust store.
   final String? name;
@@ -6785,6 +6906,7 @@ class TrustStore {
   }
 }
 
+/// @nodoc
 class TrustStoreStatus {
   static const active = TrustStoreStatus._('ACTIVE');
   static const creating = TrustStoreStatus._('CREATING');
@@ -6810,6 +6932,8 @@ class TrustStoreStatus {
 }
 
 /// Information about a target group attribute.
+///
+/// @nodoc
 class TargetGroupAttribute {
   /// The name of the attribute.
   ///
@@ -7046,6 +7170,8 @@ class TargetGroupAttribute {
 }
 
 /// Information about a target group.
+///
+/// @nodoc
 class TargetGroup {
   /// Indicates whether health checks are enabled.
   final bool? healthCheckEnabled;
@@ -7091,7 +7217,7 @@ class TargetGroup {
   /// The protocol to use for routing traffic to the targets.
   final ProtocolEnum? protocol;
 
-  /// [HTTP/HTTPS protocol] The protocol version. The possible values are
+  /// \[HTTP/HTTPS protocol\] The protocol version. The possible values are
   /// <code>GRPC</code>, <code>HTTP1</code>, and <code>HTTP2</code>.
   final String? protocolVersion;
 
@@ -7227,6 +7353,7 @@ class TargetGroup {
   }
 }
 
+/// @nodoc
 class ProtocolEnum {
   static const http = ProtocolEnum._('HTTP');
   static const https = ProtocolEnum._('HTTPS');
@@ -7270,6 +7397,8 @@ class ProtocolEnum {
 /// The codes to use when checking for a successful response from a target. If
 /// the protocol version is gRPC, these are gRPC codes. Otherwise, these are
 /// HTTP codes.
+///
+/// @nodoc
 class Matcher {
   /// You can specify values between 0 and 99. You can specify multiple values
   /// (for example, "0,1") or a range of values (for example, "0-5"). The default
@@ -7320,6 +7449,7 @@ class Matcher {
   }
 }
 
+/// @nodoc
 class TargetTypeEnum {
   static const instance = TargetTypeEnum._('instance');
   static const ip = TargetTypeEnum._('ip');
@@ -7346,6 +7476,7 @@ class TargetTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetGroupIpAddressTypeEnum {
   static const ipv4 = TargetGroupIpAddressTypeEnum._('ipv4');
   static const ipv6 = TargetGroupIpAddressTypeEnum._('ipv6');
@@ -7372,6 +7503,8 @@ class TargetGroupIpAddressTypeEnum {
 }
 
 /// Information about a load balancer attribute.
+///
+/// @nodoc
 class LoadBalancerAttribute {
   /// The name of the attribute.
   ///
@@ -7599,6 +7732,8 @@ class LoadBalancerAttribute {
 }
 
 /// Information about a listener attribute.
+///
+/// @nodoc
 class ListenerAttribute {
   /// The name of the attribute.
   ///
@@ -7743,12 +7878,14 @@ class ListenerAttribute {
 }
 
 /// Information about a listener.
+///
+/// @nodoc
 class Listener {
-  /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN)
-  /// policy.
+  /// \[TLS listener\] The name of the Application-Layer Protocol Negotiation
+  /// (ALPN) policy.
   final List<String>? alpnPolicy;
 
-  /// [HTTPS or TLS listener] The default certificate for the listener.
+  /// \[HTTPS or TLS listener\] The default certificate for the listener.
   final List<Certificate>? certificates;
 
   /// The default actions for the listener.
@@ -7769,8 +7906,8 @@ class Listener {
   /// The protocol for connections from clients to the load balancer.
   final ProtocolEnum? protocol;
 
-  /// [HTTPS or TLS listener] The security policy that defines which protocols and
-  /// ciphers are supported.
+  /// \[HTTPS or TLS listener\] The security policy that defines which protocols
+  /// and ciphers are supported.
   final String? sslPolicy;
 
   Listener({
@@ -7832,6 +7969,8 @@ class Listener {
 }
 
 /// Information about the mutual authentication attributes of a listener.
+///
+/// @nodoc
 class MutualAuthenticationAttributes {
   /// Indicates whether trust store CA certificate names are advertised.
   final AdvertiseTrustStoreCaNamesEnum? advertiseTrustStoreCaNames;
@@ -7910,6 +8049,7 @@ class MutualAuthenticationAttributes {
   }
 }
 
+/// @nodoc
 class TrustStoreAssociationStatusEnum {
   static const active = TrustStoreAssociationStatusEnum._('active');
   static const removed = TrustStoreAssociationStatusEnum._('removed');
@@ -7935,6 +8075,7 @@ class TrustStoreAssociationStatusEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AdvertiseTrustStoreCaNamesEnum {
   static const on = AdvertiseTrustStoreCaNamesEnum._('on');
   static const off = AdvertiseTrustStoreCaNamesEnum._('off');
@@ -7962,6 +8103,8 @@ class AdvertiseTrustStoreCaNamesEnum {
 
 /// An IPAM pool is a collection of IP address CIDRs. IPAM pools enable you to
 /// organize your IP addresses according to your routing and security needs.
+///
+/// @nodoc
 class IpamPools {
   /// The ID of the IPv4 IPAM pool.
   final String? ipv4IpamPoolId;
@@ -7990,6 +8133,7 @@ class IpamPools {
   }
 }
 
+/// @nodoc
 class RemoveIpamPoolEnum {
   static const ipv4 = RemoveIpamPoolEnum._('ipv4');
 
@@ -8015,6 +8159,8 @@ class RemoveIpamPoolEnum {
 }
 
 /// The minimum capacity for a load balancer.
+///
+/// @nodoc
 class MinimumLoadBalancerCapacity {
   /// The number of capacity units.
   final int? capacityUnits;
@@ -8044,6 +8190,8 @@ class MinimumLoadBalancerCapacity {
 }
 
 /// The capacity reservation status for each Availability Zone.
+///
+/// @nodoc
 class ZonalCapacityReservationState {
   /// Information about the Availability Zone.
   final String? availabilityZone;
@@ -8084,6 +8232,8 @@ class ZonalCapacityReservationState {
 }
 
 /// The status of a capacity reservation.
+///
+/// @nodoc
 class CapacityReservationStatus {
   /// The status code.
   final CapacityReservationStateEnum? code;
@@ -8114,6 +8264,7 @@ class CapacityReservationStatus {
   }
 }
 
+/// @nodoc
 class CapacityReservationStateEnum {
   static const provisioned = CapacityReservationStateEnum._('provisioned');
   static const pending = CapacityReservationStateEnum._('pending');
@@ -8142,6 +8293,8 @@ class CapacityReservationStateEnum {
 }
 
 /// Information about the revocations used by a trust store.
+///
+/// @nodoc
 class DescribeTrustStoreRevocation {
   /// The number of revoked certificates.
   final int? numberOfRevokedEntries;
@@ -8188,6 +8341,7 @@ class DescribeTrustStoreRevocation {
   }
 }
 
+/// @nodoc
 class RevocationType {
   static const crl = RevocationType._('CRL');
 
@@ -8212,6 +8366,8 @@ class RevocationType {
 }
 
 /// Information about the resources a trust store is associated with.
+///
+/// @nodoc
 class TrustStoreAssociation {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? resourceArn;
@@ -8234,6 +8390,8 @@ class TrustStoreAssociation {
 }
 
 /// Information about the health of a target.
+///
+/// @nodoc
 class TargetHealthDescription {
   /// The administrative override information for the target.
   final AdministrativeOverride? administrativeOverride;
@@ -8295,6 +8453,8 @@ class TargetHealthDescription {
 }
 
 /// Information about the current health of a target.
+///
+/// @nodoc
 class TargetHealth {
   /// A description of the target health that provides additional details. If the
   /// state is <code>healthy</code>, a description is not provided.
@@ -8418,6 +8578,8 @@ class TargetHealth {
 }
 
 /// Information about anomaly detection and mitigation.
+///
+/// @nodoc
 class AnomalyDetection {
   /// Indicates whether anomaly mitigation is in progress.
   final MitigationInEffectEnum? mitigationInEffect;
@@ -8452,6 +8614,8 @@ class AnomalyDetection {
 }
 
 /// Information about the override status applied to a target.
+///
+/// @nodoc
 class AdministrativeOverride {
   /// A description of the override state that provides additional details.
   final String? description;
@@ -8491,6 +8655,7 @@ class AdministrativeOverride {
   }
 }
 
+/// @nodoc
 class TargetAdministrativeOverrideStateEnum {
   static const unknown = TargetAdministrativeOverrideStateEnum._('unknown');
   static const noOverride =
@@ -8526,6 +8691,7 @@ class TargetAdministrativeOverrideStateEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetAdministrativeOverrideReasonEnum {
   static const administrativeOverrideUnknown =
       TargetAdministrativeOverrideReasonEnum._(
@@ -8566,6 +8732,7 @@ class TargetAdministrativeOverrideReasonEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AnomalyResultEnum {
   static const anomalous = AnomalyResultEnum._('anomalous');
   static const normal = AnomalyResultEnum._('normal');
@@ -8590,6 +8757,7 @@ class AnomalyResultEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class MitigationInEffectEnum {
   static const yes = MitigationInEffectEnum._('yes');
   static const no = MitigationInEffectEnum._('no');
@@ -8615,6 +8783,7 @@ class MitigationInEffectEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetHealthStateEnum {
   static const initial = TargetHealthStateEnum._('initial');
   static const healthy = TargetHealthStateEnum._('healthy');
@@ -8654,6 +8823,7 @@ class TargetHealthStateEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetHealthReasonEnum {
   static const elbRegistrationInProgress =
       TargetHealthReasonEnum._('Elb.RegistrationInProgress');
@@ -8710,6 +8880,7 @@ class TargetHealthReasonEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class DescribeTargetHealthInputIncludeEnum {
   static const anomalyDetection =
       DescribeTargetHealthInputIncludeEnum._('AnomalyDetection');
@@ -8737,6 +8908,8 @@ class DescribeTargetHealthInputIncludeEnum {
 }
 
 /// The tags associated with a resource.
+///
+/// @nodoc
 class TagDescription {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? resourceArn;
@@ -8767,6 +8940,8 @@ class TagDescription {
 }
 
 /// Information about a tag.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -8805,6 +8980,8 @@ class Tag {
 }
 
 /// Information about a policy used for SSL negotiation.
+///
+/// @nodoc
 class SslPolicy {
   /// The ciphers.
   final List<Cipher>? ciphers;
@@ -8854,6 +9031,8 @@ class SslPolicy {
 }
 
 /// Information about a cipher used in a policy.
+///
+/// @nodoc
 class Cipher {
   /// The name of the cipher.
   final String? name;
@@ -8882,6 +9061,7 @@ class Cipher {
   }
 }
 
+/// @nodoc
 class LoadBalancerTypeEnum {
   static const application = LoadBalancerTypeEnum._('application');
   static const network = LoadBalancerTypeEnum._('network');
@@ -8909,6 +9089,8 @@ class LoadBalancerTypeEnum {
 }
 
 /// Information about a load balancer.
+///
+/// @nodoc
 class LoadBalancer {
   /// The subnets for the load balancer.
   final List<AvailabilityZone>? availabilityZones;
@@ -8919,15 +9101,15 @@ class LoadBalancer {
   /// The date and time the load balancer was created.
   final DateTime? createdTime;
 
-  /// [Application Load Balancers on Outposts] The ID of the customer-owned
+  /// \[Application Load Balancers on Outposts\] The ID of the customer-owned
   /// address pool.
   final String? customerOwnedIpv4Pool;
 
   /// The public DNS name of the load balancer.
   final String? dNSName;
 
-  /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6
-  /// prefix from each subnet for source NAT. The IP address type must be
+  /// \[Network Load Balancers with UDP listeners\] Indicates whether to use an
+  /// IPv6 prefix from each subnet for source NAT. The IP address type must be
   /// <code>dualstack</code>. The default value is <code>off</code>.
   final EnablePrefixForIpv6SourceNatEnum? enablePrefixForIpv6SourceNat;
 
@@ -8938,17 +9120,17 @@ class LoadBalancer {
   /// The type of IP addresses used for public or private connections by the
   /// subnets attached to your load balancer.
   ///
-  /// [Application Load Balancers] The possible values are <code>ipv4</code> (IPv4
-  /// addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
+  /// \[Application Load Balancers\] The possible values are <code>ipv4</code>
+  /// (IPv4 addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
   /// <code>dualstack-without-public-ipv4</code> (public IPv6 addresses and
   /// private IPv4 and IPv6 addresses).
   ///
-  /// [Network Load Balancers and Gateway Load Balancers] The possible values are
-  /// <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4 and IPv6
-  /// addresses).
+  /// \[Network Load Balancers and Gateway Load Balancers\] The possible values
+  /// are <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4 and
+  /// IPv6 addresses).
   final IpAddressType? ipAddressType;
 
-  /// [Application Load Balancers] The IPAM pool in use by the load balancer, if
+  /// \[Application Load Balancers\] The IPAM pool in use by the load balancer, if
   /// configured.
   final IpamPools? ipamPools;
 
@@ -9082,6 +9264,7 @@ class LoadBalancer {
   }
 }
 
+/// @nodoc
 class LoadBalancerSchemeEnum {
   static const internetFacing = LoadBalancerSchemeEnum._('internet-facing');
   static const internal = LoadBalancerSchemeEnum._('internal');
@@ -9108,6 +9291,8 @@ class LoadBalancerSchemeEnum {
 }
 
 /// Information about the state of the load balancer.
+///
+/// @nodoc
 class LoadBalancerState {
   /// The state code. The initial state of the load balancer is
   /// <code>provisioning</code>. After the load balancer is fully set up and ready
@@ -9143,6 +9328,7 @@ class LoadBalancerState {
   }
 }
 
+/// @nodoc
 class LoadBalancerStateEnum {
   static const active = LoadBalancerStateEnum._('active');
   static const provisioning = LoadBalancerStateEnum._('provisioning');
@@ -9192,6 +9378,8 @@ class LoadBalancerStateEnum {
 /// for your Gateway Load Balancers</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Limit {
   /// The maximum value of the limit.
   final String? max;
@@ -9221,6 +9409,8 @@ class Limit {
 }
 
 /// Information about a revocation file in use by a trust store.
+///
+/// @nodoc
 class TrustStoreRevocation {
   /// The number of revoked certificates.
   final int? numberOfRevokedEntries;
@@ -9268,6 +9458,8 @@ class TrustStoreRevocation {
 }
 
 /// Information about a revocation file.
+///
+/// @nodoc
 class RevocationContent {
   /// The type of revocation file.
   final RevocationType? revocationType;
@@ -9315,6 +9507,7 @@ class RevocationContent {
   }
 }
 
+/// @nodoc
 class ALPNPolicyNotSupportedException extends _s.GenericAwsException {
   ALPNPolicyNotSupportedException({String? type, String? message})
       : super(
@@ -9323,6 +9516,7 @@ class ALPNPolicyNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AllocationIdNotFoundException extends _s.GenericAwsException {
   AllocationIdNotFoundException({String? type, String? message})
       : super(
@@ -9331,6 +9525,7 @@ class AllocationIdNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AvailabilityZoneNotSupportedException extends _s.GenericAwsException {
   AvailabilityZoneNotSupportedException({String? type, String? message})
       : super(
@@ -9339,6 +9534,7 @@ class AvailabilityZoneNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CaCertificatesBundleNotFoundException extends _s.GenericAwsException {
   CaCertificatesBundleNotFoundException({String? type, String? message})
       : super(
@@ -9347,6 +9543,7 @@ class CaCertificatesBundleNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CapacityDecreaseRequestsLimitExceededException
     extends _s.GenericAwsException {
   CapacityDecreaseRequestsLimitExceededException(
@@ -9357,6 +9554,7 @@ class CapacityDecreaseRequestsLimitExceededException
             message: message);
 }
 
+/// @nodoc
 class CapacityReservationPendingException extends _s.GenericAwsException {
   CapacityReservationPendingException({String? type, String? message})
       : super(
@@ -9365,6 +9563,7 @@ class CapacityReservationPendingException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CapacityUnitsLimitExceededException extends _s.GenericAwsException {
   CapacityUnitsLimitExceededException({String? type, String? message})
       : super(
@@ -9373,12 +9572,14 @@ class CapacityUnitsLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CertificateNotFoundException extends _s.GenericAwsException {
   CertificateNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'CertificateNotFoundException', message: message);
 }
 
+/// @nodoc
 class DeleteAssociationSameAccountException extends _s.GenericAwsException {
   DeleteAssociationSameAccountException({String? type, String? message})
       : super(
@@ -9387,11 +9588,13 @@ class DeleteAssociationSameAccountException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateListenerException extends _s.GenericAwsException {
   DuplicateListenerException({String? type, String? message})
       : super(type: type, code: 'DuplicateListenerException', message: message);
 }
 
+/// @nodoc
 class DuplicateLoadBalancerNameException extends _s.GenericAwsException {
   DuplicateLoadBalancerNameException({String? type, String? message})
       : super(
@@ -9400,11 +9603,13 @@ class DuplicateLoadBalancerNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateTagKeysException extends _s.GenericAwsException {
   DuplicateTagKeysException({String? type, String? message})
       : super(type: type, code: 'DuplicateTagKeysException', message: message);
 }
 
+/// @nodoc
 class DuplicateTargetGroupNameException extends _s.GenericAwsException {
   DuplicateTargetGroupNameException({String? type, String? message})
       : super(
@@ -9413,6 +9618,7 @@ class DuplicateTargetGroupNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateTrustStoreNameException extends _s.GenericAwsException {
   DuplicateTrustStoreNameException({String? type, String? message})
       : super(
@@ -9421,11 +9627,13 @@ class DuplicateTrustStoreNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HealthUnavailableException extends _s.GenericAwsException {
   HealthUnavailableException({String? type, String? message})
       : super(type: type, code: 'HealthUnavailableException', message: message);
 }
 
+/// @nodoc
 class IncompatibleProtocolsException extends _s.GenericAwsException {
   IncompatibleProtocolsException({String? type, String? message})
       : super(
@@ -9434,6 +9642,7 @@ class IncompatibleProtocolsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientCapacityException extends _s.GenericAwsException {
   InsufficientCapacityException({String? type, String? message})
       : super(
@@ -9442,6 +9651,7 @@ class InsufficientCapacityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCaCertificatesBundleException extends _s.GenericAwsException {
   InvalidCaCertificatesBundleException({String? type, String? message})
       : super(
@@ -9450,6 +9660,7 @@ class InvalidCaCertificatesBundleException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidConfigurationRequestException extends _s.GenericAwsException {
   InvalidConfigurationRequestException({String? type, String? message})
       : super(
@@ -9458,6 +9669,7 @@ class InvalidConfigurationRequestException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLoadBalancerActionException extends _s.GenericAwsException {
   InvalidLoadBalancerActionException({String? type, String? message})
       : super(
@@ -9466,6 +9678,7 @@ class InvalidLoadBalancerActionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRevocationContentException extends _s.GenericAwsException {
   InvalidRevocationContentException({String? type, String? message})
       : super(
@@ -9474,11 +9687,13 @@ class InvalidRevocationContentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSchemeException extends _s.GenericAwsException {
   InvalidSchemeException({String? type, String? message})
       : super(type: type, code: 'InvalidSchemeException', message: message);
 }
 
+/// @nodoc
 class InvalidSecurityGroupException extends _s.GenericAwsException {
   InvalidSecurityGroupException({String? type, String? message})
       : super(
@@ -9487,21 +9702,25 @@ class InvalidSecurityGroupException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSubnetException extends _s.GenericAwsException {
   InvalidSubnetException({String? type, String? message})
       : super(type: type, code: 'InvalidSubnetException', message: message);
 }
 
+/// @nodoc
 class InvalidTargetException extends _s.GenericAwsException {
   InvalidTargetException({String? type, String? message})
       : super(type: type, code: 'InvalidTargetException', message: message);
 }
 
+/// @nodoc
 class ListenerNotFoundException extends _s.GenericAwsException {
   ListenerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ListenerNotFoundException', message: message);
 }
 
+/// @nodoc
 class LoadBalancerNotFoundException extends _s.GenericAwsException {
   LoadBalancerNotFoundException({String? type, String? message})
       : super(
@@ -9510,6 +9729,7 @@ class LoadBalancerNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationNotPermittedException extends _s.GenericAwsException {
   OperationNotPermittedException({String? type, String? message})
       : super(
@@ -9518,6 +9738,7 @@ class OperationNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PriorRequestNotCompleteException extends _s.GenericAwsException {
   PriorRequestNotCompleteException({String? type, String? message})
       : super(
@@ -9526,21 +9747,25 @@ class PriorRequestNotCompleteException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PriorityInUseException extends _s.GenericAwsException {
   PriorityInUseException({String? type, String? message})
       : super(type: type, code: 'PriorityInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class RevocationContentNotFoundException extends _s.GenericAwsException {
   RevocationContentNotFoundException({String? type, String? message})
       : super(
@@ -9549,6 +9774,7 @@ class RevocationContentNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RevocationIdNotFoundException extends _s.GenericAwsException {
   RevocationIdNotFoundException({String? type, String? message})
       : super(
@@ -9557,21 +9783,25 @@ class RevocationIdNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RuleNotFoundException extends _s.GenericAwsException {
   RuleNotFoundException({String? type, String? message})
       : super(type: type, code: 'RuleNotFoundException', message: message);
 }
 
+/// @nodoc
 class SSLPolicyNotFoundException extends _s.GenericAwsException {
   SSLPolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'SSLPolicyNotFoundException', message: message);
 }
 
+/// @nodoc
 class SubnetNotFoundException extends _s.GenericAwsException {
   SubnetNotFoundException({String? type, String? message})
       : super(type: type, code: 'SubnetNotFoundException', message: message);
 }
 
+/// @nodoc
 class TargetGroupAssociationLimitException extends _s.GenericAwsException {
   TargetGroupAssociationLimitException({String? type, String? message})
       : super(
@@ -9580,28 +9810,33 @@ class TargetGroupAssociationLimitException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TargetGroupNotFoundException extends _s.GenericAwsException {
   TargetGroupNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'TargetGroupNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyActionsException extends _s.GenericAwsException {
   TooManyActionsException({String? type, String? message})
       : super(type: type, code: 'TooManyActionsException', message: message);
 }
 
+/// @nodoc
 class TooManyCertificatesException extends _s.GenericAwsException {
   TooManyCertificatesException({String? type, String? message})
       : super(
             type: type, code: 'TooManyCertificatesException', message: message);
 }
 
+/// @nodoc
 class TooManyListenersException extends _s.GenericAwsException {
   TooManyListenersException({String? type, String? message})
       : super(type: type, code: 'TooManyListenersException', message: message);
 }
 
+/// @nodoc
 class TooManyLoadBalancersException extends _s.GenericAwsException {
   TooManyLoadBalancersException({String? type, String? message})
       : super(
@@ -9610,6 +9845,7 @@ class TooManyLoadBalancersException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRegistrationsForTargetIdException extends _s.GenericAwsException {
   TooManyRegistrationsForTargetIdException({String? type, String? message})
       : super(
@@ -9618,27 +9854,32 @@ class TooManyRegistrationsForTargetIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRulesException extends _s.GenericAwsException {
   TooManyRulesException({String? type, String? message})
       : super(type: type, code: 'TooManyRulesException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class TooManyTargetGroupsException extends _s.GenericAwsException {
   TooManyTargetGroupsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyTargetGroupsException', message: message);
 }
 
+/// @nodoc
 class TooManyTargetsException extends _s.GenericAwsException {
   TooManyTargetsException({String? type, String? message})
       : super(type: type, code: 'TooManyTargetsException', message: message);
 }
 
+/// @nodoc
 class TooManyTrustStoreRevocationEntriesException
     extends _s.GenericAwsException {
   TooManyTrustStoreRevocationEntriesException({String? type, String? message})
@@ -9648,12 +9889,14 @@ class TooManyTrustStoreRevocationEntriesException
             message: message);
 }
 
+/// @nodoc
 class TooManyTrustStoresException extends _s.GenericAwsException {
   TooManyTrustStoresException({String? type, String? message})
       : super(
             type: type, code: 'TooManyTrustStoresException', message: message);
 }
 
+/// @nodoc
 class TooManyUniqueTargetGroupsPerLoadBalancerException
     extends _s.GenericAwsException {
   TooManyUniqueTargetGroupsPerLoadBalancerException(
@@ -9664,6 +9907,7 @@ class TooManyUniqueTargetGroupsPerLoadBalancerException
             message: message);
 }
 
+/// @nodoc
 class TrustStoreAssociationNotFoundException extends _s.GenericAwsException {
   TrustStoreAssociationNotFoundException({String? type, String? message})
       : super(
@@ -9672,23 +9916,27 @@ class TrustStoreAssociationNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TrustStoreInUseException extends _s.GenericAwsException {
   TrustStoreInUseException({String? type, String? message})
       : super(type: type, code: 'TrustStoreInUseException', message: message);
 }
 
+/// @nodoc
 class TrustStoreNotFoundException extends _s.GenericAwsException {
   TrustStoreNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'TrustStoreNotFoundException', message: message);
 }
 
+/// @nodoc
 class TrustStoreNotReadyException extends _s.GenericAwsException {
   TrustStoreNotReadyException({String? type, String? message})
       : super(
             type: type, code: 'TrustStoreNotReadyException', message: message);
 }
 
+/// @nodoc
 class UnsupportedProtocolException extends _s.GenericAwsException {
   UnsupportedProtocolException({String? type, String? message})
       : super(

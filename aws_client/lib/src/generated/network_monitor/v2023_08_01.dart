@@ -593,6 +593,7 @@ class NetworkMonitor {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// Lists the tags assigned to the resource.
   final Map<String, String>? tags;
@@ -616,6 +617,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -628,6 +630,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -640,6 +643,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateMonitorOutput {
   /// The ARN of the monitor.
   final String monitorArn;
@@ -692,6 +696,7 @@ class CreateMonitorOutput {
   }
 }
 
+/// @nodoc
 class GetMonitorOutput {
   /// The aggregation period for the specified monitor.
   final int aggregationPeriod;
@@ -767,6 +772,7 @@ class GetMonitorOutput {
   }
 }
 
+/// @nodoc
 class UpdateMonitorOutput {
   /// The ARN of the monitor that was updated.
   final String monitorArn;
@@ -818,6 +824,7 @@ class UpdateMonitorOutput {
   }
 }
 
+/// @nodoc
 class DeleteMonitorOutput {
   DeleteMonitorOutput();
 
@@ -830,6 +837,7 @@ class DeleteMonitorOutput {
   }
 }
 
+/// @nodoc
 class ListMonitorsOutput {
   /// Lists individual details about each of your monitors.
   final List<MonitorSummary> monitors;
@@ -862,6 +870,7 @@ class ListMonitorsOutput {
   }
 }
 
+/// @nodoc
 class CreateProbeOutput {
   /// The destination IP address for the monitor. This must be either an IPv4 or
   /// IPv6 address.
@@ -976,6 +985,7 @@ class CreateProbeOutput {
   }
 }
 
+/// @nodoc
 class GetProbeOutput {
   /// The destination IP address for the monitor. This must be either an IPv4 or
   /// IPv6 address.
@@ -1090,6 +1100,7 @@ class GetProbeOutput {
   }
 }
 
+/// @nodoc
 class UpdateProbeOutput {
   /// The updated destination IP address for the probe.
   final String destination;
@@ -1200,6 +1211,7 @@ class UpdateProbeOutput {
   }
 }
 
+/// @nodoc
 class DeleteProbeOutput {
   DeleteProbeOutput();
 
@@ -1212,6 +1224,7 @@ class DeleteProbeOutput {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const tcp = Protocol._('TCP');
   static const icmp = Protocol._('ICMP');
@@ -1235,6 +1248,7 @@ class Protocol {
   String toString() => value;
 }
 
+/// @nodoc
 class AddressFamily {
   static const ipv4 = AddressFamily._('IPV4');
   static const ipv6 = AddressFamily._('IPV6');
@@ -1259,6 +1273,7 @@ class AddressFamily {
   String toString() => value;
 }
 
+/// @nodoc
 class ProbeState {
   static const pending = ProbeState._('PENDING');
   static const active = ProbeState._('ACTIVE');
@@ -1287,6 +1302,8 @@ class ProbeState {
 }
 
 /// Defines a probe when creating a probe or monitor.
+///
+/// @nodoc
 class ProbeInput {
   /// The destination IP address. This must be either <code>IPV4</code> or
   /// <code>IPV6</code>.
@@ -1340,6 +1357,8 @@ class ProbeInput {
 }
 
 /// Displays summary information about a monitor.
+///
+/// @nodoc
 class MonitorSummary {
   /// The ARN of the monitor.
   final String monitorArn;
@@ -1392,6 +1411,7 @@ class MonitorSummary {
   }
 }
 
+/// @nodoc
 class MonitorState {
   static const pending = MonitorState._('PENDING');
   static const active = MonitorState._('ACTIVE');
@@ -1419,6 +1439,8 @@ class MonitorState {
 }
 
 /// Describes information about a network monitor probe.
+///
+/// @nodoc
 class Probe {
   /// The destination for the probe. This should be either an <code>IPV4</code> or
   /// <code>IPV6</code>.
@@ -1534,6 +1556,8 @@ class Probe {
 }
 
 /// Creates a monitor probe.
+///
+/// @nodoc
 class CreateMonitorProbeInput {
   /// The destination IP address. This must be either <code>IPV4</code> or
   /// <code>IPV6</code>.
@@ -1586,26 +1610,31 @@ class CreateMonitorProbeInput {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1614,11 +1643,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

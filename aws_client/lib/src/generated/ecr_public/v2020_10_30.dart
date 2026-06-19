@@ -1239,6 +1239,7 @@ class EcrPublic {
   }
 }
 
+/// @nodoc
 class BatchCheckLayerAvailabilityResponse {
   /// Any failures associated with the call.
   final List<LayerFailure>? failures;
@@ -1276,6 +1277,7 @@ class BatchCheckLayerAvailabilityResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteImageResponse {
   /// Any failures associated with the call.
   final List<ImageFailure>? failures;
@@ -1311,6 +1313,7 @@ class BatchDeleteImageResponse {
   }
 }
 
+/// @nodoc
 class CompleteLayerUploadResponse {
   /// The <code>sha256</code> digest of the image layer.
   final String? layerDigest;
@@ -1354,6 +1357,7 @@ class CompleteLayerUploadResponse {
   }
 }
 
+/// @nodoc
 class CreateRepositoryResponse {
   final RepositoryCatalogData? catalogData;
 
@@ -1387,6 +1391,7 @@ class CreateRepositoryResponse {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryResponse {
   /// The repository that was deleted.
   final Repository? repository;
@@ -1411,6 +1416,7 @@ class DeleteRepositoryResponse {
   }
 }
 
+/// @nodoc
 class DeleteRepositoryPolicyResponse {
   /// The JSON repository policy that was deleted from the repository.
   final String? policyText;
@@ -1447,6 +1453,7 @@ class DeleteRepositoryPolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeImagesResponse {
   /// A list of <a>ImageDetail</a> objects that contain data about the image.
   final List<ImageDetail>? imageDetails;
@@ -1483,6 +1490,7 @@ class DescribeImagesResponse {
   }
 }
 
+/// @nodoc
 class DescribeImageTagsResponse {
   /// The image tag details for the images in the requested repository.
   final List<ImageTagDetail>? imageTagDetails;
@@ -1519,6 +1527,7 @@ class DescribeImageTagsResponse {
   }
 }
 
+/// @nodoc
 class DescribeRegistriesResponse {
   /// An object that contains the details for a public registry.
   final List<Registry> registries;
@@ -1555,6 +1564,7 @@ class DescribeRegistriesResponse {
   }
 }
 
+/// @nodoc
 class DescribeRepositoriesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeRepositories</code> request. When the results of a
@@ -1591,6 +1601,7 @@ class DescribeRepositoriesResponse {
   }
 }
 
+/// @nodoc
 class GetAuthorizationTokenResponse {
   /// An authorization token data object that corresponds to a public registry.
   final AuthorizationData? authorizationData;
@@ -1616,6 +1627,7 @@ class GetAuthorizationTokenResponse {
   }
 }
 
+/// @nodoc
 class GetRegistryCatalogDataResponse {
   /// The catalog metadata for the public registry.
   final RegistryCatalogData registryCatalogData;
@@ -1640,6 +1652,7 @@ class GetRegistryCatalogDataResponse {
   }
 }
 
+/// @nodoc
 class GetRepositoryCatalogDataResponse {
   /// The catalog metadata for the repository.
   final RepositoryCatalogData? catalogData;
@@ -1665,6 +1678,7 @@ class GetRepositoryCatalogDataResponse {
   }
 }
 
+/// @nodoc
 class GetRepositoryPolicyResponse {
   /// The repository policy text that's associated with the repository. The policy
   /// text will be in JSON format.
@@ -1702,6 +1716,7 @@ class GetRepositoryPolicyResponse {
   }
 }
 
+/// @nodoc
 class InitiateLayerUploadResponse {
   /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
   final int? partSize;
@@ -1732,6 +1747,7 @@ class InitiateLayerUploadResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final List<Tag>? tags;
@@ -1757,6 +1773,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutImageResponse {
   /// Details of the image uploaded.
   final Image? image;
@@ -1781,6 +1798,7 @@ class PutImageResponse {
   }
 }
 
+/// @nodoc
 class PutRegistryCatalogDataResponse {
   /// The catalog data for the public registry.
   final RegistryCatalogData registryCatalogData;
@@ -1805,6 +1823,7 @@ class PutRegistryCatalogDataResponse {
   }
 }
 
+/// @nodoc
 class PutRepositoryCatalogDataResponse {
   /// The catalog data for the repository.
   final RepositoryCatalogData? catalogData;
@@ -1830,6 +1849,7 @@ class PutRepositoryCatalogDataResponse {
   }
 }
 
+/// @nodoc
 class SetRepositoryPolicyResponse {
   /// The JSON repository policy text that's applied to the repository.
   final String? policyText;
@@ -1866,6 +1886,7 @@ class SetRepositoryPolicyResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1878,6 +1899,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1890,6 +1912,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UploadLayerPartResponse {
   /// The integer value of the last byte that's received in the request.
   final int? lastByteReceived;
@@ -1937,6 +1960,8 @@ class UploadLayerPartResponse {
 /// organize them. Each tag consists of a key and an optional value. You define
 /// both. Tag keys can have a maximum character length of 128 characters, and
 /// tag values can have a maximum length of 256 characters.
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
@@ -1970,6 +1995,8 @@ class Tag {
 
 /// The catalog data for a repository. This data is publicly visible in the
 /// Amazon ECR Public Gallery.
+///
+/// @nodoc
 class RepositoryCatalogData {
   /// The longform description of the contents of the repository. This text
   /// appears in the repository details on the Amazon ECR Public Gallery.
@@ -2054,6 +2081,8 @@ class RepositoryCatalogData {
 
 /// An object that contains the catalog data for a repository. This data is
 /// publicly visible in the Amazon ECR Public Gallery.
+///
+/// @nodoc
 class RepositoryCatalogDataInput {
   /// A detailed description of the contents of the repository. It's publicly
   /// visible in the Amazon ECR Public Gallery. The text must be in markdown
@@ -2149,6 +2178,8 @@ class RepositoryCatalogDataInput {
 }
 
 /// The metadata for a public registry.
+///
+/// @nodoc
 class RegistryCatalogData {
   /// The display name for a public registry. This appears on the Amazon ECR
   /// Public Gallery.
@@ -2177,6 +2208,8 @@ class RegistryCatalogData {
 }
 
 /// An object that represents an Amazon ECR image.
+///
+/// @nodoc
 class Image {
   /// An object that contains the image tag and image digest associated with an
   /// image.
@@ -2233,6 +2266,8 @@ class Image {
 }
 
 /// An object with identifying information for an Amazon ECR image.
+///
+/// @nodoc
 class ImageIdentifier {
   /// The <code>sha256</code> digest of the image manifest.
   final String? imageDigest;
@@ -2263,6 +2298,8 @@ class ImageIdentifier {
 }
 
 /// An authorization token data object that corresponds to a public registry.
+///
+/// @nodoc
 class AuthorizationData {
   /// A base64-encoded string that contains authorization data for a public Amazon
   /// ECR registry. When the string is decoded, it's presented in the format
@@ -2297,6 +2334,8 @@ class AuthorizationData {
 }
 
 /// An object representing a repository.
+///
+/// @nodoc
 class Repository {
   /// The date and time, in JavaScript date format, when the repository was
   /// created.
@@ -2355,6 +2394,8 @@ class Repository {
 }
 
 /// The details of a public registry.
+///
+/// @nodoc
 class Registry {
   /// An array of objects that represents the aliases for a public registry.
   final List<RegistryAlias> aliases;
@@ -2417,6 +2458,8 @@ class Registry {
 /// using the Amazon ECR console. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html">Registries</a>
 /// in the <i>Amazon Elastic Container Registry User Guide</i>.
+///
+/// @nodoc
 class RegistryAlias {
   /// Indicates whether the registry alias is the default alias for the registry.
   /// When the first public repository is created, your public registry is
@@ -2469,6 +2512,7 @@ class RegistryAlias {
   }
 }
 
+/// @nodoc
 class RegistryAliasStatus {
   static const active = RegistryAliasStatus._('ACTIVE');
   static const pending = RegistryAliasStatus._('PENDING');
@@ -2496,6 +2540,8 @@ class RegistryAliasStatus {
 }
 
 /// An object that represents the image tag details for an image.
+///
+/// @nodoc
 class ImageTagDetail {
   /// The time stamp that indicates when the image tag was created.
   final DateTime? createdAt;
@@ -2537,6 +2583,8 @@ class ImageTagDetail {
 
 /// An object that describes the image tag details that are returned by a
 /// <a>DescribeImageTags</a> action.
+///
+/// @nodoc
 class ReferencedImageDetail {
   /// The artifact media type of the image.
   final String? artifactMediaType;
@@ -2602,6 +2650,8 @@ class ReferencedImageDetail {
 
 /// An object that describes an image that's returned by a <a>DescribeImages</a>
 /// operation.
+///
+/// @nodoc
 class ImageDetail {
   /// The artifact media type of the image.
   final String? artifactMediaType;
@@ -2691,6 +2741,8 @@ class ImageDetail {
 }
 
 /// An object that represents an Amazon ECR image failure.
+///
+/// @nodoc
 class ImageFailure {
   /// The code that's associated with the failure.
   final ImageFailureCode? failureCode;
@@ -2730,6 +2782,7 @@ class ImageFailure {
   }
 }
 
+/// @nodoc
 class ImageFailureCode {
   static const invalidImageDigest = ImageFailureCode._('InvalidImageDigest');
   static const invalidImageTag = ImageFailureCode._('InvalidImageTag');
@@ -2770,6 +2823,8 @@ class ImageFailureCode {
 }
 
 /// An object that represents an Amazon ECR image layer failure.
+///
+/// @nodoc
 class LayerFailure {
   /// The failure code that's associated with the failure.
   final LayerFailureCode? failureCode;
@@ -2807,6 +2862,7 @@ class LayerFailure {
   }
 }
 
+/// @nodoc
 class LayerFailureCode {
   static const invalidLayerDigest = LayerFailureCode._('InvalidLayerDigest');
   static const missingLayerDigest = LayerFailureCode._('MissingLayerDigest');
@@ -2832,6 +2888,8 @@ class LayerFailureCode {
 }
 
 /// An object that represents an Amazon ECR image layer.
+///
+/// @nodoc
 class Layer {
   /// The availability status of the image layer.
   final LayerAvailability? layerAvailability;
@@ -2879,6 +2937,7 @@ class Layer {
   }
 }
 
+/// @nodoc
 class LayerAvailability {
   static const available = LayerAvailability._('AVAILABLE');
   static const unavailable = LayerAvailability._('UNAVAILABLE');
@@ -2903,17 +2962,20 @@ class LayerAvailability {
   String toString() => value;
 }
 
+/// @nodoc
 class EmptyUploadException extends _s.GenericAwsException {
   EmptyUploadException({String? type, String? message})
       : super(type: type, code: 'EmptyUploadException', message: message);
 }
 
+/// @nodoc
 class ImageAlreadyExistsException extends _s.GenericAwsException {
   ImageAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'ImageAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class ImageDigestDoesNotMatchException extends _s.GenericAwsException {
   ImageDigestDoesNotMatchException({String? type, String? message})
       : super(
@@ -2922,11 +2984,13 @@ class ImageDigestDoesNotMatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ImageNotFoundException extends _s.GenericAwsException {
   ImageNotFoundException({String? type, String? message})
       : super(type: type, code: 'ImageNotFoundException', message: message);
 }
 
+/// @nodoc
 class ImageTagAlreadyExistsException extends _s.GenericAwsException {
   ImageTagAlreadyExistsException({String? type, String? message})
       : super(
@@ -2935,48 +2999,57 @@ class ImageTagAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLayerException extends _s.GenericAwsException {
   InvalidLayerException({String? type, String? message})
       : super(type: type, code: 'InvalidLayerException', message: message);
 }
 
+/// @nodoc
 class InvalidLayerPartException extends _s.GenericAwsException {
   InvalidLayerPartException({String? type, String? message})
       : super(type: type, code: 'InvalidLayerPartException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidTagParameterException extends _s.GenericAwsException {
   InvalidTagParameterException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTagParameterException', message: message);
 }
 
+/// @nodoc
 class LayerAlreadyExistsException extends _s.GenericAwsException {
   LayerAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'LayerAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class LayerPartTooSmallException extends _s.GenericAwsException {
   LayerPartTooSmallException({String? type, String? message})
       : super(type: type, code: 'LayerPartTooSmallException', message: message);
 }
 
+/// @nodoc
 class LayersNotFoundException extends _s.GenericAwsException {
   LayersNotFoundException({String? type, String? message})
       : super(type: type, code: 'LayersNotFoundException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ReferencedImagesNotFoundException extends _s.GenericAwsException {
   ReferencedImagesNotFoundException({String? type, String? message})
       : super(
@@ -2985,11 +3058,13 @@ class ReferencedImagesNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RegistryNotFoundException extends _s.GenericAwsException {
   RegistryNotFoundException({String? type, String? message})
       : super(type: type, code: 'RegistryNotFoundException', message: message);
 }
 
+/// @nodoc
 class RepositoryAlreadyExistsException extends _s.GenericAwsException {
   RepositoryAlreadyExistsException({String? type, String? message})
       : super(
@@ -2998,6 +3073,7 @@ class RepositoryAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryCatalogDataNotFoundException extends _s.GenericAwsException {
   RepositoryCatalogDataNotFoundException({String? type, String? message})
       : super(
@@ -3006,18 +3082,21 @@ class RepositoryCatalogDataNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RepositoryNotEmptyException extends _s.GenericAwsException {
   RepositoryNotEmptyException({String? type, String? message})
       : super(
             type: type, code: 'RepositoryNotEmptyException', message: message);
 }
 
+/// @nodoc
 class RepositoryNotFoundException extends _s.GenericAwsException {
   RepositoryNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'RepositoryNotFoundException', message: message);
 }
 
+/// @nodoc
 class RepositoryPolicyNotFoundException extends _s.GenericAwsException {
   RepositoryPolicyNotFoundException({String? type, String? message})
       : super(
@@ -3026,22 +3105,26 @@ class RepositoryPolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServerException extends _s.GenericAwsException {
   ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnsupportedCommandException extends _s.GenericAwsException {
   UnsupportedCommandException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedCommandException', message: message);
 }
 
+/// @nodoc
 class UploadNotFoundException extends _s.GenericAwsException {
   UploadNotFoundException({String? type, String? message})
       : super(type: type, code: 'UploadNotFoundException', message: message);

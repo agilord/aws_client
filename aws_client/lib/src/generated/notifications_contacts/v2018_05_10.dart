@@ -327,6 +327,7 @@ class NotificationsContacts {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Key-value pairs that are assigned to a resource, usually for the purpose of
   /// grouping and searching for items. Tags are metadata that you define.
@@ -351,6 +352,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -363,6 +365,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -375,6 +378,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateEmailContactResponse {
   /// The Amazon Resource Name (ARN) of the resource.
   final String arn;
@@ -397,6 +401,7 @@ class CreateEmailContactResponse {
   }
 }
 
+/// @nodoc
 class GetEmailContactResponse {
   /// The email contact for the provided email address.
   final EmailContact emailContact;
@@ -421,6 +426,7 @@ class GetEmailContactResponse {
   }
 }
 
+/// @nodoc
 class DeleteEmailContactResponse {
   DeleteEmailContactResponse();
 
@@ -433,6 +439,7 @@ class DeleteEmailContactResponse {
   }
 }
 
+/// @nodoc
 class ListEmailContactsResponse {
   /// A list of email contacts.
   final List<EmailContact> emailContacts;
@@ -468,6 +475,7 @@ class ListEmailContactsResponse {
   }
 }
 
+/// @nodoc
 class ActivateEmailContactResponse {
   ActivateEmailContactResponse();
 
@@ -480,6 +488,7 @@ class ActivateEmailContactResponse {
   }
 }
 
+/// @nodoc
 class SendActivationCodeResponse {
   SendActivationCodeResponse();
 
@@ -493,6 +502,8 @@ class SendActivationCodeResponse {
 }
 
 /// An email contact.
+///
+/// @nodoc
 class EmailContact {
   /// The email address this email contact points to. The activation email and any
   /// subscribed emails are sent here.
@@ -552,6 +563,7 @@ class EmailContact {
   }
 }
 
+/// @nodoc
 class EmailContactStatus {
   static const inactive = EmailContactStatus._('inactive');
   static const active = EmailContactStatus._('active');
@@ -577,26 +589,31 @@ class EmailContactStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -605,11 +622,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

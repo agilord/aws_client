@@ -632,6 +632,7 @@ class LaunchWizard {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// Information about the tags.
   final Map<String, String>? tags;
@@ -655,6 +656,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -667,6 +669,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -679,6 +682,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateDeploymentOutput {
   /// The ID of the deployment.
   final String? deploymentId;
@@ -701,6 +705,7 @@ class CreateDeploymentOutput {
   }
 }
 
+/// @nodoc
 class GetDeploymentOutput {
   /// An object that details the deployment.
   final DeploymentData? deployment;
@@ -725,6 +730,7 @@ class GetDeploymentOutput {
   }
 }
 
+/// @nodoc
 class UpdateDeploymentOutput {
   /// The deployment.
   final DeploymentDataSummary? deployment;
@@ -750,6 +756,7 @@ class UpdateDeploymentOutput {
   }
 }
 
+/// @nodoc
 class DeleteDeploymentOutput {
   /// The status of the deployment.
   final DeploymentStatus? status;
@@ -779,6 +786,7 @@ class DeleteDeploymentOutput {
   }
 }
 
+/// @nodoc
 class ListDeploymentsOutput {
   /// Lists the deployments.
   final List<DeploymentDataSummary>? deployments;
@@ -812,6 +820,7 @@ class ListDeploymentsOutput {
   }
 }
 
+/// @nodoc
 class ListDeploymentEventsOutput {
   /// Lists the deployment events.
   final List<DeploymentEventDataSummary>? deploymentEvents;
@@ -846,6 +855,7 @@ class ListDeploymentEventsOutput {
   }
 }
 
+/// @nodoc
 class GetWorkloadOutput {
   /// Information about the workload.
   final WorkloadData? workload;
@@ -870,6 +880,7 @@ class GetWorkloadOutput {
   }
 }
 
+/// @nodoc
 class ListWorkloadsOutput {
   /// The token to include in another request to get the next page of items. This
   /// value is <code>null</code> when there are no more items to return.
@@ -903,6 +914,7 @@ class ListWorkloadsOutput {
   }
 }
 
+/// @nodoc
 class GetWorkloadDeploymentPatternOutput {
   /// Details about the workload deployment pattern.
   final WorkloadDeploymentPatternData? workloadDeploymentPattern;
@@ -930,6 +942,7 @@ class GetWorkloadDeploymentPatternOutput {
   }
 }
 
+/// @nodoc
 class ListWorkloadDeploymentPatternsOutput {
   /// The token to include in another request to get the next page of items. This
   /// value is <code>null</code> when there are no more items to return.
@@ -966,6 +979,7 @@ class ListWorkloadDeploymentPatternsOutput {
   }
 }
 
+/// @nodoc
 class GetDeploymentPatternVersionOutput {
   /// The deployment pattern version.
   final DeploymentPatternVersionDataSummary? deploymentPatternVersion;
@@ -993,6 +1007,7 @@ class GetDeploymentPatternVersionOutput {
   }
 }
 
+/// @nodoc
 class ListDeploymentPatternVersionsOutput {
   /// The deployment pattern versions.
   final List<DeploymentPatternVersionDataSummary>? deploymentPatternVersions;
@@ -1029,6 +1044,8 @@ class ListDeploymentPatternVersionsOutput {
 }
 
 /// Describes a deployment pattern version summary.
+///
+/// @nodoc
 class DeploymentPatternVersionDataSummary {
   /// The name of the deployment pattern.
   final String? deploymentPatternName;
@@ -1085,6 +1102,8 @@ class DeploymentPatternVersionDataSummary {
 
 /// A filter for deployment pattern versions. Use this filter to specify
 /// criteria for querying deployment pattern versions in Launch Wizard.
+///
+/// @nodoc
 class DeploymentPatternVersionFilter {
   /// The name of the filter attribute. Specifies which attribute to filter on
   /// when querying deployment pattern versions.
@@ -1109,6 +1128,7 @@ class DeploymentPatternVersionFilter {
   }
 }
 
+/// @nodoc
 class DeploymentPatternVersionFilterKey {
   static const updateFromVersion =
       DeploymentPatternVersionFilterKey._('updateFromVersion');
@@ -1135,6 +1155,8 @@ class DeploymentPatternVersionFilterKey {
 }
 
 /// Describes a workload deployment pattern.
+///
+/// @nodoc
 class WorkloadDeploymentPatternDataSummary {
   /// The name of a workload deployment pattern.
   final String? deploymentPatternName;
@@ -1212,6 +1234,7 @@ class WorkloadDeploymentPatternDataSummary {
   }
 }
 
+/// @nodoc
 class WorkloadDeploymentPatternStatus {
   static const active = WorkloadDeploymentPatternStatus._('ACTIVE');
   static const inactive = WorkloadDeploymentPatternStatus._('INACTIVE');
@@ -1240,6 +1263,8 @@ class WorkloadDeploymentPatternStatus {
 }
 
 /// The data that details a workload deployment pattern.
+///
+/// @nodoc
 class WorkloadDeploymentPatternData {
   /// The name of the deployment pattern.
   final String? deploymentPatternName;
@@ -1336,6 +1361,8 @@ class WorkloadDeploymentPatternData {
 }
 
 /// A field that details a specification of a deployment pattern.
+///
+/// @nodoc
 class DeploymentSpecificationsField {
   /// The allowed values of the deployment specification.
   final List<String>? allowedValues;
@@ -1394,6 +1421,8 @@ class DeploymentSpecificationsField {
 }
 
 /// A field that details a condition of the specifications for a deployment.
+///
+/// @nodoc
 class DeploymentConditionalField {
   /// The comparator of the condition.
   ///
@@ -1433,6 +1462,8 @@ class DeploymentConditionalField {
 }
 
 /// Describes workload data.
+///
+/// @nodoc
 class WorkloadDataSummary {
   /// The display name of the workload data.
   final String? displayName;
@@ -1469,6 +1500,7 @@ class WorkloadDataSummary {
   }
 }
 
+/// @nodoc
 class WorkloadStatus {
   static const active = WorkloadStatus._('ACTIVE');
   static const inactive = WorkloadStatus._('INACTIVE');
@@ -1496,6 +1528,8 @@ class WorkloadStatus {
 }
 
 /// Describes a workload.
+///
+/// @nodoc
 class WorkloadData {
   /// The description of a workload.
   final String? description;
@@ -1563,6 +1597,8 @@ class WorkloadData {
 }
 
 /// A summary of the deployment event data.
+///
+/// @nodoc
 class DeploymentEventDataSummary {
   /// The description of the deployment event.
   final String? description;
@@ -1613,6 +1649,7 @@ class DeploymentEventDataSummary {
   }
 }
 
+/// @nodoc
 class EventStatus {
   static const canceled = EventStatus._('CANCELED');
   static const canceling = EventStatus._('CANCELING');
@@ -1652,6 +1689,8 @@ class EventStatus {
 }
 
 /// A summary of the deployment data.
+///
+/// @nodoc
 class DeploymentDataSummary {
   /// The time the deployment was created.
   final DateTime? createdAt;
@@ -1716,6 +1755,7 @@ class DeploymentDataSummary {
   }
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const completed = DeploymentStatus._('COMPLETED');
   static const creating = DeploymentStatus._('CREATING');
@@ -1772,6 +1812,8 @@ class DeploymentStatus {
 /// A filter name and value pair that is used to return more specific results
 /// from a describe operation. Filters can be used to match a set of resources
 /// by specific criteria.
+///
+/// @nodoc
 class DeploymentFilter {
   /// The name of the filter. Filter names are case-sensitive.
   final DeploymentFilterKey? name;
@@ -1796,6 +1838,7 @@ class DeploymentFilter {
   }
 }
 
+/// @nodoc
 class DeploymentFilterKey {
   static const workloadName = DeploymentFilterKey._('WORKLOAD_NAME');
   static const deploymentStatus = DeploymentFilterKey._('DEPLOYMENT_STATUS');
@@ -1822,6 +1865,8 @@ class DeploymentFilterKey {
 }
 
 /// The data associated with a deployment.
+///
+/// @nodoc
 class DeploymentData {
   /// The time the deployment was created.
   final DateTime? createdAt;
@@ -1931,21 +1976,25 @@ class DeploymentData {
   }
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitException extends _s.GenericAwsException {
   ResourceLimitException({String? type, String? message})
       : super(type: type, code: 'ResourceLimitException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

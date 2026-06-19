@@ -128,6 +128,8 @@ class MarketplaceEntitlement {
 
 /// The GetEntitlementsRequest contains results from the GetEntitlements
 /// operation.
+///
+/// @nodoc
 class GetEntitlementsResult {
   /// The set of entitlements found through the GetEntitlements operation. If the
   /// result contains an empty set of entitlements, NextToken might still be
@@ -167,6 +169,8 @@ class GetEntitlementsResult {
 /// An entitlement represents capacity in a product owned by the customer. For
 /// example, a customer might own some number of users or seats in an SaaS
 /// application or some amount of data capacity in a multi-tenant database.
+///
+/// @nodoc
 class Entitlement {
   /// The <code>CustomerAWSAccountId</code> parameter specifies the AWS account ID
   /// of the buyer.
@@ -249,6 +253,8 @@ class Entitlement {
 
 /// The EntitlementValue represents the amount of capacity that the customer is
 /// entitled to for the product.
+///
+/// @nodoc
 class EntitlementValue {
   /// The BooleanValue field will be populated with a boolean value when the
   /// entitlement is a boolean type. Otherwise, the field will not be set.
@@ -296,6 +302,7 @@ class EntitlementValue {
   }
 }
 
+/// @nodoc
 class GetEntitlementFilterName {
   static const customerIdentifier =
       GetEntitlementFilterName._('CUSTOMER_IDENTIFIER');
@@ -330,6 +337,7 @@ class GetEntitlementFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -338,11 +346,13 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

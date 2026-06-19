@@ -176,6 +176,7 @@ class MarketplaceReporting {
   }
 }
 
+/// @nodoc
 class GetBuyerDashboardOutput {
   /// The ARN of the returned dashboard.
   final String dashboardIdentifier;
@@ -220,21 +221,25 @@ class GetBuyerDashboardOutput {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

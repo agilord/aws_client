@@ -2341,6 +2341,7 @@ class Kafka {
   }
 }
 
+/// @nodoc
 class BatchAssociateScramSecretResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -2376,6 +2377,7 @@ class BatchAssociateScramSecretResponse {
   }
 }
 
+/// @nodoc
 class BatchDisassociateScramSecretResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -2411,6 +2413,7 @@ class BatchDisassociateScramSecretResponse {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -2448,6 +2451,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateClusterV2Response {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -2493,6 +2497,7 @@ class CreateClusterV2Response {
   }
 }
 
+/// @nodoc
 class CreateConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the configuration.
   final String? arn;
@@ -2547,6 +2552,7 @@ class CreateConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateReplicatorResponse {
   /// The Amazon Resource Name (ARN) of the replicator.
   final String? replicatorArn;
@@ -2584,6 +2590,7 @@ class CreateReplicatorResponse {
   }
 }
 
+/// @nodoc
 class CreateTopicResponse {
   /// The status of the topic creation.
   final TopicState? status;
@@ -2620,6 +2627,7 @@ class CreateTopicResponse {
   }
 }
 
+/// @nodoc
 class CreateVpcConnectionResponse {
   /// The authentication type of VPC connection.
   final String? authentication;
@@ -2698,6 +2706,7 @@ class CreateVpcConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -2728,6 +2737,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterPolicyResponse {
   DeleteClusterPolicyResponse();
 
@@ -2740,6 +2750,7 @@ class DeleteClusterPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteConfigurationResponse {
   /// The Amazon Resource Name (ARN) that uniquely identifies an MSK
   /// configuration.
@@ -2771,6 +2782,7 @@ class DeleteConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteReplicatorResponse {
   /// The Amazon Resource Name (ARN) of the replicator.
   final String? replicatorArn;
@@ -2801,6 +2813,7 @@ class DeleteReplicatorResponse {
   }
 }
 
+/// @nodoc
 class DeleteTopicResponse {
   /// The status of the topic deletion.
   final TopicState? status;
@@ -2837,6 +2850,7 @@ class DeleteTopicResponse {
   }
 }
 
+/// @nodoc
 class DeleteVpcConnectionResponse {
   /// The state of the VPC connection.
   final VpcConnectionState? state;
@@ -2867,6 +2881,7 @@ class DeleteVpcConnectionResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterResponse {
   /// The cluster information.
   final ClusterInfo? clusterInfo;
@@ -2891,6 +2906,7 @@ class DescribeClusterResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterOperationResponse {
   /// Cluster operation information
   final ClusterOperationInfo? clusterOperationInfo;
@@ -2917,6 +2933,7 @@ class DescribeClusterOperationResponse {
   }
 }
 
+/// @nodoc
 class DescribeClusterOperationV2Response {
   /// Cluster operation information
   final ClusterOperationV2? clusterOperationInfo;
@@ -2944,6 +2961,7 @@ class DescribeClusterOperationV2Response {
   }
 }
 
+/// @nodoc
 class DescribeClusterV2Response {
   /// The cluster information.
   final Cluster? clusterInfo;
@@ -2968,6 +2986,7 @@ class DescribeClusterV2Response {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the configuration.
   final String? arn;
@@ -3039,6 +3058,7 @@ class DescribeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationRevisionResponse {
   /// The Amazon Resource Name (ARN) of the configuration.
   final String? arn;
@@ -3095,6 +3115,7 @@ class DescribeConfigurationRevisionResponse {
   }
 }
 
+/// @nodoc
 class DescribeReplicatorResponse {
   /// The time when the replicator was created.
   final DateTime? creationTime;
@@ -3231,6 +3252,7 @@ class DescribeReplicatorResponse {
   }
 }
 
+/// @nodoc
 class DescribeTopicResponse {
   /// Topic configurations encoded as a Base64 string.
   final String? configs;
@@ -3288,6 +3310,7 @@ class DescribeTopicResponse {
   }
 }
 
+/// @nodoc
 class DescribeTopicPartitionsResponse {
   /// The paginated results marker. When the result of a DescribeTopicPartitions
   /// operation is truncated, the call returns NextToken in the response. To get
@@ -3322,6 +3345,7 @@ class DescribeTopicPartitionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeVpcConnectionResponse {
   /// The authentication type of VPC connection.
   final String? authentication;
@@ -3406,6 +3430,7 @@ class DescribeVpcConnectionResponse {
   }
 }
 
+/// @nodoc
 class GetBootstrapBrokersResponse {
   /// A string containing one or more hostname:port pairs.
   final String? bootstrapBrokerString;
@@ -3566,6 +3591,7 @@ class GetBootstrapBrokersResponse {
   }
 }
 
+/// @nodoc
 class GetClusterPolicyResponse {
   /// The version of cluster policy.
   final String? currentVersion;
@@ -3595,6 +3621,7 @@ class GetClusterPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetCompatibleKafkaVersionsResponse {
   /// A list of CompatibleKafkaVersion objects.
   final List<CompatibleKafkaVersion>? compatibleKafkaVersions;
@@ -3623,6 +3650,7 @@ class GetCompatibleKafkaVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListClientVpcConnectionsResponse {
   /// List of client VPC connections.
   final List<ClientVpcConnection>? clientVpcConnections;
@@ -3658,6 +3686,7 @@ class ListClientVpcConnectionsResponse {
   }
 }
 
+/// @nodoc
 class ListClusterOperationsResponse {
   /// An array of cluster operation information objects.
   final List<ClusterOperationInfo>? clusterOperationInfoList;
@@ -3693,6 +3722,7 @@ class ListClusterOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListClusterOperationsV2Response {
   /// An array of cluster operation information objects.
   final List<ClusterOperationV2Summary>? clusterOperationInfoList;
@@ -3729,6 +3759,7 @@ class ListClusterOperationsV2Response {
   }
 }
 
+/// @nodoc
 class ListClustersResponse {
   /// Information on each of the MSK clusters in the response.
   final List<ClusterInfo>? clusterInfoList;
@@ -3763,6 +3794,7 @@ class ListClustersResponse {
   }
 }
 
+/// @nodoc
 class ListClustersV2Response {
   /// Information on each of the MSK clusters in the response.
   final List<Cluster>? clusterInfoList;
@@ -3797,6 +3829,7 @@ class ListClustersV2Response {
   }
 }
 
+/// @nodoc
 class ListConfigurationRevisionsResponse {
   /// Paginated results marker.
   final String? nextToken;
@@ -3830,6 +3863,7 @@ class ListConfigurationRevisionsResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationsResponse {
   /// An array of MSK configurations.
   final List<Configuration>? configurations;
@@ -3864,6 +3898,7 @@ class ListConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListKafkaVersionsResponse {
   final List<KafkaVersion>? kafkaVersions;
   final String? nextToken;
@@ -3893,6 +3928,7 @@ class ListKafkaVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListNodesResponse {
   /// The paginated results marker. When the result of a ListNodes operation is
   /// truncated, the call returns NextToken in the response. To get another batch
@@ -3927,6 +3963,7 @@ class ListNodesResponse {
   }
 }
 
+/// @nodoc
 class ListReplicatorsResponse {
   /// If the response of ListReplicators is truncated, it returns a NextToken in
   /// the response. This NextToken should be sent in the subsequent request to
@@ -3961,6 +3998,7 @@ class ListReplicatorsResponse {
   }
 }
 
+/// @nodoc
 class ListScramSecretsResponse {
   /// Paginated results marker.
   final String? nextToken;
@@ -3993,6 +4031,7 @@ class ListScramSecretsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The key-value pair for the resource tag.
   final Map<String, String>? tags;
@@ -4016,6 +4055,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTopicsResponse {
   /// The paginated results marker. When the result of a ListTopics operation is
   /// truncated, the call returns NextToken in the response. To get another batch
@@ -4050,6 +4090,7 @@ class ListTopicsResponse {
   }
 }
 
+/// @nodoc
 class ListVpcConnectionsResponse {
   /// The paginated results marker. When the result of a ListClientVpcConnections
   /// operation is truncated, the call returns NextToken in the response. To get
@@ -4084,6 +4125,7 @@ class ListVpcConnectionsResponse {
   }
 }
 
+/// @nodoc
 class PutClusterPolicyResponse {
   /// The policy version.
   final String? currentVersion;
@@ -4106,6 +4148,7 @@ class PutClusterPolicyResponse {
   }
 }
 
+/// @nodoc
 class RebootBrokerResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4136,6 +4179,7 @@ class RebootBrokerResponse {
   }
 }
 
+/// @nodoc
 class RejectClientVpcConnectionResponse {
   RejectClientVpcConnectionResponse();
 
@@ -4148,6 +4192,7 @@ class RejectClientVpcConnectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrokerCountResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4178,6 +4223,7 @@ class UpdateBrokerCountResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrokerStorageResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4208,6 +4254,7 @@ class UpdateBrokerStorageResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrokerTypeResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4238,6 +4285,7 @@ class UpdateBrokerTypeResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4269,6 +4317,7 @@ class UpdateClusterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterKafkaVersionResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4300,6 +4349,7 @@ class UpdateClusterKafkaVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the configuration.
   final String? arn;
@@ -4332,6 +4382,7 @@ class UpdateConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectivityResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4362,6 +4413,7 @@ class UpdateConnectivityResponse {
   }
 }
 
+/// @nodoc
 class UpdateMonitoringResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4392,6 +4444,7 @@ class UpdateMonitoringResponse {
   }
 }
 
+/// @nodoc
 class UpdateRebalancingResponse {
   /// The Amazon Resource Name (ARN) of the cluster whose intelligent rebalancing
   /// status you've updated.
@@ -4423,6 +4476,7 @@ class UpdateRebalancingResponse {
   }
 }
 
+/// @nodoc
 class UpdateReplicationInfoResponse {
   /// The Amazon Resource Name (ARN) of the replicator.
   final String? replicatorArn;
@@ -4453,6 +4507,7 @@ class UpdateReplicationInfoResponse {
   }
 }
 
+/// @nodoc
 class UpdateSecurityResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4483,6 +4538,7 @@ class UpdateSecurityResponse {
   }
 }
 
+/// @nodoc
 class UpdateStorageResponse {
   /// The Amazon Resource Name (ARN) of the cluster.
   final String? clusterArn;
@@ -4513,6 +4569,7 @@ class UpdateStorageResponse {
   }
 }
 
+/// @nodoc
 class UpdateTopicResponse {
   /// The status of the topic update.
   final TopicState? status;
@@ -4550,6 +4607,8 @@ class UpdateTopicResponse {
 }
 
 /// The state of a topic request.
+///
+/// @nodoc
 class TopicState {
   static const creating = TopicState._('CREATING');
   static const updating = TopicState._('UPDATING');
@@ -4577,6 +4636,8 @@ class TopicState {
 
 /// Contains information about provisioned throughput for EBS storage volumes
 /// attached to kafka broker nodes.
+///
+/// @nodoc
 class ProvisionedThroughput {
   /// Provisioned throughput is enabled or not.
   final bool? enabled;
@@ -4608,6 +4669,8 @@ class ProvisionedThroughput {
 }
 
 /// Controls storage mode for various supported storage tiers.
+///
+/// @nodoc
 class StorageMode {
   static const local = StorageMode._('LOCAL');
   static const tiered = StorageMode._('TIERED');
@@ -4632,6 +4695,8 @@ class StorageMode {
 }
 
 /// Includes all client authentication information.
+///
+/// @nodoc
 class ClientAuthentication {
   /// Details for ClientAuthentication using SASL.
   final Sasl? sasl;
@@ -4678,6 +4743,8 @@ class ClientAuthentication {
 /// Includes encryption-related information, such as the AWS KMS key used for
 /// encrypting data at rest and whether you want MSK to encrypt your data in
 /// transit.
+///
+/// @nodoc
 class EncryptionInfo {
   /// The data-volume encryption details.
   final EncryptionAtRest? encryptionAtRest;
@@ -4715,6 +4782,8 @@ class EncryptionInfo {
 }
 
 /// The data-volume encryption details.
+///
+/// @nodoc
 class EncryptionAtRest {
   /// The ARN of the AWS KMS key for encrypting data at rest. If you don't specify
   /// a KMS key, MSK creates one for you and uses it.
@@ -4739,6 +4808,8 @@ class EncryptionAtRest {
 }
 
 /// The settings for encrypting data in transit.
+///
+/// @nodoc
 class EncryptionInTransit {
   /// Indicates the encryption setting for data in transit between clients and
   /// brokers. The following are the possible values.
@@ -4785,6 +4856,8 @@ class EncryptionInTransit {
 }
 
 /// Client-broker encryption in transit setting.
+///
+/// @nodoc
 class ClientBroker {
   static const tls = ClientBroker._('TLS');
   static const tlsPlaintext = ClientBroker._('TLS_PLAINTEXT');
@@ -4810,6 +4883,8 @@ class ClientBroker {
 }
 
 /// Details for client authentication using SASL.
+///
+/// @nodoc
 class Sasl {
   /// Indicates whether IAM access control is enabled.
   final Iam? iam;
@@ -4844,6 +4919,8 @@ class Sasl {
 }
 
 /// Details for client authentication using TLS.
+///
+/// @nodoc
 class Tls {
   /// List of ACM Certificate Authority ARNs.
   final List<String>? certificateAuthorityArnList;
@@ -4878,6 +4955,7 @@ class Tls {
   }
 }
 
+/// @nodoc
 class Unauthenticated {
   /// Specifies whether you want to turn on or turn off unauthenticated traffic to
   /// your cluster.
@@ -4902,6 +4980,8 @@ class Unauthenticated {
 }
 
 /// Details for SASL/SCRAM client authentication.
+///
+/// @nodoc
 class Scram {
   /// SASL/SCRAM authentication is enabled or not.
   final bool? enabled;
@@ -4925,6 +5005,8 @@ class Scram {
 }
 
 /// Details for IAM access control.
+///
+/// @nodoc
 class Iam {
   /// Indicates whether IAM access control is enabled.
   final bool? enabled;
@@ -4948,6 +5030,8 @@ class Iam {
 }
 
 /// The state of a replicator.
+///
+/// @nodoc
 class ReplicatorState {
   static const running = ReplicatorState._('RUNNING');
   static const creating = ReplicatorState._('CREATING');
@@ -4976,6 +5060,8 @@ class ReplicatorState {
 }
 
 /// Details about consumer group replication.
+///
+/// @nodoc
 class ConsumerGroupReplicationUpdate {
   /// List of regular expression patterns indicating the consumer groups that
   /// should not be replicated.
@@ -5014,6 +5100,8 @@ class ConsumerGroupReplicationUpdate {
 }
 
 /// Details for updating the topic replication of a replicator.
+///
+/// @nodoc
 class TopicReplicationUpdate {
   /// Whether to periodically configure remote topic ACLs to match their
   /// corresponding upstream topics.
@@ -5059,6 +5147,8 @@ class TopicReplicationUpdate {
 }
 
 /// Configuration for log delivery to customer destinations.
+///
+/// @nodoc
 class LogDelivery {
   /// Configuration for replicator log delivery.
   final ReplicatorLogDelivery? replicatorLogDelivery;
@@ -5086,6 +5176,8 @@ class LogDelivery {
 }
 
 /// Configuration for replicator log delivery.
+///
+/// @nodoc
 class ReplicatorLogDelivery {
   /// Configuration for CloudWatch Logs delivery.
   final ReplicatorCloudWatchLogs? cloudWatchLogs;
@@ -5131,6 +5223,8 @@ class ReplicatorLogDelivery {
 }
 
 /// Details about delivering logs to CloudWatch Logs.
+///
+/// @nodoc
 class ReplicatorCloudWatchLogs {
   /// Whether log delivery to CloudWatch Logs is enabled.
   final bool enabled;
@@ -5161,6 +5255,8 @@ class ReplicatorCloudWatchLogs {
 }
 
 /// Details about delivering logs to Firehose.
+///
+/// @nodoc
 class ReplicatorFirehose {
   /// Whether log delivery to Firehose is enabled.
   final bool enabled;
@@ -5191,6 +5287,8 @@ class ReplicatorFirehose {
 }
 
 /// Details about delivering logs to S3.
+///
+/// @nodoc
 class ReplicatorS3 {
   /// Whether log delivery to S3 is enabled.
   final bool enabled;
@@ -5232,6 +5330,8 @@ class ReplicatorS3 {
 /// rebalancing performs automatic partition balancing operations when you scale
 /// your clusters up or down. By default, intelligent rebalancing is ACTIVE for
 /// all new Express-based clusters.
+///
+/// @nodoc
 class Rebalancing {
   /// Intelligent rebalancing status. The default intelligent rebalancing status
   /// is ACTIVE for all new Express-based clusters.
@@ -5257,6 +5357,8 @@ class Rebalancing {
 
 /// Intelligent rebalancing status. The default intelligent rebalancing status
 /// is ACTIVE for all new Express-based clusters.
+///
+/// @nodoc
 class RebalancingStatus {
   static const paused = RebalancingStatus._('PAUSED');
   static const active = RebalancingStatus._('ACTIVE');
@@ -5286,6 +5388,8 @@ class RebalancingStatus {
 /// and PER_TOPIC_PER_PARTITION. For a list of the metrics associated with each
 /// of these levels of monitoring, see <a
 /// href="https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html">Monitoring</a>.
+///
+/// @nodoc
 class EnhancedMonitoring {
   static const $default = EnhancedMonitoring._('DEFAULT');
   static const perBroker = EnhancedMonitoring._('PER_BROKER');
@@ -5320,6 +5424,8 @@ class EnhancedMonitoring {
 }
 
 /// JMX and Node monitoring for the MSK cluster.
+///
+/// @nodoc
 class OpenMonitoringInfo {
   /// Prometheus settings.
   final PrometheusInfo prometheus;
@@ -5344,6 +5450,7 @@ class OpenMonitoringInfo {
   }
 }
 
+/// @nodoc
 class LoggingInfo {
   final BrokerLogs brokerLogs;
 
@@ -5367,6 +5474,7 @@ class LoggingInfo {
   }
 }
 
+/// @nodoc
 class BrokerLogs {
   final CloudWatchLogs? cloudWatchLogs;
   final Firehose? firehose;
@@ -5405,6 +5513,7 @@ class BrokerLogs {
   }
 }
 
+/// @nodoc
 class CloudWatchLogs {
   final bool enabled;
   final String? logGroup;
@@ -5431,6 +5540,7 @@ class CloudWatchLogs {
   }
 }
 
+/// @nodoc
 class Firehose {
   final bool enabled;
   final String? deliveryStream;
@@ -5457,6 +5567,7 @@ class Firehose {
   }
 }
 
+/// @nodoc
 class S3 {
   final bool enabled;
   final String? bucket;
@@ -5489,6 +5600,8 @@ class S3 {
 }
 
 /// Prometheus settings.
+///
+/// @nodoc
 class PrometheusInfo {
   /// Indicates whether you want to turn on or turn off the JMX Exporter.
   final JmxExporterInfo? jmxExporter;
@@ -5525,6 +5638,8 @@ class PrometheusInfo {
 }
 
 /// Indicates whether you want to turn on or turn off the JMX Exporter.
+///
+/// @nodoc
 class JmxExporterInfo {
   /// Indicates whether you want to turn on or turn off the JMX Exporter.
   final bool enabledInBroker;
@@ -5548,6 +5663,8 @@ class JmxExporterInfo {
 }
 
 /// Indicates whether you want to turn on or turn off the Node Exporter.
+///
+/// @nodoc
 class NodeExporterInfo {
   /// Indicates whether you want to turn on or turn off the Node Exporter.
   final bool enabledInBroker;
@@ -5571,6 +5688,8 @@ class NodeExporterInfo {
 }
 
 /// Information about the broker access configuration.
+///
+/// @nodoc
 class ConnectivityInfo {
   /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network
   /// type uses both IPv4 and IPv6 addresses for your cluster and its resources.
@@ -5617,6 +5736,8 @@ class ConnectivityInfo {
 }
 
 /// Access control settings for zookeeper
+///
+/// @nodoc
 class ZookeeperAccess {
   /// Zookeeper Access was on or off for the cluster
   final bool? enabled;
@@ -5640,6 +5761,8 @@ class ZookeeperAccess {
 }
 
 /// Public access control for brokers.
+///
+/// @nodoc
 class PublicAccess {
   /// The value DISABLED indicates that public access is turned off.
   /// SERVICE_PROVIDED_EIPS indicates that public access is turned on.
@@ -5664,6 +5787,8 @@ class PublicAccess {
 }
 
 /// VPC connectivity access control for brokers.
+///
+/// @nodoc
 class VpcConnectivity {
   /// Includes all client authentication information for VPC connectivity.
   final VpcConnectivityClientAuthentication? clientAuthentication;
@@ -5694,6 +5819,8 @@ class VpcConnectivity {
 /// type uses both IPv4 and IPv6 addresses for your cluster and its resources.
 ///
 /// By default, a cluster uses the IPv4 network type.
+///
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('IPV4');
   static const dual = NetworkType._('DUAL');
@@ -5718,6 +5845,8 @@ class NetworkType {
 }
 
 /// Includes all client authentication information for VPC connectivity.
+///
+/// @nodoc
 class VpcConnectivityClientAuthentication {
   /// SASL authentication type details for VPC connectivity.
   final VpcConnectivitySasl? sasl;
@@ -5753,6 +5882,8 @@ class VpcConnectivityClientAuthentication {
 }
 
 /// Details for SASL client authentication for VPC connectivity.
+///
+/// @nodoc
 class VpcConnectivitySasl {
   /// Details for SASL/IAM client authentication for VPC connectivity.
   final VpcConnectivityIam? iam;
@@ -5787,6 +5918,8 @@ class VpcConnectivitySasl {
 }
 
 /// Details for TLS client authentication for VPC connectivity.
+///
+/// @nodoc
 class VpcConnectivityTls {
   /// TLS authentication is on or off for VPC connectivity.
   final bool? enabled;
@@ -5810,6 +5943,8 @@ class VpcConnectivityTls {
 }
 
 /// Details for SASL/SCRAM client authentication for VPC connectivity.
+///
+/// @nodoc
 class VpcConnectivityScram {
   /// SASL/SCRAM authentication is on or off for VPC connectivity.
   final bool? enabled;
@@ -5833,6 +5968,8 @@ class VpcConnectivityScram {
 }
 
 /// Details for IAM access control for VPC connectivity.
+///
+/// @nodoc
 class VpcConnectivityIam {
   /// SASL/IAM authentication is on or off for VPC connectivity.
   final bool? enabled;
@@ -5856,6 +5993,8 @@ class VpcConnectivityIam {
 }
 
 /// Describes a configuration revision.
+///
+/// @nodoc
 class ConfigurationRevision {
   /// The time when the configuration revision was created.
   final DateTime creationTime;
@@ -5893,6 +6032,8 @@ class ConfigurationRevision {
 }
 
 /// Specifies the configuration to use for the brokers.
+///
+/// @nodoc
 class ConfigurationInfo {
   /// ARN of the configuration to use.
   final String arn;
@@ -5925,6 +6066,8 @@ class ConfigurationInfo {
 /// Specifies the EBS volume upgrade information. The broker identifier must be
 /// set to the keyword ALL. This means the changes apply to all the brokers in
 /// the cluster.
+///
+/// @nodoc
 class BrokerEBSVolumeInfo {
   /// The ID of the broker to update.
   final String kafkaBrokerNodeId;
@@ -5966,6 +6109,8 @@ class BrokerEBSVolumeInfo {
 }
 
 /// The VPC connection object.
+///
+/// @nodoc
 class VpcConnection {
   /// The ARN that identifies the Cluster which the Vpc Connection belongs to.
   final String targetClusterArn;
@@ -6024,6 +6169,8 @@ class VpcConnection {
 }
 
 /// The state of a VPC connection.
+///
+/// @nodoc
 class VpcConnectionState {
   static const creating = VpcConnectionState._('CREATING');
   static const available = VpcConnectionState._('AVAILABLE');
@@ -6065,6 +6212,8 @@ class VpcConnectionState {
 }
 
 /// Includes identification info about the topic.
+///
+/// @nodoc
 class TopicInfo {
   /// Number of out-of-sync replicas for a topic.
   final int? outOfSyncReplicaCount;
@@ -6117,6 +6266,8 @@ class TopicInfo {
 }
 
 /// Information about a replicator.
+///
+/// @nodoc
 class ReplicatorSummary {
   /// The time the replicator was created.
   final DateTime? creationTime;
@@ -6209,6 +6360,8 @@ class ReplicatorSummary {
 }
 
 /// Summarized information of replication between clusters.
+///
+/// @nodoc
 class ReplicationInfoSummary {
   /// The alias of the source Kafka cluster.
   final String? sourceKafkaClusterAlias;
@@ -6242,6 +6395,8 @@ class ReplicationInfoSummary {
 
 /// Summarized information about Kafka Cluster used as source / target for
 /// replication.
+///
+/// @nodoc
 class KafkaClusterSummary {
   /// Details of an Amazon MSK Cluster.
   final AmazonMskCluster? amazonMskCluster;
@@ -6285,6 +6440,8 @@ class KafkaClusterSummary {
 }
 
 /// Details of an Amazon MSK Cluster.
+///
+/// @nodoc
 class AmazonMskCluster {
   /// The Amazon Resource Name (ARN) of an Amazon MSK cluster.
   final String mskClusterArn;
@@ -6308,6 +6465,8 @@ class AmazonMskCluster {
 }
 
 /// Details of an Apache Kafka Cluster.
+///
+/// @nodoc
 class ApacheKafkaCluster {
   /// The ID of the Apache Kafka cluster.
   final String apacheKafkaClusterId;
@@ -6338,6 +6497,8 @@ class ApacheKafkaCluster {
 }
 
 /// The node information object.
+///
+/// @nodoc
 class NodeInfo {
   /// The start time.
   final String? addedToClusterTime;
@@ -6412,6 +6573,8 @@ class NodeInfo {
 }
 
 /// BrokerNodeInfo
+///
+/// @nodoc
 class BrokerNodeInfo {
   /// The attached elastic network interface of the broker.
   final String? attachedENIId;
@@ -6478,6 +6641,8 @@ class BrokerNodeInfo {
 }
 
 /// Controller node information.
+///
+/// @nodoc
 class ControllerNodeInfo {
   /// Endpoints for accessing the Controller.
   final List<String>? endpoints;
@@ -6504,6 +6669,8 @@ class ControllerNodeInfo {
 }
 
 /// The broker or Zookeeper node.
+///
+/// @nodoc
 class NodeType {
   static const broker = NodeType._('BROKER');
 
@@ -6527,6 +6694,8 @@ class NodeType {
 }
 
 /// Zookeeper node information.
+///
+/// @nodoc
 class ZookeeperNodeInfo {
   /// The attached elastic network interface of the broker.
   final String? attachedENIId;
@@ -6581,6 +6750,8 @@ class ZookeeperNodeInfo {
 }
 
 /// Information about the current software installed on the cluster.
+///
+/// @nodoc
 class BrokerSoftwareInfo {
   /// The Amazon Resource Name (ARN) of the configuration used for the cluster.
   /// This field isn't visible in this preview release.
@@ -6620,6 +6791,7 @@ class BrokerSoftwareInfo {
   }
 }
 
+/// @nodoc
 class KafkaVersion {
   final KafkaVersionStatus? status;
   final String? version;
@@ -6646,6 +6818,7 @@ class KafkaVersion {
   }
 }
 
+/// @nodoc
 class KafkaVersionStatus {
   static const active = KafkaVersionStatus._('ACTIVE');
   static const deprecated = KafkaVersionStatus._('DEPRECATED');
@@ -6672,6 +6845,8 @@ class KafkaVersionStatus {
 }
 
 /// Represents an MSK Configuration.
+///
+/// @nodoc
 class Configuration {
   /// The Amazon Resource Name (ARN) of the configuration.
   final String arn;
@@ -6745,6 +6920,8 @@ class Configuration {
 }
 
 /// The state of a configuration.
+///
+/// @nodoc
 class ConfigurationState {
   static const active = ConfigurationState._('ACTIVE');
   static const deleting = ConfigurationState._('DELETING');
@@ -6772,6 +6949,8 @@ class ConfigurationState {
 }
 
 /// Returns information about a cluster.
+///
+/// @nodoc
 class Cluster {
   /// The Amazon Resource Name (ARN) that uniquely identifies a cluster operation.
   final String? activeOperationArn;
@@ -6874,6 +7053,8 @@ class Cluster {
 }
 
 /// The type of cluster.
+///
+/// @nodoc
 class ClusterType {
   static const provisioned = ClusterType._('PROVISIONED');
   static const serverless = ClusterType._('SERVERLESS');
@@ -6898,6 +7079,8 @@ class ClusterType {
 }
 
 /// The state of the Apache Kafka cluster.
+///
+/// @nodoc
 class ClusterState {
   static const active = ClusterState._('ACTIVE');
   static const creating = ClusterState._('CREATING');
@@ -6936,6 +7119,7 @@ class ClusterState {
   String toString() => value;
 }
 
+/// @nodoc
 class StateInfo {
   final String? code;
   final String? message;
@@ -6963,6 +7147,8 @@ class StateInfo {
 }
 
 /// Provisioned cluster.
+///
+/// @nodoc
 class Provisioned {
   /// Information about the brokers.
   final BrokerNodeGroupInfo brokerNodeGroupInfo;
@@ -7103,6 +7289,8 @@ class Provisioned {
 }
 
 /// Serverless cluster.
+///
+/// @nodoc
 class Serverless {
   /// The configuration of the Amazon VPCs for the cluster.
   final List<VpcConfig> vpcConfigs;
@@ -7151,6 +7339,8 @@ class Serverless {
 }
 
 /// Includes all client authentication information.
+///
+/// @nodoc
 class ServerlessClientAuthentication {
   /// Details for ClientAuthentication using SASL.
   final ServerlessSasl? sasl;
@@ -7177,6 +7367,8 @@ class ServerlessClientAuthentication {
 
 /// Describes the cluster's connectivity information, such as its network type,
 /// which is IPv4 or DUAL.
+///
+/// @nodoc
 class ServerlessConnectivityInfo {
   /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network
   /// type uses both IPv4 and IPv6 addresses for your cluster and its resources.
@@ -7204,6 +7396,8 @@ class ServerlessConnectivityInfo {
 }
 
 /// Details for client authentication using SASL.
+///
+/// @nodoc
 class ServerlessSasl {
   /// Indicates whether IAM access control is enabled.
   final Iam? iam;
@@ -7229,6 +7423,8 @@ class ServerlessSasl {
 }
 
 /// The configuration of the Amazon VPCs for the cluster.
+///
+/// @nodoc
 class VpcConfig {
   /// The IDs of the subnets associated with the cluster.
   final List<String> subnetIds;
@@ -7265,6 +7461,8 @@ class VpcConfig {
 }
 
 /// Describes the setup to be used for Apache Kafka broker nodes in the cluster.
+///
+/// @nodoc
 class BrokerNodeGroupInfo {
   /// The list of subnets to connect to in the client virtual private cloud (VPC).
   /// AWS creates elastic network interfaces inside these subnets. Client
@@ -7359,6 +7557,8 @@ class BrokerNodeGroupInfo {
 }
 
 /// A type of an action required from the customer.
+///
+/// @nodoc
 class CustomerActionStatus {
   static const criticalActionRequired =
       CustomerActionStatus._('CRITICAL_ACTION_REQUIRED');
@@ -7393,6 +7593,8 @@ class CustomerActionStatus {
 ///
 /// Amazon MSK distributes the broker nodes evenly across the Availability Zones
 /// that correspond to the subnets you provide when you create the cluster.
+///
+/// @nodoc
 class BrokerAZDistribution {
   static const $default = BrokerAZDistribution._('DEFAULT');
 
@@ -7418,6 +7620,8 @@ class BrokerAZDistribution {
 }
 
 /// Contains information about storage volumes attached to MSK broker nodes.
+///
+/// @nodoc
 class StorageInfo {
   /// EBS volume information.
   final EBSStorageInfo? ebsStorageInfo;
@@ -7445,6 +7649,8 @@ class StorageInfo {
 
 /// Contains information about the EBS storage volumes attached to Apache Kafka
 /// broker nodes.
+///
+/// @nodoc
 class EBSStorageInfo {
   /// EBS volume provisioned throughput information.
   final ProvisionedThroughput? provisionedThroughput;
@@ -7479,6 +7685,8 @@ class EBSStorageInfo {
 }
 
 /// Returns information about a cluster.
+///
+/// @nodoc
 class ClusterInfo {
   /// Arn of active cluster operation.
   final String? activeOperationArn;
@@ -7679,6 +7887,8 @@ class ClusterInfo {
 }
 
 /// JMX and Node monitoring for the MSK cluster.
+///
+/// @nodoc
 class OpenMonitoring {
   /// Prometheus settings.
   final Prometheus prometheus;
@@ -7704,6 +7914,8 @@ class OpenMonitoring {
 }
 
 /// Prometheus settings.
+///
+/// @nodoc
 class Prometheus {
   /// Indicates whether you want to turn on or turn off the JMX Exporter.
   final JmxExporter? jmxExporter;
@@ -7738,6 +7950,8 @@ class Prometheus {
 }
 
 /// Indicates whether you want to turn on or turn off the JMX Exporter.
+///
+/// @nodoc
 class JmxExporter {
   /// Indicates whether you want to turn on or turn off the JMX Exporter.
   final bool enabledInBroker;
@@ -7761,6 +7975,8 @@ class JmxExporter {
 }
 
 /// Indicates whether you want to turn on or turn off the Node Exporter.
+///
+/// @nodoc
 class NodeExporter {
   /// Indicates whether you want to turn on or turn off the Node Exporter.
   final bool enabledInBroker;
@@ -7784,6 +8000,8 @@ class NodeExporter {
 }
 
 /// Returns information about a cluster operation.
+///
+/// @nodoc
 class ClusterOperationV2Summary {
   /// ARN of the cluster.
   final String? clusterArn;
@@ -7850,6 +8068,8 @@ class ClusterOperationV2Summary {
 }
 
 /// Returns information about a cluster operation.
+///
+/// @nodoc
 class ClusterOperationInfo {
   /// The ID of the API request that triggered this operation.
   final String? clientRequestId;
@@ -7965,6 +8185,8 @@ class ClusterOperationInfo {
 }
 
 /// Returns information about an error state of the cluster.
+///
+/// @nodoc
 class ErrorInfo {
   /// A number describing the error programmatically.
   final String? errorCode;
@@ -7995,6 +8217,8 @@ class ErrorInfo {
 }
 
 /// Information about cluster attributes that can be updated via update APIs.
+///
+/// @nodoc
 class MutableClusterInfo {
   /// Describes brokers being changed during a broker count update.
   final BrokerCountUpdateInfo? brokerCountUpdateInfo;
@@ -8155,6 +8379,8 @@ class MutableClusterInfo {
 }
 
 /// Description of the VPC connection.
+///
+/// @nodoc
 class VpcConnectionInfo {
   /// The time when Amazon MSK creates the VPC Connnection.
   final DateTime? creationTime;
@@ -8201,6 +8427,8 @@ class VpcConnectionInfo {
 }
 
 /// Description of the requester that calls the API operation.
+///
+/// @nodoc
 class UserIdentity {
   /// A unique identifier for the requester that calls the API operation.
   final String? principalId;
@@ -8231,6 +8459,8 @@ class UserIdentity {
 }
 
 /// The identity type of the requester that calls the API operation.
+///
+/// @nodoc
 class UserIdentityType {
   static const awsaccount = UserIdentityType._('AWSACCOUNT');
   static const awsservice = UserIdentityType._('AWSSERVICE');
@@ -8256,6 +8486,8 @@ class UserIdentityType {
 }
 
 /// Information regarding UpdateBrokerCount.
+///
+/// @nodoc
 class BrokerCountUpdateInfo {
   /// Kafka Broker IDs of brokers being created.
   final List<double>? createdBrokerIds;
@@ -8292,6 +8524,8 @@ class BrokerCountUpdateInfo {
 }
 
 /// Step taken during a cluster operation.
+///
+/// @nodoc
 class ClusterOperationStep {
   /// Information about the step and its status.
   final ClusterOperationStepInfo? stepInfo;
@@ -8325,6 +8559,8 @@ class ClusterOperationStep {
 }
 
 /// State information about the operation step.
+///
+/// @nodoc
 class ClusterOperationStepInfo {
   /// The steps current status.
   final String? stepStatus;
@@ -8348,6 +8584,8 @@ class ClusterOperationStepInfo {
 }
 
 /// The client VPC connection object.
+///
+/// @nodoc
 class ClientVpcConnection {
   /// The ARN that identifies the Vpc Connection.
   final String vpcConnectionArn;
@@ -8400,6 +8638,8 @@ class ClientVpcConnection {
 
 /// Contains source Apache Kafka versions and compatible target Apache Kafka
 /// versions.
+///
+/// @nodoc
 class CompatibleKafkaVersion {
   /// An Apache Kafka version.
   final String? sourceVersion;
@@ -8433,6 +8673,8 @@ class CompatibleKafkaVersion {
 }
 
 /// Contains information about a topic partition.
+///
+/// @nodoc
 class TopicPartitionInfo {
   /// The list of in-sync replica broker IDs for the partition.
   final List<int>? isr;
@@ -8478,6 +8720,8 @@ class TopicPartitionInfo {
 }
 
 /// Details about the state of a replicator
+///
+/// @nodoc
 class ReplicationStateInfo {
   /// Code that describes the current state of the replicator.
   final String? code;
@@ -8509,6 +8753,8 @@ class ReplicationStateInfo {
 
 /// Specifies configuration for replication between a source and target Kafka
 /// cluster (sourceKafkaClusterAlias -> targetKafkaClusterAlias)
+///
+/// @nodoc
 class ReplicationInfoDescription {
   /// Configuration relating to consumer group replication.
   final ConsumerGroupReplication? consumerGroupReplication;
@@ -8571,6 +8817,8 @@ class ReplicationInfoDescription {
 }
 
 /// Details about consumer group replication.
+///
+/// @nodoc
 class ConsumerGroupReplication {
   /// List of regular expression patterns indicating the consumer groups to copy.
   final List<String> consumerGroupsToReplicate;
@@ -8644,6 +8892,8 @@ class ConsumerGroupReplication {
 }
 
 /// The type of compression to use producing records to the target cluster.
+///
+/// @nodoc
 class TargetCompressionType {
   static const none = TargetCompressionType._('NONE');
   static const gzip = TargetCompressionType._('GZIP');
@@ -8673,6 +8923,8 @@ class TargetCompressionType {
 }
 
 /// Details about topic replication.
+///
+/// @nodoc
 class TopicReplication {
   /// List of regular expression patterns indicating the topics to copy.
   final List<String> topicsToReplicate;
@@ -8762,6 +9014,8 @@ class TopicReplication {
 
 /// Configuration for specifying the position in the topics to start replicating
 /// from.
+///
+/// @nodoc
 class ReplicationStartingPosition {
   /// The type of replication starting position.
   final ReplicationStartingPositionType? type;
@@ -8787,6 +9041,8 @@ class ReplicationStartingPosition {
 
 /// Configuration for specifying replicated topic names should be the same as
 /// their corresponding upstream topics or prefixed with source cluster alias.
+///
+/// @nodoc
 class ReplicationTopicNameConfiguration {
   /// The type of replicated topic name.
   final ReplicationTopicNameConfigurationType? type;
@@ -8812,6 +9068,8 @@ class ReplicationTopicNameConfiguration {
 }
 
 /// The type of replicated topic name.
+///
+/// @nodoc
 class ReplicationTopicNameConfigurationType {
   static const prefixedWithSourceClusterAlias =
       ReplicationTopicNameConfigurationType._(
@@ -8840,6 +9098,8 @@ class ReplicationTopicNameConfigurationType {
 }
 
 /// The type of replication starting position.
+///
+/// @nodoc
 class ReplicationStartingPositionType {
   static const latest = ReplicationStartingPositionType._('LATEST');
   static const earliest = ReplicationStartingPositionType._('EARLIEST');
@@ -8870,6 +9130,8 @@ class ReplicationStartingPositionType {
 /// consumer offsets are synchronized regardless of producer location. ENHANCED
 /// requires a corresponding replicator that replicates data from the target
 /// cluster to the source cluster.
+///
+/// @nodoc
 class ConsumerGroupOffsetSyncMode {
   static const legacy = ConsumerGroupOffsetSyncMode._('LEGACY');
   static const enhanced = ConsumerGroupOffsetSyncMode._('ENHANCED');
@@ -8896,6 +9158,8 @@ class ConsumerGroupOffsetSyncMode {
 }
 
 /// Information about Kafka Cluster used as source / target for replication.
+///
+/// @nodoc
 class KafkaClusterDescription {
   /// Details of an Amazon MSK Cluster.
   final AmazonMskCluster? amazonMskCluster;
@@ -8973,6 +9237,8 @@ class KafkaClusterDescription {
 
 /// Details of an Amazon VPC which has network connectivity to the Apache Kafka
 /// cluster.
+///
+/// @nodoc
 class KafkaClusterClientVpcConfig {
   /// The list of subnets in the client VPC to connect to.
   final List<String> subnetIds;
@@ -9009,6 +9275,8 @@ class KafkaClusterClientVpcConfig {
 }
 
 /// Details of the client authentication used by the Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaClusterClientAuthentication {
   /// Details for SASL/SCRAM client authentication.
   final KafkaClusterSaslScramAuthentication saslScram;
@@ -9034,6 +9302,8 @@ class KafkaClusterClientAuthentication {
 }
 
 /// Details of encryption in transit to the Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaClusterEncryptionInTransit {
   /// The type of encryption in transit to the Apache Kafka cluster.
   final KafkaClusterEncryptionInTransitType encryptionType;
@@ -9065,6 +9335,8 @@ class KafkaClusterEncryptionInTransit {
 }
 
 /// The type of encryption in transit to the Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaClusterEncryptionInTransitType {
   static const tls = KafkaClusterEncryptionInTransitType._('TLS');
 
@@ -9090,6 +9362,8 @@ class KafkaClusterEncryptionInTransitType {
 }
 
 /// Details for SASL/SCRAM client authentication.
+///
+/// @nodoc
 class KafkaClusterSaslScramAuthentication {
   /// The SASL/SCRAM authentication mechanism.
   final KafkaClusterSaslScramMechanism mechanism;
@@ -9122,6 +9396,8 @@ class KafkaClusterSaslScramAuthentication {
 }
 
 /// The SASL/SCRAM authentication mechanism.
+///
+/// @nodoc
 class KafkaClusterSaslScramMechanism {
   static const sha256 = KafkaClusterSaslScramMechanism._('SHA256');
   static const sha512 = KafkaClusterSaslScramMechanism._('SHA512');
@@ -9148,6 +9424,8 @@ class KafkaClusterSaslScramMechanism {
 }
 
 /// Returns information about a cluster operation.
+///
+/// @nodoc
 class ClusterOperationV2 {
   /// ARN of the cluster.
   final String? clusterArn;
@@ -9243,6 +9521,8 @@ class ClusterOperationV2 {
 }
 
 /// Returns information about a provisioned cluster operation.
+///
+/// @nodoc
 class ClusterOperationV2Provisioned {
   /// Steps completed during the operation.
   final List<ClusterOperationStep>? operationSteps;
@@ -9300,6 +9580,8 @@ class ClusterOperationV2Provisioned {
 }
 
 /// Returns information about a serverless cluster operation.
+///
+/// @nodoc
 class ClusterOperationV2Serverless {
   /// Describes the cluster's attributes before any updates are applied. For
   /// example, networkType, which can be either IPv4 or DUAL.
@@ -9349,6 +9631,8 @@ class ClusterOperationV2Serverless {
 }
 
 /// Description of the VPC connection.
+///
+/// @nodoc
 class VpcConnectionInfoServerless {
   /// The time when Amazon MSK creates the VPC Connnection.
   final DateTime? creationTime;
@@ -9396,6 +9680,8 @@ class VpcConnectionInfoServerless {
 
 /// Specifies configuration for replication between a source and target Kafka
 /// cluster.
+///
+/// @nodoc
 class ReplicationInfo {
   /// Configuration relating to consumer group replication.
   final ConsumerGroupReplication consumerGroupReplication;
@@ -9454,6 +9740,8 @@ class ReplicationInfo {
 
 /// Information about Kafka Cluster to be used as source / target for
 /// replication.
+///
+/// @nodoc
 class KafkaCluster {
   /// Details of an Amazon MSK Cluster.
   final AmazonMskCluster? amazonMskCluster;
@@ -9498,6 +9786,8 @@ class KafkaCluster {
 }
 
 /// Provisioned cluster request.
+///
+/// @nodoc
 class ProvisionedRequest {
   /// Information about the brokers.
   final BrokerNodeGroupInfo brokerNodeGroupInfo;
@@ -9581,6 +9871,8 @@ class ProvisionedRequest {
 }
 
 /// Serverless cluster request.
+///
+/// @nodoc
 class ServerlessRequest {
   /// The configuration of the Amazon VPCs for the cluster.
   final List<VpcConfig> vpcConfigs;
@@ -9605,6 +9897,8 @@ class ServerlessRequest {
 }
 
 /// Error info for scram secret associate/disassociate failure.
+///
+/// @nodoc
 class UnprocessedScramSecret {
   /// Error code for associate/disassociate failure.
   final String? errorCode;
@@ -9641,32 +9935,38 @@ class UnprocessedScramSecret {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ClusterConnectivityException extends _s.GenericAwsException {
   ClusterConnectivityException({String? type, String? message})
       : super(
             type: type, code: 'ClusterConnectivityException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ControllerMovedException extends _s.GenericAwsException {
   ControllerMovedException({String? type, String? message})
       : super(type: type, code: 'ControllerMovedException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class GroupSubscribedToTopicException extends _s.GenericAwsException {
   GroupSubscribedToTopicException({String? type, String? message})
       : super(
@@ -9675,32 +9975,38 @@ class GroupSubscribedToTopicException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class KafkaRequestException extends _s.GenericAwsException {
   KafkaRequestException({String? type, String? message})
       : super(type: type, code: 'KafkaRequestException', message: message);
 }
 
+/// @nodoc
 class KafkaTimeoutException extends _s.GenericAwsException {
   KafkaTimeoutException({String? type, String? message})
       : super(type: type, code: 'KafkaTimeoutException', message: message);
 }
 
+/// @nodoc
 class NotControllerException extends _s.GenericAwsException {
   NotControllerException({String? type, String? message})
       : super(type: type, code: 'NotControllerException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ReassignmentInProgressException extends _s.GenericAwsException {
   ReassignmentInProgressException({String? type, String? message})
       : super(
@@ -9709,27 +10015,32 @@ class ReassignmentInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class TopicExistsException extends _s.GenericAwsException {
   TopicExistsException({String? type, String? message})
       : super(type: type, code: 'TopicExistsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class UnknownTopicOrPartitionException extends _s.GenericAwsException {
   UnknownTopicOrPartitionException({String? type, String? message})
       : super(

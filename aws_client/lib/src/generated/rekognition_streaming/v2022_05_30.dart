@@ -138,6 +138,7 @@ class RekognitionStreaming {
   }
 }
 
+/// @nodoc
 class StartFaceLivenessSessionResponse {
   /// The ID that identifies a Face Liveness session.
   final String sessionId;
@@ -161,6 +162,8 @@ class StartFaceLivenessSessionResponse {
 }
 
 /// Unexpected error during processing of request.
+///
+/// @nodoc
 class InternalServerException implements _s.AwsException {
   final String? code;
   final String? message;
@@ -188,6 +191,8 @@ class InternalServerException implements _s.AwsException {
 }
 
 /// Occurs when a request would cause a service quota to be exceeded.
+///
+/// @nodoc
 class ServiceQuotaExceededException implements _s.AwsException {
   final String? code;
   final String? message;
@@ -216,6 +221,8 @@ class ServiceQuotaExceededException implements _s.AwsException {
 
 /// Service-wide throttling to recover from an operational event or service is
 /// not able to scale.
+///
+/// @nodoc
 class ServiceUnavailableException implements _s.AwsException {
   final String? code;
   final String? message;
@@ -246,6 +253,8 @@ class ServiceUnavailableException implements _s.AwsException {
 /// requests were made by a user (exceeding their service quota), the service
 /// isn't able to scale, or a service-wide throttling was done to recover from
 /// an operational event.
+///
+/// @nodoc
 class ThrottlingException implements _s.AwsException {
   final String? code;
   final String? message;
@@ -278,6 +287,8 @@ class ThrottlingException implements _s.AwsException {
 /// detected in video, request couldn't be parsed or is invalid, session has
 /// expired or is invalid, S3 bucket is invalid/in another AWS region, KMS Key
 /// is invalid.
+///
+/// @nodoc
 class ValidationException implements _s.AwsException {
   final String? code;
   final String? message;
@@ -306,6 +317,8 @@ class ValidationException implements _s.AwsException {
 
 /// Contains information event details and exception information for a Face
 /// Liveness verification response stream.
+///
+/// @nodoc
 class LivenessResponseStream {
   final ChallengeEvent? challengeEvent;
 
@@ -415,6 +428,8 @@ class LivenessResponseStream {
 }
 
 /// Event containing session information for the server.
+///
+/// @nodoc
 class ServerSessionInformationEvent {
   /// Contains the session information sent by the server..
   final SessionInformation sessionInformation;
@@ -442,6 +457,8 @@ class ServerSessionInformationEvent {
 /// Contains information regarding if a disconnection event took place during
 /// the Face Liveness session. Disconnection events may indicate processing is
 /// complete at the server side.
+///
+/// @nodoc
 class DisconnectionEvent {
   /// The timestamp that a disconnection event took place at.
   final int timestampMillis;
@@ -464,6 +481,7 @@ class DisconnectionEvent {
   }
 }
 
+/// @nodoc
 class ChallengeEvent {
   final ChallengeType type;
   final String version;
@@ -490,6 +508,7 @@ class ChallengeEvent {
   }
 }
 
+/// @nodoc
 class ChallengeType {
   static const faceMovementAndLightChallenge =
       ChallengeType._('FaceMovementAndLightChallenge');
@@ -516,6 +535,8 @@ class ChallengeType {
 }
 
 /// Information required for the streaming session.
+///
+/// @nodoc
 class SessionInformation {
   /// Object containing information of Face Liveness challenge to be performed by
   /// the client. The information is used to construct the challenges at the
@@ -543,6 +564,8 @@ class SessionInformation {
 }
 
 /// Information on the challenge sent by the server.
+///
+/// @nodoc
 class ServerChallenge {
   /// Paramteters and configuration information for the face movement and light
   /// sequence challenges.
@@ -582,6 +605,8 @@ class ServerChallenge {
 
 /// Contains information regarding the <code>OvalParameters</code> and
 /// <code>LightChallengeType</code> for a challenge.
+///
+/// @nodoc
 class FaceMovementAndLightServerChallenge {
   /// Configurations for attributes of the Face Liveness movement and light
   /// challenges.
@@ -637,6 +662,7 @@ class FaceMovementAndLightServerChallenge {
   }
 }
 
+/// @nodoc
 class FaceMovementServerChallenge {
   final ChallengeConfig challengeConfig;
   final OvalParameters ovalParameters;
@@ -668,6 +694,8 @@ class FaceMovementServerChallenge {
 }
 
 /// Oval parameters need for oval display to complete oval match challenge.
+///
+/// @nodoc
 class OvalParameters {
   /// X-axis co-ordinate of for center of oval
   final double centerX;
@@ -713,6 +741,8 @@ class OvalParameters {
 
 /// Configuration options for Face Liveness challenges performed at the client
 /// side.
+///
+/// @nodoc
 class ChallengeConfig {
   /// Threshold for face detection done using blaze face.
   final double? blazeFaceDetectionThreshold;
@@ -815,6 +845,7 @@ class ChallengeConfig {
   }
 }
 
+/// @nodoc
 class LightChallengeType {
   static const sequential = LightChallengeType._('SEQUENTIAL');
 
@@ -840,6 +871,8 @@ class LightChallengeType {
 }
 
 /// A color sequence to be displayed on the user’s screen.
+///
+/// @nodoc
 class ColorSequence {
   /// Duration in milliseconds for which a given color in the color sequence will
   /// down-scroll before taking over full screen.
@@ -883,6 +916,8 @@ class ColorSequence {
 
 /// Represents the colors to be flashed to the end user, each color represented
 /// in RGB values.
+///
+/// @nodoc
 class FreshnessColor {
   /// RGB values for a color to be flashed to the end user.
   final List<int> rgb;
@@ -910,6 +945,8 @@ class FreshnessColor {
 
 /// Contains information regarding video events and client session details for a
 /// Face Liveness verification request stream.
+///
+/// @nodoc
 class LivenessRequestStream {
   /// Information event for the client session for a given Face Liveness request
   /// stream.
@@ -935,6 +972,8 @@ class LivenessRequestStream {
 }
 
 /// Contains the video chunk blob.
+///
+/// @nodoc
 class VideoEvent {
   /// Milisecond timestamp for a video chunk in a video event.
   final int? timestampMillis;
@@ -960,6 +999,8 @@ class VideoEvent {
 /// Any information that the client needs to send for the streaming session. For
 /// face movement challenge, it will contain information like initial face
 /// position and target face position.
+///
+/// @nodoc
 class ClientSessionInformationEvent {
   /// Contains information on FaceMovementAndLightChellenge, TargetFace, and
   /// ColorDisplayed, for a given Challenge.
@@ -979,6 +1020,8 @@ class ClientSessionInformationEvent {
 
 /// Object containing information for Face Liveness challenges performed at the
 /// client side.
+///
+/// @nodoc
 class ClientChallenge {
   /// Information about a face movement and light challenge type.
   final FaceMovementAndLightClientChallenge? faceMovementAndLightChallenge;
@@ -1003,6 +1046,8 @@ class ClientChallenge {
 
 /// Holds information about the type of face movement and light challenges that
 /// need to be performed.
+///
+/// @nodoc
 class FaceMovementAndLightClientChallenge {
   /// An ID that uniquely identifies a challenge from a client.
   final String challengeId;
@@ -1058,6 +1103,7 @@ class FaceMovementAndLightClientChallenge {
   }
 }
 
+/// @nodoc
 class FaceMovementClientChallenge {
   final String challengeId;
   final InitialFace? initialFace;
@@ -1093,6 +1139,8 @@ class FaceMovementClientChallenge {
 /// Contains bounding box of initial face position of the user on the device
 /// screen. Contains an epoch timestamp of when the user was detected in this
 /// position. Used for Face Liveness detection.
+///
+/// @nodoc
 class InitialFace {
   /// The bounding box for the initial face position of the user on the device
   /// screen.
@@ -1121,6 +1169,8 @@ class InitialFace {
 /// random offsets provided by the server to the client at session start. Also
 /// contains start and end epoch timestamp of when the user was detected in this
 /// position.
+///
+/// @nodoc
 class TargetFace {
   /// A bounding box for the target face.
   final BoundingBox boundingBox;
@@ -1168,6 +1218,8 @@ class TargetFace {
 /// a ratio of the overall image dimension. For example, if the input image is
 /// 700x200 pixels, and the bounding box width is 70 pixels, the width returned
 /// is 0.1.
+///
+/// @nodoc
 class BoundingBox {
   /// Height of the bounding box as a ratio of the overall image height.
   final double height;
@@ -1205,6 +1257,8 @@ class BoundingBox {
 /// Contains information regarding <code>SequenceNumber</code>,
 /// <code>CurrentColor</code>, <code>PreviousColor</code>, and
 /// <code>CurrentColorStartTimestamp</code>.
+///
+/// @nodoc
 class ColorDisplayed {
   /// The current color being displayed on the screen (flat or downscrolled). It
   /// will contain a separate RGB list having 3 elements (each element can have
@@ -1243,11 +1297,13 @@ class ColorDisplayed {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class SessionNotFoundException extends _s.GenericAwsException {
   SessionNotFoundException({String? type, String? message})
       : super(type: type, code: 'SessionNotFoundException', message: message);

@@ -241,7 +241,7 @@ class MachineLearning {
   /// SecurityInfo - The security information to use to access an RDS DB
   /// instance. You need to set up appropriate ingress rules for the security
   /// entity IDs provided to allow access to the Amazon RDS instance. Specify a
-  /// [<code>SubnetId</code>, <code>SecurityGroupIds</code>] pair for a
+  /// \[<code>SubnetId</code>, <code>SecurityGroupIds</code>\] pair for a
   /// VPC-based RDS DB instance.
   /// </li>
   /// <li>
@@ -2084,6 +2084,8 @@ class MachineLearning {
 }
 
 /// Amazon ML returns the following elements.
+///
+/// @nodoc
 class AddTagsOutput {
   /// The ID of the ML object that was tagged.
   final String? resourceId;
@@ -2120,6 +2122,8 @@ class AddTagsOutput {
 /// The <code>CreateBatchPrediction</code> operation is asynchronous. You can
 /// poll for status updates by using the <code>>GetBatchPrediction</code>
 /// operation and checking the <code>Status</code> parameter of the result.
+///
+/// @nodoc
 class CreateBatchPredictionOutput {
   /// A user-supplied ID that uniquely identifies the
   /// <code>BatchPrediction</code>. This value is identical to the value of the
@@ -2154,6 +2158,8 @@ class CreateBatchPredictionOutput {
 /// <code>FAILED</code>. You can also check the progress of the copy operation
 /// by going to the <code>DataPipeline</code> console and looking up the
 /// pipeline using the <code>pipelineId </code> from the describe call.
+///
+/// @nodoc
 class CreateDataSourceFromRDSOutput {
   /// A user-supplied ID that uniquely identifies the datasource. This value
   /// should be identical to the value of the <code>DataSourceID</code> in the
@@ -2184,6 +2190,8 @@ class CreateDataSourceFromRDSOutput {
 /// The <code>CreateDataSourceFromRedshift</code> operation is asynchronous. You
 /// can poll for updates by using the <code>GetBatchPrediction</code> operation
 /// and checking the <code>Status</code> parameter.
+///
+/// @nodoc
 class CreateDataSourceFromRedshiftOutput {
   /// A user-supplied ID that uniquely identifies the datasource. This value
   /// should be identical to the value of the <code>DataSourceID</code> in the
@@ -2215,6 +2223,8 @@ class CreateDataSourceFromRedshiftOutput {
 /// The <code>CreateDataSourceFromS3</code> operation is asynchronous. You can
 /// poll for updates by using the <code>GetBatchPrediction</code> operation and
 /// checking the <code>Status</code> parameter.
+///
+/// @nodoc
 class CreateDataSourceFromS3Output {
   /// A user-supplied ID that uniquely identifies the <code>DataSource</code>.
   /// This value should be identical to the value of the <code>DataSourceID</code>
@@ -2245,6 +2255,8 @@ class CreateDataSourceFromS3Output {
 /// <code>CreateEvaluation</code> operation is asynchronous. You can poll for
 /// status updates by using the <code>GetEvcaluation</code> operation and
 /// checking the <code>Status</code> parameter.
+///
+/// @nodoc
 class CreateEvaluationOutput {
   /// The user-supplied ID that uniquely identifies the <code>Evaluation</code>.
   /// This value should be identical to the value of the <code>EvaluationId</code>
@@ -2275,6 +2287,8 @@ class CreateEvaluationOutput {
 /// The <code>CreateMLModel</code> operation is asynchronous. You can poll for
 /// status updates by using the <code>GetMLModel</code> operation and checking
 /// the <code>Status</code> parameter.
+///
+/// @nodoc
 class CreateMLModelOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelId</code> in the
@@ -2307,6 +2321,8 @@ class CreateMLModelOutput {
 /// <b>Note:</b> The endpoint information includes the URI of the
 /// <code>MLModel</code>; that is, the location to send online prediction
 /// requests for the specified <code>MLModel</code>.
+///
+/// @nodoc
 class CreateRealtimeEndpointOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelId</code> in the
@@ -2347,6 +2363,8 @@ class CreateRealtimeEndpointOutput {
 /// You can use the <code>GetBatchPrediction</code> operation and check the
 /// value of the <code>Status</code> parameter to see whether a
 /// <code>BatchPrediction</code> is marked as <code>DELETED</code>.
+///
+/// @nodoc
 class DeleteBatchPredictionOutput {
   /// A user-supplied ID that uniquely identifies the
   /// <code>BatchPrediction</code>. This value should be identical to the value of
@@ -2372,6 +2390,8 @@ class DeleteBatchPredictionOutput {
 }
 
 /// Represents the output of a <code>DeleteDataSource</code> operation.
+///
+/// @nodoc
 class DeleteDataSourceOutput {
   /// A user-supplied ID that uniquely identifies the <code>DataSource</code>.
   /// This value should be identical to the value of the <code>DataSourceID</code>
@@ -2403,6 +2423,8 @@ class DeleteDataSourceOutput {
 /// You can use the <code>GetEvaluation</code> operation and check the value of
 /// the <code>Status</code> parameter to see whether an <code>Evaluation</code>
 /// is marked as <code>DELETED</code>.
+///
+/// @nodoc
 class DeleteEvaluationOutput {
   /// A user-supplied ID that uniquely identifies the <code>Evaluation</code>.
   /// This value should be identical to the value of the <code>EvaluationId</code>
@@ -2432,6 +2454,8 @@ class DeleteEvaluationOutput {
 /// You can use the <code>GetMLModel</code> operation and check the value of the
 /// <code>Status</code> parameter to see whether an <code>MLModel</code> is
 /// marked as <code>DELETED</code>.
+///
+/// @nodoc
 class DeleteMLModelOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelID</code> in the
@@ -2460,6 +2484,8 @@ class DeleteMLModelOutput {
 ///
 /// The result contains the <code>MLModelId</code> and the endpoint information
 /// for the <code>MLModel</code>.
+///
+/// @nodoc
 class DeleteRealtimeEndpointOutput {
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>. This
   /// value should be identical to the value of the <code>MLModelId</code> in the
@@ -2496,6 +2522,8 @@ class DeleteRealtimeEndpointOutput {
 }
 
 /// Amazon ML returns the following elements.
+///
+/// @nodoc
 class DeleteTagsOutput {
   /// The ID of the ML object from which tags were deleted.
   final String? resourceId;
@@ -2528,6 +2556,8 @@ class DeleteTagsOutput {
 
 /// Represents the output of a <code>DescribeBatchPredictions</code> operation.
 /// The content is essentially a list of <code>BatchPrediction</code>s.
+///
+/// @nodoc
 class DescribeBatchPredictionsOutput {
   /// The ID of the next page in the paginated results that indicates at least one
   /// more page follows.
@@ -2564,6 +2594,8 @@ class DescribeBatchPredictionsOutput {
 
 /// Represents the query results from a <a>DescribeDataSources</a> operation.
 /// The content is essentially a list of <code>DataSource</code>.
+///
+/// @nodoc
 class DescribeDataSourcesOutput {
   /// An ID of the next page in the paginated results that indicates at least one
   /// more page follows.
@@ -2599,6 +2631,8 @@ class DescribeDataSourcesOutput {
 
 /// Represents the query results from a <code>DescribeEvaluations</code>
 /// operation. The content is essentially a list of <code>Evaluation</code>.
+///
+/// @nodoc
 class DescribeEvaluationsOutput {
   /// The ID of the next page in the paginated results that indicates at least one
   /// more page follows.
@@ -2634,6 +2668,8 @@ class DescribeEvaluationsOutput {
 
 /// Represents the output of a <code>DescribeMLModels</code> operation. The
 /// content is essentially a list of <code>MLModel</code>.
+///
+/// @nodoc
 class DescribeMLModelsOutput {
   /// The ID of the next page in the paginated results that indicates at least one
   /// more page follows.
@@ -2668,6 +2704,8 @@ class DescribeMLModelsOutput {
 }
 
 /// Amazon ML returns the following elements.
+///
+/// @nodoc
 class DescribeTagsOutput {
   /// The ID of the tagged ML object.
   final String? resourceId;
@@ -2710,6 +2748,8 @@ class DescribeTagsOutput {
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation and
 /// describes a <code>BatchPrediction</code>.
+///
+/// @nodoc
 class GetBatchPredictionOutput {
   /// The ID of the <code>DataSource</code> that was used to create the
   /// <code>BatchPrediction</code>.
@@ -2897,6 +2937,8 @@ class GetBatchPredictionOutput {
 
 /// Represents the output of a <code>GetDataSource</code> operation and
 /// describes a <code>DataSource</code>.
+///
+/// @nodoc
 class GetDataSourceOutput {
   /// The parameter is <code>true</code> if statistics need to be generated from
   /// the observation data.
@@ -3099,6 +3141,8 @@ class GetDataSourceOutput {
 
 /// Represents the output of a <code>GetEvaluation</code> operation and
 /// describes an <code>Evaluation</code>.
+///
+/// @nodoc
 class GetEvaluationOutput {
   /// The approximate CPU time in milliseconds that Amazon Machine Learning spent
   /// processing the <code>Evaluation</code>, normalized and scaled on computation
@@ -3287,6 +3331,8 @@ class GetEvaluationOutput {
 
 /// Represents the output of a <code>GetMLModel</code> operation, and provides
 /// detailed information about a <code>MLModel</code>.
+///
+/// @nodoc
 class GetMLModelOutput {
   /// The approximate CPU time in milliseconds that Amazon Machine Learning spent
   /// processing the <code>MLModel</code>, normalized and scaled on computation
@@ -3577,6 +3623,7 @@ class GetMLModelOutput {
   }
 }
 
+/// @nodoc
 class PredictOutput {
   final Prediction? prediction;
 
@@ -3604,6 +3651,8 @@ class PredictOutput {
 ///
 /// You can see the updated content by using the <code>GetBatchPrediction</code>
 /// operation.
+///
+/// @nodoc
 class UpdateBatchPredictionOutput {
   /// The ID assigned to the <code>BatchPrediction</code> during creation. This
   /// value should be identical to the value of the <code>BatchPredictionId</code>
@@ -3632,6 +3681,8 @@ class UpdateBatchPredictionOutput {
 ///
 /// You can see the updated content by using the <code>GetBatchPrediction</code>
 /// operation.
+///
+/// @nodoc
 class UpdateDataSourceOutput {
   /// The ID assigned to the <code>DataSource</code> during creation. This value
   /// should be identical to the value of the <code>DataSourceID</code> in the
@@ -3660,6 +3711,8 @@ class UpdateDataSourceOutput {
 ///
 /// You can see the updated content by using the <code>GetEvaluation</code>
 /// operation.
+///
+/// @nodoc
 class UpdateEvaluationOutput {
   /// The ID assigned to the <code>Evaluation</code> during creation. This value
   /// should be identical to the value of the <code>Evaluation</code> in the
@@ -3688,6 +3741,8 @@ class UpdateEvaluationOutput {
 ///
 /// You can see the updated content by using the <code>GetMLModel</code>
 /// operation.
+///
+/// @nodoc
 class UpdateMLModelOutput {
   /// The ID assigned to the <code>MLModel</code> during creation. This value
   /// should be identical to the value of the <code>MLModelID</code> in the
@@ -3733,6 +3788,8 @@ class UpdateMLModelOutput {
 /// <code>MLModel</code> request.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Prediction {
   final Map<DetailsAttributes, String>? details;
 
@@ -3789,6 +3846,8 @@ class Prediction {
 /// <code>MLModel</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DetailsAttributes {
   static const predictiveModelType = DetailsAttributes._('PredictiveModelType');
   static const algorithm = DetailsAttributes._('Algorithm');
@@ -3832,6 +3891,8 @@ class DetailsAttributes {
 /// <code>DELETED</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EntityStatus {
   static const pending = EntityStatus._('PENDING');
   static const inprogress = EntityStatus._('INPROGRESS');
@@ -3859,6 +3920,8 @@ class EntityStatus {
 }
 
 /// Describes the real-time endpoint information for an <code>MLModel</code>.
+///
+/// @nodoc
 class RealtimeEndpointInfo {
   /// The time that the request to create the real-time endpoint for the
   /// <code>MLModel</code> was received. The time is expressed in epoch time.
@@ -3923,6 +3986,7 @@ class RealtimeEndpointInfo {
   }
 }
 
+/// @nodoc
 class MLModelType {
   static const regression = MLModelType._('REGRESSION');
   static const binary = MLModelType._('BINARY');
@@ -3947,6 +4011,7 @@ class MLModelType {
   String toString() => value;
 }
 
+/// @nodoc
 class RealtimeEndpointStatus {
   static const none = RealtimeEndpointStatus._('NONE');
   static const ready = RealtimeEndpointStatus._('READY');
@@ -3996,6 +4061,8 @@ class RealtimeEndpointStatus {
 /// For more information about performance metrics, please see the <a
 /// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
 /// Learning Developer Guide</a>.
+///
+/// @nodoc
 class PerformanceMetrics {
   final Map<String, String>? properties;
 
@@ -4019,6 +4086,8 @@ class PerformanceMetrics {
 }
 
 /// Describes the <code>DataSource</code> details specific to Amazon Redshift.
+///
+/// @nodoc
 class RedshiftMetadata {
   final String? databaseUserName;
   final RedshiftDatabase? redshiftDatabase;
@@ -4057,6 +4126,8 @@ class RedshiftMetadata {
 }
 
 /// The datasource details that are specific to Amazon RDS.
+///
+/// @nodoc
 class RDSMetadata {
   /// The ID of the Data Pipeline instance that is used to carry to copy data from
   /// Amazon RDS to Amazon S3. You can use the ID to find details about the
@@ -4127,6 +4198,8 @@ class RDSMetadata {
 }
 
 /// The database details of an Amazon RDS database.
+///
+/// @nodoc
 class RDSDatabase {
   final String databaseName;
 
@@ -4157,6 +4230,8 @@ class RDSDatabase {
 
 /// Describes the database details required to connect to an Amazon Redshift
 /// database.
+///
+/// @nodoc
 class RedshiftDatabase {
   final String clusterIdentifier;
   final String databaseName;
@@ -4183,6 +4258,7 @@ class RedshiftDatabase {
   }
 }
 
+/// @nodoc
 class TaggableResourceType {
   static const batchPrediction = TaggableResourceType._('BatchPrediction');
   static const dataSource = TaggableResourceType._('DataSource');
@@ -4211,6 +4287,8 @@ class TaggableResourceType {
 }
 
 /// A custom key-value pair associated with an ML object, such as an ML model.
+///
+/// @nodoc
 class Tag {
   /// A unique identifier for the tag. Valid characters include Unicode letters,
   /// digits, white space, _, ., /, =, +, -, %, and @.
@@ -4247,6 +4325,8 @@ class Tag {
 ///
 /// The content consists of the detailed metadata and the current status of the
 /// <code>MLModel</code>.
+///
+/// @nodoc
 class MLModel {
   /// The algorithm used to train the <code>MLModel</code>. The following
   /// algorithm is supported:
@@ -4511,6 +4591,8 @@ class MLModel {
 /// <code>RandomForest</code> - Random forest of decision trees.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Algorithm {
   static const sgd = Algorithm._('sgd');
 
@@ -4533,6 +4615,7 @@ class Algorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class MLModelFilterVariable {
   static const createdAt = MLModelFilterVariable._('CreatedAt');
   static const lastUpdatedAt = MLModelFilterVariable._('LastUpdatedAt');
@@ -4590,6 +4673,8 @@ class MLModelFilterVariable {
 /// <code>dsc</code> - Present the information in descending order (from Z-A).
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('asc');
   static const dsc = SortOrder._('dsc');
@@ -4617,6 +4702,8 @@ class SortOrder {
 ///
 /// The content consists of the detailed metadata and data file information and
 /// the current status of the <code>Evaluation</code>.
+///
+/// @nodoc
 class Evaluation {
   final int? computeTime;
 
@@ -4815,6 +4902,8 @@ class Evaluation {
 /// Service (Amazon S3) bucket or directory.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EvaluationFilterVariable {
   static const createdAt = EvaluationFilterVariable._('CreatedAt');
   static const lastUpdatedAt = EvaluationFilterVariable._('LastUpdatedAt');
@@ -4859,6 +4948,8 @@ class EvaluationFilterVariable {
 ///
 /// The content consists of the detailed metadata and data file information and
 /// the current status of the <code>DataSource</code>.
+///
+/// @nodoc
 class DataSource {
   /// The parameter is <code>true</code> if statistics need to be generated from
   /// the observation data.
@@ -5053,6 +5144,8 @@ class DataSource {
 /// </ul>
 /// <b>Note:</b> The variable names should match the variable names in the
 /// <code>DataSource</code>.
+///
+/// @nodoc
 class DataSourceFilterVariable {
   static const createdAt = DataSourceFilterVariable._('CreatedAt');
   static const lastUpdatedAt = DataSourceFilterVariable._('LastUpdatedAt');
@@ -5093,6 +5186,8 @@ class DataSourceFilterVariable {
 ///
 /// The content consists of the detailed metadata, the status, and the data file
 /// information of a <code>Batch Prediction</code>.
+///
+/// @nodoc
 class BatchPrediction {
   /// The ID of the <code>DataSource</code> that points to the group of
   /// observations to predict.
@@ -5283,6 +5378,8 @@ class BatchPrediction {
 /// Amazon Simple Storage Service (Amazon S3) bucket or directory.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class BatchPredictionFilterVariable {
   static const createdAt = BatchPredictionFilterVariable._('CreatedAt');
   static const lastUpdatedAt = BatchPredictionFilterVariable._('LastUpdatedAt');
@@ -5324,6 +5421,8 @@ class BatchPredictionFilterVariable {
 }
 
 /// Describes the data specification of a <code>DataSource</code>.
+///
+/// @nodoc
 class S3DataSpec {
   /// The location of the data file(s) used by a <code>DataSource</code>. The URI
   /// specifies a data file or an Amazon Simple Storage Service (Amazon S3)
@@ -5452,16 +5551,16 @@ class S3DataSpec {
   ///
   /// "dataFileContainsHeader": true,
   ///
-  /// "attributes": [
+  /// "attributes": \[
   ///
   /// { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2",
   /// "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" },
   /// { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5",
   /// "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, {
   /// "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName":
-  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
+  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } \],
   ///
-  /// "excludedVariableNames": [ "F6" ] }
+  /// "excludedVariableNames": \[ "F6" \] }
   final String? dataSchema;
 
   /// Describes the schema location in Amazon S3. You must provide either the
@@ -5492,6 +5591,8 @@ class S3DataSpec {
 
 /// Describes the data specification of an Amazon Redshift
 /// <code>DataSource</code>.
+///
+/// @nodoc
 class RedshiftDataSpec {
   /// Describes AWS Identity and Access Management (IAM) credentials that are used
   /// connect to the Amazon Redshift database.
@@ -5631,16 +5732,16 @@ class RedshiftDataSpec {
   ///
   /// "dataFileContainsHeader": true,
   ///
-  /// "attributes": [
+  /// "attributes": \[
   ///
   /// { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2",
   /// "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" },
   /// { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5",
   /// "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, {
   /// "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName":
-  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
+  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } \],
   ///
-  /// "excludedVariableNames": [ "F6" ] }
+  /// "excludedVariableNames": \[ "F6" \] }
   final String? dataSchema;
 
   /// Describes the schema location for an Amazon Redshift
@@ -5679,6 +5780,8 @@ class RedshiftDataSpec {
 
 /// Describes the database credentials for connecting to a database on an Amazon
 /// Redshift cluster.
+///
+/// @nodoc
 class RedshiftDatabaseCredentials {
   final String password;
   final String username;
@@ -5700,6 +5803,8 @@ class RedshiftDatabaseCredentials {
 
 /// The data specification of an Amazon Relational Database Service (Amazon RDS)
 /// <code>DataSource</code>.
+///
+/// @nodoc
 class RDSDataSpec {
   /// The AWS Identity and Access Management (IAM) credentials that are used
   /// connect to the Amazon RDS database.
@@ -5864,16 +5969,16 @@ class RDSDataSpec {
   ///
   /// "dataFileContainsHeader": true,
   ///
-  /// "attributes": [
+  /// "attributes": \[
   ///
   /// { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2",
   /// "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" },
   /// { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5",
   /// "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, {
   /// "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName":
-  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
+  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } \],
   ///
-  /// "excludedVariableNames": [ "F6" ] }
+  /// "excludedVariableNames": \[ "F6" \] }
   final String? dataSchema;
 
   /// The Amazon S3 location of the <code>DataSchema</code>.
@@ -5922,6 +6027,8 @@ class RDSDataSpec {
 }
 
 /// The database credentials to connect to a database on an RDS DB instance.
+///
+/// @nodoc
 class RDSDatabaseCredentials {
   final String password;
   final String username;
@@ -5941,6 +6048,7 @@ class RDSDatabaseCredentials {
   }
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -5949,37 +6057,44 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidTagException extends _s.GenericAwsException {
   InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class PredictorNotMountedException extends _s.GenericAwsException {
   PredictorNotMountedException({String? type, String? message})
       : super(
             type: type, code: 'PredictorNotMountedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TagLimitExceededException extends _s.GenericAwsException {
   TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);

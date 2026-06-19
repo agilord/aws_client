@@ -3965,10 +3965,10 @@ class AutoScaling {
   ///
   /// Parameter [recurrence] :
   /// The recurring schedule for this action. This format consists of five
-  /// fields separated by white spaces: [Minute] [Hour] [Day_of_Month]
-  /// [Month_of_Year] [Day_of_Week]. The value must be in quotes (for example,
-  /// <code>"30 0 1 1,6,12 *"</code>). For more information about this format,
-  /// see <a href="http://crontab.org">Crontab</a>.
+  /// fields separated by white spaces: \[Minute\] \[Hour\] \[Day_of_Month\]
+  /// \[Month_of_Year\] \[Day_of_Week\]. The value must be in quotes (for
+  /// example, <code>"30 0 1 1,6,12 *"</code>). For more information about this
+  /// format, see <a href="http://crontab.org">Crontab</a>.
   ///
   /// When <code>StartTime</code> and <code>EndTime</code> are specified with
   /// <code>Recurrence</code>, they form the boundaries of when the recurring
@@ -5155,6 +5155,7 @@ class AutoScaling {
   }
 }
 
+/// @nodoc
 class AttachLoadBalancersResultType {
   AttachLoadBalancersResultType();
   factory AttachLoadBalancersResultType.fromXml(
@@ -5168,6 +5169,7 @@ class AttachLoadBalancersResultType {
   }
 }
 
+/// @nodoc
 class AttachLoadBalancerTargetGroupsResultType {
   AttachLoadBalancerTargetGroupsResultType();
   factory AttachLoadBalancerTargetGroupsResultType.fromXml(
@@ -5181,6 +5183,7 @@ class AttachLoadBalancerTargetGroupsResultType {
   }
 }
 
+/// @nodoc
 class AttachTrafficSourcesResultType {
   AttachTrafficSourcesResultType();
   factory AttachTrafficSourcesResultType.fromXml(
@@ -5194,6 +5197,7 @@ class AttachTrafficSourcesResultType {
   }
 }
 
+/// @nodoc
 class BatchDeleteScheduledActionAnswer {
   /// The names of the scheduled actions that could not be deleted, including an
   /// error message.
@@ -5222,6 +5226,7 @@ class BatchDeleteScheduledActionAnswer {
   }
 }
 
+/// @nodoc
 class BatchPutScheduledUpdateGroupActionAnswer {
   /// The names of the scheduled actions that could not be created or updated,
   /// including an error message.
@@ -5252,6 +5257,7 @@ class BatchPutScheduledUpdateGroupActionAnswer {
   }
 }
 
+/// @nodoc
 class CancelInstanceRefreshAnswer {
   /// The instance refresh ID associated with the request. This is the unique ID
   /// assigned to the instance refresh when it was started.
@@ -5274,6 +5280,7 @@ class CancelInstanceRefreshAnswer {
   }
 }
 
+/// @nodoc
 class CompleteLifecycleActionAnswer {
   CompleteLifecycleActionAnswer();
   factory CompleteLifecycleActionAnswer.fromXml(
@@ -5287,6 +5294,7 @@ class CompleteLifecycleActionAnswer {
   }
 }
 
+/// @nodoc
 class DeleteLifecycleHookAnswer {
   DeleteLifecycleHookAnswer();
   factory DeleteLifecycleHookAnswer.fromXml(
@@ -5300,6 +5308,7 @@ class DeleteLifecycleHookAnswer {
   }
 }
 
+/// @nodoc
 class DeleteWarmPoolAnswer {
   DeleteWarmPoolAnswer();
   factory DeleteWarmPoolAnswer.fromXml(
@@ -5313,6 +5322,7 @@ class DeleteWarmPoolAnswer {
   }
 }
 
+/// @nodoc
 class DescribeAccountLimitsAnswer {
   /// The maximum number of groups allowed for your account. The default is 200
   /// groups per Region.
@@ -5366,6 +5376,7 @@ class DescribeAccountLimitsAnswer {
   }
 }
 
+/// @nodoc
 class DescribeAdjustmentTypesAnswer {
   /// The policy adjustment types.
   final List<AdjustmentType>? adjustmentTypes;
@@ -5389,6 +5400,7 @@ class DescribeAdjustmentTypesAnswer {
   }
 }
 
+/// @nodoc
 class AutoScalingGroupsType {
   /// The groups.
   final List<AutoScalingGroup> autoScalingGroups;
@@ -5424,6 +5436,7 @@ class AutoScalingGroupsType {
   }
 }
 
+/// @nodoc
 class AutoScalingInstancesType {
   /// The instances.
   final List<AutoScalingInstanceDetails>? autoScalingInstances;
@@ -5461,6 +5474,7 @@ class AutoScalingInstancesType {
   }
 }
 
+/// @nodoc
 class DescribeAutoScalingNotificationTypesAnswer {
   /// The notification types.
   final List<String>? autoScalingNotificationTypes;
@@ -5486,6 +5500,7 @@ class DescribeAutoScalingNotificationTypesAnswer {
   }
 }
 
+/// @nodoc
 class DescribeInstanceRefreshesAnswer {
   /// The instance refreshes for the specified group, sorted by creation timestamp
   /// in descending order.
@@ -5522,6 +5537,7 @@ class DescribeInstanceRefreshesAnswer {
   }
 }
 
+/// @nodoc
 class LaunchConfigurationsType {
   /// The launch configurations.
   final List<LaunchConfiguration> launchConfigurations;
@@ -5557,6 +5573,7 @@ class LaunchConfigurationsType {
   }
 }
 
+/// @nodoc
 class DescribeLifecycleHooksAnswer {
   /// The lifecycle hooks for the specified group.
   final List<LifecycleHook>? lifecycleHooks;
@@ -5579,6 +5596,7 @@ class DescribeLifecycleHooksAnswer {
   }
 }
 
+/// @nodoc
 class DescribeLifecycleHookTypesAnswer {
   /// The lifecycle hook types.
   final List<String>? lifecycleHookTypes;
@@ -5602,6 +5620,7 @@ class DescribeLifecycleHookTypesAnswer {
   }
 }
 
+/// @nodoc
 class DescribeLoadBalancersResponse {
   /// The load balancers.
   final List<LoadBalancerState>? loadBalancers;
@@ -5634,6 +5653,7 @@ class DescribeLoadBalancersResponse {
   }
 }
 
+/// @nodoc
 class DescribeLoadBalancerTargetGroupsResponse {
   /// Information about the target groups.
   final List<LoadBalancerTargetGroupState>? loadBalancerTargetGroups;
@@ -5671,6 +5691,7 @@ class DescribeLoadBalancerTargetGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMetricCollectionTypesAnswer {
   /// The granularities for the metrics.
   final List<MetricGranularityType>? granularities;
@@ -5706,6 +5727,7 @@ class DescribeMetricCollectionTypesAnswer {
   }
 }
 
+/// @nodoc
 class DescribeNotificationConfigurationsAnswer {
   /// The notification configurations.
   final List<NotificationConfiguration> notificationConfigurations;
@@ -5741,6 +5763,7 @@ class DescribeNotificationConfigurationsAnswer {
   }
 }
 
+/// @nodoc
 class PoliciesType {
   /// A string that indicates that the response contains more items than can be
   /// returned in a single response. To receive additional items, specify this
@@ -5774,6 +5797,7 @@ class PoliciesType {
   }
 }
 
+/// @nodoc
 class ActivitiesType {
   /// The scaling activities. Activities are sorted by start time. Activities
   /// still in progress are described first.
@@ -5810,6 +5834,7 @@ class ActivitiesType {
   }
 }
 
+/// @nodoc
 class ProcessesType {
   /// The names of the process types.
   final List<ProcessType>? processes;
@@ -5832,6 +5857,7 @@ class ProcessesType {
   }
 }
 
+/// @nodoc
 class ScheduledActionsType {
   /// A string that indicates that the response contains more items than can be
   /// returned in a single response. To receive additional items, specify this
@@ -5869,6 +5895,7 @@ class ScheduledActionsType {
   }
 }
 
+/// @nodoc
 class TagsType {
   /// A string that indicates that the response contains more items than can be
   /// returned in a single response. To receive additional items, specify this
@@ -5901,6 +5928,7 @@ class TagsType {
   }
 }
 
+/// @nodoc
 class DescribeTerminationPolicyTypesAnswer {
   /// The termination policies supported by Amazon EC2 Auto Scaling:
   /// <code>OldestInstance</code>, <code>OldestLaunchConfiguration</code>,
@@ -5929,6 +5957,7 @@ class DescribeTerminationPolicyTypesAnswer {
   }
 }
 
+/// @nodoc
 class DescribeTrafficSourcesResponse {
   /// This string indicates that the response contains more items than can be
   /// returned in a single response. To receive additional items, specify this
@@ -5961,6 +5990,7 @@ class DescribeTrafficSourcesResponse {
   }
 }
 
+/// @nodoc
 class DescribeWarmPoolAnswer {
   /// The instances that are currently in the warm pool.
   final List<Instance>? instances;
@@ -6003,6 +6033,7 @@ class DescribeWarmPoolAnswer {
   }
 }
 
+/// @nodoc
 class DetachInstancesAnswer {
   /// The activities related to detaching the instances from the Auto Scaling
   /// group.
@@ -6026,6 +6057,7 @@ class DetachInstancesAnswer {
   }
 }
 
+/// @nodoc
 class DetachLoadBalancersResultType {
   DetachLoadBalancersResultType();
   factory DetachLoadBalancersResultType.fromXml(
@@ -6039,6 +6071,7 @@ class DetachLoadBalancersResultType {
   }
 }
 
+/// @nodoc
 class DetachLoadBalancerTargetGroupsResultType {
   DetachLoadBalancerTargetGroupsResultType();
   factory DetachLoadBalancerTargetGroupsResultType.fromXml(
@@ -6052,6 +6085,7 @@ class DetachLoadBalancerTargetGroupsResultType {
   }
 }
 
+/// @nodoc
 class DetachTrafficSourcesResultType {
   DetachTrafficSourcesResultType();
   factory DetachTrafficSourcesResultType.fromXml(
@@ -6065,6 +6099,7 @@ class DetachTrafficSourcesResultType {
   }
 }
 
+/// @nodoc
 class EnterStandbyAnswer {
   /// The activities related to moving instances into <code>Standby</code> mode.
   final List<Activity>? activities;
@@ -6087,6 +6122,7 @@ class EnterStandbyAnswer {
   }
 }
 
+/// @nodoc
 class ExitStandbyAnswer {
   /// The activities related to moving instances out of <code>Standby</code> mode.
   final List<Activity>? activities;
@@ -6109,6 +6145,7 @@ class ExitStandbyAnswer {
   }
 }
 
+/// @nodoc
 class GetPredictiveScalingForecastAnswer {
   /// The capacity forecast.
   final CapacityForecast capacityForecast;
@@ -6149,6 +6186,7 @@ class GetPredictiveScalingForecastAnswer {
   }
 }
 
+/// @nodoc
 class LaunchInstancesResult {
   /// The name of the Auto Scaling group where the instances were launched.
   final String? autoScalingGroupName;
@@ -6201,6 +6239,7 @@ class LaunchInstancesResult {
   }
 }
 
+/// @nodoc
 class PutLifecycleHookAnswer {
   PutLifecycleHookAnswer();
   factory PutLifecycleHookAnswer.fromXml(
@@ -6215,6 +6254,8 @@ class PutLifecycleHookAnswer {
 }
 
 /// Contains the output of PutScalingPolicy.
+///
+/// @nodoc
 class PolicyARNType {
   /// The CloudWatch alarms created for the target tracking scaling policy.
   final List<Alarm>? alarms;
@@ -6244,6 +6285,7 @@ class PolicyARNType {
   }
 }
 
+/// @nodoc
 class PutWarmPoolAnswer {
   PutWarmPoolAnswer();
   factory PutWarmPoolAnswer.fromXml(
@@ -6257,6 +6299,7 @@ class PutWarmPoolAnswer {
   }
 }
 
+/// @nodoc
 class RecordLifecycleActionHeartbeatAnswer {
   RecordLifecycleActionHeartbeatAnswer();
   factory RecordLifecycleActionHeartbeatAnswer.fromXml(
@@ -6270,6 +6313,7 @@ class RecordLifecycleActionHeartbeatAnswer {
   }
 }
 
+/// @nodoc
 class RollbackInstanceRefreshAnswer {
   /// The instance refresh ID associated with the request. This is the unique ID
   /// assigned to the instance refresh when it was started.
@@ -6292,6 +6336,7 @@ class RollbackInstanceRefreshAnswer {
   }
 }
 
+/// @nodoc
 class SetInstanceProtectionAnswer {
   SetInstanceProtectionAnswer();
   factory SetInstanceProtectionAnswer.fromXml(
@@ -6305,6 +6350,7 @@ class SetInstanceProtectionAnswer {
   }
 }
 
+/// @nodoc
 class StartInstanceRefreshAnswer {
   /// A unique ID for tracking the progress of the instance refresh.
   final String? instanceRefreshId;
@@ -6326,6 +6372,7 @@ class StartInstanceRefreshAnswer {
   }
 }
 
+/// @nodoc
 class ActivityType {
   /// A scaling activity.
   final Activity? activity;
@@ -6352,6 +6399,8 @@ class ActivityType {
 /// information about launch templates, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html">Launch
 /// templates</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class LaunchTemplateSpecification {
   /// The ID of the launch template. To get the template ID, use the Amazon EC2 <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html">DescribeLaunchTemplates</a>
@@ -6432,6 +6481,8 @@ class LaunchTemplateSpecification {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html">Auto
 /// Scaling groups with multiple instance types and purchase options</a> in the
 /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class MixedInstancesPolicy {
   /// The instances distribution.
   final InstancesDistribution? instancesDistribution;
@@ -6485,6 +6536,8 @@ class MixedInstancesPolicy {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html">Set
 /// instance maintenance policy</a> in the <i>Amazon EC2 Auto Scaling User
 /// Guide</i>.
+///
+/// @nodoc
 class InstanceMaintenancePolicy {
   /// Specifies the upper threshold as a percentage of the desired capacity of the
   /// Auto Scaling group. It represents the maximum percentage of the group that
@@ -6540,6 +6593,8 @@ class InstanceMaintenancePolicy {
 }
 
 /// Describes an Availability Zone distribution.
+///
+/// @nodoc
 class AvailabilityZoneDistribution {
   /// If launches fail in an Availability Zone, the following strategies are
   /// available. The default is <code>balanced-best-effort</code>.
@@ -6587,6 +6642,8 @@ class AvailabilityZoneDistribution {
 }
 
 /// Describes an Availability Zone impairment policy.
+///
+/// @nodoc
 class AvailabilityZoneImpairmentPolicy {
   /// Specifies the health check behavior for the impaired Availability Zone in an
   /// active zonal shift. If you select <code>Replace unhealthy</code>, instances
@@ -6644,6 +6701,8 @@ class AvailabilityZoneImpairmentPolicy {
 /// specify <code>open</code> or <code>none</code> for
 /// <code>CapacityReservationPreference</code>, do not specify a
 /// <code>CapacityReservationTarget</code>.
+///
+/// @nodoc
 class CapacityReservationSpecification {
   /// The capacity reservation preference. The following options are available:
   ///
@@ -6723,6 +6782,8 @@ class CapacityReservationSpecification {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html">
 /// Control instance retention with instance lifecycle policies</a> in the
 /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class InstanceLifecyclePolicy {
   /// Specifies the conditions that trigger instance retention behavior. These
   /// triggers determine when instances should move to a <code>Retained</code>
@@ -6758,6 +6819,7 @@ class InstanceLifecyclePolicy {
   }
 }
 
+/// @nodoc
 class DeletionProtection {
   static const none = DeletionProtection._('none');
   static const preventForceDeletion =
@@ -6791,6 +6853,8 @@ class DeletionProtection {
 /// different failure scenario during the instance lifecycle. This allows
 /// fine-grained control over when to preserve instances for manual
 /// intervention.
+///
+/// @nodoc
 class RetentionTriggers {
   /// Specifies the action when a termination lifecycle hook is abandoned due to
   /// failure, timeout, or explicit abandonment (calling CompleteLifecycleAction).
@@ -6830,6 +6894,7 @@ class RetentionTriggers {
   }
 }
 
+/// @nodoc
 class RetentionAction {
   static const retain = RetentionAction._('retain');
   static const terminate = RetentionAction._('terminate');
@@ -6854,6 +6919,7 @@ class RetentionAction {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityReservationPreference {
   static const capacityReservationsOnly =
       CapacityReservationPreference._('capacity-reservations-only');
@@ -6890,6 +6956,8 @@ class CapacityReservationPreference {
 
 /// The target for the Capacity Reservation. Specify Capacity Reservations IDs
 /// or Capacity Reservation resource group ARNs.
+///
+/// @nodoc
 class CapacityReservationTarget {
   /// The Capacity Reservation IDs to launch instances into.
   final List<String>? capacityReservationIds;
@@ -6951,6 +7019,7 @@ class CapacityReservationTarget {
   }
 }
 
+/// @nodoc
 class ImpairedZoneHealthCheckBehavior {
   static const replaceUnhealthy =
       ImpairedZoneHealthCheckBehavior._('ReplaceUnhealthy');
@@ -6978,6 +7047,7 @@ class ImpairedZoneHealthCheckBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityDistributionStrategy {
   static const balancedOnly = CapacityDistributionStrategy._('balanced-only');
   static const balancedBestEffort =
@@ -7006,6 +7076,8 @@ class CapacityDistributionStrategy {
 
 /// Use this structure to specify the launch templates and instance types
 /// (overrides) for a mixed instances policy.
+///
+/// @nodoc
 class LaunchTemplate {
   /// The launch template.
   final LaunchTemplateSpecification? launchTemplateSpecification;
@@ -7061,6 +7133,8 @@ class LaunchTemplate {
 /// Use this structure to specify the distribution of On-Demand Instances and
 /// Spot Instances and the allocation strategies used to fulfill On-Demand and
 /// Spot capacities for a mixed instances policy.
+///
+/// @nodoc
 class InstancesDistribution {
   /// The allocation strategy to apply to your On-Demand Instances when they are
   /// launched. Possible instance types are determined by the launch template
@@ -7254,6 +7328,8 @@ class InstancesDistribution {
 /// these settings to get new EC2 instance types automatically. Amazon EC2 Auto
 /// Scaling uses the instance requirements of the Auto Scaling group to
 /// determine whether a new EC2 instance type can be used.
+///
+/// @nodoc
 class LaunchTemplateOverrides {
   /// The ID of the Amazon Machine Image (AMI) to use for instances launched with
   /// this override. When using Instance Refresh with
@@ -7437,6 +7513,8 @@ class LaunchTemplateOverrides {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-get-instance-types-from-instance-requirements">Preview
 /// instance types with specified attributes</a> in the <i>Amazon EC2 User
 /// Guide</i>.
+///
+/// @nodoc
 class InstanceRequirements {
   /// The minimum and maximum instance memory size for an instance type, in MiB.
   final MemoryMiBRequest memoryMiB;
@@ -7654,7 +7732,7 @@ class InstanceRequirements {
   /// Default: Any local storage type
   final List<LocalStorageType>? localStorageTypes;
 
-  /// [Price protection] The price protection threshold for Spot Instances, as a
+  /// \[Price protection\] The price protection threshold for Spot Instances, as a
   /// percentage of an identified On-Demand price. The identified On-Demand price
   /// is the price of the lowest priced current generation C, M, or R instance
   /// type with your specified attributes. If no current generation C, M, or R
@@ -7700,7 +7778,7 @@ class InstanceRequirements {
   /// Default: No minimum or maximum limits
   final NetworkInterfaceCountRequest? networkInterfaceCount;
 
-  /// [Price protection] The price protection threshold for On-Demand Instances,
+  /// \[Price protection\] The price protection threshold for On-Demand Instances,
   /// as a percentage higher than an identified On-Demand price. The identified
   /// On-Demand price is the price of the lowest priced current generation C, M,
   /// or R instance type with your specified attributes. If no current generation
@@ -7730,7 +7808,7 @@ class InstanceRequirements {
   /// Default: <code>false</code>
   final bool? requireHibernateSupport;
 
-  /// [Price protection] The price protection threshold for Spot Instances, as a
+  /// \[Price protection\] The price protection threshold for Spot Instances, as a
   /// percentage higher than an identified Spot price. The identified Spot price
   /// is the price of the lowest priced current generation C, M, or R instance
   /// type with your specified attributes. If no current generation C, M, or R
@@ -8091,6 +8169,8 @@ class InstanceRequirements {
 /// you specify <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
 /// for an Auto Scaling group.
+///
+/// @nodoc
 class VCpuCountRequest {
   /// The minimum number of vCPUs.
   final int min;
@@ -8132,6 +8212,8 @@ class VCpuCountRequest {
 /// you specify <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
 /// for an Auto Scaling group.
+///
+/// @nodoc
 class MemoryMiBRequest {
   /// The memory minimum in MiB.
   final int min;
@@ -8173,6 +8255,8 @@ class MemoryMiBRequest {
 /// object when you specify <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
 /// for an Auto Scaling group.
+///
+/// @nodoc
 class MemoryGiBPerVCpuRequest {
   /// The memory maximum in GiB.
   final double? max;
@@ -8210,6 +8294,7 @@ class MemoryGiBPerVCpuRequest {
   }
 }
 
+/// @nodoc
 class BareMetal {
   static const included = BareMetal._('included');
   static const excluded = BareMetal._('excluded');
@@ -8234,6 +8319,7 @@ class BareMetal {
   String toString() => value;
 }
 
+/// @nodoc
 class BurstablePerformance {
   static const included = BurstablePerformance._('included');
   static const excluded = BurstablePerformance._('excluded');
@@ -8264,6 +8350,8 @@ class BurstablePerformance {
 /// object when you specify <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
 /// for an Auto Scaling group.
+///
+/// @nodoc
 class NetworkInterfaceCountRequest {
   /// The maximum number of network interfaces.
   final int? max;
@@ -8301,6 +8389,7 @@ class NetworkInterfaceCountRequest {
   }
 }
 
+/// @nodoc
 class LocalStorage {
   static const included = LocalStorage._('included');
   static const excluded = LocalStorage._('excluded');
@@ -8329,6 +8418,8 @@ class LocalStorage {
 /// object when you specify <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
 /// for an Auto Scaling group.
+///
+/// @nodoc
 class TotalLocalStorageGBRequest {
   /// The storage maximum in GB.
   final double? max;
@@ -8370,6 +8461,8 @@ class TotalLocalStorageGBRequest {
 /// <code>BaselineEbsBandwidthMbps</code> object when you specify <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
 /// for an Auto Scaling group.
+///
+/// @nodoc
 class BaselineEbsBandwidthMbpsRequest {
   /// The maximum value in Mbps.
   final int? max;
@@ -8411,6 +8504,8 @@ class BaselineEbsBandwidthMbpsRequest {
 /// object when you specify <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
 /// for an Auto Scaling group.
+///
+/// @nodoc
 class AcceleratorCountRequest {
   /// The maximum value.
   final int? max;
@@ -8452,6 +8547,8 @@ class AcceleratorCountRequest {
 /// <code>AcceleratorTotalMemoryMiB</code> object when you specify <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
 /// for an Auto Scaling group.
+///
+/// @nodoc
 class AcceleratorTotalMemoryMiBRequest {
   /// The memory maximum in MiB.
   final int? max;
@@ -8502,6 +8599,8 @@ class AcceleratorTotalMemoryMiBRequest {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth">Available
 /// instance bandwidth</a> in the <i>Amazon EC2 User Guide</i>.
 /// </note>
+///
+/// @nodoc
 class NetworkBandwidthGbpsRequest {
   /// The maximum amount of network bandwidth, in gigabits per second (Gbps).
   final double? max;
@@ -8548,6 +8647,8 @@ class NetworkBandwidthGbpsRequest {
 /// Currently, this parameter only supports CPU performance as a baseline
 /// performance factor. For example, specifying <code>c6i</code> uses the CPU
 /// performance of the <code>c6i</code> family as the baseline reference.
+///
+/// @nodoc
 class BaselinePerformanceFactorsRequest {
   /// The CPU performance to consider, using an instance family as the baseline
   /// reference.
@@ -8582,6 +8683,8 @@ class BaselinePerformanceFactorsRequest {
 
 /// The CPU performance to consider, using an instance family as the baseline
 /// reference.
+///
+/// @nodoc
 class CpuPerformanceFactorRequest {
   /// Specify an instance family to use as the baseline reference for CPU
   /// performance. All instance types that match your specified attributes will be
@@ -8633,6 +8736,8 @@ class CpuPerformanceFactorRequest {
 /// <note>
 /// Currently only one instance family can be specified in the list.
 /// </note>
+///
+/// @nodoc
 class PerformanceFactorReferenceRequest {
   /// The instance family to use as a baseline reference.
   /// <note>
@@ -8707,6 +8812,7 @@ class PerformanceFactorReferenceRequest {
   }
 }
 
+/// @nodoc
 class AcceleratorName {
   static const a100 = AcceleratorName._('a100');
   static const v100 = AcceleratorName._('v100');
@@ -8736,6 +8842,7 @@ class AcceleratorName {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceleratorManufacturer {
   static const nvidia = AcceleratorManufacturer._('nvidia');
   static const amd = AcceleratorManufacturer._('amd');
@@ -8764,6 +8871,7 @@ class AcceleratorManufacturer {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceleratorType {
   static const gpu = AcceleratorType._('gpu');
   static const fpga = AcceleratorType._('fpga');
@@ -8789,6 +8897,7 @@ class AcceleratorType {
   String toString() => value;
 }
 
+/// @nodoc
 class LocalStorageType {
   static const hdd = LocalStorageType._('hdd');
   static const ssd = LocalStorageType._('ssd');
@@ -8813,6 +8922,7 @@ class LocalStorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceGeneration {
   static const current = InstanceGeneration._('current');
   static const previous = InstanceGeneration._('previous');
@@ -8838,6 +8948,7 @@ class InstanceGeneration {
   String toString() => value;
 }
 
+/// @nodoc
 class CpuManufacturer {
   static const intel = CpuManufacturer._('intel');
   static const amd = CpuManufacturer._('amd');
@@ -8867,6 +8978,8 @@ class CpuManufacturer {
 /// Describes scaling activity, which is a long-running process that represents
 /// a change to your Auto Scaling group, such as changing its size or replacing
 /// an instance.
+///
+/// @nodoc
 class Activity {
   /// The ID of the activity.
   final String activityId;
@@ -8973,6 +9086,7 @@ class Activity {
   }
 }
 
+/// @nodoc
 class ScalingActivityStatusCode {
   static const pendingSpotBidPlacement =
       ScalingActivityStatusCode._('PendingSpotBidPlacement');
@@ -9040,6 +9154,7 @@ class ScalingActivityStatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class RefreshStrategy {
   static const rolling = RefreshStrategy._('Rolling');
   static const replaceRootVolume = RefreshStrategy._('ReplaceRootVolume');
@@ -9068,6 +9183,8 @@ class RefreshStrategy {
 ///
 /// If you specify a desired configuration, you must specify either a
 /// <code>LaunchTemplate</code> or a <code>MixedInstancesPolicy</code>.
+///
+/// @nodoc
 class DesiredConfiguration {
   /// Describes the launch template and the version of the launch template that
   /// Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more
@@ -9127,6 +9244,8 @@ class DesiredConfiguration {
 }
 
 /// Describes the preferences for an instance refresh.
+///
+/// @nodoc
 class RefreshPreferences {
   /// (Optional) The CloudWatch alarm specification. CloudWatch alarms can be used
   /// to identify any issues and fail the operation if an alarm threshold is met.
@@ -9374,6 +9493,7 @@ class RefreshPreferences {
   }
 }
 
+/// @nodoc
 class ScaleInProtectedInstances {
   static const refresh = ScaleInProtectedInstances._('Refresh');
   static const ignore = ScaleInProtectedInstances._('Ignore');
@@ -9400,6 +9520,7 @@ class ScaleInProtectedInstances {
   String toString() => value;
 }
 
+/// @nodoc
 class StandbyInstances {
   static const terminate = StandbyInstances._('Terminate');
   static const ignore = StandbyInstances._('Ignore');
@@ -9426,6 +9547,8 @@ class StandbyInstances {
 }
 
 /// Specifies the CloudWatch alarm specification to use in an instance refresh.
+///
+/// @nodoc
 class AlarmSpecification {
   /// The names of one or more CloudWatch alarms to monitor for the instance
   /// refresh. You can specify up to 10 alarms.
@@ -9462,6 +9585,7 @@ class AlarmSpecification {
   }
 }
 
+/// @nodoc
 class WarmPoolState {
   static const stopped = WarmPoolState._('Stopped');
   static const running = WarmPoolState._('Running');
@@ -9493,6 +9617,8 @@ class WarmPoolState {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html">Warm
 /// pools for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling User
 /// Guide</i>.
+///
+/// @nodoc
 class InstanceReusePolicy {
   /// Specifies whether instances in the Auto Scaling group can be returned to the
   /// warm pool on scale in.
@@ -9523,6 +9649,8 @@ class InstanceReusePolicy {
 }
 
 /// Describes an alarm.
+///
+/// @nodoc
 class Alarm {
   /// The Amazon Resource Name (ARN) of the alarm.
   final String? alarmARN;
@@ -9553,6 +9681,8 @@ class Alarm {
 
 /// Represents a target tracking scaling policy configuration to use with Amazon
 /// EC2 Auto Scaling.
+///
+/// @nodoc
 class TargetTrackingConfiguration {
   /// The target value for the metric.
   /// <note>
@@ -9633,6 +9763,8 @@ class TargetTrackingConfiguration {
 
 /// Represents a predictive scaling policy configuration to use with Amazon EC2
 /// Auto Scaling.
+///
+/// @nodoc
 class PredictiveScalingConfiguration {
   /// This structure includes the metrics and target utilization to use for
   /// predictive scaling.
@@ -9765,6 +9897,7 @@ class PredictiveScalingConfiguration {
   }
 }
 
+/// @nodoc
 class PredictiveScalingMode {
   static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
   static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
@@ -9790,6 +9923,7 @@ class PredictiveScalingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class PredictiveScalingMaxCapacityBreachBehavior {
   static const honorMaxCapacity =
       PredictiveScalingMaxCapacityBreachBehavior._('HonorMaxCapacity');
@@ -9867,6 +10001,8 @@ class PredictiveScalingMaxCapacityBreachBehavior {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/predictive-scaling-customized-metric-specification.html">Advanced
 /// predictive scaling policy configurations using custom metrics</a> in the
 /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class PredictiveScalingMetricSpecification {
   /// Specifies the target utilization.
   /// <note>
@@ -10012,6 +10148,8 @@ class PredictiveScalingMetricSpecification {
 }
 
 /// Represents a metric pair for a predictive scaling policy.
+///
+/// @nodoc
 class PredictiveScalingPredefinedMetricPair {
   /// Indicates which metrics to use. There are two different types of metrics for
   /// each metric type: one is a load metric and one is a scaling metric. For
@@ -10088,6 +10226,8 @@ class PredictiveScalingPredefinedMetricPair {
 /// When returned in the output of <code>DescribePolicies</code>, it indicates
 /// that a predictive scaling policy uses individually specified load and
 /// scaling metrics instead of a metric pair.
+///
+/// @nodoc
 class PredictiveScalingPredefinedScalingMetric {
   /// The metric type.
   final PredefinedScalingMetricType predefinedMetricType;
@@ -10160,6 +10300,8 @@ class PredictiveScalingPredefinedScalingMetric {
 /// When returned in the output of <code>DescribePolicies</code>, it indicates
 /// that a predictive scaling policy uses individually specified load and
 /// scaling metrics instead of a metric pair.
+///
+/// @nodoc
 class PredictiveScalingPredefinedLoadMetric {
   /// The metric type.
   final PredefinedLoadMetricType predefinedMetricType;
@@ -10228,6 +10370,8 @@ class PredictiveScalingPredefinedLoadMetric {
 }
 
 /// Describes a custom scaling metric for a predictive scaling policy.
+///
+/// @nodoc
 class PredictiveScalingCustomizedScalingMetric {
   /// One or more metric data queries to provide the data points for a scaling
   /// metric. Use multiple metric data queries only if you are performing a math
@@ -10268,6 +10412,8 @@ class PredictiveScalingCustomizedScalingMetric {
 }
 
 /// Describes a custom load metric for a predictive scaling policy.
+///
+/// @nodoc
 class PredictiveScalingCustomizedLoadMetric {
   /// One or more metric data queries to provide the data points for a load
   /// metric. Use multiple metric data queries only if you are performing a math
@@ -10308,6 +10454,8 @@ class PredictiveScalingCustomizedLoadMetric {
 }
 
 /// Describes a customized capacity metric for a predictive scaling policy.
+///
+/// @nodoc
 class PredictiveScalingCustomizedCapacityMetric {
   /// One or more metric data queries to provide the data points for a capacity
   /// metric. Use multiple metric data queries only if you are performing a math
@@ -10358,6 +10506,8 @@ class PredictiveScalingCustomizedCapacityMetric {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/predictive-scaling-customized-metric-specification.html">Advanced
 /// predictive scaling policy configurations using custom metrics</a> in the
 /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class MetricDataQuery {
   /// A short name that identifies the object's results in the response. This name
   /// must be unique among all <code>MetricDataQuery</code> objects specified for
@@ -10459,6 +10609,8 @@ class MetricDataQuery {
 /// For more information about the CloudWatch terminology below, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// @nodoc
 class MetricStat {
   /// The CloudWatch metric to return, including the metric name, namespace, and
   /// dimensions. To get the exact metric name, namespace, and dimensions, inspect
@@ -10520,6 +10672,8 @@ class MetricStat {
 }
 
 /// Represents a specific metric.
+///
+/// @nodoc
 class Metric {
   /// The name of the metric.
   final String metricName;
@@ -10584,6 +10738,8 @@ class Metric {
 }
 
 /// Describes the dimension of a metric.
+///
+/// @nodoc
 class MetricDimension {
   /// The name of the dimension.
   final String name;
@@ -10621,6 +10777,7 @@ class MetricDimension {
   }
 }
 
+/// @nodoc
 class PredefinedLoadMetricType {
   static const aSGTotalCPUUtilization =
       PredefinedLoadMetricType._('ASGTotalCPUUtilization');
@@ -10657,6 +10814,7 @@ class PredefinedLoadMetricType {
   String toString() => value;
 }
 
+/// @nodoc
 class PredefinedScalingMetricType {
   static const aSGAverageCPUUtilization =
       PredefinedScalingMetricType._('ASGAverageCPUUtilization');
@@ -10693,6 +10851,7 @@ class PredefinedScalingMetricType {
   String toString() => value;
 }
 
+/// @nodoc
 class PredefinedMetricPairType {
   static const aSGCPUUtilization =
       PredefinedMetricPairType._('ASGCPUUtilization');
@@ -10728,6 +10887,8 @@ class PredefinedMetricPairType {
 
 /// Represents a predefined metric for a target tracking scaling policy to use
 /// with Amazon EC2 Auto Scaling.
+///
+/// @nodoc
 class PredefinedMetricSpecification {
   /// The metric type. The following predefined metrics are available:
   ///
@@ -10845,6 +11006,8 @@ class PredefinedMetricSpecification {
 /// Web Services services that publish CloudWatch metrics</a> in the <i>Amazon
 /// CloudWatch User Guide</i>.
 /// </note>
+///
+/// @nodoc
 class CustomizedMetricSpecification {
   /// The dimensions of the metric.
   ///
@@ -10961,6 +11124,7 @@ class CustomizedMetricSpecification {
   }
 }
 
+/// @nodoc
 class MetricStatistic {
   static const average = MetricStatistic._('Average');
   static const minimum = MetricStatistic._('Minimum');
@@ -10993,6 +11157,8 @@ class MetricStatistic {
 /// values of returned metric statistics to create a new time series. A time
 /// series is a series of data points, each of which is associated with a
 /// timestamp.
+///
+/// @nodoc
 class TargetTrackingMetricDataQuery {
   /// A short name that identifies the object's results in the response. This name
   /// must be unique among all <code>TargetTrackingMetricDataQuery</code> objects
@@ -11110,6 +11276,8 @@ class TargetTrackingMetricDataQuery {
 /// For more information about the CloudWatch terminology below, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// @nodoc
 class TargetTrackingMetricStat {
   /// The metric to use.
   final Metric metric;
@@ -11178,6 +11346,7 @@ class TargetTrackingMetricStat {
   }
 }
 
+/// @nodoc
 class MetricType {
   static const aSGAverageCPUUtilization =
       MetricType._('ASGAverageCPUUtilization');
@@ -11249,6 +11418,8 @@ class MetricType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-steps">Step
 /// adjustments</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class StepAdjustment {
   /// The amount by which to scale, based on the specified adjustment type. A
   /// positive value adds to the current capacity while a negative number removes
@@ -11317,6 +11488,8 @@ class StepAdjustment {
 }
 
 /// Contains details about errors encountered during instance launch attempts.
+///
+/// @nodoc
 class LaunchInstancesError {
   /// The Availability Zone where the instance launch was attempted.
   final String? availabilityZone;
@@ -11384,6 +11557,8 @@ class LaunchInstancesError {
 
 /// Contains details about a collection of instances launched in the Auto
 /// Scaling group.
+///
+/// @nodoc
 class InstanceCollection {
   /// The Availability Zone where the instances were launched.
   final String? availabilityZone;
@@ -11443,6 +11618,7 @@ class InstanceCollection {
   }
 }
 
+/// @nodoc
 class RetryStrategy {
   static const retryWithGroupConfiguration =
       RetryStrategy._('retry-with-group-configuration');
@@ -11472,6 +11648,8 @@ class RetryStrategy {
 /// forecast for a predictive scaling policy. This structure includes the data
 /// points for that capacity forecast, along with the timestamps of those data
 /// points.
+///
+/// @nodoc
 class CapacityForecast {
   /// The timestamps for the data points, in UTC format.
   final List<DateTime> timestamps;
@@ -11506,6 +11684,8 @@ class CapacityForecast {
 /// for a predictive scaling policy. This structure includes the data points for
 /// that load forecast, along with the timestamps of those data points and the
 /// metric specification.
+///
+/// @nodoc
 class LoadForecast {
   /// The metric specification for the load forecast.
   final PredictiveScalingMetricSpecification metricSpecification;
@@ -11545,6 +11725,8 @@ class LoadForecast {
 }
 
 /// Identifying information for a traffic source.
+///
+/// @nodoc
 class TrafficSourceIdentifier {
   /// Identifies the traffic source.
   ///
@@ -11633,6 +11815,8 @@ class TrafficSourceIdentifier {
 }
 
 /// Describes a warm pool configuration.
+///
+/// @nodoc
 class WarmPoolConfiguration {
   /// The instance reuse policy.
   final InstanceReusePolicy? instanceReusePolicy;
@@ -11694,6 +11878,8 @@ class WarmPoolConfiguration {
 }
 
 /// Describes an EC2 instance.
+///
+/// @nodoc
 class Instance {
   /// The Availability Zone in which the instance is running.
   final String availabilityZone;
@@ -11827,6 +12013,7 @@ class Instance {
   }
 }
 
+/// @nodoc
 class LifecycleState {
   static const pending = LifecycleState._('Pending');
   static const pendingWait = LifecycleState._('Pending:Wait');
@@ -11917,6 +12104,7 @@ class LifecycleState {
   String toString() => value;
 }
 
+/// @nodoc
 class WarmPoolStatus {
   static const pendingDelete = WarmPoolStatus._('PendingDelete');
 
@@ -11941,6 +12129,8 @@ class WarmPoolStatus {
 }
 
 /// Describes the state of a traffic source.
+///
+/// @nodoc
 class TrafficSourceState {
   /// The unique identifier of the traffic source.
   final String? identifier;
@@ -12031,6 +12221,8 @@ class TrafficSourceState {
 }
 
 /// Describes a tag for an Auto Scaling group.
+///
+/// @nodoc
 class TagDescription {
   /// The tag key.
   final String? key;
@@ -12093,6 +12285,8 @@ class TagDescription {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html">Tag
 /// Auto Scaling groups and instances</a> in the <i>Amazon EC2 Auto Scaling User
 /// Guide</i>.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter.
   ///
@@ -12236,6 +12430,8 @@ class Filter {
 }
 
 /// Describes a scheduled scaling action.
+///
+/// @nodoc
 class ScheduledUpdateGroupAction {
   /// The name of the Auto Scaling group.
   final String? autoScalingGroupName;
@@ -12343,6 +12539,8 @@ class ScheduledUpdateGroupAction {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html#process-types">Types
 /// of processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class ProcessType {
   /// One of the following processes:
   ///
@@ -12395,6 +12593,8 @@ class ProcessType {
 }
 
 /// Describes a scaling policy.
+///
+/// @nodoc
 class ScalingPolicy {
   /// Specifies how the scaling adjustment is interpreted (for example, an
   /// absolute number or a percentage). The valid values are
@@ -12571,6 +12771,8 @@ class ScalingPolicy {
 }
 
 /// Describes a notification.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// The name of the Auto Scaling group.
   final String? autoScalingGroupName;
@@ -12627,6 +12829,8 @@ class NotificationConfiguration {
 }
 
 /// Describes a granularity of a metric.
+///
+/// @nodoc
 class MetricGranularityType {
   /// The granularity. The only valid value is <code>1Minute</code>.
   final String? granularity;
@@ -12649,6 +12853,8 @@ class MetricGranularityType {
 }
 
 /// Describes a metric.
+///
+/// @nodoc
 class MetricCollectionType {
   /// One of the following metrics:
   ///
@@ -12734,6 +12940,8 @@ class MetricCollectionType {
 }
 
 /// Describes the state of a target group.
+///
+/// @nodoc
 class LoadBalancerTargetGroupState {
   /// The Amazon Resource Name (ARN) of the target group.
   final String? loadBalancerTargetGroupARN;
@@ -12790,6 +12998,8 @@ class LoadBalancerTargetGroupState {
 }
 
 /// Describes the state of a Classic Load Balancer.
+///
+/// @nodoc
 class LoadBalancerState {
   /// The name of the load balancer.
   final String? loadBalancerName;
@@ -12846,6 +13056,8 @@ class LoadBalancerState {
 /// Describes a lifecycle hook. A lifecycle hook lets you create solutions that
 /// are aware of events in the Auto Scaling instance lifecycle, and then perform
 /// a custom action on instances when the corresponding lifecycle event occurs.
+///
+/// @nodoc
 class LifecycleHook {
   /// The name of the Auto Scaling group for the lifecycle hook.
   final String? autoScalingGroupName;
@@ -12945,6 +13157,8 @@ class LifecycleHook {
 }
 
 /// Describes a launch configuration.
+///
+/// @nodoc
 class LaunchConfiguration {
   /// The creation date and time for the launch configuration.
   final DateTime createdTime;
@@ -13179,6 +13393,8 @@ class LaunchConfiguration {
 
 /// Describes whether detailed monitoring is enabled for the Auto Scaling
 /// instances.
+///
+/// @nodoc
 class InstanceMonitoring {
   /// If <code>true</code>, detailed monitoring is enabled. Otherwise, basic
   /// monitoring is enabled.
@@ -13212,6 +13428,8 @@ class InstanceMonitoring {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds">Configure
 /// the instance metadata options</a> in the <i>Amazon EC2 Auto Scaling User
 /// Guide</i>.
+///
+/// @nodoc
 class InstanceMetadataOptions {
   /// This parameter enables or disables the HTTP metadata endpoint on your
   /// instances. If the parameter is not specified, the default state is
@@ -13287,6 +13505,7 @@ class InstanceMetadataOptions {
   }
 }
 
+/// @nodoc
 class InstanceMetadataHttpTokensState {
   static const optional = InstanceMetadataHttpTokensState._('optional');
   static const required = InstanceMetadataHttpTokensState._('required');
@@ -13312,6 +13531,7 @@ class InstanceMetadataHttpTokensState {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceMetadataEndpointState {
   static const disabled = InstanceMetadataEndpointState._('disabled');
   static const enabled = InstanceMetadataEndpointState._('enabled');
@@ -13338,6 +13558,8 @@ class InstanceMetadataEndpointState {
 }
 
 /// Describes a block device mapping.
+///
+/// @nodoc
 class BlockDeviceMapping {
   /// The device name assigned to the volume (for example, <code>/dev/sdh</code>
   /// or <code>xvdh</code>). For more information, see <a
@@ -13413,6 +13635,8 @@ class BlockDeviceMapping {
 
 /// Describes information used to set up an Amazon EBS volume specified in a
 /// block device mapping.
+///
+/// @nodoc
 class Ebs {
   /// Indicates whether the volume is deleted on instance termination. For Amazon
   /// EC2 Auto Scaling, the default value is <code>true</code>.
@@ -13572,6 +13796,8 @@ class Ebs {
 }
 
 /// Describes an instance refresh for an Auto Scaling group.
+///
+/// @nodoc
 class InstanceRefresh {
   /// The name of the Auto Scaling group.
   final String? autoScalingGroupName;
@@ -13757,6 +13983,7 @@ class InstanceRefresh {
   }
 }
 
+/// @nodoc
 class InstanceRefreshStatus {
   static const pending = InstanceRefreshStatus._('Pending');
   static const inProgress = InstanceRefreshStatus._('InProgress');
@@ -13806,6 +14033,8 @@ class InstanceRefreshStatus {
 /// Reports progress on replacing instances in an Auto Scaling group that has a
 /// warm pool. This includes separate details for instances in the warm pool and
 /// instances in the Auto Scaling group (the live pool).
+///
+/// @nodoc
 class InstanceRefreshProgressDetails {
   /// Reports progress on replacing instances that are in the Auto Scaling group.
   final InstanceRefreshLivePoolProgress? livePoolProgress;
@@ -13839,6 +14068,8 @@ class InstanceRefreshProgressDetails {
 }
 
 /// Details about an instance refresh rollback.
+///
+/// @nodoc
 class RollbackDetails {
   /// Indicates the value of <code>InstancesToUpdate</code> at the time the
   /// rollback started.
@@ -13902,6 +14133,8 @@ class RollbackDetails {
 }
 
 /// Reports progress on replacing instances that are in the Auto Scaling group.
+///
+/// @nodoc
 class InstanceRefreshLivePoolProgress {
   /// The number of instances remaining to update.
   final int? instancesToUpdate;
@@ -13935,6 +14168,8 @@ class InstanceRefreshLivePoolProgress {
 }
 
 /// Reports progress on replacing instances that are in the warm pool.
+///
+/// @nodoc
 class InstanceRefreshWarmPoolProgress {
   /// The number of instances remaining to update.
   final int? instancesToUpdate;
@@ -13968,6 +14203,8 @@ class InstanceRefreshWarmPoolProgress {
 }
 
 /// Describes an EC2 instance associated with an Auto Scaling group.
+///
+/// @nodoc
 class AutoScalingInstanceDetails {
   /// The name of the Auto Scaling group for the instance.
   final String autoScalingGroupName;
@@ -14126,6 +14363,8 @@ class AutoScalingInstanceDetails {
 }
 
 /// Describes an Auto Scaling group.
+///
+/// @nodoc
 class AutoScalingGroup {
   /// The name of the Auto Scaling group.
   final String autoScalingGroupName;
@@ -14513,6 +14752,8 @@ class AutoScalingGroup {
 }
 
 /// Describes an enabled Auto Scaling group metric.
+///
+/// @nodoc
 class EnabledMetric {
   /// The granularity of the metric. The only valid value is <code>1Minute</code>.
   final String? granularity;
@@ -14613,6 +14854,8 @@ class EnabledMetric {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html#process-types">Types
 /// of processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class SuspendedProcess {
   /// The name of the suspended process.
   final String? processName;
@@ -14642,6 +14885,8 @@ class SuspendedProcess {
 }
 
 /// Describes a policy adjustment type.
+///
+/// @nodoc
 class AdjustmentType {
   /// The policy adjustment type. The valid values are
   /// <code>ChangeInCapacity</code>, <code>ExactCapacity</code>, and
@@ -14666,6 +14911,8 @@ class AdjustmentType {
 }
 
 /// Describes a tag for an Auto Scaling group.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   final String key;
@@ -14731,6 +14978,8 @@ class Tag {
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
 /// EC2 Auto Scaling lifecycle hooks</a> in the <i>Amazon EC2 Auto Scaling User
 /// Guide</i>.
+///
+/// @nodoc
 class LifecycleHookSpecification {
   /// The name of the lifecycle hook.
   final String lifecycleHookName;
@@ -14838,6 +15087,8 @@ class LifecycleHookSpecification {
 }
 
 /// Describes a scheduled action that could not be created, updated, or deleted.
+///
+/// @nodoc
 class FailedScheduledUpdateGroupActionRequest {
   /// The name of the scheduled action.
   final String scheduledActionName;
@@ -14878,6 +15129,8 @@ class FailedScheduledUpdateGroupActionRequest {
 /// in a <a
 /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_BatchPutScheduledUpdateGroupAction.html">BatchPutScheduledUpdateGroupAction</a>
 /// operation.
+///
+/// @nodoc
 class ScheduledUpdateGroupActionRequest {
   /// The name of the scaling action.
   final String scheduledActionName;
@@ -14896,10 +15149,10 @@ class ScheduledUpdateGroupActionRequest {
   final int? minSize;
 
   /// The recurring schedule for the action, in Unix cron syntax format. This
-  /// format consists of five fields separated by white spaces: [Minute] [Hour]
-  /// [Day_of_Month] [Month_of_Year] [Day_of_Week]. The value must be in quotes
-  /// (for example, <code>"30 0 1 1,6,12 *"</code>). For more information about
-  /// this format, see <a href="http://crontab.org">Crontab</a>.
+  /// format consists of five fields separated by white spaces: \[Minute\]
+  /// \[Hour\] \[Day_of_Month\] \[Month_of_Year\] \[Day_of_Week\]. The value must
+  /// be in quotes (for example, <code>"30 0 1 1,6,12 *"</code>). For more
+  /// information about this format, see <a href="http://crontab.org">Crontab</a>.
   ///
   /// When <code>StartTime</code> and <code>EndTime</code> are specified with
   /// <code>Recurrence</code>, they form the boundaries of when the recurring
@@ -14984,6 +15237,7 @@ class ScheduledUpdateGroupActionRequest {
   }
 }
 
+/// @nodoc
 class ActiveInstanceRefreshNotFoundFault extends _s.GenericAwsException {
   ActiveInstanceRefreshNotFoundFault({String? type, String? message})
       : super(
@@ -14992,11 +15246,13 @@ class ActiveInstanceRefreshNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AlreadyExistsFault extends _s.GenericAwsException {
   AlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatchError extends _s.GenericAwsException {
   IdempotentParameterMismatchError({String? type, String? message})
       : super(
@@ -15005,6 +15261,7 @@ class IdempotentParameterMismatchError extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InstanceRefreshInProgressFault extends _s.GenericAwsException {
   InstanceRefreshInProgressFault({String? type, String? message})
       : super(
@@ -15013,11 +15270,13 @@ class InstanceRefreshInProgressFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidNextToken extends _s.GenericAwsException {
   InvalidNextToken({String? type, String? message})
       : super(type: type, code: 'InvalidNextToken', message: message);
 }
 
+/// @nodoc
 class IrreversibleInstanceRefreshFault extends _s.GenericAwsException {
   IrreversibleInstanceRefreshFault({String? type, String? message})
       : super(
@@ -15026,21 +15285,25 @@ class IrreversibleInstanceRefreshFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededFault extends _s.GenericAwsException {
   LimitExceededFault({String? type, String? message})
       : super(type: type, code: 'LimitExceededFault', message: message);
 }
 
+/// @nodoc
 class ResourceContentionFault extends _s.GenericAwsException {
   ResourceContentionFault({String? type, String? message})
       : super(type: type, code: 'ResourceContentionFault', message: message);
 }
 
+/// @nodoc
 class ResourceInUseFault extends _s.GenericAwsException {
   ResourceInUseFault({String? type, String? message})
       : super(type: type, code: 'ResourceInUseFault', message: message);
 }
 
+/// @nodoc
 class ScalingActivityInProgressFault extends _s.GenericAwsException {
   ScalingActivityInProgressFault({String? type, String? message})
       : super(
@@ -15049,6 +15312,7 @@ class ScalingActivityInProgressFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceLinkedRoleFailure extends _s.GenericAwsException {
   ServiceLinkedRoleFailure({String? type, String? message})
       : super(type: type, code: 'ServiceLinkedRoleFailure', message: message);

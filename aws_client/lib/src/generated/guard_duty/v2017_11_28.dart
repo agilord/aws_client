@@ -2206,16 +2206,16 @@ class GuardDuty {
   ///
   /// <ul>
   /// <li>
-  /// <b>Low</b>: <code>["1", "2", "3"]</code>
+  /// <b>Low</b>: <code>\["1", "2", "3"\]</code>
   /// </li>
   /// <li>
-  /// <b>Medium</b>: <code>["4", "5", "6"]</code>
+  /// <b>Medium</b>: <code>\["4", "5", "6"\]</code>
   /// </li>
   /// <li>
-  /// <b>High</b>: <code>["7", "8"]</code>
+  /// <b>High</b>: <code>\["7", "8"\]</code>
   /// </li>
   /// <li>
-  /// <b>Critical</b>: <code>["9", "10"]</code>
+  /// <b>Critical</b>: <code>\["9", "10"\]</code>
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -2249,7 +2249,7 @@ class GuardDuty {
   /// Parameter [description] :
   /// The description of the filter. Valid characters include alphanumeric
   /// characters, and special characters such as hyphen, period, colon,
-  /// underscore, parentheses (<code>{ }</code>, <code>[ ]</code>, and <code>(
+  /// underscore, parentheses (<code>{ }</code>, <code>\[ \]</code>, and <code>(
   /// )</code>), forward slash, horizontal tab, vertical tab, newline, form
   /// feed, return, and whitespace.
   ///
@@ -5422,7 +5422,7 @@ class GuardDuty {
   /// Parameter [description] :
   /// The description of the filter. Valid characters include alphanumeric
   /// characters, and special characters such as hyphen, period, colon,
-  /// underscore, parentheses (<code>{ }</code>, <code>[ ]</code>, and <code>(
+  /// underscore, parentheses (<code>{ }</code>, <code>\[ \]</code>, and <code>(
   /// )</code>), forward slash, horizontal tab, vertical tab, newline, form
   /// feed, return, and whitespace.
   ///
@@ -7349,16 +7349,16 @@ class GuardDuty {
   ///
   /// <ul>
   /// <li>
-  /// <b>Low</b>: <code>["1", "2", "3"]</code>
+  /// <b>Low</b>: <code>\["1", "2", "3"\]</code>
   /// </li>
   /// <li>
-  /// <b>Medium</b>: <code>["4", "5", "6"]</code>
+  /// <b>Medium</b>: <code>\["4", "5", "6"\]</code>
   /// </li>
   /// <li>
-  /// <b>High</b>: <code>["7", "8"]</code>
+  /// <b>High</b>: <code>\["7", "8"\]</code>
   /// </li>
   /// <li>
-  /// <b>Critical</b>: <code>["9", "10"]</code>
+  /// <b>Critical</b>: <code>\["9", "10"\]</code>
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -7971,6 +7971,7 @@ class GuardDuty {
   }
 }
 
+/// @nodoc
 class AcceptAdministratorInvitationResponse {
   AcceptAdministratorInvitationResponse();
 
@@ -7984,6 +7985,7 @@ class AcceptAdministratorInvitationResponse {
   }
 }
 
+/// @nodoc
 class AcceptInvitationResponse {
   AcceptInvitationResponse();
 
@@ -7996,6 +7998,7 @@ class AcceptInvitationResponse {
   }
 }
 
+/// @nodoc
 class ArchiveFindingsResponse {
   ArchiveFindingsResponse();
 
@@ -8008,6 +8011,7 @@ class ArchiveFindingsResponse {
   }
 }
 
+/// @nodoc
 class CreateDetectorResponse {
   /// The unique ID of the created detector.
   final String? detectorId;
@@ -8042,6 +8046,7 @@ class CreateDetectorResponse {
   }
 }
 
+/// @nodoc
 class CreateFilterResponse {
   /// The name of the successfully created filter.
   final String name;
@@ -8064,6 +8069,7 @@ class CreateFilterResponse {
   }
 }
 
+/// @nodoc
 class CreateIPSetResponse {
   /// The ID of the IPSet resource.
   final String ipSetId;
@@ -8086,6 +8092,7 @@ class CreateIPSetResponse {
   }
 }
 
+/// @nodoc
 class CreateMalwareProtectionPlanResponse {
   /// A unique identifier associated with the Malware Protection plan resource.
   final String? malwareProtectionPlanId;
@@ -8110,6 +8117,7 @@ class CreateMalwareProtectionPlanResponse {
   }
 }
 
+/// @nodoc
 class CreateMembersResponse {
   /// A list of objects that include the <code>accountIds</code> of the
   /// unprocessed accounts and a result string that explains why each was
@@ -8137,6 +8145,7 @@ class CreateMembersResponse {
   }
 }
 
+/// @nodoc
 class CreatePublishingDestinationResponse {
   /// The ID of the publishing destination that is created.
   final String destinationId;
@@ -8160,6 +8169,7 @@ class CreatePublishingDestinationResponse {
   }
 }
 
+/// @nodoc
 class CreateSampleFindingsResponse {
   CreateSampleFindingsResponse();
 
@@ -8172,6 +8182,7 @@ class CreateSampleFindingsResponse {
   }
 }
 
+/// @nodoc
 class CreateThreatEntitySetResponse {
   /// The ID returned by GuardDuty after creation of the threat entity set
   /// resource.
@@ -8195,6 +8206,7 @@ class CreateThreatEntitySetResponse {
   }
 }
 
+/// @nodoc
 class CreateThreatIntelSetResponse {
   /// The ID of the ThreatIntelSet resource.
   final String threatIntelSetId;
@@ -8217,6 +8229,7 @@ class CreateThreatIntelSetResponse {
   }
 }
 
+/// @nodoc
 class CreateTrustedEntitySetResponse {
   /// The ID returned by GuardDuty after creation of the trusted entity set
   /// resource.
@@ -8240,6 +8253,7 @@ class CreateTrustedEntitySetResponse {
   }
 }
 
+/// @nodoc
 class DeclineInvitationsResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
@@ -8266,6 +8280,7 @@ class DeclineInvitationsResponse {
   }
 }
 
+/// @nodoc
 class DeleteDetectorResponse {
   DeleteDetectorResponse();
 
@@ -8278,6 +8293,7 @@ class DeleteDetectorResponse {
   }
 }
 
+/// @nodoc
 class DeleteFilterResponse {
   DeleteFilterResponse();
 
@@ -8290,6 +8306,7 @@ class DeleteFilterResponse {
   }
 }
 
+/// @nodoc
 class DeleteInvitationsResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
@@ -8316,6 +8333,7 @@ class DeleteInvitationsResponse {
   }
 }
 
+/// @nodoc
 class DeleteIPSetResponse {
   DeleteIPSetResponse();
 
@@ -8328,6 +8346,7 @@ class DeleteIPSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteMembersResponse {
   /// The accounts that could not be processed.
   final List<UnprocessedAccount> unprocessedAccounts;
@@ -8353,6 +8372,7 @@ class DeleteMembersResponse {
   }
 }
 
+/// @nodoc
 class DeletePublishingDestinationResponse {
   DeletePublishingDestinationResponse();
 
@@ -8365,6 +8385,7 @@ class DeletePublishingDestinationResponse {
   }
 }
 
+/// @nodoc
 class DeleteThreatEntitySetResponse {
   DeleteThreatEntitySetResponse();
 
@@ -8377,6 +8398,7 @@ class DeleteThreatEntitySetResponse {
   }
 }
 
+/// @nodoc
 class DeleteThreatIntelSetResponse {
   DeleteThreatIntelSetResponse();
 
@@ -8389,6 +8411,7 @@ class DeleteThreatIntelSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteTrustedEntitySetResponse {
   DeleteTrustedEntitySetResponse();
 
@@ -8401,6 +8424,7 @@ class DeleteTrustedEntitySetResponse {
   }
 }
 
+/// @nodoc
 class DescribeMalwareScansResponse {
   /// Contains information about malware scans associated with GuardDuty Malware
   /// Protection for EC2.
@@ -8435,6 +8459,7 @@ class DescribeMalwareScansResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationConfigurationResponse {
   /// Indicates whether the maximum number of allowed member accounts are already
   /// associated with the delegated administrator account for your organization.
@@ -8539,6 +8564,7 @@ class DescribeOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribePublishingDestinationResponse {
   /// The ID of the publishing destination.
   final String destinationId;
@@ -8607,6 +8633,7 @@ class DescribePublishingDestinationResponse {
   }
 }
 
+/// @nodoc
 class DisableOrganizationAdminAccountResponse {
   DisableOrganizationAdminAccountResponse();
 
@@ -8620,6 +8647,7 @@ class DisableOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFromAdministratorAccountResponse {
   DisassociateFromAdministratorAccountResponse();
 
@@ -8633,6 +8661,7 @@ class DisassociateFromAdministratorAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFromMasterAccountResponse {
   DisassociateFromMasterAccountResponse();
 
@@ -8646,6 +8675,7 @@ class DisassociateFromMasterAccountResponse {
   }
 }
 
+/// @nodoc
 class DisassociateMembersResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
@@ -8672,6 +8702,7 @@ class DisassociateMembersResponse {
   }
 }
 
+/// @nodoc
 class EnableOrganizationAdminAccountResponse {
   EnableOrganizationAdminAccountResponse();
 
@@ -8685,6 +8716,7 @@ class EnableOrganizationAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class GetAdministratorAccountResponse {
   /// The administrator account details.
   final Administrator administrator;
@@ -8709,6 +8741,7 @@ class GetAdministratorAccountResponse {
   }
 }
 
+/// @nodoc
 class GetCoverageStatisticsResponse {
   /// Represents the count aggregated by the <code>statusCode</code> and
   /// <code>resourceType</code>.
@@ -8735,6 +8768,7 @@ class GetCoverageStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetDetectorResponse {
   /// The GuardDuty service role.
   final String serviceRole;
@@ -8817,6 +8851,7 @@ class GetDetectorResponse {
   }
 }
 
+/// @nodoc
 class GetFilterResponse {
   /// Specifies the action that is to be applied to the findings that match the
   /// filter.
@@ -8879,6 +8914,7 @@ class GetFilterResponse {
   }
 }
 
+/// @nodoc
 class GetFindingsResponse {
   /// A list of findings.
   final List<Finding> findings;
@@ -8904,6 +8940,7 @@ class GetFindingsResponse {
   }
 }
 
+/// @nodoc
 class GetFindingsStatisticsResponse {
   /// The finding statistics object.
   final FindingStatistics findingStatistics;
@@ -8938,6 +8975,7 @@ class GetFindingsStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetInvitationsCountResponse {
   /// The number of received invitations.
   final int? invitationsCount;
@@ -8960,6 +8998,7 @@ class GetInvitationsCountResponse {
   }
 }
 
+/// @nodoc
 class GetIPSetResponse {
   /// The format of the file that contains the IPSet.
   final IpSetFormat format;
@@ -9021,6 +9060,7 @@ class GetIPSetResponse {
   }
 }
 
+/// @nodoc
 class GetMalwareProtectionPlanResponse {
   /// Information about whether the tags will be added to the S3 object after
   /// scanning.
@@ -9109,6 +9149,7 @@ class GetMalwareProtectionPlanResponse {
   }
 }
 
+/// @nodoc
 class GetMalwareScanResponse {
   /// The unique detector ID of the administrator account that the request is
   /// associated with. If the account is an administrator, the
@@ -9283,6 +9324,7 @@ class GetMalwareScanResponse {
   }
 }
 
+/// @nodoc
 class GetMalwareScanSettingsResponse {
   /// An enum value representing possible snapshot preservation settings.
   final EbsSnapshotPreservation? ebsSnapshotPreservation;
@@ -9318,6 +9360,7 @@ class GetMalwareScanSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetMasterAccountResponse {
   /// The administrator account details.
   final Master master;
@@ -9341,6 +9384,7 @@ class GetMasterAccountResponse {
   }
 }
 
+/// @nodoc
 class GetMemberDetectorsResponse {
   /// An object that describes which data sources are enabled for a member
   /// account.
@@ -9379,6 +9423,7 @@ class GetMemberDetectorsResponse {
   }
 }
 
+/// @nodoc
 class GetMembersResponse {
   /// A list of members.
   final List<Member> members;
@@ -9415,6 +9460,7 @@ class GetMembersResponse {
   }
 }
 
+/// @nodoc
 class GetOrganizationStatisticsResponse {
   /// Information about the statistics report for your organization.
   final OrganizationDetails? organizationDetails;
@@ -9442,6 +9488,7 @@ class GetOrganizationStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetRemainingFreeTrialDaysResponse {
   /// The member accounts which were included in a request and were processed
   /// successfully.
@@ -9481,6 +9528,7 @@ class GetRemainingFreeTrialDaysResponse {
   }
 }
 
+/// @nodoc
 class GetThreatEntitySetResponse {
   /// The format of the file that contains the threat entity set.
   final ThreatEntitySetFormat format;
@@ -9565,6 +9613,7 @@ class GetThreatEntitySetResponse {
   }
 }
 
+/// @nodoc
 class GetThreatIntelSetResponse {
   /// The format of the threatIntelSet.
   final ThreatIntelSetFormat format;
@@ -9630,6 +9679,7 @@ class GetThreatIntelSetResponse {
   }
 }
 
+/// @nodoc
 class GetTrustedEntitySetResponse {
   /// The format of the file that contains the trusted entity set.
   final TrustedEntitySetFormat format;
@@ -9714,6 +9764,7 @@ class GetTrustedEntitySetResponse {
   }
 }
 
+/// @nodoc
 class GetUsageStatisticsResponse {
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
@@ -9748,6 +9799,7 @@ class GetUsageStatisticsResponse {
   }
 }
 
+/// @nodoc
 class InviteMembersResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
@@ -9774,6 +9826,7 @@ class InviteMembersResponse {
   }
 }
 
+/// @nodoc
 class ListCoverageResponse {
   /// A list of resources and their attributes providing cluster details.
   final List<CoverageResource> resources;
@@ -9807,6 +9860,7 @@ class ListCoverageResponse {
   }
 }
 
+/// @nodoc
 class ListDetectorsResponse {
   /// A list of detector IDs.
   final List<String> detectorIds;
@@ -9840,6 +9894,7 @@ class ListDetectorsResponse {
   }
 }
 
+/// @nodoc
 class ListFiltersResponse {
   /// A list of filter names.
   final List<String> filterNames;
@@ -9873,6 +9928,7 @@ class ListFiltersResponse {
   }
 }
 
+/// @nodoc
 class ListFindingsResponse {
   /// The IDs of the findings that you're listing.
   final List<String> findingIds;
@@ -9906,6 +9962,7 @@ class ListFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListInvitationsResponse {
   /// A list of invitation descriptions.
   final List<Invitation>? invitations;
@@ -9939,6 +9996,7 @@ class ListInvitationsResponse {
   }
 }
 
+/// @nodoc
 class ListIPSetsResponse {
   /// The IDs of the IPSet resources.
   final List<String> ipSetIds;
@@ -9972,6 +10030,7 @@ class ListIPSetsResponse {
   }
 }
 
+/// @nodoc
 class ListMalwareProtectionPlansResponse {
   /// A list of unique identifiers associated with each Malware Protection plan.
   final List<MalwareProtectionPlanSummary>? malwareProtectionPlans;
@@ -10010,6 +10069,7 @@ class ListMalwareProtectionPlansResponse {
   }
 }
 
+/// @nodoc
 class ListMalwareScansResponse {
   /// The list of malware scans associated with the provided input parameters.
   final List<MalwareScan> scans;
@@ -10043,6 +10103,7 @@ class ListMalwareScansResponse {
   }
 }
 
+/// @nodoc
 class ListMembersResponse {
   /// A list of members.
   /// <note>
@@ -10080,6 +10141,7 @@ class ListMembersResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationAdminAccountsResponse {
   /// A list of accounts configured as GuardDuty delegated administrators.
   final List<AdminAccount>? adminAccounts;
@@ -10114,6 +10176,7 @@ class ListOrganizationAdminAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListPublishingDestinationsResponse {
   /// A <code>Destinations</code> object that includes information about each
   /// publishing destination returned.
@@ -10151,6 +10214,7 @@ class ListPublishingDestinationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
   final Map<String, String>? tags;
@@ -10174,6 +10238,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListThreatEntitySetsResponse {
   /// The IDs of the threat entity set resources.
   final List<String> threatEntitySetIds;
@@ -10207,6 +10272,7 @@ class ListThreatEntitySetsResponse {
   }
 }
 
+/// @nodoc
 class ListThreatIntelSetsResponse {
   /// The IDs of the ThreatIntelSet resources.
   final List<String> threatIntelSetIds;
@@ -10240,6 +10306,7 @@ class ListThreatIntelSetsResponse {
   }
 }
 
+/// @nodoc
 class ListTrustedEntitySetsResponse {
   /// The IDs of the trusted entity set resources.
   final List<String> trustedEntitySetIds;
@@ -10273,6 +10340,7 @@ class ListTrustedEntitySetsResponse {
   }
 }
 
+/// @nodoc
 class SendObjectMalwareScanResponse {
   SendObjectMalwareScanResponse();
 
@@ -10285,6 +10353,7 @@ class SendObjectMalwareScanResponse {
   }
 }
 
+/// @nodoc
 class StartMalwareScanResponse {
   /// A unique identifier that gets generated when you invoke the API without any
   /// error. Each malware scan has a corresponding scan ID. Using this scan ID,
@@ -10309,6 +10378,7 @@ class StartMalwareScanResponse {
   }
 }
 
+/// @nodoc
 class StartMonitoringMembersResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
@@ -10335,6 +10405,7 @@ class StartMonitoringMembersResponse {
   }
 }
 
+/// @nodoc
 class StopMonitoringMembersResponse {
   /// A list of objects that contain an accountId for each account that could not
   /// be processed, and a result string that indicates why the account was not
@@ -10362,6 +10433,7 @@ class StopMonitoringMembersResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -10374,6 +10446,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UnarchiveFindingsResponse {
   UnarchiveFindingsResponse();
 
@@ -10386,6 +10459,7 @@ class UnarchiveFindingsResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -10398,6 +10472,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDetectorResponse {
   UpdateDetectorResponse();
 
@@ -10410,6 +10485,7 @@ class UpdateDetectorResponse {
   }
 }
 
+/// @nodoc
 class UpdateFilterResponse {
   /// The name of the filter.
   final String name;
@@ -10432,6 +10508,7 @@ class UpdateFilterResponse {
   }
 }
 
+/// @nodoc
 class UpdateFindingsFeedbackResponse {
   UpdateFindingsFeedbackResponse();
 
@@ -10444,6 +10521,7 @@ class UpdateFindingsFeedbackResponse {
   }
 }
 
+/// @nodoc
 class UpdateIPSetResponse {
   UpdateIPSetResponse();
 
@@ -10456,6 +10534,7 @@ class UpdateIPSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateMalwareScanSettingsResponse {
   UpdateMalwareScanSettingsResponse();
 
@@ -10468,6 +10547,7 @@ class UpdateMalwareScanSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateMemberDetectorsResponse {
   /// A list of member account IDs that were unable to be processed along with an
   /// explanation for why they were not processed.
@@ -10494,6 +10574,7 @@ class UpdateMemberDetectorsResponse {
   }
 }
 
+/// @nodoc
 class UpdateOrganizationConfigurationResponse {
   UpdateOrganizationConfigurationResponse();
 
@@ -10507,6 +10588,7 @@ class UpdateOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdatePublishingDestinationResponse {
   UpdatePublishingDestinationResponse();
 
@@ -10519,6 +10601,7 @@ class UpdatePublishingDestinationResponse {
   }
 }
 
+/// @nodoc
 class UpdateThreatEntitySetResponse {
   UpdateThreatEntitySetResponse();
 
@@ -10531,6 +10614,7 @@ class UpdateThreatEntitySetResponse {
   }
 }
 
+/// @nodoc
 class UpdateThreatIntelSetResponse {
   UpdateThreatIntelSetResponse();
 
@@ -10543,6 +10627,7 @@ class UpdateThreatIntelSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrustedEntitySetResponse {
   UpdateTrustedEntitySetResponse();
 
@@ -10558,6 +10643,8 @@ class UpdateTrustedEntitySetResponse {
 /// Contains the Amazon Resource Name (ARN) of the resource to publish to, such
 /// as an S3 bucket, and the ARN of the KMS key to use to encrypt published
 /// findings.
+///
+/// @nodoc
 class DestinationProperties {
   /// The ARN of the resource to publish to.
   ///
@@ -10592,6 +10679,8 @@ class DestinationProperties {
 
 /// An object that contains information on which data sources will be configured
 /// to be automatically enabled for new members within the organization.
+///
+/// @nodoc
 class OrganizationDataSourceConfigurations {
   /// Describes the configuration of Kubernetes data sources for new members of
   /// the organization.
@@ -10623,6 +10712,7 @@ class OrganizationDataSourceConfigurations {
   }
 }
 
+/// @nodoc
 class AutoEnableMembers {
   static const $new = AutoEnableMembers._('NEW');
   static const all = AutoEnableMembers._('ALL');
@@ -10649,6 +10739,8 @@ class AutoEnableMembers {
 }
 
 /// A list of features which will be configured for the organization.
+///
+/// @nodoc
 class OrganizationFeatureConfiguration {
   /// The additional information that will be configured for the organization.
   final List<OrganizationAdditionalConfiguration>? additionalConfiguration;
@@ -10701,6 +10793,7 @@ class OrganizationFeatureConfiguration {
   }
 }
 
+/// @nodoc
 class OrgFeature {
   static const s3DataEvents = OrgFeature._('S3_DATA_EVENTS');
   static const eksAuditLogs = OrgFeature._('EKS_AUDIT_LOGS');
@@ -10737,6 +10830,7 @@ class OrgFeature {
   String toString() => value;
 }
 
+/// @nodoc
 class OrgFeatureStatus {
   static const $new = OrgFeatureStatus._('NEW');
   static const none = OrgFeatureStatus._('NONE');
@@ -10767,6 +10861,8 @@ class OrgFeatureStatus {
 ///
 /// Additional configuration applies to only GuardDuty Runtime Monitoring
 /// protection plan.
+///
+/// @nodoc
 class OrganizationAdditionalConfiguration {
   /// The status of the additional configuration that will be configured for the
   /// organization. Use one of the following values to configure the feature
@@ -10814,6 +10910,7 @@ class OrganizationAdditionalConfiguration {
   }
 }
 
+/// @nodoc
 class OrgFeatureAdditionalConfiguration {
   static const eksAddonManagement =
       OrgFeatureAdditionalConfiguration._('EKS_ADDON_MANAGEMENT');
@@ -10849,6 +10946,8 @@ class OrgFeatureAdditionalConfiguration {
 
 /// Describes whether S3 data event logs will be automatically enabled for new
 /// members of the organization.
+///
+/// @nodoc
 class OrganizationS3LogsConfiguration {
   /// A value that contains information on whether S3 data event logs will be
   /// enabled automatically as a data source for the organization.
@@ -10867,6 +10966,8 @@ class OrganizationS3LogsConfiguration {
 }
 
 /// Organization-wide Kubernetes data sources configurations.
+///
+/// @nodoc
 class OrganizationKubernetesConfiguration {
   /// Whether Kubernetes audit logs data source should be auto-enabled for new
   /// members joining the organization.
@@ -10885,6 +10986,8 @@ class OrganizationKubernetesConfiguration {
 }
 
 /// Organization-wide Malware Protection configurations.
+///
+/// @nodoc
 class OrganizationMalwareProtectionConfiguration {
   /// Whether Malware Protection for EC2 instances with findings should be
   /// auto-enabled for new members joining the organization.
@@ -10904,6 +11007,8 @@ class OrganizationMalwareProtectionConfiguration {
 }
 
 /// Organization-wide EC2 instances with findings scan configuration.
+///
+/// @nodoc
 class OrganizationScanEc2InstanceWithFindings {
   /// Whether scanning EBS volumes should be auto-enabled for new members joining
   /// the organization.
@@ -10922,6 +11027,8 @@ class OrganizationScanEc2InstanceWithFindings {
 }
 
 /// Organization-wide EBS volumes scan configuration.
+///
+/// @nodoc
 class OrganizationEbsVolumes {
   /// Whether scanning EBS volumes should be auto-enabled for new members joining
   /// the organization.
@@ -10940,6 +11047,8 @@ class OrganizationEbsVolumes {
 }
 
 /// Organization-wide Kubernetes audit logs configuration.
+///
+/// @nodoc
 class OrganizationKubernetesAuditLogsConfiguration {
   /// A value that contains information on whether Kubernetes audit logs should be
   /// enabled automatically as a data source for the organization.
@@ -10958,6 +11067,8 @@ class OrganizationKubernetesAuditLogsConfiguration {
 }
 
 /// Contains information about the accounts that weren't processed.
+///
+/// @nodoc
 class UnprocessedAccount {
   /// The Amazon Web Services account ID.
   final String accountId;
@@ -10988,6 +11099,8 @@ class UnprocessedAccount {
 }
 
 /// Contains information about which data sources are enabled.
+///
+/// @nodoc
 class DataSourceConfigurations {
   /// Describes whether any Kubernetes logs are enabled as data sources.
   final KubernetesConfiguration? kubernetes;
@@ -11017,6 +11130,8 @@ class DataSourceConfigurations {
 }
 
 /// Contains information about the features for the member account.
+///
+/// @nodoc
 class MemberFeaturesConfiguration {
   /// Additional configuration of the feature for the member account.
   final List<MemberAdditionalConfiguration>? additionalConfiguration;
@@ -11046,6 +11161,7 @@ class MemberFeaturesConfiguration {
   }
 }
 
+/// @nodoc
 class FeatureStatus {
   static const enabled = FeatureStatus._('ENABLED');
   static const disabled = FeatureStatus._('DISABLED');
@@ -11071,6 +11187,8 @@ class FeatureStatus {
 }
 
 /// Information about the additional configuration for the member account.
+///
+/// @nodoc
 class MemberAdditionalConfiguration {
   /// Name of the additional configuration.
   final OrgFeatureAdditionalConfiguration? name;
@@ -11094,6 +11212,8 @@ class MemberAdditionalConfiguration {
 }
 
 /// Describes whether S3 data event logs will be enabled as a data source.
+///
+/// @nodoc
 class S3LogsConfiguration {
   /// The status of S3 data event logs as a data source.
   final bool enable;
@@ -11111,6 +11231,8 @@ class S3LogsConfiguration {
 }
 
 /// Describes whether any Kubernetes data sources are enabled.
+///
+/// @nodoc
 class KubernetesConfiguration {
   /// The status of Kubernetes audit logs as a data source.
   final KubernetesAuditLogsConfiguration auditLogs;
@@ -11128,6 +11250,8 @@ class KubernetesConfiguration {
 }
 
 /// Describes whether Malware Protection will be enabled as a data source.
+///
+/// @nodoc
 class MalwareProtectionConfiguration {
   /// Describes the configuration of Malware Protection for EC2 instances with
   /// findings.
@@ -11148,6 +11272,8 @@ class MalwareProtectionConfiguration {
 
 /// Describes whether Malware Protection for EC2 instances with findings will be
 /// enabled as a data source.
+///
+/// @nodoc
 class ScanEc2InstanceWithFindings {
   /// Describes the configuration for scanning EBS volumes as data source.
   final bool? ebsVolumes;
@@ -11165,6 +11291,8 @@ class ScanEc2InstanceWithFindings {
 }
 
 /// Describes whether Kubernetes audit logs are enabled as a data source.
+///
+/// @nodoc
 class KubernetesAuditLogsConfiguration {
   /// The status of Kubernetes audit logs as a data source.
   final bool enable;
@@ -11183,6 +11311,8 @@ class KubernetesAuditLogsConfiguration {
 
 /// Contains information about criteria used to filter resources before
 /// triggering malware scan.
+///
+/// @nodoc
 class ScanResourceCriteria {
   /// Represents condition that when matched will prevent a malware scan for a
   /// certain resource.
@@ -11220,6 +11350,7 @@ class ScanResourceCriteria {
   }
 }
 
+/// @nodoc
 class EbsSnapshotPreservation {
   static const noRetention = EbsSnapshotPreservation._('NO_RETENTION');
   static const retentionWithFinding =
@@ -11248,6 +11379,8 @@ class EbsSnapshotPreservation {
 
 /// An enum value representing possible resource properties to match with given
 /// scan condition.
+///
+/// @nodoc
 class ScanCriterionKey {
   static const ec2InstanceTag = ScanCriterionKey._('EC2_INSTANCE_TAG');
 
@@ -11272,6 +11405,8 @@ class ScanCriterionKey {
 }
 
 /// Contains information about the condition.
+///
+/// @nodoc
 class ScanCondition {
   /// Represents an <i>mapEqual</i> <b/> condition to be applied to a single field
   /// when triggering for malware scan.
@@ -11300,6 +11435,8 @@ class ScanCondition {
 
 /// Represents the <code>key:value</code> pair to be matched against given
 /// resource property.
+///
+/// @nodoc
 class ScanConditionPair {
   /// Represents the <b>key</b> in the map condition.
   final String key;
@@ -11332,6 +11469,8 @@ class ScanConditionPair {
 
 /// Information about whether the tags will be added to the S3 object after
 /// scanning.
+///
+/// @nodoc
 class MalwareProtectionPlanActions {
   /// Indicates whether the scanned S3 object will have tags about the scan
   /// result.
@@ -11361,6 +11500,8 @@ class MalwareProtectionPlanActions {
 /// Information about the protected resource that is associated with the created
 /// Malware Protection plan. Presently, <code>S3Bucket</code> is the only
 /// supported protected resource.
+///
+/// @nodoc
 class UpdateProtectedResource {
   /// Information about the protected S3 bucket resource.
   final UpdateS3BucketResource? s3Bucket;
@@ -11378,6 +11519,8 @@ class UpdateProtectedResource {
 }
 
 /// Information about the protected S3 bucket resource.
+///
+/// @nodoc
 class UpdateS3BucketResource {
   /// Information about the specified object prefixes. The S3 object will be
   /// scanned only if it belongs to any of the specified object prefixes.
@@ -11397,6 +11540,8 @@ class UpdateS3BucketResource {
 
 /// Information about adding tags to the scanned S3 object after the scan
 /// result.
+///
+/// @nodoc
 class MalwareProtectionPlanTaggingAction {
   /// Indicates whether or not the tags will added.
   final MalwareProtectionPlanTaggingActionStatus? status;
@@ -11421,6 +11566,7 @@ class MalwareProtectionPlanTaggingAction {
   }
 }
 
+/// @nodoc
 class MalwareProtectionPlanTaggingActionStatus {
   static const enabled = MalwareProtectionPlanTaggingActionStatus._('ENABLED');
   static const disabled =
@@ -11447,6 +11593,7 @@ class MalwareProtectionPlanTaggingActionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Feedback {
   static const useful = Feedback._('USEFUL');
   static const notUseful = Feedback._('NOT_USEFUL');
@@ -11470,6 +11617,7 @@ class Feedback {
   String toString() => value;
 }
 
+/// @nodoc
 class FilterAction {
   static const noop = FilterAction._('NOOP');
   static const archive = FilterAction._('ARCHIVE');
@@ -11494,6 +11642,8 @@ class FilterAction {
 }
 
 /// Contains information about the criteria used for querying findings.
+///
+/// @nodoc
 class FindingCriteria {
   /// Represents a map of finding properties that match specified conditions and
   /// values when querying findings.
@@ -11519,6 +11669,8 @@ class FindingCriteria {
 }
 
 /// Contains information about the condition.
+///
+/// @nodoc
 class Condition {
   /// Represents the <i>equal</i> condition to be applied to a single field when
   /// querying for findings.
@@ -11670,6 +11822,7 @@ class Condition {
   }
 }
 
+/// @nodoc
 class FindingPublishingFrequency {
   static const fifteenMinutes = FindingPublishingFrequency._('FIFTEEN_MINUTES');
   static const oneHour = FindingPublishingFrequency._('ONE_HOUR');
@@ -11705,6 +11858,8 @@ class FindingPublishingFrequency {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html">Runtime
 /// Monitoring</a>.
+///
+/// @nodoc
 class DetectorFeatureConfiguration {
   /// Additional configuration for a resource.
   final List<DetectorAdditionalConfiguration>? additionalConfiguration;
@@ -11734,6 +11889,7 @@ class DetectorFeatureConfiguration {
   }
 }
 
+/// @nodoc
 class DetectorFeature {
   static const s3DataEvents = DetectorFeature._('S3_DATA_EVENTS');
   static const eksAuditLogs = DetectorFeature._('EKS_AUDIT_LOGS');
@@ -11775,6 +11931,8 @@ class DetectorFeature {
 
 /// Information about the additional configuration for a feature in your
 /// GuardDuty account.
+///
+/// @nodoc
 class DetectorAdditionalConfiguration {
   /// Name of the additional configuration.
   final FeatureAdditionalConfiguration? name;
@@ -11797,6 +11955,7 @@ class DetectorAdditionalConfiguration {
   }
 }
 
+/// @nodoc
 class FeatureAdditionalConfiguration {
   static const eksAddonManagement =
       FeatureAdditionalConfiguration._('EKS_ADDON_MANAGEMENT');
@@ -11832,6 +11991,8 @@ class FeatureAdditionalConfiguration {
 
 /// Contains information about the configuration to be used for the malware
 /// scan.
+///
+/// @nodoc
 class StartMalwareScanConfiguration {
   /// Amazon Resource Name (ARN) of the IAM role that is used for scanning the
   /// resource.
@@ -11865,6 +12026,8 @@ class StartMalwareScanConfiguration {
 }
 
 /// Contains information about the incremental scan configuration.
+///
+/// @nodoc
 class IncrementalScanDetails {
   /// Amazon Resource Name (ARN) of the baseline resource used for incremental
   /// scanning. The scan will only process changes since this baseline resource
@@ -11891,6 +12054,8 @@ class IncrementalScanDetails {
 
 /// Contains information about the recovery point configuration for scanning
 /// backup data from Amazon Web Services Backup.
+///
+/// @nodoc
 class RecoveryPoint {
   /// The name of the Amazon Web Services Backup vault that contains the name of
   /// the recovery point to be scanned.
@@ -11918,6 +12083,8 @@ class RecoveryPoint {
 
 /// Contains information about the time range within the continuous backup in
 /// Amazon Web Services Backup to scan for a point-in-time recovery resource.
+///
+/// @nodoc
 class ContinuousScanDetails {
   /// The timestamp representing the end of the time range to scan.
   final DateTime endTime;
@@ -11943,6 +12110,8 @@ class ContinuousScanDetails {
 
 /// The S3 object path to initiate a scan, including bucket name, object key,
 /// and optional version ID.
+///
+/// @nodoc
 class S3ObjectForSendObjectMalwareScan {
   /// The name of the S3 bucket containing the object to scan. The bucket must
   /// have GuardDuty Malware Protection enabled.
@@ -11976,6 +12145,8 @@ class S3ObjectForSendObjectMalwareScan {
 
 /// Contains information about the publishing destination, including the ID,
 /// type, and status.
+///
+/// @nodoc
 class Destination {
   /// The unique ID of the publishing destination.
   final String destinationId;
@@ -12014,6 +12185,7 @@ class Destination {
   }
 }
 
+/// @nodoc
 class DestinationType {
   static const s3 = DestinationType._('S3');
 
@@ -12037,6 +12209,7 @@ class DestinationType {
   String toString() => value;
 }
 
+/// @nodoc
 class PublishingStatus {
   static const pendingVerification = PublishingStatus._('PENDING_VERIFICATION');
   static const publishing = PublishingStatus._('PUBLISHING');
@@ -12071,6 +12244,8 @@ class PublishingStatus {
 
 /// The account within the organization specified as the GuardDuty delegated
 /// administrator.
+///
+/// @nodoc
 class AdminAccount {
   /// The Amazon Web Services account ID for the account.
   final String? adminAccountId;
@@ -12101,6 +12276,7 @@ class AdminAccount {
   }
 }
 
+/// @nodoc
 class AdminStatus {
   static const enabled = AdminStatus._('ENABLED');
   static const disableInProgress = AdminStatus._('DISABLE_IN_PROGRESS');
@@ -12125,6 +12301,8 @@ class AdminStatus {
 }
 
 /// Contains information about the member account.
+///
+/// @nodoc
 class Member {
   /// The ID of the member account.
   final String accountId;
@@ -12197,6 +12375,8 @@ class Member {
 }
 
 /// Contains information about a particular malware scan.
+///
+/// @nodoc
 class MalwareScan {
   /// Amazon Resource Name (ARN) of the resource for the given malware scan.
   final String? resourceArn;
@@ -12276,6 +12456,7 @@ class MalwareScan {
   }
 }
 
+/// @nodoc
 class MalwareProtectionResourceType {
   static const ebsRecoveryPoint =
       MalwareProtectionResourceType._('EBS_RECOVERY_POINT');
@@ -12322,6 +12503,7 @@ class MalwareProtectionResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class MalwareProtectionScanStatus {
   static const running = MalwareProtectionScanStatus._('RUNNING');
   static const completed = MalwareProtectionScanStatus._('COMPLETED');
@@ -12357,6 +12539,7 @@ class MalwareProtectionScanStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanResultStatus {
   static const noThreatsFound = ScanResultStatus._('NO_THREATS_FOUND');
   static const threatsFound = ScanResultStatus._('THREATS_FOUND');
@@ -12381,6 +12564,7 @@ class ScanResultStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MalwareProtectionScanType {
   static const backupInitiated =
       MalwareProtectionScanType._('BACKUP_INITIATED');
@@ -12410,6 +12594,8 @@ class MalwareProtectionScanType {
 }
 
 /// Represents the criteria used to filter the malware scan entries.
+///
+/// @nodoc
 class ListMalwareScansFilterCriteria {
   /// Represents a condition that when matched will be added to the response of
   /// the operation.
@@ -12430,6 +12616,8 @@ class ListMalwareScansFilterCriteria {
 }
 
 /// Contains information about the criteria used for sorting findings.
+///
+/// @nodoc
 class SortCriteria {
   /// Represents the finding attribute, such as <code>accountId</code>, that sorts
   /// the findings.
@@ -12453,6 +12641,7 @@ class SortCriteria {
   }
 }
 
+/// @nodoc
 class OrderBy {
   static const asc = OrderBy._('ASC');
   static const desc = OrderBy._('DESC');
@@ -12480,6 +12669,8 @@ class OrderBy {
 /// the operation. Irrespective of using any filter criteria, an administrator
 /// account can view the scan entries for all of its member accounts. However,
 /// each member account can view the scan entries only for their own account.
+///
+/// @nodoc
 class ListMalwareScansFilterCriterion {
   /// Contains information about the condition.
   final FilterCondition? filterCondition;
@@ -12504,6 +12695,7 @@ class ListMalwareScansFilterCriterion {
   }
 }
 
+/// @nodoc
 class ListMalwareScansCriterionKey {
   static const resourceArn = ListMalwareScansCriterionKey._('RESOURCE_ARN');
   static const scanId = ListMalwareScansCriterionKey._('SCAN_ID');
@@ -12547,6 +12739,8 @@ class ListMalwareScansCriterionKey {
 }
 
 /// Contains information about the condition.
+///
+/// @nodoc
 class FilterCondition {
   /// Represents an <i>equal</i> <b/> condition to be applied to a single field
   /// when querying for scan entries.
@@ -12579,6 +12773,8 @@ class FilterCondition {
 }
 
 /// Information about the Malware Protection plan resource.
+///
+/// @nodoc
 class MalwareProtectionPlanSummary {
   /// A unique identifier associated with Malware Protection plan.
   final String? malwareProtectionPlanId;
@@ -12603,6 +12799,8 @@ class MalwareProtectionPlanSummary {
 }
 
 /// Contains information about the invitation to become a member account.
+///
+/// @nodoc
 class Invitation {
   /// The ID of the account that the invitation was sent from.
   final String? accountId;
@@ -12648,6 +12846,8 @@ class Invitation {
 }
 
 /// Information about the resource of the GuardDuty account.
+///
+/// @nodoc
 class CoverageResource {
   /// The unique ID of the Amazon Web Services account.
   final String? accountId;
@@ -12720,6 +12920,8 @@ class CoverageResource {
 }
 
 /// Information about the resource for each individual EKS cluster.
+///
+/// @nodoc
 class CoverageResourceDetails {
   /// Information about the Amazon EC2 instance assessed for runtime coverage.
   final CoverageEc2InstanceDetails? ec2InstanceDetails;
@@ -12774,6 +12976,7 @@ class CoverageResourceDetails {
   }
 }
 
+/// @nodoc
 class CoverageStatus {
   static const healthy = CoverageStatus._('HEALTHY');
   static const unhealthy = CoverageStatus._('UNHEALTHY');
@@ -12799,6 +13002,8 @@ class CoverageStatus {
 }
 
 /// Information about the EKS cluster that has a coverage status.
+///
+/// @nodoc
 class CoverageEksClusterDetails {
   /// Information about the installed EKS add-on.
   final AddonDetails? addonDetails;
@@ -12861,6 +13066,8 @@ class CoverageEksClusterDetails {
 }
 
 /// Contains information about Amazon ECS cluster runtime coverage details.
+///
+/// @nodoc
 class CoverageEcsClusterDetails {
   /// The name of the Amazon ECS cluster.
   final String? clusterName;
@@ -12906,6 +13113,8 @@ class CoverageEcsClusterDetails {
 }
 
 /// Contains information about the Amazon EC2 instance runtime coverage details.
+///
+/// @nodoc
 class CoverageEc2InstanceDetails {
   /// Information about the installed security agent.
   final AgentDetails? agentDetails;
@@ -12974,6 +13183,7 @@ class CoverageEc2InstanceDetails {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const eks = ResourceType._('EKS');
   static const ecs = ResourceType._('ECS');
@@ -12999,6 +13209,8 @@ class ResourceType {
 }
 
 /// Information about the installed GuardDuty security agent.
+///
+/// @nodoc
 class AgentDetails {
   /// Version of the installed GuardDuty security agent.
   final String? version;
@@ -13021,6 +13233,7 @@ class AgentDetails {
   }
 }
 
+/// @nodoc
 class ManagementType {
   static const autoManaged = ManagementType._('AUTO_MANAGED');
   static const manual = ManagementType._('MANUAL');
@@ -13048,6 +13261,8 @@ class ManagementType {
 
 /// Contains information about Amazon Web Services Fargate details associated
 /// with an Amazon ECS cluster.
+///
+/// @nodoc
 class FargateDetails {
   /// Runtime coverage issues identified for the resource running on Amazon Web
   /// Services Fargate.
@@ -13096,6 +13311,8 @@ class FargateDetails {
 
 /// Contains information about the Amazon EC2 instance that is running the
 /// Amazon ECS container.
+///
+/// @nodoc
 class ContainerInstanceDetails {
   /// Represents total number of nodes in the Amazon ECS cluster.
   final int? compatibleContainerInstances;
@@ -13130,6 +13347,8 @@ class ContainerInstanceDetails {
 }
 
 /// Information about the installed EKS add-on (GuardDuty security agent).
+///
+/// @nodoc
 class AddonDetails {
   /// Status of the installed EKS add-on.
   final String? addonStatus;
@@ -13160,6 +13379,8 @@ class AddonDetails {
 }
 
 /// Represents the criteria used in the filter.
+///
+/// @nodoc
 class CoverageFilterCriteria {
   /// Represents a condition that when matched will be added to the response of
   /// the operation.
@@ -13178,6 +13399,8 @@ class CoverageFilterCriteria {
 }
 
 /// Information about the sorting criteria used in the coverage statistics.
+///
+/// @nodoc
 class CoverageSortCriteria {
   /// Represents the field name used to sort the coverage details.
   /// <note>
@@ -13205,6 +13428,7 @@ class CoverageSortCriteria {
   }
 }
 
+/// @nodoc
 class CoverageSortKey {
   static const accountId = CoverageSortKey._('ACCOUNT_ID');
   static const coverageStatus = CoverageSortKey._('COVERAGE_STATUS');
@@ -13248,6 +13472,8 @@ class CoverageSortKey {
 
 /// Represents a condition that when matched will be added to the response of
 /// the operation.
+///
+/// @nodoc
 class CoverageFilterCriterion {
   /// An enum value representing possible filter fields.
   /// <note>
@@ -13275,6 +13501,7 @@ class CoverageFilterCriterion {
   }
 }
 
+/// @nodoc
 class CoverageFilterCriterionKey {
   static const accountId = CoverageFilterCriterionKey._('ACCOUNT_ID');
   static const resourceType = CoverageFilterCriterionKey._('RESOURCE_TYPE');
@@ -13325,6 +13552,8 @@ class CoverageFilterCriterionKey {
 
 /// Represents a condition that when matched will be added to the response of
 /// the operation.
+///
+/// @nodoc
 class CoverageFilterCondition {
   /// Represents an equal condition that is applied to a single field while
   /// retrieving the coverage details.
@@ -13351,6 +13580,8 @@ class CoverageFilterCondition {
 
 /// Contains the result of GuardDuty usage. If a UsageStatisticType is provided
 /// the result for other types will be null.
+///
+/// @nodoc
 class UsageStatistics {
   /// The usage statistic sum organized by account ID.
   final List<UsageAccountResult>? sumByAccount;
@@ -13434,6 +13665,8 @@ class UsageStatistics {
 
 /// Contains information about the result of the total usage based on the
 /// feature.
+///
+/// @nodoc
 class UsageFeatureResult {
   /// The feature that generated the usage cost.
   final UsageFeature? feature;
@@ -13463,6 +13696,7 @@ class UsageFeatureResult {
   }
 }
 
+/// @nodoc
 class UsageFeature {
   static const flowLogs = UsageFeature._('FLOW_LOGS');
   static const cloudTrail = UsageFeature._('CLOUD_TRAIL');
@@ -13516,6 +13750,8 @@ class UsageFeature {
 
 /// Contains the total usage with the corresponding currency unit for that
 /// value.
+///
+/// @nodoc
 class Total {
   /// The total usage.
   final String? amount;
@@ -13547,6 +13783,8 @@ class Total {
 
 /// Contains information on the sum of usage based on an Amazon Web Services
 /// resource.
+///
+/// @nodoc
 class UsageResourceResult {
   /// The Amazon Web Services resource that generated usage.
   final String? resource;
@@ -13579,6 +13817,8 @@ class UsageResourceResult {
 }
 
 /// Contains information on the result of usage based on data source type.
+///
+/// @nodoc
 class UsageDataSourceResult {
   /// The data source type that generated usage.
   final DataSource? dataSource;
@@ -13610,6 +13850,7 @@ class UsageDataSourceResult {
   }
 }
 
+/// @nodoc
 class DataSource {
   static const flowLogs = DataSource._('FLOW_LOGS');
   static const cloudTrail = DataSource._('CLOUD_TRAIL');
@@ -13646,6 +13887,8 @@ class DataSource {
 
 /// Information about the usage statistics, calculated by top accounts by
 /// feature.
+///
+/// @nodoc
 class UsageTopAccountsResult {
   /// The accounts that contributed to the total usage cost.
   final List<UsageTopAccountResult>? accounts;
@@ -13683,6 +13926,8 @@ class UsageTopAccountsResult {
 
 /// Contains information on the total of usage based on the topmost 50 account
 /// IDs.
+///
+/// @nodoc
 class UsageTopAccountResult {
   /// The unique account ID.
   final String? accountId;
@@ -13713,6 +13958,8 @@ class UsageTopAccountResult {
 }
 
 /// Contains information on the total of usage based on account IDs.
+///
+/// @nodoc
 class UsageAccountResult {
   /// The Account ID that generated usage.
   final String? accountId;
@@ -13744,6 +13991,7 @@ class UsageAccountResult {
   }
 }
 
+/// @nodoc
 class UsageStatisticType {
   static const sumByAccount = UsageStatisticType._('SUM_BY_ACCOUNT');
   static const sumByDataSource = UsageStatisticType._('SUM_BY_DATA_SOURCE');
@@ -13782,6 +14030,8 @@ class UsageStatisticType {
 }
 
 /// Contains information about the criteria used to query usage statistics.
+///
+/// @nodoc
 class UsageCriteria {
   /// The account IDs to aggregate usage statistics from.
   final List<String>? accountIds;
@@ -13818,6 +14068,7 @@ class UsageCriteria {
   }
 }
 
+/// @nodoc
 class TrustedEntitySetFormat {
   static const txt = TrustedEntitySetFormat._('TXT');
   static const stix = TrustedEntitySetFormat._('STIX');
@@ -13847,6 +14098,7 @@ class TrustedEntitySetFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class TrustedEntitySetStatus {
   static const inactive = TrustedEntitySetStatus._('INACTIVE');
   static const activating = TrustedEntitySetStatus._('ACTIVATING');
@@ -13885,6 +14137,7 @@ class TrustedEntitySetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ThreatIntelSetFormat {
   static const txt = ThreatIntelSetFormat._('TXT');
   static const stix = ThreatIntelSetFormat._('STIX');
@@ -13914,6 +14167,7 @@ class ThreatIntelSetFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ThreatIntelSetStatus {
   static const inactive = ThreatIntelSetStatus._('INACTIVE');
   static const activating = ThreatIntelSetStatus._('ACTIVATING');
@@ -13952,6 +14206,7 @@ class ThreatIntelSetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ThreatEntitySetFormat {
   static const txt = ThreatEntitySetFormat._('TXT');
   static const stix = ThreatEntitySetFormat._('STIX');
@@ -13981,6 +14236,7 @@ class ThreatEntitySetFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ThreatEntitySetStatus {
   static const inactive = ThreatEntitySetStatus._('INACTIVE');
   static const activating = ThreatEntitySetStatus._('ACTIVATING');
@@ -14021,6 +14277,8 @@ class ThreatEntitySetStatus {
 
 /// Provides details of the GuardDuty member account that uses a free trial
 /// service.
+///
+/// @nodoc
 class AccountFreeTrialInfo {
   /// The account identifier of the GuardDuty member account.
   final String? accountId;
@@ -14066,6 +14324,8 @@ class AccountFreeTrialInfo {
 
 /// Contains information about which data sources are enabled for the GuardDuty
 /// member account.
+///
+/// @nodoc
 class DataSourcesFreeTrial {
   /// Describes whether any Amazon Web Services CloudTrail management event logs
   /// are enabled as data sources.
@@ -14142,6 +14402,8 @@ class DataSourcesFreeTrial {
 }
 
 /// Contains information about the free trial period for a feature.
+///
+/// @nodoc
 class FreeTrialFeatureConfigurationResult {
   /// The number of the remaining free trial days for the feature.
   final int? freeTrialDaysRemaining;
@@ -14173,6 +14435,7 @@ class FreeTrialFeatureConfigurationResult {
   }
 }
 
+/// @nodoc
 class FreeTrialFeatureResult {
   static const flowLogs = FreeTrialFeatureResult._('FLOW_LOGS');
   static const cloudTrail = FreeTrialFeatureResult._('CLOUD_TRAIL');
@@ -14226,6 +14489,8 @@ class FreeTrialFeatureResult {
 
 /// Contains information about which data sources are enabled for the GuardDuty
 /// member account.
+///
+/// @nodoc
 class DataSourceFreeTrial {
   /// A value that specifies the number of days left to use each enabled data
   /// source.
@@ -14252,6 +14517,8 @@ class DataSourceFreeTrial {
 
 /// Provides details about the Kubernetes resources when it is enabled as a data
 /// source.
+///
+/// @nodoc
 class KubernetesDataSourceFreeTrial {
   /// Describes whether Kubernetes audit logs are enabled as a data source.
   final DataSourceFreeTrial? auditLogs;
@@ -14279,6 +14546,8 @@ class KubernetesDataSourceFreeTrial {
 
 /// Provides details about Malware Protection when it is enabled as a data
 /// source.
+///
+/// @nodoc
 class MalwareProtectionDataSourceFreeTrial {
   /// Describes whether Malware Protection for EC2 instances with findings is
   /// enabled as a data source.
@@ -14309,6 +14578,8 @@ class MalwareProtectionDataSourceFreeTrial {
 
 /// Information about GuardDuty coverage statistics for members in your Amazon
 /// Web Services organization.
+///
+/// @nodoc
 class OrganizationDetails {
   /// Information about the GuardDuty coverage statistics for members in your
   /// Amazon Web Services organization.
@@ -14349,6 +14620,8 @@ class OrganizationDetails {
 ///
 /// When you create a new Amazon Web Services organization, it might take up to
 /// 24 hours to generate the statistics summary for this organization.
+///
+/// @nodoc
 class OrganizationStatistics {
   /// Total number of active accounts in your Amazon Web Services organization
   /// that are associated with GuardDuty.
@@ -14410,6 +14683,8 @@ class OrganizationStatistics {
 
 /// Information about the number of accounts that have enabled a specific
 /// feature.
+///
+/// @nodoc
 class OrganizationFeatureStatistics {
   /// Name of the additional configuration.
   final List<OrganizationFeatureStatisticsAdditionalConfiguration>?
@@ -14456,6 +14731,8 @@ class OrganizationFeatureStatistics {
 
 /// Information about the coverage statistic for the additional configuration of
 /// the feature.
+///
+/// @nodoc
 class OrganizationFeatureStatisticsAdditionalConfiguration {
   /// Total number of accounts that have enabled the additional configuration.
   final int? enabledAccountsCount;
@@ -14489,6 +14766,8 @@ class OrganizationFeatureStatisticsAdditionalConfiguration {
 }
 
 /// Contains information on which data sources are enabled for a member account.
+///
+/// @nodoc
 class MemberDataSourceConfiguration {
   /// The account ID for the member account.
   final String accountId;
@@ -14533,6 +14812,8 @@ class MemberDataSourceConfiguration {
 }
 
 /// Contains information on the status of data sources for the detector.
+///
+/// @nodoc
 class DataSourceConfigurationsResult {
   /// An object that contains information on the status of CloudTrail as a data
   /// source.
@@ -14610,6 +14891,8 @@ class DataSourceConfigurationsResult {
 }
 
 /// Contains information about the features for the member account.
+///
+/// @nodoc
 class MemberFeaturesConfigurationResult {
   /// Indicates the additional configuration of the feature that is configured for
   /// the member account.
@@ -14661,6 +14944,8 @@ class MemberFeaturesConfigurationResult {
 }
 
 /// Information about the additional configuration for the member account.
+///
+/// @nodoc
 class MemberAdditionalConfigurationResult {
   /// Indicates the name of the additional configuration that is set for the
   /// member account.
@@ -14704,6 +14989,8 @@ class MemberAdditionalConfigurationResult {
 
 /// Contains information on the status of CloudTrail as a data source for the
 /// detector.
+///
+/// @nodoc
 class CloudTrailConfigurationResult {
   /// Describes whether CloudTrail is enabled as a data source for the detector.
   final DataSourceStatus status;
@@ -14727,6 +15014,8 @@ class CloudTrailConfigurationResult {
 }
 
 /// Contains information on the status of DNS logs as a data source.
+///
+/// @nodoc
 class DNSLogsConfigurationResult {
   /// Denotes whether DNS logs is enabled as a data source.
   final DataSourceStatus status;
@@ -14750,6 +15039,8 @@ class DNSLogsConfigurationResult {
 }
 
 /// Contains information on the status of VPC flow logs as a data source.
+///
+/// @nodoc
 class FlowLogsConfigurationResult {
   /// Denotes whether VPC flow logs is enabled as a data source.
   final DataSourceStatus status;
@@ -14773,6 +15064,8 @@ class FlowLogsConfigurationResult {
 }
 
 /// Describes whether S3 data event logs will be enabled as a data source.
+///
+/// @nodoc
 class S3LogsConfigurationResult {
   /// A value that describes whether S3 data event logs are automatically enabled
   /// for new members of the organization.
@@ -14797,6 +15090,8 @@ class S3LogsConfigurationResult {
 }
 
 /// Describes whether any Kubernetes logs will be enabled as a data source.
+///
+/// @nodoc
 class KubernetesConfigurationResult {
   /// Describes whether Kubernetes audit logs are enabled as a data source.
   final KubernetesAuditLogsConfigurationResult auditLogs;
@@ -14823,6 +15118,8 @@ class KubernetesConfigurationResult {
 
 /// An object that contains information on the status of all Malware Protection
 /// data sources.
+///
+/// @nodoc
 class MalwareProtectionConfigurationResult {
   /// Describes the configuration of Malware Protection for EC2 instances with
   /// findings.
@@ -14860,6 +15157,8 @@ class MalwareProtectionConfigurationResult {
 
 /// An object that contains information on the status of whether Malware
 /// Protection for EC2 instances with findings will be enabled as a data source.
+///
+/// @nodoc
 class ScanEc2InstanceWithFindingsResult {
   /// Describes the configuration of scanning EBS volumes as a data source.
   final EbsVolumesResult? ebsVolumes;
@@ -14887,6 +15186,8 @@ class ScanEc2InstanceWithFindingsResult {
 }
 
 /// Describes the configuration of scanning EBS volumes as a data source.
+///
+/// @nodoc
 class EbsVolumesResult {
   /// Specifies the reason why scanning EBS volumes (Malware Protection) was not
   /// enabled as a data source.
@@ -14917,6 +15218,7 @@ class EbsVolumesResult {
   }
 }
 
+/// @nodoc
 class DataSourceStatus {
   static const enabled = DataSourceStatus._('ENABLED');
   static const disabled = DataSourceStatus._('DISABLED');
@@ -14942,6 +15244,8 @@ class DataSourceStatus {
 }
 
 /// Describes whether Kubernetes audit logs are enabled as a data source.
+///
+/// @nodoc
 class KubernetesAuditLogsConfigurationResult {
   /// A value that describes whether Kubernetes audit logs are enabled as a data
   /// source.
@@ -14967,6 +15271,8 @@ class KubernetesAuditLogsConfigurationResult {
 }
 
 /// Contains information about the administrator account and invitation.
+///
+/// @nodoc
 class Master {
   /// The ID of the account used as the administrator account.
   final String? accountId;
@@ -15012,6 +15318,8 @@ class Master {
 }
 
 /// Contains information about the configuration used for the malware scan.
+///
+/// @nodoc
 class ScanConfiguration {
   /// Information about the incremental scan configuration, if applicable.
   final IncrementalScanDetails? incrementalScanDetails;
@@ -15067,6 +15375,7 @@ class ScanConfiguration {
   }
 }
 
+/// @nodoc
 class ScanCategory {
   static const fullScan = ScanCategory._('FULL_SCAN');
   static const incrementalScan = ScanCategory._('INCREMENTAL_SCAN');
@@ -15090,6 +15399,7 @@ class ScanCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class ScanStatusReason {
   static const accessDenied = ScanStatusReason._('ACCESS_DENIED');
   static const resourceNotFound = ScanStatusReason._('RESOURCE_NOT_FOUND');
@@ -15157,6 +15467,8 @@ class ScanStatusReason {
 }
 
 /// Contains information about the results of the malware scan.
+///
+/// @nodoc
 class GetMalwareScanResultDetails {
   /// The total number of files that failed to be scanned.
   final int? failedFileCount;
@@ -15235,6 +15547,8 @@ class GetMalwareScanResultDetails {
 
 /// Contains information about a specific threat that was detected during the
 /// malware scan.
+///
+/// @nodoc
 class ScanResultThreat {
   /// The number of instances of this threat that were detected.
   final int? count;
@@ -15288,6 +15602,7 @@ class ScanResultThreat {
   }
 }
 
+/// @nodoc
 class DetectionSource {
   static const amazon = DetectionSource._('AMAZON');
   static const bitdefender = DetectionSource._('BITDEFENDER');
@@ -15313,6 +15628,8 @@ class DetectionSource {
 }
 
 /// Contains detailed information about where a threat was detected.
+///
+/// @nodoc
 class ItemDetails {
   /// Additional information about the detected threat item.
   final AdditionalInfo? additionalInfo;
@@ -15360,6 +15677,8 @@ class ItemDetails {
 }
 
 /// Contains additional information about the detected threat.
+///
+/// @nodoc
 class AdditionalInfo {
   /// The device name of the EBS volume, if applicable.
   final String? deviceName;
@@ -15390,6 +15709,8 @@ class AdditionalInfo {
 }
 
 /// Represents the reason the scan was triggered.
+///
+/// @nodoc
 class TriggerDetails {
   /// The description of the scan trigger.
   final String? description;
@@ -15429,6 +15750,8 @@ class TriggerDetails {
 
 /// Contains information about the recovery point configuration used in the
 /// scan.
+///
+/// @nodoc
 class ScanConfigurationRecoveryPoint {
   /// The name of the Amazon Web Services Backup vault that contains the recovery
   /// point for the scanned.
@@ -15467,6 +15790,8 @@ class ScanConfigurationRecoveryPoint {
 /// Contains information about the time range within the continuous backup in
 /// Amazon Web Services Backup that was scanned for a point-in-time recovery
 /// resource.
+///
+/// @nodoc
 class ScanConfigurationContinuousScanDetails {
   /// The timestamp representing the end of the time range that was scanned.
   final DateTime endTime;
@@ -15497,6 +15822,7 @@ class ScanConfigurationContinuousScanDetails {
   }
 }
 
+/// @nodoc
 class TriggerType {
   static const backup = TriggerType._('BACKUP');
   static const guardduty = TriggerType._('GUARDDUTY');
@@ -15522,6 +15848,8 @@ class TriggerType {
 
 /// Contains information about a resource that was scanned as part of the
 /// malware scan operation.
+///
+/// @nodoc
 class ScannedResource {
   /// Information about the scanned resource.
   final ScannedResourceDetails? resourceDetails;
@@ -15581,6 +15909,8 @@ class ScannedResource {
 }
 
 /// Contains additional information about a resource that was scanned.
+///
+/// @nodoc
 class ScannedResourceDetails {
   /// Contains information about the EBS snapshot that was scanned.
   final EbsSnapshot? ebsSnapshot;
@@ -15615,6 +15945,8 @@ class ScannedResourceDetails {
 }
 
 /// Contains EBS volume details.
+///
+/// @nodoc
 class VolumeDetail {
   /// The device name for the EBS volume.
   final String? deviceName;
@@ -15680,6 +16012,8 @@ class VolumeDetail {
 }
 
 /// Contains information about an EBS snapshot that was scanned for malware.
+///
+/// @nodoc
 class EbsSnapshot {
   /// The device name of the EBS snapshot that was scanned.
   final String? deviceName;
@@ -15705,6 +16039,8 @@ class EbsSnapshot {
 /// Information about the protected resource that is associated with the created
 /// Malware Protection plan. Presently, <code>S3Bucket</code> is the only
 /// supported protected resource.
+///
+/// @nodoc
 class CreateProtectedResource {
   /// Information about the protected S3 bucket resource.
   final CreateS3BucketResource? s3Bucket;
@@ -15730,6 +16066,7 @@ class CreateProtectedResource {
   }
 }
 
+/// @nodoc
 class MalwareProtectionPlanStatus {
   static const active = MalwareProtectionPlanStatus._('ACTIVE');
   static const warning = MalwareProtectionPlanStatus._('WARNING');
@@ -15758,6 +16095,8 @@ class MalwareProtectionPlanStatus {
 
 /// Information about the issue code and message associated to the status of
 /// your Malware Protection plan.
+///
+/// @nodoc
 class MalwareProtectionPlanStatusReason {
   /// Issue code.
   final String? code;
@@ -15793,6 +16132,8 @@ class MalwareProtectionPlanStatusReason {
 }
 
 /// Information about the protected S3 bucket resource.
+///
+/// @nodoc
 class CreateS3BucketResource {
   /// Name of the S3 bucket.
   final String? bucketName;
@@ -15826,6 +16167,7 @@ class CreateS3BucketResource {
   }
 }
 
+/// @nodoc
 class IpSetFormat {
   static const txt = IpSetFormat._('TXT');
   static const stix = IpSetFormat._('STIX');
@@ -15853,6 +16195,7 @@ class IpSetFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class IpSetStatus {
   static const inactive = IpSetStatus._('INACTIVE');
   static const activating = IpSetStatus._('ACTIVATING');
@@ -15890,6 +16233,8 @@ class IpSetStatus {
 }
 
 /// Contains information about finding statistics.
+///
+/// @nodoc
 class FindingStatistics {
   /// Represents a list of map of severity to count statistics for a set of
   /// findings.
@@ -15976,6 +16321,8 @@ class FindingStatistics {
 }
 
 /// Information about severity level for each finding type.
+///
+/// @nodoc
 class SeverityStatistics {
   /// The timestamp at which a finding type for a specific severity was last
   /// generated.
@@ -16016,6 +16363,8 @@ class SeverityStatistics {
 
 /// Information about each resource type associated with the
 /// <code>groupedByResource</code> statistics.
+///
+/// @nodoc
 class ResourceStatistics {
   /// The ID of the Amazon Web Services account.
   final String? accountId;
@@ -16106,6 +16455,8 @@ class ResourceStatistics {
 
 /// Information about each finding type associated with the
 /// <code>groupedByFindingType</code> statistics.
+///
+/// @nodoc
 class FindingTypeStatistics {
   /// Name of the finding type.
   final String? findingType;
@@ -16147,6 +16498,8 @@ class FindingTypeStatistics {
 
 /// Represents list a map of dates with a count of total findings generated on
 /// each date.
+///
+/// @nodoc
 class DateStatistics {
   /// The timestamp when the total findings count is observed.
   ///
@@ -16199,6 +16552,8 @@ class DateStatistics {
 
 /// Represents a list of map of accounts with the number of findings associated
 /// with each account.
+///
+/// @nodoc
 class AccountStatistics {
   /// The ID of the Amazon Web Services account.
   final String? accountId;
@@ -16236,6 +16591,7 @@ class AccountStatistics {
   }
 }
 
+/// @nodoc
 class GroupByType {
   static const account = GroupByType._('ACCOUNT');
   static const date = GroupByType._('DATE');
@@ -16262,6 +16618,7 @@ class GroupByType {
   String toString() => value;
 }
 
+/// @nodoc
 class FindingStatisticType {
   static const countBySeverity = FindingStatisticType._('COUNT_BY_SEVERITY');
 
@@ -16288,6 +16645,8 @@ class FindingStatisticType {
 
 /// Contains information about the finding that is generated when abnormal or
 /// suspicious activity is detected.
+///
+/// @nodoc
 class Finding {
   /// The ID of the account in which the finding was generated.
   final String accountId;
@@ -16425,6 +16784,8 @@ class Finding {
 
 /// Contains information about the Amazon Web Services resource associated with
 /// the activity that prompted GuardDuty to generate a finding.
+///
+/// @nodoc
 class Resource {
   /// The IAM access key details (user information) of a user that engaged in the
   /// activity that prompted GuardDuty to generate a finding.
@@ -16605,6 +16966,8 @@ class Resource {
 }
 
 /// Contains additional information about the generated finding.
+///
+/// @nodoc
 class Service {
   /// Information about the activity that is described in a finding.
   final Action? action;
@@ -16756,6 +17119,8 @@ class Service {
 }
 
 /// Contains information about actions.
+///
+/// @nodoc
 class Action {
   /// The GuardDuty finding activity type.
   final String? actionType;
@@ -16882,6 +17247,8 @@ class Action {
 }
 
 /// Contains information about the reason that the finding was generated.
+///
+/// @nodoc
 class Evidence {
   /// A list of threat intelligence details related to the evidence.
   final List<ThreatIntelligenceDetail>? threatIntelligenceDetails;
@@ -16910,6 +17277,8 @@ class Evidence {
 }
 
 /// Additional information about the generated finding.
+///
+/// @nodoc
 class ServiceAdditionalInfo {
   /// Describes the type of the additional information.
   final String? type;
@@ -16940,6 +17309,8 @@ class ServiceAdditionalInfo {
 }
 
 /// Contains details from the malware scan that created a finding.
+///
+/// @nodoc
 class EbsVolumeScanDetails {
   /// Returns the completion date and time of the malware scan.
   final DateTime? scanCompletedAt;
@@ -17012,6 +17383,8 @@ class EbsVolumeScanDetails {
 
 /// Information about the process and any required context values for a specific
 /// finding.
+///
+/// @nodoc
 class RuntimeDetails {
   /// Additional information about the suspicious activity.
   final RuntimeContext? context;
@@ -17046,6 +17419,8 @@ class RuntimeDetails {
 }
 
 /// Contains information about the detected behavior.
+///
+/// @nodoc
 class Detection {
   /// The details about the anomalous activity that caused GuardDuty to generate
   /// the finding.
@@ -17081,6 +17456,8 @@ class Detection {
 }
 
 /// Information about the malware scan that generated a GuardDuty finding.
+///
+/// @nodoc
 class MalwareScanDetails {
   /// The category of the malware scan.
   final ScanCategory? scanCategory;
@@ -17148,6 +17525,8 @@ class MalwareScanDetails {
 }
 
 /// Contains finding configuration details about the malware scan.
+///
+/// @nodoc
 class MalwareProtectionFindingsScanConfiguration {
   final IncrementalScanDetails? incrementalScanDetails;
 
@@ -17184,6 +17563,8 @@ class MalwareProtectionFindingsScanConfiguration {
 
 /// Information about the detected threats associated with the generated
 /// finding.
+///
+/// @nodoc
 class Threat {
   /// The number of occurrences of this specific threat detected during the scan.
   final int? count;
@@ -17248,6 +17629,8 @@ class Threat {
 }
 
 /// Information about the nested item path and hash of the protected resource.
+///
+/// @nodoc
 class ItemPath {
   /// The hash value of the infected resource.
   final String? hash;
@@ -17278,6 +17661,8 @@ class ItemPath {
 }
 
 /// Contains information about the anomalies.
+///
+/// @nodoc
 class Anomaly {
   /// Information about the types of profiles.
   final Map<String, Map<String, List<AnomalyObject>>>? profiles;
@@ -17319,6 +17704,8 @@ class Anomaly {
 }
 
 /// Contains information about the GuardDuty attack sequence finding.
+///
+/// @nodoc
 class Sequence {
   /// Description of the attack sequence.
   final String description;
@@ -17414,6 +17801,8 @@ class Sequence {
 
 /// Contains information about the indicators that include a set of signals
 /// observed in an attack sequence.
+///
+/// @nodoc
 class Indicator {
   /// Specific indicator keys observed in the attack sequence. For description of
   /// the valid values for key, see <a
@@ -17457,6 +17846,7 @@ class Indicator {
   }
 }
 
+/// @nodoc
 class IndicatorType {
   static const suspiciousUserAgent = IndicatorType._('SUSPICIOUS_USER_AGENT');
   static const suspiciousNetwork = IndicatorType._('SUSPICIOUS_NETWORK');
@@ -17527,6 +17917,8 @@ class IndicatorType {
 }
 
 /// Contains information about the signals involved in the attack sequence.
+///
+/// @nodoc
 class Signal {
   /// The number of times this signal was observed.
   final int count;
@@ -17685,6 +18077,7 @@ class Signal {
   }
 }
 
+/// @nodoc
 class SignalType {
   static const finding = SignalType._('FINDING');
   static const cloudTrail = SignalType._('CLOUD_TRAIL');
@@ -17723,6 +18116,8 @@ class SignalType {
 
 /// Contains information about network endpoints that were observed in the
 /// attack sequence.
+///
+/// @nodoc
 class NetworkEndpoint {
   /// The ID of the network endpoint.
   final String id;
@@ -17797,6 +18192,8 @@ class NetworkEndpoint {
 }
 
 /// Contains information about network endpoint location.
+///
+/// @nodoc
 class NetworkGeoLocation {
   /// The name of the city.
   final String city;
@@ -17842,6 +18239,8 @@ class NetworkGeoLocation {
 
 /// Contains information about the Autonomous System (AS) associated with the
 /// network endpoints involved in an attack sequence.
+///
+/// @nodoc
 class AutonomousSystem {
   /// Name associated with the Autonomous System (AS).
   final String name;
@@ -17872,6 +18271,8 @@ class AutonomousSystem {
 }
 
 /// Contains information about the network connection.
+///
+/// @nodoc
 class NetworkConnection {
   /// The direction in which the network traffic is flowing.
   final NetworkDirection direction;
@@ -17895,6 +18296,7 @@ class NetworkConnection {
   }
 }
 
+/// @nodoc
 class NetworkDirection {
   static const inbound = NetworkDirection._('INBOUND');
   static const outbound = NetworkDirection._('OUTBOUND');
@@ -17921,6 +18323,8 @@ class NetworkDirection {
 
 /// Contains information about the Amazon Web Services resource that is
 /// associated with the GuardDuty finding.
+///
+/// @nodoc
 class ResourceV2 {
   /// The type of the Amazon Web Services resource.
   final FindingResourceType resourceType;
@@ -18007,6 +18411,7 @@ class ResourceV2 {
   }
 }
 
+/// @nodoc
 class FindingResourceType {
   static const ec2Instance = FindingResourceType._('EC2_INSTANCE');
   static const ec2NetworkInterface =
@@ -18070,6 +18475,8 @@ class FindingResourceType {
 
 /// Contains information about the Amazon Web Services resource that is
 /// associated with the activity that prompted GuardDuty to generate a finding.
+///
+/// @nodoc
 class ResourceData {
   /// Contains information about the IAM access key details of a user that
   /// involved in the GuardDuty finding.
@@ -18253,6 +18660,8 @@ class ResourceData {
 }
 
 /// Contains information about the Amazon S3 bucket policies and encryption.
+///
+/// @nodoc
 class S3Bucket {
   /// Contains information about the public access policies that apply to the
   /// Amazon S3 bucket at the account level.
@@ -18362,6 +18771,8 @@ class S3Bucket {
 }
 
 /// Details about the potentially impacted Amazon EC2 instance resource.
+///
+/// @nodoc
 class Ec2Instance {
   /// The availability zone of the Amazon EC2 instance. For more information, see
   /// <a
@@ -18455,6 +18866,8 @@ class Ec2Instance {
 }
 
 /// Contains information about the access keys.
+///
+/// @nodoc
 class AccessKey {
   /// Principal ID of the user.
   final String? principalId;
@@ -18493,6 +18906,8 @@ class AccessKey {
 
 /// Contains information about the elastic network interface of the Amazon EC2
 /// instance.
+///
+/// @nodoc
 class Ec2NetworkInterface {
   /// A list of IPv6 addresses for the Amazon EC2 instance.
   final List<String>? ipv6Addresses;
@@ -18561,6 +18976,8 @@ class Ec2NetworkInterface {
 }
 
 /// Contains information about the Amazon S3 object.
+///
+/// @nodoc
 class S3Object {
   /// The entity tag is a hash of the Amazon S3 object. The ETag reflects changes
   /// only to the contents of an object, and not its metadata.
@@ -18601,6 +19018,8 @@ class S3Object {
 /// Contains information about the Amazon EKS cluster involved in a GuardDuty
 /// finding, including cluster identification, status, and network
 /// configuration.
+///
+/// @nodoc
 class EksCluster {
   /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon EKS
   /// cluster involved in the finding.
@@ -18660,6 +19079,8 @@ class EksCluster {
 
 /// Contains information about Kubernetes workloads involved in a GuardDuty
 /// finding, including pods, deployments, and other Kubernetes resources.
+///
+/// @nodoc
 class KubernetesWorkload {
   /// A list of unique identifiers for the containers that are part of the
   /// Kubernetes workload.
@@ -18706,6 +19127,8 @@ class KubernetesWorkload {
 /// Contains information about container resources involved in a GuardDuty
 /// finding. This structure provides details about containers that were
 /// identified as part of suspicious or malicious activity.
+///
+/// @nodoc
 class ContainerFindingResource {
   /// The container image information, including the image name and tag used to
   /// run the container that was involved in the finding.
@@ -18738,6 +19161,8 @@ class ContainerFindingResource {
 
 /// Contains information about the Amazon ECS cluster involved in a GuardDuty
 /// finding, including cluster identification and status.
+///
+/// @nodoc
 class EcsCluster {
   /// A list of unique identifiers for the Amazon EC2 instances that serve as
   /// container instances in the Amazon ECS cluster.
@@ -18773,6 +19198,8 @@ class EcsCluster {
 
 /// Contains information about Amazon ECS task involved in a GuardDuty finding,
 /// including task definition and container identifiers.
+///
+/// @nodoc
 class EcsTask {
   /// A list of unique identifiers for the containers associated with the Amazon
   /// ECS task.
@@ -18825,6 +19252,8 @@ class EcsTask {
 
 /// Contains information about the IAM instance profile involved in a GuardDuty
 /// finding, including unique identifiers of the Amazon EC2 instances.
+///
+/// @nodoc
 class IamInstanceProfileV2 {
   /// A list of unique identifiers for the compromised Amazon EC2 instances that
   /// share the same IAM instance profile.
@@ -18853,6 +19282,8 @@ class IamInstanceProfileV2 {
 
 /// Contains information about the Auto Scaling Group involved in a GuardDuty
 /// finding, including unique identifiers of the Amazon EC2 instances.
+///
+/// @nodoc
 class AutoscalingAutoScalingGroup {
   /// A list of unique identifiers for the compromised Amazon EC2 instances that
   /// are part of the same Auto Scaling Group.
@@ -18881,6 +19312,8 @@ class AutoscalingAutoScalingGroup {
 
 /// Contains information about the Amazon EC2 launch template involved in a
 /// GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+///
+/// @nodoc
 class Ec2LaunchTemplate {
   /// A list of unique identifiers for the compromised Amazon EC2 instances that
   /// share the same Amazon EC2 launch template.
@@ -18916,6 +19349,8 @@ class Ec2LaunchTemplate {
 
 /// Contains information about the Amazon EC2 VPC involved in a GuardDuty
 /// finding, including unique identifiers of the Amazon EC2 instances.
+///
+/// @nodoc
 class Ec2Vpc {
   /// A list of unique identifiers for the compromised Amazon EC2 instances that
   /// were launched within the same Virtual Private Cloud (VPC).
@@ -18944,6 +19379,8 @@ class Ec2Vpc {
 
 /// Contains information about the Amazon EC2 Image involved in a GuardDuty
 /// finding, including unique identifiers of the Amazon EC2 instances.
+///
+/// @nodoc
 class Ec2Image {
   /// A list of unique identifiers for the compromised Amazon EC2 instances that
   /// were launched with the same Amazon Machine Image (AMI).
@@ -18972,6 +19409,8 @@ class Ec2Image {
 
 /// Contains information about the CloudFormation stack involved in a GuardDuty
 /// finding, including unique identifiers of the Amazon EC2 instances.
+///
+/// @nodoc
 class CloudformationStack {
   /// A list of unique identifiers for the compromised Amazon EC2 instances that
   /// were created as part of the same CloudFormation stack.
@@ -18998,6 +19437,7 @@ class CloudformationStack {
   }
 }
 
+/// @nodoc
 class EcsLaunchType {
   static const fargate = EcsLaunchType._('FARGATE');
   static const ec2 = EcsLaunchType._('EC2');
@@ -19022,6 +19462,7 @@ class EcsLaunchType {
   String toString() => value;
 }
 
+/// @nodoc
 class EcsClusterStatus {
   static const active = EcsClusterStatus._('ACTIVE');
   static const provisioning = EcsClusterStatus._('PROVISIONING');
@@ -19055,6 +19496,7 @@ class EcsClusterStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class KubernetesResourcesTypes {
   static const pods = KubernetesResourcesTypes._('PODS');
   static const jobs = KubernetesResourcesTypes._('JOBS');
@@ -19096,6 +19538,7 @@ class KubernetesResourcesTypes {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterStatus {
   static const creating = ClusterStatus._('CREATING');
   static const active = ClusterStatus._('ACTIVE');
@@ -19126,6 +19569,8 @@ class ClusterStatus {
 
 /// Contains information about the security groups associated with the EC2
 /// instance.
+///
+/// @nodoc
 class SecurityGroup {
   /// The security group ID of the EC2 instance.
   final String? groupId;
@@ -19156,6 +19601,8 @@ class SecurityGroup {
 }
 
 /// Contains other private IP address information of the EC2 instance.
+///
+/// @nodoc
 class PrivateIpAddressDetails {
   /// The private DNS name of the EC2 instance.
   final String? privateDnsName;
@@ -19186,6 +19633,8 @@ class PrivateIpAddressDetails {
 }
 
 /// Contains information about the EC2 instance profile.
+///
+/// @nodoc
 class IamInstanceProfile {
   /// The profile ARN of the EC2 instance.
   final String? arn;
@@ -19216,6 +19665,8 @@ class IamInstanceProfile {
 }
 
 /// Contains information about the product code for the EC2 instance.
+///
+/// @nodoc
 class ProductCode {
   /// The product code information.
   final String? code;
@@ -19245,6 +19696,7 @@ class ProductCode {
   }
 }
 
+/// @nodoc
 class PublicAccessStatus {
   static const blocked = PublicAccessStatus._('BLOCKED');
   static const allowed = PublicAccessStatus._('ALLOWED');
@@ -19276,6 +19728,8 @@ class PublicAccessStatus {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html">Blocking
 /// public access to your Amazon S3 storage</a> in the <i>Amazon S3 User
 /// Guide</i>.
+///
+/// @nodoc
 class PublicAccessConfiguration {
   /// Indicates whether or not there is a setting that allows public access to the
   /// Amazon S3 buckets through access control lists (ACLs).
@@ -19332,6 +19786,7 @@ class PublicAccessConfiguration {
   }
 }
 
+/// @nodoc
 class PublicAclIgnoreBehavior {
   static const ignored = PublicAclIgnoreBehavior._('IGNORED');
   static const notIgnored = PublicAclIgnoreBehavior._('NOT_IGNORED');
@@ -19357,6 +19812,7 @@ class PublicAclIgnoreBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class PublicBucketRestrictBehavior {
   static const restricted = PublicBucketRestrictBehavior._('RESTRICTED');
   static const notRestricted = PublicBucketRestrictBehavior._('NOT_RESTRICTED');
@@ -19383,6 +19839,8 @@ class PublicBucketRestrictBehavior {
 }
 
 /// Contains information about a tag key-value pair.
+///
+/// @nodoc
 class Tag {
   /// Describes the key associated with the tag.
   final String? key;
@@ -19413,6 +19871,8 @@ class Tag {
 }
 
 /// Information about the actors involved in an attack sequence.
+///
+/// @nodoc
 class Actor {
   /// ID of the threat actor.
   final String id;
@@ -19465,6 +19925,8 @@ class Actor {
 }
 
 /// Contains information about the user involved in the attack sequence.
+///
+/// @nodoc
 class User {
   /// The name of the user.
   final String name;
@@ -19520,6 +19982,8 @@ class User {
 }
 
 /// Contains information about the authenticated session.
+///
+/// @nodoc
 class Session {
   /// The timestamp for when the session was created.
   ///
@@ -19575,6 +20039,8 @@ class Session {
 
 /// Contains information about a process involved in a GuardDuty finding,
 /// including process identification, execution details, and file information.
+///
+/// @nodoc
 class ActorProcess {
   /// The name of the process as it appears in the system.
   final String name;
@@ -19612,6 +20078,7 @@ class ActorProcess {
   }
 }
 
+/// @nodoc
 class MfaStatus {
   static const enabled = MfaStatus._('ENABLED');
   static const disabled = MfaStatus._('DISABLED');
@@ -19637,6 +20104,8 @@ class MfaStatus {
 
 /// Contains information about the Amazon Web Services account within which the
 /// activity took place.
+///
+/// @nodoc
 class Account {
   /// The Amazon Web Services account ID within which the activity took place.
   /// This may differ from the account that owns the user identity.
@@ -19669,6 +20138,8 @@ class Account {
 
 /// Contains information about the behavior of the anomaly that is new to
 /// GuardDuty.
+///
+/// @nodoc
 class AnomalyUnusual {
   /// The behavior of the anomalous activity that caused GuardDuty to generate the
   /// finding.
@@ -19697,6 +20168,8 @@ class AnomalyUnusual {
 }
 
 /// Contains information about the unusual anomalies.
+///
+/// @nodoc
 class AnomalyObject {
   /// The recorded value.
   final Observations? observations;
@@ -19737,6 +20210,7 @@ class AnomalyObject {
   }
 }
 
+/// @nodoc
 class ProfileType {
   static const frequency = ProfileType._('FREQUENCY');
 
@@ -19759,6 +20233,7 @@ class ProfileType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProfileSubtype {
   static const frequent = ProfileSubtype._('FREQUENT');
   static const infrequent = ProfileSubtype._('INFREQUENT');
@@ -19786,6 +20261,8 @@ class ProfileSubtype {
 }
 
 /// Contains information about the observed behavior.
+///
+/// @nodoc
 class Observations {
   /// The text that was unusual.
   final List<String>? text;
@@ -19809,6 +20286,8 @@ class Observations {
 }
 
 /// Information about the observed process.
+///
+/// @nodoc
 class ProcessDetails {
   /// The effective user ID of the user that executed the process.
   final int? euid;
@@ -19920,6 +20399,8 @@ class ProcessDetails {
 }
 
 /// Additional information about the suspicious activity.
+///
+/// @nodoc
 class RuntimeContext {
   /// Represents the communication protocol associated with the address. For
   /// example, the address family <code>AF_INET</code> is used for IP version of 4
@@ -20161,6 +20642,8 @@ class RuntimeContext {
 }
 
 /// Information about the runtime process details.
+///
+/// @nodoc
 class LineageObject {
   /// The effective user ID that was used to execute the process.
   final int? euid;
@@ -20241,6 +20724,8 @@ class LineageObject {
 }
 
 /// Contains a complete view providing malware scan result details.
+///
+/// @nodoc
 class ScanDetections {
   /// Details of the highest severity threat detected during malware scan and
   /// number of infected files.
@@ -20300,6 +20785,7 @@ class ScanDetections {
   }
 }
 
+/// @nodoc
 class ScanType {
   static const guarddutyInitiated = ScanType._('GUARDDUTY_INITIATED');
   static const onDemand = ScanType._('ON_DEMAND');
@@ -20324,6 +20810,8 @@ class ScanType {
 }
 
 /// Total number of scanned files.
+///
+/// @nodoc
 class ScannedItemCount {
   /// Number of files scanned.
   final int? files;
@@ -20361,6 +20849,8 @@ class ScannedItemCount {
 }
 
 /// Contains total number of infected files.
+///
+/// @nodoc
 class ThreatsDetectedItemCount {
   /// Total number of infected files.
   final int? files;
@@ -20385,6 +20875,8 @@ class ThreatsDetectedItemCount {
 
 /// Contains details of the highest severity threat detected during scan and
 /// number of infected files.
+///
+/// @nodoc
 class HighestSeverityThreatDetails {
   /// Total number of infected files with the highest severity threat detected.
   final int? count;
@@ -20423,6 +20915,8 @@ class HighestSeverityThreatDetails {
 }
 
 /// Contains details about identified threats organized by threat name.
+///
+/// @nodoc
 class ThreatDetectedByName {
   /// Total number of infected files identified.
   final int? itemCount;
@@ -20474,6 +20968,8 @@ class ThreatDetectedByName {
 
 /// Contains files infected with the given threat providing details of malware
 /// name and severity.
+///
+/// @nodoc
 class ScanThreatName {
   /// List of infected files in EBS volume with details.
   final List<ScanFilePath>? filePaths;
@@ -20521,6 +21017,8 @@ class ScanThreatName {
 }
 
 /// Contains details of infected file including name, file path and hash.
+///
+/// @nodoc
 class ScanFilePath {
   /// File name of the infected file.
   final String? fileName;
@@ -20566,6 +21064,8 @@ class ScanFilePath {
 
 /// An instance of a threat intelligence detail that constitutes evidence for
 /// the finding.
+///
+/// @nodoc
 class ThreatIntelligenceDetail {
   /// SHA256 of the file that generated the finding.
   final String? threatFileSha256;
@@ -20607,6 +21107,8 @@ class ThreatIntelligenceDetail {
 }
 
 /// Contains information about the API action.
+///
+/// @nodoc
 class AwsApiCallAction {
   /// The details of the Amazon Web Services account that made the API call. This
   /// field identifies the resources that were affected by this API call.
@@ -20700,6 +21202,8 @@ class AwsApiCallAction {
 }
 
 /// Contains information about the DNS_REQUEST action described in this finding.
+///
+/// @nodoc
 class DnsRequestAction {
   /// Indicates whether the targeted port is blocked.
   final bool? blocked;
@@ -20757,6 +21261,8 @@ class DnsRequestAction {
 
 /// Contains information about the NETWORK_CONNECTION action described in the
 /// finding.
+///
+/// @nodoc
 class NetworkConnectionAction {
   /// Indicates whether EC2 blocked the network connection to your instance.
   final bool? blocked;
@@ -20844,6 +21350,8 @@ class NetworkConnectionAction {
 }
 
 /// Contains information about the PORT_PROBE action described in the finding.
+///
+/// @nodoc
 class PortProbeAction {
   /// Indicates whether EC2 blocked the port probe to the instance, such as with
   /// an ACL.
@@ -20878,6 +21386,8 @@ class PortProbeAction {
 }
 
 /// Information about the Kubernetes API call action described in this finding.
+///
+/// @nodoc
 class KubernetesApiCallAction {
   /// The name of the namespace where the Kubernetes API call action takes place.
   final String? namespace;
@@ -20977,6 +21487,8 @@ class KubernetesApiCallAction {
 
 /// Information about the Kubernetes API for which you check if you have
 /// permission to call.
+///
+/// @nodoc
 class KubernetesPermissionCheckedDetails {
   /// Information whether the user has the permission to call the Kubernetes API.
   final bool? allowed;
@@ -21025,6 +21537,8 @@ class KubernetesPermissionCheckedDetails {
 
 /// Contains information about the role binding that grants the permission
 /// defined in a Kubernetes role.
+///
+/// @nodoc
 class KubernetesRoleBindingDetails {
   /// The kind of the role. For role binding, this value will be
   /// <code>RoleBinding</code>.
@@ -21079,6 +21593,8 @@ class KubernetesRoleBindingDetails {
 }
 
 /// Information about the Kubernetes role name and role type.
+///
+/// @nodoc
 class KubernetesRoleDetails {
   /// The kind of role. For this API, the value of <code>kind</code> will be
   /// <code>Role</code>.
@@ -21118,6 +21634,8 @@ class KubernetesRoleDetails {
 
 /// Indicates that a login attempt was made to the potentially compromised
 /// database from a remote IP address.
+///
+/// @nodoc
 class RdsLoginAttemptAction {
   /// Indicates the login attributes used in the login attempt.
   final List<LoginAttribute>? loginAttributes;
@@ -21152,6 +21670,8 @@ class RdsLoginAttemptAction {
 }
 
 /// Contains information about the remote IP address of the connection.
+///
+/// @nodoc
 class RemoteIpDetails {
   /// The city information of the remote IP address.
   final City? city;
@@ -21218,6 +21738,8 @@ class RemoteIpDetails {
 }
 
 /// Information about the login attempts.
+///
+/// @nodoc
 class LoginAttribute {
   /// Indicates the application name used to attempt log in.
   final String? application;
@@ -21266,6 +21788,8 @@ class LoginAttribute {
 }
 
 /// Contains information about the city associated with the IP address.
+///
+/// @nodoc
 class City {
   /// The city name of the remote IP address.
   final String? cityName;
@@ -21290,6 +21814,8 @@ class City {
 
 /// Contains information about the country where the remote IP address is
 /// located.
+///
+/// @nodoc
 class Country {
   /// The country code of the remote IP address.
   final String? countryCode;
@@ -21322,6 +21848,8 @@ class Country {
 /// Contains information about the location of the remote IP address. By
 /// default, GuardDuty returns <code>Geolocation</code> with <code>Lat</code>
 /// and <code>Lon</code> as <code>0.0</code>.
+///
+/// @nodoc
 class GeoLocation {
   /// The latitude information of the remote IP address.
   final double? lat;
@@ -21352,6 +21880,8 @@ class GeoLocation {
 }
 
 /// Contains information about the ISP organization of the remote IP address.
+///
+/// @nodoc
 class Organization {
   /// The Autonomous System Number (ASN) of the internet provider of the remote IP
   /// address.
@@ -21397,6 +21927,8 @@ class Organization {
 }
 
 /// Contains information about the port probe details.
+///
+/// @nodoc
 class PortProbeDetail {
   /// The local IP information of the connection.
   final LocalIpDetails? localIpDetails;
@@ -21443,6 +21975,8 @@ class PortProbeDetail {
 }
 
 /// Contains information about the port for the local connection.
+///
+/// @nodoc
 class LocalPortDetails {
   /// The port number of the local connection.
   final int? port;
@@ -21473,6 +22007,8 @@ class LocalPortDetails {
 }
 
 /// Contains information about the local IP address of the connection.
+///
+/// @nodoc
 class LocalIpDetails {
   /// The IPv4 local address of the connection.
   final String? ipAddressV4;
@@ -21503,6 +22039,8 @@ class LocalIpDetails {
 }
 
 /// Contains information about the remote port.
+///
+/// @nodoc
 class RemotePortDetails {
   /// The port number of the remote connection.
   final int? port;
@@ -21533,6 +22071,8 @@ class RemotePortDetails {
 }
 
 /// Contains information about the domain.
+///
+/// @nodoc
 class DomainDetails {
   /// The domain information for the Amazon Web Services API call.
   final String? domain;
@@ -21557,6 +22097,8 @@ class DomainDetails {
 
 /// Contains details about the remote Amazon Web Services account that made the
 /// API call.
+///
+/// @nodoc
 class RemoteAccountDetails {
   /// The Amazon Web Services account ID of the remote API caller.
   final String? accountId;
@@ -21590,6 +22132,8 @@ class RemoteAccountDetails {
 }
 
 /// Contains information about the access keys.
+///
+/// @nodoc
 class AccessKeyDetails {
   /// The access key ID of the user.
   final String? accessKeyId;
@@ -21634,6 +22178,8 @@ class AccessKeyDetails {
 }
 
 /// Contains information about the details of an instance.
+///
+/// @nodoc
 class InstanceDetails {
   /// The Availability Zone of the EC2 instance.
   final String? availabilityZone;
@@ -21754,6 +22300,8 @@ class InstanceDetails {
 }
 
 /// Details about the EKS cluster involved in a Kubernetes finding.
+///
+/// @nodoc
 class EksClusterDetails {
   /// EKS cluster ARN.
   final String? arn;
@@ -21816,6 +22364,8 @@ class EksClusterDetails {
 
 /// Details about Kubernetes resources such as a Kubernetes user or workload
 /// resource involved in a Kubernetes finding.
+///
+/// @nodoc
 class KubernetesDetails {
   /// Details about the Kubernetes user involved in a Kubernetes finding.
   final KubernetesUserDetails? kubernetesUserDetails;
@@ -21854,6 +22404,8 @@ class KubernetesDetails {
 }
 
 /// Contains list of scanned and skipped EBS volumes with details.
+///
+/// @nodoc
 class EbsVolumeDetails {
   /// List of EBS volumes that were scanned.
   final List<VolumeDetail>? scannedVolumeDetails;
@@ -21892,6 +22444,8 @@ class EbsVolumeDetails {
 }
 
 /// Contains information about the details of the ECS Cluster.
+///
+/// @nodoc
 class EcsClusterDetails {
   /// The number of services that are running on the cluster in an ACTIVE state.
   final int? activeServicesCount;
@@ -21973,6 +22527,8 @@ class EcsClusterDetails {
 }
 
 /// Details of a container.
+///
+/// @nodoc
 class Container {
   /// The container runtime (such as, Docker or containerd) used to run the
   /// container.
@@ -22048,6 +22604,8 @@ class Container {
 }
 
 /// Information about the Lambda function involved in the finding.
+///
+/// @nodoc
 class LambdaDetails {
   /// Description of the Lambda function.
   final String? description;
@@ -22137,6 +22695,8 @@ class LambdaDetails {
 
 /// Contains information about the resource type <code>RDSDBInstance</code>
 /// involved in a GuardDuty finding.
+///
+/// @nodoc
 class RdsDbInstanceDetails {
   /// The identifier of the database cluster that contains the database instance
   /// ID involved in the finding.
@@ -22212,6 +22772,8 @@ class RdsDbInstanceDetails {
 
 /// Contains information about the resource type <code>RDSLimitlessDB</code>
 /// that is involved in a GuardDuty finding.
+///
+/// @nodoc
 class RdsLimitlessDbDetails {
   /// The name of the database cluster that is a part of the Limitless Database.
   final String? dbClusterIdentifier;
@@ -22284,6 +22846,8 @@ class RdsLimitlessDbDetails {
 
 /// Contains information about the user and authentication details for a
 /// database instance involved in the finding.
+///
+/// @nodoc
 class RdsDbUserDetails {
   /// The application name used in the anomalous login attempt.
   final String? application;
@@ -22335,6 +22899,8 @@ class RdsDbUserDetails {
 }
 
 /// Contains details about the EBS snapshot that was scanned for malware.
+///
+/// @nodoc
 class EbsSnapshotDetails {
   /// The Amazon Resource Name (ARN) of the EBS snapshot.
   final String? snapshotArn;
@@ -22358,6 +22924,8 @@ class EbsSnapshotDetails {
 }
 
 /// Contains details about the EC2 AMI that was scanned.
+///
+/// @nodoc
 class Ec2ImageDetails {
   /// The Amazon Resource Name (ARN) of the EC2 AMI.
   final String? imageArn;
@@ -22381,6 +22949,8 @@ class Ec2ImageDetails {
 }
 
 /// Contains details about the backup recovery point.
+///
+/// @nodoc
 class RecoveryPointDetails {
   /// The name of the backup vault containing the recovery point.
   final String? backupVaultName;
@@ -22412,6 +22982,8 @@ class RecoveryPointDetails {
 
 /// Amazon Virtual Private Cloud configuration details associated with your
 /// Lambda function.
+///
+/// @nodoc
 class VpcConfig {
   /// The identifier of the security group attached to the Lambda function.
   final List<SecurityGroup>? securityGroups;
@@ -22456,6 +23028,8 @@ class VpcConfig {
 }
 
 /// Container security context.
+///
+/// @nodoc
 class SecurityContext {
   /// Whether or not a container or a Kubernetes pod is allowed to gain more
   /// privileges than its parent process.
@@ -22488,6 +23062,8 @@ class SecurityContext {
 }
 
 /// Container volume mount.
+///
+/// @nodoc
 class VolumeMount {
   /// Volume mount path.
   final String? mountPath;
@@ -22518,6 +23094,8 @@ class VolumeMount {
 }
 
 /// Contains information about the task in an ECS cluster.
+///
+/// @nodoc
 class EcsTaskDetails {
   /// The Amazon Resource Name (ARN) of the task.
   final String? arn;
@@ -22622,6 +23200,8 @@ class EcsTaskDetails {
 }
 
 /// Volume used by the Kubernetes workload.
+///
+/// @nodoc
 class Volume {
   /// Represents a pre-existing file or directory on the host machine that the
   /// volume maps to.
@@ -22656,6 +23236,8 @@ class Volume {
 
 /// Represents a pre-existing file or directory on the host machine that the
 /// volume maps to.
+///
+/// @nodoc
 class HostPath {
   /// Path of the file or directory on the host that the volume maps to.
   final String? path;
@@ -22679,6 +23261,8 @@ class HostPath {
 }
 
 /// Details about the Kubernetes user involved in a Kubernetes finding.
+///
+/// @nodoc
 class KubernetesUserDetails {
   /// The groups that include the user who called the Kubernetes API.
   final List<String>? groups;
@@ -22738,6 +23322,8 @@ class KubernetesUserDetails {
 }
 
 /// Details about the Kubernetes workload involved in a Kubernetes finding.
+///
+/// @nodoc
 class KubernetesWorkloadDetails {
   /// Containers running as part of the Kubernetes workload.
   final List<Container>? containers;
@@ -22831,6 +23417,8 @@ class KubernetesWorkloadDetails {
 }
 
 /// Contains information about the impersonated user.
+///
+/// @nodoc
 class ImpersonatedUser {
   /// The <code>group</code> to which the user name belongs.
   final List<String>? groups;
@@ -22863,6 +23451,8 @@ class ImpersonatedUser {
 
 /// Contains information about the elastic network interface of the EC2
 /// instance.
+///
+/// @nodoc
 class NetworkInterface {
   /// A list of IPv6 addresses for the EC2 instance.
   final List<String>? ipv6Addresses;
@@ -22959,6 +23549,8 @@ class NetworkInterface {
 }
 
 /// Contains information on the S3 bucket.
+///
+/// @nodoc
 class S3BucketDetail {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
   final String? arn;
@@ -23052,6 +23644,8 @@ class S3BucketDetail {
 }
 
 /// Contains information on the owner of the bucket.
+///
+/// @nodoc
 class Owner {
   /// The canonical user ID of the bucket owner. For information about locating
   /// your canonical user ID see <a
@@ -23081,6 +23675,8 @@ class Owner {
 /// bucket. See <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">S3
 /// Server-Side Encryption</a> for more information.
+///
+/// @nodoc
 class DefaultServerSideEncryption {
   /// The type of encryption used for objects within the S3 bucket.
   final String? encryptionType;
@@ -23112,6 +23708,8 @@ class DefaultServerSideEncryption {
 }
 
 /// Describes the public access policies that apply to the S3 bucket.
+///
+/// @nodoc
 class PublicAccess {
   /// Describes the effective permission on this bucket after factoring all
   /// attached policies.
@@ -23148,6 +23746,8 @@ class PublicAccess {
 }
 
 /// Information about the S3 object that was scanned
+///
+/// @nodoc
 class S3ObjectDetail {
   /// The entity tag is a hash of the S3 object. The ETag reflects changes only to
   /// the contents of an object, and not its metadata.
@@ -23200,6 +23800,8 @@ class S3ObjectDetail {
 }
 
 /// Contains information about how permissions are configured for the S3 bucket.
+///
+/// @nodoc
 class PermissionConfiguration {
   /// Contains information about the account level permissions on the S3 bucket.
   final AccountLevelPermissions? accountLevelPermissions;
@@ -23238,6 +23840,8 @@ class PermissionConfiguration {
 }
 
 /// Contains information about the bucket level permissions for the S3 bucket.
+///
+/// @nodoc
 class BucketLevelPermissions {
   /// Contains information on how Access Control Policies are applied to the
   /// bucket.
@@ -23285,6 +23889,8 @@ class BucketLevelPermissions {
 }
 
 /// Contains information about the account level permissions on the S3 bucket.
+///
+/// @nodoc
 class AccountLevelPermissions {
   /// Describes the S3 Block Public Access settings of the bucket's parent
   /// account.
@@ -23315,6 +23921,8 @@ class AccountLevelPermissions {
 /// settings are being applied to the S3 bucket. See <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">S3
 /// Block Public Access</a> for more information.
+///
+/// @nodoc
 class BlockPublicAccess {
   /// Indicates if S3 Block Public Access is set to <code>BlockPublicAcls</code>.
   final bool? blockPublicAcls;
@@ -23362,6 +23970,8 @@ class BlockPublicAccess {
 }
 
 /// Contains information on the current access control policies for the bucket.
+///
+/// @nodoc
 class AccessControlList {
   /// A value that indicates whether public read access for the bucket is enabled
   /// through an Access Control List (ACL).
@@ -23396,6 +24006,8 @@ class AccessControlList {
 }
 
 /// Contains information on the current bucket policies for the S3 bucket.
+///
+/// @nodoc
 class BucketPolicy {
   /// A value that indicates whether public read access for the bucket is enabled
   /// through a bucket policy.
@@ -23429,6 +24041,7 @@ class BucketPolicy {
   }
 }
 
+/// @nodoc
 class DetectorStatus {
   static const enabled = DetectorStatus._('ENABLED');
   static const disabled = DetectorStatus._('DISABLED');
@@ -23462,6 +24075,8 @@ class DetectorStatus {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html">Runtime
 /// Monitoring</a>.
+///
+/// @nodoc
 class DetectorFeatureConfigurationResult {
   /// Additional configuration for a resource.
   final List<DetectorAdditionalConfigurationResult>? additionalConfiguration;
@@ -23511,6 +24126,7 @@ class DetectorFeatureConfigurationResult {
   }
 }
 
+/// @nodoc
 class DetectorFeatureResult {
   static const flowLogs = DetectorFeatureResult._('FLOW_LOGS');
   static const cloudTrail = DetectorFeatureResult._('CLOUD_TRAIL');
@@ -23560,6 +24176,8 @@ class DetectorFeatureResult {
 }
 
 /// Information about the additional configuration.
+///
+/// @nodoc
 class DetectorAdditionalConfigurationResult {
   /// Name of the additional configuration.
   final FeatureAdditionalConfiguration? name;
@@ -23600,6 +24218,8 @@ class DetectorAdditionalConfigurationResult {
 }
 
 /// Information about the coverage statistics for a resource.
+///
+/// @nodoc
 class CoverageStatistics {
   /// Represents coverage statistics for EKS clusters aggregated by coverage
   /// status.
@@ -23638,6 +24258,7 @@ class CoverageStatistics {
   }
 }
 
+/// @nodoc
 class CoverageStatisticsType {
   static const countByResourceType =
       CoverageStatisticsType._('COUNT_BY_RESOURCE_TYPE');
@@ -23666,6 +24287,8 @@ class CoverageStatisticsType {
 }
 
 /// Contains information about the administrator account and invitation.
+///
+/// @nodoc
 class Administrator {
   /// The ID of the account used as the administrator account.
   final String? accountId;
@@ -23713,6 +24336,8 @@ class Administrator {
 
 /// An object that contains information on which data sources are automatically
 /// enabled for new members within the organization.
+///
+/// @nodoc
 class OrganizationDataSourceConfigurationsResult {
   /// Describes whether S3 data event logs are enabled as a data source.
   final OrganizationS3LogsConfigurationResult s3Logs;
@@ -23760,6 +24385,8 @@ class OrganizationDataSourceConfigurationsResult {
 }
 
 /// A list of features which will be configured for the organization.
+///
+/// @nodoc
 class OrganizationFeatureConfigurationResult {
   /// The additional configuration that is configured for the member accounts
   /// within the organization.
@@ -23827,6 +24454,8 @@ class OrganizationFeatureConfigurationResult {
 
 /// A list of additional configuration which will be configured for the
 /// organization.
+///
+/// @nodoc
 class OrganizationAdditionalConfigurationResult {
   /// Describes the status of the additional configuration that is configured for
   /// the member accounts within the organization. One of the following values is
@@ -23886,6 +24515,8 @@ class OrganizationAdditionalConfigurationResult {
 
 /// The current configuration of S3 data event logs as a data source for the
 /// organization.
+///
+/// @nodoc
 class OrganizationS3LogsConfigurationResult {
   /// A value that describes whether S3 data event logs are automatically enabled
   /// for new members of the organization.
@@ -23912,6 +24543,8 @@ class OrganizationS3LogsConfigurationResult {
 
 /// The current configuration of all Kubernetes data sources for the
 /// organization.
+///
+/// @nodoc
 class OrganizationKubernetesConfigurationResult {
   /// The current configuration of Kubernetes audit logs as a data source for the
   /// organization.
@@ -23940,6 +24573,8 @@ class OrganizationKubernetesConfigurationResult {
 
 /// An object that contains information on the status of all Malware Protection
 /// data source for an organization.
+///
+/// @nodoc
 class OrganizationMalwareProtectionConfigurationResult {
   /// Describes the configuration for scanning EC2 instances with findings for an
   /// organization.
@@ -23971,6 +24606,8 @@ class OrganizationMalwareProtectionConfigurationResult {
 
 /// An object that contains information on the status of scanning EC2 instances
 /// with findings for an organization.
+///
+/// @nodoc
 class OrganizationScanEc2InstanceWithFindingsResult {
   /// Describes the configuration for scanning EBS volumes for an organization.
   final OrganizationEbsVolumesResult? ebsVolumes;
@@ -23999,6 +24636,8 @@ class OrganizationScanEc2InstanceWithFindingsResult {
 
 /// An object that contains information on the status of whether EBS volumes
 /// scanning will be enabled as a data source for an organization.
+///
+/// @nodoc
 class OrganizationEbsVolumesResult {
   /// An object that contains the status of whether scanning EBS volumes should be
   /// auto-enabled for new members joining the organization.
@@ -24024,6 +24663,8 @@ class OrganizationEbsVolumesResult {
 
 /// The current configuration of Kubernetes audit logs as a data source for the
 /// organization.
+///
+/// @nodoc
 class OrganizationKubernetesAuditLogsConfigurationResult {
   /// Whether Kubernetes audit logs data source should be auto-enabled for new
   /// members joining the organization.
@@ -24050,6 +24691,8 @@ class OrganizationKubernetesAuditLogsConfigurationResult {
 
 /// Contains information about malware scans associated with GuardDuty Malware
 /// Protection for EC2.
+///
+/// @nodoc
 class Scan {
   /// The ID for the account that belongs to the scan.
   final String? accountId;
@@ -24196,6 +24839,7 @@ class Scan {
   }
 }
 
+/// @nodoc
 class ScanStatus {
   static const running = ScanStatus._('RUNNING');
   static const completed = ScanStatus._('COMPLETED');
@@ -24222,6 +24866,8 @@ class ScanStatus {
 }
 
 /// Represents the resources that were scanned in the scan entry.
+///
+/// @nodoc
 class ResourceDetails {
   /// Instance ARN that was scanned in the scan entry.
   final String? instanceArn;
@@ -24245,6 +24891,8 @@ class ResourceDetails {
 }
 
 /// Represents the result of the scan.
+///
+/// @nodoc
 class ScanResultDetails {
   /// An enum value representing possible scan results.
   final ScanResult? scanResult;
@@ -24267,6 +24915,7 @@ class ScanResultDetails {
   }
 }
 
+/// @nodoc
 class ScanResult {
   static const clean = ScanResult._('CLEAN');
   static const infected = ScanResult._('INFECTED');
@@ -24292,6 +24941,8 @@ class ScanResult {
 
 /// Represents the criteria to be used in the filter for describing scan
 /// entries.
+///
+/// @nodoc
 class FilterCriteria {
   /// Represents a condition that when matched will be added to the response of
   /// the operation.
@@ -24313,6 +24964,8 @@ class FilterCriteria {
 /// the operation. Irrespective of using any filter criteria, an administrator
 /// account can view the scan entries for all of its member accounts. However,
 /// each member account can view the scan entries only for their own account.
+///
+/// @nodoc
 class FilterCriterion {
   /// An enum value representing possible scan properties to match with given scan
   /// entries.
@@ -24336,6 +24989,7 @@ class FilterCriterion {
   }
 }
 
+/// @nodoc
 class CriterionKey {
   static const ec2InstanceArn = CriterionKey._('EC2_INSTANCE_ARN');
   static const scanId = CriterionKey._('SCAN_ID');
@@ -24373,6 +25027,8 @@ class CriterionKey {
 }
 
 /// Contains information about the account.
+///
+/// @nodoc
 class AccountDetail {
   /// The member account ID.
   final String accountId;
@@ -24395,14 +25051,14 @@ class AccountDetail {
   /// <li>
   /// The local name can't contain any of the following characters:
   ///
-  /// whitespace, " ' ( ) &lt; &gt; [ ] : ' , \ | % &amp;
+  /// whitespace, " ' ( ) &lt; &gt; \[ \] : ' , \ | % &amp;
   /// </li>
   /// <li>
   /// The local name can't begin with a dot (.).
   /// </li>
   /// <li>
-  /// The domain name can consist of only the characters [a-z], [A-Z], [0-9],
-  /// hyphen (-), or dot (.).
+  /// The domain name can consist of only the characters \[a-z\], \[A-Z\],
+  /// \[0-9\], hyphen (-), or dot (.).
   /// </li>
   /// <li>
   /// The domain name can't begin or end with a dot (.) or hyphen (-).
@@ -24429,6 +25085,8 @@ class AccountDetail {
 }
 
 /// Specifies the names of the data sources that couldn't be enabled.
+///
+/// @nodoc
 class UnprocessedDataSourcesResult {
   final MalwareProtectionConfigurationResult? malwareProtection;
 
@@ -24453,27 +25111,32 @@ class UnprocessedDataSourcesResult {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

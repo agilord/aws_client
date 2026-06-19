@@ -2654,8 +2654,8 @@ class Location {
   /// the X coordinate, or longitude; the second number represents the Y
   /// coordinate, or latitude.
   ///
-  /// For example, <code>[-123.1174, 49.2847]</code> represents a position with
-  /// longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
+  /// For example, <code>\[-123.1174, 49.2847\]</code> represents a position
+  /// with longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
   ///
   /// Parameter [key] :
   /// The optional <a
@@ -2786,7 +2786,7 @@ class Location {
   /// number represents the X coordinate, or longitude; the second number
   /// represents the Y coordinate, or latitude.
   ///
-  /// For example, <code>[-123.1174, 49.2847]</code> represents the position
+  /// For example, <code>\[-123.1174, 49.2847\]</code> represents the position
   /// with longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
   /// <note>
   /// <code>BiasPosition</code> and <code>FilterBBox</code> are mutually
@@ -2804,7 +2804,7 @@ class Location {
   /// coordinates (longitude and latitude, respectively) of the northeast corner
   /// of the bounding box.
   ///
-  /// For example, <code>[-12.7935, -37.4835, -12.0684, -36.9542]</code>
+  /// For example, <code>\[-12.7935, -37.4835, -12.0684, -36.9542\]</code>
   /// represents a bounding box where the southwest corner has longitude
   /// <code>-12.7935</code> and latitude <code>-37.4835</code>, and the
   /// northeast corner has longitude <code>-12.0684</code> and latitude
@@ -2966,7 +2966,7 @@ class Location {
   /// number represents the X coordinate, or longitude; the second number
   /// represents the Y coordinate, or latitude.
   ///
-  /// For example, <code>[-123.1174, 49.2847]</code> represents the position
+  /// For example, <code>\[-123.1174, 49.2847\]</code> represents the position
   /// with longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
   /// <note>
   /// <code>BiasPosition</code> and <code>FilterBBox</code> are mutually
@@ -2984,7 +2984,7 @@ class Location {
   /// coordinates (longitude and latitude, respectively) of the northeast corner
   /// of the bounding box.
   ///
-  /// For example, <code>[-12.7935, -37.4835, -12.0684, -36.9542]</code>
+  /// For example, <code>\[-12.7935, -37.4835, -12.0684, -36.9542\]</code>
   /// represents a bounding box where the southwest corner has longitude
   /// <code>-12.7935</code> and latitude <code>-37.4835</code>, and the
   /// northeast corner has longitude <code>-12.0684</code> and latitude
@@ -3595,11 +3595,11 @@ class Location {
   /// Parameter [departurePosition] :
   /// The start position for the route. Defined in <a
   /// href="https://earth-info.nga.mil/index.php?dir=wgs84&amp;action=wgs84">World
-  /// Geodetic System (WGS 84)</a> format: <code>[longitude, latitude]</code>.
+  /// Geodetic System (WGS 84)</a> format: <code>\[longitude, latitude\]</code>.
   ///
   /// <ul>
   /// <li>
-  /// For example, <code>[-123.115, 49.285]</code>
+  /// For example, <code>\[-123.115, 49.285\]</code>
   /// </li>
   /// </ul> <note>
   /// If you specify a departure that's not located on a road, Amazon Location
@@ -3609,16 +3609,16 @@ class Location {
   /// route calculator, specifying a route that is longer than 400 km returns a
   /// <code>400 RoutesValidationException</code> error.
   /// </note>
-  /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
+  /// Valid Values: <code>\[-180 to 180,-90 to 90\]</code>
   ///
   /// Parameter [destinationPosition] :
   /// The finish position for the route. Defined in <a
   /// href="https://earth-info.nga.mil/index.php?dir=wgs84&amp;action=wgs84">World
-  /// Geodetic System (WGS 84)</a> format: <code>[longitude, latitude]</code>.
+  /// Geodetic System (WGS 84)</a> format: <code>\[longitude, latitude\]</code>.
   ///
   /// <ul>
   /// <li>
-  /// For example, <code>[-122.339, 47.615]</code>
+  /// For example, <code>\[-122.339, 47.615\]</code>
   /// </li>
   /// </ul> <note>
   /// If you specify a destination that's not located on a road, Amazon Location
@@ -3626,7 +3626,7 @@ class Location {
   /// href="https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html">moves
   /// the position to the nearest road</a>.
   /// </note>
-  /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
+  /// Valid Values: <code>\[-180 to 180,-90 to 90\]</code>
   ///
   /// Parameter [arrivalTime] :
   /// Specifies the desired time of arrival. Uses the given time to calculate
@@ -3732,9 +3732,9 @@ class Location {
   ///
   /// <ul>
   /// <li>
-  /// For example, from the <code>DeparturePosition</code> <code>[-123.115,
-  /// 49.285]</code>, the route follows the order that the waypoint positions
-  /// are given <code>[[-122.757, 49.0021],[-122.349, 47.620]]</code>
+  /// For example, from the <code>DeparturePosition</code> <code>\[-123.115,
+  /// 49.285\]</code>, the route follows the order that the waypoint positions
+  /// are given <code>\[\[-122.757, 49.0021\],\[-122.349, 47.620\]\]</code>
   /// </li>
   /// </ul> <note>
   /// If you specify a waypoint position that's not located on a road, Amazon
@@ -3749,7 +3749,7 @@ class Location {
   /// is longer than 400 km returns a <code>400 RoutesValidationException</code>
   /// error.
   /// </note>
-  /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
+  /// Valid Values: <code>\[-180 to 180,-90 to 90\]</code>
   Future<CalculateRouteResponse> calculateRoute({
     required String calculatorName,
     required List<double> departurePosition,
@@ -3890,8 +3890,8 @@ class Location {
   /// The list of departure (origin) positions for the route matrix. An array of
   /// points, each of which is itself a 2-value array defined in <a
   /// href="https://earth-info.nga.mil/GandG/wgs84/index.html">WGS 84</a>
-  /// format: <code>[longitude, latitude]</code>. For example, <code>[-123.115,
-  /// 49.285]</code>.
+  /// format: <code>\[longitude, latitude\]</code>. For example,
+  /// <code>\[-123.115, 49.285\]</code>.
   /// <important>
   /// Depending on the data provider selected in the route calculator resource
   /// there may be additional restrictions on the inputs you can choose. See <a
@@ -3905,14 +3905,14 @@ class Location {
   /// moves the position to the nearest road</a>. The snapped value is available
   /// in the result in <code>SnappedDeparturePositions</code>.
   /// </note>
-  /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
+  /// Valid Values: <code>\[-180 to 180,-90 to 90\]</code>
   ///
   /// Parameter [destinationPositions] :
   /// The list of destination positions for the route matrix. An array of
   /// points, each of which is itself a 2-value array defined in <a
   /// href="https://earth-info.nga.mil/GandG/wgs84/index.html">WGS 84</a>
-  /// format: <code>[longitude, latitude]</code>. For example, <code>[-122.339,
-  /// 47.615]</code>
+  /// format: <code>\[longitude, latitude\]</code>. For example,
+  /// <code>\[-122.339, 47.615\]</code>
   /// <important>
   /// Depending on the data provider selected in the route calculator resource
   /// there may be additional restrictions on the inputs you can choose. See <a
@@ -3926,7 +3926,7 @@ class Location {
   /// moves the position to the nearest road</a>. The snapped value is available
   /// in the result in <code>SnappedDestinationPositions</code>.
   /// </note>
-  /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
+  /// Valid Values: <code>\[-180 to 180,-90 to 90\]</code>
   ///
   /// Parameter [carModeOptions] :
   /// Specifies route preferences when traveling by <code>Car</code>, such as
@@ -4460,7 +4460,7 @@ class Location {
   /// <ul>
   /// <li>
   /// For example, for two devices: <code>“DeviceIds” :
-  /// [DeviceId1,DeviceId2]</code>
+  /// \[DeviceId1,DeviceId2\]</code>
   /// </li>
   /// </ul>
   ///
@@ -4869,6 +4869,7 @@ class Location {
   }
 }
 
+/// @nodoc
 class CreateKeyResponse {
   /// The timestamp for when the API key resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
@@ -4923,6 +4924,7 @@ class CreateKeyResponse {
   }
 }
 
+/// @nodoc
 class DescribeKeyResponse {
   /// The timestamp for when the API key resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
@@ -5015,6 +5017,7 @@ class DescribeKeyResponse {
   }
 }
 
+/// @nodoc
 class UpdateKeyResponse {
   /// The Amazon Resource Name (ARN) for the API key resource. Used when you need
   /// to specify a resource across all Amazon Web Services.
@@ -5060,6 +5063,7 @@ class UpdateKeyResponse {
   }
 }
 
+/// @nodoc
 class DeleteKeyResponse {
   DeleteKeyResponse();
 
@@ -5072,6 +5076,7 @@ class DeleteKeyResponse {
   }
 }
 
+/// @nodoc
 class ListKeysResponse {
   /// Contains API key resources in your Amazon Web Services account. Details
   /// include API key name, allowed referers and timestamp for when the API key
@@ -5107,6 +5112,7 @@ class ListKeysResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Tags that have been applied to the specified resource. Tags are mapped from
   /// the tag key to the tag value: <code>"TagKey" : "TagValue"</code>.
@@ -5137,6 +5143,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5149,6 +5156,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5161,6 +5169,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateGeofenceCollectionResponse {
   /// The Amazon Resource Name (ARN) for the geofence collection resource. Used
   /// when you need to specify a resource across all Amazon Web Services.
@@ -5207,6 +5216,7 @@ class CreateGeofenceCollectionResponse {
   }
 }
 
+/// @nodoc
 class DescribeGeofenceCollectionResponse {
   /// The Amazon Resource Name (ARN) for the geofence collection resource. Used
   /// when you need to specify a resource across all Amazon Web Services.
@@ -5311,6 +5321,7 @@ class DescribeGeofenceCollectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateGeofenceCollectionResponse {
   /// The Amazon Resource Name (ARN) of the updated geofence collection. Used to
   /// specify a resource across Amazon Web Services.
@@ -5357,6 +5368,7 @@ class UpdateGeofenceCollectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteGeofenceCollectionResponse {
   DeleteGeofenceCollectionResponse();
 
@@ -5369,6 +5381,7 @@ class DeleteGeofenceCollectionResponse {
   }
 }
 
+/// @nodoc
 class ListGeofenceCollectionsResponse {
   /// Lists the geofence collections that exist in your Amazon Web Services
   /// account.
@@ -5404,6 +5417,7 @@ class ListGeofenceCollectionsResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteGeofenceResponse {
   /// Contains error details for each geofence that failed to delete.
   final List<BatchDeleteGeofenceError> errors;
@@ -5430,6 +5444,7 @@ class BatchDeleteGeofenceResponse {
   }
 }
 
+/// @nodoc
 class BatchEvaluateGeofencesResponse {
   /// Contains error details for each device that failed to evaluate its position
   /// against the given geofence collection.
@@ -5457,6 +5472,7 @@ class BatchEvaluateGeofencesResponse {
   }
 }
 
+/// @nodoc
 class BatchPutGeofenceResponse {
   /// Contains additional error details for each geofence that failed to be stored
   /// in a geofence collection.
@@ -5495,6 +5511,7 @@ class BatchPutGeofenceResponse {
   }
 }
 
+/// @nodoc
 class ForecastGeofenceEventsResponse {
   /// The distance unit for the forecasted events.
   final DistanceUnit distanceUnit;
@@ -5543,6 +5560,7 @@ class ForecastGeofenceEventsResponse {
   }
 }
 
+/// @nodoc
 class GetGeofenceResponse {
   /// The timestamp for when the geofence collection was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -5631,6 +5649,7 @@ class GetGeofenceResponse {
   }
 }
 
+/// @nodoc
 class ListGeofencesResponse {
   /// Contains a list of geofences stored in the geofence collection.
   final List<ListGeofenceResponseEntry> entries;
@@ -5665,6 +5684,7 @@ class ListGeofencesResponse {
   }
 }
 
+/// @nodoc
 class PutGeofenceResponse {
   /// The timestamp for when the geofence was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -5705,6 +5725,7 @@ class PutGeofenceResponse {
   }
 }
 
+/// @nodoc
 class StartJobResponse {
   /// Job creation time in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -5753,6 +5774,7 @@ class StartJobResponse {
   }
 }
 
+/// @nodoc
 class GetJobResponse {
   /// Action performed by the job.
   final JobAction action;
@@ -5884,6 +5906,7 @@ class GetJobResponse {
   }
 }
 
+/// @nodoc
 class ListJobsResponse {
   /// List of jobs in your Amazon Web Services account.
   final List<ListJobsResponseEntry> entries;
@@ -5916,6 +5939,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class CancelJobResponse {
   /// Amazon Resource Name (ARN) of the cancelled job.
   final String jobArn;
@@ -5952,6 +5976,7 @@ class CancelJobResponse {
   }
 }
 
+/// @nodoc
 class CreateMapResponse {
   /// The timestamp for when the map resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -5997,6 +6022,7 @@ class CreateMapResponse {
   }
 }
 
+/// @nodoc
 class DescribeMapResponse {
   /// Specifies the map tile style selected from a partner data provider.
   final MapConfiguration configuration;
@@ -6090,6 +6116,7 @@ class DescribeMapResponse {
   }
 }
 
+/// @nodoc
 class UpdateMapResponse {
   /// The Amazon Resource Name (ARN) of the updated map resource. Used to specify
   /// a resource across AWS.
@@ -6135,6 +6162,7 @@ class UpdateMapResponse {
   }
 }
 
+/// @nodoc
 class DeleteMapResponse {
   DeleteMapResponse();
 
@@ -6147,6 +6175,7 @@ class DeleteMapResponse {
   }
 }
 
+/// @nodoc
 class ListMapsResponse {
   /// Contains a list of maps in your Amazon Web Services account
   final List<ListMapsResponseEntry> entries;
@@ -6180,6 +6209,7 @@ class ListMapsResponse {
   }
 }
 
+/// @nodoc
 class GetMapGlyphsResponse {
   /// The glyph, as binary blob.
   final Uint8List? blob;
@@ -6207,6 +6237,7 @@ class GetMapGlyphsResponse {
   }
 }
 
+/// @nodoc
 class GetMapSpritesResponse {
   /// Contains the body of the sprite sheet or JSON offset ﬁle.
   final Uint8List? blob;
@@ -6235,6 +6266,7 @@ class GetMapSpritesResponse {
   }
 }
 
+/// @nodoc
 class GetMapStyleDescriptorResponse {
   /// Contains the body of the style descriptor.
   final Uint8List? blob;
@@ -6262,6 +6294,7 @@ class GetMapStyleDescriptorResponse {
   }
 }
 
+/// @nodoc
 class GetMapTileResponse {
   /// Contains Mapbox Vector Tile (MVT) data.
   final Uint8List? blob;
@@ -6289,6 +6322,7 @@ class GetMapTileResponse {
   }
 }
 
+/// @nodoc
 class CreatePlaceIndexResponse {
   /// The timestamp for when the place index resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -6335,6 +6369,7 @@ class CreatePlaceIndexResponse {
   }
 }
 
+/// @nodoc
 class DescribePlaceIndexResponse {
   /// The timestamp for when the place index resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -6444,6 +6479,7 @@ class DescribePlaceIndexResponse {
   }
 }
 
+/// @nodoc
 class UpdatePlaceIndexResponse {
   /// The Amazon Resource Name (ARN) of the upated place index resource. Used to
   /// specify a resource across Amazon Web Services.
@@ -6490,6 +6526,7 @@ class UpdatePlaceIndexResponse {
   }
 }
 
+/// @nodoc
 class DeletePlaceIndexResponse {
   DeletePlaceIndexResponse();
 
@@ -6502,6 +6539,7 @@ class DeletePlaceIndexResponse {
   }
 }
 
+/// @nodoc
 class ListPlaceIndexesResponse {
   /// Lists the place index resources that exist in your Amazon Web Services
   /// account
@@ -6537,6 +6575,7 @@ class ListPlaceIndexesResponse {
   }
 }
 
+/// @nodoc
 class GetPlaceResponse {
   /// Details about the result, such as its address and position.
   final Place place;
@@ -6560,6 +6599,7 @@ class GetPlaceResponse {
   }
 }
 
+/// @nodoc
 class SearchPlaceIndexForPositionResponse {
   /// Returns a list of Places closest to the specified position. Each result
   /// contains additional information about the Places returned.
@@ -6599,6 +6639,7 @@ class SearchPlaceIndexForPositionResponse {
   }
 }
 
+/// @nodoc
 class SearchPlaceIndexForSuggestionsResponse {
   /// A list of place suggestions that best match the search text.
   final List<SearchForSuggestionsResult> results;
@@ -6639,6 +6680,7 @@ class SearchPlaceIndexForSuggestionsResponse {
   }
 }
 
+/// @nodoc
 class SearchPlaceIndexForTextResponse {
   /// A list of Places matching the input text. Each result contains additional
   /// information about the specific point of interest.
@@ -6682,6 +6724,7 @@ class SearchPlaceIndexForTextResponse {
   }
 }
 
+/// @nodoc
 class CreateRouteCalculatorResponse {
   /// The Amazon Resource Name (ARN) for the route calculator resource. Use the
   /// ARN when you specify a resource across all Amazon Web Services.
@@ -6740,6 +6783,7 @@ class CreateRouteCalculatorResponse {
   }
 }
 
+/// @nodoc
 class DescribeRouteCalculatorResponse {
   /// The Amazon Resource Name (ARN) for the Route calculator resource. Use the
   /// ARN when you specify a resource across Amazon Web Services.
@@ -6853,6 +6897,7 @@ class DescribeRouteCalculatorResponse {
   }
 }
 
+/// @nodoc
 class UpdateRouteCalculatorResponse {
   /// The Amazon Resource Name (ARN) of the updated route calculator resource.
   /// Used to specify a resource across AWS.
@@ -6899,6 +6944,7 @@ class UpdateRouteCalculatorResponse {
   }
 }
 
+/// @nodoc
 class DeleteRouteCalculatorResponse {
   DeleteRouteCalculatorResponse();
 
@@ -6911,6 +6957,7 @@ class DeleteRouteCalculatorResponse {
   }
 }
 
+/// @nodoc
 class ListRouteCalculatorsResponse {
   /// Lists the route calculator resources that exist in your Amazon Web Services
   /// account
@@ -6948,6 +6995,8 @@ class ListRouteCalculatorsResponse {
 
 /// Returns the result of the route calculation. Metadata includes legs and
 /// route summary.
+///
+/// @nodoc
 class CalculateRouteResponse {
   /// Contains details about each path between a pair of positions included along
   /// a route such as: <code>StartPosition</code>, <code>EndPosition</code>,
@@ -7016,6 +7065,8 @@ class CalculateRouteResponse {
 }
 
 /// Returns the result of the route matrix calculation.
+///
+/// @nodoc
 class CalculateRouteMatrixResponse {
   /// The calculated route matrix containing the results for all pairs of
   /// <code>DeparturePositions</code> to <code>DestinationPositions</code>. Each
@@ -7087,6 +7138,7 @@ class CalculateRouteMatrixResponse {
   }
 }
 
+/// @nodoc
 class CreateTrackerResponse {
   /// The timestamp for when the tracker resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
@@ -7133,6 +7185,7 @@ class CreateTrackerResponse {
   }
 }
 
+/// @nodoc
 class DescribeTrackerResponse {
   /// The timestamp for when the tracker resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
@@ -7271,6 +7324,7 @@ class DescribeTrackerResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrackerResponse {
   /// The Amazon Resource Name (ARN) of the updated tracker resource. Used to
   /// specify a resource across AWS.
@@ -7317,6 +7371,7 @@ class UpdateTrackerResponse {
   }
 }
 
+/// @nodoc
 class DeleteTrackerResponse {
   DeleteTrackerResponse();
 
@@ -7329,6 +7384,7 @@ class DeleteTrackerResponse {
   }
 }
 
+/// @nodoc
 class ListTrackersResponse {
   /// Contains tracker resources in your Amazon Web Services account. Details
   /// include tracker name, description and timestamps for when the tracker was
@@ -7365,6 +7421,7 @@ class ListTrackersResponse {
   }
 }
 
+/// @nodoc
 class AssociateTrackerConsumerResponse {
   AssociateTrackerConsumerResponse();
 
@@ -7377,6 +7434,7 @@ class AssociateTrackerConsumerResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteDevicePositionHistoryResponse {
   /// Contains error details for each device history that failed to delete.
   final List<BatchDeleteDevicePositionHistoryError> errors;
@@ -7404,6 +7462,7 @@ class BatchDeleteDevicePositionHistoryResponse {
   }
 }
 
+/// @nodoc
 class BatchGetDevicePositionResponse {
   /// Contains device position details such as the device ID, position, and
   /// timestamps for when the position was received and sampled.
@@ -7442,6 +7501,7 @@ class BatchGetDevicePositionResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateDevicePositionResponse {
   /// Contains error details for each device that failed to update its position.
   final List<BatchUpdateDevicePositionError> errors;
@@ -7469,6 +7529,7 @@ class BatchUpdateDevicePositionResponse {
   }
 }
 
+/// @nodoc
 class DisassociateTrackerConsumerResponse {
   DisassociateTrackerConsumerResponse();
 
@@ -7481,6 +7542,7 @@ class DisassociateTrackerConsumerResponse {
   }
 }
 
+/// @nodoc
 class GetDevicePositionResponse {
   /// The last known device position.
   final List<double> position;
@@ -7549,6 +7611,7 @@ class GetDevicePositionResponse {
   }
 }
 
+/// @nodoc
 class GetDevicePositionHistoryResponse {
   /// Contains the position history details for the requested device.
   final List<DevicePosition> devicePositions;
@@ -7582,6 +7645,7 @@ class GetDevicePositionHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListDevicePositionsResponse {
   /// Contains details about each device's last known position.
   final List<ListDevicePositionsResponseEntry> entries;
@@ -7616,6 +7680,7 @@ class ListDevicePositionsResponse {
   }
 }
 
+/// @nodoc
 class ListTrackerConsumersResponse {
   /// Contains the list of geofence collection ARNs associated to the tracker
   /// resource.
@@ -7650,6 +7715,7 @@ class ListTrackerConsumersResponse {
   }
 }
 
+/// @nodoc
 class VerifyDevicePositionResponse {
   /// The device identifier.
   final String deviceId;
@@ -7710,6 +7776,8 @@ class VerifyDevicePositionResponse {
 
 /// The inferred state of the device, given the provided position, IP address,
 /// cellular signals, and Wi-Fi- access points.
+///
+/// @nodoc
 class InferredState {
   /// Indicates if a proxy was used.
   final bool proxyDetected;
@@ -7761,6 +7829,7 @@ class InferredState {
   }
 }
 
+/// @nodoc
 class DistanceUnit {
   static const kilometers = DistanceUnit._('Kilometers');
   static const miles = DistanceUnit._('Miles');
@@ -7785,6 +7854,8 @@ class DistanceUnit {
 }
 
 /// Defines the level of certainty of the position.
+///
+/// @nodoc
 class PositionalAccuracy {
   /// Estimated maximum distance, in meters, between the measured position and the
   /// true position of a device, along the Earth's surface.
@@ -7809,6 +7880,8 @@ class PositionalAccuracy {
 }
 
 /// The device's position, IP address, and Wi-Fi access points.
+///
+/// @nodoc
 class DeviceState {
   /// The device identifier.
   final String deviceId;
@@ -7862,6 +7935,8 @@ class DeviceState {
 }
 
 /// The cellular network communication infrastructure that the device uses.
+///
+/// @nodoc
 class CellSignals {
   /// Information about the Long-Term Evolution (LTE) network the device is
   /// connected to.
@@ -7880,6 +7955,8 @@ class CellSignals {
 }
 
 /// Details about the Long-Term Evolution (LTE) network.
+///
+/// @nodoc
 class LteCellDetails {
   /// The E-UTRAN Cell Identifier (ECI).
   final int cellId;
@@ -7953,6 +8030,8 @@ class LteCellDetails {
 }
 
 /// LTE local identification information (local ID).
+///
+/// @nodoc
 class LteLocalId {
   /// E-UTRA (Evolved Universal Terrestrial Radio Access) absolute radio frequency
   /// channel number (EARFCN).
@@ -7977,6 +8056,8 @@ class LteLocalId {
 }
 
 /// LTE network measurements.
+///
+/// @nodoc
 class LteNetworkMeasurements {
   /// E-UTRAN Cell Identifier (ECI).
   final int cellId;
@@ -8020,6 +8101,8 @@ class LteNetworkMeasurements {
 }
 
 /// Wi-Fi access point.
+///
+/// @nodoc
 class WiFiAccessPoint {
   /// Medium access control address (Mac).
   final String macAddress;
@@ -8043,6 +8126,8 @@ class WiFiAccessPoint {
 }
 
 /// Contains the tracker resource details.
+///
+/// @nodoc
 class ListDevicePositionsResponseEntry {
   /// The ID of the device for this position.
   final String deviceId;
@@ -8103,6 +8188,8 @@ class ListDevicePositionsResponseEntry {
 }
 
 /// The geomerty used to filter device positions.
+///
+/// @nodoc
 class TrackingFilterGeometry {
   /// The set of arrays which define the polygon. A polygon can have between 4 and
   /// 1000 vertices.
@@ -8121,6 +8208,8 @@ class TrackingFilterGeometry {
 }
 
 /// Contains the device position details.
+///
+/// @nodoc
 class DevicePosition {
   /// The last known device position.
   final List<double> position;
@@ -8190,6 +8279,8 @@ class DevicePosition {
 }
 
 /// Contains error details for each device that failed to update its position.
+///
+/// @nodoc
 class BatchUpdateDevicePositionError {
   /// The device associated with the failed location update.
   final String deviceId;
@@ -8231,6 +8322,8 @@ class BatchUpdateDevicePositionError {
 }
 
 /// Contains the batch request error details associated with the request.
+///
+/// @nodoc
 class BatchItemError {
   /// The error code associated with the batch request error.
   final BatchItemErrorCode? code;
@@ -8260,6 +8353,7 @@ class BatchItemError {
   }
 }
 
+/// @nodoc
 class BatchItemErrorCode {
   static const accessDeniedError = BatchItemErrorCode._('AccessDeniedError');
   static const conflictError = BatchItemErrorCode._('ConflictError');
@@ -8299,13 +8393,15 @@ class BatchItemErrorCode {
 }
 
 /// Contains the position update details for a device.
+///
+/// @nodoc
 class DevicePositionUpdate {
   /// The device associated to the position update.
   final String deviceId;
 
   /// The latest device position defined in <a
   /// href="https://earth-info.nga.mil/index.php?dir=wgs84&amp;action=wgs84">WGS
-  /// 84</a> format: <code>[X or longitude, Y or latitude]</code>.
+  /// 84</a> format: <code>\[X or longitude, Y or latitude\]</code>.
   final List<double> position;
 
   /// The timestamp at which the device's position was determined. Uses <a
@@ -8348,6 +8444,8 @@ class DevicePositionUpdate {
 }
 
 /// Contains error details for each device that didn't return a position.
+///
+/// @nodoc
 class BatchGetDevicePositionError {
   /// The ID of the device that didn't return a position.
   final String deviceId;
@@ -8379,6 +8477,8 @@ class BatchGetDevicePositionError {
 }
 
 /// Contains the tracker resource details.
+///
+/// @nodoc
 class BatchDeleteDevicePositionHistoryError {
   /// The ID of the device for this position.
   final String deviceId;
@@ -8409,6 +8509,8 @@ class BatchDeleteDevicePositionHistoryError {
 }
 
 /// Contains the tracker resource details.
+///
+/// @nodoc
 class ListTrackersResponseEntry {
   /// The timestamp for when the tracker resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
@@ -8472,6 +8574,7 @@ class ListTrackersResponseEntry {
   }
 }
 
+/// @nodoc
 class PricingPlan {
   static const requestBasedUsage = PricingPlan._('RequestBasedUsage');
   static const mobileAssetTracking = PricingPlan._('MobileAssetTracking');
@@ -8500,6 +8603,7 @@ class PricingPlan {
   String toString() => value;
 }
 
+/// @nodoc
 class PositionFiltering {
   static const timeBased = PositionFiltering._('TimeBased');
   static const distanceBased = PositionFiltering._('DistanceBased');
@@ -8526,6 +8630,8 @@ class PositionFiltering {
 }
 
 /// A summary of the calculated route matrix.
+///
+/// @nodoc
 class CalculateRouteMatrixSummary {
   /// The data provider of traffic and road network data used to calculate the
   /// routes. Indicates one of the available providers:
@@ -8591,6 +8697,8 @@ class CalculateRouteMatrixSummary {
 
 /// The result for the calculated route of one <code>DeparturePosition</code>
 /// <code>DestinationPosition</code> pair.
+///
+/// @nodoc
 class RouteMatrixEntry {
   /// The total distance of travel for the route.
   final double? distance;
@@ -8673,6 +8781,8 @@ class RouteMatrixEntry {
 /// <code>Message</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RouteMatrixEntryError {
   /// The type of error which occurred for the route calculation.
   final RouteMatrixErrorCode code;
@@ -8702,6 +8812,7 @@ class RouteMatrixEntryError {
   }
 }
 
+/// @nodoc
 class RouteMatrixErrorCode {
   static const routeNotFound = RouteMatrixErrorCode._('RouteNotFound');
   static const routeTooLong = RouteMatrixErrorCode._('RouteTooLong');
@@ -8741,6 +8852,7 @@ class RouteMatrixErrorCode {
   String toString() => value;
 }
 
+/// @nodoc
 class TravelMode {
   static const car = TravelMode._('Car');
   static const truck = TravelMode._('Truck');
@@ -8769,6 +8881,8 @@ class TravelMode {
 
 /// Contains details about additional route preferences for requests that
 /// specify <code>TravelMode</code> as <code>Car</code>.
+///
+/// @nodoc
 class CalculateRouteCarModeOptions {
   /// Avoids ferries when calculating routes.
   ///
@@ -8801,6 +8915,8 @@ class CalculateRouteCarModeOptions {
 
 /// Contains details about additional route preferences for requests that
 /// specify <code>TravelMode</code> as <code>Truck</code>.
+///
+/// @nodoc
 class CalculateRouteTruckModeOptions {
   /// Avoids ferries when calculating routes.
   ///
@@ -8850,6 +8966,8 @@ class CalculateRouteTruckModeOptions {
 /// you specify. Used to filter out roads that can't support or allow the
 /// specified dimensions for requests that specify <code>TravelMode</code> as
 /// <code>Truck</code>.
+///
+/// @nodoc
 class TruckDimensions {
   /// The height of the truck.
   ///
@@ -8916,6 +9034,8 @@ class TruckDimensions {
 /// Contains details about the truck's weight specifications. Used to avoid
 /// roads that can't support or allow the total weight for requests that specify
 /// <code>TravelMode</code> as <code>Truck</code>.
+///
+/// @nodoc
 class TruckWeight {
   /// The total weight of the truck.
   ///
@@ -8946,6 +9066,7 @@ class TruckWeight {
   }
 }
 
+/// @nodoc
 class VehicleWeightUnit {
   static const kilograms = VehicleWeightUnit._('Kilograms');
   static const pounds = VehicleWeightUnit._('Pounds');
@@ -8970,6 +9091,7 @@ class VehicleWeightUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class DimensionUnit {
   static const meters = DimensionUnit._('Meters');
   static const feet = DimensionUnit._('Feet');
@@ -8995,6 +9117,8 @@ class DimensionUnit {
 }
 
 /// A summary of the calculated route.
+///
+/// @nodoc
 class CalculateRouteSummary {
   /// The data provider of traffic and road network data used to calculate the
   /// route. Indicates one of the available providers:
@@ -9032,8 +9156,8 @@ class CalculateRouteSummary {
   final double durationSeconds;
 
   /// Specifies a geographical box surrounding a route. Used to zoom into a route
-  /// when displaying it in a map. For example, <code>[min x, min y, max x, max
-  /// y]</code>.
+  /// when displaying it in a map. For example, <code>\[min x, min y, max x, max
+  /// y\]</code>.
   ///
   /// The first 2 <code>bbox</code> parameters describe the lower southwest
   /// corner:
@@ -9130,6 +9254,8 @@ class CalculateRouteSummary {
 /// <code>EndPosition</code> is the destination position.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Leg {
   /// The distance between the leg's <code>StartPosition</code> and
   /// <code>EndPosition</code> along a calculated route.
@@ -9148,7 +9274,7 @@ class Leg {
   final double durationSeconds;
 
   /// The terminating position of the leg. Follows the format
-  /// <code>[longitude,latitude]</code>.
+  /// <code>\[longitude,latitude\]</code>.
   /// <note>
   /// If the <code>EndPosition</code> isn't located on a road, it's <a
   /// href="https://docs.aws.amazon.com/location/previous/developerguide/nap-to-nearby-road.html">snapped
@@ -9157,7 +9283,7 @@ class Leg {
   final List<double> endPosition;
 
   /// The starting position of the leg. Follows the format
-  /// <code>[longitude,latitude]</code>.
+  /// <code>\[longitude,latitude\]</code>.
   /// <note>
   /// If the <code>StartPosition</code> isn't located on a road, it's <a
   /// href="https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html">snapped
@@ -9225,6 +9351,8 @@ class Leg {
 
 /// Contains the geometry details for each path between a pair of positions.
 /// Used in plotting a route leg on a map.
+///
+/// @nodoc
 class LegGeometry {
   /// An ordered list of positions used to plot a route on a map.
   ///
@@ -9233,8 +9361,8 @@ class LegGeometry {
   ///
   /// <ul>
   /// <li>
-  /// For example, <code>[[-123.117, 49.284],[-123.115, 49.285],[-123.115,
-  /// 49.285]]</code>
+  /// For example, <code>\[\[-123.117, 49.284\],\[-123.115, 49.285\],\[-123.115,
+  /// 49.285\]\]</code>
   /// </li>
   /// </ul>
   final List<List<double>>? lineString;
@@ -9262,6 +9390,8 @@ class LegGeometry {
 
 /// Represents an element of a leg within a route. A step contains instructions
 /// for how to move to the next step in the leg.
+///
+/// @nodoc
 class Step {
   /// The travel distance between the step's <code>StartPosition</code> and
   /// <code>EndPosition</code>.
@@ -9329,6 +9459,7 @@ class Step {
   }
 }
 
+/// @nodoc
 class OptimizationMode {
   static const fastestRoute = OptimizationMode._('FastestRoute');
   static const shortestRoute = OptimizationMode._('ShortestRoute');
@@ -9354,6 +9485,8 @@ class OptimizationMode {
 }
 
 /// A route calculator resource listed in your Amazon Web Services account.
+///
+/// @nodoc
 class ListRouteCalculatorsResponseEntry {
   /// The name of the route calculator resource.
   final String calculatorName;
@@ -9446,6 +9579,8 @@ class ListRouteCalculatorsResponseEntry {
 }
 
 /// A summary of the request sent by using <code>SearchPlaceIndexForText</code>.
+///
+/// @nodoc
 class SearchPlaceIndexForTextSummary {
   /// The geospatial data provider attached to the place index resource specified
   /// in the request. Values can be one of the following:
@@ -9476,8 +9611,8 @@ class SearchPlaceIndexForTextSummary {
   /// coordinate, or longitude; the second number represents the Y coordinate, or
   /// latitude.
   ///
-  /// For example, <code>[-123.1174, 49.2847]</code> represents the position with
-  /// longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
+  /// For example, <code>\[-123.1174, 49.2847\]</code> represents the position
+  /// with longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
   final List<double>? biasPosition;
 
   /// Contains the coordinates for the optional bounding box specified in the
@@ -9574,6 +9709,8 @@ class SearchPlaceIndexForTextSummary {
 
 /// Contains a search result from a text search query that is run on a place
 /// index resource.
+///
+/// @nodoc
 class SearchForTextResult {
   /// Details about the search result, such as its address and position.
   final Place place;
@@ -9640,6 +9777,8 @@ class SearchForTextResult {
 ///
 /// Not all details are included with all responses. Some details may only be
 /// returned by specific data partners.
+///
+/// @nodoc
 class Place {
   final PlaceGeometry geometry;
 
@@ -9823,6 +9962,8 @@ class Place {
 }
 
 /// Places uses a point geometry to specify a location or a Place.
+///
+/// @nodoc
 class PlaceGeometry {
   /// A single point geometry specifies a location for a Place using <a
   /// href="https://gisgeography.com/wgs84-world-geodetic-system/">WGS 84</a>
@@ -9859,6 +10000,8 @@ class PlaceGeometry {
 
 /// Information about a time zone. Includes the name of the time zone and the
 /// offset from UTC in seconds.
+///
+/// @nodoc
 class TimeZone {
   /// The name of the time zone, following the <a
   /// href="https://www.iana.org/time-zones"> IANA time zone standard</a>. For
@@ -9892,6 +10035,8 @@ class TimeZone {
 
 /// A summary of the request sent by using
 /// <code>SearchPlaceIndexForSuggestions</code>.
+///
+/// @nodoc
 class SearchPlaceIndexForSuggestionsSummary {
   /// The geospatial data provider attached to the place index resource specified
   /// in the request. Values can be one of the following:
@@ -9922,8 +10067,8 @@ class SearchPlaceIndexForSuggestionsSummary {
   /// coordinate, or longitude; the second number represents the Y coordinate, or
   /// latitude.
   ///
-  /// For example, <code>[-123.1174, 49.2847]</code> represents the position with
-  /// longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
+  /// For example, <code>\[-123.1174, 49.2847\]</code> represents the position
+  /// with longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
   final List<double>? biasPosition;
 
   /// Contains the coordinates for the optional bounding box specified in the
@@ -10006,6 +10151,8 @@ class SearchPlaceIndexForSuggestionsSummary {
 
 /// Contains a place suggestion resulting from a place suggestion query that is
 /// run on a place index resource.
+///
+/// @nodoc
 class SearchForSuggestionsResult {
   /// The text of the place suggestion, typically formatted as an address string.
   final String text;
@@ -10075,6 +10222,8 @@ class SearchForSuggestionsResult {
 
 /// A summary of the request sent by using
 /// <code>SearchPlaceIndexForPosition</code>.
+///
+/// @nodoc
 class SearchPlaceIndexForPositionSummary {
   /// The geospatial data provider attached to the place index resource specified
   /// in the request. Values can be one of the following:
@@ -10145,6 +10294,8 @@ class SearchPlaceIndexForPositionSummary {
 
 /// Contains a search result from a position search query that is run on a place
 /// index resource.
+///
+/// @nodoc
 class SearchForPositionResult {
   /// The distance in meters of a great-circle arc between the query position and
   /// the result.
@@ -10194,6 +10345,8 @@ class SearchForPositionResult {
 }
 
 /// A place index resource listed in your Amazon Web Services account.
+///
+/// @nodoc
 class ListPlaceIndexesResponseEntry {
   /// The timestamp for when the place index resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -10292,6 +10445,8 @@ class ListPlaceIndexesResponseEntry {
 /// href="https://aws.amazon.com/service-terms/">AWS Service Terms</a> for
 /// Amazon Location Service.
 /// </important>
+///
+/// @nodoc
 class DataSourceConfiguration {
   /// Specifies how the results of an operation will be stored by the caller.
   ///
@@ -10328,6 +10483,7 @@ class DataSourceConfiguration {
   }
 }
 
+/// @nodoc
 class IntendedUse {
   static const singleUse = IntendedUse._('SingleUse');
   static const storage = IntendedUse._('Storage');
@@ -10353,6 +10509,8 @@ class IntendedUse {
 
 /// Contains details of an existing map resource in your Amazon Web Services
 /// account.
+///
+/// @nodoc
 class ListMapsResponseEntry {
   /// The timestamp for when the map resource was created in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -10416,6 +10574,8 @@ class ListMapsResponseEntry {
 }
 
 /// Specifies the political view for the style.
+///
+/// @nodoc
 class MapConfigurationUpdate {
   /// Specifies the custom layers for the style. Leave unset to not enable any
   /// custom layer, or, for styles that support custom layers, you can enable
@@ -10453,6 +10613,8 @@ class MapConfigurationUpdate {
 }
 
 /// Specifies the map tile style selected from an available provider.
+///
+/// @nodoc
 class MapConfiguration {
   /// Specifies the map style selected from an available data provider.
   ///
@@ -10639,6 +10801,7 @@ class MapConfiguration {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const pending = JobStatus._('Pending');
   static const running = JobStatus._('Running');
@@ -10674,6 +10837,8 @@ class JobStatus {
 }
 
 /// Job summary information returned in list operations.
+///
+/// @nodoc
 class ListJobsResponseEntry {
   /// Action performed by the job.
   final JobAction action;
@@ -10797,6 +10962,7 @@ class ListJobsResponseEntry {
   }
 }
 
+/// @nodoc
 class JobAction {
   static const validateAddress = JobAction._('ValidateAddress');
 
@@ -10820,6 +10986,8 @@ class JobAction {
 }
 
 /// Additional options for configuring job action parameters.
+///
+/// @nodoc
 class JobActionOptions {
   /// Options specific to address validation jobs.
   final ValidateAddressActionOptions? validateAddress;
@@ -10846,6 +11014,8 @@ class JobActionOptions {
 }
 
 /// Error information for failed jobs.
+///
+/// @nodoc
 class JobError {
   /// Error code indicating the type of error that occurred.
   final JobErrorCode code;
@@ -10883,6 +11053,8 @@ class JobError {
 /// Input files have a limitation of 10gb per file, and 1gb per Parquet
 /// row-group within the file.
 /// </note>
+///
+/// @nodoc
 class JobInputOptions {
   /// Input data format. Currently only <code>Parquet</code> is supported.
   /// <note>
@@ -10921,6 +11093,8 @@ class JobInputOptions {
 }
 
 /// Configuration for output data location and format.
+///
+/// @nodoc
 class JobOutputOptions {
   /// Output data format. Currently only "Parquet" is supported.
   final JobOutputFormat format;
@@ -10954,6 +11128,7 @@ class JobOutputOptions {
   }
 }
 
+/// @nodoc
 class JobOutputFormat {
   static const parquet = JobOutputFormat._('Parquet');
 
@@ -10977,6 +11152,7 @@ class JobOutputFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class JobInputFormat {
   static const parquet = JobInputFormat._('Parquet');
 
@@ -11000,6 +11176,7 @@ class JobInputFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class JobErrorCode {
   static const validationError = JobErrorCode._('ValidationError');
   static const internalServerError = JobErrorCode._('InternalServerError');
@@ -11024,6 +11201,8 @@ class JobErrorCode {
 }
 
 /// Options specific to address validation jobs.
+///
+/// @nodoc
 class ValidateAddressActionOptions {
   /// A list of optional additional parameters that can be requested for each
   /// result.
@@ -11065,6 +11244,7 @@ class ValidateAddressActionOptions {
   }
 }
 
+/// @nodoc
 class ValidateAddressAdditionalFeature {
   static const position = ValidateAddressAdditionalFeature._('Position');
   static const countrySpecificAttributes =
@@ -11092,6 +11272,8 @@ class ValidateAddressAdditionalFeature {
 }
 
 /// Criteria for filtering jobs.
+///
+/// @nodoc
 class JobsFilter {
   /// Filter by job status.
   final JobStatus? jobStatus;
@@ -11119,6 +11301,8 @@ class JobsFilter {
 /// Amazon Location doesn't currently support polygons that cross the
 /// antimeridian.
 /// </note>
+///
+/// @nodoc
 class GeofenceGeometry {
   /// A circle on the earth, as defined by a center point and a radius.
   final Circle? circle;
@@ -11195,19 +11379,19 @@ class GeofenceGeometry {
   /// A linear ring is an array of 4 or more vertices, where the first and last
   /// vertex are the same (to form a closed boundary). Each vertex is a
   /// 2-dimensional point represented as an array of doubles of length 2:
-  /// <code>[longitude, latitude]</code>.
+  /// <code>\[longitude, latitude\]</code>.
   ///
   /// Each linear ring is represented as an array of arrays of doubles
-  /// (<code>[[longitude, latitude], [longitude, latitude], ...]</code>). The
-  /// vertices for the exterior ring must be listed in <i>counter-clockwise</i>
-  /// sequence. Vertices for all interior rings must be listed in <i>clockwise</i>
-  /// sequence.
+  /// (<code>\[\[longitude, latitude\], \[longitude, latitude\], ...\]</code>).
+  /// The vertices for the exterior ring must be listed in
+  /// <i>counter-clockwise</i> sequence. Vertices for all interior rings must be
+  /// listed in <i>clockwise</i> sequence.
   ///
   /// The list of linear rings that describe the entire <code>Polygon</code> is
-  /// represented as an array of arrays of arrays of doubles (<code>[[[longitude,
-  /// latitude], [longitude, latitude], ...], [[longitude, latitude], [longitude,
-  /// latitude], ...], ...]</code>). The exterior ring must be listed first,
-  /// before any interior rings.
+  /// represented as an array of arrays of arrays of doubles
+  /// (<code>\[\[\[longitude, latitude\], \[longitude, latitude\], ...\],
+  /// \[\[longitude, latitude\], \[longitude, latitude\], ...\], ...\]</code>).
+  /// The exterior ring must be listed first, before any interior rings.
   /// <note>
   /// The following additional requirements and limitations apply to geometries
   /// defined using the <code>Polygon</code> parameter:
@@ -11281,10 +11465,12 @@ class GeofenceGeometry {
 }
 
 /// A circle on the earth, as defined by a center point and a radius.
+///
+/// @nodoc
 class Circle {
   /// A single point geometry, specifying the center of the circle, using <a
   /// href="https://gisgeography.com/wgs84-world-geodetic-system/">WGS 84</a>
-  /// coordinates, in the form <code>[longitude, latitude]</code>.
+  /// coordinates, in the form <code>\[longitude, latitude\]</code>.
   final List<double> center;
 
   /// The radius of the circle in meters. Must be greater than zero and no larger
@@ -11321,6 +11507,8 @@ class Circle {
 /// The returned geometry will always match the geometry format used when the
 /// geofence was created.
 /// </note>
+///
+/// @nodoc
 class ListGeofenceResponseEntry {
   /// The timestamp for when the geofence was stored in a geofence collection in
   /// <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO
@@ -11409,6 +11597,7 @@ class ListGeofenceResponseEntry {
   }
 }
 
+/// @nodoc
 class SpeedUnit {
   static const kilometersPerHour = SpeedUnit._('KilometersPerHour');
   static const milesPerHour = SpeedUnit._('MilesPerHour');
@@ -11435,6 +11624,8 @@ class SpeedUnit {
 /// A forecasted event represents a geofence event in relation to the requested
 /// device state, that may occur given the provided device state and time
 /// horizon.
+///
+/// @nodoc
 class ForecastedEvent {
   /// The forecasted event identifier.
   final String eventId;
@@ -11516,6 +11707,7 @@ class ForecastedEvent {
   }
 }
 
+/// @nodoc
 class ForecastedGeofenceEventType {
   static const enter = ForecastedGeofenceEventType._('ENTER');
   static const exit = ForecastedGeofenceEventType._('EXIT');
@@ -11543,6 +11735,8 @@ class ForecastedGeofenceEventType {
 }
 
 /// The device's position and speed.
+///
+/// @nodoc
 class ForecastGeofenceEventsDeviceState {
   /// The device's position.
   final List<double> position;
@@ -11567,6 +11761,8 @@ class ForecastGeofenceEventsDeviceState {
 
 /// Contains error details for each geofence that failed to be stored in a given
 /// geofence collection.
+///
+/// @nodoc
 class BatchPutGeofenceError {
   /// Contains details associated to the batch error.
   final BatchItemError error;
@@ -11599,6 +11795,8 @@ class BatchPutGeofenceError {
 
 /// Contains a summary of each geofence that was successfully stored in a given
 /// geofence collection.
+///
+/// @nodoc
 class BatchPutGeofenceSuccess {
   /// The timestamp for when the geofence was stored in a geofence collection in
   /// <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO
@@ -11640,6 +11838,8 @@ class BatchPutGeofenceSuccess {
 }
 
 /// Contains geofence geometry details.
+///
+/// @nodoc
 class BatchPutGeofenceRequestEntry {
   /// The identifier for the geofence to be stored in a given geofence collection.
   final String geofenceId;
@@ -11684,6 +11884,8 @@ class BatchPutGeofenceRequestEntry {
 
 /// Contains error details for each device that failed to evaluate its position
 /// against the geofences in a given geofence collection.
+///
+/// @nodoc
 class BatchEvaluateGeofencesError {
   /// The device associated with the position evaluation error.
   final String deviceId;
@@ -11725,6 +11927,8 @@ class BatchEvaluateGeofencesError {
 
 /// Contains error details for each geofence that failed to delete from the
 /// geofence collection.
+///
+/// @nodoc
 class BatchDeleteGeofenceError {
   /// Contains details associated to the batch error.
   final BatchItemError error;
@@ -11760,6 +11964,8 @@ class BatchDeleteGeofenceError {
 /// The returned geometry will always match the geometry format used when the
 /// geofence was created.
 /// </note>
+///
+/// @nodoc
 class ListGeofenceCollectionsResponseEntry {
   /// The name of the geofence collection.
   final String collectionName;
@@ -11825,6 +12031,8 @@ class ListGeofenceCollectionsResponseEntry {
 }
 
 /// An API key resource listed in your Amazon Web Services account.
+///
+/// @nodoc
 class ListKeysResponseEntry {
   /// The timestamp of when the API key was created, in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html"> ISO 8601</a>
@@ -11890,6 +12098,8 @@ class ListKeysResponseEntry {
 
 /// API Restrictions on the allowed actions, resources, and referers for an API
 /// key resource.
+///
+/// @nodoc
 class ApiKeyRestrictions {
   /// A list of allowed actions that an API key resource grants permissions to
   /// perform. You must have at least one action for each type of resource. For
@@ -12002,10 +12212,10 @@ class ApiKeyRestrictions {
   /// </ul> <note>
   /// You must use these strings exactly. For example, to provide access to map
   /// rendering, the only valid action is <code>geo:GetMap*</code> as an input to
-  /// the list. <code>["geo:GetMap*"]</code> is valid but
-  /// <code>["geo:GetMapTile"]</code> is not. Similarly, you cannot use
-  /// <code>["geo:SearchPlaceIndexFor*"]</code> - you must list each of the Place
-  /// actions separately.
+  /// the list. <code>\["geo:GetMap*"\]</code> is valid but
+  /// <code>\["geo:GetMapTile"\]</code> is not. Similarly, you cannot use
+  /// <code>\["geo:SearchPlaceIndexFor*"\]</code> - you must list each of the
+  /// Place actions separately.
   /// </note>
   final List<String> allowActions;
 
@@ -12129,6 +12339,8 @@ class ApiKeyRestrictions {
 
 /// Unique identifying information for an Apple app (iOS, macOS, tvOS and
 /// watchOS). Consists of an Apple Bundle ID.
+///
+/// @nodoc
 class AppleApp {
   /// The unique identifier of the app across all Apple platforms (iOS, macOS,
   /// tvOS and watchOS).
@@ -12156,6 +12368,8 @@ class AppleApp {
 
 /// Unique identifying information for an Android app. Consists of a package
 /// name and a 20 byte SHA-1 certificate fingerprint.
+///
+/// @nodoc
 class AndroidApp {
   /// 20 byte SHA-1 certificate fingerprint associated with the Android app
   /// signing certificate.
@@ -12192,6 +12406,8 @@ class AndroidApp {
 }
 
 /// Options for filtering API keys.
+///
+/// @nodoc
 class ApiKeyFilter {
   /// Filter on <code>Active</code> or <code>Expired</code> API keys.
   final Status? keyStatus;
@@ -12208,6 +12424,7 @@ class ApiKeyFilter {
   }
 }
 
+/// @nodoc
 class Status {
   static const active = Status._('Active');
   static const expired = Status._('Expired');
@@ -12231,26 +12448,31 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -12259,11 +12481,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

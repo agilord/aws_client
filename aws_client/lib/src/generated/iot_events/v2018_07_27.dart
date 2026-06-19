@@ -1030,6 +1030,7 @@ class IoTEvents {
   }
 }
 
+/// @nodoc
 class CreateAlarmModelResponse {
   /// The ARN of the alarm model. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1106,6 +1107,7 @@ class CreateAlarmModelResponse {
   }
 }
 
+/// @nodoc
 class CreateDetectorModelResponse {
   /// Information about how the detector model is configured.
   final DetectorModelConfiguration? detectorModelConfiguration;
@@ -1132,6 +1134,7 @@ class CreateDetectorModelResponse {
   }
 }
 
+/// @nodoc
 class CreateInputResponse {
   /// Information about the configuration of the input.
   final InputConfiguration? inputConfiguration;
@@ -1157,6 +1160,7 @@ class CreateInputResponse {
   }
 }
 
+/// @nodoc
 class DeleteAlarmModelResponse {
   DeleteAlarmModelResponse();
 
@@ -1169,6 +1173,7 @@ class DeleteAlarmModelResponse {
   }
 }
 
+/// @nodoc
 class DeleteDetectorModelResponse {
   DeleteDetectorModelResponse();
 
@@ -1181,6 +1186,7 @@ class DeleteDetectorModelResponse {
   }
 }
 
+/// @nodoc
 class DeleteInputResponse {
   DeleteInputResponse();
 
@@ -1193,6 +1199,7 @@ class DeleteInputResponse {
   }
 }
 
+/// @nodoc
 class DescribeAlarmModelResponse {
   /// Contains the configuration information of alarm state changes.
   final AlarmCapabilities? alarmCapabilities;
@@ -1357,6 +1364,7 @@ class DescribeAlarmModelResponse {
   }
 }
 
+/// @nodoc
 class DescribeDetectorModelResponse {
   /// Information about the detector model.
   final DetectorModel? detectorModel;
@@ -1382,6 +1390,7 @@ class DescribeDetectorModelResponse {
   }
 }
 
+/// @nodoc
 class DescribeDetectorModelAnalysisResponse {
   /// The status of the analysis activity. The status can be one of the following
   /// values:
@@ -1421,6 +1430,7 @@ class DescribeDetectorModelAnalysisResponse {
   }
 }
 
+/// @nodoc
 class DescribeInputResponse {
   /// Information about the input.
   final Input? input;
@@ -1445,6 +1455,7 @@ class DescribeInputResponse {
   }
 }
 
+/// @nodoc
 class DescribeLoggingOptionsResponse {
   /// The current settings of the AWS IoT Events logging options.
   final LoggingOptions? loggingOptions;
@@ -1470,6 +1481,7 @@ class DescribeLoggingOptionsResponse {
   }
 }
 
+/// @nodoc
 class GetDetectorModelAnalysisResultsResponse {
   /// Contains information about one or more analysis results.
   final List<AnalysisResult>? analysisResults;
@@ -1504,6 +1516,7 @@ class GetDetectorModelAnalysisResultsResponse {
   }
 }
 
+/// @nodoc
 class ListAlarmModelsResponse {
   /// A list that summarizes each alarm model.
   final List<AlarmModelSummary>? alarmModelSummaries;
@@ -1538,6 +1551,7 @@ class ListAlarmModelsResponse {
   }
 }
 
+/// @nodoc
 class ListAlarmModelVersionsResponse {
   /// A list that summarizes each alarm model version.
   final List<AlarmModelVersionSummary>? alarmModelVersionSummaries;
@@ -1573,6 +1587,7 @@ class ListAlarmModelVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListDetectorModelsResponse {
   /// Summary information about the detector models.
   final List<DetectorModelSummary>? detectorModelSummaries;
@@ -1607,6 +1622,7 @@ class ListDetectorModelsResponse {
   }
 }
 
+/// @nodoc
 class ListDetectorModelVersionsResponse {
   /// Summary information about the detector model versions.
   final List<DetectorModelVersionSummary>? detectorModelVersionSummaries;
@@ -1644,6 +1660,7 @@ class ListDetectorModelVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListInputRoutingsResponse {
   /// The token that you can use to return the next set of results, or
   /// <code>null</code> if there are no more results.
@@ -1677,6 +1694,7 @@ class ListInputRoutingsResponse {
   }
 }
 
+/// @nodoc
 class ListInputsResponse {
   /// Summary information about the inputs.
   final List<InputSummary>? inputSummaries;
@@ -1710,6 +1728,7 @@ class ListInputsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags assigned to the resource.
   final List<Tag>? tags;
@@ -1735,6 +1754,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartDetectorModelAnalysisResponse {
   /// The ID that you can use to retrieve the analysis result.
   final String? analysisId;
@@ -1758,6 +1778,7 @@ class StartDetectorModelAnalysisResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1770,6 +1791,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1782,6 +1804,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAlarmModelResponse {
   /// The ARN of the alarm model. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1858,6 +1881,7 @@ class UpdateAlarmModelResponse {
   }
 }
 
+/// @nodoc
 class UpdateDetectorModelResponse {
   /// Information about how the detector model is configured.
   final DetectorModelConfiguration? detectorModelConfiguration;
@@ -1884,6 +1908,7 @@ class UpdateDetectorModelResponse {
   }
 }
 
+/// @nodoc
 class UpdateInputResponse {
   /// Information about the configuration of the input.
   final InputConfiguration? inputConfiguration;
@@ -1910,6 +1935,8 @@ class UpdateInputResponse {
 }
 
 /// Information about the configuration of an input.
+///
+/// @nodoc
 class InputConfiguration {
   /// The time the input was created.
   final DateTime creationTime;
@@ -1967,6 +1994,7 @@ class InputConfiguration {
   }
 }
 
+/// @nodoc
 class InputStatus {
   static const creating = InputStatus._('CREATING');
   static const updating = InputStatus._('UPDATING');
@@ -1993,6 +2021,8 @@ class InputStatus {
 }
 
 /// The definition of the input.
+///
+/// @nodoc
 class InputDefinition {
   /// The attributes from the JSON payload that are made available by the input.
   /// Inputs are derived from messages sent to the AWS IoT Events system using
@@ -2028,6 +2058,8 @@ class InputDefinition {
 /// <code>BatchPutMessage</code>. Each such message contains a JSON payload.
 /// Those attributes (and their paired values) specified here are available for
 /// use in the <code>condition</code> expressions used by detectors.
+///
+/// @nodoc
 class Attribute {
   /// An expression that specifies an attribute-value pair in a JSON structure.
   /// Use this to specify an attribute from the JSON payload that is made
@@ -2058,6 +2090,8 @@ class Attribute {
 }
 
 /// Information about how the detector model is configured.
+///
+/// @nodoc
 class DetectorModelConfiguration {
   /// The time the detector model was created.
   final DateTime? creationTime;
@@ -2159,6 +2193,7 @@ class DetectorModelConfiguration {
   }
 }
 
+/// @nodoc
 class DetectorModelVersionStatus {
   static const active = DetectorModelVersionStatus._('ACTIVE');
   static const activating = DetectorModelVersionStatus._('ACTIVATING');
@@ -2197,6 +2232,7 @@ class DetectorModelVersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluationMethod {
   static const batch = EvaluationMethod._('BATCH');
   static const serial = EvaluationMethod._('SERIAL');
@@ -2222,6 +2258,8 @@ class EvaluationMethod {
 }
 
 /// Information that defines how a detector operates.
+///
+/// @nodoc
 class DetectorModelDefinition {
   /// The state that is entered at the creation of each detector (instance).
   final String initialStateName;
@@ -2255,6 +2293,8 @@ class DetectorModelDefinition {
 }
 
 /// Information that defines a state of a detector.
+///
+/// @nodoc
 class State {
   /// The name of the state.
   final String stateName;
@@ -2309,6 +2349,8 @@ class State {
 
 /// Specifies the actions performed when the <code>condition</code> evaluates to
 /// TRUE.
+///
+/// @nodoc
 class OnInputLifecycle {
   /// Specifies the actions performed when the <code>condition</code> evaluates to
   /// TRUE.
@@ -2348,6 +2390,8 @@ class OnInputLifecycle {
 
 /// When entering this state, perform these <code>actions</code> if the
 /// <code>condition</code> is TRUE.
+///
+/// @nodoc
 class OnEnterLifecycle {
   /// Specifies the actions that are performed when the state is entered and the
   /// <code>condition</code> is <code>TRUE</code>.
@@ -2376,6 +2420,8 @@ class OnEnterLifecycle {
 
 /// When exiting this state, perform these <code>actions</code> if the specified
 /// <code>condition</code> is <code>TRUE</code>.
+///
+/// @nodoc
 class OnExitLifecycle {
   /// Specifies the <code>actions</code> that are performed when the state is
   /// exited and the <code>condition</code> is <code>TRUE</code>.
@@ -2404,6 +2450,8 @@ class OnExitLifecycle {
 
 /// Specifies the <code>actions</code> to be performed when the
 /// <code>condition</code> evaluates to TRUE.
+///
+/// @nodoc
 class Event {
   /// The name of the event.
   final String eventName;
@@ -2447,6 +2495,8 @@ class Event {
 }
 
 /// An action to be performed when the <code>condition</code> is TRUE.
+///
+/// @nodoc
 class Action {
   /// Information needed to clear the timer.
   final ClearTimerAction? clearTimer;
@@ -2608,6 +2658,8 @@ class Action {
 }
 
 /// Information about the variable and its new value.
+///
+/// @nodoc
 class SetVariableAction {
   /// The new value of the variable.
   final String value;
@@ -2638,6 +2690,8 @@ class SetVariableAction {
 }
 
 /// Information required to publish the Amazon SNS message.
+///
+/// @nodoc
 class SNSTopicPublishAction {
   /// The ARN of the Amazon SNS target where the message is sent.
   final String targetArn;
@@ -2672,6 +2726,8 @@ class SNSTopicPublishAction {
 
 /// Information required to publish the MQTT message through the AWS IoT message
 /// broker.
+///
+/// @nodoc
 class IotTopicPublishAction {
   /// The MQTT topic of the message. You can use a string expression that includes
   /// variables (<code>$variable.<variable-name></code>) and input values
@@ -2707,6 +2763,8 @@ class IotTopicPublishAction {
 }
 
 /// Information needed to set the timer.
+///
+/// @nodoc
 class SetTimerAction {
   /// The name of the timer.
   final String timerName;
@@ -2750,6 +2808,8 @@ class SetTimerAction {
 }
 
 /// Information needed to clear the timer.
+///
+/// @nodoc
 class ClearTimerAction {
   /// The name of the timer to clear.
   final String timerName;
@@ -2775,6 +2835,8 @@ class ClearTimerAction {
 /// Information required to reset the timer. The timer is reset to the
 /// previously evaluated result of the duration. The duration expression isn't
 /// reevaluated when you reset the timer.
+///
+/// @nodoc
 class ResetTimerAction {
   /// The name of the timer to reset.
   final String timerName;
@@ -2799,6 +2861,8 @@ class ResetTimerAction {
 
 /// Calls a Lambda function, passing in information about the detector model
 /// instance and the event that triggered the action.
+///
+/// @nodoc
 class LambdaAction {
   /// The ARN of the Lambda function that is executed.
   final String functionArn;
@@ -2833,6 +2897,8 @@ class LambdaAction {
 
 /// Sends an AWS IoT Events input, passing in information about the detector
 /// model instance and the event that triggered the action.
+///
+/// @nodoc
 class IotEventsAction {
   /// The name of the AWS IoT Events input where the data is sent.
   final String inputName;
@@ -2867,6 +2933,8 @@ class IotEventsAction {
 
 /// Sends information about the detector model instance and the event that
 /// triggered the action to an Amazon SQS queue.
+///
+/// @nodoc
 class SqsAction {
   /// The URL of the SQS queue where the data is written.
   final String queueUrl;
@@ -2909,6 +2977,8 @@ class SqsAction {
 
 /// Sends information about the detector model instance and the event that
 /// triggered the action to an Amazon Kinesis Data Firehose delivery stream.
+///
+/// @nodoc
 class FirehoseAction {
   /// The name of the Kinesis Data Firehose delivery stream where the data is
   /// written.
@@ -3006,6 +3076,8 @@ class FirehoseAction {
 /// non-JSON data to the DynamoDB table as binary data. The DynamoDB console
 /// displays the data as Base64-encoded text. The value for the
 /// <code>payloadField</code> parameter is <code><payload-field>_raw</code>.
+///
+/// @nodoc
 class DynamoDBAction {
   /// The name of the hash key (also called the partition key). The
   /// <code>hashKeyField</code> value must match the partition key of the target
@@ -3197,6 +3269,8 @@ class DynamoDBAction {
 ///
 /// The value for the <code>type</code> parameter in <code>Payload</code> must
 /// be <code>JSON</code>.
+///
+/// @nodoc
 class DynamoDBv2Action {
   /// The name of the DynamoDB table.
   final String tableName;
@@ -3265,6 +3339,8 @@ class DynamoDBv2Action {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
+///
+/// @nodoc
 class IotSiteWiseAction {
   /// The ID of the asset that has the specified property.
   final String? assetId;
@@ -3344,6 +3420,8 @@ class IotSiteWiseAction {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
+///
+/// @nodoc
 class AssetPropertyValue {
   /// The quality of the asset property value. The value must be
   /// <code>'GOOD'</code>, <code>'BAD'</code>, or <code>'UNCERTAIN'</code>.
@@ -3430,6 +3508,8 @@ class AssetPropertyValue {
 /// see <a
 /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_AssetProperty.html">AssetProperty</a>
 /// in the <i>AWS IoT SiteWise API Reference</i>.
+///
+/// @nodoc
 class AssetPropertyVariant {
   /// The asset property value is a Boolean value that must be <code>'TRUE'</code>
   /// or <code>'FALSE'</code>. You must use an expression, and the evaluated
@@ -3514,6 +3594,8 @@ class AssetPropertyVariant {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-expressions.html">Expressions</a>
 /// in the <i>AWS IoT Events Developer Guide</i>.
+///
+/// @nodoc
 class AssetPropertyTimestamp {
   /// The timestamp, in seconds, in the Unix epoch format. The valid range is
   /// between 1-31556889864403199.
@@ -3552,6 +3634,8 @@ class AssetPropertyTimestamp {
 /// information about the detector model instance and the event triggered the
 /// action. To configure the action payload, you can use
 /// <code>contentExpression</code>.
+///
+/// @nodoc
 class Payload {
   /// The content of the payload. You can use a string expression that includes
   /// quoted strings (<code>'<string>'</code>), variables
@@ -3587,6 +3671,7 @@ class Payload {
   }
 }
 
+/// @nodoc
 class PayloadType {
   static const string = PayloadType._('STRING');
   static const json = PayloadType._('JSON');
@@ -3612,6 +3697,8 @@ class PayloadType {
 
 /// Specifies the actions performed and the next state entered when a
 /// <code>condition</code> evaluates to TRUE.
+///
+/// @nodoc
 class TransitionEvent {
   /// Required. A Boolean expression that when TRUE causes the actions to be
   /// performed and the <code>nextState</code> to be entered.
@@ -3659,6 +3746,7 @@ class TransitionEvent {
   }
 }
 
+/// @nodoc
 class AlarmModelVersionStatus {
   static const active = AlarmModelVersionStatus._('ACTIVE');
   static const activating = AlarmModelVersionStatus._('ACTIVATING');
@@ -3687,6 +3775,8 @@ class AlarmModelVersionStatus {
 }
 
 /// Defines when your alarm is invoked.
+///
+/// @nodoc
 class AlarmRule {
   /// A rule that compares an input property value to a threshold value with a
   /// comparison operator.
@@ -3713,6 +3803,8 @@ class AlarmRule {
 }
 
 /// Contains information about one or more notification actions.
+///
+/// @nodoc
 class AlarmNotification {
   /// Contains the notification settings of an alarm model. The settings apply to
   /// all alarms that were created based on this alarm model.
@@ -3741,6 +3833,8 @@ class AlarmNotification {
 }
 
 /// Contains information about one or more alarm actions.
+///
+/// @nodoc
 class AlarmEventActions {
   /// Specifies one or more supported actions to receive notifications when the
   /// alarm state changes.
@@ -3768,6 +3862,8 @@ class AlarmEventActions {
 }
 
 /// Contains the configuration information of alarm state changes.
+///
+/// @nodoc
 class AlarmCapabilities {
   /// Specifies whether to get notified for alarm state changes.
   final AcknowledgeFlow? acknowledgeFlow;
@@ -3807,6 +3903,8 @@ class AlarmCapabilities {
 
 /// Specifies the default alarm state. The configuration applies to all alarms
 /// that were created based on this alarm model.
+///
+/// @nodoc
 class InitializationConfiguration {
   /// The value must be <code>TRUE</code> or <code>FALSE</code>. If
   /// <code>FALSE</code>, all alarm instances created based on the alarm model are
@@ -3833,6 +3931,8 @@ class InitializationConfiguration {
 }
 
 /// Specifies whether to get notified for alarm state changes.
+///
+/// @nodoc
 class AcknowledgeFlow {
   /// The value must be <code>TRUE</code> or <code>FALSE</code>. If
   /// <code>TRUE</code>, you receive a notification when the alarm state changes.
@@ -3862,6 +3962,8 @@ class AcknowledgeFlow {
 
 /// Specifies one of the following actions to receive notifications when the
 /// alarm state changes.
+///
+/// @nodoc
 class AlarmAction {
   final DynamoDBAction? dynamoDB;
   final DynamoDBv2Action? dynamoDBv2;
@@ -3946,6 +4048,8 @@ class AlarmAction {
 
 /// Contains the notification settings of an alarm model. The settings apply to
 /// all alarms that were created based on this alarm model.
+///
+/// @nodoc
 class NotificationAction {
   /// Specifies an AWS Lambda function to manage alarm notifications. You can
   /// create one or use the <a
@@ -3998,6 +4102,8 @@ class NotificationAction {
 /// create one or use the <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/lambda-support.html">AWS
 /// Lambda function provided by AWS IoT Events</a>.
+///
+/// @nodoc
 class NotificationTargetActions {
   final LambdaAction? lambdaAction;
 
@@ -4022,6 +4128,8 @@ class NotificationTargetActions {
 }
 
 /// Contains the configuration information of email notifications.
+///
+/// @nodoc
 class EmailConfiguration {
   /// The email address that sends emails.
   /// <important>
@@ -4074,6 +4182,8 @@ class EmailConfiguration {
 }
 
 /// Contains the subject and message of an email.
+///
+/// @nodoc
 class EmailContent {
   /// The message that you want to send. The message can be up to 200 characters.
   final String? additionalMessage;
@@ -4109,6 +4219,8 @@ class EmailContent {
 /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/addusers.html">add
 /// the users that receive emails to your AWS SSO store</a>.
 /// </important>
+///
+/// @nodoc
 class EmailRecipients {
   /// Specifies one or more recipients who receive the email.
   final List<RecipientDetail>? to;
@@ -4135,6 +4247,8 @@ class EmailRecipients {
 }
 
 /// The information that identifies the recipient.
+///
+/// @nodoc
 class RecipientDetail {
   /// The AWS Single Sign-On (AWS SSO) authentication information.
   final SSOIdentity? ssoIdentity;
@@ -4163,6 +4277,8 @@ class RecipientDetail {
 /// more information, see the <a
 /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html">AWS
 /// Single Sign-On User Guide</a>.
+///
+/// @nodoc
 class SSOIdentity {
   /// The ID of the AWS SSO identity store.
   final String identityStoreId;
@@ -4193,6 +4309,8 @@ class SSOIdentity {
 }
 
 /// Contains the configuration information of SMS notifications.
+///
+/// @nodoc
 class SMSConfiguration {
   /// Specifies one or more recipients who receive the message.
   /// <important>
@@ -4239,6 +4357,8 @@ class SMSConfiguration {
 
 /// A rule that compares an input property value to a threshold value with a
 /// comparison operator.
+///
+/// @nodoc
 class SimpleRule {
   /// The comparison operator.
   final ComparisonOperator comparisonOperator;
@@ -4278,6 +4398,7 @@ class SimpleRule {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const greater = ComparisonOperator._('GREATER');
   static const greaterOrEqual = ComparisonOperator._('GREATER_OR_EQUAL');
@@ -4315,6 +4436,8 @@ class ComparisonOperator {
 }
 
 /// Metadata that can be used to manage the resource.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String key;
@@ -4345,6 +4468,8 @@ class Tag {
 }
 
 /// The values of the AWS IoT Events logging options.
+///
+/// @nodoc
 class LoggingOptions {
   /// If TRUE, logging is enabled for AWS IoT Events.
   final bool enabled;
@@ -4394,6 +4519,7 @@ class LoggingOptions {
   }
 }
 
+/// @nodoc
 class LoggingLevel {
   static const error = LoggingLevel._('ERROR');
   static const info = LoggingLevel._('INFO');
@@ -4420,6 +4546,8 @@ class LoggingLevel {
 
 /// The detector model and the specific detectors (instances) for which the
 /// logging level is given.
+///
+/// @nodoc
 class DetectorDebugOption {
   /// The name of the detector model.
   final String detectorModelName;
@@ -4451,6 +4579,8 @@ class DetectorDebugOption {
 }
 
 /// Information about the input.
+///
+/// @nodoc
 class InputSummary {
   /// The time the input was created.
   final DateTime? creationTime;
@@ -4511,6 +4641,8 @@ class InputSummary {
 }
 
 /// Contains information about the routed resource.
+///
+/// @nodoc
 class RoutedResource {
   /// The ARN of the routed resource. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -4543,6 +4675,8 @@ class RoutedResource {
 }
 
 /// The identifer of the input.
+///
+/// @nodoc
 class InputIdentifier {
   /// The identifier of the input routed to AWS IoT Events.
   final IotEventsInputIdentifier? iotEventsInputIdentifier;
@@ -4568,6 +4702,8 @@ class InputIdentifier {
 }
 
 /// The identifier of the input routed to AWS IoT Events.
+///
+/// @nodoc
 class IotEventsInputIdentifier {
   /// The name of the input routed to AWS IoT Events.
   final String inputName;
@@ -4585,6 +4721,8 @@ class IotEventsInputIdentifier {
 }
 
 /// The identifer of the input routed from AWS IoT SiteWise.
+///
+/// @nodoc
 class IotSiteWiseInputIdentifier {
   /// The identifier of the AWS IoT SiteWise asset model property.
   final IotSiteWiseAssetModelPropertyIdentifier?
@@ -4607,6 +4745,8 @@ class IotSiteWiseInputIdentifier {
 
 /// The asset model property identifer of the input routed from AWS IoT
 /// SiteWise.
+///
+/// @nodoc
 class IotSiteWiseAssetModelPropertyIdentifier {
   /// The ID of the AWS IoT SiteWise asset model.
   final String assetModelId;
@@ -4630,6 +4770,8 @@ class IotSiteWiseAssetModelPropertyIdentifier {
 }
 
 /// Information about the detector model version.
+///
+/// @nodoc
 class DetectorModelVersionSummary {
   /// The time the detector model version was created.
   final DateTime? creationTime;
@@ -4709,6 +4851,8 @@ class DetectorModelVersionSummary {
 }
 
 /// Information about the detector model.
+///
+/// @nodoc
 class DetectorModelSummary {
   /// The time the detector model was created.
   final DateTime? creationTime;
@@ -4748,6 +4892,8 @@ class DetectorModelSummary {
 }
 
 /// Contains a summary of an alarm model version.
+///
+/// @nodoc
 class AlarmModelVersionSummary {
   /// The ARN of the alarm model. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -4849,6 +4995,8 @@ class AlarmModelVersionSummary {
 }
 
 /// Contains a summary of an alarm model.
+///
+/// @nodoc
 class AlarmModelSummary {
   /// The description of the alarm model.
   final String? alarmModelDescription;
@@ -4888,6 +5036,8 @@ class AlarmModelSummary {
 }
 
 /// Contains the result of the analysis.
+///
+/// @nodoc
 class AnalysisResult {
   /// The severity level of the analysis result. Based on the severity level,
   /// analysis results fall into three general categories:
@@ -4993,6 +5143,7 @@ class AnalysisResult {
   }
 }
 
+/// @nodoc
 class AnalysisResultLevel {
   static const info = AnalysisResultLevel._('INFO');
   static const warning = AnalysisResultLevel._('WARNING');
@@ -5021,6 +5172,8 @@ class AnalysisResultLevel {
 
 /// Contains information that you can use to locate the field in your detector
 /// model that the analysis result references.
+///
+/// @nodoc
 class AnalysisResultLocation {
   /// A <a href="https://github.com/json-path/JsonPath">JsonPath</a> expression
   /// that identifies the error field in your detector model.
@@ -5045,6 +5198,8 @@ class AnalysisResultLocation {
 }
 
 /// Information about the input.
+///
+/// @nodoc
 class Input {
   /// Information about the configuration of an input.
   final InputConfiguration? inputConfiguration;
@@ -5080,6 +5235,7 @@ class Input {
   }
 }
 
+/// @nodoc
 class AnalysisStatus {
   static const running = AnalysisStatus._('RUNNING');
   static const complete = AnalysisStatus._('COMPLETE');
@@ -5106,6 +5262,8 @@ class AnalysisStatus {
 }
 
 /// Information about the detector model.
+///
+/// @nodoc
 class DetectorModel {
   /// Information about how the detector is configured.
   final DetectorModelConfiguration? detectorModelConfiguration;
@@ -5143,21 +5301,25 @@ class DetectorModel {
   }
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -5166,27 +5328,32 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

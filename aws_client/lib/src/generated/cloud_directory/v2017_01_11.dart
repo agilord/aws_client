@@ -3295,6 +3295,7 @@ class CloudDirectory {
   }
 }
 
+/// @nodoc
 class AddFacetToObjectResponse {
   AddFacetToObjectResponse();
 
@@ -3307,6 +3308,7 @@ class AddFacetToObjectResponse {
   }
 }
 
+/// @nodoc
 class ApplySchemaResponse {
   /// The applied schema ARN that is associated with the copied schema in the
   /// <a>Directory</a>. You can use this ARN to describe the schema information
@@ -3339,6 +3341,7 @@ class ApplySchemaResponse {
   }
 }
 
+/// @nodoc
 class AttachObjectResponse {
   /// The attached <code>ObjectIdentifier</code>, which is the child
   /// <code>ObjectIdentifier</code>.
@@ -3363,6 +3366,7 @@ class AttachObjectResponse {
   }
 }
 
+/// @nodoc
 class AttachPolicyResponse {
   AttachPolicyResponse();
 
@@ -3375,6 +3379,7 @@ class AttachPolicyResponse {
   }
 }
 
+/// @nodoc
 class AttachToIndexResponse {
   /// The <code>ObjectIdentifier</code> of the object that was attached to the
   /// index.
@@ -3399,6 +3404,7 @@ class AttachToIndexResponse {
   }
 }
 
+/// @nodoc
 class AttachTypedLinkResponse {
   /// Returns a typed link specifier as output.
   final TypedLinkSpecifier? typedLinkSpecifier;
@@ -3424,6 +3430,7 @@ class AttachTypedLinkResponse {
   }
 }
 
+/// @nodoc
 class BatchReadResponse {
   /// A list of all the responses for each batch read.
   final List<BatchReadOperationResponse>? responses;
@@ -3450,6 +3457,7 @@ class BatchReadResponse {
   }
 }
 
+/// @nodoc
 class BatchWriteResponse {
   /// A list of all the responses for each batch write.
   final List<BatchWriteOperationResponse>? responses;
@@ -3476,6 +3484,7 @@ class BatchWriteResponse {
   }
 }
 
+/// @nodoc
 class CreateDirectoryResponse {
   /// The ARN of the published schema in the <a>Directory</a>. Once a published
   /// schema is copied into the directory, it has its own ARN, which is referred
@@ -3522,6 +3531,7 @@ class CreateDirectoryResponse {
   }
 }
 
+/// @nodoc
 class CreateFacetResponse {
   CreateFacetResponse();
 
@@ -3534,6 +3544,7 @@ class CreateFacetResponse {
   }
 }
 
+/// @nodoc
 class CreateIndexResponse {
   /// The <code>ObjectIdentifier</code> of the index created by this operation.
   final String? objectIdentifier;
@@ -3556,6 +3567,7 @@ class CreateIndexResponse {
   }
 }
 
+/// @nodoc
 class CreateObjectResponse {
   /// The identifier that is associated with the object.
   final String? objectIdentifier;
@@ -3578,6 +3590,7 @@ class CreateObjectResponse {
   }
 }
 
+/// @nodoc
 class CreateSchemaResponse {
   /// The Amazon Resource Name (ARN) that is associated with the schema. For more
   /// information, see <a>arns</a>.
@@ -3601,6 +3614,7 @@ class CreateSchemaResponse {
   }
 }
 
+/// @nodoc
 class CreateTypedLinkFacetResponse {
   CreateTypedLinkFacetResponse();
 
@@ -3613,6 +3627,7 @@ class CreateTypedLinkFacetResponse {
   }
 }
 
+/// @nodoc
 class DeleteDirectoryResponse {
   /// The ARN of the deleted directory.
   final String directoryArn;
@@ -3635,6 +3650,7 @@ class DeleteDirectoryResponse {
   }
 }
 
+/// @nodoc
 class DeleteFacetResponse {
   DeleteFacetResponse();
 
@@ -3647,6 +3663,7 @@ class DeleteFacetResponse {
   }
 }
 
+/// @nodoc
 class DeleteObjectResponse {
   DeleteObjectResponse();
 
@@ -3659,6 +3676,7 @@ class DeleteObjectResponse {
   }
 }
 
+/// @nodoc
 class DeleteSchemaResponse {
   /// The input ARN that is returned as part of the response. For more
   /// information, see <a>arns</a>.
@@ -3682,6 +3700,7 @@ class DeleteSchemaResponse {
   }
 }
 
+/// @nodoc
 class DeleteTypedLinkFacetResponse {
   DeleteTypedLinkFacetResponse();
 
@@ -3694,6 +3713,7 @@ class DeleteTypedLinkFacetResponse {
   }
 }
 
+/// @nodoc
 class DetachFromIndexResponse {
   /// The <code>ObjectIdentifier</code> of the object that was detached from the
   /// index.
@@ -3718,6 +3738,7 @@ class DetachFromIndexResponse {
   }
 }
 
+/// @nodoc
 class DetachObjectResponse {
   /// The <code>ObjectIdentifier</code> that was detached from the object.
   final String? detachedObjectIdentifier;
@@ -3741,6 +3762,7 @@ class DetachObjectResponse {
   }
 }
 
+/// @nodoc
 class DetachPolicyResponse {
   DetachPolicyResponse();
 
@@ -3753,6 +3775,7 @@ class DetachPolicyResponse {
   }
 }
 
+/// @nodoc
 class DisableDirectoryResponse {
   /// The ARN of the directory that has been disabled.
   final String directoryArn;
@@ -3775,6 +3798,7 @@ class DisableDirectoryResponse {
   }
 }
 
+/// @nodoc
 class EnableDirectoryResponse {
   /// The ARN of the enabled directory.
   final String directoryArn;
@@ -3797,6 +3821,7 @@ class EnableDirectoryResponse {
   }
 }
 
+/// @nodoc
 class GetAppliedSchemaVersionResponse {
   /// Current applied schema ARN, including the minor version in use if one was
   /// provided.
@@ -3820,6 +3845,7 @@ class GetAppliedSchemaVersionResponse {
   }
 }
 
+/// @nodoc
 class GetDirectoryResponse {
   /// Metadata about the directory.
   final Directory directory;
@@ -3844,6 +3870,7 @@ class GetDirectoryResponse {
   }
 }
 
+/// @nodoc
 class GetFacetResponse {
   /// The <a>Facet</a> structure that is associated with the facet.
   final Facet? facet;
@@ -3868,6 +3895,7 @@ class GetFacetResponse {
   }
 }
 
+/// @nodoc
 class GetLinkAttributesResponse {
   /// The attributes that are associated with the typed link.
   final List<AttributeKeyAndValue>? attributes;
@@ -3893,6 +3921,7 @@ class GetLinkAttributesResponse {
   }
 }
 
+/// @nodoc
 class GetObjectAttributesResponse {
   /// The attributes that are associated with the object.
   final List<AttributeKeyAndValue>? attributes;
@@ -3918,6 +3947,7 @@ class GetObjectAttributesResponse {
   }
 }
 
+/// @nodoc
 class GetObjectInformationResponse {
   /// The <code>ObjectIdentifier</code> of the specified object.
   final String? objectIdentifier;
@@ -3952,6 +3982,7 @@ class GetObjectInformationResponse {
   }
 }
 
+/// @nodoc
 class GetSchemaAsJsonResponse {
   /// The JSON representation of the schema document.
   final String? document;
@@ -3981,6 +4012,7 @@ class GetSchemaAsJsonResponse {
   }
 }
 
+/// @nodoc
 class GetTypedLinkFacetInformationResponse {
   /// The order of identity attributes for the facet, from most significant to
   /// least significant. The ability to filter typed links considers the order
@@ -4017,6 +4049,7 @@ class GetTypedLinkFacetInformationResponse {
   }
 }
 
+/// @nodoc
 class ListAppliedSchemaArnsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4049,6 +4082,7 @@ class ListAppliedSchemaArnsResponse {
   }
 }
 
+/// @nodoc
 class ListAttachedIndicesResponse {
   /// The indices attached to the specified object.
   final List<IndexAttachment>? indexAttachments;
@@ -4081,6 +4115,7 @@ class ListAttachedIndicesResponse {
   }
 }
 
+/// @nodoc
 class ListDevelopmentSchemaArnsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4114,6 +4149,7 @@ class ListDevelopmentSchemaArnsResponse {
   }
 }
 
+/// @nodoc
 class ListDirectoriesResponse {
   /// Lists all directories that are associated with your account in pagination
   /// fashion.
@@ -4147,6 +4183,7 @@ class ListDirectoriesResponse {
   }
 }
 
+/// @nodoc
 class ListFacetAttributesResponse {
   /// The attributes attached to the facet.
   final List<FacetAttribute>? attributes;
@@ -4179,6 +4216,7 @@ class ListFacetAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListFacetNamesResponse {
   /// The names of facets that exist within the schema.
   final List<String>? facetNames;
@@ -4211,6 +4249,7 @@ class ListFacetNamesResponse {
   }
 }
 
+/// @nodoc
 class ListIncomingTypedLinksResponse {
   /// Returns one or more typed link specifiers as output.
   final List<TypedLinkSpecifier>? linkSpecifiers;
@@ -4243,6 +4282,7 @@ class ListIncomingTypedLinksResponse {
   }
 }
 
+/// @nodoc
 class ListIndexResponse {
   /// The objects and indexed values attached to the index.
   final List<IndexAttachment>? indexAttachments;
@@ -4275,6 +4315,7 @@ class ListIndexResponse {
   }
 }
 
+/// @nodoc
 class ListManagedSchemaArnsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4307,6 +4348,7 @@ class ListManagedSchemaArnsResponse {
   }
 }
 
+/// @nodoc
 class ListObjectAttributesResponse {
   /// Attributes map that is associated with the object. <code>AttributeArn</code>
   /// is the key, and attribute value is the value.
@@ -4340,6 +4382,7 @@ class ListObjectAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListObjectChildrenResponse {
   /// Children structure, which is a map with key as the <code>LinkName</code> and
   /// <code>ObjectIdentifier</code> as the value.
@@ -4371,6 +4414,7 @@ class ListObjectChildrenResponse {
   }
 }
 
+/// @nodoc
 class ListObjectParentPathsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4407,6 +4451,7 @@ class ListObjectParentPathsResponse {
   }
 }
 
+/// @nodoc
 class ListObjectParentsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4449,6 +4494,7 @@ class ListObjectParentsResponse {
   }
 }
 
+/// @nodoc
 class ListObjectPoliciesResponse {
   /// A list of policy <code>ObjectIdentifiers</code>, that are attached to the
   /// object.
@@ -4482,6 +4528,7 @@ class ListObjectPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListOutgoingTypedLinksResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4515,6 +4562,7 @@ class ListOutgoingTypedLinksResponse {
   }
 }
 
+/// @nodoc
 class ListPolicyAttachmentsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4547,6 +4595,7 @@ class ListPolicyAttachmentsResponse {
   }
 }
 
+/// @nodoc
 class ListPublishedSchemaArnsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4579,6 +4628,7 @@ class ListPublishedSchemaArnsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -4612,6 +4662,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTypedLinkFacetAttributesResponse {
   /// An ordered set of attributes associate with the typed link.
   final List<TypedLinkAttributeDefinition>? attributes;
@@ -4646,6 +4697,7 @@ class ListTypedLinkFacetAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListTypedLinkFacetNamesResponse {
   /// The names of typed link facets that exist within the schema.
   final List<String>? facetNames;
@@ -4678,6 +4730,7 @@ class ListTypedLinkFacetNamesResponse {
   }
 }
 
+/// @nodoc
 class LookupPolicyResponse {
   /// The pagination token.
   final String? nextToken;
@@ -4713,6 +4766,7 @@ class LookupPolicyResponse {
   }
 }
 
+/// @nodoc
 class PublishSchemaResponse {
   /// The ARN that is associated with the published schema. For more information,
   /// see <a>arns</a>.
@@ -4736,6 +4790,7 @@ class PublishSchemaResponse {
   }
 }
 
+/// @nodoc
 class PutSchemaFromJsonResponse {
   /// The ARN of the schema to update.
   final String? arn;
@@ -4758,6 +4813,7 @@ class PutSchemaFromJsonResponse {
   }
 }
 
+/// @nodoc
 class RemoveFacetFromObjectResponse {
   RemoveFacetFromObjectResponse();
 
@@ -4770,6 +4826,7 @@ class RemoveFacetFromObjectResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -4782,6 +4839,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -4794,6 +4852,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateFacetResponse {
   UpdateFacetResponse();
 
@@ -4806,6 +4865,7 @@ class UpdateFacetResponse {
   }
 }
 
+/// @nodoc
 class UpdateLinkAttributesResponse {
   UpdateLinkAttributesResponse();
 
@@ -4818,6 +4878,7 @@ class UpdateLinkAttributesResponse {
   }
 }
 
+/// @nodoc
 class UpdateObjectAttributesResponse {
   /// The <code>ObjectIdentifier</code> of the updated object.
   final String? objectIdentifier;
@@ -4840,6 +4901,7 @@ class UpdateObjectAttributesResponse {
   }
 }
 
+/// @nodoc
 class UpdateSchemaResponse {
   /// The ARN that is associated with the updated schema. For more information,
   /// see <a>arns</a>.
@@ -4863,6 +4925,7 @@ class UpdateSchemaResponse {
   }
 }
 
+/// @nodoc
 class UpdateTypedLinkFacetResponse {
   UpdateTypedLinkFacetResponse();
 
@@ -4875,6 +4938,7 @@ class UpdateTypedLinkFacetResponse {
   }
 }
 
+/// @nodoc
 class UpgradeAppliedSchemaResponse {
   /// The ARN of the directory that is returned as part of the response.
   final String? directoryArn;
@@ -4904,6 +4968,7 @@ class UpgradeAppliedSchemaResponse {
   }
 }
 
+/// @nodoc
 class UpgradePublishedSchemaResponse {
   /// The ARN of the upgraded schema that is returned as part of the response.
   final String? upgradedSchemaArn;
@@ -4927,6 +4992,8 @@ class UpgradePublishedSchemaResponse {
 }
 
 /// A typed link facet attribute update.
+///
+/// @nodoc
 class TypedLinkFacetAttributeUpdate {
   /// The action to perform when updating the attribute.
   final UpdateActionType action;
@@ -4950,6 +5017,8 @@ class TypedLinkFacetAttributeUpdate {
 }
 
 /// A typed link attribute definition.
+///
+/// @nodoc
 class TypedLinkAttributeDefinition {
   /// The unique name of the typed link attribute.
   final String name;
@@ -5012,6 +5081,7 @@ class TypedLinkAttributeDefinition {
   }
 }
 
+/// @nodoc
 class UpdateActionType {
   static const createOrUpdate = UpdateActionType._('CREATE_OR_UPDATE');
   static const delete = UpdateActionType._('DELETE');
@@ -5036,6 +5106,7 @@ class UpdateActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class FacetAttributeType {
   static const string = FacetAttributeType._('STRING');
   static const binary = FacetAttributeType._('BINARY');
@@ -5068,6 +5139,8 @@ class FacetAttributeType {
 /// Represents the data for a typed attribute. You can set one, and only one, of
 /// the elements. Each attribute in an item is a name-value pair. Attributes
 /// have a single value.
+///
+/// @nodoc
 class TypedAttributeValue {
   /// A binary data value.
   final Uint8List? binaryValue;
@@ -5119,6 +5192,7 @@ class TypedAttributeValue {
   }
 }
 
+/// @nodoc
 class RequiredAttributeBehavior {
   static const requiredAlways = RequiredAttributeBehavior._('REQUIRED_ALWAYS');
   static const notRequired = RequiredAttributeBehavior._('NOT_REQUIRED');
@@ -5146,6 +5220,8 @@ class RequiredAttributeBehavior {
 
 /// Contains an Amazon Resource Name (ARN) and parameters that are associated
 /// with the rule.
+///
+/// @nodoc
 class Rule {
   /// The minimum and maximum parameters that are associated with the rule.
   final Map<String, String>? parameters;
@@ -5176,6 +5252,7 @@ class Rule {
   }
 }
 
+/// @nodoc
 class RuleType {
   static const binaryLength = RuleType._('BINARY_LENGTH');
   static const numberComparison = RuleType._('NUMBER_COMPARISON');
@@ -5207,6 +5284,8 @@ class RuleType {
 }
 
 /// The reference that identifies an object.
+///
+/// @nodoc
 class ObjectReference {
   /// A path selector supports easy selection of an object by the parent/child
   /// links leading to it from the directory root. Use the link names from each
@@ -5253,6 +5332,8 @@ class ObjectReference {
 }
 
 /// Structure that contains attribute update information.
+///
+/// @nodoc
 class ObjectAttributeUpdate {
   /// The action to perform as part of the attribute update.
   final ObjectAttributeAction? objectAttributeAction;
@@ -5277,6 +5358,8 @@ class ObjectAttributeUpdate {
 }
 
 /// A unique identifier for an attribute.
+///
+/// @nodoc
 class AttributeKey {
   /// The name of the facet that the attribute exists within.
   final String facetName;
@@ -5315,6 +5398,8 @@ class AttributeKey {
 }
 
 /// The action to take on the object attribute.
+///
+/// @nodoc
 class ObjectAttributeAction {
   /// A type that can be either <code>Update</code> or <code>Delete</code>.
   final UpdateActionType? objectAttributeActionType;
@@ -5346,6 +5431,8 @@ class ObjectAttributeAction {
 /// Similarly, the <a>ListIncomingTypedLinks</a> and
 /// <a>ListOutgoingTypedLinks</a> API operations provide typed link specifiers
 /// as output. You can also construct a typed link specifier from scratch.
+///
+/// @nodoc
 class TypedLinkSpecifier {
   /// Identifies the attribute value to update.
   final List<AttributeNameAndValue> identityAttributeValues;
@@ -5400,6 +5487,8 @@ class TypedLinkSpecifier {
 }
 
 /// Structure that contains attribute update information.
+///
+/// @nodoc
 class LinkAttributeUpdate {
   /// The action to perform as part of the attribute update.
   final LinkAttributeAction? attributeAction;
@@ -5424,6 +5513,8 @@ class LinkAttributeUpdate {
 
 /// The action to take on a typed link attribute value. Updates are only
 /// supported for attributes which don’t contribute to link identity.
+///
+/// @nodoc
 class LinkAttributeAction {
   /// A type that can be either <code>UPDATE_OR_CREATE</code> or
   /// <code>DELETE</code>.
@@ -5451,6 +5542,8 @@ class LinkAttributeAction {
 
 /// Identifies the schema Amazon Resource Name (ARN) and facet name for the
 /// typed link.
+///
+/// @nodoc
 class TypedLinkSchemaAndFacetName {
   /// The Amazon Resource Name (ARN) that is associated with the schema. For more
   /// information, see <a>arns</a>.
@@ -5482,6 +5575,8 @@ class TypedLinkSchemaAndFacetName {
 }
 
 /// Identifies the attribute name and value for a typed link.
+///
+/// @nodoc
 class AttributeNameAndValue {
   /// The attribute name of the typed link.
   final String attributeName;
@@ -5513,6 +5608,7 @@ class AttributeNameAndValue {
   }
 }
 
+/// @nodoc
 class ObjectType {
   static const node = ObjectType._('NODE');
   static const leafNode = ObjectType._('LEAF_NODE');
@@ -5539,6 +5635,8 @@ class ObjectType {
 }
 
 /// A structure that contains information used to update an attribute.
+///
+/// @nodoc
 class FacetAttributeUpdate {
   /// The action to perform when updating the attribute.
   final UpdateActionType? action;
@@ -5562,6 +5660,8 @@ class FacetAttributeUpdate {
 }
 
 /// An attribute that is associated with the <a>Facet</a>.
+///
+/// @nodoc
 class FacetAttribute {
   /// The name of the facet attribute.
   final String name;
@@ -5621,6 +5721,8 @@ class FacetAttribute {
 /// A facet attribute definition. See <a
 /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
 /// References</a> for more information.
+///
+/// @nodoc
 class FacetAttributeDefinition {
   /// The type of the attribute.
   final FacetAttributeType type;
@@ -5670,6 +5772,8 @@ class FacetAttributeDefinition {
 
 /// The facet attribute reference that specifies the attribute definition that
 /// contains the attribute facet name and attribute name.
+///
+/// @nodoc
 class FacetAttributeReference {
   /// The target attribute name that is associated with the facet reference. See
   /// <a
@@ -5705,6 +5809,8 @@ class FacetAttributeReference {
 }
 
 /// The tag structure that contains a tag key and value.
+///
+/// @nodoc
 class Tag {
   /// The key that is associated with the tag.
   final String? key;
@@ -5735,6 +5841,8 @@ class Tag {
 }
 
 /// A facet.
+///
+/// @nodoc
 class SchemaFacet {
   /// The name of the facet. If this value is set, SchemaArn must also be set.
   final String? facetName;
@@ -5771,6 +5879,8 @@ class SchemaFacet {
 /// Used when a regular object exists in a <a>Directory</a> and you want to find
 /// all of the policies that are associated with that object and the parent to
 /// that object.
+///
+/// @nodoc
 class PolicyToPath {
   /// The path that is referenced from the root.
   final String? path;
@@ -5807,6 +5917,8 @@ class PolicyToPath {
 /// <code>ObjectIdentifier</code> to which it is attached. For more information,
 /// see <a
 /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
+///
+/// @nodoc
 class PolicyAttachment {
   /// The <code>ObjectIdentifier</code> that is associated with
   /// <code>PolicyAttachment</code>.
@@ -5845,6 +5957,7 @@ class PolicyAttachment {
   }
 }
 
+/// @nodoc
 class ConsistencyLevel {
   static const serializable = ConsistencyLevel._('SERIALIZABLE');
   static const eventual = ConsistencyLevel._('EVENTUAL');
@@ -5870,6 +5983,8 @@ class ConsistencyLevel {
 }
 
 /// Identifies the range of attributes that are used by a specified filter.
+///
+/// @nodoc
 class TypedLinkAttributeRange {
   /// The range of attribute values that are being selected.
   final TypedAttributeValueRange range;
@@ -5895,6 +6010,8 @@ class TypedLinkAttributeRange {
 /// A range of attribute values. For more information, see <a
 /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_range_filters.html">Range
 /// Filters</a>.
+///
+/// @nodoc
 class TypedAttributeValueRange {
   /// The inclusive or exclusive range end.
   final RangeMode endMode;
@@ -5929,6 +6046,7 @@ class TypedAttributeValueRange {
   }
 }
 
+/// @nodoc
 class RangeMode {
   static const first = RangeMode._('FIRST');
   static const last = RangeMode._('LAST');
@@ -5963,6 +6081,8 @@ class RangeMode {
 }
 
 /// A pair of ObjectIdentifier and LinkName.
+///
+/// @nodoc
 class ObjectIdentifierAndLinkNameTuple {
   /// The name of the link between the parent and the child object.
   final String? linkName;
@@ -5994,6 +6114,8 @@ class ObjectIdentifierAndLinkNameTuple {
 
 /// Returns the path to the <code>ObjectIdentifiers</code> that is associated
 /// with the directory.
+///
+/// @nodoc
 class PathToObjectIdentifiers {
   /// Lists <code>ObjectIdentifiers</code> starting from directory root to the
   /// object in the request.
@@ -6028,6 +6150,8 @@ class PathToObjectIdentifiers {
 }
 
 /// The combination of an attribute key and an attribute value.
+///
+/// @nodoc
 class AttributeKeyAndValue {
   /// The key of the attribute.
   final AttributeKey key;
@@ -6061,6 +6185,8 @@ class AttributeKeyAndValue {
 }
 
 /// Represents an index and an attached object.
+///
+/// @nodoc
 class IndexAttachment {
   /// The indexed attribute values.
   final List<AttributeKeyAndValue>? indexedAttributes;
@@ -6098,6 +6224,8 @@ class IndexAttachment {
 }
 
 /// A range of attributes.
+///
+/// @nodoc
 class ObjectAttributeRange {
   /// The key of the attribute that the attribute range covers.
   final AttributeKey? attributeKey;
@@ -6121,6 +6249,8 @@ class ObjectAttributeRange {
 }
 
 /// Directory structure that includes the directory name and directory ARN.
+///
+/// @nodoc
 class Directory {
   /// The date and time when the directory was created.
   final DateTime? creationDateTime;
@@ -6167,6 +6297,7 @@ class Directory {
   }
 }
 
+/// @nodoc
 class DirectoryState {
   static const enabled = DirectoryState._('ENABLED');
   static const disabled = DirectoryState._('DISABLED');
@@ -6197,6 +6328,8 @@ class DirectoryState {
 /// <code>ObjectTypes</code>. See <a
 /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_whatarefacets.html">Facets</a>
 /// for more information.
+///
+/// @nodoc
 class Facet {
   /// There are two different styles that you can define on any given facet,
   /// <code>Static</code> and <code>Dynamic</code>. For static facets, all
@@ -6237,6 +6370,7 @@ class Facet {
   }
 }
 
+/// @nodoc
 class FacetStyle {
   static const static = FacetStyle._('STATIC');
   static const $dynamic = FacetStyle._('DYNAMIC');
@@ -6262,6 +6396,8 @@ class FacetStyle {
 
 /// Defines the typed links structure and its attributes. To create a typed link
 /// facet, use the <a>CreateTypedLinkFacet</a> API.
+///
+/// @nodoc
 class TypedLinkFacet {
   /// A set of key-value pairs associated with the typed link. Typed link
   /// attributes are used when you have data values that are related to the link
@@ -6298,6 +6434,8 @@ class TypedLinkFacet {
 }
 
 /// Represents the output of a <code>BatchWrite</code> response operation.
+///
+/// @nodoc
 class BatchWriteOperationResponse {
   /// The result of an add facet to object batch operation.
   final BatchAddFacetToObjectResponse? addFacetToObject;
@@ -6476,6 +6614,8 @@ class BatchWriteOperationResponse {
 }
 
 /// Represents the output of a <a>CreateObject</a> response operation.
+///
+/// @nodoc
 class BatchCreateObjectResponse {
   /// The ID that is associated with the object.
   final String? objectIdentifier;
@@ -6499,6 +6639,8 @@ class BatchCreateObjectResponse {
 }
 
 /// Represents the output batch <a>AttachObject</a> response operation.
+///
+/// @nodoc
 class BatchAttachObjectResponse {
   /// The <code>ObjectIdentifier</code> of the object that has been attached.
   final String? attachedObjectIdentifier;
@@ -6523,6 +6665,8 @@ class BatchAttachObjectResponse {
 }
 
 /// Represents the output of a <a>DetachObject</a> response operation.
+///
+/// @nodoc
 class BatchDetachObjectResponse {
   /// The <code>ObjectIdentifier</code> of the detached object.
   final String? detachedObjectIdentifier;
@@ -6547,6 +6691,8 @@ class BatchDetachObjectResponse {
 }
 
 /// Represents the output of a <code>BatchUpdate</code> response operation.
+///
+/// @nodoc
 class BatchUpdateObjectAttributesResponse {
   /// ID that is associated with the object.
   final String? objectIdentifier;
@@ -6571,6 +6717,8 @@ class BatchUpdateObjectAttributesResponse {
 }
 
 /// Represents the output of a <a>DeleteObject</a> response operation.
+///
+/// @nodoc
 class BatchDeleteObjectResponse {
   BatchDeleteObjectResponse();
 
@@ -6584,6 +6732,8 @@ class BatchDeleteObjectResponse {
 }
 
 /// The result of a batch add facet to object operation.
+///
+/// @nodoc
 class BatchAddFacetToObjectResponse {
   BatchAddFacetToObjectResponse();
 
@@ -6597,6 +6747,8 @@ class BatchAddFacetToObjectResponse {
 }
 
 /// An empty result that represents success.
+///
+/// @nodoc
 class BatchRemoveFacetFromObjectResponse {
   BatchRemoveFacetFromObjectResponse();
 
@@ -6610,6 +6762,8 @@ class BatchRemoveFacetFromObjectResponse {
 }
 
 /// Represents the output of an <a>AttachPolicy</a> response operation.
+///
+/// @nodoc
 class BatchAttachPolicyResponse {
   BatchAttachPolicyResponse();
 
@@ -6623,6 +6777,8 @@ class BatchAttachPolicyResponse {
 }
 
 /// Represents the output of a <a>DetachPolicy</a> response operation.
+///
+/// @nodoc
 class BatchDetachPolicyResponse {
   BatchDetachPolicyResponse();
 
@@ -6636,6 +6792,8 @@ class BatchDetachPolicyResponse {
 }
 
 /// Represents the output of a <a>CreateIndex</a> response operation.
+///
+/// @nodoc
 class BatchCreateIndexResponse {
   /// The <code>ObjectIdentifier</code> of the index created by this operation.
   final String? objectIdentifier;
@@ -6659,6 +6817,8 @@ class BatchCreateIndexResponse {
 }
 
 /// Represents the output of a <a>AttachToIndex</a> response operation.
+///
+/// @nodoc
 class BatchAttachToIndexResponse {
   /// The <code>ObjectIdentifier</code> of the object that was attached to the
   /// index.
@@ -6684,6 +6844,8 @@ class BatchAttachToIndexResponse {
 }
 
 /// Represents the output of a <a>DetachFromIndex</a> response operation.
+///
+/// @nodoc
 class BatchDetachFromIndexResponse {
   /// The <code>ObjectIdentifier</code> of the object that was detached from the
   /// index.
@@ -6709,6 +6871,8 @@ class BatchDetachFromIndexResponse {
 }
 
 /// Represents the output of a <a>AttachTypedLink</a> response operation.
+///
+/// @nodoc
 class BatchAttachTypedLinkResponse {
   /// Returns a typed link specifier as output.
   final TypedLinkSpecifier? typedLinkSpecifier;
@@ -6735,6 +6899,8 @@ class BatchAttachTypedLinkResponse {
 }
 
 /// Represents the output of a <a>DetachTypedLink</a> response operation.
+///
+/// @nodoc
 class BatchDetachTypedLinkResponse {
   BatchDetachTypedLinkResponse();
 
@@ -6748,6 +6914,8 @@ class BatchDetachTypedLinkResponse {
 }
 
 /// Represents the output of a <a>UpdateLinkAttributes</a> response operation.
+///
+/// @nodoc
 class BatchUpdateLinkAttributesResponse {
   BatchUpdateLinkAttributesResponse();
 
@@ -6761,6 +6929,8 @@ class BatchUpdateLinkAttributesResponse {
 }
 
 /// Represents the output of a <code>BatchWrite</code> operation.
+///
+/// @nodoc
 class BatchWriteOperation {
   /// A batch operation that adds a facet to an object.
   final BatchAddFacetToObject? addFacetToObject;
@@ -6874,6 +7044,8 @@ class BatchWriteOperation {
 }
 
 /// Represents the output of a <a>CreateObject</a> operation.
+///
+/// @nodoc
 class BatchCreateObject {
   /// An attribute map, which contains an attribute ARN as the key and attribute
   /// value as the map value.
@@ -6919,6 +7091,8 @@ class BatchCreateObject {
 }
 
 /// Represents the output of an <a>AttachObject</a> operation.
+///
+/// @nodoc
 class BatchAttachObject {
   /// The child object reference that is to be attached to the object.
   final ObjectReference childReference;
@@ -6948,6 +7122,8 @@ class BatchAttachObject {
 }
 
 /// Represents the output of a <a>DetachObject</a> operation.
+///
+/// @nodoc
 class BatchDetachObject {
   /// The name of the link.
   final String linkName;
@@ -6980,6 +7156,8 @@ class BatchDetachObject {
 }
 
 /// Represents the output of a <code>BatchUpdate</code> operation.
+///
+/// @nodoc
 class BatchUpdateObjectAttributes {
   /// Attributes update structure.
   final List<ObjectAttributeUpdate> attributeUpdates;
@@ -7003,6 +7181,8 @@ class BatchUpdateObjectAttributes {
 }
 
 /// Represents the output of a <a>DeleteObject</a> operation.
+///
+/// @nodoc
 class BatchDeleteObject {
   /// The reference that identifies the object.
   final ObjectReference objectReference;
@@ -7020,6 +7200,8 @@ class BatchDeleteObject {
 }
 
 /// Represents the output of a batch add facet to object operation.
+///
+/// @nodoc
 class BatchAddFacetToObject {
   /// The attributes to set on the object.
   final List<AttributeKeyAndValue> objectAttributeList;
@@ -7049,6 +7231,8 @@ class BatchAddFacetToObject {
 }
 
 /// A batch operation to remove a facet from an object.
+///
+/// @nodoc
 class BatchRemoveFacetFromObject {
   /// A reference to the object whose facet will be removed.
   final ObjectReference objectReference;
@@ -7074,6 +7258,8 @@ class BatchRemoveFacetFromObject {
 /// Attaches a policy object to a regular object inside a <a>BatchRead</a>
 /// operation. For more information, see <a>AttachPolicy</a> and
 /// <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchAttachPolicy {
   /// The reference that identifies the object to which the policy will be
   /// attached.
@@ -7100,6 +7286,8 @@ class BatchAttachPolicy {
 /// Detaches the specified policy from the specified directory inside a
 /// <a>BatchWrite</a> operation. For more information, see <a>DetachPolicy</a>
 /// and <a>BatchWriteRequest$Operations</a>.
+///
+/// @nodoc
 class BatchDetachPolicy {
   /// Reference that identifies the object whose policy object will be detached.
   final ObjectReference objectReference;
@@ -7124,6 +7312,8 @@ class BatchDetachPolicy {
 
 /// Creates an index object inside of a <a>BatchRead</a> operation. For more
 /// information, see <a>CreateIndex</a> and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchCreateIndex {
   /// Indicates whether the attribute that is being indexed has unique values or
   /// not.
@@ -7171,6 +7361,8 @@ class BatchCreateIndex {
 /// Attaches the specified object to the specified index inside a
 /// <a>BatchRead</a> operation. For more information, see <a>AttachToIndex</a>
 /// and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchAttachToIndex {
   /// A reference to the index that you are attaching the object to.
   final ObjectReference indexReference;
@@ -7196,6 +7388,8 @@ class BatchAttachToIndex {
 /// Detaches the specified object from the specified index inside a
 /// <a>BatchRead</a> operation. For more information, see <a>DetachFromIndex</a>
 /// and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchDetachFromIndex {
   /// A reference to the index object.
   final ObjectReference indexReference;
@@ -7221,6 +7415,8 @@ class BatchDetachFromIndex {
 /// Attaches a typed link to a specified source and target object inside a
 /// <a>BatchRead</a> operation. For more information, see <a>AttachTypedLink</a>
 /// and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchAttachTypedLink {
   /// A set of attributes that are associated with the typed link.
   final List<AttributeNameAndValue> attributes;
@@ -7258,6 +7454,8 @@ class BatchAttachTypedLink {
 /// Detaches a typed link from a specified source and target object inside a
 /// <a>BatchRead</a> operation. For more information, see <a>DetachTypedLink</a>
 /// and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchDetachTypedLink {
   /// Used to accept a typed link specifier as input.
   final TypedLinkSpecifier typedLinkSpecifier;
@@ -7278,6 +7476,8 @@ class BatchDetachTypedLink {
 /// Attributes to be updated must not contribute to the typed link’s identity,
 /// as defined by its <code>IdentityAttributeOrder</code>. For more information,
 /// see <a>UpdateLinkAttributes</a> and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchUpdateLinkAttributes {
   /// The attributes update structure.
   final List<LinkAttributeUpdate> attributeUpdates;
@@ -7301,6 +7501,8 @@ class BatchUpdateLinkAttributes {
 }
 
 /// Represents the output of a <code>BatchRead</code> response operation.
+///
+/// @nodoc
 class BatchReadOperationResponse {
   /// Identifies which operation in a batch has failed.
   final BatchReadException? exceptionResponse;
@@ -7338,6 +7540,8 @@ class BatchReadOperationResponse {
 
 /// Represents the output of a <code>BatchRead</code> success response
 /// operation.
+///
+/// @nodoc
 class BatchReadSuccessfulResponse {
   /// The list of attributes to retrieve from the typed link.
   final BatchGetLinkAttributesResponse? getLinkAttributes;
@@ -7524,6 +7728,8 @@ class BatchReadSuccessfulResponse {
 
 /// The batch read exception structure, which contains the exception type and
 /// message.
+///
+/// @nodoc
 class BatchReadException {
   /// An exception message that is associated with the failure.
   final String? message;
@@ -7553,6 +7759,7 @@ class BatchReadException {
   }
 }
 
+/// @nodoc
 class BatchReadExceptionType {
   static const validationException =
       BatchReadExceptionType._('ValidationException');
@@ -7616,6 +7823,8 @@ class BatchReadExceptionType {
 }
 
 /// Represents the output of a <a>ListObjectAttributes</a> response operation.
+///
+/// @nodoc
 class BatchListObjectAttributesResponse {
   /// The attributes map that is associated with the object.
   /// <code>AttributeArn</code> is the key; attribute value is the value.
@@ -7651,6 +7860,8 @@ class BatchListObjectAttributesResponse {
 }
 
 /// Represents the output of a <a>ListObjectChildren</a> response operation.
+///
+/// @nodoc
 class BatchListObjectChildrenResponse {
   /// The children structure, which is a map with the key as the
   /// <code>LinkName</code> and <code>ObjectIdentifier</code> as the value.
@@ -7683,6 +7894,8 @@ class BatchListObjectChildrenResponse {
 }
 
 /// Represents the output of a <a>GetObjectInformation</a> response operation.
+///
+/// @nodoc
 class BatchGetObjectInformationResponse {
   /// The <code>ObjectIdentifier</code> of the specified object.
   final String? objectIdentifier;
@@ -7717,6 +7930,8 @@ class BatchGetObjectInformationResponse {
 }
 
 /// Represents the output of a <a>GetObjectAttributes</a> response operation.
+///
+/// @nodoc
 class BatchGetObjectAttributesResponse {
   /// The attribute values that are associated with an object.
   final List<AttributeKeyAndValue>? attributes;
@@ -7743,6 +7958,8 @@ class BatchGetObjectAttributesResponse {
 }
 
 /// Represents the output of a <a>ListAttachedIndices</a> response operation.
+///
+/// @nodoc
 class BatchListAttachedIndicesResponse {
   /// The indices attached to the specified object.
   final List<IndexAttachment>? indexAttachments;
@@ -7776,6 +7993,8 @@ class BatchListAttachedIndicesResponse {
 }
 
 /// Represents the output of a <a>ListObjectParentPaths</a> response operation.
+///
+/// @nodoc
 class BatchListObjectParentPathsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -7814,6 +8033,8 @@ class BatchListObjectParentPathsResponse {
 }
 
 /// Represents the output of a <a>ListObjectPolicies</a> response operation.
+///
+/// @nodoc
 class BatchListObjectPoliciesResponse {
   /// A list of policy <code>ObjectIdentifiers</code>, that are attached to the
   /// object.
@@ -7848,6 +8069,8 @@ class BatchListObjectPoliciesResponse {
 }
 
 /// Represents the output of a <a>ListPolicyAttachments</a> response operation.
+///
+/// @nodoc
 class BatchListPolicyAttachmentsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -7882,6 +8105,8 @@ class BatchListPolicyAttachmentsResponse {
 }
 
 /// Represents the output of a <a>LookupPolicy</a> response operation.
+///
+/// @nodoc
 class BatchLookupPolicyResponse {
   /// The pagination token.
   final String? nextToken;
@@ -7918,6 +8143,8 @@ class BatchLookupPolicyResponse {
 }
 
 /// Represents the output of a <a>ListIndex</a> response operation.
+///
+/// @nodoc
 class BatchListIndexResponse {
   /// The objects and indexed values attached to the index.
   final List<IndexAttachment>? indexAttachments;
@@ -7951,6 +8178,8 @@ class BatchListIndexResponse {
 }
 
 /// Represents the output of a <a>ListOutgoingTypedLinks</a> response operation.
+///
+/// @nodoc
 class BatchListOutgoingTypedLinksResponse {
   /// The pagination token.
   final String? nextToken;
@@ -7986,6 +8215,8 @@ class BatchListOutgoingTypedLinksResponse {
 }
 
 /// Represents the output of a <a>ListIncomingTypedLinks</a> response operation.
+///
+/// @nodoc
 class BatchListIncomingTypedLinksResponse {
   /// Returns one or more typed link specifiers as output.
   final List<TypedLinkSpecifier>? linkSpecifiers;
@@ -8020,6 +8251,8 @@ class BatchListIncomingTypedLinksResponse {
 }
 
 /// Represents the output of a <a>GetLinkAttributes</a> response operation.
+///
+/// @nodoc
 class BatchGetLinkAttributesResponse {
   /// The attributes that are associated with the typed link.
   final List<AttributeKeyAndValue>? attributes;
@@ -8046,6 +8279,8 @@ class BatchGetLinkAttributesResponse {
 }
 
 /// Represents the output of a <a>ListObjectParents</a> response operation.
+///
+/// @nodoc
 class BatchListObjectParentsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -8080,6 +8315,8 @@ class BatchListObjectParentsResponse {
 }
 
 /// Represents the output of a <code>BatchRead</code> operation.
+///
+/// @nodoc
 class BatchReadOperation {
   /// Retrieves attributes that are associated with a typed link.
   final BatchGetLinkAttributes? getLinkAttributes;
@@ -8205,6 +8442,8 @@ class BatchReadOperation {
 }
 
 /// Represents the output of a <a>ListObjectAttributes</a> operation.
+///
+/// @nodoc
 class BatchListObjectAttributes {
   /// Reference of the object whose attributes need to be listed.
   final ObjectReference objectReference;
@@ -8242,6 +8481,8 @@ class BatchListObjectAttributes {
 }
 
 /// Represents the output of a <a>ListObjectChildren</a> operation.
+///
+/// @nodoc
 class BatchListObjectChildren {
   /// Reference of the object for which child objects are being listed.
   final ObjectReference objectReference;
@@ -8274,6 +8515,8 @@ class BatchListObjectChildren {
 /// Lists indices attached to an object inside a <a>BatchRead</a> operation. For
 /// more information, see <a>ListAttachedIndices</a> and
 /// <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchListAttachedIndices {
   /// A reference to the object that has indices attached.
   final ObjectReference targetReference;
@@ -8306,6 +8549,8 @@ class BatchListAttachedIndices {
 /// node, policy node, and index node objects inside a <a>BatchRead</a>
 /// operation. For more information, see <a>ListObjectParentPaths</a> and
 /// <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchListObjectParentPaths {
   /// The reference that identifies the object whose attributes will be listed.
   final ObjectReference objectReference;
@@ -8337,6 +8582,8 @@ class BatchListObjectParentPaths {
 /// Retrieves metadata about an object inside a <a>BatchRead</a> operation. For
 /// more information, see <a>GetObjectInformation</a> and
 /// <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchGetObjectInformation {
   /// A reference to the object.
   final ObjectReference objectReference;
@@ -8356,6 +8603,8 @@ class BatchGetObjectInformation {
 /// Retrieves attributes within a facet that are associated with an object
 /// inside an <a>BatchRead</a> operation. For more information, see
 /// <a>GetObjectAttributes</a> and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchGetObjectAttributes {
   /// List of attribute names whose values will be retrieved.
   final List<String> attributeNames;
@@ -8387,6 +8636,8 @@ class BatchGetObjectAttributes {
 
 /// Lists parent objects that are associated with a given object in pagination
 /// fashion.
+///
+/// @nodoc
 class BatchListObjectParents {
   final ObjectReference objectReference;
 
@@ -8418,6 +8669,8 @@ class BatchListObjectParents {
 /// Returns policies attached to an object in pagination fashion inside a
 /// <a>BatchRead</a> operation. For more information, see
 /// <a>ListObjectPolicies</a> and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchListObjectPolicies {
   /// The reference that identifies the object whose attributes will be listed.
   final ObjectReference objectReference;
@@ -8449,6 +8702,8 @@ class BatchListObjectPolicies {
 /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
 /// attached inside a <a>BatchRead</a> operation. For more information, see
 /// <a>ListPolicyAttachments</a> and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchListPolicyAttachments {
   /// The reference that identifies the policy object.
   final ObjectReference policyReference;
@@ -8480,6 +8735,8 @@ class BatchListPolicyAttachments {
 /// Lists all policies from the root of the Directory to the object specified
 /// inside a <a>BatchRead</a> operation. For more information, see
 /// <a>LookupPolicy</a> and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchLookupPolicy {
   /// Reference that identifies the object whose policies will be looked up.
   final ObjectReference objectReference;
@@ -8511,6 +8768,8 @@ class BatchLookupPolicy {
 /// Lists objects attached to the specified index inside a <a>BatchRead</a>
 /// operation. For more information, see <a>ListIndex</a> and
 /// <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchListIndex {
   /// The reference to the index to list.
   final ObjectReference indexReference;
@@ -8550,6 +8809,8 @@ class BatchListIndex {
 /// information for an object inside a <a>BatchRead</a> operation. For more
 /// information, see <a>ListOutgoingTypedLinks</a> and
 /// <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchListOutgoingTypedLinks {
   /// The reference that identifies the object whose attributes will be listed.
   final ObjectReference objectReference;
@@ -8599,6 +8860,8 @@ class BatchListOutgoingTypedLinks {
 /// information for an object inside a <a>BatchRead</a> operation. For more
 /// information, see <a>ListIncomingTypedLinks</a> and
 /// <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchListIncomingTypedLinks {
   /// The reference that identifies the object whose attributes will be listed.
   final ObjectReference objectReference;
@@ -8647,6 +8910,8 @@ class BatchListIncomingTypedLinks {
 /// Retrieves attributes that are associated with a typed link inside a
 /// <a>BatchRead</a> operation. For more information, see
 /// <a>GetLinkAttributes</a> and <a>BatchReadRequest$Operations</a>.
+///
+/// @nodoc
 class BatchGetLinkAttributes {
   /// A list of attribute names whose values will be retrieved.
   final List<String> attributeNames;
@@ -8669,16 +8934,19 @@ class BatchGetLinkAttributes {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BatchWriteException extends _s.GenericAwsException {
   BatchWriteException({String? type, String? message})
       : super(type: type, code: 'BatchWriteException', message: message);
 }
 
+/// @nodoc
 class CannotListParentOfRootException extends _s.GenericAwsException {
   CannotListParentOfRootException({String? type, String? message})
       : super(
@@ -8687,6 +8955,7 @@ class CannotListParentOfRootException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryAlreadyExistsException extends _s.GenericAwsException {
   DirectoryAlreadyExistsException({String? type, String? message})
       : super(
@@ -8695,11 +8964,13 @@ class DirectoryAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryDeletedException extends _s.GenericAwsException {
   DirectoryDeletedException({String? type, String? message})
       : super(type: type, code: 'DirectoryDeletedException', message: message);
 }
 
+/// @nodoc
 class DirectoryNotDisabledException extends _s.GenericAwsException {
   DirectoryNotDisabledException({String? type, String? message})
       : super(
@@ -8708,39 +8979,46 @@ class DirectoryNotDisabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DirectoryNotEnabledException extends _s.GenericAwsException {
   DirectoryNotEnabledException({String? type, String? message})
       : super(
             type: type, code: 'DirectoryNotEnabledException', message: message);
 }
 
+/// @nodoc
 class FacetAlreadyExistsException extends _s.GenericAwsException {
   FacetAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'FacetAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class FacetInUseException extends _s.GenericAwsException {
   FacetInUseException({String? type, String? message})
       : super(type: type, code: 'FacetInUseException', message: message);
 }
 
+/// @nodoc
 class FacetNotFoundException extends _s.GenericAwsException {
   FacetNotFoundException({String? type, String? message})
       : super(type: type, code: 'FacetNotFoundException', message: message);
 }
 
+/// @nodoc
 class FacetValidationException extends _s.GenericAwsException {
   FacetValidationException({String? type, String? message})
       : super(type: type, code: 'FacetValidationException', message: message);
 }
 
+/// @nodoc
 class IncompatibleSchemaException extends _s.GenericAwsException {
   IncompatibleSchemaException({String? type, String? message})
       : super(
             type: type, code: 'IncompatibleSchemaException', message: message);
 }
 
+/// @nodoc
 class IndexedAttributeMissingException extends _s.GenericAwsException {
   IndexedAttributeMissingException({String? type, String? message})
       : super(
@@ -8749,42 +9027,50 @@ class IndexedAttributeMissingException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidArnException extends _s.GenericAwsException {
   InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
+/// @nodoc
 class InvalidAttachmentException extends _s.GenericAwsException {
   InvalidAttachmentException({String? type, String? message})
       : super(type: type, code: 'InvalidAttachmentException', message: message);
 }
 
+/// @nodoc
 class InvalidFacetUpdateException extends _s.GenericAwsException {
   InvalidFacetUpdateException({String? type, String? message})
       : super(
             type: type, code: 'InvalidFacetUpdateException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidRuleException extends _s.GenericAwsException {
   InvalidRuleException({String? type, String? message})
       : super(type: type, code: 'InvalidRuleException', message: message);
 }
 
+/// @nodoc
 class InvalidSchemaDocException extends _s.GenericAwsException {
   InvalidSchemaDocException({String? type, String? message})
       : super(type: type, code: 'InvalidSchemaDocException', message: message);
 }
 
+/// @nodoc
 class InvalidTaggingRequestException extends _s.GenericAwsException {
   InvalidTaggingRequestException({String? type, String? message})
       : super(
@@ -8793,11 +9079,13 @@ class InvalidTaggingRequestException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class LinkNameAlreadyInUseException extends _s.GenericAwsException {
   LinkNameAlreadyInUseException({String? type, String? message})
       : super(
@@ -8806,21 +9094,25 @@ class LinkNameAlreadyInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NotIndexException extends _s.GenericAwsException {
   NotIndexException({String? type, String? message})
       : super(type: type, code: 'NotIndexException', message: message);
 }
 
+/// @nodoc
 class NotNodeException extends _s.GenericAwsException {
   NotNodeException({String? type, String? message})
       : super(type: type, code: 'NotNodeException', message: message);
 }
 
+/// @nodoc
 class NotPolicyException extends _s.GenericAwsException {
   NotPolicyException({String? type, String? message})
       : super(type: type, code: 'NotPolicyException', message: message);
 }
 
+/// @nodoc
 class ObjectAlreadyDetachedException extends _s.GenericAwsException {
   ObjectAlreadyDetachedException({String? type, String? message})
       : super(
@@ -8829,27 +9121,32 @@ class ObjectAlreadyDetachedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ObjectNotDetachedException extends _s.GenericAwsException {
   ObjectNotDetachedException({String? type, String? message})
       : super(type: type, code: 'ObjectNotDetachedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class RetryableConflictException extends _s.GenericAwsException {
   RetryableConflictException({String? type, String? message})
       : super(type: type, code: 'RetryableConflictException', message: message);
 }
 
+/// @nodoc
 class SchemaAlreadyExistsException extends _s.GenericAwsException {
   SchemaAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'SchemaAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class SchemaAlreadyPublishedException extends _s.GenericAwsException {
   SchemaAlreadyPublishedException({String? type, String? message})
       : super(
@@ -8858,12 +9155,14 @@ class SchemaAlreadyPublishedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StillContainsLinksException extends _s.GenericAwsException {
   StillContainsLinksException({String? type, String? message})
       : super(
             type: type, code: 'StillContainsLinksException', message: message);
 }
 
+/// @nodoc
 class UnsupportedIndexTypeException extends _s.GenericAwsException {
   UnsupportedIndexTypeException({String? type, String? message})
       : super(
@@ -8872,6 +9171,7 @@ class UnsupportedIndexTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

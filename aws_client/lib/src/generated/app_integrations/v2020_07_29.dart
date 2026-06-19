@@ -1067,6 +1067,7 @@ class AppIntegrations {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// The Amazon Resource Name (ARN) of the Application.
   final String? arn;
@@ -1096,6 +1097,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateDataIntegrationResponse {
   /// The Amazon Resource Name (ARN)
   final String? arn;
@@ -1207,6 +1209,7 @@ class CreateDataIntegrationResponse {
   }
 }
 
+/// @nodoc
 class CreateDataIntegrationAssociationResponse {
   /// The Amazon Resource Name (ARN) for the DataIntegration.
   final String? dataIntegrationArn;
@@ -1239,6 +1242,7 @@ class CreateDataIntegrationAssociationResponse {
   }
 }
 
+/// @nodoc
 class CreateEventIntegrationResponse {
   /// The Amazon Resource Name (ARN) of the event integration.
   final String? eventIntegrationArn;
@@ -1262,6 +1266,7 @@ class CreateEventIntegrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -1274,6 +1279,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataIntegrationResponse {
   DeleteDataIntegrationResponse();
 
@@ -1286,6 +1292,7 @@ class DeleteDataIntegrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteEventIntegrationResponse {
   DeleteEventIntegrationResponse();
 
@@ -1298,6 +1305,7 @@ class DeleteEventIntegrationResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// The configuration settings for the application.
   final ApplicationConfig? applicationConfig;
@@ -1456,6 +1464,7 @@ class GetApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetDataIntegrationResponse {
   /// The Amazon Resource Name (ARN) for the DataIntegration.
   final String? arn;
@@ -1556,6 +1565,7 @@ class GetDataIntegrationResponse {
   }
 }
 
+/// @nodoc
 class GetEventIntegrationResponse {
   /// The description of the event integration.
   final String? description;
@@ -1618,6 +1628,7 @@ class GetEventIntegrationResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationAssociationsResponse {
   /// List of Application Associations for the Application.
   final List<ApplicationAssociationSummary>? applicationAssociations;
@@ -1654,6 +1665,7 @@ class ListApplicationAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// The Applications associated with this account.
   final List<ApplicationSummary>? applications;
@@ -1687,6 +1699,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListDataIntegrationAssociationsResponse {
   /// The Amazon Resource Name (ARN) and unique ID of the DataIntegration
   /// association.
@@ -1725,6 +1738,7 @@ class ListDataIntegrationAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListDataIntegrationsResponse {
   /// The DataIntegrations associated with this account.
   final List<DataIntegrationSummary>? dataIntegrations;
@@ -1759,6 +1773,7 @@ class ListDataIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class ListEventIntegrationAssociationsResponse {
   /// The event integration associations.
   final List<EventIntegrationAssociation>? eventIntegrationAssociations;
@@ -1796,6 +1811,7 @@ class ListEventIntegrationAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListEventIntegrationsResponse {
   /// The event integrations.
   final List<EventIntegration>? eventIntegrations;
@@ -1829,6 +1845,7 @@ class ListEventIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Information about the tags.
   final Map<String, String>? tags;
@@ -1852,6 +1869,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1864,6 +1882,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1876,6 +1895,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   UpdateApplicationResponse();
 
@@ -1888,6 +1908,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataIntegrationResponse {
   UpdateDataIntegrationResponse();
 
@@ -1900,6 +1921,7 @@ class UpdateDataIntegrationResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataIntegrationAssociationResponse {
   UpdateDataIntegrationAssociationResponse();
 
@@ -1913,6 +1935,7 @@ class UpdateDataIntegrationAssociationResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventIntegrationResponse {
   UpdateEventIntegrationResponse();
 
@@ -1926,6 +1949,8 @@ class UpdateEventIntegrationResponse {
 }
 
 /// The configuration for how the files should be pulled from the source.
+///
+/// @nodoc
 class ExecutionConfiguration {
   /// The mode for data import/export execution.
   final ExecutionMode executionMode;
@@ -1967,6 +1992,7 @@ class ExecutionConfiguration {
   }
 }
 
+/// @nodoc
 class ExecutionMode {
   static const onDemand = ExecutionMode._('ON_DEMAND');
   static const scheduled = ExecutionMode._('SCHEDULED');
@@ -1992,6 +2018,8 @@ class ExecutionMode {
 }
 
 /// The start and end time for data pull from the source.
+///
+/// @nodoc
 class OnDemandConfiguration {
   /// The start time for data pull from the source as an Unix/epoch string in
   /// milliseconds
@@ -2024,6 +2052,8 @@ class OnDemandConfiguration {
 }
 
 /// The name of the data and how often it should be pulled from the source.
+///
+/// @nodoc
 class ScheduleConfiguration {
   /// How often the data should be pulled from data source.
   final String scheduleExpression;
@@ -2062,6 +2092,8 @@ class ScheduleConfiguration {
 }
 
 /// The configuration for where the application should be loaded from.
+///
+/// @nodoc
 class ApplicationSourceConfig {
   /// The external URL source for the application.
   final ExternalUrlConfig? externalUrlConfig;
@@ -2088,6 +2120,8 @@ class ApplicationSourceConfig {
 }
 
 /// The configuration settings for the application.
+///
+/// @nodoc
 class ApplicationConfig {
   /// The contact handling configuration for the application.
   final ContactHandling? contactHandling;
@@ -2114,6 +2148,8 @@ class ApplicationConfig {
 }
 
 /// The iframe configuration for the application.
+///
+/// @nodoc
 class IframeConfig {
   /// The list of features that are allowed in the iframe.
   final List<String>? allow;
@@ -2146,6 +2182,8 @@ class IframeConfig {
 }
 
 /// <value>The type of application</value>
+///
+/// @nodoc
 class ApplicationType {
   static const standard = ApplicationType._('STANDARD');
   static const service = ApplicationType._('SERVICE');
@@ -2172,6 +2210,8 @@ class ApplicationType {
 }
 
 /// The contact handling configuration for the application.
+///
+/// @nodoc
 class ContactHandling {
   /// Indicates whether the application refreshes for each contact or refreshes
   /// only with each new browser session.
@@ -2195,6 +2235,7 @@ class ContactHandling {
   }
 }
 
+/// @nodoc
 class ContactHandlingScope {
   static const crossContacts = ContactHandlingScope._('CROSS_CONTACTS');
   static const perContact = ContactHandlingScope._('PER_CONTACT');
@@ -2221,6 +2262,8 @@ class ContactHandlingScope {
 }
 
 /// The configuration of an event that the application publishes.
+///
+/// @nodoc
 class Publication {
   /// The name of the publication.
   final String event;
@@ -2258,6 +2301,8 @@ class Publication {
 }
 
 /// The configuration of an event that the application subscribes.
+///
+/// @nodoc
 class Subscription {
   /// The name of the subscription.
   final String event;
@@ -2288,6 +2333,8 @@ class Subscription {
 }
 
 /// The external URL source for the application.
+///
+/// @nodoc
 class ExternalUrlConfig {
   /// The URL to access the application.
   final String accessUrl;
@@ -2321,6 +2368,8 @@ class ExternalUrlConfig {
 }
 
 /// The event integration.
+///
+/// @nodoc
 class EventIntegration {
   /// The event integration description.
   final String? description;
@@ -2384,6 +2433,8 @@ class EventIntegration {
 }
 
 /// The event filter.
+///
+/// @nodoc
 class EventFilter {
   /// The source of the events.
   final String source;
@@ -2407,6 +2458,8 @@ class EventFilter {
 }
 
 /// The event integration association.
+///
+/// @nodoc
 class EventIntegrationAssociation {
   /// The metadata associated with the client.
   final Map<String, String>? clientAssociationMetadata;
@@ -2474,6 +2527,8 @@ class EventIntegrationAssociation {
 }
 
 /// Summary information about the DataIntegration.
+///
+/// @nodoc
 class DataIntegrationSummary {
   /// The Amazon Resource Name (ARN) of the DataIntegration.
   final String? arn;
@@ -2511,6 +2566,8 @@ class DataIntegrationSummary {
 }
 
 /// Summary information about the DataIntegration association.
+///
+/// @nodoc
 class DataIntegrationAssociationSummary {
   /// The identifier for the client that is associated with the DataIntegration
   /// association.
@@ -2579,6 +2636,8 @@ class DataIntegrationAssociationSummary {
 }
 
 /// The execution status of the last job.
+///
+/// @nodoc
 class LastExecutionStatus {
   /// The job status enum string.
   final ExecutionStatus? executionStatus;
@@ -2609,6 +2668,7 @@ class LastExecutionStatus {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const completed = ExecutionStatus._('COMPLETED');
   static const inProgress = ExecutionStatus._('IN_PROGRESS');
@@ -2635,6 +2695,8 @@ class ExecutionStatus {
 }
 
 /// Summary information about the Application.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The type of application.
   final ApplicationType? applicationType;
@@ -2709,6 +2771,8 @@ class ApplicationSummary {
 }
 
 /// Summary information about the Application Association.
+///
+/// @nodoc
 class ApplicationAssociationSummary {
   /// The Amazon Resource Name (ARN) of the Application.
   final String? applicationArn;
@@ -2748,6 +2812,8 @@ class ApplicationAssociationSummary {
 }
 
 /// The configuration for what files should be pulled from the source.
+///
+/// @nodoc
 class FileConfiguration {
   /// Identifiers for the source folders to pull all files from recursively.
   final List<String> folders;
@@ -2781,31 +2847,37 @@ class FileConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class DuplicateResourceException extends _s.GenericAwsException {
   DuplicateResourceException({String? type, String? message})
       : super(type: type, code: 'DuplicateResourceException', message: message);
 }
 
+/// @nodoc
 class InternalServiceError extends _s.GenericAwsException {
   InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceQuotaExceededException extends _s.GenericAwsException {
   ResourceQuotaExceededException({String? type, String? message})
       : super(
@@ -2814,11 +2886,13 @@ class ResourceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

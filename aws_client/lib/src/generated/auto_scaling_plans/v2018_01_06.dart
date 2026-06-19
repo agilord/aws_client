@@ -409,6 +409,7 @@ class AutoScalingPlans {
   }
 }
 
+/// @nodoc
 class CreateScalingPlanResponse {
   /// The version number of the scaling plan. This value is always <code>1</code>.
   /// Currently, you cannot have multiple scaling plan versions.
@@ -432,6 +433,7 @@ class CreateScalingPlanResponse {
   }
 }
 
+/// @nodoc
 class DeleteScalingPlanResponse {
   DeleteScalingPlanResponse();
 
@@ -444,6 +446,7 @@ class DeleteScalingPlanResponse {
   }
 }
 
+/// @nodoc
 class DescribeScalingPlanResourcesResponse {
   /// The token required to get the next set of results. This value is
   /// <code>null</code> if there are no more results to return.
@@ -479,6 +482,7 @@ class DescribeScalingPlanResourcesResponse {
   }
 }
 
+/// @nodoc
 class DescribeScalingPlansResponse {
   /// The token required to get the next set of results. This value is
   /// <code>null</code> if there are no more results to return.
@@ -512,6 +516,7 @@ class DescribeScalingPlansResponse {
   }
 }
 
+/// @nodoc
 class GetScalingPlanResourceForecastDataResponse {
   /// The data points to return.
   final List<Datapoint> datapoints;
@@ -538,6 +543,7 @@ class GetScalingPlanResourceForecastDataResponse {
   }
 }
 
+/// @nodoc
 class UpdateScalingPlanResponse {
   UpdateScalingPlanResponse();
 
@@ -551,6 +557,8 @@ class UpdateScalingPlanResponse {
 }
 
 /// Represents an application source.
+///
+/// @nodoc
 class ApplicationSource {
   /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
   final String? cloudFormationStackARN;
@@ -608,6 +616,8 @@ class ApplicationSource {
 /// Practices for AWS Auto Scaling</a> in the <i>AWS Auto Scaling User
 /// Guide</i>.
 /// </important>
+///
+/// @nodoc
 class ScalingInstruction {
   /// The maximum capacity of the resource. The exception to this upper limit is
   /// if you specify a non-default setting for
@@ -901,6 +911,7 @@ class ScalingInstruction {
   }
 }
 
+/// @nodoc
 class ServiceNamespace {
   static const autoscaling = ServiceNamespace._('autoscaling');
   static const ecs = ServiceNamespace._('ecs');
@@ -928,6 +939,7 @@ class ServiceNamespace {
   String toString() => value;
 }
 
+/// @nodoc
 class ScalableDimension {
   static const autoscalingAutoScalingGroupDesiredCapacity =
       ScalableDimension._('autoscaling:autoScalingGroup:DesiredCapacity');
@@ -983,6 +995,8 @@ class ScalableDimension {
 /// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource">View
 /// Scaling Information for a Resource</a> in the <i>AWS Auto Scaling User
 /// Guide</i>.
+///
+/// @nodoc
 class PredefinedLoadMetricSpecification {
   /// The metric type.
   final LoadMetricType predefinedLoadMetricType;
@@ -1078,6 +1092,8 @@ class PredefinedLoadMetricSpecification {
 /// href="https://docs.aws.amazon.com/autoscaling/plans/userguide/gs-create-scaling-plan.html#gs-view-resource">View
 /// Scaling Information for a Resource</a> in the <i>AWS Auto Scaling User
 /// Guide</i>.
+///
+/// @nodoc
 class CustomizedLoadMetricSpecification {
   /// The name of the metric.
   final String metricName;
@@ -1136,6 +1152,7 @@ class CustomizedLoadMetricSpecification {
   }
 }
 
+/// @nodoc
 class PredictiveScalingMaxCapacityBehavior {
   static const setForecastCapacityToMaxCapacity =
       PredictiveScalingMaxCapacityBehavior._(
@@ -1172,6 +1189,7 @@ class PredictiveScalingMaxCapacityBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class PredictiveScalingMode {
   static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
   static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
@@ -1197,6 +1215,7 @@ class PredictiveScalingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ScalingPolicyUpdateBehavior {
   static const keepExternalPolicies =
       ScalingPolicyUpdateBehavior._('KeepExternalPolicies');
@@ -1224,6 +1243,7 @@ class ScalingPolicyUpdateBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricStatistic {
   static const average = MetricStatistic._('Average');
   static const minimum = MetricStatistic._('Minimum');
@@ -1252,6 +1272,8 @@ class MetricStatistic {
 }
 
 /// Represents a dimension for a customized metric.
+///
+/// @nodoc
 class MetricDimension {
   /// The name of the dimension.
   final String name;
@@ -1281,6 +1303,7 @@ class MetricDimension {
   }
 }
 
+/// @nodoc
 class LoadMetricType {
   static const aSGTotalCPUUtilization =
       LoadMetricType._('ASGTotalCPUUtilization');
@@ -1316,6 +1339,8 @@ class LoadMetricType {
 
 /// Describes a target tracking configuration to use with AWS Auto Scaling. Used
 /// with <a>ScalingInstruction</a> and <a>ScalingPolicy</a>.
+///
+/// @nodoc
 class TargetTrackingConfiguration {
   /// The target value for the metric. Although this property accepts numbers of
   /// type Double, it won't accept values that are either too small or too large.
@@ -1430,6 +1455,8 @@ class TargetTrackingConfiguration {
 
 /// Represents a predefined metric that can be used for dynamic scaling as part
 /// of a target tracking scaling policy.
+///
+/// @nodoc
 class PredefinedScalingMetricSpecification {
   /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
   /// applies only to Auto Scaling groups, Spot Fleet requests, and ECS services.
@@ -1516,6 +1543,8 @@ class PredefinedScalingMetricSpecification {
 /// metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch Concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// @nodoc
 class CustomizedScalingMetricSpecification {
   /// The name of the metric.
   final String metricName;
@@ -1574,6 +1603,7 @@ class CustomizedScalingMetricSpecification {
   }
 }
 
+/// @nodoc
 class ScalingMetricType {
   static const aSGAverageCPUUtilization =
       ScalingMetricType._('ASGAverageCPUUtilization');
@@ -1636,6 +1666,8 @@ class ScalingMetricType {
 }
 
 /// Represents a tag.
+///
+/// @nodoc
 class TagFilter {
   /// The tag key.
   final String? key;
@@ -1667,6 +1699,8 @@ class TagFilter {
 }
 
 /// Represents a single value in the forecast data used for predictive scaling.
+///
+/// @nodoc
 class Datapoint {
   /// The time stamp for the data point in UTC format.
   final DateTime? timestamp;
@@ -1696,6 +1730,7 @@ class Datapoint {
   }
 }
 
+/// @nodoc
 class ForecastDataType {
   static const capacityForecast = ForecastDataType._('CapacityForecast');
   static const loadForecast = ForecastDataType._('LoadForecast');
@@ -1730,6 +1765,8 @@ class ForecastDataType {
 }
 
 /// Represents a scaling plan.
+///
+/// @nodoc
 class ScalingPlan {
   /// A CloudFormation stack or a set of tags. You can create one scaling plan per
   /// application source.
@@ -1838,6 +1875,7 @@ class ScalingPlan {
   }
 }
 
+/// @nodoc
 class ScalingPlanStatusCode {
   static const active = ScalingPlanStatusCode._('Active');
   static const activeWithProblems =
@@ -1882,6 +1920,8 @@ class ScalingPlanStatusCode {
 }
 
 /// Represents a scalable resource.
+///
+/// @nodoc
 class ScalingPlanResource {
   /// The ID of the resource. This string consists of the resource type and unique
   /// identifier.
@@ -2045,6 +2085,7 @@ class ScalingPlanResource {
   }
 }
 
+/// @nodoc
 class ScalingStatusCode {
   static const inactive = ScalingStatusCode._('Inactive');
   static const partiallyActive = ScalingStatusCode._('PartiallyActive');
@@ -2071,6 +2112,8 @@ class ScalingStatusCode {
 }
 
 /// Represents a scaling policy.
+///
+/// @nodoc
 class ScalingPolicy {
   /// The name of the scaling policy.
   final String policyName;
@@ -2112,6 +2155,7 @@ class ScalingPolicy {
   }
 }
 
+/// @nodoc
 class PolicyType {
   static const targetTrackingScaling = PolicyType._('TargetTrackingScaling');
 
@@ -2134,31 +2178,37 @@ class PolicyType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConcurrentUpdateException extends _s.GenericAwsException {
   ConcurrentUpdateException({String? type, String? message})
       : super(type: type, code: 'ConcurrentUpdateException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ObjectNotFoundException extends _s.GenericAwsException {
   ObjectNotFoundException({String? type, String? message})
       : super(type: type, code: 'ObjectNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

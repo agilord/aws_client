@@ -1562,7 +1562,7 @@ class AppStream {
   /// Parameter [appstreamAgentVersion] :
   /// The version of the WorkSpaces Applications agent to use for this image
   /// builder. To use the latest version of the WorkSpaces Applications agent,
-  /// specify [LATEST].
+  /// specify \[LATEST\].
   ///
   /// Parameter [description] :
   /// The description to display.
@@ -4336,7 +4336,7 @@ class AppStream {
   /// Parameter [appstreamAgentVersion] :
   /// The version of the WorkSpaces Applications agent to use for this image
   /// builder. To use the latest version of the WorkSpaces Applications agent,
-  /// specify [LATEST].
+  /// specify \[LATEST\].
   Future<StartImageBuilderResult> startImageBuilder({
     required String name,
     String? appstreamAgentVersion,
@@ -5560,6 +5560,7 @@ class AppStream {
   }
 }
 
+/// @nodoc
 class AssociateAppBlockBuilderAppBlockResult {
   /// The list of app block builders associated with app blocks.
   final AppBlockBuilderAppBlockAssociation? appBlockBuilderAppBlockAssociation;
@@ -5591,6 +5592,7 @@ class AssociateAppBlockBuilderAppBlockResult {
   }
 }
 
+/// @nodoc
 class AssociateApplicationFleetResult {
   /// If fleet name is specified, this returns the list of applications that are
   /// associated to it. If application ARN is specified, this returns the list of
@@ -5619,6 +5621,7 @@ class AssociateApplicationFleetResult {
   }
 }
 
+/// @nodoc
 class AssociateApplicationToEntitlementResult {
   AssociateApplicationToEntitlementResult();
 
@@ -5632,6 +5635,7 @@ class AssociateApplicationToEntitlementResult {
   }
 }
 
+/// @nodoc
 class AssociateFleetResult {
   AssociateFleetResult();
 
@@ -5644,6 +5648,7 @@ class AssociateFleetResult {
   }
 }
 
+/// @nodoc
 class AssociateSoftwareToImageBuilderResult {
   AssociateSoftwareToImageBuilderResult();
 
@@ -5657,6 +5662,7 @@ class AssociateSoftwareToImageBuilderResult {
   }
 }
 
+/// @nodoc
 class BatchAssociateUserStackResult {
   /// The list of UserStackAssociationError objects.
   final List<UserStackAssociationError>? errors;
@@ -5683,6 +5689,7 @@ class BatchAssociateUserStackResult {
   }
 }
 
+/// @nodoc
 class BatchDisassociateUserStackResult {
   /// The list of UserStackAssociationError objects.
   final List<UserStackAssociationError>? errors;
@@ -5709,6 +5716,7 @@ class BatchDisassociateUserStackResult {
   }
 }
 
+/// @nodoc
 class CopyImageResponse {
   /// The name of the destination image.
   final String? destinationImageName;
@@ -5732,6 +5740,7 @@ class CopyImageResponse {
   }
 }
 
+/// @nodoc
 class CreateAppBlockResult {
   /// The app block.
   final AppBlock? appBlock;
@@ -5756,6 +5765,7 @@ class CreateAppBlockResult {
   }
 }
 
+/// @nodoc
 class CreateAppBlockBuilderResult {
   final AppBlockBuilder? appBlockBuilder;
 
@@ -5780,6 +5790,7 @@ class CreateAppBlockBuilderResult {
   }
 }
 
+/// @nodoc
 class CreateAppBlockBuilderStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
   final DateTime? expires;
@@ -5810,6 +5821,7 @@ class CreateAppBlockBuilderStreamingURLResult {
   }
 }
 
+/// @nodoc
 class CreateApplicationResult {
   final Application? application;
 
@@ -5833,6 +5845,7 @@ class CreateApplicationResult {
   }
 }
 
+/// @nodoc
 class CreateDirectoryConfigResult {
   /// Information about the directory configuration.
   final DirectoryConfig? directoryConfig;
@@ -5858,6 +5871,7 @@ class CreateDirectoryConfigResult {
   }
 }
 
+/// @nodoc
 class CreateEntitlementResult {
   /// The entitlement.
   final Entitlement? entitlement;
@@ -5882,6 +5896,7 @@ class CreateEntitlementResult {
   }
 }
 
+/// @nodoc
 class CreateExportImageTaskResult {
   /// Information about the export image task that was created, including the task
   /// ID and initial state.
@@ -5908,6 +5923,7 @@ class CreateExportImageTaskResult {
   }
 }
 
+/// @nodoc
 class CreateFleetResult {
   /// Information about the fleet.
   final Fleet? fleet;
@@ -5932,6 +5948,7 @@ class CreateFleetResult {
   }
 }
 
+/// @nodoc
 class CreateImageBuilderResult {
   /// Information about the image builder.
   final ImageBuilder? imageBuilder;
@@ -5956,6 +5973,7 @@ class CreateImageBuilderResult {
   }
 }
 
+/// @nodoc
 class CreateImageBuilderStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
   final DateTime? expires;
@@ -5986,6 +6004,7 @@ class CreateImageBuilderStreamingURLResult {
   }
 }
 
+/// @nodoc
 class CreateImportedImageResult {
   final Image? image;
 
@@ -6009,6 +6028,7 @@ class CreateImportedImageResult {
   }
 }
 
+/// @nodoc
 class CreateStackResult {
   /// Information about the stack.
   final Stack? stack;
@@ -6033,6 +6053,7 @@ class CreateStackResult {
   }
 }
 
+/// @nodoc
 class CreateStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
   final DateTime? expires;
@@ -6062,6 +6083,7 @@ class CreateStreamingURLResult {
   }
 }
 
+/// @nodoc
 class CreateThemeForStackResult {
   /// The theme object that contains the metadata of the custom branding.
   final Theme? theme;
@@ -6086,6 +6108,7 @@ class CreateThemeForStackResult {
   }
 }
 
+/// @nodoc
 class CreateUpdatedImageResult {
   /// Indicates whether a new image can be created.
   final bool? canUpdateImage;
@@ -6115,6 +6138,7 @@ class CreateUpdatedImageResult {
   }
 }
 
+/// @nodoc
 class CreateUsageReportSubscriptionResult {
   /// The Amazon S3 bucket where generated reports are stored.
   ///
@@ -6154,6 +6178,7 @@ class CreateUsageReportSubscriptionResult {
   }
 }
 
+/// @nodoc
 class CreateUserResult {
   CreateUserResult();
 
@@ -6166,6 +6191,7 @@ class CreateUserResult {
   }
 }
 
+/// @nodoc
 class DeleteAppBlockResult {
   DeleteAppBlockResult();
 
@@ -6178,6 +6204,7 @@ class DeleteAppBlockResult {
   }
 }
 
+/// @nodoc
 class DeleteAppBlockBuilderResult {
   DeleteAppBlockBuilderResult();
 
@@ -6190,6 +6217,7 @@ class DeleteAppBlockBuilderResult {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResult {
   DeleteApplicationResult();
 
@@ -6202,6 +6230,7 @@ class DeleteApplicationResult {
   }
 }
 
+/// @nodoc
 class DeleteDirectoryConfigResult {
   DeleteDirectoryConfigResult();
 
@@ -6214,6 +6243,7 @@ class DeleteDirectoryConfigResult {
   }
 }
 
+/// @nodoc
 class DeleteEntitlementResult {
   DeleteEntitlementResult();
 
@@ -6226,6 +6256,7 @@ class DeleteEntitlementResult {
   }
 }
 
+/// @nodoc
 class DeleteFleetResult {
   DeleteFleetResult();
 
@@ -6238,6 +6269,7 @@ class DeleteFleetResult {
   }
 }
 
+/// @nodoc
 class DeleteImageResult {
   /// Information about the image.
   final Image? image;
@@ -6262,6 +6294,7 @@ class DeleteImageResult {
   }
 }
 
+/// @nodoc
 class DeleteImageBuilderResult {
   /// Information about the image builder.
   final ImageBuilder? imageBuilder;
@@ -6286,6 +6319,7 @@ class DeleteImageBuilderResult {
   }
 }
 
+/// @nodoc
 class DeleteImagePermissionsResult {
   DeleteImagePermissionsResult();
 
@@ -6298,6 +6332,7 @@ class DeleteImagePermissionsResult {
   }
 }
 
+/// @nodoc
 class DeleteStackResult {
   DeleteStackResult();
 
@@ -6310,6 +6345,7 @@ class DeleteStackResult {
   }
 }
 
+/// @nodoc
 class DeleteThemeForStackResult {
   DeleteThemeForStackResult();
 
@@ -6322,6 +6358,7 @@ class DeleteThemeForStackResult {
   }
 }
 
+/// @nodoc
 class DeleteUsageReportSubscriptionResult {
   DeleteUsageReportSubscriptionResult();
 
@@ -6334,6 +6371,7 @@ class DeleteUsageReportSubscriptionResult {
   }
 }
 
+/// @nodoc
 class DeleteUserResult {
   DeleteUserResult();
 
@@ -6346,6 +6384,7 @@ class DeleteUserResult {
   }
 }
 
+/// @nodoc
 class DescribeAppBlockBuilderAppBlockAssociationsResult {
   /// This list of app block builders associated with app blocks.
   final List<AppBlockBuilderAppBlockAssociation>?
@@ -6386,6 +6425,7 @@ class DescribeAppBlockBuilderAppBlockAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeAppBlockBuildersResult {
   /// The list that describes one or more app block builders.
   final List<AppBlockBuilder>? appBlockBuilders;
@@ -6419,6 +6459,7 @@ class DescribeAppBlockBuildersResult {
   }
 }
 
+/// @nodoc
 class DescribeAppBlocksResult {
   /// The app blocks in the list.
   final List<AppBlock>? appBlocks;
@@ -6452,6 +6493,7 @@ class DescribeAppBlocksResult {
   }
 }
 
+/// @nodoc
 class DescribeApplicationFleetAssociationsResult {
   /// The application fleet associations in the list.
   final List<ApplicationFleetAssociation>? applicationFleetAssociations;
@@ -6489,6 +6531,7 @@ class DescribeApplicationFleetAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeApplicationsResult {
   /// The applications in the list.
   final List<Application>? applications;
@@ -6522,6 +6565,7 @@ class DescribeApplicationsResult {
   }
 }
 
+/// @nodoc
 class DescribeAppLicenseUsageResult {
   /// Collection of license usage records.
   final List<AdminAppLicenseUsageRecord>? appLicenseUsages;
@@ -6555,6 +6599,7 @@ class DescribeAppLicenseUsageResult {
   }
 }
 
+/// @nodoc
 class DescribeDirectoryConfigsResult {
   /// Information about the directory configurations. Note that although the
   /// response syntax in this topic includes the account password, this password
@@ -6590,6 +6635,7 @@ class DescribeDirectoryConfigsResult {
   }
 }
 
+/// @nodoc
 class DescribeEntitlementsResult {
   /// The entitlements.
   final List<Entitlement>? entitlements;
@@ -6623,6 +6669,7 @@ class DescribeEntitlementsResult {
   }
 }
 
+/// @nodoc
 class DescribeFleetsResult {
   /// Information about the fleets.
   final List<Fleet>? fleets;
@@ -6656,6 +6703,7 @@ class DescribeFleetsResult {
   }
 }
 
+/// @nodoc
 class DescribeImageBuildersResult {
   /// Information about the image builders.
   final List<ImageBuilder>? imageBuilders;
@@ -6689,6 +6737,7 @@ class DescribeImageBuildersResult {
   }
 }
 
+/// @nodoc
 class DescribeImagePermissionsResult {
   /// The name of the private image.
   final String? name;
@@ -6731,6 +6780,7 @@ class DescribeImagePermissionsResult {
   }
 }
 
+/// @nodoc
 class DescribeImagesResult {
   /// Information about the images.
   final List<Image>? images;
@@ -6764,6 +6814,7 @@ class DescribeImagesResult {
   }
 }
 
+/// @nodoc
 class DescribeSessionsResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -6797,6 +6848,7 @@ class DescribeSessionsResult {
   }
 }
 
+/// @nodoc
 class DescribeSoftwareAssociationsResult {
   /// The ARN of the resource to describe software associations.
   final String? associatedResource;
@@ -6854,6 +6906,7 @@ class DescribeSoftwareAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeStacksResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -6887,6 +6940,7 @@ class DescribeStacksResult {
   }
 }
 
+/// @nodoc
 class DescribeThemeForStackResult {
   /// The theme object that contains the metadata of the custom branding.
   final Theme? theme;
@@ -6911,6 +6965,7 @@ class DescribeThemeForStackResult {
   }
 }
 
+/// @nodoc
 class DescribeUsageReportSubscriptionsResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -6947,6 +7002,7 @@ class DescribeUsageReportSubscriptionsResult {
   }
 }
 
+/// @nodoc
 class DescribeUsersResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -6980,6 +7036,7 @@ class DescribeUsersResult {
   }
 }
 
+/// @nodoc
 class DescribeUserStackAssociationsResult {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -7015,6 +7072,7 @@ class DescribeUserStackAssociationsResult {
   }
 }
 
+/// @nodoc
 class DisableUserResult {
   DisableUserResult();
 
@@ -7027,6 +7085,7 @@ class DisableUserResult {
   }
 }
 
+/// @nodoc
 class DisassociateAppBlockBuilderAppBlockResult {
   DisassociateAppBlockBuilderAppBlockResult();
 
@@ -7040,6 +7099,7 @@ class DisassociateAppBlockBuilderAppBlockResult {
   }
 }
 
+/// @nodoc
 class DisassociateApplicationFleetResult {
   DisassociateApplicationFleetResult();
 
@@ -7052,6 +7112,7 @@ class DisassociateApplicationFleetResult {
   }
 }
 
+/// @nodoc
 class DisassociateApplicationFromEntitlementResult {
   DisassociateApplicationFromEntitlementResult();
 
@@ -7065,6 +7126,7 @@ class DisassociateApplicationFromEntitlementResult {
   }
 }
 
+/// @nodoc
 class DisassociateFleetResult {
   DisassociateFleetResult();
 
@@ -7077,6 +7139,7 @@ class DisassociateFleetResult {
   }
 }
 
+/// @nodoc
 class DisassociateSoftwareFromImageBuilderResult {
   DisassociateSoftwareFromImageBuilderResult();
 
@@ -7090,6 +7153,7 @@ class DisassociateSoftwareFromImageBuilderResult {
   }
 }
 
+/// @nodoc
 class DrainSessionInstanceResult {
   DrainSessionInstanceResult();
 
@@ -7102,6 +7166,7 @@ class DrainSessionInstanceResult {
   }
 }
 
+/// @nodoc
 class EnableUserResult {
   EnableUserResult();
 
@@ -7114,6 +7179,7 @@ class EnableUserResult {
   }
 }
 
+/// @nodoc
 class ExpireSessionResult {
   ExpireSessionResult();
 
@@ -7126,6 +7192,7 @@ class ExpireSessionResult {
   }
 }
 
+/// @nodoc
 class GetExportImageTaskResult {
   /// Information about the export image task, including its current state,
   /// created date, and any error details.
@@ -7152,6 +7219,7 @@ class GetExportImageTaskResult {
   }
 }
 
+/// @nodoc
 class ListAssociatedFleetsResult {
   /// The name of the fleet.
   final List<String>? names;
@@ -7183,6 +7251,7 @@ class ListAssociatedFleetsResult {
   }
 }
 
+/// @nodoc
 class ListAssociatedStacksResult {
   /// The name of the stack.
   final List<String>? names;
@@ -7214,6 +7283,7 @@ class ListAssociatedStacksResult {
   }
 }
 
+/// @nodoc
 class ListEntitledApplicationsResult {
   /// The entitled applications.
   final List<EntitledApplication>? entitledApplications;
@@ -7248,6 +7318,7 @@ class ListEntitledApplicationsResult {
   }
 }
 
+/// @nodoc
 class ListExportImageTasksResult {
   /// The list of export image tasks that match the specified criteria.
   final List<ExportImageTask>? exportImageTasks;
@@ -7281,6 +7352,7 @@ class ListExportImageTasksResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The information about the tags.
   final Map<String, String>? tags;
@@ -7304,6 +7376,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartAppBlockBuilderResult {
   final AppBlockBuilder? appBlockBuilder;
 
@@ -7328,6 +7401,7 @@ class StartAppBlockBuilderResult {
   }
 }
 
+/// @nodoc
 class StartFleetResult {
   StartFleetResult();
 
@@ -7340,6 +7414,7 @@ class StartFleetResult {
   }
 }
 
+/// @nodoc
 class StartImageBuilderResult {
   /// Information about the image builder.
   final ImageBuilder? imageBuilder;
@@ -7364,6 +7439,7 @@ class StartImageBuilderResult {
   }
 }
 
+/// @nodoc
 class StartSoftwareDeploymentToImageBuilderResult {
   StartSoftwareDeploymentToImageBuilderResult();
 
@@ -7377,6 +7453,7 @@ class StartSoftwareDeploymentToImageBuilderResult {
   }
 }
 
+/// @nodoc
 class StopAppBlockBuilderResult {
   final AppBlockBuilder? appBlockBuilder;
 
@@ -7401,6 +7478,7 @@ class StopAppBlockBuilderResult {
   }
 }
 
+/// @nodoc
 class StopFleetResult {
   StopFleetResult();
 
@@ -7413,6 +7491,7 @@ class StopFleetResult {
   }
 }
 
+/// @nodoc
 class StopImageBuilderResult {
   /// Information about the image builder.
   final ImageBuilder? imageBuilder;
@@ -7437,6 +7516,7 @@ class StopImageBuilderResult {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -7449,6 +7529,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -7461,6 +7542,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppBlockBuilderResult {
   final AppBlockBuilder? appBlockBuilder;
 
@@ -7485,6 +7567,7 @@ class UpdateAppBlockBuilderResult {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResult {
   final Application? application;
 
@@ -7508,6 +7591,7 @@ class UpdateApplicationResult {
   }
 }
 
+/// @nodoc
 class UpdateDirectoryConfigResult {
   /// Information about the Directory Config object.
   final DirectoryConfig? directoryConfig;
@@ -7533,6 +7617,7 @@ class UpdateDirectoryConfigResult {
   }
 }
 
+/// @nodoc
 class UpdateEntitlementResult {
   /// The entitlement.
   final Entitlement? entitlement;
@@ -7557,6 +7642,7 @@ class UpdateEntitlementResult {
   }
 }
 
+/// @nodoc
 class UpdateFleetResult {
   /// Information about the fleet.
   final Fleet? fleet;
@@ -7581,6 +7667,7 @@ class UpdateFleetResult {
   }
 }
 
+/// @nodoc
 class UpdateImagePermissionsResult {
   UpdateImagePermissionsResult();
 
@@ -7593,6 +7680,7 @@ class UpdateImagePermissionsResult {
   }
 }
 
+/// @nodoc
 class UpdateStackResult {
   /// Information about the stack.
   final Stack? stack;
@@ -7617,6 +7705,7 @@ class UpdateStackResult {
   }
 }
 
+/// @nodoc
 class UpdateThemeForStackResult {
   /// The theme object that contains the metadata of the custom branding.
   final Theme? theme;
@@ -7643,6 +7732,8 @@ class UpdateThemeForStackResult {
 
 /// The custom branding theme, which might include a custom logo, website links,
 /// and other branding to display to users.
+///
+/// @nodoc
 class Theme {
   /// The time the theme was created.
   final DateTime? createdTime;
@@ -7721,6 +7812,7 @@ class Theme {
   }
 }
 
+/// @nodoc
 class ThemeState {
   static const enabled = ThemeState._('ENABLED');
   static const disabled = ThemeState._('DISABLED');
@@ -7744,6 +7836,7 @@ class ThemeState {
   String toString() => value;
 }
 
+/// @nodoc
 class ThemeStyling {
   static const lightBlue = ThemeStyling._('LIGHT_BLUE');
   static const blue = ThemeStyling._('BLUE');
@@ -7770,6 +7863,8 @@ class ThemeStyling {
 }
 
 /// The website links that display in the catalog page footer.
+///
+/// @nodoc
 class ThemeFooterLink {
   /// The name of the websites that display in the catalog page footer.
   final String? displayName;
@@ -7800,6 +7895,8 @@ class ThemeFooterLink {
 }
 
 /// Describes the S3 location.
+///
+/// @nodoc
 class S3Location {
   /// The S3 bucket of the S3 object.
   final String s3Bucket;
@@ -7854,6 +7951,7 @@ class S3Location {
   }
 }
 
+/// @nodoc
 class ThemeAttribute {
   static const footerLinks = ThemeAttribute._('FOOTER_LINKS');
 
@@ -7878,6 +7976,8 @@ class ThemeAttribute {
 }
 
 /// Describes a stack.
+///
+/// @nodoc
 class Stack {
   /// The name of the stack.
   final String name;
@@ -8044,6 +8144,8 @@ class Stack {
 }
 
 /// Describes the persistent application settings for users of a stack.
+///
+/// @nodoc
 class ApplicationSettingsResponse {
   /// Specifies whether persistent application settings are enabled for users
   /// during their streaming sessions.
@@ -8087,6 +8189,8 @@ class ApplicationSettingsResponse {
 
 /// The streaming protocol you want your stack to prefer. This can be UDP or
 /// TCP. Currently, UDP is only supported in the Windows native client.
+///
+/// @nodoc
 class StreamingExperienceSettings {
   /// The preferred protocol that you want to use while streaming your
   /// application.
@@ -8115,6 +8219,8 @@ class StreamingExperienceSettings {
 /// Configuration for bidirectional URL redirection between the streaming
 /// session and the local client. Use HostToClient to redirect URLs from the
 /// remote desktop to the local browser.
+///
+/// @nodoc
 class ContentRedirection {
   /// Configuration for redirecting URLs from the remote desktop to the local
   /// client browser.
@@ -8143,6 +8249,8 @@ class ContentRedirection {
 
 /// The configuration for agent access on a stack. Agent access enables AI
 /// agents to interact with desktop applications during streaming sessions.
+///
+/// @nodoc
 class AgentAccessConfig {
   /// The image format for agent screen captures.
   final ScreenImageFormat screenImageFormat;
@@ -8209,6 +8317,8 @@ class AgentAccessConfig {
 /// W_1280xH_720 - 1280 x 720 pixels.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ScreenResolution {
   static const w_1280xH_720 = ScreenResolution._('W_1280xH_720');
 
@@ -8242,6 +8352,8 @@ class ScreenResolution {
 /// JPEG - JPEG format.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ScreenImageFormat {
   static const png = ScreenImageFormat._('PNG');
   static const jpeg = ScreenImageFormat._('JPEG');
@@ -8268,6 +8380,8 @@ class ScreenImageFormat {
 
 /// A permission setting for an agent action. Each setting specifies an agent
 /// action and whether it is enabled or disabled.
+///
+/// @nodoc
 class AgentAccessSetting {
   /// The agent action to configure. Valid values are COMPUTER_VISION and
   /// COMPUTER_INPUT. If you enable COMPUTER_INPUT, you must also enable
@@ -8311,6 +8425,8 @@ class AgentAccessSetting {
 /// Requires COMPUTER_VISION to also be enabled.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AgentAction {
   static const computerVision = AgentAction._('COMPUTER_VISION');
   static const computerInput = AgentAction._('COMPUTER_INPUT');
@@ -8334,6 +8450,7 @@ class AgentAction {
   String toString() => value;
 }
 
+/// @nodoc
 class Permission {
   static const enabled = Permission._('ENABLED');
   static const disabled = Permission._('DISABLED');
@@ -8361,6 +8478,8 @@ class Permission {
 /// client-to-host). When enabled, URLs matching the allowed or denied patterns
 /// are redirected accordingly. The denied list takes precedence over the
 /// allowed list.
+///
+/// @nodoc
 class UrlRedirectionConfig {
   /// Whether URL redirection is enabled for this direction.
   final bool enabled;
@@ -8406,6 +8525,7 @@ class UrlRedirectionConfig {
   }
 }
 
+/// @nodoc
 class PreferredProtocol {
   static const tcp = PreferredProtocol._('TCP');
   static const udp = PreferredProtocol._('UDP');
@@ -8437,6 +8557,8 @@ class PreferredProtocol {
 /// through that endpoint. When you specify an interface endpoint for an image
 /// builder, administrators can connect to the image builder only through that
 /// endpoint.
+///
+/// @nodoc
 class AccessEndpoint {
   /// The type of interface endpoint.
   final AccessEndpointType endpointType;
@@ -8467,6 +8589,7 @@ class AccessEndpoint {
   }
 }
 
+/// @nodoc
 class AccessEndpointType {
   static const streaming = AccessEndpointType._('STREAMING');
 
@@ -8493,6 +8616,8 @@ class AccessEndpointType {
 
 /// Describes an action and whether the action is enabled or disabled for users
 /// during their streaming sessions.
+///
+/// @nodoc
 class UserSetting {
   /// The action that is enabled or disabled.
   final Action action;
@@ -8541,6 +8666,7 @@ class UserSetting {
   }
 }
 
+/// @nodoc
 class Action {
   static const clipboardCopyFromLocalDevice =
       Action._('CLIPBOARD_COPY_FROM_LOCAL_DEVICE');
@@ -8582,6 +8708,8 @@ class Action {
 }
 
 /// Describes a stack error.
+///
+/// @nodoc
 class StackError {
   /// The error code.
   final StackErrorCode? errorCode;
@@ -8611,6 +8739,7 @@ class StackError {
   }
 }
 
+/// @nodoc
 class StackErrorCode {
   static const storageConnectorError =
       StackErrorCode._('STORAGE_CONNECTOR_ERROR');
@@ -8638,6 +8767,8 @@ class StackErrorCode {
 }
 
 /// Describes a connector that enables persistent storage for users.
+///
+/// @nodoc
 class StorageConnector {
   /// The type of storage connector.
   final StorageConnectorType connectorType;
@@ -8690,6 +8821,8 @@ class StorageConnector {
 }
 
 /// The type of storage connector.
+///
+/// @nodoc
 class StorageConnectorType {
   static const homefolders = StorageConnectorType._('HOMEFOLDERS');
   static const googleDrive = StorageConnectorType._('GOOGLE_DRIVE');
@@ -8717,6 +8850,8 @@ class StorageConnectorType {
 }
 
 /// The persistent application settings for users of a stack.
+///
+/// @nodoc
 class ApplicationSettings {
   /// Enables or disables persistent application settings for users during their
   /// streaming sessions.
@@ -8745,6 +8880,8 @@ class ApplicationSettings {
 
 /// The configuration for updating agent access on a stack. This type supports
 /// partial updates, so you only need to specify the fields you want to change.
+///
+/// @nodoc
 class AgentAccessConfigForUpdate {
   /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent
   /// screenshots are stored.
@@ -8833,6 +8970,8 @@ class AgentAccessConfigForUpdate {
 /// AGENT_ACCESS_CONFIG
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class StackAttribute {
   static const storageConnectors = StackAttribute._('STORAGE_CONNECTORS');
   static const storageConnectorHomefolders =
@@ -8889,6 +9028,8 @@ class StackAttribute {
 }
 
 /// Describes the permissions for an image.
+///
+/// @nodoc
 class ImagePermissions {
   /// Indicates whether the image can be used for a fleet.
   final bool? allowFleet;
@@ -8919,6 +9060,8 @@ class ImagePermissions {
 }
 
 /// Describes a fleet.
+///
+/// @nodoc
 class Fleet {
   /// The Amazon Resource Name (ARN) for the fleet.
   final String arn;
@@ -9358,6 +9501,7 @@ class Fleet {
   }
 }
 
+/// @nodoc
 class FleetType {
   static const alwaysOn = FleetType._('ALWAYS_ON');
   static const onDemand = FleetType._('ON_DEMAND');
@@ -9383,6 +9527,8 @@ class FleetType {
 }
 
 /// Describes the capacity status for a fleet.
+///
+/// @nodoc
 class ComputeCapacityStatus {
   /// The desired number of streaming instances.
   final int desired;
@@ -9503,6 +9649,7 @@ class ComputeCapacityStatus {
   }
 }
 
+/// @nodoc
 class FleetState {
   static const starting = FleetState._('STARTING');
   static const running = FleetState._('RUNNING');
@@ -9529,6 +9676,8 @@ class FleetState {
 }
 
 /// Describes VPC configuration information for fleets and image builders.
+///
+/// @nodoc
 class VpcConfig {
   /// The identifiers of the security groups for the fleet or image builder.
   final List<String>? securityGroupIds;
@@ -9568,6 +9717,8 @@ class VpcConfig {
 
 /// Describes the configuration information required to join fleets and image
 /// builders to Microsoft Active Directory domains.
+///
+/// @nodoc
 class DomainJoinInfo {
   /// The fully qualified name of the directory (for example, corp.example.com).
   final String? directoryName;
@@ -9601,6 +9752,7 @@ class DomainJoinInfo {
   }
 }
 
+/// @nodoc
 class StreamView {
   static const app = StreamView._('APP');
   static const desktop = StreamView._('DESKTOP');
@@ -9624,6 +9776,7 @@ class StreamView {
   String toString() => value;
 }
 
+/// @nodoc
 class PlatformType {
   static const windows = PlatformType._('WINDOWS');
   static const windowsServer_2016 = PlatformType._('WINDOWS_SERVER_2016');
@@ -9666,6 +9819,8 @@ class PlatformType {
 
 /// Configuration for the root volume of fleet instances and image builders.
 /// This allows you to customize the storage capacity beyond the default 200 GB.
+///
+/// @nodoc
 class VolumeConfig {
   /// The size of the root volume in GB. Valid range is 200-500 GB. The default is
   /// 200 GB, which is included in the hourly instance rate. Additional storage
@@ -9692,6 +9847,8 @@ class VolumeConfig {
 }
 
 /// Describes a fleet error.
+///
+/// @nodoc
 class FleetError {
   /// The error code.
   final FleetErrorCode? errorCode;
@@ -9721,6 +9878,7 @@ class FleetError {
   }
 }
 
+/// @nodoc
 class FleetErrorCode {
   static const iamServiceRoleMissingEniDescribeAction =
       FleetErrorCode._('IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION');
@@ -9833,6 +9991,8 @@ class FleetErrorCode {
 }
 
 /// Describes the capacity for a fleet.
+///
+/// @nodoc
 class ComputeCapacity {
   /// The desired number of streaming instances.
   final int? desiredInstances;
@@ -9861,6 +10021,8 @@ class ComputeCapacity {
 }
 
 /// The fleet attribute.
+///
+/// @nodoc
 class FleetAttribute {
   static const vpcConfiguration = FleetAttribute._('VPC_CONFIGURATION');
   static const vpcConfigurationSecurityGroupIds =
@@ -9911,6 +10073,8 @@ class FleetAttribute {
 /// Entitlements don't apply to the desktop stream view application, or to
 /// applications managed by a dynamic app provider using the Dynamic Application
 /// Framework.
+///
+/// @nodoc
 class Entitlement {
   /// Specifies whether all or selected apps are entitled.
   final AppVisibility appVisibility;
@@ -9980,6 +10144,7 @@ class Entitlement {
   }
 }
 
+/// @nodoc
 class AppVisibility {
   static const all = AppVisibility._('ALL');
   static const associated = AppVisibility._('ASSOCIATED');
@@ -10007,6 +10172,8 @@ class AppVisibility {
 /// An attribute associated with an entitlement. Application entitlements work
 /// by matching a supported SAML 2.0 attribute name to a value when a user
 /// identity federates to a WorkSpaces Applications SAML application.
+///
+/// @nodoc
 class EntitlementAttribute {
   /// A supported AWS IAM SAML <code>PrincipalTag</code> attribute that is matched
   /// to the associated value when a user identity federates into a WorkSpaces
@@ -10068,6 +10235,8 @@ class EntitlementAttribute {
 
 /// Describes the configuration information required to join fleets and image
 /// builders to Microsoft Active Directory domains.
+///
+/// @nodoc
 class DirectoryConfig {
   /// The fully qualified name of the directory (for example, corp.example.com).
   final String directoryName;
@@ -10145,6 +10314,8 @@ class DirectoryConfig {
 
 /// Describes the credentials for the service account used by the fleet or image
 /// builder to connect to the directory.
+///
+/// @nodoc
 class ServiceAccountCredentials {
   /// The user name of the account. This account must have the following
   /// privileges: create computer objects, join computers to the domain, and
@@ -10186,6 +10357,8 @@ class ServiceAccountCredentials {
 /// <b>Enabled_no_directory_login_fallback</b> enables certificate-based
 /// authentication, but does not allow users to log in using their AD domain
 /// password. Users will be disconnected to re-authenticate using certificates.
+///
+/// @nodoc
 class CertificateBasedAuthProperties {
   /// The ARN of the AWS Certificate Manager Private CA resource.
   final String? certificateAuthorityArn;
@@ -10217,6 +10390,7 @@ class CertificateBasedAuthProperties {
   }
 }
 
+/// @nodoc
 class CertificateBasedAuthStatus {
   static const disabled = CertificateBasedAuthStatus._('DISABLED');
   static const enabled = CertificateBasedAuthStatus._('ENABLED');
@@ -10245,6 +10419,8 @@ class CertificateBasedAuthStatus {
 }
 
 /// Describes an application in the application catalog.
+///
+/// @nodoc
 class Application {
   /// The app block ARN of the application.
   final String? appBlockArn;
@@ -10375,6 +10551,7 @@ class Application {
   }
 }
 
+/// @nodoc
 class ApplicationAttribute {
   static const launchParameters = ApplicationAttribute._('LAUNCH_PARAMETERS');
   static const workingDirectory = ApplicationAttribute._('WORKING_DIRECTORY');
@@ -10401,6 +10578,8 @@ class ApplicationAttribute {
 }
 
 /// Describes an app block builder.
+///
+/// @nodoc
 class AppBlockBuilder {
   /// The ARN of the app block builder.
   final String arn;
@@ -10541,6 +10720,7 @@ class AppBlockBuilder {
   }
 }
 
+/// @nodoc
 class AppBlockBuilderPlatformType {
   static const windowsServer_2019 =
       AppBlockBuilderPlatformType._('WINDOWS_SERVER_2019');
@@ -10566,6 +10746,7 @@ class AppBlockBuilderPlatformType {
   String toString() => value;
 }
 
+/// @nodoc
 class AppBlockBuilderState {
   static const starting = AppBlockBuilderState._('STARTING');
   static const running = AppBlockBuilderState._('RUNNING');
@@ -10594,6 +10775,8 @@ class AppBlockBuilderState {
 }
 
 /// Describes the reason why the last app block builder state change occurred.
+///
+/// @nodoc
 class AppBlockBuilderStateChangeReason {
   /// The state change reason code.
   final AppBlockBuilderStateChangeReasonCode? code;
@@ -10624,6 +10807,7 @@ class AppBlockBuilderStateChangeReason {
   }
 }
 
+/// @nodoc
 class AppBlockBuilderStateChangeReasonCode {
   static const internalError =
       AppBlockBuilderStateChangeReasonCode._('INTERNAL_ERROR');
@@ -10650,6 +10834,8 @@ class AppBlockBuilderStateChangeReasonCode {
 }
 
 /// Describes a resource error.
+///
+/// @nodoc
 class ResourceError {
   /// The error code.
   final FleetErrorCode? errorCode;
@@ -10687,6 +10873,7 @@ class ResourceError {
   }
 }
 
+/// @nodoc
 class AppBlockBuilderAttribute {
   static const iamRoleArn = AppBlockBuilderAttribute._('IAM_ROLE_ARN');
   static const accessEndpoints = AppBlockBuilderAttribute._('ACCESS_ENDPOINTS');
@@ -10719,6 +10906,8 @@ class AppBlockBuilderAttribute {
 }
 
 /// Describes a virtual machine that is used to create an image.
+///
+/// @nodoc
 class ImageBuilder {
   /// The name of the image builder.
   final String name;
@@ -11065,6 +11254,7 @@ class ImageBuilder {
   }
 }
 
+/// @nodoc
 class ImageBuilderState {
   static const pending = ImageBuilderState._('PENDING');
   static const updatingAgent = ImageBuilderState._('UPDATING_AGENT');
@@ -11118,6 +11308,8 @@ class ImageBuilderState {
 }
 
 /// Describes the reason why the last image builder state change occurred.
+///
+/// @nodoc
 class ImageBuilderStateChangeReason {
   /// The state change reason code.
   final ImageBuilderStateChangeReasonCode? code;
@@ -11149,6 +11341,8 @@ class ImageBuilderStateChangeReason {
 }
 
 /// Describes the network details of the fleet or image builder instance.
+///
+/// @nodoc
 class NetworkAccessConfiguration {
   /// The resource identifier of the elastic network interface that is attached to
   /// instances in your VPC. All network interfaces have the eni-xxxxxxxx resource
@@ -11193,6 +11387,7 @@ class NetworkAccessConfiguration {
   }
 }
 
+/// @nodoc
 class LatestAppstreamAgentVersion {
   static const $true = LatestAppstreamAgentVersion._('TRUE');
   static const $false = LatestAppstreamAgentVersion._('FALSE');
@@ -11218,6 +11413,7 @@ class LatestAppstreamAgentVersion {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageBuilderStateChangeReasonCode {
   static const internalError =
       ImageBuilderStateChangeReasonCode._('INTERNAL_ERROR');
@@ -11247,6 +11443,8 @@ class ImageBuilderStateChangeReasonCode {
 
 /// Information about an export image task, including its current state,
 /// timestamps, and any error details.
+///
+/// @nodoc
 class ExportImageTask {
   /// The name of the EC2 AMI that will be created by this export task.
   final String amiName;
@@ -11333,6 +11531,7 @@ class ExportImageTask {
   }
 }
 
+/// @nodoc
 class ExportImageTaskState {
   static const exporting = ExportImageTaskState._('EXPORTING');
   static const completed = ExportImageTaskState._('COMPLETED');
@@ -11361,6 +11560,8 @@ class ExportImageTaskState {
 }
 
 /// The error details.
+///
+/// @nodoc
 class ErrorDetails {
   /// The error code.
   final String? errorCode;
@@ -11392,6 +11593,8 @@ class ErrorDetails {
 
 /// A filter for narrowing down the results when listing export image tasks.
 /// Filters allow you to specify criteria such as task state or creation date.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter. Valid filter names depend on the operation being
   /// performed.
@@ -11418,6 +11621,8 @@ class Filter {
 
 /// The application associated to an entitlement. Access is controlled based on
 /// user attributes.
+///
+/// @nodoc
 class EntitledApplication {
   /// The identifier of the application.
   final String applicationIdentifier;
@@ -11440,6 +11645,7 @@ class EntitledApplication {
   }
 }
 
+/// @nodoc
 class AuthenticationType {
   static const api = AuthenticationType._('API');
   static const saml = AuthenticationType._('SAML');
@@ -11468,6 +11674,8 @@ class AuthenticationType {
 }
 
 /// Describes a user in the user pool and the associated stack.
+///
+/// @nodoc
 class UserStackAssociation {
   /// The authentication type for the user.
   final AuthenticationType authenticationType;
@@ -11518,6 +11726,8 @@ class UserStackAssociation {
 }
 
 /// Describes a user in the user pool.
+///
+/// @nodoc
 class User {
   /// The authentication type for the user.
   final AuthenticationType authenticationType;
@@ -11613,6 +11823,8 @@ class User {
 }
 
 /// Describes information about the usage report subscription.
+///
+/// @nodoc
 class UsageReportSubscription {
   /// The time when the last usage report was generated.
   final DateTime? lastGeneratedReportDate;
@@ -11671,6 +11883,7 @@ class UsageReportSubscription {
   }
 }
 
+/// @nodoc
 class UsageReportSchedule {
   static const daily = UsageReportSchedule._('DAILY');
 
@@ -11696,6 +11909,8 @@ class UsageReportSchedule {
 }
 
 /// Describes the error that is returned when a usage report can't be generated.
+///
+/// @nodoc
 class LastReportGenerationExecutionError {
   /// The error code for the error that is returned when a usage report can't be
   /// generated.
@@ -11729,6 +11944,7 @@ class LastReportGenerationExecutionError {
   }
 }
 
+/// @nodoc
 class UsageReportExecutionErrorCode {
   static const resourceNotFound =
       UsageReportExecutionErrorCode._('RESOURCE_NOT_FOUND');
@@ -11758,6 +11974,8 @@ class UsageReportExecutionErrorCode {
 }
 
 /// The association between a license-included application and a resource.
+///
+/// @nodoc
 class SoftwareAssociations {
   /// The error details for failed deployments of the license-included
   /// application.
@@ -11876,6 +12094,7 @@ class SoftwareAssociations {
   }
 }
 
+/// @nodoc
 class SoftwareDeploymentStatus {
   static const stagedForInstallation =
       SoftwareDeploymentStatus._('STAGED_FOR_INSTALLATION');
@@ -11921,6 +12140,8 @@ class SoftwareDeploymentStatus {
 }
 
 /// Describes a streaming session.
+///
+/// @nodoc
 class Session {
   /// The name of the fleet for the streaming session.
   final String fleetName;
@@ -12041,6 +12262,8 @@ class Session {
 }
 
 /// Possible values for the state of a streaming session.
+///
+/// @nodoc
 class SessionState {
   static const active = SessionState._('ACTIVE');
   static const pending = SessionState._('PENDING');
@@ -12065,6 +12288,7 @@ class SessionState {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionConnectionState {
   static const connected = SessionConnectionState._('CONNECTED');
   static const notConnected = SessionConnectionState._('NOT_CONNECTED');
@@ -12091,6 +12315,8 @@ class SessionConnectionState {
 }
 
 /// Possible values for the drain status of a streaming instance.
+///
+/// @nodoc
 class InstanceDrainStatus {
   static const active = InstanceDrainStatus._('ACTIVE');
   static const draining = InstanceDrainStatus._('DRAINING');
@@ -12118,6 +12344,8 @@ class InstanceDrainStatus {
 }
 
 /// Describes an image.
+///
+/// @nodoc
 class Image {
   /// The name of the image.
   final String name;
@@ -12360,6 +12588,7 @@ class Image {
   }
 }
 
+/// @nodoc
 class ImageState {
   static const pending = ImageState._('PENDING');
   static const available = ImageState._('AVAILABLE');
@@ -12398,6 +12627,7 @@ class ImageState {
   String toString() => value;
 }
 
+/// @nodoc
 class VisibilityType {
   static const public = VisibilityType._('PUBLIC');
   static const private = VisibilityType._('PRIVATE');
@@ -12424,6 +12654,8 @@ class VisibilityType {
 }
 
 /// Describes the reason why the last image state change occurred.
+///
+/// @nodoc
 class ImageStateChangeReason {
   /// The state change reason code.
   final ImageStateChangeReasonCode? code;
@@ -12454,6 +12686,7 @@ class ImageStateChangeReason {
   }
 }
 
+/// @nodoc
 class DynamicAppProvidersEnabled {
   static const enabled = DynamicAppProvidersEnabled._('ENABLED');
   static const disabled = DynamicAppProvidersEnabled._('DISABLED');
@@ -12479,6 +12712,7 @@ class DynamicAppProvidersEnabled {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageSharedWithOthers {
   static const $true = ImageSharedWithOthers._('TRUE');
   static const $false = ImageSharedWithOthers._('FALSE');
@@ -12505,6 +12739,8 @@ class ImageSharedWithOthers {
 }
 
 /// The image type is the type of AppStream image resource.
+///
+/// @nodoc
 class ImageType {
   static const custom = ImageType._('CUSTOM');
   static const native = ImageType._('NATIVE');
@@ -12529,6 +12765,7 @@ class ImageType {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageStateChangeReasonCode {
   static const internalError = ImageStateChangeReasonCode._('INTERNAL_ERROR');
   static const imageBuilderNotAvailable =
@@ -12569,6 +12806,8 @@ class ImageStateChangeReasonCode {
 
 /// Describes the permissions that are available to the specified AWS account
 /// for a shared image.
+///
+/// @nodoc
 class SharedImagePermissions {
   /// Describes the permissions for a shared image.
   final ImagePermissions imagePermissions;
@@ -12601,6 +12840,8 @@ class SharedImagePermissions {
 }
 
 /// The collection of license usage records.
+///
+/// @nodoc
 class AdminAppLicenseUsageRecord {
   /// The billing period for the license usage record.
   final String billingPeriod;
@@ -12669,6 +12910,8 @@ class AdminAppLicenseUsageRecord {
 }
 
 /// Describes the application fleet association.
+///
+/// @nodoc
 class ApplicationFleetAssociation {
   /// The ARN of the application associated with the fleet.
   final String applicationArn;
@@ -12707,6 +12950,8 @@ class ApplicationFleetAssociation {
 /// applications. Multiple applications can be assigned to a single app block.
 ///
 /// This is only supported for Elastic fleets.
+///
+/// @nodoc
 class AppBlock {
   /// The ARN of the app block.
   final String arn;
@@ -12826,6 +13071,8 @@ class AppBlock {
 }
 
 /// Describes the details of the script.
+///
+/// @nodoc
 class ScriptDetails {
   /// The run path for the script.
   final String executablePath;
@@ -12872,6 +13119,7 @@ class ScriptDetails {
   }
 }
 
+/// @nodoc
 class PackagingType {
   static const custom = PackagingType._('CUSTOM');
   static const appstream2 = PackagingType._('APPSTREAM2');
@@ -12896,6 +13144,7 @@ class PackagingType {
   String toString() => value;
 }
 
+/// @nodoc
 class AppBlockState {
   static const inactive = AppBlockState._('INACTIVE');
   static const active = AppBlockState._('ACTIVE');
@@ -12921,6 +13170,8 @@ class AppBlockState {
 }
 
 /// Describes an association between an app block builder and app block.
+///
+/// @nodoc
 class AppBlockBuilderAppBlockAssociation {
   /// The ARN of the app block.
   final String appBlockArn;
@@ -12951,6 +13202,7 @@ class AppBlockBuilderAppBlockAssociation {
   }
 }
 
+/// @nodoc
 class MessageAction {
   static const suppress = MessageAction._('SUPPRESS');
   static const resend = MessageAction._('RESEND');
@@ -12978,6 +13230,8 @@ class MessageAction {
 /// Configuration for runtime validation of imported images. This structure
 /// specifies the instance type to use for testing the imported image's
 /// streaming capabilities.
+///
+/// @nodoc
 class RuntimeValidationConfig {
   /// The instance type to use for runtime validation testing. It's recommended to
   /// use the same instance type you plan to use for your fleet to ensure accurate
@@ -12998,6 +13252,8 @@ class RuntimeValidationConfig {
 }
 
 /// The image type is the type of AppStream image resource.
+///
+/// @nodoc
 class AgentSoftwareVersion {
   static const currentLatest = AgentSoftwareVersion._('CURRENT_LATEST');
   static const alwaysLatest = AgentSoftwareVersion._('ALWAYS_LATEST');
@@ -13026,6 +13282,8 @@ class AgentSoftwareVersion {
 /// Configuration for an application in the imported image's application
 /// catalog. This structure defines how applications appear and launch for
 /// users.
+///
+/// @nodoc
 class ApplicationConfig {
   /// The absolute path to the executable file that launches the application. This
   /// is a required field that can be 1-32767 characters to support Windows
@@ -13035,7 +13293,7 @@ class ApplicationConfig {
 
   /// The name of the application. This is a required field that must be unique
   /// within the application catalog and between 1-100 characters, matching the
-  /// pattern ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,99}$.
+  /// pattern ^\[a-zA-Z0-9\]\[a-zA-Z0-9_.-\]{0,99}$.
   final String name;
 
   /// The absolute path to the icon file for the application. This field is
@@ -13051,8 +13309,8 @@ class ApplicationConfig {
   final String? absoluteManifestPath;
 
   /// The display name shown to users for this application. This field is optional
-  /// and can be 0-100 characters, matching the pattern ^[a-zA-Z0-9][a-zA-Z0-9_.
-  /// -]{0,99}$.
+  /// and can be 0-100 characters, matching the pattern
+  /// ^\[a-zA-Z0-9\]\[a-zA-Z0-9_. -\]{0,99}$.
   final String? displayName;
 
   /// The launch parameters to pass to the application executable. This field is
@@ -13099,6 +13357,8 @@ class ApplicationConfig {
 
 /// Describes the error that is returned when a user can’t be associated with or
 /// disassociated from a stack.
+///
+/// @nodoc
 class UserStackAssociationError {
   /// The error code for the error that is returned when a user can’t be
   /// associated with or disassociated from a stack.
@@ -13142,6 +13402,7 @@ class UserStackAssociationError {
   }
 }
 
+/// @nodoc
 class UserStackAssociationErrorCode {
   static const stackNotFound =
       UserStackAssociationErrorCode._('STACK_NOT_FOUND');
@@ -13178,6 +13439,7 @@ class UserStackAssociationErrorCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -13186,11 +13448,13 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DryRunOperationException extends _s.GenericAwsException {
   DryRunOperationException({String? type, String? message})
       : super(type: type, code: 'DryRunOperationException', message: message);
 }
 
+/// @nodoc
 class EntitlementAlreadyExistsException extends _s.GenericAwsException {
   EntitlementAlreadyExistsException({String? type, String? message})
       : super(
@@ -13199,17 +13463,20 @@ class EntitlementAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EntitlementNotFoundException extends _s.GenericAwsException {
   EntitlementNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'EntitlementNotFoundException', message: message);
 }
 
+/// @nodoc
 class IncompatibleImageException extends _s.GenericAwsException {
   IncompatibleImageException({String? type, String? message})
       : super(type: type, code: 'IncompatibleImageException', message: message);
 }
 
+/// @nodoc
 class InvalidAccountStatusException extends _s.GenericAwsException {
   InvalidAccountStatusException({String? type, String? message})
       : super(
@@ -13218,6 +13485,7 @@ class InvalidAccountStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -13226,16 +13494,19 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRoleException extends _s.GenericAwsException {
   InvalidRoleException({String? type, String? message})
       : super(type: type, code: 'InvalidRoleException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class OperationNotPermittedException extends _s.GenericAwsException {
   OperationNotPermittedException({String? type, String? message})
       : super(
@@ -13244,6 +13515,7 @@ class OperationNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RequestLimitExceededException extends _s.GenericAwsException {
   RequestLimitExceededException({String? type, String? message})
       : super(
@@ -13252,6 +13524,7 @@ class RequestLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -13260,11 +13533,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotAvailableException extends _s.GenericAwsException {
   ResourceNotAvailableException({String? type, String? message})
       : super(
@@ -13273,6 +13548,7 @@ class ResourceNotAvailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

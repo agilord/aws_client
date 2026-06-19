@@ -1721,6 +1721,7 @@ class IvsRealTime {
   }
 }
 
+/// @nodoc
 class CreateEncoderConfigurationResponse {
   /// The EncoderConfiguration that was created.
   final EncoderConfiguration? encoderConfiguration;
@@ -1748,6 +1749,7 @@ class CreateEncoderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateIngestConfigurationResponse {
   /// The IngestConfiguration that was created.
   final IngestConfiguration? ingestConfiguration;
@@ -1775,6 +1777,7 @@ class CreateIngestConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateParticipantTokenResponse {
   /// The participant token that was created.
   final ParticipantToken? participantToken;
@@ -1800,6 +1803,7 @@ class CreateParticipantTokenResponse {
   }
 }
 
+/// @nodoc
 class CreateStageResponse {
   /// Participant tokens attached to the stage. These correspond to the
   /// <code>participants</code> in the request.
@@ -1835,6 +1839,7 @@ class CreateStageResponse {
   }
 }
 
+/// @nodoc
 class CreateStorageConfigurationResponse {
   /// The StorageConfiguration that was created.
   final StorageConfiguration? storageConfiguration;
@@ -1862,6 +1867,7 @@ class CreateStorageConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteEncoderConfigurationResponse {
   DeleteEncoderConfigurationResponse();
 
@@ -1874,6 +1880,7 @@ class DeleteEncoderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteIngestConfigurationResponse {
   DeleteIngestConfigurationResponse();
 
@@ -1886,6 +1893,7 @@ class DeleteIngestConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeletePublicKeyResponse {
   DeletePublicKeyResponse();
 
@@ -1898,6 +1906,7 @@ class DeletePublicKeyResponse {
   }
 }
 
+/// @nodoc
 class DeleteStageResponse {
   DeleteStageResponse();
 
@@ -1910,6 +1919,7 @@ class DeleteStageResponse {
   }
 }
 
+/// @nodoc
 class DeleteStorageConfigurationResponse {
   DeleteStorageConfigurationResponse();
 
@@ -1922,6 +1932,7 @@ class DeleteStorageConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DisconnectParticipantResponse {
   DisconnectParticipantResponse();
 
@@ -1934,6 +1945,7 @@ class DisconnectParticipantResponse {
   }
 }
 
+/// @nodoc
 class GetCompositionResponse {
   /// The Composition that was returned.
   final Composition? composition;
@@ -1958,6 +1970,7 @@ class GetCompositionResponse {
   }
 }
 
+/// @nodoc
 class GetEncoderConfigurationResponse {
   /// The EncoderConfiguration that was returned.
   final EncoderConfiguration? encoderConfiguration;
@@ -1984,6 +1997,7 @@ class GetEncoderConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetIngestConfigurationResponse {
   /// The IngestConfiguration that was returned.
   final IngestConfiguration? ingestConfiguration;
@@ -2010,6 +2024,7 @@ class GetIngestConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetParticipantResponse {
   /// The participant that is returned.
   final Participant? participant;
@@ -2034,6 +2049,7 @@ class GetParticipantResponse {
   }
 }
 
+/// @nodoc
 class GetPublicKeyResponse {
   /// The public key that is returned.
   final PublicKey? publicKey;
@@ -2058,6 +2074,7 @@ class GetPublicKeyResponse {
   }
 }
 
+/// @nodoc
 class GetStageResponse {
   /// The stage that is returned.
   final Stage? stage;
@@ -2082,6 +2099,7 @@ class GetStageResponse {
   }
 }
 
+/// @nodoc
 class GetStageSessionResponse {
   /// The stage session that is returned.
   final StageSession? stageSession;
@@ -2106,6 +2124,7 @@ class GetStageSessionResponse {
   }
 }
 
+/// @nodoc
 class GetStorageConfigurationResponse {
   /// The StorageConfiguration that was returned.
   final StorageConfiguration? storageConfiguration;
@@ -2132,6 +2151,7 @@ class GetStorageConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ImportPublicKeyResponse {
   /// The public key that was imported.
   final PublicKey? publicKey;
@@ -2156,6 +2176,7 @@ class ImportPublicKeyResponse {
   }
 }
 
+/// @nodoc
 class ListCompositionsResponse {
   /// List of the matching Compositions (summary information only).
   final List<CompositionSummary> compositions;
@@ -2189,6 +2210,7 @@ class ListCompositionsResponse {
   }
 }
 
+/// @nodoc
 class ListEncoderConfigurationsResponse {
   /// List of the matching EncoderConfigurations (summary information only).
   final List<EncoderConfigurationSummary> encoderConfigurations;
@@ -2225,6 +2247,7 @@ class ListEncoderConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListIngestConfigurationsResponse {
   /// List of the matching ingest configurations (summary information only).
   final List<IngestConfigurationSummary> ingestConfigurations;
@@ -2260,6 +2283,7 @@ class ListIngestConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListParticipantEventsResponse {
   /// List of the matching events.
   final List<Event> events;
@@ -2293,6 +2317,7 @@ class ListParticipantEventsResponse {
   }
 }
 
+/// @nodoc
 class ListParticipantReplicasResponse {
   /// List of all participant replicas.
   final List<ParticipantReplica> replicas;
@@ -2326,6 +2351,7 @@ class ListParticipantReplicasResponse {
   }
 }
 
+/// @nodoc
 class ListParticipantsResponse {
   /// List of the matching participants (summary information only).
   final List<ParticipantSummary> participants;
@@ -2359,6 +2385,7 @@ class ListParticipantsResponse {
   }
 }
 
+/// @nodoc
 class ListPublicKeysResponse {
   /// List of the matching public keys (summary information only).
   final List<PublicKeySummary> publicKeys;
@@ -2392,6 +2419,7 @@ class ListPublicKeysResponse {
   }
 }
 
+/// @nodoc
 class ListStagesResponse {
   /// List of the matching stages (summary information only).
   final List<StageSummary> stages;
@@ -2425,6 +2453,7 @@ class ListStagesResponse {
   }
 }
 
+/// @nodoc
 class ListStageSessionsResponse {
   /// List of matching stage sessions.
   final List<StageSessionSummary> stageSessions;
@@ -2458,6 +2487,7 @@ class ListStageSessionsResponse {
   }
 }
 
+/// @nodoc
 class ListStorageConfigurationsResponse {
   /// List of the matching storage configurations.
   final List<StorageConfigurationSummary> storageConfigurations;
@@ -2494,6 +2524,7 @@ class ListStorageConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Tags attached to the resource. Array of maps, each of the form
   /// <code>string:string (key:value)</code>.
@@ -2519,6 +2550,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartCompositionResponse {
   /// The Composition that was created.
   final Composition? composition;
@@ -2543,6 +2575,7 @@ class StartCompositionResponse {
   }
 }
 
+/// @nodoc
 class StartParticipantReplicationResponse {
   /// See <a
   /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
@@ -2601,6 +2634,7 @@ class StartParticipantReplicationResponse {
   }
 }
 
+/// @nodoc
 class StopCompositionResponse {
   StopCompositionResponse();
 
@@ -2613,6 +2647,7 @@ class StopCompositionResponse {
   }
 }
 
+/// @nodoc
 class StopParticipantReplicationResponse {
   /// See <a
   /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
@@ -2671,6 +2706,7 @@ class StopParticipantReplicationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2683,6 +2719,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2695,6 +2732,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateIngestConfigurationResponse {
   /// The updated IngestConfiguration.
   final IngestConfiguration? ingestConfiguration;
@@ -2722,6 +2760,7 @@ class UpdateIngestConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateStageResponse {
   /// The updated stage.
   final Stage? stage;
@@ -2747,6 +2786,8 @@ class UpdateStageResponse {
 }
 
 /// Object specifying a stage.
+///
+/// @nodoc
 class Stage {
   /// Stage ARN.
   final String arn;
@@ -2824,6 +2865,8 @@ class Stage {
 }
 
 /// Object specifying a configuration for individual participant recording.
+///
+/// @nodoc
 class AutoParticipantRecordingConfiguration {
   /// ARN of the <a>StorageConfiguration</a> resource to use for individual
   /// participant recording. Default: <code>""</code> (empty string, no storage
@@ -2915,6 +2958,8 @@ class AutoParticipantRecordingConfiguration {
 /// Summary information about various endpoints for a stage. We recommend that
 /// you cache these values at stage creation; the values can be cached for up to
 /// 14 days.
+///
+/// @nodoc
 class StageEndpoints {
   /// Events endpoint.
   final String? events;
@@ -2961,6 +3006,8 @@ class StageEndpoints {
 
 /// An object representing a configuration of thumbnails for recorded video from
 /// an individual participant.
+///
+/// @nodoc
 class ParticipantThumbnailConfiguration {
   /// Thumbnail recording mode. Default: <code>DISABLED</code>.
   final ThumbnailRecordingMode? recordingMode;
@@ -3012,6 +3059,8 @@ class ParticipantThumbnailConfiguration {
 
 /// An object representing a configuration of participant HLS recordings for
 /// individual participant recording.
+///
+/// @nodoc
 class ParticipantRecordingHlsConfiguration {
   /// Defines the target duration for recorded segments generated when recording a
   /// stage participant. Segments may have durations longer than the specified
@@ -3039,6 +3088,7 @@ class ParticipantRecordingHlsConfiguration {
   }
 }
 
+/// @nodoc
 class ThumbnailRecordingMode {
   static const interval = ThumbnailRecordingMode._('INTERVAL');
   static const disabled = ThumbnailRecordingMode._('DISABLED');
@@ -3064,6 +3114,7 @@ class ThumbnailRecordingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ThumbnailStorageType {
   static const sequential = ThumbnailStorageType._('SEQUENTIAL');
   static const latest = ThumbnailStorageType._('LATEST');
@@ -3089,6 +3140,7 @@ class ThumbnailStorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class ParticipantRecordingMediaType {
   static const audioVideo = ParticipantRecordingMediaType._('AUDIO_VIDEO');
   static const audioOnly = ParticipantRecordingMediaType._('AUDIO_ONLY');
@@ -3116,6 +3168,8 @@ class ParticipantRecordingMediaType {
 }
 
 /// Object specifying an ingest configuration.
+///
+/// @nodoc
 class IngestConfiguration {
   /// Ingest configuration ARN.
   final String arn;
@@ -3243,6 +3297,7 @@ class IngestConfiguration {
   }
 }
 
+/// @nodoc
 class IngestProtocol {
   static const rtmp = IngestProtocol._('RTMP');
   static const rtmps = IngestProtocol._('RTMPS');
@@ -3267,6 +3322,7 @@ class IngestProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class IngestConfigurationState {
   static const active = IngestConfigurationState._('ACTIVE');
   static const inactive = IngestConfigurationState._('INACTIVE');
@@ -3293,6 +3349,8 @@ class IngestConfigurationState {
 }
 
 /// An object representing a redundant ingest credential.
+///
+/// @nodoc
 class RedundantIngestCredential {
   /// ID of the participant within the stage.
   final String? participantId;
@@ -3323,6 +3381,8 @@ class RedundantIngestCredential {
 }
 
 /// Object specifying a Composition resource.
+///
+/// @nodoc
 class Composition {
   /// ARN of the Composition resource.
   final String arn;
@@ -3410,6 +3470,7 @@ class Composition {
   }
 }
 
+/// @nodoc
 class CompositionState {
   static const starting = CompositionState._('STARTING');
   static const active = CompositionState._('ACTIVE');
@@ -3438,6 +3499,8 @@ class CompositionState {
 }
 
 /// Configuration information of supported layouts for server-side composition.
+///
+/// @nodoc
 class LayoutConfiguration {
   /// Configuration related to grid layout. Default: Grid layout.
   final GridConfiguration? grid;
@@ -3472,6 +3535,8 @@ class LayoutConfiguration {
 }
 
 /// Object specifying the status of a Destination.
+///
+/// @nodoc
 class Destination {
   /// Configuration used to create this destination.
   final DestinationConfiguration configuration;
@@ -3535,6 +3600,7 @@ class Destination {
   }
 }
 
+/// @nodoc
 class DestinationState {
   static const starting = DestinationState._('STARTING');
   static const active = DestinationState._('ACTIVE');
@@ -3571,6 +3637,8 @@ class DestinationState {
 }
 
 /// Complex data type that defines destination-configuration objects.
+///
+/// @nodoc
 class DestinationConfiguration {
   /// An IVS channel to be used for broadcasting, for server-side composition.
   /// Either a <code>channel</code> or an <code>s3</code> must be specified.
@@ -3616,6 +3684,8 @@ class DestinationConfiguration {
 }
 
 /// Complex data type that defines destination-detail objects.
+///
+/// @nodoc
 class DestinationDetail {
   /// An S3 detail object to return information about the S3 destination.
   final S3Detail? s3;
@@ -3641,6 +3711,8 @@ class DestinationDetail {
 }
 
 /// Complex data type that defines S3Detail objects.
+///
+/// @nodoc
 class S3Detail {
   /// The S3 bucket prefix under which the recording is stored.
   final String recordingPrefix;
@@ -3664,6 +3736,8 @@ class S3Detail {
 }
 
 /// Object specifying a channel as a destination.
+///
+/// @nodoc
 class ChannelDestinationConfiguration {
   /// ARN of the channel to use for broadcasting. The channel and stage resources
   /// must be in the same AWS account and region. The channel must be offline (not
@@ -3699,6 +3773,8 @@ class ChannelDestinationConfiguration {
 
 /// A complex type that describes an S3 location where recorded videos will be
 /// stored.
+///
+/// @nodoc
 class S3DestinationConfiguration {
   /// ARNs of the <a>EncoderConfiguration</a> resource. The encoder configuration
   /// and stage resources must be in the same AWS account and region.
@@ -3762,6 +3838,8 @@ class S3DestinationConfiguration {
 }
 
 /// An object representing a configuration to record a stage stream.
+///
+/// @nodoc
 class RecordingConfiguration {
   /// The recording format for storing a recording in Amazon S3.
   final RecordingConfigurationFormat? format;
@@ -3798,6 +3876,8 @@ class RecordingConfiguration {
 
 /// An object representing a configuration of thumbnails for recorded video for
 /// a <a>Composition</a>.
+///
+/// @nodoc
 class CompositionThumbnailConfiguration {
   /// Indicates the format in which thumbnails are recorded.
   /// <code>SEQUENTIAL</code> records all generated thumbnails in a serial manner,
@@ -3842,6 +3922,8 @@ class CompositionThumbnailConfiguration {
 
 /// An object representing a configuration of HLS recordings for server-side
 /// composition.
+///
+/// @nodoc
 class CompositionRecordingHlsConfiguration {
   /// Defines the target duration for recorded segments generated when using
   /// composite recording. Default: 2.
@@ -3868,6 +3950,7 @@ class CompositionRecordingHlsConfiguration {
   }
 }
 
+/// @nodoc
 class RecordingConfigurationFormat {
   static const hls = RecordingConfigurationFormat._('HLS');
 
@@ -3896,6 +3979,8 @@ class RecordingConfigurationFormat {
 /// composition. See "Layouts" in <a
 /// href="https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/server-side-composition.html">Server-Side
 /// Composition</a>.
+///
+/// @nodoc
 class GridConfiguration {
   /// This attribute name identifies the featured slot. A participant with this
   /// attribute set to <code>"true"</code> (as a string value) in
@@ -3976,6 +4061,8 @@ class GridConfiguration {
 /// <a
 /// href="https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/server-side-composition.html">server-side
 /// composition</a>.
+///
+/// @nodoc
 class PipConfiguration {
   /// This attribute name identifies the featured slot. A participant with this
   /// attribute set to <code>"true"</code> (as a string value) in
@@ -4096,6 +4183,7 @@ class PipConfiguration {
   }
 }
 
+/// @nodoc
 class VideoFillMode {
   static const fill = VideoFillMode._('FILL');
   static const cover = VideoFillMode._('COVER');
@@ -4121,6 +4209,7 @@ class VideoFillMode {
   String toString() => value;
 }
 
+/// @nodoc
 class PipBehavior {
   static const static = PipBehavior._('STATIC');
   static const $dynamic = PipBehavior._('DYNAMIC');
@@ -4144,6 +4233,7 @@ class PipBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class PipPosition {
   static const topLeft = PipPosition._('TOP_LEFT');
   static const topRight = PipPosition._('TOP_RIGHT');
@@ -4169,6 +4259,7 @@ class PipPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class VideoAspectRatio {
   static const auto = VideoAspectRatio._('AUTO');
   static const video = VideoAspectRatio._('VIDEO');
@@ -4196,6 +4287,8 @@ class VideoAspectRatio {
 }
 
 /// Summary information about a storage configuration.
+///
+/// @nodoc
 class StorageConfigurationSummary {
   /// ARN of the storage configuration.
   final String arn;
@@ -4250,6 +4343,8 @@ class StorageConfigurationSummary {
 
 /// A complex type that describes an S3 location where recorded videos will be
 /// stored.
+///
+/// @nodoc
 class S3StorageConfiguration {
   /// Location (S3 bucket name) where recorded videos will be stored. Note that
   /// the StorageConfiguration and S3 bucket must be in the same region as the
@@ -4275,6 +4370,8 @@ class S3StorageConfiguration {
 }
 
 /// Summary information about a stage session.
+///
+/// @nodoc
 class StageSessionSummary {
   /// ISO 8601 timestamp (returned as a string) when the stage session ended. This
   /// is null if the stage is active.
@@ -4313,6 +4410,8 @@ class StageSessionSummary {
 }
 
 /// Summary information about a stage.
+///
+/// @nodoc
 class StageSummary {
   /// Stage ARN.
   final String arn;
@@ -4364,6 +4463,8 @@ class StageSummary {
 }
 
 /// Summary information about a public key.
+///
+/// @nodoc
 class PublicKeySummary {
   /// Public key ARN.
   final String? arn;
@@ -4408,6 +4509,8 @@ class PublicKeySummary {
 }
 
 /// Summary object describing a participant that has joined a stage.
+///
+/// @nodoc
 class ParticipantSummary {
   /// ISO 8601 timestamp (returned as a string) when the participant first joined
   /// the stage session.
@@ -4519,6 +4622,7 @@ class ParticipantSummary {
   }
 }
 
+/// @nodoc
 class ParticipantState {
   static const connected = ParticipantState._('CONNECTED');
   static const disconnected = ParticipantState._('DISCONNECTED');
@@ -4543,6 +4647,7 @@ class ParticipantState {
   String toString() => value;
 }
 
+/// @nodoc
 class ParticipantRecordingState {
   static const starting = ParticipantRecordingState._('STARTING');
   static const active = ParticipantRecordingState._('ACTIVE');
@@ -4572,6 +4677,7 @@ class ParticipantRecordingState {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationType {
   static const source = ReplicationType._('SOURCE');
   static const replica = ReplicationType._('REPLICA');
@@ -4597,6 +4703,7 @@ class ReplicationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationState {
   static const active = ReplicationState._('ACTIVE');
   static const stopped = ReplicationState._('STOPPED');
@@ -4621,6 +4728,7 @@ class ReplicationState {
   String toString() => value;
 }
 
+/// @nodoc
 class ParticipantRecordingFilterByRecordingState {
   static const starting =
       ParticipantRecordingFilterByRecordingState._('STARTING');
@@ -4654,6 +4762,8 @@ class ParticipantRecordingFilterByRecordingState {
 }
 
 /// Information about the replicated destination stage for a participant.
+///
+/// @nodoc
 class ParticipantReplica {
   /// ID of the session within the destination stage.
   final String destinationSessionId;
@@ -4717,6 +4827,8 @@ class ParticipantReplica {
 }
 
 /// An occurrence during a stage session.
+///
+/// @nodoc
 class Event {
   /// ID of the session within the destination stage. Applicable only if the event
   /// name is <code>REPLICATION_STARTED</code> or
@@ -4902,6 +5014,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class EventName {
   static const joined = EventName._('JOINED');
   static const left = EventName._('LEFT');
@@ -4948,6 +5061,7 @@ class EventName {
   String toString() => value;
 }
 
+/// @nodoc
 class EventErrorCode {
   static const insufficientCapabilities =
       EventErrorCode._('INSUFFICIENT_CAPABILITIES');
@@ -5007,6 +5121,8 @@ class EventErrorCode {
 ///
 /// <b>Important</b>: Treat tokens as opaque; i.e., do not build functionality
 /// based on token contents. The format of tokens could change in the future.
+///
+/// @nodoc
 class ExchangedParticipantToken {
   /// Application-provided attributes to encode into the token and attach to a
   /// stage. Map keys and values can contain UTF-8 encoded text. The maximum
@@ -5064,6 +5180,7 @@ class ExchangedParticipantToken {
   }
 }
 
+/// @nodoc
 class ParticipantTokenCapability {
   static const publish = ParticipantTokenCapability._('PUBLISH');
   static const subscribe = ParticipantTokenCapability._('SUBSCRIBE');
@@ -5090,6 +5207,8 @@ class ParticipantTokenCapability {
 }
 
 /// Summary information about an IngestConfiguration.
+///
+/// @nodoc
 class IngestConfigurationSummary {
   /// Ingest configuration ARN.
   final String arn;
@@ -5170,6 +5289,8 @@ class IngestConfigurationSummary {
 }
 
 /// Summary information about an EncoderConfiguration.
+///
+/// @nodoc
 class EncoderConfigurationSummary {
   /// ARN of the EncoderConfiguration resource.
   final String arn;
@@ -5214,6 +5335,8 @@ class EncoderConfigurationSummary {
 }
 
 /// Summary information about a Composition.
+///
+/// @nodoc
 class CompositionSummary {
   /// ARN of the Composition resource.
   final String arn;
@@ -5291,6 +5414,8 @@ class CompositionSummary {
 }
 
 /// Summary information about a Destination.
+///
+/// @nodoc
 class DestinationSummary {
   /// Unique identifier for this destination, assigned by IVS.
   final String id;
@@ -5337,6 +5462,8 @@ class DestinationSummary {
 }
 
 /// Object specifying a public key used to sign stage participant tokens.
+///
+/// @nodoc
 class PublicKey {
   /// Public key ARN.
   final String? arn;
@@ -5397,6 +5524,8 @@ class PublicKey {
 
 /// A complex type that describes a location where recorded videos will be
 /// stored.
+///
+/// @nodoc
 class StorageConfiguration {
   /// ARN of the storage configuration.
   final String arn;
@@ -5454,6 +5583,8 @@ class StorageConfiguration {
 /// debugging stages by grouping events and participants into shorter periods of
 /// time (i.e., a session), which is helpful when stages are used over long
 /// periods of time.
+///
+/// @nodoc
 class StageSession {
   /// ISO 8601 timestamp (returned as a string) when the stage session ended. This
   /// is null if the stage is active.
@@ -5492,6 +5623,8 @@ class StageSession {
 }
 
 /// Object describing a participant that has joined a stage.
+///
+/// @nodoc
 class Participant {
   /// Application-provided attributes to encode into the token and attach to a
   /// stage. Map keys and values can contain UTF-8 encoded text. The maximum
@@ -5689,6 +5822,7 @@ class Participant {
   }
 }
 
+/// @nodoc
 class ParticipantProtocol {
   static const unknown = ParticipantProtocol._('UNKNOWN');
   static const whip = ParticipantProtocol._('WHIP');
@@ -5717,6 +5851,8 @@ class ParticipantProtocol {
 }
 
 /// Settings for transcoding.
+///
+/// @nodoc
 class EncoderConfiguration {
   /// ARN of the EncoderConfiguration resource.
   final String arn;
@@ -5771,6 +5907,8 @@ class EncoderConfiguration {
 }
 
 /// Settings for video.
+///
+/// @nodoc
 class Video {
   /// Bitrate for generated output, in bps. Default: 2500000.
   final int? bitrate;
@@ -5824,6 +5962,8 @@ class Video {
 ///
 /// <b>Important</b>: Treat tokens as opaque; i.e., do not build functionality
 /// based on token contents. The format of tokens could change in the future.
+///
+/// @nodoc
 class ParticipantToken {
   /// Application-provided attributes to encode into the token and attach to a
   /// stage. Map keys and values can contain UTF-8 encoded text. The maximum
@@ -5904,6 +6044,8 @@ class ParticipantToken {
 }
 
 /// Object specifying a participant token configuration in a stage.
+///
+/// @nodoc
 class ParticipantTokenConfiguration {
   /// Application-provided attributes to encode into the corresponding participant
   /// token and attach to a stage. Map keys and values can contain UTF-8 encoded
@@ -5948,31 +6090,37 @@ class ParticipantTokenConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class PendingVerification extends _s.GenericAwsException {
   PendingVerification({String? type, String? message})
       : super(type: type, code: 'PendingVerification', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5981,6 +6129,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

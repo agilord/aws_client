@@ -1258,10 +1258,11 @@ class Synthetics {
   /// <ul>
   /// <li>
   /// To add Firefox to a canary that currently uses Chrome, specify
-  /// browserConfigs as [CHROME, FIREFOX]
+  /// browserConfigs as \[CHROME, FIREFOX\]
   /// </li>
   /// <li>
-  /// To remove Firefox and keep only Chrome, specify browserConfigs as [CHROME]
+  /// To remove Firefox and keep only Chrome, specify browserConfigs as
+  /// \[CHROME\]
   /// </li>
   /// </ul>
   /// You can't use this operation to update the tags of an existing canary. To
@@ -1497,6 +1498,7 @@ class Synthetics {
   }
 }
 
+/// @nodoc
 class AssociateResourceResponse {
   AssociateResourceResponse();
 
@@ -1509,6 +1511,7 @@ class AssociateResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateCanaryResponse {
   /// The full details about the canary you have created.
   final Canary? canary;
@@ -1533,6 +1536,7 @@ class CreateCanaryResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupResponse {
   /// A structure that contains information about the group that was just created.
   final Group? group;
@@ -1557,6 +1561,7 @@ class CreateGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteCanaryResponse {
   DeleteCanaryResponse();
 
@@ -1569,6 +1574,7 @@ class DeleteCanaryResponse {
   }
 }
 
+/// @nodoc
 class DeleteGroupResponse {
   DeleteGroupResponse();
 
@@ -1581,6 +1587,7 @@ class DeleteGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeCanariesResponse {
   /// Returns an array. Each item in the array contains the full information about
   /// one canary.
@@ -1616,6 +1623,7 @@ class DescribeCanariesResponse {
   }
 }
 
+/// @nodoc
 class DescribeCanariesLastRunResponse {
   /// An array that contains the information from the most recent run of each
   /// canary.
@@ -1651,6 +1659,7 @@ class DescribeCanariesLastRunResponse {
   }
 }
 
+/// @nodoc
 class DescribeRuntimeVersionsResponse {
   /// A token that indicates that there is more data available. You can use this
   /// token in a subsequent <code>DescribeRuntimeVersions</code> operation to
@@ -1686,6 +1695,7 @@ class DescribeRuntimeVersionsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResourceResponse {
   DisassociateResourceResponse();
 
@@ -1698,6 +1708,7 @@ class DisassociateResourceResponse {
   }
 }
 
+/// @nodoc
 class GetCanaryResponse {
   /// A structure that contains the full information about the canary.
   final Canary? canary;
@@ -1722,6 +1733,7 @@ class GetCanaryResponse {
   }
 }
 
+/// @nodoc
 class GetCanaryRunsResponse {
   /// An array of structures. Each structure contains the details of one of the
   /// retrieved canary runs.
@@ -1757,6 +1769,7 @@ class GetCanaryRunsResponse {
   }
 }
 
+/// @nodoc
 class GetGroupResponse {
   /// A structure that contains information about the group.
   final Group? group;
@@ -1781,6 +1794,7 @@ class GetGroupResponse {
   }
 }
 
+/// @nodoc
 class ListAssociatedGroupsResponse {
   /// An array of structures that contain information about the groups that this
   /// canary is associated with.
@@ -1816,6 +1830,7 @@ class ListAssociatedGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupResourcesResponse {
   /// A token that indicates that there is more data available. You can use this
   /// token in a subsequent <code>ListGroupResources</code> operation to retrieve
@@ -1851,6 +1866,7 @@ class ListGroupResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsResponse {
   /// An array of structures that each contain information about one group.
   final List<GroupSummary>? groups;
@@ -1885,6 +1901,7 @@ class ListGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tag keys and values associated with the resource that you
   /// specified.
@@ -1909,6 +1926,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartCanaryResponse {
   StartCanaryResponse();
 
@@ -1921,6 +1939,7 @@ class StartCanaryResponse {
   }
 }
 
+/// @nodoc
 class StartCanaryDryRunResponse {
   /// Returns the dry run configurations for a canary.
   final DryRunConfigOutput? dryRunConfig;
@@ -1946,6 +1965,7 @@ class StartCanaryDryRunResponse {
   }
 }
 
+/// @nodoc
 class StopCanaryResponse {
   StopCanaryResponse();
 
@@ -1958,6 +1978,7 @@ class StopCanaryResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1970,6 +1991,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1982,6 +2004,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateCanaryResponse {
   UpdateCanaryResponse();
 
@@ -2021,6 +2044,8 @@ class UpdateCanaryResponse {
 /// your Python canary files</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CanaryCodeInput {
   /// <code>BlueprintTypes</code> is a list of templates that enable simplified
   /// canary creation. You can create canaries for common monitoring scenarios by
@@ -2110,6 +2135,8 @@ class CanaryCodeInput {
 
 /// This structure specifies how often a canary is to make runs and the date and
 /// time when it should stop making runs.
+///
+/// @nodoc
 class CanaryScheduleInput {
   /// A <code>rate</code> expression or a <code>cron</code> expression that
   /// defines how often the canary is to run.
@@ -2161,6 +2188,8 @@ class CanaryScheduleInput {
 }
 
 /// A structure that contains input information for a canary run.
+///
+/// @nodoc
 class CanaryRunConfigInput {
   /// Specifies whether this canary is to use active X-Ray tracing when it runs.
   /// Active tracing enables this canary run to be displayed in the ServiceLens
@@ -2240,6 +2269,8 @@ class CanaryRunConfigInput {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html">
 /// Running a Canary in a VPC</a>.
+///
+/// @nodoc
 class VpcConfigInput {
   /// Set this to <code>true</code> to allow outbound IPv6 traffic on VPC canaries
   /// that are connected to dual-stack subnets. The default is <code>false</code>
@@ -2280,6 +2311,8 @@ class VpcConfigInput {
 /// Visual monitoring</a> and <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html">
 /// Visual monitoring blueprint</a>
+///
+/// @nodoc
 class VisualReferenceInput {
   /// Specifies which canary run to use the screenshots from as the baseline for
   /// future visual monitoring with this canary. Valid values are
@@ -2322,6 +2355,8 @@ class VisualReferenceInput {
 /// A structure that contains the configuration for canary artifacts, including
 /// the encryption-at-rest settings for artifacts that the canary uploads to
 /// Amazon S3.
+///
+/// @nodoc
 class ArtifactConfigInput {
   /// A structure that contains the configuration of the encryption-at-rest
   /// settings for artifacts that the canary uploads to Amazon S3. Artifact
@@ -2344,6 +2379,7 @@ class ArtifactConfigInput {
   }
 }
 
+/// @nodoc
 class ProvisionedResourceCleanupSetting {
   static const automatic = ProvisionedResourceCleanupSetting._('AUTOMATIC');
   static const off = ProvisionedResourceCleanupSetting._('OFF');
@@ -2370,6 +2406,8 @@ class ProvisionedResourceCleanupSetting {
 }
 
 /// A structure that specifies the browser type to use for a canary run.
+///
+/// @nodoc
 class BrowserConfig {
   /// The browser type associated with this browser configuration.
   final BrowserType? browserType;
@@ -2393,6 +2431,7 @@ class BrowserConfig {
   }
 }
 
+/// @nodoc
 class BrowserType {
   static const chrome = BrowserType._('CHROME');
   static const firefox = BrowserType._('FIREFOX');
@@ -2422,6 +2461,8 @@ class BrowserType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_artifact_encryption.html">Encrypting
 /// canary artifacts</a>
+///
+/// @nodoc
 class S3EncryptionConfig {
   /// The encryption method to use for artifacts created by this canary. Specify
   /// <code>SSE_S3</code> to use server-side encryption (SSE) with an Amazon
@@ -2458,6 +2499,7 @@ class S3EncryptionConfig {
   }
 }
 
+/// @nodoc
 class EncryptionMode {
   static const sseS3 = EncryptionMode._('SSE_S3');
   static const sseKms = EncryptionMode._('SSE_KMS');
@@ -2484,6 +2526,8 @@ class EncryptionMode {
 
 /// A structure representing a screenshot that is used as a baseline during
 /// visual monitoring comparisons made by the canary.
+///
+/// @nodoc
 class BaseScreenshot {
   /// The name of the screenshot. This is generated the first time the canary is
   /// run after the <code>UpdateCanary</code> operation that specified for this
@@ -2535,6 +2579,8 @@ class BaseScreenshot {
 /// <code>CanaryRunConfigInput.TimeoutInSeconds</code> to less than 600 seconds
 /// to avoid validation errors.
 /// </note>
+///
+/// @nodoc
 class RetryConfigInput {
   /// The maximum number of retries. The value must be less than or equal to 2.
   final int maxRetries;
@@ -2552,6 +2598,8 @@ class RetryConfigInput {
 }
 
 /// A structure that contains information about a dependency for a canary.
+///
+/// @nodoc
 class Dependency {
   /// The dependency reference. For Lambda layers, this is the ARN of the Lambda
   /// layer. For more information about Lambda ARN format, see <a
@@ -2583,6 +2631,7 @@ class Dependency {
   }
 }
 
+/// @nodoc
 class DependencyType {
   static const lambdaLayer = DependencyType._('LambdaLayer');
 
@@ -2607,6 +2656,8 @@ class DependencyType {
 }
 
 /// Returns the dry run configurations set for a canary.
+///
+/// @nodoc
 class DryRunConfigOutput {
   /// The DryRunId associated with an existing canary’s dry run. You can use this
   /// DryRunId to retrieve information about the dry run.
@@ -2639,6 +2690,8 @@ class DryRunConfigOutput {
 }
 
 /// A structure containing some information about a group.
+///
+/// @nodoc
 class GroupSummary {
   /// The ARN of the group.
   final String? arn;
@@ -2676,6 +2729,8 @@ class GroupSummary {
 }
 
 /// This structure contains information about one group.
+///
+/// @nodoc
 class Group {
   /// The ARN of the group.
   final String? arn;
@@ -2736,6 +2791,8 @@ class Group {
 }
 
 /// This structure contains the details about one run of one canary.
+///
+/// @nodoc
 class CanaryRun {
   /// The location where the canary stored artifacts from the run. Artifacts
   /// include the log file, screenshots, and HAR files.
@@ -2824,6 +2881,8 @@ class CanaryRun {
 }
 
 /// This structure contains the status information about a canary run.
+///
+/// @nodoc
 class CanaryRunStatus {
   /// The current state of the run.
   final CanaryRunState? state;
@@ -2885,6 +2944,8 @@ class CanaryRunStatus {
 }
 
 /// This structure contains the start and end times of a single canary run.
+///
+/// @nodoc
 class CanaryRunTimeline {
   /// The end time of the run.
   final DateTime? completed;
@@ -2926,6 +2987,8 @@ class CanaryRunTimeline {
 }
 
 /// Returns the dry run configurations set for a canary.
+///
+/// @nodoc
 class CanaryDryRunConfigOutput {
   /// The DryRunId associated with an existing canary’s dry run. You can use this
   /// DryRunId to retrieve information about the dry run.
@@ -2949,6 +3012,7 @@ class CanaryDryRunConfigOutput {
   }
 }
 
+/// @nodoc
 class CanaryRunState {
   static const running = CanaryRunState._('RUNNING');
   static const passed = CanaryRunState._('PASSED');
@@ -2974,6 +3038,7 @@ class CanaryRunState {
   String toString() => value;
 }
 
+/// @nodoc
 class CanaryRunStateReasonCode {
   static const canaryFailure = CanaryRunStateReasonCode._('CANARY_FAILURE');
   static const executionFailure =
@@ -3000,6 +3065,7 @@ class CanaryRunStateReasonCode {
   String toString() => value;
 }
 
+/// @nodoc
 class CanaryRunTestResult {
   static const passed = CanaryRunTestResult._('PASSED');
   static const failed = CanaryRunTestResult._('FAILED');
@@ -3026,6 +3092,7 @@ class CanaryRunTestResult {
   String toString() => value;
 }
 
+/// @nodoc
 class RunType {
   static const canaryRun = RunType._('CANARY_RUN');
   static const dryRun = RunType._('DRY_RUN');
@@ -3050,6 +3117,8 @@ class RunType {
 }
 
 /// This structure contains all information about one canary in your account.
+///
+/// @nodoc
 class Canary {
   /// A structure that contains the configuration for canary artifacts, including
   /// the encryption-at-rest settings for artifacts that the canary uploads to
@@ -3313,6 +3382,8 @@ class Canary {
 
 /// This structure contains information about the canary's Lambda handler and
 /// where its code is stored by CloudWatch Synthetics.
+///
+/// @nodoc
 class CanaryCodeOutput {
   /// <code>BlueprintTypes</code> is a list of templates that enable simplified
   /// canary creation. You can create canaries for common monitoring scenarios by
@@ -3381,6 +3452,8 @@ class CanaryCodeOutput {
 
 /// How long, in seconds, for the canary to continue making regular runs
 /// according to the schedule in the <code>Expression</code> value.
+///
+/// @nodoc
 class CanaryScheduleOutput {
   /// How long, in seconds, for the canary to continue making regular runs after
   /// it was created. The runs are performed according to the schedule in the
@@ -3441,6 +3514,8 @@ class CanaryScheduleOutput {
 }
 
 /// A structure that contains information about a canary run.
+///
+/// @nodoc
 class CanaryRunConfigOutput {
   /// Displays whether this canary run used active X-Ray tracing.
   final bool? activeTracing;
@@ -3490,6 +3565,8 @@ class CanaryRunConfigOutput {
 }
 
 /// A structure that contains the current state of the canary.
+///
+/// @nodoc
 class CanaryStatus {
   /// The current state of the canary.
   final CanaryState? state;
@@ -3531,6 +3608,8 @@ class CanaryStatus {
 
 /// This structure contains information about when the canary was created and
 /// modified.
+///
+/// @nodoc
 class CanaryTimeline {
   /// The date and time the canary was created.
   final DateTime? created;
@@ -3580,6 +3659,8 @@ class CanaryTimeline {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html">
 /// Running a Canary in a VPC</a>.
+///
+/// @nodoc
 class VpcConfigOutput {
   /// Indicates whether this canary allows outbound IPv6 traffic if it is
   /// connected to dual-stack subnets.
@@ -3638,6 +3719,8 @@ class VpcConfigOutput {
 ///
 /// Visual monitoring is supported only on canaries running the
 /// <b>syn-puppeteer-node-3.2</b> runtime or later.
+///
+/// @nodoc
 class VisualReferenceOutput {
   /// The ID of the canary run that produced the baseline screenshots that are
   /// used for visual monitoring comparisons by this canary.
@@ -3683,6 +3766,8 @@ class VisualReferenceOutput {
 /// A structure that contains the configuration for canary artifacts, including
 /// the encryption-at-rest settings for artifacts that the canary uploads to
 /// Amazon S3.
+///
+/// @nodoc
 class ArtifactConfigOutput {
   /// A structure that contains the configuration of encryption settings for
   /// canary artifacts that are stored in Amazon S3.
@@ -3711,6 +3796,8 @@ class ArtifactConfigOutput {
 
 /// A structure of engine configurations for the canary, one for each browser
 /// type that the canary is configured to run on.
+///
+/// @nodoc
 class EngineConfig {
   /// The browser type associated with this engine configuration.
   final BrowserType? browserType;
@@ -3742,6 +3829,7 @@ class EngineConfig {
   }
 }
 
+/// @nodoc
 class CanaryState {
   static const creating = CanaryState._('CREATING');
   static const ready = CanaryState._('READY');
@@ -3782,6 +3870,7 @@ class CanaryState {
   String toString() => value;
 }
 
+/// @nodoc
 class CanaryStateReasonCode {
   static const invalidPermissions =
       CanaryStateReasonCode._('INVALID_PERMISSIONS');
@@ -3833,6 +3922,8 @@ class CanaryStateReasonCode {
 }
 
 /// This structure contains information about the canary's retry configuration.
+///
+/// @nodoc
 class RetryConfigOutput {
   /// The maximum number of retries. The value must be less than or equal to 2.
   final int? maxRetries;
@@ -3859,6 +3950,8 @@ class RetryConfigOutput {
 /// more information about runtime versions, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html">
 /// Canary Runtime Versions</a>.
+///
+/// @nodoc
 class RuntimeVersion {
   /// If this runtime version is deprecated, this value is the date of
   /// deprecation.
@@ -3909,6 +4002,8 @@ class RuntimeVersion {
 
 /// This structure contains information about the most recent run of a single
 /// canary.
+///
+/// @nodoc
 class CanaryLastRun {
   /// The name of the canary.
   final String? canaryName;
@@ -3940,6 +4035,7 @@ class CanaryLastRun {
   }
 }
 
+/// @nodoc
 class ResourceToTag {
   static const lambdaFunction = ResourceToTag._('lambda-function');
 
@@ -3963,36 +4059,43 @@ class ResourceToTag {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class RequestEntityTooLargeException extends _s.GenericAwsException {
   RequestEntityTooLargeException({String? type, String? message})
       : super(
@@ -4001,11 +4104,13 @@ class RequestEntityTooLargeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4014,11 +4119,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

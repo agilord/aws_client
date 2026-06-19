@@ -333,6 +333,7 @@ class SageMakerFeatureStoreRuntime {
   }
 }
 
+/// @nodoc
 class BatchGetRecordResponse {
   /// A list of errors that have occurred when retrieving a batch of Records.
   final List<BatchGetRecordError> errors;
@@ -382,6 +383,7 @@ class BatchGetRecordResponse {
   }
 }
 
+/// @nodoc
 class GetRecordResponse {
   /// The <code>ExpiresAt</code> ISO string of the requested record.
   final String? expiresAt;
@@ -419,6 +421,8 @@ class GetRecordResponse {
 /// <code>TtlDuration</code>. For information on HardDelete, see the <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
 /// API in the Amazon SageMaker API Reference guide.
+///
+/// @nodoc
 class TtlDuration {
   /// <code>TtlDuration</code> time unit.
   final TtlDurationUnit unit;
@@ -441,6 +445,7 @@ class TtlDuration {
   }
 }
 
+/// @nodoc
 class TtlDurationUnit {
   static const seconds = TtlDurationUnit._('Seconds');
   static const minutes = TtlDurationUnit._('Minutes');
@@ -468,6 +473,7 @@ class TtlDurationUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetStore {
   static const onlineStore = TargetStore._('OnlineStore');
   static const offlineStore = TargetStore._('OfflineStore');
@@ -492,6 +498,8 @@ class TargetStore {
 }
 
 /// The value associated with a feature.
+///
+/// @nodoc
 class FeatureValue {
   /// The name of a feature that a feature value corresponds to.
   final String featureName;
@@ -538,6 +546,7 @@ class FeatureValue {
   }
 }
 
+/// @nodoc
 class ExpirationTimeResponse {
   static const enabled = ExpirationTimeResponse._('Enabled');
   static const disabled = ExpirationTimeResponse._('Disabled');
@@ -563,6 +572,7 @@ class ExpirationTimeResponse {
   String toString() => value;
 }
 
+/// @nodoc
 class DeletionMode {
   static const softDelete = DeletionMode._('SoftDelete');
   static const hardDelete = DeletionMode._('HardDelete');
@@ -588,6 +598,8 @@ class DeletionMode {
 
 /// The identifier that identifies the batch of Records you are retrieving in a
 /// batch.
+///
+/// @nodoc
 class BatchGetRecordIdentifier {
   /// The name or Amazon Resource Name (ARN) of the <code>FeatureGroup</code>
   /// containing the records you are retrieving in a batch.
@@ -634,6 +646,8 @@ class BatchGetRecordIdentifier {
 }
 
 /// The error that has occurred when attempting to retrieve a batch of Records.
+///
+/// @nodoc
 class BatchGetRecordError {
   /// The error code of an error that has occurred when attempting to retrieve a
   /// batch of Records. For more information on errors, see <a
@@ -684,6 +698,8 @@ class BatchGetRecordError {
 }
 
 /// The output of records that have been retrieved in a batch.
+///
+/// @nodoc
 class BatchGetRecordResultDetail {
   /// The <code>FeatureGroupName</code> containing Records you retrieved in a
   /// batch.
@@ -732,26 +748,31 @@ class BatchGetRecordResultDetail {
   }
 }
 
+/// @nodoc
 class AccessForbidden extends _s.GenericAwsException {
   AccessForbidden({String? type, String? message})
       : super(type: type, code: 'AccessForbidden', message: message);
 }
 
+/// @nodoc
 class InternalFailure extends _s.GenericAwsException {
   InternalFailure({String? type, String? message})
       : super(type: type, code: 'InternalFailure', message: message);
 }
 
+/// @nodoc
 class ResourceNotFound extends _s.GenericAwsException {
   ResourceNotFound({String? type, String? message})
       : super(type: type, code: 'ResourceNotFound', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailable extends _s.GenericAwsException {
   ServiceUnavailable({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailable', message: message);
 }
 
+/// @nodoc
 class ValidationError extends _s.GenericAwsException {
   ValidationError({String? type, String? message})
       : super(type: type, code: 'ValidationError', message: message);

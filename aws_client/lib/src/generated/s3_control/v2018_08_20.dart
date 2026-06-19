@@ -6281,6 +6281,7 @@ class S3Control {
   }
 }
 
+/// @nodoc
 class AssociateAccessGrantsIdentityCenterRequest {
   /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
@@ -6324,6 +6325,7 @@ class AssociateAccessGrantsIdentityCenterRequest {
   }
 }
 
+/// @nodoc
 class CreateAccessGrantRequest {
   /// The ID of the registered location to which you are granting access. S3
   /// Access Grants assigns this ID when you register the location. S3 Access
@@ -6454,6 +6456,7 @@ class CreateAccessGrantRequest {
   }
 }
 
+/// @nodoc
 class CreateAccessGrantResult {
   /// The Amazon Resource Name (ARN) of the access grant.
   final String? accessGrantArn;
@@ -6566,6 +6569,7 @@ class CreateAccessGrantResult {
   }
 }
 
+/// @nodoc
 class CreateAccessGrantsInstanceRequest {
   /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
@@ -6625,6 +6629,7 @@ class CreateAccessGrantsInstanceRequest {
   }
 }
 
+/// @nodoc
 class CreateAccessGrantsInstanceResult {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity
   /// Center instance that you are associating with your S3 Access Grants
@@ -6710,6 +6715,7 @@ class CreateAccessGrantsInstanceResult {
   }
 }
 
+/// @nodoc
 class CreateAccessGrantsLocationRequest {
   /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
@@ -6777,6 +6783,7 @@ class CreateAccessGrantsLocationRequest {
   }
 }
 
+/// @nodoc
 class CreateAccessGrantsLocationResult {
   /// The Amazon Resource Name (ARN) of the location you are registering.
   final String? accessGrantsLocationArn;
@@ -6842,6 +6849,7 @@ class CreateAccessGrantsLocationResult {
   }
 }
 
+/// @nodoc
 class CreateAccessPointRequest {
   /// The Amazon Web Services account ID for the account that owns the specified
   /// access point.
@@ -6976,6 +6984,7 @@ class CreateAccessPointRequest {
   }
 }
 
+/// @nodoc
 class CreateAccessPointResult {
   /// The ARN of the access point.
   /// <note>
@@ -7007,6 +7016,7 @@ class CreateAccessPointResult {
   }
 }
 
+/// @nodoc
 class CreateAccessPointForObjectLambdaRequest {
   /// The Amazon Web Services account ID for owner of the specified Object Lambda
   /// Access Point.
@@ -7051,6 +7061,7 @@ class CreateAccessPointForObjectLambdaRequest {
   }
 }
 
+/// @nodoc
 class CreateAccessPointForObjectLambdaResult {
   /// The alias of the Object Lambda Access Point.
   final ObjectLambdaAccessPointAlias? alias;
@@ -7083,6 +7094,7 @@ class CreateAccessPointForObjectLambdaResult {
   }
 }
 
+/// @nodoc
 class CreateBucketResult {
   /// The Amazon Resource Name (ARN) of the bucket.
   ///
@@ -7116,6 +7128,7 @@ class CreateBucketResult {
   }
 }
 
+/// @nodoc
 class CreateJobRequest {
   /// The Amazon Web Services account ID that creates the job.
   final String accountId;
@@ -7245,6 +7258,7 @@ class CreateJobRequest {
   }
 }
 
+/// @nodoc
 class CreateJobResult {
   /// The ID for this job. Amazon S3 generates this ID automatically and returns
   /// it after a successful <code>Create Job</code> request.
@@ -7267,6 +7281,7 @@ class CreateJobResult {
   }
 }
 
+/// @nodoc
 class CreateMultiRegionAccessPointRequest {
   /// The Amazon Web Services account ID for the owner of the Multi-Region Access
   /// Point. The owner of the Multi-Region Access Point also must own the
@@ -7316,6 +7331,7 @@ class CreateMultiRegionAccessPointRequest {
   }
 }
 
+/// @nodoc
 class CreateMultiRegionAccessPointResult {
   /// The request token associated with the request. You can use this token with
   /// <a
@@ -7340,6 +7356,7 @@ class CreateMultiRegionAccessPointResult {
   }
 }
 
+/// @nodoc
 class CreateStorageLensGroupRequest {
   /// The Amazon Web Services account ID that the Storage Lens group is created
   /// from and associated with.
@@ -7389,6 +7406,7 @@ class CreateStorageLensGroupRequest {
   }
 }
 
+/// @nodoc
 class DeleteJobTaggingResult {
   DeleteJobTaggingResult();
   factory DeleteJobTaggingResult.fromXml(
@@ -7402,6 +7420,7 @@ class DeleteJobTaggingResult {
   }
 }
 
+/// @nodoc
 class DeleteMultiRegionAccessPointRequest {
   /// The Amazon Web Services account ID for the owner of the Multi-Region Access
   /// Point.
@@ -7450,6 +7469,7 @@ class DeleteMultiRegionAccessPointRequest {
   }
 }
 
+/// @nodoc
 class DeleteMultiRegionAccessPointResult {
   /// The request token associated with the request. You can use this token with
   /// <a
@@ -7474,6 +7494,7 @@ class DeleteMultiRegionAccessPointResult {
   }
 }
 
+/// @nodoc
 class DeleteStorageLensConfigurationTaggingResult {
   DeleteStorageLensConfigurationTaggingResult();
   factory DeleteStorageLensConfigurationTaggingResult.fromXml(
@@ -7487,6 +7508,7 @@ class DeleteStorageLensConfigurationTaggingResult {
   }
 }
 
+/// @nodoc
 class DescribeJobResult {
   /// Contains the configuration parameters and status for the job specified in
   /// the <code>Describe Job</code> request.
@@ -7509,6 +7531,7 @@ class DescribeJobResult {
   }
 }
 
+/// @nodoc
 class DescribeMultiRegionAccessPointOperationResult {
   /// A container element containing the details of the asynchronous operation.
   final AsyncOperation? asyncOperation;
@@ -7533,6 +7556,7 @@ class DescribeMultiRegionAccessPointOperationResult {
   }
 }
 
+/// @nodoc
 class GetAccessGrantResult {
   /// The Amazon Resource Name (ARN) of the access grant.
   final String? accessGrantArn;
@@ -7645,6 +7669,7 @@ class GetAccessGrantResult {
   }
 }
 
+/// @nodoc
 class GetAccessGrantsInstanceResult {
   /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
   final String? accessGrantsInstanceArn;
@@ -7724,6 +7749,7 @@ class GetAccessGrantsInstanceResult {
   }
 }
 
+/// @nodoc
 class GetAccessGrantsInstanceForPrefixResult {
   /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
   final String? accessGrantsInstanceArn;
@@ -7757,6 +7783,7 @@ class GetAccessGrantsInstanceForPrefixResult {
   }
 }
 
+/// @nodoc
 class GetAccessGrantsInstanceResourcePolicyResult {
   /// The date and time when you created the S3 Access Grants instance resource
   /// policy.
@@ -7794,6 +7821,7 @@ class GetAccessGrantsInstanceResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class GetAccessGrantsLocationResult {
   /// The Amazon Resource Name (ARN) of the registered location.
   final String? accessGrantsLocationArn;
@@ -7859,6 +7887,7 @@ class GetAccessGrantsLocationResult {
   }
 }
 
+/// @nodoc
 class GetAccessPointResult {
   /// The ARN of the access point.
   final String? accessPointArn;
@@ -7983,6 +8012,7 @@ class GetAccessPointResult {
   }
 }
 
+/// @nodoc
 class GetAccessPointConfigurationForObjectLambdaResult {
   /// Object Lambda Access Point configuration document.
   final ObjectLambdaConfiguration? configuration;
@@ -8007,6 +8037,7 @@ class GetAccessPointConfigurationForObjectLambdaResult {
   }
 }
 
+/// @nodoc
 class GetAccessPointForObjectLambdaResult {
   /// The alias of the Object Lambda Access Point.
   final ObjectLambdaAccessPointAlias? alias;
@@ -8055,6 +8086,7 @@ class GetAccessPointForObjectLambdaResult {
   }
 }
 
+/// @nodoc
 class GetAccessPointPolicyResult {
   /// The access point policy associated with the specified access point.
   final String? policy;
@@ -8076,6 +8108,7 @@ class GetAccessPointPolicyResult {
   }
 }
 
+/// @nodoc
 class GetAccessPointPolicyForObjectLambdaResult {
   /// Object Lambda Access Point resource policy document.
   final String? policy;
@@ -8098,6 +8131,7 @@ class GetAccessPointPolicyForObjectLambdaResult {
   }
 }
 
+/// @nodoc
 class GetAccessPointPolicyStatusResult {
   /// Indicates the current policy status of the specified access point.
   final PolicyStatus? policyStatus;
@@ -8120,6 +8154,7 @@ class GetAccessPointPolicyStatusResult {
   }
 }
 
+/// @nodoc
 class GetAccessPointPolicyStatusForObjectLambdaResult {
   final PolicyStatus? policyStatus;
 
@@ -8142,6 +8177,7 @@ class GetAccessPointPolicyStatusForObjectLambdaResult {
   }
 }
 
+/// @nodoc
 class GetAccessPointScopeResult {
   /// The contents of the access point scope.
   final Scope? scope;
@@ -8163,6 +8199,7 @@ class GetAccessPointScopeResult {
   }
 }
 
+/// @nodoc
 class GetBucketResult {
   /// The Outposts bucket requested.
   final String? bucket;
@@ -8200,6 +8237,7 @@ class GetBucketResult {
   }
 }
 
+/// @nodoc
 class GetBucketLifecycleConfigurationResult {
   /// Container for the lifecycle rule of the Outposts bucket.
   final List<LifecycleRule>? rules;
@@ -8222,6 +8260,7 @@ class GetBucketLifecycleConfigurationResult {
   }
 }
 
+/// @nodoc
 class GetBucketPolicyResult {
   /// The policy of the Outposts bucket.
   final String? policy;
@@ -8243,6 +8282,7 @@ class GetBucketPolicyResult {
   }
 }
 
+/// @nodoc
 class GetBucketReplicationResult {
   /// A container for one or more replication rules. A replication configuration
   /// must have at least one rule and you can add up to 100 rules. The maximum
@@ -8269,6 +8309,7 @@ class GetBucketReplicationResult {
   }
 }
 
+/// @nodoc
 class GetBucketTaggingResult {
   /// The tags set of the Outposts bucket.
   final List<S3Tag> tagSet;
@@ -8294,6 +8335,7 @@ class GetBucketTaggingResult {
   }
 }
 
+/// @nodoc
 class GetBucketVersioningResult {
   /// Specifies whether MFA delete is enabled in the bucket versioning
   /// configuration. This element is returned only if the bucket has been
@@ -8329,6 +8371,7 @@ class GetBucketVersioningResult {
   }
 }
 
+/// @nodoc
 class GetDataAccessResult {
   /// The temporary credential token that S3 Access Grants vends.
   final Credentials? credentials;
@@ -8371,6 +8414,7 @@ class GetDataAccessResult {
   }
 }
 
+/// @nodoc
 class GetJobTaggingResult {
   /// The set of tags associated with the S3 Batch Operations job.
   final List<S3Tag>? tags;
@@ -8393,6 +8437,7 @@ class GetJobTaggingResult {
   }
 }
 
+/// @nodoc
 class GetMultiRegionAccessPointResult {
   /// A container element containing the details of the requested Multi-Region
   /// Access Point.
@@ -8417,6 +8462,7 @@ class GetMultiRegionAccessPointResult {
   }
 }
 
+/// @nodoc
 class GetMultiRegionAccessPointPolicyResult {
   /// The policy associated with the specified Multi-Region Access Point.
   final MultiRegionAccessPointPolicyDocument? policy;
@@ -8440,6 +8486,7 @@ class GetMultiRegionAccessPointPolicyResult {
   }
 }
 
+/// @nodoc
 class GetMultiRegionAccessPointPolicyStatusResult {
   final PolicyStatus? established;
 
@@ -8462,6 +8509,7 @@ class GetMultiRegionAccessPointPolicyStatusResult {
   }
 }
 
+/// @nodoc
 class GetMultiRegionAccessPointRoutesResult {
   /// The Multi-Region Access Point ARN.
   final String? mrap;
@@ -8495,6 +8543,7 @@ class GetMultiRegionAccessPointRoutesResult {
   }
 }
 
+/// @nodoc
 class GetPublicAccessBlockOutput {
   /// The <code>PublicAccessBlock</code> configuration currently in effect for
   /// this Amazon Web Services account.
@@ -8513,6 +8562,7 @@ class GetPublicAccessBlockOutput {
   }
 }
 
+/// @nodoc
 class GetStorageLensConfigurationResult {
   /// The S3 Storage Lens configuration requested.
   final StorageLensConfiguration? storageLensConfiguration;
@@ -8530,6 +8580,7 @@ class GetStorageLensConfigurationResult {
   }
 }
 
+/// @nodoc
 class GetStorageLensConfigurationTaggingResult {
   /// The tags of S3 Storage Lens configuration requested.
   final List<StorageLensTag>? tags;
@@ -8552,6 +8603,7 @@ class GetStorageLensConfigurationTaggingResult {
   }
 }
 
+/// @nodoc
 class GetStorageLensGroupResult {
   /// The name of the Storage Lens group that you're trying to retrieve the
   /// configuration details for.
@@ -8569,6 +8621,7 @@ class GetStorageLensGroupResult {
   }
 }
 
+/// @nodoc
 class ListAccessGrantsResult {
   /// A container for a list of grants in an S3 Access Grants instance.
   final List<ListAccessGrantEntry>? accessGrantsList;
@@ -8603,6 +8656,7 @@ class ListAccessGrantsResult {
   }
 }
 
+/// @nodoc
 class ListAccessGrantsInstancesResult {
   /// A container for a list of S3 Access Grants instances.
   final List<ListAccessGrantsInstanceEntry>? accessGrantsInstancesList;
@@ -8639,6 +8693,7 @@ class ListAccessGrantsInstancesResult {
   }
 }
 
+/// @nodoc
 class ListAccessGrantsLocationsResult {
   /// A container for a list of registered locations in an S3 Access Grants
   /// instance.
@@ -8676,6 +8731,7 @@ class ListAccessGrantsLocationsResult {
   }
 }
 
+/// @nodoc
 class ListAccessPointsResult {
   /// Contains identification and configuration information for one or more access
   /// points associated with the specified bucket.
@@ -8712,6 +8768,7 @@ class ListAccessPointsResult {
   }
 }
 
+/// @nodoc
 class ListAccessPointsForDirectoryBucketsResult {
   /// Contains identification and configuration information for one or more access
   /// points associated with the directory bucket.
@@ -8750,6 +8807,7 @@ class ListAccessPointsForDirectoryBucketsResult {
   }
 }
 
+/// @nodoc
 class ListAccessPointsForObjectLambdaResult {
   /// If the list has more access points than can be returned in one call to this
   /// API, this field contains a continuation token that you can provide in
@@ -8786,6 +8844,7 @@ class ListAccessPointsForObjectLambdaResult {
   }
 }
 
+/// @nodoc
 class ListCallerAccessGrantsResult {
   /// A list of the caller's access grants that were created using S3 Access
   /// Grants and that grant the caller access to the S3 data of the Amazon Web
@@ -8824,6 +8883,7 @@ class ListCallerAccessGrantsResult {
   }
 }
 
+/// @nodoc
 class ListJobsResult {
   /// The list of current jobs and jobs that have ended within the last 30 days.
   final List<JobListDescriptor>? jobs;
@@ -8855,6 +8915,7 @@ class ListJobsResult {
   }
 }
 
+/// @nodoc
 class ListMultiRegionAccessPointsResult {
   /// The list of Multi-Region Access Points associated with the user.
   final List<MultiRegionAccessPointReport>? accessPoints;
@@ -8889,6 +8950,7 @@ class ListMultiRegionAccessPointsResult {
   }
 }
 
+/// @nodoc
 class ListRegionalBucketsResult {
   /// <code>NextToken</code> is sent when <code>isTruncated</code> is true, which
   /// means there are more buckets that can be listed. The next list requests to
@@ -8924,6 +8986,7 @@ class ListRegionalBucketsResult {
   }
 }
 
+/// @nodoc
 class ListStorageLensConfigurationsResult {
   /// If the request produced more than the maximum number of S3 Storage Lens
   /// configuration results, you can pass this value into a subsequent request to
@@ -8958,6 +9021,7 @@ class ListStorageLensConfigurationsResult {
   }
 }
 
+/// @nodoc
 class ListStorageLensGroupsResult {
   /// If <code>NextToken</code> is returned, there are more Storage Lens groups
   /// results available. The value of <code>NextToken</code> is a unique
@@ -8994,6 +9058,7 @@ class ListStorageLensGroupsResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResult {
   /// The Amazon Web Services resource tags that are associated with the resource.
   final List<Tag>? tags;
@@ -9017,6 +9082,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class PutAccessGrantsInstanceResourcePolicyRequest {
   /// The Amazon Web Services account ID of the S3 Access Grants instance.
   final String accountId;
@@ -9063,6 +9129,7 @@ class PutAccessGrantsInstanceResourcePolicyRequest {
   }
 }
 
+/// @nodoc
 class PutAccessGrantsInstanceResourcePolicyResult {
   /// The date and time when you created the S3 Access Grants instance resource
   /// policy.
@@ -9100,6 +9167,7 @@ class PutAccessGrantsInstanceResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class PutAccessPointConfigurationForObjectLambdaRequest {
   /// The account ID for the account that owns the specified Object Lambda Access
   /// Point.
@@ -9144,6 +9212,7 @@ class PutAccessPointConfigurationForObjectLambdaRequest {
   }
 }
 
+/// @nodoc
 class PutAccessPointPolicyRequest {
   /// The Amazon Web Services account ID for owner of the bucket associated with
   /// the specified access point.
@@ -9208,6 +9277,7 @@ class PutAccessPointPolicyRequest {
   }
 }
 
+/// @nodoc
 class PutAccessPointPolicyForObjectLambdaRequest {
   /// The account ID for the account that owns the specified Object Lambda Access
   /// Point.
@@ -9252,6 +9322,7 @@ class PutAccessPointPolicyForObjectLambdaRequest {
   }
 }
 
+/// @nodoc
 class PutAccessPointScopeRequest {
   /// The Amazon Web Services account ID that owns the access point with scope
   /// that you want to create or replace.
@@ -9297,6 +9368,7 @@ class PutAccessPointScopeRequest {
   }
 }
 
+/// @nodoc
 class PutBucketPolicyRequest {
   /// The Amazon Web Services account ID of the Outposts bucket.
   final String accountId;
@@ -9362,6 +9434,7 @@ class PutBucketPolicyRequest {
   }
 }
 
+/// @nodoc
 class PutJobTaggingRequest {
   /// The Amazon Web Services account ID associated with the S3 Batch Operations
   /// job.
@@ -9407,6 +9480,7 @@ class PutJobTaggingRequest {
   }
 }
 
+/// @nodoc
 class PutJobTaggingResult {
   PutJobTaggingResult();
   factory PutJobTaggingResult.fromXml(
@@ -9420,6 +9494,7 @@ class PutJobTaggingResult {
   }
 }
 
+/// @nodoc
 class PutMultiRegionAccessPointPolicyRequest {
   /// The Amazon Web Services account ID for the owner of the Multi-Region Access
   /// Point.
@@ -9469,6 +9544,7 @@ class PutMultiRegionAccessPointPolicyRequest {
   }
 }
 
+/// @nodoc
 class PutMultiRegionAccessPointPolicyResult {
   /// The request token associated with the request. You can use this token with
   /// <a
@@ -9493,6 +9569,7 @@ class PutMultiRegionAccessPointPolicyResult {
   }
 }
 
+/// @nodoc
 class PutStorageLensConfigurationRequest {
   /// The account ID of the requester.
   final String accountId;
@@ -9549,6 +9626,7 @@ class PutStorageLensConfigurationRequest {
   }
 }
 
+/// @nodoc
 class PutStorageLensConfigurationTaggingRequest {
   /// The account ID of the requester.
   final String accountId;
@@ -9596,6 +9674,7 @@ class PutStorageLensConfigurationTaggingRequest {
   }
 }
 
+/// @nodoc
 class PutStorageLensConfigurationTaggingResult {
   PutStorageLensConfigurationTaggingResult();
   factory PutStorageLensConfigurationTaggingResult.fromXml(
@@ -9609,6 +9688,7 @@ class PutStorageLensConfigurationTaggingResult {
   }
 }
 
+/// @nodoc
 class SubmitMultiRegionAccessPointRoutesRequest {
   /// The Amazon Web Services account ID for the owner of the Multi-Region Access
   /// Point.
@@ -9656,6 +9736,7 @@ class SubmitMultiRegionAccessPointRoutesRequest {
   }
 }
 
+/// @nodoc
 class SubmitMultiRegionAccessPointRoutesResult {
   SubmitMultiRegionAccessPointRoutesResult();
   factory SubmitMultiRegionAccessPointRoutesResult.fromXml(
@@ -9669,6 +9750,7 @@ class SubmitMultiRegionAccessPointRoutesResult {
   }
 }
 
+/// @nodoc
 class TagResourceRequest {
   /// The Amazon Web Services account ID that created the S3 resource that you're
   /// trying to add tags to or the requester's account ID.
@@ -9717,6 +9799,7 @@ class TagResourceRequest {
   }
 }
 
+/// @nodoc
 class TagResourceResult {
   TagResourceResult();
   factory TagResourceResult.fromXml(
@@ -9730,6 +9813,7 @@ class TagResourceResult {
   }
 }
 
+/// @nodoc
 class UntagResourceResult {
   UntagResourceResult();
   factory UntagResourceResult.fromXml(
@@ -9743,6 +9827,7 @@ class UntagResourceResult {
   }
 }
 
+/// @nodoc
 class UpdateAccessGrantsLocationRequest {
   /// The ID of the registered location that you are updating. S3 Access Grants
   /// assigns this ID when you register the location. S3 Access Grants assigns the
@@ -9801,6 +9886,7 @@ class UpdateAccessGrantsLocationRequest {
   }
 }
 
+/// @nodoc
 class UpdateAccessGrantsLocationResult {
   /// The Amazon Resource Name (ARN) of the registered location that you are
   /// updating.
@@ -9865,6 +9951,7 @@ class UpdateAccessGrantsLocationResult {
   }
 }
 
+/// @nodoc
 class UpdateJobPriorityResult {
   /// The ID for the job whose priority Amazon S3 updated.
   final String jobId;
@@ -9893,6 +9980,7 @@ class UpdateJobPriorityResult {
   }
 }
 
+/// @nodoc
 class UpdateJobStatusResult {
   /// The ID for the job whose status was updated.
   final String? jobId;
@@ -9929,6 +10017,7 @@ class UpdateJobStatusResult {
   }
 }
 
+/// @nodoc
 class UpdateStorageLensGroupRequest {
   /// The Amazon Web Services account ID of the Storage Lens group owner.
   final String accountId;
@@ -9977,6 +10066,8 @@ class UpdateStorageLensGroupRequest {
 /// group that includes a single filter or multiple filter conditions. To
 /// specify multiple filter conditions, you use <code>AND</code> or
 /// <code>OR</code> logical operators.
+///
+/// @nodoc
 class StorageLensGroup {
   /// Sets the criteria for the Storage Lens group data that is displayed. For
   /// multiple filter conditions, the <code>AND</code> or <code>OR</code> logical
@@ -10041,6 +10132,8 @@ class StorageLensGroup {
 /// The filter element sets the criteria for the Storage Lens group data that is
 /// displayed. For multiple filter conditions, the <code>AND</code> or
 /// <code>OR</code> logical operator is used.
+///
+/// @nodoc
 class StorageLensGroupFilter {
   /// A logical operator that allows multiple filter conditions to be joined for
   /// more complex comparisons of Storage Lens group data. Objects must match all
@@ -10164,6 +10257,8 @@ class StorageLensGroupFilter {
 
 /// A filter condition that specifies the object age range of included objects
 /// in days. Only integers are supported.
+///
+/// @nodoc
 class MatchObjectAge {
   /// Specifies the maximum object age in days. Must be a positive whole number,
   /// greater than the minimum object age and less than or equal to 2,147,483,647.
@@ -10215,6 +10310,8 @@ class MatchObjectAge {
 
 /// A filter condition that specifies the object size range of included objects
 /// in bytes. Only integers are supported.
+///
+/// @nodoc
 class MatchObjectSize {
   /// Specifies the minimum object size in Bytes. The value must be a positive
   /// number, greater than 0 and less than 50 TB.
@@ -10266,6 +10363,8 @@ class MatchObjectSize {
 
 /// A logical operator that allows multiple filter conditions to be joined for
 /// more complex comparisons of Storage Lens group data.
+///
+/// @nodoc
 class StorageLensGroupAndOperator {
   /// Contains a list of prefixes. At least one prefix must be specified. Up to 10
   /// prefixes are allowed.
@@ -10364,6 +10463,8 @@ class StorageLensGroupAndOperator {
 /// applies. Objects can match any of the listed filter conditions, which are
 /// joined by the <code>Or</code> logical operator. Only one of each filter
 /// condition is allowed.
+///
+/// @nodoc
 class StorageLensGroupOrOperator {
   /// Filters objects that match any of the specified prefixes.
   final List<String>? matchAnyPrefix;
@@ -10453,6 +10554,8 @@ class StorageLensGroupOrOperator {
 }
 
 /// A container for a key-value name pair.
+///
+/// @nodoc
 class S3Tag {
   /// Key of the tag
   final String key;
@@ -10498,6 +10601,7 @@ class S3Tag {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const active = JobStatus._('Active');
   static const cancelled = JobStatus._('Cancelled');
@@ -10546,6 +10650,7 @@ class JobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RequestedJobStatus {
   static const cancelled = RequestedJobStatus._('Cancelled');
   static const ready = RequestedJobStatus._('Ready');
@@ -10575,6 +10680,8 @@ class RequestedJobStatus {
 /// new resources when you create them, or you can add tags to existing
 /// resources. Tags can help you organize, track costs for, and control access
 /// to resources.
+///
+/// @nodoc
 class Tag {
   /// The key of the key-value pair of a tag added to your Amazon Web Services
   /// resource. A tag key can be up to 128 Unicode characters in length and is
@@ -10635,6 +10742,8 @@ class Tag {
 /// <code>TrafficDialPercentage</code> value, which shows whether the bucket and
 /// Region are active (indicated by a value of <code>100</code>) or passive
 /// (indicated by a value of <code>0</code>).
+///
+/// @nodoc
 class MultiRegionAccessPointRoute {
   /// The traffic state for the specified bucket or Amazon Web Services Region.
   ///
@@ -10711,6 +10820,8 @@ class MultiRegionAccessPointRoute {
 }
 
 ///
+///
+/// @nodoc
 class StorageLensTag {
   ///
   final String key;
@@ -10757,6 +10868,8 @@ class StorageLensTag {
 }
 
 /// A container for the Amazon S3 Storage Lens configuration.
+///
+/// @nodoc
 class StorageLensConfiguration {
   /// A container for all the account-level configurations of your S3 Storage Lens
   /// configuration.
@@ -10926,6 +11039,8 @@ class StorageLensConfiguration {
 /// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
 /// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class AccountLevel {
   /// A container element for the S3 Storage Lens bucket-level configuration.
   final BucketLevel bucketLevel;
@@ -11043,6 +11158,8 @@ class AccountLevel {
 }
 
 /// A container for what Amazon S3 Storage Lens configuration includes.
+///
+/// @nodoc
 class Include {
   /// A container for the S3 Storage Lens bucket includes.
   final List<String>? buckets;
@@ -11097,6 +11214,8 @@ class Include {
 }
 
 /// A container for what Amazon S3 Storage Lens will exclude.
+///
+/// @nodoc
 class Exclude {
   /// A container for the S3 Storage Lens bucket excludes.
   final List<String>? buckets;
@@ -11152,6 +11271,8 @@ class Exclude {
 
 /// A container to specify the properties of your S3 Storage Lens metrics
 /// export, including the destination, schema, and format.
+///
+/// @nodoc
 class StorageLensDataExport {
   /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens
   /// metrics.
@@ -11228,6 +11349,8 @@ class StorageLensDataExport {
 /// configuration. Unlike the default Storage Lens metrics report, the enhanced
 /// prefix metrics report includes all S3 Storage Lens storage and activity data
 /// related to the full list of prefixes in your Storage Lens configuration.
+///
+/// @nodoc
 class StorageLensExpandedPrefixesDataExport {
   final S3BucketDestination? s3BucketDestination;
 
@@ -11282,6 +11405,8 @@ class StorageLensExpandedPrefixesDataExport {
 }
 
 /// The Amazon Web Services organization for your S3 Storage Lens.
+///
+/// @nodoc
 class StorageLensAwsOrg {
   /// A container for the Amazon Resource Name (ARN) of the Amazon Web Services
   /// organization. This property is read-only and follows the following format:
@@ -11324,6 +11449,8 @@ class StorageLensAwsOrg {
 
 /// A container for the bucket where the Amazon S3 Storage Lens metrics export
 /// files are located.
+///
+/// @nodoc
 class S3BucketDestination {
   /// The account ID of the owner of the S3 Storage Lens metrics export bucket.
   final String accountId;
@@ -11421,6 +11548,8 @@ class S3BucketDestination {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
 /// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
 /// User Guide</i>.
+///
+/// @nodoc
 class StorageLensTableDestination {
   /// A container that indicates whether the export to read-only S3 table buckets
   /// is enabled for your S3 Storage Lens configuration. When set to true, Storage
@@ -11470,6 +11599,8 @@ class StorageLensTableDestination {
 }
 
 /// A container for the encryption of the S3 Storage Lens metrics exports.
+///
+/// @nodoc
 class StorageLensDataExportEncryption {
   ///
   final SSEKMS? ssekms;
@@ -11516,6 +11647,8 @@ class StorageLensDataExportEncryption {
 }
 
 ///
+///
+/// @nodoc
 class SSES3 {
   SSES3();
   factory SSES3.fromXml(
@@ -11542,6 +11675,8 @@ class SSES3 {
 }
 
 ///
+///
+/// @nodoc
 class SSEKMS {
   /// A container for the ARN of the SSE-KMS encryption. This property is
   /// read-only and follows the following format: <code>
@@ -11581,6 +11716,7 @@ class SSEKMS {
   }
 }
 
+/// @nodoc
 class Format {
   static const csv = Format._('CSV');
   static const parquet = Format._('Parquet');
@@ -11604,6 +11740,7 @@ class Format {
   String toString() => value;
 }
 
+/// @nodoc
 class OutputSchemaVersion {
   static const v_1 = OutputSchemaVersion._('V_1');
 
@@ -11636,6 +11773,8 @@ class OutputSchemaVersion {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_view_metrics_cloudwatch.html">Monitor
 /// S3 Storage Lens metrics in CloudWatch</a> in the <i>Amazon S3 User
 /// Guide</i>.
+///
+/// @nodoc
 class CloudWatchMetrics {
   /// A container that indicates whether CloudWatch publishing for S3 Storage Lens
   /// metrics is enabled. A value of <code>true</code> indicates that CloudWatch
@@ -11685,6 +11824,8 @@ class CloudWatchMetrics {
 /// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
 /// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class ActivityMetrics {
   /// A container that indicates whether activity metrics are enabled.
   final bool? isEnabled;
@@ -11727,6 +11868,8 @@ class ActivityMetrics {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html">Assessing
 /// your storage activity and usage with S3 Storage Lens</a> in the <i>Amazon S3
 /// User Guide</i>.
+///
+/// @nodoc
 class BucketLevel {
   /// A container for the bucket-level activity metrics for S3 Storage Lens.
   final ActivityMetrics? activityMetrics;
@@ -11845,6 +11988,8 @@ class BucketLevel {
 /// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
 /// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class AdvancedCostOptimizationMetrics {
   /// A container that indicates whether advanced cost-optimization metrics are
   /// enabled.
@@ -11893,6 +12038,8 @@ class AdvancedCostOptimizationMetrics {
 /// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
 /// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class AdvancedDataProtectionMetrics {
   /// A container that indicates whether advanced data-protection metrics are
   /// enabled.
@@ -11941,6 +12088,8 @@ class AdvancedDataProtectionMetrics {
 /// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
 /// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class DetailedStatusCodesMetrics {
   /// A container that indicates whether detailed status code metrics are enabled.
   final bool? isEnabled;
@@ -11989,6 +12138,8 @@ class DetailedStatusCodesMetrics {
 /// User Guide</i>. For a complete list of S3 Storage Lens metrics, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html">S3
 /// Storage Lens metrics glossary</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class AdvancedPerformanceMetrics {
   /// A container that indicates whether S3 Storage Lens advanced performance
   /// metrics are enabled.
@@ -12028,6 +12179,8 @@ class AdvancedPerformanceMetrics {
 
 /// Specifies the Storage Lens groups to include in the Storage Lens group
 /// aggregation.
+///
+/// @nodoc
 class StorageLensGroupLevel {
   /// Indicates which Storage Lens group ARNs to include or exclude in the Storage
   /// Lens group aggregation. If this value is left null, then all Storage Lens
@@ -12074,6 +12227,8 @@ class StorageLensGroupLevel {
 /// Storage Lens dashboard if they're included in your Storage Lens group
 /// aggregation. If this value is left null, then all Storage Lens groups are
 /// selected.
+///
+/// @nodoc
 class StorageLensGroupLevelSelectionCriteria {
   /// Indicates which Storage Lens group ARNs to exclude from the Storage Lens
   /// group aggregation.
@@ -12130,6 +12285,8 @@ class StorageLensGroupLevelSelectionCriteria {
 }
 
 /// A container for the prefix-level configuration.
+///
+/// @nodoc
 class PrefixLevel {
   /// A container for the prefix-level storage metrics for S3 Storage Lens.
   final PrefixLevelStorageMetrics storageMetrics;
@@ -12168,6 +12325,8 @@ class PrefixLevel {
 }
 
 /// A container for the prefix-level storage metrics for S3 Storage Lens.
+///
+/// @nodoc
 class PrefixLevelStorageMetrics {
   /// A container for whether prefix-level storage metrics are enabled.
   final bool? isEnabled;
@@ -12215,6 +12374,8 @@ class PrefixLevelStorageMetrics {
 }
 
 ///
+///
+/// @nodoc
 class SelectionCriteria {
   /// A container for the delimiter of the selection criteria being used.
   final String? delimiter;
@@ -12285,6 +12446,8 @@ class SelectionCriteria {
 /// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
 ///
 /// This data type is not supported for Amazon S3 on Outposts.
+///
+/// @nodoc
 class PublicAccessBlockConfiguration {
   /// Specifies whether Amazon S3 should block public access control lists (ACLs)
   /// for buckets in this account. Setting this element to <code>TRUE</code>
@@ -12399,6 +12562,8 @@ class PublicAccessBlockConfiguration {
 /// A container for the information associated with a <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html">PutMultiRegionAccessPoint</a>
 /// request.
+///
+/// @nodoc
 class PutMultiRegionAccessPointPolicyInput {
   /// The name of the Multi-Region Access Point associated with the request.
   final String name;
@@ -12447,6 +12612,8 @@ class PutMultiRegionAccessPointPolicyInput {
 /// Describes the versioning state of an Amazon S3 on Outposts bucket. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketVersioning.html">PutBucketVersioning</a>.
+///
+/// @nodoc
 class VersioningConfiguration {
   /// Specifies whether MFA delete is enabled or disabled in the bucket versioning
   /// configuration for the S3 on Outposts bucket.
@@ -12488,6 +12655,7 @@ class VersioningConfiguration {
   }
 }
 
+/// @nodoc
 class MFADelete {
   static const enabled = MFADelete._('Enabled');
   static const disabled = MFADelete._('Disabled');
@@ -12511,6 +12679,7 @@ class MFADelete {
   String toString() => value;
 }
 
+/// @nodoc
 class BucketVersioningStatus {
   static const enabled = BucketVersioningStatus._('Enabled');
   static const suspended = BucketVersioningStatus._('Suspended');
@@ -12537,6 +12706,8 @@ class BucketVersioningStatus {
 }
 
 ///
+///
+/// @nodoc
 class Tagging {
   /// A collection for a set of tags.
   final List<S3Tag> tagSet;
@@ -12572,6 +12743,8 @@ class Tagging {
 /// A container for one or more replication rules. A replication configuration
 /// must have at least one rule and you can add up to 100 rules. The maximum
 /// size of a replication configuration is 128 KB.
+///
+/// @nodoc
 class ReplicationConfiguration {
   /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   /// role that S3 on Outposts assumes when replicating objects. For information
@@ -12630,6 +12803,8 @@ class ReplicationConfiguration {
 
 /// Specifies which S3 on Outposts objects to replicate and where to store the
 /// replicas.
+///
+/// @nodoc
 class ReplicationRule {
   /// The Amazon Resource Name (ARN) of the access point for the source Outposts
   /// bucket that you want S3 on Outposts to replicate the objects from.
@@ -12804,6 +12979,8 @@ class ReplicationRule {
 /// A filter that identifies the subset of objects to which the replication rule
 /// applies. A <code>Filter</code> element must specify exactly one
 /// <code>Prefix</code>, <code>Tag</code>, or <code>And</code> child element.
+///
+/// @nodoc
 class ReplicationRuleFilter {
   /// A container for specifying rule filters. The filters determine the subset of
   /// objects that the rule applies to. This element is required only if you
@@ -12879,6 +13056,7 @@ class ReplicationRuleFilter {
   }
 }
 
+/// @nodoc
 class ReplicationRuleStatus {
   static const enabled = ReplicationRuleStatus._('Enabled');
   static const disabled = ReplicationRuleStatus._('Disabled');
@@ -12907,6 +13085,8 @@ class ReplicationRuleStatus {
 /// A container that describes additional filters for identifying the source
 /// objects that you want to replicate. You can choose to enable or disable the
 /// replication of these objects.
+///
+/// @nodoc
 class SourceSelectionCriteria {
   /// A filter that you can use to specify whether replica modification sync is
   /// enabled. S3 on Outposts replica modification sync can help you keep object
@@ -12985,6 +13165,8 @@ class SourceSelectionCriteria {
 /// <note>
 /// This is not supported by Amazon S3 on Outposts buckets.
 /// </note>
+///
+/// @nodoc
 class ExistingObjectReplication {
   /// Specifies whether Amazon S3 replicates existing source bucket objects.
   final ExistingObjectReplicationStatus status;
@@ -13025,6 +13207,8 @@ class ExistingObjectReplication {
 
 /// Specifies information about the replication destination bucket and its
 /// settings for an S3 on Outposts replication configuration.
+///
+/// @nodoc
 class Destination {
   /// The Amazon Resource Name (ARN) of the access point for the destination
   /// bucket where you want S3 on Outposts to store the replication results.
@@ -13166,6 +13350,8 @@ class Destination {
 /// For more information about delete marker replication, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3OutpostsReplication.html#outposts-replication-what-is-replicated">How
 /// delete operations affect replication</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class DeleteMarkerReplication {
   /// Indicates whether to replicate delete markers.
   final DeleteMarkerReplicationStatus status;
@@ -13204,6 +13390,7 @@ class DeleteMarkerReplication {
   }
 }
 
+/// @nodoc
 class DeleteMarkerReplicationStatus {
   static const enabled = DeleteMarkerReplicationStatus._('Enabled');
   static const disabled = DeleteMarkerReplicationStatus._('Disabled');
@@ -13235,6 +13422,8 @@ class DeleteMarkerReplicationStatus {
 /// <note>
 /// This is not supported by Amazon S3 on Outposts buckets.
 /// </note>
+///
+/// @nodoc
 class ReplicationTime {
   /// Specifies whether S3 Replication Time Control (S3 RTC) is enabled.
   final ReplicationTimeStatus status;
@@ -13287,6 +13476,8 @@ class ReplicationTime {
 /// <note>
 /// This is not supported by Amazon S3 on Outposts buckets.
 /// </note>
+///
+/// @nodoc
 class AccessControlTranslation {
   /// Specifies the replica ownership.
   final OwnerOverride owner;
@@ -13334,6 +13525,8 @@ class AccessControlTranslation {
 /// <note>
 /// This is not supported by Amazon S3 on Outposts buckets.
 /// </note>
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// Specifies the ID of the customer managed KMS key that's stored in Key
   /// Management Service (KMS) for the destination bucket. This ID is either the
@@ -13379,6 +13572,8 @@ class EncryptionConfiguration {
 }
 
 /// A container that specifies replication metrics-related settings.
+///
+/// @nodoc
 class Metrics {
   /// Specifies whether replication metrics are enabled.
   final MetricsStatus status;
@@ -13432,6 +13627,7 @@ class Metrics {
   }
 }
 
+/// @nodoc
 class ReplicationStorageClass {
   static const standard = ReplicationStorageClass._('STANDARD');
   static const reducedRedundancy =
@@ -13476,6 +13672,7 @@ class ReplicationStorageClass {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricsStatus {
   static const enabled = MetricsStatus._('Enabled');
   static const disabled = MetricsStatus._('Disabled');
@@ -13506,6 +13703,8 @@ class MetricsStatus {
 /// <note>
 /// This is not supported by Amazon S3 on Outposts buckets.
 /// </note>
+///
+/// @nodoc
 class ReplicationTimeValue {
   /// Contains an integer that specifies the time period in minutes.
   ///
@@ -13544,6 +13743,7 @@ class ReplicationTimeValue {
   }
 }
 
+/// @nodoc
 class OwnerOverride {
   static const destination = OwnerOverride._('Destination');
 
@@ -13567,6 +13767,7 @@ class OwnerOverride {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationTimeStatus {
   static const enabled = ReplicationTimeStatus._('Enabled');
   static const disabled = ReplicationTimeStatus._('Disabled');
@@ -13592,6 +13793,7 @@ class ReplicationTimeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ExistingObjectReplicationStatus {
   static const enabled = ExistingObjectReplicationStatus._('Enabled');
   static const disabled = ExistingObjectReplicationStatus._('Disabled');
@@ -13622,6 +13824,8 @@ class ExistingObjectReplicationStatus {
 /// <note>
 /// This is not supported by Amazon S3 on Outposts buckets.
 /// </note>
+///
+/// @nodoc
 class SseKmsEncryptedObjects {
   /// Specifies whether Amazon S3 replicates objects that are created with
   /// server-side encryption by using an KMS key stored in Key Management Service.
@@ -13677,6 +13881,8 @@ class SseKmsEncryptedObjects {
 /// buckets to replicate replica metadata changes between the source and the
 /// replicas.
 /// </note>
+///
+/// @nodoc
 class ReplicaModifications {
   /// Specifies whether S3 on Outposts replicates modifications to object metadata
   /// on replicas.
@@ -13716,6 +13922,7 @@ class ReplicaModifications {
   }
 }
 
+/// @nodoc
 class ReplicaModificationsStatus {
   static const enabled = ReplicaModificationsStatus._('Enabled');
   static const disabled = ReplicaModificationsStatus._('Disabled');
@@ -13741,6 +13948,7 @@ class ReplicaModificationsStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SseKmsEncryptedObjectsStatus {
   static const enabled = SseKmsEncryptedObjectsStatus._('Enabled');
   static const disabled = SseKmsEncryptedObjectsStatus._('Disabled');
@@ -13782,6 +13990,8 @@ class SseKmsEncryptedObjectsStatus {
 /// elements in an <code>And</code> element.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ReplicationRuleAndOperator {
   /// An object key name prefix that identifies the subset of objects that the
   /// rule applies to.
@@ -13832,6 +14042,8 @@ class ReplicationRuleAndOperator {
 }
 
 /// The container for the Outposts bucket lifecycle configuration.
+///
+/// @nodoc
 class LifecycleConfiguration {
   /// A lifecycle rule for individual objects in an Outposts bucket.
   final List<LifecycleRule>? rules;
@@ -13866,6 +14078,8 @@ class LifecycleConfiguration {
 }
 
 /// The container for the Outposts bucket lifecycle rule.
+///
+/// @nodoc
 class LifecycleRule {
   /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule
   /// is not currently being applied.
@@ -14011,6 +14225,8 @@ class LifecycleRule {
 }
 
 /// The container of the Outposts bucket lifecycle expiration.
+///
+/// @nodoc
 class LifecycleExpiration {
   /// Indicates at what date the object is to be deleted. Should be in GMT ISO
   /// 8601 format.
@@ -14078,6 +14294,8 @@ class LifecycleExpiration {
 }
 
 /// The container for the filter of the lifecycle rule.
+///
+/// @nodoc
 class LifecycleRuleFilter {
   /// The container for the <code>AND</code> condition for the lifecycle rule.
   final LifecycleRuleAndOperator? and;
@@ -14161,6 +14379,7 @@ class LifecycleRuleFilter {
   }
 }
 
+/// @nodoc
 class ExpirationStatus {
   static const enabled = ExpirationStatus._('Enabled');
   static const disabled = ExpirationStatus._('Disabled');
@@ -14186,6 +14405,8 @@ class ExpirationStatus {
 }
 
 /// The container of the noncurrent version expiration.
+///
+/// @nodoc
 class NoncurrentVersionExpiration {
   /// Specifies how many noncurrent versions S3 on Outposts will retain. If there
   /// are this many more recent noncurrent versions, S3 on Outposts will take the
@@ -14246,6 +14467,8 @@ class NoncurrentVersionExpiration {
 }
 
 /// The container for abort incomplete multipart upload
+///
+/// @nodoc
 class AbortIncompleteMultipartUpload {
   /// Specifies the number of days after which Amazon S3 aborts an incomplete
   /// multipart upload to the Outposts bucket.
@@ -14286,6 +14509,8 @@ class AbortIncompleteMultipartUpload {
 }
 
 /// The container for the noncurrent version transition.
+///
+/// @nodoc
 class NoncurrentVersionTransition {
   /// Specifies the number of days an object is noncurrent before Amazon S3 can
   /// perform the associated action. For information about the noncurrent days
@@ -14340,6 +14565,7 @@ class NoncurrentVersionTransition {
   }
 }
 
+/// @nodoc
 class TransitionStorageClass {
   static const glacier = TransitionStorageClass._('GLACIER');
   static const standardIa = TransitionStorageClass._('STANDARD_IA');
@@ -14380,6 +14606,8 @@ class TransitionStorageClass {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">
 /// Transitioning objects using Amazon S3 Lifecycle</a> in the <i>Amazon S3 User
 /// Guide</i>.
+///
+/// @nodoc
 class Transition {
   /// Indicates when objects are transitioned to the specified storage class. The
   /// date value must be in ISO 8601 format. The time is always midnight UTC.
@@ -14440,6 +14668,8 @@ class Transition {
 }
 
 /// The container for the Outposts bucket lifecycle rule and operator.
+///
+/// @nodoc
 class LifecycleRuleAndOperator {
   /// The non-inclusive minimum object size for the lifecycle rule. Setting this
   /// property to 7 means the rule applies to objects with a size that is greater
@@ -14521,6 +14751,8 @@ class LifecycleRuleAndOperator {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets-manage-scope.html">Manage
 /// the scope of your access points for directory buckets</a>.
+///
+/// @nodoc
 class Scope {
   /// You can include one or more API operations as permissions.
   final List<ScopePermission>? permissions;
@@ -14580,6 +14812,7 @@ class Scope {
   }
 }
 
+/// @nodoc
 class ScopePermission {
   static const getObject = ScopePermission._('GetObject');
   static const getObjectAttributes = ScopePermission._('GetObjectAttributes');
@@ -14622,6 +14855,8 @@ class ScopePermission {
 }
 
 /// A configuration used when creating an Object Lambda Access Point.
+///
+/// @nodoc
 class ObjectLambdaConfiguration {
   /// Standard access point associated with the Object Lambda Access Point.
   final String supportingAccessPoint;
@@ -14714,6 +14949,8 @@ class ObjectLambdaConfiguration {
 
 /// A configuration used when creating an Object Lambda Access Point
 /// transformation.
+///
+/// @nodoc
 class ObjectLambdaTransformationConfiguration {
   /// A container for the action of an Object Lambda Access Point configuration.
   /// Valid inputs are <code>GetObject</code>, <code>ListObjects</code>,
@@ -14769,6 +15006,8 @@ class ObjectLambdaTransformationConfiguration {
 }
 
 /// A container for AwsLambdaTransformation.
+///
+/// @nodoc
 class ObjectLambdaContentTransformation {
   /// A container for an Lambda function.
   final AwsLambdaTransformation? awsLambda;
@@ -14809,6 +15048,8 @@ class ObjectLambdaContentTransformation {
 
 /// Lambda function used to transform objects through an Object Lambda Access
 /// Point.
+///
+/// @nodoc
 class AwsLambdaTransformation {
   /// The Amazon Resource Name (ARN) of the Lambda function.
   final String functionArn;
@@ -14856,6 +15097,7 @@ class AwsLambdaTransformation {
   }
 }
 
+/// @nodoc
 class ObjectLambdaTransformationConfigurationAction {
   static const getObject =
       ObjectLambdaTransformationConfigurationAction._('GetObject');
@@ -14889,6 +15131,7 @@ class ObjectLambdaTransformationConfigurationAction {
   String toString() => value;
 }
 
+/// @nodoc
 class ObjectLambdaAllowedFeature {
   static const getObjectRange = ObjectLambdaAllowedFeature._('GetObject-Range');
   static const getObjectPartNumber =
@@ -14926,6 +15169,8 @@ class ObjectLambdaAllowedFeature {
 
 /// Each entry contains a Storage Lens group that exists in the specified home
 /// Region.
+///
+/// @nodoc
 class ListStorageLensGroupEntry {
   /// Contains the Amazon Web Services Region where the Storage Lens group was
   /// created.
@@ -14968,6 +15213,8 @@ class ListStorageLensGroupEntry {
 /// Part of <code>ListStorageLensConfigurationResult</code>. Each entry includes
 /// the description of the S3 Storage Lens configuration, its home Region,
 /// whether it is enabled, its Amazon Resource Name (ARN), and config ID.
+///
+/// @nodoc
 class ListStorageLensConfigurationEntry {
   /// A container for the S3 Storage Lens home Region. Your metrics data is stored
   /// and retained in your designated S3 Storage Lens home Region.
@@ -15013,6 +15260,8 @@ class ListStorageLensConfigurationEntry {
 }
 
 /// The container for the regional bucket.
+///
+/// @nodoc
 class RegionalBucket {
   ///
   final String bucket;
@@ -15065,6 +15314,8 @@ class RegionalBucket {
 
 /// A collection of statuses for a Multi-Region Access Point in the various
 /// Regions it supports.
+///
+/// @nodoc
 class MultiRegionAccessPointReport {
   /// The alias for the Multi-Region Access Point. For more information about the
   /// distinction between the name and the alias of an Multi-Region Access Point,
@@ -15137,6 +15388,7 @@ class MultiRegionAccessPointReport {
   }
 }
 
+/// @nodoc
 class MultiRegionAccessPointStatus {
   static const ready = MultiRegionAccessPointStatus._('READY');
   static const inconsistentAcrossRegions =
@@ -15178,6 +15430,8 @@ class MultiRegionAccessPointStatus {
 
 /// A combination of a bucket and Region that's part of a Multi-Region Access
 /// Point.
+///
+/// @nodoc
 class RegionReport {
   /// The name of the bucket.
   final String? bucket;
@@ -15216,6 +15470,8 @@ class RegionReport {
 
 /// Contains the configuration and status information for a single job retrieved
 /// as part of a job list.
+///
+/// @nodoc
 class JobListDescriptor {
   /// A timestamp indicating when the specified job was created.
   final DateTime? creationTime;
@@ -15297,6 +15553,7 @@ class JobListDescriptor {
   }
 }
 
+/// @nodoc
 class OperationName {
   static const lambdaInvoke = OperationName._('LambdaInvoke');
   static const s3PutObjectCopy = OperationName._('S3PutObjectCopy');
@@ -15347,6 +15604,8 @@ class OperationName {
 
 /// Describes the total number of tasks that the specified job has started, the
 /// number of tasks that succeeded, and the number of tasks that failed.
+///
+/// @nodoc
 class JobProgressSummary {
   ///
   final int? numberOfTasksFailed;
@@ -15393,6 +15652,8 @@ class JobProgressSummary {
 }
 
 /// Provides timing details for the job.
+///
+/// @nodoc
 class JobTimers {
   /// Indicates the elapsed time in seconds the job has been in the Active job
   /// state.
@@ -15421,6 +15682,8 @@ class JobTimers {
 /// permission level (READ, WRITE, or READWRITE) and the grant scope of the
 /// access grant. If the grant also includes an application ARN, the grantee can
 /// only access the S3 data through this application.
+///
+/// @nodoc
 class ListCallerAccessGrantsEntry {
   /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center
   /// application associated with your Identity Center instance. If the grant
@@ -15473,6 +15736,7 @@ class ListCallerAccessGrantsEntry {
   }
 }
 
+/// @nodoc
 class Permission {
   static const read = Permission._('READ');
   static const write = Permission._('WRITE');
@@ -15499,6 +15763,8 @@ class Permission {
 
 /// An access point with an attached Lambda function used to access transformed
 /// data from an Amazon S3 bucket.
+///
+/// @nodoc
 class ObjectLambdaAccessPoint {
   /// The name of the Object Lambda Access Point.
   final String name;
@@ -15542,6 +15808,8 @@ class ObjectLambdaAccessPoint {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-use.html#ol-access-points-alias">How
 /// to use a bucket-style alias for your S3 bucket Object Lambda Access
 /// Point</a>.
+///
+/// @nodoc
 class ObjectLambdaAccessPointAlias {
   /// The status of the Object Lambda Access Point alias. If the status is
   /// <code>PROVISIONING</code>, the Object Lambda Access Point is provisioning
@@ -15576,6 +15844,7 @@ class ObjectLambdaAccessPointAlias {
   }
 }
 
+/// @nodoc
 class ObjectLambdaAccessPointAliasStatus {
   static const provisioning =
       ObjectLambdaAccessPointAliasStatus._('PROVISIONING');
@@ -15603,6 +15872,8 @@ class ObjectLambdaAccessPointAliasStatus {
 }
 
 /// An access point used to access a bucket.
+///
+/// @nodoc
 class AccessPoint {
   /// The name of the bucket associated with this access point.
   final String bucket;
@@ -15695,6 +15966,7 @@ class AccessPoint {
   }
 }
 
+/// @nodoc
 class NetworkOrigin {
   static const internet = NetworkOrigin._('Internet');
   static const vpc = NetworkOrigin._('VPC');
@@ -15720,6 +15992,8 @@ class NetworkOrigin {
 }
 
 /// The virtual private cloud (VPC) configuration for an access point.
+///
+/// @nodoc
 class VpcConfiguration {
   /// If this field is specified, this access point will only allow connections
   /// from the specified VPC ID.
@@ -15758,6 +16032,8 @@ class VpcConfiguration {
 }
 
 /// A container for information about the registered location.
+///
+/// @nodoc
 class ListAccessGrantsLocationsEntry {
   /// The Amazon Resource Name (ARN) of the registered location.
   final String? accessGrantsLocationArn;
@@ -15825,6 +16101,8 @@ class ListAccessGrantsLocationsEntry {
 }
 
 /// Information about the S3 Access Grants instance.
+///
+/// @nodoc
 class ListAccessGrantsInstanceEntry {
   /// The Amazon Resource Name (ARN) of the S3 Access Grants instance.
   final String? accessGrantsInstanceArn;
@@ -15905,6 +16183,8 @@ class ListAccessGrantsInstanceEntry {
 }
 
 /// Information about the access grant.
+///
+/// @nodoc
 class ListAccessGrantEntry {
   /// The Amazon Resource Name (ARN) of the access grant.
   final String? accessGrantArn;
@@ -16022,6 +16302,8 @@ class ListAccessGrantEntry {
 /// Amazon Web Services IAM Identity Center and associated your Identity Center
 /// instance with your S3 Access Grants instance, the grantee can also be a
 /// corporate directory user or group.
+///
+/// @nodoc
 class Grantee {
   /// The unique identifier of the <code>Grantee</code>. If the grantee type is
   /// <code>IAM</code>, the identifier is the IAM Amazon Resource Name (ARN) of
@@ -16099,6 +16381,8 @@ class Grantee {
 /// <code>S3SubPrefix</code> field. The grant scope, the data to which you are
 /// granting access, is the result of appending the <code>Subprefix</code> field
 /// to the scope of the registered location.
+///
+/// @nodoc
 class AccessGrantsLocationConfiguration {
   /// The <code>S3SubPrefix</code> is appended to the location scope creating the
   /// grant scope. Use this field to narrow the scope of the grant to a subset of
@@ -16150,6 +16434,7 @@ class AccessGrantsLocationConfiguration {
   }
 }
 
+/// @nodoc
 class GranteeType {
   static const directoryUser = GranteeType._('DIRECTORY_USER');
   static const directoryGroup = GranteeType._('DIRECTORY_GROUP');
@@ -16179,6 +16464,8 @@ class GranteeType {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
 /// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class PolicyStatus {
   ///
   final bool? isPublic;
@@ -16206,6 +16493,8 @@ class PolicyStatus {
 /// policy. After the update is finished and all Regions have been updated, the
 /// proposed policy is listed as the established policy. If both policies have
 /// the same version number, the proposed policy is the established policy.
+///
+/// @nodoc
 class MultiRegionAccessPointPolicyDocument {
   /// The last established policy for the Multi-Region Access Point.
   final EstablishedMultiRegionAccessPointPolicy? established;
@@ -16244,6 +16533,8 @@ class MultiRegionAccessPointPolicyDocument {
 /// policy. After the update is finished and all Regions have been updated, the
 /// proposed policy is listed as the established policy. If both policies have
 /// the same version number, the proposed policy is the established policy.
+///
+/// @nodoc
 class EstablishedMultiRegionAccessPointPolicy {
   /// The details of the last established policy.
   final String? policy;
@@ -16271,6 +16562,8 @@ class EstablishedMultiRegionAccessPointPolicy {
 /// policy. After the update is finished and all Regions have been updated, the
 /// proposed policy is listed as the established policy. If both policies have
 /// the same version number, the proposed policy is the established policy.
+///
+/// @nodoc
 class ProposedMultiRegionAccessPointPolicy {
   /// The details of the proposed policy.
   final String? policy;
@@ -16294,6 +16587,8 @@ class ProposedMultiRegionAccessPointPolicy {
 
 /// The Amazon Web Services Security Token Service temporary credential that S3
 /// Access Grants vends to grantees and client applications.
+///
+/// @nodoc
 class Credentials {
   /// The unique access key ID of the Amazon Web Services STS temporary credential
   /// that S3 Access Grants vends to grantees and client applications.
@@ -16340,6 +16635,7 @@ class Credentials {
   }
 }
 
+/// @nodoc
 class Privilege {
   static const minimal = Privilege._('Minimal');
   static const $default = Privilege._('Default');
@@ -16363,6 +16659,7 @@ class Privilege {
   String toString() => value;
 }
 
+/// @nodoc
 class S3PrefixType {
   static const object = S3PrefixType._('Object');
 
@@ -16385,6 +16682,7 @@ class S3PrefixType {
   String toString() => value;
 }
 
+/// @nodoc
 class MFADeleteStatus {
   static const enabled = MFADeleteStatus._('Enabled');
   static const disabled = MFADeleteStatus._('Disabled');
@@ -16410,6 +16708,8 @@ class MFADeleteStatus {
 }
 
 /// A container for the information about an asynchronous operation.
+///
+/// @nodoc
 class AsyncOperation {
   /// The time that the request was sent to the service.
   final DateTime? creationTime;
@@ -16472,6 +16772,7 @@ class AsyncOperation {
   }
 }
 
+/// @nodoc
 class AsyncOperationName {
   static const createMultiRegionAccessPoint =
       AsyncOperationName._('CreateMultiRegionAccessPoint');
@@ -16507,6 +16808,8 @@ class AsyncOperationName {
 
 /// A container for the request parameters associated with an asynchronous
 /// request.
+///
+/// @nodoc
 class AsyncRequestParameters {
   /// A container of the parameters for a <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
@@ -16566,6 +16869,8 @@ class AsyncRequestParameters {
 
 /// A container for the response details that are returned when querying about
 /// an asynchronous request.
+///
+/// @nodoc
 class AsyncResponseDetails {
   /// Error details for an asynchronous request.
   final AsyncErrorDetails? errorDetails;
@@ -16601,6 +16906,8 @@ class AsyncResponseDetails {
 
 /// The Multi-Region Access Point details that are returned when querying about
 /// an asynchronous request.
+///
+/// @nodoc
 class MultiRegionAccessPointsAsyncResponse {
   /// A collection of status information for the different Regions that a
   /// Multi-Region Access Point supports.
@@ -16627,6 +16934,8 @@ class MultiRegionAccessPointsAsyncResponse {
 }
 
 /// Error details for the failed asynchronous operation.
+///
+/// @nodoc
 class AsyncErrorDetails {
   /// A string that uniquely identifies the error condition.
   final String? code;
@@ -16670,6 +16979,8 @@ class AsyncErrorDetails {
 }
 
 /// Status information for a single Multi-Region Access Point Region.
+///
+/// @nodoc
 class MultiRegionAccessPointRegionalResponse {
   /// The name of the Region in the Multi-Region Access Point.
   final String? name;
@@ -16701,6 +17012,8 @@ class MultiRegionAccessPointRegionalResponse {
 /// A container for the information associated with a <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html">CreateMultiRegionAccessPoint</a>
 /// request.
+///
+/// @nodoc
 class CreateMultiRegionAccessPointInput {
   /// The name of the Multi-Region Access Point associated with this request.
   final String name;
@@ -16765,6 +17078,8 @@ class CreateMultiRegionAccessPointInput {
 /// A container for the information associated with a <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html">DeleteMultiRegionAccessPoint</a>
 /// request.
+///
+/// @nodoc
 class DeleteMultiRegionAccessPointInput {
   /// The name of the Multi-Region Access Point associated with this request.
   final String name;
@@ -16803,6 +17118,8 @@ class DeleteMultiRegionAccessPointInput {
 
 /// A Region that supports a Multi-Region Access Point as well as the associated
 /// bucket for the Region.
+///
+/// @nodoc
 class Region {
   /// The name of the associated bucket for the Region.
   final String bucket;
@@ -16852,6 +17169,8 @@ class Region {
 
 /// A container element for the job configuration and status information
 /// returned by a <code>Describe Job</code> request.
+///
+/// @nodoc
 class JobDescriptor {
   /// Indicates whether confirmation is required before Amazon S3 begins running
   /// the specified job. Confirmation is required only for jobs created through
@@ -17028,6 +17347,8 @@ class JobDescriptor {
 }
 
 /// Contains the configuration information for a job's manifest.
+///
+/// @nodoc
 class JobManifest {
   /// Contains the information required to locate the specified job's manifest.
   /// Manifests can't be imported from directory buckets. For more information,
@@ -17083,6 +17404,8 @@ class JobManifest {
 /// the manifest. For more information about the available operations, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html">Operations</a>
 /// in the <i>Amazon S3 User Guide</i>.
+///
+/// @nodoc
 class JobOperation {
   /// Directs the specified job to invoke an Lambda function on every object in
   /// the manifest.
@@ -17272,6 +17595,8 @@ class JobOperation {
 }
 
 /// Contains the configuration parameters for a job-completion report.
+///
+/// @nodoc
 class JobReport {
   /// Indicates whether the specified job will generate a job-completion report.
   final bool enabled;
@@ -17371,6 +17696,8 @@ class JobReport {
 }
 
 /// Configures the type of the job's ManifestGenerator.
+///
+/// @nodoc
 class JobManifestGenerator {
   /// The S3 job ManifestGenerator's configuration details.
   final S3JobManifestGenerator? s3JobManifestGenerator;
@@ -17414,6 +17741,8 @@ class JobManifestGenerator {
 /// Describes the specified job's generated manifest. Batch Operations jobs
 /// created with a ManifestGenerator populate details of this descriptor after
 /// execution of the ManifestGenerator.
+///
+/// @nodoc
 class S3GeneratedManifestDescriptor {
   /// The format of the generated manifest.
   final GeneratedManifestFormat? format;
@@ -17444,6 +17773,7 @@ class S3GeneratedManifestDescriptor {
   }
 }
 
+/// @nodoc
 class GeneratedManifestFormat {
   static const s3InventoryReportCsv_20211130 =
       GeneratedManifestFormat._('S3InventoryReport_CSV_20211130');
@@ -17473,6 +17803,8 @@ class GeneratedManifestFormat {
 /// can't be imported from directory buckets. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html">Directory
 /// buckets</a>.
+///
+/// @nodoc
 class JobManifestLocation {
   /// The ETag for the specified manifest object.
   final String eTag;
@@ -17537,6 +17869,8 @@ class JobManifestLocation {
 }
 
 /// The container for the service that will create the S3 manifest.
+///
+/// @nodoc
 class S3JobManifestGenerator {
   /// Determines whether or not to write the job's generated manifest to a bucket.
   final bool enableManifestOutput;
@@ -17632,6 +17966,8 @@ class S3JobManifestGenerator {
 }
 
 /// Location details for where the generated manifest should be written.
+///
+/// @nodoc
 class S3ManifestOutputLocation {
   /// The bucket ARN the generated manifest should be written to.
   /// <note>
@@ -17720,6 +18056,8 @@ class S3ManifestOutputLocation {
 }
 
 /// The filter used to describe a set of objects for the job's manifest.
+///
+/// @nodoc
 class JobManifestGeneratorFilter {
   /// If provided, the generated manifest includes only source bucket objects that
   /// were created after this time.
@@ -17892,6 +18230,8 @@ class JobManifestGeneratorFilter {
 /// whose object keys match the string constraints specified for
 /// <code>MatchAnyPrefix</code>, <code>MatchAnySuffix</code>, and
 /// <code>MatchAnySubstring</code>.
+///
+/// @nodoc
 class KeyNameConstraint {
   /// If provided, the generated manifest includes objects where the specified
   /// string appears at the start of the object key string. Each KeyNameConstraint
@@ -17966,6 +18306,8 @@ class KeyNameConstraint {
 
 /// An optional filter for the S3JobManifestGenerator that identifies the subset
 /// of objects by encryption type.
+///
+/// @nodoc
 class ObjectEncryptionFilter {
   /// Filters for objects that are encrypted by dual-layer server-side encryption
   /// with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS).
@@ -18044,6 +18386,8 @@ class ObjectEncryptionFilter {
 
 /// A filter that returns objects that are encrypted by server-side encryption
 /// with Amazon S3 managed keys (SSE-S3).
+///
+/// @nodoc
 class SSES3Filter {
   SSES3Filter();
   factory SSES3Filter.fromXml(
@@ -18071,6 +18415,8 @@ class SSES3Filter {
 
 /// A filter that returns objects that are encrypted by server-side encryption
 /// with Amazon Web Services KMS (SSE-KMS).
+///
+/// @nodoc
 class SSEKMSFilter {
   /// Specifies whether Amazon S3 should use an S3 Bucket Key for object
   /// encryption with server-side encryption using Amazon Web Services Key
@@ -18127,6 +18473,8 @@ class SSEKMSFilter {
 /// encryption with Amazon Web Services Key Management Service (KMS) keys
 /// (DSSE-KMS). You can further refine your filtering by optionally providing a
 /// KMS Key ARN to filter objects encrypted by a specific key.
+///
+/// @nodoc
 class DSSEKMSFilter {
   /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for
   /// the filter to return objects that are encrypted by the specified key. For
@@ -18168,6 +18516,8 @@ class DSSEKMSFilter {
 
 /// A filter that returns objects that are encrypted by server-side encryption
 /// with customer-provided keys (SSE-C).
+///
+/// @nodoc
 class SSECFilter {
   SSECFilter();
   factory SSECFilter.fromXml(
@@ -18194,6 +18544,8 @@ class SSECFilter {
 }
 
 /// A filter that returns objects that aren't server-side encrypted.
+///
+/// @nodoc
 class NotSSEFilter {
   NotSSEFilter();
   factory NotSSEFilter.fromXml(
@@ -18219,6 +18571,7 @@ class NotSSEFilter {
   }
 }
 
+/// @nodoc
 class S3StorageClass {
   static const standard = S3StorageClass._('STANDARD');
   static const standardIa = S3StorageClass._('STANDARD_IA');
@@ -18256,6 +18609,7 @@ class S3StorageClass {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicationStatus {
   static const completed = ReplicationStatus._('COMPLETED');
   static const failed = ReplicationStatus._('FAILED');
@@ -18283,6 +18637,8 @@ class ReplicationStatus {
 }
 
 /// The encryption configuration to use when storing the generated manifest.
+///
+/// @nodoc
 class GeneratedManifestEncryption {
   /// Configuration details on how SSE-KMS is used to encrypt generated manifest
   /// objects.
@@ -18331,6 +18687,8 @@ class GeneratedManifestEncryption {
 }
 
 /// Configuration for the use of SSE-S3 to encrypt generated manifest objects.
+///
+/// @nodoc
 class SSES3Encryption {
   SSES3Encryption();
   factory SSES3Encryption.fromXml(
@@ -18357,6 +18715,8 @@ class SSES3Encryption {
 }
 
 /// Configuration for the use of SSE-KMS to encrypt generated manifest objects.
+///
+/// @nodoc
 class SSEKMSEncryption {
   /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon
   /// Web Services KMS) symmetric encryption customer managed key to use for
@@ -18395,6 +18755,7 @@ class SSEKMSEncryption {
   }
 }
 
+/// @nodoc
 class JobReportFormat {
   static const reportCsv_20180820 = JobReportFormat._('Report_CSV_20180820');
 
@@ -18418,6 +18779,7 @@ class JobReportFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class JobReportScope {
   static const allTasks = JobReportScope._('AllTasks');
   static const failedTasksOnly = JobReportScope._('FailedTasksOnly');
@@ -18443,6 +18805,8 @@ class JobReportScope {
 }
 
 /// If this job failed, this element indicates why the job failed.
+///
+/// @nodoc
 class JobFailure {
   /// The failure code, if any, for the specified job.
   final String? failureCode;
@@ -18473,6 +18837,8 @@ class JobFailure {
 
 /// Contains the configuration parameters for a <code>Lambda Invoke</code>
 /// operation.
+///
+/// @nodoc
 class LambdaInvokeOperation {
   /// The Amazon Resource Name (ARN) for the Lambda function that the specified
   /// job will invoke on every object in the manifest.
@@ -18578,6 +18944,8 @@ class LambdaInvokeOperation {
 /// <code>CopyObject</code> API operation. For more information about the
 /// parameters for this operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html">CopyObject</a>.
+///
+/// @nodoc
 class S3CopyObjectOperation {
   ///
   /// <note>
@@ -18936,6 +19304,8 @@ class S3CopyObjectOperation {
 /// <code>PutObjectAcl</code> API operation. For more information about the
 /// parameters for this operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTacl.html">PutObjectAcl</a>.
+///
+/// @nodoc
 class S3SetObjectAclOperation {
   ///
   final S3AccessControlPolicy? accessControlPolicy;
@@ -18981,6 +19351,8 @@ class S3SetObjectAclOperation {
 /// <code>PutObjectTagging</code> API operation. For more information about the
 /// parameters for this operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUTtagging.html">PutObjectTagging</a>.
+///
+/// @nodoc
 class S3SetObjectTaggingOperation {
   ///
   final List<S3Tag>? tagSet;
@@ -19023,6 +19395,8 @@ class S3SetObjectTaggingOperation {
 /// Contains no configuration parameters because the DELETE Object tagging
 /// (<code>DeleteObjectTagging</code>) API operation accepts only the bucket
 /// name and key name as parameters, which are defined in the job's manifest.
+///
+/// @nodoc
 class S3DeleteObjectTaggingOperation {
   S3DeleteObjectTaggingOperation();
   factory S3DeleteObjectTaggingOperation.fromXml(
@@ -19053,6 +19427,8 @@ class S3DeleteObjectTaggingOperation {
 /// <code>RestoreObject</code> API operation. For more information about the
 /// parameters for this operation, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request">RestoreObject</a>.
+///
+/// @nodoc
 class S3InitiateRestoreObjectOperation {
   /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive
   /// object remains available in Amazon S3. S3 Initiate Restore Object jobs that
@@ -19128,6 +19504,8 @@ class S3InitiateRestoreObjectOperation {
 /// <note>
 /// This functionality is not supported by directory buckets.
 /// </note>
+///
+/// @nodoc
 class S3SetObjectLegalHoldOperation {
   /// Contains the Object Lock legal hold status to be applied to all objects in
   /// the Batch Operations job.
@@ -19176,6 +19554,8 @@ class S3SetObjectLegalHoldOperation {
 /// <note>
 /// This functionality is not supported by directory buckets.
 /// </note>
+///
+/// @nodoc
 class S3SetObjectRetentionOperation {
   /// Contains the Object Lock retention mode to be applied to all objects in the
   /// Batch Operations job. For more information, see <a
@@ -19232,6 +19612,8 @@ class S3SetObjectRetentionOperation {
 
 /// Directs the specified job to invoke <code>ReplicateObject</code> on every
 /// object in the job's manifest.
+///
+/// @nodoc
 class S3ReplicateObjectOperation {
   S3ReplicateObjectOperation();
   factory S3ReplicateObjectOperation.fromXml(
@@ -19259,6 +19641,8 @@ class S3ReplicateObjectOperation {
 
 /// Directs the specified job to invoke the ComputeObjectChecksum operation on
 /// every object listed in the job's manifest.
+///
+/// @nodoc
 class S3ComputeObjectChecksumOperation {
   /// Indicates the algorithm that you want Amazon S3 to use to create the
   /// checksum. For more information, see <a
@@ -19320,6 +19704,8 @@ class S3ComputeObjectChecksumOperation {
 /// With the <code>UpdateObjectEncryption</code> operation, you can atomically
 /// update the server-side encryption type of an existing object in a general
 /// purpose bucket without any data movement.
+///
+/// @nodoc
 class S3UpdateObjectEncryptionOperation {
   /// The updated server-side encryption type for this S3 object. The
   /// <code>UpdateObjectEncryption</code> operation supports the SSE-KMS
@@ -19365,6 +19751,8 @@ class S3UpdateObjectEncryptionOperation {
 /// encryption type.
 ///
 /// Valid Values: <code>SSEKMS</code>
+///
+/// @nodoc
 class ObjectEncryption {
   /// Specifies to update the object encryption type to server-side encryption
   /// with Key Management Service (KMS) keys (SSE-KMS).
@@ -19408,6 +19796,8 @@ class ObjectEncryption {
 /// this data type specifies the Amazon Web Services KMS key Amazon Resource
 /// Name (ARN) to use and whether to use an S3 Bucket Key for server-side
 /// encryption using Key Management Service (KMS) keys (SSE-KMS).
+///
+/// @nodoc
 class S3UpdateObjectEncryptionSSEKMS {
   /// Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use
   /// for the updated server-side encryption type. Required if
@@ -19460,6 +19850,7 @@ class S3UpdateObjectEncryptionSSEKMS {
   }
 }
 
+/// @nodoc
 class ComputeObjectChecksumAlgorithm {
   static const crc32 = ComputeObjectChecksumAlgorithm._('CRC32');
   static const crc32c = ComputeObjectChecksumAlgorithm._('CRC32C');
@@ -19504,6 +19895,7 @@ class ComputeObjectChecksumAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class ComputeObjectChecksumType {
   static const fullObject = ComputeObjectChecksumType._('FULL_OBJECT');
   static const composite = ComputeObjectChecksumType._('COMPOSITE');
@@ -19536,6 +19928,8 @@ class ComputeObjectChecksumType {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html">Using
 /// S3 Object Lock retention with S3 Batch Operations</a> in the <i>Amazon S3
 /// User Guide</i>.
+///
+/// @nodoc
 class S3Retention {
   /// The Object Lock retention mode to be applied to all objects in the Batch
   /// Operations job.
@@ -19587,6 +19981,7 @@ class S3Retention {
   }
 }
 
+/// @nodoc
 class S3ObjectLockRetentionMode {
   static const compliance = S3ObjectLockRetentionMode._('COMPLIANCE');
   static const governance = S3ObjectLockRetentionMode._('GOVERNANCE');
@@ -19614,6 +20009,8 @@ class S3ObjectLockRetentionMode {
 
 /// Whether S3 Object Lock legal hold will be applied to objects in an S3 Batch
 /// Operations job.
+///
+/// @nodoc
 class S3ObjectLockLegalHold {
   /// The Object Lock legal hold status to be applied to all objects in the Batch
   /// Operations job.
@@ -19653,6 +20050,7 @@ class S3ObjectLockLegalHold {
   }
 }
 
+/// @nodoc
 class S3ObjectLockLegalHoldStatus {
   static const off = S3ObjectLockLegalHoldStatus._('OFF');
   static const on = S3ObjectLockLegalHoldStatus._('ON');
@@ -19678,6 +20076,7 @@ class S3ObjectLockLegalHoldStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class S3GlacierJobTier {
   static const bulk = S3GlacierJobTier._('BULK');
   static const standard = S3GlacierJobTier._('STANDARD');
@@ -19703,6 +20102,8 @@ class S3GlacierJobTier {
 }
 
 ///
+///
+/// @nodoc
 class S3AccessControlPolicy {
   ///
   final S3AccessControlList? accessControlList;
@@ -19757,6 +20158,8 @@ class S3AccessControlPolicy {
 }
 
 ///
+///
+/// @nodoc
 class S3AccessControlList {
   ///
   final S3ObjectOwner owner;
@@ -19805,6 +20208,7 @@ class S3AccessControlList {
   }
 }
 
+/// @nodoc
 class S3CannedAccessControlList {
   static const private = S3CannedAccessControlList._('private');
   static const publicRead = S3CannedAccessControlList._('public-read');
@@ -19848,6 +20252,8 @@ class S3CannedAccessControlList {
 }
 
 ///
+///
+/// @nodoc
 class S3ObjectOwner {
   ///
   final String? displayName;
@@ -19895,6 +20301,8 @@ class S3ObjectOwner {
 }
 
 ///
+///
+/// @nodoc
 class S3Grant {
   ///
   final S3Grantee? grantee;
@@ -19944,6 +20352,8 @@ class S3Grant {
 }
 
 ///
+///
+/// @nodoc
 class S3Grantee {
   ///
   final String? displayName;
@@ -20002,6 +20412,7 @@ class S3Grantee {
   }
 }
 
+/// @nodoc
 class S3Permission {
   static const fullControl = S3Permission._('FULL_CONTROL');
   static const read = S3Permission._('READ');
@@ -20028,6 +20439,7 @@ class S3Permission {
   String toString() => value;
 }
 
+/// @nodoc
 class S3GranteeTypeIdentifier {
   static const id = S3GranteeTypeIdentifier._('id');
   static const emailAddress = S3GranteeTypeIdentifier._('emailAddress');
@@ -20054,6 +20466,7 @@ class S3GranteeTypeIdentifier {
   String toString() => value;
 }
 
+/// @nodoc
 class S3MetadataDirective {
   static const copy = S3MetadataDirective._('COPY');
   static const replace = S3MetadataDirective._('REPLACE');
@@ -20080,6 +20493,8 @@ class S3MetadataDirective {
 }
 
 ///
+///
+/// @nodoc
 class S3ObjectMetadata {
   ///
   final String? cacheControl;
@@ -20252,6 +20667,7 @@ class S3ObjectMetadata {
   }
 }
 
+/// @nodoc
 class S3ObjectLockMode {
   static const compliance = S3ObjectLockMode._('COMPLIANCE');
   static const governance = S3ObjectLockMode._('GOVERNANCE');
@@ -20276,6 +20692,7 @@ class S3ObjectLockMode {
   String toString() => value;
 }
 
+/// @nodoc
 class S3ChecksumAlgorithm {
   static const crc32 = S3ChecksumAlgorithm._('CRC32');
   static const crc32c = S3ChecksumAlgorithm._('CRC32C');
@@ -20320,6 +20737,7 @@ class S3ChecksumAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class S3SSEAlgorithm {
   static const aes256 = S3SSEAlgorithm._('AES256');
   static const kms = S3SSEAlgorithm._('KMS');
@@ -20346,6 +20764,8 @@ class S3SSEAlgorithm {
 
 /// Describes the format of a manifest. If the manifest is in CSV format, also
 /// describes the columns contained within the manifest.
+///
+/// @nodoc
 class JobManifestSpec {
   /// Indicates which of the available formats the specified manifest uses.
   final JobManifestFormat format;
@@ -20400,6 +20820,7 @@ class JobManifestSpec {
   }
 }
 
+/// @nodoc
 class JobManifestFormat {
   static const s3BatchOperationsCsv_20180820 =
       JobManifestFormat._('S3BatchOperations_CSV_20180820');
@@ -20429,6 +20850,7 @@ class JobManifestFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class JobManifestFieldName {
   static const ignore = JobManifestFieldName._('Ignore');
   static const bucket = JobManifestFieldName._('Bucket');
@@ -20456,6 +20878,7 @@ class JobManifestFieldName {
   String toString() => value;
 }
 
+/// @nodoc
 class BucketCannedACL {
   static const private = BucketCannedACL._('private');
   static const publicRead = BucketCannedACL._('public-read');
@@ -20491,6 +20914,8 @@ class BucketCannedACL {
 /// <note>
 /// This is not supported by Amazon S3 on Outposts buckets.
 /// </note>
+///
+/// @nodoc
 class CreateBucketConfiguration {
   /// Specifies the Region where the bucket will be created. If you are creating a
   /// bucket on the US East (N. Virginia) Region (us-east-1), you do not need to
@@ -20529,6 +20954,7 @@ class CreateBucketConfiguration {
   }
 }
 
+/// @nodoc
 class BucketLocationConstraint {
   static const eu = BucketLocationConstraint._('EU');
   static const euWest_1 = BucketLocationConstraint._('eu-west-1');
@@ -20575,46 +21001,55 @@ class BucketLocationConstraint {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class BucketAlreadyExists extends _s.GenericAwsException {
   BucketAlreadyExists({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyExists', message: message);
 }
 
+/// @nodoc
 class BucketAlreadyOwnedByYou extends _s.GenericAwsException {
   BucketAlreadyOwnedByYou({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyOwnedByYou', message: message);
 }
 
+/// @nodoc
 class IdempotencyException extends _s.GenericAwsException {
   IdempotencyException({String? type, String? message})
       : super(type: type, code: 'IdempotencyException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class JobStatusException extends _s.GenericAwsException {
   JobStatusException({String? type, String? message})
       : super(type: type, code: 'JobStatusException', message: message);
 }
 
+/// @nodoc
 class NoSuchPublicAccessBlockConfiguration extends _s.GenericAwsException {
   NoSuchPublicAccessBlockConfiguration({String? type, String? message})
       : super(
@@ -20623,16 +21058,19 @@ class NoSuchPublicAccessBlockConfiguration extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

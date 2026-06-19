@@ -10986,6 +10986,7 @@ class Ssm {
   }
 }
 
+/// @nodoc
 class AddTagsToResourceResult {
   AddTagsToResourceResult();
 
@@ -10998,6 +10999,7 @@ class AddTagsToResourceResult {
   }
 }
 
+/// @nodoc
 class AssociateOpsItemRelatedItemResponse {
   /// The association ID.
   final String? associationId;
@@ -11023,6 +11025,8 @@ class AssociateOpsItemRelatedItemResponse {
 
 /// Whether or not the command was successfully canceled. There is no guarantee
 /// that a request can be canceled.
+///
+/// @nodoc
 class CancelCommandResult {
   CancelCommandResult();
 
@@ -11035,6 +11039,7 @@ class CancelCommandResult {
   }
 }
 
+/// @nodoc
 class CancelMaintenanceWindowExecutionResult {
   /// The ID of the maintenance window execution that has been stopped.
   final String? windowExecutionId;
@@ -11058,6 +11063,7 @@ class CancelMaintenanceWindowExecutionResult {
   }
 }
 
+/// @nodoc
 class CreateActivationResult {
   /// The code the system generates when it processes the activation. The
   /// activation code functions like a password to validate the activation ID.
@@ -11089,6 +11095,7 @@ class CreateActivationResult {
   }
 }
 
+/// @nodoc
 class CreateAssociationResult {
   /// Information about the association.
   final AssociationDescription? associationDescription;
@@ -11115,6 +11122,7 @@ class CreateAssociationResult {
   }
 }
 
+/// @nodoc
 class CreateAssociationBatchResult {
   /// Information about the associations that failed.
   final List<FailedCreateAssociation>? failed;
@@ -11152,6 +11160,7 @@ class CreateAssociationBatchResult {
   }
 }
 
+/// @nodoc
 class CreateDocumentResult {
   /// Information about the SSM document.
   final DocumentDescription? documentDescription;
@@ -11178,6 +11187,7 @@ class CreateDocumentResult {
   }
 }
 
+/// @nodoc
 class CreateMaintenanceWindowResult {
   /// The ID of the created maintenance window.
   final String? windowId;
@@ -11200,6 +11210,7 @@ class CreateMaintenanceWindowResult {
   }
 }
 
+/// @nodoc
 class CreateOpsItemResponse {
   /// The OpsItem Amazon Resource Name (ARN).
   final String? opsItemArn;
@@ -11229,6 +11240,7 @@ class CreateOpsItemResponse {
   }
 }
 
+/// @nodoc
 class CreateOpsMetadataResult {
   /// The Amazon Resource Name (ARN) of the OpsMetadata Object or blob created by
   /// the call.
@@ -11252,6 +11264,7 @@ class CreateOpsMetadataResult {
   }
 }
 
+/// @nodoc
 class CreatePatchBaselineResult {
   /// The ID of the created patch baseline.
   final String? baselineId;
@@ -11274,6 +11287,7 @@ class CreatePatchBaselineResult {
   }
 }
 
+/// @nodoc
 class CreateResourceDataSyncResult {
   CreateResourceDataSyncResult();
 
@@ -11286,6 +11300,7 @@ class CreateResourceDataSyncResult {
   }
 }
 
+/// @nodoc
 class DeleteActivationResult {
   DeleteActivationResult();
 
@@ -11298,6 +11313,7 @@ class DeleteActivationResult {
   }
 }
 
+/// @nodoc
 class DeleteAssociationResult {
   DeleteAssociationResult();
 
@@ -11310,6 +11326,7 @@ class DeleteAssociationResult {
   }
 }
 
+/// @nodoc
 class DeleteDocumentResult {
   DeleteDocumentResult();
 
@@ -11322,6 +11339,7 @@ class DeleteDocumentResult {
   }
 }
 
+/// @nodoc
 class DeleteInventoryResult {
   /// Every <code>DeleteInventory</code> operation is assigned a unique ID. This
   /// option returns a unique ID. You can use this ID to query the status of a
@@ -11368,6 +11386,7 @@ class DeleteInventoryResult {
   }
 }
 
+/// @nodoc
 class DeleteMaintenanceWindowResult {
   /// The ID of the deleted maintenance window.
   final String? windowId;
@@ -11390,6 +11409,7 @@ class DeleteMaintenanceWindowResult {
   }
 }
 
+/// @nodoc
 class DeleteOpsItemResponse {
   DeleteOpsItemResponse();
 
@@ -11402,6 +11422,7 @@ class DeleteOpsItemResponse {
   }
 }
 
+/// @nodoc
 class DeleteOpsMetadataResult {
   DeleteOpsMetadataResult();
 
@@ -11414,6 +11435,7 @@ class DeleteOpsMetadataResult {
   }
 }
 
+/// @nodoc
 class DeleteParameterResult {
   DeleteParameterResult();
 
@@ -11426,6 +11448,7 @@ class DeleteParameterResult {
   }
 }
 
+/// @nodoc
 class DeleteParametersResult {
   /// The names of the deleted parameters.
   final List<String>? deletedParameters;
@@ -11462,6 +11485,7 @@ class DeleteParametersResult {
   }
 }
 
+/// @nodoc
 class DeletePatchBaselineResult {
   /// The ID of the deleted patch baseline.
   final String? baselineId;
@@ -11484,6 +11508,7 @@ class DeletePatchBaselineResult {
   }
 }
 
+/// @nodoc
 class DeleteResourceDataSyncResult {
   DeleteResourceDataSyncResult();
 
@@ -11496,6 +11521,7 @@ class DeleteResourceDataSyncResult {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -11508,6 +11534,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeregisterManagedInstanceResult {
   DeregisterManagedInstanceResult();
 
@@ -11520,6 +11547,7 @@ class DeregisterManagedInstanceResult {
   }
 }
 
+/// @nodoc
 class DeregisterPatchBaselineForPatchGroupResult {
   /// The ID of the patch baseline the patch group was deregistered from.
   final String? baselineId;
@@ -11550,6 +11578,7 @@ class DeregisterPatchBaselineForPatchGroupResult {
   }
 }
 
+/// @nodoc
 class DeregisterTargetFromMaintenanceWindowResult {
   /// The ID of the maintenance window the target was removed from.
   final String? windowId;
@@ -11580,6 +11609,7 @@ class DeregisterTargetFromMaintenanceWindowResult {
   }
 }
 
+/// @nodoc
 class DeregisterTaskFromMaintenanceWindowResult {
   /// The ID of the maintenance window the task was removed from.
   final String? windowId;
@@ -11610,6 +11640,7 @@ class DeregisterTaskFromMaintenanceWindowResult {
   }
 }
 
+/// @nodoc
 class DescribeActivationsResult {
   /// A list of activations for your Amazon Web Services account.
   final List<Activation>? activationList;
@@ -11643,6 +11674,7 @@ class DescribeActivationsResult {
   }
 }
 
+/// @nodoc
 class DescribeAssociationResult {
   /// Information about the association.
   final AssociationDescription? associationDescription;
@@ -11669,6 +11701,7 @@ class DescribeAssociationResult {
   }
 }
 
+/// @nodoc
 class DescribeAssociationExecutionsResult {
   /// A list of the executions for the specified association ID.
   final List<AssociationExecution>? associationExecutions;
@@ -11704,6 +11737,7 @@ class DescribeAssociationExecutionsResult {
   }
 }
 
+/// @nodoc
 class DescribeAssociationExecutionTargetsResult {
   /// Information about the execution.
   final List<AssociationExecutionTarget>? associationExecutionTargets;
@@ -11741,6 +11775,7 @@ class DescribeAssociationExecutionTargetsResult {
   }
 }
 
+/// @nodoc
 class DescribeAutomationExecutionsResult {
   /// The list of details about each automation execution which has occurred which
   /// matches the filter specification, if any.
@@ -11780,6 +11815,7 @@ class DescribeAutomationExecutionsResult {
   }
 }
 
+/// @nodoc
 class DescribeAutomationStepExecutionsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -11815,6 +11851,7 @@ class DescribeAutomationStepExecutionsResult {
   }
 }
 
+/// @nodoc
 class DescribeAvailablePatchesResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -11848,6 +11885,7 @@ class DescribeAvailablePatchesResult {
   }
 }
 
+/// @nodoc
 class DescribeDocumentResult {
   /// Information about the SSM document.
   final DocumentDescription? document;
@@ -11873,6 +11911,7 @@ class DescribeDocumentResult {
   }
 }
 
+/// @nodoc
 class DescribeDocumentPermissionResponse {
   /// The account IDs that have permission to use this document. The ID can be
   /// either an Amazon Web Services account number or <code>all</code>.
@@ -11920,6 +11959,7 @@ class DescribeDocumentPermissionResponse {
   }
 }
 
+/// @nodoc
 class DescribeEffectiveInstanceAssociationsResult {
   /// The associations for the requested managed node.
   final List<InstanceAssociation>? associations;
@@ -11954,6 +11994,7 @@ class DescribeEffectiveInstanceAssociationsResult {
   }
 }
 
+/// @nodoc
 class DescribeEffectivePatchesForPatchBaselineResult {
   /// An array of patches and patch status.
   final List<EffectivePatch>? effectivePatches;
@@ -11988,6 +12029,7 @@ class DescribeEffectivePatchesForPatchBaselineResult {
   }
 }
 
+/// @nodoc
 class DescribeInstanceAssociationsStatusResult {
   /// Status information about the association.
   final List<InstanceAssociationStatusInfo>? instanceAssociationStatusInfos;
@@ -12025,6 +12067,7 @@ class DescribeInstanceAssociationsStatusResult {
   }
 }
 
+/// @nodoc
 class DescribeInstanceInformationResult {
   /// The managed node information list.
   final List<InstanceInformation>? instanceInformationList;
@@ -12060,6 +12103,7 @@ class DescribeInstanceInformationResult {
   }
 }
 
+/// @nodoc
 class DescribeInstancePatchesResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -12117,6 +12161,7 @@ class DescribeInstancePatchesResult {
   }
 }
 
+/// @nodoc
 class DescribeInstancePatchStatesResult {
   /// The high-level patch state for the requested managed nodes.
   final List<InstancePatchState>? instancePatchStates;
@@ -12152,6 +12197,7 @@ class DescribeInstancePatchStatesResult {
   }
 }
 
+/// @nodoc
 class DescribeInstancePatchStatesForPatchGroupResult {
   /// The high-level patch state for the requested managed nodes.
   final List<InstancePatchState>? instancePatchStates;
@@ -12187,6 +12233,7 @@ class DescribeInstancePatchStatesForPatchGroupResult {
   }
 }
 
+/// @nodoc
 class DescribeInstancePropertiesResult {
   /// Properties for the managed instances.
   final List<InstanceProperty>? instanceProperties;
@@ -12220,6 +12267,7 @@ class DescribeInstancePropertiesResult {
   }
 }
 
+/// @nodoc
 class DescribeInventoryDeletionsResult {
   /// A list of status items for deleted inventory.
   final List<InventoryDeletionStatusItem>? inventoryDeletions;
@@ -12254,6 +12302,7 @@ class DescribeInventoryDeletionsResult {
   }
 }
 
+/// @nodoc
 class DescribeMaintenanceWindowExecutionsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -12289,6 +12338,7 @@ class DescribeMaintenanceWindowExecutionsResult {
   }
 }
 
+/// @nodoc
 class DescribeMaintenanceWindowExecutionTaskInvocationsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -12330,6 +12380,7 @@ class DescribeMaintenanceWindowExecutionTaskInvocationsResult {
   }
 }
 
+/// @nodoc
 class DescribeMaintenanceWindowExecutionTasksResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -12368,6 +12419,7 @@ class DescribeMaintenanceWindowExecutionTasksResult {
   }
 }
 
+/// @nodoc
 class DescribeMaintenanceWindowsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -12402,6 +12454,7 @@ class DescribeMaintenanceWindowsResult {
   }
 }
 
+/// @nodoc
 class DescribeMaintenanceWindowScheduleResult {
   /// The token for the next set of items to return. (You use this token in the
   /// next call.)
@@ -12439,6 +12492,7 @@ class DescribeMaintenanceWindowScheduleResult {
   }
 }
 
+/// @nodoc
 class DescribeMaintenanceWindowsForTargetResult {
   /// The token for the next set of items to return. (You use this token in the
   /// next call.)
@@ -12475,6 +12529,7 @@ class DescribeMaintenanceWindowsForTargetResult {
   }
 }
 
+/// @nodoc
 class DescribeMaintenanceWindowTargetsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -12510,6 +12565,7 @@ class DescribeMaintenanceWindowTargetsResult {
   }
 }
 
+/// @nodoc
 class DescribeMaintenanceWindowTasksResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -12544,6 +12600,7 @@ class DescribeMaintenanceWindowTasksResult {
   }
 }
 
+/// @nodoc
 class DescribeOpsItemsResponse {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -12577,6 +12634,7 @@ class DescribeOpsItemsResponse {
   }
 }
 
+/// @nodoc
 class DescribeParametersResult {
   /// The token to use when requesting the next set of items.
   final String? nextToken;
@@ -12609,6 +12667,7 @@ class DescribeParametersResult {
   }
 }
 
+/// @nodoc
 class DescribePatchBaselinesResult {
   /// An array of <code>PatchBaselineIdentity</code> elements.
   final List<PatchBaselineIdentity>? baselineIdentities;
@@ -12642,13 +12701,14 @@ class DescribePatchBaselinesResult {
   }
 }
 
+/// @nodoc
 class DescribePatchGroupsResult {
   /// Each entry in the array contains:
   ///
   /// <ul>
   /// <li>
   /// <code>PatchGroup</code>: string (between 1 and 256 characters. Regex:
-  /// <code>^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$)</code>
+  /// <code>^(\[\p{L}\p{Z}\p{N}_.:/=+\-@\]*)$)</code>
   /// </li>
   /// <li>
   /// <code>PatchBaselineIdentity</code>: A <code>PatchBaselineIdentity</code>
@@ -12687,6 +12747,7 @@ class DescribePatchGroupsResult {
   }
 }
 
+/// @nodoc
 class DescribePatchGroupStateResult {
   /// The number of managed nodes in the patch group.
   final int? instances;
@@ -12863,6 +12924,7 @@ class DescribePatchGroupStateResult {
   }
 }
 
+/// @nodoc
 class DescribePatchPropertiesResult {
   /// The token for the next set of items to return. (You use this token in the
   /// next call.)
@@ -12897,6 +12959,7 @@ class DescribePatchPropertiesResult {
   }
 }
 
+/// @nodoc
 class DescribeSessionsResponse {
   /// The token for the next set of items to return. (You received this token from
   /// a previous call.)
@@ -12930,6 +12993,7 @@ class DescribeSessionsResponse {
   }
 }
 
+/// @nodoc
 class DisassociateOpsItemRelatedItemResponse {
   DisassociateOpsItemRelatedItemResponse();
 
@@ -12943,6 +13007,7 @@ class DisassociateOpsItemRelatedItemResponse {
   }
 }
 
+/// @nodoc
 class GetAccessTokenResponse {
   /// The status of the access request.
   final AccessRequestStatus? accessRequestStatus;
@@ -12977,6 +13042,7 @@ class GetAccessTokenResponse {
   }
 }
 
+/// @nodoc
 class GetAutomationExecutionResult {
   /// Detailed information about the current state of an automation execution.
   final AutomationExecution? automationExecution;
@@ -13003,6 +13069,7 @@ class GetAutomationExecutionResult {
   }
 }
 
+/// @nodoc
 class GetCalendarStateResponse {
   /// The time, as an <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO
   /// 8601</a> string, that you specified in your command. If you don't specify a
@@ -13047,6 +13114,7 @@ class GetCalendarStateResponse {
   }
 }
 
+/// @nodoc
 class GetCommandInvocationResult {
   /// Amazon CloudWatch Logs information where Systems Manager sent the command
   /// output.
@@ -13285,6 +13353,7 @@ class GetCommandInvocationResult {
   }
 }
 
+/// @nodoc
 class GetConnectionStatusResponse {
   /// The status of the connection to the managed node.
   final ConnectionStatus? status;
@@ -13314,6 +13383,7 @@ class GetConnectionStatusResponse {
   }
 }
 
+/// @nodoc
 class GetDefaultPatchBaselineResult {
   /// The ID of the default patch baseline.
   final String? baselineId;
@@ -13344,6 +13414,7 @@ class GetDefaultPatchBaselineResult {
   }
 }
 
+/// @nodoc
 class GetDeployablePatchSnapshotForInstanceResult {
   /// The managed node ID.
   final String? instanceId;
@@ -13391,6 +13462,7 @@ class GetDeployablePatchSnapshotForInstanceResult {
   }
 }
 
+/// @nodoc
 class GetDocumentResult {
   /// A description of the document attachments, including names, locations,
   /// sizes, and so on.
@@ -13526,6 +13598,7 @@ class GetDocumentResult {
   }
 }
 
+/// @nodoc
 class GetExecutionPreviewResponse {
   /// A UTC timestamp indicating when the execution preview operation ended.
   final DateTime? endedAt;
@@ -13578,6 +13651,7 @@ class GetExecutionPreviewResponse {
   }
 }
 
+/// @nodoc
 class GetInventoryResult {
   /// Collection of inventory entities such as a collection of managed node
   /// inventory.
@@ -13612,6 +13686,7 @@ class GetInventoryResult {
   }
 }
 
+/// @nodoc
 class GetInventorySchemaResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -13645,6 +13720,7 @@ class GetInventorySchemaResult {
   }
 }
 
+/// @nodoc
 class GetMaintenanceWindowResult {
   /// Whether targets must be registered with the maintenance window before tasks
   /// can be defined for those targets.
@@ -13780,6 +13856,7 @@ class GetMaintenanceWindowResult {
   }
 }
 
+/// @nodoc
 class GetMaintenanceWindowExecutionResult {
   /// The time the maintenance window finished running.
   final DateTime? endTime;
@@ -13840,6 +13917,7 @@ class GetMaintenanceWindowExecutionResult {
   }
 }
 
+/// @nodoc
 class GetMaintenanceWindowExecutionTaskResult {
   /// The details for the CloudWatch alarm you applied to your maintenance window
   /// task.
@@ -13997,6 +14075,7 @@ class GetMaintenanceWindowExecutionTaskResult {
   }
 }
 
+/// @nodoc
 class GetMaintenanceWindowExecutionTaskInvocationResult {
   /// The time that the task finished running on the target.
   final DateTime? endTime;
@@ -14102,6 +14181,7 @@ class GetMaintenanceWindowExecutionTaskInvocationResult {
   }
 }
 
+/// @nodoc
 class GetMaintenanceWindowTaskResult {
   /// The details for the CloudWatch alarm you applied to your maintenance window
   /// task.
@@ -14303,6 +14383,7 @@ class GetMaintenanceWindowTaskResult {
   }
 }
 
+/// @nodoc
 class GetOpsItemResponse {
   /// The OpsItem.
   final OpsItem? opsItem;
@@ -14327,6 +14408,7 @@ class GetOpsItemResponse {
   }
 }
 
+/// @nodoc
 class GetOpsMetadataResult {
   /// OpsMetadata for an Application Manager application.
   final Map<String, MetadataValue>? metadata;
@@ -14365,6 +14447,7 @@ class GetOpsMetadataResult {
   }
 }
 
+/// @nodoc
 class GetOpsSummaryResult {
   /// The list of aggregated details and filtered OpsData.
   final List<OpsEntity>? entities;
@@ -14398,6 +14481,7 @@ class GetOpsSummaryResult {
   }
 }
 
+/// @nodoc
 class GetParameterResult {
   /// Information about a parameter.
   final Parameter? parameter;
@@ -14422,6 +14506,7 @@ class GetParameterResult {
   }
 }
 
+/// @nodoc
 class GetParameterHistoryResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -14455,6 +14540,7 @@ class GetParameterHistoryResult {
   }
 }
 
+/// @nodoc
 class GetParametersResult {
   /// A list of parameters that aren't formatted correctly or don't run during an
   /// execution.
@@ -14491,6 +14577,7 @@ class GetParametersResult {
   }
 }
 
+/// @nodoc
 class GetParametersByPathResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -14524,6 +14611,7 @@ class GetParametersByPathResult {
   }
 }
 
+/// @nodoc
 class GetPatchBaselineResult {
   /// A set of rules used to include patches in the baseline.
   final PatchRuleGroup? approvalRules;
@@ -14697,6 +14785,7 @@ class GetPatchBaselineResult {
   }
 }
 
+/// @nodoc
 class GetPatchBaselineForPatchGroupResult {
   /// The ID of the patch baseline that should be used for the patch group.
   final String? baselineId;
@@ -14736,6 +14825,7 @@ class GetPatchBaselineForPatchGroupResult {
   }
 }
 
+/// @nodoc
 class GetResourcePoliciesResponse {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -14771,6 +14861,8 @@ class GetResourcePoliciesResponse {
 }
 
 /// The query result body of the GetServiceSetting API operation.
+///
+/// @nodoc
 class GetServiceSettingResult {
   /// The query result of the current service setting.
   final ServiceSetting? serviceSetting;
@@ -14796,6 +14888,7 @@ class GetServiceSettingResult {
   }
 }
 
+/// @nodoc
 class LabelParameterVersionResult {
   /// The label doesn't meet the requirements. For information about parameter
   /// label requirements, see <a
@@ -14832,6 +14925,7 @@ class LabelParameterVersionResult {
   }
 }
 
+/// @nodoc
 class ListAssociationsResult {
   /// The associations.
   final List<Association>? associations;
@@ -14865,6 +14959,7 @@ class ListAssociationsResult {
   }
 }
 
+/// @nodoc
 class ListAssociationVersionsResult {
   /// Information about all versions of the association for the specified
   /// association ID.
@@ -14901,6 +14996,7 @@ class ListAssociationVersionsResult {
   }
 }
 
+/// @nodoc
 class ListCommandInvocationsResult {
   /// (Optional) A list of all invocations.
   final List<CommandInvocation>? commandInvocations;
@@ -14934,6 +15030,7 @@ class ListCommandInvocationsResult {
   }
 }
 
+/// @nodoc
 class ListCommandsResult {
   /// (Optional) The list of commands requested by the user.
   final List<Command>? commands;
@@ -14967,6 +15064,7 @@ class ListCommandsResult {
   }
 }
 
+/// @nodoc
 class ListComplianceItemsResult {
   /// A list of compliance information for the specified resource ID.
   final List<ComplianceItem>? complianceItems;
@@ -15000,6 +15098,7 @@ class ListComplianceItemsResult {
   }
 }
 
+/// @nodoc
 class ListComplianceSummariesResult {
   /// A list of compliant and non-compliant summary counts based on compliance
   /// types. For example, this call returns State Manager associations, patches,
@@ -15037,6 +15136,7 @@ class ListComplianceSummariesResult {
   }
 }
 
+/// @nodoc
 class ListDocumentMetadataHistoryResponse {
   /// The user ID of the person in the organization who requested the review of
   /// the change template.
@@ -15094,6 +15194,7 @@ class ListDocumentMetadataHistoryResponse {
   }
 }
 
+/// @nodoc
 class ListDocumentsResult {
   /// The names of the SSM documents.
   final List<DocumentIdentifier>? documentIdentifiers;
@@ -15128,6 +15229,7 @@ class ListDocumentsResult {
   }
 }
 
+/// @nodoc
 class ListDocumentVersionsResult {
   /// The document versions.
   final List<DocumentVersionInfo>? documentVersions;
@@ -15161,6 +15263,7 @@ class ListDocumentVersionsResult {
   }
 }
 
+/// @nodoc
 class ListInventoryEntriesResult {
   /// The time that inventory information was collected for the managed nodes.
   final String? captureTime;
@@ -15223,6 +15326,7 @@ class ListInventoryEntriesResult {
   }
 }
 
+/// @nodoc
 class ListNodesResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -15256,6 +15360,7 @@ class ListNodesResult {
   }
 }
 
+/// @nodoc
 class ListNodesSummaryResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
@@ -15291,6 +15396,7 @@ class ListNodesSummaryResult {
   }
 }
 
+/// @nodoc
 class ListOpsItemEventsResponse {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -15324,6 +15430,7 @@ class ListOpsItemEventsResponse {
   }
 }
 
+/// @nodoc
 class ListOpsItemRelatedItemsResponse {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -15358,6 +15465,7 @@ class ListOpsItemRelatedItemsResponse {
   }
 }
 
+/// @nodoc
 class ListOpsMetadataResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -15391,6 +15499,7 @@ class ListOpsMetadataResult {
   }
 }
 
+/// @nodoc
 class ListResourceComplianceSummariesResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -15431,6 +15540,7 @@ class ListResourceComplianceSummariesResult {
   }
 }
 
+/// @nodoc
 class ListResourceDataSyncResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -15465,6 +15575,7 @@ class ListResourceDataSyncResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResult {
   /// A list of tags.
   final List<Tag>? tagList;
@@ -15490,6 +15601,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class ModifyDocumentPermissionResponse {
   ModifyDocumentPermissionResponse();
 
@@ -15502,6 +15614,7 @@ class ModifyDocumentPermissionResponse {
   }
 }
 
+/// @nodoc
 class PutComplianceItemsResult {
   PutComplianceItemsResult();
 
@@ -15514,6 +15627,7 @@ class PutComplianceItemsResult {
   }
 }
 
+/// @nodoc
 class PutInventoryResult {
   /// Information about the request.
   final String? message;
@@ -15536,6 +15650,7 @@ class PutInventoryResult {
   }
 }
 
+/// @nodoc
 class PutParameterResult {
   /// The tier assigned to the parameter.
   final ParameterTier? tier;
@@ -15570,6 +15685,7 @@ class PutParameterResult {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// ID of the current policy version.
   final String? policyHash;
@@ -15600,6 +15716,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class RegisterDefaultPatchBaselineResult {
   /// The ID of the default patch baseline.
   final String? baselineId;
@@ -15623,6 +15740,7 @@ class RegisterDefaultPatchBaselineResult {
   }
 }
 
+/// @nodoc
 class RegisterPatchBaselineForPatchGroupResult {
   /// The ID of the patch baseline the patch group was registered with.
   final String? baselineId;
@@ -15653,6 +15771,7 @@ class RegisterPatchBaselineForPatchGroupResult {
   }
 }
 
+/// @nodoc
 class RegisterTargetWithMaintenanceWindowResult {
   /// The ID of the target definition in this maintenance window.
   final String? windowTargetId;
@@ -15676,6 +15795,7 @@ class RegisterTargetWithMaintenanceWindowResult {
   }
 }
 
+/// @nodoc
 class RegisterTaskWithMaintenanceWindowResult {
   /// The ID of the task in the maintenance window.
   final String? windowTaskId;
@@ -15699,6 +15819,7 @@ class RegisterTaskWithMaintenanceWindowResult {
   }
 }
 
+/// @nodoc
 class RemoveTagsFromResourceResult {
   RemoveTagsFromResourceResult();
 
@@ -15712,6 +15833,8 @@ class RemoveTagsFromResourceResult {
 }
 
 /// The result body of the ResetServiceSetting API operation.
+///
+/// @nodoc
 class ResetServiceSettingResult {
   /// The current, effective service setting after calling the ResetServiceSetting
   /// API operation.
@@ -15738,6 +15861,7 @@ class ResetServiceSettingResult {
   }
 }
 
+/// @nodoc
 class ResumeSessionResponse {
   /// The ID of the session.
   final String? sessionId;
@@ -15788,6 +15912,7 @@ class ResumeSessionResponse {
   }
 }
 
+/// @nodoc
 class SendAutomationSignalResult {
   SendAutomationSignalResult();
 
@@ -15800,6 +15925,7 @@ class SendAutomationSignalResult {
   }
 }
 
+/// @nodoc
 class SendCommandResult {
   /// The request as it was received by Systems Manager. Also provides the command
   /// ID which can be used future references to this request.
@@ -15825,6 +15951,7 @@ class SendCommandResult {
   }
 }
 
+/// @nodoc
 class StartAccessRequestResponse {
   /// The ID of the access request.
   final String? accessRequestId;
@@ -15847,6 +15974,7 @@ class StartAccessRequestResponse {
   }
 }
 
+/// @nodoc
 class StartAssociationsOnceResult {
   StartAssociationsOnceResult();
 
@@ -15859,6 +15987,7 @@ class StartAssociationsOnceResult {
   }
 }
 
+/// @nodoc
 class StartAutomationExecutionResult {
   /// The unique ID of a newly scheduled automation execution.
   final String? automationExecutionId;
@@ -15882,6 +16011,7 @@ class StartAutomationExecutionResult {
   }
 }
 
+/// @nodoc
 class StartChangeRequestExecutionResult {
   /// The unique ID of a runbook workflow operation. (A runbook workflow is a type
   /// of Automation operation.)
@@ -15907,6 +16037,7 @@ class StartChangeRequestExecutionResult {
   }
 }
 
+/// @nodoc
 class StartExecutionPreviewResponse {
   /// The ID of the execution preview generated by the system.
   final String? executionPreviewId;
@@ -15929,6 +16060,7 @@ class StartExecutionPreviewResponse {
   }
 }
 
+/// @nodoc
 class StartSessionResponse {
   /// The ID of the session.
   final String? sessionId;
@@ -15981,6 +16113,7 @@ class StartSessionResponse {
   }
 }
 
+/// @nodoc
 class StopAutomationExecutionResult {
   StopAutomationExecutionResult();
 
@@ -15993,6 +16126,7 @@ class StopAutomationExecutionResult {
   }
 }
 
+/// @nodoc
 class TerminateSessionResponse {
   /// The ID of the session that has been terminated.
   final String? sessionId;
@@ -16015,6 +16149,7 @@ class TerminateSessionResponse {
   }
 }
 
+/// @nodoc
 class UnlabelParameterVersionResult {
   /// The labels that aren't attached to the given parameter version.
   final List<String>? invalidLabels;
@@ -16050,6 +16185,7 @@ class UnlabelParameterVersionResult {
   }
 }
 
+/// @nodoc
 class UpdateAssociationResult {
   /// The description of the association that was updated.
   final AssociationDescription? associationDescription;
@@ -16076,6 +16212,7 @@ class UpdateAssociationResult {
   }
 }
 
+/// @nodoc
 class UpdateAssociationStatusResult {
   /// Information about the association.
   final AssociationDescription? associationDescription;
@@ -16102,6 +16239,7 @@ class UpdateAssociationStatusResult {
   }
 }
 
+/// @nodoc
 class UpdateDocumentResult {
   /// A description of the document that was updated.
   final DocumentDescription? documentDescription;
@@ -16128,6 +16266,7 @@ class UpdateDocumentResult {
   }
 }
 
+/// @nodoc
 class UpdateDocumentDefaultVersionResult {
   /// The description of a custom document that you want to set as the default
   /// version.
@@ -16155,6 +16294,7 @@ class UpdateDocumentDefaultVersionResult {
   }
 }
 
+/// @nodoc
 class UpdateDocumentMetadataResponse {
   UpdateDocumentMetadataResponse();
 
@@ -16167,6 +16307,7 @@ class UpdateDocumentMetadataResponse {
   }
 }
 
+/// @nodoc
 class UpdateMaintenanceWindowResult {
   /// Whether targets must be registered with the maintenance window before tasks
   /// can be defined for those targets.
@@ -16279,6 +16420,7 @@ class UpdateMaintenanceWindowResult {
   }
 }
 
+/// @nodoc
 class UpdateMaintenanceWindowTargetResult {
   /// The updated description.
   final String? description;
@@ -16340,6 +16482,7 @@ class UpdateMaintenanceWindowTargetResult {
   }
 }
 
+/// @nodoc
 class UpdateMaintenanceWindowTaskResult {
   /// The details for the CloudWatch alarm you applied to your maintenance window
   /// task.
@@ -16511,6 +16654,7 @@ class UpdateMaintenanceWindowTaskResult {
   }
 }
 
+/// @nodoc
 class UpdateManagedInstanceRoleResult {
   UpdateManagedInstanceRoleResult();
 
@@ -16523,6 +16667,7 @@ class UpdateManagedInstanceRoleResult {
   }
 }
 
+/// @nodoc
 class UpdateOpsItemResponse {
   UpdateOpsItemResponse();
 
@@ -16535,6 +16680,7 @@ class UpdateOpsItemResponse {
   }
 }
 
+/// @nodoc
 class UpdateOpsMetadataResult {
   /// The Amazon Resource Name (ARN) of the OpsMetadata Object that was updated.
   final String? opsMetadataArn;
@@ -16557,6 +16703,7 @@ class UpdateOpsMetadataResult {
   }
 }
 
+/// @nodoc
 class UpdatePatchBaselineResult {
   /// A set of rules used to include patches in the baseline.
   final PatchRuleGroup? approvalRules;
@@ -16720,6 +16867,7 @@ class UpdatePatchBaselineResult {
   }
 }
 
+/// @nodoc
 class UpdateResourceDataSyncResult {
   UpdateResourceDataSyncResult();
 
@@ -16733,6 +16881,8 @@ class UpdateResourceDataSyncResult {
 }
 
 /// The result body of the UpdateServiceSetting API operation.
+///
+/// @nodoc
 class UpdateServiceSettingResult {
   UpdateServiceSettingResult();
 
@@ -16746,6 +16896,8 @@ class UpdateServiceSettingResult {
 }
 
 /// Information about the source of the data included in the resource data sync.
+///
+/// @nodoc
 class ResourceDataSyncSource {
   /// The <code>SyncSource</code> Amazon Web Services Regions included in the
   /// resource data sync.
@@ -16805,6 +16957,8 @@ class ResourceDataSyncSource {
 /// source. A sync source of this type can synchronize data from Organizations
 /// or, if an Amazon Web Services organization isn't present, from multiple
 /// Amazon Web Services Regions.
+///
+/// @nodoc
 class ResourceDataSyncAwsOrganizationsSource {
   /// If an Amazon Web Services organization is present, this is either
   /// <code>OrganizationalUnits</code> or <code>EntireOrganization</code>. For
@@ -16845,6 +16999,8 @@ class ResourceDataSyncAwsOrganizationsSource {
 }
 
 /// The Organizations organizational unit data source for the sync.
+///
+/// @nodoc
 class ResourceDataSyncOrganizationalUnit {
   /// The Organizations unit ID data source for the sync.
   final String? organizationalUnitId;
@@ -16869,6 +17025,7 @@ class ResourceDataSyncOrganizationalUnit {
   }
 }
 
+/// @nodoc
 class OperatingSystem {
   static const windows = OperatingSystem._('WINDOWS');
   static const amazonLinux = OperatingSystem._('AMAZON_LINUX');
@@ -16924,6 +17081,8 @@ class OperatingSystem {
 }
 
 /// A set of patch filters, typically used for approval rules.
+///
+/// @nodoc
 class PatchFilterGroup {
   /// The set of patch filters that make up the group.
   final List<PatchFilter> patchFilters;
@@ -16950,6 +17109,8 @@ class PatchFilterGroup {
 }
 
 /// A set of rules defining the approval rules for a patch baseline.
+///
+/// @nodoc
 class PatchRuleGroup {
   /// The rules that make up the rule group.
   final List<PatchRule> patchRules;
@@ -16975,6 +17136,7 @@ class PatchRuleGroup {
   }
 }
 
+/// @nodoc
 class PatchComplianceLevel {
   static const critical = PatchComplianceLevel._('CRITICAL');
   static const high = PatchComplianceLevel._('HIGH');
@@ -17011,6 +17173,7 @@ class PatchComplianceLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class PatchAction {
   static const allowAsDependency = PatchAction._('ALLOW_AS_DEPENDENCY');
   static const block = PatchAction._('BLOCK');
@@ -17034,6 +17197,7 @@ class PatchAction {
   String toString() => value;
 }
 
+/// @nodoc
 class PatchComplianceStatus {
   static const compliant = PatchComplianceStatus._('COMPLIANT');
   static const nonCompliant = PatchComplianceStatus._('NON_COMPLIANT');
@@ -17062,12 +17226,14 @@ class PatchComplianceStatus {
 /// Information about the patches to use to update the managed nodes, including
 /// target operating systems and source repository. Applies to Linux managed
 /// nodes only.
+///
+/// @nodoc
 class PatchSource {
   /// The value of the repo configuration.
   ///
   /// <b>Example for yum repositories</b>
   ///
-  /// <code>[main]</code>
+  /// <code>\[main\]</code>
   ///
   /// <code>name=MyCustomRepository</code>
   ///
@@ -17133,6 +17299,8 @@ class PatchSource {
 }
 
 /// Defines an approval rule for a patch baseline.
+///
+/// @nodoc
 class PatchRule {
   /// The patch filter group that defines the criteria for the rule.
   final PatchFilterGroup patchFilterGroup;
@@ -17248,15 +17416,17 @@ class PatchRule {
 ///
 /// The filter values define a matching criterion for the patch property
 /// indicated by the key. For example, if the filter key is <code>PRODUCT</code>
-/// and the filter values are <code>["Office 2013", "Office 2016"]</code>, then
-/// the filter accepts all patches where product name is either "Office 2013" or
-/// "Office 2016". The filter values can be exact values for the patch property
-/// given as a key, or a wildcard (*), which matches all values.
+/// and the filter values are <code>\["Office 2013", "Office 2016"\]</code>,
+/// then the filter accepts all patches where product name is either "Office
+/// 2013" or "Office 2016". The filter values can be exact values for the patch
+/// property given as a key, or a wildcard (*), which matches all values.
 ///
 /// You can view lists of valid values for the patch properties by running the
 /// <code>DescribePatchProperties</code> command. For information about which
 /// patch properties can be used with each major operating system, see
 /// <a>DescribePatchProperties</a>.
+///
+/// @nodoc
 class PatchFilter {
   /// The key for the filter.
   ///
@@ -17295,6 +17465,7 @@ class PatchFilter {
   }
 }
 
+/// @nodoc
 class PatchFilterKey {
   static const arch = PatchFilterKey._('ARCH');
   static const advisoryId = PatchFilterKey._('ADVISORY_ID');
@@ -17357,6 +17528,8 @@ class PatchFilterKey {
 }
 
 /// Metadata to assign to an Application Manager application.
+///
+/// @nodoc
 class MetadataValue {
   /// Metadata value to assign to an Application Manager application.
   final String? value;
@@ -17379,6 +17552,7 @@ class MetadataValue {
   }
 }
 
+/// @nodoc
 class OpsItemStatus {
   static const open = OpsItemStatus._('Open');
   static const inProgress = OpsItemStatus._('InProgress');
@@ -17448,6 +17622,8 @@ class OpsItemStatus {
 /// An OpsItems that shares something in common with the current OpsItem. For
 /// example, related OpsItems can include OpsItems with similar error messages,
 /// impacted resources, or statuses for the impacted resource.
+///
+/// @nodoc
 class RelatedOpsItem {
   /// The ID of an OpsItem related to the current OpsItem.
   final String opsItemId;
@@ -17471,6 +17647,8 @@ class RelatedOpsItem {
 }
 
 /// A notification about the OpsItem.
+///
+/// @nodoc
 class OpsItemNotification {
   /// The Amazon Resource Name (ARN) of an Amazon Simple Notification Service
   /// (Amazon SNS) topic where notifications are sent when this OpsItem is edited
@@ -17497,6 +17675,8 @@ class OpsItemNotification {
 
 /// An object that defines the value of the key and its type in the
 /// OperationalData map.
+///
+/// @nodoc
 class OpsItemDataValue {
   /// The type of key-value pair. Valid types include
   /// <code>SearchableString</code> and <code>String</code>.
@@ -17527,6 +17707,7 @@ class OpsItemDataValue {
   }
 }
 
+/// @nodoc
 class OpsItemDataType {
   static const searchableString = OpsItemDataType._('SearchableString');
   static const string = OpsItemDataType._('String');
@@ -17552,6 +17733,8 @@ class OpsItemDataType {
 }
 
 /// The parameters for task execution.
+///
+/// @nodoc
 class MaintenanceWindowTaskInvocationParameters {
   /// The parameters for an <code>AUTOMATION</code> task type.
   final MaintenanceWindowAutomationParameters? automation;
@@ -17619,6 +17802,8 @@ class MaintenanceWindowTaskInvocationParameters {
 /// supported maintenance window task types, see
 /// <a>MaintenanceWindowTaskInvocationParameters</a>.
 /// </note>
+///
+/// @nodoc
 class LoggingInfo {
   /// The name of an S3 bucket where execution logs are stored.
   final String s3BucketName;
@@ -17655,6 +17840,7 @@ class LoggingInfo {
   }
 }
 
+/// @nodoc
 class MaintenanceWindowTaskCutoffBehavior {
   static const continueTask =
       MaintenanceWindowTaskCutoffBehavior._('CONTINUE_TASK');
@@ -17684,6 +17870,8 @@ class MaintenanceWindowTaskCutoffBehavior {
 
 /// The details for the CloudWatch alarm you want to apply to an automation or
 /// command.
+///
+/// @nodoc
 class AlarmConfiguration {
   /// The name of the CloudWatch alarm specified in the configuration.
   final List<Alarm> alarms;
@@ -17722,6 +17910,8 @@ class AlarmConfiguration {
 }
 
 /// A CloudWatch alarm you apply to an automation or command.
+///
+/// @nodoc
 class Alarm {
   /// The name of your CloudWatch alarm.
   final String name;
@@ -17769,6 +17959,8 @@ class Alarm {
 /// for <code>TaskParameters</code> and <code>LoggingInfo</code> only if no
 /// values are specified for <code>TaskInvocationParameters</code>.
 /// </note>
+///
+/// @nodoc
 class MaintenanceWindowRunCommandParameters {
   final CloudWatchOutputConfig? cloudWatchOutputConfig;
 
@@ -17898,6 +18090,8 @@ class MaintenanceWindowRunCommandParameters {
 }
 
 /// The parameters for an <code>AUTOMATION</code> task type.
+///
+/// @nodoc
 class MaintenanceWindowAutomationParameters {
   /// The version of an Automation runbook to use during task execution.
   final String? documentVersion;
@@ -17976,6 +18170,8 @@ class MaintenanceWindowAutomationParameters {
 /// For Step Functions tasks, Systems Manager ignores any values specified for
 /// <code>TaskParameters</code> and <code>LoggingInfo</code>.
 /// </note>
+///
+/// @nodoc
 class MaintenanceWindowStepFunctionsParameters {
   /// The inputs for the <code>STEP_FUNCTIONS</code> task.
   final String? input;
@@ -18030,6 +18226,8 @@ class MaintenanceWindowStepFunctionsParameters {
 /// For Lambda tasks, Systems Manager ignores any values specified for
 /// TaskParameters and LoggingInfo.
 /// </note>
+///
+/// @nodoc
 class MaintenanceWindowLambdaParameters {
   /// Pass client-specific information to the Lambda function that you are
   /// invoking. You can then process the client information in your Lambda
@@ -18074,6 +18272,8 @@ class MaintenanceWindowLambdaParameters {
 }
 
 /// Configuration options for sending command output to Amazon CloudWatch Logs.
+///
+/// @nodoc
 class CloudWatchOutputConfig {
   /// The name of the CloudWatch Logs log group where you want to send command
   /// output. If you don't specify a group name, Amazon Web Services Systems
@@ -18110,6 +18310,7 @@ class CloudWatchOutputConfig {
   }
 }
 
+/// @nodoc
 class DocumentHashType {
   static const sha256 = DocumentHashType._('Sha256');
   static const sha1 = DocumentHashType._('Sha1');
@@ -18135,6 +18336,8 @@ class DocumentHashType {
 }
 
 /// Configurations for sending notifications.
+///
+/// @nodoc
 class NotificationConfig {
   /// An Amazon Resource Name (ARN) for an Amazon Simple Notification Service
   /// (Amazon SNS) topic. Run Command pushes notifications about command status
@@ -18194,6 +18397,7 @@ class NotificationConfig {
   }
 }
 
+/// @nodoc
 class NotificationType {
   static const command = NotificationType._('Command');
   static const invocation = NotificationType._('Invocation');
@@ -18218,6 +18422,7 @@ class NotificationType {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationEvent {
   static const all = NotificationEvent._('All');
   static const inProgress = NotificationEvent._('InProgress');
@@ -18247,6 +18452,8 @@ class NotificationEvent {
 }
 
 /// Defines the values for a task parameter.
+///
+/// @nodoc
 class MaintenanceWindowTaskParameterValueExpression {
   /// This field contains an array of 0 or more strings, each 1 to 255 characters
   /// in length.
@@ -18360,6 +18567,8 @@ class MaintenanceWindowTaskParameterValueExpression {
 /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting">Targeting
 /// multiple managed nodes</a> in the <i>Amazon Web Services Systems Manager
 /// User Guide</i>.
+///
+/// @nodoc
 class Target {
   /// User-defined criteria for sending commands that target managed nodes that
   /// meet the criteria.
@@ -18398,6 +18607,8 @@ class Target {
 }
 
 /// Information about a document approval review.
+///
+/// @nodoc
 class DocumentReviews {
   /// The action to take on a document approval review request.
   final DocumentReviewAction action;
@@ -18421,6 +18632,7 @@ class DocumentReviews {
   }
 }
 
+/// @nodoc
 class DocumentReviewAction {
   static const sendForReview = DocumentReviewAction._('SendForReview');
   static const updateReview = DocumentReviewAction._('UpdateReview');
@@ -18449,6 +18661,8 @@ class DocumentReviewAction {
 }
 
 /// Information about comments added to a document review request.
+///
+/// @nodoc
 class DocumentReviewCommentSource {
   /// The content of a comment entered by a user who requests a review of a new
   /// document version, or who reviews the new version.
@@ -18481,6 +18695,7 @@ class DocumentReviewCommentSource {
   }
 }
 
+/// @nodoc
 class DocumentReviewCommentType {
   static const comment = DocumentReviewCommentType._('Comment');
 
@@ -18506,6 +18721,8 @@ class DocumentReviewCommentType {
 }
 
 /// A default version of a document.
+///
+/// @nodoc
 class DocumentDefaultVersionDescription {
   /// The default version of the document.
   final String? defaultVersion;
@@ -18544,6 +18761,8 @@ class DocumentDefaultVersionDescription {
 }
 
 /// Describes an Amazon Web Services Systems Manager document (SSM document).
+///
+/// @nodoc
 class DocumentDescription {
   /// The version of the document currently approved for use in the organization.
   final String? approvedVersion;
@@ -18822,6 +19041,8 @@ class DocumentDescription {
 }
 
 /// The status of a document.
+///
+/// @nodoc
 class DocumentStatus {
   static const creating = DocumentStatus._('Creating');
   static const active = DocumentStatus._('Active');
@@ -18849,6 +19070,7 @@ class DocumentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentType {
   static const command = DocumentType._('Command');
   static const policy = DocumentType._('Policy');
@@ -18910,6 +19132,7 @@ class DocumentType {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentFormat {
   static const yaml = DocumentFormat._('YAML');
   static const json = DocumentFormat._('JSON');
@@ -18935,6 +19158,7 @@ class DocumentFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ReviewStatus {
   static const approved = ReviewStatus._('APPROVED');
   static const notReviewed = ReviewStatus._('NOT_REVIEWED');
@@ -18961,6 +19185,8 @@ class ReviewStatus {
 }
 
 /// Information about the result of a document review request.
+///
+/// @nodoc
 class ReviewInformation {
   /// The time that the reviewer took action on the document review request.
   final DateTime? reviewedTime;
@@ -18999,6 +19225,8 @@ class ReviewInformation {
 }
 
 /// An SSM document required by the current document.
+///
+/// @nodoc
 class DocumentRequires {
   /// The name of the required SSM document. The name can be an Amazon Resource
   /// Name (ARN).
@@ -19046,6 +19274,8 @@ class DocumentRequires {
 }
 
 /// An attribute of an attachment, such as the attachment name.
+///
+/// @nodoc
 class AttachmentInformation {
   /// The name of the attachment.
   final String? name;
@@ -19073,6 +19303,8 @@ class AttachmentInformation {
 /// owner, or environment. In Amazon Web Services Systems Manager, you can apply
 /// tags to Systems Manager documents (SSM documents), managed nodes,
 /// maintenance windows, parameters, patch baselines, OpsItems, and OpsMetadata.
+///
+/// @nodoc
 class Tag {
   /// The name of the tag.
   final String key;
@@ -19102,6 +19334,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class PlatformType {
   static const windows = PlatformType._('Windows');
   static const linux = PlatformType._('Linux');
@@ -19128,6 +19361,8 @@ class PlatformType {
 
 /// Parameters specified in a Systems Manager document that run on the server
 /// when the command is run.
+///
+/// @nodoc
 class DocumentParameter {
   /// If specified, the default values for the parameters. Parameters without a
   /// default value are required. Parameters with a default value are optional.
@@ -19173,6 +19408,7 @@ class DocumentParameter {
   }
 }
 
+/// @nodoc
 class DocumentParameterType {
   static const string = DocumentParameterType._('String');
   static const stringList = DocumentParameterType._('StringList');
@@ -19201,6 +19437,8 @@ class DocumentParameterType {
 /// Identifying information about a document attachment, including the file name
 /// and a key-value pair that identifies the location of an attachment to a
 /// document.
+///
+/// @nodoc
 class AttachmentsSource {
   /// The key of a key-value pair that identifies the location of an attachment to
   /// a document.
@@ -19218,13 +19456,13 @@ class AttachmentsSource {
   /// For the key <i>SourceUrl</i>, the value is an S3 bucket location. For
   /// example:
   ///
-  /// <code>"Values": [ "s3://amzn-s3-demo-bucket/my-prefix" ]</code>
+  /// <code>"Values": \[ "s3://amzn-s3-demo-bucket/my-prefix" \]</code>
   /// </li>
   /// <li>
   /// For the key <i>S3FileUrl</i>, the value is a file in an S3 bucket. For
   /// example:
   ///
-  /// <code>"Values": [ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" ]</code>
+  /// <code>"Values": \[ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" \]</code>
   /// </li>
   /// <li>
   /// For the key <i>AttachmentReference</i>, the value is constructed from the
@@ -19232,15 +19470,15 @@ class AttachmentsSource {
   /// document, and a file attached to that document version that you want to
   /// reuse. For example:
   ///
-  /// <code>"Values": [ "MyOtherDocument/3/my-other-file.py" ]</code>
+  /// <code>"Values": \[ "MyOtherDocument/3/my-other-file.py" \]</code>
   ///
   /// However, if the SSM document is shared with you from another account, the
   /// full SSM document ARN must be specified instead of the document name only.
   /// For example:
   ///
-  /// <code>"Values": [
+  /// <code>"Values": \[
   /// "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py"
-  /// ]</code>
+  /// \]</code>
   /// </li>
   /// </ul>
   final List<String>? values;
@@ -19263,6 +19501,7 @@ class AttachmentsSource {
   }
 }
 
+/// @nodoc
 class AttachmentsSourceKey {
   static const sourceUrl = AttachmentsSourceKey._('SourceUrl');
   static const s3FileUrl = AttachmentsSourceKey._('S3FileUrl');
@@ -19291,6 +19530,8 @@ class AttachmentsSourceKey {
 }
 
 /// Describes the parameters for a document.
+///
+/// @nodoc
 class AssociationDescription {
   final AlarmConfiguration? alarmConfiguration;
 
@@ -19614,6 +19855,8 @@ class AssociationDescription {
 }
 
 /// Describes an association status.
+///
+/// @nodoc
 class AssociationStatus {
   /// The date when the status changed.
   final DateTime date;
@@ -19658,6 +19901,8 @@ class AssociationStatus {
 }
 
 /// Information about the association.
+///
+/// @nodoc
 class AssociationOverview {
   /// Returns the number of targets for the association status. For example, if
   /// you created an association with two managed nodes, and one of them was
@@ -19706,6 +19951,8 @@ class AssociationOverview {
 /// association, see <a
 /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-associations-creating.html#state-manager-associations-console">Create
 /// an association (console)</a> in the <i>Systems Manager User Guide</i>.
+///
+/// @nodoc
 class InstanceAssociationOutputLocation {
   /// An S3 bucket where you want to store the results of this request.
   final S3OutputLocation? s3Location;
@@ -19732,6 +19979,7 @@ class InstanceAssociationOutputLocation {
   }
 }
 
+/// @nodoc
 class AssociationComplianceSeverity {
   static const critical = AssociationComplianceSeverity._('CRITICAL');
   static const high = AssociationComplianceSeverity._('HIGH');
@@ -19760,6 +20008,7 @@ class AssociationComplianceSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class AssociationSyncCompliance {
   static const auto = AssociationSyncCompliance._('AUTO');
   static const manual = AssociationSyncCompliance._('MANUAL');
@@ -19786,6 +20035,8 @@ class AssociationSyncCompliance {
 }
 
 /// The details about the state of your CloudWatch alarm.
+///
+/// @nodoc
 class AlarmStateInformation {
   /// The name of your CloudWatch alarm.
   final String name;
@@ -19815,6 +20066,7 @@ class AlarmStateInformation {
   }
 }
 
+/// @nodoc
 class ExternalAlarmState {
   static const unknown = ExternalAlarmState._('UNKNOWN');
   static const alarm = ExternalAlarmState._('ALARM');
@@ -19842,6 +20094,8 @@ class ExternalAlarmState {
 
 /// The combination of Amazon Web Services Regions and Amazon Web Services
 /// accounts targeted by the current Automation execution.
+///
+/// @nodoc
 class TargetLocation {
   /// The Amazon Web Services accounts targeted by the current Automation
   /// execution.
@@ -19982,6 +20236,8 @@ class TargetLocation {
 }
 
 /// An S3 bucket where you want to store the results of this request.
+///
+/// @nodoc
 class S3OutputLocation {
   /// The name of the S3 bucket.
   final String? outputS3BucketName;
@@ -20018,6 +20274,7 @@ class S3OutputLocation {
   }
 }
 
+/// @nodoc
 class AssociationStatusName {
   static const pending = AssociationStatusName._('Pending');
   static const success = AssociationStatusName._('Success');
@@ -20044,6 +20301,7 @@ class AssociationStatusName {
   String toString() => value;
 }
 
+/// @nodoc
 class StopType {
   static const complete = StopType._('Complete');
   static const cancel = StopType._('Cancel');
@@ -20068,6 +20326,8 @@ class StopType {
 }
 
 /// Information about the inputs for an execution preview.
+///
+/// @nodoc
 class ExecutionInputs {
   /// Information about the optional inputs that can be specified for an
   /// automation execution preview.
@@ -20087,6 +20347,8 @@ class ExecutionInputs {
 
 /// Information about the optional inputs that can be specified for an
 /// automation execution preview.
+///
+/// @nodoc
 class AutomationExecutionInputs {
   /// Information about parameters that can be specified for the preview
   /// operation.
@@ -20148,6 +20410,8 @@ class AutomationExecutionInputs {
 /// The Automation runbooks specified for the runbook workflow can't run until
 /// all required approvals for the change request have been received.
 /// </note>
+///
+/// @nodoc
 class Runbook {
   /// The name of the Automation runbook used in a runbook workflow.
   final String documentName;
@@ -20248,6 +20512,7 @@ class Runbook {
   }
 }
 
+/// @nodoc
 class ExecutionMode {
   static const auto = ExecutionMode._('Auto');
   static const interactive = ExecutionMode._('Interactive');
@@ -20273,6 +20538,8 @@ class ExecutionMode {
 }
 
 /// Describes a command request.
+///
+/// @nodoc
 class Command {
   /// The details for the CloudWatch alarm applied to your command.
   final AlarmConfiguration? alarmConfiguration;
@@ -20577,6 +20844,7 @@ class Command {
   }
 }
 
+/// @nodoc
 class CommandStatus {
   static const pending = CommandStatus._('Pending');
   static const inProgress = CommandStatus._('InProgress');
@@ -20614,6 +20882,7 @@ class CommandStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SignalType {
   static const approve = SignalType._('Approve');
   static const reject = SignalType._('Reject');
@@ -20659,6 +20928,8 @@ class SignalType {
 /// <a>UpdateServiceSetting</a> API operation to change the default setting. Or,
 /// use the <a>ResetServiceSetting</a> to change the value back to the original
 /// value defined by the Amazon Web Services service team.
+///
+/// @nodoc
 class ServiceSetting {
   /// The ARN of the service setting.
   final String? arn;
@@ -20734,6 +21005,7 @@ class ServiceSetting {
   }
 }
 
+/// @nodoc
 class ResourceTypeForTagging {
   static const document = ResourceTypeForTagging._('Document');
   static const managedInstance = ResourceTypeForTagging._('ManagedInstance');
@@ -20777,6 +21049,7 @@ class ResourceTypeForTagging {
   String toString() => value;
 }
 
+/// @nodoc
 class MaintenanceWindowTaskType {
   static const runCommand = MaintenanceWindowTaskType._('RUN_COMMAND');
   static const automation = MaintenanceWindowTaskType._('AUTOMATION');
@@ -20804,6 +21077,7 @@ class MaintenanceWindowTaskType {
   String toString() => value;
 }
 
+/// @nodoc
 class MaintenanceWindowResourceType {
   static const instance = MaintenanceWindowResourceType._('INSTANCE');
   static const resourceGroup =
@@ -20830,6 +21104,7 @@ class MaintenanceWindowResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ParameterTier {
   static const standard = ParameterTier._('Standard');
   static const advanced = ParameterTier._('Advanced');
@@ -20855,6 +21130,7 @@ class ParameterTier {
   String toString() => value;
 }
 
+/// @nodoc
 class ParameterType {
   static const string = ParameterType._('String');
   static const stringList = ParameterType._('StringList');
@@ -20882,6 +21158,8 @@ class ParameterType {
 
 /// Information collected from managed nodes based on your inventory policy
 /// document
+///
+/// @nodoc
 class InventoryItem {
   /// The time the inventory information was collected.
   final String captureTime;
@@ -20943,6 +21221,8 @@ class InventoryItem {
 /// execution (for example, <code>Command</code>), and the date/time of the
 /// execution using a datetime object that is saved in the following format:
 /// <code>yyyy-MM-dd'T'HH:mm:ss'Z'</code>
+///
+/// @nodoc
 class ComplianceExecutionSummary {
   /// The time the execution ran as a datetime object that is saved in the
   /// following format: <code>yyyy-MM-dd'T'HH:mm:ss'Z'</code>
@@ -20991,6 +21271,7 @@ class ComplianceExecutionSummary {
   }
 }
 
+/// @nodoc
 class ComplianceUploadType {
   static const complete = ComplianceUploadType._('COMPLETE');
   static const partial = ComplianceUploadType._('PARTIAL');
@@ -21017,6 +21298,8 @@ class ComplianceUploadType {
 }
 
 /// Information about a compliance item.
+///
+/// @nodoc
 class ComplianceItemEntry {
   /// The severity of the compliance status. Severity can be one of the following:
   /// Critical, High, Medium, Low, Informational, Unspecified.
@@ -21062,6 +21345,7 @@ class ComplianceItemEntry {
   }
 }
 
+/// @nodoc
 class ComplianceSeverity {
   static const critical = ComplianceSeverity._('CRITICAL');
   static const high = ComplianceSeverity._('HIGH');
@@ -21098,6 +21382,7 @@ class ComplianceSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class ComplianceStatus {
   static const compliant = ComplianceStatus._('COMPLIANT');
   static const nonCompliant = ComplianceStatus._('NON_COMPLIANT');
@@ -21122,6 +21407,7 @@ class ComplianceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentPermissionType {
   static const share = DocumentPermissionType._('Share');
 
@@ -21148,6 +21434,8 @@ class DocumentPermissionType {
 
 /// Information about a resource data sync configuration, including its current
 /// status and last successful sync.
+///
+/// @nodoc
 class ResourceDataSyncItem {
   /// The status reported by the last sync.
   final LastResourceDataSyncStatus? lastStatus;
@@ -21264,6 +21552,8 @@ class ResourceDataSyncItem {
 ///
 /// <code>TrustedAccessDisabled</code> (You disabled Systems Manager access in
 /// the organization in Organizations.)
+///
+/// @nodoc
 class ResourceDataSyncSourceWithState {
   /// The field name in <code>SyncSource</code> for the
   /// <code>ResourceDataSyncAwsOrganizationsSource</code> type.
@@ -21356,6 +21646,8 @@ class ResourceDataSyncSourceWithState {
 }
 
 /// Information about the target S3 bucket for the resource data sync.
+///
+/// @nodoc
 class ResourceDataSyncS3Destination {
   /// The name of the S3 bucket where the aggregated data is stored.
   final String bucketName;
@@ -21422,6 +21714,7 @@ class ResourceDataSyncS3Destination {
   }
 }
 
+/// @nodoc
 class LastResourceDataSyncStatus {
   static const successful = LastResourceDataSyncStatus._('Successful');
   static const failed = LastResourceDataSyncStatus._('Failed');
@@ -21448,6 +21741,7 @@ class LastResourceDataSyncStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceDataSyncS3Format {
   static const jsonSerDe = ResourceDataSyncS3Format._('JsonSerDe');
 
@@ -21477,6 +21771,8 @@ class ResourceDataSyncS3Format {
 /// Amazon S3 bucket. Data is synchronized to individual key prefixes in the
 /// central bucket. Each key prefix represents a different Amazon Web Services
 /// account ID.
+///
+/// @nodoc
 class ResourceDataSyncDestinationDataSharing {
   /// The sharing data type. Only <code>Organization</code> is supported.
   final String? destinationDataSharingType;
@@ -21502,6 +21798,8 @@ class ResourceDataSyncDestinationDataSharing {
 }
 
 /// Compliance summary information for a specific resource.
+///
+/// @nodoc
 class ResourceComplianceSummaryItem {
   /// The compliance type.
   final String? complianceType;
@@ -21587,6 +21885,8 @@ class ResourceComplianceSummaryItem {
 
 /// A summary of resources that are compliant. The summary is organized
 /// according to the resource count for each compliance type.
+///
+/// @nodoc
 class CompliantSummary {
   /// The total number of resources that are compliant.
   final int? compliantCount;
@@ -21621,6 +21921,8 @@ class CompliantSummary {
 
 /// A summary of resources that aren't compliant. The summary is organized
 /// according to resource type.
+///
+/// @nodoc
 class NonCompliantSummary {
   /// The total number of compliance items that aren't compliant.
   final int? nonCompliantCount;
@@ -21655,6 +21957,8 @@ class NonCompliantSummary {
 
 /// The number of managed nodes found for each patch severity level defined in
 /// the request filter.
+///
+/// @nodoc
 class SeveritySummary {
   /// The total number of resources or compliance items that have a severity level
   /// of <code>Critical</code>. Critical severity is determined by the
@@ -21725,6 +22029,8 @@ class SeveritySummary {
 }
 
 /// One or more filters. Use a filter to return a more specific list of results.
+///
+/// @nodoc
 class ComplianceStringFilter {
   /// The name of the filter.
   final String? key;
@@ -21754,6 +22060,7 @@ class ComplianceStringFilter {
   }
 }
 
+/// @nodoc
 class ComplianceQueryOperatorType {
   static const equal = ComplianceQueryOperatorType._('EQUAL');
   static const notEqual = ComplianceQueryOperatorType._('NOT_EQUAL');
@@ -21783,6 +22090,8 @@ class ComplianceQueryOperatorType {
 }
 
 /// Operational metadata for an application in Application Manager.
+///
+/// @nodoc
 class OpsMetadata {
   /// The date the OpsMetadata objects was created.
   final DateTime? creationDate;
@@ -21836,6 +22145,8 @@ class OpsMetadata {
 }
 
 /// A filter to limit the number of OpsMetadata objects displayed.
+///
+/// @nodoc
 class OpsMetadataFilter {
   /// A filter key.
   final String key;
@@ -21859,6 +22170,8 @@ class OpsMetadataFilter {
 }
 
 /// Summary information about related-item resources for an OpsItem.
+///
+/// @nodoc
 class OpsItemRelatedItemSummary {
   /// The association ID.
   final String? associationId;
@@ -21940,6 +22253,8 @@ class OpsItemRelatedItemSummary {
 }
 
 /// Information about the user or resource that created an OpsItem event.
+///
+/// @nodoc
 class OpsItemIdentity {
   /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem
   /// event.
@@ -21964,6 +22279,8 @@ class OpsItemIdentity {
 }
 
 /// Describes a filter for a specific list of related-item resources.
+///
+/// @nodoc
 class OpsItemRelatedItemsFilter {
   /// The name of the filter key. Supported values include
   /// <code>ResourceUri</code>, <code>ResourceType</code>, or
@@ -21995,6 +22312,7 @@ class OpsItemRelatedItemsFilter {
   }
 }
 
+/// @nodoc
 class OpsItemRelatedItemsFilterKey {
   static const resourceType = OpsItemRelatedItemsFilterKey._('ResourceType');
   static const associationId = OpsItemRelatedItemsFilterKey._('AssociationId');
@@ -22021,6 +22339,7 @@ class OpsItemRelatedItemsFilterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class OpsItemRelatedItemsFilterOperator {
   static const equal = OpsItemRelatedItemsFilterOperator._('Equal');
 
@@ -22047,6 +22366,8 @@ class OpsItemRelatedItemsFilterOperator {
 
 /// Summary information about an OpsItem event or that associated an OpsItem
 /// with a related item.
+///
+/// @nodoc
 class OpsItemEventSummary {
   /// Information about the user or resource that created the OpsItem event.
   final OpsItemIdentity? createdBy;
@@ -22116,6 +22437,8 @@ class OpsItemEventSummary {
 /// Describes a filter for a specific list of OpsItem events. You can filter
 /// event information by using tags. You specify tags by using a key-value pair
 /// mapping.
+///
+/// @nodoc
 class OpsItemEventFilter {
   /// The name of the filter key. Currently, the only supported value is
   /// <code>OpsItemId</code>.
@@ -22146,6 +22469,7 @@ class OpsItemEventFilter {
   }
 }
 
+/// @nodoc
 class OpsItemEventFilterKey {
   static const opsItemId = OpsItemEventFilterKey._('OpsItemId');
 
@@ -22170,6 +22494,7 @@ class OpsItemEventFilterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class OpsItemEventFilterOperator {
   static const equal = OpsItemEventFilterOperator._('Equal');
 
@@ -22196,6 +22521,8 @@ class OpsItemEventFilterOperator {
 
 /// One or more aggregators for viewing counts of nodes using different
 /// dimensions.
+///
+/// @nodoc
 class NodeAggregator {
   /// The aggregator type for limiting a node summary. Currently, only
   /// <code>Count</code> is supported.
@@ -22232,6 +22559,7 @@ class NodeAggregator {
   }
 }
 
+/// @nodoc
 class NodeAggregatorType {
   static const count = NodeAggregatorType._('Count');
 
@@ -22256,6 +22584,7 @@ class NodeAggregatorType {
   String toString() => value;
 }
 
+/// @nodoc
 class NodeTypeName {
   static const instance = NodeTypeName._('Instance');
 
@@ -22278,6 +22607,7 @@ class NodeTypeName {
   String toString() => value;
 }
 
+/// @nodoc
 class NodeAttributeName {
   static const agentVersion = NodeAttributeName._('AgentVersion');
   static const platformName = NodeAttributeName._('PlatformName');
@@ -22314,6 +22644,8 @@ class NodeAttributeName {
 }
 
 /// The filters for the operation.
+///
+/// @nodoc
 class NodeFilter {
   /// The name of the filter.
   final NodeFilterKey key;
@@ -22344,6 +22676,7 @@ class NodeFilter {
   }
 }
 
+/// @nodoc
 class NodeFilterKey {
   static const agentType = NodeFilterKey._('AgentType');
   static const agentVersion = NodeFilterKey._('AgentVersion');
@@ -22398,6 +22731,7 @@ class NodeFilterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class NodeFilterOperatorType {
   static const equal = NodeFilterOperatorType._('Equal');
   static const notEqual = NodeFilterOperatorType._('NotEqual');
@@ -22425,6 +22759,8 @@ class NodeFilterOperatorType {
 }
 
 /// Details about an individual managed node.
+///
+/// @nodoc
 class Node {
   /// The UTC timestamp for when the managed node data was last captured.
   final DateTime? captureTime;
@@ -22481,6 +22817,8 @@ class Node {
 }
 
 /// Information about ownership of a managed node.
+///
+/// @nodoc
 class NodeOwnerInfo {
   /// The ID of the Amazon Web Services account that owns the managed node.
   final String? accountId;
@@ -22524,6 +22862,8 @@ class NodeOwnerInfo {
 }
 
 /// Information about a managed node's type.
+///
+/// @nodoc
 class NodeType {
   /// Information about a specific managed node.
   final InstanceInfo? instance;
@@ -22549,6 +22889,8 @@ class NodeType {
 }
 
 /// Details about a specific managed node.
+///
+/// @nodoc
 class InstanceInfo {
   /// The type of agent installed on the node.
   final String? agentType;
@@ -22638,6 +22980,7 @@ class InstanceInfo {
   }
 }
 
+/// @nodoc
 class ManagedStatus {
   static const all = ManagedStatus._('All');
   static const managed = ManagedStatus._('Managed');
@@ -22663,6 +23006,7 @@ class ManagedStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const managedInstance = ResourceType._('ManagedInstance');
   static const eC2Instance = ResourceType._('EC2Instance');
@@ -22719,6 +23063,8 @@ class ResourceType {
 ///
 /// <code>--filters
 /// Key=AWS:InstanceInformation.ResourceType,Values=EC2Instance,Type=Equal</code>
+///
+/// @nodoc
 class InventoryFilter {
   /// The name of the filter key.
   final String key;
@@ -22754,6 +23100,7 @@ class InventoryFilter {
   }
 }
 
+/// @nodoc
 class InventoryQueryOperatorType {
   static const equal = InventoryQueryOperatorType._('Equal');
   static const notEqual = InventoryQueryOperatorType._('NotEqual');
@@ -22791,6 +23138,8 @@ class InventoryQueryOperatorType {
 }
 
 /// Version information about the document.
+///
+/// @nodoc
 class DocumentVersionInfo {
   /// The date the document was created.
   final DateTime? createdDate;
@@ -22888,6 +23237,8 @@ class DocumentVersionInfo {
 }
 
 /// Describes the name of a SSM document.
+///
+/// @nodoc
 class DocumentIdentifier {
   /// The user in your organization who created the document.
   final String? author;
@@ -23123,6 +23474,8 @@ class DocumentIdentifier {
 ///
 /// <code>aws ssm list-documents --filters Key=tag:region,Values=east,west
 /// Key=Owner,Values=Self</code>
+///
+/// @nodoc
 class DocumentKeyValuesFilter {
   /// The name of the filter key.
   final String? key;
@@ -23146,6 +23499,8 @@ class DocumentKeyValuesFilter {
 }
 
 /// This data type is deprecated. Instead, use <a>DocumentKeyValuesFilter</a>.
+///
+/// @nodoc
 class DocumentFilter {
   /// The name of the filter.
   final DocumentFilterKey key;
@@ -23168,6 +23523,7 @@ class DocumentFilter {
   }
 }
 
+/// @nodoc
 class DocumentFilterKey {
   static const name = DocumentFilterKey._('Name');
   static const owner = DocumentFilterKey._('Owner');
@@ -23195,6 +23551,8 @@ class DocumentFilterKey {
 }
 
 /// Details about the response to a document review request.
+///
+/// @nodoc
 class DocumentMetadataResponseInfo {
   /// Details about a reviewer's response to a document review request.
   final List<DocumentReviewerResponseSource>? reviewerResponse;
@@ -23222,6 +23580,8 @@ class DocumentMetadataResponseInfo {
 }
 
 /// Information about a reviewer's response to a document review request.
+///
+/// @nodoc
 class DocumentReviewerResponseSource {
   /// The comment entered by a reviewer as part of their document review response.
   final List<DocumentReviewCommentSource>? comment;
@@ -23286,6 +23646,7 @@ class DocumentReviewerResponseSource {
   }
 }
 
+/// @nodoc
 class DocumentMetadataEnum {
   static const documentReviews = DocumentMetadataEnum._('DocumentReviews');
 
@@ -23311,6 +23672,8 @@ class DocumentMetadataEnum {
 }
 
 /// A summary of compliance information by compliance type.
+///
+/// @nodoc
 class ComplianceSummaryItem {
   /// The type of compliance item. For example, the compliance type can be
   /// Association, Patch, or Custom:string.
@@ -23358,6 +23721,8 @@ class ComplianceSummaryItem {
 /// Information about the compliance as defined by the resource type. For
 /// example, for a patch resource type, <code>Items</code> includes information
 /// about the PatchSeverity, Classification, and so on.
+///
+/// @nodoc
 class ComplianceItem {
   /// The compliance type. For example, Association (for a State Manager
   /// association), Patch, or Custom:<code>string</code> are all valid compliance
@@ -23466,6 +23831,8 @@ class ComplianceItem {
 /// A managed node ID can't be specified when a command status is
 /// <code>Pending</code> because the command hasn't run on the node yet.
 /// </note>
+///
+/// @nodoc
 class CommandFilter {
   /// The name of the filter.
   /// <note>
@@ -23615,6 +23982,7 @@ class CommandFilter {
   }
 }
 
+/// @nodoc
 class CommandFilterKey {
   static const invokedAfter = CommandFilterKey._('InvokedAfter');
   static const invokedBefore = CommandFilterKey._('InvokedBefore');
@@ -23654,6 +24022,8 @@ class CommandFilterKey {
 /// against three managed nodes, then a command invocation is created for each
 /// requested managed node ID. A command invocation returns status and detail
 /// information about a command you ran.
+///
+/// @nodoc
 class CommandInvocation {
   /// Amazon CloudWatch Logs information where you want Amazon Web Services
   /// Systems Manager to send the command output.
@@ -23865,6 +24235,7 @@ class CommandInvocation {
   }
 }
 
+/// @nodoc
 class CommandInvocationStatus {
   static const pending = CommandInvocationStatus._('Pending');
   static const inProgress = CommandInvocationStatus._('InProgress');
@@ -23906,6 +24277,8 @@ class CommandInvocationStatus {
 }
 
 /// Describes plugin details.
+///
+/// @nodoc
 class CommandPlugin {
   /// The name of the plugin. Must be one of the following:
   /// <code>aws:updateAgent</code>, <code>aws:domainjoin</code>,
@@ -24097,6 +24470,7 @@ class CommandPlugin {
   }
 }
 
+/// @nodoc
 class CommandPluginStatus {
   static const pending = CommandPluginStatus._('Pending');
   static const inProgress = CommandPluginStatus._('InProgress');
@@ -24134,6 +24508,8 @@ class CommandPluginStatus {
 }
 
 /// Information about the association version.
+///
+/// @nodoc
 class AssociationVersionInfo {
   /// By default, when you create new associations, the system runs it immediately
   /// after it is created and then according to the schedule you specified.
@@ -24379,6 +24755,8 @@ class AssociationVersionInfo {
 
 /// Describes an association of a Amazon Web Services Systems Manager document
 /// (SSM document) and a managed node.
+///
+/// @nodoc
 class Association {
   /// The ID created by the system when you create an association. An association
   /// is a binding between a document and a set of targets with a schedule.
@@ -24516,6 +24894,8 @@ class Association {
 }
 
 /// Describes a filter.
+///
+/// @nodoc
 class AssociationFilter {
   /// The name of the filter.
   /// <note>
@@ -24541,6 +24921,7 @@ class AssociationFilter {
   }
 }
 
+/// @nodoc
 class AssociationFilterKey {
   static const instanceId = AssociationFilterKey._('InstanceId');
   static const name = AssociationFilterKey._('Name');
@@ -24589,6 +24970,8 @@ class AssociationFilterKey {
 /// Systems Manager resource policies. The resource policy for
 /// <code>OpsItemGroup</code> enables Amazon Web Services accounts to view and
 /// interact with OpsCenter operational work items (OpsItems).
+///
+/// @nodoc
 class GetResourcePoliciesResponseEntry {
   /// A resource policy helps you to define the IAM entity (for example, an Amazon
   /// Web Services account) that can manage your Systems Manager resources.
@@ -24633,6 +25016,8 @@ class GetResourcePoliciesResponseEntry {
 }
 
 /// An Amazon Web Services Systems Manager parameter in Parameter Store.
+///
+/// @nodoc
 class Parameter {
   /// The Amazon Resource Name (ARN) of the parameter.
   final String? arn;
@@ -24731,6 +25116,8 @@ class Parameter {
 }
 
 /// One or more filters. Use a filter to return a more specific list of results.
+///
+/// @nodoc
 class ParameterStringFilter {
   /// The name of the filter.
   ///
@@ -24787,6 +25174,8 @@ class ParameterStringFilter {
 }
 
 /// Information about parameter usage.
+///
+/// @nodoc
 class ParameterHistory {
   /// Parameter names can include the following letters and symbols.
   ///
@@ -24909,6 +25298,8 @@ class ParameterHistory {
 }
 
 /// One or more policies assigned to a parameter.
+///
+/// @nodoc
 class ParameterInlinePolicy {
   /// The status of the policy. Policies report the following statuses: Pending
   /// (the policy hasn't been enforced or applied yet), Finished (the policy was
@@ -24951,6 +25342,8 @@ class ParameterInlinePolicy {
 }
 
 /// The result of the query.
+///
+/// @nodoc
 class OpsEntity {
   /// The data returned by the query.
   final Map<String, OpsEntityItem>? data;
@@ -24982,6 +25375,8 @@ class OpsEntity {
 }
 
 /// The OpsData summary.
+///
+/// @nodoc
 class OpsEntityItem {
   /// The time the OpsData was captured.
   final String? captureTime;
@@ -25016,6 +25411,8 @@ class OpsEntityItem {
 }
 
 /// The OpsItem data type to return.
+///
+/// @nodoc
 class OpsResultAttribute {
   /// Name of the data type. Valid value: <code>AWS:OpsItem</code>,
   /// <code>AWS:EC2InstanceInformation</code>, <code>AWS:OpsItemTrendline</code>,
@@ -25037,6 +25434,8 @@ class OpsResultAttribute {
 /// One or more aggregators for viewing counts of OpsData using different
 /// dimensions such as <code>Source</code>, <code>CreatedTime</code>, or
 /// <code>Source and CreatedTime</code>, to name a few.
+///
+/// @nodoc
 class OpsAggregator {
   /// Either a <code>Range</code> or <code>Count</code> aggregator for limiting an
   /// OpsData summary.
@@ -25085,6 +25484,8 @@ class OpsAggregator {
 }
 
 /// A filter for viewing OpsData summaries.
+///
+/// @nodoc
 class OpsFilter {
   /// The name of the filter.
   final String key;
@@ -25113,6 +25514,7 @@ class OpsFilter {
   }
 }
 
+/// @nodoc
 class OpsFilterOperatorType {
   static const equal = OpsFilterOperatorType._('Equal');
   static const notEqual = OpsFilterOperatorType._('NotEqual');
@@ -25171,6 +25573,8 @@ class OpsFilterOperatorType {
 /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">Amazon
 /// Web Services Systems Manager OpsCenter</a> in the <i>Amazon Web Services
 /// Systems Manager User Guide</i>.
+///
+/// @nodoc
 class OpsItem {
   /// The time a runbook workflow ended. Currently reported only for the OpsItem
   /// type <code>/aws/changerequest</code>.
@@ -25416,6 +25820,7 @@ class OpsItem {
   }
 }
 
+/// @nodoc
 class MaintenanceWindowExecutionStatus {
   static const pending = MaintenanceWindowExecutionStatus._('PENDING');
   static const inProgress = MaintenanceWindowExecutionStatus._('IN_PROGRESS');
@@ -25459,6 +25864,8 @@ class MaintenanceWindowExecutionStatus {
 
 /// The inventory item schema definition. Users can use this to compose
 /// inventory query filters.
+///
+/// @nodoc
 class InventoryItemSchema {
   /// The schema attributes for inventory. This contains data type and attribute
   /// name.
@@ -25515,6 +25922,8 @@ class InventoryItemSchema {
 
 /// Attributes are the entries within the inventory item content. It contains
 /// name and value.
+///
+/// @nodoc
 class InventoryItemAttribute {
   /// The data type of the inventory item attribute.
   final InventoryAttributeDataType dataType;
@@ -25545,6 +25954,7 @@ class InventoryItemAttribute {
   }
 }
 
+/// @nodoc
 class InventoryAttributeDataType {
   static const string = InventoryAttributeDataType._('string');
   static const number = InventoryAttributeDataType._('number');
@@ -25571,6 +25981,8 @@ class InventoryAttributeDataType {
 }
 
 /// Inventory query results.
+///
+/// @nodoc
 class InventoryResultEntity {
   /// The data section in the inventory result entity JSON.
   final Map<String, InventoryResultItem>? data;
@@ -25604,6 +26016,8 @@ class InventoryResultEntity {
 }
 
 /// The inventory result item.
+///
+/// @nodoc
 class InventoryResultItem {
   /// Contains all the inventory data of the item type. Results include attribute
   /// names and values.
@@ -25663,6 +26077,8 @@ class InventoryResultItem {
 }
 
 /// The inventory item result attribute.
+///
+/// @nodoc
 class ResultAttribute {
   /// Name of the inventory item type. Valid value:
   /// <code>AWS:InstanceInformation</code>. Default Value:
@@ -25682,6 +26098,8 @@ class ResultAttribute {
 }
 
 /// Specifies the inventory type and attribute for the aggregation execution.
+///
+/// @nodoc
 class InventoryAggregator {
   /// Nested aggregators to further refine aggregation for an inventory type.
   final List<InventoryAggregator>? aggregators;
@@ -25715,6 +26133,8 @@ class InventoryAggregator {
 /// A user-defined set of one or more filters on which to aggregate inventory
 /// data. Groups return a count of resources that match and don't match the
 /// specified criteria.
+///
+/// @nodoc
 class InventoryGroup {
   /// Filters define the criteria for the group. The <code>matchingCount</code>
   /// field displays the number of resources that match the criteria. The
@@ -25740,6 +26160,7 @@ class InventoryGroup {
   }
 }
 
+/// @nodoc
 class ExecutionPreviewStatus {
   static const pending = ExecutionPreviewStatus._('Pending');
   static const inProgress = ExecutionPreviewStatus._('InProgress');
@@ -25768,6 +26189,8 @@ class ExecutionPreviewStatus {
 }
 
 /// Information about the changes that would be made if an execution were run.
+///
+/// @nodoc
 class ExecutionPreview {
   /// Information about the changes that would be made if an Automation workflow
   /// were run.
@@ -25795,6 +26218,8 @@ class ExecutionPreview {
 }
 
 /// Information about the results of the execution preview.
+///
+/// @nodoc
 class AutomationExecutionPreview {
   /// Information about the Amazon Web Services Regions targeted by the execution
   /// preview.
@@ -25871,6 +26296,8 @@ class AutomationExecutionPreview {
 
 /// Information about the resources that would be included in the actual runbook
 /// execution, if it were to be run.
+///
+/// @nodoc
 class TargetPreview {
   /// The number of resources of a certain type included in an execution preview.
   final int? count;
@@ -25900,6 +26327,7 @@ class TargetPreview {
   }
 }
 
+/// @nodoc
 class ImpactType {
   static const mutating = ImpactType._('Mutating');
   static const nonMutating = ImpactType._('NonMutating');
@@ -25925,6 +26353,8 @@ class ImpactType {
 }
 
 /// A structure that includes attributes that describe a document attachment.
+///
+/// @nodoc
 class AttachmentContent {
   /// The cryptographic hash value of the document content.
   final String? hash;
@@ -25976,6 +26406,7 @@ class AttachmentContent {
   }
 }
 
+/// @nodoc
 class AttachmentHashType {
   static const sha256 = AttachmentHashType._('Sha256');
 
@@ -26001,6 +26432,8 @@ class AttachmentHashType {
 }
 
 /// Defines the basic information about a patch baseline override.
+///
+/// @nodoc
 class BaselineOverride {
   final PatchRuleGroup? approvalRules;
 
@@ -26102,6 +26535,7 @@ class BaselineOverride {
   }
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const connected = ConnectionStatus._('connected');
   static const notconnected = ConnectionStatus._('notconnected');
@@ -26126,6 +26560,7 @@ class ConnectionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CalendarState {
   static const open = CalendarState._('OPEN');
   static const closed = CalendarState._('CLOSED');
@@ -26152,6 +26587,8 @@ class CalendarState {
 
 /// Detailed information about the current state of an individual Automation
 /// execution.
+///
+/// @nodoc
 class AutomationExecution {
   /// The details for the CloudWatch alarm applied to your automation.
   final AlarmConfiguration? alarmConfiguration;
@@ -26475,6 +26912,7 @@ class AutomationExecution {
   }
 }
 
+/// @nodoc
 class AutomationExecutionStatus {
   static const pending = AutomationExecutionStatus._('Pending');
   static const inProgress = AutomationExecutionStatus._('InProgress');
@@ -26544,6 +26982,8 @@ class AutomationExecutionStatus {
 }
 
 /// Information about targets that resolved during the Automation execution.
+///
+/// @nodoc
 class ResolvedTargets {
   /// A list of parameter values sent to targets that resolved during the
   /// Automation execution.
@@ -26580,6 +27020,8 @@ class ResolvedTargets {
 /// An aggregate of step execution statuses displayed in the Amazon Web Services
 /// Systems Manager console for a multi-Region and multi-account Automation
 /// execution.
+///
+/// @nodoc
 class ProgressCounters {
   /// The total number of steps that the system cancelled in all specified Amazon
   /// Web Services Regions and Amazon Web Services accounts for the current
@@ -26639,6 +27081,7 @@ class ProgressCounters {
   }
 }
 
+/// @nodoc
 class AutomationSubtype {
   static const changeRequest = AutomationSubtype._('ChangeRequest');
   static const accessRequest = AutomationSubtype._('AccessRequest');
@@ -26664,6 +27107,8 @@ class AutomationSubtype {
 }
 
 /// Detailed information about an the execution state of an Automation step.
+///
+/// @nodoc
 class StepExecution {
   /// The action this step performs. The action determines the behavior of the
   /// step.
@@ -26887,6 +27332,8 @@ class StepExecution {
 }
 
 /// Information about an Automation failure.
+///
+/// @nodoc
 class FailureDetails {
   /// Detailed information about the Automation step failure.
   final Map<String, List<String>>? details;
@@ -26928,6 +27375,8 @@ class FailureDetails {
 }
 
 /// A detailed status of the parent step.
+///
+/// @nodoc
 class ParentStepDetails {
   /// The name of the automation action.
   final String? action;
@@ -26980,6 +27429,8 @@ class ParentStepDetails {
 
 /// The temporary security credentials, which include an access key ID, a secret
 /// access key, and a security (or session) token.
+///
+/// @nodoc
 class Credentials {
   /// The access key ID that identifies the temporary security credentials.
   final String accessKeyId;
@@ -27024,6 +27475,7 @@ class Credentials {
   }
 }
 
+/// @nodoc
 class AccessRequestStatus {
   static const approved = AccessRequestStatus._('Approved');
   static const rejected = AccessRequestStatus._('Rejected');
@@ -27053,6 +27505,8 @@ class AccessRequestStatus {
 }
 
 /// Information about a Session Manager connection to a managed node.
+///
+/// @nodoc
 class Session {
   /// <code>Standard</code> access type is the default for Session Manager
   /// sessions. <code>JustInTime</code> is the access type for <a
@@ -27161,6 +27615,7 @@ class Session {
   }
 }
 
+/// @nodoc
 class SessionStatus {
   static const connected = SessionStatus._('Connected');
   static const connecting = SessionStatus._('Connecting');
@@ -27197,6 +27652,8 @@ class SessionStatus {
 }
 
 /// Reserved for future use.
+///
+/// @nodoc
 class SessionManagerOutputUrl {
   /// Reserved for future use.
   final String? cloudWatchOutputUrl;
@@ -27227,6 +27684,7 @@ class SessionManagerOutputUrl {
   }
 }
 
+/// @nodoc
 class AccessType {
   static const standard = AccessType._('Standard');
   static const justInTime = AccessType._('JustInTime');
@@ -27250,6 +27708,7 @@ class AccessType {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionState {
   static const active = SessionState._('Active');
   static const history = SessionState._('History');
@@ -27274,6 +27733,8 @@ class SessionState {
 }
 
 /// Describes a filter for Session Manager information.
+///
+/// @nodoc
 class SessionFilter {
   /// The name of the filter.
   final SessionFilterKey key;
@@ -27343,6 +27804,7 @@ class SessionFilter {
   }
 }
 
+/// @nodoc
 class SessionFilterKey {
   static const invokedAfter = SessionFilterKey._('InvokedAfter');
   static const invokedBefore = SessionFilterKey._('InvokedBefore');
@@ -27380,6 +27842,7 @@ class SessionFilterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class PatchProperty {
   static const product = PatchProperty._('PRODUCT');
   static const productFamily = PatchProperty._('PRODUCT_FAMILY');
@@ -27415,6 +27878,7 @@ class PatchProperty {
   String toString() => value;
 }
 
+/// @nodoc
 class PatchSet {
   static const os = PatchSet._('OS');
   static const application = PatchSet._('APPLICATION');
@@ -27440,6 +27904,8 @@ class PatchSet {
 
 /// The mapping between a patch group and the patch baseline the patch group is
 /// registered with.
+///
+/// @nodoc
 class PatchGroupPatchBaselineMapping {
   /// The patch baseline the patch group is registered with.
   final PatchBaselineIdentity? baselineIdentity;
@@ -27473,6 +27939,8 @@ class PatchGroupPatchBaselineMapping {
 }
 
 /// Defines the basic information about a patch baseline.
+///
+/// @nodoc
 class PatchBaselineIdentity {
   /// The description of the patch baseline.
   final String? baselineDescription;
@@ -27546,6 +28014,8 @@ class PatchBaselineIdentity {
 /// <a>DescribePatchGroups</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PatchOrchestratorFilter {
   /// The key for the filter.
   final String? key;
@@ -27571,6 +28041,8 @@ class PatchOrchestratorFilter {
 /// Metadata includes information like the Amazon Resource Name (ARN) of the
 /// last user to update the parameter and the date and time the parameter was
 /// last used.
+///
+/// @nodoc
 class ParameterMetadata {
   /// The Amazon Resource Name (ARN) of the parameter.
   final String? arn;
@@ -27681,6 +28153,8 @@ class ParameterMetadata {
 }
 
 /// This data type is deprecated. Instead, use <a>ParameterStringFilter</a>.
+///
+/// @nodoc
 class ParametersFilter {
   /// The name of the filter.
   final ParametersFilterKey key;
@@ -27703,6 +28177,7 @@ class ParametersFilter {
   }
 }
 
+/// @nodoc
 class ParametersFilterKey {
   static const name = ParametersFilterKey._('Name');
   static const type = ParametersFilterKey._('Type');
@@ -27730,6 +28205,8 @@ class ParametersFilterKey {
 }
 
 /// A count of OpsItems.
+///
+/// @nodoc
 class OpsItemSummary {
   /// The time a runbook workflow ended. Currently reported only for the OpsItem
   /// type <code>/aws/changerequest</code>.
@@ -27901,6 +28378,8 @@ class OpsItemSummary {
 }
 
 /// Describes an OpsItem filter.
+///
+/// @nodoc
 class OpsItemFilter {
   /// The name of the filter.
   final OpsItemFilterKey key;
@@ -27929,6 +28408,7 @@ class OpsItemFilter {
   }
 }
 
+/// @nodoc
 class OpsItemFilterKey {
   static const status = OpsItemFilterKey._('Status');
   static const createdBy = OpsItemFilterKey._('CreatedBy');
@@ -28042,6 +28522,7 @@ class OpsItemFilterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class OpsItemFilterOperator {
   static const equal = OpsItemFilterOperator._('Equal');
   static const contains = OpsItemFilterOperator._('Contains');
@@ -28070,6 +28551,8 @@ class OpsItemFilterOperator {
 }
 
 /// Information about a task defined for a maintenance window.
+///
+/// @nodoc
 class MaintenanceWindowTask {
   /// The details for the CloudWatch alarm applied to your maintenance window
   /// task.
@@ -28289,6 +28772,8 @@ class MaintenanceWindowTask {
 /// <a>DescribeMaintenanceWindowTasks</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MaintenanceWindowFilter {
   /// The name of the filter.
   final String? key;
@@ -28312,6 +28797,8 @@ class MaintenanceWindowFilter {
 }
 
 /// The target registered with the maintenance window.
+///
+/// @nodoc
 class MaintenanceWindowTarget {
   /// A description for the target.
   final String? description;
@@ -28391,6 +28878,8 @@ class MaintenanceWindowTarget {
 }
 
 /// The maintenance window to which the specified target belongs.
+///
+/// @nodoc
 class MaintenanceWindowIdentityForTarget {
   /// The name of the maintenance window.
   final String? name;
@@ -28422,6 +28911,8 @@ class MaintenanceWindowIdentityForTarget {
 }
 
 /// Information about a scheduled execution for a maintenance window.
+///
+/// @nodoc
 class ScheduledWindowExecution {
   /// The time, in ISO-8601 Extended format, that the maintenance window is
   /// scheduled to be run.
@@ -28460,6 +28951,8 @@ class ScheduledWindowExecution {
 }
 
 /// Information about the maintenance window.
+///
+/// @nodoc
 class MaintenanceWindowIdentity {
   /// The number of hours before the end of the maintenance window that Amazon Web
   /// Services Systems Manager stops scheduling new tasks for execution.
@@ -28568,6 +29061,8 @@ class MaintenanceWindowIdentity {
 
 /// Information about a task execution performed as part of a maintenance window
 /// execution.
+///
+/// @nodoc
 class MaintenanceWindowExecutionTaskIdentity {
   /// The details for the CloudWatch alarm applied to your maintenance window
   /// task.
@@ -28667,6 +29162,8 @@ class MaintenanceWindowExecutionTaskIdentity {
 /// Describes the information about a task invocation for a particular target as
 /// part of a task execution performed as part of a maintenance window
 /// execution.
+///
+/// @nodoc
 class MaintenanceWindowExecutionTaskInvocationIdentity {
   /// The time the invocation finished.
   final DateTime? endTime;
@@ -28776,6 +29273,8 @@ class MaintenanceWindowExecutionTaskInvocationIdentity {
 }
 
 /// Describes the information about an execution of a maintenance window.
+///
+/// @nodoc
 class MaintenanceWindowExecution {
   /// The time the execution finished.
   final DateTime? endTime;
@@ -28835,6 +29334,8 @@ class MaintenanceWindowExecution {
 }
 
 /// Status information returned by the <code>DeleteInventory</code> operation.
+///
+/// @nodoc
 class InventoryDeletionStatusItem {
   /// The deletion ID returned by the <code>DeleteInventory</code> operation.
   final String? deletionId;
@@ -28909,6 +29410,7 @@ class InventoryDeletionStatusItem {
   }
 }
 
+/// @nodoc
 class InventoryDeletionStatus {
   static const inProgress = InventoryDeletionStatus._('InProgress');
   static const complete = InventoryDeletionStatus._('Complete');
@@ -28935,6 +29437,8 @@ class InventoryDeletionStatus {
 }
 
 /// Information about the delete operation.
+///
+/// @nodoc
 class InventoryDeletionSummary {
   /// Remaining number of items to delete.
   final int? remainingCount;
@@ -28978,6 +29482,8 @@ class InventoryDeletionSummary {
 
 /// Either a count, remaining count, or a version number in a delete inventory
 /// summary.
+///
+/// @nodoc
 class InventoryDeletionSummaryItem {
   /// A count of the number of deleted items.
   final int? count;
@@ -29015,6 +29521,8 @@ class InventoryDeletionSummaryItem {
 }
 
 /// An object containing various properties of a managed node.
+///
+/// @nodoc
 class InstanceProperty {
   /// The activation ID created by Systems Manager when the server or virtual
   /// machine (VM) was registered
@@ -29232,6 +29740,7 @@ class InstanceProperty {
   }
 }
 
+/// @nodoc
 class PingStatus {
   static const online = PingStatus._('Online');
   static const connectionLost = PingStatus._('ConnectionLost');
@@ -29257,6 +29766,8 @@ class PingStatus {
 }
 
 /// Status information about the aggregated associations.
+///
+/// @nodoc
 class InstanceAggregatedAssociationOverview {
   /// Detailed status information about the aggregated associations.
   final String? detailedStatus;
@@ -29293,6 +29804,7 @@ class InstanceAggregatedAssociationOverview {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const awsEc2Instance = SourceType._('AWS::EC2::Instance');
   static const awsIoTThing = SourceType._('AWS::IoT::Thing');
@@ -29319,6 +29831,8 @@ class SourceType {
 }
 
 /// The filters to describe or get information about your managed nodes.
+///
+/// @nodoc
 class InstancePropertyStringFilter {
   /// The filter key name to describe your managed nodes.
   final String key;
@@ -29347,6 +29861,7 @@ class InstancePropertyStringFilter {
   }
 }
 
+/// @nodoc
 class InstancePropertyFilterOperator {
   static const equal = InstancePropertyFilterOperator._('Equal');
   static const notEqual = InstancePropertyFilterOperator._('NotEqual');
@@ -29377,6 +29892,8 @@ class InstancePropertyFilterOperator {
 
 /// Describes a filter for a specific list of managed nodes. You can filter node
 /// information by using tags. You specify tags by using a key-value mapping.
+///
+/// @nodoc
 class InstancePropertyFilter {
   /// The name of the filter.
   final InstancePropertyFilterKey key;
@@ -29399,6 +29916,7 @@ class InstancePropertyFilter {
   }
 }
 
+/// @nodoc
 class InstancePropertyFilterKey {
   static const instanceIds = InstancePropertyFilterKey._('InstanceIds');
   static const agentVersion = InstancePropertyFilterKey._('AgentVersion');
@@ -29446,6 +29964,8 @@ class InstancePropertyFilterKey {
 /// information about the number of installed, missing, not applicable, and
 /// failed patches along with metadata about the operation when this information
 /// was gathered for the managed node.
+///
+/// @nodoc
 class InstancePatchState {
   /// The ID of the patch baseline used to patch the managed node.
   final String baselineId;
@@ -29715,6 +30235,7 @@ class InstancePatchState {
   }
 }
 
+/// @nodoc
 class PatchOperationType {
   static const scan = PatchOperationType._('Scan');
   static const install = PatchOperationType._('Install');
@@ -29740,6 +30261,7 @@ class PatchOperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class RebootOption {
   static const rebootIfNeeded = RebootOption._('RebootIfNeeded');
   static const noReboot = RebootOption._('NoReboot');
@@ -29781,6 +30303,8 @@ class RebootOption {
 /// Value for <code>Values</code>: <code>3</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class InstancePatchStateFilter {
   /// The key for the filter. Supported values include the following:
   ///
@@ -29836,6 +30360,7 @@ class InstancePatchStateFilter {
   }
 }
 
+/// @nodoc
 class InstancePatchStateOperatorType {
   static const equal = InstancePatchStateOperatorType._('Equal');
   static const notEqual = InstancePatchStateOperatorType._('NotEqual');
@@ -29865,6 +30390,8 @@ class InstancePatchStateOperatorType {
 
 /// Information about the state of a patch on a particular managed node as it
 /// relates to the patch baseline used to patch the node.
+///
+/// @nodoc
 class PatchComplianceData {
   /// The classification of the patch, such as <code>SecurityUpdates</code>,
   /// <code>Updates</code>, and <code>CriticalUpdates</code>.
@@ -29943,6 +30470,7 @@ class PatchComplianceData {
   }
 }
 
+/// @nodoc
 class PatchComplianceDataState {
   static const installed = PatchComplianceDataState._('INSTALLED');
   static const installedOther = PatchComplianceDataState._('INSTALLED_OTHER');
@@ -29987,6 +30515,8 @@ class PatchComplianceDataState {
 }
 
 /// Describes a filter for a specific list of managed nodes.
+///
+/// @nodoc
 class InstanceInformation {
   /// The activation ID created by Amazon Web Services Systems Manager when the
   /// server or virtual machine (VM) was registered.
@@ -30204,6 +30734,8 @@ class InstanceInformation {
 }
 
 /// The filters to describe or get information about your managed nodes.
+///
+/// @nodoc
 class InstanceInformationStringFilter {
   /// The filter key name to describe your managed nodes.
   ///
@@ -30264,6 +30796,8 @@ class InstanceInformationStringFilter {
 /// <a>DescribeInstanceInformationRequest$InstanceInformationFilterList</a>
 /// method. The <code>InstanceInformationFilterList</code> method is a legacy
 /// method and doesn't support tags.
+///
+/// @nodoc
 class InstanceInformationFilter {
   /// The name of the filter.
   final InstanceInformationFilterKey key;
@@ -30286,6 +30820,7 @@ class InstanceInformationFilter {
   }
 }
 
+/// @nodoc
 class InstanceInformationFilterKey {
   static const instanceIds = InstanceInformationFilterKey._('InstanceIds');
   static const agentVersion = InstanceInformationFilterKey._('AgentVersion');
@@ -30328,6 +30863,8 @@ class InstanceInformationFilterKey {
 }
 
 /// Status information about the association.
+///
+/// @nodoc
 class InstanceAssociationStatusInfo {
   /// The association ID.
   final String? associationId;
@@ -30432,6 +30969,8 @@ class InstanceAssociationStatusInfo {
 }
 
 /// The URL of S3 bucket where you want to store the results of this request.
+///
+/// @nodoc
 class InstanceAssociationOutputUrl {
   /// The URL of S3 bucket where you want to store the results of this request.
   final S3OutputUrl? s3OutputUrl;
@@ -30458,6 +30997,8 @@ class InstanceAssociationOutputUrl {
 
 /// A URL for the Amazon Web Services Systems Manager (Systems Manager) bucket
 /// where you want to store the results of this request.
+///
+/// @nodoc
 class S3OutputUrl {
   /// A URL for an S3 bucket where you want to store the results of this request.
   final String? outputUrl;
@@ -30485,6 +31026,8 @@ class S3OutputUrl {
 /// The approval state includes information about whether the patch is currently
 /// approved, due to be approved by a rule, explicitly approved, or explicitly
 /// rejected and the date the patch was or will be approved.
+///
+/// @nodoc
 class EffectivePatch {
   /// Provides metadata for a patch, including information such as the KB ID,
   /// severity, classification and a URL for where more information can be
@@ -30524,6 +31067,8 @@ class EffectivePatch {
 }
 
 /// Represents metadata about a patch.
+///
+/// @nodoc
 class Patch {
   /// The Advisory ID of the patch. For example, <code>RHSA-2020:3779</code>.
   /// Applies to Linux-based managed nodes only.
@@ -30734,6 +31279,8 @@ class Patch {
 }
 
 /// Information about the approval status of a patch.
+///
+/// @nodoc
 class PatchStatus {
   /// The date the patch was approved (or will be approved if the status is
   /// <code>PENDING_APPROVAL</code>).
@@ -30774,6 +31321,7 @@ class PatchStatus {
   }
 }
 
+/// @nodoc
 class PatchDeploymentStatus {
   static const approved = PatchDeploymentStatus._('APPROVED');
   static const pendingApproval = PatchDeploymentStatus._('PENDING_APPROVAL');
@@ -30807,6 +31355,8 @@ class PatchDeploymentStatus {
 }
 
 /// One or more association documents on the managed node.
+///
+/// @nodoc
 class InstanceAssociation {
   /// The association ID.
   final String? associationId;
@@ -30852,6 +31402,8 @@ class InstanceAssociation {
 
 /// Information includes the Amazon Web Services account ID where the current
 /// document is shared and the version shared with that account.
+///
+/// @nodoc
 class AccountSharingInfo {
   /// The Amazon Web Services account ID where the current document is shared.
   final String? accountId;
@@ -30884,6 +31436,8 @@ class AccountSharingInfo {
 
 /// A filter to limit the amount of step execution information returned by the
 /// call.
+///
+/// @nodoc
 class StepExecutionFilter {
   /// One or more keys to limit the results.
   final StepExecutionFilterKey key;
@@ -30906,6 +31460,7 @@ class StepExecutionFilter {
   }
 }
 
+/// @nodoc
 class StepExecutionFilterKey {
   static const startTimeBefore = StepExecutionFilterKey._('StartTimeBefore');
   static const startTimeAfter = StepExecutionFilterKey._('StartTimeAfter');
@@ -30953,6 +31508,8 @@ class StepExecutionFilterKey {
 }
 
 /// Details about a specific Automation execution.
+///
+/// @nodoc
 class AutomationExecutionMetadata {
   /// The details for the CloudWatch alarm applied to your automation.
   final AlarmConfiguration? alarmConfiguration;
@@ -31235,6 +31792,7 @@ class AutomationExecutionMetadata {
   }
 }
 
+/// @nodoc
 class AutomationType {
   static const crossAccount = AutomationType._('CrossAccount');
   static const local = AutomationType._('Local');
@@ -31261,6 +31819,8 @@ class AutomationType {
 
 /// A filter used to match specific automation executions. This is used to limit
 /// the scope of Automation execution information returned.
+///
+/// @nodoc
 class AutomationExecutionFilter {
   /// One or more keys to limit the results.
   final AutomationExecutionFilterKey key;
@@ -31284,6 +31844,7 @@ class AutomationExecutionFilter {
   }
 }
 
+/// @nodoc
 class AutomationExecutionFilterKey {
   static const documentNamePrefix =
       AutomationExecutionFilterKey._('DocumentNamePrefix');
@@ -31341,6 +31902,8 @@ class AutomationExecutionFilterKey {
 }
 
 /// Includes information about the specified association execution.
+///
+/// @nodoc
 class AssociationExecutionTarget {
   /// The association ID.
   final String? associationId;
@@ -31424,6 +31987,8 @@ class AssociationExecutionTarget {
 
 /// Information about the source where the association execution details are
 /// stored.
+///
+/// @nodoc
 class OutputSource {
   /// The ID of the output source, for example the URL of an S3 bucket.
   final String? outputSourceId;
@@ -31455,6 +32020,8 @@ class OutputSource {
 }
 
 /// Filters for the association execution.
+///
+/// @nodoc
 class AssociationExecutionTargetsFilter {
   /// The key value used in the request.
   final AssociationExecutionTargetsFilterKey key;
@@ -31477,6 +32044,7 @@ class AssociationExecutionTargetsFilter {
   }
 }
 
+/// @nodoc
 class AssociationExecutionTargetsFilterKey {
   static const status = AssociationExecutionTargetsFilterKey._('Status');
   static const resourceId =
@@ -31506,6 +32074,8 @@ class AssociationExecutionTargetsFilterKey {
 }
 
 /// Includes information about the specified association.
+///
+/// @nodoc
 class AssociationExecution {
   final AlarmConfiguration? alarmConfiguration;
 
@@ -31600,6 +32170,8 @@ class AssociationExecution {
 }
 
 /// Filters used in the request.
+///
+/// @nodoc
 class AssociationExecutionFilter {
   /// The key value used in the request.
   final AssociationExecutionFilterKey key;
@@ -31628,6 +32200,7 @@ class AssociationExecutionFilter {
   }
 }
 
+/// @nodoc
 class AssociationExecutionFilterKey {
   static const executionId = AssociationExecutionFilterKey._('ExecutionId');
   static const status = AssociationExecutionFilterKey._('Status');
@@ -31654,6 +32227,7 @@ class AssociationExecutionFilterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class AssociationFilterOperatorType {
   static const equal = AssociationFilterOperatorType._('EQUAL');
   static const lessThan = AssociationFilterOperatorType._('LESS_THAN');
@@ -31684,6 +32258,8 @@ class AssociationFilterOperatorType {
 /// (VMs) with Amazon Web Services so that you can configure those servers or
 /// VMs using Run Command. A server or VM that has been registered with Amazon
 /// Web Services Systems Manager is called a managed node.
+///
+/// @nodoc
 class Activation {
   /// The ID created by Systems Manager when you submitted the activation.
   final String? activationId;
@@ -31777,6 +32353,8 @@ class Activation {
 }
 
 /// Filter for the DescribeActivation API.
+///
+/// @nodoc
 class DescribeActivationsFilter {
   /// The name of the filter.
   final DescribeActivationsFilterKeys? filterKey;
@@ -31799,6 +32377,7 @@ class DescribeActivationsFilter {
   }
 }
 
+/// @nodoc
 class DescribeActivationsFilterKeys {
   static const activationIds = DescribeActivationsFilterKeys._('ActivationIds');
   static const defaultInstanceName =
@@ -31826,6 +32405,7 @@ class DescribeActivationsFilterKeys {
   String toString() => value;
 }
 
+/// @nodoc
 class InventorySchemaDeleteOption {
   static const disableSchema = InventorySchemaDeleteOption._('DisableSchema');
   static const deleteSchema = InventorySchemaDeleteOption._('DeleteSchema');
@@ -31852,6 +32432,8 @@ class InventorySchemaDeleteOption {
 }
 
 /// Describes a failed association.
+///
+/// @nodoc
 class FailedCreateAssociation {
   /// The association.
   final CreateAssociationBatchRequestEntry? entry;
@@ -31893,6 +32475,8 @@ class FailedCreateAssociation {
 
 /// Describes the association of a Amazon Web Services Systems Manager document
 /// (SSM document) and a managed node.
+///
+/// @nodoc
 class CreateAssociationBatchRequestEntry {
   /// The name of the SSM document that contains the configuration information for
   /// the managed node. You can specify Command or Automation runbooks.
@@ -32181,6 +32765,7 @@ class CreateAssociationBatchRequestEntry {
   }
 }
 
+/// @nodoc
 class Fault {
   static const client = Fault._('Client');
   static const server = Fault._('Server');
@@ -32206,6 +32791,8 @@ class Fault {
 }
 
 /// Reserved for internal use.
+///
+/// @nodoc
 class RegistrationMetadataItem {
   /// Reserved for internal use.
   final String key;
@@ -32228,31 +32815,37 @@ class RegistrationMetadataItem {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class AssociatedInstances extends _s.GenericAwsException {
   AssociatedInstances({String? type, String? message})
       : super(type: type, code: 'AssociatedInstances', message: message);
 }
 
+/// @nodoc
 class AssociationAlreadyExists extends _s.GenericAwsException {
   AssociationAlreadyExists({String? type, String? message})
       : super(type: type, code: 'AssociationAlreadyExists', message: message);
 }
 
+/// @nodoc
 class AssociationDoesNotExist extends _s.GenericAwsException {
   AssociationDoesNotExist({String? type, String? message})
       : super(type: type, code: 'AssociationDoesNotExist', message: message);
 }
 
+/// @nodoc
 class AssociationExecutionDoesNotExist extends _s.GenericAwsException {
   AssociationExecutionDoesNotExist({String? type, String? message})
       : super(
@@ -32261,11 +32854,13 @@ class AssociationExecutionDoesNotExist extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AssociationLimitExceeded extends _s.GenericAwsException {
   AssociationLimitExceeded({String? type, String? message})
       : super(type: type, code: 'AssociationLimitExceeded', message: message);
 }
 
+/// @nodoc
 class AssociationVersionLimitExceeded extends _s.GenericAwsException {
   AssociationVersionLimitExceeded({String? type, String? message})
       : super(
@@ -32274,6 +32869,7 @@ class AssociationVersionLimitExceeded extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AutomationDefinitionNotApprovedException extends _s.GenericAwsException {
   AutomationDefinitionNotApprovedException({String? type, String? message})
       : super(
@@ -32282,6 +32878,7 @@ class AutomationDefinitionNotApprovedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AutomationDefinitionNotFoundException extends _s.GenericAwsException {
   AutomationDefinitionNotFoundException({String? type, String? message})
       : super(
@@ -32290,6 +32887,7 @@ class AutomationDefinitionNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AutomationDefinitionVersionNotFoundException
     extends _s.GenericAwsException {
   AutomationDefinitionVersionNotFoundException({String? type, String? message})
@@ -32299,6 +32897,7 @@ class AutomationDefinitionVersionNotFoundException
             message: message);
 }
 
+/// @nodoc
 class AutomationExecutionLimitExceededException extends _s.GenericAwsException {
   AutomationExecutionLimitExceededException({String? type, String? message})
       : super(
@@ -32307,6 +32906,7 @@ class AutomationExecutionLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AutomationExecutionNotFoundException extends _s.GenericAwsException {
   AutomationExecutionNotFoundException({String? type, String? message})
       : super(
@@ -32315,6 +32915,7 @@ class AutomationExecutionNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AutomationStepNotFoundException extends _s.GenericAwsException {
   AutomationStepNotFoundException({String? type, String? message})
       : super(
@@ -32323,6 +32924,7 @@ class AutomationStepNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ComplianceTypeCountLimitExceededException extends _s.GenericAwsException {
   ComplianceTypeCountLimitExceededException({String? type, String? message})
       : super(
@@ -32331,6 +32933,7 @@ class ComplianceTypeCountLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomSchemaCountLimitExceededException extends _s.GenericAwsException {
   CustomSchemaCountLimitExceededException({String? type, String? message})
       : super(
@@ -32339,54 +32942,64 @@ class CustomSchemaCountLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DocumentAlreadyExists extends _s.GenericAwsException {
   DocumentAlreadyExists({String? type, String? message})
       : super(type: type, code: 'DocumentAlreadyExists', message: message);
 }
 
+/// @nodoc
 class DocumentLimitExceeded extends _s.GenericAwsException {
   DocumentLimitExceeded({String? type, String? message})
       : super(type: type, code: 'DocumentLimitExceeded', message: message);
 }
 
+/// @nodoc
 class DocumentPermissionLimit extends _s.GenericAwsException {
   DocumentPermissionLimit({String? type, String? message})
       : super(type: type, code: 'DocumentPermissionLimit', message: message);
 }
 
+/// @nodoc
 class DocumentVersionLimitExceeded extends _s.GenericAwsException {
   DocumentVersionLimitExceeded({String? type, String? message})
       : super(
             type: type, code: 'DocumentVersionLimitExceeded', message: message);
 }
 
+/// @nodoc
 class DoesNotExistException extends _s.GenericAwsException {
   DoesNotExistException({String? type, String? message})
       : super(type: type, code: 'DoesNotExistException', message: message);
 }
 
+/// @nodoc
 class DuplicateDocumentContent extends _s.GenericAwsException {
   DuplicateDocumentContent({String? type, String? message})
       : super(type: type, code: 'DuplicateDocumentContent', message: message);
 }
 
+/// @nodoc
 class DuplicateDocumentVersionName extends _s.GenericAwsException {
   DuplicateDocumentVersionName({String? type, String? message})
       : super(
             type: type, code: 'DuplicateDocumentVersionName', message: message);
 }
 
+/// @nodoc
 class DuplicateInstanceId extends _s.GenericAwsException {
   DuplicateInstanceId({String? type, String? message})
       : super(type: type, code: 'DuplicateInstanceId', message: message);
 }
 
+/// @nodoc
 class FeatureNotAvailableException extends _s.GenericAwsException {
   FeatureNotAvailableException({String? type, String? message})
       : super(
             type: type, code: 'FeatureNotAvailableException', message: message);
 }
 
+/// @nodoc
 class HierarchyLevelLimitExceededException extends _s.GenericAwsException {
   HierarchyLevelLimitExceededException({String? type, String? message})
       : super(
@@ -32395,6 +33008,7 @@ class HierarchyLevelLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class HierarchyTypeMismatchException extends _s.GenericAwsException {
   HierarchyTypeMismatchException({String? type, String? message})
       : super(
@@ -32403,38 +33017,45 @@ class HierarchyTypeMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatch extends _s.GenericAwsException {
   IdempotentParameterMismatch({String? type, String? message})
       : super(
             type: type, code: 'IdempotentParameterMismatch', message: message);
 }
 
+/// @nodoc
 class IncompatiblePolicyException extends _s.GenericAwsException {
   IncompatiblePolicyException({String? type, String? message})
       : super(
             type: type, code: 'IncompatiblePolicyException', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidActivation extends _s.GenericAwsException {
   InvalidActivation({String? type, String? message})
       : super(type: type, code: 'InvalidActivation', message: message);
 }
 
+/// @nodoc
 class InvalidActivationId extends _s.GenericAwsException {
   InvalidActivationId({String? type, String? message})
       : super(type: type, code: 'InvalidActivationId', message: message);
 }
 
+/// @nodoc
 class InvalidAggregatorException extends _s.GenericAwsException {
   InvalidAggregatorException({String? type, String? message})
       : super(type: type, code: 'InvalidAggregatorException', message: message);
 }
 
+/// @nodoc
 class InvalidAllowedPatternException extends _s.GenericAwsException {
   InvalidAllowedPatternException({String? type, String? message})
       : super(
@@ -32443,16 +33064,19 @@ class InvalidAllowedPatternException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidAssociation extends _s.GenericAwsException {
   InvalidAssociation({String? type, String? message})
       : super(type: type, code: 'InvalidAssociation', message: message);
 }
 
+/// @nodoc
 class InvalidAssociationVersion extends _s.GenericAwsException {
   InvalidAssociationVersion({String? type, String? message})
       : super(type: type, code: 'InvalidAssociationVersion', message: message);
 }
 
+/// @nodoc
 class InvalidAutomationExecutionParametersException
     extends _s.GenericAwsException {
   InvalidAutomationExecutionParametersException({String? type, String? message})
@@ -32462,6 +33086,7 @@ class InvalidAutomationExecutionParametersException
             message: message);
 }
 
+/// @nodoc
 class InvalidAutomationSignalException extends _s.GenericAwsException {
   InvalidAutomationSignalException({String? type, String? message})
       : super(
@@ -32470,6 +33095,7 @@ class InvalidAutomationSignalException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidAutomationStatusUpdateException extends _s.GenericAwsException {
   InvalidAutomationStatusUpdateException({String? type, String? message})
       : super(
@@ -32478,11 +33104,13 @@ class InvalidAutomationStatusUpdateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCommandId extends _s.GenericAwsException {
   InvalidCommandId({String? type, String? message})
       : super(type: type, code: 'InvalidCommandId', message: message);
 }
 
+/// @nodoc
 class InvalidDeleteInventoryParametersException extends _s.GenericAwsException {
   InvalidDeleteInventoryParametersException({String? type, String? message})
       : super(
@@ -32491,67 +33119,80 @@ class InvalidDeleteInventoryParametersException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeletionIdException extends _s.GenericAwsException {
   InvalidDeletionIdException({String? type, String? message})
       : super(type: type, code: 'InvalidDeletionIdException', message: message);
 }
 
+/// @nodoc
 class InvalidDocument extends _s.GenericAwsException {
   InvalidDocument({String? type, String? message})
       : super(type: type, code: 'InvalidDocument', message: message);
 }
 
+/// @nodoc
 class InvalidDocumentContent extends _s.GenericAwsException {
   InvalidDocumentContent({String? type, String? message})
       : super(type: type, code: 'InvalidDocumentContent', message: message);
 }
 
+/// @nodoc
 class InvalidDocumentOperation extends _s.GenericAwsException {
   InvalidDocumentOperation({String? type, String? message})
       : super(type: type, code: 'InvalidDocumentOperation', message: message);
 }
 
+/// @nodoc
 class InvalidDocumentSchemaVersion extends _s.GenericAwsException {
   InvalidDocumentSchemaVersion({String? type, String? message})
       : super(
             type: type, code: 'InvalidDocumentSchemaVersion', message: message);
 }
 
+/// @nodoc
 class InvalidDocumentType extends _s.GenericAwsException {
   InvalidDocumentType({String? type, String? message})
       : super(type: type, code: 'InvalidDocumentType', message: message);
 }
 
+/// @nodoc
 class InvalidDocumentVersion extends _s.GenericAwsException {
   InvalidDocumentVersion({String? type, String? message})
       : super(type: type, code: 'InvalidDocumentVersion', message: message);
 }
 
+/// @nodoc
 class InvalidFilter extends _s.GenericAwsException {
   InvalidFilter({String? type, String? message})
       : super(type: type, code: 'InvalidFilter', message: message);
 }
 
+/// @nodoc
 class InvalidFilterKey extends _s.GenericAwsException {
   InvalidFilterKey({String? type, String? message})
       : super(type: type, code: 'InvalidFilterKey', message: message);
 }
 
+/// @nodoc
 class InvalidFilterOption extends _s.GenericAwsException {
   InvalidFilterOption({String? type, String? message})
       : super(type: type, code: 'InvalidFilterOption', message: message);
 }
 
+/// @nodoc
 class InvalidFilterValue extends _s.GenericAwsException {
   InvalidFilterValue({String? type, String? message})
       : super(type: type, code: 'InvalidFilterValue', message: message);
 }
 
+/// @nodoc
 class InvalidInstanceId extends _s.GenericAwsException {
   InvalidInstanceId({String? type, String? message})
       : super(type: type, code: 'InvalidInstanceId', message: message);
 }
 
+/// @nodoc
 class InvalidInstanceInformationFilterValue extends _s.GenericAwsException {
   InvalidInstanceInformationFilterValue({String? type, String? message})
       : super(
@@ -32560,6 +33201,7 @@ class InvalidInstanceInformationFilterValue extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidInstancePropertyFilterValue extends _s.GenericAwsException {
   InvalidInstancePropertyFilterValue({String? type, String? message})
       : super(
@@ -32568,6 +33210,7 @@ class InvalidInstancePropertyFilterValue extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidInventoryGroupException extends _s.GenericAwsException {
   InvalidInventoryGroupException({String? type, String? message})
       : super(
@@ -32576,6 +33219,7 @@ class InvalidInventoryGroupException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidInventoryItemContextException extends _s.GenericAwsException {
   InvalidInventoryItemContextException({String? type, String? message})
       : super(
@@ -32584,6 +33228,7 @@ class InvalidInventoryItemContextException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidInventoryRequestException extends _s.GenericAwsException {
   InvalidInventoryRequestException({String? type, String? message})
       : super(
@@ -32592,57 +33237,68 @@ class InvalidInventoryRequestException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidItemContentException extends _s.GenericAwsException {
   InvalidItemContentException({String? type, String? message})
       : super(
             type: type, code: 'InvalidItemContentException', message: message);
 }
 
+/// @nodoc
 class InvalidKeyId extends _s.GenericAwsException {
   InvalidKeyId({String? type, String? message})
       : super(type: type, code: 'InvalidKeyId', message: message);
 }
 
+/// @nodoc
 class InvalidNextToken extends _s.GenericAwsException {
   InvalidNextToken({String? type, String? message})
       : super(type: type, code: 'InvalidNextToken', message: message);
 }
 
+/// @nodoc
 class InvalidNotificationConfig extends _s.GenericAwsException {
   InvalidNotificationConfig({String? type, String? message})
       : super(type: type, code: 'InvalidNotificationConfig', message: message);
 }
 
+/// @nodoc
 class InvalidOptionException extends _s.GenericAwsException {
   InvalidOptionException({String? type, String? message})
       : super(type: type, code: 'InvalidOptionException', message: message);
 }
 
+/// @nodoc
 class InvalidOutputFolder extends _s.GenericAwsException {
   InvalidOutputFolder({String? type, String? message})
       : super(type: type, code: 'InvalidOutputFolder', message: message);
 }
 
+/// @nodoc
 class InvalidOutputLocation extends _s.GenericAwsException {
   InvalidOutputLocation({String? type, String? message})
       : super(type: type, code: 'InvalidOutputLocation', message: message);
 }
 
+/// @nodoc
 class InvalidParameters extends _s.GenericAwsException {
   InvalidParameters({String? type, String? message})
       : super(type: type, code: 'InvalidParameters', message: message);
 }
 
+/// @nodoc
 class InvalidPermissionType extends _s.GenericAwsException {
   InvalidPermissionType({String? type, String? message})
       : super(type: type, code: 'InvalidPermissionType', message: message);
 }
 
+/// @nodoc
 class InvalidPluginName extends _s.GenericAwsException {
   InvalidPluginName({String? type, String? message})
       : super(type: type, code: 'InvalidPluginName', message: message);
 }
 
+/// @nodoc
 class InvalidPolicyAttributeException extends _s.GenericAwsException {
   InvalidPolicyAttributeException({String? type, String? message})
       : super(
@@ -32651,21 +33307,25 @@ class InvalidPolicyAttributeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidPolicyTypeException extends _s.GenericAwsException {
   InvalidPolicyTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyTypeException', message: message);
 }
 
+/// @nodoc
 class InvalidResourceId extends _s.GenericAwsException {
   InvalidResourceId({String? type, String? message})
       : super(type: type, code: 'InvalidResourceId', message: message);
 }
 
+/// @nodoc
 class InvalidResourceType extends _s.GenericAwsException {
   InvalidResourceType({String? type, String? message})
       : super(type: type, code: 'InvalidResourceType', message: message);
 }
 
+/// @nodoc
 class InvalidResultAttributeException extends _s.GenericAwsException {
   InvalidResultAttributeException({String? type, String? message})
       : super(
@@ -32674,52 +33334,62 @@ class InvalidResultAttributeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRole extends _s.GenericAwsException {
   InvalidRole({String? type, String? message})
       : super(type: type, code: 'InvalidRole', message: message);
 }
 
+/// @nodoc
 class InvalidSchedule extends _s.GenericAwsException {
   InvalidSchedule({String? type, String? message})
       : super(type: type, code: 'InvalidSchedule', message: message);
 }
 
+/// @nodoc
 class InvalidTag extends _s.GenericAwsException {
   InvalidTag({String? type, String? message})
       : super(type: type, code: 'InvalidTag', message: message);
 }
 
+/// @nodoc
 class InvalidTarget extends _s.GenericAwsException {
   InvalidTarget({String? type, String? message})
       : super(type: type, code: 'InvalidTarget', message: message);
 }
 
+/// @nodoc
 class InvalidTargetMaps extends _s.GenericAwsException {
   InvalidTargetMaps({String? type, String? message})
       : super(type: type, code: 'InvalidTargetMaps', message: message);
 }
 
+/// @nodoc
 class InvalidTypeNameException extends _s.GenericAwsException {
   InvalidTypeNameException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeNameException', message: message);
 }
 
+/// @nodoc
 class InvalidUpdate extends _s.GenericAwsException {
   InvalidUpdate({String? type, String? message})
       : super(type: type, code: 'InvalidUpdate', message: message);
 }
 
+/// @nodoc
 class InvocationDoesNotExist extends _s.GenericAwsException {
   InvocationDoesNotExist({String? type, String? message})
       : super(type: type, code: 'InvocationDoesNotExist', message: message);
 }
 
+/// @nodoc
 class ItemContentMismatchException extends _s.GenericAwsException {
   ItemContentMismatchException({String? type, String? message})
       : super(
             type: type, code: 'ItemContentMismatchException', message: message);
 }
 
+/// @nodoc
 class ItemSizeLimitExceededException extends _s.GenericAwsException {
   ItemSizeLimitExceededException({String? type, String? message})
       : super(
@@ -32728,6 +33398,7 @@ class ItemSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MalformedResourcePolicyDocumentException extends _s.GenericAwsException {
   MalformedResourcePolicyDocumentException({String? type, String? message})
       : super(
@@ -32736,22 +33407,26 @@ class MalformedResourcePolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MaxDocumentSizeExceeded extends _s.GenericAwsException {
   MaxDocumentSizeExceeded({String? type, String? message})
       : super(type: type, code: 'MaxDocumentSizeExceeded', message: message);
 }
 
+/// @nodoc
 class NoLongerSupportedException extends _s.GenericAwsException {
   NoLongerSupportedException({String? type, String? message})
       : super(type: type, code: 'NoLongerSupportedException', message: message);
 }
 
+/// @nodoc
 class OpsItemAccessDeniedException extends _s.GenericAwsException {
   OpsItemAccessDeniedException({String? type, String? message})
       : super(
             type: type, code: 'OpsItemAccessDeniedException', message: message);
 }
 
+/// @nodoc
 class OpsItemAlreadyExistsException extends _s.GenericAwsException {
   OpsItemAlreadyExistsException({String? type, String? message})
       : super(
@@ -32760,11 +33435,13 @@ class OpsItemAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OpsItemConflictException extends _s.GenericAwsException {
   OpsItemConflictException({String? type, String? message})
       : super(type: type, code: 'OpsItemConflictException', message: message);
 }
 
+/// @nodoc
 class OpsItemInvalidParameterException extends _s.GenericAwsException {
   OpsItemInvalidParameterException({String? type, String? message})
       : super(
@@ -32773,6 +33450,7 @@ class OpsItemInvalidParameterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OpsItemLimitExceededException extends _s.GenericAwsException {
   OpsItemLimitExceededException({String? type, String? message})
       : super(
@@ -32781,11 +33459,13 @@ class OpsItemLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OpsItemNotFoundException extends _s.GenericAwsException {
   OpsItemNotFoundException({String? type, String? message})
       : super(type: type, code: 'OpsItemNotFoundException', message: message);
 }
 
+/// @nodoc
 class OpsItemRelatedItemAlreadyExistsException extends _s.GenericAwsException {
   OpsItemRelatedItemAlreadyExistsException({String? type, String? message})
       : super(
@@ -32794,6 +33474,7 @@ class OpsItemRelatedItemAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OpsItemRelatedItemAssociationNotFoundException
     extends _s.GenericAwsException {
   OpsItemRelatedItemAssociationNotFoundException(
@@ -32804,6 +33485,7 @@ class OpsItemRelatedItemAssociationNotFoundException
             message: message);
 }
 
+/// @nodoc
 class OpsMetadataAlreadyExistsException extends _s.GenericAwsException {
   OpsMetadataAlreadyExistsException({String? type, String? message})
       : super(
@@ -32812,6 +33494,7 @@ class OpsMetadataAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OpsMetadataInvalidArgumentException extends _s.GenericAwsException {
   OpsMetadataInvalidArgumentException({String? type, String? message})
       : super(
@@ -32820,6 +33503,7 @@ class OpsMetadataInvalidArgumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OpsMetadataKeyLimitExceededException extends _s.GenericAwsException {
   OpsMetadataKeyLimitExceededException({String? type, String? message})
       : super(
@@ -32828,6 +33512,7 @@ class OpsMetadataKeyLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OpsMetadataLimitExceededException extends _s.GenericAwsException {
   OpsMetadataLimitExceededException({String? type, String? message})
       : super(
@@ -32836,12 +33521,14 @@ class OpsMetadataLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OpsMetadataNotFoundException extends _s.GenericAwsException {
   OpsMetadataNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'OpsMetadataNotFoundException', message: message);
 }
 
+/// @nodoc
 class OpsMetadataTooManyUpdatesException extends _s.GenericAwsException {
   OpsMetadataTooManyUpdatesException({String? type, String? message})
       : super(
@@ -32850,16 +33537,19 @@ class OpsMetadataTooManyUpdatesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParameterAlreadyExists extends _s.GenericAwsException {
   ParameterAlreadyExists({String? type, String? message})
       : super(type: type, code: 'ParameterAlreadyExists', message: message);
 }
 
+/// @nodoc
 class ParameterLimitExceeded extends _s.GenericAwsException {
   ParameterLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ParameterLimitExceeded', message: message);
 }
 
+/// @nodoc
 class ParameterMaxVersionLimitExceeded extends _s.GenericAwsException {
   ParameterMaxVersionLimitExceeded({String? type, String? message})
       : super(
@@ -32868,11 +33558,13 @@ class ParameterMaxVersionLimitExceeded extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParameterNotFound extends _s.GenericAwsException {
   ParameterNotFound({String? type, String? message})
       : super(type: type, code: 'ParameterNotFound', message: message);
 }
 
+/// @nodoc
 class ParameterPatternMismatchException extends _s.GenericAwsException {
   ParameterPatternMismatchException({String? type, String? message})
       : super(
@@ -32881,6 +33573,7 @@ class ParameterPatternMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParameterVersionLabelLimitExceeded extends _s.GenericAwsException {
   ParameterVersionLabelLimitExceeded({String? type, String? message})
       : super(
@@ -32889,11 +33582,13 @@ class ParameterVersionLabelLimitExceeded extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParameterVersionNotFound extends _s.GenericAwsException {
   ParameterVersionNotFound({String? type, String? message})
       : super(type: type, code: 'ParameterVersionNotFound', message: message);
 }
 
+/// @nodoc
 class PoliciesLimitExceededException extends _s.GenericAwsException {
   PoliciesLimitExceededException({String? type, String? message})
       : super(
@@ -32902,6 +33597,7 @@ class PoliciesLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceDataSyncAlreadyExistsException extends _s.GenericAwsException {
   ResourceDataSyncAlreadyExistsException({String? type, String? message})
       : super(
@@ -32910,6 +33606,7 @@ class ResourceDataSyncAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceDataSyncConflictException extends _s.GenericAwsException {
   ResourceDataSyncConflictException({String? type, String? message})
       : super(
@@ -32918,6 +33615,7 @@ class ResourceDataSyncConflictException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceDataSyncCountExceededException extends _s.GenericAwsException {
   ResourceDataSyncCountExceededException({String? type, String? message})
       : super(
@@ -32926,6 +33624,7 @@ class ResourceDataSyncCountExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceDataSyncInvalidConfigurationException
     extends _s.GenericAwsException {
   ResourceDataSyncInvalidConfigurationException({String? type, String? message})
@@ -32935,6 +33634,7 @@ class ResourceDataSyncInvalidConfigurationException
             message: message);
 }
 
+/// @nodoc
 class ResourceDataSyncNotFoundException extends _s.GenericAwsException {
   ResourceDataSyncNotFoundException({String? type, String? message})
       : super(
@@ -32943,11 +33643,13 @@ class ResourceDataSyncNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -32956,11 +33658,13 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourcePolicyConflictException extends _s.GenericAwsException {
   ResourcePolicyConflictException({String? type, String? message})
       : super(
@@ -32969,6 +33673,7 @@ class ResourcePolicyConflictException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourcePolicyInvalidParameterException extends _s.GenericAwsException {
   ResourcePolicyInvalidParameterException({String? type, String? message})
       : super(
@@ -32977,6 +33682,7 @@ class ResourcePolicyInvalidParameterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourcePolicyLimitExceededException extends _s.GenericAwsException {
   ResourcePolicyLimitExceededException({String? type, String? message})
       : super(
@@ -32985,6 +33691,7 @@ class ResourcePolicyLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourcePolicyNotFoundException extends _s.GenericAwsException {
   ResourcePolicyNotFoundException({String? type, String? message})
       : super(
@@ -32993,6 +33700,7 @@ class ResourcePolicyNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -33001,16 +33709,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceSettingNotFound extends _s.GenericAwsException {
   ServiceSettingNotFound({String? type, String? message})
       : super(type: type, code: 'ServiceSettingNotFound', message: message);
 }
 
+/// @nodoc
 class StatusUnchanged extends _s.GenericAwsException {
   StatusUnchanged({String? type, String? message})
       : super(type: type, code: 'StatusUnchanged', message: message);
 }
 
+/// @nodoc
 class SubTypeCountLimitExceededException extends _s.GenericAwsException {
   SubTypeCountLimitExceededException({String? type, String? message})
       : super(
@@ -33019,31 +33730,37 @@ class SubTypeCountLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TargetInUseException extends _s.GenericAwsException {
   TargetInUseException({String? type, String? message})
       : super(type: type, code: 'TargetInUseException', message: message);
 }
 
+/// @nodoc
 class TargetNotConnected extends _s.GenericAwsException {
   TargetNotConnected({String? type, String? message})
       : super(type: type, code: 'TargetNotConnected', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsError extends _s.GenericAwsException {
   TooManyTagsError({String? type, String? message})
       : super(type: type, code: 'TooManyTagsError', message: message);
 }
 
+/// @nodoc
 class TooManyUpdates extends _s.GenericAwsException {
   TooManyUpdates({String? type, String? message})
       : super(type: type, code: 'TooManyUpdates', message: message);
 }
 
+/// @nodoc
 class TotalSizeLimitExceededException extends _s.GenericAwsException {
   TotalSizeLimitExceededException({String? type, String? message})
       : super(
@@ -33052,12 +33769,14 @@ class TotalSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedCalendarException extends _s.GenericAwsException {
   UnsupportedCalendarException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedCalendarException', message: message);
 }
 
+/// @nodoc
 class UnsupportedFeatureRequiredException extends _s.GenericAwsException {
   UnsupportedFeatureRequiredException({String? type, String? message})
       : super(
@@ -33066,6 +33785,7 @@ class UnsupportedFeatureRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedInventoryItemContextException extends _s.GenericAwsException {
   UnsupportedInventoryItemContextException({String? type, String? message})
       : super(
@@ -33074,6 +33794,7 @@ class UnsupportedInventoryItemContextException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedInventorySchemaVersionException
     extends _s.GenericAwsException {
   UnsupportedInventorySchemaVersionException({String? type, String? message})
@@ -33083,11 +33804,13 @@ class UnsupportedInventorySchemaVersionException
             message: message);
 }
 
+/// @nodoc
 class UnsupportedOperatingSystem extends _s.GenericAwsException {
   UnsupportedOperatingSystem({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperatingSystem', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(
@@ -33096,16 +33819,19 @@ class UnsupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedParameterType extends _s.GenericAwsException {
   UnsupportedParameterType({String? type, String? message})
       : super(type: type, code: 'UnsupportedParameterType', message: message);
 }
 
+/// @nodoc
 class UnsupportedPlatformType extends _s.GenericAwsException {
   UnsupportedPlatformType({String? type, String? message})
       : super(type: type, code: 'UnsupportedPlatformType', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

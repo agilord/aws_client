@@ -1711,6 +1711,7 @@ class Notifications {
   }
 }
 
+/// @nodoc
 class ListManagedNotificationChannelAssociationsResponse {
   /// A list that contains the following information about a channel association.
   final List<ManagedNotificationChannelAssociationSummary> channelAssociations;
@@ -1746,6 +1747,7 @@ class ListManagedNotificationChannelAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListMemberAccountsResponse {
   /// The list of member accounts that match the specified criteria.
   final List<MemberAccount> memberAccounts;
@@ -1778,6 +1780,7 @@ class ListMemberAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags for the specified ARN.
   final Map<String, String>? tags;
@@ -1801,6 +1804,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1813,6 +1817,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1825,6 +1830,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class AssociateChannelResponse {
   AssociateChannelResponse();
 
@@ -1837,6 +1843,7 @@ class AssociateChannelResponse {
   }
 }
 
+/// @nodoc
 class DisassociateChannelResponse {
   DisassociateChannelResponse();
 
@@ -1849,6 +1856,7 @@ class DisassociateChannelResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsResponse {
   /// A list of Channels.
   final List<String> channels;
@@ -1882,6 +1890,7 @@ class ListChannelsResponse {
   }
 }
 
+/// @nodoc
 class CreateEventRuleResponse {
   /// The ARN of the resource.
   final String arn;
@@ -1924,6 +1933,7 @@ class CreateEventRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventRuleResponse {
   /// The Amazon Resource Name (ARN) to use to update the <code>EventRule</code>.
   final String arn;
@@ -1965,6 +1975,7 @@ class UpdateEventRuleResponse {
   }
 }
 
+/// @nodoc
 class GetEventRuleResponse {
   /// The ARN of the resource.
   final String arn;
@@ -2080,6 +2091,7 @@ class GetEventRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteEventRuleResponse {
   DeleteEventRuleResponse();
 
@@ -2092,6 +2104,7 @@ class DeleteEventRuleResponse {
   }
 }
 
+/// @nodoc
 class ListEventRulesResponse {
   /// A list of <code>EventRules</code>.
   final List<EventRuleStructure> eventRules;
@@ -2125,6 +2138,7 @@ class ListEventRulesResponse {
   }
 }
 
+/// @nodoc
 class AssociateManagedNotificationAccountContactResponse {
   AssociateManagedNotificationAccountContactResponse();
 
@@ -2138,6 +2152,7 @@ class AssociateManagedNotificationAccountContactResponse {
   }
 }
 
+/// @nodoc
 class DisassociateManagedNotificationAccountContactResponse {
   DisassociateManagedNotificationAccountContactResponse();
 
@@ -2151,6 +2166,7 @@ class DisassociateManagedNotificationAccountContactResponse {
   }
 }
 
+/// @nodoc
 class AssociateManagedNotificationAdditionalChannelResponse {
   AssociateManagedNotificationAdditionalChannelResponse();
 
@@ -2164,6 +2180,7 @@ class AssociateManagedNotificationAdditionalChannelResponse {
   }
 }
 
+/// @nodoc
 class DisassociateManagedNotificationAdditionalChannelResponse {
   DisassociateManagedNotificationAdditionalChannelResponse();
 
@@ -2177,6 +2194,7 @@ class DisassociateManagedNotificationAdditionalChannelResponse {
   }
 }
 
+/// @nodoc
 class GetManagedNotificationChildEventResponse {
   /// The ARN of the resource.
   final String arn;
@@ -2228,6 +2246,7 @@ class GetManagedNotificationChildEventResponse {
   }
 }
 
+/// @nodoc
 class ListManagedNotificationChildEventsResponse {
   /// A pagination token. If a non-null pagination token is returned in a result,
   /// pass its value in another request to retrieve more entries.
@@ -2266,6 +2285,7 @@ class ListManagedNotificationChildEventsResponse {
   }
 }
 
+/// @nodoc
 class GetManagedNotificationConfigurationResponse {
   /// The ARN of the <code>ManagedNotificationConfiguration</code> resource.
   final String arn;
@@ -2317,6 +2337,7 @@ class GetManagedNotificationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListManagedNotificationConfigurationsResponse {
   /// A list of Managed Notification Configurations matching the request criteria.
   final List<ManagedNotificationConfigurationStructure>
@@ -2355,6 +2376,7 @@ class ListManagedNotificationConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class GetManagedNotificationEventResponse {
   /// The ARN of the resource.
   final String arn;
@@ -2404,6 +2426,7 @@ class GetManagedNotificationEventResponse {
   }
 }
 
+/// @nodoc
 class ListManagedNotificationEventsResponse {
   /// A list of Managed Notification Events matching the request criteria.
   final List<ManagedNotificationEventOverview> managedNotificationEvents;
@@ -2440,6 +2463,7 @@ class ListManagedNotificationEventsResponse {
   }
 }
 
+/// @nodoc
 class CreateNotificationConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the
   /// <code>NotificationConfiguration</code>.
@@ -2472,6 +2496,7 @@ class CreateNotificationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateNotificationConfigurationResponse {
   /// The ARN used to update the <code>NotificationConfiguration</code>.
   final String arn;
@@ -2495,6 +2520,7 @@ class UpdateNotificationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetNotificationConfigurationResponse {
   /// The ARN of the resource.
   final String arn;
@@ -2596,6 +2622,7 @@ class GetNotificationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteNotificationConfigurationResponse {
   DeleteNotificationConfigurationResponse();
 
@@ -2609,6 +2636,7 @@ class DeleteNotificationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListNotificationConfigurationsResponse {
   /// The <code>NotificationConfigurations</code> in the account.
   final List<NotificationConfigurationStructure> notificationConfigurations;
@@ -2645,6 +2673,7 @@ class ListNotificationConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class GetNotificationEventResponse {
   /// The ARN of the resource.
   final String arn;
@@ -2691,6 +2720,7 @@ class GetNotificationEventResponse {
   }
 }
 
+/// @nodoc
 class ListNotificationEventsResponse {
   /// The list of notification events.
   final List<NotificationEventOverview> notificationEvents;
@@ -2725,6 +2755,7 @@ class ListNotificationEventsResponse {
   }
 }
 
+/// @nodoc
 class RegisterNotificationHubResponse {
   /// The date the resource was created.
   final DateTime creationTime;
@@ -2772,6 +2803,7 @@ class RegisterNotificationHubResponse {
   }
 }
 
+/// @nodoc
 class DeregisterNotificationHubResponse {
   /// The <code>NotificationConfiguration</code> Region.
   final String notificationHubRegion;
@@ -2804,6 +2836,7 @@ class DeregisterNotificationHubResponse {
   }
 }
 
+/// @nodoc
 class ListNotificationHubsResponse {
   /// The <code>NotificationHubs</code> in the account.
   final List<NotificationHubOverview> notificationHubs;
@@ -2838,6 +2871,7 @@ class ListNotificationHubsResponse {
   }
 }
 
+/// @nodoc
 class EnableNotificationsAccessForOrganizationResponse {
   EnableNotificationsAccessForOrganizationResponse();
 
@@ -2851,6 +2885,7 @@ class EnableNotificationsAccessForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class GetNotificationsAccessForOrganizationResponse {
   /// The <code>AccessStatus</code> of Service Trust Enablement for User
   /// Notifications to Amazon Web Services Organizations.
@@ -2880,6 +2915,7 @@ class GetNotificationsAccessForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DisableNotificationsAccessForOrganizationResponse {
   DisableNotificationsAccessForOrganizationResponse();
 
@@ -2893,6 +2929,7 @@ class DisableNotificationsAccessForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class AssociateOrganizationalUnitResponse {
   AssociateOrganizationalUnitResponse();
 
@@ -2905,6 +2942,7 @@ class AssociateOrganizationalUnitResponse {
   }
 }
 
+/// @nodoc
 class DisassociateOrganizationalUnitResponse {
   DisassociateOrganizationalUnitResponse();
 
@@ -2918,6 +2956,7 @@ class DisassociateOrganizationalUnitResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationalUnitsResponse {
   /// The list of organizational units that match the specified criteria.
   final List<String> organizationalUnits;
@@ -2952,6 +2991,8 @@ class ListOrganizationalUnitsResponse {
 }
 
 /// Orgs Service trust for User Notifications.
+///
+/// @nodoc
 class NotificationsAccessForOrganization {
   /// Access Status for the Orgs Service.
   final AccessStatus accessStatus;
@@ -2976,6 +3017,7 @@ class NotificationsAccessForOrganization {
   }
 }
 
+/// @nodoc
 class AccessStatus {
   static const enabled = AccessStatus._('ENABLED');
   static const disabled = AccessStatus._('DISABLED');
@@ -3006,6 +3048,8 @@ class AccessStatus {
 /// A <code>NotificationConfiguration</code> is an account-level setting used to
 /// select the Regions where you want to store, process and replicate your
 /// notifications.
+///
+/// @nodoc
 class NotificationHubOverview {
   /// The date and time the <code>NotificationHubOverview</code> was created.
   final DateTime creationTime;
@@ -3055,6 +3099,8 @@ class NotificationHubOverview {
 
 /// Provides additional information about the current
 /// <code>NotificationHub</code> status.
+///
+/// @nodoc
 class NotificationHubStatusSummary {
   /// An explanation for the current status.
   final String reason;
@@ -3122,6 +3168,7 @@ class NotificationHubStatusSummary {
   }
 }
 
+/// @nodoc
 class NotificationHubStatus {
   static const active = NotificationHubStatus._('ACTIVE');
   static const registering = NotificationHubStatus._('REGISTERING');
@@ -3151,6 +3198,8 @@ class NotificationHubStatus {
 
 /// Describes a short summary of a <code>NotificationEvent</code>. This is only
 /// used when listing notification events.
+///
+/// @nodoc
 class NotificationEventOverview {
   /// The Amazon Resource Name (ARN) of the resource.
   final String arn;
@@ -3279,6 +3328,8 @@ class NotificationEventOverview {
 }
 
 /// Describes a short summary and metadata for a <code>NotificationEvent</code>.
+///
+/// @nodoc
 class NotificationEventSummary {
   /// Provides additional information about the current status of the
   /// <code>NotificationEvent</code>.
@@ -3406,6 +3457,7 @@ class NotificationEventSummary {
   }
 }
 
+/// @nodoc
 class AggregationEventType {
   static const aggregate = AggregationEventType._('AGGREGATE');
   static const child = AggregationEventType._('CHILD');
@@ -3433,6 +3485,8 @@ class AggregationEventType {
 }
 
 /// Provides additional information about the aggregation key.
+///
+/// @nodoc
 class AggregationSummary {
   /// Indicates the Amazon Web Services accounts in the aggregation key.
   final SummarizationDimensionOverview aggregatedAccounts;
@@ -3512,6 +3566,8 @@ class AggregationSummary {
 }
 
 /// Provides an overview of how data is summarized across different dimensions.
+///
+/// @nodoc
 class SummarizationDimensionOverview {
   /// Total number of occurrences for this dimension.
   final int count;
@@ -3552,6 +3608,8 @@ class SummarizationDimensionOverview {
 }
 
 /// Key-value collection that indicate how notifications are grouped.
+///
+/// @nodoc
 class AggregationKey {
   /// Indicates the type of aggregation key.
   final String name;
@@ -3581,6 +3639,7 @@ class AggregationKey {
   }
 }
 
+/// @nodoc
 class SchemaVersion {
   static const v1_0 = SchemaVersion._('v1.0');
 
@@ -3607,6 +3666,8 @@ class SchemaVersion {
 /// Contains metadata about the event that caused the
 /// <code>NotificationEvent</code>. For other specific values, see
 /// <code>sourceEventMetadata</code>.
+///
+/// @nodoc
 class SourceEventMetadataSummary {
   /// The event type to match.
   ///
@@ -3660,6 +3721,8 @@ class SourceEventMetadataSummary {
 }
 
 /// Contains the headline message component.
+///
+/// @nodoc
 class MessageComponentsSummary {
   /// A sentence long summary. For example, titles or an email subject line.
   final String headline;
@@ -3682,6 +3745,7 @@ class MessageComponentsSummary {
   }
 }
 
+/// @nodoc
 class EventStatus {
   static const healthy = EventStatus._('HEALTHY');
   static const unhealthy = EventStatus._('UNHEALTHY');
@@ -3705,6 +3769,7 @@ class EventStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationType {
   static const alert = NotificationType._('ALERT');
   static const warning = NotificationType._('WARNING');
@@ -3731,6 +3796,7 @@ class NotificationType {
   String toString() => value;
 }
 
+/// @nodoc
 class LocaleCode {
   static const deDe = LocaleCode._('de_DE');
   static const enCa = LocaleCode._('en_CA');
@@ -3786,6 +3852,8 @@ class LocaleCode {
 /// A <code>NotificationEvent</code> is a notification-focused representation of
 /// an event. They contain semantic information used by Channels to create
 /// end-user notifications.
+///
+/// @nodoc
 class NotificationEventSchema {
   /// The unique identifier for a <code>NotificationEvent</code>.
   final String id;
@@ -4050,6 +4118,8 @@ class NotificationEventSchema {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-events-structure.html">Event
 /// structure reference</a> in the <i>Amazon EventBridge User Guide</i>.
+///
+/// @nodoc
 class SourceEventMetadata {
   /// The date and time the source event occurred. This is based on the Source
   /// Event.
@@ -4128,6 +4198,8 @@ class SourceEventMetadata {
 }
 
 /// Describes the components of a notification message.
+///
+/// @nodoc
 class MessageComponents {
   /// A complete summary with all possible relevant information.
   final String? completeDescription;
@@ -4182,6 +4254,8 @@ class MessageComponents {
 }
 
 /// Describes a media element.
+///
+/// @nodoc
 class MediaElement {
   /// The caption of the media.
   final String caption;
@@ -4225,6 +4299,7 @@ class MediaElement {
   }
 }
 
+/// @nodoc
 class MediaElementType {
   static const image = MediaElementType._('IMAGE');
 
@@ -4250,6 +4325,8 @@ class MediaElementType {
 
 /// Describes text information objects containing fields that determine how text
 /// part objects are composed.
+///
+/// @nodoc
 class TextPartValue {
   /// The type of text part. Determines the usage of all other fields and whether
   /// or not they're required.
@@ -4299,6 +4376,7 @@ class TextPartValue {
   }
 }
 
+/// @nodoc
 class TextPartType {
   static const localizedText = TextPartType._('LOCALIZED_TEXT');
   static const plainText = TextPartType._('PLAIN_TEXT');
@@ -4324,6 +4402,8 @@ class TextPartType {
 }
 
 /// The key-value pair of properties for an event.
+///
+/// @nodoc
 class Dimension {
   /// The name of the dimension
   final String name;
@@ -4354,6 +4434,8 @@ class Dimension {
 }
 
 /// A resource affected by or closely linked to an event.
+///
+/// @nodoc
 class Resource {
   /// The Amazon Resource Name (ARN) of the resource. At least one id or ARN is
   /// required.
@@ -4403,6 +4485,8 @@ class Resource {
 }
 
 /// Contains the complete list of fields for a NotificationConfiguration.
+///
+/// @nodoc
 class NotificationConfigurationStructure {
   /// The Amazon Resource Name (ARN) of the <code>NotificationConfiguration</code>
   /// resource.
@@ -4506,6 +4590,7 @@ class NotificationConfigurationStructure {
   }
 }
 
+/// @nodoc
 class NotificationConfigurationStatus {
   static const active = NotificationConfigurationStatus._('ACTIVE');
   static const partiallyActive =
@@ -4534,6 +4619,7 @@ class NotificationConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AggregationDuration {
   static const long = AggregationDuration._('LONG');
   static const short = AggregationDuration._('SHORT');
@@ -4560,6 +4646,7 @@ class AggregationDuration {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationConfigurationSubtype {
   static const account = NotificationConfigurationSubtype._('ACCOUNT');
   static const adminManaged =
@@ -4587,6 +4674,8 @@ class NotificationConfigurationSubtype {
 }
 
 /// Describes an overview and metadata for a ManagedNotificationEvent.
+///
+/// @nodoc
 class ManagedNotificationEventOverview {
   /// The Amazon Resource Name (ARN) of the ManagedNotificationEvent.
   final String arn;
@@ -4717,6 +4806,8 @@ class ManagedNotificationEventOverview {
 
 /// A short summary of a <code>ManagedNotificationEvent</code>. This is only
 /// used when listing managed notification events.
+///
+/// @nodoc
 class ManagedNotificationEventSummary {
   /// The managed notification event status.
   ///
@@ -4843,6 +4934,8 @@ class ManagedNotificationEventSummary {
 }
 
 /// A short summary and metadata for a managed notification event.
+///
+/// @nodoc
 class ManagedSourceEventMetadataSummary {
   /// The event Type of the notification.
   final String eventType;
@@ -4890,6 +4983,8 @@ class ManagedSourceEventMetadataSummary {
 /// A notification-focused representation of an event. They contain semantic
 /// information used by AccountContacts or Additional Channels to create
 /// end-user notifications.
+///
+/// @nodoc
 class ManagedNotificationEvent {
   /// Unique identifier for a <code>ManagedNotificationEvent</code>.
   final String id;
@@ -5083,6 +5178,8 @@ class ManagedNotificationEvent {
 
 /// Describes the basic structure and properties of a
 /// <code>ManagedNotificationConfiguration</code>.
+///
+/// @nodoc
 class ManagedNotificationConfigurationStructure {
   /// The Amazon Resource Name (ARN) of the
   /// <code>ManagedNotificationConfiguration</code>.
@@ -5123,6 +5220,8 @@ class ManagedNotificationConfigurationStructure {
 
 /// Describes an overview and metadata for a
 /// <code>ManagedNotificationChildEvent</code>.
+///
+/// @nodoc
 class ManagedNotificationChildEventOverview {
   /// The Amazon Resource Name (ARN) of the ManagedNotificationEvent that is
   /// associated with this <code>ManagedNotificationChildEvent</code>.
@@ -5202,6 +5301,8 @@ class ManagedNotificationChildEventOverview {
 
 /// Describes a short summary and metadata for a
 /// <code>ManagedNotificationChildEvent</code>.
+///
+/// @nodoc
 class ManagedNotificationChildEventSummary {
   /// Provides detailed information about the dimensions used for event
   /// summarization and aggregation.
@@ -5340,6 +5441,8 @@ class ManagedNotificationChildEventSummary {
 }
 
 /// Provides detailed information about the dimensions used for aggregation.
+///
+/// @nodoc
 class AggregationDetail {
   /// Properties used to summarize aggregated events.
   final List<SummarizationDimensionDetail>? summarizationDimensions;
@@ -5369,6 +5472,8 @@ class AggregationDetail {
 
 /// Provides detailed information about the dimensions used for event
 /// summarization and aggregation.
+///
+/// @nodoc
 class SummarizationDimensionDetail {
   /// The name of the SummarizationDimensionDetail.
   final String name;
@@ -5401,6 +5506,8 @@ class SummarizationDimensionDetail {
 /// A ManagedNotificationChildEvent is a notification-focused representation of
 /// an event. They contain semantic information used to create aggregated or
 /// non-aggregated end-user notifications.
+///
+/// @nodoc
 class ManagedNotificationChildEvent {
   /// The Amazon Resource Name (ARN) of the ManagedNotificationEvent that is
   /// associated with this Managed Notification Child Event.
@@ -5595,6 +5702,7 @@ class ManagedNotificationChildEvent {
   }
 }
 
+/// @nodoc
 class AccountContactType {
   static const accountPrimary = AccountContactType._('ACCOUNT_PRIMARY');
   static const accountAlternateBilling =
@@ -5631,6 +5739,8 @@ class AccountContactType {
 }
 
 /// Contains a complete list of fields related to an <code>EventRule</code>.
+///
+/// @nodoc
 class EventRuleStructure {
   /// The Amazon Resource Name (ARN) of the <code>EventRule</code>. CloudFormation
   /// stack generates this ARN and then uses this ARN to associate with the
@@ -5750,6 +5860,8 @@ class EventRuleStructure {
 
 /// Provides additional information about the current <code>EventRule</code>
 /// status.
+///
+/// @nodoc
 class EventRuleStatusSummary {
   /// A human-readable reason for <code>EventRuleStatus</code>.
   final String reason;
@@ -5833,6 +5945,7 @@ class EventRuleStatusSummary {
   }
 }
 
+/// @nodoc
 class EventRuleStatus {
   static const active = EventRuleStatus._('ACTIVE');
   static const inactive = EventRuleStatus._('INACTIVE');
@@ -5861,6 +5974,8 @@ class EventRuleStatus {
 }
 
 /// Contains information about a member account.
+///
+/// @nodoc
 class MemberAccount {
   /// The AWS account ID of the member account.
   final String accountId;
@@ -5916,6 +6031,7 @@ class MemberAccount {
   }
 }
 
+/// @nodoc
 class MemberAccountNotificationConfigurationStatus {
   static const active =
       MemberAccountNotificationConfigurationStatus._('ACTIVE');
@@ -5953,6 +6069,8 @@ class MemberAccountNotificationConfigurationStatus {
 
 /// Provides a summary of channel associations for a managed notification
 /// configuration.
+///
+/// @nodoc
 class ManagedNotificationChannelAssociationSummary {
   /// The unique identifier for the notification channel.
   final String channelIdentifier;
@@ -6062,6 +6180,7 @@ class ManagedNotificationChannelAssociationSummary {
   }
 }
 
+/// @nodoc
 class ChannelType {
   static const mobile = ChannelType._('MOBILE');
   static const chatbot = ChannelType._('CHATBOT');
@@ -6087,6 +6206,7 @@ class ChannelType {
   String toString() => value;
 }
 
+/// @nodoc
 class ChannelAssociationOverrideOption {
   static const enabled = ChannelAssociationOverrideOption._('ENABLED');
   static const disabled = ChannelAssociationOverrideOption._('DISABLED');
@@ -6112,26 +6232,31 @@ class ChannelAssociationOverrideOption {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6140,11 +6265,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

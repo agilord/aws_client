@@ -1935,6 +1935,7 @@ class Fms {
   }
 }
 
+/// @nodoc
 class AssociateThirdPartyFirewallResponse {
   /// The current status for setting a Firewall Manager policy administrator's
   /// account as an administrator of the third-party firewall tenant.
@@ -1984,6 +1985,7 @@ class AssociateThirdPartyFirewallResponse {
   }
 }
 
+/// @nodoc
 class BatchAssociateResourceResponse {
   /// The resources that failed to associate to the resource set.
   final List<FailedItem> failedItems;
@@ -2017,6 +2019,7 @@ class BatchAssociateResourceResponse {
   }
 }
 
+/// @nodoc
 class BatchDisassociateResourceResponse {
   /// The resources that failed to disassociate from the resource set.
   final List<FailedItem> failedItems;
@@ -2051,6 +2054,7 @@ class BatchDisassociateResourceResponse {
   }
 }
 
+/// @nodoc
 class DisassociateThirdPartyFirewallResponse {
   /// The current status for the disassociation of a Firewall Manager
   /// administrators account with a third-party firewall.
@@ -2077,6 +2081,7 @@ class DisassociateThirdPartyFirewallResponse {
   }
 }
 
+/// @nodoc
 class GetAdminAccountResponse {
   /// The account that is set as the Firewall Manager default administrator.
   final String? adminAccount;
@@ -2108,6 +2113,7 @@ class GetAdminAccountResponse {
   }
 }
 
+/// @nodoc
 class GetAdminScopeResponse {
   /// Contains details about the administrative scope of the requested account.
   final AdminScope? adminScope;
@@ -2160,6 +2166,7 @@ class GetAdminScopeResponse {
   }
 }
 
+/// @nodoc
 class GetAppsListResponse {
   /// Information about the specified Firewall Manager applications list.
   final AppsListData? appsList;
@@ -2191,6 +2198,7 @@ class GetAppsListResponse {
   }
 }
 
+/// @nodoc
 class GetComplianceDetailResponse {
   /// Information about the resources and the policy that you specified in the
   /// <code>GetComplianceDetail</code> request.
@@ -2218,6 +2226,7 @@ class GetComplianceDetailResponse {
   }
 }
 
+/// @nodoc
 class GetNotificationChannelResponse {
   /// The IAM role that is used by Firewall Manager to record activity to SNS.
   final String? snsRoleName;
@@ -2247,6 +2256,7 @@ class GetNotificationChannelResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyResponse {
   /// Information about the specified Firewall Manager policy.
   final Policy? policy;
@@ -2278,6 +2288,7 @@ class GetPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetProtectionStatusResponse {
   /// The ID of the Firewall Manager administrator account for this policy.
   final String? adminAccountId;
@@ -2353,6 +2364,7 @@ class GetProtectionStatusResponse {
   }
 }
 
+/// @nodoc
 class GetProtocolsListResponse {
   /// Information about the specified Firewall Manager protocols list.
   final ProtocolsListData? protocolsList;
@@ -2385,6 +2397,7 @@ class GetProtocolsListResponse {
   }
 }
 
+/// @nodoc
 class GetResourceSetResponse {
   /// Information about the specified resource set.
   final ResourceSet resourceSet;
@@ -2416,6 +2429,7 @@ class GetResourceSetResponse {
   }
 }
 
+/// @nodoc
 class GetThirdPartyFirewallAssociationStatusResponse {
   /// The status for subscribing to the third-party firewall vendor in the Amazon
   /// Web Services Marketplace.
@@ -2494,6 +2508,7 @@ class GetThirdPartyFirewallAssociationStatusResponse {
   }
 }
 
+/// @nodoc
 class GetViolationDetailsResponse {
   /// Violation detail for a resource.
   final ViolationDetail? violationDetail;
@@ -2519,6 +2534,7 @@ class GetViolationDetailsResponse {
   }
 }
 
+/// @nodoc
 class ListAdminAccountsForOrganizationResponse {
   /// A list of Firewall Manager administrator accounts within the organization
   /// that were onboarded as administrators by <a>AssociateAdminAccount</a> or
@@ -2558,6 +2574,7 @@ class ListAdminAccountsForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class ListAdminsManagingAccountResponse {
   /// The list of accounts who manage member accounts within their
   /// <a>AdminScope</a>.
@@ -2596,6 +2613,7 @@ class ListAdminsManagingAccountResponse {
   }
 }
 
+/// @nodoc
 class ListAppsListsResponse {
   /// An array of <code>AppsListDataSummary</code> objects.
   final List<AppsListDataSummary>? appsLists;
@@ -2631,6 +2649,7 @@ class ListAppsListsResponse {
   }
 }
 
+/// @nodoc
 class ListComplianceStatusResponse {
   /// If you have more <code>PolicyComplianceStatus</code> objects than the number
   /// that you specified for <code>MaxResults</code> in the request, the response
@@ -2671,6 +2690,7 @@ class ListComplianceStatusResponse {
   }
 }
 
+/// @nodoc
 class ListDiscoveredResourcesResponse {
   /// Details of the resources that were discovered.
   final List<DiscoveredResource>? items;
@@ -2707,6 +2727,7 @@ class ListDiscoveredResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListMemberAccountsResponse {
   /// An array of account IDs.
   final List<String>? memberAccounts;
@@ -2744,6 +2765,7 @@ class ListMemberAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListPoliciesResponse {
   /// If you have more <code>PolicySummary</code> objects than the number that you
   /// specified for <code>MaxResults</code> in the request, the response includes
@@ -2781,6 +2803,7 @@ class ListPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListProtocolsListsResponse {
   /// If you specify a value for <code>MaxResults</code> in your list request, and
   /// you have more objects than the maximum, Firewall Manager returns this token
@@ -2817,6 +2840,7 @@ class ListProtocolsListsResponse {
   }
 }
 
+/// @nodoc
 class ListResourceSetResourcesResponse {
   /// An array of the associated resources' uniform resource identifiers (URI).
   final List<Resource> items;
@@ -2853,6 +2877,7 @@ class ListResourceSetResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListResourceSetsResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
@@ -2889,6 +2914,7 @@ class ListResourceSetsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
   final List<Tag>? tagList;
@@ -2914,6 +2940,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListThirdPartyFirewallFirewallPoliciesResponse {
   /// The value that you will use for <code>NextToken</code> in the next
   /// <code>ListThirdPartyFirewallFirewallPolicies</code> request.
@@ -2958,6 +2985,7 @@ class ListThirdPartyFirewallFirewallPoliciesResponse {
   }
 }
 
+/// @nodoc
 class PutAppsListResponse {
   /// The details of the Firewall Manager applications list.
   final AppsListData? appsList;
@@ -2989,6 +3017,7 @@ class PutAppsListResponse {
   }
 }
 
+/// @nodoc
 class PutPolicyResponse {
   /// The details of the Firewall Manager policy.
   final Policy? policy;
@@ -3020,6 +3049,7 @@ class PutPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutProtocolsListResponse {
   /// The details of the Firewall Manager protocols list.
   final ProtocolsListData? protocolsList;
@@ -3052,6 +3082,7 @@ class PutProtocolsListResponse {
   }
 }
 
+/// @nodoc
 class PutResourceSetResponse {
   /// Details about the resource set.
   final ResourceSet resourceSet;
@@ -3083,6 +3114,7 @@ class PutResourceSetResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3095,6 +3127,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3113,6 +3146,8 @@ class UntagResourceResponse {
 /// represents a specific value within that category (such as "test,"
 /// "development," or "production"). You can add up to 50 tags to each Amazon
 /// Web Services resource.
+///
+/// @nodoc
 class Tag {
   /// Part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
@@ -3147,6 +3182,8 @@ class Tag {
 }
 
 /// A set of resources to include in a policy.
+///
+/// @nodoc
 class ResourceSet {
   /// The descriptive name of the resource set. You can't change the name of a
   /// resource set after you create it.
@@ -3252,6 +3289,7 @@ class ResourceSet {
   }
 }
 
+/// @nodoc
 class ResourceSetStatus {
   static const active = ResourceSetStatus._('ACTIVE');
   static const outOfAdminScope = ResourceSetStatus._('OUT_OF_ADMIN_SCOPE');
@@ -3277,6 +3315,8 @@ class ResourceSetStatus {
 }
 
 /// An Firewall Manager protocols list.
+///
+/// @nodoc
 class ProtocolsListData {
   /// The name of the Firewall Manager protocols list.
   final String listName;
@@ -3352,6 +3392,8 @@ class ProtocolsListData {
 }
 
 /// An Firewall Manager policy.
+///
+/// @nodoc
 class Policy {
   /// If set to <code>True</code>, resources with the tags that are specified in
   /// the <code>ResourceTag</code> array are not in scope of the policy. If set to
@@ -3443,18 +3485,19 @@ class Policy {
   /// <ul>
   /// <li>
   /// Specify account IDs by setting the key to <code>ACCOUNT</code>. For example,
-  /// the following is a valid map: <code>{“ACCOUNT” : [“accountID1”,
-  /// “accountID2”]}</code>.
+  /// the following is a valid map: <code>{“ACCOUNT” : \[“accountID1”,
+  /// “accountID2”\]}</code>.
   /// </li>
   /// <li>
   /// Specify OUs by setting the key to <code>ORG_UNIT</code>. For example, the
-  /// following is a valid map: <code>{“ORG_UNIT” : [“ouid111”,
-  /// “ouid112”]}</code>.
+  /// following is a valid map: <code>{“ORG_UNIT” : \[“ouid111”,
+  /// “ouid112”\]}</code>.
   /// </li>
   /// <li>
   /// Specify accounts and OUs together in a single map, separated with a comma.
-  /// For example, the following is a valid map: <code>{“ACCOUNT” : [“accountID1”,
-  /// “accountID2”], “ORG_UNIT” : [“ouid111”, “ouid112”]}</code>.
+  /// For example, the following is a valid map: <code>{“ACCOUNT” :
+  /// \[“accountID1”, “accountID2”\], “ORG_UNIT” : \[“ouid111”,
+  /// “ouid112”\]}</code>.
   /// </li>
   /// </ul>
   final Map<CustomerPolicyScopeIdType, List<String>>? excludeMap;
@@ -3476,18 +3519,19 @@ class Policy {
   /// <ul>
   /// <li>
   /// Specify account IDs by setting the key to <code>ACCOUNT</code>. For example,
-  /// the following is a valid map: <code>{“ACCOUNT” : [“accountID1”,
-  /// “accountID2”]}</code>.
+  /// the following is a valid map: <code>{“ACCOUNT” : \[“accountID1”,
+  /// “accountID2”\]}</code>.
   /// </li>
   /// <li>
   /// Specify OUs by setting the key to <code>ORG_UNIT</code>. For example, the
-  /// following is a valid map: <code>{“ORG_UNIT” : [“ouid111”,
-  /// “ouid112”]}</code>.
+  /// following is a valid map: <code>{“ORG_UNIT” : \[“ouid111”,
+  /// “ouid112”\]}</code>.
   /// </li>
   /// <li>
   /// Specify accounts and OUs together in a single map, separated with a comma.
-  /// For example, the following is a valid map: <code>{“ACCOUNT” : [“accountID1”,
-  /// “accountID2”], “ORG_UNIT” : [“ouid111”, “ouid112”]}</code>.
+  /// For example, the following is a valid map: <code>{“ACCOUNT” :
+  /// \[“accountID1”, “accountID2”\], “ORG_UNIT” : \[“ouid111”,
+  /// “ouid112”\]}</code>.
   /// </li>
   /// </ul>
   final Map<CustomerPolicyScopeIdType, List<String>>? includeMap;
@@ -3642,6 +3686,8 @@ class Policy {
 
 /// Details about the security service that is being used to protect the
 /// resources.
+///
+/// @nodoc
 class SecurityServicePolicyData {
   /// The service that the policy is using to protect the resources. This
   /// specifies the type of policy that is created, either an WAF policy, a Shield
@@ -3658,7 +3704,7 @@ class SecurityServicePolicyData {
   /// <li>
   /// Example: <code>DNS_FIREWALL</code>
   ///
-  /// <code>"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}],\"postProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}]}"</code>
+  /// <code>"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":\[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}\],\"postProcessRuleGroups\":\[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}\]}"</code>
   /// <note>
   /// Valid values for <code>preProcessRuleGroups</code> are between 1 and 99.
   /// Valid values for <code>postProcessRuleGroups</code> are between 9901 and
@@ -3667,9 +3713,9 @@ class SecurityServicePolicyData {
   /// <li>
   /// Example: <code>IMPORT_NETWORK_FIREWALL</code>
   ///
-  /// <code>"{\"type\":\"IMPORT_NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:000000000000:stateless-rulegroup\/rg1\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:drop\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:pass\"],\"networkFirewallStatelessCustomActions\":[],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:aws-managed:stateful-rulegroup\/ThreatSignaturesEmergingEventsStrictOrder\",\"priority\":8}],\"networkFirewallStatefulEngineOptions\":{\"ruleOrder\":\"STRICT_ORDER\"},\"networkFirewallStatefulDefaultActions\":[\"aws:drop_strict\"]}}"</code>
+  /// <code>"{\"type\":\"IMPORT_NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:000000000000:stateless-rulegroup\/rg1\",\"priority\":1}\],\"networkFirewallStatelessDefaultActions\":\[\"aws:drop\"\],\"networkFirewallStatelessFragmentDefaultActions\":\[\"aws:pass\"\],\"networkFirewallStatelessCustomActions\":\[\],\"networkFirewallStatefulRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-west-2:aws-managed:stateful-rulegroup\/ThreatSignaturesEmergingEventsStrictOrder\",\"priority\":8}\],\"networkFirewallStatefulEngineOptions\":{\"ruleOrder\":\"STRICT_ORDER\"},\"networkFirewallStatefulDefaultActions\":\[\"aws:drop_strict\"\]}}"</code>
   ///
-  /// <code>"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}],\"postProcessRuleGroups\":[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}]}"</code>
+  /// <code>"{\"type\":\"DNS_FIREWALL\",\"preProcessRuleGroups\":\[{\"ruleGroupId\":\"rslvr-frg-1\",\"priority\":10}\],\"postProcessRuleGroups\":\[{\"ruleGroupId\":\"rslvr-frg-2\",\"priority\":9911}\]}"</code>
   /// <note>
   /// Valid values for <code>preProcessRuleGroups</code> are between 1 and 99.
   /// Valid values for <code>postProcessRuleGroups</code> are between 9901 and
@@ -3678,7 +3724,7 @@ class SecurityServicePolicyData {
   /// <li>
   /// Example: <code>NETWORK_FIREWALL</code> - Centralized deployment model
   ///
-  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}},\"firewallDeploymentModel\":{\"centralizedFirewallDeploymentModel\":{\"centralizedFirewallOrchestrationConfig\":{\"inspectionVpcIds\":[{\"resourceId\":\"vpc-1234\",\"accountId\":\"123456789011\"}],\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneId\":null,\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]}]}},\"allowedIPV4CidrList\":[]}}}}"</code>
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}\],\"networkFirewallStatelessDefaultActions\":\[\"aws:forward_to_sfe\",\"customActionName\"\],\"networkFirewallStatelessFragmentDefaultActions\":\[\"aws:forward_to_sfe\",\"customActionName\"\],\"networkFirewallStatelessCustomActions\":\[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":\[{\"value\":\"metricdimensionvalue\"}\]}}}\],\"networkFirewallStatefulRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}\],\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":\[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}\],\"overrideExistingConfig\":true}},\"firewallDeploymentModel\":{\"centralizedFirewallDeploymentModel\":{\"centralizedFirewallOrchestrationConfig\":{\"inspectionVpcIds\":\[{\"resourceId\":\"vpc-1234\",\"accountId\":\"123456789011\"}\],\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":\[{\"availabilityZoneId\":null,\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":\[\"10.0.0.0/28\"\]}\]}},\"allowedIPV4CidrList\":\[\]}}}}"</code>
   ///
   /// To use the centralized deployment model, you must set <a
   /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
@@ -3689,7 +3735,7 @@ class SecurityServicePolicyData {
   /// automatic Availability Zone configuration
   ///
   /// <code>
-  /// "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":[\"10.0.0.0/28\",\"192.168.0.0/28\"],\"routeManagementAction\":\"OFF\"},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}}"
+  /// "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}\],\"networkFirewallStatelessDefaultActions\":\[\"aws:forward_to_sfe\",\"customActionName\"\],\"networkFirewallStatelessFragmentDefaultActions\":\[\"aws:forward_to_sfe\",\"customActionName\"\],\"networkFirewallStatelessCustomActions\":\[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":\[{\"value\":\"metricdimensionvalue\"}\]}}}\],\"networkFirewallStatefulRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}\],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":\[\"10.0.0.0/28\",\"192.168.0.0/28\"\],\"routeManagementAction\":\"OFF\"},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":\[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}\],\"overrideExistingConfig\":true}}"
   /// </code>
   ///
   /// With automatic Availbility Zone configuration, Firewall Manager chooses
@@ -3703,8 +3749,8 @@ class SecurityServicePolicyData {
   /// automatic Availability Zone configuration and route management
   ///
   /// <code>
-  /// "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":[\"10.0.0.0/28\",\"192.168.0.0/28\"],\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":[\"InternetGateway\"]},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":
-  /// \"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}}"
+  /// "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}\],\"networkFirewallStatelessDefaultActions\":\[\"aws:forward_to_sfe\",\"customActionName\"\],\"networkFirewallStatelessFragmentDefaultActions\":\[\"aws:forward_to_sfe\",\"customActionName\"\],\"networkFirewallStatelessCustomActions\":\[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":\[{\"value\":\"metricdimensionvalue\"}\]}}}\],\"networkFirewallStatefulRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}\],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":\[\"10.0.0.0/28\",\"192.168.0.0/28\"\],\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":\[\"InternetGateway\"\]},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":\[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":
+  /// \"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}\],\"overrideExistingConfig\":true}}"
   /// </code>
   ///
   /// To use the distributed deployment model, you must set <a
@@ -3715,11 +3761,11 @@ class SecurityServicePolicyData {
   /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
   /// custom Availability Zone configuration
   ///
-  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",
-  /// \"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"fragmentmetricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{
-  /// \"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":[
-  /// \"10.0.0.0/28\"]}]}
-  /// },\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"OFF\",\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":boolean}}"
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}\],\"networkFirewallStatelessDefaultActions\":\[\"aws:forward_to_sfe\",\"customActionName\"\],\"networkFirewallStatelessFragmentDefaultActions\":\[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"\],\"networkFirewallStatelessCustomActions\":\[{\"actionName\":\"customActionName\",
+  /// \"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":\[{\"value\":\"metricdimensionvalue\"}\]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":\[{\"value\":\"fragmentmetricdimensionvalue\"}\]}}}\],\"networkFirewallStatefulRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}\],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{
+  /// \"endpointLocation\":{\"availabilityZoneConfigList\":\[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":\[\"10.0.0.0/28\"\]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":\[
+  /// \"10.0.0.0/28\"\]}\]}
+  /// },\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"OFF\",\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":\[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}\],\"overrideExistingConfig\":boolean}}"
   /// </code>
   ///
   /// With custom Availability Zone configuration, you define which specific
@@ -3737,7 +3783,7 @@ class SecurityServicePolicyData {
   /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
   /// custom Availability Zone configuration and route management
   ///
-  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"fragmentmetricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]}]}},\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":[\"InternetGateway\"],\"routeManagementConfig\":{\"allowCrossAZTrafficIfNoEndpoint\":true}},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":boolean}}"
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}\],\"networkFirewallStatelessDefaultActions\":\[\"aws:forward_to_sfe\",\"customActionName\"\],\"networkFirewallStatelessFragmentDefaultActions\":\[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"\],\"networkFirewallStatelessCustomActions\":\[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":\[{\"value\":\"metricdimensionvalue\"}\]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":\[{\"value\":\"fragmentmetricdimensionvalue\"}\]}}}\],\"networkFirewallStatefulRuleGroupReferences\":\[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}\],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":\[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":\[\"10.0.0.0/28\"\]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":\[\"10.0.0.0/28\"\]}\]}},\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":\[\"InternetGateway\"\],\"routeManagementConfig\":{\"allowCrossAZTrafficIfNoEndpoint\":true}},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":\[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}\],\"overrideExistingConfig\":boolean}}"
   /// </code>
   ///
   /// To use the distributed deployment model, you must set <a
@@ -3747,13 +3793,13 @@ class SecurityServicePolicyData {
   /// <li>
   /// Example: <code>SECURITY_GROUPS_COMMON</code>
   ///
-  /// <code>"{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":[{\"id\":\"sg-03b1f67d69ed00197\"}],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":true,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":true,\"enableSecurityGroupReferencesDistribution\":true}"</code>
+  /// <code>"{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":\[{\"id\":\"sg-03b1f67d69ed00197\"}\],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":true,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":true,\"enableSecurityGroupReferencesDistribution\":true}"</code>
   /// </li>
   /// <li>
   /// Example: <code>SECURITY_GROUPS_COMMON</code> - Security group tag
   /// distribution
   ///
-  /// <code>""{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":[{\"id\":\"sg-000e55995d61a06bd\"}],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":false,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":false,\"enableTagDistribution\":true}""</code>
+  /// <code>""{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":\[{\"id\":\"sg-000e55995d61a06bd\"}\],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":false,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":false,\"enableTagDistribution\":true}""</code>
   ///
   /// Firewall Manager automatically distributes tags from the primary group to
   /// the security groups created by this policy. To use security group tag
@@ -3773,13 +3819,13 @@ class SecurityServicePolicyData {
   /// as well as to those in VPCs that the account owns
   ///
   /// <code>"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false,
-  /// \"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":true,\"securityGroups\":[{\"id\":\"
-  /// sg-000e55995d61a06bd\"}]}"</code>
+  /// \"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":true,\"securityGroups\":\[{\"id\":\"
+  /// sg-000e55995d61a06bd\"}\]}"</code>
   /// </li>
   /// <li>
   /// Example: <code>SECURITY_GROUPS_CONTENT_AUDIT</code>
   ///
-  /// <code>"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"preManagedOptions\":[{\"denyProtocolAllValue\":true},{\"auditSgDirection\":{\"type\":\"ALL\"}}],\"securityGroups\":[{\"id\":\"sg-049b2393a25468971\"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}"</code>
+  /// <code>"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"preManagedOptions\":\[{\"denyProtocolAllValue\":true},{\"auditSgDirection\":{\"type\":\"ALL\"}}\],\"securityGroups\":\[{\"id\":\"sg-049b2393a25468971\"}\],\"securityGroupAction\":{\"type\":\"ALLOW\"}}"</code>
   ///
   /// The security group action for content audit can be <code>ALLOW</code> or
   /// <code>DENY</code>. For <code>ALLOW</code>, all in-scope security group rules
@@ -3850,18 +3896,18 @@ class SecurityServicePolicyData {
   ///
   /// <code>"{ "type":"THIRD_PARTY_FIREWALL",
   /// "thirdPartyFirewall":"THIRD_PARTY_FIREWALL_NAME",
-  /// "thirdPartyFirewallConfig":{ "thirdPartyFirewallPolicyList":["global-1"] },
-  /// "firewallDeploymentModel":{ "distributedFirewallDeploymentModel":{
+  /// "thirdPartyFirewallConfig":{ "thirdPartyFirewallPolicyList":\["global-1"\]
+  /// }, "firewallDeploymentModel":{ "distributedFirewallDeploymentModel":{
   /// "distributedFirewallOrchestrationConfig":{ "firewallCreationConfig":{
-  /// "endpointLocation":{ "availabilityZoneConfigList":[ {
-  /// "availabilityZoneName":"${AvailabilityZone}" } ] } },
-  /// "allowedIPV4CidrList":[ ] } } } }"</code>
+  /// "endpointLocation":{ "availabilityZoneConfigList":\[ {
+  /// "availabilityZoneName":"${AvailabilityZone}" } \] } },
+  /// "allowedIPV4CidrList":\[ \] } } } }"</code>
   /// </li>
   /// <li>
   /// Example: <code>WAFV2</code> - Account takeover prevention, Bot Control
   /// managed rule groups, optimize unassociated web ACL, and rule action override
   ///
-  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesATPRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesATPRuleSet\":{\"loginPath\":\"/loginpath\",\"requestInspection\":{\"payloadType\":\"FORM_ENCODED|JSON\",\"usernameField\":{\"identifier\":\"/form/username\"},\"passwordField\":{\"identifier\":\"/form/password\"}}}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true},{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesBotControlRuleSet\",\"managedRuleGroupConfigs\":[{\"awsmanagedRulesBotControlRuleSet\":{\"inspectionLevel\":\"TARGETED|COMMON\"}}]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true,\"ruleActionOverrides\":[{\"name\":\"Rule1\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}},{\"name\":\"Rule2\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"optimizeUnassociatedWebACL\":true}"</code>
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":\[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesATPRuleSet\",\"managedRuleGroupConfigs\":\[{\"awsmanagedRulesATPRuleSet\":{\"loginPath\":\"/loginpath\",\"requestInspection\":{\"payloadType\":\"FORM_ENCODED|JSON\",\"usernameField\":{\"identifier\":\"/form/username\"},\"passwordField\":{\"identifier\":\"/form/password\"}}}}\]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":\[\],\"sampledRequestsEnabled\":true},{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesBotControlRuleSet\",\"managedRuleGroupConfigs\":\[{\"awsmanagedRulesBotControlRuleSet\":{\"inspectionLevel\":\"TARGETED|COMMON\"}}\]},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":\[\],\"sampledRequestsEnabled\":true,\"ruleActionOverrides\":\[{\"name\":\"Rule1\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}},{\"name\":\"Rule2\",\"actionToUse\":{\"allow|block|count|captcha|challenge\":{}}}\]}\],\"postProcessRuleGroups\":\[\],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"optimizeUnassociatedWebACL\":true}"</code>
   ///
   /// <ul>
   /// <li>
@@ -3913,7 +3959,7 @@ class SecurityServicePolicyData {
   /// Example: <code>WAFV2</code> - <code>CAPTCHA</code> and
   /// <code>Challenge</code> configs
   ///
-  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],\"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"captchaConfig\":{\"immunityTimeProperty\":{\"immunityTime\":500}},\"challengeConfig\":{\"immunityTimeProperty\":{\"immunityTime\":800}},\"tokenDomains\":[\"google.com\",\"amazon.com\"],\"associationConfig\":{\"requestBody\":{\"CLOUDFRONT\":{\"defaultSizeInspectionLimit\":\"KB_16\"}}}}"</code>
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":\[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":\[\],\"sampledRequestsEnabled\":true}\],\"postProcessRuleGroups\":\[\],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":null,\"sampledRequestsEnabledForDefaultActions\":true,\"captchaConfig\":{\"immunityTimeProperty\":{\"immunityTime\":500}},\"challengeConfig\":{\"immunityTimeProperty\":{\"immunityTime\":800}},\"tokenDomains\":\[\"google.com\",\"amazon.com\"\],\"associationConfig\":{\"requestBody\":{\"CLOUDFRONT\":{\"defaultSizeInspectionLimit\":\"KB_16\"}}}}"</code>
   ///
   /// <ul>
   /// <li>
@@ -3945,7 +3991,7 @@ class SecurityServicePolicyData {
   /// Example: <code>WAFV2</code> - Firewall Manager support for WAF managed rule
   /// group versioning
   ///
-  /// <code>"{\"preProcessRuleGroups\":[{\"ruleGroupType\":\"ManagedRuleGroup\",\"overrideAction\":{\"type\":\"NONE\"},\"sampledRequestsEnabled\":true,\"managedRuleGroupIdentifier\":{\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\",\"vendorName\":\"AWS\",\"managedRuleGroupConfigs\":null}}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"tokenDomains\":null,\"customResponse\":null,\"type\":\"WAFV2\",\"overrideCustomerWebACLAssociation\":false,\"sampledRequestsEnabledForDefaultActions\":true,\"optimizeUnassociatedWebACL\":true,\"webACLSource\":\"RETROFIT_EXISTING\"}"</code>
+  /// <code>"{\"preProcessRuleGroups\":\[{\"ruleGroupType\":\"ManagedRuleGroup\",\"overrideAction\":{\"type\":\"NONE\"},\"sampledRequestsEnabled\":true,\"managedRuleGroupIdentifier\":{\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\",\"vendorName\":\"AWS\",\"managedRuleGroupConfigs\":null}}\],\"postProcessRuleGroups\":\[\],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"tokenDomains\":null,\"customResponse\":null,\"type\":\"WAFV2\",\"overrideCustomerWebACLAssociation\":false,\"sampledRequestsEnabledForDefaultActions\":true,\"optimizeUnassociatedWebACL\":true,\"webACLSource\":\"RETROFIT_EXISTING\"}"</code>
   ///
   /// To use a specific version of a WAF managed rule group in your Firewall
   /// Manager policy, you must set <code>versionEnabled</code> to
@@ -3957,21 +4003,21 @@ class SecurityServicePolicyData {
   /// <li>
   /// Example: <code>WAFV2</code> - Logging configurations
   ///
-  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":\[{\"ruleGroupArn\":null,
   /// \"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":
   /// {\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\",
   /// \"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"}
-  /// ,\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[],
-  /// \"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[],
+  /// ,\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":\[\],
+  /// \"sampledRequestsEnabled\":true}\],\"postProcessRuleGroups\":\[\],
   /// \"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\"
   /// :null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\"
   /// :false,\"loggingConfiguration\":{\"logDestinationConfigs\":
-  /// [\"arn:aws:s3:::aws-waf-logs-example-bucket\"]
-  /// ,\"redactedFields\":[],\"loggingFilterConfigs\":{\"defaultBehavior\":\"KEEP\",
-  /// \"filters\":[{\"behavior\":\"KEEP\",\"requirement\":\"MEETS_ALL\",
-  /// \"conditions\":[{\"actionCondition\":\"CAPTCHA\"},{\"actionCondition\":
+  /// \[\"arn:aws:s3:::aws-waf-logs-example-bucket\"\]
+  /// ,\"redactedFields\":\[\],\"loggingFilterConfigs\":{\"defaultBehavior\":\"KEEP\",
+  /// \"filters\":\[{\"behavior\":\"KEEP\",\"requirement\":\"MEETS_ALL\",
+  /// \"conditions\":\[{\"actionCondition\":\"CAPTCHA\"},{\"actionCondition\":
   /// \"CHALLENGE\"},
-  /// {\"actionCondition\":\"EXCLUDED_AS_COUNT\"}]}]}},\"sampledRequestsEnabledForDefaultActions\":true}"</code>
+  /// {\"actionCondition\":\"EXCLUDED_AS_COUNT\"}\]}\]}},\"sampledRequestsEnabledForDefaultActions\":true}"</code>
   ///
   /// Firewall Manager supports Amazon Kinesis Data Firehose and Amazon S3 as the
   /// <code>logDestinationConfigs</code> in your
@@ -3989,7 +4035,7 @@ class SecurityServicePolicyData {
   /// <li>
   /// Example: <code>WAF Classic</code>
   ///
-  /// <code>"{\"ruleGroups\":[{\"id\":\"78cb36c0-1b5e-4d7d-82b2-cf48d3ad9659\",\"overrideAction\":{\"type\":\"NONE\"}}],\"overrideCustomerWebACLAssociation\":true,\"defaultAction\":{\"type\":\"ALLOW\"},\"type\":\"WAF\"}"</code>
+  /// <code>"{\"ruleGroups\":\[{\"id\":\"78cb36c0-1b5e-4d7d-82b2-cf48d3ad9659\",\"overrideAction\":{\"type\":\"NONE\"}}\],\"overrideCustomerWebACLAssociation\":true,\"defaultAction\":{\"type\":\"ALLOW\"},\"type\":\"WAF\"}"</code>
   /// </li>
   /// </ul>
   final String? managedServiceData;
@@ -4026,6 +4072,7 @@ class SecurityServicePolicyData {
   }
 }
 
+/// @nodoc
 class CustomerPolicyStatus {
   static const active = CustomerPolicyStatus._('ACTIVE');
   static const outOfAdminScope = CustomerPolicyStatus._('OUT_OF_ADMIN_SCOPE');
@@ -4051,6 +4098,7 @@ class CustomerPolicyStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceTagLogicalOperator {
   static const and = ResourceTagLogicalOperator._('AND');
   static const or = ResourceTagLogicalOperator._('OR');
@@ -4076,6 +4124,7 @@ class ResourceTagLogicalOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomerPolicyScopeIdType {
   static const account = CustomerPolicyScopeIdType._('ACCOUNT');
   static const orgUnit = CustomerPolicyScopeIdType._('ORG_UNIT');
@@ -4117,6 +4166,8 @@ class CustomerPolicyScopeIdType {
 /// compares tags, it only matches two tags if they have the same key and the
 /// same value. A tag with an empty string value only matches with tags that
 /// also have an empty string value.
+///
+/// @nodoc
 class ResourceTag {
   /// The resource tag key.
   final String key;
@@ -4147,6 +4198,7 @@ class ResourceTag {
   }
 }
 
+/// @nodoc
 class SecurityServiceType {
   static const waf = SecurityServiceType._('WAF');
   static const wafv2 = SecurityServiceType._('WAFV2');
@@ -4200,6 +4252,8 @@ class SecurityServiceType {
 
 /// Contains the settings to configure a network ACL policy, a Network Firewall
 /// firewall policy deployment model, or a third-party firewall policy.
+///
+/// @nodoc
 class PolicyOption {
   /// Defines a Firewall Manager network ACL policy.
   final NetworkAclCommonPolicy? networkAclCommonPolicy;
@@ -4253,6 +4307,8 @@ class PolicyOption {
 /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/architectures.html">Network
 /// Firewall example architectures with routing</a> in the <i>Network Firewall
 /// Developer Guide</i>.
+///
+/// @nodoc
 class NetworkFirewallPolicy {
   /// Defines the deployment model to use for the firewall policy. To use a
   /// distributed model, set <a
@@ -4281,6 +4337,8 @@ class NetworkFirewallPolicy {
 }
 
 /// Configures the deployment model for the third-party firewall.
+///
+/// @nodoc
 class ThirdPartyFirewallPolicy {
   /// Defines the deployment model to use for the third-party firewall policy.
   final FirewallDeploymentModel? firewallDeploymentModel;
@@ -4314,6 +4372,8 @@ class ThirdPartyFirewallPolicy {
 /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html">Control
 /// traffic to subnets using network ACLs</a> in the <i>Amazon Virtual Private
 /// Cloud User Guide</i>.
+///
+/// @nodoc
 class NetworkAclCommonPolicy {
   /// The definition of the first and last rules for the network ACL policy.
   final NetworkAclEntrySet networkAclEntrySet;
@@ -4340,6 +4400,8 @@ class NetworkAclCommonPolicy {
 
 /// The configuration of the first and last rules for the network ACL policy,
 /// and the remediation settings for each.
+///
+/// @nodoc
 class NetworkAclEntrySet {
   /// Applies only when remediation is enabled for the policy as a whole. Firewall
   /// Manager uses this setting when it finds policy violations that involve
@@ -4437,6 +4499,8 @@ class NetworkAclEntrySet {
 /// to run, and the rules to run last, in the order that you want them to run.
 /// Firewall Manager assigns the rule numbers for you when you save the network
 /// ACL policy specification.
+///
+/// @nodoc
 class NetworkAclEntry {
   /// Indicates whether the rule is an egress, or outbound, rule (applied to
   /// traffic leaving the subnet). If it's not an egress rule, then it's an
@@ -4511,6 +4575,8 @@ class NetworkAclEntry {
 }
 
 /// ICMP protocol: The ICMP type and code.
+///
+/// @nodoc
 class NetworkAclIcmpTypeCode {
   /// ICMP code.
   final int? code;
@@ -4541,6 +4607,8 @@ class NetworkAclIcmpTypeCode {
 }
 
 /// TCP or UDP protocols: The range of ports the rule applies to.
+///
+/// @nodoc
 class NetworkAclPortRange {
   /// The beginning port number of the range.
   final int? from;
@@ -4570,6 +4638,7 @@ class NetworkAclPortRange {
   }
 }
 
+/// @nodoc
 class NetworkAclRuleAction {
   static const allow = NetworkAclRuleAction._('allow');
   static const deny = NetworkAclRuleAction._('deny');
@@ -4595,6 +4664,7 @@ class NetworkAclRuleAction {
   String toString() => value;
 }
 
+/// @nodoc
 class FirewallDeploymentModel {
   static const centralized = FirewallDeploymentModel._('CENTRALIZED');
   static const distributed = FirewallDeploymentModel._('DISTRIBUTED');
@@ -4621,6 +4691,8 @@ class FirewallDeploymentModel {
 }
 
 /// An Firewall Manager applications list.
+///
+/// @nodoc
 class AppsListData {
   /// An array of applications in the Firewall Manager applications list.
   final List<App> appsList;
@@ -4699,6 +4771,8 @@ class AppsListData {
 }
 
 /// An individual Firewall Manager application.
+///
+/// @nodoc
 class App {
   /// The application's name.
   final String appName;
@@ -4744,6 +4818,8 @@ class App {
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-administrators.html">Managing
 /// Firewall Manager administrators</a> in the <i>Firewall Manager Developer
 /// Guide</i>.
+///
+/// @nodoc
 class AdminScope {
   /// Defines the accounts that the specified Firewall Manager administrator can
   /// apply policies to.
@@ -4808,6 +4884,8 @@ class AdminScope {
 /// Configures the accounts within the administrator's Organizations
 /// organization that the specified Firewall Manager administrator can apply
 /// policies to.
+///
+/// @nodoc
 class AccountScope {
   /// The list of accounts within the organization that the specified Firewall
   /// Manager administrator either can or cannot apply policies to, based on the
@@ -4873,6 +4951,8 @@ class AccountScope {
 /// about OUs in Organizations, see <a
 /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
 /// organizational units (OUs) </a> in the <i>Organizations User Guide</i>.
+///
+/// @nodoc
 class OrganizationalUnitScope {
   /// A boolean value that indicates if the administrator can apply policies to
   /// all OUs within an organization. If true, the administrator can manage all
@@ -4943,6 +5023,8 @@ class OrganizationalUnitScope {
 
 /// Defines the Amazon Web Services Regions that the specified Firewall Manager
 /// administrator can manage.
+///
+/// @nodoc
 class RegionScope {
   /// Allows the specified Firewall Manager administrator to manage all Amazon Web
   /// Services Regions.
@@ -4977,6 +5059,8 @@ class RegionScope {
 
 /// Defines the policy types that the specified Firewall Manager administrator
 /// can manage.
+///
+/// @nodoc
 class PolicyTypeScope {
   /// Allows the specified Firewall Manager administrator to manage all Firewall
   /// Manager policy types, except for third-party policy types. Third-party
@@ -5016,6 +5100,8 @@ class PolicyTypeScope {
 }
 
 /// Configures the third-party firewall's firewall policy.
+///
+/// @nodoc
 class ThirdPartyFirewallFirewallPolicy {
   /// The ID of the specified firewall policy.
   final String? firewallPolicyId;
@@ -5045,6 +5131,7 @@ class ThirdPartyFirewallFirewallPolicy {
   }
 }
 
+/// @nodoc
 class ThirdPartyFirewall {
   static const paloAltoNetworksCloudNgfw =
       ThirdPartyFirewall._('PALO_ALTO_NETWORKS_CLOUD_NGFW');
@@ -5076,6 +5163,8 @@ class ThirdPartyFirewall {
 }
 
 /// Summarizes the resource sets used in a policy.
+///
+/// @nodoc
 class ResourceSetSummary {
   /// A description of the resource set.
   final String? description;
@@ -5147,6 +5236,8 @@ class ResourceSetSummary {
 
 /// Details of a resource that is associated to an Firewall Manager resource
 /// set.
+///
+/// @nodoc
 class Resource {
   /// The resource's universal resource indicator (URI).
   final String uri;
@@ -5177,6 +5268,8 @@ class Resource {
 }
 
 /// Details of the Firewall Manager protocols list.
+///
+/// @nodoc
 class ProtocolsListDataSummary {
   /// The Amazon Resource Name (ARN) of the specified protocols list.
   final String? listArn;
@@ -5224,6 +5317,8 @@ class ProtocolsListDataSummary {
 }
 
 /// Details of the Firewall Manager policy.
+///
+/// @nodoc
 class PolicySummary {
   /// Indicates whether Firewall Manager should automatically remove protections
   /// from resources that leave the policy scope and clean up resources that
@@ -5330,6 +5425,8 @@ class PolicySummary {
 
 /// A resource in the organization that's available to be associated with a
 /// Firewall Manager resource set.
+///
+/// @nodoc
 class DiscoveredResource {
   /// The Amazon Web Services account ID associated with the discovered resource.
   final String? accountId;
@@ -5377,6 +5474,8 @@ class DiscoveredResource {
 /// account is considered noncompliant if it includes resources that are not
 /// protected by the policy, for WAF and Shield Advanced policies, or that are
 /// noncompliant with the policy, for security group policies.
+///
+/// @nodoc
 class PolicyComplianceStatus {
   /// An array of <code>EvaluationResult</code> objects.
   final List<EvaluationResult>? evaluationResults;
@@ -5447,6 +5546,7 @@ class PolicyComplianceStatus {
   }
 }
 
+/// @nodoc
 class DependentServiceName {
   static const awsconfig = DependentServiceName._('AWSCONFIG');
   static const awswaf = DependentServiceName._('AWSWAF');
@@ -5477,6 +5577,8 @@ class DependentServiceName {
 /// Describes the compliance status for the account. An account is considered
 /// noncompliant if it includes resources that are not protected by the
 /// specified policy or that don't comply with the policy.
+///
+/// @nodoc
 class EvaluationResult {
   /// Describes an Amazon Web Services account's compliance with the Firewall
   /// Manager policy.
@@ -5521,6 +5623,7 @@ class EvaluationResult {
   }
 }
 
+/// @nodoc
 class PolicyComplianceStatusType {
   static const compliant = PolicyComplianceStatusType._('COMPLIANT');
   static const nonCompliant = PolicyComplianceStatusType._('NON_COMPLIANT');
@@ -5547,6 +5650,8 @@ class PolicyComplianceStatusType {
 }
 
 /// Details of the Firewall Manager applications list.
+///
+/// @nodoc
 class AppsListDataSummary {
   /// An array of <code>App</code> objects in the Firewall Manager applications
   /// list.
@@ -5596,6 +5701,8 @@ class AppsListDataSummary {
 
 /// Contains high level information about the Firewall Manager administrator
 /// account.
+///
+/// @nodoc
 class AdminAccountSummary {
   /// The Amazon Web Services account ID of the Firewall Manager administrator's
   /// account.
@@ -5662,6 +5769,7 @@ class AdminAccountSummary {
   }
 }
 
+/// @nodoc
 class OrganizationStatus {
   static const onboarding = OrganizationStatus._('ONBOARDING');
   static const onboardingComplete = OrganizationStatus._('ONBOARDING_COMPLETE');
@@ -5697,6 +5805,8 @@ class OrganizationStatus {
 
 /// Violations for a resource based on the specified Firewall Manager policy and
 /// Amazon Web Services account.
+///
+/// @nodoc
 class ViolationDetail {
   /// The Amazon Web Services account that the violation details were requested
   /// for.
@@ -5771,6 +5881,8 @@ class ViolationDetail {
 }
 
 /// Violation detail based on resource type.
+///
+/// @nodoc
 class ResourceViolation {
   /// Violation detail for an EC2 instance.
   final AwsEc2InstanceViolation? awsEc2InstanceViolation;
@@ -6199,6 +6311,8 @@ class ResourceViolation {
 
 /// Violation detail for the rule violation in a security group when compared to
 /// the primary security group of the Firewall Manager policy.
+///
+/// @nodoc
 class AwsVPCSecurityGroupViolation {
   /// List of rules specified in the security group of the Firewall Manager policy
   /// that partially match the <code>ViolationTarget</code> rule.
@@ -6258,6 +6372,8 @@ class AwsVPCSecurityGroupViolation {
 }
 
 /// Violation detail for network interfaces associated with an EC2 instance.
+///
+/// @nodoc
 class AwsEc2NetworkInterfaceViolation {
   /// List of security groups that violate the rules specified in the primary
   /// security group of the Firewall Manager policy.
@@ -6293,6 +6409,8 @@ class AwsEc2NetworkInterfaceViolation {
 }
 
 /// Violation detail for an EC2 instance resource.
+///
+/// @nodoc
 class AwsEc2InstanceViolation {
   /// Violation detail for network interfaces associated with the EC2 instance.
   final List<AwsEc2NetworkInterfaceViolation>? awsEc2NetworkInterfaceViolations;
@@ -6331,6 +6449,8 @@ class AwsEc2InstanceViolation {
 
 /// Violation detail for Network Firewall for a subnet that doesn't have a
 /// Firewall Manager managed firewall in its VPC.
+///
+/// @nodoc
 class NetworkFirewallMissingFirewallViolation {
   /// The Availability Zone of a violating subnet.
   final String? availabilityZone;
@@ -6378,6 +6498,8 @@ class NetworkFirewallMissingFirewallViolation {
 
 /// Violation detail for Network Firewall for an Availability Zone that's
 /// missing the expected Firewall Manager managed subnet.
+///
+/// @nodoc
 class NetworkFirewallMissingSubnetViolation {
   /// The Availability Zone of a violating subnet.
   final String? availabilityZone;
@@ -6425,6 +6547,8 @@ class NetworkFirewallMissingSubnetViolation {
 
 /// Violation detail for Network Firewall for a subnet that's not associated to
 /// the expected Firewall Manager managed route table.
+///
+/// @nodoc
 class NetworkFirewallMissingExpectedRTViolation {
   /// The Availability Zone of a violating subnet.
   final String? availabilityZone;
@@ -6481,6 +6605,8 @@ class NetworkFirewallMissingExpectedRTViolation {
 /// Violation detail for Network Firewall for a firewall policy that has a
 /// different <a>NetworkFirewallPolicyDescription</a> than is required by the
 /// Firewall Manager policy.
+///
+/// @nodoc
 class NetworkFirewallPolicyModifiedViolation {
   /// The policy that's currently in use in the individual account.
   final NetworkFirewallPolicyDescription? currentPolicyDescription;
@@ -6529,6 +6655,8 @@ class NetworkFirewallPolicyModifiedViolation {
 
 /// Violation detail for the subnet for which internet traffic that hasn't been
 /// inspected.
+///
+/// @nodoc
 class NetworkFirewallInternetTrafficNotInspectedViolation {
   /// The actual firewall subnet routes.
   final List<Route>? actualFirewallSubnetRoutes;
@@ -6686,6 +6814,8 @@ class NetworkFirewallInternetTrafficNotInspectedViolation {
 /// Violation detail for the improperly configured subnet route. It's possible
 /// there is a missing route table route, or a configuration that causes traffic
 /// to cross an Availability Zone boundary.
+///
+/// @nodoc
 class NetworkFirewallInvalidRouteConfigurationViolation {
   /// The actual firewall endpoint.
   final String? actualFirewallEndpoint;
@@ -6853,6 +6983,8 @@ class NetworkFirewallInvalidRouteConfigurationViolation {
 
 /// Violation detail for an internet gateway route with an inactive state in the
 /// customer subnet route table or Network Firewall subnet route table.
+///
+/// @nodoc
 class NetworkFirewallBlackHoleRouteDetectedViolation {
   /// Information about the route table ID.
   final String? routeTableId;
@@ -6901,6 +7033,8 @@ class NetworkFirewallBlackHoleRouteDetectedViolation {
 }
 
 /// Violation detail for an unexpected route that's present in a route table.
+///
+/// @nodoc
 class NetworkFirewallUnexpectedFirewallRoutesViolation {
   /// The endpoint of the firewall.
   final String? firewallEndpoint;
@@ -6957,6 +7091,8 @@ class NetworkFirewallUnexpectedFirewallRoutesViolation {
 
 /// Violation detail for an unexpected gateway route that’s present in a route
 /// table.
+///
+/// @nodoc
 class NetworkFirewallUnexpectedGatewayRoutesViolation {
   /// Information about the gateway ID.
   final String? gatewayId;
@@ -7005,6 +7141,8 @@ class NetworkFirewallUnexpectedGatewayRoutesViolation {
 }
 
 /// Violation detail for an expected route missing in Network Firewall.
+///
+/// @nodoc
 class NetworkFirewallMissingExpectedRoutesViolation {
   /// The expected routes.
   final List<ExpectedRoute>? expectedRoutes;
@@ -7047,6 +7185,8 @@ class NetworkFirewallMissingExpectedRoutesViolation {
 
 /// A rule group that Firewall Manager tried to associate with a VPC has the
 /// same priority as a rule group that's already associated.
+///
+/// @nodoc
 class DnsRuleGroupPriorityConflictViolation {
   /// The ID of the Firewall Manager DNS Firewall policy that was already applied
   /// to the VPC. This policy contains the rule group that's already associated
@@ -7112,6 +7252,8 @@ class DnsRuleGroupPriorityConflictViolation {
 
 /// A DNS Firewall rule group that Firewall Manager tried to associate with a
 /// VPC is already associated with the VPC and can't be associated again.
+///
+/// @nodoc
 class DnsDuplicateRuleGroupViolation {
   /// Information about the VPC ID.
   final String? violationTarget;
@@ -7145,6 +7287,8 @@ class DnsDuplicateRuleGroupViolation {
 /// The VPC that Firewall Manager was applying a DNS Fireall policy to reached
 /// the limit for associated DNS Firewall rule groups. Firewall Manager tried to
 /// associate another rule group with the VPC and failed due to the limit.
+///
+/// @nodoc
 class DnsRuleGroupLimitExceededViolation {
   /// The number of rule groups currently associated with the VPC.
   final int? numberOfRuleGroupsAlreadyAssociated;
@@ -7188,6 +7332,8 @@ class DnsRuleGroupLimitExceededViolation {
 }
 
 /// Contains details about the firewall subnet that violates the policy scope.
+///
+/// @nodoc
 class FirewallSubnetIsOutOfScopeViolation {
   /// The ID of the firewall subnet that violates the policy scope.
   final String? firewallSubnetId;
@@ -7243,6 +7389,8 @@ class FirewallSubnetIsOutOfScopeViolation {
 }
 
 /// Contains details about the route endpoint that violates the policy scope.
+///
+/// @nodoc
 class RouteHasOutOfScopeEndpointViolation {
   /// The route table associated with the current firewall subnet.
   final String? currentFirewallSubnetRouteTable;
@@ -7365,6 +7513,8 @@ class RouteHasOutOfScopeEndpointViolation {
 
 /// The violation details about a third-party firewall's subnet that doesn't
 /// have a Firewall Manager managed firewall in its VPC.
+///
+/// @nodoc
 class ThirdPartyFirewallMissingFirewallViolation {
   /// The Availability Zone of the third-party firewall that's causing the
   /// violation.
@@ -7413,6 +7563,8 @@ class ThirdPartyFirewallMissingFirewallViolation {
 
 /// The violation details for a third-party firewall for an Availability Zone
 /// that's missing the Firewall Manager managed subnet.
+///
+/// @nodoc
 class ThirdPartyFirewallMissingSubnetViolation {
   /// The Availability Zone of a subnet that's causing the violation.
   final String? availabilityZone;
@@ -7462,6 +7614,8 @@ class ThirdPartyFirewallMissingSubnetViolation {
 
 /// The violation details for a third-party firewall that's not associated with
 /// an Firewall Manager managed route table.
+///
+/// @nodoc
 class ThirdPartyFirewallMissingExpectedRouteTableViolation {
   /// The Availability Zone of the firewall subnet that's causing the violation.
   final String? availabilityZone;
@@ -7519,6 +7673,8 @@ class ThirdPartyFirewallMissingExpectedRouteTableViolation {
 
 /// The violation details for a firewall subnet's VPC endpoint that's deleted or
 /// missing.
+///
+/// @nodoc
 class FirewallSubnetMissingVPCEndpointViolation {
   /// The ID of the firewall that this VPC endpoint is associated with.
   final String? firewallSubnetId;
@@ -7566,6 +7722,8 @@ class FirewallSubnetMissingVPCEndpointViolation {
 }
 
 /// Violation detail for the entries in a network ACL resource.
+///
+/// @nodoc
 class InvalidNetworkAclEntriesViolation {
   /// The network ACL containing the entry violations.
   final String? currentAssociatedNetworkAcl;
@@ -7625,6 +7783,8 @@ class InvalidNetworkAclEntriesViolation {
 
 /// A list of possible remediation action lists. Each individual possible
 /// remediation action is a list of individual remediation actions.
+///
+/// @nodoc
 class PossibleRemediationActions {
   /// Information about the actions.
   final List<PossibleRemediationAction>? actions;
@@ -7660,6 +7820,8 @@ class PossibleRemediationActions {
 
 /// The violation details for a web ACL whose configuration is incompatible with
 /// the Firewall Manager policy.
+///
+/// @nodoc
 class WebACLHasIncompatibleConfigurationViolation {
   /// Information about the problems that Firewall Manager encountered with the
   /// web ACL configuration.
@@ -7693,6 +7855,8 @@ class WebACLHasIncompatibleConfigurationViolation {
 
 /// The violation details for a web ACL that's associated with at least one
 /// resource that's out of scope of the Firewall Manager policy.
+///
+/// @nodoc
 class WebACLHasOutOfScopeResourcesViolation {
   /// An array of Amazon Resource Name (ARN) for the resources that are out of
   /// scope of the policy and are associated with the web ACL.
@@ -7729,6 +7893,8 @@ class WebACLHasOutOfScopeResourcesViolation {
 }
 
 /// A list of remediation actions.
+///
+/// @nodoc
 class PossibleRemediationAction {
   /// The ordered list of remediation actions.
   final List<RemediationActionWithOrder> orderedRemediationActions;
@@ -7772,6 +7938,8 @@ class PossibleRemediationAction {
 }
 
 /// An ordered list of actions you can take to remediate a violation.
+///
+/// @nodoc
 class RemediationActionWithOrder {
   /// The order of the remediation actions in the list.
   final int? order;
@@ -7806,6 +7974,8 @@ class RemediationActionWithOrder {
 
 /// Information about an individual action you can take to remediate a
 /// violation.
+///
+/// @nodoc
 class RemediationAction {
   /// Information about the <code>CreateNetworkAcl</code> action in Amazon EC2.
   final CreateNetworkAclAction? createNetworkAclAction;
@@ -7981,6 +8151,8 @@ class RemediationAction {
 }
 
 /// Information about the CreateRoute action in Amazon EC2.
+///
+/// @nodoc
 class EC2CreateRouteAction {
   /// Information about the ID of the route table for the route.
   final ActionTarget routeTableId;
@@ -8058,6 +8230,8 @@ class EC2CreateRouteAction {
 }
 
 /// Information about the ReplaceRoute action in Amazon EC2.
+///
+/// @nodoc
 class EC2ReplaceRouteAction {
   /// Information about the ID of the route table.
   final ActionTarget routeTableId;
@@ -8127,6 +8301,8 @@ class EC2ReplaceRouteAction {
 }
 
 /// Information about the DeleteRoute action in Amazon EC2.
+///
+/// @nodoc
 class EC2DeleteRouteAction {
   /// Information about the ID of the route table.
   final ActionTarget routeTableId;
@@ -8185,6 +8361,8 @@ class EC2DeleteRouteAction {
 }
 
 /// An action that copies the EC2 route table for use in remediation.
+///
+/// @nodoc
 class EC2CopyRouteTableAction {
   /// The ID of the copied EC2 route table that is associated with the remediation
   /// action.
@@ -8228,6 +8406,8 @@ class EC2CopyRouteTableAction {
 }
 
 /// Information about the ReplaceRouteTableAssociation action in Amazon EC2.
+///
+/// @nodoc
 class EC2ReplaceRouteTableAssociationAction {
   /// Information about the association ID.
   final ActionTarget associationId;
@@ -8272,6 +8452,8 @@ class EC2ReplaceRouteTableAssociationAction {
 
 /// The action of associating an EC2 resource, such as a subnet or internet
 /// gateway, with a route table.
+///
+/// @nodoc
 class EC2AssociateRouteTableAction {
   /// The ID of the EC2 route table that is associated with the remediation
   /// action.
@@ -8326,6 +8508,8 @@ class EC2AssociateRouteTableAction {
 }
 
 /// Information about the CreateRouteTable action in Amazon EC2.
+///
+/// @nodoc
 class EC2CreateRouteTableAction {
   /// Information about the ID of a VPC.
   final ActionTarget vpcId;
@@ -8361,6 +8545,8 @@ class EC2CreateRouteTableAction {
 /// <code>FirewallCreationConfig</code> is an optional configuration that you
 /// can use to choose which Availability Zones Firewall Manager creates Network
 /// Firewall endpoints in.
+///
+/// @nodoc
 class FMSPolicyUpdateFirewallCreationConfigAction {
   /// Describes the remedial action.
   final String? description;
@@ -8397,6 +8583,8 @@ class FMSPolicyUpdateFirewallCreationConfigAction {
 
 /// Information about the <code>CreateNetworkAcl</code> action in Amazon EC2.
 /// This is a remediation option in <code>RemediationAction</code>.
+///
+/// @nodoc
 class CreateNetworkAclAction {
   /// Brief description of this remediation action.
   final String? description;
@@ -8440,6 +8628,8 @@ class CreateNetworkAclAction {
 
 /// Information about the <code>ReplaceNetworkAclAssociation</code> action in
 /// Amazon EC2. This is a remediation option in <code>RemediationAction</code>.
+///
+/// @nodoc
 class ReplaceNetworkAclAssociationAction {
   final ActionTarget? associationId;
 
@@ -8492,6 +8682,8 @@ class ReplaceNetworkAclAssociationAction {
 
 /// Information about the <code>CreateNetworkAclEntries</code> action in Amazon
 /// EC2. This is a remediation option in <code>RemediationAction</code>.
+///
+/// @nodoc
 class CreateNetworkAclEntriesAction {
   /// Brief description of this remediation action.
   final String? description;
@@ -8547,6 +8739,8 @@ class CreateNetworkAclEntriesAction {
 
 /// Information about the <code>DeleteNetworkAclEntries</code> action in Amazon
 /// EC2. This is a remediation option in <code>RemediationAction</code>.
+///
+/// @nodoc
 class DeleteNetworkAclEntriesAction {
   /// Brief description of this remediation action.
   final String? description;
@@ -8601,6 +8795,8 @@ class DeleteNetworkAclEntriesAction {
 }
 
 /// Describes a remediation action target.
+///
+/// @nodoc
 class ActionTarget {
   /// A description of the remediation action target.
   final String? description;
@@ -8631,6 +8827,8 @@ class ActionTarget {
 }
 
 /// Describes a single rule in a network ACL.
+///
+/// @nodoc
 class EntryDescription {
   /// Describes a rule in a network ACL.
   ///
@@ -8687,6 +8885,7 @@ class EntryDescription {
   }
 }
 
+/// @nodoc
 class EntryType {
   static const fmsManagedFirstEntry = EntryType._('FMS_MANAGED_FIRST_ENTRY');
   static const fmsManagedLastEntry = EntryType._('FMS_MANAGED_LAST_ENTRY');
@@ -8719,6 +8918,8 @@ class EntryType {
 /// violation is against the network ACL specification inside the Firewall
 /// Manager network ACL policy. This data object is part of
 /// <code>InvalidNetworkAclEntriesViolation</code>.
+///
+/// @nodoc
 class EntryViolation {
   /// The evaluation location within the ordered list of entries where the
   /// <code>ExpectedEntry</code> is currently located.
@@ -8801,6 +9002,7 @@ class EntryViolation {
   }
 }
 
+/// @nodoc
 class EntryViolationReason {
   static const missingExpectedEntry =
       EntryViolationReason._('MISSING_EXPECTED_ENTRY');
@@ -8834,6 +9036,8 @@ class EntryViolationReason {
 }
 
 /// Describes a route in a route table.
+///
+/// @nodoc
 class Route {
   /// The destination of the route.
   final String? destination;
@@ -8878,6 +9082,7 @@ class Route {
   }
 }
 
+/// @nodoc
 class DestinationType {
   static const ipv4 = DestinationType._('IPV4');
   static const ipv6 = DestinationType._('IPV6');
@@ -8903,6 +9108,7 @@ class DestinationType {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetType {
   static const gateway = TargetType._('GATEWAY');
   static const carrierGateway = TargetType._('CARRIER_GATEWAY');
@@ -8947,6 +9153,8 @@ class TargetType {
 }
 
 /// Information about the expected route in the route table.
+///
+/// @nodoc
 class ExpectedRoute {
   /// Information about the allowed targets.
   final List<String>? allowedTargets;
@@ -9012,6 +9220,8 @@ class ExpectedRoute {
 }
 
 /// The definition of the Network Firewall firewall policy.
+///
+/// @nodoc
 class NetworkFirewallPolicyDescription {
   /// The default actions to take on a packet that doesn't match any stateful
   /// rules. The stateful default action is optional, and is only valid when using
@@ -9133,6 +9343,8 @@ class NetworkFirewallPolicyDescription {
 
 /// Configuration settings for the handling of the stateful rule groups in a
 /// Network Firewall firewall policy.
+///
+/// @nodoc
 class StatefulEngineOptions {
   /// Indicates how to manage the order of stateful rule evaluation for the
   /// policy. Stateful rules are provided to the rule engine as Suricata
@@ -9209,6 +9421,7 @@ class StatefulEngineOptions {
   }
 }
 
+/// @nodoc
 class RuleOrder {
   static const strictOrder = RuleOrder._('STRICT_ORDER');
   static const defaultActionOrder = RuleOrder._('DEFAULT_ACTION_ORDER');
@@ -9232,6 +9445,7 @@ class RuleOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class StreamExceptionPolicy {
   static const drop = StreamExceptionPolicy._('DROP');
   static const $continue = StreamExceptionPolicy._('CONTINUE');
@@ -9261,6 +9475,8 @@ class StreamExceptionPolicy {
 
 /// Network Firewall stateful rule group, used in a
 /// <a>NetworkFirewallPolicyDescription</a>.
+///
+/// @nodoc
 class StatefulRuleGroup {
   /// The action that allows the policy owner to override the behavior of the rule
   /// group within a policy.
@@ -9321,6 +9537,8 @@ class StatefulRuleGroup {
 
 /// The setting that allows the policy owner to change the behavior of the rule
 /// group within a policy.
+///
+/// @nodoc
 class NetworkFirewallStatefulRuleGroupOverride {
   /// The action that changes the rule group from <code>DROP</code> to
   /// <code>ALERT</code>. This only applies to managed rule groups.
@@ -9346,6 +9564,7 @@ class NetworkFirewallStatefulRuleGroupOverride {
   }
 }
 
+/// @nodoc
 class NetworkFirewallOverrideAction {
   static const dropToAlert = NetworkFirewallOverrideAction._('DROP_TO_ALERT');
 
@@ -9372,6 +9591,8 @@ class NetworkFirewallOverrideAction {
 
 /// Network Firewall stateless rule group, used in a
 /// <a>NetworkFirewallPolicyDescription</a>.
+///
+/// @nodoc
 class StatelessRuleGroup {
   /// The priority of the rule group. Network Firewall evaluates the stateless
   /// rule groups in a firewall policy starting from the lowest priority setting.
@@ -9411,6 +9632,8 @@ class StatelessRuleGroup {
 
 /// Remediation option for the rule specified in the
 /// <code>ViolationTarget</code>.
+///
+/// @nodoc
 class SecurityGroupRemediationAction {
   /// Brief description of the action that will be performed.
   final String? description;
@@ -9460,6 +9683,7 @@ class SecurityGroupRemediationAction {
   }
 }
 
+/// @nodoc
 class RemediationActionType {
   static const remove = RemediationActionType._('REMOVE');
   static const modify = RemediationActionType._('MODIFY');
@@ -9486,6 +9710,8 @@ class RemediationActionType {
 }
 
 /// Describes a set of permissions for a security group rule.
+///
+/// @nodoc
 class SecurityGroupRuleDescription {
   /// The start of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6
   /// type number. A value of <code>-1</code> indicates all ICMP/ICMPv6 types.
@@ -9548,6 +9774,8 @@ class SecurityGroupRuleDescription {
 
 /// The reference rule that partially matches the <code>ViolationTarget</code>
 /// rule and violation reason.
+///
+/// @nodoc
 class PartialMatch {
   /// The reference rule from the primary security group of the Firewall Manager
   /// policy.
@@ -9582,6 +9810,7 @@ class PartialMatch {
   }
 }
 
+/// @nodoc
 class ThirdPartyFirewallAssociationStatus {
   static const onboarding = ThirdPartyFirewallAssociationStatus._('ONBOARDING');
   static const onboardComplete =
@@ -9619,6 +9848,7 @@ class ThirdPartyFirewallAssociationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MarketplaceSubscriptionOnboardingStatus {
   static const noSubscription =
       MarketplaceSubscriptionOnboardingStatus._('NO_SUBSCRIPTION');
@@ -9651,6 +9881,8 @@ class MarketplaceSubscriptionOnboardingStatus {
 /// Firewall Manager policy. A maximum of 100 entries are displayed. If more
 /// than 100 resources are noncompliant, <code>EvaluationLimitExceeded</code> is
 /// set to <code>True</code>.
+///
+/// @nodoc
 class PolicyComplianceDetail {
   /// Indicates if over 100 resources are noncompliant with the Firewall Manager
   /// policy.
@@ -9726,6 +9958,8 @@ class PolicyComplianceDetail {
 }
 
 /// Details of the resource that is not protected by the policy.
+///
+/// @nodoc
 class ComplianceViolator {
   /// Metadata about the resource that doesn't comply with the policy scope.
   final Map<String, String>? metadata;
@@ -9776,6 +10010,7 @@ class ComplianceViolator {
   }
 }
 
+/// @nodoc
 class ViolationReason {
   static const webAclMissingRuleGroup =
       ViolationReason._('WEB_ACL_MISSING_RULE_GROUP');
@@ -9887,6 +10122,7 @@ class ViolationReason {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountRoleStatus {
   static const ready = AccountRoleStatus._('READY');
   static const creating = AccountRoleStatus._('CREATING');
@@ -9916,6 +10152,8 @@ class AccountRoleStatus {
 
 /// Details of a resource that failed when trying to update it's association to
 /// a resource set.
+///
+/// @nodoc
 class FailedItem {
   /// The reason the resource's association could not be updated.
   final FailedItemReason? reason;
@@ -9945,6 +10183,7 @@ class FailedItem {
   }
 }
 
+/// @nodoc
 class FailedItemReason {
   static const notValidArn = FailedItemReason._('NOT_VALID_ARN');
   static const notValidPartition = FailedItemReason._('NOT_VALID_PARTITION');
@@ -9981,31 +10220,37 @@ class FailedItemReason {
   String toString() => value;
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidOperationException extends _s.GenericAwsException {
   InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
+/// @nodoc
 class InvalidTypeException extends _s.GenericAwsException {
   InvalidTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

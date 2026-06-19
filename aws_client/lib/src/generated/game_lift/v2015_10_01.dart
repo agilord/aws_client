@@ -663,8 +663,8 @@ class GameLift {
   /// up an IAM service role</a>. You can't change this fleet property after the
   /// fleet is created.
   ///
-  /// IAM role ARN values use the following pattern: <code>arn:aws:iam::[Amazon
-  /// Web Services account]:role/[role name]</code>.
+  /// IAM role ARN values use the following pattern: <code>arn:aws:iam::\[Amazon
+  /// Web Services account\]:role/\[role name\]</code>.
   ///
   /// Parameter [billingType] :
   /// Indicates whether to use On-Demand or Spot instances for this fleet. Learn
@@ -721,10 +721,10 @@ class GameLift {
   /// <ul>
   /// <li>
   /// Port range: 4192 to a number calculated based on your fleet configuration.
-  /// Amazon GameLift Servers uses the following formula: <code>4192 + [# of
-  /// game server container groups per fleet instance] * [# of container ports
-  /// in the game server container group definition] + [# of container ports in
-  /// the game server container group definition]</code>
+  /// Amazon GameLift Servers uses the following formula: <code>4192 + \[# of
+  /// game server container groups per fleet instance\] * \[# of container ports
+  /// in the game server container group definition\] + \[# of container ports
+  /// in the game server container group definition\]</code>
   /// </li>
   /// </ul>
   /// You can also choose to manually set this parameter. When manually setting
@@ -754,10 +754,10 @@ class GameLift {
   /// </li>
   /// <li>
   /// Port range: 4192 to a number calculated based on your fleet configuration.
-  /// Amazon GameLift Servers uses the following formula: <code>4192 + [# of
-  /// game server container groups per fleet instance] * [# of container ports
-  /// in the game server container group definition] + [# of container ports in
-  /// the game server container group definition]</code>
+  /// Amazon GameLift Servers uses the following formula: <code>4192 + \[# of
+  /// game server container groups per fleet instance\] * \[# of container ports
+  /// in the game server container group definition\] + \[# of container ports
+  /// in the game server container group definition\]</code>
   /// </li>
   /// </ul>
   /// You can also choose to manually set this parameter. When manually setting
@@ -8124,17 +8124,17 @@ class GameLift {
   ///
   /// A policy's rule statement has the following structure:
   ///
-  /// If <code>[MetricName]</code> is <code>[ComparisonOperator]</code>
-  /// <code>[Threshold]</code> for <code>[EvaluationPeriods]</code> minutes,
-  /// then <code>[ScalingAdjustmentType]</code> to/by
-  /// <code>[ScalingAdjustment]</code>.
+  /// If <code>\[MetricName\]</code> is <code>\[ComparisonOperator\]</code>
+  /// <code>\[Threshold\]</code> for <code>\[EvaluationPeriods\]</code> minutes,
+  /// then <code>\[ScalingAdjustmentType\]</code> to/by
+  /// <code>\[ScalingAdjustment\]</code>.
   ///
   /// To implement the example, the rule statement would look like this:
   ///
-  /// If <code>[PercentIdleInstances]</code> is
-  /// <code>[GreaterThanThreshold]</code> <code>[20]</code> for
-  /// <code>[15]</code> minutes, then <code>[PercentChangeInCapacity]</code>
-  /// to/by <code>[10]</code>.
+  /// If <code>\[PercentIdleInstances\]</code> is
+  /// <code>\[GreaterThanThreshold\]</code> <code>\[20\]</code> for
+  /// <code>\[15\]</code> minutes, then <code>\[PercentChangeInCapacity\]</code>
+  /// to/by <code>\[10\]</code>.
   ///
   /// To create or update a scaling policy, specify a unique combination of name
   /// and fleet ID, and set the policy type to "RuleBased". Specify the
@@ -11648,6 +11648,7 @@ class GameLift {
   }
 }
 
+/// @nodoc
 class AcceptMatchOutput {
   AcceptMatchOutput();
 
@@ -11660,6 +11661,7 @@ class AcceptMatchOutput {
   }
 }
 
+/// @nodoc
 class ClaimGameServerOutput {
   /// Object that describes the newly claimed game server.
   final GameServer? gameServer;
@@ -11684,6 +11686,7 @@ class ClaimGameServerOutput {
   }
 }
 
+/// @nodoc
 class CreateAliasOutput {
   /// The newly created alias resource.
   final Alias? alias;
@@ -11708,6 +11711,7 @@ class CreateAliasOutput {
   }
 }
 
+/// @nodoc
 class CreateBuildOutput {
   /// The newly created build resource, including a unique build IDs and status.
   final Build? build;
@@ -11755,6 +11759,7 @@ class CreateBuildOutput {
   }
 }
 
+/// @nodoc
 class CreateContainerFleetOutput {
   /// The properties for the new container fleet, including current status. All
   /// fleets are initially placed in <code>PENDING</code> status.
@@ -11781,6 +11786,7 @@ class CreateContainerFleetOutput {
   }
 }
 
+/// @nodoc
 class CreateContainerGroupDefinitionOutput {
   /// The properties of the new container group definition resource. You can use
   /// this resource to create a container fleet.
@@ -11809,6 +11815,7 @@ class CreateContainerGroupDefinitionOutput {
   }
 }
 
+/// @nodoc
 class CreateFleetOutput {
   /// The properties for the new fleet, including the current status. All fleets
   /// are placed in <code>NEW</code> status on creation.
@@ -11850,6 +11857,7 @@ class CreateFleetOutput {
   }
 }
 
+/// @nodoc
 class CreateFleetLocationsOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -11898,6 +11906,7 @@ class CreateFleetLocationsOutput {
   }
 }
 
+/// @nodoc
 class CreateGameServerGroupOutput {
   /// The newly created game server group object, including the new ARN value for
   /// the Amazon GameLift Servers FleetIQ game server group and the object's
@@ -11927,6 +11936,7 @@ class CreateGameServerGroupOutput {
   }
 }
 
+/// @nodoc
 class CreateGameSessionOutput {
   /// Object that describes the newly created game session record.
   final GameSession? gameSession;
@@ -11951,6 +11961,7 @@ class CreateGameSessionOutput {
   }
 }
 
+/// @nodoc
 class CreateGameSessionQueueOutput {
   /// An object that describes the newly created game session queue.
   final GameSessionQueue? gameSessionQueue;
@@ -11976,6 +11987,7 @@ class CreateGameSessionQueueOutput {
   }
 }
 
+/// @nodoc
 class CreateLocationOutput {
   /// The details of the custom location you created.
   final LocationModel? location;
@@ -12000,6 +12012,7 @@ class CreateLocationOutput {
   }
 }
 
+/// @nodoc
 class CreateMatchmakingConfigurationOutput {
   /// Object that describes the newly created matchmaking configuration.
   final MatchmakingConfiguration? configuration;
@@ -12026,6 +12039,7 @@ class CreateMatchmakingConfigurationOutput {
   }
 }
 
+/// @nodoc
 class CreateMatchmakingRuleSetOutput {
   /// The newly created matchmaking rule set.
   final MatchmakingRuleSet ruleSet;
@@ -12050,6 +12064,7 @@ class CreateMatchmakingRuleSetOutput {
   }
 }
 
+/// @nodoc
 class CreatePlayerSessionOutput {
   /// Object that describes the newly created player session record.
   final PlayerSession? playerSession;
@@ -12075,6 +12090,7 @@ class CreatePlayerSessionOutput {
   }
 }
 
+/// @nodoc
 class CreatePlayerSessionsOutput {
   /// A collection of player session objects created for the added players.
   final List<PlayerSession>? playerSessions;
@@ -12100,6 +12116,7 @@ class CreatePlayerSessionsOutput {
   }
 }
 
+/// @nodoc
 class CreateScriptOutput {
   /// The newly created script record with a unique script ID and ARN. The new
   /// script's storage location reflects an Amazon S3 location: (1) If the script
@@ -12130,6 +12147,7 @@ class CreateScriptOutput {
   }
 }
 
+/// @nodoc
 class CreateVpcPeeringAuthorizationOutput {
   /// Details on the requested VPC peering authorization, including expiration.
   final VpcPeeringAuthorization? vpcPeeringAuthorization;
@@ -12157,6 +12175,7 @@ class CreateVpcPeeringAuthorizationOutput {
   }
 }
 
+/// @nodoc
 class CreateVpcPeeringConnectionOutput {
   CreateVpcPeeringConnectionOutput();
 
@@ -12169,6 +12188,7 @@ class CreateVpcPeeringConnectionOutput {
   }
 }
 
+/// @nodoc
 class DeleteContainerFleetOutput {
   DeleteContainerFleetOutput();
 
@@ -12181,6 +12201,7 @@ class DeleteContainerFleetOutput {
   }
 }
 
+/// @nodoc
 class DeleteContainerGroupDefinitionOutput {
   DeleteContainerGroupDefinitionOutput();
 
@@ -12194,6 +12215,7 @@ class DeleteContainerGroupDefinitionOutput {
   }
 }
 
+/// @nodoc
 class DeleteFleetLocationsOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -12239,6 +12261,7 @@ class DeleteFleetLocationsOutput {
   }
 }
 
+/// @nodoc
 class DeleteGameServerGroupOutput {
   /// An object that describes the deleted game server group resource, with status
   /// updated to <code>DELETE_SCHEDULED</code>.
@@ -12265,6 +12288,7 @@ class DeleteGameServerGroupOutput {
   }
 }
 
+/// @nodoc
 class DeleteGameSessionQueueOutput {
   DeleteGameSessionQueueOutput();
 
@@ -12277,6 +12301,7 @@ class DeleteGameSessionQueueOutput {
   }
 }
 
+/// @nodoc
 class DeleteLocationOutput {
   DeleteLocationOutput();
 
@@ -12289,6 +12314,7 @@ class DeleteLocationOutput {
   }
 }
 
+/// @nodoc
 class DeleteMatchmakingConfigurationOutput {
   DeleteMatchmakingConfigurationOutput();
 
@@ -12302,6 +12328,7 @@ class DeleteMatchmakingConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DeleteMatchmakingRuleSetOutput {
   DeleteMatchmakingRuleSetOutput();
 
@@ -12314,6 +12341,7 @@ class DeleteMatchmakingRuleSetOutput {
   }
 }
 
+/// @nodoc
 class DeleteVpcPeeringAuthorizationOutput {
   DeleteVpcPeeringAuthorizationOutput();
 
@@ -12326,6 +12354,7 @@ class DeleteVpcPeeringAuthorizationOutput {
   }
 }
 
+/// @nodoc
 class DeleteVpcPeeringConnectionOutput {
   DeleteVpcPeeringConnectionOutput();
 
@@ -12338,6 +12367,7 @@ class DeleteVpcPeeringConnectionOutput {
   }
 }
 
+/// @nodoc
 class DeregisterComputeOutput {
   DeregisterComputeOutput();
 
@@ -12350,6 +12380,7 @@ class DeregisterComputeOutput {
   }
 }
 
+/// @nodoc
 class DescribeAliasOutput {
   /// The requested alias resource.
   final Alias? alias;
@@ -12374,6 +12405,7 @@ class DescribeAliasOutput {
   }
 }
 
+/// @nodoc
 class DescribeBuildOutput {
   /// Set of properties describing the requested build.
   final Build? build;
@@ -12398,6 +12430,7 @@ class DescribeBuildOutput {
   }
 }
 
+/// @nodoc
 class DescribeComputeOutput {
   /// The set of properties for the requested compute resource.
   final Compute? compute;
@@ -12422,6 +12455,7 @@ class DescribeComputeOutput {
   }
 }
 
+/// @nodoc
 class DescribeContainerFleetOutput {
   /// The properties for the requested container fleet, including current status.
   final ContainerFleet? containerFleet;
@@ -12447,6 +12481,7 @@ class DescribeContainerFleetOutput {
   }
 }
 
+/// @nodoc
 class DescribeContainerGroupDefinitionOutput {
   /// The properties of the requested container group definition resource.
   final ContainerGroupDefinition? containerGroupDefinition;
@@ -12474,6 +12509,7 @@ class DescribeContainerGroupDefinitionOutput {
   }
 }
 
+/// @nodoc
 class DescribeContainerGroupPortMappingsOutput {
   /// A unique identifier for the compute resource running the game server
   /// container group. Returned when <code>ContainerGroupType</code> is
@@ -12559,6 +12595,7 @@ class DescribeContainerGroupPortMappingsOutput {
   }
 }
 
+/// @nodoc
 class DescribeEC2InstanceLimitsOutput {
   /// The maximum number of instances for the specified instance type.
   final List<EC2InstanceLimit>? eC2InstanceLimits;
@@ -12584,6 +12621,7 @@ class DescribeEC2InstanceLimitsOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetAttributesOutput {
   /// A collection of objects containing attribute metadata for each requested
   /// fleet ID. Attribute objects are returned only for fleets that currently
@@ -12620,6 +12658,7 @@ class DescribeFleetAttributesOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetCapacityOutput {
   /// A collection of objects that contains capacity information for each
   /// requested fleet ID. Capacity objects are returned only for fleets that
@@ -12657,6 +12696,7 @@ class DescribeFleetCapacityOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetDeploymentOutput {
   /// The requested deployment information.
   final FleetDeployment? fleetDeployment;
@@ -12694,6 +12734,7 @@ class DescribeFleetDeploymentOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetEventsOutput {
   /// A collection of objects containing event log entries for the specified
   /// fleet.
@@ -12729,6 +12770,7 @@ class DescribeFleetEventsOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetLocationAttributesOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -12783,6 +12825,7 @@ class DescribeFleetLocationAttributesOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetLocationCapacityOutput {
   /// Resource capacity information for the requested fleet location. Capacity
   /// objects are returned only for fleets and locations that currently exist.
@@ -12811,6 +12854,7 @@ class DescribeFleetLocationCapacityOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetLocationUtilizationOutput {
   /// Utilization information for the requested fleet location. Utilization
   /// objects are returned only for fleets and locations that currently exist.
@@ -12838,6 +12882,7 @@ class DescribeFleetLocationUtilizationOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetPortSettingsOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -12900,6 +12945,7 @@ class DescribeFleetPortSettingsOutput {
   }
 }
 
+/// @nodoc
 class DescribeFleetUtilizationOutput {
   /// A collection of objects containing utilization information for each
   /// requested fleet ID. Utilization objects are returned only for fleets that
@@ -12936,6 +12982,7 @@ class DescribeFleetUtilizationOutput {
   }
 }
 
+/// @nodoc
 class DescribeGameServerOutput {
   /// Object that describes the requested game server.
   final GameServer? gameServer;
@@ -12960,6 +13007,7 @@ class DescribeGameServerOutput {
   }
 }
 
+/// @nodoc
 class DescribeGameServerGroupOutput {
   /// An object with the property settings for the requested game server group
   /// resource.
@@ -12986,6 +13034,7 @@ class DescribeGameServerGroupOutput {
   }
 }
 
+/// @nodoc
 class DescribeGameServerInstancesOutput {
   /// The collection of requested game server instances.
   final List<GameServerInstance>? gameServerInstances;
@@ -13022,6 +13071,7 @@ class DescribeGameServerInstancesOutput {
   }
 }
 
+/// @nodoc
 class DescribeGameSessionDetailsOutput {
   /// A collection of properties for each game session that matches the request.
   final List<GameSessionDetail>? gameSessionDetails;
@@ -13056,6 +13106,7 @@ class DescribeGameSessionDetailsOutput {
   }
 }
 
+/// @nodoc
 class DescribeGameSessionPlacementOutput {
   /// Object that describes the requested game session placement.
   final GameSessionPlacement? gameSessionPlacement;
@@ -13083,6 +13134,7 @@ class DescribeGameSessionPlacementOutput {
   }
 }
 
+/// @nodoc
 class DescribeGameSessionQueuesOutput {
   /// A collection of objects that describe the requested game session queues.
   final List<GameSessionQueue>? gameSessionQueues;
@@ -13117,6 +13169,7 @@ class DescribeGameSessionQueuesOutput {
   }
 }
 
+/// @nodoc
 class DescribeGameSessionsOutput {
   /// A collection of properties for each game session that matches the request.
   final List<GameSession>? gameSessions;
@@ -13151,6 +13204,7 @@ class DescribeGameSessionsOutput {
   }
 }
 
+/// @nodoc
 class DescribeInstancesOutput {
   /// A collection of objects containing properties for each instance returned.
   final List<Instance>? instances;
@@ -13185,6 +13239,7 @@ class DescribeInstancesOutput {
   }
 }
 
+/// @nodoc
 class DescribeMatchmakingOutput {
   /// A collection of existing matchmaking ticket objects matching the request.
   final List<MatchmakingTicket>? ticketList;
@@ -13210,6 +13265,7 @@ class DescribeMatchmakingOutput {
   }
 }
 
+/// @nodoc
 class DescribeMatchmakingConfigurationsOutput {
   /// A collection of requested matchmaking configurations.
   final List<MatchmakingConfiguration>? configurations;
@@ -13246,6 +13302,7 @@ class DescribeMatchmakingConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class DescribeMatchmakingRuleSetsOutput {
   /// A collection of requested matchmaking rule set objects.
   final List<MatchmakingRuleSet> ruleSets;
@@ -13281,6 +13338,7 @@ class DescribeMatchmakingRuleSetsOutput {
   }
 }
 
+/// @nodoc
 class DescribePlayerSessionsOutput {
   /// A token that indicates where to resume retrieving results on the next call
   /// to this operation. If no token is returned, these results represent the end
@@ -13316,6 +13374,7 @@ class DescribePlayerSessionsOutput {
   }
 }
 
+/// @nodoc
 class DescribeRuntimeConfigurationOutput {
   /// Instructions that describe how server processes are launched and maintained
   /// on computes in the fleet.
@@ -13344,6 +13403,7 @@ class DescribeRuntimeConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DescribeScalingPoliciesOutput {
   /// A token that indicates where to resume retrieving results on the next call
   /// to this operation. If no token is returned, these results represent the end
@@ -13379,6 +13439,7 @@ class DescribeScalingPoliciesOutput {
   }
 }
 
+/// @nodoc
 class DescribeScriptOutput {
   /// A set of properties describing the requested script.
   final Script? script;
@@ -13403,6 +13464,7 @@ class DescribeScriptOutput {
   }
 }
 
+/// @nodoc
 class DescribeVpcPeeringAuthorizationsOutput {
   /// A collection of objects that describe all valid VPC peering operations for
   /// the current Amazon Web Services account.
@@ -13432,6 +13494,7 @@ class DescribeVpcPeeringAuthorizationsOutput {
   }
 }
 
+/// @nodoc
 class DescribeVpcPeeringConnectionsOutput {
   /// A collection of VPC peering connection records that match the request.
   final List<VpcPeeringConnection>? vpcPeeringConnections;
@@ -13459,6 +13522,7 @@ class DescribeVpcPeeringConnectionsOutput {
   }
 }
 
+/// @nodoc
 class GetComputeAccessOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -13541,6 +13605,7 @@ class GetComputeAccessOutput {
   }
 }
 
+/// @nodoc
 class GetComputeAuthTokenOutput {
   /// A valid temporary authentication token.
   final String? authToken;
@@ -13607,6 +13672,7 @@ class GetComputeAuthTokenOutput {
   }
 }
 
+/// @nodoc
 class GetGameSessionLogUrlOutput {
   /// Location of the requested game session logs, available for download. This
   /// URL is valid for 15 minutes, after which S3 will reject any download request
@@ -13632,6 +13698,7 @@ class GetGameSessionLogUrlOutput {
   }
 }
 
+/// @nodoc
 class GetInstanceAccessOutput {
   /// The connection information for a fleet instance, including IP address and
   /// access credentials.
@@ -13658,6 +13725,7 @@ class GetInstanceAccessOutput {
   }
 }
 
+/// @nodoc
 class GetPlayerConnectionDetailsOutput {
   /// An identifier for the game session that is unique across all regions for
   /// which the player connection details were retrieved. The value is always a
@@ -13697,6 +13765,7 @@ class GetPlayerConnectionDetailsOutput {
   }
 }
 
+/// @nodoc
 class ListAliasesOutput {
   /// A collection of alias resources that match the request parameters.
   final List<Alias>? aliases;
@@ -13731,6 +13800,7 @@ class ListAliasesOutput {
   }
 }
 
+/// @nodoc
 class ListBuildsOutput {
   /// A collection of build resources that match the request.
   final List<Build>? builds;
@@ -13765,6 +13835,7 @@ class ListBuildsOutput {
   }
 }
 
+/// @nodoc
 class ListComputeOutput {
   /// A list of compute resources in the specified fleet.
   final List<Compute>? computeList;
@@ -13799,6 +13870,7 @@ class ListComputeOutput {
   }
 }
 
+/// @nodoc
 class ListContainerFleetsOutput {
   /// A collection of container fleet objects for all fleets that match the
   /// request criteria.
@@ -13834,6 +13906,7 @@ class ListContainerFleetsOutput {
   }
 }
 
+/// @nodoc
 class ListContainerGroupDefinitionsOutput {
   /// A result set of container group definitions that match the request.
   final List<ContainerGroupDefinition>? containerGroupDefinitions;
@@ -13871,6 +13944,7 @@ class ListContainerGroupDefinitionsOutput {
   }
 }
 
+/// @nodoc
 class ListContainerGroupDefinitionVersionsOutput {
   /// A result set of container group definitions that match the request.
   final List<ContainerGroupDefinition>? containerGroupDefinitions;
@@ -13908,6 +13982,7 @@ class ListContainerGroupDefinitionVersionsOutput {
   }
 }
 
+/// @nodoc
 class ListFleetDeploymentsOutput {
   /// The requested deployment information.
   final List<FleetDeployment>? fleetDeployments;
@@ -13942,6 +14017,7 @@ class ListFleetDeploymentsOutput {
   }
 }
 
+/// @nodoc
 class ListFleetsOutput {
   /// A set of fleet IDs that match the list request.
   final List<String>? fleetIds;
@@ -13976,6 +14052,7 @@ class ListFleetsOutput {
   }
 }
 
+/// @nodoc
 class ListGameServerGroupsOutput {
   /// The game server groups' game server groups.
   final List<GameServerGroup>? gameServerGroups;
@@ -14009,6 +14086,7 @@ class ListGameServerGroupsOutput {
   }
 }
 
+/// @nodoc
 class ListGameServersOutput {
   /// A collection of game server objects that match the request.
   final List<GameServer>? gameServers;
@@ -14043,6 +14121,7 @@ class ListGameServersOutput {
   }
 }
 
+/// @nodoc
 class ListLocationsOutput {
   /// A collection of locations, including both Amazon Web Services and custom
   /// locations. Each location includes a name and ping beacon information that
@@ -14080,6 +14159,7 @@ class ListLocationsOutput {
   }
 }
 
+/// @nodoc
 class ListScriptsOutput {
   /// A token that indicates where to resume retrieving results on the next call
   /// to this operation. If no token is returned, these results represent the end
@@ -14114,6 +14194,7 @@ class ListScriptsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The collection of tags assigned to the resource.
   final List<Tag>? tags;
@@ -14139,6 +14220,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutScalingPolicyOutput {
   /// A descriptive label that is associated with a fleet's scaling policy. Policy
   /// names do not need to be unique.
@@ -14162,6 +14244,7 @@ class PutScalingPolicyOutput {
   }
 }
 
+/// @nodoc
 class RegisterComputeOutput {
   /// The details of the compute resource you registered.
   final Compute? compute;
@@ -14186,6 +14269,7 @@ class RegisterComputeOutput {
   }
 }
 
+/// @nodoc
 class RegisterGameServerOutput {
   /// Object that describes the newly registered game server.
   final GameServer? gameServer;
@@ -14210,6 +14294,7 @@ class RegisterGameServerOutput {
   }
 }
 
+/// @nodoc
 class RequestUploadCredentialsOutput {
   /// Amazon S3 path and key, identifying where the game build files are stored.
   final S3Location? storageLocation;
@@ -14246,6 +14331,7 @@ class RequestUploadCredentialsOutput {
   }
 }
 
+/// @nodoc
 class ResolveAliasOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -14277,6 +14363,7 @@ class ResolveAliasOutput {
   }
 }
 
+/// @nodoc
 class ResumeGameServerGroupOutput {
   /// An object that describes the game server group resource, with the
   /// <code>SuspendedActions</code> property updated to reflect the resumed
@@ -14304,6 +14391,7 @@ class ResumeGameServerGroupOutput {
   }
 }
 
+/// @nodoc
 class SearchGameSessionsOutput {
   /// A collection of objects containing game session properties for each session
   /// that matches the request.
@@ -14339,6 +14427,7 @@ class SearchGameSessionsOutput {
   }
 }
 
+/// @nodoc
 class StartFleetActionsOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -14372,6 +14461,7 @@ class StartFleetActionsOutput {
   }
 }
 
+/// @nodoc
 class StartGameSessionPlacementOutput {
   /// Object that describes the newly created game session placement. This object
   /// includes all the information provided in the request, as well as start/end
@@ -14400,6 +14490,7 @@ class StartGameSessionPlacementOutput {
   }
 }
 
+/// @nodoc
 class StartMatchBackfillOutput {
   /// Ticket representing the backfill matchmaking request. This object includes
   /// the information in the request, ticket status, and match results as
@@ -14427,6 +14518,7 @@ class StartMatchBackfillOutput {
   }
 }
 
+/// @nodoc
 class StartMatchmakingOutput {
   /// Ticket representing the matchmaking request. This object include the
   /// information included in the request, ticket status, and match results as
@@ -14454,6 +14546,7 @@ class StartMatchmakingOutput {
   }
 }
 
+/// @nodoc
 class StopFleetActionsOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -14487,6 +14580,7 @@ class StopFleetActionsOutput {
   }
 }
 
+/// @nodoc
 class StopGameSessionPlacementOutput {
   /// Object that describes the canceled game session placement, with
   /// <code>CANCELLED</code> status and an end time stamp.
@@ -14514,6 +14608,7 @@ class StopGameSessionPlacementOutput {
   }
 }
 
+/// @nodoc
 class StopMatchmakingOutput {
   StopMatchmakingOutput();
 
@@ -14526,6 +14621,7 @@ class StopMatchmakingOutput {
   }
 }
 
+/// @nodoc
 class SuspendGameServerGroupOutput {
   /// An object that describes the game server group resource, with the
   /// <code>SuspendedActions</code> property updated to reflect the suspended
@@ -14553,6 +14649,7 @@ class SuspendGameServerGroupOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -14565,6 +14662,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TerminateGameSessionOutput {
   final GameSession? gameSession;
 
@@ -14588,6 +14686,7 @@ class TerminateGameSessionOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -14600,6 +14699,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAliasOutput {
   /// The updated alias resource.
   final Alias? alias;
@@ -14624,6 +14724,7 @@ class UpdateAliasOutput {
   }
 }
 
+/// @nodoc
 class UpdateBuildOutput {
   /// The updated build resource.
   final Build? build;
@@ -14648,6 +14749,7 @@ class UpdateBuildOutput {
   }
 }
 
+/// @nodoc
 class UpdateContainerFleetOutput {
   /// A collection of container fleet objects for all fleets that match the
   /// request criteria.
@@ -14674,6 +14776,7 @@ class UpdateContainerFleetOutput {
   }
 }
 
+/// @nodoc
 class UpdateContainerGroupDefinitionOutput {
   /// The properties of the updated container group definition version.
   final ContainerGroupDefinition? containerGroupDefinition;
@@ -14701,6 +14804,7 @@ class UpdateContainerGroupDefinitionOutput {
   }
 }
 
+/// @nodoc
 class UpdateFleetAttributesOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -14734,6 +14838,7 @@ class UpdateFleetAttributesOutput {
   }
 }
 
+/// @nodoc
 class UpdateFleetCapacityOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -14786,6 +14891,7 @@ class UpdateFleetCapacityOutput {
   }
 }
 
+/// @nodoc
 class UpdateFleetPortSettingsOutput {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -14819,6 +14925,7 @@ class UpdateFleetPortSettingsOutput {
   }
 }
 
+/// @nodoc
 class UpdateGameServerOutput {
   /// Object that describes the newly updated game server.
   final GameServer? gameServer;
@@ -14843,6 +14950,7 @@ class UpdateGameServerOutput {
   }
 }
 
+/// @nodoc
 class UpdateGameServerGroupOutput {
   /// An object that describes the game server group resource with updated
   /// properties.
@@ -14869,6 +14977,7 @@ class UpdateGameServerGroupOutput {
   }
 }
 
+/// @nodoc
 class UpdateGameSessionOutput {
   /// The updated game session properties.
   final GameSession? gameSession;
@@ -14893,6 +15002,7 @@ class UpdateGameSessionOutput {
   }
 }
 
+/// @nodoc
 class UpdateGameSessionQueueOutput {
   /// An object that describes the newly updated game session queue.
   final GameSessionQueue? gameSessionQueue;
@@ -14918,6 +15028,7 @@ class UpdateGameSessionQueueOutput {
   }
 }
 
+/// @nodoc
 class UpdateMatchmakingConfigurationOutput {
   /// The updated matchmaking configuration.
   final MatchmakingConfiguration? configuration;
@@ -14944,6 +15055,7 @@ class UpdateMatchmakingConfigurationOutput {
   }
 }
 
+/// @nodoc
 class UpdateRuntimeConfigurationOutput {
   /// The runtime configuration currently in use by computes in the fleet. If the
   /// update is successful, all property changes are shown.
@@ -14971,6 +15083,7 @@ class UpdateRuntimeConfigurationOutput {
   }
 }
 
+/// @nodoc
 class UpdateScriptOutput {
   /// The newly created script record with a unique script ID. The new script's
   /// storage location reflects an Amazon S3 location: (1) If the script was
@@ -15000,6 +15113,7 @@ class UpdateScriptOutput {
   }
 }
 
+/// @nodoc
 class ValidateMatchmakingRuleSetOutput {
   /// A response indicating whether the rule set is valid.
   final bool? valid;
@@ -15029,6 +15143,8 @@ class ValidateMatchmakingRuleSetOutput {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class Script {
   /// A time stamp indicating when this data object was created. Format is a
   /// number expressed in Unix time as milliseconds (for example
@@ -15130,6 +15246,8 @@ class Script {
 
 /// The location in Amazon S3 where build or script files are stored for access
 /// by Amazon GameLift Servers.
+///
+/// @nodoc
 class S3Location {
   /// An Amazon S3 bucket identifier. Thename of the S3 bucket.
   /// <note>
@@ -15195,6 +15313,8 @@ class S3Location {
 /// more about <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-multiprocess.html">
 /// Running Multiple Processes on a Fleet</a>.
+///
+/// @nodoc
 class RuntimeConfiguration {
   /// The maximum amount of time (in seconds) allowed to launch a new game session
   /// and have it report ready to host players. During this time, the game session
@@ -15253,6 +15373,8 @@ class RuntimeConfiguration {
 /// Server processes run either an executable in a custom game build or a Amazon
 /// GameLift Servers Realtime script. Server process configurations are part of
 /// a fleet's runtime configuration.
+///
+/// @nodoc
 class ServerProcess {
   /// The number of server processes using this configuration that run
   /// concurrently on each instance or compute.
@@ -15311,6 +15433,8 @@ class ServerProcess {
 
 /// Guidelines for use with FlexMatch to match players into games. All
 /// matchmaking requests must specify a matchmaking configuration.
+///
+/// @nodoc
 class MatchmakingConfiguration {
   /// A flag that indicates whether a match that was created with this
   /// configuration must be accepted by the matched players. To require
@@ -15542,6 +15666,7 @@ class MatchmakingConfiguration {
   }
 }
 
+/// @nodoc
 class BackfillMode {
   static const automatic = BackfillMode._('AUTOMATIC');
   static const manual = BackfillMode._('MANUAL');
@@ -15565,6 +15690,7 @@ class BackfillMode {
   String toString() => value;
 }
 
+/// @nodoc
 class FlexMatchMode {
   static const standalone = FlexMatchMode._('STANDALONE');
   static const withQueue = FlexMatchMode._('WITH_QUEUE');
@@ -15602,6 +15728,8 @@ class FlexMatchMode {
 /// For examples of working with game properties, see <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties">Create
 /// a game session with properties</a>.
+///
+/// @nodoc
 class GameProperty {
   /// The game property identifier.
   /// <note>
@@ -15649,6 +15777,8 @@ class GameProperty {
 /// Configuration for a game session placement mechanism that processes requests
 /// for new game sessions. A queue can be used on its own or as part of a
 /// matchmaking solution.
+///
+/// @nodoc
 class GameSessionQueue {
   /// Information that is added to all events that are related to this game
   /// session queue.
@@ -15778,6 +15908,8 @@ class GameSessionQueue {
 /// from receiving placements. For queues that have multi-location fleets, you
 /// can use a filter configuration allow placement with some, but not all, of a
 /// fleet's locations.
+///
+/// @nodoc
 class FilterConfiguration {
   /// A list of locations to allow game session placement in, in the form of
   /// Amazon Web Services Region codes such as <code>us-west-2</code>.
@@ -15828,6 +15960,8 @@ class FilterConfiguration {
 /// multi-location fleets, an alphabetic list of locations.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PriorityConfiguration {
   /// The prioritization order to use for fleet locations, when the
   /// <code>PriorityOrder</code> property includes <code>LOCATION</code>.
@@ -15892,6 +16026,7 @@ class PriorityConfiguration {
   }
 }
 
+/// @nodoc
 class PriorityType {
   static const latency = PriorityType._('LATENCY');
   static const cost = PriorityType._('COST');
@@ -15920,6 +16055,8 @@ class PriorityType {
 /// A fleet or alias designated in a game session queue. Queues fulfill requests
 /// for new game sessions by placing a new game session on any of the queue's
 /// destinations.
+///
+/// @nodoc
 class GameSessionQueueDestination {
   /// The Amazon Resource Name (ARN) that is assigned to fleet or fleet alias.
   /// ARNs, which include a fleet ID or alias ID and a Region name, provide a
@@ -15950,6 +16087,8 @@ class GameSessionQueueDestination {
 /// policies are used only with placement request that provide player latency
 /// information. Player latency policies can be stacked to gradually relax
 /// latency requirements over time.
+///
+/// @nodoc
 class PlayerLatencyPolicy {
   /// The maximum latency value that is allowed for any player, in milliseconds.
   /// All policies must have a value set for this property.
@@ -15999,6 +16138,8 @@ class PlayerLatencyPolicy {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class GameSession {
   /// A descriptive label for the compute resource. The compute resource that is
   /// hosting the game session. For EC2 fleets, this is the EC2 instance ID. For
@@ -16276,6 +16417,7 @@ class GameSession {
   }
 }
 
+/// @nodoc
 class GameSessionStatus {
   static const active = GameSessionStatus._('ACTIVE');
   static const activating = GameSessionStatus._('ACTIVATING');
@@ -16303,6 +16445,7 @@ class GameSessionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GameSessionStatusReason {
   static const interrupted = GameSessionStatusReason._('INTERRUPTED');
   static const triggeredOnProcessTerminate =
@@ -16334,6 +16477,7 @@ class GameSessionStatusReason {
   String toString() => value;
 }
 
+/// @nodoc
 class PlayerSessionCreationPolicy {
   static const acceptAll = PlayerSessionCreationPolicy._('ACCEPT_ALL');
   static const denyAll = PlayerSessionCreationPolicy._('DENY_ALL');
@@ -16359,6 +16503,7 @@ class PlayerSessionCreationPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class PlayerGatewayStatus {
   static const disabled = PlayerGatewayStatus._('DISABLED');
   static const enabled = PlayerGatewayStatus._('ENABLED');
@@ -16384,6 +16529,7 @@ class PlayerGatewayStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtectionPolicy {
   static const noProtection = ProtectionPolicy._('NoProtection');
   static const fullProtection = ProtectionPolicy._('FullProtection');
@@ -16418,6 +16564,8 @@ class ProtectionPolicy {
 /// temporarily suspended and resumed by calling
 /// <code>SuspendGameServerGroup</code> and <code>ResumeGameServerGroup</code>,
 /// respectively.
+///
+/// @nodoc
 class GameServerGroup {
   /// A generated unique ID for the Amazon EC2 Auto Scaling group that is
   /// associated with this game server group.
@@ -16612,6 +16760,7 @@ class GameServerGroup {
   }
 }
 
+/// @nodoc
 class BalancingStrategy {
   static const spotOnly = BalancingStrategy._('SPOT_ONLY');
   static const spotPreferred = BalancingStrategy._('SPOT_PREFERRED');
@@ -16637,6 +16786,7 @@ class BalancingStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class GameServerProtectionPolicy {
   static const noProtection = GameServerProtectionPolicy._('NO_PROTECTION');
   static const fullProtection = GameServerProtectionPolicy._('FULL_PROTECTION');
@@ -16662,6 +16812,7 @@ class GameServerProtectionPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class GameServerGroupStatus {
   static const $new = GameServerGroupStatus._('NEW');
   static const activating = GameServerGroupStatus._('ACTIVATING');
@@ -16700,6 +16851,7 @@ class GameServerGroupStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GameServerGroupAction {
   static const replaceInstanceTypes =
       GameServerGroupAction._('REPLACE_INSTANCE_TYPES');
@@ -16730,6 +16882,8 @@ class GameServerGroupAction {
 /// Servers FleetIQ periodically evaluates each defined instance type for
 /// viability. It then updates the Auto Scaling group with the list of viable
 /// instance types.
+///
+/// @nodoc
 class InstanceDefinition {
   /// An Amazon EC2 instance type designation.
   final GameServerGroupInstanceType instanceType;
@@ -16767,6 +16921,7 @@ class InstanceDefinition {
   }
 }
 
+/// @nodoc
 class GameServerGroupInstanceType {
   static const c4Large = GameServerGroupInstanceType._('c4.large');
   static const c4Xlarge = GameServerGroupInstanceType._('c4.xlarge');
@@ -16974,6 +17129,8 @@ class GameServerGroupInstanceType {
 /// <code>RegisterGameServer</code> and deleted by calling
 /// <code>DeregisterGameServer</code>. A game server is claimed to host a game
 /// session by calling <code>ClaimGameServer</code>.
+///
+/// @nodoc
 class GameServer {
   /// Indicates when an available game server has been reserved for gameplay but
   /// has not yet started hosting a game. Once it is claimed, the game server
@@ -17109,6 +17266,7 @@ class GameServer {
   }
 }
 
+/// @nodoc
 class GameServerClaimStatus {
   static const claimed = GameServerClaimStatus._('CLAIMED');
 
@@ -17133,6 +17291,7 @@ class GameServerClaimStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GameServerUtilizationStatus {
   static const available = GameServerUtilizationStatus._('AVAILABLE');
   static const utilized = GameServerUtilizationStatus._('UTILIZED');
@@ -17158,6 +17317,7 @@ class GameServerUtilizationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GameServerHealthCheck {
   static const healthy = GameServerHealthCheck._('HEALTHY');
 
@@ -17189,6 +17349,8 @@ class GameServerHealthCheck {
 ///
 /// For Amazon GameLift Servers Realtime fleets, Amazon GameLift Servers
 /// automatically opens two port ranges, one for TCP messaging and one for UDP.
+///
+/// @nodoc
 class IpPermission {
   /// A starting value for a range of allowed port numbers.
   ///
@@ -17200,8 +17362,8 @@ class IpPermission {
   final int fromPort;
 
   /// A range of allowed IP addresses. This value must be expressed in CIDR
-  /// notation. Example: "<code>000.000.000.000/[subnet mask]</code>" or
-  /// optionally the shortened version "<code>0.0.0.0/[subnet mask]</code>".
+  /// notation. Example: "<code>000.000.000.000/\[subnet mask\]</code>" or
+  /// optionally the shortened version "<code>0.0.0.0/\[subnet mask\]</code>".
   final String ipRange;
 
   /// The network communication protocol used by the fleet.
@@ -17248,6 +17410,7 @@ class IpPermission {
   }
 }
 
+/// @nodoc
 class IpProtocol {
   static const tcp = IpProtocol._('TCP');
   static const udp = IpProtocol._('UDP');
@@ -17287,6 +17450,8 @@ class IpProtocol {
 /// cold-start latency is tolerable. With a "MANUAL" ZeroCapacityStrategy Amazon
 /// GameLift Servers will not modify Fleet MinSize values automatically and will
 /// not scale out from zero instances in response to game sessions.
+///
+/// @nodoc
 class ManagedCapacityConfiguration {
   /// Length of time, in minutes, that Amazon GameLift Servers will wait before
   /// scaling in your MinSize and DesiredInstances to 0 after a period with no
@@ -17341,6 +17506,7 @@ class ManagedCapacityConfiguration {
   }
 }
 
+/// @nodoc
 class ZeroCapacityStrategy {
   static const manual = ZeroCapacityStrategy._('MANUAL');
   static const scaleToAndFromZero =
@@ -17375,6 +17541,8 @@ class ZeroCapacityStrategy {
 /// receiving a <code>CreateGameSession</code> request, Amazon GameLift Servers
 /// checks that the player (identified by <code>CreatorId</code>) has created
 /// fewer than game session limit in the specified time period.
+///
+/// @nodoc
 class ResourceCreationLimitPolicy {
   /// A policy that puts limits on the number of game sessions that a player can
   /// create within a specified span of time. With this policy, you can control
@@ -17414,6 +17582,8 @@ class ResourceCreationLimitPolicy {
 }
 
 /// Amazon GameLift Servers configuration options for your Anywhere fleets.
+///
+/// @nodoc
 class AnywhereConfiguration {
   /// The cost to run your fleet per hour. Amazon GameLift Servers uses the
   /// provided cost of your fleet to balance usage in queues. For more information
@@ -17453,6 +17623,8 @@ class AnywhereConfiguration {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html">ListContainerGroupDefinitions</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html">UpdateContainerGroupDefinition</a>
+///
+/// @nodoc
 class ContainerGroupDefinition {
   /// A descriptive identifier for the container group definition. The name value
   /// is unique in an Amazon Web Services Region.
@@ -17463,8 +17635,8 @@ class ContainerGroupDefinition {
   /// that is assigned to an Amazon GameLift Servers
   /// <code>ContainerGroupDefinition</code> resource. It uniquely identifies the
   /// resource across all Amazon Web Services Regions. Format is
-  /// <code>arn:aws:gamelift:[region]::containergroupdefinition/[container group
-  /// definition name]:[version]</code>.
+  /// <code>arn:aws:gamelift:\[region\]::containergroupdefinition/\[container
+  /// group definition name\]:\[version\]</code>.
   final String? containerGroupDefinitionArn;
 
   /// The type of container group. Container group type determines how Amazon
@@ -17665,6 +17837,7 @@ class ContainerGroupDefinition {
   }
 }
 
+/// @nodoc
 class ContainerOperatingSystem {
   static const amazonLinux_2023 =
       ContainerOperatingSystem._('AMAZON_LINUX_2023');
@@ -17690,6 +17863,7 @@ class ContainerOperatingSystem {
   String toString() => value;
 }
 
+/// @nodoc
 class ContainerGroupType {
   static const gameServer = ContainerGroupType._('GAME_SERVER');
   static const perInstance = ContainerGroupType._('PER_INSTANCE');
@@ -17734,6 +17908,8 @@ class ContainerGroupType {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html">ListContainerGroupDefinitions</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html">UpdateContainerGroupDefinition</a>
+///
+/// @nodoc
 class GameServerContainerDefinition {
   /// The container definition identifier. Container names are unique within a
   /// container group definition.
@@ -17836,6 +18012,7 @@ class GameServerContainerDefinition {
   }
 }
 
+/// @nodoc
 class ContainerGroupDefinitionStatus {
   static const ready = ContainerGroupDefinitionStatus._('READY');
   static const copying = ContainerGroupDefinitionStatus._('COPYING');
@@ -17880,6 +18057,8 @@ class ContainerGroupDefinitionStatus {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html">ListContainerGroupDefinitions</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html">UpdateContainerGroupDefinition</a>
+///
+/// @nodoc
 class SupportContainerDefinition {
   /// The container definition identifier. Container names are unique within a
   /// container group definition.
@@ -18034,13 +18213,15 @@ class SupportContainerDefinition {
 /// also tells the container to wait 100 seconds after launch before counting
 /// failed health checks.
 ///
-/// <code>{"Command": [ "CMD-SHELL", "ps cax | grep "processmanager" || exit 1"
-/// ], "Interval": 60, "Timeout": 10, "Retries": 3, "StartPeriod": 100 }</code>
+/// <code>{"Command": \[ "CMD-SHELL", "ps cax | grep "processmanager" || exit 1"
+/// \], "Interval": 60, "Timeout": 10, "Retries": 3, "StartPeriod": 100 }</code>
 ///
 /// <b>Part of:</b> <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html">SupportContainerDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html">SupportContainerDefinitionInput</a>
+///
+/// @nodoc
 class ContainerHealthCheck {
   /// A string array that specifies the command that the container runs to
   /// determine if it's healthy.
@@ -18125,6 +18306,8 @@ class ContainerHealthCheck {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html">SupportContainerDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html">SupportContainerDefinitionInput</a>
+///
+/// @nodoc
 class ContainerPortConfiguration {
   /// A set of one or more container port number ranges. The ranges can't overlap
   /// if the ranges' network protocols are the same. Overlapping ranges with
@@ -18157,6 +18340,8 @@ class ContainerPortConfiguration {
 ///
 /// <b>Part of:</b> <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerPortConfiguration.html">ContainerPortConfiguration</a>
+///
+/// @nodoc
 class ContainerPortRange {
   /// A starting value for the range of allowed port numbers.
   final int fromPort;
@@ -18206,6 +18391,8 @@ class ContainerPortRange {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html">SupportContainerDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html">SupportContainerDefinitionInput</a>
+///
+/// @nodoc
 class ContainerEnvironment {
   /// The environment variable name.
   final String name;
@@ -18246,6 +18433,8 @@ class ContainerEnvironment {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html">SupportContainerDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html">https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html</a>
+///
+/// @nodoc
 class ContainerMountPoint {
   /// The path to the source file or directory.
   final String instancePath;
@@ -18284,6 +18473,7 @@ class ContainerMountPoint {
   }
 }
 
+/// @nodoc
 class ContainerMountPointAccessLevel {
   static const readOnly = ContainerMountPointAccessLevel._('READ_ONLY');
   static const readAndWrite =
@@ -18327,6 +18517,8 @@ class ContainerMountPointAccessLevel {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html">SupportContainerDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html">SupportContainerDefinitionInput</a>
+///
+/// @nodoc
 class ContainerDependency {
   /// The condition that the dependency container must reach before the dependent
   /// container can start. Valid conditions include:
@@ -18379,6 +18571,7 @@ class ContainerDependency {
   }
 }
 
+/// @nodoc
 class ContainerDependencyCondition {
   static const start = ContainerDependencyCondition._('START');
   static const complete = ContainerDependencyCondition._('COMPLETE');
@@ -18419,6 +18612,8 @@ class ContainerDependencyCondition {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html">CreateContainerGroupDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html">UpdateContainerGroupDefinition</a>
+///
+/// @nodoc
 class GameServerContainerDefinitionInput {
   /// A string that uniquely identifies the container definition within a
   /// container group.
@@ -18435,16 +18630,16 @@ class GameServerContainerDefinitionInput {
   ///
   /// <ul>
   /// <li>
-  /// Image ID only: <code>[AWS account].dkr.ecr.[AWS
-  /// region].amazonaws.com/[repository ID]</code>
+  /// Image ID only: <code>\[AWS account\].dkr.ecr.\[AWS
+  /// region\].amazonaws.com/\[repository ID\]</code>
   /// </li>
   /// <li>
-  /// Image ID and digest: <code>[AWS account].dkr.ecr.[AWS
-  /// region].amazonaws.com/[repository ID]@[digest]</code>
+  /// Image ID and digest: <code>\[AWS account\].dkr.ecr.\[AWS
+  /// region\].amazonaws.com/\[repository ID\]@\[digest\]</code>
   /// </li>
   /// <li>
-  /// Image ID and tag: <code>[AWS account].dkr.ecr.[AWS
-  /// region].amazonaws.com/[repository ID]:[tag]</code>
+  /// Image ID and tag: <code>\[AWS account\].dkr.ecr.\[AWS
+  /// region\].amazonaws.com/\[repository ID\]:\[tag\]</code>
   /// </li>
   /// </ul>
   final String imageUri;
@@ -18533,6 +18728,8 @@ class GameServerContainerDefinitionInput {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html">CreateContainerGroupDefinition</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html">UpdateContainerGroupDefinition</a>
+///
+/// @nodoc
 class SupportContainerDefinitionInput {
   /// A string that uniquely identifies the container definition within a
   /// container group.
@@ -18549,16 +18746,16 @@ class SupportContainerDefinitionInput {
   ///
   /// <ul>
   /// <li>
-  /// Image ID only: <code>[AWS account].dkr.ecr.[AWS
-  /// region].amazonaws.com/[repository ID]</code>
+  /// Image ID only: <code>\[AWS account\].dkr.ecr.\[AWS
+  /// region\].amazonaws.com/\[repository ID\]</code>
   /// </li>
   /// <li>
-  /// Image ID and digest: <code>[AWS account].dkr.ecr.[AWS
-  /// region].amazonaws.com/[repository ID]@[digest]</code>
+  /// Image ID and digest: <code>\[AWS account\].dkr.ecr.\[AWS
+  /// region\].amazonaws.com/\[repository ID\]@\[digest\]</code>
   /// </li>
   /// <li>
-  /// Image ID and tag: <code>[AWS account].dkr.ecr.[AWS
-  /// region].amazonaws.com/[repository ID]:[tag]</code>
+  /// Image ID and tag: <code>\[AWS account\].dkr.ecr.\[AWS
+  /// region\].amazonaws.com/\[repository ID\]:\[tag\]</code>
   /// </li>
   /// </ul>
   final String imageUri;
@@ -18672,6 +18869,8 @@ class SupportContainerDefinitionInput {
 }
 
 /// Describes an Amazon GameLift Servers managed container fleet.
+///
+/// @nodoc
 class ContainerFleet {
   /// Indicates whether the fleet uses On-Demand or Spot instances for this fleet.
   /// Learn more about when to use <a
@@ -19010,6 +19209,8 @@ class ContainerFleet {
 /// The port range must not overlap with the Amazon GameLift Servers reserved
 /// port range <code>4092-4191</code>. This range is reserved for internal
 /// Amazon GameLift Servers services.
+///
+/// @nodoc
 class ConnectionPortRange {
   /// Starting value for the port range.
   final int fromPort;
@@ -19040,6 +19241,7 @@ class ConnectionPortRange {
   }
 }
 
+/// @nodoc
 class ContainerFleetBillingType {
   static const onDemand = ContainerFleetBillingType._('ON_DEMAND');
   static const spot = ContainerFleetBillingType._('SPOT');
@@ -19073,6 +19275,8 @@ class ContainerFleetBillingType {
 /// receiving a <code>CreateGameSession</code> request, Amazon GameLift Servers
 /// checks that the player (identified by <code>CreatorId</code>) has created
 /// fewer than game session limit in the specified time period.
+///
+/// @nodoc
 class GameSessionCreationLimitPolicy {
   /// A policy that puts limits on the number of game sessions that a player can
   /// create within a specified span of time. With this policy, you can control
@@ -19111,6 +19315,7 @@ class GameSessionCreationLimitPolicy {
   }
 }
 
+/// @nodoc
 class ContainerFleetStatus {
   static const pending = ContainerFleetStatus._('PENDING');
   static const creating = ContainerFleetStatus._('CREATING');
@@ -19150,6 +19355,8 @@ class ContainerFleetStatus {
 }
 
 /// Information about the most recent deployment for the container fleet.
+///
+/// @nodoc
 class DeploymentDetails {
   /// A unique identifier for a fleet deployment.
   final String? latestDeploymentId;
@@ -19175,6 +19382,8 @@ class DeploymentDetails {
 /// A method for collecting container logs for the fleet. Amazon GameLift
 /// Servers saves all standard output for each container in logs, including game
 /// session logs. You can select from the following methods:
+///
+/// @nodoc
 class LogConfiguration {
   /// The type of log collection to use for a fleet.
   ///
@@ -19229,6 +19438,7 @@ class LogConfiguration {
   }
 }
 
+/// @nodoc
 class PlayerGatewayMode {
   static const disabled = PlayerGatewayMode._('DISABLED');
   static const enabled = PlayerGatewayMode._('ENABLED');
@@ -19255,6 +19465,8 @@ class PlayerGatewayMode {
 }
 
 /// Details about a location in a multi-location container fleet.
+///
+/// @nodoc
 class ContainerFleetLocationAttributes {
   /// A location identifier.
   final String? location;
@@ -19337,6 +19549,7 @@ class ContainerFleetLocationAttributes {
   }
 }
 
+/// @nodoc
 class ContainerFleetLocationStatus {
   static const pending = ContainerFleetLocationStatus._('PENDING');
   static const creating = ContainerFleetLocationStatus._('CREATING');
@@ -19375,6 +19588,7 @@ class ContainerFleetLocationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class LogDestination {
   static const none = LogDestination._('NONE');
   static const cloudwatch = LogDestination._('CLOUDWATCH');
@@ -19401,6 +19615,8 @@ class LogDestination {
 }
 
 /// Set of rules for processing a deployment for a container fleet update.
+///
+/// @nodoc
 class DeploymentConfiguration {
   /// Determines what actions to take if a deployment fails. If the fleet is
   /// multi-location, this strategy applies across all fleet locations. With a
@@ -19453,6 +19669,7 @@ class DeploymentConfiguration {
   }
 }
 
+/// @nodoc
 class ContainerFleetRemoveAttribute {
   static const perInstanceContainerGroupDefinition =
       ContainerFleetRemoveAttribute._(
@@ -19479,6 +19696,7 @@ class ContainerFleetRemoveAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentProtectionStrategy {
   static const withProtection =
       DeploymentProtectionStrategy._('WITH_PROTECTION');
@@ -19506,6 +19724,7 @@ class DeploymentProtectionStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentImpairmentStrategy {
   static const maintain = DeploymentImpairmentStrategy._('MAINTAIN');
   static const rollback = DeploymentImpairmentStrategy._('ROLLBACK');
@@ -19536,6 +19755,8 @@ class DeploymentImpairmentStrategy {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class Build {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -19660,6 +19881,7 @@ class Build {
   }
 }
 
+/// @nodoc
 class BuildStatus {
   static const initialized = BuildStatus._('INITIALIZED');
   static const ready = BuildStatus._('READY');
@@ -19684,6 +19906,7 @@ class BuildStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OperatingSystem {
   static const windows_2012 = OperatingSystem._('WINDOWS_2012');
   static const amazonLinux = OperatingSystem._('AMAZON_LINUX');
@@ -19726,6 +19949,8 @@ class OperatingSystem {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class Alias {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -19813,6 +20038,8 @@ class Alias {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class RoutingStrategy {
   /// A unique identifier for the fleet that the alias points to. This value is
   /// the fleet ID, not the fleet ARN.
@@ -19864,6 +20091,7 @@ class RoutingStrategy {
   }
 }
 
+/// @nodoc
 class RoutingStrategyType {
   static const simple = RoutingStrategyType._('SIMPLE');
   static const terminal = RoutingStrategyType._('TERMINAL');
@@ -19889,6 +20117,7 @@ class RoutingStrategyType {
   String toString() => value;
 }
 
+/// @nodoc
 class TerminationMode {
   static const triggerOnProcessTerminate =
       TerminationMode._('TRIGGER_ON_PROCESS_TERMINATE');
@@ -19932,6 +20161,8 @@ class TerminationMode {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class Tag {
   /// The key for a developer-defined key value pair for tagging an Amazon Web
   /// Services resource.
@@ -19977,6 +20208,8 @@ class Tag {
 /// object and updates this placement object with the new game session
 /// properties.
 /// </note>
+///
+/// @nodoc
 class GameSessionPlacement {
   /// The DNS identifier assigned to the instance that is running the game
   /// session. Values have the following format:
@@ -20267,6 +20500,7 @@ class GameSessionPlacement {
   }
 }
 
+/// @nodoc
 class GameSessionPlacementState {
   static const pending = GameSessionPlacementState._('PENDING');
   static const fulfilled = GameSessionPlacementState._('FULFILLED');
@@ -20313,6 +20547,8 @@ class GameSessionPlacementState {
 /// <code>FilterConfiguration</code> allowed list, Amazon GameLift Servers won't
 /// attempt to place a game session there.
 /// </note>
+///
+/// @nodoc
 class PriorityConfigurationOverride {
   /// A prioritized list of hosting locations. The list can include Amazon Web
   /// Services Regions (such as <code>us-west-2</code>), local zones, and custom
@@ -20365,6 +20601,7 @@ class PriorityConfigurationOverride {
   }
 }
 
+/// @nodoc
 class PlacementFallbackStrategy {
   static const defaultAfterSinglePass =
       PlacementFallbackStrategy._('DEFAULT_AFTER_SINGLE_PASS');
@@ -20395,6 +20632,8 @@ class PlacementFallbackStrategy {
 /// and player session ID. To retrieve full details on a player session, call <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribePlayerSessions.html">DescribePlayerSessions</a>
 /// with the player session ID.
+///
+/// @nodoc
 class PlacedPlayerSession {
   /// A unique identifier for a player that is associated with this player
   /// session.
@@ -20431,6 +20670,8 @@ class PlacedPlayerSession {
 /// difference between a player's latency values for multiple Regions are used
 /// to determine which fleets are best suited to place a new game session for
 /// the player.
+///
+/// @nodoc
 class PlayerLatency {
   /// Amount of time that represents the time lag experienced by the player when
   /// connected to the specified Region.
@@ -20469,6 +20710,7 @@ class PlayerLatency {
   }
 }
 
+/// @nodoc
 class FleetAction {
   static const autoScaling = FleetAction._('AUTO_SCALING');
 
@@ -20494,6 +20736,8 @@ class FleetAction {
 /// Ticket generated to track the progress of a matchmaking request. Each ticket
 /// is uniquely identified by a ticket ID, supplied by the requester, when
 /// creating a matchmaking request.
+///
+/// @nodoc
 class MatchmakingTicket {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -20655,6 +20899,7 @@ class MatchmakingTicket {
   }
 }
 
+/// @nodoc
 class MatchmakingConfigurationStatus {
   static const cancelled = MatchmakingConfigurationStatus._('CANCELLED');
   static const completed = MatchmakingConfigurationStatus._('COMPLETED');
@@ -20701,6 +20946,8 @@ class MatchmakingConfigurationStatus {
 /// creates a new game session for it. This information, including the game
 /// session endpoint and player sessions for each player in the original
 /// matchmaking request, is added to the matchmaking ticket.
+///
+/// @nodoc
 class GameSessionConnectionInfo {
   /// The DNS identifier assigned to the instance that is running the game
   /// session. Values have the following format:
@@ -20810,6 +21057,8 @@ class GameSessionConnectionInfo {
 /// When players connect to the match's game session, they must include both
 /// player ID and player session ID in order to claim their assigned player
 /// slot.
+///
+/// @nodoc
 class MatchedPlayerSession {
   /// A unique identifier for a player
   final String? playerId;
@@ -20844,6 +21093,8 @@ class MatchedPlayerSession {
 /// Represents a player in matchmaking. When starting a matchmaking request, a
 /// player has a player ID, attributes, and may have latency data. Team
 /// information is added after a match has been successfully completed.
+///
+/// @nodoc
 class Player {
   /// A set of values, expressed in milliseconds, that indicates the amount of
   /// latency that a player experiences when connected to Amazon Web Services
@@ -20908,6 +21159,8 @@ class Player {
 /// specify an attribute value using any of the valid data types: string,
 /// number, string array, or data map. Each <code>AttributeValue</code> object
 /// can use only one of the available properties.
+///
+/// @nodoc
 class AttributeValue {
   /// For number values, expressed as double.
   final double? n;
@@ -20957,6 +21210,8 @@ class AttributeValue {
 
 /// Player information for use when creating player sessions using a game
 /// session placement request.
+///
+/// @nodoc
 class DesiredPlayerSession {
   /// Developer-defined information related to a player. Amazon GameLift Servers
   /// does not use this data, so it can be formatted as needed for use in the
@@ -21004,6 +21259,8 @@ class DesiredPlayerSession {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html">https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AwsCredentials {
   /// The access key ID that identifies the temporary security credentials.
   final String? accessKeyId;
@@ -21054,6 +21311,8 @@ class AwsCredentials {
 /// is registered to the fleet.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Compute {
   /// The ARN that is assigned to a compute resource and uniquely identifies it.
   /// ARNs are unique across locations. Instances in managed EC2 fleets are not
@@ -21222,6 +21481,7 @@ class Compute {
   }
 }
 
+/// @nodoc
 class ComputeStatus {
   static const pending = ComputeStatus._('PENDING');
   static const active = ComputeStatus._('ACTIVE');
@@ -21248,6 +21508,7 @@ class ComputeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EC2InstanceType {
   static const t2Micro = EC2InstanceType._('t2.micro');
   static const t2Small = EC2InstanceType._('t2.small');
@@ -22285,6 +22546,8 @@ class EC2InstanceType {
 ///
 /// <b>Returned by:</b> <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeCompute.html">DescribeCompute</a>
+///
+/// @nodoc
 class ContainerAttribute {
   /// The identifier for a container that's running in a compute.
   final String? containerName;
@@ -22315,6 +22578,7 @@ class ContainerAttribute {
   }
 }
 
+/// @nodoc
 class ScalingAdjustmentType {
   static const changeInCapacity = ScalingAdjustmentType._('ChangeInCapacity');
   static const exactCapacity = ScalingAdjustmentType._('ExactCapacity');
@@ -22346,6 +22610,7 @@ class ScalingAdjustmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ComparisonOperatorType {
   static const greaterThanOrEqualToThreshold =
       ComparisonOperatorType._('GreaterThanOrEqualToThreshold');
@@ -22382,6 +22647,7 @@ class ComparisonOperatorType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricName {
   static const activatingGameSessions = MetricName._('ActivatingGameSessions');
   static const activeGameSessions = MetricName._('ActiveGameSessions');
@@ -22431,6 +22697,7 @@ class MetricName {
   String toString() => value;
 }
 
+/// @nodoc
 class PolicyType {
   static const ruleBased = PolicyType._('RuleBased');
   static const targetBased = PolicyType._('TargetBased');
@@ -22460,6 +22727,8 @@ class PolicyType {
 /// capacity so that the metric returns to the target value. The target
 /// configuration specifies settings as needed for the target based policy,
 /// including the target value.
+///
+/// @nodoc
 class TargetConfiguration {
   /// Desired value to use with a target-based scaling policy. The value must be
   /// relevant for whatever metric the scaling policy is using. For example, in a
@@ -22488,6 +22757,8 @@ class TargetConfiguration {
 
 /// Properties of a location, which can include its name, ARN (for custom
 /// locations), and ping beacon information.
+///
+/// @nodoc
 class LocationModel {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -22535,6 +22806,8 @@ class LocationModel {
 /// Information about a UDP ping beacon that can be used to measure network
 /// latency between a player device and an Amazon GameLift Servers hosting
 /// location.
+///
+/// @nodoc
 class PingBeacon {
   /// The domain name and port of the UDP ping beacon. Your game client can send
   /// UDP messages to this endpoint and receive responses to measure network
@@ -22562,6 +22835,8 @@ class PingBeacon {
 }
 
 /// The domain name and port information for a UDP endpoint.
+///
+/// @nodoc
 class UDPEndpoint {
   /// The domain name of the UDP endpoint.
   final String? domain;
@@ -22592,6 +22867,7 @@ class UDPEndpoint {
   }
 }
 
+/// @nodoc
 class LocationFilter {
   static const aws = LocationFilter._('AWS');
   static const custom = LocationFilter._('CUSTOM');
@@ -22616,6 +22892,7 @@ class LocationFilter {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -22640,6 +22917,8 @@ class SortOrder {
 }
 
 /// Describes a container fleet deployment with updates to the fleet.
+///
+/// @nodoc
 class FleetDeployment {
   /// A time stamp indicating when this data object was created. Format is a
   /// number expressed in Unix time as milliseconds (for example
@@ -22765,6 +23044,7 @@ class FleetDeployment {
   }
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const inProgress = DeploymentStatus._('IN_PROGRESS');
   static const impaired = DeploymentStatus._('IMPAIRED');
@@ -22802,6 +23082,7 @@ class DeploymentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ListComputeInputStatus {
   static const active = ListComputeInputStatus._('ACTIVE');
   static const impaired = ListComputeInputStatus._('IMPAIRED');
@@ -22837,6 +23118,8 @@ class ListComputeInputStatus {
 ///
 /// <b>With player gateway disabled:</b> Contains game server endpoint. Player
 /// gateway token and expiration fields are empty.
+///
+/// @nodoc
 class PlayerConnectionDetail {
   /// List of connection endpoints for the game client. Your game client uses
   /// these IP address(es) and port(s) to connect to the game session.
@@ -22900,6 +23183,8 @@ class PlayerConnectionDetail {
 }
 
 /// Network address(es) and port(s) for connecting to a game session.
+///
+/// @nodoc
 class PlayerConnectionEndpoint {
   /// IP address for connecting to the game session. When player gateway is
   /// enabled, this is a player gateway IP address. When player gateway is
@@ -22937,6 +23222,8 @@ class PlayerConnectionEndpoint {
 /// instance in an EC2 managed fleet. This data type is returned in response to
 /// a call to <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess">https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess</a>.
+///
+/// @nodoc
 class InstanceAccess {
   /// Security credentials that are required to access the instance.
   final InstanceCredentials? credentials;
@@ -22996,6 +23283,8 @@ class InstanceAccess {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess">https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess</a>,
 /// which requests access for instances that are running game servers with the
 /// Amazon GameLift Servers server SDK version 4.x or earlier.
+///
+/// @nodoc
 class InstanceCredentials {
   /// Secret string. For Windows instances, the secret is a password for use with
   /// Windows Remote Desktop. For Linux instances, it's a private key for use with
@@ -23036,6 +23325,8 @@ class InstanceCredentials {
 ///
 /// <b>Use with: </b> <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html">GetComputeAccess</a>
+///
+/// @nodoc
 class ContainerIdentifier {
   /// The identifier for a container that's running in a compute.
   final String? containerName;
@@ -23077,6 +23368,8 @@ class ContainerIdentifier {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class VpcPeeringConnection {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -23165,6 +23458,8 @@ class VpcPeeringConnection {
 /// messages are provided from EC2 (see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_VpcPeeringConnectionStateReason.html">VpcPeeringConnectionStateReason</a>).
 /// Connection status information is also communicated as a fleet event.
+///
+/// @nodoc
 class VpcPeeringConnectionStatus {
   /// Code indicating the status of a VPC peering connection.
   final String? code;
@@ -23205,6 +23500,8 @@ class VpcPeeringConnectionStatus {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class VpcPeeringAuthorization {
   /// Time stamp indicating when this authorization was issued. Format is a number
   /// expressed in Unix time as milliseconds (for example
@@ -23273,6 +23570,8 @@ class VpcPeeringAuthorization {
 
 /// Rule that controls how a fleet is scaled. Scaling policies are uniquely
 /// identified by the combination of name and fleet ID.
+///
+/// @nodoc
 class ScalingPolicy {
   /// Comparison operator to use when measuring a metric against the threshold
   /// value.
@@ -23509,6 +23808,7 @@ class ScalingPolicy {
   }
 }
 
+/// @nodoc
 class ScalingStatusType {
   static const active = ScalingStatusType._('ACTIVE');
   static const updateRequested = ScalingStatusType._('UPDATE_REQUESTED');
@@ -23546,6 +23846,7 @@ class ScalingStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class LocationUpdateStatus {
   static const pendingUpdate = LocationUpdateStatus._('PENDING_UPDATE');
 
@@ -23585,6 +23886,8 @@ class LocationUpdateStatus {
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets">All
 /// APIs by task</a>
+///
+/// @nodoc
 class PlayerSession {
   /// A time stamp indicating when this data object was created. Format is a
   /// number expressed in Unix time as milliseconds (for example
@@ -23738,6 +24041,7 @@ class PlayerSession {
   }
 }
 
+/// @nodoc
 class PlayerSessionStatus {
   static const reserved = PlayerSessionStatus._('RESERVED');
   static const active = PlayerSessionStatus._('ACTIVE');
@@ -23805,6 +24109,8 @@ class PlayerSessionStatus {
 /// players after 30 seconds.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MatchmakingRuleSet {
   /// A collection of matchmaking rules, formatted as a JSON string. Comments are
   /// not allowed in JSON, but most elements support a description field.
@@ -23861,6 +24167,8 @@ class MatchmakingRuleSet {
 /// Represents a virtual computing instance that runs game server processes and
 /// hosts game sessions. In Amazon GameLift Servers, one or more instances make
 /// up a managed EC2 fleet.
+///
+/// @nodoc
 class Instance {
   /// A time stamp indicating when this data object was created. Format is a
   /// number expressed in Unix time as milliseconds (for example
@@ -23999,6 +24307,7 @@ class Instance {
   }
 }
 
+/// @nodoc
 class InstanceStatus {
   static const pending = InstanceStatus._('PENDING');
   static const active = InstanceStatus._('ACTIVE');
@@ -24025,6 +24334,8 @@ class InstanceStatus {
 }
 
 /// A game session's properties plus the protection policy currently in force.
+///
+/// @nodoc
 class GameSessionDetail {
   /// Object that describes a game session.
   final GameSession? gameSession;
@@ -24075,6 +24386,8 @@ class GameSessionDetail {
 ///
 /// Retrieve game server instances for a game server group by calling
 /// <code>DescribeGameServerInstances</code>.
+///
+/// @nodoc
 class GameServerInstance {
   /// A generated unique identifier for the game server group that includes the
   /// game server instance.
@@ -24125,6 +24438,7 @@ class GameServerInstance {
   }
 }
 
+/// @nodoc
 class GameServerInstanceStatus {
   static const active = GameServerInstanceStatus._('ACTIVE');
   static const draining = GameServerInstanceStatus._('DRAINING');
@@ -24154,6 +24468,8 @@ class GameServerInstanceStatus {
 /// Current resource utilization statistics in a specified fleet or location.
 /// The location value might refer to a fleet's remote location or its home
 /// region.
+///
+/// @nodoc
 class FleetUtilization {
   /// The number of active game sessions that are currently being hosted across
   /// all instances in the fleet location.
@@ -24241,6 +24557,8 @@ class FleetUtilization {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html">DescribeFleetLocationCapacity</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html">UpdateFleetCapacity</a>
+///
+/// @nodoc
 class FleetCapacity {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
@@ -24335,6 +24653,8 @@ class FleetCapacity {
 /// instances. Pending and terminating counts are non-zero when the fleet
 /// capacity is adjusting to a scaling event or if access to resources is
 /// temporarily affected.
+///
+/// @nodoc
 class EC2InstanceCounts {
   /// Actual number of instances that are ready to host game sessions.
   final int? active;
@@ -24416,6 +24736,8 @@ class EC2InstanceCounts {
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html">https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html">https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html</a>
+///
+/// @nodoc
 class GameServerContainerGroupCounts {
   /// The number of container groups that have active game sessions.
   final int? active;
@@ -24461,6 +24783,8 @@ class GameServerContainerGroupCounts {
 }
 
 /// Details about a location in a multi-location fleet.
+///
+/// @nodoc
 class LocationAttributes {
   /// A fleet location and its current life-cycle state.
   final LocationState? locationState;
@@ -24542,6 +24866,8 @@ class LocationAttributes {
 /// the custom location was removed or not created.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class LocationState {
   /// The fleet location, expressed as an Amazon Web Services Region code such as
   /// <code>us-west-2</code>.
@@ -24598,6 +24924,7 @@ class LocationState {
   }
 }
 
+/// @nodoc
 class FleetStatus {
   static const $new = FleetStatus._('NEW');
   static const downloading = FleetStatus._('DOWNLOADING');
@@ -24644,6 +24971,8 @@ class FleetStatus {
 /// resources (such as a fleet). In addition to tracking activity, event codes
 /// and messages can provide additional information for troubleshooting and
 /// debugging problems.
+///
+/// @nodoc
 class Event {
   /// The number of times that this event occurred.
   final int? count;
@@ -24937,6 +25266,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class EventCode {
   static const genericEvent = EventCode._('GENERIC_EVENT');
   static const fleetCreated = EventCode._('FLEET_CREATED');
@@ -25102,6 +25432,8 @@ class EventCode {
 
 /// For a multi-location container fleet, describes the progress of a deployment
 /// across all fleet locations.
+///
+/// @nodoc
 class LocationalDeployment {
   /// The status of fleet deployment activity in the location.
   ///
@@ -25167,6 +25499,8 @@ class LocationalDeployment {
 /// </ul>
 /// <b>Returned by:</b> <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetAttributes">https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetAttributes</a>
+///
+/// @nodoc
 class FleetAttributes {
   /// A set of attributes that are specific to an Anywhere fleet.
   final AnywhereConfiguration? anywhereConfiguration;
@@ -25552,6 +25886,7 @@ class FleetAttributes {
   }
 }
 
+/// @nodoc
 class FleetType {
   static const onDemand = FleetType._('ON_DEMAND');
   static const spot = FleetType._('SPOT');
@@ -25582,6 +25917,8 @@ class FleetType {
 /// href="https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk.html">Amazon
 /// GameLift Servers Server SDK</a> operation
 /// <code>GetInstanceCertificate</code>.
+///
+/// @nodoc
 class CertificateConfiguration {
   /// Indicates whether a TLS/SSL certificate is generated for a fleet.
   ///
@@ -25617,6 +25954,7 @@ class CertificateConfiguration {
   }
 }
 
+/// @nodoc
 class ComputeType {
   static const ec2 = ComputeType._('EC2');
   static const anywhere = ComputeType._('ANYWHERE');
@@ -25640,6 +25978,7 @@ class ComputeType {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceRoleCredentialsProvider {
   static const sharedCredentialFile =
       InstanceRoleCredentialsProvider._('SHARED_CREDENTIAL_FILE');
@@ -25667,6 +26006,8 @@ class InstanceRoleCredentialsProvider {
 
 /// Configuration settings for player gateway. Use these settings to specify
 /// advanced options for how player gateway handles connections.
+///
+/// @nodoc
 class PlayerGatewayConfiguration {
   /// The IP protocol that your game servers support for player connections
   /// through player gateway. If the value is set to <code>IPv4</code>, GameLift
@@ -25698,6 +26039,7 @@ class PlayerGatewayConfiguration {
   }
 }
 
+/// @nodoc
 class GameServerIpProtocolSupported {
   static const iPv4 = GameServerIpProtocolSupported._('IPv4');
   static const dualStack = GameServerIpProtocolSupported._('DUAL_STACK');
@@ -25723,6 +26065,7 @@ class GameServerIpProtocolSupported {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateType {
   static const disabled = CertificateType._('DISABLED');
   static const generated = CertificateType._('GENERATED');
@@ -25753,6 +26096,8 @@ class CertificateType {
 /// Services Region or location, for use with Amazon GameLift Servers. You can
 /// request an limit increase for your account by using the <b>Service
 /// limits</b> page in the Amazon GameLift Servers console.
+///
+/// @nodoc
 class EC2InstanceLimit {
   /// The number of instances for the specified type and location that are
   /// currently being used by the Amazon Web Services account.
@@ -25807,6 +26152,8 @@ class EC2InstanceLimit {
 ///
 /// <b>Returned by:</b> <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupPortMappings.html">DescribeContainerGroupPortMappings</a>
+///
+/// @nodoc
 class ContainerGroupPortMapping {
   /// The name of the container, as defined in the container group definition.
   final String? containerName;
@@ -25856,6 +26203,8 @@ class ContainerGroupPortMapping {
 ///
 /// <b>Part of:</b> <a
 /// href="https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupPortMapping.html">ContainerGroupPortMapping</a>
+///
+/// @nodoc
 class ContainerPortMapping {
   /// The port number on the fleet instance that maps to the container port.
   /// Connection ports are assigned by Amazon GameLift Servers when the container
@@ -25897,6 +26246,7 @@ class ContainerPortMapping {
   }
 }
 
+/// @nodoc
 class GameServerGroupDeleteOption {
   static const safeDelete = GameServerGroupDeleteOption._('SAFE_DELETE');
   static const forceDelete = GameServerGroupDeleteOption._('FORCE_DELETE');
@@ -25927,6 +26277,8 @@ class GameServerGroupDeleteOption {
 /// settings and game server code to be deployed to all instances in a game
 /// server group. The launch template is specified when creating a new game
 /// server group.
+///
+/// @nodoc
 class LaunchTemplateSpecification {
   /// A unique identifier for an existing Amazon EC2 launch template.
   final String? launchTemplateId;
@@ -25964,6 +26316,8 @@ class LaunchTemplateSpecification {
 /// is created, all updates to Auto Scaling policies, including changing this
 /// policy and adding or removing other policies, is done directly on the Auto
 /// Scaling group.
+///
+/// @nodoc
 class GameServerGroupAutoScalingPolicy {
   /// Settings for a target-based scaling policy applied to Auto Scaling group.
   /// These settings are used to create a target-based policy that tracks the
@@ -26003,6 +26357,8 @@ class GameServerGroupAutoScalingPolicy {
 /// <code>"PercentUtilizedGameServers"</code> and specifies a target value for
 /// the metric. As player usage changes, the policy triggers to adjust the game
 /// server group capacity so that the metric returns to the target value.
+///
+/// @nodoc
 class TargetTrackingConfiguration {
   /// Desired value to use with a game server group target-based scaling policy.
   final double targetValue;
@@ -26021,6 +26377,8 @@ class TargetTrackingConfiguration {
 
 /// A remote location where a multi-location fleet can deploy game servers for
 /// game hosting.
+///
+/// @nodoc
 class LocationConfiguration {
   /// An Amazon Web Services Region code, such as <code>us-west-2</code>. For a
   /// list of supported Regions and Local Zones, see <a
@@ -26042,6 +26400,8 @@ class LocationConfiguration {
 
 /// Filters which game servers may be claimed when calling
 /// <code>ClaimGameServer</code>.
+///
+/// @nodoc
 class ClaimFilterOption {
   /// List of instance statuses that game servers may be claimed on. If provided,
   /// the list must contain the <code>ACTIVE</code> status.
@@ -26060,6 +26420,7 @@ class ClaimFilterOption {
   }
 }
 
+/// @nodoc
 class FilterInstanceStatus {
   static const active = FilterInstanceStatus._('ACTIVE');
   static const draining = FilterInstanceStatus._('DRAINING');
@@ -26085,6 +26446,7 @@ class FilterInstanceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceptanceType {
   static const accept = AcceptanceType._('ACCEPT');
   static const reject = AcceptanceType._('REJECT');
@@ -26109,11 +26471,13 @@ class AcceptanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class FleetCapacityExceededException extends _s.GenericAwsException {
   FleetCapacityExceededException({String? type, String? message})
       : super(
@@ -26122,11 +26486,13 @@ class FleetCapacityExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GameSessionFullException extends _s.GenericAwsException {
   GameSessionFullException({String? type, String? message})
       : super(type: type, code: 'GameSessionFullException', message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -26135,17 +26501,20 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidFleetStatusException extends _s.GenericAwsException {
   InvalidFleetStatusException({String? type, String? message})
       : super(
             type: type, code: 'InvalidFleetStatusException', message: message);
 }
 
+/// @nodoc
 class InvalidGameSessionStatusException extends _s.GenericAwsException {
   InvalidGameSessionStatusException({String? type, String? message})
       : super(
@@ -26154,36 +26523,43 @@ class InvalidGameSessionStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class NotReadyException extends _s.GenericAwsException {
   NotReadyException({String? type, String? message})
       : super(type: type, code: 'NotReadyException', message: message);
 }
 
+/// @nodoc
 class OutOfCapacityException extends _s.GenericAwsException {
   OutOfCapacityException({String? type, String? message})
       : super(type: type, code: 'OutOfCapacityException', message: message);
 }
 
+/// @nodoc
 class TaggingFailedException extends _s.GenericAwsException {
   TaggingFailedException({String? type, String? message})
       : super(type: type, code: 'TaggingFailedException', message: message);
 }
 
+/// @nodoc
 class TerminalRoutingStrategyException extends _s.GenericAwsException {
   TerminalRoutingStrategyException({String? type, String? message})
       : super(
@@ -26192,11 +26568,13 @@ class TerminalRoutingStrategyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class UnsupportedRegionException extends _s.GenericAwsException {
   UnsupportedRegionException({String? type, String? message})
       : super(type: type, code: 'UnsupportedRegionException', message: message);

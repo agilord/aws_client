@@ -1339,6 +1339,7 @@ class ManagedBlockchain {
   }
 }
 
+/// @nodoc
 class CreateAccessorOutput {
   /// The unique identifier of the accessor.
   final String? accessorId;
@@ -1378,6 +1379,7 @@ class CreateAccessorOutput {
   }
 }
 
+/// @nodoc
 class CreateMemberOutput {
   /// The unique identifier of the member.
   final String? memberId;
@@ -1400,6 +1402,7 @@ class CreateMemberOutput {
   }
 }
 
+/// @nodoc
 class CreateNetworkOutput {
   /// The unique identifier for the first member within the network.
   final String? memberId;
@@ -1429,6 +1432,7 @@ class CreateNetworkOutput {
   }
 }
 
+/// @nodoc
 class CreateNodeOutput {
   /// The unique identifier of the node.
   final String? nodeId;
@@ -1451,6 +1455,7 @@ class CreateNodeOutput {
   }
 }
 
+/// @nodoc
 class CreateProposalOutput {
   /// The unique identifier of the proposal.
   final String? proposalId;
@@ -1473,6 +1478,7 @@ class CreateProposalOutput {
   }
 }
 
+/// @nodoc
 class DeleteAccessorOutput {
   DeleteAccessorOutput();
 
@@ -1485,6 +1491,7 @@ class DeleteAccessorOutput {
   }
 }
 
+/// @nodoc
 class DeleteMemberOutput {
   DeleteMemberOutput();
 
@@ -1497,6 +1504,7 @@ class DeleteMemberOutput {
   }
 }
 
+/// @nodoc
 class DeleteNodeOutput {
   DeleteNodeOutput();
 
@@ -1509,6 +1517,7 @@ class DeleteNodeOutput {
   }
 }
 
+/// @nodoc
 class GetAccessorOutput {
   /// The properties of the accessor.
   final Accessor? accessor;
@@ -1533,6 +1542,7 @@ class GetAccessorOutput {
   }
 }
 
+/// @nodoc
 class GetMemberOutput {
   /// The properties of a member.
   final Member? member;
@@ -1557,6 +1567,7 @@ class GetMemberOutput {
   }
 }
 
+/// @nodoc
 class GetNetworkOutput {
   /// An object containing network configuration parameters.
   final Network? network;
@@ -1581,6 +1592,7 @@ class GetNetworkOutput {
   }
 }
 
+/// @nodoc
 class GetNodeOutput {
   /// Properties of the node configuration.
   final Node? node;
@@ -1605,6 +1617,7 @@ class GetNodeOutput {
   }
 }
 
+/// @nodoc
 class GetProposalOutput {
   /// Information about a proposal.
   final Proposal? proposal;
@@ -1629,6 +1642,7 @@ class GetProposalOutput {
   }
 }
 
+/// @nodoc
 class ListAccessorsOutput {
   /// An array of AccessorSummary objects that contain configuration properties
   /// for each accessor.
@@ -1662,6 +1676,7 @@ class ListAccessorsOutput {
   }
 }
 
+/// @nodoc
 class ListInvitationsOutput {
   /// The invitations for the network.
   final List<Invitation>? invitations;
@@ -1694,6 +1709,7 @@ class ListInvitationsOutput {
   }
 }
 
+/// @nodoc
 class ListMembersOutput {
   /// An array of <code>MemberSummary</code> objects. Each object contains details
   /// about a network member.
@@ -1727,6 +1743,7 @@ class ListMembersOutput {
   }
 }
 
+/// @nodoc
 class ListNetworksOutput {
   /// An array of <code>NetworkSummary</code> objects that contain configuration
   /// properties for each network.
@@ -1760,6 +1777,7 @@ class ListNetworksOutput {
   }
 }
 
+/// @nodoc
 class ListNodesOutput {
   /// The pagination token that indicates the next set of results to retrieve.
   final String? nextToken;
@@ -1793,6 +1811,7 @@ class ListNodesOutput {
   }
 }
 
+/// @nodoc
 class ListProposalsOutput {
   /// The pagination token that indicates the next set of results to retrieve.
   final String? nextToken;
@@ -1825,6 +1844,7 @@ class ListProposalsOutput {
   }
 }
 
+/// @nodoc
 class ListProposalVotesOutput {
   /// The pagination token that indicates the next set of results to retrieve.
   final String? nextToken;
@@ -1857,6 +1877,7 @@ class ListProposalVotesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags assigned to the resource.
   final Map<String, String>? tags;
@@ -1880,6 +1901,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RejectInvitationOutput {
   RejectInvitationOutput();
 
@@ -1892,6 +1914,7 @@ class RejectInvitationOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1904,6 +1927,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1916,6 +1940,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateMemberOutput {
   UpdateMemberOutput();
 
@@ -1928,6 +1953,7 @@ class UpdateMemberOutput {
   }
 }
 
+/// @nodoc
 class UpdateNodeOutput {
   UpdateNodeOutput();
 
@@ -1940,6 +1966,7 @@ class UpdateNodeOutput {
   }
 }
 
+/// @nodoc
 class VoteOnProposalOutput {
   VoteOnProposalOutput();
 
@@ -1952,6 +1979,7 @@ class VoteOnProposalOutput {
   }
 }
 
+/// @nodoc
 class VoteValue {
   static const yes = VoteValue._('YES');
   static const no = VoteValue._('NO');
@@ -1977,6 +2005,8 @@ class VoteValue {
 
 /// Configuration properties for logging events associated with a peer node on a
 /// Hyperledger Fabric network on Managed Blockchain.
+///
+/// @nodoc
 class NodeLogPublishingConfiguration {
   /// Configuration properties for logging events associated with a node that is
   /// owned by a member of a Managed Blockchain network using the Hyperledger
@@ -2006,6 +2036,8 @@ class NodeLogPublishingConfiguration {
 
 /// Configuration properties for logging events associated with a peer node
 /// owned by a member in a Managed Blockchain network.
+///
+/// @nodoc
 class NodeFabricLogPublishingConfiguration {
   /// Configuration properties for logging events associated with chaincode
   /// execution on a peer node. Chaincode logs contain the results of
@@ -2049,6 +2081,8 @@ class NodeFabricLogPublishingConfiguration {
 }
 
 /// A collection of log configurations.
+///
+/// @nodoc
 class LogConfigurations {
   /// Parameters for publishing logs to Amazon CloudWatch Logs.
   final LogConfiguration? cloudwatch;
@@ -2075,6 +2109,8 @@ class LogConfigurations {
 }
 
 /// A configuration for logging events.
+///
+/// @nodoc
 class LogConfiguration {
   /// Indicates whether logging is enabled.
   final bool? enabled;
@@ -2099,6 +2135,8 @@ class LogConfiguration {
 
 /// Configuration properties for logging events associated with a member of a
 /// Managed Blockchain network.
+///
+/// @nodoc
 class MemberLogPublishingConfiguration {
   /// Configuration properties for logging events associated with a member of a
   /// Managed Blockchain network using the Hyperledger Fabric framework.
@@ -2127,6 +2165,8 @@ class MemberLogPublishingConfiguration {
 
 /// Configuration properties for logging events associated with a member of a
 /// Managed Blockchain network using the Hyperledger Fabric framework.
+///
+/// @nodoc
 class MemberFabricLogPublishingConfiguration {
   /// Configuration properties for logging events associated with a member's
   /// Certificate Authority (CA). CA logs help you determine when a member in your
@@ -2157,6 +2197,8 @@ class MemberFabricLogPublishingConfiguration {
 /// Properties of an individual vote that a member cast for a proposal.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class VoteSummary {
   /// The unique identifier of the member that cast the vote.
   final String? memberId;
@@ -2196,6 +2238,8 @@ class VoteSummary {
 /// Properties of a proposal.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class ProposalSummary {
   /// The Amazon Resource Name (ARN) of the proposal. For more information about
   /// ARNs and their format, see <a
@@ -2307,6 +2351,7 @@ class ProposalSummary {
   }
 }
 
+/// @nodoc
 class ProposalStatus {
   static const inProgress = ProposalStatus._('IN_PROGRESS');
   static const approved = ProposalStatus._('APPROVED');
@@ -2335,6 +2380,8 @@ class ProposalStatus {
 }
 
 /// A summary of configuration properties for a node.
+///
+/// @nodoc
 class NodeSummary {
   /// The Amazon Resource Name (ARN) of the node. For more information about ARNs
   /// and their format, see <a
@@ -2396,6 +2443,7 @@ class NodeSummary {
   }
 }
 
+/// @nodoc
 class NodeStatus {
   static const creating = NodeStatus._('CREATING');
   static const available = NodeStatus._('AVAILABLE');
@@ -2438,6 +2486,8 @@ class NodeStatus {
 }
 
 /// A summary of network configuration properties.
+///
+/// @nodoc
 class NetworkSummary {
   /// The Amazon Resource Name (ARN) of the network. For more information about
   /// ARNs and their format, see <a
@@ -2513,6 +2563,7 @@ class NetworkSummary {
   }
 }
 
+/// @nodoc
 class Framework {
   static const hyperledgerFabric = Framework._('HYPERLEDGER_FABRIC');
   static const ethereum = Framework._('ETHEREUM');
@@ -2536,6 +2587,7 @@ class Framework {
   String toString() => value;
 }
 
+/// @nodoc
 class NetworkStatus {
   static const creating = NetworkStatus._('CREATING');
   static const available = NetworkStatus._('AVAILABLE');
@@ -2566,6 +2618,8 @@ class NetworkStatus {
 /// A summary of configuration properties for a member.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class MemberSummary {
   /// The Amazon Resource Name (ARN) of the member. For more information about
   /// ARNs and their format, see <a
@@ -2677,6 +2731,7 @@ class MemberSummary {
   }
 }
 
+/// @nodoc
 class MemberStatus {
   static const creating = MemberStatus._('CREATING');
   static const available = MemberStatus._('AVAILABLE');
@@ -2718,6 +2773,8 @@ class MemberStatus {
 /// the network.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class Invitation {
   /// The Amazon Resource Name (ARN) of the invitation. For more information about
   /// ARNs and their format, see <a
@@ -2807,6 +2864,7 @@ class Invitation {
   }
 }
 
+/// @nodoc
 class InvitationStatus {
   static const pending = InvitationStatus._('PENDING');
   static const accepted = InvitationStatus._('ACCEPTED');
@@ -2835,6 +2893,8 @@ class InvitationStatus {
 }
 
 /// A summary of accessor properties.
+///
+/// @nodoc
 class AccessorSummary {
   /// The Amazon Resource Name (ARN) of the accessor. For more information about
   /// ARNs and their format, see <a
@@ -2900,6 +2960,7 @@ class AccessorSummary {
   }
 }
 
+/// @nodoc
 class AccessorType {
   static const billingToken = AccessorType._('BILLING_TOKEN');
 
@@ -2922,6 +2983,7 @@ class AccessorType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessorStatus {
   static const available = AccessorStatus._('AVAILABLE');
   static const pendingDeletion = AccessorStatus._('PENDING_DELETION');
@@ -2947,6 +3009,7 @@ class AccessorStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessorNetworkType {
   static const ethereumGoerli = AccessorNetworkType._('ETHEREUM_GOERLI');
   static const ethereumMainnet = AccessorNetworkType._('ETHEREUM_MAINNET');
@@ -2985,6 +3048,8 @@ class AccessorNetworkType {
 /// Properties of a proposal on a Managed Blockchain network.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class Proposal {
   /// The actions to perform on the network if the proposal is
   /// <code>APPROVED</code>.
@@ -3158,6 +3223,8 @@ class Proposal {
 /// The actions to carry out if a proposal is <code>APPROVED</code>.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class ProposalActions {
   /// The actions to perform for an <code>APPROVED</code> proposal to invite an
   /// Amazon Web Services account to create a member and join the network.
@@ -3201,6 +3268,8 @@ class ProposalActions {
 /// associated resources are deleted from the network.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class RemoveAction {
   /// The unique identifier of the member to remove.
   final String memberId;
@@ -3228,6 +3297,8 @@ class RemoveAction {
 /// when a <code>Proposal</code> is <code>APPROVED</code>.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class InviteAction {
   /// The Amazon Web Services account ID to invite.
   final String principal;
@@ -3251,6 +3322,8 @@ class InviteAction {
 }
 
 /// Configuration properties of a node.
+///
+/// @nodoc
 class Node {
   /// The Amazon Resource Name (ARN) of the node. For more information about ARNs
   /// and their format, see <a
@@ -3442,6 +3515,8 @@ class Node {
 
 /// Attributes relevant to a node on a Managed Blockchain network for the
 /// blockchain framework that the network uses.
+///
+/// @nodoc
 class NodeFrameworkAttributes {
   /// Attributes of Ethereum for a node on a Managed Blockchain network that uses
   /// Ethereum.
@@ -3479,6 +3554,7 @@ class NodeFrameworkAttributes {
   }
 }
 
+/// @nodoc
 class StateDBType {
   static const levelDB = StateDBType._('LevelDB');
   static const couchDB = StateDBType._('CouchDB');
@@ -3504,6 +3580,8 @@ class StateDBType {
 
 /// Attributes of Hyperledger Fabric for a peer node on a Hyperledger Fabric
 /// network on Managed Blockchain.
+///
+/// @nodoc
 class NodeFabricAttributes {
   /// The endpoint that identifies the peer node for all services except peer
   /// channel-based event services.
@@ -3536,6 +3614,8 @@ class NodeFabricAttributes {
 }
 
 /// Attributes of an Ethereum node.
+///
+/// @nodoc
 class NodeEthereumAttributes {
   /// The endpoint on which the Ethereum node listens to run Ethereum API methods
   /// over HTTP connections from a client. Use this endpoint in client code for
@@ -3576,6 +3656,8 @@ class NodeEthereumAttributes {
 }
 
 /// Network configuration properties.
+///
+/// @nodoc
 class Network {
   /// The Amazon Resource Name (ARN) of the network. For more information about
   /// ARNs and their format, see <a
@@ -3699,6 +3781,8 @@ class Network {
 
 /// Attributes relevant to the network for the blockchain framework that the
 /// network uses.
+///
+/// @nodoc
 class NetworkFrameworkAttributes {
   /// Attributes of an Ethereum network for Managed Blockchain resources
   /// participating in an Ethereum network.
@@ -3739,6 +3823,8 @@ class NetworkFrameworkAttributes {
 /// The voting rules for the network to decide if a proposal is accepted
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class VotingPolicy {
   /// Defines the rules for the network for voting on proposals, such as the
   /// percentage of <code>YES</code> votes required for the proposal to be
@@ -3775,6 +3861,8 @@ class VotingPolicy {
 /// created.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class ApprovalThresholdPolicy {
   /// The duration from the time that a proposal is created until it expires. If
   /// members cast neither the required number of <code>YES</code> votes to
@@ -3828,6 +3916,7 @@ class ApprovalThresholdPolicy {
   }
 }
 
+/// @nodoc
 class ThresholdComparator {
   static const greaterThan = ThresholdComparator._('GREATER_THAN');
   static const greaterThanOrEqualTo =
@@ -3855,6 +3944,8 @@ class ThresholdComparator {
 }
 
 /// Attributes of Hyperledger Fabric for a network.
+///
+/// @nodoc
 class NetworkFabricAttributes {
   /// The edition of Amazon Managed Blockchain that Hyperledger Fabric uses. For
   /// more information, see <a
@@ -3889,6 +3980,8 @@ class NetworkFabricAttributes {
 }
 
 /// Attributes of Ethereum for a network.
+///
+/// @nodoc
 class NetworkEthereumAttributes {
   /// The Ethereum <code>CHAIN_ID</code> associated with the Ethereum network.
   /// Chain IDs are as follows:
@@ -3918,6 +4011,7 @@ class NetworkEthereumAttributes {
   }
 }
 
+/// @nodoc
 class Edition {
   static const starter = Edition._('STARTER');
   static const standard = Edition._('STANDARD');
@@ -3944,6 +4038,8 @@ class Edition {
 /// Member configuration properties.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class Member {
   /// The Amazon Resource Name (ARN) of the member. For more information about
   /// ARNs and their format, see <a
@@ -4111,6 +4207,8 @@ class Member {
 
 /// Attributes relevant to a member for the blockchain framework that the
 /// Managed Blockchain network uses.
+///
+/// @nodoc
 class MemberFrameworkAttributes {
   /// Attributes of Hyperledger Fabric relevant to a member on a Managed
   /// Blockchain network that uses Hyperledger Fabric.
@@ -4139,6 +4237,8 @@ class MemberFrameworkAttributes {
 
 /// Attributes of Hyperledger Fabric for a member in a Managed Blockchain
 /// network using the Hyperledger Fabric framework.
+///
+/// @nodoc
 class MemberFabricAttributes {
   /// The user name for the initial administrator user for the member.
   final String? adminUsername;
@@ -4169,6 +4269,8 @@ class MemberFabricAttributes {
 }
 
 /// The properties of the Accessor.
+///
+/// @nodoc
 class Accessor {
   /// The Amazon Resource Name (ARN) of the accessor. For more information about
   /// ARNs and their format, see <a
@@ -4260,6 +4362,8 @@ class Accessor {
 }
 
 /// Configuration properties of a node.
+///
+/// @nodoc
 class NodeConfiguration {
   /// The Amazon Managed Blockchain instance type for the node.
   final String instanceType;
@@ -4303,6 +4407,8 @@ class NodeConfiguration {
 
 /// Configuration properties relevant to the network for the blockchain
 /// framework that the network uses.
+///
+/// @nodoc
 class NetworkFrameworkConfiguration {
   /// Hyperledger Fabric configuration properties for a Managed Blockchain network
   /// that uses Hyperledger Fabric.
@@ -4323,6 +4429,8 @@ class NetworkFrameworkConfiguration {
 /// Configuration properties of the member.
 ///
 /// Applies only to Hyperledger Fabric.
+///
+/// @nodoc
 class MemberConfiguration {
   /// Configuration properties of the blockchain framework relevant to the member.
   final MemberFrameworkConfiguration frameworkConfiguration;
@@ -4413,6 +4521,8 @@ class MemberConfiguration {
 
 /// Configuration properties relevant to a member for the blockchain framework
 /// that the Managed Blockchain network uses.
+///
+/// @nodoc
 class MemberFrameworkConfiguration {
   /// Attributes of Hyperledger Fabric for a member on a Managed Blockchain
   /// network that uses Hyperledger Fabric.
@@ -4432,6 +4542,8 @@ class MemberFrameworkConfiguration {
 
 /// Configuration properties for Hyperledger Fabric for a member in a Managed
 /// Blockchain network that is using the Hyperledger Fabric framework.
+///
+/// @nodoc
 class MemberFabricConfiguration {
   /// The password for the member's initial administrative user. The
   /// <code>AdminPassword</code> must be at least 8 characters long and no more
@@ -4460,6 +4572,8 @@ class MemberFabricConfiguration {
 }
 
 /// Hyperledger Fabric configuration properties for the network.
+///
+/// @nodoc
 class NetworkFabricConfiguration {
   /// The edition of Amazon Managed Blockchain that the network uses. For more
   /// information, see <a
@@ -4479,16 +4593,19 @@ class NetworkFabricConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class IllegalActionException extends _s.GenericAwsException {
   IllegalActionException({String? type, String? message})
       : super(type: type, code: 'IllegalActionException', message: message);
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -4497,11 +4614,13 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -4510,6 +4629,7 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -4518,21 +4638,25 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotReadyException extends _s.GenericAwsException {
   ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

@@ -467,6 +467,7 @@ class BackupSearch {
   }
 }
 
+/// @nodoc
 class ListSearchJobBackupsOutput {
   /// The recovery points returned the results of a search job
   final List<SearchJobBackupsResult> results;
@@ -505,6 +506,7 @@ class ListSearchJobBackupsOutput {
   }
 }
 
+/// @nodoc
 class ListSearchJobResultsOutput {
   /// The results consist of either EBSResultItem or S3ResultItem.
   final List<ResultItem> results;
@@ -541,6 +543,7 @@ class ListSearchJobResultsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// List of tags returned by the operation.
   final Map<String, String>? tags;
@@ -564,6 +567,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -576,6 +580,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -588,6 +593,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class StartSearchJobOutput {
   /// The date and time that a job was created, in Unix format and Coordinated
   /// Universal Time (UTC). The value of <code>CompletionTime</code> is accurate
@@ -630,6 +636,7 @@ class StartSearchJobOutput {
   }
 }
 
+/// @nodoc
 class GetSearchJobOutput {
   /// The date and time that a search job was created, in Unix format and
   /// Coordinated Universal Time (UTC). The value of <code>CompletionTime</code>
@@ -771,6 +778,7 @@ class GetSearchJobOutput {
   }
 }
 
+/// @nodoc
 class StopSearchJobOutput {
   StopSearchJobOutput();
 
@@ -783,6 +791,7 @@ class StopSearchJobOutput {
   }
 }
 
+/// @nodoc
 class ListSearchJobsOutput {
   /// The search jobs among the list, with details of the returned search jobs.
   final List<SearchJobSummary> searchJobs;
@@ -820,6 +829,7 @@ class ListSearchJobsOutput {
   }
 }
 
+/// @nodoc
 class StartSearchResultExportJobOutput {
   /// This is the unique identifier that specifies the new export job.
   final String exportJobIdentifier;
@@ -850,6 +860,7 @@ class StartSearchResultExportJobOutput {
   }
 }
 
+/// @nodoc
 class GetSearchResultExportJobOutput {
   /// This is the unique string that identifies the specified export job.
   final String exportJobIdentifier;
@@ -937,6 +948,7 @@ class GetSearchResultExportJobOutput {
   }
 }
 
+/// @nodoc
 class ListSearchResultExportJobsOutput {
   /// The operation returns the included export jobs.
   final List<ExportJobSummary> exportJobs;
@@ -975,6 +987,8 @@ class ListSearchResultExportJobsOutput {
 }
 
 /// This is the summary of an export job.
+///
+/// @nodoc
 class ExportJobSummary {
   /// This is the unique string that identifies a specific export job.
   final String exportJobIdentifier;
@@ -1049,6 +1063,7 @@ class ExportJobSummary {
   }
 }
 
+/// @nodoc
 class ExportJobStatus {
   static const running = ExportJobStatus._('RUNNING');
   static const failed = ExportJobStatus._('FAILED');
@@ -1075,6 +1090,8 @@ class ExportJobStatus {
 }
 
 /// This contains the export specification object.
+///
+/// @nodoc
 class ExportSpecification {
   /// This specifies the destination Amazon S3 bucket for the export job. And, if
   /// included, it also specifies the destination prefix.
@@ -1104,6 +1121,8 @@ class ExportSpecification {
 
 /// This specification contains a required string of the destination bucket;
 /// optionally, you can include the destination prefix.
+///
+/// @nodoc
 class S3ExportSpecification {
   /// This specifies the destination Amazon S3 bucket for the export job.
   final String destinationBucket;
@@ -1135,6 +1154,8 @@ class S3ExportSpecification {
 }
 
 /// This is information pertaining to a search job.
+///
+/// @nodoc
 class SearchJobSummary {
   /// This is the completion time of the search job.
   final DateTime? completionTime;
@@ -1227,6 +1248,7 @@ class SearchJobSummary {
   }
 }
 
+/// @nodoc
 class SearchJobState {
   static const running = SearchJobState._('RUNNING');
   static const completed = SearchJobState._('COMPLETED');
@@ -1265,6 +1287,8 @@ class SearchJobState {
 /// TotalItemsToScanCount, the number of items returned by the search.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SearchScopeSummary {
   /// This is the count of the total number of items that will be scanned in a
   /// search.
@@ -1301,6 +1325,8 @@ class SearchScopeSummary {
 
 /// This contains information results retrieved from a search job that may not
 /// have completed.
+///
+/// @nodoc
 class CurrentSearchProgress {
   /// This number is the sum of all items that match the item filters in a search
   /// job in progress.
@@ -1342,6 +1368,8 @@ class CurrentSearchProgress {
 }
 
 /// The search scope is all backup properties input into a search.
+///
+/// @nodoc
 class SearchScope {
   /// The resource types included in a search.
   ///
@@ -1414,6 +1442,8 @@ class SearchScope {
 /// was created.
 ///
 /// Contains either EBSItemFilters or S3ItemFilters
+///
+/// @nodoc
 class ItemFilters {
   /// This array can contain CreationTimes, FilePaths, LastModificationTimes, or
   /// Sizes objects.
@@ -1454,6 +1484,8 @@ class ItemFilters {
 /// This contains arrays of objects, which may include CreationTimes time
 /// condition objects, FilePaths string objects, LastModificationTimes time
 /// condition objects,
+///
+/// @nodoc
 class EBSItemFilter {
   /// You can include 1 to 10 values.
   ///
@@ -1533,6 +1565,8 @@ class EBSItemFilter {
 
 /// A time condition denotes a creation time, last modification time, or other
 /// time.
+///
+/// @nodoc
 class TimeCondition {
   /// This is the timestamp value of the time condition.
   final DateTime value;
@@ -1568,6 +1602,7 @@ class TimeCondition {
   }
 }
 
+/// @nodoc
 class TimeConditionOperator {
   static const equalsTo = TimeConditionOperator._('EQUALS_TO');
   static const notEqualsTo = TimeConditionOperator._('NOT_EQUALS_TO');
@@ -1603,6 +1638,8 @@ class TimeConditionOperator {
 
 /// The long condition contains a <code>Value</code> and can optionally contain
 /// an <code>Operator</code>.
+///
+/// @nodoc
 class LongCondition {
   /// The value of an item included in one of the search item filters.
   final int value;
@@ -1638,6 +1675,7 @@ class LongCondition {
   }
 }
 
+/// @nodoc
 class LongConditionOperator {
   static const equalsTo = LongConditionOperator._('EQUALS_TO');
   static const notEqualsTo = LongConditionOperator._('NOT_EQUALS_TO');
@@ -1672,6 +1710,8 @@ class LongConditionOperator {
 }
 
 /// This contains the value of the string and can contain one or more operators.
+///
+/// @nodoc
 class StringCondition {
   /// The value of the string.
   final String value;
@@ -1707,6 +1747,7 @@ class StringCondition {
   }
 }
 
+/// @nodoc
 class StringConditionOperator {
   static const equalsTo = StringConditionOperator._('EQUALS_TO');
   static const notEqualsTo = StringConditionOperator._('NOT_EQUALS_TO');
@@ -1750,6 +1791,8 @@ class StringConditionOperator {
 
 /// This contains arrays of objects, which may include ObjectKeys, Sizes,
 /// CreationTimes, VersionIds, and/or Etags.
+///
+/// @nodoc
 class S3ItemFilter {
   /// You can include 1 to 10 values.
   ///
@@ -1847,6 +1890,8 @@ class S3ItemFilter {
 
 /// This filters by recovery points within the CreatedAfter and CreatedBefore
 /// timestamps.
+///
+/// @nodoc
 class BackupCreationTimeFilter {
   /// This timestamp includes recovery points only created after the specified
   /// time.
@@ -1880,6 +1925,7 @@ class BackupCreationTimeFilter {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const s3 = ResourceType._('S3');
   static const ebs = ResourceType._('EBS');
@@ -1905,6 +1951,8 @@ class ResourceType {
 
 /// This is an object representing the item returned in the results of a search
 /// for a specific resource type.
+///
+/// @nodoc
 class ResultItem {
   /// These are items returned in the search results of an Amazon EBS search.
   final EBSResultItem? eBSResultItem;
@@ -1941,6 +1989,8 @@ class ResultItem {
 
 /// These are the items returned in the results of a search of Amazon S3 backup
 /// metadata.
+///
+/// @nodoc
 class S3ResultItem {
   /// These are items in the returned results that match recovery point Amazon
   /// Resource Names (ARN) input during a search of Amazon S3 backup metadata.
@@ -2022,6 +2072,8 @@ class S3ResultItem {
 
 /// These are the items returned in the results of a search of Amazon EBS backup
 /// metadata.
+///
+/// @nodoc
 class EBSResultItem {
   /// These are one or more items in the results that match values for the Amazon
   /// Resource Name (ARN) of recovery points returned in a search of Amazon EBS
@@ -2107,6 +2159,8 @@ class EBSResultItem {
 
 /// This contains the information about recovery points returned in results of a
 /// search job.
+///
+/// @nodoc
 class SearchJobBackupsResult {
   /// This is the creation time of the backup (recovery point).
   final DateTime? backupCreationTime;
@@ -2176,16 +2230,19 @@ class SearchJobBackupsResult {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(

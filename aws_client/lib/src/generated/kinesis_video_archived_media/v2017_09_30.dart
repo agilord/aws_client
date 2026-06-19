@@ -1276,6 +1276,7 @@ class KinesisVideoArchivedMedia {
   }
 }
 
+/// @nodoc
 class GetClipOutput {
   /// The content type of the media in the requested clip.
   final String? contentType;
@@ -1301,6 +1302,7 @@ class GetClipOutput {
   }
 }
 
+/// @nodoc
 class GetDASHStreamingSessionURLOutput {
   /// The URL (containing the session token) that a media player can use to
   /// retrieve the MPEG-DASH manifest.
@@ -1325,6 +1327,7 @@ class GetDASHStreamingSessionURLOutput {
   }
 }
 
+/// @nodoc
 class GetHLSStreamingSessionURLOutput {
   /// The URL (containing the session token) that a media player can use to
   /// retrieve the HLS master playlist.
@@ -1349,6 +1352,7 @@ class GetHLSStreamingSessionURLOutput {
   }
 }
 
+/// @nodoc
 class GetImagesOutput {
   /// The list of images generated from the video stream. If there is no media
   /// available for the given timestamp, the <code>NO_MEDIA</code> error will be
@@ -1385,6 +1389,7 @@ class GetImagesOutput {
   }
 }
 
+/// @nodoc
 class GetMediaForFragmentListOutput {
   /// The content type of the requested media.
   final String? contentType;
@@ -1439,6 +1444,7 @@ class GetMediaForFragmentListOutput {
   }
 }
 
+/// @nodoc
 class ListFragmentsOutput {
   /// A list of archived <a>Fragment</a> objects from the stream that meet the
   /// selector criteria. Results are in no specific order, even across pages.
@@ -1475,6 +1481,8 @@ class ListFragmentsOutput {
 }
 
 /// Represents a segment of video or other time-delimited data.
+///
+/// @nodoc
 class Fragment {
   /// The playback duration or other time value associated with the fragment.
   final int? fragmentLengthInMilliseconds;
@@ -1556,6 +1564,8 @@ class Fragment {
 /// A fragment selector range with a start time of 00:00:01 and end time of
 /// 00:00:04 would return the fragments with start times of 00:00:02 and
 /// 00:00:04.
+///
+/// @nodoc
 class FragmentSelector {
   /// The origin of the timestamps to use (Server or Producer).
   final FragmentSelectorType fragmentSelectorType;
@@ -1578,6 +1588,7 @@ class FragmentSelector {
   }
 }
 
+/// @nodoc
 class FragmentSelectorType {
   static const producerTimestamp = FragmentSelectorType._('PRODUCER_TIMESTAMP');
   static const serverTimestamp = FragmentSelectorType._('SERVER_TIMESTAMP');
@@ -1604,6 +1615,8 @@ class FragmentSelectorType {
 }
 
 /// The range of timestamps for which to return fragments.
+///
+/// @nodoc
 class TimestampRange {
   /// The ending timestamp in the range of timestamps for which to return
   /// fragments.
@@ -1630,6 +1643,8 @@ class TimestampRange {
 
 /// A structure that contains the <code>Timestamp</code>, <code>Error</code>,
 /// and <code>ImageContent</code>.
+///
+/// @nodoc
 class Image {
   /// The error message shown when the image for the provided timestamp was not
   /// extracted due to a non-tryable error. An error will be returned if:
@@ -1681,6 +1696,7 @@ class Image {
   }
 }
 
+/// @nodoc
 class ImageError {
   static const noMedia = ImageError._('NO_MEDIA');
   static const mediaError = ImageError._('MEDIA_ERROR');
@@ -1704,6 +1720,7 @@ class ImageError {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageSelectorType {
   static const producerTimestamp = ImageSelectorType._('PRODUCER_TIMESTAMP');
   static const serverTimestamp = ImageSelectorType._('SERVER_TIMESTAMP');
@@ -1728,6 +1745,7 @@ class ImageSelectorType {
   String toString() => value;
 }
 
+/// @nodoc
 class Format {
   static const jpeg = Format._('JPEG');
   static const png = Format._('PNG');
@@ -1751,6 +1769,7 @@ class Format {
   String toString() => value;
 }
 
+/// @nodoc
 class FormatConfigKey {
   static const jPEGQuality = FormatConfigKey._('JPEGQuality');
 
@@ -1774,6 +1793,7 @@ class FormatConfigKey {
   String toString() => value;
 }
 
+/// @nodoc
 class HLSPlaybackMode {
   static const live = HLSPlaybackMode._('LIVE');
   static const liveReplay = HLSPlaybackMode._('LIVE_REPLAY');
@@ -1801,6 +1821,8 @@ class HLSPlaybackMode {
 
 /// Contains the range of timestamps for the requested media, and the source of
 /// the timestamps.
+///
+/// @nodoc
 class HLSFragmentSelector {
   /// The source of the timestamps for the requested media.
   ///
@@ -1857,6 +1879,7 @@ class HLSFragmentSelector {
   }
 }
 
+/// @nodoc
 class ContainerFormat {
   static const fragmentedMp4 = ContainerFormat._('FRAGMENTED_MP4');
   static const mpegTs = ContainerFormat._('MPEG_TS');
@@ -1881,6 +1904,7 @@ class ContainerFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class HLSDiscontinuityMode {
   static const always = HLSDiscontinuityMode._('ALWAYS');
   static const never = HLSDiscontinuityMode._('NEVER');
@@ -1907,6 +1931,7 @@ class HLSDiscontinuityMode {
   String toString() => value;
 }
 
+/// @nodoc
 class HLSDisplayFragmentTimestamp {
   static const always = HLSDisplayFragmentTimestamp._('ALWAYS');
   static const never = HLSDisplayFragmentTimestamp._('NEVER');
@@ -1932,6 +1957,7 @@ class HLSDisplayFragmentTimestamp {
   String toString() => value;
 }
 
+/// @nodoc
 class HLSFragmentSelectorType {
   static const producerTimestamp =
       HLSFragmentSelectorType._('PRODUCER_TIMESTAMP');
@@ -1962,6 +1988,8 @@ class HLSFragmentSelectorType {
 ///
 /// This value should not be present if <code>PlaybackType</code> is
 /// <code>LIVE</code>.
+///
+/// @nodoc
 class HLSTimestampRange {
   /// The end of the timestamp range for the requested media. This value must be
   /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
@@ -2013,6 +2041,7 @@ class HLSTimestampRange {
   }
 }
 
+/// @nodoc
 class DASHPlaybackMode {
   static const live = DASHPlaybackMode._('LIVE');
   static const liveReplay = DASHPlaybackMode._('LIVE_REPLAY');
@@ -2038,6 +2067,7 @@ class DASHPlaybackMode {
   String toString() => value;
 }
 
+/// @nodoc
 class DASHDisplayFragmentTimestamp {
   static const always = DASHDisplayFragmentTimestamp._('ALWAYS');
   static const never = DASHDisplayFragmentTimestamp._('NEVER');
@@ -2063,6 +2093,7 @@ class DASHDisplayFragmentTimestamp {
   String toString() => value;
 }
 
+/// @nodoc
 class DASHDisplayFragmentNumber {
   static const always = DASHDisplayFragmentNumber._('ALWAYS');
   static const never = DASHDisplayFragmentNumber._('NEVER');
@@ -2090,6 +2121,8 @@ class DASHDisplayFragmentNumber {
 
 /// Contains the range of timestamps for the requested media, and the source of
 /// the timestamps.
+///
+/// @nodoc
 class DASHFragmentSelector {
   /// The source of the timestamps for the requested media.
   ///
@@ -2147,6 +2180,7 @@ class DASHFragmentSelector {
   }
 }
 
+/// @nodoc
 class DASHFragmentSelectorType {
   static const producerTimestamp =
       DASHFragmentSelectorType._('PRODUCER_TIMESTAMP');
@@ -2182,6 +2216,8 @@ class DASHFragmentSelectorType {
 /// start exactly at or after the start time are included in the session.
 /// Fragments that start before the start time and continue past it are not
 /// included in the session.
+///
+/// @nodoc
 class DASHTimestampRange {
   /// The end of the timestamp range for the requested media. This value must be
   /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
@@ -2242,6 +2278,8 @@ class DASHTimestampRange {
 /// some fragments are ingested within the same time range and very different
 /// points in time, only the oldest ingested collection of fragments are
 /// returned.
+///
+/// @nodoc
 class ClipFragmentSelector {
   /// The origin of the timestamps to use (Server or Producer).
   final ClipFragmentSelectorType fragmentSelectorType;
@@ -2264,6 +2302,7 @@ class ClipFragmentSelector {
   }
 }
 
+/// @nodoc
 class ClipFragmentSelectorType {
   static const producerTimestamp =
       ClipFragmentSelectorType._('PRODUCER_TIMESTAMP');
@@ -2291,6 +2330,8 @@ class ClipFragmentSelectorType {
 }
 
 /// The range of timestamps for which to return fragments.
+///
+/// @nodoc
 class ClipTimestampRange {
   /// The end of the timestamp range for the requested media.
   ///
@@ -2332,17 +2373,20 @@ class ClipTimestampRange {
   }
 }
 
+/// @nodoc
 class ClientLimitExceededException extends _s.GenericAwsException {
   ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidCodecPrivateDataException extends _s.GenericAwsException {
   InvalidCodecPrivateDataException({String? type, String? message})
       : super(
@@ -2351,11 +2395,13 @@ class InvalidCodecPrivateDataException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidMediaFrameException extends _s.GenericAwsException {
   InvalidMediaFrameException({String? type, String? message})
       : super(type: type, code: 'InvalidMediaFrameException', message: message);
 }
 
+/// @nodoc
 class MissingCodecPrivateDataException extends _s.GenericAwsException {
   MissingCodecPrivateDataException({String? type, String? message})
       : super(
@@ -2364,21 +2410,25 @@ class MissingCodecPrivateDataException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoDataRetentionException extends _s.GenericAwsException {
   NoDataRetentionException({String? type, String? message})
       : super(type: type, code: 'NoDataRetentionException', message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class UnsupportedStreamMediaTypeException extends _s.GenericAwsException {
   UnsupportedStreamMediaTypeException({String? type, String? message})
       : super(

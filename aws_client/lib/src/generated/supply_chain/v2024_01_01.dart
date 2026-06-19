@@ -1451,6 +1451,8 @@ class SupplyChain {
 }
 
 /// The response parameters for GetDataIntegrationEvent.
+///
+/// @nodoc
 class GetDataIntegrationEventResponse {
   /// The details of the DataIntegrationEvent returned.
   final DataIntegrationEvent event;
@@ -1476,6 +1478,8 @@ class GetDataIntegrationEventResponse {
 }
 
 /// The response parameters of GetFlowExecution.
+///
+/// @nodoc
 class GetDataIntegrationFlowExecutionResponse {
   /// The flow execution details.
   final DataIntegrationFlowExecution flowExecution;
@@ -1502,6 +1506,8 @@ class GetDataIntegrationFlowExecutionResponse {
 }
 
 /// The response parameters for ListDataIntegrationEvents.
+///
+/// @nodoc
 class ListDataIntegrationEventsResponse {
   /// The list of data integration events.
   final List<DataIntegrationEvent> events;
@@ -1537,6 +1543,8 @@ class ListDataIntegrationEventsResponse {
 }
 
 /// The response parameters of ListFlowExecutions.
+///
+/// @nodoc
 class ListDataIntegrationFlowExecutionsResponse {
   /// The list of flow executions.
   final List<DataIntegrationFlowExecution> flowExecutions;
@@ -1572,6 +1580,8 @@ class ListDataIntegrationFlowExecutionsResponse {
 }
 
 /// The response parameters of ListTagsForResource.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags added to an Amazon Web Services Supply Chain resource.
   final Map<String, String> tags;
@@ -1597,6 +1607,8 @@ class ListTagsForResourceResponse {
 }
 
 /// The response parameters for SendDataIntegrationEvent.
+///
+/// @nodoc
 class SendDataIntegrationEventResponse {
   /// The unique event identifier.
   final String eventId;
@@ -1620,6 +1632,8 @@ class SendDataIntegrationEventResponse {
 }
 
 /// The response parameters for TagResource.
+///
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1633,6 +1647,8 @@ class TagResourceResponse {
 }
 
 /// The response parameters of UntagResource.
+///
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1646,6 +1662,8 @@ class UntagResourceResponse {
 }
 
 /// The response parameters of CreateBillOfMaterialsImportJob.
+///
+/// @nodoc
 class CreateBillOfMaterialsImportJobResponse {
   /// The new BillOfMaterialsImportJob identifier.
   final String jobId;
@@ -1670,6 +1688,8 @@ class CreateBillOfMaterialsImportJobResponse {
 }
 
 /// The response parameters for GetBillOfMaterialsImportJob.
+///
+/// @nodoc
 class GetBillOfMaterialsImportJobResponse {
   /// The BillOfMaterialsImportJob.
   final BillOfMaterialsImportJob job;
@@ -1695,6 +1715,8 @@ class GetBillOfMaterialsImportJobResponse {
 }
 
 /// The response parameters for CreateDataIntegrationFlow.
+///
+/// @nodoc
 class CreateDataIntegrationFlowResponse {
   /// The Amazon Web Services Supply Chain instance identifier.
   final String instanceId;
@@ -1726,6 +1748,8 @@ class CreateDataIntegrationFlowResponse {
 }
 
 /// The response parameters for GetDataIntegrationFlow.
+///
+/// @nodoc
 class GetDataIntegrationFlowResponse {
   /// The details of the DataIntegrationFlow returned.
   final DataIntegrationFlow flow;
@@ -1750,6 +1774,8 @@ class GetDataIntegrationFlowResponse {
 }
 
 /// The response parameters for UpdateDataIntegrationFlow.
+///
+/// @nodoc
 class UpdateDataIntegrationFlowResponse {
   /// The details of the updated DataIntegrationFlow.
   final DataIntegrationFlow flow;
@@ -1775,6 +1801,8 @@ class UpdateDataIntegrationFlowResponse {
 }
 
 /// The response parameters for DeleteDataIntegrationFlow.
+///
+/// @nodoc
 class DeleteDataIntegrationFlowResponse {
   /// The Amazon Web Services Supply Chain instance identifier.
   final String instanceId;
@@ -1806,6 +1834,8 @@ class DeleteDataIntegrationFlowResponse {
 }
 
 /// The response parameters for ListDataIntegrationFlows.
+///
+/// @nodoc
 class ListDataIntegrationFlowsResponse {
   /// The response parameters for ListDataIntegrationFlows.
   final List<DataIntegrationFlow> flows;
@@ -1839,6 +1869,8 @@ class ListDataIntegrationFlowsResponse {
 }
 
 /// The response parameters of CreateDataLakeDataset.
+///
+/// @nodoc
 class CreateDataLakeDatasetResponse {
   /// The detail of created dataset.
   final DataLakeDataset dataset;
@@ -1864,6 +1896,8 @@ class CreateDataLakeDatasetResponse {
 }
 
 /// The response parameters for GetDataLakeDataset.
+///
+/// @nodoc
 class GetDataLakeDatasetResponse {
   /// The fetched dataset details.
   final DataLakeDataset dataset;
@@ -1889,6 +1923,8 @@ class GetDataLakeDatasetResponse {
 }
 
 /// The response parameters of UpdateDataLakeDataset.
+///
+/// @nodoc
 class UpdateDataLakeDatasetResponse {
   /// The updated dataset details.
   final DataLakeDataset dataset;
@@ -1914,6 +1950,8 @@ class UpdateDataLakeDatasetResponse {
 }
 
 /// The response parameters of DeleteDataLakeDataset.
+///
+/// @nodoc
 class DeleteDataLakeDatasetResponse {
   /// The AWS Supply Chain instance identifier.
   final String instanceId;
@@ -1951,6 +1989,8 @@ class DeleteDataLakeDatasetResponse {
 }
 
 /// The response parameters of ListDataLakeDatasets.
+///
+/// @nodoc
 class ListDataLakeDatasetsResponse {
   /// The list of fetched dataset details.
   final List<DataLakeDataset> datasets;
@@ -1984,6 +2024,8 @@ class ListDataLakeDatasetsResponse {
 }
 
 /// The response parameters of CreateDataLakeNamespace.
+///
+/// @nodoc
 class CreateDataLakeNamespaceResponse {
   /// The detail of created namespace.
   final DataLakeNamespace namespace;
@@ -2009,6 +2051,8 @@ class CreateDataLakeNamespaceResponse {
 }
 
 /// The response parameters for GetDataLakeNamespace.
+///
+/// @nodoc
 class GetDataLakeNamespaceResponse {
   /// The fetched namespace details.
   final DataLakeNamespace namespace;
@@ -2034,6 +2078,8 @@ class GetDataLakeNamespaceResponse {
 }
 
 /// The response parameters of UpdateDataLakeNamespace.
+///
+/// @nodoc
 class UpdateDataLakeNamespaceResponse {
   /// The updated namespace details.
   final DataLakeNamespace namespace;
@@ -2059,6 +2105,8 @@ class UpdateDataLakeNamespaceResponse {
 }
 
 /// The response parameters of DeleteDataLakeNamespace.
+///
+/// @nodoc
 class DeleteDataLakeNamespaceResponse {
   /// The AWS Supply Chain instance identifier.
   final String instanceId;
@@ -2089,6 +2137,8 @@ class DeleteDataLakeNamespaceResponse {
 }
 
 /// The response parameters of ListDataLakeNamespaces.
+///
+/// @nodoc
 class ListDataLakeNamespacesResponse {
   /// The list of fetched namespace details. Noted it only contains custom
   /// namespaces, pre-defined namespaces are not included.
@@ -2123,6 +2173,8 @@ class ListDataLakeNamespacesResponse {
 }
 
 /// The response parameters for CreateInstance.
+///
+/// @nodoc
 class CreateInstanceResponse {
   /// The AWS Supply Chain instance resource data details.
   final Instance instance;
@@ -2147,6 +2199,8 @@ class CreateInstanceResponse {
 }
 
 /// The response parameters for GetInstance.
+///
+/// @nodoc
 class GetInstanceResponse {
   /// The instance resource data details.
   final Instance instance;
@@ -2171,6 +2225,8 @@ class GetInstanceResponse {
 }
 
 /// The response parameters for UpdateInstance.
+///
+/// @nodoc
 class UpdateInstanceResponse {
   /// The instance resource data details.
   final Instance instance;
@@ -2195,6 +2251,8 @@ class UpdateInstanceResponse {
 }
 
 /// The response parameters for DeleteInstance.
+///
+/// @nodoc
 class DeleteInstanceResponse {
   /// The AWS Supply Chain instance resource data details.
   final Instance instance;
@@ -2219,6 +2277,8 @@ class DeleteInstanceResponse {
 }
 
 /// The response parameters for ListInstances.
+///
+/// @nodoc
 class ListInstancesResponse {
   /// The list of instances resource data details.
   final List<Instance> instances;
@@ -2252,6 +2312,8 @@ class ListInstancesResponse {
 }
 
 /// The details of the instance.
+///
+/// @nodoc
 class Instance {
   /// The Amazon Web Services account ID that owns the instance.
   final String awsAccountId;
@@ -2352,6 +2414,7 @@ class Instance {
   }
 }
 
+/// @nodoc
 class InstanceState {
   static const initializing = InstanceState._('Initializing');
   static const active = InstanceState._('Active');
@@ -2388,6 +2451,8 @@ class InstanceState {
 }
 
 /// The data lake namespace details.
+///
+/// @nodoc
 class DataLakeNamespace {
   /// The arn of the namespace.
   final String arn;
@@ -2447,6 +2512,8 @@ class DataLakeNamespace {
 }
 
 /// The data lake dataset details.
+///
+/// @nodoc
 class DataLakeDataset {
   /// The arn of the dataset.
   final String arn;
@@ -2546,6 +2613,8 @@ class DataLakeDataset {
 /// The schema details of the dataset. Note that for AWS Supply Chain dataset
 /// under <b>asc</b> namespace, it may have internal fields like connection_id
 /// that will be auto populated by data ingestion methods.
+///
+/// @nodoc
 class DataLakeDatasetSchema {
   /// The list of field details of the dataset schema.
   final List<DataLakeDatasetSchemaField> fields;
@@ -2602,6 +2671,8 @@ class DataLakeDatasetSchema {
 }
 
 /// The partition specification for a dataset.
+///
+/// @nodoc
 class DataLakeDatasetPartitionSpec {
   /// The fields on which to partition a dataset. The partitions will be applied
   /// hierarchically based on the order of this list.
@@ -2630,6 +2701,8 @@ class DataLakeDatasetPartitionSpec {
 }
 
 /// The detail of the partition field.
+///
+/// @nodoc
 class DataLakeDatasetPartitionField {
   /// The name of the partition field.
   final String name;
@@ -2667,6 +2740,8 @@ class DataLakeDatasetPartitionField {
 }
 
 /// The detail of the partition field transformation.
+///
+/// @nodoc
 class DataLakeDatasetPartitionFieldTransform {
   /// The type of partitioning transformation for this field. The available
   /// options are:
@@ -2710,6 +2785,7 @@ class DataLakeDatasetPartitionFieldTransform {
   }
 }
 
+/// @nodoc
 class DataLakeDatasetPartitionTransformType {
   static const year = DataLakeDatasetPartitionTransformType._('YEAR');
   static const month = DataLakeDatasetPartitionTransformType._('MONTH');
@@ -2739,6 +2815,8 @@ class DataLakeDatasetPartitionTransformType {
 }
 
 /// The detail of the primary key field.
+///
+/// @nodoc
 class DataLakeDatasetPrimaryKeyField {
   /// The name of the primary key field.
   final String name;
@@ -2762,6 +2840,8 @@ class DataLakeDatasetPrimaryKeyField {
 }
 
 /// The dataset field details.
+///
+/// @nodoc
 class DataLakeDatasetSchemaField {
   /// Indicate if the field is required or not.
   final bool isRequired;
@@ -2799,6 +2879,7 @@ class DataLakeDatasetSchemaField {
   }
 }
 
+/// @nodoc
 class DataLakeDatasetSchemaFieldType {
   static const $int = DataLakeDatasetSchemaFieldType._('INT');
   static const $double = DataLakeDatasetSchemaFieldType._('DOUBLE');
@@ -2828,6 +2909,8 @@ class DataLakeDatasetSchemaFieldType {
 }
 
 /// The DataIntegrationFlow details.
+///
+/// @nodoc
 class DataIntegrationFlow {
   /// The DataIntegrationFlow creation timestamp.
   final DateTime createdTime;
@@ -2902,6 +2985,8 @@ class DataIntegrationFlow {
 }
 
 /// The DataIntegrationFlow transformation parameters.
+///
+/// @nodoc
 class DataIntegrationFlowTransformation {
   /// The DataIntegrationFlow transformation type.
   final DataIntegrationFlowTransformationType transformationType;
@@ -2937,6 +3022,8 @@ class DataIntegrationFlowTransformation {
 }
 
 /// The DataIntegrationFlow target parameters.
+///
+/// @nodoc
 class DataIntegrationFlowTarget {
   /// The DataIntegrationFlow target type.
   final DataIntegrationFlowTargetType targetType;
@@ -2983,6 +3070,7 @@ class DataIntegrationFlowTarget {
   }
 }
 
+/// @nodoc
 class DataIntegrationFlowTargetType {
   static const s3 = DataIntegrationFlowTargetType._('S3');
   static const dataset = DataIntegrationFlowTargetType._('DATASET');
@@ -3009,6 +3097,8 @@ class DataIntegrationFlowTargetType {
 }
 
 /// The S3 DataIntegrationFlow target configuration parameters.
+///
+/// @nodoc
 class DataIntegrationFlowS3TargetConfiguration {
   /// The bucketName of the S3 target objects.
   final String bucketName;
@@ -3050,6 +3140,8 @@ class DataIntegrationFlowS3TargetConfiguration {
 }
 
 /// The dataset DataIntegrationFlow target configuration parameters.
+///
+/// @nodoc
 class DataIntegrationFlowDatasetTargetConfiguration {
   /// The dataset ARN.
   final String datasetIdentifier;
@@ -3084,6 +3176,8 @@ class DataIntegrationFlowDatasetTargetConfiguration {
 }
 
 /// The dataset options used in dataset source and target configurations.
+///
+/// @nodoc
 class DataIntegrationFlowDatasetOptions {
   /// The option to perform deduplication on data records sharing same primary key
   /// values. If disabled, transformed data with duplicate primary key values will
@@ -3151,6 +3245,7 @@ class DataIntegrationFlowDatasetOptions {
   }
 }
 
+/// @nodoc
 class DataIntegrationFlowLoadType {
   static const incremental = DataIntegrationFlowLoadType._('INCREMENTAL');
   static const replace = DataIntegrationFlowLoadType._('REPLACE');
@@ -3177,6 +3272,8 @@ class DataIntegrationFlowLoadType {
 }
 
 /// The deduplication strategy details.
+///
+/// @nodoc
 class DataIntegrationFlowDedupeStrategy {
   /// The type of the deduplication strategy.
   ///
@@ -3222,6 +3319,7 @@ class DataIntegrationFlowDedupeStrategy {
   }
 }
 
+/// @nodoc
 class DataIntegrationFlowDedupeStrategyType {
   static const fieldPriority =
       DataIntegrationFlowDedupeStrategyType._('FIELD_PRIORITY');
@@ -3248,6 +3346,8 @@ class DataIntegrationFlowDedupeStrategyType {
 }
 
 /// The field priority deduplication strategy details.
+///
+/// @nodoc
 class DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
   /// The list of field names and their sort order for deduplication, arranged in
   /// descending priority from highest to lowest.
@@ -3277,6 +3377,8 @@ class DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
 }
 
 /// The field used in the field priority deduplication strategy.
+///
+/// @nodoc
 class DataIntegrationFlowFieldPriorityDedupeField {
   /// The name of the deduplication field. Must exist in the dataset and not be a
   /// primary key.
@@ -3309,6 +3411,7 @@ class DataIntegrationFlowFieldPriorityDedupeField {
   }
 }
 
+/// @nodoc
 class DataIntegrationFlowFieldPriorityDedupeSortOrder {
   static const asc = DataIntegrationFlowFieldPriorityDedupeSortOrder._('ASC');
   static const desc = DataIntegrationFlowFieldPriorityDedupeSortOrder._('DESC');
@@ -3338,6 +3441,8 @@ class DataIntegrationFlowFieldPriorityDedupeSortOrder {
 }
 
 /// The Amazon S3 options used in S3 source and target configurations.
+///
+/// @nodoc
 class DataIntegrationFlowS3Options {
   /// The Amazon S3 file type in S3 options.
   final DataIntegrationFlowFileType? fileType;
@@ -3361,6 +3466,7 @@ class DataIntegrationFlowS3Options {
   }
 }
 
+/// @nodoc
 class DataIntegrationFlowFileType {
   static const csv = DataIntegrationFlowFileType._('CSV');
   static const parquet = DataIntegrationFlowFileType._('PARQUET');
@@ -3387,6 +3493,7 @@ class DataIntegrationFlowFileType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataIntegrationFlowTransformationType {
   static const sql = DataIntegrationFlowTransformationType._('SQL');
   static const none = DataIntegrationFlowTransformationType._('NONE');
@@ -3413,6 +3520,8 @@ class DataIntegrationFlowTransformationType {
 }
 
 /// The SQL DataIntegrationFlow transformation configuration parameters.
+///
+/// @nodoc
 class DataIntegrationFlowSQLTransformationConfiguration {
   /// The transformation SQL query body based on SparkSQL.
   final String query;
@@ -3437,6 +3546,8 @@ class DataIntegrationFlowSQLTransformationConfiguration {
 }
 
 /// The DataIntegrationFlow source parameters.
+///
+/// @nodoc
 class DataIntegrationFlowSource {
   /// The DataIntegrationFlow source name that can be used as table alias in SQL
   /// transformation query.
@@ -3488,6 +3599,7 @@ class DataIntegrationFlowSource {
   }
 }
 
+/// @nodoc
 class DataIntegrationFlowSourceType {
   static const s3 = DataIntegrationFlowSourceType._('S3');
   static const dataset = DataIntegrationFlowSourceType._('DATASET');
@@ -3514,6 +3626,8 @@ class DataIntegrationFlowSourceType {
 }
 
 /// The S3 DataIntegrationFlow source configuration parameters.
+///
+/// @nodoc
 class DataIntegrationFlowS3SourceConfiguration {
   /// The bucketName of the S3 source objects.
   final String bucketName;
@@ -3556,6 +3670,8 @@ class DataIntegrationFlowS3SourceConfiguration {
 }
 
 /// The dataset DataIntegrationFlow source configuration parameters.
+///
+/// @nodoc
 class DataIntegrationFlowDatasetSourceConfiguration {
   /// The ARN of the dataset.
   final String datasetIdentifier;
@@ -3590,6 +3706,8 @@ class DataIntegrationFlowDatasetSourceConfiguration {
 }
 
 /// The BillOfMaterialsImportJob details.
+///
+/// @nodoc
 class BillOfMaterialsImportJob {
   /// The BillOfMaterialsImportJob instanceId.
   final String instanceId;
@@ -3643,6 +3761,8 @@ class BillOfMaterialsImportJob {
 }
 
 /// The status of the job.
+///
+/// @nodoc
 class ConfigurationJobStatus {
   static const $new = ConfigurationJobStatus._('NEW');
   static const failed = ConfigurationJobStatus._('FAILED');
@@ -3671,6 +3791,7 @@ class ConfigurationJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DataIntegrationEventType {
   static const scnDataForecast =
       DataIntegrationEventType._('scn.data.forecast');
@@ -3743,6 +3864,8 @@ class DataIntegrationEventType {
 }
 
 /// The target dataset configuration for a DATASET event type.
+///
+/// @nodoc
 class DataIntegrationEventDatasetTargetConfiguration {
   /// The datalake dataset ARN identifier.
   final String datasetIdentifier;
@@ -3765,6 +3888,7 @@ class DataIntegrationEventDatasetTargetConfiguration {
   }
 }
 
+/// @nodoc
 class DataIntegrationEventDatasetOperationType {
   static const append = DataIntegrationEventDatasetOperationType._('APPEND');
   static const upsert = DataIntegrationEventDatasetOperationType._('UPSERT');
@@ -3792,6 +3916,8 @@ class DataIntegrationEventDatasetOperationType {
 }
 
 /// The flow execution details.
+///
+/// @nodoc
 class DataIntegrationFlowExecution {
   /// The flow executionId.
   final String executionId;
@@ -3877,6 +4003,7 @@ class DataIntegrationFlowExecution {
   }
 }
 
+/// @nodoc
 class DataIntegrationFlowExecutionStatus {
   static const succeeded = DataIntegrationFlowExecutionStatus._('SUCCEEDED');
   static const inProgress = DataIntegrationFlowExecutionStatus._('IN_PROGRESS');
@@ -3904,6 +4031,8 @@ class DataIntegrationFlowExecutionStatus {
 }
 
 /// The source information of a flow execution.
+///
+/// @nodoc
 class DataIntegrationFlowExecutionSourceInfo {
   /// The data integration flow execution source type.
   final DataIntegrationFlowSourceType sourceType;
@@ -3949,6 +4078,8 @@ class DataIntegrationFlowExecutionSourceInfo {
 }
 
 /// The output metadata of the flow execution.
+///
+/// @nodoc
 class DataIntegrationFlowExecutionOutputMetadata {
   /// The S3 URI under which all diagnostic files (such as deduped records if any)
   /// are stored.
@@ -3975,6 +4106,8 @@ class DataIntegrationFlowExecutionOutputMetadata {
 }
 
 /// The details of a flow execution with S3 source.
+///
+/// @nodoc
 class DataIntegrationFlowS3Source {
   /// The S3 bucket name of the S3 source.
   final String bucketName;
@@ -4005,6 +4138,8 @@ class DataIntegrationFlowS3Source {
 }
 
 /// The details of a flow execution with dataset source.
+///
+/// @nodoc
 class DataIntegrationFlowDatasetSource {
   /// The ARN of the dataset source.
   final String datasetIdentifier;
@@ -4028,6 +4163,8 @@ class DataIntegrationFlowDatasetSource {
 }
 
 /// The data integration event details.
+///
+/// @nodoc
 class DataIntegrationEvent {
   /// Event identifier (for example, orderId for InboundOrder) used for data
   /// sharding or partitioning.
@@ -4092,6 +4229,8 @@ class DataIntegrationEvent {
 }
 
 /// The target dataset details for a DATASET event type.
+///
+/// @nodoc
 class DataIntegrationEventDatasetTargetDetails {
   /// The datalake dataset ARN identifier.
   final String datasetIdentifier;
@@ -4160,6 +4299,8 @@ class DataIntegrationEventDatasetTargetDetails {
 }
 
 /// The target dataset load execution details.
+///
+/// @nodoc
 class DataIntegrationEventDatasetLoadExecutionDetails {
   /// The event load execution status to target dataset.
   final DataIntegrationEventDatasetLoadStatus status;
@@ -4191,6 +4332,7 @@ class DataIntegrationEventDatasetLoadExecutionDetails {
   }
 }
 
+/// @nodoc
 class DataIntegrationEventDatasetLoadStatus {
   static const succeeded = DataIntegrationEventDatasetLoadStatus._('SUCCEEDED');
   static const inProgress =
@@ -4218,26 +4360,31 @@ class DataIntegrationEventDatasetLoadStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4246,11 +4393,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -970,6 +970,7 @@ class Signer {
   }
 }
 
+/// @nodoc
 class AddProfilePermissionResponse {
   /// A unique identifier for the current profile revision.
   final String? revisionId;
@@ -992,6 +993,7 @@ class AddProfilePermissionResponse {
   }
 }
 
+/// @nodoc
 class DescribeSigningJobResponse {
   /// Date and time that the signing job was completed.
   final DateTime? completedAt;
@@ -1161,6 +1163,7 @@ class DescribeSigningJobResponse {
   }
 }
 
+/// @nodoc
 class GetRevocationStatusResponse {
   /// A list of revoked entities (including zero or more of the signing profile
   /// ARN, signing job ARN, and certificate hashes) supplied as input to the API.
@@ -1187,6 +1190,7 @@ class GetRevocationStatusResponse {
   }
 }
 
+/// @nodoc
 class GetSigningPlatformResponse {
   /// The category type of the target signing platform.
   final Category? category;
@@ -1275,6 +1279,7 @@ class GetSigningPlatformResponse {
   }
 }
 
+/// @nodoc
 class GetSigningProfileResponse {
   /// The Amazon Resource Name (ARN) for the signing profile.
   final String? arn;
@@ -1404,6 +1409,7 @@ class GetSigningProfileResponse {
   }
 }
 
+/// @nodoc
 class ListProfilePermissionsResponse {
   /// String for specifying the next set of paginated results.
   final String? nextToken;
@@ -1450,6 +1456,7 @@ class ListProfilePermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListSigningJobsResponse {
   /// A list of your signing jobs.
   final List<SigningJob>? jobs;
@@ -1482,6 +1489,7 @@ class ListSigningJobsResponse {
   }
 }
 
+/// @nodoc
 class ListSigningPlatformsResponse {
   /// Value for specifying the next set of paginated results to return.
   final String? nextToken;
@@ -1514,6 +1522,7 @@ class ListSigningPlatformsResponse {
   }
 }
 
+/// @nodoc
 class ListSigningProfilesResponse {
   /// Value for specifying the next set of paginated results to return.
   final String? nextToken;
@@ -1548,6 +1557,7 @@ class ListSigningProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags associated with the signing profile.
   final Map<String, String>? tags;
@@ -1571,6 +1581,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutSigningProfileResponse {
   /// The Amazon Resource Name (ARN) of the signing profile created.
   final String? arn;
@@ -1607,6 +1618,7 @@ class PutSigningProfileResponse {
   }
 }
 
+/// @nodoc
 class RemoveProfilePermissionResponse {
   /// An identifier for the current revision of the profile permissions.
   final String? revisionId;
@@ -1629,6 +1641,7 @@ class RemoveProfilePermissionResponse {
   }
 }
 
+/// @nodoc
 class SignPayloadResponse {
   /// Unique identifier of the signing job.
   final String? jobId;
@@ -1673,6 +1686,7 @@ class SignPayloadResponse {
   }
 }
 
+/// @nodoc
 class StartSigningJobResponse {
   /// The ID of your signing job.
   final String? jobId;
@@ -1702,6 +1716,7 @@ class StartSigningJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1714,6 +1729,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1728,6 +1744,8 @@ class UntagResourceResponse {
 
 /// An <code>S3Source</code> object that contains information about the S3
 /// bucket where you saved your unsigned code.
+///
+/// @nodoc
 class Source {
   /// The <code>S3Source</code> object.
   final S3Source? s3;
@@ -1754,6 +1772,8 @@ class Source {
 
 /// Points to an <code>S3Destination</code> object that contains information
 /// about your S3 bucket.
+///
+/// @nodoc
 class Destination {
   /// The <code>S3Destination</code> object.
   final S3Destination? s3;
@@ -1772,6 +1792,8 @@ class Destination {
 
 /// The name and prefix of the Amazon S3 bucket where AWS Signer saves your
 /// signed objects.
+///
+/// @nodoc
 class S3Destination {
   /// Name of the S3 bucket.
   final String? bucketName;
@@ -1796,6 +1818,8 @@ class S3Destination {
 }
 
 /// Information about the Amazon S3 bucket where you saved your unsigned code.
+///
+/// @nodoc
 class S3Source {
   /// Name of the S3 bucket.
   final String bucketName;
@@ -1833,6 +1857,8 @@ class S3Source {
 }
 
 /// The ACM certificate that is used to sign your code.
+///
+/// @nodoc
 class SigningMaterial {
   /// The Amazon Resource Name (ARN) of the certificates that is used to sign your
   /// code.
@@ -1857,6 +1883,8 @@ class SigningMaterial {
 }
 
 /// The validity period for a signing job.
+///
+/// @nodoc
 class SignatureValidityPeriod {
   /// The time unit for signature validity.
   final ValidityType? type;
@@ -1888,6 +1916,8 @@ class SignatureValidityPeriod {
 
 /// Any overrides that are applied to the signing configuration of a signing
 /// platform.
+///
+/// @nodoc
 class SigningPlatformOverrides {
   /// A signing configuration that overrides the default encryption or hash
   /// algorithm of a signing job.
@@ -1932,6 +1962,8 @@ class SigningPlatformOverrides {
 
 /// A signing configuration that overrides the default encryption or hash
 /// algorithm of a signing job.
+///
+/// @nodoc
 class SigningConfigurationOverrides {
   /// A specified override of the default encryption algorithm that is used in a
   /// code-signing job.
@@ -1966,6 +1998,7 @@ class SigningConfigurationOverrides {
   }
 }
 
+/// @nodoc
 class ImageFormat {
   static const json = ImageFormat._('JSON');
   static const jSONEmbedded = ImageFormat._('JSONEmbedded');
@@ -1990,6 +2023,7 @@ class ImageFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionAlgorithm {
   static const rsa = EncryptionAlgorithm._('RSA');
   static const ecdsa = EncryptionAlgorithm._('ECDSA');
@@ -2015,6 +2049,7 @@ class EncryptionAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class HashAlgorithm {
   static const sha1 = HashAlgorithm._('SHA1');
   static const sha256 = HashAlgorithm._('SHA256');
@@ -2039,6 +2074,7 @@ class HashAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class ValidityType {
   static const days = ValidityType._('DAYS');
   static const months = ValidityType._('MONTHS');
@@ -2065,6 +2101,8 @@ class ValidityType {
 
 /// Contains information about the ACM certificates and signing configuration
 /// parameters that can be used by a given code signing user.
+///
+/// @nodoc
 class SigningProfile {
   /// The Amazon Resource Name (ARN) for the signing profile.
   final String? arn;
@@ -2167,6 +2205,7 @@ class SigningProfile {
   }
 }
 
+/// @nodoc
 class SigningProfileStatus {
   static const active = SigningProfileStatus._('Active');
   static const canceled = SigningProfileStatus._('Canceled');
@@ -2195,6 +2234,8 @@ class SigningProfileStatus {
 
 /// Contains information about the signing configurations and parameters that
 /// are used to perform a code-signing job.
+///
+/// @nodoc
 class SigningPlatform {
   /// The category of a signing platform.
   final Category? category;
@@ -2280,6 +2321,7 @@ class SigningPlatform {
   }
 }
 
+/// @nodoc
 class Category {
   static const awsIoT = Category._('AWSIoT');
 
@@ -2303,6 +2345,8 @@ class Category {
 }
 
 /// The configuration of a signing operation.
+///
+/// @nodoc
 class SigningConfiguration {
   /// The encryption algorithm options that are available for a code-signing job.
   final EncryptionAlgorithmOptions encryptionAlgorithmOptions;
@@ -2337,6 +2381,8 @@ class SigningConfiguration {
 }
 
 /// The image format of a AWS Signer platform or profile.
+///
+/// @nodoc
 class SigningImageFormat {
   /// The default format of a signing image.
   final ImageFormat defaultFormat;
@@ -2371,6 +2417,8 @@ class SigningImageFormat {
 }
 
 /// The encryption algorithm options that are available to a code-signing job.
+///
+/// @nodoc
 class EncryptionAlgorithmOptions {
   /// The set of accepted encryption algorithms that are allowed in a code-signing
   /// job.
@@ -2406,6 +2454,8 @@ class EncryptionAlgorithmOptions {
 }
 
 /// The hash algorithms that are available to a code-signing job.
+///
+/// @nodoc
 class HashAlgorithmOptions {
   /// The set of accepted hash algorithms allowed in a code-signing job.
   final List<HashAlgorithm> allowedValues;
@@ -2440,6 +2490,8 @@ class HashAlgorithmOptions {
 }
 
 /// Contains information about a signing job.
+///
+/// @nodoc
 class SigningJob {
   /// The date and time that the signing job was created.
   final DateTime? createdAt;
@@ -2567,6 +2619,8 @@ class SigningJob {
 
 /// Points to an <code>S3SignedObject</code> object that contains information
 /// about your signed code image.
+///
+/// @nodoc
 class SignedObject {
   /// The <code>S3SignedObject</code>.
   final S3SignedObject? s3;
@@ -2591,6 +2645,7 @@ class SignedObject {
   }
 }
 
+/// @nodoc
 class SigningStatus {
   static const inProgress = SigningStatus._('InProgress');
   static const failed = SigningStatus._('Failed');
@@ -2617,6 +2672,8 @@ class SigningStatus {
 }
 
 /// The Amazon S3 bucket name and key where Signer saved your signed code image.
+///
+/// @nodoc
 class S3SignedObject {
   /// Name of the S3 bucket.
   final String? bucketName;
@@ -2647,6 +2704,8 @@ class S3SignedObject {
 }
 
 /// A cross-account permission for a signing profile.
+///
+/// @nodoc
 class Permission {
   /// An AWS Signer action permitted as part of cross-account permissions.
   final String? action;
@@ -2691,6 +2750,8 @@ class Permission {
 }
 
 /// Revocation information for a signing profile.
+///
+/// @nodoc
 class SigningProfileRevocationRecord {
   /// The time when revocation becomes effective.
   final DateTime? revocationEffectiveFrom;
@@ -2730,6 +2791,8 @@ class SigningProfileRevocationRecord {
 }
 
 /// Revocation information for a signing job.
+///
+/// @nodoc
 class SigningJobRevocationRecord {
   /// A caller-supplied reason for revocation.
   final String? reason;
@@ -2766,21 +2829,25 @@ class SigningJobRevocationRecord {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -2789,16 +2856,19 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceLimitExceededException extends _s.GenericAwsException {
   ServiceLimitExceededException({String? type, String? message})
       : super(
@@ -2807,16 +2877,19 @@ class ServiceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

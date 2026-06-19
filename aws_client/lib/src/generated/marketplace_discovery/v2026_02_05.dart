@@ -361,6 +361,7 @@ class MarketplaceDiscovery {
   }
 }
 
+/// @nodoc
 class GetListingOutput {
   /// The products and offers associated with this listing. Each entity contains
   /// product and offer information.
@@ -569,6 +570,7 @@ class GetListingOutput {
   }
 }
 
+/// @nodoc
 class GetOfferOutput {
   /// An encoded string to be passed by the acceptor of the terms when creating an
   /// agreement.
@@ -680,6 +682,7 @@ class GetOfferOutput {
   }
 }
 
+/// @nodoc
 class GetOfferSetOutput {
   /// The products and offers included in this offer set.
   final List<OfferSetAssociatedEntity> associatedEntities;
@@ -772,6 +775,7 @@ class GetOfferSetOutput {
   }
 }
 
+/// @nodoc
 class GetOfferTermsOutput {
   /// The terms attached to the offer. Each element contains exactly one term
   /// type.
@@ -806,6 +810,7 @@ class GetOfferTermsOutput {
   }
 }
 
+/// @nodoc
 class GetProductOutput {
   /// The name of the catalog that the product belongs to.
   final String catalog;
@@ -947,6 +952,7 @@ class GetProductOutput {
   }
 }
 
+/// @nodoc
 class ListFulfillmentOptionsOutput {
   /// The fulfillment options available for the product. Each option describes how
   /// the buyer can deploy or access the product.
@@ -981,6 +987,7 @@ class ListFulfillmentOptionsOutput {
   }
 }
 
+/// @nodoc
 class ListPurchaseOptionsOutput {
   /// If <code>nextToken</code> is returned, there are more results available.
   /// Make the call again using the returned token to retrieve the next page.
@@ -1015,6 +1022,7 @@ class ListPurchaseOptionsOutput {
   }
 }
 
+/// @nodoc
 class SearchFacetsOutput {
   /// A map of facet types to their corresponding facet values. Each facet value
   /// includes a display name, internal value, and count of matching listings.
@@ -1060,6 +1068,7 @@ class SearchFacetsOutput {
   }
 }
 
+/// @nodoc
 class SearchListingsOutput {
   /// The listing summaries matching the search criteria. Each summary includes
   /// the listing name, description, badges, categories, pricing models, reviews,
@@ -1105,6 +1114,8 @@ class SearchListingsOutput {
 /// Summary information about a listing returned by search operations, including
 /// the listing name, description, badges, categories, pricing models, reviews,
 /// and associated products.
+///
+/// @nodoc
 class ListingSummary {
   /// The products associated with this listing.
   final List<ListingSummaryAssociatedEntity> associatedEntities;
@@ -1239,6 +1250,8 @@ class ListingSummary {
 
 /// Information about a seller, including the profile identifier and display
 /// name.
+///
+/// @nodoc
 class SellerInformation {
   /// The human-readable name of the seller.
   final String displayName;
@@ -1270,6 +1283,8 @@ class SellerInformation {
 
 /// A summary of customer reviews available for a listing, aggregated by review
 /// source.
+///
+/// @nodoc
 class ReviewSummary {
   /// Review summaries from different sources, such as AWS Marketplace.
   final List<ReviewSourceSummary> reviewSourceSummaries;
@@ -1297,6 +1312,8 @@ class ReviewSummary {
 }
 
 /// A product associated with a listing summary.
+///
+/// @nodoc
 class ListingSummaryAssociatedEntity {
   /// Information about the associated product.
   final ProductInformation? product;
@@ -1323,6 +1340,8 @@ class ListingSummaryAssociatedEntity {
 
 /// Summary information about a product, including the identifier, name, and
 /// manufacturer.
+///
+/// @nodoc
 class ProductInformation {
   /// The entity who manufactured the product.
   final SellerInformation manufacturer;
@@ -1363,6 +1382,8 @@ class ProductInformation {
 
 /// A pricing unit that defines the billing dimension for a listing, such as
 /// users, hosts, bandwidth, or data.
+///
+/// @nodoc
 class PricingUnit {
   /// The human-readable name of the pricing unit.
   final String displayName;
@@ -1393,6 +1414,7 @@ class PricingUnit {
   }
 }
 
+/// @nodoc
 class PricingUnitType {
   static const users = PricingUnitType._('USERS');
   static const hosts = PricingUnitType._('HOSTS');
@@ -1424,6 +1446,8 @@ class PricingUnitType {
 
 /// A pricing model that determines how buyers are charged for a listing, such
 /// as usage-based, contract, BYOL, or free.
+///
+/// @nodoc
 class PricingModel {
   /// The human-readable name of the pricing model.
   final String displayName;
@@ -1454,6 +1478,7 @@ class PricingModel {
   }
 }
 
+/// @nodoc
 class PricingModelType {
   static const usage = PricingModelType._('USAGE');
   static const contract = PricingModelType._('CONTRACT');
@@ -1482,6 +1507,8 @@ class PricingModelType {
 
 /// A review summary from a specific source, including the average rating and
 /// total review count.
+///
+/// @nodoc
 class ReviewSourceSummary {
   /// The average rating across all reviews from this source.
   final String averageRating;
@@ -1532,6 +1559,7 @@ class ReviewSourceSummary {
   }
 }
 
+/// @nodoc
 class ReviewSourceId {
   static const awsMarketplace = ReviewSourceId._('AWS_MARKETPLACE');
 
@@ -1557,6 +1585,8 @@ class ReviewSourceId {
 
 /// A badge indicating a special attribute of a listing, such as free tier
 /// eligibility or Quick Launch support.
+///
+/// @nodoc
 class ListingBadge {
   /// The machine-readable type of the badge.
   final ListingBadgeType badgeType;
@@ -1587,6 +1617,7 @@ class ListingBadge {
   }
 }
 
+/// @nodoc
 class ListingBadgeType {
   static const awsFreeTier = ListingBadgeType._('AWS_FREE_TIER');
   static const freeTrial = ListingBadgeType._('FREE_TRIAL');
@@ -1622,6 +1653,8 @@ class ListingBadgeType {
 
 /// A summary of a fulfillment option available for deploying or accessing a
 /// listing or product.
+///
+/// @nodoc
 class FulfillmentOptionSummary {
   /// The human-readable name of the fulfillment option type.
   final String displayName;
@@ -1653,6 +1686,7 @@ class FulfillmentOptionSummary {
   }
 }
 
+/// @nodoc
 class FulfillmentOptionType {
   static const amazonMachineImage =
       FulfillmentOptionType._('AMAZON_MACHINE_IMAGE');
@@ -1707,6 +1741,8 @@ class FulfillmentOptionType {
 }
 
 /// A category used to classify a listing or product into a logical group.
+///
+/// @nodoc
 class Category {
   /// The machine-readable identifier of the category.
   final String categoryId;
@@ -1736,6 +1772,7 @@ class Category {
   }
 }
 
+/// @nodoc
 class SearchListingsSortBy {
   static const relevance = SearchListingsSortBy._('RELEVANCE');
   static const averageCustomerRating =
@@ -1762,6 +1799,7 @@ class SearchListingsSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchListingsSortOrder {
   static const descending = SearchListingsSortOrder._('DESCENDING');
   static const ascending = SearchListingsSortOrder._('ASCENDING');
@@ -1789,6 +1827,8 @@ class SearchListingsSortOrder {
 
 /// A filter used to narrow search results by attribute, such as category,
 /// pricing model, or fulfillment type.
+///
+/// @nodoc
 class SearchFilter {
   /// The type of filter to apply.
   final SearchFilterType filterType;
@@ -1813,6 +1853,7 @@ class SearchFilter {
   }
 }
 
+/// @nodoc
 class SearchFilterType {
   static const minAverageCustomerRating =
       SearchFilterType._('MIN_AVERAGE_CUSTOMER_RATING');
@@ -1857,6 +1898,7 @@ class SearchFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchFacetType {
   static const averageCustomerRating =
       SearchFacetType._('AVERAGE_CUSTOMER_RATING');
@@ -1900,6 +1942,8 @@ class SearchFacetType {
 
 /// A facet value with display information and a count of matching listings.
 /// Used to build filter and browse experiences.
+///
+/// @nodoc
 class ListingFacet {
   /// The number of listings matching this facet value.
   final int count;
@@ -1946,6 +1990,8 @@ class ListingFacet {
 
 /// Summary information about a purchase option (offer or offer set) available
 /// to the buyer, including the seller, badges, and associated products.
+///
+/// @nodoc
 class PurchaseOptionSummary {
   /// The products, offers, and offer sets associated with this purchase option.
   final List<PurchaseOptionAssociatedEntity> associatedEntities;
@@ -2039,6 +2085,7 @@ class PurchaseOptionSummary {
   }
 }
 
+/// @nodoc
 class PurchaseOptionType {
   static const offer = PurchaseOptionType._('OFFER');
   static const offerset = PurchaseOptionType._('OFFERSET');
@@ -2065,6 +2112,8 @@ class PurchaseOptionType {
 }
 
 /// A product, offer, and optional offer set associated with a purchase option.
+///
+/// @nodoc
 class PurchaseOptionAssociatedEntity {
   /// Information about the offer associated with the purchase option.
   final OfferInformation offer;
@@ -2111,6 +2160,8 @@ class PurchaseOptionAssociatedEntity {
 
 /// Summary information about an offer, including the offer identifier, name,
 /// and seller of record.
+///
+/// @nodoc
 class OfferInformation {
   /// The unique identifier of the offer.
   final String offerId;
@@ -2151,6 +2202,8 @@ class OfferInformation {
 
 /// Summary information about an offer set, including the identifier and seller
 /// of record.
+///
+/// @nodoc
 class OfferSetInformation {
   /// The unique identifier of the offer set.
   final String offerSetId;
@@ -2184,6 +2237,8 @@ class OfferSetInformation {
 
 /// A badge indicating a special attribute of a purchase option, such as private
 /// pricing or future dated.
+///
+/// @nodoc
 class PurchaseOptionBadge {
   /// The machine-readable type of the badge.
   final PurchaseOptionBadgeType badgeType;
@@ -2214,6 +2269,7 @@ class PurchaseOptionBadge {
   }
 }
 
+/// @nodoc
 class PurchaseOptionBadgeType {
   static const privatePricing = PurchaseOptionBadgeType._('PRIVATE_PRICING');
   static const futureDated = PurchaseOptionBadgeType._('FUTURE_DATED');
@@ -2243,6 +2299,8 @@ class PurchaseOptionBadgeType {
 
 /// A filter used to narrow purchase option results by product, seller, type,
 /// visibility, or availability.
+///
+/// @nodoc
 class PurchaseOptionFilter {
   /// The type of filter to apply, such as <code>PRODUCT_ID</code>,
   /// <code>VISIBILITY_SCOPE</code>, or <code>PURCHASE_OPTION_TYPE</code>.
@@ -2267,6 +2325,7 @@ class PurchaseOptionFilter {
   }
 }
 
+/// @nodoc
 class PurchaseOptionFilterType {
   static const productId = PurchaseOptionFilterType._('PRODUCT_ID');
   static const sellerOfRecordProfileId =
@@ -2306,6 +2365,8 @@ class PurchaseOptionFilterType {
 
 /// Describes a fulfillment option for a product. Each element contains exactly
 /// one fulfillment option type.
+///
+/// @nodoc
 class FulfillmentOption {
   /// An Amazon Machine Image (AMI) fulfillment option for EC2 deployment.
   final AmazonMachineImageFulfillmentOption?
@@ -2484,6 +2545,8 @@ class FulfillmentOption {
 /// Describes an Amazon Machine Image (AMI) fulfillment option, including
 /// version details, supported operating systems, and recommended instance
 /// types.
+///
+/// @nodoc
 class AmazonMachineImageFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -2575,6 +2638,8 @@ class AmazonMachineImageFulfillmentOption {
 
 /// Describes an API-based fulfillment option, where the product is accessed
 /// through an API integration.
+///
+/// @nodoc
 class ApiFulfillmentOption {
   /// The AWS services supported by this API integration.
   final List<AwsSupportedService> awsSupportedServices;
@@ -2633,6 +2698,8 @@ class ApiFulfillmentOption {
 
 /// Describes an AWS CloudFormation template fulfillment option for
 /// infrastructure deployment.
+///
+/// @nodoc
 class CloudFormationFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -2702,6 +2769,8 @@ class CloudFormationFulfillmentOption {
 
 /// Describes a container image fulfillment option for container-based
 /// deployment.
+///
+/// @nodoc
 class ContainerFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -2792,6 +2861,8 @@ class ContainerFulfillmentOption {
 }
 
 /// Describes a Helm chart fulfillment option for Kubernetes deployment.
+///
+/// @nodoc
 class HelmFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -2881,6 +2952,8 @@ class HelmFulfillmentOption {
 }
 
 /// Describes an Amazon EKS add-on fulfillment option.
+///
+/// @nodoc
 class EksAddOnFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -2971,6 +3044,8 @@ class EksAddOnFulfillmentOption {
 }
 
 /// Describes an EC2 Image Builder component fulfillment option.
+///
+/// @nodoc
 class Ec2ImageBuilderComponentFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -3062,6 +3137,8 @@ class Ec2ImageBuilderComponentFulfillmentOption {
 }
 
 /// Describes an AWS Data Exchange fulfillment option for data set delivery.
+///
+/// @nodoc
 class DataExchangeFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -3111,6 +3188,8 @@ class DataExchangeFulfillmentOption {
 }
 
 /// Describes a professional services fulfillment option.
+///
+/// @nodoc
 class ProfessionalServicesFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -3151,6 +3230,8 @@ class ProfessionalServicesFulfillmentOption {
 }
 
 /// Describes a Software as a Service (SaaS) fulfillment option.
+///
+/// @nodoc
 class SaasFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -3205,6 +3286,8 @@ class SaasFulfillmentOption {
 
 /// Describes an Amazon SageMaker algorithm fulfillment option, including
 /// version details and recommended instance types.
+///
+/// @nodoc
 class SageMakerAlgorithmFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -3278,6 +3361,8 @@ class SageMakerAlgorithmFulfillmentOption {
 
 /// Describes an Amazon SageMaker model fulfillment option, including version
 /// details and recommended instance types.
+///
+/// @nodoc
 class SageMakerModelFulfillmentOption {
   /// A human-readable name for the fulfillment option type.
   final String fulfillmentOptionDisplayName;
@@ -3349,6 +3434,8 @@ class SageMakerModelFulfillmentOption {
 }
 
 /// Recommended instance types for inference with a SageMaker model.
+///
+/// @nodoc
 class SageMakerModelRecommendation {
   /// The recommended instance type for batch inference.
   final String recommendedBatchTransformInstanceType;
@@ -3387,6 +3474,8 @@ class SageMakerModelRecommendation {
 
 /// Recommended instance types for training and inference with a SageMaker
 /// algorithm.
+///
+/// @nodoc
 class SageMakerAlgorithmRecommendation {
   /// The recommended instance type for batch inference.
   final String recommendedBatchTransformInstanceType;
@@ -3433,6 +3522,8 @@ class SageMakerAlgorithmRecommendation {
 }
 
 /// Describes a data artifact within a Data Exchange fulfillment option.
+///
+/// @nodoc
 class DataArtifact {
   /// The classification of sensitive data contained in the dataset.
   final String dataClassification;
@@ -3477,6 +3568,8 @@ class DataArtifact {
 }
 
 /// Describes an AWS service supported by a fulfillment option.
+///
+/// @nodoc
 class AwsSupportedService {
   /// A description of the supported service.
   final String description;
@@ -3514,6 +3607,8 @@ class AwsSupportedService {
 }
 
 /// Describes an operating system supported by a container fulfillment option.
+///
+/// @nodoc
 class ContainerOperatingSystem {
   /// The operating system family, such as Linux.
   final String operatingSystemFamilyName;
@@ -3545,6 +3640,8 @@ class ContainerOperatingSystem {
 }
 
 /// Describes an operating system supported by an EKS add-on fulfillment option.
+///
+/// @nodoc
 class EksAddOnOperatingSystem {
   /// The operating system family, such as Linux.
   final String operatingSystemFamilyName;
@@ -3576,6 +3673,8 @@ class EksAddOnOperatingSystem {
 }
 
 /// Describes an operating system supported by a Helm chart fulfillment option.
+///
+/// @nodoc
 class HelmOperatingSystem {
   /// The operating system family, such as Linux.
   final String operatingSystemFamilyName;
@@ -3607,6 +3706,8 @@ class HelmOperatingSystem {
 }
 
 /// Recommended instance types for running an AMI fulfillment option.
+///
+/// @nodoc
 class AmazonMachineImageRecommendation {
   /// The recommended EC2 instance type for this AMI.
   final String instanceType;
@@ -3630,6 +3731,8 @@ class AmazonMachineImageRecommendation {
 }
 
 /// Describes an operating system supported by an AMI fulfillment option.
+///
+/// @nodoc
 class AmazonMachineImageOperatingSystem {
   /// The operating system family, such as Linux or Windows.
   final String operatingSystemFamilyName;
@@ -3670,6 +3773,7 @@ class AmazonMachineImageOperatingSystem {
   }
 }
 
+/// @nodoc
 class DeployedOnAwsStatus {
   static const deployed = DeployedOnAwsStatus._('DEPLOYED');
   static const notDeployed = DeployedOnAwsStatus._('NOT_DEPLOYED');
@@ -3698,6 +3802,8 @@ class DeployedOnAwsStatus {
 
 /// An engagement option available to potential buyers of a product, such as
 /// requesting a private offer or a demo.
+///
+/// @nodoc
 class SellerEngagement {
   /// The format of the engagement value, such as a URL.
   final SellerEngagementContentType contentType;
@@ -3737,6 +3843,7 @@ class SellerEngagement {
   }
 }
 
+/// @nodoc
 class SellerEngagementType {
   static const requestForPrivateOffer =
       SellerEngagementType._('REQUEST_FOR_PRIVATE_OFFER');
@@ -3763,6 +3870,7 @@ class SellerEngagementType {
   String toString() => value;
 }
 
+/// @nodoc
 class SellerEngagementContentType {
   static const link = SellerEngagementContentType._('LINK');
 
@@ -3789,6 +3897,8 @@ class SellerEngagementContentType {
 
 /// A resource that provides supplementary information about a product, such as
 /// documentation links, support contacts, or usage instructions.
+///
+/// @nodoc
 class Resource {
   /// The format of the resource content, such as a URL, email address, or text.
   final ResourceContentType contentType;
@@ -3835,6 +3945,7 @@ class Resource {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const manufacturerSupport = ResourceType._('MANUFACTURER_SUPPORT');
   static const manufacturerInstructions =
@@ -3859,6 +3970,7 @@ class ResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceContentType {
   static const email = ResourceContentType._('EMAIL');
   static const phoneNumber = ResourceContentType._('PHONE_NUMBER');
@@ -3888,6 +4000,8 @@ class ResourceContentType {
 
 /// Embedded promotional media for a product, such as images or videos. Each
 /// element contains exactly one media type.
+///
+/// @nodoc
 class PromotionalMedia {
   final PromotionalEmbeddedImage? embeddedImage;
   final PromotionalEmbeddedVideo? embeddedVideo;
@@ -3921,6 +4035,8 @@ class PromotionalMedia {
 }
 
 /// An embedded promotional image for a product.
+///
+/// @nodoc
 class PromotionalEmbeddedImage {
   /// The title displayed when hovering over the image.
   final String title;
@@ -3958,6 +4074,8 @@ class PromotionalEmbeddedImage {
 }
 
 /// An embedded promotional video for a product.
+///
+/// @nodoc
 class PromotionalEmbeddedVideo {
   /// The URL of the high-resolution preview image for the video.
   final String preview;
@@ -4010,6 +4128,8 @@ class PromotionalEmbeddedVideo {
 
 /// A term attached to an offer. Each element contains exactly one term type,
 /// such as a pricing term, legal term, or payment schedule term.
+///
+/// @nodoc
 class OfferTerm {
   final ByolPricingTerm? byolPricingTerm;
   final ConfigurableUpfrontPricingTerm? configurableUpfrontPricingTerm;
@@ -4128,6 +4248,8 @@ class OfferTerm {
 
 /// Defines a Bring Your Own License (BYOL) pricing term, where buyers use their
 /// existing license for the product.
+///
+/// @nodoc
 class ByolPricingTerm {
   /// The unique identifier of the term.
   final String id;
@@ -4159,6 +4281,8 @@ class ByolPricingTerm {
 
 /// Defines a configurable upfront pricing term with selectable rate cards,
 /// where buyers choose from predefined pricing configurations.
+///
+/// @nodoc
 class ConfigurableUpfrontPricingTerm {
   /// Defines the currency for the prices in this term.
   final String currencyCode;
@@ -4209,6 +4333,8 @@ class ConfigurableUpfrontPricingTerm {
 
 /// Defines a fixed upfront pricing term with a pre-paid amount and granted
 /// entitlements.
+///
+/// @nodoc
 class FixedUpfrontPricingTerm {
   /// Defines the currency for the prices in this term.
   final String currencyCode;
@@ -4271,6 +4397,8 @@ class FixedUpfrontPricingTerm {
 
 /// Defines a free trial pricing term that enables customers to try the product
 /// before purchasing.
+///
+/// @nodoc
 class FreeTrialPricingTerm {
   /// The entitlements granted to the buyer during the free trial.
   final List<GrantItem> grants;
@@ -4319,6 +4447,8 @@ class FreeTrialPricingTerm {
 
 /// Defines a legal term containing documents proposed to buyers, such as EULAs
 /// and data subscription agreements.
+///
+/// @nodoc
 class LegalTerm {
   /// The legal documents proposed to the buyer as part of this term.
   final List<DocumentItem> documents;
@@ -4360,6 +4490,8 @@ class LegalTerm {
 
 /// Defines a payment schedule term with installment payments at specified
 /// dates.
+///
+/// @nodoc
 class PaymentScheduleTerm {
   /// Defines the currency for the prices in this term.
   final String currencyCode;
@@ -4408,6 +4540,8 @@ class PaymentScheduleTerm {
 
 /// Defines a recurring payment term with fixed charges at regular billing
 /// intervals.
+///
+/// @nodoc
 class RecurringPaymentTerm {
   /// The billing period frequency, such as <code>Monthly</code>.
   final BillingPeriodType billingPeriod;
@@ -4460,6 +4594,8 @@ class RecurringPaymentTerm {
 }
 
 /// Defines a renewal term that enables automatic agreement renewal.
+///
+/// @nodoc
 class RenewalTerm {
   /// The unique identifier of the term.
   final String id;
@@ -4490,6 +4626,8 @@ class RenewalTerm {
 }
 
 /// Defines a support term that includes the refund policy for the offer.
+///
+/// @nodoc
 class SupportTerm {
   /// The unique identifier of the term.
   final String id;
@@ -4528,6 +4666,8 @@ class SupportTerm {
 
 /// Defines a usage-based pricing term (typically pay-as-you-go), where buyers
 /// are charged based on product usage.
+///
+/// @nodoc
 class UsageBasedPricingTerm {
   /// Defines the currency for the prices in this term.
   final String currencyCode;
@@ -4577,6 +4717,8 @@ class UsageBasedPricingTerm {
 
 /// Defines a validity term that specifies the duration or date range of an
 /// agreement.
+///
+/// @nodoc
 class ValidityTerm {
   /// The unique identifier of the term.
   final String id;
@@ -4630,6 +4772,8 @@ class ValidityTerm {
 }
 
 /// Defines a variable payment term with a maximum total charge amount.
+///
+/// @nodoc
 class VariablePaymentTerm {
   /// Defines the currency for the prices in this term.
   final String currencyCode;
@@ -4673,6 +4817,7 @@ class VariablePaymentTerm {
   }
 }
 
+/// @nodoc
 class TermType {
   static const byolPricingTerm = TermType._('ByolPricingTerm');
   static const configurableUpfrontPricingTerm =
@@ -4721,6 +4866,8 @@ class TermType {
 }
 
 /// A rate card within a usage-based pricing term, containing per-unit rates.
+///
+/// @nodoc
 class UsageBasedRateCardItem {
   /// The per-unit rates for this usage-based rate card.
   final List<RateCardItem> rateCard;
@@ -4748,6 +4895,8 @@ class UsageBasedRateCardItem {
 
 /// A per-unit rate within a rate card, defining the price for a specific
 /// dimension.
+///
+/// @nodoc
 class RateCardItem {
   /// The machine-readable key identifying the dimension being priced.
   final String dimensionKey;
@@ -4810,6 +4959,8 @@ class RateCardItem {
 
 /// A label used to group or categorize pricing dimensions, such as by region or
 /// SageMaker option.
+///
+/// @nodoc
 class DimensionLabel {
   /// The type of the dimension label, such as <code>Region</code> or
   /// <code>SagemakerOption</code>.
@@ -4848,6 +4999,7 @@ class DimensionLabel {
   }
 }
 
+/// @nodoc
 class DimensionLabelType {
   static const region = DimensionLabelType._('Region');
   static const sagemakerOption = DimensionLabelType._('SagemakerOption');
@@ -4873,6 +5025,7 @@ class DimensionLabelType {
   String toString() => value;
 }
 
+/// @nodoc
 class BillingPeriodType {
   static const monthly = BillingPeriodType._('Monthly');
 
@@ -4897,6 +5050,8 @@ class BillingPeriodType {
 }
 
 /// A payment installment within a payment schedule term.
+///
+/// @nodoc
 class ScheduleItem {
   /// The amount to be charged on the charge date.
   final String chargeAmount;
@@ -4928,6 +5083,8 @@ class ScheduleItem {
 
 /// A legal document associated with a legal term, such as a EULA or data
 /// subscription agreement.
+///
+/// @nodoc
 class DocumentItem {
   /// The category of the legal document, such as <code>StandardEula</code> or
   /// <code>CustomEula</code>.
@@ -4965,6 +5122,7 @@ class DocumentItem {
   }
 }
 
+/// @nodoc
 class LegalDocumentType {
   static const customEula = LegalDocumentType._('CustomEula');
   static const customDsa = LegalDocumentType._('CustomDsa');
@@ -4999,6 +5157,8 @@ class LegalDocumentType {
 }
 
 /// An entitlement granted to the buyer as part of a pricing term.
+///
+/// @nodoc
 class GrantItem {
   /// The machine-readable key identifying the entitlement dimension.
   final String dimensionKey;
@@ -5061,6 +5221,8 @@ class GrantItem {
 
 /// A rate card item within a configurable upfront pricing term, including a
 /// selector for choosing the configuration and per-unit rates.
+///
+/// @nodoc
 class ConfigurableUpfrontRateCardItem {
   /// Constraints on how the buyer can configure this rate card, such as whether
   /// multiple dimensions can be selected.
@@ -5106,6 +5268,8 @@ class ConfigurableUpfrontRateCardItem {
 
 /// A selector used to choose a specific configuration within a configurable
 /// upfront rate card.
+///
+/// @nodoc
 class Selector {
   /// The category of the selector, such as <code>Duration</code>.
   final SelectorType type;
@@ -5136,6 +5300,8 @@ class Selector {
 }
 
 /// Constraints that control how a buyer can configure a rate card.
+///
+/// @nodoc
 class Constraints {
   /// Whether the buyer can select multiple dimensions. Values are
   /// <code>Allowed</code> or <code>Disallowed</code>.
@@ -5169,6 +5335,7 @@ class Constraints {
   }
 }
 
+/// @nodoc
 class RateCardConstraintType {
   static const allowed = RateCardConstraintType._('Allowed');
   static const disallowed = RateCardConstraintType._('Disallowed');
@@ -5194,6 +5361,7 @@ class RateCardConstraintType {
   String toString() => value;
 }
 
+/// @nodoc
 class SelectorType {
   static const duration = SelectorType._('Duration');
 
@@ -5217,6 +5385,8 @@ class SelectorType {
 }
 
 /// A product and offer associated with an offer set.
+///
+/// @nodoc
 class OfferSetAssociatedEntity {
   /// Information about the offer associated with the offer set.
   final OfferInformation offer;
@@ -5251,6 +5421,8 @@ class OfferSetAssociatedEntity {
 }
 
 /// A product and optional offer set associated with an offer.
+///
+/// @nodoc
 class OfferAssociatedEntity {
   /// Information about the product associated with the offer.
   final ProductInformation product;
@@ -5287,6 +5459,8 @@ class OfferAssociatedEntity {
 }
 
 /// An entry in the list of use cases for a listing.
+///
+/// @nodoc
 class UseCaseEntry {
   /// The use case details.
   final UseCase useCase;
@@ -5311,6 +5485,8 @@ class UseCaseEntry {
 }
 
 /// A use case describing a scenario where the product can be applied.
+///
+/// @nodoc
 class UseCase {
   /// A description of the use case.
   final String description;
@@ -5348,6 +5524,8 @@ class UseCase {
 }
 
 /// A product and offer associated with a listing.
+///
+/// @nodoc
 class ListingAssociatedEntity {
   /// Information about the default offer associated with the listing.
   final OfferInformation? offer;
@@ -5381,6 +5559,7 @@ class ListingAssociatedEntity {
   }
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

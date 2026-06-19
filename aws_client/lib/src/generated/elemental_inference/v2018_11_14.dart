@@ -643,6 +643,7 @@ class ElementalInference {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of the tags that belong to this resource.
   final Map<String, String>? tags;
@@ -666,6 +667,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateDictionaryResponse {
   /// The ARN of the dictionary.
   final String arn;
@@ -736,6 +738,7 @@ class CreateDictionaryResponse {
   }
 }
 
+/// @nodoc
 class GetDictionaryResponse {
   /// The ARN of the dictionary.
   final String arn;
@@ -805,6 +808,7 @@ class GetDictionaryResponse {
   }
 }
 
+/// @nodoc
 class UpdateDictionaryResponse {
   /// The ARN of the dictionary.
   final String arn;
@@ -874,6 +878,7 @@ class UpdateDictionaryResponse {
   }
 }
 
+/// @nodoc
 class DeleteDictionaryResponse {
   /// The ARN of the deleted dictionary.
   final String arn;
@@ -910,6 +915,7 @@ class DeleteDictionaryResponse {
   }
 }
 
+/// @nodoc
 class ListDictionariesResponse {
   /// A list of DictionarySummary objects.
   final List<DictionarySummary> dictionaries;
@@ -942,6 +948,7 @@ class ListDictionariesResponse {
   }
 }
 
+/// @nodoc
 class ExportDictionaryEntriesResponse {
   /// The dictionary entries payload.
   final String? entries;
@@ -964,6 +971,7 @@ class ExportDictionaryEntriesResponse {
   }
 }
 
+/// @nodoc
 class CreateFeedResponse {
   /// A unique ARN that Elemental Inference assigns to the feed.
   final String arn;
@@ -1051,6 +1059,7 @@ class CreateFeedResponse {
   }
 }
 
+/// @nodoc
 class GetFeedResponse {
   /// The ARN of the feed.
   final String arn;
@@ -1133,6 +1142,7 @@ class GetFeedResponse {
   }
 }
 
+/// @nodoc
 class UpdateFeedResponse {
   /// The ARN of the feed.
   final String arn;
@@ -1215,6 +1225,7 @@ class UpdateFeedResponse {
   }
 }
 
+/// @nodoc
 class DeleteFeedResponse {
   /// The ARN of the deleted feed.
   final String arn;
@@ -1252,6 +1263,7 @@ class DeleteFeedResponse {
   }
 }
 
+/// @nodoc
 class ListFeedsResponse {
   /// A list of FeedSummary objects.
   final List<FeedSummary> feeds;
@@ -1288,6 +1300,7 @@ class ListFeedsResponse {
   }
 }
 
+/// @nodoc
 class AssociateFeedResponse {
   /// The ARN of the feed.
   final String arn;
@@ -1317,6 +1330,7 @@ class AssociateFeedResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFeedResponse {
   /// The ARN of the feed.
   final String arn;
@@ -1348,6 +1362,8 @@ class DisassociateFeedResponse {
 
 /// Contains configuration information about one output in a feed. It is used in
 /// the AssociateFeed and the CreateFeed actions.
+///
+/// @nodoc
 class CreateOutput {
   /// A name for the output.
   final String name;
@@ -1387,6 +1403,8 @@ class CreateOutput {
 
 /// Contains one typed output. It is used in the CreateOutput, GetOutput, and
 /// Update Output structures.
+///
+/// @nodoc
 class OutputConfig {
   /// The output config type that applies to the clipping feature.
   final ClippingConfig? clipping;
@@ -1430,6 +1448,7 @@ class OutputConfig {
   }
 }
 
+/// @nodoc
 class OutputStatus {
   static const enabled = OutputStatus._('ENABLED');
   static const disabled = OutputStatus._('DISABLED');
@@ -1455,6 +1474,8 @@ class OutputStatus {
 
 /// A type of OutputConfig, used when the output in a feed is for the crop
 /// feature.
+///
+/// @nodoc
 class CroppingConfig {
   CroppingConfig();
 
@@ -1469,6 +1490,8 @@ class CroppingConfig {
 
 /// A type of OutputConfig, used when the output in a feed is for the clip
 /// feature.
+///
+/// @nodoc
 class ClippingConfig {
   /// A string that you want Elemental Inference to always include in the event
   /// clipping metadata for this output. The string might identify the sports
@@ -1496,6 +1519,8 @@ class ClippingConfig {
 /// A type of OutputConfig, used when the output in a feed is for the smart
 /// subtitling feature. smart subtitling uses automatic speech recognition (ASR)
 /// to generate live TTML subtitles from the audio in your source media.
+///
+/// @nodoc
 class SubtitlingConfig {
   /// The language of the audio in the source media. Elemental Inference uses this
   /// setting to optimize transcription accuracy. Specify the language using an
@@ -1552,6 +1577,7 @@ class SubtitlingConfig {
   }
 }
 
+/// @nodoc
 class TranscriptionLanguage {
   static const eng = TranscriptionLanguage._('eng');
   static const engAu = TranscriptionLanguage._('eng-au');
@@ -1586,6 +1612,8 @@ class TranscriptionLanguage {
 
 /// The width and height of the output video. Used in SubtitlingConfig to
 /// determine subtitle layout.
+///
+/// @nodoc
 class AspectRatio {
   /// The height component of the aspect ratio (for example, 9 in a 16:9 ratio).
   final int height;
@@ -1615,6 +1643,7 @@ class AspectRatio {
   }
 }
 
+/// @nodoc
 class ProfanityFilterMode {
   static const disabled = ProfanityFilterMode._('DISABLED');
   static const censor = ProfanityFilterMode._('CENSOR');
@@ -1643,6 +1672,8 @@ class ProfanityFilterMode {
 
 /// Contains configuration information about a feed. It is used in the ListFeeds
 /// response.
+///
+/// @nodoc
 class FeedSummary {
   /// The ARN of the feed.
   final String arn;
@@ -1699,6 +1730,8 @@ class FeedSummary {
 /// Contains information about the resource that is associated with a feed. It
 /// is used in the FeedSummary that is used in the response of a ListFeeds
 /// action.
+///
+/// @nodoc
 class FeedAssociation {
   /// The name of the associated resource.
   final String associatedResourceName;
@@ -1721,6 +1754,7 @@ class FeedAssociation {
   }
 }
 
+/// @nodoc
 class FeedStatus {
   static const creating = FeedStatus._('CREATING');
   static const available = FeedStatus._('AVAILABLE');
@@ -1759,6 +1793,8 @@ class FeedStatus {
 
 /// Contains configuration information about one output in a feed. It is used in
 /// the GetFeed response.
+///
+/// @nodoc
 class GetOutput {
   /// The name of the output.
   final String name;
@@ -1820,6 +1856,8 @@ class GetOutput {
 
 /// Contains configuration information about one output in a feed. It is used in
 /// the UpdateFeed action.
+///
+/// @nodoc
 class UpdateOutput {
   /// The name of the output.
   final String name;
@@ -1872,6 +1910,8 @@ class UpdateOutput {
 
 /// Contains summary information about a dictionary. Used in the
 /// ListDictionaries response.
+///
+/// @nodoc
 class DictionarySummary {
   /// The ARN of the dictionary.
   final String arn;
@@ -1923,6 +1963,7 @@ class DictionarySummary {
   }
 }
 
+/// @nodoc
 class DictionaryLanguage {
   static const eng = DictionaryLanguage._('eng');
   static const fra = DictionaryLanguage._('fra');
@@ -1952,6 +1993,7 @@ class DictionaryLanguage {
   String toString() => value;
 }
 
+/// @nodoc
 class DictionaryStatus {
   static const creating = DictionaryStatus._('CREATING');
   static const available = DictionaryStatus._('AVAILABLE');
@@ -1979,27 +2021,32 @@ class DictionaryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2008,11 +2055,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestException extends _s.GenericAwsException {
   TooManyRequestException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

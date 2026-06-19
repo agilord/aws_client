@@ -1092,6 +1092,7 @@ class Route53RecoveryReadiness {
   }
 }
 
+/// @nodoc
 class CreateCellResponse {
   /// The Amazon Resource Name (ARN) for the cell.
   final String? cellArn;
@@ -1150,6 +1151,7 @@ class CreateCellResponse {
   }
 }
 
+/// @nodoc
 class CreateCrossAccountAuthorizationResponse {
   /// The cross-account authorization.
   final String? crossAccountAuthorization;
@@ -1174,6 +1176,7 @@ class CreateCrossAccountAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class CreateReadinessCheckResponse {
   /// The Amazon Resource Name (ARN) associated with a readiness check.
   final String? readinessCheckArn;
@@ -1216,6 +1219,7 @@ class CreateReadinessCheckResponse {
   }
 }
 
+/// @nodoc
 class CreateRecoveryGroupResponse {
   /// A list of a cell's Amazon Resource Names (ARNs).
   final List<String>? cells;
@@ -1261,6 +1265,7 @@ class CreateRecoveryGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceSetResponse {
   /// The Amazon Resource Name (ARN) for the resource set.
   final String? resourceSetArn;
@@ -1324,6 +1329,7 @@ class CreateResourceSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteCrossAccountAuthorizationResponse {
   DeleteCrossAccountAuthorizationResponse();
 
@@ -1337,6 +1343,7 @@ class DeleteCrossAccountAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class GetArchitectureRecommendationsResponse {
   /// The time that a recovery group was last assessed for recommendations, in UTC
   /// ISO-8601 format.
@@ -1379,6 +1386,7 @@ class GetArchitectureRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetCellResponse {
   /// The Amazon Resource Name (ARN) for the cell.
   final String? cellArn;
@@ -1437,6 +1445,7 @@ class GetCellResponse {
   }
 }
 
+/// @nodoc
 class GetCellReadinessSummaryResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1476,6 +1485,7 @@ class GetCellReadinessSummaryResponse {
   }
 }
 
+/// @nodoc
 class GetReadinessCheckResponse {
   /// The Amazon Resource Name (ARN) associated with a readiness check.
   final String? readinessCheckArn;
@@ -1518,6 +1528,7 @@ class GetReadinessCheckResponse {
   }
 }
 
+/// @nodoc
 class GetReadinessCheckResourceStatusResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1558,6 +1569,7 @@ class GetReadinessCheckResourceStatusResponse {
   }
 }
 
+/// @nodoc
 class GetReadinessCheckStatusResponse {
   /// Top level messages for readiness check status
   final List<Message>? messages;
@@ -1607,6 +1619,7 @@ class GetReadinessCheckStatusResponse {
   }
 }
 
+/// @nodoc
 class GetRecoveryGroupResponse {
   /// A list of a cell's Amazon Resource Names (ARNs).
   final List<String>? cells;
@@ -1652,6 +1665,7 @@ class GetRecoveryGroupResponse {
   }
 }
 
+/// @nodoc
 class GetRecoveryGroupReadinessSummaryResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1692,6 +1706,7 @@ class GetRecoveryGroupReadinessSummaryResponse {
   }
 }
 
+/// @nodoc
 class GetResourceSetResponse {
   /// The Amazon Resource Name (ARN) for the resource set.
   final String? resourceSetArn;
@@ -1755,6 +1770,7 @@ class GetResourceSetResponse {
   }
 }
 
+/// @nodoc
 class ListCellsResponse {
   /// A list of cells.
   final List<CellOutput>? cells;
@@ -1787,6 +1803,7 @@ class ListCellsResponse {
   }
 }
 
+/// @nodoc
 class ListCrossAccountAuthorizationsResponse {
   /// A list of cross-account authorizations.
   final List<String>? crossAccountAuthorizations;
@@ -1821,6 +1838,7 @@ class ListCrossAccountAuthorizationsResponse {
   }
 }
 
+/// @nodoc
 class ListReadinessChecksResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1853,6 +1871,7 @@ class ListReadinessChecksResponse {
   }
 }
 
+/// @nodoc
 class ListRecoveryGroupsResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1885,6 +1904,7 @@ class ListRecoveryGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListResourceSetsResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1917,6 +1937,7 @@ class ListResourceSetsResponse {
   }
 }
 
+/// @nodoc
 class ListRulesResponse {
   /// The token that identifies which batch of results you want to see.
   final String? nextToken;
@@ -1949,6 +1970,7 @@ class ListRulesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourcesResponse {
   ///
   final Map<String, String>? tags;
@@ -1972,6 +1994,7 @@ class ListTagsForResourcesResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1984,6 +2007,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateCellResponse {
   /// The Amazon Resource Name (ARN) for the cell.
   final String? cellArn;
@@ -2042,6 +2066,7 @@ class UpdateCellResponse {
   }
 }
 
+/// @nodoc
 class UpdateReadinessCheckResponse {
   /// The Amazon Resource Name (ARN) associated with a readiness check.
   final String? readinessCheckArn;
@@ -2084,6 +2109,7 @@ class UpdateReadinessCheckResponse {
   }
 }
 
+/// @nodoc
 class UpdateRecoveryGroupResponse {
   /// A list of a cell's Amazon Resource Names (ARNs).
   final List<String>? cells;
@@ -2129,6 +2155,7 @@ class UpdateRecoveryGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceSetResponse {
   /// The Amazon Resource Name (ARN) for the resource set.
   final String? resourceSetArn;
@@ -2193,6 +2220,8 @@ class UpdateResourceSetResponse {
 }
 
 /// The resource element of a resource set.
+///
+/// @nodoc
 class Resource {
   /// The component identifier of the resource, generated when DNS target resource
   /// is used.
@@ -2246,6 +2275,8 @@ class Resource {
 
 /// A component for DNS/routing control readiness checks and architecture
 /// checks.
+///
+/// @nodoc
 class DNSTargetResource {
   /// The domain name that acts as an ingress point to a portion of the customer
   /// application.
@@ -2303,6 +2334,8 @@ class DNSTargetResource {
 }
 
 /// The target resource that the Route 53 record points to.
+///
+/// @nodoc
 class TargetResource {
   /// The Network Load Balancer Resource.
   final NLBResource? nLBResource;
@@ -2338,6 +2371,8 @@ class TargetResource {
 }
 
 /// The Network Load Balancer resource that a DNS target resource points to.
+///
+/// @nodoc
 class NLBResource {
   /// The Network Load Balancer resource Amazon Resource Name (ARN).
   final String? arn;
@@ -2361,6 +2396,8 @@ class NLBResource {
 }
 
 /// The Route 53 resource that a DNS target resource record points to.
+///
+/// @nodoc
 class R53ResourceRecord {
   /// The DNS target domain name.
   final String? domainName;
@@ -2392,6 +2429,8 @@ class R53ResourceRecord {
 
 /// Readiness rule information, including the resource type, rule ID, and rule
 /// description.
+///
+/// @nodoc
 class ListRulesOutput {
   /// The resource type that the readiness rule applies to.
   final String resourceType;
@@ -2429,6 +2468,8 @@ class ListRulesOutput {
 }
 
 /// A collection of resources of the same type.
+///
+/// @nodoc
 class ResourceSetOutput {
   /// The Amazon Resource Name (ARN) for the resource set.
   final String resourceSetArn;
@@ -2493,6 +2534,8 @@ class ResourceSetOutput {
 }
 
 /// A representation of the application, typically containing multiple cells.
+///
+/// @nodoc
 class RecoveryGroupOutput {
   /// A list of a cell's Amazon Resource Names (ARNs).
   final List<String> cells;
@@ -2541,6 +2584,8 @@ class RecoveryGroupOutput {
 }
 
 /// A readiness check.
+///
+/// @nodoc
 class ReadinessCheckOutput {
   /// The Amazon Resource Name (ARN) associated with a readiness check.
   final String readinessCheckArn;
@@ -2584,6 +2629,8 @@ class ReadinessCheckOutput {
 }
 
 /// Information about a cell.
+///
+/// @nodoc
 class CellOutput {
   /// The Amazon Resource Name (ARN) for the cell.
   final String cellArn;
@@ -2645,6 +2692,8 @@ class CellOutput {
 }
 
 /// The readiness status.
+///
+/// @nodoc
 class Readiness {
   static const ready = Readiness._('READY');
   static const notReady = Readiness._('NOT_READY');
@@ -2672,6 +2721,8 @@ class Readiness {
 
 /// Summary of all readiness check statuses in a recovery group, paginated in
 /// GetRecoveryGroupReadinessSummary and GetCellReadinessSummary.
+///
+/// @nodoc
 class ReadinessCheckSummary {
   /// The readiness status of this readiness check.
   final Readiness? readiness;
@@ -2703,6 +2754,8 @@ class ReadinessCheckSummary {
 
 /// The result of a successful Resource request, with status for an individual
 /// resource.
+///
+/// @nodoc
 class ResourceResult {
   /// The time (UTC) that the resource was last checked for readiness, in ISO-8601
   /// format.
@@ -2749,6 +2802,8 @@ class ResourceResult {
 }
 
 /// Information relating to readiness check status.
+///
+/// @nodoc
 class Message {
   /// The text of a readiness check message.
   final String? messageText;
@@ -2772,6 +2827,8 @@ class Message {
 }
 
 /// The result of a successful Rule request, with status for an individual rule.
+///
+/// @nodoc
 class RuleResult {
   /// The time the resource was last checked for readiness, in ISO-8601 format,
   /// UTC.
@@ -2822,6 +2879,8 @@ class RuleResult {
 
 /// Recommendations that are provided to make an application more recovery
 /// resilient.
+///
+/// @nodoc
 class Recommendation {
   /// Text of the recommendations that are provided to make an application more
   /// recovery resilient.
@@ -2845,31 +2904,37 @@ class Recommendation {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

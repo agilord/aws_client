@@ -473,6 +473,7 @@ class SsoOidc {
   }
 }
 
+/// @nodoc
 class CreateTokenResponse {
   /// A bearer token to access Amazon Web Services accounts and applications
   /// assigned to a user.
@@ -540,6 +541,7 @@ class CreateTokenResponse {
   }
 }
 
+/// @nodoc
 class CreateTokenWithIAMResponse {
   /// A bearer token to access Amazon Web Services accounts and applications
   /// assigned to a user.
@@ -634,6 +636,7 @@ class CreateTokenWithIAMResponse {
   }
 }
 
+/// @nodoc
 class RegisterClientResponse {
   /// An endpoint that the client can use to request authorization.
   final String? authorizationEndpoint;
@@ -697,6 +700,7 @@ class RegisterClientResponse {
   }
 }
 
+/// @nodoc
 class StartDeviceAuthorizationResponse {
   /// The short-lived code that is used by the device when polling for a session
   /// token.
@@ -766,6 +770,8 @@ class StartDeviceAuthorizationResponse {
 /// and the <a
 /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html">identity
 /// context</a>.
+///
+/// @nodoc
 class AwsAdditionalDetails {
   /// The trusted context assertion is signed and encrypted by STS. It provides
   /// access to <code>sts:identity_context</code> claim in the
@@ -793,11 +799,13 @@ class AwsAdditionalDetails {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AuthorizationPendingException extends _s.GenericAwsException {
   AuthorizationPendingException({String? type, String? message})
       : super(
@@ -806,21 +814,25 @@ class AuthorizationPendingException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ExpiredTokenException extends _s.GenericAwsException {
   ExpiredTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredTokenException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidClientException extends _s.GenericAwsException {
   InvalidClientException({String? type, String? message})
       : super(type: type, code: 'InvalidClientException', message: message);
 }
 
+/// @nodoc
 class InvalidClientMetadataException extends _s.GenericAwsException {
   InvalidClientMetadataException({String? type, String? message})
       : super(
@@ -829,22 +841,26 @@ class InvalidClientMetadataException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidGrantException extends _s.GenericAwsException {
   InvalidGrantException({String? type, String? message})
       : super(type: type, code: 'InvalidGrantException', message: message);
 }
 
+/// @nodoc
 class InvalidRedirectUriException extends _s.GenericAwsException {
   InvalidRedirectUriException({String? type, String? message})
       : super(
             type: type, code: 'InvalidRedirectUriException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestRegionException extends _s.GenericAwsException {
   InvalidRequestRegionException({String? type, String? message})
       : super(
@@ -853,22 +869,26 @@ class InvalidRequestRegionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidScopeException extends _s.GenericAwsException {
   InvalidScopeException({String? type, String? message})
       : super(type: type, code: 'InvalidScopeException', message: message);
 }
 
+/// @nodoc
 class SlowDownException extends _s.GenericAwsException {
   SlowDownException({String? type, String? message})
       : super(type: type, code: 'SlowDownException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedClientException extends _s.GenericAwsException {
   UnauthorizedClientException({String? type, String? message})
       : super(
             type: type, code: 'UnauthorizedClientException', message: message);
 }
 
+/// @nodoc
 class UnsupportedGrantTypeException extends _s.GenericAwsException {
   UnsupportedGrantTypeException({String? type, String? message})
       : super(

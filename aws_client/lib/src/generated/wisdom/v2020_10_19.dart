@@ -1868,6 +1868,7 @@ class Wisdom {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
@@ -1891,6 +1892,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1903,6 +1905,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1915,6 +1918,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateAssistantResponse {
   /// Information about the assistant.
   final AssistantData? assistant;
@@ -1939,6 +1943,7 @@ class CreateAssistantResponse {
   }
 }
 
+/// @nodoc
 class GetAssistantResponse {
   /// Information about the assistant.
   final AssistantData? assistant;
@@ -1963,6 +1968,7 @@ class GetAssistantResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssistantResponse {
   DeleteAssistantResponse();
 
@@ -1975,6 +1981,7 @@ class DeleteAssistantResponse {
   }
 }
 
+/// @nodoc
 class ListAssistantsResponse {
   /// Information about the assistants.
   final List<AssistantSummary> assistantSummaries;
@@ -2008,6 +2015,7 @@ class ListAssistantsResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationsResponse {
   /// The recommendations.
   final List<RecommendationData> recommendations;
@@ -2043,6 +2051,7 @@ class GetRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class NotifyRecommendationsReceivedResponse {
   /// The identifiers of recommendations that are causing errors.
   final List<NotifyRecommendationsReceivedError>? errors;
@@ -2080,6 +2089,7 @@ class NotifyRecommendationsReceivedResponse {
   }
 }
 
+/// @nodoc
 class QueryAssistantResponse {
   /// The results of the query.
   final List<ResultData> results;
@@ -2113,6 +2123,7 @@ class QueryAssistantResponse {
   }
 }
 
+/// @nodoc
 class SearchSessionsResponse {
   /// Summary information about the sessions.
   final List<SessionSummary> sessionSummaries;
@@ -2146,6 +2157,7 @@ class SearchSessionsResponse {
   }
 }
 
+/// @nodoc
 class CreateAssistantAssociationResponse {
   /// The assistant association.
   final AssistantAssociationData? assistantAssociation;
@@ -2173,6 +2185,7 @@ class CreateAssistantAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetAssistantAssociationResponse {
   /// The assistant association.
   final AssistantAssociationData? assistantAssociation;
@@ -2199,6 +2212,7 @@ class GetAssistantAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssistantAssociationResponse {
   DeleteAssistantAssociationResponse();
 
@@ -2211,6 +2225,7 @@ class DeleteAssistantAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListAssistantAssociationsResponse {
   /// Summary information about assistant associations.
   final List<AssistantAssociationSummary> assistantAssociationSummaries;
@@ -2248,6 +2263,7 @@ class ListAssistantAssociationsResponse {
   }
 }
 
+/// @nodoc
 class CreateSessionResponse {
   /// The session.
   final SessionData? session;
@@ -2272,6 +2288,7 @@ class CreateSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// The session.
   final SessionData? session;
@@ -2296,6 +2313,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class CreateKnowledgeBaseResponse {
   /// The knowledge base.
   final KnowledgeBaseData? knowledgeBase;
@@ -2321,6 +2339,7 @@ class CreateKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class GetKnowledgeBaseResponse {
   /// The knowledge base.
   final KnowledgeBaseData? knowledgeBase;
@@ -2346,6 +2365,7 @@ class GetKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteKnowledgeBaseResponse {
   DeleteKnowledgeBaseResponse();
 
@@ -2358,6 +2378,7 @@ class DeleteKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class ListKnowledgeBasesResponse {
   /// Information about the knowledge bases.
   final List<KnowledgeBaseSummary> knowledgeBaseSummaries;
@@ -2392,6 +2413,7 @@ class ListKnowledgeBasesResponse {
   }
 }
 
+/// @nodoc
 class DeleteImportJobResponse {
   DeleteImportJobResponse();
 
@@ -2404,6 +2426,7 @@ class DeleteImportJobResponse {
   }
 }
 
+/// @nodoc
 class GetImportJobResponse {
   /// The import job.
   final ImportJobData? importJob;
@@ -2428,6 +2451,7 @@ class GetImportJobResponse {
   }
 }
 
+/// @nodoc
 class ListImportJobsResponse {
   /// Summary information about the import jobs.
   final List<ImportJobSummary> importJobSummaries;
@@ -2461,6 +2485,7 @@ class ListImportJobsResponse {
   }
 }
 
+/// @nodoc
 class RemoveKnowledgeBaseTemplateUriResponse {
   RemoveKnowledgeBaseTemplateUriResponse();
 
@@ -2474,6 +2499,7 @@ class RemoveKnowledgeBaseTemplateUriResponse {
   }
 }
 
+/// @nodoc
 class SearchContentResponse {
   /// Summary information about the content.
   final List<ContentSummary> contentSummaries;
@@ -2507,6 +2533,7 @@ class SearchContentResponse {
   }
 }
 
+/// @nodoc
 class SearchQuickResponsesResponse {
   /// The results of the quick response search.
   final List<QuickResponseSearchResultData> results;
@@ -2541,6 +2568,7 @@ class SearchQuickResponsesResponse {
   }
 }
 
+/// @nodoc
 class StartContentUploadResponse {
   /// The headers to include in the upload.
   final Map<String, String> headersToInclude;
@@ -2586,6 +2614,7 @@ class StartContentUploadResponse {
   }
 }
 
+/// @nodoc
 class StartImportJobResponse {
   /// The import job.
   final ImportJobData? importJob;
@@ -2610,6 +2639,7 @@ class StartImportJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateKnowledgeBaseTemplateUriResponse {
   /// The knowledge base to update.
   final KnowledgeBaseData? knowledgeBase;
@@ -2636,6 +2666,7 @@ class UpdateKnowledgeBaseTemplateUriResponse {
   }
 }
 
+/// @nodoc
 class CreateContentResponse {
   /// The content.
   final ContentData? content;
@@ -2660,6 +2691,7 @@ class CreateContentResponse {
   }
 }
 
+/// @nodoc
 class GetContentResponse {
   /// The content.
   final ContentData? content;
@@ -2684,6 +2716,7 @@ class GetContentResponse {
   }
 }
 
+/// @nodoc
 class UpdateContentResponse {
   /// The content.
   final ContentData? content;
@@ -2708,6 +2741,7 @@ class UpdateContentResponse {
   }
 }
 
+/// @nodoc
 class DeleteContentResponse {
   DeleteContentResponse();
 
@@ -2720,6 +2754,7 @@ class DeleteContentResponse {
   }
 }
 
+/// @nodoc
 class ListContentsResponse {
   /// Information about the content.
   final List<ContentSummary> contentSummaries;
@@ -2753,6 +2788,7 @@ class ListContentsResponse {
   }
 }
 
+/// @nodoc
 class GetContentSummaryResponse {
   /// The content summary.
   final ContentSummary? contentSummary;
@@ -2778,6 +2814,7 @@ class GetContentSummaryResponse {
   }
 }
 
+/// @nodoc
 class CreateQuickResponseResponse {
   /// The quick response.
   final QuickResponseData? quickResponse;
@@ -2803,6 +2840,7 @@ class CreateQuickResponseResponse {
   }
 }
 
+/// @nodoc
 class GetQuickResponseResponse {
   /// The quick response.
   final QuickResponseData? quickResponse;
@@ -2828,6 +2866,7 @@ class GetQuickResponseResponse {
   }
 }
 
+/// @nodoc
 class UpdateQuickResponseResponse {
   /// The quick response.
   final QuickResponseData? quickResponse;
@@ -2853,6 +2892,7 @@ class UpdateQuickResponseResponse {
   }
 }
 
+/// @nodoc
 class DeleteQuickResponseResponse {
   DeleteQuickResponseResponse();
 
@@ -2865,6 +2905,7 @@ class DeleteQuickResponseResponse {
   }
 }
 
+/// @nodoc
 class ListQuickResponsesResponse {
   /// Summary information about the quick responses.
   final List<QuickResponseSummary> quickResponseSummaries;
@@ -2900,6 +2941,8 @@ class ListQuickResponsesResponse {
 }
 
 /// The summary information about the quick response.
+///
+/// @nodoc
 class QuickResponseSummary {
   /// The media type of the quick response content.
   ///
@@ -3032,6 +3075,7 @@ class QuickResponseSummary {
   }
 }
 
+/// @nodoc
 class QuickResponseStatus {
   static const createInProgress = QuickResponseStatus._('CREATE_IN_PROGRESS');
   static const createFailed = QuickResponseStatus._('CREATE_FAILED');
@@ -3073,6 +3117,8 @@ class QuickResponseStatus {
 }
 
 /// Information about the quick response.
+///
+/// @nodoc
 class QuickResponseData {
   /// The media type of the quick response content.
   ///
@@ -3245,6 +3291,8 @@ class QuickResponseData {
 }
 
 /// The content of the quick response stored in different media types.
+///
+/// @nodoc
 class QuickResponseContents {
   final QuickResponseContentProvider? markdown;
   final QuickResponseContentProvider? plainText;
@@ -3278,6 +3326,8 @@ class QuickResponseContents {
 }
 
 /// The configuration information of the grouping of Wisdom users.
+///
+/// @nodoc
 class GroupingConfiguration {
   /// The criteria used for grouping Wisdom users.
   ///
@@ -3332,6 +3382,8 @@ class GroupingConfiguration {
 }
 
 /// The container quick response content.
+///
+/// @nodoc
 class QuickResponseContentProvider {
   /// The content of the quick response.
   final String? content;
@@ -3355,6 +3407,8 @@ class QuickResponseContentProvider {
 }
 
 /// The container of quick response data.
+///
+/// @nodoc
 class QuickResponseDataProvider {
   /// The content of the quick response.
   final String? content;
@@ -3372,6 +3426,8 @@ class QuickResponseDataProvider {
 }
 
 /// Summary information about the content.
+///
+/// @nodoc
 class ContentSummary {
   /// The Amazon Resource Name (ARN) of the content.
   final String contentArn;
@@ -3471,6 +3527,7 @@ class ContentSummary {
   }
 }
 
+/// @nodoc
 class ContentStatus {
   static const createInProgress = ContentStatus._('CREATE_IN_PROGRESS');
   static const createFailed = ContentStatus._('CREATE_FAILED');
@@ -3509,6 +3566,8 @@ class ContentStatus {
 }
 
 /// Information about the content.
+///
+/// @nodoc
 class ContentData {
   /// The Amazon Resource Name (ARN) of the content.
   final String contentArn;
@@ -3630,6 +3689,8 @@ class ContentData {
 }
 
 /// Information about the knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseData {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String knowledgeBaseArn;
@@ -3756,6 +3817,7 @@ class KnowledgeBaseData {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseType {
   static const external = KnowledgeBaseType._('EXTERNAL');
   static const custom = KnowledgeBaseType._('CUSTOM');
@@ -3781,6 +3843,7 @@ class KnowledgeBaseType {
   String toString() => value;
 }
 
+/// @nodoc
 class KnowledgeBaseStatus {
   static const createInProgress = KnowledgeBaseStatus._('CREATE_IN_PROGRESS');
   static const createFailed = KnowledgeBaseStatus._('CREATE_FAILED');
@@ -3818,6 +3881,8 @@ class KnowledgeBaseStatus {
 }
 
 /// Configuration information about the external data source.
+///
+/// @nodoc
 class SourceConfiguration {
   /// Configuration information for Amazon AppIntegrations to automatically ingest
   /// content.
@@ -3845,6 +3910,8 @@ class SourceConfiguration {
 }
 
 /// Information about how to render the content.
+///
+/// @nodoc
 class RenderingConfiguration {
   /// A URI template containing exactly one variable in <code>${variableName}
   /// </code>format. This can only be set for <code>EXTERNAL</code> knowledge
@@ -3892,6 +3959,8 @@ class RenderingConfiguration {
 
 /// The configuration information for the customer managed key used for
 /// encryption.
+///
+/// @nodoc
 class ServerSideEncryptionConfiguration {
   /// The customer managed key used for encryption. For more information about
   /// setting up a customer managed key for Wisdom, see <a
@@ -3923,6 +3992,8 @@ class ServerSideEncryptionConfiguration {
 
 /// Configuration information for Amazon AppIntegrations to automatically ingest
 /// content.
+///
+/// @nodoc
 class AppIntegrationsConfiguration {
   /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use
   /// for ingesting content.
@@ -4031,6 +4102,8 @@ class AppIntegrationsConfiguration {
 }
 
 /// Summary information about the import job.
+///
+/// @nodoc
 class ImportJobData {
   /// The timestamp when the import job was created.
   final DateTime createdTime;
@@ -4145,6 +4218,7 @@ class ImportJobData {
   }
 }
 
+/// @nodoc
 class ImportJobType {
   static const quickResponses = ImportJobType._('QUICK_RESPONSES');
 
@@ -4168,6 +4242,7 @@ class ImportJobType {
   String toString() => value;
 }
 
+/// @nodoc
 class ImportJobStatus {
   static const startInProgress = ImportJobStatus._('START_IN_PROGRESS');
   static const failed = ImportJobStatus._('FAILED');
@@ -4204,6 +4279,8 @@ class ImportJobStatus {
 }
 
 /// The configuration information of the external data source.
+///
+/// @nodoc
 class ExternalSourceConfiguration {
   /// The configuration information of the external data source.
   final Configuration configuration;
@@ -4235,6 +4312,7 @@ class ExternalSourceConfiguration {
   }
 }
 
+/// @nodoc
 class ExternalSource {
   static const amazonConnect = ExternalSource._('AMAZON_CONNECT');
 
@@ -4259,6 +4337,8 @@ class ExternalSource {
 }
 
 /// The configuration information of the external data source.
+///
+/// @nodoc
 class Configuration {
   /// The configuration information of the Amazon Connect data source.
   final ConnectConfiguration? connectConfiguration;
@@ -4286,6 +4366,8 @@ class Configuration {
 }
 
 /// The configuration information of the Amazon Connect data source.
+///
+/// @nodoc
 class ConnectConfiguration {
   /// The identifier of the Amazon Connect instance. You can find the instanceId
   /// in the ARN of the instance.
@@ -4310,6 +4392,8 @@ class ConnectConfiguration {
 }
 
 /// The result of quick response search.
+///
+/// @nodoc
 class QuickResponseSearchResultData {
   /// The media type of the quick response content.
   ///
@@ -4505,6 +4589,8 @@ class QuickResponseSearchResultData {
 }
 
 /// Information about the import job.
+///
+/// @nodoc
 class QuickResponseSearchExpression {
   /// The configuration of filtering rules applied to quick response query
   /// results.
@@ -4576,6 +4662,8 @@ class QuickResponseSearchExpression {
 /// groupingConfiguration.values
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class QuickResponseOrderField {
   /// The name of the attribute to order the quick response query results by.
   final String name;
@@ -4598,6 +4686,7 @@ class QuickResponseOrderField {
   }
 }
 
+/// @nodoc
 class Order {
   static const asc = Order._('ASC');
   static const desc = Order._('DESC');
@@ -4663,6 +4752,8 @@ class Order {
 /// groupingConfiguration.values
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class QuickResponseFilterField {
   /// The name of the attribute field to filter the quick responses by.
   final String name;
@@ -4697,6 +4788,7 @@ class QuickResponseFilterField {
   }
 }
 
+/// @nodoc
 class QuickResponseFilterOperator {
   static const equals = QuickResponseFilterOperator._('EQUALS');
   static const prefix = QuickResponseFilterOperator._('PREFIX');
@@ -4740,6 +4832,8 @@ class QuickResponseFilterOperator {
 /// shortcutKey
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class QuickResponseQueryField {
   /// The name of the attribute to query the quick responses by.
   final String name;
@@ -4784,6 +4878,7 @@ class QuickResponseQueryField {
   }
 }
 
+/// @nodoc
 class QuickResponseQueryOperator {
   static const contains = QuickResponseQueryOperator._('CONTAINS');
   static const containsAndPrefix =
@@ -4810,6 +4905,7 @@ class QuickResponseQueryOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class Priority {
   static const high = Priority._('HIGH');
   static const medium = Priority._('MEDIUM');
@@ -4835,6 +4931,8 @@ class Priority {
 }
 
 /// The search expression.
+///
+/// @nodoc
 class SearchExpression {
   /// The search expression filters.
   final List<Filter> filters;
@@ -4852,6 +4950,8 @@ class SearchExpression {
 }
 
 /// A search filter.
+///
+/// @nodoc
 class Filter {
   /// The field on which to filter.
   final FilterField field;
@@ -4880,6 +4980,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterField {
   static const name = FilterField._('NAME');
 
@@ -4902,6 +5003,7 @@ class FilterField {
   String toString() => value;
 }
 
+/// @nodoc
 class FilterOperator {
   static const equals = FilterOperator._('EQUALS');
 
@@ -4926,6 +5028,8 @@ class FilterOperator {
 }
 
 /// Summary information about the import job.
+///
+/// @nodoc
 class ImportJobSummary {
   /// The timestamp when the import job was created.
   final DateTime createdTime;
@@ -5022,6 +5126,8 @@ class ImportJobSummary {
 }
 
 /// Summary information about the knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseSummary {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String knowledgeBaseArn;
@@ -5136,6 +5242,8 @@ class KnowledgeBaseSummary {
 }
 
 /// Information about the session.
+///
+/// @nodoc
 class SessionData {
   /// The name of the session.
   final String name;
@@ -5199,6 +5307,8 @@ class SessionData {
 }
 
 /// The configuration information for the session integration.
+///
+/// @nodoc
 class SessionIntegrationConfiguration {
   /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for
   /// streaming chat messages.
@@ -5224,6 +5334,8 @@ class SessionIntegrationConfiguration {
 }
 
 /// Summary information about the assistant association.
+///
+/// @nodoc
 class AssistantAssociationSummary {
   /// The Amazon Resource Name (ARN) of the Wisdom assistant.
   final String assistantArn;
@@ -5293,6 +5405,7 @@ class AssistantAssociationSummary {
   }
 }
 
+/// @nodoc
 class AssociationType {
   static const knowledgeBase = AssociationType._('KNOWLEDGE_BASE');
 
@@ -5317,6 +5430,8 @@ class AssociationType {
 }
 
 /// The data that is output as a result of the assistant association.
+///
+/// @nodoc
 class AssistantAssociationOutputData {
   /// The knowledge base where output data is sent.
   final KnowledgeBaseAssociationData? knowledgeBaseAssociation;
@@ -5344,6 +5459,8 @@ class AssistantAssociationOutputData {
 }
 
 /// Association information about the knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseAssociationData {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String? knowledgeBaseArn;
@@ -5375,6 +5492,8 @@ class KnowledgeBaseAssociationData {
 }
 
 /// Information about the assistant association.
+///
+/// @nodoc
 class AssistantAssociationData {
   /// The Amazon Resource Name (ARN) of the Wisdom assistant.
   final String assistantArn;
@@ -5445,6 +5564,8 @@ class AssistantAssociationData {
 }
 
 /// The data that is input into Wisdom as a result of the assistant association.
+///
+/// @nodoc
 class AssistantAssociationInputData {
   /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES
   /// type knowledge base if you're storing Wisdom Content resource to it.
@@ -5463,6 +5584,8 @@ class AssistantAssociationInputData {
 }
 
 /// Summary information about the session.
+///
+/// @nodoc
 class SessionSummary {
   /// The Amazon Resource Name (ARN) of the Wisdom assistant.
   final String assistantArn;
@@ -5507,6 +5630,8 @@ class SessionSummary {
 }
 
 /// Information about the result.
+///
+/// @nodoc
 class ResultData {
   /// The document.
   final Document document;
@@ -5545,6 +5670,8 @@ class ResultData {
 }
 
 /// The document.
+///
+/// @nodoc
 class Document {
   /// A reference to the content resource.
   final ContentReference contentReference;
@@ -5588,6 +5715,8 @@ class Document {
 }
 
 /// Reference information about the content.
+///
+/// @nodoc
 class ContentReference {
   /// The Amazon Resource Name (ARN) of the content.
   final String? contentArn;
@@ -5633,6 +5762,8 @@ class ContentReference {
 }
 
 /// The text of the document.
+///
+/// @nodoc
 class DocumentText {
   /// Highlights in the document text.
   final List<Highlight>? highlights;
@@ -5667,6 +5798,8 @@ class DocumentText {
 
 /// Offset specification to describe highlighting of document excerpts for
 /// rendering search results and recommendations.
+///
+/// @nodoc
 class Highlight {
   /// The offset for the start of the highlight.
   final int? beginOffsetInclusive;
@@ -5698,6 +5831,8 @@ class Highlight {
 }
 
 /// An error occurred when creating a recommendation.
+///
+/// @nodoc
 class NotifyRecommendationsReceivedError {
   /// A recommendation is causing an error.
   final String? message;
@@ -5731,6 +5866,8 @@ class NotifyRecommendationsReceivedError {
 /// A recommendation trigger provides context on the event that produced the
 /// referenced recommendations. Recommendations are only referenced in
 /// <code>recommendationIds</code> by a single RecommendationTrigger.
+///
+/// @nodoc
 class RecommendationTrigger {
   /// A union type containing information related to the trigger.
   final RecommendationTriggerData data;
@@ -5798,6 +5935,7 @@ class RecommendationTrigger {
   }
 }
 
+/// @nodoc
 class RecommendationTriggerType {
   static const query = RecommendationTriggerType._('QUERY');
 
@@ -5822,6 +5960,7 @@ class RecommendationTriggerType {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationSourceType {
   static const issueDetection = RecommendationSourceType._('ISSUE_DETECTION');
   static const ruleEvaluation = RecommendationSourceType._('RULE_EVALUATION');
@@ -5849,6 +5988,8 @@ class RecommendationSourceType {
 }
 
 /// A union type containing information related to the trigger.
+///
+/// @nodoc
 class RecommendationTriggerData {
   /// Data associated with the QUERY RecommendationTriggerType.
   final QueryRecommendationTriggerData? query;
@@ -5875,6 +6016,8 @@ class RecommendationTriggerData {
 }
 
 /// Data associated with the QUERY RecommendationTriggerType.
+///
+/// @nodoc
 class QueryRecommendationTriggerData {
   /// The text associated with the recommendation trigger.
   final String? text;
@@ -5898,6 +6041,8 @@ class QueryRecommendationTriggerData {
 }
 
 /// Information about the recommendation.
+///
+/// @nodoc
 class RecommendationData {
   /// The recommended document.
   final Document document;
@@ -5950,6 +6095,7 @@ class RecommendationData {
   }
 }
 
+/// @nodoc
 class RelevanceLevel {
   static const high = RelevanceLevel._('HIGH');
   static const medium = RelevanceLevel._('MEDIUM');
@@ -5975,6 +6121,7 @@ class RelevanceLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationType {
   static const knowledgeContent = RecommendationType._('KNOWLEDGE_CONTENT');
 
@@ -6000,6 +6147,8 @@ class RecommendationType {
 }
 
 /// Summary information about the assistant.
+///
+/// @nodoc
 class AssistantSummary {
   /// The Amazon Resource Name (ARN) of the Wisdom assistant.
   final String assistantArn;
@@ -6104,6 +6253,7 @@ class AssistantSummary {
   }
 }
 
+/// @nodoc
 class AssistantType {
   static const agent = AssistantType._('AGENT');
 
@@ -6127,6 +6277,7 @@ class AssistantType {
   String toString() => value;
 }
 
+/// @nodoc
 class AssistantStatus {
   static const createInProgress = AssistantStatus._('CREATE_IN_PROGRESS');
   static const createFailed = AssistantStatus._('CREATE_FAILED');
@@ -6163,6 +6314,8 @@ class AssistantStatus {
 }
 
 /// The configuration information for the Wisdom assistant integration.
+///
+/// @nodoc
 class AssistantIntegrationConfiguration {
   /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for
   /// streaming chat messages.
@@ -6189,6 +6342,8 @@ class AssistantIntegrationConfiguration {
 }
 
 /// The assistant data.
+///
+/// @nodoc
 class AssistantData {
   /// The Amazon Resource Name (ARN) of the Wisdom assistant.
   final String assistantArn;
@@ -6293,32 +6448,38 @@ class AssistantData {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class PreconditionFailedException extends _s.GenericAwsException {
   PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
+/// @nodoc
 class RequestTimeoutException extends _s.GenericAwsException {
   RequestTimeoutException({String? type, String? message})
       : super(type: type, code: 'RequestTimeoutException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6327,11 +6488,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

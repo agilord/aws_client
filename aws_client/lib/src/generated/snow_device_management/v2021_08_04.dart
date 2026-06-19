@@ -492,6 +492,7 @@ class SnowDeviceManagement {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tags for the device or task.
   final Map<String, String>? tags;
@@ -515,6 +516,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class DescribeDeviceOutput {
   /// The ID of the job used when ordering the device.
   final String? associatedWithJob;
@@ -626,6 +628,7 @@ class DescribeDeviceOutput {
   }
 }
 
+/// @nodoc
 class ListDevicesOutput {
   /// A list of device structures that contain information about the device.
   final List<DeviceSummary>? devices;
@@ -658,6 +661,7 @@ class ListDevicesOutput {
   }
 }
 
+/// @nodoc
 class DescribeDeviceEc2Output {
   /// A list of structures containing information about each instance.
   final List<InstanceSummary>? instances;
@@ -683,6 +687,7 @@ class DescribeDeviceEc2Output {
   }
 }
 
+/// @nodoc
 class ListDeviceResourcesOutput {
   /// A pagination token to continue to the next page of results.
   final String? nextToken;
@@ -716,6 +721,7 @@ class ListDeviceResourcesOutput {
   }
 }
 
+/// @nodoc
 class CreateTaskOutput {
   /// The Amazon Resource Name (ARN) of the task that you created.
   final String? taskArn;
@@ -745,6 +751,7 @@ class CreateTaskOutput {
   }
 }
 
+/// @nodoc
 class DescribeTaskOutput {
   /// When the task was completed.
   final DateTime? completedAt;
@@ -828,6 +835,7 @@ class DescribeTaskOutput {
   }
 }
 
+/// @nodoc
 class ListTasksOutput {
   /// A pagination token to continue to the next page of tasks.
   final String? nextToken;
@@ -860,6 +868,7 @@ class ListTasksOutput {
   }
 }
 
+/// @nodoc
 class CancelTaskOutput {
   /// The ID of the task that you are attempting to cancel.
   final String? taskId;
@@ -882,6 +891,7 @@ class CancelTaskOutput {
   }
 }
 
+/// @nodoc
 class DescribeExecutionOutput {
   /// The ID of the execution.
   final String? executionId;
@@ -940,6 +950,7 @@ class DescribeExecutionOutput {
   }
 }
 
+/// @nodoc
 class ListExecutionsOutput {
   /// A list of executions. Each execution contains the task ID, the device that
   /// the task is executing on, the execution ID, and the status of the execution.
@@ -974,6 +985,8 @@ class ListExecutionsOutput {
 }
 
 /// The summary of a task execution on a specified device.
+///
+/// @nodoc
 class ExecutionSummary {
   /// The ID of the execution.
   final String? executionId;
@@ -1017,6 +1030,7 @@ class ExecutionSummary {
   }
 }
 
+/// @nodoc
 class ExecutionState {
   static const queued = ExecutionState._('QUEUED');
   static const inProgress = ExecutionState._('IN_PROGRESS');
@@ -1055,6 +1069,8 @@ class ExecutionState {
 }
 
 /// Information about the task assigned to one or many devices.
+///
+/// @nodoc
 class TaskSummary {
   /// The task ID.
   final String taskId;
@@ -1101,6 +1117,7 @@ class TaskSummary {
   }
 }
 
+/// @nodoc
 class TaskState {
   static const inProgress = TaskState._('IN_PROGRESS');
   static const canceled = TaskState._('CANCELED');
@@ -1126,6 +1143,8 @@ class TaskState {
 }
 
 /// The command given to the device to execute.
+///
+/// @nodoc
 class Command {
   /// Reboots the device.
   final Reboot? reboot;
@@ -1149,6 +1168,8 @@ class Command {
 }
 
 /// A structure used to unlock a device.
+///
+/// @nodoc
 class Unlock {
   Unlock();
 
@@ -1158,6 +1179,8 @@ class Unlock {
 }
 
 /// A structure used to reboot the device.
+///
+/// @nodoc
 class Reboot {
   Reboot();
 
@@ -1167,6 +1190,8 @@ class Reboot {
 }
 
 /// A summary of a resource available on the device.
+///
+/// @nodoc
 class ResourceSummary {
   /// The resource type.
   final String resourceType;
@@ -1204,6 +1229,8 @@ class ResourceSummary {
 }
 
 /// The details about the instance.
+///
+/// @nodoc
 class InstanceSummary {
   /// A structure containing details about the instance.
   final Instance? instance;
@@ -1238,6 +1265,8 @@ class InstanceSummary {
 
 /// The description of an instance. Currently, Amazon EC2 instances are the only
 /// supported instance type.
+///
+/// @nodoc
 class Instance {
   /// The Amazon Machine Image (AMI) launch index, which you can use to find this
   /// instance in the launch group.
@@ -1358,6 +1387,8 @@ class Instance {
 }
 
 /// The description of the current state of an instance.
+///
+/// @nodoc
 class InstanceState {
   /// The state of the instance as a 16-bit unsigned integer.
   ///
@@ -1421,6 +1452,8 @@ class InstanceState {
 }
 
 /// The options for how a device's CPU is configured.
+///
+/// @nodoc
 class CpuOptions {
   /// The number of cores that the CPU can use.
   final int? coreCount;
@@ -1451,6 +1484,8 @@ class CpuOptions {
 }
 
 /// Information about the device's security group.
+///
+/// @nodoc
 class SecurityGroupIdentifier {
   /// The security group ID.
   final String? groupId;
@@ -1481,6 +1516,8 @@ class SecurityGroupIdentifier {
 }
 
 /// The description of a block device mapping.
+///
+/// @nodoc
 class InstanceBlockDeviceMapping {
   /// The block device name.
   final String? deviceName;
@@ -1515,6 +1552,8 @@ class InstanceBlockDeviceMapping {
 
 /// Describes a parameter used to set up an Amazon Elastic Block Store (Amazon
 /// EBS) volume in a block device mapping.
+///
+/// @nodoc
 class EbsInstanceBlockDevice {
   /// When the attachment was initiated.
   final DateTime? attachTime;
@@ -1560,6 +1599,7 @@ class EbsInstanceBlockDevice {
   }
 }
 
+/// @nodoc
 class AttachmentStatus {
   static const attaching = AttachmentStatus._('ATTACHING');
   static const attached = AttachmentStatus._('ATTACHED');
@@ -1586,6 +1626,7 @@ class AttachmentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceStateName {
   static const pending = InstanceStateName._('PENDING');
   static const running = InstanceStateName._('RUNNING');
@@ -1622,6 +1663,8 @@ class InstanceStateName {
 }
 
 /// Identifying information about the device.
+///
+/// @nodoc
 class DeviceSummary {
   /// The ID of the job used to order the device.
   final String? associatedWithJob;
@@ -1668,6 +1711,7 @@ class DeviceSummary {
   }
 }
 
+/// @nodoc
 class UnlockState {
   static const unlocked = UnlockState._('UNLOCKED');
   static const locked = UnlockState._('LOCKED');
@@ -1693,6 +1737,8 @@ class UnlockState {
 }
 
 /// Information about the software on the device.
+///
+/// @nodoc
 class SoftwareInformation {
   /// The state of the software that is installed or that is being installed on
   /// the device.
@@ -1731,6 +1777,8 @@ class SoftwareInformation {
 }
 
 /// The physical capacity of the Amazon Web Services Snow Family device.
+///
+/// @nodoc
 class Capacity {
   /// The amount of capacity available for use on the device.
   final int? available;
@@ -1782,6 +1830,8 @@ class Capacity {
 }
 
 /// The details about the physical network interface for the device.
+///
+/// @nodoc
 class PhysicalNetworkInterface {
   /// The default gateway of the device.
   final String? defaultGateway;
@@ -1851,6 +1901,7 @@ class PhysicalNetworkInterface {
   }
 }
 
+/// @nodoc
 class PhysicalConnectorType {
   static const rj45 = PhysicalConnectorType._('RJ45');
   static const sfpPlus = PhysicalConnectorType._('SFP_PLUS');
@@ -1879,6 +1930,7 @@ class PhysicalConnectorType {
   String toString() => value;
 }
 
+/// @nodoc
 class IpAddressAssignment {
   static const dhcp = IpAddressAssignment._('DHCP');
   static const static = IpAddressAssignment._('STATIC');
@@ -1904,21 +1956,25 @@ class IpAddressAssignment {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1927,11 +1983,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

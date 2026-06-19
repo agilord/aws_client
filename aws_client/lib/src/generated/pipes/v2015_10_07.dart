@@ -516,6 +516,7 @@ class Pipes {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of key-value pairs to associate with the pipe.
   final Map<String, String>? tags;
@@ -539,6 +540,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -551,6 +553,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -563,6 +566,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreatePipeResponse {
   /// The ARN of the pipe.
   final String? arn;
@@ -626,6 +630,7 @@ class CreatePipeResponse {
   }
 }
 
+/// @nodoc
 class DescribePipeResponse {
   /// The ARN of the pipe.
   final String? arn;
@@ -797,6 +802,7 @@ class DescribePipeResponse {
   }
 }
 
+/// @nodoc
 class UpdatePipeResponse {
   /// The ARN of the pipe.
   final String? arn;
@@ -860,6 +866,7 @@ class UpdatePipeResponse {
   }
 }
 
+/// @nodoc
 class DeletePipeResponse {
   /// The ARN of the pipe.
   final String? arn;
@@ -923,6 +930,7 @@ class DeletePipeResponse {
   }
 }
 
+/// @nodoc
 class ListPipesResponse {
   /// If <code>nextToken</code> is returned, there are more results available. The
   /// value of <code>nextToken</code> is a unique pagination token for each page.
@@ -960,6 +968,7 @@ class ListPipesResponse {
   }
 }
 
+/// @nodoc
 class StartPipeResponse {
   /// The ARN of the pipe.
   final String? arn;
@@ -1023,6 +1032,7 @@ class StartPipeResponse {
   }
 }
 
+/// @nodoc
 class StopPipeResponse {
   /// The ARN of the pipe.
   final String? arn;
@@ -1086,6 +1096,7 @@ class StopPipeResponse {
   }
 }
 
+/// @nodoc
 class RequestedPipeState {
   static const running = RequestedPipeState._('RUNNING');
   static const stopped = RequestedPipeState._('STOPPED');
@@ -1111,6 +1122,7 @@ class RequestedPipeState {
   String toString() => value;
 }
 
+/// @nodoc
 class PipeState {
   static const running = PipeState._('RUNNING');
   static const stopped = PipeState._('STOPPED');
@@ -1166,6 +1178,8 @@ class PipeState {
 /// An object that represents a pipe. Amazon EventBridgePipes connect event
 /// sources to targets and reduces the need for specialized knowledge and
 /// integration code.
+///
+/// @nodoc
 class Pipe {
   /// The ARN of the pipe.
   final String? arn;
@@ -1257,6 +1271,7 @@ class Pipe {
   }
 }
 
+/// @nodoc
 class RequestedPipeStateDescribeResponse {
   static const running = RequestedPipeStateDescribeResponse._('RUNNING');
   static const stopped = RequestedPipeStateDescribeResponse._('STOPPED');
@@ -1284,6 +1299,8 @@ class RequestedPipeStateDescribeResponse {
 }
 
 /// The parameters required to set up a source for your pipe.
+///
+/// @nodoc
 class UpdatePipeSourceParameters {
   /// The parameters for using an Active MQ broker as a source.
   final UpdatePipeSourceActiveMQBrokerParameters? activeMQBrokerParameters;
@@ -1367,6 +1384,8 @@ class UpdatePipeSourceParameters {
 }
 
 /// The parameters required to set up enrichment on your pipe.
+///
+/// @nodoc
 class PipeEnrichmentParameters {
   /// Contains the HTTP parameters to use when the target is a API Gateway REST
   /// endpoint or EventBridge ApiDestination.
@@ -1418,6 +1437,8 @@ class PipeEnrichmentParameters {
 /// dynamic path parameters, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html">Target
 /// parameters</a> in the <i>Amazon EventBridge User Guide</i>.
+///
+/// @nodoc
 class PipeTargetParameters {
   /// The parameters for using an Batch job as a target.
   final PipeTargetBatchJobParameters? batchJobParameters;
@@ -1602,6 +1623,8 @@ class PipeTargetParameters {
 /// For more information on generating pipe log records, see <a
 /// href="eventbridge/latest/userguide/eb-pipes-logs.html">Log EventBridge
 /// Pipes</a> in the <i>Amazon EventBridge User Guide</i>.
+///
+/// @nodoc
 class PipeLogConfigurationParameters {
   /// The level of logging detail to include. This applies to all log destinations
   /// for the pipe.
@@ -1662,6 +1685,8 @@ class PipeLogConfigurationParameters {
 }
 
 /// The Amazon S3 logging configuration settings for the pipe.
+///
+/// @nodoc
 class S3LogDestinationParameters {
   /// Specifies the name of the Amazon S3 bucket to which EventBridge delivers the
   /// log records for the pipe.
@@ -1709,6 +1734,8 @@ class S3LogDestinationParameters {
 }
 
 /// The Amazon Data Firehose logging configuration settings for the pipe.
+///
+/// @nodoc
 class FirehoseLogDestinationParameters {
   /// Specifies the Amazon Resource Name (ARN) of the Firehose delivery stream to
   /// which EventBridge delivers the pipe log records.
@@ -1727,6 +1754,8 @@ class FirehoseLogDestinationParameters {
 }
 
 /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+///
+/// @nodoc
 class CloudwatchLogsLogDestinationParameters {
   /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to
   /// which EventBridge sends the log records.
@@ -1744,6 +1773,7 @@ class CloudwatchLogsLogDestinationParameters {
   }
 }
 
+/// @nodoc
 class LogLevel {
   static const off = LogLevel._('OFF');
   static const error = LogLevel._('ERROR');
@@ -1769,6 +1799,7 @@ class LogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class IncludeExecutionDataOption {
   static const all = IncludeExecutionDataOption._('ALL');
 
@@ -1793,6 +1824,7 @@ class IncludeExecutionDataOption {
   String toString() => value;
 }
 
+/// @nodoc
 class S3OutputFormat {
   static const json = S3OutputFormat._('json');
   static const plain = S3OutputFormat._('plain');
@@ -1819,6 +1851,8 @@ class S3OutputFormat {
 }
 
 /// The parameters for using a Lambda function as a target.
+///
+/// @nodoc
 class PipeTargetLambdaFunctionParameters {
   /// Specify whether to invoke the function synchronously or asynchronously.
   ///
@@ -1864,6 +1898,8 @@ class PipeTargetLambdaFunctionParameters {
 }
 
 /// The parameters for using a Step Functions state machine as a target.
+///
+/// @nodoc
 class PipeTargetStateMachineParameters {
   /// Specify whether to invoke the Step Functions state machine synchronously or
   /// asynchronously.
@@ -1910,6 +1946,8 @@ class PipeTargetStateMachineParameters {
 }
 
 /// The parameters for using a Kinesis stream as a target.
+///
+/// @nodoc
 class PipeTargetKinesisStreamParameters {
   /// Determines which shard in the stream the data record is assigned to.
   /// Partition keys are Unicode strings with a maximum length limit of 256
@@ -1941,6 +1979,8 @@ class PipeTargetKinesisStreamParameters {
 }
 
 /// The parameters for using an Amazon ECS task as a target.
+///
+/// @nodoc
 class PipeTargetEcsTaskParameters {
   /// The ARN of the task definition to use if the event target is an Amazon ECS
   /// task.
@@ -2133,6 +2173,8 @@ class PipeTargetEcsTaskParameters {
 }
 
 /// The parameters for using an Batch job as a target.
+///
+/// @nodoc
 class PipeTargetBatchJobParameters {
   /// The job definition used by this job. This value can be one of
   /// <code>name</code>, <code>name:revision</code>, or the Amazon Resource Name
@@ -2230,6 +2272,8 @@ class PipeTargetBatchJobParameters {
 }
 
 /// The parameters for using a Amazon SQS stream as a target.
+///
+/// @nodoc
 class PipeTargetSqsQueueParameters {
   /// This parameter applies only to FIFO (first-in-first-out) queues.
   ///
@@ -2264,6 +2308,8 @@ class PipeTargetSqsQueueParameters {
 
 /// These are custom parameter to be used when the target is an API Gateway REST
 /// APIs or EventBridge ApiDestinations.
+///
+/// @nodoc
 class PipeTargetHttpParameters {
   /// The headers that need to be sent as part of request invoking the API Gateway
   /// REST API or EventBridge ApiDestination.
@@ -2313,6 +2359,8 @@ class PipeTargetHttpParameters {
 
 /// These are custom parameters to be used when the target is a Amazon Redshift
 /// cluster to invoke the Amazon Redshift Data API BatchExecuteStatement.
+///
+/// @nodoc
 class PipeTargetRedshiftDataParameters {
   /// The name of the database. Required when authenticating using temporary
   /// credentials.
@@ -2379,6 +2427,8 @@ class PipeTargetRedshiftDataParameters {
 }
 
 /// The parameters for using a SageMaker pipeline as a target.
+///
+/// @nodoc
 class PipeTargetSageMakerPipelineParameters {
   /// List of Parameter names and values for SageMaker Model Building Pipeline
   /// execution.
@@ -2409,6 +2459,8 @@ class PipeTargetSageMakerPipelineParameters {
 }
 
 /// The parameters for using an EventBridge event bus as a target.
+///
+/// @nodoc
 class PipeTargetEventBridgeEventBusParameters {
   /// A free-form string, with a maximum of 128 characters, used to decide what
   /// fields to expect in the event detail.
@@ -2473,6 +2525,8 @@ class PipeTargetEventBridgeEventBusParameters {
 }
 
 /// The parameters for using an CloudWatch Logs log stream as a target.
+///
+/// @nodoc
 class PipeTargetCloudWatchLogsParameters {
   /// The name of the log stream.
   final String? logStreamName;
@@ -2505,6 +2559,8 @@ class PipeTargetCloudWatchLogsParameters {
 }
 
 /// The parameters for using a Timestream for LiveAnalytics table as a target.
+///
+/// @nodoc
 class PipeTargetTimestreamParameters {
   /// Map source data to dimensions in the target Timestream for LiveAnalytics
   /// table.
@@ -2625,6 +2681,7 @@ class PipeTargetTimestreamParameters {
   }
 }
 
+/// @nodoc
 class EpochTimeUnit {
   static const milliseconds = EpochTimeUnit._('MILLISECONDS');
   static const seconds = EpochTimeUnit._('SECONDS');
@@ -2651,6 +2708,7 @@ class EpochTimeUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class TimeFieldType {
   static const epoch = TimeFieldType._('EPOCH');
   static const timestampFormat = TimeFieldType._('TIMESTAMP_FORMAT');
@@ -2681,6 +2739,8 @@ class TimeFieldType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html">Amazon
 /// Timestream for LiveAnalytics concepts</a>
+///
+/// @nodoc
 class MultiMeasureMapping {
   /// Mappings that represent multiple source event fields mapped to measures in
   /// the same Timestream for LiveAnalytics record.
@@ -2719,6 +2779,8 @@ class MultiMeasureMapping {
 
 /// A mapping of a source event data field to a measure in a Timestream for
 /// LiveAnalytics record.
+///
+/// @nodoc
 class MultiMeasureAttributeMapping {
   /// Dynamic path to the measurement attribute in the source event.
   final String measureValue;
@@ -2757,6 +2819,7 @@ class MultiMeasureAttributeMapping {
   }
 }
 
+/// @nodoc
 class MeasureValueType {
   static const $double = MeasureValueType._('DOUBLE');
   static const bigint = MeasureValueType._('BIGINT');
@@ -2790,6 +2853,8 @@ class MeasureValueType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html">Amazon
 /// Timestream for LiveAnalytics concepts</a>
+///
+/// @nodoc
 class SingleMeasureMapping {
   /// Target measure name for the measurement attribute in the Timestream table.
   final String measureName;
@@ -2833,6 +2898,8 @@ class SingleMeasureMapping {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html">Amazon
 /// Timestream for LiveAnalytics concepts</a>
+///
+/// @nodoc
 class DimensionMapping {
   /// The metadata attributes of the time series. For example, the name and
   /// Availability Zone of an Amazon EC2 instance or the name of the manufacturer
@@ -2872,6 +2939,7 @@ class DimensionMapping {
   }
 }
 
+/// @nodoc
 class DimensionValueType {
   static const varchar = DimensionValueType._('VARCHAR');
 
@@ -2898,6 +2966,8 @@ class DimensionValueType {
 
 /// Name/Value pair of a parameter to start execution of a SageMaker Model
 /// Building Pipeline.
+///
+/// @nodoc
 class SageMakerPipelineParameter {
   /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
   final String name;
@@ -2932,6 +3002,8 @@ class SageMakerPipelineParameter {
 /// The array size can be between 2 and 10,000. If you specify array properties
 /// for a job, it becomes an array job. This parameter is used only if the
 /// target is an Batch job.
+///
+/// @nodoc
 class BatchArrayProperties {
   /// The size of the array, if this is an array batch job.
   final int? size;
@@ -2958,6 +3030,8 @@ class BatchArrayProperties {
 /// <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html">
 /// Automated job retries</a> in the <i>Batch User Guide</i>.
+///
+/// @nodoc
 class BatchRetryStrategy {
   /// The number of times to move a job to the <code>RUNNABLE</code> status. If
   /// the value of <code>attempts</code> is greater than one, the job is retried
@@ -2983,6 +3057,8 @@ class BatchRetryStrategy {
 }
 
 /// The overrides that are sent to a container.
+///
+/// @nodoc
 class BatchContainerOverrides {
   /// The command to send to the container that overrides the default command from
   /// the Docker image or the task definition.
@@ -3051,6 +3127,8 @@ class BatchContainerOverrides {
 }
 
 /// An object that represents an Batch job dependency.
+///
+/// @nodoc
 class BatchJobDependency {
   /// The job ID of the Batch job that's associated with this dependency.
   final String? jobId;
@@ -3080,6 +3158,7 @@ class BatchJobDependency {
   }
 }
 
+/// @nodoc
 class BatchJobDependencyType {
   static const nToN = BatchJobDependencyType._('N_TO_N');
   static const sequential = BatchJobDependencyType._('SEQUENTIAL');
@@ -3108,6 +3187,8 @@ class BatchJobDependencyType {
 /// The type and amount of a resource to assign to a container. The supported
 /// resources include <code>GPU</code>, <code>MEMORY</code>, and
 /// <code>VCPU</code>.
+///
+/// @nodoc
 class BatchResourceRequirement {
   /// The type of resource to assign to a container. The supported resources
   /// include <code>GPU</code>, <code>MEMORY</code>, and <code>VCPU</code>.
@@ -3248,6 +3329,7 @@ class BatchResourceRequirement {
   }
 }
 
+/// @nodoc
 class BatchResourceRequirementType {
   static const gpu = BatchResourceRequirementType._('GPU');
   static const memory = BatchResourceRequirementType._('MEMORY');
@@ -3282,6 +3364,8 @@ class BatchResourceRequirementType {
 /// Environment variables cannot start with "<code>Batch</code>". This naming
 /// convention is reserved for variables that Batch sets.
 /// </note>
+///
+/// @nodoc
 class BatchEnvironmentVariable {
   /// The name of the key-value pair. For environment variables, this is the name
   /// of the environment variable.
@@ -3313,6 +3397,7 @@ class BatchEnvironmentVariable {
   }
 }
 
+/// @nodoc
 class LaunchType {
   static const ec2 = LaunchType._('EC2');
   static const fargate = LaunchType._('FARGATE');
@@ -3338,6 +3423,8 @@ class LaunchType {
 }
 
 /// This structure specifies the network configuration for an Amazon ECS task.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// Use this structure to specify the VPC subnets and security groups for the
   /// task, and whether a public IP address is to be used. This structure is
@@ -3366,6 +3453,7 @@ class NetworkConfiguration {
   }
 }
 
+/// @nodoc
 class PropagateTags {
   static const taskDefinition = PropagateTags._('TASK_DEFINITION');
 
@@ -3390,6 +3478,8 @@ class PropagateTags {
 }
 
 /// The overrides that are associated with a task.
+///
+/// @nodoc
 class EcsTaskOverride {
   /// One or more container overrides that are sent to a task.
   final List<EcsContainerOverride>? containerOverrides;
@@ -3489,6 +3579,8 @@ class EcsTaskOverride {
 
 /// A key-value pair associated with an Amazon Web Services resource. In
 /// EventBridge, rules and event buses support tagging.
+///
+/// @nodoc
 class Tag {
   /// A string you can use to assign a value. The combination of tag keys and
   /// values can help you organize and categorize your resources.
@@ -3529,6 +3621,8 @@ class Tag {
 /// platform version <code>1.4.0</code> or later. This parameter is not
 /// supported for Windows containers on Fargate.
 /// </note>
+///
+/// @nodoc
 class EcsEphemeralStorage {
   /// The total amount, in GiB, of ephemeral storage to set for the task. The
   /// minimum supported value is <code>21</code> GiB and the maximum supported
@@ -3559,6 +3653,8 @@ class EcsEphemeralStorage {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/userguide/ecs-inference.html">Working
 /// with Amazon Elastic Inference on Amazon ECS</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>.
+///
+/// @nodoc
 class EcsInferenceAcceleratorOverride {
   /// The Elastic Inference accelerator device name to override for the task. This
   /// parameter must match a <code>deviceName</code> specified in the task
@@ -3592,8 +3688,10 @@ class EcsInferenceAcceleratorOverride {
 
 /// The overrides that are sent to a container. An empty container override can
 /// be passed in. An example of an empty container override is
-/// <code>{"containerOverrides": [ ] }</code>. If a non-empty container override
-/// is specified, the <code>name</code> parameter must be included.
+/// <code>{"containerOverrides": \[ \] }</code>. If a non-empty container
+/// override is specified, the <code>name</code> parameter must be included.
+///
+/// @nodoc
 class EcsContainerOverride {
   /// The command to send to the container that overrides the default command from
   /// the Docker image or the task definition. You must also specify a container
@@ -3702,6 +3800,8 @@ class EcsContainerOverride {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html">Working
 /// with Amazon Elastic Inference on Amazon ECS</a> in the <i>Amazon Elastic
 /// Container Service Developer Guide</i>
+///
+/// @nodoc
 class EcsResourceRequirement {
   /// The type of resource to assign to a container. The supported values are
   /// <code>GPU</code> or <code>InferenceAccelerator</code>.
@@ -3743,6 +3843,7 @@ class EcsResourceRequirement {
   }
 }
 
+/// @nodoc
 class EcsResourceRequirementType {
   static const gpu = EcsResourceRequirementType._('GPU');
   static const inferenceAccelerator =
@@ -3799,6 +3900,8 @@ class EcsResourceRequirementType {
 /// Windows platform version <code>1.0.0</code> or later.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EcsEnvironmentFile {
   /// The file type to use. The only supported value is <code>s3</code>.
   final EcsEnvironmentFileType type;
@@ -3829,6 +3932,7 @@ class EcsEnvironmentFile {
   }
 }
 
+/// @nodoc
 class EcsEnvironmentFileType {
   static const s3 = EcsEnvironmentFileType._('s3');
 
@@ -3857,6 +3961,8 @@ class EcsEnvironmentFileType {
 /// environment variables, which are added to the container at launch, or you
 /// can override the existing environment variables from the Docker image or the
 /// task definition. You must also specify a container name.
+///
+/// @nodoc
 class EcsEnvironmentVariable {
   /// The name of the key-value pair. For environment variables, this is the name
   /// of the environment variable.
@@ -3892,6 +3998,8 @@ class EcsEnvironmentVariable {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html">Task
 /// Placement Strategies</a> in the Amazon Elastic Container Service Service
 /// Developer Guide.
+///
+/// @nodoc
 class PlacementStrategy {
   /// The field to apply the placement strategy against. For the spread placement
   /// strategy, valid values are instanceId (or host, which has the same effect),
@@ -3933,6 +4041,7 @@ class PlacementStrategy {
   }
 }
 
+/// @nodoc
 class PlacementStrategyType {
   static const random = PlacementStrategyType._('random');
   static const spread = PlacementStrategyType._('spread');
@@ -3963,6 +4072,8 @@ class PlacementStrategyType {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html">Task
 /// Placement Constraints</a> in the Amazon Elastic Container Service Developer
 /// Guide.
+///
+/// @nodoc
 class PlacementConstraint {
   /// A cluster query language expression to apply to the constraint. You cannot
   /// specify an expression if the constraint type is
@@ -3998,6 +4109,7 @@ class PlacementConstraint {
   }
 }
 
+/// @nodoc
 class PlacementConstraintType {
   static const distinctInstance = PlacementConstraintType._('distinctInstance');
   static const memberOf = PlacementConstraintType._('memberOf');
@@ -4026,6 +4138,8 @@ class PlacementConstraintType {
 /// The details of a capacity provider strategy. To learn more, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CapacityProviderStrategyItem.html">CapacityProviderStrategyItem</a>
 /// in the Amazon ECS API Reference.
+///
+/// @nodoc
 class CapacityProviderStrategyItem {
   /// The short name of the capacity provider.
   final String capacityProvider;
@@ -4071,6 +4185,8 @@ class CapacityProviderStrategyItem {
 /// This structure specifies the VPC subnets and security groups for the task,
 /// and whether a public IP address is to be used. This structure is relevant
 /// only for ECS tasks that use the <code>awsvpc</code> network mode.
+///
+/// @nodoc
 class AwsVpcConfiguration {
   /// Specifies the subnets associated with the task. These subnets must all be in
   /// the same VPC. You can specify as many as 16 subnets.
@@ -4121,6 +4237,7 @@ class AwsVpcConfiguration {
   }
 }
 
+/// @nodoc
 class AssignPublicIp {
   static const enabled = AssignPublicIp._('ENABLED');
   static const disabled = AssignPublicIp._('DISABLED');
@@ -4145,6 +4262,7 @@ class AssignPublicIp {
   String toString() => value;
 }
 
+/// @nodoc
 class PipeTargetInvocationType {
   static const requestResponse = PipeTargetInvocationType._('REQUEST_RESPONSE');
   static const fireAndForget = PipeTargetInvocationType._('FIRE_AND_FORGET');
@@ -4174,6 +4292,8 @@ class PipeTargetInvocationType {
 /// APIs or EventBridge ApiDestinations. In the latter case, these are merged
 /// with any InvocationParameters specified on the Connection, with any values
 /// from the Connection taking precedence.
+///
+/// @nodoc
 class PipeEnrichmentHttpParameters {
   /// The headers that need to be sent as part of request invoking the API Gateway
   /// REST API or EventBridge ApiDestination.
@@ -4229,6 +4349,8 @@ class PipeEnrichmentHttpParameters {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
 /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
+///
+/// @nodoc
 class FilterCriteria {
   /// The event patterns.
   final List<Filter>? filters;
@@ -4255,6 +4377,8 @@ class FilterCriteria {
 }
 
 /// The parameters for using a Kinesis stream as a source.
+///
+/// @nodoc
 class UpdatePipeSourceKinesisStreamParameters {
   /// The maximum number of records to include in each batch.
   final int? batchSize;
@@ -4321,6 +4445,8 @@ class UpdatePipeSourceKinesisStreamParameters {
 }
 
 /// The parameters for using a DynamoDB stream as a source.
+///
+/// @nodoc
 class UpdatePipeSourceDynamoDBStreamParameters {
   /// The maximum number of records to include in each batch.
   final int? batchSize;
@@ -4387,6 +4513,8 @@ class UpdatePipeSourceDynamoDBStreamParameters {
 }
 
 /// The parameters for using a Amazon SQS stream as a source.
+///
+/// @nodoc
 class UpdatePipeSourceSqsQueueParameters {
   /// The maximum number of records to include in each batch.
   final int? batchSize;
@@ -4411,6 +4539,8 @@ class UpdatePipeSourceSqsQueueParameters {
 }
 
 /// The parameters for using an Active MQ broker as a source.
+///
+/// @nodoc
 class UpdatePipeSourceActiveMQBrokerParameters {
   /// The credentials needed to access the resource.
   final MQBrokerAccessCredentials credentials;
@@ -4441,6 +4571,8 @@ class UpdatePipeSourceActiveMQBrokerParameters {
 }
 
 /// The parameters for using a Rabbit MQ broker as a source.
+///
+/// @nodoc
 class UpdatePipeSourceRabbitMQBrokerParameters {
   /// The credentials needed to access the resource.
   final MQBrokerAccessCredentials credentials;
@@ -4471,6 +4603,8 @@ class UpdatePipeSourceRabbitMQBrokerParameters {
 }
 
 /// The parameters for using an MSK stream as a source.
+///
+/// @nodoc
 class UpdatePipeSourceManagedStreamingKafkaParameters {
   /// The maximum number of records to include in each batch.
   final int? batchSize;
@@ -4510,6 +4644,8 @@ class UpdatePipeSourceManagedStreamingKafkaParameters {
 /// href="https://redpanda.com/">Redpanda</a>. For more information, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html">Apache
 /// Kafka streams as a source</a> in the <i>Amazon EventBridge User Guide</i>.
+///
+/// @nodoc
 class UpdatePipeSourceSelfManagedKafkaParameters {
   /// The maximum number of records to include in each batch.
   final int? batchSize;
@@ -4554,6 +4690,8 @@ class UpdatePipeSourceSelfManagedKafkaParameters {
 }
 
 /// The Secrets Manager secret that stores your stream credentials.
+///
+/// @nodoc
 class SelfManagedKafkaAccessConfigurationCredentials {
   /// The ARN of the Secrets Manager secret.
   final String? basicAuth;
@@ -4601,6 +4739,8 @@ class SelfManagedKafkaAccessConfigurationCredentials {
 
 /// This structure specifies the VPC subnets and security groups for the stream,
 /// and whether a public IP address is to be used.
+///
+/// @nodoc
 class SelfManagedKafkaAccessConfigurationVpc {
   /// Specifies the security groups associated with the stream. These security
   /// groups must all be in the same VPC. You can specify as many as five security
@@ -4639,6 +4779,8 @@ class SelfManagedKafkaAccessConfigurationVpc {
 }
 
 /// The Secrets Manager secret that stores your stream credentials.
+///
+/// @nodoc
 class MSKAccessCredentials {
   /// The ARN of the Secrets Manager secret.
   final String? clientCertificateTlsAuth;
@@ -4670,6 +4812,8 @@ class MSKAccessCredentials {
 }
 
 /// The Secrets Manager secret that stores your broker credentials.
+///
+/// @nodoc
 class MQBrokerAccessCredentials {
   /// The ARN of the Secrets Manager secret.
   final String? basicAuth;
@@ -4694,6 +4838,8 @@ class MQBrokerAccessCredentials {
 
 /// A <code>DeadLetterConfig</code> object that contains information about a
 /// dead-letter queue configuration.
+///
+/// @nodoc
 class DeadLetterConfig {
   /// The ARN of the specified target for the dead-letter queue.
   ///
@@ -4719,6 +4865,7 @@ class DeadLetterConfig {
   }
 }
 
+/// @nodoc
 class OnPartialBatchItemFailureStreams {
   static const automaticBisect =
       OnPartialBatchItemFailureStreams._('AUTOMATIC_BISECT');
@@ -4747,6 +4894,8 @@ class OnPartialBatchItemFailureStreams {
 /// Filter events using an event pattern. For more information, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
 /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
+///
+/// @nodoc
 class Filter {
   /// The event pattern.
   final String? pattern;
@@ -4770,6 +4919,8 @@ class Filter {
 }
 
 /// The parameters required to set up a source for your pipe.
+///
+/// @nodoc
 class PipeSourceParameters {
   /// The parameters for using an Active MQ broker as a source.
   final PipeSourceActiveMQBrokerParameters? activeMQBrokerParameters;
@@ -4892,6 +5043,8 @@ class PipeSourceParameters {
 }
 
 /// The logging configuration settings for the pipe.
+///
+/// @nodoc
 class PipeLogConfiguration {
   /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
   final CloudwatchLogsLogDestination? cloudwatchLogsLogDestination;
@@ -4968,6 +5121,8 @@ class PipeLogConfiguration {
 }
 
 /// The Amazon S3 logging configuration settings for the pipe.
+///
+/// @nodoc
 class S3LogDestination {
   /// The name of the Amazon S3 bucket to which EventBridge delivers the log
   /// records for the pipe.
@@ -5022,6 +5177,8 @@ class S3LogDestination {
 }
 
 /// The Amazon Data Firehose logging configuration settings for the pipe.
+///
+/// @nodoc
 class FirehoseLogDestination {
   /// The Amazon Resource Name (ARN) of the Firehose delivery stream to which
   /// EventBridge delivers the pipe log records.
@@ -5046,6 +5203,8 @@ class FirehoseLogDestination {
 }
 
 /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
+///
+/// @nodoc
 class CloudwatchLogsLogDestination {
   /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to
   /// which EventBridge sends the log records.
@@ -5070,6 +5229,8 @@ class CloudwatchLogsLogDestination {
 }
 
 /// The parameters for using a Kinesis stream as a source.
+///
+/// @nodoc
 class PipeSourceKinesisStreamParameters {
   /// The position in a stream from which to start reading.
   final KinesisStreamStartPosition startingPosition;
@@ -5173,6 +5334,8 @@ class PipeSourceKinesisStreamParameters {
 }
 
 /// The parameters for using a DynamoDB stream as a source.
+///
+/// @nodoc
 class PipeSourceDynamoDBStreamParameters {
   /// The position in a stream from which to start reading.
   final DynamoDBStreamStartPosition startingPosition;
@@ -5265,6 +5428,8 @@ class PipeSourceDynamoDBStreamParameters {
 }
 
 /// The parameters for using a Amazon SQS stream as a source.
+///
+/// @nodoc
 class PipeSourceSqsQueueParameters {
   /// The maximum number of records to include in each batch.
   final int? batchSize;
@@ -5297,6 +5462,8 @@ class PipeSourceSqsQueueParameters {
 }
 
 /// The parameters for using an Active MQ broker as a source.
+///
+/// @nodoc
 class PipeSourceActiveMQBrokerParameters {
   /// The credentials needed to access the resource.
   final MQBrokerAccessCredentials credentials;
@@ -5346,6 +5513,8 @@ class PipeSourceActiveMQBrokerParameters {
 }
 
 /// The parameters for using a Rabbit MQ broker as a source.
+///
+/// @nodoc
 class PipeSourceRabbitMQBrokerParameters {
   /// The credentials needed to access the resource.
   final MQBrokerAccessCredentials credentials;
@@ -5402,6 +5571,8 @@ class PipeSourceRabbitMQBrokerParameters {
 }
 
 /// The parameters for using an MSK stream as a source.
+///
+/// @nodoc
 class PipeSourceManagedStreamingKafkaParameters {
   /// The name of the topic that the pipe will read from.
   final String topicName;
@@ -5476,6 +5647,8 @@ class PipeSourceManagedStreamingKafkaParameters {
 /// href="https://redpanda.com/">Redpanda</a>. For more information, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html">Apache
 /// Kafka streams as a source</a> in the <i>Amazon EventBridge User Guide</i>.
+///
+/// @nodoc
 class PipeSourceSelfManagedKafkaParameters {
   /// The name of the topic that the pipe will read from.
   final String topicName;
@@ -5570,6 +5743,7 @@ class PipeSourceSelfManagedKafkaParameters {
   }
 }
 
+/// @nodoc
 class SelfManagedKafkaStartPosition {
   static const trimHorizon = SelfManagedKafkaStartPosition._('TRIM_HORIZON');
   static const latest = SelfManagedKafkaStartPosition._('LATEST');
@@ -5595,6 +5769,7 @@ class SelfManagedKafkaStartPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class MSKStartPosition {
   static const trimHorizon = MSKStartPosition._('TRIM_HORIZON');
   static const latest = MSKStartPosition._('LATEST');
@@ -5619,6 +5794,7 @@ class MSKStartPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class DynamoDBStreamStartPosition {
   static const trimHorizon = DynamoDBStreamStartPosition._('TRIM_HORIZON');
   static const latest = DynamoDBStreamStartPosition._('LATEST');
@@ -5644,6 +5820,7 @@ class DynamoDBStreamStartPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class KinesisStreamStartPosition {
   static const trimHorizon = KinesisStreamStartPosition._('TRIM_HORIZON');
   static const latest = KinesisStreamStartPosition._('LATEST');
@@ -5670,21 +5847,25 @@ class KinesisStreamStartPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5693,11 +5874,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

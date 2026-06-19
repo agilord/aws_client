@@ -3273,6 +3273,7 @@ class IoTManagedIntegrations {
   }
 }
 
+/// @nodoc
 class GetCustomEndpointResponse {
   /// The IoT managed integrations dedicated, custom endpoint for the device to
   /// route traffic through.
@@ -3296,6 +3297,7 @@ class GetCustomEndpointResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A set of key/value pairs that are used to manage the resource.
   final Map<String, String>? tags;
@@ -3319,6 +3321,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterCustomEndpointResponse {
   /// The IoT managed integrations dedicated, custom endpoint for the device to
   /// route traffic through.
@@ -3342,6 +3345,7 @@ class RegisterCustomEndpointResponse {
   }
 }
 
+/// @nodoc
 class SendConnectorEventResponse {
   /// The id of the connector between the third-party cloud provider and IoT
   /// managed integrations.
@@ -3365,6 +3369,7 @@ class SendConnectorEventResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3377,6 +3382,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3389,6 +3395,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateAccountAssociationResponse {
   /// The identifier for the account association request.
   final String accountAssociationId;
@@ -3435,6 +3442,7 @@ class CreateAccountAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetAccountAssociationResponse {
   /// The unique identifier of the retrieved account association.
   final String accountAssociationId;
@@ -3530,6 +3538,7 @@ class GetAccountAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListAccountAssociationsResponse {
   /// The list of account associations that match the specified criteria.
   final List<AccountAssociationItem>? items;
@@ -3564,6 +3573,7 @@ class ListAccountAssociationsResponse {
   }
 }
 
+/// @nodoc
 class StartAccountAssociationRefreshResponse {
   /// Third-party IoT platform OAuth authorization server URL with all required
   /// parameters to perform end-user authentication during the refresh process.
@@ -3590,6 +3600,7 @@ class StartAccountAssociationRefreshResponse {
   }
 }
 
+/// @nodoc
 class CreateCloudConnectorResponse {
   /// The unique identifier assigned to the newly created cloud connector.
   final String? id;
@@ -3612,6 +3623,7 @@ class CreateCloudConnectorResponse {
   }
 }
 
+/// @nodoc
 class GetCloudConnectorResponse {
   /// The configuration details for the cloud connector endpoint, including
   /// connection parameters and authentication requirements.
@@ -3674,6 +3686,7 @@ class GetCloudConnectorResponse {
   }
 }
 
+/// @nodoc
 class ListCloudConnectorsResponse {
   /// The list of connectors.
   final List<ConnectorItem>? items;
@@ -3706,6 +3719,7 @@ class ListCloudConnectorsResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectorDestinationResponse {
   /// The identifier of the C2C connector destination creation request.
   final String? id;
@@ -3729,6 +3743,7 @@ class CreateConnectorDestinationResponse {
   }
 }
 
+/// @nodoc
 class GetConnectorDestinationResponse {
   /// The authentication configuration details for the connector destination,
   /// including OAuth settings and other authentication parameters.
@@ -3810,6 +3825,7 @@ class GetConnectorDestinationResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorDestinationsResponse {
   /// The list of connector destinations that match the specified criteria.
   final List<ConnectorDestinationSummary>? connectorDestinationList;
@@ -3846,6 +3862,7 @@ class ListConnectorDestinationsResponse {
   }
 }
 
+/// @nodoc
 class CreateCredentialLockerResponse {
   /// The Amazon Resource Name (ARN) of the credential locker.
   final String? arn;
@@ -3882,6 +3899,7 @@ class CreateCredentialLockerResponse {
   }
 }
 
+/// @nodoc
 class GetCredentialLockerResponse {
   /// The Amazon Resource Name (ARN) of the credential locker.
   final String? arn;
@@ -3933,6 +3951,7 @@ class GetCredentialLockerResponse {
   }
 }
 
+/// @nodoc
 class ListCredentialLockersResponse {
   /// The list of credential lockers.
   final List<CredentialLockerSummary>? items;
@@ -3966,6 +3985,7 @@ class ListCredentialLockersResponse {
   }
 }
 
+/// @nodoc
 class CreateDestinationResponse {
   /// The name of the customer-managed destination.
   final String? name;
@@ -3988,6 +4008,7 @@ class CreateDestinationResponse {
   }
 }
 
+/// @nodoc
 class GetDestinationResponse {
   /// The timestamp value of when the destination creation requset occurred.
   final DateTime? createdAt;
@@ -4064,6 +4085,7 @@ class GetDestinationResponse {
   }
 }
 
+/// @nodoc
 class ListDestinationsResponse {
   /// The list of destinations.
   final List<DestinationSummary>? destinationList;
@@ -4096,6 +4118,7 @@ class ListDestinationsResponse {
   }
 }
 
+/// @nodoc
 class StartDeviceDiscoveryResponse {
   /// The id of the device discovery job request.
   final String? id;
@@ -4125,6 +4148,7 @@ class StartDeviceDiscoveryResponse {
   }
 }
 
+/// @nodoc
 class GetDeviceDiscoveryResponse {
   /// The Amazon Resource Name (ARN) of the device discovery job request.
   final String arn;
@@ -4217,6 +4241,7 @@ class GetDeviceDiscoveryResponse {
   }
 }
 
+/// @nodoc
 class ListDeviceDiscoveriesResponse {
   /// The list of device discovery jobs that match the specified criteria.
   final List<DeviceDiscoverySummary>? items;
@@ -4251,6 +4276,7 @@ class ListDeviceDiscoveriesResponse {
   }
 }
 
+/// @nodoc
 class ListDiscoveredDevicesResponse {
   /// The list of discovered devices that match the specified criteria.
   final List<DiscoveredDeviceSummary>? items;
@@ -4285,6 +4311,7 @@ class ListDiscoveredDevicesResponse {
   }
 }
 
+/// @nodoc
 class CreateEventLogConfigurationResponse {
   /// The identifier of the event log configuration request.
   final String? id;
@@ -4308,6 +4335,7 @@ class CreateEventLogConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetEventLogConfigurationResponse {
   /// The logging level for the event log configuration.
   final LogLevel? eventLogLevel;
@@ -4352,6 +4380,7 @@ class GetEventLogConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListEventLogConfigurationsResponse {
   /// A list of each event log configuration and pertinent information.
   final List<EventLogConfigurationSummary>? eventLogConfigurationList;
@@ -4387,6 +4416,7 @@ class ListEventLogConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class GetHubConfigurationResponse {
   /// A user-defined integer value that represents the hub token timer expiry
   /// setting in seconds.
@@ -4421,6 +4451,7 @@ class GetHubConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutHubConfigurationResponse {
   /// A user-defined integer value that represents the hub token timer expiry
   /// setting in seconds.
@@ -4448,6 +4479,7 @@ class PutHubConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetDefaultEncryptionConfigurationResponse {
   /// Provides the status of the default encryption configuration for an Amazon
   /// Web Services account.
@@ -4490,6 +4522,7 @@ class GetDefaultEncryptionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutDefaultEncryptionConfigurationResponse {
   /// Provides the status of the default encryption configuration for an Amazon
   /// Web Services account.
@@ -4532,6 +4565,7 @@ class PutDefaultEncryptionConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListManagedThingAccountAssociationsResponse {
   /// The list of managed thing associations that match the specified criteria,
   /// including the managed thing ID and account association ID for each
@@ -4569,6 +4603,7 @@ class ListManagedThingAccountAssociationsResponse {
   }
 }
 
+/// @nodoc
 class RegisterAccountAssociationResponse {
   /// The identifier of the account association that was registered.
   final String? accountAssociationId;
@@ -4609,6 +4644,7 @@ class RegisterAccountAssociationResponse {
   }
 }
 
+/// @nodoc
 class SendManagedThingCommandResponse {
   /// The trace request identifier. This is generated by IoT managed integrations
   /// and can be used to trace this command and its related operations in
@@ -4633,6 +4669,7 @@ class SendManagedThingCommandResponse {
   }
 }
 
+/// @nodoc
 class CreateManagedThingResponse {
   /// The Amazon Resource Name (ARN) of the managed thing.
   final String? arn;
@@ -4669,6 +4706,7 @@ class CreateManagedThingResponse {
   }
 }
 
+/// @nodoc
 class GetManagedThingResponse {
   /// The timestampe value of when the device was activated.
   final DateTime? activatedAt;
@@ -4908,6 +4946,7 @@ class GetManagedThingResponse {
   }
 }
 
+/// @nodoc
 class ListManagedThingsResponse {
   /// The list of managed things.
   final List<ManagedThingSummary>? items;
@@ -4940,6 +4979,7 @@ class ListManagedThingsResponse {
   }
 }
 
+/// @nodoc
 class GetManagedThingCapabilitiesResponse {
   /// The capabilities of the device such as light bulb.
   final String? capabilities;
@@ -4980,6 +5020,7 @@ class GetManagedThingCapabilitiesResponse {
   }
 }
 
+/// @nodoc
 class GetManagedThingCertificateResponse {
   /// The PEM-encoded certificate for the managed thing.
   final String? certificatePem;
@@ -5010,6 +5051,7 @@ class GetManagedThingCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetManagedThingConnectivityDataResponse {
   /// The connectivity status for a managed thing.
   final bool? connected;
@@ -5056,6 +5098,7 @@ class GetManagedThingConnectivityDataResponse {
   }
 }
 
+/// @nodoc
 class GetManagedThingMetaDataResponse {
   /// The managed thing id.
   final String? managedThingId;
@@ -5086,6 +5129,7 @@ class GetManagedThingMetaDataResponse {
   }
 }
 
+/// @nodoc
 class ListManagedThingSchemasResponse {
   /// The list of managed thing schemas.
   final List<ManagedThingSchemaListItem>? items;
@@ -5119,6 +5163,7 @@ class ListManagedThingSchemasResponse {
   }
 }
 
+/// @nodoc
 class GetManagedThingStateResponse {
   /// The device endpoint.
   final List<StateEndpoint> endpoints;
@@ -5144,6 +5189,7 @@ class GetManagedThingStateResponse {
   }
 }
 
+/// @nodoc
 class CreateNotificationConfigurationResponse {
   /// The type of event triggering a device notification to the customer-managed
   /// destination.
@@ -5168,6 +5214,7 @@ class CreateNotificationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetNotificationConfigurationResponse {
   /// The timestamp value of when the notification configuration was created.
   final DateTime? createdAt;
@@ -5222,6 +5269,7 @@ class GetNotificationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListNotificationConfigurationsResponse {
   /// A token that can be used to retrieve the next set of results.
   final String? nextToken;
@@ -5258,6 +5306,7 @@ class ListNotificationConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class CreateOtaTaskConfigurationResponse {
   /// The identifier of the over-the-air (OTA) task configuration.
   final String? taskConfigurationId;
@@ -5282,6 +5331,7 @@ class CreateOtaTaskConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetOtaTaskConfigurationResponse {
   /// The timestamp value of when the over-the-air (OTA) task configuration was
   /// created at.
@@ -5336,6 +5386,7 @@ class GetOtaTaskConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListOtaTaskConfigurationsResponse {
   /// The list of the over-the-air (OTA) task configurations.
   final List<OtaTaskConfigurationSummary>? items;
@@ -5370,6 +5421,7 @@ class ListOtaTaskConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class CreateOtaTaskResponse {
   /// A description of the over-the-air (OTA) task.
   final String? description;
@@ -5406,6 +5458,7 @@ class CreateOtaTaskResponse {
   }
 }
 
+/// @nodoc
 class GetOtaTaskResponse {
   /// The timestamp value of when the over-the-air (OTA) task was created.
   final DateTime? createdAt;
@@ -5556,6 +5609,7 @@ class GetOtaTaskResponse {
   }
 }
 
+/// @nodoc
 class ListOtaTasksResponse {
   /// A token that can be used to retrieve the next set of results.
   final String? nextToken;
@@ -5588,6 +5642,7 @@ class ListOtaTasksResponse {
   }
 }
 
+/// @nodoc
 class ListOtaTaskExecutionsResponse {
   /// A list of all of the over-the-air (OTA) task executions.
   final List<OtaTaskExecutionSummaries>? executionSummaries;
@@ -5621,6 +5676,7 @@ class ListOtaTaskExecutionsResponse {
   }
 }
 
+/// @nodoc
 class CreateProvisioningProfileResponse {
   /// The Amazon Resource Name (ARN) of the provisioning profile.
   final String? arn;
@@ -5692,6 +5748,7 @@ class CreateProvisioningProfileResponse {
   }
 }
 
+/// @nodoc
 class GetProvisioningProfileResponse {
   /// The Amazon Resource Name (ARN) of the provisioning profile.
   final String? arn;
@@ -5760,6 +5817,7 @@ class GetProvisioningProfileResponse {
   }
 }
 
+/// @nodoc
 class ListProvisioningProfilesResponse {
   /// The list of provisioning profiles.
   final List<ProvisioningProfileSummary>? items;
@@ -5793,6 +5851,7 @@ class ListProvisioningProfilesResponse {
   }
 }
 
+/// @nodoc
 class GetRuntimeLogConfigurationResponse {
   /// The id for a managed thing.
   final String? managedThingId;
@@ -5827,6 +5886,7 @@ class GetRuntimeLogConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetSchemaVersionResponse {
   /// The description of the schema version.
   final String? description;
@@ -5893,6 +5953,7 @@ class GetSchemaVersionResponse {
   }
 }
 
+/// @nodoc
 class ListSchemaVersionsResponse {
   /// The list of schema versions.
   final List<SchemaVersionListItem>? items;
@@ -5926,6 +5987,8 @@ class ListSchemaVersionsResponse {
 }
 
 /// List item describing a schema version.
+///
+/// @nodoc
 class SchemaVersionListItem {
   /// A description of the schema version.
   final String? description;
@@ -5985,6 +6048,7 @@ class SchemaVersionListItem {
   }
 }
 
+/// @nodoc
 class SchemaVersionType {
   static const capability = SchemaVersionType._('capability');
   static const definition = SchemaVersionType._('definition');
@@ -6009,6 +6073,7 @@ class SchemaVersionType {
   String toString() => value;
 }
 
+/// @nodoc
 class SchemaVersionVisibility {
   static const public = SchemaVersionVisibility._('PUBLIC');
   static const private = SchemaVersionVisibility._('PRIVATE');
@@ -6034,6 +6099,7 @@ class SchemaVersionVisibility {
   String toString() => value;
 }
 
+/// @nodoc
 class SchemaVersionFormat {
   static const aws = SchemaVersionFormat._('AWS');
   static const zcl = SchemaVersionFormat._('ZCL');
@@ -6061,6 +6127,8 @@ class SchemaVersionFormat {
 }
 
 /// The different configurations for runtime logs.
+///
+/// @nodoc
 class RuntimeLogConfigurations {
   /// Configuration to enable or disable deleting of runtime logs in the device
   /// once uploaded to the cloud.
@@ -6143,6 +6211,7 @@ class RuntimeLogConfigurations {
   }
 }
 
+/// @nodoc
 class LogLevel {
   static const debug = LogLevel._('DEBUG');
   static const error = LogLevel._('ERROR');
@@ -6169,6 +6238,8 @@ class LogLevel {
 }
 
 /// Structure describing a provisioning profile.
+///
+/// @nodoc
 class ProvisioningProfileSummary {
   /// The Amazon Resource Name (ARN) of the provisioning profile.
   final String? arn;
@@ -6222,6 +6293,7 @@ class ProvisioningProfileSummary {
   }
 }
 
+/// @nodoc
 class ProvisioningType {
   static const fleetProvisioning = ProvisioningType._('FLEET_PROVISIONING');
   static const jitr = ProvisioningType._('JITR');
@@ -6246,6 +6318,7 @@ class ProvisioningType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProvisioningProfileStatus {
   static const createInProgress =
       ProvisioningProfileStatus._('CREATE_IN_PROGRESS');
@@ -6283,6 +6356,8 @@ class ProvisioningProfileStatus {
 }
 
 /// Structure representing one execution summary.
+///
+/// @nodoc
 class OtaTaskExecutionSummaries {
   /// The id of a managed thing.
   final String? managedThingId;
@@ -6317,6 +6392,8 @@ class OtaTaskExecutionSummaries {
 }
 
 /// Structure representing one over-the-air (OTA) task execution summary.
+///
+/// @nodoc
 class OtaTaskExecutionSummary {
   /// The execution number of the over-the-air (OTA) task execution summary.
   final int? executionNumber;
@@ -6380,6 +6457,7 @@ class OtaTaskExecutionSummary {
   }
 }
 
+/// @nodoc
 class OtaTaskExecutionStatus {
   static const queued = OtaTaskExecutionStatus._('QUEUED');
   static const inProgress = OtaTaskExecutionStatus._('IN_PROGRESS');
@@ -6421,6 +6499,8 @@ class OtaTaskExecutionStatus {
 }
 
 /// Structure representing one over-the-air (OTA) task.
+///
+/// @nodoc
 class OtaTaskSummary {
   /// The timestamp value of when the over-the-air (OTA) task was created at.
   final DateTime? createdAt;
@@ -6480,6 +6560,7 @@ class OtaTaskSummary {
   }
 }
 
+/// @nodoc
 class OtaStatus {
   static const inProgress = OtaStatus._('IN_PROGRESS');
   static const canceled = OtaStatus._('CANCELED');
@@ -6512,6 +6593,7 @@ class OtaStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OtaProtocol {
   static const http = OtaProtocol._('HTTP');
 
@@ -6534,6 +6616,7 @@ class OtaProtocol {
   String toString() => value;
 }
 
+/// @nodoc
 class OtaType {
   static const oneTime = OtaType._('ONE_TIME');
   static const continuous = OtaType._('CONTINUOUS');
@@ -6557,6 +6640,7 @@ class OtaType {
   String toString() => value;
 }
 
+/// @nodoc
 class OtaMechanism {
   static const push = OtaMechanism._('PUSH');
 
@@ -6580,6 +6664,8 @@ class OtaMechanism {
 }
 
 /// Details about the over-the-air (OTA) task process.
+///
+/// @nodoc
 class TaskProcessingDetails {
   /// The number of canceled things in an over-the-air (OTA) task.
   final int? numberOfCanceledThings;
@@ -6670,6 +6756,8 @@ class TaskProcessingDetails {
 }
 
 /// Over-the-air (OTA) task scheduling config.
+///
+/// @nodoc
 class OtaTaskSchedulingConfig {
   /// Specifies the end behavior for all task executions after a task reaches the
   /// selected <code>endTime</code>. If <code>endTime</code> is not selected when
@@ -6721,6 +6809,8 @@ class OtaTaskSchedulingConfig {
 }
 
 /// Over-the-air (OTA) task retry config.
+///
+/// @nodoc
 class OtaTaskExecutionRetryConfig {
   /// The list of retry config criteria.
   final List<RetryConfigCriteria>? retryConfigCriteria;
@@ -6748,6 +6838,8 @@ class OtaTaskExecutionRetryConfig {
 }
 
 /// Structure representing one retry config criteria.
+///
+/// @nodoc
 class RetryConfigCriteria {
   /// Over-the-air (OTA) retry criteria failure type.
   final RetryCriteriaFailureType? failureType;
@@ -6779,6 +6871,7 @@ class RetryConfigCriteria {
   }
 }
 
+/// @nodoc
 class RetryCriteriaFailureType {
   static const failed = RetryCriteriaFailureType._('FAILED');
   static const timedOut = RetryCriteriaFailureType._('TIMED_OUT');
@@ -6805,6 +6898,7 @@ class RetryCriteriaFailureType {
   String toString() => value;
 }
 
+/// @nodoc
 class SchedulingConfigEndBehavior {
   static const stopRollout = SchedulingConfigEndBehavior._('STOP_ROLLOUT');
   static const cancel = SchedulingConfigEndBehavior._('CANCEL');
@@ -6832,6 +6926,8 @@ class SchedulingConfigEndBehavior {
 }
 
 /// Structure representing scheduling maintenance window.
+///
+/// @nodoc
 class ScheduleMaintenanceWindow {
   /// Displays the duration of the next maintenance window.
   final int? durationInMinutes;
@@ -6862,6 +6958,8 @@ class ScheduleMaintenanceWindow {
 }
 
 /// Structure representing one over-the-air (OTA) task configuration.
+///
+/// @nodoc
 class OtaTaskConfigurationSummary {
   /// The timestamp value of when the over-the-air (OTA) task configuration was
   /// created at.
@@ -6901,6 +6999,8 @@ class OtaTaskConfigurationSummary {
 }
 
 /// Structure representing a push config.
+///
+/// @nodoc
 class PushConfig {
   /// Structure representing one abort config.
   final OtaTaskAbortConfig? abortConfig;
@@ -6947,6 +7047,8 @@ class PushConfig {
 }
 
 /// Over-the-air (OTA) task abort config.
+///
+/// @nodoc
 class OtaTaskAbortConfig {
   /// The list of criteria for the abort config.
   final List<AbortConfigCriteria>? abortConfigCriteriaList;
@@ -6974,6 +7076,8 @@ class OtaTaskAbortConfig {
 }
 
 /// Over-the-air (OTA) task rollout config.
+///
+/// @nodoc
 class OtaTaskExecutionRolloutConfig {
   /// Structure representing exponential rate of rollout for an over-the-air (OTA)
   /// task.
@@ -7010,6 +7114,8 @@ class OtaTaskExecutionRolloutConfig {
 }
 
 /// Over-the-air (OTA) task timeout config.
+///
+/// @nodoc
 class OtaTaskTimeoutConfig {
   /// Specifies the amount of time the device has to finish execution of this
   /// task. The timeout interval can be anywhere between 1 minute and 7 days.
@@ -7036,6 +7142,8 @@ class OtaTaskTimeoutConfig {
 
 /// Structure representing exponential rate of rollout for an over-the-air (OTA)
 /// task.
+///
+/// @nodoc
 class ExponentialRolloutRate {
   /// The base rate per minute for the rollout of an over-the-air (OTA) task.
   final int? baseRatePerMinute;
@@ -7078,6 +7186,8 @@ class ExponentialRolloutRate {
 }
 
 /// Structure representing rollout config criteria.
+///
+/// @nodoc
 class RolloutRateIncreaseCriteria {
   /// The threshold for number of notified things that will initiate the increase
   /// in rate of rollout.
@@ -7112,6 +7222,8 @@ class RolloutRateIncreaseCriteria {
 }
 
 /// Structure representing one abort config criteria.
+///
+/// @nodoc
 class AbortConfigCriteria {
   /// The action taken by the abort configuration.
   final AbortCriteriaAction? action;
@@ -7160,6 +7272,7 @@ class AbortConfigCriteria {
   }
 }
 
+/// @nodoc
 class AbortCriteriaAction {
   static const cancel = AbortCriteriaAction._('CANCEL');
 
@@ -7184,6 +7297,7 @@ class AbortCriteriaAction {
   String toString() => value;
 }
 
+/// @nodoc
 class AbortCriteriaFailureType {
   static const failed = AbortCriteriaFailureType._('FAILED');
   static const rejected = AbortCriteriaFailureType._('REJECTED');
@@ -7211,6 +7325,7 @@ class AbortCriteriaFailureType {
   String toString() => value;
 }
 
+/// @nodoc
 class EventType {
   static const deviceCommand = EventType._('DEVICE_COMMAND');
   static const deviceCommandRequest = EventType._('DEVICE_COMMAND_REQUEST');
@@ -7256,6 +7371,8 @@ class EventType {
 }
 
 /// Structure describing a notification configuration.
+///
+/// @nodoc
 class NotificationConfigurationSummary {
   /// The name of the destination for the notification configuration.
   final String? destinationName;
@@ -7288,6 +7405,8 @@ class NotificationConfigurationSummary {
 
 /// Describe the endpoint with an Id, a name, and the relevant capabilities for
 /// reporting state
+///
+/// @nodoc
 class StateEndpoint {
   /// Describe the endpoint with an id, a name, and the relevant capabilities for
   /// the reporting state.
@@ -7322,6 +7441,8 @@ class StateEndpoint {
 }
 
 /// State capabilities added for the managed thing.
+///
+/// @nodoc
 class StateCapability {
   /// The id of the managed thing in the capability report.
   final String id;
@@ -7366,6 +7487,8 @@ class StateCapability {
 }
 
 /// Structure representing one schema item associated with a managed thing.
+///
+/// @nodoc
 class ManagedThingSchemaListItem {
   /// The id of the capability for a managed thing.
   final String? capabilityId;
@@ -7402,6 +7525,7 @@ class ManagedThingSchemaListItem {
   }
 }
 
+/// @nodoc
 class DisconnectReasonValue {
   static const authError = DisconnectReasonValue._('AUTH_ERROR');
   static const clientInitiatedDisconnect =
@@ -7461,6 +7585,8 @@ class DisconnectReasonValue {
 }
 
 /// Report of all capabilities supported by the device.
+///
+/// @nodoc
 class CapabilityReport {
   /// The endpoints used in the capability report.
   final List<CapabilityReportEndpoint> endpoints;
@@ -7502,6 +7628,8 @@ class CapabilityReport {
 }
 
 /// The endpoint used in the capability report.
+///
+/// @nodoc
 class CapabilityReportEndpoint {
   /// The capabilities used in the capability report.
   final List<CapabilityReportCapability> capabilities;
@@ -7546,6 +7674,8 @@ class CapabilityReportEndpoint {
 }
 
 /// The capability used in capability report.
+///
+/// @nodoc
 class CapabilityReportCapability {
   /// The capability actions used in the capability report.
   final List<String> actions;
@@ -7613,6 +7743,8 @@ class CapabilityReportCapability {
 }
 
 /// Structure representing one managed thing.
+///
+/// @nodoc
 class ManagedThingSummary {
   /// The timestampe value of when the managed thing was activated at.
   final DateTime? activatedAt;
@@ -7778,6 +7910,7 @@ class ManagedThingSummary {
   }
 }
 
+/// @nodoc
 class ProvisioningStatus {
   static const unassociated = ProvisioningStatus._('UNASSOCIATED');
   static const preAssociated = ProvisioningStatus._('PRE_ASSOCIATED');
@@ -7818,6 +7951,7 @@ class ProvisioningStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Role {
   static const controller = Role._('CONTROLLER');
   static const device = Role._('DEVICE');
@@ -7843,6 +7977,8 @@ class Role {
 
 /// The Wi-Fi Simple Setup configuration for the managed thing, which defines
 /// provisioning capabilities and timeout settings.
+///
+/// @nodoc
 class WiFiSimpleSetupConfiguration {
   /// Indicates whether the device can act as a provisionee in Wi-Fi Simple Setup,
   /// allowing it to be configured by other devices.
@@ -7884,6 +8020,7 @@ class WiFiSimpleSetupConfiguration {
   }
 }
 
+/// @nodoc
 class HubNetworkMode {
   static const standard = HubNetworkMode._('STANDARD');
   static const networkWideExclusion =
@@ -7911,6 +8048,8 @@ class HubNetworkMode {
 
 /// Structure representing a capability schema item that defines the
 /// functionality and features supported by a managed thing.
+///
+/// @nodoc
 class CapabilitySchemaItem {
   /// The unique identifier of the capability defined in the schema.
   final String capabilityId;
@@ -7955,6 +8094,7 @@ class CapabilitySchemaItem {
   }
 }
 
+/// @nodoc
 class AuthMaterialType {
   static const customProtocolQrBarCode =
       AuthMaterialType._('CUSTOM_PROTOCOL_QR_BAR_CODE');
@@ -7993,6 +8133,8 @@ class AuthMaterialType {
 }
 
 /// The endpoint for a managed thing when sending a command.
+///
+/// @nodoc
 class CommandEndpoint {
   /// Describe the endpoint with an id, a name, and the relevant capabilities for
   /// sending commands.
@@ -8017,6 +8159,8 @@ class CommandEndpoint {
 }
 
 /// The command capabilities added for the managed thing
+///
+/// @nodoc
 class CommandCapability {
   /// Describe the command capability with the actions it supports.
   final List<CapabilityAction> actions;
@@ -8053,6 +8197,8 @@ class CommandCapability {
 
 /// Action for an Amazon Web Services capability, containing the action
 /// parameters for control.
+///
+/// @nodoc
 class CapabilityAction {
   /// Describe a capability action with a name.
   final String name;
@@ -8090,6 +8236,8 @@ class CapabilityAction {
 
 /// Structure representing an association between a managed thing and an account
 /// association, which connects a device to a third-party account.
+///
+/// @nodoc
 class ManagedThingAssociation {
   /// The identifier of the account association in the association.
   final String? accountAssociationId;
@@ -8132,6 +8280,7 @@ class ManagedThingAssociation {
   }
 }
 
+/// @nodoc
 class ManagedThingAssociationStatus {
   static const preAssociated =
       ManagedThingAssociationStatus._('PRE_ASSOCIATED');
@@ -8160,6 +8309,8 @@ class ManagedThingAssociationStatus {
 
 /// Provides the status of the default encryption configuration for an Amazon
 /// Web Services account.
+///
+/// @nodoc
 class ConfigurationStatus {
   /// The status state describing the default encryption configuration update.
   final ConfigurationState state;
@@ -8192,6 +8343,7 @@ class ConfigurationStatus {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const managedIntegrationsDefaultEncryption =
       EncryptionType._('MANAGED_INTEGRATIONS_DEFAULT_ENCRYPTION');
@@ -8222,6 +8374,8 @@ class EncryptionType {
 }
 
 /// Provides the default encryption configuration error update details.
+///
+/// @nodoc
 class ConfigurationError {
   /// The error code returned when the default encryption configuration update
   /// fails.
@@ -8253,6 +8407,7 @@ class ConfigurationError {
   }
 }
 
+/// @nodoc
 class ConfigurationState {
   static const enabled = ConfigurationState._('ENABLED');
   static const updateInProgress = ConfigurationState._('UPDATE_IN_PROGRESS');
@@ -8280,6 +8435,8 @@ class ConfigurationState {
 }
 
 /// List of event log configurations.
+///
+/// @nodoc
 class EventLogConfigurationSummary {
   /// The logging level for the event log configuration.
   final LogLevel? eventLogLevel;
@@ -8326,6 +8483,8 @@ class EventLogConfigurationSummary {
 
 /// Structure containing summary information about a device discovered during a
 /// device discovery job.
+///
+/// @nodoc
 class DiscoveredDeviceSummary {
   /// The authentication material required for connecting to the discovered
   /// device, such as credentials or tokens.
@@ -8416,6 +8575,7 @@ class DiscoveredDeviceSummary {
   }
 }
 
+/// @nodoc
 class DiscoveryModification {
   static const discovered = DiscoveryModification._('DISCOVERED');
   static const updated = DiscoveryModification._('UPDATED');
@@ -8444,6 +8604,8 @@ class DiscoveryModification {
 
 /// Structure containing summary information about a device discovery job,
 /// including its identifier, type, and status.
+///
+/// @nodoc
 class DeviceDiscoverySummary {
   /// The type of discovery process used to find devices.
   final DiscoveryType? discoveryType;
@@ -8482,6 +8644,7 @@ class DeviceDiscoverySummary {
   }
 }
 
+/// @nodoc
 class DiscoveryType {
   static const zwave = DiscoveryType._('ZWAVE');
   static const zigbee = DiscoveryType._('ZIGBEE');
@@ -8516,6 +8679,7 @@ class DiscoveryType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeviceDiscoveryStatus {
   static const running = DeviceDiscoveryStatus._('RUNNING');
   static const succeeded = DeviceDiscoveryStatus._('SUCCEEDED');
@@ -8543,6 +8707,7 @@ class DeviceDiscoveryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DiscoveryAuthMaterialType {
   static const zwaveInstallCode =
       DiscoveryAuthMaterialType._('ZWAVE_INSTALL_CODE');
@@ -8568,6 +8733,7 @@ class DiscoveryAuthMaterialType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtocolType {
   static const zwave = ProtocolType._('ZWAVE');
   static const zigbee = ProtocolType._('ZIGBEE');
@@ -8592,6 +8758,7 @@ class ProtocolType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeliveryDestinationType {
   static const kinesis = DeliveryDestinationType._('KINESIS');
 
@@ -8618,6 +8785,8 @@ class DeliveryDestinationType {
 
 /// Structure describing a destination for IoT managed integrations to deliver
 /// notifications for a device.
+///
+/// @nodoc
 class DestinationSummary {
   /// The Amazon Resource Name (ARN) of the customer-managed destination.
   final String? deliveryDestinationArn;
@@ -8672,6 +8841,8 @@ class DestinationSummary {
 }
 
 /// Structure describing one Credential Locker.
+///
+/// @nodoc
 class CredentialLockerSummary {
   /// The Amazon Resource Name (ARN) of the credential locker.
   final String? arn;
@@ -8718,6 +8889,8 @@ class CredentialLockerSummary {
 /// Structure containing summary information about a connector destination,
 /// which defines how a cloud-to-cloud connector connects to a customer's AWS
 /// account.
+///
+/// @nodoc
 class ConnectorDestinationSummary {
   /// The identifier of the cloud connector associated with this connector
   /// destination.
@@ -8762,6 +8935,7 @@ class ConnectorDestinationSummary {
   }
 }
 
+/// @nodoc
 class AuthType {
   static const oauth = AuthType._('OAUTH');
 
@@ -8786,6 +8960,8 @@ class AuthType {
 
 /// The updated authentication configuration details for a connector
 /// destination.
+///
+/// @nodoc
 class AuthConfigUpdate {
   /// The General Authorization update information containing authorization
   /// materials to add or update.
@@ -8813,6 +8989,8 @@ class AuthConfigUpdate {
 
 /// Configuration for AWS Secrets Manager, used to securely store and manage
 /// sensitive information for connector destinations.
+///
+/// @nodoc
 class SecretsManager {
   /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret.
   final String arn;
@@ -8843,6 +9021,8 @@ class SecretsManager {
 }
 
 /// Structure containing updated OAuth configuration settings.
+///
+/// @nodoc
 class OAuthUpdate {
   /// The updated URL where users are redirected after completing the OAuth
   /// authorization process.
@@ -8871,6 +9051,8 @@ class OAuthUpdate {
 
 /// The General Authorization update information containing authorization
 /// materials to add or update.
+///
+/// @nodoc
 class GeneralAuthorizationUpdate {
   /// The authorization materials to add.
   final List<AuthMaterial>? authMaterialsToAdd;
@@ -8895,6 +9077,8 @@ class GeneralAuthorizationUpdate {
 }
 
 /// The authorization material containing the Secrets Manager arn and version.
+///
+/// @nodoc
 class AuthMaterial {
   /// The name of the authorization material.
   final String authMaterialName;
@@ -8926,6 +9110,8 @@ class AuthMaterial {
 
 /// Configuration settings for proactively refreshing OAuth tokens before they
 /// expire.
+///
+/// @nodoc
 class ProactiveRefreshTokenRenewal {
   /// The days before token expiration when the system should attempt to renew the
   /// token, specified in days.
@@ -8958,6 +9144,8 @@ class ProactiveRefreshTokenRenewal {
 
 /// The authentication configuration details for a connector destination,
 /// including OAuth settings and other authentication parameters.
+///
+/// @nodoc
 class AuthConfig {
   /// The authorization materials for General Authorization.
   final List<AuthMaterial>? generalAuthorization;
@@ -8995,6 +9183,8 @@ class AuthConfig {
 }
 
 /// Configuration details for OAuth authentication with a third-party service.
+///
+/// @nodoc
 class OAuthConfig {
   /// The authorization URL for the OAuth service, where users are directed to
   /// authenticate and authorize access.
@@ -9066,6 +9256,7 @@ class OAuthConfig {
   }
 }
 
+/// @nodoc
 class TokenEndpointAuthenticationScheme {
   static const httpBasic = TokenEndpointAuthenticationScheme._('HTTP_BASIC');
   static const requestBodyCredentials =
@@ -9093,6 +9284,8 @@ class TokenEndpointAuthenticationScheme {
 }
 
 /// Structure describing a connector.
+///
+/// @nodoc
 class ConnectorItem {
   /// The configuration details for the cloud connector endpoint, including
   /// connection parameters and authentication requirements.
@@ -9156,6 +9349,8 @@ class ConnectorItem {
 
 /// The configuration details for an endpoint, which defines how to connect to
 /// and communicate with external services.
+///
+/// @nodoc
 class EndpointConfig {
   /// The Lambda function configuration for the endpoint, used when the endpoint
   /// communicates through an AWS Lambda function.
@@ -9181,6 +9376,7 @@ class EndpointConfig {
   }
 }
 
+/// @nodoc
 class EndpointType {
   static const lambda = EndpointType._('LAMBDA');
 
@@ -9203,6 +9399,7 @@ class EndpointType {
   String toString() => value;
 }
 
+/// @nodoc
 class CloudConnectorType {
   static const listed = CloudConnectorType._('LISTED');
   static const unlisted = CloudConnectorType._('UNLISTED');
@@ -9230,6 +9427,8 @@ class CloudConnectorType {
 
 /// Configuration details for an AWS Lambda function used as an endpoint for a
 /// cloud connector.
+///
+/// @nodoc
 class LambdaConfig {
   /// The Amazon Resource Name (ARN) of the Lambda function used as an endpoint.
   final String arn;
@@ -9254,6 +9453,8 @@ class LambdaConfig {
 
 /// Structure containing information about an account association, including its
 /// identifier, state, and related metadata.
+///
+/// @nodoc
 class AccountAssociationItem {
   /// The unique identifier of the account association.
   final String accountAssociationId;
@@ -9323,6 +9524,7 @@ class AccountAssociationItem {
   }
 }
 
+/// @nodoc
 class AssociationState {
   static const associationInProgress =
       AssociationState._('ASSOCIATION_IN_PROGRESS');
@@ -9360,6 +9562,8 @@ class AssociationState {
 }
 
 /// The General Authorization reference by authorization material name.
+///
+/// @nodoc
 class GeneralAuthorizationName {
   /// The name of the authorization material.
   final String? authMaterialName;
@@ -9382,6 +9586,7 @@ class GeneralAuthorizationName {
   }
 }
 
+/// @nodoc
 class ConnectorEventOperation {
   static const deviceCommandResponse =
       ConnectorEventOperation._('DEVICE_COMMAND_RESPONSE');
@@ -9417,6 +9622,8 @@ class ConnectorEventOperation {
 }
 
 /// Structure describing a managed thing.
+///
+/// @nodoc
 class MatterEndpoint {
   /// A list of Matter clusters for a managed thing.
   final List<MatterCluster>? clusters;
@@ -9441,6 +9648,8 @@ class MatterEndpoint {
 
 /// Describe a Matter cluster with an id, and the relevant attributes, commands,
 /// and events.
+///
+/// @nodoc
 class MatterCluster {
   /// The Matter attributes.
   final Object? attributes;
@@ -9479,6 +9688,8 @@ class MatterCluster {
 
 /// Describe the device using the relevant metadata and supported clusters for
 /// device discovery.
+///
+/// @nodoc
 class Device {
   /// The capability report for the device.
   final MatterCapabilityReport capabilityReport;
@@ -9524,6 +9735,8 @@ class Device {
 }
 
 /// Matter based capability report.
+///
+/// @nodoc
 class MatterCapabilityReport {
   /// The endpoints used in the capability report.
   final List<MatterCapabilityReportEndpoint> endpoints;
@@ -9553,6 +9766,8 @@ class MatterCapabilityReport {
 }
 
 /// Matter endpoint used in capability report.
+///
+/// @nodoc
 class MatterCapabilityReportEndpoint {
   /// Matter clusters used in capability report.
   final List<MatterCapabilityReportCluster> clusters;
@@ -9600,6 +9815,8 @@ class MatterCapabilityReportEndpoint {
 }
 
 /// Capability used in Matter capability report.
+///
+/// @nodoc
 class MatterCapabilityReportCluster {
   /// The id of the Amazon Web Services Matter capability report cluster.
   final String id;
@@ -9678,6 +9895,8 @@ class MatterCapabilityReportCluster {
 }
 
 /// Matter attribute used in capability report.
+///
+/// @nodoc
 class MatterCapabilityReportAttribute {
   /// The id of the Matter attribute.
   final String? id;
@@ -9706,41 +9925,49 @@ class MatterCapabilityReportAttribute {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -9749,22 +9976,26 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

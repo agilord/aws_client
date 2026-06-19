@@ -557,6 +557,7 @@ class SageMakerRuntime {
   }
 }
 
+/// @nodoc
 class InvokeEndpointOutput {
   /// Includes the inference provided by the model.
   ///
@@ -627,6 +628,7 @@ class InvokeEndpointOutput {
   }
 }
 
+/// @nodoc
 class InvokeEndpointAsyncOutput {
   /// The Amazon S3 URI where the inference failure response payload is stored.
   final String? failureLocation;
@@ -655,6 +657,7 @@ class InvokeEndpointAsyncOutput {
   }
 }
 
+/// @nodoc
 class InvokeEndpointWithResponseStreamOutput {
   final ResponseStream body;
 
@@ -706,6 +709,8 @@ class InvokeEndpointWithResponseStreamOutput {
 
 /// The stream processing failed because of an unknown error, exception or
 /// failure. Try your request again.
+///
+/// @nodoc
 class InternalStreamFailure implements _s.AwsException {
   final String? message;
 
@@ -736,6 +741,8 @@ class InternalStreamFailure implements _s.AwsException {
 /// The Transmission Control Protocol (TCP) connection between the client and
 /// the model was reset or closed.
 /// </dd> </dl>
+///
+/// @nodoc
 class ModelStreamError implements _s.AwsException {
   /// This error can have the following error codes:
   /// <dl> <dt>ModelInvocationTimeExceeded</dt> <dd>
@@ -772,6 +779,8 @@ class ModelStreamError implements _s.AwsException {
 
 /// A stream of payload parts. Each part contains a portion of the response for
 /// a streaming inference request.
+///
+/// @nodoc
 class ResponseStream {
   /// The stream processing failed because of an unknown error, exception or
   /// failure. Try your request again.
@@ -831,6 +840,8 @@ class ResponseStream {
 /// A wrapper for pieces of the payload that's returned in response to a
 /// streaming inference request. A streaming inference response consists of one
 /// or more payload parts.
+///
+/// @nodoc
 class PayloadPart {
   /// A blob that contains part of the response for your streaming inference
   /// request.
@@ -854,32 +865,38 @@ class PayloadPart {
   }
 }
 
+/// @nodoc
 class InternalDependencyException extends _s.GenericAwsException {
   InternalDependencyException({String? type, String? message})
       : super(
             type: type, code: 'InternalDependencyException', message: message);
 }
 
+/// @nodoc
 class InternalFailure extends _s.GenericAwsException {
   InternalFailure({String? type, String? message})
       : super(type: type, code: 'InternalFailure', message: message);
 }
 
+/// @nodoc
 class ModelError extends _s.GenericAwsException {
   ModelError({String? type, String? message})
       : super(type: type, code: 'ModelError', message: message);
 }
 
+/// @nodoc
 class ModelNotReadyException extends _s.GenericAwsException {
   ModelNotReadyException({String? type, String? message})
       : super(type: type, code: 'ModelNotReadyException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailable extends _s.GenericAwsException {
   ServiceUnavailable({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailable', message: message);
 }
 
+/// @nodoc
 class ValidationError extends _s.GenericAwsException {
   ValidationError({String? type, String? message})
       : super(type: type, code: 'ValidationError', message: message);

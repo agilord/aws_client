@@ -8402,12 +8402,12 @@ class DataZone {
   /// keyword matches. To indicate that a field should be indexed for lexical
   /// search (which disables semantic search but supports stemmed and partial
   /// matches), annotate it with
-  /// <code>@amazon.datazone#searchable(modes:["LEXICAL"])</code>. To indicate
+  /// <code>@amazon.datazone#searchable(modes:\["LEXICAL"\])</code>. To indicate
   /// that a field should be indexed for technical identifier search (for more
   /// information on technical identifier search, see: <a
   /// href="https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/">https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/</a>),
   /// annotate it with
-  /// <code>@amazon.datazone#searchable(modes:["TECHNICAL"])</code>.
+  /// <code>@amazon.datazone#searchable(modes:\["TECHNICAL"\])</code>.
   ///
   /// To denote that a field will store glossary term ids (which are filterable
   /// via the Search/SearchListings APIs), annotate it with
@@ -8546,10 +8546,10 @@ class DataZone {
   /// are indexed for semantic search, where related query terms will match the
   /// attribute value even if they are not stemmed or keyword matches. If a
   /// field is indexed technical identifier search, it will be annotated with
-  /// <code>@amazon.datazone#searchable(modes:["TECHNICAL"])</code>. If a field
-  /// is indexed for lexical search (supports stemmed and prefix matches but not
-  /// semantic matches), it will be annotated with
-  /// <code>@amazon.datazone#searchable(modes:["LEXICAL"])</code>.
+  /// <code>@amazon.datazone#searchable(modes:\["TECHNICAL"\])</code>. If a
+  /// field is indexed for lexical search (supports stemmed and prefix matches
+  /// but not semantic matches), it will be annotated with
+  /// <code>@amazon.datazone#searchable(modes:\["LEXICAL"\])</code>.
   ///
   /// A field storing glossary term IDs (which is filterable) will be annotated
   /// with <code>@amazon.datazone#glossaryterm("${glossaryId}")</code>.
@@ -10317,6 +10317,7 @@ class DataZone {
   }
 }
 
+/// @nodoc
 class AcceptPredictionsOutput {
   /// The ID of the asset.
   final String assetId;
@@ -10353,6 +10354,7 @@ class AcceptPredictionsOutput {
   }
 }
 
+/// @nodoc
 class AcceptSubscriptionRequestOutput {
   /// The timestamp that specifies when the subscription request was accepted.
   final DateTime createdAt;
@@ -10482,6 +10484,7 @@ class AcceptSubscriptionRequestOutput {
   }
 }
 
+/// @nodoc
 class AddEntityOwnerOutput {
   AddEntityOwnerOutput();
 
@@ -10494,6 +10497,7 @@ class AddEntityOwnerOutput {
   }
 }
 
+/// @nodoc
 class AddPolicyGrantOutput {
   /// The ID of the policy grant that was added to a specified entity.
   final String? grantId;
@@ -10516,6 +10520,7 @@ class AddPolicyGrantOutput {
   }
 }
 
+/// @nodoc
 class AssociateEnvironmentRoleOutput {
   AssociateEnvironmentRoleOutput();
 
@@ -10528,6 +10533,7 @@ class AssociateEnvironmentRoleOutput {
   }
 }
 
+/// @nodoc
 class AssociateGovernedTermsOutput {
   AssociateGovernedTermsOutput();
 
@@ -10540,6 +10546,7 @@ class AssociateGovernedTermsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetAttributesMetadataOutput {
   /// The errors generated when the BatchGetAttributesMetadata action is invoked.
   final List<AttributeError> errors;
@@ -10576,6 +10583,7 @@ class BatchGetAttributesMetadataOutput {
   }
 }
 
+/// @nodoc
 class BatchPutAttributesMetadataOutput {
   /// The results of the BatchPutAttributeMetadata action.
   final List<BatchPutAttributeOutput>? attributes;
@@ -10612,6 +10620,7 @@ class BatchPutAttributesMetadataOutput {
   }
 }
 
+/// @nodoc
 class CancelSubscriptionOutput {
   /// The timestamp that specifies when the request to cancel the subscription was
   /// created.
@@ -10714,6 +10723,7 @@ class CancelSubscriptionOutput {
   }
 }
 
+/// @nodoc
 class CreateAccountPoolOutput {
   /// The source of accounts for the account pool. In the current release, it's
   /// either a static list of accounts provided by the customer or a custom Amazon
@@ -10812,6 +10822,7 @@ class CreateAccountPoolOutput {
   }
 }
 
+/// @nodoc
 class CreateAssetFilterOutput {
   /// The ID of the asset.
   final String assetId;
@@ -10911,6 +10922,7 @@ class CreateAssetFilterOutput {
   }
 }
 
+/// @nodoc
 class CreateConnectionOutput {
   /// The ID of the connection.
   final String connectionId;
@@ -11019,6 +11031,7 @@ class CreateConnectionOutput {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentOutput {
   /// The Amazon DataZone user who created this environment.
   final String createdBy;
@@ -11229,6 +11242,7 @@ class CreateEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentActionOutput {
   /// The ID of the domain in which the environment action is created.
   final String domainId;
@@ -11288,6 +11302,7 @@ class CreateEnvironmentActionOutput {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentBlueprintOutput {
   /// The ID of this Amazon DataZone blueprint.
   final String id;
@@ -11385,6 +11400,7 @@ class CreateEnvironmentBlueprintOutput {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentProfileOutput {
   /// The Amazon DataZone user who created this environment profile.
   final String createdBy;
@@ -11491,6 +11507,7 @@ class CreateEnvironmentProfileOutput {
   }
 }
 
+/// @nodoc
 class CreateGroupProfileOutput {
   /// The identifier of the Amazon DataZone domain in which the group profile is
   /// created.
@@ -11551,6 +11568,7 @@ class CreateGroupProfileOutput {
   }
 }
 
+/// @nodoc
 class CreateListingChangeSetOutput {
   /// The ID of the listing (a record of an asset at a given time).
   final String listingId;
@@ -11587,6 +11605,7 @@ class CreateListingChangeSetOutput {
   }
 }
 
+/// @nodoc
 class CreateProjectOutput {
   /// The Amazon DataZone user who created the project.
   final String createdBy;
@@ -11734,6 +11753,7 @@ class CreateProjectOutput {
   }
 }
 
+/// @nodoc
 class CreateProjectMembershipOutput {
   CreateProjectMembershipOutput();
 
@@ -11746,6 +11766,7 @@ class CreateProjectMembershipOutput {
   }
 }
 
+/// @nodoc
 class CreateProjectProfileOutput {
   /// A user who created a project profile.
   final String createdBy;
@@ -11866,6 +11887,7 @@ class CreateProjectProfileOutput {
   }
 }
 
+/// @nodoc
 class CreateSubscriptionGrantOutput {
   /// A timestamp of when the subscription grant is created.
   final DateTime createdAt;
@@ -11973,6 +11995,7 @@ class CreateSubscriptionGrantOutput {
   }
 }
 
+/// @nodoc
 class CreateSubscriptionRequestOutput {
   /// A timestamp of when the subscription request is created.
   final DateTime createdAt;
@@ -12099,6 +12122,7 @@ class CreateSubscriptionRequestOutput {
   }
 }
 
+/// @nodoc
 class CreateSubscriptionTargetOutput {
   /// The asset types that can be included in the subscription target.
   final List<String> applicableAssetTypes;
@@ -12244,6 +12268,7 @@ class CreateSubscriptionTargetOutput {
   }
 }
 
+/// @nodoc
 class CreateUserProfileOutput {
   /// The user profile details.
   final UserProfileDetails? details;
@@ -12297,6 +12322,7 @@ class CreateUserProfileOutput {
   }
 }
 
+/// @nodoc
 class DeleteAccountPoolOutput {
   DeleteAccountPoolOutput();
 
@@ -12309,6 +12335,7 @@ class DeleteAccountPoolOutput {
   }
 }
 
+/// @nodoc
 class DeleteConnectionOutput {
   /// The status of the action.
   final String? status;
@@ -12331,6 +12358,7 @@ class DeleteConnectionOutput {
   }
 }
 
+/// @nodoc
 class DeleteDataExportConfigurationOutput {
   DeleteDataExportConfigurationOutput();
 
@@ -12343,6 +12371,7 @@ class DeleteDataExportConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DeleteProjectOutput {
   DeleteProjectOutput();
 
@@ -12355,6 +12384,7 @@ class DeleteProjectOutput {
   }
 }
 
+/// @nodoc
 class DeleteProjectMembershipOutput {
   DeleteProjectMembershipOutput();
 
@@ -12367,6 +12397,7 @@ class DeleteProjectMembershipOutput {
   }
 }
 
+/// @nodoc
 class DeleteProjectProfileOutput {
   DeleteProjectProfileOutput();
 
@@ -12379,6 +12410,7 @@ class DeleteProjectProfileOutput {
   }
 }
 
+/// @nodoc
 class DeleteSubscriptionGrantOutput {
   /// The timestamp of when the subscription grant that is deleted was created.
   final DateTime createdAt;
@@ -12487,6 +12519,7 @@ class DeleteSubscriptionGrantOutput {
   }
 }
 
+/// @nodoc
 class DeleteTimeSeriesDataPointsOutput {
   DeleteTimeSeriesDataPointsOutput();
 
@@ -12499,6 +12532,7 @@ class DeleteTimeSeriesDataPointsOutput {
   }
 }
 
+/// @nodoc
 class DisassociateEnvironmentRoleOutput {
   DisassociateEnvironmentRoleOutput();
 
@@ -12511,6 +12545,7 @@ class DisassociateEnvironmentRoleOutput {
   }
 }
 
+/// @nodoc
 class DisassociateGovernedTermsOutput {
   DisassociateGovernedTermsOutput();
 
@@ -12523,6 +12558,7 @@ class DisassociateGovernedTermsOutput {
   }
 }
 
+/// @nodoc
 class GetAccountPoolOutput {
   /// The source of accounts for the account pool. In the current release, it's
   /// either a static list of accounts provided by the customer or a custom Amazon
@@ -12622,6 +12658,7 @@ class GetAccountPoolOutput {
   }
 }
 
+/// @nodoc
 class GetAssetFilterOutput {
   /// The ID of the data asset.
   final String assetId;
@@ -12721,6 +12758,7 @@ class GetAssetFilterOutput {
   }
 }
 
+/// @nodoc
 class GetConnectionOutput {
   /// The ID of the connection.
   final String connectionId;
@@ -12848,6 +12886,7 @@ class GetConnectionOutput {
   }
 }
 
+/// @nodoc
 class GetDataExportConfigurationOutput {
   /// The timestamp at which the data export configuration report was created.
   final DateTime? createdAt;
@@ -12911,6 +12950,7 @@ class GetDataExportConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentOutput {
   /// The Amazon DataZone user who created the environment.
   final String createdBy;
@@ -13116,6 +13156,7 @@ class GetEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentActionOutput {
   /// The ID of the Amazon DataZone domain in which the environment action lives.
   final String domainId;
@@ -13175,6 +13216,7 @@ class GetEnvironmentActionOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentBlueprintOutput {
   /// The ID of this Amazon DataZone blueprint.
   final String id;
@@ -13272,6 +13314,7 @@ class GetEnvironmentBlueprintOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentCredentialsOutput {
   /// The access key ID of the environment.
   final String? accessKeyId;
@@ -13315,6 +13358,7 @@ class GetEnvironmentCredentialsOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentProfileOutput {
   /// The Amazon DataZone user who created this environment profile.
   final String createdBy;
@@ -13420,6 +13464,7 @@ class GetEnvironmentProfileOutput {
   }
 }
 
+/// @nodoc
 class GetGroupProfileOutput {
   /// The identifier of the Amazon DataZone domain in which the group profile
   /// exists.
@@ -13480,6 +13525,7 @@ class GetGroupProfileOutput {
   }
 }
 
+/// @nodoc
 class GetIamPortalLoginUrlOutput {
   /// The ID of the user profile.
   final String userProfileId;
@@ -13509,6 +13555,7 @@ class GetIamPortalLoginUrlOutput {
   }
 }
 
+/// @nodoc
 class GetJobRunOutput {
   /// The timestamp of when the job run was created.
   final DateTime? createdAt;
@@ -13612,6 +13659,7 @@ class GetJobRunOutput {
   }
 }
 
+/// @nodoc
 class GetLineageEventOutput {
   /// The timestamp of when the lineage event was created.
   final DateTime? createdAt;
@@ -13658,6 +13706,7 @@ class GetLineageEventOutput {
   }
 }
 
+/// @nodoc
 class GetLineageNodeOutput {
   /// The ID of the domain where you're getting the data lineage node.
   final String domainId;
@@ -13788,6 +13837,7 @@ class GetLineageNodeOutput {
   }
 }
 
+/// @nodoc
 class GetProjectOutput {
   /// The Amazon DataZone user who created the project.
   final String createdBy;
@@ -13934,6 +13984,7 @@ class GetProjectOutput {
   }
 }
 
+/// @nodoc
 class GetProjectProfileOutput {
   /// The user who created the project profile.
   final String createdBy;
@@ -14054,6 +14105,7 @@ class GetProjectProfileOutput {
   }
 }
 
+/// @nodoc
 class GetSubscriptionOutput {
   /// The timestamp of when the subscription was created.
   final DateTime createdAt;
@@ -14152,6 +14204,7 @@ class GetSubscriptionOutput {
   }
 }
 
+/// @nodoc
 class GetSubscriptionGrantOutput {
   /// The timestamp of when the subscription grant is created.
   final DateTime createdAt;
@@ -14257,6 +14310,7 @@ class GetSubscriptionGrantOutput {
   }
 }
 
+/// @nodoc
 class GetSubscriptionRequestDetailsOutput {
   /// The timestamp of when the specified subscription request was created.
   final DateTime createdAt;
@@ -14384,6 +14438,7 @@ class GetSubscriptionRequestDetailsOutput {
   }
 }
 
+/// @nodoc
 class GetSubscriptionTargetOutput {
   /// The asset types associated with the subscription target.
   final List<String> applicableAssetTypes;
@@ -14529,6 +14584,7 @@ class GetSubscriptionTargetOutput {
   }
 }
 
+/// @nodoc
 class GetTimeSeriesDataPointOutput {
   /// The ID of the Amazon DataZone domain that houses the asset data point that
   /// you want to get.
@@ -14585,6 +14641,7 @@ class GetTimeSeriesDataPointOutput {
   }
 }
 
+/// @nodoc
 class GetUserProfileOutput {
   /// The user profile details.
   final UserProfileDetails? details;
@@ -14638,6 +14695,7 @@ class GetUserProfileOutput {
   }
 }
 
+/// @nodoc
 class ListAccountPoolsOutput {
   /// The results of the ListAccountPools operation.
   final List<AccountPoolSummary>? items;
@@ -14674,6 +14732,7 @@ class ListAccountPoolsOutput {
   }
 }
 
+/// @nodoc
 class ListAccountsInAccountPoolOutput {
   /// The results of the ListAccountsInAccountPool operation.
   final List<AccountInfo>? items;
@@ -14710,6 +14769,7 @@ class ListAccountsInAccountPoolOutput {
   }
 }
 
+/// @nodoc
 class ListAssetFiltersOutput {
   /// The results of the <code>ListAssetFilters</code> action.
   final List<AssetFilterSummary> items;
@@ -14747,6 +14807,7 @@ class ListAssetFiltersOutput {
   }
 }
 
+/// @nodoc
 class ListAssetRevisionsOutput {
   /// The results of the <code>ListAssetRevisions</code> action.
   final List<AssetRevision>? items;
@@ -14784,6 +14845,7 @@ class ListAssetRevisionsOutput {
   }
 }
 
+/// @nodoc
 class ListConnectionsOutput {
   /// The results of the ListConnections action.
   final List<ConnectionSummary> items;
@@ -14820,6 +14882,7 @@ class ListConnectionsOutput {
   }
 }
 
+/// @nodoc
 class ListDataProductRevisionsOutput {
   /// The results of the <code>ListDataProductRevisions</code> action.
   final List<DataProductRevision> items;
@@ -14858,6 +14921,7 @@ class ListDataProductRevisionsOutput {
   }
 }
 
+/// @nodoc
 class ListDataSourceRunActivitiesOutput {
   /// The results of the <code>ListDataSourceRunActivities</code> action.
   final List<DataSourceRunActivity> items;
@@ -14896,6 +14960,7 @@ class ListDataSourceRunActivitiesOutput {
   }
 }
 
+/// @nodoc
 class ListEntityOwnersOutput {
   /// The owners of the entity.
   final List<OwnerPropertiesOutput> owners;
@@ -14933,6 +14998,7 @@ class ListEntityOwnersOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentActionsOutput {
   /// The results of <code>ListEnvironmentActions</code>.
   final List<EnvironmentActionSummary>? items;
@@ -14972,6 +15038,7 @@ class ListEnvironmentActionsOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentBlueprintsOutput {
   /// The results of the <code>ListEnvironmentBlueprints</code> action.
   final List<EnvironmentBlueprintSummary> items;
@@ -15011,6 +15078,7 @@ class ListEnvironmentBlueprintsOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentProfilesOutput {
   /// The results of the <code>ListEnvironmentProfiles</code> action.
   final List<EnvironmentProfileSummary> items;
@@ -15050,6 +15118,7 @@ class ListEnvironmentProfilesOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsOutput {
   /// The results of the <code>ListEnvironments</code> action.
   final List<EnvironmentSummary> items;
@@ -15087,6 +15156,7 @@ class ListEnvironmentsOutput {
   }
 }
 
+/// @nodoc
 class ListJobRunsOutput {
   /// The results of the ListJobRuns action.
   final List<JobRunSummary>? items;
@@ -15123,6 +15193,7 @@ class ListJobRunsOutput {
   }
 }
 
+/// @nodoc
 class ListLineageEventsOutput {
   /// The results of the ListLineageEvents action.
   final List<LineageEventSummary>? items;
@@ -15159,6 +15230,7 @@ class ListLineageEventsOutput {
   }
 }
 
+/// @nodoc
 class ListLineageNodeHistoryOutput {
   /// When the number of history items is greater than the default value for the
   /// MaxResults parameter, or if you explicitly specify a value for MaxResults
@@ -15195,6 +15267,7 @@ class ListLineageNodeHistoryOutput {
   }
 }
 
+/// @nodoc
 class ListNotificationsOutput {
   /// When the number of notifications is greater than the default value for the
   /// <code>MaxResults</code> parameter, or if you explicitly specify a value for
@@ -15232,6 +15305,7 @@ class ListNotificationsOutput {
   }
 }
 
+/// @nodoc
 class ListPolicyGrantsOutput {
   /// The results of this action - the listed grants.
   final List<PolicyGrantMember> grantList;
@@ -15269,6 +15343,7 @@ class ListPolicyGrantsOutput {
   }
 }
 
+/// @nodoc
 class ListProjectMembershipsOutput {
   /// The members of the project.
   final List<ProjectMember> members;
@@ -15306,6 +15381,7 @@ class ListProjectMembershipsOutput {
   }
 }
 
+/// @nodoc
 class ListProjectProfilesOutput {
   /// The results of the ListProjectProfiles action.
   final List<ProjectProfileSummary>? items;
@@ -15343,6 +15419,7 @@ class ListProjectProfilesOutput {
   }
 }
 
+/// @nodoc
 class ListProjectsOutput {
   /// The results of the <code>ListProjects</code> action.
   final List<ProjectSummary>? items;
@@ -15380,6 +15457,7 @@ class ListProjectsOutput {
   }
 }
 
+/// @nodoc
 class ListSubscriptionGrantsOutput {
   /// The results of the <code>ListSubscriptionGrants</code> action.
   final List<SubscriptionGrantSummary> items;
@@ -15419,6 +15497,7 @@ class ListSubscriptionGrantsOutput {
   }
 }
 
+/// @nodoc
 class ListSubscriptionRequestsOutput {
   /// The results of the <code>ListSubscriptionRequests</code> action.
   final List<SubscriptionRequestSummary> items;
@@ -15458,6 +15537,7 @@ class ListSubscriptionRequestsOutput {
   }
 }
 
+/// @nodoc
 class ListSubscriptionsOutput {
   /// The results of the <code>ListSubscriptions</code> action.
   final List<SubscriptionSummary> items;
@@ -15495,6 +15575,7 @@ class ListSubscriptionsOutput {
   }
 }
 
+/// @nodoc
 class ListSubscriptionTargetsOutput {
   /// The results of the <code>ListSubscriptionTargets</code> action.
   final List<SubscriptionTargetSummary> items;
@@ -15534,6 +15615,7 @@ class ListSubscriptionTargetsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags of the specified resource.
   final Map<String, String>? tags;
@@ -15557,6 +15639,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTimeSeriesDataPointsOutput {
   /// The results of the ListTimeSeriesDataPoints action.
   final List<TimeSeriesDataPointSummaryFormOutput>? items;
@@ -15595,6 +15678,7 @@ class ListTimeSeriesDataPointsOutput {
   }
 }
 
+/// @nodoc
 class PostLineageEventOutput {
   /// The ID of the domain.
   final String? domainId;
@@ -15624,6 +15708,7 @@ class PostLineageEventOutput {
   }
 }
 
+/// @nodoc
 class PostTimeSeriesDataPointsOutput {
   /// The ID of the Amazon DataZone domain in which you want to post time series
   /// data points.
@@ -15673,6 +15758,7 @@ class PostTimeSeriesDataPointsOutput {
   }
 }
 
+/// @nodoc
 class PutDataExportConfigurationOutput {
   PutDataExportConfigurationOutput();
 
@@ -15685,6 +15771,7 @@ class PutDataExportConfigurationOutput {
   }
 }
 
+/// @nodoc
 class QueryGraphOutput {
   /// The results of the <code>QueryGraph</code> action.
   final List<ResultItem>? items;
@@ -15722,6 +15809,7 @@ class QueryGraphOutput {
   }
 }
 
+/// @nodoc
 class RejectPredictionsOutput {
   /// The ID of the asset.
   final String assetId;
@@ -15758,6 +15846,7 @@ class RejectPredictionsOutput {
   }
 }
 
+/// @nodoc
 class RejectSubscriptionRequestOutput {
   /// The timestamp of when the subscription request was rejected.
   final DateTime createdAt;
@@ -15884,6 +15973,7 @@ class RejectSubscriptionRequestOutput {
   }
 }
 
+/// @nodoc
 class RemoveEntityOwnerOutput {
   RemoveEntityOwnerOutput();
 
@@ -15896,6 +15986,7 @@ class RemoveEntityOwnerOutput {
   }
 }
 
+/// @nodoc
 class RemovePolicyGrantOutput {
   RemovePolicyGrantOutput();
 
@@ -15908,6 +15999,7 @@ class RemovePolicyGrantOutput {
   }
 }
 
+/// @nodoc
 class RevokeSubscriptionOutput {
   /// The timestamp of when the subscription was revoked.
   final DateTime createdAt;
@@ -16006,6 +16098,7 @@ class RevokeSubscriptionOutput {
   }
 }
 
+/// @nodoc
 class SearchOutput {
   /// The results of the <code>Search</code> action.
   final List<SearchInventoryResultItem>? items;
@@ -16051,6 +16144,7 @@ class SearchOutput {
   }
 }
 
+/// @nodoc
 class SearchGroupProfilesOutput {
   /// The results of the <code>SearchGroupProfiles</code> action.
   final List<GroupProfileSummary>? items;
@@ -16088,6 +16182,7 @@ class SearchGroupProfilesOutput {
   }
 }
 
+/// @nodoc
 class SearchListingsOutput {
   /// Contains computed counts grouped by field values based on the requested
   /// aggregation attributes for the matching listings.
@@ -16143,6 +16238,7 @@ class SearchListingsOutput {
   }
 }
 
+/// @nodoc
 class SearchTypesOutput {
   /// The results of the <code>SearchTypes</code> action.
   final List<SearchTypesResultItem>? items;
@@ -16187,6 +16283,7 @@ class SearchTypesOutput {
   }
 }
 
+/// @nodoc
 class SearchUserProfilesOutput {
   /// The results of the <code>SearchUserProfiles</code> action.
   final List<UserProfileSummary>? items;
@@ -16224,6 +16321,7 @@ class SearchUserProfilesOutput {
   }
 }
 
+/// @nodoc
 class StartNotebookImportOutput {
   /// The timestamp of when the notebook import was started.
   final DateTime? createdAt;
@@ -16305,6 +16403,7 @@ class StartNotebookImportOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -16317,6 +16416,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -16329,6 +16429,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountPoolOutput {
   /// The source of accounts for the account pool. In the current release, it's
   /// either a static list of accounts provided by the customer or a custom Amazon
@@ -16427,6 +16528,7 @@ class UpdateAccountPoolOutput {
   }
 }
 
+/// @nodoc
 class UpdateAssetFilterOutput {
   /// The ID of the data asset.
   final String assetId;
@@ -16526,6 +16628,7 @@ class UpdateAssetFilterOutput {
   }
 }
 
+/// @nodoc
 class UpdateConnectionOutput {
   /// The ID of the connection.
   final String connectionId;
@@ -16634,6 +16737,7 @@ class UpdateConnectionOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentOutput {
   /// The Amazon DataZone user who created the environment.
   final String createdBy;
@@ -16848,6 +16952,7 @@ class UpdateEnvironmentOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentActionOutput {
   /// The domain ID of the environment action.
   final String domainId;
@@ -16907,6 +17012,7 @@ class UpdateEnvironmentActionOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentBlueprintOutput {
   /// The identifier of the blueprint to be updated.
   final String id;
@@ -17010,6 +17116,7 @@ class UpdateEnvironmentBlueprintOutput {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentProfileOutput {
   /// The Amazon DataZone user who created the environment profile.
   final String createdBy;
@@ -17120,6 +17227,7 @@ class UpdateEnvironmentProfileOutput {
   }
 }
 
+/// @nodoc
 class UpdateGroupProfileOutput {
   /// The identifier of the Amazon DataZone domain in which a group profile is
   /// updated.
@@ -17180,6 +17288,7 @@ class UpdateGroupProfileOutput {
   }
 }
 
+/// @nodoc
 class UpdateProjectOutput {
   /// The Amazon DataZone user who created the project.
   final String createdBy;
@@ -17326,6 +17435,7 @@ class UpdateProjectOutput {
   }
 }
 
+/// @nodoc
 class UpdateProjectProfileOutput {
   /// The user who created a project profile.
   final String createdBy;
@@ -17446,6 +17556,7 @@ class UpdateProjectProfileOutput {
   }
 }
 
+/// @nodoc
 class UpdateRootDomainUnitOwnerOutput {
   UpdateRootDomainUnitOwnerOutput();
 
@@ -17458,6 +17569,7 @@ class UpdateRootDomainUnitOwnerOutput {
   }
 }
 
+/// @nodoc
 class UpdateSubscriptionGrantStatusOutput {
   /// The timestamp of when the subscription grant status was created.
   final DateTime createdAt;
@@ -17568,6 +17680,7 @@ class UpdateSubscriptionGrantStatusOutput {
   }
 }
 
+/// @nodoc
 class UpdateSubscriptionRequestOutput {
   /// The timestamp of when the subscription request was created.
   final DateTime createdAt;
@@ -17695,6 +17808,7 @@ class UpdateSubscriptionRequestOutput {
   }
 }
 
+/// @nodoc
 class UpdateSubscriptionTargetOutput {
   /// The applicable asset types to be updated as part of the
   /// <code>UpdateSubscriptionTarget</code> action.
@@ -17850,6 +17964,7 @@ class UpdateSubscriptionTargetOutput {
   }
 }
 
+/// @nodoc
 class UpdateUserProfileOutput {
   /// The results of the UpdateUserProfile action.
   final UserProfileDetails? details;
@@ -17903,6 +18018,7 @@ class UpdateUserProfileOutput {
   }
 }
 
+/// @nodoc
 class CreateAssetOutput {
   /// The ID of the Amazon DataZone domain in which the asset was created.
   final String domainId;
@@ -18092,6 +18208,7 @@ class CreateAssetOutput {
   }
 }
 
+/// @nodoc
 class GetAssetOutput {
   /// The ID of the Amazon DataZone domain to which the asset belongs.
   final String domainId;
@@ -18269,6 +18386,7 @@ class GetAssetOutput {
   }
 }
 
+/// @nodoc
 class DeleteAssetOutput {
   DeleteAssetOutput();
 
@@ -18281,6 +18399,7 @@ class DeleteAssetOutput {
   }
 }
 
+/// @nodoc
 class CreateAssetRevisionOutput {
   /// The unique identifier of the Amazon DataZone domain where the asset was
   /// revised.
@@ -18474,6 +18593,7 @@ class CreateAssetRevisionOutput {
   }
 }
 
+/// @nodoc
 class CreateAssetTypeOutput {
   /// The ID of the Amazon DataZone domain in which the asset type was created.
   final String domainId;
@@ -18578,6 +18698,7 @@ class CreateAssetTypeOutput {
   }
 }
 
+/// @nodoc
 class DeleteAssetTypeOutput {
   DeleteAssetTypeOutput();
 
@@ -18590,6 +18711,7 @@ class DeleteAssetTypeOutput {
   }
 }
 
+/// @nodoc
 class GetAssetTypeOutput {
   /// The ID of the Amazon DataZone domain in which the asset type exists.
   final String domainId;
@@ -18694,6 +18816,7 @@ class GetAssetTypeOutput {
   }
 }
 
+/// @nodoc
 class CreateDataProductOutput {
   /// The ID of the domain where the data product lives.
   final String domainId;
@@ -18818,6 +18941,7 @@ class CreateDataProductOutput {
   }
 }
 
+/// @nodoc
 class GetDataProductOutput {
   /// The ID of the domain where the data product lives.
   final String domainId;
@@ -18942,6 +19066,7 @@ class GetDataProductOutput {
   }
 }
 
+/// @nodoc
 class DeleteDataProductOutput {
   DeleteDataProductOutput();
 
@@ -18954,6 +19079,7 @@ class DeleteDataProductOutput {
   }
 }
 
+/// @nodoc
 class CreateDataProductRevisionOutput {
   /// The ID of the domain where data product revision is created.
   final String domainId;
@@ -19078,6 +19204,7 @@ class CreateDataProductRevisionOutput {
   }
 }
 
+/// @nodoc
 class CreateDataSourceOutput {
   /// The ID of the Amazon DataZone domain in which the data source is created.
   final String domainId;
@@ -19267,6 +19394,7 @@ class CreateDataSourceOutput {
   }
 }
 
+/// @nodoc
 class GetDataSourceOutput {
   /// The ID of the Amazon DataZone domain in which the data source exists.
   final String domainId;
@@ -19471,6 +19599,7 @@ class GetDataSourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateDataSourceOutput {
   /// The identifier of the Amazon DataZone domain in which a data source is to be
   /// updated.
@@ -19685,6 +19814,7 @@ class UpdateDataSourceOutput {
   }
 }
 
+/// @nodoc
 class DeleteDataSourceOutput {
   /// The ID of the Amazon DataZone domain in which the data source is deleted.
   final String domainId;
@@ -19884,6 +20014,7 @@ class DeleteDataSourceOutput {
   }
 }
 
+/// @nodoc
 class ListDataSourcesOutput {
   /// The results of the <code>ListDataSources</code> action.
   final List<DataSourceSummary> items;
@@ -19921,6 +20052,7 @@ class ListDataSourcesOutput {
   }
 }
 
+/// @nodoc
 class StartDataSourceRunOutput {
   /// The timestamp of when data source run was created.
   final DateTime createdAt;
@@ -20039,6 +20171,7 @@ class StartDataSourceRunOutput {
   }
 }
 
+/// @nodoc
 class GetDataSourceRunOutput {
   /// The timestamp of when the data source run was created.
   final DateTime createdAt;
@@ -20166,6 +20299,7 @@ class GetDataSourceRunOutput {
   }
 }
 
+/// @nodoc
 class ListDataSourceRunsOutput {
   /// The results of the <code>ListDataSourceRuns</code> action.
   final List<DataSourceRunSummary> items;
@@ -20203,6 +20337,7 @@ class ListDataSourceRunsOutput {
   }
 }
 
+/// @nodoc
 class CreateDomainOutput {
   /// The identifier of the Amazon DataZone domain.
   final String id;
@@ -20318,6 +20453,7 @@ class CreateDomainOutput {
   }
 }
 
+/// @nodoc
 class GetDomainOutput {
   /// The domain execution role with which the Amazon DataZone domain is created.
   final String domainExecutionRole;
@@ -20445,6 +20581,7 @@ class GetDomainOutput {
   }
 }
 
+/// @nodoc
 class UpdateDomainOutput {
   /// The identifier of the Amazon DataZone domain.
   final String id;
@@ -20522,6 +20659,7 @@ class UpdateDomainOutput {
   }
 }
 
+/// @nodoc
 class DeleteDomainOutput {
   /// The status of the domain.
   final DomainStatus status;
@@ -20544,6 +20682,7 @@ class DeleteDomainOutput {
   }
 }
 
+/// @nodoc
 class ListDomainsOutput {
   /// The results of the <code>ListDomains</code> action.
   final List<DomainSummary> items;
@@ -20581,6 +20720,7 @@ class ListDomainsOutput {
   }
 }
 
+/// @nodoc
 class CreateDomainUnitOutput {
   /// The IDs of the ancestor domain units.
   final List<String> ancestorDomainUnitIds;
@@ -20667,6 +20807,7 @@ class CreateDomainUnitOutput {
   }
 }
 
+/// @nodoc
 class GetDomainUnitOutput {
   /// The ID of the domain in which the domain unit lives.
   final String domainId;
@@ -20757,6 +20898,7 @@ class GetDomainUnitOutput {
   }
 }
 
+/// @nodoc
 class UpdateDomainUnitOutput {
   /// The ID of the domain where you want to update the domain unit.
   final String domainId;
@@ -20847,6 +20989,7 @@ class UpdateDomainUnitOutput {
   }
 }
 
+/// @nodoc
 class DeleteDomainUnitOutput {
   DeleteDomainUnitOutput();
 
@@ -20859,6 +21002,7 @@ class DeleteDomainUnitOutput {
   }
 }
 
+/// @nodoc
 class ListDomainUnitsForParentOutput {
   /// The results returned by this action.
   final List<DomainUnitSummary> items;
@@ -20896,6 +21040,7 @@ class ListDomainUnitsForParentOutput {
   }
 }
 
+/// @nodoc
 class PutEnvironmentBlueprintConfigurationOutput {
   /// The identifier of the Amazon DataZone domain.
   final String domainId;
@@ -21021,6 +21166,7 @@ class PutEnvironmentBlueprintConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetEnvironmentBlueprintConfigurationOutput {
   /// The ID of the Amazon DataZone domain where this blueprint exists.
   final String domainId;
@@ -21146,6 +21292,7 @@ class GetEnvironmentBlueprintConfigurationOutput {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentBlueprintConfigurationOutput {
   DeleteEnvironmentBlueprintConfigurationOutput();
 
@@ -21159,6 +21306,7 @@ class DeleteEnvironmentBlueprintConfigurationOutput {
   }
 }
 
+/// @nodoc
 class ListEnvironmentBlueprintConfigurationsOutput {
   /// The results of the <code>ListEnvironmentBlueprintConfigurations</code>
   /// action.
@@ -21200,6 +21348,7 @@ class ListEnvironmentBlueprintConfigurationsOutput {
   }
 }
 
+/// @nodoc
 class CreateFormTypeOutput {
   /// The ID of the Amazon DataZone domain in which this metadata form type is
   /// created.
@@ -21267,6 +21416,7 @@ class CreateFormTypeOutput {
   }
 }
 
+/// @nodoc
 class DeleteFormTypeOutput {
   DeleteFormTypeOutput();
 
@@ -21279,6 +21429,7 @@ class DeleteFormTypeOutput {
   }
 }
 
+/// @nodoc
 class GetFormTypeOutput {
   /// The ID of the Amazon DataZone domain in which this metadata form type
   /// exists.
@@ -21385,6 +21536,7 @@ class GetFormTypeOutput {
   }
 }
 
+/// @nodoc
 class CreateGlossaryOutput {
   /// The ID of the Amazon DataZone domain in which this business glossary is
   /// created.
@@ -21454,6 +21606,7 @@ class CreateGlossaryOutput {
   }
 }
 
+/// @nodoc
 class GetGlossaryOutput {
   /// The ID of the Amazon DataZone domain in which this business glossary exists.
   final String domainId;
@@ -21550,6 +21703,7 @@ class GetGlossaryOutput {
   }
 }
 
+/// @nodoc
 class UpdateGlossaryOutput {
   /// The identifier of the Amazon DataZone domain in which a business glossary is
   /// to be updated.
@@ -21620,6 +21774,7 @@ class UpdateGlossaryOutput {
   }
 }
 
+/// @nodoc
 class DeleteGlossaryOutput {
   DeleteGlossaryOutput();
 
@@ -21632,6 +21787,7 @@ class DeleteGlossaryOutput {
   }
 }
 
+/// @nodoc
 class CreateGlossaryTermOutput {
   /// The ID of the Amazon DataZone domain in which this business glossary term is
   /// created.
@@ -21718,6 +21874,7 @@ class CreateGlossaryTermOutput {
   }
 }
 
+/// @nodoc
 class GetGlossaryTermOutput {
   /// The ID of the Amazon DataZone domain in which this business glossary term
   /// exists.
@@ -21832,6 +21989,7 @@ class GetGlossaryTermOutput {
   }
 }
 
+/// @nodoc
 class UpdateGlossaryTermOutput {
   /// The identifier of the Amazon DataZone domain in which a business glossary
   /// term is to be updated.
@@ -21923,6 +22081,7 @@ class UpdateGlossaryTermOutput {
   }
 }
 
+/// @nodoc
 class DeleteGlossaryTermOutput {
   DeleteGlossaryTermOutput();
 
@@ -21935,6 +22094,7 @@ class DeleteGlossaryTermOutput {
   }
 }
 
+/// @nodoc
 class GetListingOutput {
   /// The ID of the Amazon DataZone domain.
   final String domainId;
@@ -22029,6 +22189,7 @@ class GetListingOutput {
   }
 }
 
+/// @nodoc
 class DeleteListingOutput {
   DeleteListingOutput();
 
@@ -22041,6 +22202,7 @@ class DeleteListingOutput {
   }
 }
 
+/// @nodoc
 class StartMetadataGenerationRunOutput {
   /// The ID of the Amazon DataZone domain in which the metadata generation run
   /// was started.
@@ -22119,6 +22281,7 @@ class StartMetadataGenerationRunOutput {
   }
 }
 
+/// @nodoc
 class GetMetadataGenerationRunOutput {
   /// The ID of the Amazon DataZone domain the metadata generation run of which
   /// you want to get.
@@ -22218,6 +22381,7 @@ class GetMetadataGenerationRunOutput {
   }
 }
 
+/// @nodoc
 class CancelMetadataGenerationRunOutput {
   CancelMetadataGenerationRunOutput();
 
@@ -22230,6 +22394,7 @@ class CancelMetadataGenerationRunOutput {
   }
 }
 
+/// @nodoc
 class ListMetadataGenerationRunsOutput {
   /// The results of the ListMetadataGenerationRuns action.
   final List<MetadataGenerationRunItem>? items;
@@ -22268,6 +22433,7 @@ class ListMetadataGenerationRunsOutput {
   }
 }
 
+/// @nodoc
 class CreateNotebookOutput {
   /// The ordered list of cells in the notebook.
   final List<CellInformation> cellOrder;
@@ -22428,6 +22594,7 @@ class CreateNotebookOutput {
   }
 }
 
+/// @nodoc
 class GetNotebookOutput {
   /// The ordered list of cells in the notebook.
   final List<CellInformation> cellOrder;
@@ -22588,6 +22755,7 @@ class GetNotebookOutput {
   }
 }
 
+/// @nodoc
 class UpdateNotebookOutput {
   /// The ordered list of cells in the notebook.
   final List<CellInformation> cellOrder;
@@ -22748,6 +22916,7 @@ class UpdateNotebookOutput {
   }
 }
 
+/// @nodoc
 class DeleteNotebookOutput {
   DeleteNotebookOutput();
 
@@ -22760,6 +22929,7 @@ class DeleteNotebookOutput {
   }
 }
 
+/// @nodoc
 class ListNotebooksOutput {
   /// The results of the <code>ListNotebooks</code> action.
   final List<NotebookSummary>? items;
@@ -22797,6 +22967,7 @@ class ListNotebooksOutput {
   }
 }
 
+/// @nodoc
 class StartNotebookExportOutput {
   /// The identifier of the Amazon SageMaker Unified Studio domain.
   final String domainId;
@@ -22869,6 +23040,7 @@ class StartNotebookExportOutput {
   }
 }
 
+/// @nodoc
 class GetNotebookExportOutput {
   /// The identifier of the Amazon SageMaker Unified Studio domain.
   final String domainId;
@@ -22968,6 +23140,7 @@ class GetNotebookExportOutput {
   }
 }
 
+/// @nodoc
 class StartNotebookRunOutput {
   /// The identifier of the Amazon SageMaker Unified Studio domain.
   final String domainId;
@@ -23169,6 +23342,7 @@ class StartNotebookRunOutput {
   }
 }
 
+/// @nodoc
 class GetNotebookRunOutput {
   /// The identifier of the Amazon SageMaker Unified Studio domain.
   final String domainId;
@@ -23370,6 +23544,7 @@ class GetNotebookRunOutput {
   }
 }
 
+/// @nodoc
 class ListNotebookRunsOutput {
   /// The results of the <code>ListNotebookRuns</code> action.
   final List<NotebookRunSummary>? items;
@@ -23407,6 +23582,7 @@ class ListNotebookRunsOutput {
   }
 }
 
+/// @nodoc
 class StopNotebookRunOutput {
   /// The identifier of the Amazon SageMaker Unified Studio domain.
   final String domainId;
@@ -23450,6 +23626,7 @@ class StopNotebookRunOutput {
   }
 }
 
+/// @nodoc
 class CreateRuleOutput {
   /// The action of the rule.
   final RuleAction action;
@@ -23546,6 +23723,7 @@ class CreateRuleOutput {
   }
 }
 
+/// @nodoc
 class GetRuleOutput {
   /// The action of the rule.
   final RuleAction action;
@@ -23663,6 +23841,7 @@ class GetRuleOutput {
   }
 }
 
+/// @nodoc
 class UpdateRuleOutput {
   /// The action of the rule.
   final RuleAction action;
@@ -23772,6 +23951,7 @@ class UpdateRuleOutput {
   }
 }
 
+/// @nodoc
 class DeleteRuleOutput {
   DeleteRuleOutput();
 
@@ -23784,6 +23964,7 @@ class DeleteRuleOutput {
   }
 }
 
+/// @nodoc
 class ListRulesOutput {
   /// The results of the <code>ListRules</code> action.
   final List<RuleSummary> items;
@@ -23822,6 +24003,8 @@ class ListRulesOutput {
 }
 
 /// The summary of the rule.
+///
+/// @nodoc
 class RuleSummary {
   /// The action of the rule.
   final RuleAction? action;
@@ -23912,6 +24095,7 @@ class RuleSummary {
   }
 }
 
+/// @nodoc
 class RuleType {
   static const metadataFormEnforcement =
       RuleType._('METADATA_FORM_ENFORCEMENT');
@@ -23937,6 +24121,7 @@ class RuleType {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleTargetType {
   static const domainUnit = RuleTargetType._('DOMAIN_UNIT');
 
@@ -23961,6 +24146,8 @@ class RuleTargetType {
 }
 
 /// The target of the rule.
+///
+/// @nodoc
 class RuleTarget {
   /// The ID of the domain unit.
   final DomainUnitTarget? domainUnitTarget;
@@ -23986,6 +24173,7 @@ class RuleTarget {
   }
 }
 
+/// @nodoc
 class RuleAction {
   static const createListingChangeSet =
       RuleAction._('CREATE_LISTING_CHANGE_SET');
@@ -24012,6 +24200,8 @@ class RuleAction {
 }
 
 /// The scope of a rule.
+///
+/// @nodoc
 class RuleScope {
   /// The asset type included in the rule scope.
   final AssetTypesForRule? assetType;
@@ -24054,6 +24244,8 @@ class RuleScope {
 }
 
 /// The asset type for the rule details.
+///
+/// @nodoc
 class AssetTypesForRule {
   /// The selection mode for the rule.
   final RuleScopeSelectionMode selectionMode;
@@ -24088,6 +24280,8 @@ class AssetTypesForRule {
 }
 
 /// Specifies projects in which the rule is created.
+///
+/// @nodoc
 class ProjectsForRule {
   /// The selection mode of the rule.
   final RuleScopeSelectionMode selectionMode;
@@ -24121,6 +24315,7 @@ class ProjectsForRule {
   }
 }
 
+/// @nodoc
 class RuleScopeSelectionMode {
   static const all = RuleScopeSelectionMode._('ALL');
   static const specific = RuleScopeSelectionMode._('SPECIFIC');
@@ -24147,6 +24342,8 @@ class RuleScopeSelectionMode {
 }
 
 /// The target for the domain unit.
+///
+/// @nodoc
 class DomainUnitTarget {
   /// The ID of the domain unit.
   final String domainUnitId;
@@ -24178,6 +24375,8 @@ class DomainUnitTarget {
 }
 
 /// The details of a rule.
+///
+/// @nodoc
 class RuleDetail {
   /// The enforcement details of a glossary term that's part of the metadata rule.
   final GlossaryTermEnforcementDetail? glossaryTermEnforcementDetail;
@@ -24218,6 +24417,8 @@ class RuleDetail {
 }
 
 /// The enforcement details of a metadata form.
+///
+/// @nodoc
 class MetadataFormEnforcementDetail {
   /// The required metadata forms.
   final List<MetadataFormReference>? requiredMetadataForms;
@@ -24245,6 +24446,8 @@ class MetadataFormEnforcementDetail {
 }
 
 /// The enforcement details of a glossary term.
+///
+/// @nodoc
 class GlossaryTermEnforcementDetail {
   /// The ID of the required glossary term.
   final List<String>? requiredGlossaryTermIds;
@@ -24272,6 +24475,8 @@ class GlossaryTermEnforcementDetail {
 }
 
 /// The reference of a metadata form.
+///
+/// @nodoc
 class MetadataFormReference {
   /// The type ID of the metadata form reference.
   final String typeIdentifier;
@@ -24302,6 +24507,8 @@ class MetadataFormReference {
 }
 
 /// The status of a notebook run in Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class NotebookRunStatus {
   static const queued = NotebookRunStatus._('QUEUED');
   static const starting = NotebookRunStatus._('STARTING');
@@ -24340,6 +24547,8 @@ class NotebookRunStatus {
 }
 
 /// The summary of a notebook run in Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class NotebookRunSummary {
   /// The identifier of the Amazon SageMaker Unified Studio domain.
   final String domainId;
@@ -24450,6 +24659,8 @@ class NotebookRunSummary {
 }
 
 /// The source that triggered a notebook run in Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class TriggerSource {
   /// The name of the trigger source.
   final String? name;
@@ -24482,6 +24693,8 @@ class TriggerSource {
 
 /// The type of trigger source for a notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class TriggerSourceType {
   static const manual = TriggerSourceType._('MANUAL');
   static const scheduled = TriggerSourceType._('SCHEDULED');
@@ -24507,6 +24720,7 @@ class TriggerSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -24532,6 +24746,8 @@ class SortOrder {
 
 /// The compute configuration for a notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class ComputeConfig {
   /// The environment version for the notebook run compute.
   final String? environmentVersion;
@@ -24563,6 +24779,8 @@ class ComputeConfig {
 
 /// The network configuration for a notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class NetworkConfig {
   /// The network access type for the notebook run. Valid values are
   /// <code>PUBLIC_INTERNET_ONLY</code> and <code>VPC_ONLY</code>.
@@ -24619,6 +24837,8 @@ class NetworkConfig {
 
 /// The timeout configuration for a notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class TimeoutConfig {
   /// The timeout for the notebook run, in minutes. The minimum value is 60
   /// minutes (1 hour), the maximum value is 1440 minutes (24 hours), and the
@@ -24646,6 +24866,8 @@ class TimeoutConfig {
 
 /// The environment configuration for a notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class EnvironmentConfig {
   /// The image version for the notebook run environment.
   final String? imageVersion;
@@ -24680,6 +24902,8 @@ class EnvironmentConfig {
 
 /// The storage configuration for a notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class StorageConfig {
   /// The ARN of the KMS key used for encryption.
   final String? kmsKeyArn;
@@ -24711,6 +24935,8 @@ class StorageConfig {
 
 /// The error details of a failed notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class NotebookRunError {
   /// The error message. The maximum length is 1024 characters.
   final String message;
@@ -24735,6 +24961,8 @@ class NotebookRunError {
 
 /// The package configuration for a notebook run environment in Amazon SageMaker
 /// Unified Studio.
+///
+/// @nodoc
 class PackageConfig {
   /// The package manager for the notebook run environment. The default value is
   /// <code>UV</code>.
@@ -24770,6 +24998,8 @@ class PackageConfig {
 
 /// The package manager for a notebook run environment in Amazon SageMaker
 /// Unified Studio.
+///
+/// @nodoc
 class PackageManager {
   static const uv = PackageManager._('UV');
 
@@ -24795,6 +25025,8 @@ class PackageManager {
 
 /// The network access type for a notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class NetworkAccessType {
   static const publicInternetOnly = NetworkAccessType._('PUBLIC_INTERNET_ONLY');
   static const vpcOnly = NetworkAccessType._('VPC_ONLY');
@@ -24821,6 +25053,8 @@ class NetworkAccessType {
 
 /// The information about a cell in a notebook run in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class CellInformation {
   CellInformation();
 
@@ -24834,6 +25068,8 @@ class CellInformation {
 }
 
 /// The file format for a notebook export in Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class FileFormat {
   static const pdf = FileFormat._('PDF');
   static const ipynb = FileFormat._('IPYNB');
@@ -24858,6 +25094,8 @@ class FileFormat {
 }
 
 /// The status of a notebook export in Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class NotebookExportStatus {
   static const inProgress = NotebookExportStatus._('IN_PROGRESS');
   static const succeeded = NotebookExportStatus._('SUCCEEDED');
@@ -24886,6 +25124,8 @@ class NotebookExportStatus {
 
 /// The output location for a notebook export in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class OutputLocation {
   /// The Amazon Simple Storage Service destination for the notebook export.
   final S3Destination? s3;
@@ -24912,6 +25152,8 @@ class OutputLocation {
 
 /// The error details of a failed notebook export in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class NotebookExportError {
   /// The error message. The maximum length is 256 characters.
   final String message;
@@ -24936,6 +25178,8 @@ class NotebookExportError {
 
 /// The Amazon Simple Storage Service destination for a notebook export in
 /// Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class S3Destination {
   /// The Amazon Simple Storage Service URI of the exported notebook.
   final String? uri;
@@ -24959,6 +25203,8 @@ class S3Destination {
 }
 
 /// The summary of a notebook in Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class NotebookSummary {
   /// The identifier of the Amazon SageMaker Unified Studio domain.
   final String domainId;
@@ -25045,6 +25291,8 @@ class NotebookSummary {
 }
 
 /// The status of a notebook in Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class NotebookStatus {
   static const active = NotebookStatus._('ACTIVE');
   static const archived = NotebookStatus._('ARCHIVED');
@@ -25069,6 +25317,7 @@ class NotebookStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortKey {
   static const createdAt = SortKey._('CREATED_AT');
   static const updatedAt = SortKey._('UPDATED_AT');
@@ -25093,6 +25342,8 @@ class SortKey {
 }
 
 /// The error details of a notebook in Amazon SageMaker Unified Studio.
+///
+/// @nodoc
 class NotebookError {
   /// The error message. The maximum length is 256 characters.
   final String message;
@@ -25116,6 +25367,8 @@ class NotebookError {
 }
 
 /// The metadata generation run.
+///
+/// @nodoc
 class MetadataGenerationRunItem {
   /// The ID of the Amazon DataZone domain in which the metadata generation run
   /// was created.
@@ -25205,6 +25458,8 @@ class MetadataGenerationRunItem {
 }
 
 /// The asset for which metadata was generated.
+///
+/// @nodoc
 class MetadataGenerationRunTarget {
   /// The ID of the metadata generation run's target.
   final String identifier;
@@ -25242,6 +25497,7 @@ class MetadataGenerationRunTarget {
   }
 }
 
+/// @nodoc
 class MetadataGenerationRunStatus {
   static const submitted = MetadataGenerationRunStatus._('SUBMITTED');
   static const inProgress = MetadataGenerationRunStatus._('IN_PROGRESS');
@@ -25279,6 +25535,7 @@ class MetadataGenerationRunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MetadataGenerationRunType {
   static const businessDescriptions =
       MetadataGenerationRunType._('BUSINESS_DESCRIPTIONS');
@@ -25311,6 +25568,7 @@ class MetadataGenerationRunType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetadataGenerationTargetType {
   static const asset = MetadataGenerationTargetType._('ASSET');
 
@@ -25336,6 +25594,8 @@ class MetadataGenerationTargetType {
 }
 
 /// The statistics of the metadata generation run type.
+///
+/// @nodoc
 class MetadataGenerationRunTypeStat {
   /// The status of the metadata generation run type statistics.
   final MetadataGenerationRunStatus status;
@@ -25375,6 +25635,8 @@ class MetadataGenerationRunTypeStat {
 }
 
 /// The details of a listing (aka asset published in a Amazon DataZone catalog).
+///
+/// @nodoc
 class ListingItem {
   /// An asset published in an Amazon DataZone catalog.
   final AssetListing? assetListing;
@@ -25409,6 +25671,7 @@ class ListingItem {
   }
 }
 
+/// @nodoc
 class ListingStatus {
   static const creating = ListingStatus._('CREATING');
   static const active = ListingStatus._('ACTIVE');
@@ -25435,6 +25698,8 @@ class ListingStatus {
 }
 
 /// An asset published in an Amazon DataZone catalog.
+///
+/// @nodoc
 class AssetListing {
   /// The identifier of an asset published in an Amazon DataZone catalog.
   final String? assetId;
@@ -25533,6 +25798,8 @@ class AssetListing {
 }
 
 /// The data product listing.
+///
+/// @nodoc
 class DataProductListing {
   /// The timestamp at which the data product listing was created.
   final DateTime? createdAt;
@@ -25605,6 +25872,8 @@ class DataProductListing {
 }
 
 /// The summary of the listing of the data product.
+///
+/// @nodoc
 class ListingSummary {
   /// The glossary terms of the data product.
   final List<DetailedGlossaryTerm>? glossaryTerms;
@@ -25645,6 +25914,8 @@ class ListingSummary {
 }
 
 /// Details of a glossary term attached to the inventory asset.
+///
+/// @nodoc
 class DetailedGlossaryTerm {
   /// The name of a glossary term attached to the inventory asset.
   final String? name;
@@ -25675,6 +25946,8 @@ class DetailedGlossaryTerm {
 }
 
 /// The summary of the time series data points form.
+///
+/// @nodoc
 class TimeSeriesDataPointSummaryFormOutput {
   /// The name of the time series data points summary form.
   final String formName;
@@ -25733,6 +26006,7 @@ class TimeSeriesDataPointSummaryFormOutput {
   }
 }
 
+/// @nodoc
 class GlossaryTermStatus {
   static const enabled = GlossaryTermStatus._('ENABLED');
   static const disabled = GlossaryTermStatus._('DISABLED');
@@ -25759,6 +26033,8 @@ class GlossaryTermStatus {
 }
 
 /// The details of the term relations.
+///
+/// @nodoc
 class TermRelations {
   /// The classifies of the term relations.
   final List<String>? classifies;
@@ -25791,6 +26067,7 @@ class TermRelations {
   }
 }
 
+/// @nodoc
 class GlossaryUsageRestriction {
   static const assetGovernedTerms =
       GlossaryUsageRestriction._('ASSET_GOVERNED_TERMS');
@@ -25816,6 +26093,7 @@ class GlossaryUsageRestriction {
   String toString() => value;
 }
 
+/// @nodoc
 class GlossaryStatus {
   static const disabled = GlossaryStatus._('DISABLED');
   static const enabled = GlossaryStatus._('ENABLED');
@@ -25841,6 +26119,8 @@ class GlossaryStatus {
 }
 
 /// The model of the API.
+///
+/// @nodoc
 class Model {
   /// Indicates the smithy model of the API.
   final String? smithy;
@@ -25863,6 +26143,7 @@ class Model {
   }
 }
 
+/// @nodoc
 class FormTypeStatus {
   static const enabled = FormTypeStatus._('ENABLED');
   static const disabled = FormTypeStatus._('DISABLED');
@@ -25888,6 +26169,8 @@ class FormTypeStatus {
 }
 
 /// The details of the import of the metadata form type.
+///
+/// @nodoc
 class Import {
   /// The name of the import.
   final String name;
@@ -25918,6 +26201,8 @@ class Import {
 }
 
 /// The configuration details of an environment blueprint.
+///
+/// @nodoc
 class EnvironmentBlueprintConfigurationItem {
   /// The identifier of the Amazon DataZone domain in which an environment
   /// blueprint exists.
@@ -26048,6 +26333,8 @@ class EnvironmentBlueprintConfigurationItem {
 }
 
 /// The provisioning configuration of the blueprint.
+///
+/// @nodoc
 class ProvisioningConfiguration {
   /// The Lake Formation configuration of the Data Lake blueprint.
   final LakeFormationConfiguration? lakeFormationConfiguration;
@@ -26075,6 +26362,8 @@ class ProvisioningConfiguration {
 }
 
 /// The Lake Formation configuration of the Data Lake blueprint.
+///
+/// @nodoc
 class LakeFormationConfiguration {
   /// Specifies certain Amazon S3 locations if you do not want Amazon DataZone to
   /// automatically register them in hybrid mode.
@@ -26116,6 +26405,8 @@ class LakeFormationConfiguration {
 }
 
 /// The details of the resource configuration.
+///
+/// @nodoc
 class ResourceConfiguration {
   /// The identifier of the resource configuration.
   final String identifier;
@@ -26170,6 +26461,8 @@ class ResourceConfiguration {
 
 /// The resource configuration that is used to configure the environment
 /// blueprint.
+///
+/// @nodoc
 class PutResourceConfiguration {
   /// The name of the resource configuration.
   final String name;
@@ -26205,6 +26498,8 @@ class PutResourceConfiguration {
 }
 
 /// The summary of the domain unit.
+///
+/// @nodoc
 class DomainUnitSummary {
   /// The ID of the domain unit summary.
   final String id;
@@ -26235,6 +26530,8 @@ class DomainUnitSummary {
 }
 
 /// The properties of the domain unit owner.
+///
+/// @nodoc
 class DomainUnitOwnerProperties {
   /// Indicates that the domain unit owner is a group.
   final DomainUnitGroupProperties? group;
@@ -26271,6 +26568,8 @@ class DomainUnitOwnerProperties {
 }
 
 /// The properties of the domain unit user.
+///
+/// @nodoc
 class DomainUnitUserProperties {
   /// The ID of teh domain unit user.
   final String? userId;
@@ -26294,6 +26593,8 @@ class DomainUnitUserProperties {
 }
 
 /// The properties of a domain unit group.
+///
+/// @nodoc
 class DomainUnitGroupProperties {
   /// The ID of the domain unit group.
   final String? groupId;
@@ -26317,6 +26618,8 @@ class DomainUnitGroupProperties {
 }
 
 /// A summary of a Amazon DataZone domain.
+///
+/// @nodoc
 class DomainSummary {
   /// The ARN of the Amazon DataZone domain.
   final String arn;
@@ -26404,6 +26707,7 @@ class DomainSummary {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const creating = DomainStatus._('CREATING');
   static const available = DomainStatus._('AVAILABLE');
@@ -26438,6 +26742,7 @@ class DomainStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DomainVersion {
   static const v1 = DomainVersion._('V1');
   static const v2 = DomainVersion._('V2');
@@ -26463,6 +26768,8 @@ class DomainVersion {
 }
 
 /// The single sign-on details in Amazon DataZone.
+///
+/// @nodoc
 class SingleSignOn {
   /// The ARN of the IDC instance.
   final String? idcInstanceArn;
@@ -26500,6 +26807,7 @@ class SingleSignOn {
   }
 }
 
+/// @nodoc
 class AuthType {
   static const iamIdc = AuthType._('IAM_IDC');
   static const disabled = AuthType._('DISABLED');
@@ -26523,6 +26831,7 @@ class AuthType {
   String toString() => value;
 }
 
+/// @nodoc
 class UserAssignment {
   static const automatic = UserAssignment._('AUTOMATIC');
   static const manual = UserAssignment._('MANUAL');
@@ -26548,6 +26857,8 @@ class UserAssignment {
 }
 
 /// The details of a data source run.
+///
+/// @nodoc
 class DataSourceRunSummary {
   /// The timestamp of when a data source run was created.
   final DateTime createdAt;
@@ -26653,6 +26964,7 @@ class DataSourceRunSummary {
   }
 }
 
+/// @nodoc
 class DataSourceRunType {
   static const prioritized = DataSourceRunType._('PRIORITIZED');
   static const scheduled = DataSourceRunType._('SCHEDULED');
@@ -26677,6 +26989,7 @@ class DataSourceRunType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSourceRunStatus {
   static const requested = DataSourceRunStatus._('REQUESTED');
   static const running = DataSourceRunStatus._('RUNNING');
@@ -26713,6 +27026,8 @@ class DataSourceRunStatus {
 }
 
 /// The asset statistics from the data source run.
+///
+/// @nodoc
 class RunStatisticsForAssets {
   /// The <code>added</code> statistic for the data source run.
   final int? added;
@@ -26765,6 +27080,8 @@ class RunStatisticsForAssets {
 
 /// The details of the error message that is returned if the operation cannot be
 /// successfully completed.
+///
+/// @nodoc
 class DataSourceErrorMessage {
   /// The type of the error message that is returned if the operation cannot be
   /// successfully completed.
@@ -26798,6 +27115,8 @@ class DataSourceErrorMessage {
 }
 
 /// The run lineage summary of a data source.
+///
+/// @nodoc
 class DataSourceRunLineageSummary {
   /// The import status that's part of the run lineage summary of a data source.
   final LineageImportStatus? importStatus;
@@ -26821,6 +27140,7 @@ class DataSourceRunLineageSummary {
   }
 }
 
+/// @nodoc
 class LineageImportStatus {
   static const inProgress = LineageImportStatus._('IN_PROGRESS');
   static const success = LineageImportStatus._('SUCCESS');
@@ -26849,6 +27169,7 @@ class LineageImportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSourceErrorType {
   static const accessDeniedException =
       DataSourceErrorType._('ACCESS_DENIED_EXCEPTION');
@@ -26894,6 +27215,8 @@ class DataSourceErrorType {
 }
 
 /// The details of the data source.
+///
+/// @nodoc
 class DataSourceSummary {
   /// The ID of the data source.
   final String dataSourceId;
@@ -27026,6 +27349,7 @@ class DataSourceSummary {
   }
 }
 
+/// @nodoc
 class DataSourceStatus {
   static const creating = DataSourceStatus._('CREATING');
   static const failedCreation = DataSourceStatus._('FAILED_CREATION');
@@ -27065,6 +27389,7 @@ class DataSourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EnableSetting {
   static const enabled = EnableSetting._('ENABLED');
   static const disabled = EnableSetting._('DISABLED');
@@ -27090,6 +27415,8 @@ class EnableSetting {
 }
 
 /// The details of the schedule of the data source runs.
+///
+/// @nodoc
 class ScheduleConfiguration {
   /// The schedule of the data source runs.
   final String? schedule;
@@ -27119,6 +27446,7 @@ class ScheduleConfiguration {
   }
 }
 
+/// @nodoc
 class Timezone {
   static const utc = Timezone._('UTC');
   static const africaJohannesburg = Timezone._('AFRICA_JOHANNESBURG');
@@ -27270,6 +27598,8 @@ class Timezone {
 }
 
 /// The configuration of the data source.
+///
+/// @nodoc
 class DataSourceConfigurationOutput {
   /// The configuration of the Amazon Web Services Glue data source.
   final GlueRunConfigurationOutput? glueRunConfiguration;
@@ -27319,6 +27649,8 @@ class DataSourceConfigurationOutput {
 }
 
 /// The details for the self granting status for a data source.
+///
+/// @nodoc
 class SelfGrantStatusOutput {
   /// The details for the self granting status for a Glue data source.
   final GlueSelfGrantStatusOutput? glueSelfGrantStatus;
@@ -27357,6 +27689,8 @@ class SelfGrantStatusOutput {
 }
 
 /// The details of the self granting status.
+///
+/// @nodoc
 class GlueSelfGrantStatusOutput {
   /// The details for the self granting status for a Glue data source.
   final List<SelfGrantStatusDetail> selfGrantStatusDetails;
@@ -27384,6 +27718,8 @@ class GlueSelfGrantStatusOutput {
 }
 
 /// The details for the self granting status for an Amazon Redshift data source.
+///
+/// @nodoc
 class RedshiftSelfGrantStatusOutput {
   /// The details for the self granting status for an Amazon Redshift data source.
   final List<SelfGrantStatusDetail> selfGrantStatusDetails;
@@ -27411,6 +27747,8 @@ class RedshiftSelfGrantStatusOutput {
 }
 
 /// The details for the self granting status.
+///
+/// @nodoc
 class SelfGrantStatusDetail {
   /// The name of the database used for the data source.
   final String databaseName;
@@ -27454,6 +27792,7 @@ class SelfGrantStatusDetail {
   }
 }
 
+/// @nodoc
 class SelfGrantStatus {
   static const grantPending = SelfGrantStatus._('GRANT_PENDING');
   static const revokePending = SelfGrantStatus._('REVOKE_PENDING');
@@ -27492,6 +27831,8 @@ class SelfGrantStatus {
 }
 
 /// The details of a metadata form.
+///
+/// @nodoc
 class FormOutput {
   /// The name of the metadata form.
   final String formName;
@@ -27536,6 +27877,8 @@ class FormOutput {
 }
 
 /// The configuration details of the Amazon Web Services Glue data source.
+///
+/// @nodoc
 class GlueRunConfigurationOutput {
   /// The relational filter configurations included in the configuration details
   /// of the Amazon Web Services Glue data source.
@@ -27606,6 +27949,8 @@ class GlueRunConfigurationOutput {
 }
 
 /// The configuration details of the Amazon Redshift data source.
+///
+/// @nodoc
 class RedshiftRunConfigurationOutput {
   final RedshiftStorage redshiftStorage;
 
@@ -27680,6 +28025,8 @@ class RedshiftRunConfigurationOutput {
 }
 
 /// The Amazon SageMaker run configuration.
+///
+/// @nodoc
 class SageMakerRunConfigurationOutput {
   /// The tracking assets of the Amazon SageMaker.
   final Map<String, List<String>> trackingAssets;
@@ -27721,6 +28068,8 @@ class SageMakerRunConfigurationOutput {
 
 /// The details of the credentials required to access an Amazon Redshift
 /// cluster.
+///
+/// @nodoc
 class RedshiftCredentialConfiguration {
   /// The ARN of a secret manager for an Amazon Redshift cluster.
   final String secretManagerArn;
@@ -27745,6 +28094,8 @@ class RedshiftCredentialConfiguration {
 
 /// The details of the Amazon Redshift storage as part of the configuration of
 /// an Amazon Redshift data source run.
+///
+/// @nodoc
 class RedshiftStorage {
   /// The details of the Amazon Redshift cluster source.
   final RedshiftClusterStorage? redshiftClusterSource;
@@ -27783,6 +28134,8 @@ class RedshiftStorage {
 }
 
 /// The details of the Amazon Redshift cluster storage.
+///
+/// @nodoc
 class RedshiftClusterStorage {
   /// The name of an Amazon Redshift cluster.
   final String clusterName;
@@ -27806,6 +28159,8 @@ class RedshiftClusterStorage {
 }
 
 /// The details of the Amazon Redshift Serverless workgroup storage.
+///
+/// @nodoc
 class RedshiftServerlessStorage {
   /// The name of the Amazon Redshift Serverless workgroup.
   final String workgroupName;
@@ -27829,6 +28184,8 @@ class RedshiftServerlessStorage {
 }
 
 /// The relational filter configuration for the data source.
+///
+/// @nodoc
 class RelationalFilterConfiguration {
   /// The database name specified in the relational filter configuration for the
   /// data source.
@@ -27872,6 +28229,8 @@ class RelationalFilterConfiguration {
 }
 
 /// A filter expression in Amazon DataZone.
+///
+/// @nodoc
 class FilterExpression {
   /// The search filter expression.
   final String expression;
@@ -27901,6 +28260,7 @@ class FilterExpression {
   }
 }
 
+/// @nodoc
 class FilterExpressionType {
   static const include = FilterExpressionType._('INCLUDE');
   static const exclude = FilterExpressionType._('EXCLUDE');
@@ -27928,6 +28288,8 @@ class FilterExpressionType {
 
 /// The recommendation to be updated as part of the
 /// <code>UpdateDataSource</code> action.
+///
+/// @nodoc
 class RecommendationConfiguration {
   /// Specifies whether automatic business name generation is to be enabled or not
   /// as part of the recommendation configuration.
@@ -27954,6 +28316,8 @@ class RecommendationConfiguration {
 }
 
 /// The configuration of the data source.
+///
+/// @nodoc
 class DataSourceConfigurationInput {
   /// The configuration of the Amazon Web Services Glue data source.
   final GlueRunConfigurationInput? glueRunConfiguration;
@@ -27986,6 +28350,8 @@ class DataSourceConfigurationInput {
 }
 
 /// The configuration details of the Amazon Web Services Glue data source.
+///
+/// @nodoc
 class GlueRunConfigurationInput {
   /// The relational filter configurations included in the configuration details
   /// of the Amazon Web Services Glue data source.
@@ -28025,6 +28391,8 @@ class GlueRunConfigurationInput {
 }
 
 /// The configuration details of the Amazon Redshift data source.
+///
+/// @nodoc
 class RedshiftRunConfigurationInput {
   /// The relational filger configurations included in the configuration details
   /// of the Amazon Redshift data source.
@@ -28060,6 +28428,8 @@ class RedshiftRunConfigurationInput {
 }
 
 /// The Amazon SageMaker run configuration.
+///
+/// @nodoc
 class SageMakerRunConfigurationInput {
   /// The tracking assets of the Amazon SageMaker run.
   final Map<String, List<String>> trackingAssets;
@@ -28077,6 +28447,8 @@ class SageMakerRunConfigurationInput {
 }
 
 /// The details of a metadata form.
+///
+/// @nodoc
 class FormInput {
   /// The name of the metadata form.
   final String formName;
@@ -28111,6 +28483,7 @@ class FormInput {
   }
 }
 
+/// @nodoc
 class DataProductStatus {
   static const created = DataProductStatus._('CREATED');
   static const creating = DataProductStatus._('CREATING');
@@ -28137,6 +28510,8 @@ class DataProductStatus {
 }
 
 /// The data product.
+///
+/// @nodoc
 class DataProductItem {
   /// The ID of the data product.
   final String identifier;
@@ -28184,6 +28559,7 @@ class DataProductItem {
   }
 }
 
+/// @nodoc
 class DataProductItemType {
   static const asset = DataProductItemType._('ASSET');
 
@@ -28209,6 +28585,8 @@ class DataProductItemType {
 }
 
 /// The details of the form entry.
+///
+/// @nodoc
 class FormEntryOutput {
   /// The name of the type of the form entry.
   final String typeName;
@@ -28246,6 +28624,8 @@ class FormEntryOutput {
 }
 
 /// The details of the form entry.
+///
+/// @nodoc
 class FormEntryInput {
   /// The type ID of the form entry.
   final String typeIdentifier;
@@ -28275,6 +28655,8 @@ class FormEntryInput {
 }
 
 /// The details of an asset published in an Amazon DataZone catalog.
+///
+/// @nodoc
 class AssetListingDetails {
   /// The identifier of an asset published in an Amazon DataZone catalog.
   final String listingId;
@@ -28306,6 +28688,8 @@ class AssetListingDetails {
 }
 
 /// The configuration of the prediction.
+///
+/// @nodoc
 class PredictionConfiguration {
   /// The business name generation mechanism.
   final BusinessNameGenerationConfiguration? businessNameGeneration;
@@ -28333,6 +28717,8 @@ class PredictionConfiguration {
 }
 
 /// The configuration of the business name generation.
+///
+/// @nodoc
 class BusinessNameGenerationConfiguration {
   /// Specifies whether the business name generation is enabled.
   final bool? enabled;
@@ -28356,6 +28742,7 @@ class BusinessNameGenerationConfiguration {
   }
 }
 
+/// @nodoc
 class UserProfileType {
   static const iam = UserProfileType._('IAM');
   static const sso = UserProfileType._('SSO');
@@ -28380,6 +28767,7 @@ class UserProfileType {
   String toString() => value;
 }
 
+/// @nodoc
 class UserProfileStatus {
   static const assigned = UserProfileStatus._('ASSIGNED');
   static const notAssigned = UserProfileStatus._('NOT_ASSIGNED');
@@ -28407,6 +28795,8 @@ class UserProfileStatus {
 }
 
 /// The user profile details.
+///
+/// @nodoc
 class UserProfileDetails {
   /// The IAM details of the user profile.
   final IamUserProfileDetails? iam;
@@ -28441,6 +28831,8 @@ class UserProfileDetails {
 }
 
 /// The details of the IAM user profile.
+///
+/// @nodoc
 class IamUserProfileDetails {
   /// The ARN of the IAM user.
   final String? arn;
@@ -28487,6 +28879,8 @@ class IamUserProfileDetails {
 }
 
 /// The SSO user profile detail.
+///
+/// @nodoc
 class SsoUserProfileDetails {
   /// The first name as part of the SSO user profile detail.
   final String? firstName;
@@ -28523,6 +28917,7 @@ class SsoUserProfileDetails {
   }
 }
 
+/// @nodoc
 class SubscriptionGrantCreationMode {
   static const automatic = SubscriptionGrantCreationMode._('AUTOMATIC');
   static const manual = SubscriptionGrantCreationMode._('MANUAL');
@@ -28549,6 +28944,8 @@ class SubscriptionGrantCreationMode {
 }
 
 /// The details of the subscription target configuration.
+///
+/// @nodoc
 class SubscriptionTargetForm {
   /// The content of the subscription target configuration.
   final String content;
@@ -28578,6 +28975,7 @@ class SubscriptionTargetForm {
   }
 }
 
+/// @nodoc
 class SubscriptionRequestStatus {
   static const pending = SubscriptionRequestStatus._('PENDING');
   static const accepted = SubscriptionRequestStatus._('ACCEPTED');
@@ -28606,6 +29004,8 @@ class SubscriptionRequestStatus {
 
 /// The details of the published asset for which the subscription grant is
 /// created.
+///
+/// @nodoc
 class SubscribedListing {
   /// The description of the published asset for which the subscription grant is
   /// created.
@@ -28677,6 +29077,8 @@ class SubscribedListing {
 }
 
 /// The published asset for which the subscription grant is created.
+///
+/// @nodoc
 class SubscribedListingItem {
   /// The asset for which the subscription grant is created.
   final SubscribedAssetListing? assetListing;
@@ -28714,6 +29116,8 @@ class SubscribedListingItem {
 
 /// The details of the published asset for which the subscription grant is
 /// created.
+///
+/// @nodoc
 class SubscribedAssetListing {
   /// The asset scope of the subscribed asset listing.
   final AssetScope? assetScope;
@@ -28790,6 +29194,8 @@ class SubscribedAssetListing {
 }
 
 /// The data product listing.
+///
+/// @nodoc
 class SubscribedProductListing {
   /// The data assets of the data product listing.
   final List<AssetInDataProductListingItem>? assetListings;
@@ -28855,6 +29261,8 @@ class SubscribedProductListing {
 }
 
 /// The listing of the asset in a data product.
+///
+/// @nodoc
 class AssetInDataProductListingItem {
   /// The entity ID of the listing of the asset in a data product.
   final String? entityId;
@@ -28892,6 +29300,8 @@ class AssetInDataProductListingItem {
 }
 
 /// The asset scope.
+///
+/// @nodoc
 class AssetScope {
   /// The asset ID of the asset scope.
   final String assetId;
@@ -28939,6 +29349,8 @@ class AssetScope {
 }
 
 /// The asset permissions.
+///
+/// @nodoc
 class Permissions {
   /// The S3 details of the asset permissions.
   final List<S3Permission>? s3;
@@ -28964,6 +29376,7 @@ class Permissions {
   }
 }
 
+/// @nodoc
 class S3Permission {
   static const read = S3Permission._('READ');
   static const write = S3Permission._('WRITE');
@@ -28988,6 +29401,8 @@ class S3Permission {
 }
 
 /// The principal that has the subscription grant for the asset.
+///
+/// @nodoc
 class SubscribedPrincipal {
   /// The subscribed group.
   final SubscribedGroup? group;
@@ -29040,6 +29455,8 @@ class SubscribedPrincipal {
 }
 
 /// The project that has the subscription grant.
+///
+/// @nodoc
 class SubscribedProject {
   /// The identifier of the project that has the subscription grant.
   final String? id;
@@ -29070,6 +29487,8 @@ class SubscribedProject {
 }
 
 /// The subscribed user.
+///
+/// @nodoc
 class SubscribedUser {
   /// The subscribed user details.
   final UserProfileDetails? details;
@@ -29102,6 +29521,8 @@ class SubscribedUser {
 }
 
 /// The group that subscribes to the asset.
+///
+/// @nodoc
 class SubscribedGroup {
   /// The ID of the subscribed group.
   final String? id;
@@ -29132,6 +29553,8 @@ class SubscribedGroup {
 }
 
 /// The IAM principal that subscribes to the asset.
+///
+/// @nodoc
 class SubscribedIamPrincipal {
   /// The ARN of the subscribed IAM principal.
   final String? principalArn;
@@ -29155,6 +29578,8 @@ class SubscribedIamPrincipal {
 }
 
 /// The details of a listing for which a subscription is granted.
+///
+/// @nodoc
 class GrantedEntity {
   /// The listing for which a subscription is granted.
   final ListingRevision? listing;
@@ -29179,6 +29604,7 @@ class GrantedEntity {
   }
 }
 
+/// @nodoc
 class SubscriptionGrantOverallStatus {
   static const pending = SubscriptionGrantOverallStatus._('PENDING');
   static const inProgress = SubscriptionGrantOverallStatus._('IN_PROGRESS');
@@ -29219,6 +29645,8 @@ class SubscriptionGrantOverallStatus {
 }
 
 /// The details of the asset for which the subscription grant is created.
+///
+/// @nodoc
 class SubscribedAsset {
   /// The identifier of the asset for which the subscription grant is created.
   final String assetId;
@@ -29308,6 +29736,7 @@ class SubscribedAsset {
   }
 }
 
+/// @nodoc
 class SubscriptionGrantStatus {
   static const grantPending = SubscriptionGrantStatus._('GRANT_PENDING');
   static const revokePending = SubscriptionGrantStatus._('REVOKE_PENDING');
@@ -29351,6 +29780,8 @@ class SubscriptionGrantStatus {
 
 /// Specifies the error message that is returned if the operation cannot be
 /// successfully completed.
+///
+/// @nodoc
 class FailureCause {
   /// The description of the error message.
   final String? message;
@@ -29374,6 +29805,8 @@ class FailureCause {
 }
 
 /// A revision of an asset published in a Amazon DataZone catalog.
+///
+/// @nodoc
 class ListingRevision {
   /// An identifier of a revision of an asset published in a Amazon DataZone
   /// catalog.
@@ -29405,6 +29838,7 @@ class ListingRevision {
   }
 }
 
+/// @nodoc
 class Status {
   static const enabled = Status._('ENABLED');
   static const disabled = Status._('DISABLED');
@@ -29429,6 +29863,8 @@ class Status {
 }
 
 /// The configuration of an environment.
+///
+/// @nodoc
 class EnvironmentConfiguration {
   /// The environment blueprint ID.
   final String environmentBlueprintId;
@@ -29526,6 +29962,7 @@ class EnvironmentConfiguration {
   }
 }
 
+/// @nodoc
 class DeploymentMode {
   static const onCreate = DeploymentMode._('ON_CREATE');
   static const onDemand = DeploymentMode._('ON_DEMAND');
@@ -29551,6 +29988,8 @@ class DeploymentMode {
 }
 
 /// The details of the environment configuration parameter.
+///
+/// @nodoc
 class EnvironmentConfigurationParametersDetails {
   /// The parameter overrides.
   final List<EnvironmentConfigurationParameter>? parameterOverrides;
@@ -29597,6 +30036,8 @@ class EnvironmentConfigurationParametersDetails {
 }
 
 /// The account ID of a project.
+///
+/// @nodoc
 class AwsAccount {
   /// The account ID of a project.
   final String? awsAccountId;
@@ -29627,6 +30068,8 @@ class AwsAccount {
 }
 
 /// The Amazon Web Services Region.
+///
+/// @nodoc
 class Region {
   /// The Amazon Web Services Region name.
   final String? regionName;
@@ -29657,6 +30100,8 @@ class Region {
 }
 
 /// The environment configuration parameter.
+///
+/// @nodoc
 class EnvironmentConfigurationParameter {
   /// Specifies whether the environment parameter is editable.
   final bool? isEditable;
@@ -29695,6 +30140,8 @@ class EnvironmentConfigurationParameter {
 }
 
 /// The resource tag parameter of the project profile.
+///
+/// @nodoc
 class ResourceTagParameter {
   /// Specifies whether the value of the resource tag parameter of the project
   /// profile is editable at the project level.
@@ -29732,6 +30179,7 @@ class ResourceTagParameter {
   }
 }
 
+/// @nodoc
 class ProjectStatus {
   static const active = ProjectStatus._('ACTIVE');
   static const deleting = ProjectStatus._('DELETING');
@@ -29768,6 +30216,8 @@ class ProjectStatus {
 }
 
 /// The environment deployment details.
+///
+/// @nodoc
 class EnvironmentDeploymentDetails {
   /// Environment failure reasons.
   final Map<String, List<EnvironmentError>>? environmentFailureReasons;
@@ -29808,6 +30258,7 @@ class EnvironmentDeploymentDetails {
   }
 }
 
+/// @nodoc
 class OverallDeploymentStatus {
   static const pendingDeployment =
       OverallDeploymentStatus._('PENDING_DEPLOYMENT');
@@ -29846,6 +30297,8 @@ class OverallDeploymentStatus {
 }
 
 /// The failure reasons for the environment deployment.
+///
+/// @nodoc
 class EnvironmentError {
   /// The error message for the failure reason for the environment deployment.
   final String message;
@@ -29876,6 +30329,8 @@ class EnvironmentError {
 }
 
 /// The environment configuration user parameters.
+///
+/// @nodoc
 class EnvironmentConfigurationUserParameter {
   /// The environment configuration name.
   final String? environmentConfigurationName;
@@ -29933,6 +30388,8 @@ class EnvironmentConfigurationUserParameter {
 
 /// Specifies the account/Region that is to be used during project creation for
 /// a particular blueprint.
+///
+/// @nodoc
 class EnvironmentResolvedAccount {
   /// The ID of the resolved account.
   final String awsAccountId;
@@ -29971,6 +30428,8 @@ class EnvironmentResolvedAccount {
 }
 
 /// The parameter details of an evironment profile.
+///
+/// @nodoc
 class EnvironmentParameter {
   /// The name of an environment profile parameter.
   final String? name;
@@ -30001,6 +30460,8 @@ class EnvironmentParameter {
 }
 
 /// The resource tag of the project.
+///
+/// @nodoc
 class ResourceTag {
   /// The key of the resource tag of the project.
   final String key;
@@ -30037,6 +30498,7 @@ class ResourceTag {
   }
 }
 
+/// @nodoc
 class ResourceTagSource {
   static const project = ResourceTagSource._('PROJECT');
   static const projectProfile = ResourceTagSource._('PROJECT_PROFILE');
@@ -30063,6 +30525,8 @@ class ResourceTagSource {
 
 /// Specifies the error message that is returned if the operation cannot be
 /// successfully completed.
+///
+/// @nodoc
 class ProjectDeletionError {
   /// The code of the project deletion error.
   final String? code;
@@ -30092,6 +30556,7 @@ class ProjectDeletionError {
   }
 }
 
+/// @nodoc
 class GroupProfileStatus {
   static const assigned = GroupProfileStatus._('ASSIGNED');
   static const notAssigned = GroupProfileStatus._('NOT_ASSIGNED');
@@ -30118,6 +30583,8 @@ class GroupProfileStatus {
 }
 
 /// The details of user parameters of an environment blueprint.
+///
+/// @nodoc
 class CustomParameter {
   /// The filed type of the parameter.
   final String fieldType;
@@ -30183,6 +30650,8 @@ class CustomParameter {
 }
 
 /// The provisioning properties of an environment blueprint.
+///
+/// @nodoc
 class ProvisioningProperties {
   /// The cloud formation properties included as part of the provisioning
   /// properties of an environment blueprint.
@@ -30210,6 +30679,8 @@ class ProvisioningProperties {
 }
 
 /// The deployment properties of the Amazon DataZone blueprint.
+///
+/// @nodoc
 class DeploymentProperties {
   /// The end timeout of the environment blueprint deployment.
   final int? endTimeoutMinutes;
@@ -30241,6 +30712,8 @@ class DeploymentProperties {
 }
 
 /// Part of the provisioning properties of the environment blueprint.
+///
+/// @nodoc
 class CloudFormationProperties {
   /// The template URL of the cloud formation provisioning properties of the
   /// environment blueprint.
@@ -30265,6 +30738,8 @@ class CloudFormationProperties {
 }
 
 /// The parameters of the environment action.
+///
+/// @nodoc
 class ActionParameters {
   /// The console link specified as part of the environment action.
   final AwsConsoleLinkParameters? awsConsoleLink;
@@ -30292,6 +30767,8 @@ class ActionParameters {
 
 /// The parameters of the console link specified as part of the environment
 /// action.
+///
+/// @nodoc
 class AwsConsoleLinkParameters {
   /// The URI of the console link specified as part of the environment action.
   final String? uri;
@@ -30314,6 +30791,7 @@ class AwsConsoleLinkParameters {
   }
 }
 
+/// @nodoc
 class EnvironmentStatus {
   static const active = EnvironmentStatus._('ACTIVE');
   static const creating = EnvironmentStatus._('CREATING');
@@ -30364,6 +30842,8 @@ class EnvironmentStatus {
 }
 
 /// The details of the last deployment of the environment.
+///
+/// @nodoc
 class Deployment {
   /// The identifier of the last deployment of the environment.
   final String? deploymentId;
@@ -30430,6 +30910,7 @@ class Deployment {
   }
 }
 
+/// @nodoc
 class DeploymentType {
   static const create = DeploymentType._('CREATE');
   static const update = DeploymentType._('UPDATE');
@@ -30455,6 +30936,7 @@ class DeploymentType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const inProgress = DeploymentStatus._('IN_PROGRESS');
   static const successful = DeploymentStatus._('SUCCESSFUL');
@@ -30482,6 +30964,8 @@ class DeploymentStatus {
 }
 
 /// The configurable action of a Amazon DataZone environment.
+///
+/// @nodoc
 class ConfigurableEnvironmentAction {
   /// The parameters of a configurable action in a Amazon DataZone environment.
   final List<ConfigurableActionParameter> parameters;
@@ -30524,6 +31008,7 @@ class ConfigurableEnvironmentAction {
   }
 }
 
+/// @nodoc
 class ConfigurableActionTypeAuthorization {
   static const iam = ConfigurableActionTypeAuthorization._('IAM');
   static const https = ConfigurableActionTypeAuthorization._('HTTPS');
@@ -30550,6 +31035,8 @@ class ConfigurableActionTypeAuthorization {
 }
 
 /// The details of the parameters for the configurable environment action.
+///
+/// @nodoc
 class ConfigurableActionParameter {
   /// The key of the configurable action parameter.
   final String? key;
@@ -30580,6 +31067,8 @@ class ConfigurableActionParameter {
 }
 
 /// The details of a provisioned resource of this Amazon DataZone environment.
+///
+/// @nodoc
 class Resource {
   /// The type of a provisioned resource of this Amazon DataZone environment.
   final String type;
@@ -30624,6 +31113,8 @@ class Resource {
 }
 
 /// The properties of a connection.
+///
+/// @nodoc
 class ConnectionPropertiesOutput {
   /// The Amazon Q properties of the connection.
   final AmazonQPropertiesOutput? amazonQProperties;
@@ -30784,6 +31275,7 @@ class ConnectionPropertiesOutput {
   }
 }
 
+/// @nodoc
 class ConnectionType {
   static const athena = ConnectionType._('ATHENA');
   static const bigquery = ConnectionType._('BIGQUERY');
@@ -30853,6 +31345,7 @@ class ConnectionType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionScope {
   static const domain = ConnectionScope._('DOMAIN');
   static const project = ConnectionScope._('PROJECT');
@@ -30878,6 +31371,8 @@ class ConnectionScope {
 }
 
 /// The Amazon Athena properties of a connection.
+///
+/// @nodoc
 class AthenaPropertiesOutput {
   /// The Amazon Athena workgroup name of a connection.
   final String? workgroupName;
@@ -30901,6 +31396,8 @@ class AthenaPropertiesOutput {
 }
 
 /// The properties of the Amazon Web Services Glue connection.
+///
+/// @nodoc
 class GluePropertiesOutput {
   /// The error message generated if the action is not completed successfully.
   final String? errorMessage;
@@ -30931,6 +31428,8 @@ class GluePropertiesOutput {
 }
 
 /// The hyper pod properties of a Amazon Web Services Glue properties patch.
+///
+/// @nodoc
 class HyperPodPropertiesOutput {
   /// The cluster name the hyper pod properties.
   final String clusterName;
@@ -30969,6 +31468,8 @@ class HyperPodPropertiesOutput {
 }
 
 /// The IAM properties of a connection.
+///
+/// @nodoc
 class IamPropertiesOutput {
   /// The environment ID of the connection.
   final String? environmentId;
@@ -31001,6 +31502,8 @@ class IamPropertiesOutput {
 }
 
 /// The Amazon Redshift properties.
+///
+/// @nodoc
 class RedshiftPropertiesOutput {
   /// The Amazon Redshift credentials.
   final RedshiftCredentials? credentials;
@@ -31090,6 +31593,8 @@ class RedshiftPropertiesOutput {
 }
 
 /// The Spark EMR properties.
+///
+/// @nodoc
 class SparkEmrPropertiesOutput {
   /// The certificate data of the EMR on EKS cluster.
   final String? certificateData;
@@ -31214,6 +31719,8 @@ class SparkEmrPropertiesOutput {
 }
 
 /// The Spark Amazon Web Services Glue properties.
+///
+/// @nodoc
 class SparkGluePropertiesOutput {
   /// The additional args in the Spark Amazon Web Services Glue properties.
   final SparkGlueArgs? additionalArgs;
@@ -31303,6 +31810,8 @@ class SparkGluePropertiesOutput {
 }
 
 /// The Amazon S3 properties of a connection.
+///
+/// @nodoc
 class S3PropertiesOutput {
   /// The Amazon S3 URI that's part of the Amazon S3 properties of a connection.
   final String s3Uri;
@@ -31358,6 +31867,8 @@ class S3PropertiesOutput {
 }
 
 /// The Amazon Q properties of the connection.
+///
+/// @nodoc
 class AmazonQPropertiesOutput {
   /// Specifies whether Amazon Q is enabled for the connection.
   final bool isEnabled;
@@ -31395,6 +31906,8 @@ class AmazonQPropertiesOutput {
 }
 
 /// The MLflow properties of a connection.
+///
+/// @nodoc
 class MlflowPropertiesOutput {
   /// The tracking server ARN as part of the MLflow properties of a connection.
   final String? trackingServerArn;
@@ -31418,6 +31931,8 @@ class MlflowPropertiesOutput {
 }
 
 /// The Amazon MWAA properties.
+///
+/// @nodoc
 class WorkflowsMwaaPropertiesOutput {
   /// The MWAA environment name.
   final String? mwaaEnvironmentName;
@@ -31442,6 +31957,8 @@ class WorkflowsMwaaPropertiesOutput {
 }
 
 /// The MWAA serverless properties.
+///
+/// @nodoc
 class WorkflowsServerlessPropertiesOutput {
   WorkflowsServerlessPropertiesOutput();
 
@@ -31455,6 +31972,8 @@ class WorkflowsServerlessPropertiesOutput {
 }
 
 /// The lakehouse properties of a connection.
+///
+/// @nodoc
 class LakehousePropertiesOutput {
   /// Specifies whether Glue lineage sync is enabled for tables managed by Glue
   /// crawlers.
@@ -31480,6 +31999,8 @@ class LakehousePropertiesOutput {
 }
 
 /// The VPC connection properties returned in responses.
+///
+/// @nodoc
 class VpcPropertiesOutput {
   /// The status of the VPC connection.
   final ConnectionStatus status;
@@ -31538,6 +32059,7 @@ class VpcPropertiesOutput {
   }
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const creating = ConnectionStatus._('CREATING');
   static const createFailed = ConnectionStatus._('CREATE_FAILED');
@@ -31578,6 +32100,8 @@ class ConnectionStatus {
 }
 
 /// The Spark Amazon Web Services Glue args.
+///
+/// @nodoc
 class SparkGlueArgs {
   /// The connection in the Spark Amazon Web Services Glue args.
   final String? connection;
@@ -31601,6 +32125,8 @@ class SparkGlueArgs {
 }
 
 /// The username and password of a connection.
+///
+/// @nodoc
 class UsernamePassword {
   /// The password of a connection.
   final String password;
@@ -31630,6 +32156,7 @@ class UsernamePassword {
   }
 }
 
+/// @nodoc
 class GovernanceType {
   static const awsManaged = GovernanceType._('AWS_MANAGED');
   static const userManaged = GovernanceType._('USER_MANAGED');
@@ -31655,6 +32182,8 @@ class GovernanceType {
 }
 
 /// The managed endpoint credentials of the EMR on EKS cluster.
+///
+/// @nodoc
 class ManagedEndpointCredentials {
   /// The identifier of the managed endpoint credentials.
   final String? id;
@@ -31685,6 +32214,8 @@ class ManagedEndpointCredentials {
 }
 
 /// The Amazon Redshift storage properties.
+///
+/// @nodoc
 class RedshiftStorageProperties {
   /// The cluster name in the Amazon Redshift storage properties.
   final String? clusterName;
@@ -31715,6 +32246,8 @@ class RedshiftStorageProperties {
 }
 
 /// Amazon Redshift credentials of a connection.
+///
+/// @nodoc
 class RedshiftCredentials {
   /// The secret ARN of the Amazon Redshift credentials of a connection.
   final String? secretArn;
@@ -31749,6 +32282,8 @@ class RedshiftCredentials {
 }
 
 /// The Amaon Redshift lineage sync configuration.
+///
+/// @nodoc
 class RedshiftLineageSyncConfigurationOutput {
   /// Specifies whether the Amaon Redshift lineage sync configuration is enabled.
   final bool? enabled;
@@ -31790,6 +32325,8 @@ class RedshiftLineageSyncConfigurationOutput {
 }
 
 /// The lineage sync schedule.
+///
+/// @nodoc
 class LineageSyncSchedule {
   /// The lineage sync schedule.
   final String? schedule;
@@ -31812,6 +32349,7 @@ class LineageSyncSchedule {
   }
 }
 
+/// @nodoc
 class HyperPodOrchestrator {
   static const eks = HyperPodOrchestrator._('EKS');
   static const slurm = HyperPodOrchestrator._('SLURM');
@@ -31838,6 +32376,8 @@ class HyperPodOrchestrator {
 }
 
 /// The physical endpoints of a connection.
+///
+/// @nodoc
 class PhysicalEndpoint {
   /// The location of a connection.
   final AwsLocation? awsLocation;
@@ -31930,6 +32470,8 @@ class PhysicalEndpoint {
 }
 
 /// The location of a project.
+///
+/// @nodoc
 class AwsLocation {
   /// The access role of a connection.
   final String? accessRole;
@@ -31974,6 +32516,8 @@ class AwsLocation {
 }
 
 /// The Amazon Web Services Glue connection.
+///
+/// @nodoc
 class GlueConnection {
   /// The Amazon Athena properties of the Amazon Web Services Glue connection.
   final Map<String, String>? athenaProperties;
@@ -32149,6 +32693,7 @@ class GlueConnection {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const athena = Protocol._('ATHENA');
   static const glueInteractiveSession = Protocol._('GLUE_INTERACTIVE_SESSION');
@@ -32186,6 +32731,8 @@ class Protocol {
 }
 
 /// Physical connection requirements of a connection.
+///
+/// @nodoc
 class PhysicalConnectionRequirements {
   /// The availability zone of the physical connection requirements of a
   /// connection.
@@ -32238,6 +32785,8 @@ class PhysicalConnectionRequirements {
 }
 
 /// The authentication configuration of a connection.
+///
+/// @nodoc
 class AuthenticationConfiguration {
   /// The authentication type of a connection.
   final AuthenticationType? authenticationType;
@@ -32279,6 +32828,7 @@ class AuthenticationConfiguration {
   }
 }
 
+/// @nodoc
 class ComputeEnvironments {
   static const spark = ComputeEnvironments._('SPARK');
   static const athena = ComputeEnvironments._('ATHENA');
@@ -32305,6 +32855,7 @@ class ComputeEnvironments {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticationType {
   static const basic = AuthenticationType._('BASIC');
   static const oauth2 = AuthenticationType._('OAUTH2');
@@ -32332,6 +32883,8 @@ class AuthenticationType {
 }
 
 /// The OAuth2 properties.
+///
+/// @nodoc
 class OAuth2Properties {
   /// The authorization code properties of the OAuth2 properties.
   final AuthorizationCodeProperties? authorizationCodeProperties;
@@ -32404,6 +32957,7 @@ class OAuth2Properties {
   }
 }
 
+/// @nodoc
 class OAuth2GrantType {
   static const authorizationCode = OAuth2GrantType._('AUTHORIZATION_CODE');
   static const clientCredentials = OAuth2GrantType._('CLIENT_CREDENTIALS');
@@ -32430,6 +32984,8 @@ class OAuth2GrantType {
 }
 
 /// The OAuth2Client application.
+///
+/// @nodoc
 class OAuth2ClientApplication {
   /// The Amazon Web Services managed client application reference in the
   /// OAuth2Client application.
@@ -32470,6 +33026,8 @@ class OAuth2ClientApplication {
 }
 
 /// The authorization code properties of a connection.
+///
+/// @nodoc
 class AuthorizationCodeProperties {
   /// The authorization code of a connection.
   final String? authorizationCode;
@@ -32500,6 +33058,8 @@ class AuthorizationCodeProperties {
 }
 
 /// The GlueOAuth2 credentials of a connection.
+///
+/// @nodoc
 class GlueOAuth2Credentials {
   /// The access token of a connection.
   final String? accessToken;
@@ -32548,6 +33108,8 @@ class GlueOAuth2Credentials {
 }
 
 /// The configuration of a connection.
+///
+/// @nodoc
 class Configuration {
   /// The classification of the connection configuration.
   final String? classification;
@@ -32579,6 +33141,8 @@ class Configuration {
 }
 
 /// The connection properties patch.
+///
+/// @nodoc
 class ConnectionPropertiesPatch {
   /// The Amazon Q properties of the connection.
   final AmazonQPropertiesPatch? amazonQProperties;
@@ -32651,6 +33215,8 @@ class ConnectionPropertiesPatch {
 }
 
 /// The Amazon Athena properties patch of a connection.
+///
+/// @nodoc
 class AthenaPropertiesPatch {
   /// The Amazon Athena workgroup name of a connection.
   final String? workgroupName;
@@ -32668,6 +33234,8 @@ class AthenaPropertiesPatch {
 }
 
 /// The Amazon Web Services Glue properties patch of a connection.
+///
+/// @nodoc
 class GluePropertiesPatch {
   /// The Amazon Web Services Glue properties patch of a connection.
   final GlueConnectionPatch? glueConnectionInput;
@@ -32686,6 +33254,8 @@ class GluePropertiesPatch {
 }
 
 /// The IAM properties patch of a connection.
+///
+/// @nodoc
 class IamPropertiesPatch {
   /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a
   /// connection.
@@ -32705,6 +33275,8 @@ class IamPropertiesPatch {
 }
 
 /// Amazon Redshift properties patch.
+///
+/// @nodoc
 class RedshiftPropertiesPatch {
   /// The credentials in the Amazon Redshift properties patch.
   final RedshiftCredentials? credentials;
@@ -32752,6 +33324,8 @@ class RedshiftPropertiesPatch {
 }
 
 /// The Spark EMR properties patch.
+///
+/// @nodoc
 class SparkEmrPropertiesPatch {
   /// The compute ARN in the Spark EMR properties patch.
   final String? computeArn;
@@ -32812,6 +33386,8 @@ class SparkEmrPropertiesPatch {
 }
 
 /// The Amazon S3 properties patch of a connection.
+///
+/// @nodoc
 class S3PropertiesPatch {
   /// The Amazon S3 URI that's part of the Amazon S3 properties patch of a
   /// connection.
@@ -32845,6 +33421,8 @@ class S3PropertiesPatch {
 }
 
 /// The Amazon Q properties of the connection.
+///
+/// @nodoc
 class AmazonQPropertiesPatch {
   /// Specifies whether Amazon Q is enabled for the connection.
   final bool isEnabled;
@@ -32874,6 +33452,8 @@ class AmazonQPropertiesPatch {
 }
 
 /// The MLflow properties of a connection.
+///
+/// @nodoc
 class MlflowPropertiesPatch {
   /// The tracking server ARN as part of the MLflow properties of a connection.
   final String? trackingServerArn;
@@ -32891,6 +33471,8 @@ class MlflowPropertiesPatch {
 }
 
 /// The lakehouse properties of a connection properties patch.
+///
+/// @nodoc
 class LakehousePropertiesPatch {
   /// Specifies whether to enable Glue lineage sync for tables managed by Glue
   /// crawlers.
@@ -32910,6 +33492,8 @@ class LakehousePropertiesPatch {
 }
 
 /// The VPC connection properties used when updating a connection.
+///
+/// @nodoc
 class VpcPropertiesPatch {
   /// The security group ID of the VPC connection.
   final String? securityGroupId;
@@ -32939,6 +33523,8 @@ class VpcPropertiesPatch {
 }
 
 /// The Amaon Redshift lineage sync configuration.
+///
+/// @nodoc
 class RedshiftLineageSyncConfigurationInput {
   /// Specifies whether the Amaon Redshift lineage sync configuration is enabled.
   final bool? enabled;
@@ -32962,6 +33548,8 @@ class RedshiftLineageSyncConfigurationInput {
 }
 
 /// The Amazon Web Services Glue connection patch.
+///
+/// @nodoc
 class GlueConnectionPatch {
   /// The authentication configuration of the Amazon Web Services Glue connection
   /// patch.
@@ -32994,6 +33582,8 @@ class GlueConnectionPatch {
 }
 
 /// The authentication configuration patch of a connection.
+///
+/// @nodoc
 class AuthenticationConfigurationPatch {
   /// The basic authentication credentials of a connection.
   final BasicAuthenticationCredentials? basicAuthenticationCredentials;
@@ -33018,6 +33608,8 @@ class AuthenticationConfigurationPatch {
 }
 
 /// The basic authentication credentials of a connection.
+///
+/// @nodoc
 class BasicAuthenticationCredentials {
   /// The password for a connection.
   final String? password;
@@ -33040,6 +33632,7 @@ class BasicAuthenticationCredentials {
   }
 }
 
+/// @nodoc
 class FilterStatus {
   static const valid = FilterStatus._('VALID');
   static const invalid = FilterStatus._('INVALID');
@@ -33064,6 +33657,8 @@ class FilterStatus {
 }
 
 /// The configuration details of the asset filter.
+///
+/// @nodoc
 class AssetFilterConfiguration {
   /// The column configuration of the asset filter.
   final ColumnFilterConfiguration? columnConfiguration;
@@ -33101,6 +33696,8 @@ class AssetFilterConfiguration {
 }
 
 /// The column configuration of the asset filter.
+///
+/// @nodoc
 class ColumnFilterConfiguration {
   /// Specifies whether to include column names.
   final List<String>? includedColumnNames;
@@ -33128,6 +33725,8 @@ class ColumnFilterConfiguration {
 }
 
 /// The row filter configuration details.
+///
+/// @nodoc
 class RowFilterConfiguration {
   /// The row filter.
   final RowFilter rowFilter;
@@ -33160,6 +33759,8 @@ class RowFilterConfiguration {
 }
 
 /// The row filter.
+///
+/// @nodoc
 class RowFilter {
   /// The 'and' clause of the row filter.
   final List<RowFilter>? and;
@@ -33206,6 +33807,8 @@ class RowFilter {
 }
 
 /// The row filter expression.
+///
+/// @nodoc
 class RowFilterExpression {
   /// The 'equal to' clause of the row filter expression.
   final EqualToExpression? equalTo;
@@ -33337,6 +33940,8 @@ class RowFilterExpression {
 }
 
 /// Specifies whether the value is equal to an expression.
+///
+/// @nodoc
 class EqualToExpression {
   /// The name of the column.
   final String columnName;
@@ -33367,6 +33972,8 @@ class EqualToExpression {
 }
 
 /// Specifies that a value is not equal to the expression.
+///
+/// @nodoc
 class NotEqualToExpression {
   /// The name of the column.
   final String columnName;
@@ -33397,6 +34004,8 @@ class NotEqualToExpression {
 }
 
 /// Specifies whether the value is greater than an expression.
+///
+/// @nodoc
 class GreaterThanExpression {
   /// The name of the column.
   final String columnName;
@@ -33427,6 +34036,8 @@ class GreaterThanExpression {
 }
 
 /// Specifies that a value is less than an expression.
+///
+/// @nodoc
 class LessThanExpression {
   /// The name of the column.
   final String columnName;
@@ -33457,6 +34068,8 @@ class LessThanExpression {
 }
 
 /// Specifies whether the value is greater than or equal to an expression.
+///
+/// @nodoc
 class GreaterThanOrEqualToExpression {
   /// The name of the column.
   final String columnName;
@@ -33487,6 +34100,8 @@ class GreaterThanOrEqualToExpression {
 }
 
 /// Specifies that a value is less than or equal to an expression.
+///
+/// @nodoc
 class LessThanOrEqualToExpression {
   /// The name of the column.
   final String columnName;
@@ -33517,6 +34132,8 @@ class LessThanOrEqualToExpression {
 }
 
 /// Specifies that the expression is null.
+///
+/// @nodoc
 class IsNullExpression {
   /// The name of the column.
   final String columnName;
@@ -33540,6 +34157,8 @@ class IsNullExpression {
 }
 
 /// Specifies that the expression is not null.
+///
+/// @nodoc
 class IsNotNullExpression {
   /// The name of the column.
   final String columnName;
@@ -33563,6 +34182,8 @@ class IsNotNullExpression {
 }
 
 /// Specifies whether values are in the expression.
+///
+/// @nodoc
 class InExpression {
   /// The name of the column.
   final String columnName;
@@ -33596,6 +34217,8 @@ class InExpression {
 }
 
 /// Specifies that a value is not in the expression.
+///
+/// @nodoc
 class NotInExpression {
   /// The name of the column.
   final String columnName;
@@ -33629,6 +34252,8 @@ class NotInExpression {
 }
 
 /// Specifies that a value is like the expression.
+///
+/// @nodoc
 class LikeExpression {
   /// The name of the column.
   final String columnName;
@@ -33659,6 +34284,8 @@ class LikeExpression {
 }
 
 /// Specifies that a value might be not like the expression.
+///
+/// @nodoc
 class NotLikeExpression {
   /// The name of the column.
   final String columnName;
@@ -33688,6 +34315,7 @@ class NotLikeExpression {
   }
 }
 
+/// @nodoc
 class ResolutionStrategy {
   static const manual = ResolutionStrategy._('MANUAL');
 
@@ -33715,6 +34343,8 @@ class ResolutionStrategy {
 /// The source of accounts for the account pool. In the current release, it's
 /// either a static list of accounts provided by the customer or a custom Amazon
 /// Web Services Lambda handler.
+///
+/// @nodoc
 class AccountSource {
   /// The static list of accounts within an account pool.
   final List<AccountInfo>? accounts;
@@ -33752,6 +34382,8 @@ class AccountSource {
 }
 
 /// The custom Amazon Web Services Lambda handler within an account pool.
+///
+/// @nodoc
 class CustomAccountPoolHandler {
   /// The ARN of the Amazon Web Services Lambda function for the custom Amazon Web
   /// Services Lambda handler.
@@ -33786,6 +34418,8 @@ class CustomAccountPoolHandler {
 }
 
 /// The account information within an account pool.
+///
+/// @nodoc
 class AccountInfo {
   /// The account ID.
   final String awsAccountId;
@@ -33827,6 +34461,8 @@ class AccountInfo {
 
 /// The source location for a notebook import in Amazon SageMaker Unified
 /// Studio.
+///
+/// @nodoc
 class SourceLocation {
   /// The Amazon Simple Storage Service URI of the notebook source file.
   final String? s3;
@@ -33850,6 +34486,8 @@ class SourceLocation {
 }
 
 /// The details of the user profile.
+///
+/// @nodoc
 class UserProfileSummary {
   /// The details of the user profile.
   final UserProfileDetails? details;
@@ -33902,6 +34540,7 @@ class UserProfileSummary {
   }
 }
 
+/// @nodoc
 class UserSearchType {
   static const ssoUser = UserSearchType._('SSO_USER');
   static const datazoneUser = UserSearchType._('DATAZONE_USER');
@@ -33934,6 +34573,8 @@ class UserSearchType {
 }
 
 /// The details of the results of the <code>SearchTypes</code> action.
+///
+/// @nodoc
 class SearchTypesResultItem {
   /// The asset type included in the results of the <code>SearchTypes</code>
   /// action.
@@ -33982,6 +34623,8 @@ class SearchTypesResultItem {
 }
 
 /// The details of the asset type.
+///
+/// @nodoc
 class AssetTypeItem {
   /// The identifier of the Amazon DataZone domain where the asset type exists.
   final String domainId;
@@ -34086,6 +34729,8 @@ class AssetTypeItem {
 }
 
 /// The details of the metadata form type.
+///
+/// @nodoc
 class FormTypeData {
   /// The identifier of the Amazon DataZone domain in which the form type exists.
   final String domainId;
@@ -34192,6 +34837,8 @@ class FormTypeData {
 }
 
 /// The details of a data lineage node type.
+///
+/// @nodoc
 class LineageNodeTypeItem {
   /// The ID of the domain where the data lineage node type lives.
   final String domainId;
@@ -34273,6 +34920,7 @@ class LineageNodeTypeItem {
   }
 }
 
+/// @nodoc
 class TypesSearchScope {
   static const assetType = TypesSearchScope._('ASSET_TYPE');
   static const formType = TypesSearchScope._('FORM_TYPE');
@@ -34299,6 +34947,8 @@ class TypesSearchScope {
 }
 
 /// A search filter clause in Amazon DataZone.
+///
+/// @nodoc
 class FilterClause {
   /// The 'and' search filter clause in Amazon DataZone.
   final List<FilterClause>? and;
@@ -34328,6 +34978,8 @@ class FilterClause {
 }
 
 /// The details of the way to sort search results.
+///
+/// @nodoc
 class SearchSort {
   /// The attribute detail of the way to sort search results.
   final String attribute;
@@ -34351,6 +35003,8 @@ class SearchSort {
 }
 
 /// A search filter in Amazon DataZone.
+///
+/// @nodoc
 class Filter {
   /// A search filter attribute in Amazon DataZone.
   final String attribute;
@@ -34385,6 +35039,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterOperator {
   static const eq = FilterOperator._('EQ');
   static const le = FilterOperator._('LE');
@@ -34414,6 +35069,8 @@ class FilterOperator {
 }
 
 /// The details of the search.
+///
+/// @nodoc
 class SearchInItem {
   /// The search attribute.
   final String attribute;
@@ -34431,6 +35088,8 @@ class SearchInItem {
 }
 
 /// The aggregation for an attribute.
+///
+/// @nodoc
 class AggregationOutput {
   /// The attribute for this aggregation.
   final String? attribute;
@@ -34471,6 +35130,8 @@ class AggregationOutput {
 }
 
 /// An aggregation output item.
+///
+/// @nodoc
 class AggregationOutputItem {
   /// The count of the aggregation output item.
   final int? count;
@@ -34510,6 +35171,8 @@ class AggregationOutputItem {
 }
 
 /// The details of the results of the <code>SearchListings</code> action.
+///
+/// @nodoc
 class SearchResultItem {
   /// The asset listing included in the results of the <code>SearchListings</code>
   /// action.
@@ -34547,6 +35210,8 @@ class SearchResultItem {
 }
 
 /// The details of an asset published in an Amazon DataZone catalog.
+///
+/// @nodoc
 class AssetListingItem {
   /// The additional attributes of an asset published in an Amazon DataZone
   /// catalog.
@@ -34674,6 +35339,8 @@ class AssetListingItem {
 }
 
 /// The asset of the data product listing.
+///
+/// @nodoc
 class DataProductListingItem {
   /// The additional attributes of the asset of the data product.
   final DataProductListingItemAdditionalAttributes? additionalAttributes;
@@ -34791,6 +35458,8 @@ class DataProductListingItem {
 }
 
 /// The additional attributes of the asset of the data product.
+///
+/// @nodoc
 class DataProductListingItemAdditionalAttributes {
   /// The metadata forms of the asset of the data product.
   final String? forms;
@@ -34825,6 +35494,8 @@ class DataProductListingItemAdditionalAttributes {
 }
 
 /// The results of the data product summary.
+///
+/// @nodoc
 class ListingSummaryItem {
   /// The glossary terms of the data product listing.
   final List<DetailedGlossaryTerm>? glossaryTerms;
@@ -34865,6 +35536,8 @@ class ListingSummaryItem {
 }
 
 /// A rationale indicating why this item was matched by search.
+///
+/// @nodoc
 class MatchRationaleItem {
   /// A list of TextMatchItems.
   final List<TextMatchItem>? textMatches;
@@ -34891,6 +35564,8 @@ class MatchRationaleItem {
 }
 
 /// A structure indicating matched terms for an attribute.
+///
+/// @nodoc
 class TextMatchItem {
   /// The name of the attribute.
   final String? attribute;
@@ -34931,6 +35606,8 @@ class TextMatchItem {
 }
 
 /// The offset of a matched term.
+///
+/// @nodoc
 class MatchOffset {
   /// The 0-indexed number indicating the end position (exclusive) of a matched
   /// term.
@@ -34963,6 +35640,8 @@ class MatchOffset {
 }
 
 /// Additional attributes of an inventory asset.
+///
+/// @nodoc
 class AssetListingItemAdditionalAttributes {
   /// The metadata forms that form additional attributes of the metadata asset.
   final String? forms;
@@ -35011,6 +35690,7 @@ class AssetListingItemAdditionalAttributes {
   }
 }
 
+/// @nodoc
 class SearchOutputAdditionalAttribute {
   static const forms = SearchOutputAdditionalAttribute._('FORMS');
   static const timeSeriesDataPointForms =
@@ -35040,6 +35720,8 @@ class SearchOutputAdditionalAttribute {
 }
 
 /// An aggregation list item.
+///
+/// @nodoc
 class AggregationListItem {
   /// An attribute on which to compute aggregations.
   final String attribute;
@@ -35064,6 +35746,8 @@ class AggregationListItem {
 }
 
 /// The details of a group profile.
+///
+/// @nodoc
 class GroupProfileSummary {
   /// The ID of the Amazon DataZone domain of a group profile.
   final String? domainId;
@@ -35123,6 +35807,7 @@ class GroupProfileSummary {
   }
 }
 
+/// @nodoc
 class GroupSearchType {
   static const ssoGroup = GroupSearchType._('SSO_GROUP');
   static const datazoneSsoGroup = GroupSearchType._('DATAZONE_SSO_GROUP');
@@ -35150,6 +35835,8 @@ class GroupSearchType {
 }
 
 /// The details of the search results.
+///
+/// @nodoc
 class SearchInventoryResultItem {
   /// The asset item included in the search results.
   final AssetItem? assetItem;
@@ -35204,6 +35891,8 @@ class SearchInventoryResultItem {
 }
 
 /// The details of a business glossary.
+///
+/// @nodoc
 class GlossaryItem {
   /// The identifier of the Amazon DataZone domain in which the business glossary
   /// exists.
@@ -35313,6 +36002,8 @@ class GlossaryItem {
 }
 
 /// The details of a business glossary term.
+///
+/// @nodoc
 class GlossaryTermItem {
   /// The identifier of the Amazon DataZone domain in which the business glossary
   /// exists.
@@ -35439,6 +36130,8 @@ class GlossaryTermItem {
 }
 
 /// A Amazon DataZone inventory asset.
+///
+/// @nodoc
 class AssetItem {
   /// The identifier of the Amazon DataZone domain in which the inventory asset
   /// exists.
@@ -35576,6 +36269,8 @@ class AssetItem {
 }
 
 /// The data product.
+///
+/// @nodoc
 class DataProductResultItem {
   /// The ID of the domain where the data product lives.
   final String domainId;
@@ -35678,6 +36373,8 @@ class DataProductResultItem {
 }
 
 /// The additional attributes of an Amazon DataZone data product.
+///
+/// @nodoc
 class DataProductItemAdditionalAttributes {
   /// List of rationales indicating why this item was matched by search.
   final List<MatchRationaleItem>? matchRationale;
@@ -35705,6 +36402,8 @@ class DataProductItemAdditionalAttributes {
 }
 
 /// The additional attributes of an inventory asset.
+///
+/// @nodoc
 class AssetItemAdditionalAttributes {
   /// The forms included in the additional attributes of an inventory asset.
   final List<FormOutput>? formsOutput;
@@ -35770,6 +36469,8 @@ class AssetItemAdditionalAttributes {
 }
 
 /// The additional attributes of an Amazon DataZone glossary term.
+///
+/// @nodoc
 class GlossaryTermItemAdditionalAttributes {
   /// List of rationales indicating why this item was matched by search.
   final List<MatchRationaleItem>? matchRationale;
@@ -35797,6 +36498,8 @@ class GlossaryTermItemAdditionalAttributes {
 }
 
 /// The additional attributes of an Amazon DataZone glossary.
+///
+/// @nodoc
 class GlossaryItemAdditionalAttributes {
   /// List of rationales indicating why this item was matched by search.
   final List<MatchRationaleItem>? matchRationale;
@@ -35822,6 +36525,7 @@ class GlossaryItemAdditionalAttributes {
   }
 }
 
+/// @nodoc
 class InventorySearchScope {
   static const asset = InventorySearchScope._('ASSET');
   static const glossary = InventorySearchScope._('GLOSSARY');
@@ -35849,6 +36553,7 @@ class InventorySearchScope {
   String toString() => value;
 }
 
+/// @nodoc
 class SubscriptionStatus {
   static const approved = SubscriptionStatus._('APPROVED');
   static const revoked = SubscriptionStatus._('REVOKED');
@@ -35875,6 +36580,7 @@ class SubscriptionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetEntityType {
   static const domainUnit = TargetEntityType._('DOMAIN_UNIT');
   static const environmentBlueprintConfiguration =
@@ -35907,6 +36613,7 @@ class TargetEntityType {
   String toString() => value;
 }
 
+/// @nodoc
 class ManagedPolicyType {
   static const createDomainUnit = ManagedPolicyType._('CREATE_DOMAIN_UNIT');
   static const overrideDomainUnitOwners =
@@ -35966,6 +36673,8 @@ class ManagedPolicyType {
 }
 
 /// The policy grant principal.
+///
+/// @nodoc
 class PolicyGrantPrincipal {
   /// The domain unit of the policy grant principal.
   final DomainUnitPolicyGrantPrincipal? domainUnit;
@@ -36022,6 +36731,8 @@ class PolicyGrantPrincipal {
 }
 
 /// The user policy grant principal.
+///
+/// @nodoc
 class UserPolicyGrantPrincipal {
   /// The all users grant filter of the user policy grant principal.
   final AllUsersGrantFilter? allUsersGrantFilter;
@@ -36056,6 +36767,8 @@ class UserPolicyGrantPrincipal {
 }
 
 /// The group principal to whom the policy is granted.
+///
+/// @nodoc
 class GroupPolicyGrantPrincipal {
   /// The ID Of the group of the group principal.
   final String? groupIdentifier;
@@ -36079,6 +36792,8 @@ class GroupPolicyGrantPrincipal {
 }
 
 /// The project policy grant principal.
+///
+/// @nodoc
 class ProjectPolicyGrantPrincipal {
   /// The project designation of the project policy grant principal.
   final ProjectDesignation projectDesignation;
@@ -36120,6 +36835,8 @@ class ProjectPolicyGrantPrincipal {
 }
 
 /// The domain unit principal to whom the policy is granted.
+///
+/// @nodoc
 class DomainUnitPolicyGrantPrincipal {
   /// Specifes the designation of the domain unit users.
   final DomainUnitDesignation domainUnitDesignation;
@@ -36162,6 +36879,7 @@ class DomainUnitPolicyGrantPrincipal {
   }
 }
 
+/// @nodoc
 class DomainUnitDesignation {
   static const owner = DomainUnitDesignation._('OWNER');
 
@@ -36189,6 +36907,8 @@ class DomainUnitDesignation {
 /// The grant filter for the domain unit. In the current release of Amazon
 /// DataZone, the only supported filter is the
 /// <code>allDomainUnitsGrantFilter</code>.
+///
+/// @nodoc
 class DomainUnitGrantFilter {
   /// Specifies a grant filter containing all domain units.
   final AllDomainUnitsGrantFilter? allDomainUnitsGrantFilter;
@@ -36216,6 +36936,8 @@ class DomainUnitGrantFilter {
 }
 
 /// The grant filter for all domain units.
+///
+/// @nodoc
 class AllDomainUnitsGrantFilter {
   AllDomainUnitsGrantFilter();
 
@@ -36228,6 +36950,7 @@ class AllDomainUnitsGrantFilter {
   }
 }
 
+/// @nodoc
 class ProjectDesignation {
   static const owner = ProjectDesignation._('OWNER');
   static const contributor = ProjectDesignation._('CONTRIBUTOR');
@@ -36256,6 +36979,8 @@ class ProjectDesignation {
 }
 
 /// The project grant filter.
+///
+/// @nodoc
 class ProjectGrantFilter {
   /// The domain unit filter of the project grant filter.
   final DomainUnitFilterForProject? domainUnitFilter;
@@ -36282,6 +37007,8 @@ class ProjectGrantFilter {
 }
 
 /// The domain unit filter of the project grant filter.
+///
+/// @nodoc
 class DomainUnitFilterForProject {
   /// The domain unit ID to use in the filter.
   final String domainUnit;
@@ -36313,6 +37040,8 @@ class DomainUnitFilterForProject {
 }
 
 /// The all users grant filter.
+///
+/// @nodoc
 class AllUsersGrantFilter {
   AllUsersGrantFilter();
 
@@ -36325,6 +37054,7 @@ class AllUsersGrantFilter {
   }
 }
 
+/// @nodoc
 class DataZoneEntityType {
   static const domainUnit = DataZoneEntityType._('DOMAIN_UNIT');
 
@@ -36350,6 +37080,8 @@ class DataZoneEntityType {
 }
 
 /// The properties of a domain unit's owner.
+///
+/// @nodoc
 class OwnerProperties {
   /// Specifies that the domain unit owner is a group.
   final OwnerGroupProperties? group;
@@ -36373,6 +37105,8 @@ class OwnerProperties {
 }
 
 /// The properties of the owner user.
+///
+/// @nodoc
 class OwnerUserProperties {
   /// The ID of the owner user.
   final String userIdentifier;
@@ -36390,6 +37124,8 @@ class OwnerUserProperties {
 }
 
 /// The properties of the domain unit owners group.
+///
+/// @nodoc
 class OwnerGroupProperties {
   /// The ID of the domain unit owners group.
   final String groupIdentifier;
@@ -36408,6 +37144,8 @@ class OwnerGroupProperties {
 
 /// Specifies the rule and the threshold under which a prediction can be
 /// rejected.
+///
+/// @nodoc
 class RejectRule {
   /// Specifies whether you want to reject the top prediction for all targets or
   /// none.
@@ -36434,6 +37172,8 @@ class RejectRule {
 
 /// The details of the automatically generated business metadata that is
 /// rejected.
+///
+/// @nodoc
 class RejectChoice {
   /// Specifies the target (for example, a column name) where a prediction can be
   /// rejected.
@@ -36458,6 +37198,7 @@ class RejectChoice {
   }
 }
 
+/// @nodoc
 class RejectRuleBehavior {
   static const all = RejectRuleBehavior._('ALL');
   static const none = RejectRuleBehavior._('NONE');
@@ -36484,6 +37225,8 @@ class RejectRuleBehavior {
 }
 
 /// Resulting entity from the query.
+///
+/// @nodoc
 class ResultItem {
   /// Resulting data lineage node from the query.
   final LineageNodeItem? lineageNode;
@@ -36510,6 +37253,8 @@ class ResultItem {
 }
 
 /// The summary and output forms of a LineageNode
+///
+/// @nodoc
 class LineageNodeItem {
   /// The ID of the domain of the data lineage node.
   final String domainId;
@@ -36644,6 +37389,8 @@ class LineageNodeItem {
 
 /// Additional details on the queried entity that can be requested in the
 /// response.
+///
+/// @nodoc
 class AdditionalAttributes {
   /// Names of forms on the query entity that can be requested in the response.
   final List<String>? formNames;
@@ -36661,6 +37408,8 @@ class AdditionalAttributes {
 }
 
 /// A clause to match a query pattern
+///
+/// @nodoc
 class MatchClause {
   /// The pattern describing the entities for the query to traverse.
   final EntityPattern? entityPattern;
@@ -36684,6 +37433,8 @@ class MatchClause {
 }
 
 /// The pattern describing the query's relational traversal.
+///
+/// @nodoc
 class RelationPattern {
   /// The direction to query.
   final RelationDirection relationDirection;
@@ -36713,6 +37464,8 @@ class RelationPattern {
 }
 
 /// The pattern describing the entities to be matched during the graph query.
+///
+/// @nodoc
 class EntityPattern {
   /// The type of entity to be matched during the graph query.
   final GraphEntityType entityType;
@@ -36740,6 +37493,7 @@ class EntityPattern {
   }
 }
 
+/// @nodoc
 class GraphEntityType {
   static const lineageNode = GraphEntityType._('LINEAGE_NODE');
 
@@ -36763,6 +37517,7 @@ class GraphEntityType {
   String toString() => value;
 }
 
+/// @nodoc
 class RelationType {
   static const lineage = RelationType._('LINEAGE');
 
@@ -36785,6 +37540,7 @@ class RelationType {
   String toString() => value;
 }
 
+/// @nodoc
 class RelationDirection {
   static const $in = RelationDirection._('IN');
   static const out = RelationDirection._('OUT');
@@ -36810,6 +37566,8 @@ class RelationDirection {
 }
 
 /// The encryption configuration details.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The Amazon Resource Name (ARN) of the KMS key to use for encryption. This
   /// field is required only when <code>sseAlgorithm</code> is set to
@@ -36847,6 +37605,7 @@ class EncryptionConfiguration {
   }
 }
 
+/// @nodoc
 class TimeSeriesEntityType {
   static const asset = TimeSeriesEntityType._('ASSET');
   static const listing = TimeSeriesEntityType._('LISTING');
@@ -36873,6 +37632,8 @@ class TimeSeriesEntityType {
 }
 
 /// The time series data points form.
+///
+/// @nodoc
 class TimeSeriesDataPointFormOutput {
   /// The name of the time series data points form.
   final String formName;
@@ -36931,6 +37692,8 @@ class TimeSeriesDataPointFormOutput {
 }
 
 /// The time series data points form.
+///
+/// @nodoc
 class TimeSeriesDataPointFormInput {
   /// The name of the time series data points form.
   final String formName;
@@ -36972,6 +37735,8 @@ class TimeSeriesDataPointFormInput {
 }
 
 /// The details of the subscription target.
+///
+/// @nodoc
 class SubscriptionTargetSummary {
   /// The asset types included in the subscription target.
   final List<String> applicableAssetTypes;
@@ -37118,6 +37883,8 @@ class SubscriptionTargetSummary {
 }
 
 /// The details of the subscription.
+///
+/// @nodoc
 class SubscriptionSummary {
   /// The timestamp of when the subscription was created.
   final DateTime createdAt;
@@ -37216,6 +37983,8 @@ class SubscriptionSummary {
 }
 
 /// The details of the subscription request.
+///
+/// @nodoc
 class SubscriptionRequestSummary {
   /// The timestamp of when a subscription request was created.
   final DateTime createdAt;
@@ -37345,6 +38114,8 @@ class SubscriptionRequestSummary {
 }
 
 /// The summary of the metadata form.
+///
+/// @nodoc
 class MetadataFormSummary {
   /// The type name of the metadata form.
   final String typeName;
@@ -37382,6 +38153,8 @@ class MetadataFormSummary {
 }
 
 /// The details of the subscription grant.
+///
+/// @nodoc
 class SubscriptionGrantSummary {
   /// The timestamp of when a subscription grant was created.
   final DateTime createdAt;
@@ -37489,6 +38262,8 @@ class SubscriptionGrantSummary {
 }
 
 /// The details of a Amazon DataZone project.
+///
+/// @nodoc
 class ProjectSummary {
   /// The Amazon DataZone user who created the project.
   final String createdBy;
@@ -37587,6 +38362,8 @@ class ProjectSummary {
 }
 
 /// The summary of a project profile.
+///
+/// @nodoc
 class ProjectProfileSummary {
   /// The user who created the project profile.
   final String createdBy;
@@ -37665,6 +38442,7 @@ class ProjectProfileSummary {
   }
 }
 
+/// @nodoc
 class SortFieldProject {
   static const name = SortFieldProject._('NAME');
 
@@ -37689,6 +38467,8 @@ class SortFieldProject {
 }
 
 /// The details of a project member.
+///
+/// @nodoc
 class ProjectMember {
   /// The designated role of a project member.
   final UserDesignation designation;
@@ -37722,6 +38502,8 @@ class ProjectMember {
 }
 
 /// The details about a project member.
+///
+/// @nodoc
 class MemberDetails {
   /// The group details of a project member.
   final GroupDetails? group;
@@ -37755,6 +38537,7 @@ class MemberDetails {
   }
 }
 
+/// @nodoc
 class UserDesignation {
   static const projectOwner = UserDesignation._('PROJECT_OWNER');
   static const projectContributor = UserDesignation._('PROJECT_CONTRIBUTOR');
@@ -37792,6 +38575,8 @@ class UserDesignation {
 }
 
 /// The user details of a project member.
+///
+/// @nodoc
 class UserDetails {
   /// The identifier of the Amazon DataZone user.
   final String userId;
@@ -37815,6 +38600,8 @@ class UserDetails {
 }
 
 /// The details of a group in Amazon DataZone.
+///
+/// @nodoc
 class GroupDetails {
   /// The identifier of the group in Amazon DataZone.
   final String groupId;
@@ -37838,6 +38625,8 @@ class GroupDetails {
 }
 
 /// A member of the policy grant list.
+///
+/// @nodoc
 class PolicyGrantMember {
   /// Specifies the timestamp at which policy grant member was created.
   final DateTime? createdAt;
@@ -37894,6 +38683,8 @@ class PolicyGrantMember {
 }
 
 /// The details of the policy grant.
+///
+/// @nodoc
 class PolicyGrantDetail {
   /// Specifies that the policy grant is to be added to the members of the
   /// project.
@@ -38064,6 +38855,8 @@ class PolicyGrantDetail {
 }
 
 /// The details of the policy grant.
+///
+/// @nodoc
 class CreateDomainUnitPolicyGrantDetail {
   /// Specifies whether the policy grant is applied to child domain units.
   final bool? includeChildDomainUnits;
@@ -38089,6 +38882,8 @@ class CreateDomainUnitPolicyGrantDetail {
 }
 
 /// The grant details of the override domain unit owners policy.
+///
+/// @nodoc
 class OverrideDomainUnitOwnersPolicyGrantDetail {
   /// Specifies whether the policy is inherited by child domain units.
   final bool? includeChildDomainUnits;
@@ -38114,6 +38909,8 @@ class OverrideDomainUnitOwnersPolicyGrantDetail {
 }
 
 /// The details of the policy grant.
+///
+/// @nodoc
 class AddToProjectMemberPoolPolicyGrantDetail {
   /// Specifies whether the policy grant is applied to child domain units.
   final bool? includeChildDomainUnits;
@@ -38139,6 +38936,8 @@ class AddToProjectMemberPoolPolicyGrantDetail {
 }
 
 /// The details of the override project owners policy grant.
+///
+/// @nodoc
 class OverrideProjectOwnersPolicyGrantDetail {
   /// Specifies whether the policy is inherited by child domain units.
   final bool? includeChildDomainUnits;
@@ -38164,6 +38963,8 @@ class OverrideProjectOwnersPolicyGrantDetail {
 }
 
 /// The details of the policy grant.
+///
+/// @nodoc
 class CreateGlossaryPolicyGrantDetail {
   /// Specifies whether the policy grant is applied to child domain units.
   final bool? includeChildDomainUnits;
@@ -38188,6 +38989,8 @@ class CreateGlossaryPolicyGrantDetail {
 }
 
 /// The details of the policy grant.
+///
+/// @nodoc
 class CreateFormTypePolicyGrantDetail {
   /// Specifies whether the policy grant is applied to child domain units.
   final bool? includeChildDomainUnits;
@@ -38212,6 +39015,8 @@ class CreateFormTypePolicyGrantDetail {
 }
 
 /// The details of the policy grant.
+///
+/// @nodoc
 class CreateAssetTypePolicyGrantDetail {
   /// Specifies whether the policy grant is applied to child domain units.
   final bool? includeChildDomainUnits;
@@ -38236,6 +39041,8 @@ class CreateAssetTypePolicyGrantDetail {
 }
 
 /// The details of the policy grant.
+///
+/// @nodoc
 class CreateProjectPolicyGrantDetail {
   /// Specifies whether the policy grant is applied to child domain units.
   final bool? includeChildDomainUnits;
@@ -38260,6 +39067,8 @@ class CreateProjectPolicyGrantDetail {
 }
 
 /// The details of the policy grant.
+///
+/// @nodoc
 class CreateEnvironmentProfilePolicyGrantDetail {
   /// The ID of the domain unit.
   final String? domainUnitId;
@@ -38284,6 +39093,8 @@ class CreateEnvironmentProfilePolicyGrantDetail {
 }
 
 /// The details of the policy of creating an environment.
+///
+/// @nodoc
 class Unit {
   Unit();
 
@@ -38298,6 +39109,8 @@ class Unit {
 
 /// Specifies whether to create a project from project profile policy grant
 /// details.
+///
+/// @nodoc
 class CreateProjectFromProjectProfilePolicyGrantDetail {
   /// Specifies whether to include child domain units when creating a project from
   /// project profile policy grant details
@@ -38336,6 +39149,8 @@ class CreateProjectFromProjectProfilePolicyGrantDetail {
 
 /// Specifies the domain unit(s) whose projects can use this asset type while
 /// creating asset or asset revisions.
+///
+/// @nodoc
 class UseAssetTypePolicyGrantDetail {
   /// The ID of the domain unit.
   final String? domainUnitId;
@@ -38359,6 +39174,8 @@ class UseAssetTypePolicyGrantDetail {
 }
 
 /// The details of a notification generated in Amazon DataZone.
+///
+/// @nodoc
 class NotificationOutput {
   /// The action link included in the notification.
   final String actionLink;
@@ -38455,6 +39272,7 @@ class NotificationOutput {
   }
 }
 
+/// @nodoc
 class NotificationType {
   static const task = NotificationType._('TASK');
   static const event = NotificationType._('EVENT');
@@ -38480,6 +39298,8 @@ class NotificationType {
 }
 
 /// The topic of the notification.
+///
+/// @nodoc
 class Topic {
   final NotificationResource resource;
 
@@ -38517,6 +39337,7 @@ class Topic {
   }
 }
 
+/// @nodoc
 class TaskStatus {
   static const active = TaskStatus._('ACTIVE');
   static const inactive = TaskStatus._('INACTIVE');
@@ -38541,6 +39362,8 @@ class TaskStatus {
 }
 
 /// The details of the resource mentioned in a notification.
+///
+/// @nodoc
 class NotificationResource {
   /// The ID of the resource mentioned in a notification.
   final String id;
@@ -38578,6 +39401,7 @@ class NotificationResource {
   }
 }
 
+/// @nodoc
 class NotificationRole {
   static const projectOwner = NotificationRole._('PROJECT_OWNER');
   static const projectContributor = NotificationRole._('PROJECT_CONTRIBUTOR');
@@ -38611,6 +39435,7 @@ class NotificationRole {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationResourceType {
   static const project = NotificationResourceType._('PROJECT');
 
@@ -38636,6 +39461,8 @@ class NotificationResourceType {
 }
 
 /// The summary of the data lineage node.
+///
+/// @nodoc
 class LineageNodeSummary {
   /// The ID of the domain of the data lineage node.
   final String domainId;
@@ -38736,6 +39563,7 @@ class LineageNodeSummary {
   }
 }
 
+/// @nodoc
 class EdgeDirection {
   static const upstream = EdgeDirection._('UPSTREAM');
   static const downstream = EdgeDirection._('DOWNSTREAM');
@@ -38761,6 +39589,8 @@ class EdgeDirection {
 }
 
 /// The data lineage event summary.
+///
+/// @nodoc
 class LineageEventSummary {
   /// The timestamp at which data lineage event was created.
   final DateTime? createdAt;
@@ -38828,6 +39658,7 @@ class LineageEventSummary {
   }
 }
 
+/// @nodoc
 class LineageEventProcessingStatus {
   static const requested = LineageEventProcessingStatus._('REQUESTED');
   static const processing = LineageEventProcessingStatus._('PROCESSING');
@@ -38856,6 +39687,8 @@ class LineageEventProcessingStatus {
 }
 
 /// The event summary.
+///
+/// @nodoc
 class EventSummary {
   /// The open lineage run event summary.
   final OpenLineageRunEventSummary? openLineageRunEventSummary;
@@ -38883,6 +39716,8 @@ class EventSummary {
 }
 
 /// The open lineage run event summary.
+///
+/// @nodoc
 class OpenLineageRunEventSummary {
   /// The event type of the open lineage run event summary.
   final OpenLineageRunState? eventType;
@@ -38942,6 +39777,7 @@ class OpenLineageRunEventSummary {
   }
 }
 
+/// @nodoc
 class OpenLineageRunState {
   static const start = OpenLineageRunState._('START');
   static const running = OpenLineageRunState._('RUNNING');
@@ -38972,6 +39808,8 @@ class OpenLineageRunState {
 }
 
 /// The name identifier.
+///
+/// @nodoc
 class NameIdentifier {
   /// The name in the name identifier.
   final String? name;
@@ -39002,6 +39840,8 @@ class NameIdentifier {
 }
 
 /// The job run summary.
+///
+/// @nodoc
 class JobRunSummary {
   /// The timestamp at which job run was created.
   final DateTime? createdAt;
@@ -39096,6 +39936,7 @@ class JobRunSummary {
   }
 }
 
+/// @nodoc
 class JobType {
   static const lineage = JobType._('LINEAGE');
 
@@ -39118,6 +39959,7 @@ class JobType {
   String toString() => value;
 }
 
+/// @nodoc
 class JobRunMode {
   static const scheduled = JobRunMode._('SCHEDULED');
   static const onDemand = JobRunMode._('ON_DEMAND');
@@ -39141,6 +39983,7 @@ class JobRunMode {
   String toString() => value;
 }
 
+/// @nodoc
 class JobRunStatus {
   static const scheduled = JobRunStatus._('SCHEDULED');
   static const inProgress = JobRunStatus._('IN_PROGRESS');
@@ -39180,6 +40023,8 @@ class JobRunStatus {
 }
 
 /// The job run error.
+///
+/// @nodoc
 class JobRunError {
   /// The job run error message.
   final String message;
@@ -39203,6 +40048,8 @@ class JobRunError {
 }
 
 /// The details of an environment.
+///
+/// @nodoc
 class EnvironmentSummary {
   /// The Amazon DataZone user who created the environment.
   final String createdBy;
@@ -39331,6 +40178,8 @@ class EnvironmentSummary {
 }
 
 /// The details of an environment profile.
+///
+/// @nodoc
 class EnvironmentProfileSummary {
   /// The Amazon DataZone user who created the environment profile.
   final String createdBy;
@@ -39426,6 +40275,8 @@ class EnvironmentProfileSummary {
 }
 
 /// The details of an environment blueprint summary.
+///
+/// @nodoc
 class EnvironmentBlueprintSummary {
   /// The identifier of the blueprint.
   final String id;
@@ -39495,6 +40346,8 @@ class EnvironmentBlueprintSummary {
 /// The details about the specified action configured for an environment. For
 /// example, the details of the specified console links for an analytics tool
 /// that is available in this environment.
+///
+/// @nodoc
 class EnvironmentActionSummary {
   /// The Amazon DataZone domain ID of the environment action.
   final String domainId;
@@ -39555,6 +40408,8 @@ class EnvironmentActionSummary {
 }
 
 /// The ID of the domain unit owners group.
+///
+/// @nodoc
 class OwnerPropertiesOutput {
   /// Specifies that the domain unit owner is a group.
   final OwnerGroupPropertiesOutput? group;
@@ -39591,6 +40446,8 @@ class OwnerPropertiesOutput {
 }
 
 /// The properties of the owner user.
+///
+/// @nodoc
 class OwnerUserPropertiesOutput {
   /// The ID of the owner user.
   final String? userId;
@@ -39614,6 +40471,8 @@ class OwnerUserPropertiesOutput {
 }
 
 /// The properties of the domain unit owners group.
+///
+/// @nodoc
 class OwnerGroupPropertiesOutput {
   /// The ID of the domain unit owners group.
   final String? groupId;
@@ -39637,6 +40496,8 @@ class OwnerGroupPropertiesOutput {
 }
 
 /// The activity details of the data source run.
+///
+/// @nodoc
 class DataSourceRunActivity {
   /// The timestamp of when data source run activity was created.
   final DateTime createdAt;
@@ -39734,6 +40595,7 @@ class DataSourceRunActivity {
   }
 }
 
+/// @nodoc
 class DataAssetActivityStatus {
   static const failed = DataAssetActivityStatus._('FAILED');
   static const publishingFailed =
@@ -39779,6 +40641,8 @@ class DataAssetActivityStatus {
 }
 
 /// The data lineage information.
+///
+/// @nodoc
 class LineageInfo {
   /// The data lineage error message.
   final String? errorMessage;
@@ -39817,6 +40681,8 @@ class LineageInfo {
 }
 
 /// The data product revision.
+///
+/// @nodoc
 class DataProductRevision {
   /// The timestamp at which the data product revision was created.
   final DateTime? createdAt;
@@ -39868,6 +40734,8 @@ class DataProductRevision {
 }
 
 /// The summary of a connection.
+///
+/// @nodoc
 class ConnectionSummary {
   /// The ID of a connection.
   final String connectionId;
@@ -39969,6 +40837,7 @@ class ConnectionSummary {
   }
 }
 
+/// @nodoc
 class SortFieldConnection {
   static const name = SortFieldConnection._('NAME');
 
@@ -39994,6 +40863,8 @@ class SortFieldConnection {
 }
 
 /// The revision of an inventory asset.
+///
+/// @nodoc
 class AssetRevision {
   /// The timestamp of when an inventory asset revison was created.
   final DateTime? createdAt;
@@ -40045,6 +40916,8 @@ class AssetRevision {
 }
 
 /// The summary of the asset filter.
+///
+/// @nodoc
 class AssetFilterSummary {
   /// The ID of the data asset.
   final String assetId;
@@ -40135,6 +41008,8 @@ class AssetFilterSummary {
 }
 
 /// The summary of the account pool.
+///
+/// @nodoc
 class AccountPoolSummary {
   /// The user who created the account pool.
   final String? createdBy;
@@ -40201,6 +41076,7 @@ class AccountPoolSummary {
   }
 }
 
+/// @nodoc
 class SortFieldAccountPool {
   static const name = SortFieldAccountPool._('NAME');
 
@@ -40226,6 +41102,8 @@ class SortFieldAccountPool {
 }
 
 /// The reference details for the data lineage node.
+///
+/// @nodoc
 class LineageNodeReference {
   /// The event timestamp of the data lineage node.
   final DateTime? eventTimestamp;
@@ -40257,6 +41135,8 @@ class LineageNodeReference {
 }
 
 /// The details of a job run.
+///
+/// @nodoc
 class JobRunDetails {
   /// The data lineage details of a job run.
   final LineageRunDetails? lineageRunDetails;
@@ -40283,6 +41163,8 @@ class JobRunDetails {
 }
 
 /// The data lineage run details.
+///
+/// @nodoc
 class LineageRunDetails {
   /// The SQL query run details of a data lineage run.
   final LineageSqlQueryRunDetails? sqlQueryRunDetails;
@@ -40309,6 +41191,8 @@ class LineageRunDetails {
 }
 
 /// The SQL query run details of a data lineage run.
+///
+/// @nodoc
 class LineageSqlQueryRunDetails {
   /// The error message of the SQL query run details of a data lineage run.
   final List<String>? errorMessages;
@@ -40367,6 +41251,7 @@ class LineageSqlQueryRunDetails {
   }
 }
 
+/// @nodoc
 class ConfigurationStatus {
   static const completed = ConfigurationStatus._('COMPLETED');
   static const failed = ConfigurationStatus._('FAILED');
@@ -40393,6 +41278,8 @@ class ConfigurationStatus {
 }
 
 /// The credentials of a connection.
+///
+/// @nodoc
 class ConnectionCredentials {
   /// The access key ID of a connection.
   final String? accessKeyId;
@@ -40436,6 +41323,7 @@ class ConnectionCredentials {
   }
 }
 
+/// @nodoc
 class GovernedEntityType {
   static const asset = GovernedEntityType._('ASSET');
 
@@ -40461,6 +41349,8 @@ class GovernedEntityType {
 }
 
 /// The details about a project member.
+///
+/// @nodoc
 class Member {
   /// The ID of the group of a project member.
   final String? groupIdentifier;
@@ -40483,6 +41373,7 @@ class Member {
   }
 }
 
+/// @nodoc
 class UserType {
   static const iamUser = UserType._('IAM_USER');
   static const iamRole = UserType._('IAM_ROLE');
@@ -40509,6 +41400,8 @@ class UserType {
 }
 
 /// The accepted asset scope.
+///
+/// @nodoc
 class AcceptedAssetScope {
   /// The asset ID of the accepted asset scope.
   final String assetId;
@@ -40532,6 +41425,8 @@ class AcceptedAssetScope {
 }
 
 /// The asset permissions.
+///
+/// @nodoc
 class AssetPermission {
   /// The asset ID as part of the asset permissions.
   final String assetId;
@@ -40555,6 +41450,8 @@ class AssetPermission {
 }
 
 /// The published asset for which the subscription grant is to be created.
+///
+/// @nodoc
 class SubscribedListingInput {
   /// The identifier of the published asset for which the subscription grant is to
   /// be created.
@@ -40573,6 +41470,8 @@ class SubscribedListingInput {
 }
 
 /// The principal that is to be given a subscriptiong grant.
+///
+/// @nodoc
 class SubscribedPrincipalInput {
   /// The subscribed group.
   final SubscribedGroupInput? group;
@@ -40608,6 +41507,8 @@ class SubscribedPrincipalInput {
 }
 
 /// The project that is to be given a subscription grant.
+///
+/// @nodoc
 class SubscribedProjectInput {
   /// The identifier of the project that is to be given a subscription grant.
   final String? identifier;
@@ -40625,6 +41526,8 @@ class SubscribedProjectInput {
 }
 
 /// The subscribed user.
+///
+/// @nodoc
 class SubscribedUserInput {
   /// The ID of the subscribed user.
   final String? identifier;
@@ -40642,6 +41545,8 @@ class SubscribedUserInput {
 }
 
 /// The details of the subscribed group.
+///
+/// @nodoc
 class SubscribedGroupInput {
   /// The ID of the subscribed group.
   final String? identifier;
@@ -40659,6 +41564,8 @@ class SubscribedGroupInput {
 }
 
 /// The details of the subscribed IAM principal.
+///
+/// @nodoc
 class SubscribedIamPrincipalInput {
   /// The ARN of the subscribed IAM principal.
   final String? identifier;
@@ -40676,6 +41583,8 @@ class SubscribedIamPrincipalInput {
 }
 
 /// The details of a listing for which a subscription is to be granted.
+///
+/// @nodoc
 class GrantedEntityInput {
   /// The listing for which a subscription is to be granted.
   final ListingRevisionInput? listing;
@@ -40693,6 +41602,8 @@ class GrantedEntityInput {
 }
 
 /// The name map for assets.
+///
+/// @nodoc
 class AssetTargetNameMap {
   /// The identifier of the inventory asset.
   final String assetId;
@@ -40716,6 +41627,8 @@ class AssetTargetNameMap {
 }
 
 /// A revision to be made to an asset published in a Amazon DataZone catalog.
+///
+/// @nodoc
 class ListingRevisionInput {
   /// An identifier of revision to be made to an asset published in a Amazon
   /// DataZone catalog.
@@ -40742,6 +41655,8 @@ class ListingRevisionInput {
 
 /// A map of user or group profiles to designations that need to be assigned in
 /// the project.
+///
+/// @nodoc
 class ProjectMembershipAssignment {
   /// The designation of the project membership.
   final UserDesignation designation;
@@ -40764,6 +41679,7 @@ class ProjectMembershipAssignment {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const asset = EntityType._('ASSET');
   static const dataProduct = EntityType._('DATA_PRODUCT');
@@ -40787,6 +41703,7 @@ class EntityType {
   String toString() => value;
 }
 
+/// @nodoc
 class ChangeAction {
   static const publish = ChangeAction._('PUBLISH');
   static const unpublish = ChangeAction._('UNPUBLISH');
@@ -40811,6 +41728,8 @@ class ChangeAction {
 }
 
 /// The properties of a connection.
+///
+/// @nodoc
 class ConnectionPropertiesInput {
   /// The Amazon Q properties of the connection.
   final AmazonQPropertiesInput? amazonQProperties;
@@ -40910,6 +41829,8 @@ class ConnectionPropertiesInput {
 }
 
 /// The Amazon Athena properties of a connection.
+///
+/// @nodoc
 class AthenaPropertiesInput {
   /// The Amazon Athena workgroup name of a connection.
   final String? workgroupName;
@@ -40927,6 +41848,8 @@ class AthenaPropertiesInput {
 }
 
 /// The Amazon Web Services Glue properties of a connection.
+///
+/// @nodoc
 class GluePropertiesInput {
   /// The Amazon Web Services Glue connection.
   final GlueConnectionInput? glueConnectionInput;
@@ -40945,6 +41868,8 @@ class GluePropertiesInput {
 }
 
 /// The hyper pod properties of a Amazon Web Services Glue properties patch.
+///
+/// @nodoc
 class HyperPodPropertiesInput {
   /// The cluster name the hyper pod properties.
   final String clusterName;
@@ -40962,6 +41887,8 @@ class HyperPodPropertiesInput {
 }
 
 /// The IAM properties of a connection.
+///
+/// @nodoc
 class IamPropertiesInput {
   /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a
   /// connection.
@@ -40981,6 +41908,8 @@ class IamPropertiesInput {
 }
 
 /// The Amazon Redshift properties.
+///
+/// @nodoc
 class RedshiftPropertiesInput {
   /// The Amaon Redshift credentials.
   final RedshiftCredentials? credentials;
@@ -41028,6 +41957,8 @@ class RedshiftPropertiesInput {
 }
 
 /// The Spark EMR properties.
+///
+/// @nodoc
 class SparkEmrPropertiesInput {
   /// The compute ARN of Spark EMR.
   final String? computeArn;
@@ -41088,6 +42019,8 @@ class SparkEmrPropertiesInput {
 }
 
 /// The Spark Amazon Web Services Glue properties.
+///
+/// @nodoc
 class SparkGluePropertiesInput {
   /// The additional args in the Spark Amazon Web Services Glue properties.
   final SparkGlueArgs? additionalArgs;
@@ -41159,6 +42092,8 @@ class SparkGluePropertiesInput {
 }
 
 /// The Amazon S3 properties of a connection.
+///
+/// @nodoc
 class S3PropertiesInput {
   /// The Amazon S3 URI that's part of the Amazon S3 properties of a connection.
   final String s3Uri;
@@ -41191,6 +42126,8 @@ class S3PropertiesInput {
 }
 
 /// The Amazon Q properties of the connection.
+///
+/// @nodoc
 class AmazonQPropertiesInput {
   /// Specifies whether Amazon Q is enabled for the connection.
   final bool isEnabled;
@@ -41220,6 +42157,8 @@ class AmazonQPropertiesInput {
 }
 
 /// The MLflow properties of a connection.
+///
+/// @nodoc
 class MlflowPropertiesInput {
   /// The tracking server ARN as part of the MLflow properties of a connection.
   final String? trackingServerArn;
@@ -41237,6 +42176,8 @@ class MlflowPropertiesInput {
 }
 
 /// The Amazon MWAA properties.
+///
+/// @nodoc
 class WorkflowsMwaaPropertiesInput {
   /// The MWAA environment name.
   final String? mwaaEnvironmentName;
@@ -41255,6 +42196,8 @@ class WorkflowsMwaaPropertiesInput {
 }
 
 /// The MWAA serverless properties.
+///
+/// @nodoc
 class WorkflowsServerlessPropertiesInput {
   WorkflowsServerlessPropertiesInput();
 
@@ -41264,6 +42207,8 @@ class WorkflowsServerlessPropertiesInput {
 }
 
 /// The lakehouse properties of a connection.
+///
+/// @nodoc
 class LakehousePropertiesInput {
   /// Specifies whether to enable Glue lineage sync for tables managed by Glue
   /// crawlers.
@@ -41283,17 +42228,19 @@ class LakehousePropertiesInput {
 }
 
 /// The VPC connection properties used when creating a connection.
+///
+/// @nodoc
 class VpcPropertiesInput {
   /// The subnet IDs of the VPC connection. You can specify between 1 and 16
   /// subnet IDs.
   final List<String> subnetIds;
 
   /// The identifier of the VPC. Must match the pattern
-  /// <code>^vpc-[a-z0-9]+$</code>. Maximum length of 32.
+  /// <code>^vpc-\[a-z0-9\]+$</code>. Maximum length of 32.
   final String vpcId;
 
   /// The security group ID of the VPC connection. Must match the pattern
-  /// <code>^sg-[a-z0-9]+$</code>. Maximum length of 32.
+  /// <code>^sg-\[a-z0-9\]+$</code>. Maximum length of 32.
   final String? securityGroupId;
 
   VpcPropertiesInput({
@@ -41315,6 +42262,8 @@ class VpcPropertiesInput {
 }
 
 /// The Amazon Web Services Glue connecton input.
+///
+/// @nodoc
 class GlueConnectionInput {
   /// The Amazon Athena properties of the Amazon Web Services Glue connection.
   final Map<String, String>? athenaProperties;
@@ -41406,6 +42355,7 @@ class GlueConnectionInput {
   }
 }
 
+/// @nodoc
 class GlueConnectionType {
   static const snowflake = GlueConnectionType._('SNOWFLAKE');
   static const bigquery = GlueConnectionType._('BIGQUERY');
@@ -41457,6 +42407,8 @@ class GlueConnectionType {
 }
 
 /// The authentication configuration of a connection.
+///
+/// @nodoc
 class AuthenticationConfigurationInput {
   /// The authentication type of a connection.
   final AuthenticationType? authenticationType;
@@ -41508,6 +42460,8 @@ class AuthenticationConfigurationInput {
 }
 
 /// The results of the BatchPutAttribute action.
+///
+/// @nodoc
 class BatchPutAttributeOutput {
   /// The attribute ID.
   final String attributeIdentifier;
@@ -41531,6 +42485,8 @@ class BatchPutAttributeOutput {
 }
 
 /// The attribute error.
+///
+/// @nodoc
 class AttributeError {
   /// The attribute ID as part of the attribute error.
   final String attributeIdentifier;
@@ -41567,6 +42523,7 @@ class AttributeError {
   }
 }
 
+/// @nodoc
 class AttributeEntityType {
   static const asset = AttributeEntityType._('ASSET');
   static const listing = AttributeEntityType._('LISTING');
@@ -41593,6 +42550,8 @@ class AttributeEntityType {
 }
 
 /// The attribute input.
+///
+/// @nodoc
 class AttributeInput {
   /// The ID of the attribute.
   final String attributeIdentifier;
@@ -41616,6 +42575,8 @@ class AttributeInput {
 }
 
 /// The results of the BatchGetAttribute action.
+///
+/// @nodoc
 class BatchGetAttributeOutput {
   /// The attribute ID.
   final String attributeIdentifier;
@@ -41651,6 +42612,8 @@ class BatchGetAttributeOutput {
 
 /// Specifies the rule and the threshold under which a prediction can be
 /// accepted.
+///
+/// @nodoc
 class AcceptRule {
   /// Specifies whether you want to accept the top prediction for all targets or
   /// none.
@@ -41677,6 +42640,8 @@ class AcceptRule {
 
 /// Specifies the prediction (aka, the automatically generated piece of
 /// metadata) and the target (for example, a column name) that can be accepted.
+///
+/// @nodoc
 class AcceptChoice {
   /// Specifies the target (for example, a column name) where a prediction can be
   /// accepted.
@@ -41707,6 +42672,7 @@ class AcceptChoice {
   }
 }
 
+/// @nodoc
 class AcceptRuleBehavior {
   static const all = AcceptRuleBehavior._('ALL');
   static const none = AcceptRuleBehavior._('NONE');
@@ -41732,26 +42698,31 @@ class AcceptRuleBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -41760,11 +42731,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

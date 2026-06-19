@@ -1975,6 +1975,7 @@ class AppRunner {
   }
 }
 
+/// @nodoc
 class AssociateCustomDomainResponse {
   /// A description of the domain name that's being associated.
   final CustomDomain customDomain;
@@ -2025,6 +2026,7 @@ class AssociateCustomDomainResponse {
   }
 }
 
+/// @nodoc
 class CreateAutoScalingConfigurationResponse {
   /// A description of the App Runner auto scaling configuration that's created by
   /// this request.
@@ -2051,6 +2053,7 @@ class CreateAutoScalingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectionResponse {
   /// A description of the App Runner connection that's created by this request.
   final Connection connection;
@@ -2075,6 +2078,7 @@ class CreateConnectionResponse {
   }
 }
 
+/// @nodoc
 class CreateObservabilityConfigurationResponse {
   /// A description of the App Runner observability configuration that's created
   /// by this request.
@@ -2101,6 +2105,7 @@ class CreateObservabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceResponse {
   /// The unique ID of the asynchronous operation that this request started. You
   /// can use it combined with the <a
@@ -2134,6 +2139,7 @@ class CreateServiceResponse {
   }
 }
 
+/// @nodoc
 class CreateVpcConnectorResponse {
   /// A description of the App Runner VPC connector that's created by this
   /// request.
@@ -2159,6 +2165,7 @@ class CreateVpcConnectorResponse {
   }
 }
 
+/// @nodoc
 class CreateVpcIngressConnectionResponse {
   /// A description of the App Runner VPC Ingress Connection resource that's
   /// created by this request.
@@ -2185,6 +2192,7 @@ class CreateVpcIngressConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAutoScalingConfigurationResponse {
   /// A description of the App Runner auto scaling configuration that this request
   /// just deleted.
@@ -2211,6 +2219,7 @@ class DeleteAutoScalingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectionResponse {
   /// A description of the App Runner connection that this request just deleted.
   final Connection? connection;
@@ -2235,6 +2244,7 @@ class DeleteConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteObservabilityConfigurationResponse {
   /// A description of the App Runner observability configuration that this
   /// request just deleted.
@@ -2261,6 +2271,7 @@ class DeleteObservabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceResponse {
   /// The unique ID of the asynchronous operation that this request started. You
   /// can use it combined with the <a>ListOperations</a> call to track the
@@ -2293,6 +2304,7 @@ class DeleteServiceResponse {
   }
 }
 
+/// @nodoc
 class DeleteVpcConnectorResponse {
   /// A description of the App Runner VPC connector that this request just
   /// deleted.
@@ -2318,6 +2330,7 @@ class DeleteVpcConnectorResponse {
   }
 }
 
+/// @nodoc
 class DeleteVpcIngressConnectionResponse {
   /// A description of the App Runner VPC Ingress Connection that this request
   /// just deleted.
@@ -2344,6 +2357,7 @@ class DeleteVpcIngressConnectionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAutoScalingConfigurationResponse {
   /// A full description of the App Runner auto scaling configuration that you
   /// specified in this request.
@@ -2370,6 +2384,7 @@ class DescribeAutoScalingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomDomainsResponse {
   /// A list of descriptions of custom domain names that are associated with the
   /// service. In a paginated request, the request returns up to
@@ -2431,6 +2446,7 @@ class DescribeCustomDomainsResponse {
   }
 }
 
+/// @nodoc
 class DescribeObservabilityConfigurationResponse {
   /// A full description of the App Runner observability configuration that you
   /// specified in this request.
@@ -2457,6 +2473,7 @@ class DescribeObservabilityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeServiceResponse {
   /// A full description of the App Runner service that you specified in this
   /// request.
@@ -2481,6 +2498,7 @@ class DescribeServiceResponse {
   }
 }
 
+/// @nodoc
 class DescribeVpcConnectorResponse {
   /// A description of the App Runner VPC connector that you specified in this
   /// request.
@@ -2506,6 +2524,7 @@ class DescribeVpcConnectorResponse {
   }
 }
 
+/// @nodoc
 class DescribeVpcIngressConnectionResponse {
   /// A description of the App Runner VPC Ingress Connection that you specified in
   /// this request.
@@ -2532,6 +2551,7 @@ class DescribeVpcIngressConnectionResponse {
   }
 }
 
+/// @nodoc
 class DisassociateCustomDomainResponse {
   /// A description of the domain name that's being disassociated.
   final CustomDomain customDomain;
@@ -2582,6 +2602,7 @@ class DisassociateCustomDomainResponse {
   }
 }
 
+/// @nodoc
 class ListAutoScalingConfigurationsResponse {
   /// A list of summary information records for auto scaling configurations. In a
   /// paginated request, the request returns up to <code>MaxResults</code> records
@@ -2623,6 +2644,7 @@ class ListAutoScalingConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListConnectionsResponse {
   /// A list of summary information records for connections. In a paginated
   /// request, the request returns up to <code>MaxResults</code> records for each
@@ -2659,6 +2681,7 @@ class ListConnectionsResponse {
   }
 }
 
+/// @nodoc
 class ListObservabilityConfigurationsResponse {
   /// A list of summary information records for observability configurations. In a
   /// paginated request, the request returns up to <code>MaxResults</code> records
@@ -2700,6 +2723,7 @@ class ListObservabilityConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListOperationsResponse {
   /// The token that you can pass in a subsequent request to get the next result
   /// page. It's returned in a paginated request.
@@ -2735,6 +2759,7 @@ class ListOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListServicesResponse {
   /// A list of service summary information records. In a paginated request, the
   /// request returns up to <code>MaxResults</code> records for each call.
@@ -2769,6 +2794,7 @@ class ListServicesResponse {
   }
 }
 
+/// @nodoc
 class ListServicesForAutoScalingConfigurationResponse {
   /// A list of service ARN records. In a paginated request, the request returns
   /// up to <code>MaxResults</code> records for each call.
@@ -2804,6 +2830,7 @@ class ListServicesForAutoScalingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of the tag key-value pairs that are associated with the resource.
   final List<Tag>? tags;
@@ -2829,6 +2856,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListVpcConnectorsResponse {
   /// A list of information records for VPC connectors. In a paginated request,
   /// the request returns up to <code>MaxResults</code> records for each call.
@@ -2863,6 +2891,7 @@ class ListVpcConnectorsResponse {
   }
 }
 
+/// @nodoc
 class ListVpcIngressConnectionsResponse {
   /// A list of summary information records for VPC Ingress Connections. In a
   /// paginated request, the request returns up to <code>MaxResults</code> records
@@ -2903,6 +2932,7 @@ class ListVpcIngressConnectionsResponse {
   }
 }
 
+/// @nodoc
 class PauseServiceResponse {
   /// A description of the App Runner service that this request just paused.
   final Service service;
@@ -2935,6 +2965,7 @@ class PauseServiceResponse {
   }
 }
 
+/// @nodoc
 class ResumeServiceResponse {
   /// A description of the App Runner service that this request just resumed.
   final Service service;
@@ -2967,6 +2998,7 @@ class ResumeServiceResponse {
   }
 }
 
+/// @nodoc
 class StartDeploymentResponse {
   /// The unique ID of the asynchronous operation that this request started. You
   /// can use it combined with the <a>ListOperations</a> call to track the
@@ -2991,6 +3023,7 @@ class StartDeploymentResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3003,6 +3036,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3015,6 +3049,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDefaultAutoScalingConfigurationResponse {
   /// A description of the App Runner auto scaling configuration that was set as
   /// default.
@@ -3041,6 +3076,7 @@ class UpdateDefaultAutoScalingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceResponse {
   /// The unique ID of the asynchronous operation that this request started. You
   /// can use it combined with the <a>ListOperations</a> call to track the
@@ -3075,6 +3111,7 @@ class UpdateServiceResponse {
   }
 }
 
+/// @nodoc
 class UpdateVpcIngressConnectionResponse {
   /// A description of the App Runner VPC Ingress Connection resource that's
   /// updated by this request.
@@ -3105,6 +3142,8 @@ class UpdateVpcIngressConnectionResponse {
 /// traffic. It establishes a connection between a VPC interface endpoint and a
 /// App Runner service, to make your App Runner service accessible from only
 /// within an Amazon VPC.
+///
+/// @nodoc
 class VpcIngressConnection {
   /// The Account Id you use to create the VPC Ingress Connection resource.
   final String? accountId;
@@ -3217,6 +3256,7 @@ class VpcIngressConnection {
   }
 }
 
+/// @nodoc
 class VpcIngressConnectionStatus {
   static const available = VpcIngressConnectionStatus._('AVAILABLE');
   static const pendingCreation =
@@ -3262,6 +3302,8 @@ class VpcIngressConnectionStatus {
 /// The configuration of your VPC and the associated VPC endpoint. The VPC
 /// endpoint is an Amazon Web Services PrivateLink resource that allows access
 /// to your App Runner services from within an Amazon VPC.
+///
+/// @nodoc
 class IngressVpcConfiguration {
   /// The ID of the VPC endpoint that your App Runner service connects to.
   final String? vpcEndpointId;
@@ -3306,6 +3348,8 @@ class IngressVpcConfiguration {
 /// action using the <a
 /// href="https://docs.aws.amazon.com/apprunner/latest/api/API_ServiceSummary.html">ServiceSummary</a>
 /// type.
+///
+/// @nodoc
 class Service {
   /// Summary information for the App Runner automatic scaling configuration
   /// resource that's associated with this service.
@@ -3475,6 +3519,7 @@ class Service {
   }
 }
 
+/// @nodoc
 class ServiceStatus {
   static const createFailed = ServiceStatus._('CREATE_FAILED');
   static const running = ServiceStatus._('RUNNING');
@@ -3512,6 +3557,8 @@ class ServiceStatus {
 
 /// Describes the source deployed to an App Runner service. It can be a code or
 /// an image repository.
+///
+/// @nodoc
 class SourceConfiguration {
   /// Describes the resources that are needed to authenticate access to some
   /// source repositories.
@@ -3583,6 +3630,8 @@ class SourceConfiguration {
 
 /// Describes the runtime configuration of an App Runner service instance
 /// (scaling unit).
+///
+/// @nodoc
 class InstanceConfiguration {
   /// The number of CPU units reserved for each instance of your App Runner
   /// service.
@@ -3629,6 +3678,8 @@ class InstanceConfiguration {
 
 /// Describes a custom encryption key that App Runner uses to encrypt copies of
 /// the source repository and service logs.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The ARN of the KMS key that's used for encryption.
   final String kmsKey;
@@ -3653,6 +3704,8 @@ class EncryptionConfiguration {
 
 /// Describes the settings for the health check that App Runner performs to
 /// monitor the health of a service.
+///
+/// @nodoc
 class HealthCheckConfiguration {
   /// The number of consecutive checks that must succeed before App Runner decides
   /// that the service is healthy.
@@ -3744,6 +3797,8 @@ class HealthCheckConfiguration {
 /// <a>DescribeAutoScalingConfiguration</a>, and
 /// <a>DeleteAutoScalingConfiguration</a> actions using the
 /// <a>AutoScalingConfiguration</a> type.
+///
+/// @nodoc
 class AutoScalingConfigurationSummary {
   /// The Amazon Resource Name (ARN) of this auto scaling configuration.
   final String? autoScalingConfigurationArn;
@@ -3834,6 +3889,8 @@ class AutoScalingConfigurationSummary {
 
 /// Describes configuration settings related to network traffic of an App Runner
 /// service. Consists of embedded objects for each configurable network feature.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// Network configuration settings for outbound message traffic.
   final EgressConfiguration? egressConfiguration;
@@ -3885,6 +3942,8 @@ class NetworkConfiguration {
 /// are additional observability features, like tracing, that you choose to
 /// enable. They're configured in a separate resource that you associate with
 /// your service.
+///
+/// @nodoc
 class ServiceObservabilityConfiguration {
   /// When <code>true</code>, an observability configuration resource is
   /// associated with the service, and an
@@ -3930,6 +3989,8 @@ class ServiceObservabilityConfiguration {
 
 /// Describes configuration settings related to outbound network traffic of an
 /// App Runner service.
+///
+/// @nodoc
 class EgressConfiguration {
   /// The type of egress configuration.
   ///
@@ -3968,6 +4029,8 @@ class EgressConfiguration {
 }
 
 /// Network configuration settings for inbound network traffic.
+///
+/// @nodoc
 class IngressConfiguration {
   /// Specifies whether your App Runner service is publicly accessible. To make
   /// the service publicly accessible set it to <code>True</code>. To make the
@@ -3994,6 +4057,7 @@ class IngressConfiguration {
   }
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('IPV4');
   static const dualStack = IpAddressType._('DUAL_STACK');
@@ -4018,6 +4082,7 @@ class IpAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class EgressType {
   static const $default = EgressType._('DEFAULT');
   static const vpc = EgressType._('VPC');
@@ -4041,6 +4106,7 @@ class EgressType {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoScalingConfigurationStatus {
   static const active = AutoScalingConfigurationStatus._('ACTIVE');
   static const inactive = AutoScalingConfigurationStatus._('INACTIVE');
@@ -4066,6 +4132,7 @@ class AutoScalingConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HealthCheckProtocol {
   static const tcp = HealthCheckProtocol._('TCP');
   static const http = HealthCheckProtocol._('HTTP');
@@ -4092,6 +4159,8 @@ class HealthCheckProtocol {
 }
 
 /// Describes a source code repository.
+///
+/// @nodoc
 class CodeRepository {
   /// The location of the repository that contains the source code.
   final String repositoryUrl;
@@ -4148,6 +4217,8 @@ class CodeRepository {
 }
 
 /// Describes a source image repository.
+///
+/// @nodoc
 class ImageRepository {
   /// The identifier of an image.
   ///
@@ -4196,6 +4267,8 @@ class ImageRepository {
 
 /// Describes resources needed to authenticate access to some source
 /// repositories. The specific resource depends on the repository provider.
+///
+/// @nodoc
 class AuthenticationConfiguration {
   /// The Amazon Resource Name (ARN) of the IAM role that grants the App Runner
   /// service access to a source repository. It's required for ECR image
@@ -4231,6 +4304,8 @@ class AuthenticationConfiguration {
 
 /// Describes the configuration that App Runner uses to run an App Runner
 /// service using an image pulled from a source image repository.
+///
+/// @nodoc
 class ImageConfiguration {
   /// The port that your application listens to in the container.
   ///
@@ -4302,6 +4377,7 @@ class ImageConfiguration {
   }
 }
 
+/// @nodoc
 class ImageRepositoryType {
   static const ecr = ImageRepositoryType._('ECR');
   static const ecrPublic = ImageRepositoryType._('ECR_PUBLIC');
@@ -4329,6 +4405,8 @@ class ImageRepositoryType {
 
 /// Identifies a version of code that App Runner refers to within a source code
 /// repository.
+///
+/// @nodoc
 class SourceCodeVersion {
   /// The type of version identifier.
   ///
@@ -4365,6 +4443,8 @@ class SourceCodeVersion {
 
 /// Describes the configuration that App Runner uses to build and run an App
 /// Runner service from a source code repository.
+///
+/// @nodoc
 class CodeConfiguration {
   /// The source of the App Runner configuration. Values are interpreted as
   /// follows:
@@ -4416,6 +4496,7 @@ class CodeConfiguration {
   }
 }
 
+/// @nodoc
 class ConfigurationSource {
   static const repository = ConfigurationSource._('REPOSITORY');
   static const api = ConfigurationSource._('API');
@@ -4445,6 +4526,8 @@ class ConfigurationSource {
 /// Runner service. This type doesn't support the full set of possible
 /// configuration options. Fur full configuration capabilities, use a
 /// <code>apprunner.yaml</code> file in the source code repository.
+///
+/// @nodoc
 class CodeConfigurationValues {
   /// A runtime environment type for building and running an App Runner service.
   /// It represents a programming language runtime.
@@ -4529,6 +4612,7 @@ class CodeConfigurationValues {
   }
 }
 
+/// @nodoc
 class Runtime {
   static const python_3 = Runtime._('PYTHON_3');
   static const nodejs_12 = Runtime._('NODEJS_12');
@@ -4577,6 +4661,7 @@ class Runtime {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceCodeVersionType {
   static const branch = SourceCodeVersionType._('BRANCH');
 
@@ -4613,6 +4698,8 @@ class SourceCodeVersionType {
 /// Multiple revisions of a configuration might have the same
 /// <code>AutoScalingConfigurationName</code> and different
 /// <code>AutoScalingConfigurationRevision</code> values.
+///
+/// @nodoc
 class AutoScalingConfiguration {
   /// The Amazon Resource Name (ARN) of this auto scaling configuration.
   final String? autoScalingConfigurationArn;
@@ -4753,6 +4840,8 @@ class AutoScalingConfiguration {
 
 /// Describes a tag that is applied to an App Runner resource. A tag is a
 /// metadata item consisting of a key-value pair.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String? key;
@@ -4784,6 +4873,8 @@ class Tag {
 
 /// Provides summary information about an VPC Ingress Connection, which includes
 /// its VPC Ingress Connection ARN and its associated Service ARN.
+///
+/// @nodoc
 class VpcIngressConnectionSummary {
   /// The Amazon Resource Name (ARN) of the service associated with the VPC
   /// Ingress Connection.
@@ -4818,6 +4909,8 @@ class VpcIngressConnectionSummary {
 /// Returns a list of VPC Ingress Connections based on the filter provided. It
 /// can return either <code>ServiceArn</code> or <code>VpcEndpointId</code>, or
 /// both.
+///
+/// @nodoc
 class ListVpcIngressConnectionsFilter {
   /// The Amazon Resource Name (ARN) of a service to filter by.
   final String? serviceArn;
@@ -4849,6 +4942,8 @@ class ListVpcIngressConnectionsFilter {
 /// <note>
 /// At this time, App Runner supports only one revision per name.
 /// </note>
+///
+/// @nodoc
 class VpcConnector {
   /// The time when the VPC connector was created. It's in Unix time stamp format.
   final DateTime? createdAt;
@@ -4937,6 +5032,7 @@ class VpcConnector {
   }
 }
 
+/// @nodoc
 class VpcConnectorStatus {
   static const active = VpcConnectorStatus._('ACTIVE');
   static const inactive = VpcConnectorStatus._('INACTIVE');
@@ -4976,6 +5072,8 @@ class VpcConnectorStatus {
 /// actions using the <a
 /// href="https://docs.aws.amazon.com/apprunner/latest/api/API_Service.html">Service</a>
 /// type.
+///
+/// @nodoc
 class ServiceSummary {
   /// The time when the App Runner service was created. It's in the Unix time
   /// stamp format.
@@ -5062,6 +5160,8 @@ class ServiceSummary {
 
 /// Provides summary information for an operation that occurred on an App Runner
 /// service.
+///
+/// @nodoc
 class OperationSummary {
   /// The time when the operation ended. It's in the Unix time stamp format.
   final DateTime? endedAt;
@@ -5129,6 +5229,7 @@ class OperationSummary {
   }
 }
 
+/// @nodoc
 class OperationType {
   static const startDeployment = OperationType._('START_DEPLOYMENT');
   static const createService = OperationType._('CREATE_SERVICE');
@@ -5164,6 +5265,7 @@ class OperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class OperationStatus {
   static const pending = OperationStatus._('PENDING');
   static const inProgress = OperationStatus._('IN_PROGRESS');
@@ -5212,6 +5314,8 @@ class OperationStatus {
 /// <a>DescribeObservabilityConfiguration</a>, and
 /// <a>DeleteObservabilityConfiguration</a> actions using the
 /// <a>ObservabilityConfiguration</a> type.
+///
+/// @nodoc
 class ObservabilityConfigurationSummary {
   /// The Amazon Resource Name (ARN) of this observability configuration.
   final String? observabilityConfigurationArn;
@@ -5261,6 +5365,8 @@ class ObservabilityConfigurationSummary {
 }
 
 /// Provides summary information about an App Runner connection resource.
+///
+/// @nodoc
 class ConnectionSummary {
   /// The Amazon Resource Name (ARN) of this connection.
   final String? connectionArn;
@@ -5314,6 +5420,7 @@ class ConnectionSummary {
   }
 }
 
+/// @nodoc
 class ProviderType {
   static const github = ProviderType._('GITHUB');
   static const bitbucket = ProviderType._('BITBUCKET');
@@ -5337,6 +5444,7 @@ class ProviderType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const pendingHandshake = ConnectionStatus._('PENDING_HANDSHAKE');
   static const available = ConnectionStatus._('AVAILABLE');
@@ -5364,6 +5472,8 @@ class ConnectionStatus {
 }
 
 /// Describes a custom domain that's associated with an App Runner service.
+///
+/// @nodoc
 class CustomDomain {
   /// An associated custom domain endpoint. It can be a root domain (for example,
   /// <code>example.com</code>), a subdomain (for example,
@@ -5419,6 +5529,8 @@ class CustomDomain {
 }
 
 /// DNS Target record for a custom domain of this Amazon VPC.
+///
+/// @nodoc
 class VpcDNSTarget {
   /// The domain name of your target DNS that is associated with the Amazon VPC.
   final String? domainName;
@@ -5458,6 +5570,7 @@ class VpcDNSTarget {
   }
 }
 
+/// @nodoc
 class CustomDomainAssociationStatus {
   static const creating = CustomDomainAssociationStatus._('CREATING');
   static const createFailed = CustomDomainAssociationStatus._('CREATE_FAILED');
@@ -5501,6 +5614,8 @@ class CustomDomainAssociationStatus {
 /// Describes a certificate CNAME record to add to your DNS. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/apprunner/latest/api/API_AssociateCustomDomain.html">AssociateCustomDomain</a>.
+///
+/// @nodoc
 class CertificateValidationRecord {
   /// The certificate CNAME record name.
   final String? name;
@@ -5547,6 +5662,7 @@ class CertificateValidationRecord {
   }
 }
 
+/// @nodoc
 class CertificateValidationRecordStatus {
   static const pendingValidation =
       CertificateValidationRecordStatus._('PENDING_VALIDATION');
@@ -5584,6 +5700,8 @@ class CertificateValidationRecordStatus {
 /// configuration of these features (currently one member,
 /// <code>TraceConfiguration</code>). If a feature member isn't specified, the
 /// feature isn't enabled.
+///
+/// @nodoc
 class ObservabilityConfiguration {
   /// The time when the observability configuration was created. It's in Unix time
   /// stamp format.
@@ -5681,6 +5799,8 @@ class ObservabilityConfiguration {
 
 /// Describes the configuration of the tracing feature within an App Runner
 /// observability configuration.
+///
+/// @nodoc
 class TraceConfiguration {
   /// The implementation provider chosen for tracing App Runner services.
   final TracingVendor vendor;
@@ -5703,6 +5823,7 @@ class TraceConfiguration {
   }
 }
 
+/// @nodoc
 class ObservabilityConfigurationStatus {
   static const active = ObservabilityConfigurationStatus._('ACTIVE');
   static const inactive = ObservabilityConfigurationStatus._('INACTIVE');
@@ -5728,6 +5849,7 @@ class ObservabilityConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TracingVendor {
   static const awsxray = TracingVendor._('AWSXRAY');
 
@@ -5752,6 +5874,8 @@ class TracingVendor {
 }
 
 /// Describes an App Runner connection resource.
+///
+/// @nodoc
 class Connection {
   /// The Amazon Resource Name (ARN) of this connection.
   final String? connectionArn;
@@ -5805,6 +5929,7 @@ class Connection {
   }
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -5813,21 +5938,25 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(

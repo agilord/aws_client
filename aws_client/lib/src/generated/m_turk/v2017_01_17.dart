@@ -2261,6 +2261,7 @@ class MTurk {
   }
 }
 
+/// @nodoc
 class AcceptQualificationRequestResponse {
   AcceptQualificationRequestResponse();
 
@@ -2273,6 +2274,7 @@ class AcceptQualificationRequestResponse {
   }
 }
 
+/// @nodoc
 class ApproveAssignmentResponse {
   ApproveAssignmentResponse();
 
@@ -2285,6 +2287,7 @@ class ApproveAssignmentResponse {
   }
 }
 
+/// @nodoc
 class AssociateQualificationWithWorkerResponse {
   AssociateQualificationWithWorkerResponse();
 
@@ -2298,6 +2301,7 @@ class AssociateQualificationWithWorkerResponse {
   }
 }
 
+/// @nodoc
 class CreateAdditionalAssignmentsForHITResponse {
   CreateAdditionalAssignmentsForHITResponse();
 
@@ -2311,6 +2315,7 @@ class CreateAdditionalAssignmentsForHITResponse {
   }
 }
 
+/// @nodoc
 class CreateHITResponse {
   /// Contains the newly created HIT data. For a description of the HIT data
   /// structure as it appears in responses, see the HIT Data Structure
@@ -2337,6 +2342,7 @@ class CreateHITResponse {
   }
 }
 
+/// @nodoc
 class CreateHITTypeResponse {
   /// The ID of the newly registered HIT type.
   final String? hITTypeId;
@@ -2359,6 +2365,7 @@ class CreateHITTypeResponse {
   }
 }
 
+/// @nodoc
 class CreateHITWithHITTypeResponse {
   /// Contains the newly created HIT data. For a description of the HIT data
   /// structure as it appears in responses, see the HIT Data Structure
@@ -2385,6 +2392,7 @@ class CreateHITWithHITTypeResponse {
   }
 }
 
+/// @nodoc
 class CreateQualificationTypeResponse {
   /// The created Qualification type, returned as a QualificationType data
   /// structure.
@@ -2411,6 +2419,7 @@ class CreateQualificationTypeResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkerBlockResponse {
   CreateWorkerBlockResponse();
 
@@ -2423,6 +2432,7 @@ class CreateWorkerBlockResponse {
   }
 }
 
+/// @nodoc
 class DeleteHITResponse {
   DeleteHITResponse();
 
@@ -2435,6 +2445,7 @@ class DeleteHITResponse {
   }
 }
 
+/// @nodoc
 class DeleteQualificationTypeResponse {
   DeleteQualificationTypeResponse();
 
@@ -2447,6 +2458,7 @@ class DeleteQualificationTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkerBlockResponse {
   DeleteWorkerBlockResponse();
 
@@ -2459,6 +2471,7 @@ class DeleteWorkerBlockResponse {
   }
 }
 
+/// @nodoc
 class DisassociateQualificationFromWorkerResponse {
   DisassociateQualificationFromWorkerResponse();
 
@@ -2472,6 +2485,7 @@ class DisassociateQualificationFromWorkerResponse {
   }
 }
 
+/// @nodoc
 class GetAccountBalanceResponse {
   final String? availableBalance;
   final String? onHoldBalance;
@@ -2498,6 +2512,7 @@ class GetAccountBalanceResponse {
   }
 }
 
+/// @nodoc
 class GetAssignmentResponse {
   /// The assignment. The response includes one Assignment element.
   final Assignment? assignment;
@@ -2532,6 +2547,7 @@ class GetAssignmentResponse {
   }
 }
 
+/// @nodoc
 class GetFileUploadURLResponse {
   /// A temporary URL for the file that the Worker uploaded for the answer.
   final String? fileUploadURL;
@@ -2554,6 +2570,7 @@ class GetFileUploadURLResponse {
   }
 }
 
+/// @nodoc
 class GetHITResponse {
   /// Contains the requested HIT data.
   final HIT? hit;
@@ -2578,6 +2595,7 @@ class GetHITResponse {
   }
 }
 
+/// @nodoc
 class GetQualificationScoreResponse {
   /// The Qualification data structure of the Qualification assigned to a user,
   /// including the Qualification type and the value (score).
@@ -2604,6 +2622,7 @@ class GetQualificationScoreResponse {
   }
 }
 
+/// @nodoc
 class GetQualificationTypeResponse {
   /// The returned Qualification Type
   final QualificationType? qualificationType;
@@ -2629,6 +2648,7 @@ class GetQualificationTypeResponse {
   }
 }
 
+/// @nodoc
 class ListAssignmentsForHITResponse {
   /// The collection of Assignment data structures returned by this call.
   final List<Assignment>? assignments;
@@ -2667,6 +2687,7 @@ class ListAssignmentsForHITResponse {
   }
 }
 
+/// @nodoc
 class ListBonusPaymentsResponse {
   /// A successful request to the ListBonusPayments operation returns a list of
   /// BonusPayment objects.
@@ -2706,6 +2727,7 @@ class ListBonusPaymentsResponse {
   }
 }
 
+/// @nodoc
 class ListHITsResponse {
   /// The list of HIT elements returned by the query.
   final List<HIT>? hITs;
@@ -2744,6 +2766,7 @@ class ListHITsResponse {
   }
 }
 
+/// @nodoc
 class ListHITsForQualificationTypeResponse {
   /// The list of HIT elements returned by the query.
   final List<HIT>? hITs;
@@ -2783,6 +2806,7 @@ class ListHITsForQualificationTypeResponse {
   }
 }
 
+/// @nodoc
 class ListQualificationRequestsResponse {
   final String? nextToken;
 
@@ -2826,6 +2850,7 @@ class ListQualificationRequestsResponse {
   }
 }
 
+/// @nodoc
 class ListQualificationTypesResponse {
   final String? nextToken;
 
@@ -2865,6 +2890,7 @@ class ListQualificationTypesResponse {
   }
 }
 
+/// @nodoc
 class ListReviewableHITsResponse {
   /// The list of HIT elements returned by the query.
   final List<HIT>? hITs;
@@ -2903,6 +2929,7 @@ class ListReviewableHITsResponse {
   }
 }
 
+/// @nodoc
 class ListReviewPolicyResultsForHITResponse {
   /// The name of the Assignment-level Review Policy. This contains only the
   /// PolicyName element.
@@ -2975,6 +3002,7 @@ class ListReviewPolicyResultsForHITResponse {
   }
 }
 
+/// @nodoc
 class ListWorkerBlocksResponse {
   final String? nextToken;
 
@@ -3015,6 +3043,7 @@ class ListWorkerBlocksResponse {
   }
 }
 
+/// @nodoc
 class ListWorkersWithQualificationTypeResponse {
   final String? nextToken;
 
@@ -3055,6 +3084,7 @@ class ListWorkersWithQualificationTypeResponse {
   }
 }
 
+/// @nodoc
 class NotifyWorkersResponse {
   /// When MTurk sends notifications to the list of Workers, it returns back any
   /// failures it encounters in this list of NotifyWorkersFailureStatus objects.
@@ -3084,6 +3114,7 @@ class NotifyWorkersResponse {
   }
 }
 
+/// @nodoc
 class RejectAssignmentResponse {
   RejectAssignmentResponse();
 
@@ -3096,6 +3127,7 @@ class RejectAssignmentResponse {
   }
 }
 
+/// @nodoc
 class RejectQualificationRequestResponse {
   RejectQualificationRequestResponse();
 
@@ -3108,6 +3140,7 @@ class RejectQualificationRequestResponse {
   }
 }
 
+/// @nodoc
 class SendBonusResponse {
   SendBonusResponse();
 
@@ -3120,6 +3153,7 @@ class SendBonusResponse {
   }
 }
 
+/// @nodoc
 class SendTestEventNotificationResponse {
   SendTestEventNotificationResponse();
 
@@ -3132,6 +3166,7 @@ class SendTestEventNotificationResponse {
   }
 }
 
+/// @nodoc
 class UpdateExpirationForHITResponse {
   UpdateExpirationForHITResponse();
 
@@ -3144,6 +3179,7 @@ class UpdateExpirationForHITResponse {
   }
 }
 
+/// @nodoc
 class UpdateHITReviewStatusResponse {
   UpdateHITReviewStatusResponse();
 
@@ -3156,6 +3192,7 @@ class UpdateHITReviewStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdateHITTypeOfHITResponse {
   UpdateHITTypeOfHITResponse();
 
@@ -3168,6 +3205,7 @@ class UpdateHITTypeOfHITResponse {
   }
 }
 
+/// @nodoc
 class UpdateNotificationSettingsResponse {
   UpdateNotificationSettingsResponse();
 
@@ -3180,6 +3218,7 @@ class UpdateNotificationSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateQualificationTypeResponse {
   /// Contains a QualificationType data structure.
   final QualificationType? qualificationType;
@@ -3210,6 +3249,8 @@ class UpdateQualificationTypeResponse {
 /// HIT for the Worker to be able to accept the HIT. The type also describes how
 /// a Worker can obtain a Qualification of that type, such as through a
 /// Qualification test.
+///
+/// @nodoc
 class QualificationType {
   /// The answers to the Qualification test specified in the Test parameter.
   final String? answerKey;
@@ -3346,6 +3387,7 @@ class QualificationType {
   }
 }
 
+/// @nodoc
 class QualificationTypeStatus {
   static const active = QualificationTypeStatus._('Active');
   static const inactive = QualificationTypeStatus._('Inactive');
@@ -3373,6 +3415,8 @@ class QualificationTypeStatus {
 
 /// The NotificationSpecification data structure describes a HIT event
 /// notification for a HIT type.
+///
+/// @nodoc
 class NotificationSpecification {
   /// The target for notification messages. The Destination’s format is determined
   /// by the specified Transport:
@@ -3425,6 +3469,7 @@ class NotificationSpecification {
   }
 }
 
+/// @nodoc
 class NotificationTransport {
   static const email = NotificationTransport._('Email');
   static const sqs = NotificationTransport._('SQS');
@@ -3451,6 +3496,7 @@ class NotificationTransport {
   String toString() => value;
 }
 
+/// @nodoc
 class EventType {
   static const assignmentAccepted = EventType._('AssignmentAccepted');
   static const assignmentAbandoned = EventType._('AssignmentAbandoned');
@@ -3499,6 +3545,8 @@ class EventType {
 
 /// When MTurk encounters an issue with notifying the Workers you specified, it
 /// returns back this object with failure details.
+///
+/// @nodoc
 class NotifyWorkersFailureStatus {
   /// Encoded value for the failure type.
   final NotifyWorkersFailureCode? notifyWorkersFailureCode;
@@ -3539,6 +3587,7 @@ class NotifyWorkersFailureStatus {
   }
 }
 
+/// @nodoc
 class NotifyWorkersFailureCode {
   static const softFailure = NotifyWorkersFailureCode._('SoftFailure');
   static const hardFailure = NotifyWorkersFailureCode._('HardFailure');
@@ -3566,6 +3615,8 @@ class NotifyWorkersFailureCode {
 
 /// The Qualification data structure represents a Qualification assigned to a
 /// user, including the Qualification type and the value (score).
+///
+/// @nodoc
 class Qualification {
   /// The date and time the Qualification was granted to the Worker. If the
   /// Worker's Qualification was revoked, and then re-granted based on a new
@@ -3629,6 +3680,8 @@ class Qualification {
 }
 
 /// The Locale data structure represents a geographical region or location.
+///
+/// @nodoc
 class Locale {
   /// The country of the locale. Must be a valid ISO 3166 country code. For
   /// example, the code US refers to the United States of America.
@@ -3660,6 +3713,7 @@ class Locale {
   }
 }
 
+/// @nodoc
 class QualificationStatus {
   static const granted = QualificationStatus._('Granted');
   static const revoked = QualificationStatus._('Revoked');
@@ -3687,6 +3741,8 @@ class QualificationStatus {
 
 /// The WorkerBlock data structure represents a Worker who has been blocked. It
 /// has two elements: the WorkerId and the Reason for the block.
+///
+/// @nodoc
 class WorkerBlock {
   /// A message explaining the reason the Worker was blocked.
   final String? reason;
@@ -3718,6 +3774,8 @@ class WorkerBlock {
 
 /// HIT Review Policy data structures represent HIT review policies, which you
 /// specify when you create a HIT.
+///
+/// @nodoc
 class ReviewPolicy {
   /// Name of a Review Policy: SimplePlurality/2011-09-01 or
   /// ScoreMyKnownAnswers/2011-09-01
@@ -3752,6 +3810,8 @@ class ReviewPolicy {
 }
 
 /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
+///
+/// @nodoc
 class ReviewReport {
   /// A list of ReviewAction objects for each action specified in the Review
   /// Policy.
@@ -3792,6 +3852,8 @@ class ReviewReport {
 /// Both the AssignmentReviewReport and the HITReviewReport elements contains
 /// the ReviewActionDetail data structure. This structure is returned multiple
 /// times for each action specified in the Review Policy.
+///
+/// @nodoc
 class ReviewActionDetail {
   /// The unique identifier for the action.
   final String? actionId;
@@ -3867,6 +3929,7 @@ class ReviewActionDetail {
   }
 }
 
+/// @nodoc
 class ReviewActionStatus {
   static const intended = ReviewActionStatus._('Intended');
   static const succeeded = ReviewActionStatus._('Succeeded');
@@ -3896,6 +3959,8 @@ class ReviewActionStatus {
 
 /// This data structure is returned multiple times for each result specified in
 /// the Review Policy.
+///
+/// @nodoc
 class ReviewResultDetail {
   /// A unique identifier of the Review action result.
   final String? actionId;
@@ -3962,6 +4027,8 @@ class ReviewResultDetail {
 }
 
 /// Name of the parameter from the Review policy.
+///
+/// @nodoc
 class PolicyParameter {
   /// Name of the parameter from the list of Review Polices.
   final String? key;
@@ -4004,6 +4071,8 @@ class PolicyParameter {
 
 /// This data structure is the data type for the AnswerKey parameter of the
 /// ScoreMyKnownAnswers/2011-09-01 Review Policy.
+///
+/// @nodoc
 class ParameterMapEntry {
   /// The QuestionID from the HIT that is used to identify which question requires
   /// Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01
@@ -4038,6 +4107,7 @@ class ParameterMapEntry {
   }
 }
 
+/// @nodoc
 class ReviewPolicyLevel {
   static const assignment = ReviewPolicyLevel._('Assignment');
   static const hit = ReviewPolicyLevel._('HIT');
@@ -4064,6 +4134,8 @@ class ReviewPolicyLevel {
 
 /// The HIT data structure represents a single HIT, including all the
 /// information necessary for a Worker to accept and complete the HIT.
+///
+/// @nodoc
 class HIT {
   /// The length of time, in seconds, that a Worker has to complete the HIT after
   /// accepting it.
@@ -4260,6 +4332,7 @@ class HIT {
   }
 }
 
+/// @nodoc
 class HITStatus {
   static const assignable = HITStatus._('Assignable');
   static const unassignable = HITStatus._('Unassignable');
@@ -4292,6 +4365,7 @@ class HITStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HITReviewStatus {
   static const notReviewed = HITReviewStatus._('NotReviewed');
   static const markedForReview = HITReviewStatus._('MarkedForReview');
@@ -4328,6 +4402,8 @@ class HITReviewStatus {
 /// Worker must have before the Worker is allowed to accept a HIT. A requirement
 /// may optionally state that a Worker must have the Qualification in order to
 /// preview the HIT, or see the HIT in search results.
+///
+/// @nodoc
 class QualificationRequirement {
   /// The kind of comparison to make against a Qualification's value. You can
   /// compare a Qualification's value to an IntegerValue to see if it is LessThan,
@@ -4438,6 +4514,7 @@ class QualificationRequirement {
   }
 }
 
+/// @nodoc
 class Comparator {
   static const lessThan = Comparator._('LessThan');
   static const lessThanOrEqualTo = Comparator._('LessThanOrEqualTo');
@@ -4480,6 +4557,7 @@ class Comparator {
   String toString() => value;
 }
 
+/// @nodoc
 class HITAccessActions {
   static const accept = HITAccessActions._('Accept');
   static const previewAndAccept = HITAccessActions._('PreviewAndAccept');
@@ -4506,6 +4584,7 @@ class HITAccessActions {
   String toString() => value;
 }
 
+/// @nodoc
 class ReviewableHITStatus {
   static const reviewable = ReviewableHITStatus._('Reviewable');
   static const reviewing = ReviewableHITStatus._('Reviewing');
@@ -4533,6 +4612,8 @@ class ReviewableHITStatus {
 
 /// The QualificationRequest data structure represents a request a Worker has
 /// made for a Qualification.
+///
+/// @nodoc
 class QualificationRequest {
   /// The Worker's answers for the Qualification type's test contained in a
   /// QuestionFormAnswers document, if the type has a test and the Worker has
@@ -4604,6 +4685,8 @@ class QualificationRequest {
 }
 
 /// An object representing a Bonus payment paid to a Worker.
+///
+/// @nodoc
 class BonusPayment {
   /// The ID of the assignment associated with this bonus payment.
   final String? assignmentId;
@@ -4655,6 +4738,8 @@ class BonusPayment {
 /// The Assignment data structure represents a single assignment of a HIT to a
 /// Worker. The assignment tracks the Worker's efforts to complete the HIT, and
 /// contains the results for later retrieval.
+///
+/// @nodoc
 class Assignment {
   /// The date and time the Worker accepted the assignment.
   final DateTime? acceptTime;
@@ -4777,6 +4862,7 @@ class Assignment {
   }
 }
 
+/// @nodoc
 class AssignmentStatus {
   static const submitted = AssignmentStatus._('Submitted');
   static const approved = AssignmentStatus._('Approved');
@@ -4805,6 +4891,8 @@ class AssignmentStatus {
 /// The HITLayoutParameter data structure defines parameter values used with a
 /// HITLayout. A HITLayout is a reusable Amazon Mechanical Turk project template
 /// used to provide Human Intelligence Task (HIT) question data for CreateHIT.
+///
+/// @nodoc
 class HITLayoutParameter {
   /// The name of the parameter in the HITLayout.
   final String name;
@@ -4827,11 +4915,13 @@ class HITLayoutParameter {
   }
 }
 
+/// @nodoc
 class RequestError extends _s.GenericAwsException {
   RequestError({String? type, String? message})
       : super(type: type, code: 'RequestError', message: message);
 }
 
+/// @nodoc
 class ServiceFault extends _s.GenericAwsException {
   ServiceFault({String? type, String? message})
       : super(type: type, code: 'ServiceFault', message: message);

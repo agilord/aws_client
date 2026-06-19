@@ -2971,7 +2971,7 @@ class DocDB {
   /// Minimum length of 1. Maximum length of 255.
   /// </li>
   /// </ul>
-  /// Pattern: <code>[A-Za-z][0-9A-Za-z-:._]*</code>
+  /// Pattern: <code>\[A-Za-z\]\[0-9A-Za-z-:._\]*</code>
   ///
   /// Parameter [targetDbClusterIdentifier] :
   /// The identifier of the secondary Amazon DocumentDB cluster that you want to
@@ -2989,7 +2989,7 @@ class DocDB {
   /// Minimum length of 1. Maximum length of 255.
   /// </li>
   /// </ul>
-  /// Pattern: <code>[A-Za-z][0-9A-Za-z-:._]*</code>
+  /// Pattern: <code>\[A-Za-z\]\[0-9A-Za-z-:._\]*</code>
   ///
   /// Parameter [allowDataLoss] :
   /// Specifies whether to allow data loss for this global cluster operation.
@@ -3198,7 +3198,7 @@ class DocDB {
   /// following command:
   ///
   /// <code>aws docdb describe-db-engine-versions --engine docdb --query
-  /// "DBEngineVersions[].EngineVersion"</code>
+  /// "DBEngineVersions\[\].EngineVersion"</code>
   ///
   /// Parameter [manageMasterUserPassword] :
   /// Specifies whether to manage the master user password with Amazon Web
@@ -4762,7 +4762,7 @@ class DocDB {
   /// Minimum length of 1. Maximum length of 255.
   /// </li>
   /// </ul>
-  /// Pattern: <code>[A-Za-z][0-9A-Za-z-:._]*</code>
+  /// Pattern: <code>\[A-Za-z\]\[0-9A-Za-z-:._\]*</code>
   ///
   /// Parameter [targetDbClusterIdentifier] :
   /// The identifier of the secondary Amazon DocumentDB cluster to promote to
@@ -4780,7 +4780,7 @@ class DocDB {
   /// Minimum length of 1. Maximum length of 255.
   /// </li>
   /// </ul>
-  /// Pattern: <code>[A-Za-z][0-9A-Za-z-:._]*</code>
+  /// Pattern: <code>\[A-Za-z\]\[0-9A-Za-z-:._\]*</code>
   Future<SwitchoverGlobalClusterResult> switchoverGlobalCluster({
     required String globalClusterIdentifier,
     required String targetDbClusterIdentifier,
@@ -4802,6 +4802,7 @@ class DocDB {
   }
 }
 
+/// @nodoc
 class AddSourceIdentifierToSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -4824,6 +4825,7 @@ class AddSourceIdentifierToSubscriptionResult {
   }
 }
 
+/// @nodoc
 class ApplyPendingMaintenanceActionResult {
   final ResourcePendingMaintenanceActions? resourcePendingMaintenanceActions;
 
@@ -4848,6 +4850,7 @@ class ApplyPendingMaintenanceActionResult {
   }
 }
 
+/// @nodoc
 class CopyDBClusterParameterGroupResult {
   final DBClusterParameterGroup? dBClusterParameterGroup;
 
@@ -4871,6 +4874,7 @@ class CopyDBClusterParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CopyDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -4893,6 +4897,7 @@ class CopyDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -4913,6 +4918,7 @@ class CreateDBClusterResult {
   }
 }
 
+/// @nodoc
 class CreateDBClusterParameterGroupResult {
   final DBClusterParameterGroup? dBClusterParameterGroup;
 
@@ -4936,6 +4942,7 @@ class CreateDBClusterParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CreateDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -4958,6 +4965,7 @@ class CreateDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -4979,6 +4987,7 @@ class CreateDBInstanceResult {
   }
 }
 
+/// @nodoc
 class CreateDBSubnetGroupResult {
   final DBSubnetGroup? dBSubnetGroup;
 
@@ -5000,6 +5009,7 @@ class CreateDBSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class CreateEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -5022,6 +5032,7 @@ class CreateEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class CreateGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -5043,6 +5054,7 @@ class CreateGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class DeleteDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -5063,6 +5075,7 @@ class DeleteDBClusterResult {
   }
 }
 
+/// @nodoc
 class DeleteDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -5085,6 +5098,7 @@ class DeleteDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeleteDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -5106,6 +5120,7 @@ class DeleteDBInstanceResult {
   }
 }
 
+/// @nodoc
 class DeleteEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -5128,6 +5143,7 @@ class DeleteEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class DeleteGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -5149,6 +5165,7 @@ class DeleteGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class CertificateMessage {
   /// A list of certificates for this Amazon Web Services account.
   final List<Certificate>? certificates;
@@ -5183,6 +5200,8 @@ class CertificateMessage {
 }
 
 /// Represents the output of <a>DBClusterParameterGroups</a>.
+///
+/// @nodoc
 class DBClusterParameterGroupsMessage {
   /// A list of cluster parameter groups.
   final List<DBClusterParameterGroup>? dBClusterParameterGroups;
@@ -5220,6 +5239,8 @@ class DBClusterParameterGroupsMessage {
 }
 
 /// Represents the output of <a>DBClusterParameterGroup</a>.
+///
+/// @nodoc
 class DBClusterParameterGroupDetails {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -5252,6 +5273,8 @@ class DBClusterParameterGroupDetails {
 }
 
 /// Represents the output of <a>DescribeDBClusters</a>.
+///
+/// @nodoc
 class DBClusterMessage {
   /// A list of clusters.
   final List<DBCluster>? dBClusters;
@@ -5283,6 +5306,7 @@ class DBClusterMessage {
   }
 }
 
+/// @nodoc
 class DescribeDBClusterSnapshotAttributesResult {
   final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
@@ -5309,6 +5333,8 @@ class DescribeDBClusterSnapshotAttributesResult {
 }
 
 /// Represents the output of <a>DescribeDBClusterSnapshots</a>.
+///
+/// @nodoc
 class DBClusterSnapshotMessage {
   /// Provides a list of cluster snapshots.
   final List<DBClusterSnapshot>? dBClusterSnapshots;
@@ -5344,6 +5370,8 @@ class DBClusterSnapshotMessage {
 }
 
 /// Represents the output of <a>DescribeDBEngineVersions</a>.
+///
+/// @nodoc
 class DBEngineVersionMessage {
   /// Detailed information about one or more engine versions.
   final List<DBEngineVersion>? dBEngineVersions;
@@ -5379,6 +5407,8 @@ class DBEngineVersionMessage {
 }
 
 /// Represents the output of <a>DescribeDBInstances</a>.
+///
+/// @nodoc
 class DBInstanceMessage {
   /// Detailed information about one or more instances.
   final List<DBInstance>? dBInstances;
@@ -5411,6 +5441,8 @@ class DBInstanceMessage {
 }
 
 /// Represents the output of <a>DescribeDBSubnetGroups</a>.
+///
+/// @nodoc
 class DBSubnetGroupMessage {
   /// Detailed information about one or more subnet groups.
   final List<DBSubnetGroup>? dBSubnetGroups;
@@ -5445,6 +5477,7 @@ class DBSubnetGroupMessage {
   }
 }
 
+/// @nodoc
 class DescribeEngineDefaultClusterParametersResult {
   final EngineDefaults? engineDefaults;
 
@@ -5469,6 +5502,8 @@ class DescribeEngineDefaultClusterParametersResult {
 }
 
 /// Represents the output of <a>DescribeEventCategories</a>.
+///
+/// @nodoc
 class EventCategoriesMessage {
   /// A list of event category maps.
   final List<EventCategoriesMap>? eventCategoriesMapList;
@@ -5497,6 +5532,8 @@ class EventCategoriesMessage {
 }
 
 /// Represents the output of <a>DescribeEvents</a>.
+///
+/// @nodoc
 class EventsMessage {
   /// Detailed information about one or more events.
   final List<Event>? events;
@@ -5529,6 +5566,8 @@ class EventsMessage {
 }
 
 /// Represents the output of <a>DescribeEventSubscriptions</a>.
+///
+/// @nodoc
 class EventSubscriptionsMessage {
   /// A list of event subscriptions.
   final List<EventSubscription>? eventSubscriptionsList;
@@ -5565,6 +5604,7 @@ class EventSubscriptionsMessage {
   }
 }
 
+/// @nodoc
 class GlobalClustersMessage {
   ///
   final List<GlobalCluster>? globalClusters;
@@ -5598,6 +5638,8 @@ class GlobalClustersMessage {
 }
 
 /// Represents the output of <a>DescribeOrderableDBInstanceOptions</a>.
+///
+/// @nodoc
 class OrderableDBInstanceOptionsMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -5635,6 +5677,8 @@ class OrderableDBInstanceOptionsMessage {
 }
 
 /// Represents the output of <a>DescribePendingMaintenanceActions</a>.
+///
+/// @nodoc
 class PendingMaintenanceActionsMessage {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -5671,6 +5715,7 @@ class PendingMaintenanceActionsMessage {
   }
 }
 
+/// @nodoc
 class FailoverDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -5691,6 +5736,7 @@ class FailoverDBClusterResult {
   }
 }
 
+/// @nodoc
 class FailoverGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -5713,6 +5759,8 @@ class FailoverGlobalClusterResult {
 }
 
 /// Represents the output of <a>ListTagsForResource</a>.
+///
+/// @nodoc
 class TagListMessage {
   /// A list of one or more tags.
   final List<Tag>? tagList;
@@ -5736,6 +5784,7 @@ class TagListMessage {
   }
 }
 
+/// @nodoc
 class ModifyDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -5757,6 +5806,8 @@ class ModifyDBClusterResult {
 }
 
 /// Contains the name of a cluster parameter group.
+///
+/// @nodoc
 class DBClusterParameterGroupNameMessage {
   /// The name of a cluster parameter group.
   ///
@@ -5796,6 +5847,7 @@ class DBClusterParameterGroupNameMessage {
   }
 }
 
+/// @nodoc
 class ModifyDBClusterSnapshotAttributeResult {
   final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
@@ -5820,6 +5872,7 @@ class ModifyDBClusterSnapshotAttributeResult {
   }
 }
 
+/// @nodoc
 class ModifyDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -5841,6 +5894,7 @@ class ModifyDBInstanceResult {
   }
 }
 
+/// @nodoc
 class ModifyDBSubnetGroupResult {
   final DBSubnetGroup? dBSubnetGroup;
 
@@ -5862,6 +5916,7 @@ class ModifyDBSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class ModifyEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -5884,6 +5939,7 @@ class ModifyEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class ModifyGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -5905,6 +5961,7 @@ class ModifyGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class RebootDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -5926,6 +5983,7 @@ class RebootDBInstanceResult {
   }
 }
 
+/// @nodoc
 class RemoveFromGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -5947,6 +6005,7 @@ class RemoveFromGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class RemoveSourceIdentifierFromSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -5970,6 +6029,7 @@ class RemoveSourceIdentifierFromSubscriptionResult {
   }
 }
 
+/// @nodoc
 class RestoreDBClusterFromSnapshotResult {
   final DBCluster? dBCluster;
 
@@ -5990,6 +6050,7 @@ class RestoreDBClusterFromSnapshotResult {
   }
 }
 
+/// @nodoc
 class RestoreDBClusterToPointInTimeResult {
   final DBCluster? dBCluster;
 
@@ -6010,6 +6071,7 @@ class RestoreDBClusterToPointInTimeResult {
   }
 }
 
+/// @nodoc
 class StartDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -6030,6 +6092,7 @@ class StartDBClusterResult {
   }
 }
 
+/// @nodoc
 class StopDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -6050,6 +6113,7 @@ class StopDBClusterResult {
   }
 }
 
+/// @nodoc
 class SwitchoverGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -6072,6 +6136,8 @@ class SwitchoverGlobalClusterResult {
 }
 
 /// A data type representing an Amazon DocumentDB global cluster.
+///
+/// @nodoc
 class GlobalCluster {
   /// The default database name within the new global cluster.
   final String? databaseName;
@@ -6194,6 +6260,8 @@ class GlobalCluster {
 /// Contains the state of scheduled or in-process operations on an Amazon
 /// DocumentDB global cluster. This data type is empty unless a switchover or
 /// failover operation is scheduled or is in progress on the global cluster.
+///
+/// @nodoc
 class FailoverState {
   /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is
   /// currently being demoted, and which is associated with this state.
@@ -6261,19 +6329,21 @@ class FailoverState {
 
 /// Metadata assigned to an Amazon DocumentDB resource consisting of a key-value
 /// pair.
+///
+/// @nodoc
 class Tag {
   /// The required name of the tag. The string value can be from 1 to 128 Unicode
   /// characters in length and can't be prefixed with "<code>aws:</code>" or
   /// "<code>rds:</code>". The string can contain only the set of Unicode letters,
   /// digits, white space, '_', '.', '/', '=', '+', '-' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-\]*)$").
   final String? key;
 
   /// The optional value of the tag. The string value can be from 1 to 256 Unicode
   /// characters in length and can't be prefixed with "<code>aws:</code>" or
   /// "<code>rds:</code>". The string can contain only the set of Unicode letters,
   /// digits, white space, '_', '.', '/', '=', '+', '-' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-\]*)$").
   final String? value;
 
   Tag({
@@ -6306,6 +6376,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class FailoverStatus {
   static const pending = FailoverStatus._('pending');
   static const failingOver = FailoverStatus._('failing-over');
@@ -6333,6 +6404,8 @@ class FailoverStatus {
 
 /// A data structure with information about any primary and secondary clusters
 /// associated with an Amazon DocumentDB global clusters.
+///
+/// @nodoc
 class GlobalClusterMember {
   /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
   final String? dBClusterArn;
@@ -6384,6 +6457,7 @@ class GlobalClusterMember {
   }
 }
 
+/// @nodoc
 class GlobalClusterMemberSynchronizationStatus {
   static const connected =
       GlobalClusterMemberSynchronizationStatus._('connected');
@@ -6412,6 +6486,8 @@ class GlobalClusterMemberSynchronizationStatus {
 }
 
 /// Detailed information about a cluster.
+///
+/// @nodoc
 class DBCluster {
   /// Provides a list of the Identity and Access Management (IAM) roles that are
   /// associated with the cluster. (IAM) roles that are associated with a cluster
@@ -6789,6 +6865,8 @@ class DBCluster {
 
 /// Retrieves the scaling configuration for an Amazon DocumentDB Serverless
 /// cluster.
+///
+/// @nodoc
 class ServerlessV2ScalingConfigurationInfo {
   /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an
   /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
@@ -6823,6 +6901,8 @@ class ServerlessV2ScalingConfigurationInfo {
 
 /// Contains the secret managed by Amazon DocumentDB in Amazon Web Services
 /// Secrets Manager for the master user password.
+///
+/// @nodoc
 class ClusterMasterUserSecret {
   /// The Amazon Web Services KMS key identifier that is used to encrypt the
   /// secret.
@@ -6886,6 +6966,8 @@ class ClusterMasterUserSecret {
 
 /// Describes an Identity and Access Management (IAM) role that is associated
 /// with a cluster.
+///
+/// @nodoc
 class DBClusterRole {
   /// The Amazon Resource Name (ARN) of the IAMrole that is associated with the DB
   /// cluster.
@@ -6933,6 +7015,8 @@ class DBClusterRole {
 
 /// Used as a response element for queries on virtual private cloud (VPC)
 /// security group membership.
+///
+/// @nodoc
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
   final String? status;
@@ -6962,6 +7046,8 @@ class VpcSecurityGroupMembership {
 }
 
 /// Contains information about an instance that is part of a cluster.
+///
+/// @nodoc
 class DBClusterMember {
   /// Specifies the status of the cluster parameter group for this member of the
   /// DB cluster.
@@ -7013,6 +7099,8 @@ class DBClusterMember {
 }
 
 /// Sets the scaling configuration of an Amazon DocumentDB Serverless cluster.
+///
+/// @nodoc
 class ServerlessV2ScalingConfiguration {
   /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an
   /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
@@ -7049,6 +7137,8 @@ class ServerlessV2ScalingConfiguration {
 }
 
 /// Detailed information about an individual parameter.
+///
+/// @nodoc
 class Parameter {
   /// Specifies the valid range of values for the parameter.
   final String? allowedValues;
@@ -7198,6 +7288,7 @@ class Parameter {
   }
 }
 
+/// @nodoc
 class ApplyMethod {
   static const immediate = ApplyMethod._('immediate');
   static const pendingReboot = ApplyMethod._('pending-reboot');
@@ -7222,6 +7313,8 @@ class ApplyMethod {
 }
 
 /// Detailed information about an event to which you have subscribed.
+///
+/// @nodoc
 class EventSubscription {
   /// The Amazon DocumentDB event notification subscription ID.
   final String? custSubscriptionId;
@@ -7332,6 +7425,8 @@ class EventSubscription {
 }
 
 /// Detailed information about an instance.
+///
+/// @nodoc
 class DBInstance {
   /// Does not apply. This parameter does not apply to Amazon DocumentDB. Amazon
   /// DocumentDB does not perform minor version upgrades regardless of the value
@@ -7620,6 +7715,8 @@ class DBInstance {
 
 /// Network information for accessing a cluster or instance. Client programs
 /// must specify a valid endpoint to access these Amazon DocumentDB resources.
+///
+/// @nodoc
 class Endpoint {
   /// Specifies the DNS address of the instance.
   final String? address;
@@ -7656,6 +7753,8 @@ class Endpoint {
 }
 
 /// Detailed information about a subnet group.
+///
+/// @nodoc
 class DBSubnetGroup {
   /// The Amazon Resource Name (ARN) for the DB subnet group.
   final String? dBSubnetGroupArn;
@@ -7732,6 +7831,8 @@ class DBSubnetGroup {
 
 /// One or more modified settings for an instance. These modified settings have
 /// been requested, but haven't been applied yet.
+///
+/// @nodoc
 class PendingModifiedValues {
   /// Contains the new <code>AllocatedStorage</code> size for then instance that
   /// will be applied or is currently being applied.
@@ -7872,6 +7973,8 @@ class PendingModifiedValues {
 /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html">
 /// Encrypting Data in Transit</a> in the <i>Amazon DocumentDB Developer
 /// Guide</i>.
+///
+/// @nodoc
 class CertificateDetails {
   /// The CA identifier of the CA certificate used for the DB instance's server
   /// certificate.
@@ -7902,6 +8005,8 @@ class CertificateDetails {
 }
 
 /// Provides a list of status information for an instance.
+///
+/// @nodoc
 class DBInstanceStatusInfo {
   /// Details of the error if there is an error for the instance. If the instance
   /// is not in an error state, this value is blank.
@@ -7950,6 +8055,8 @@ class DBInstanceStatusInfo {
 
 /// A list of the log types whose configuration is still pending. These log
 /// types are in the process of being activated or deactivated.
+///
+/// @nodoc
 class PendingCloudwatchLogsExports {
   /// Log types that are in the process of being enabled. After they are enabled,
   /// these log types are exported to Amazon CloudWatch Logs.
@@ -7985,6 +8092,8 @@ class PendingCloudwatchLogsExports {
 }
 
 /// Detailed information about a subnet.
+///
+/// @nodoc
 class Subnet {
   /// Specifies the Availability Zone for the subnet.
   final AvailabilityZone? subnetAvailabilityZone;
@@ -8024,6 +8133,8 @@ class Subnet {
 }
 
 /// Information about an Availability Zone.
+///
+/// @nodoc
 class AvailabilityZone {
   /// The name of the Availability Zone.
   final String? name;
@@ -8047,6 +8158,8 @@ class AvailabilityZone {
 
 /// Detailed information about the attributes that are associated with a cluster
 /// snapshot.
+///
+/// @nodoc
 class DBClusterSnapshotAttributesResult {
   /// The list of attributes and values for the cluster snapshot.
   final List<DBClusterSnapshotAttribute>? dBClusterSnapshotAttributes;
@@ -8087,6 +8200,8 @@ class DBClusterSnapshotAttributesResult {
 ///
 /// Manual cluster snapshot attributes are used to authorize other Amazon Web
 /// Services accounts to restore a manual cluster snapshot.
+///
+/// @nodoc
 class DBClusterSnapshotAttribute {
   /// The name of the manual cluster snapshot attribute.
   ///
@@ -8132,6 +8247,8 @@ class DBClusterSnapshotAttribute {
 /// The <code>EnableLogTypes</code> and <code>DisableLogTypes</code> arrays
 /// determine which logs are exported (or not exported) to CloudWatch Logs. The
 /// values within these arrays depend on the engine that is being used.
+///
+/// @nodoc
 class CloudwatchLogsExportConfiguration {
   /// The list of log types to disable.
   final List<String>? disableLogTypes;
@@ -8178,6 +8295,8 @@ class CloudwatchLogsExportConfiguration {
 /// criteria, such as IDs.
 ///
 /// Wildcards are not supported in filters.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter. Filter names are case sensitive.
   final String name;
@@ -8214,6 +8333,8 @@ class Filter {
 }
 
 /// Represents the output of <a>ApplyPendingMaintenanceAction</a>.
+///
+/// @nodoc
 class ResourcePendingMaintenanceActions {
   /// A list that provides details about the pending maintenance actions for the
   /// resource.
@@ -8252,6 +8373,8 @@ class ResourcePendingMaintenanceActions {
 }
 
 /// Provides information about a pending maintenance action for a resource.
+///
+/// @nodoc
 class PendingMaintenanceAction {
   /// The type of pending maintenance action that is available for the resource.
   final String? action;
@@ -8321,6 +8444,8 @@ class PendingMaintenanceAction {
 }
 
 /// The options that are available for an instance.
+///
+/// @nodoc
 class OrderableDBInstanceOption {
   /// A list of Availability Zones for an instance.
   final List<AvailabilityZone>? availabilityZones;
@@ -8389,6 +8514,8 @@ class OrderableDBInstanceOption {
 }
 
 /// Detailed information about an event.
+///
+/// @nodoc
 class Event {
   /// Specifies the date and time of the event.
   final DateTime? date;
@@ -8449,6 +8576,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const dbInstance = SourceType._('db-instance');
   static const dbParameterGroup = SourceType._('db-parameter-group');
@@ -8484,6 +8612,8 @@ class SourceType {
 }
 
 /// An event source type, accompanied by one or more event category names.
+///
+/// @nodoc
 class EventCategoriesMap {
   /// The event categories for the specified source type.
   final List<String>? eventCategories;
@@ -8516,6 +8646,8 @@ class EventCategoriesMap {
 
 /// Contains the result of a successful invocation of the
 /// <code>DescribeEngineDefaultClusterParameters</code> operation.
+///
+/// @nodoc
 class EngineDefaults {
   /// The name of the cluster parameter group family to return the engine
   /// parameter information for.
@@ -8558,6 +8690,8 @@ class EngineDefaults {
 }
 
 /// Detailed information about an engine version.
+///
+/// @nodoc
 class DBEngineVersion {
   /// The description of the database engine.
   final String? dBEngineDescription;
@@ -8698,6 +8832,8 @@ class DBEngineVersion {
 /// upgraded cluster. You can also retrieve the version of an existing cluster
 /// and check whether that version supports certain Amazon DocumentDB Serverless
 /// features before you attempt to use those features.
+///
+/// @nodoc
 class ServerlessV2FeaturesSupport {
   /// The maximum number of Amazon DocumentDB capacity units (DCUs) for an
   /// instance in an Amazon DocumentDB Serverless cluster. You can specify DCU
@@ -8731,6 +8867,8 @@ class ServerlessV2FeaturesSupport {
 }
 
 /// The version of the database engine that an instance can be upgraded to.
+///
+/// @nodoc
 class UpgradeTarget {
   /// A value that indicates whether the target version is applied to any source
   /// DB instances that have <code>AutoMinorVersionUpgrade</code> set to
@@ -8786,6 +8924,8 @@ class UpgradeTarget {
 }
 
 /// Detailed information about a cluster snapshot.
+///
+/// @nodoc
 class DBClusterSnapshot {
   /// Provides the list of Amazon EC2 Availability Zones that instances in the
   /// cluster snapshot can be restored in.
@@ -8953,6 +9093,8 @@ class DBClusterSnapshot {
 }
 
 /// Detailed information about a cluster parameter group.
+///
+/// @nodoc
 class DBClusterParameterGroup {
   /// The Amazon Resource Name (ARN) for the cluster parameter group.
   final String? dBClusterParameterGroupArn;
@@ -9004,6 +9146,8 @@ class DBClusterParameterGroup {
 }
 
 /// A certificate authority (CA) certificate for an Amazon Web Services account.
+///
+/// @nodoc
 class Certificate {
   /// The Amazon Resource Name (ARN) for the certificate.
   ///
@@ -9072,27 +9216,32 @@ class Certificate {
   }
 }
 
+/// @nodoc
 class AuthorizationNotFoundFault extends _s.GenericAwsException {
   AuthorizationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'AuthorizationNotFoundFault', message: message);
 }
 
+/// @nodoc
 class CertificateNotFoundFault extends _s.GenericAwsException {
   CertificateNotFoundFault({String? type, String? message})
       : super(type: type, code: 'CertificateNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBClusterAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBClusterAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBClusterNotFoundFault extends _s.GenericAwsException {
   DBClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
   DBClusterParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -9101,12 +9250,14 @@ class DBClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterQuotaExceededFault extends _s.GenericAwsException {
   DBClusterQuotaExceededFault({String? type, String? message})
       : super(
             type: type, code: 'DBClusterQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class DBClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
@@ -9115,6 +9266,7 @@ class DBClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterSnapshotNotFoundFault extends _s.GenericAwsException {
   DBClusterSnapshotNotFoundFault({String? type, String? message})
       : super(
@@ -9123,17 +9275,20 @@ class DBClusterSnapshotNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBInstanceAlreadyExistsFault extends _s.GenericAwsException {
   DBInstanceAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBInstanceAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBInstanceNotFoundFault extends _s.GenericAwsException {
   DBInstanceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBInstanceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
   DBParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -9142,6 +9297,7 @@ class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
   DBParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -9150,6 +9306,7 @@ class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
   DBParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -9158,23 +9315,27 @@ class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSecurityGroupNotFoundFault extends _s.GenericAwsException {
   DBSecurityGroupNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'DBSecurityGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSnapshotAlreadyExistsFault extends _s.GenericAwsException {
   DBSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBSnapshotAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBSnapshotNotFoundFault extends _s.GenericAwsException {
   DBSnapshotNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSnapshotNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
   DBSubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -9183,6 +9344,7 @@ class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
   DBSubnetGroupDoesNotCoverEnoughAZs({String? type, String? message})
       : super(
@@ -9191,11 +9353,13 @@ class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupNotFoundFault extends _s.GenericAwsException {
   DBSubnetGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
   DBSubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -9204,11 +9368,13 @@ class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetQuotaExceededFault extends _s.GenericAwsException {
   DBSubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
   DBUpgradeDependencyFailureFault({String? type, String? message})
       : super(
@@ -9217,6 +9383,7 @@ class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
   EventSubscriptionQuotaExceededFault({String? type, String? message})
       : super(
@@ -9225,6 +9392,7 @@ class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
   GlobalClusterAlreadyExistsFault({String? type, String? message})
       : super(
@@ -9233,11 +9401,13 @@ class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GlobalClusterNotFoundFault extends _s.GenericAwsException {
   GlobalClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'GlobalClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
   GlobalClusterQuotaExceededFault({String? type, String? message})
       : super(
@@ -9246,11 +9416,13 @@ class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
   InstanceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
   InsufficientDBClusterCapacityFault({String? type, String? message})
       : super(
@@ -9259,6 +9431,7 @@ class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
   InsufficientDBInstanceCapacityFault({String? type, String? message})
       : super(
@@ -9267,6 +9440,7 @@ class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
   InsufficientStorageClusterCapacityFault({String? type, String? message})
       : super(
@@ -9275,6 +9449,7 @@ class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
   InvalidDBClusterSnapshotStateFault({String? type, String? message})
       : super(
@@ -9283,17 +9458,20 @@ class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterStateFault extends _s.GenericAwsException {
   InvalidDBClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBClusterStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBInstanceStateFault extends _s.GenericAwsException {
   InvalidDBInstanceStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBInstanceStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
   InvalidDBParameterGroupStateFault({String? type, String? message})
       : super(
@@ -9302,6 +9480,7 @@ class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
   InvalidDBSecurityGroupStateFault({String? type, String? message})
       : super(
@@ -9310,12 +9489,14 @@ class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBSnapshotStateFault extends _s.GenericAwsException {
   InvalidDBSnapshotStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBSnapshotStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
   InvalidDBSubnetGroupStateFault({String? type, String? message})
       : super(
@@ -9324,11 +9505,13 @@ class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBSubnetStateFault extends _s.GenericAwsException {
   InvalidDBSubnetStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBSubnetStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
   InvalidEventSubscriptionStateFault({String? type, String? message})
       : super(
@@ -9337,6 +9520,7 @@ class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
   InvalidGlobalClusterStateFault({String? type, String? message})
       : super(
@@ -9345,52 +9529,62 @@ class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRestoreFault extends _s.GenericAwsException {
   InvalidRestoreFault({String? type, String? message})
       : super(type: type, code: 'InvalidRestoreFault', message: message);
 }
 
+/// @nodoc
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
+/// @nodoc
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
+/// @nodoc
 class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
   KMSKeyNotAccessibleFault({String? type, String? message})
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
+/// @nodoc
 class NetworkTypeNotSupported extends _s.GenericAwsException {
   NetworkTypeNotSupported({String? type, String? message})
       : super(type: type, code: 'NetworkTypeNotSupported', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundFault extends _s.GenericAwsException {
   ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SNSInvalidTopicFault extends _s.GenericAwsException {
   SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
+/// @nodoc
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
   SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
+/// @nodoc
 class SNSTopicArnNotFoundFault extends _s.GenericAwsException {
   SNSTopicArnNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SNSTopicArnNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
   SharedSnapshotQuotaExceededFault({String? type, String? message})
       : super(
@@ -9399,32 +9593,38 @@ class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotQuotaExceededFault extends _s.GenericAwsException {
   SnapshotQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SnapshotQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class SourceNotFoundFault extends _s.GenericAwsException {
   SourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class StorageQuotaExceededFault extends _s.GenericAwsException {
   StorageQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'StorageQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class StorageTypeNotSupportedFault extends _s.GenericAwsException {
   StorageTypeNotSupportedFault({String? type, String? message})
       : super(
             type: type, code: 'StorageTypeNotSupportedFault', message: message);
 }
 
+/// @nodoc
 class SubnetAlreadyInUse extends _s.GenericAwsException {
   SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
+/// @nodoc
 class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
   SubscriptionAlreadyExistFault({String? type, String? message})
       : super(
@@ -9433,6 +9633,7 @@ class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
   SubscriptionCategoryNotFoundFault({String? type, String? message})
       : super(
@@ -9441,6 +9642,7 @@ class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionNotFoundFault extends _s.GenericAwsException {
   SubscriptionNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubscriptionNotFoundFault', message: message);

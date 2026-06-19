@@ -1965,6 +1965,8 @@ class Elasticsearch {
 /// The result of a
 /// <code><a>AcceptInboundCrossClusterSearchConnection</a></code> operation.
 /// Contains details of accepted inbound connection.
+///
+/// @nodoc
 class AcceptInboundCrossClusterSearchConnectionResponse {
   /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
   /// accepted inbound connection.
@@ -1995,6 +1997,8 @@ class AcceptInboundCrossClusterSearchConnectionResponse {
 
 /// Container for response returned by <code> <a>AssociatePackage</a> </code>
 /// operation.
+///
+/// @nodoc
 class AssociatePackageResponse {
   /// <code>DomainPackageDetails</code>
   final DomainPackageDetails? domainPackageDetails;
@@ -2025,6 +2029,8 @@ class AssociatePackageResponse {
 /// <code><a>AuthorizeVpcEndpointAccess</a></code> operation. Contains the
 /// account ID and the type of the account being authorized to access the VPC
 /// endpoint.
+///
+/// @nodoc
 class AuthorizeVpcEndpointAccessResponse {
   /// Information about the account or service that was provided access to the
   /// domain.
@@ -2052,6 +2058,8 @@ class AuthorizeVpcEndpointAccessResponse {
 }
 
 /// Contains the details of the cancelled domain config change.
+///
+/// @nodoc
 class CancelDomainConfigChangeResponse {
   /// The unique identifiers of the changes that were cancelled.
   final List<String>? cancelledChangeIds;
@@ -2099,6 +2107,8 @@ class CancelDomainConfigChangeResponse {
 
 /// The result of a <code>CancelElasticsearchServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
+///
+/// @nodoc
 class CancelElasticsearchServiceSoftwareUpdateResponse {
   /// The current status of the Elasticsearch service software update.
   final ServiceSoftwareOptions? serviceSoftwareOptions;
@@ -2128,6 +2138,8 @@ class CancelElasticsearchServiceSoftwareUpdateResponse {
 
 /// The result of a <code>CreateElasticsearchDomain</code> operation. Contains
 /// the status of the newly created Elasticsearch domain.
+///
+/// @nodoc
 class CreateElasticsearchDomainResponse {
   /// The status of the newly created Elasticsearch domain.
   final ElasticsearchDomainStatus? domainStatus;
@@ -2157,6 +2169,8 @@ class CreateElasticsearchDomainResponse {
 /// The result of a
 /// <code><a>CreateOutboundCrossClusterSearchConnection</a></code> request.
 /// Contains the details of the newly created cross-cluster search connection.
+///
+/// @nodoc
 class CreateOutboundCrossClusterSearchConnectionResponse {
   /// Specifies the connection alias provided during the create connection
   /// request.
@@ -2227,6 +2241,8 @@ class CreateOutboundCrossClusterSearchConnectionResponse {
 
 /// Container for response returned by <code> <a>CreatePackage</a> </code>
 /// operation.
+///
+/// @nodoc
 class CreatePackageResponse {
   /// Information about the package <code>PackageDetails</code>.
   final PackageDetails? packageDetails;
@@ -2255,6 +2271,8 @@ class CreatePackageResponse {
 /// Container for response parameters to the
 /// <code><a>CreateVpcEndpoint</a></code> operation. Contains the configuration
 /// and status of the VPC Endpoint being created.
+///
+/// @nodoc
 class CreateVpcEndpointResponse {
   /// Information about the newly created VPC endpoint.
   final VpcEndpoint vpcEndpoint;
@@ -2282,6 +2300,8 @@ class CreateVpcEndpointResponse {
 /// The result of a <code>DeleteElasticsearchDomain</code> request. Contains the
 /// status of the pending deletion, or no status if the domain and all of its
 /// resources have been deleted.
+///
+/// @nodoc
 class DeleteElasticsearchDomainResponse {
   /// The status of the Elasticsearch domain being deleted.
   final ElasticsearchDomainStatus? domainStatus;
@@ -2311,6 +2331,8 @@ class DeleteElasticsearchDomainResponse {
 /// The result of a
 /// <code><a>DeleteInboundCrossClusterSearchConnection</a></code> operation.
 /// Contains details of deleted inbound connection.
+///
+/// @nodoc
 class DeleteInboundCrossClusterSearchConnectionResponse {
   /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
   /// deleted inbound connection.
@@ -2342,6 +2364,8 @@ class DeleteInboundCrossClusterSearchConnectionResponse {
 /// The result of a
 /// <code><a>DeleteOutboundCrossClusterSearchConnection</a></code> operation.
 /// Contains details of deleted outbound connection.
+///
+/// @nodoc
 class DeleteOutboundCrossClusterSearchConnectionResponse {
   /// Specifies the <code><a>OutboundCrossClusterSearchConnection</a></code> of
   /// deleted outbound connection.
@@ -2372,6 +2396,8 @@ class DeleteOutboundCrossClusterSearchConnectionResponse {
 
 /// Container for response parameters to <code> <a>DeletePackage</a> </code>
 /// operation.
+///
+/// @nodoc
 class DeletePackageResponse {
   /// <code>PackageDetails</code>
   final PackageDetails? packageDetails;
@@ -2400,6 +2426,8 @@ class DeletePackageResponse {
 /// Container for response parameters to the
 /// <code><a>DeleteVpcEndpoint</a></code> operation. Contains the summarized
 /// detail of the VPC Endpoint being deleted.
+///
+/// @nodoc
 class DeleteVpcEndpointResponse {
   /// Information about the deleted endpoint, including its current status
   /// (<code>DELETING</code> or <code>DELETE_FAILED</code>).
@@ -2428,6 +2456,8 @@ class DeleteVpcEndpointResponse {
 /// The result of <code>DescribeDomainAutoTunes</code> request. See the <a
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a> for more information.
+///
+/// @nodoc
 class DescribeDomainAutoTunesResponse {
   /// Specifies the list of setting adjustments that Auto-Tune has made to the
   /// domain. See the <a
@@ -2465,6 +2495,8 @@ class DescribeDomainAutoTunesResponse {
 
 /// The result of a <code>DescribeDomainChangeProgress</code> request. Contains
 /// the progress information of the requested domain change.
+///
+/// @nodoc
 class DescribeDomainChangeProgressResponse {
   /// Progress information for the configuration change that is requested in the
   /// <code>DescribeDomainChangeProgress</code> request.
@@ -2495,6 +2527,8 @@ class DescribeDomainChangeProgressResponse {
 
 /// The result of a <code>DescribeElasticsearchDomain</code> request. Contains
 /// the status of the domain specified in the request.
+///
+/// @nodoc
 class DescribeElasticsearchDomainResponse {
   /// The current status of the Elasticsearch domain.
   final ElasticsearchDomainStatus domainStatus;
@@ -2522,6 +2556,8 @@ class DescribeElasticsearchDomainResponse {
 
 /// The result of a <code>DescribeElasticsearchDomainConfig</code> request.
 /// Contains the configuration information of the requested domain.
+///
+/// @nodoc
 class DescribeElasticsearchDomainConfigResponse {
   /// The configuration information of the domain requested in the
   /// <code>DescribeElasticsearchDomainConfig</code> request.
@@ -2550,6 +2586,8 @@ class DescribeElasticsearchDomainConfigResponse {
 
 /// The result of a <code>DescribeElasticsearchDomains</code> request. Contains
 /// the status of the specified domains or all domains owned by the account.
+///
+/// @nodoc
 class DescribeElasticsearchDomainsResponse {
   /// The status of the domains requested in the
   /// <code>DescribeElasticsearchDomains</code> request.
@@ -2580,6 +2618,8 @@ class DescribeElasticsearchDomainsResponse {
 
 /// Container for the parameters received from <code>
 /// <a>DescribeElasticsearchInstanceTypeLimits</a> </code> operation.
+///
+/// @nodoc
 class DescribeElasticsearchInstanceTypeLimitsResponse {
   final Map<String, Limits>? limitsByRole;
 
@@ -2606,6 +2646,8 @@ class DescribeElasticsearchInstanceTypeLimitsResponse {
 /// The result of a
 /// <code><a>DescribeInboundCrossClusterSearchConnections</a></code> request.
 /// Contains the list of connections matching the filter criteria.
+///
+/// @nodoc
 class DescribeInboundCrossClusterSearchConnectionsResponse {
   /// Consists of list of <code><a>InboundCrossClusterSearchConnection</a></code>
   /// matching the specified filter criteria.
@@ -2649,6 +2691,8 @@ class DescribeInboundCrossClusterSearchConnectionsResponse {
 /// The result of a
 /// <code><a>DescribeOutboundCrossClusterSearchConnections</a></code> request.
 /// Contains the list of connections matching the filter criteria.
+///
+/// @nodoc
 class DescribeOutboundCrossClusterSearchConnectionsResponse {
   /// Consists of list of <code><a>OutboundCrossClusterSearchConnection</a></code>
   /// matching the specified filter criteria.
@@ -2691,6 +2735,8 @@ class DescribeOutboundCrossClusterSearchConnectionsResponse {
 
 /// Container for response returned by <code> <a>DescribePackages</a> </code>
 /// operation.
+///
+/// @nodoc
 class DescribePackagesResponse {
   final String? nextToken;
 
@@ -2724,6 +2770,8 @@ class DescribePackagesResponse {
 
 /// Container for results from
 /// <code>DescribeReservedElasticsearchInstanceOfferings</code>
+///
+/// @nodoc
 class DescribeReservedElasticsearchInstanceOfferingsResponse {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? nextToken;
@@ -2765,6 +2813,8 @@ class DescribeReservedElasticsearchInstanceOfferingsResponse {
 
 /// Container for results from
 /// <code>DescribeReservedElasticsearchInstances</code>
+///
+/// @nodoc
 class DescribeReservedElasticsearchInstancesResponse {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? nextToken;
@@ -2806,6 +2856,8 @@ class DescribeReservedElasticsearchInstancesResponse {
 /// containing configuration details and status of the VPC Endpoints as well as
 /// a list containing error responses of the endpoints that could not be
 /// described
+///
+/// @nodoc
 class DescribeVpcEndpointsResponse {
   /// Any errors associated with the request.
   final List<VpcEndpointError> vpcEndpointErrors;
@@ -2843,6 +2895,8 @@ class DescribeVpcEndpointsResponse {
 
 /// Container for response returned by <code> <a>DissociatePackage</a> </code>
 /// operation.
+///
+/// @nodoc
 class DissociatePackageResponse {
   /// <code>DomainPackageDetails</code>
   final DomainPackageDetails? domainPackageDetails;
@@ -2871,6 +2925,8 @@ class DissociatePackageResponse {
 
 /// Container for response returned by <code>
 /// <a>GetCompatibleElasticsearchVersions</a> </code> operation.
+///
+/// @nodoc
 class GetCompatibleElasticsearchVersionsResponse {
   /// A map of compatible Elasticsearch versions returned as part of the <code>
   /// <a>GetCompatibleElasticsearchVersions</a> </code> operation.
@@ -2903,6 +2959,8 @@ class GetCompatibleElasticsearchVersionsResponse {
 
 /// Container for response returned by <code> <a>GetPackageVersionHistory</a>
 /// </code> operation.
+///
+/// @nodoc
 class GetPackageVersionHistoryResponse {
   final String? nextToken;
   final String? packageID;
@@ -2942,6 +3000,8 @@ class GetPackageVersionHistoryResponse {
 
 /// Container for response returned by <code> <a>GetUpgradeHistory</a> </code>
 /// operation.
+///
+/// @nodoc
 class GetUpgradeHistoryResponse {
   /// Pagination token that needs to be supplied to the next call to get the next
   /// page of results
@@ -2979,6 +3039,8 @@ class GetUpgradeHistoryResponse {
 
 /// Container for response returned by <code> <a>GetUpgradeStatus</a> </code>
 /// operation.
+///
+/// @nodoc
 class GetUpgradeStatusResponse {
   /// One of 4 statuses that a step can go through returned as part of the <code>
   /// <a>GetUpgradeStatusResponse</a> </code> object. The status can take one of
@@ -3033,6 +3095,8 @@ class GetUpgradeStatusResponse {
 
 /// The result of a <code>ListDomainNames</code> operation. Contains the names
 /// of all domains owned by this account and their respective engine types.
+///
+/// @nodoc
 class ListDomainNamesResponse {
   /// List of domain names and respective engine types.
   final List<DomainInfo>? domainNames;
@@ -3060,6 +3124,8 @@ class ListDomainNamesResponse {
 
 /// Container for response parameters to <code> <a>ListDomainsForPackage</a>
 /// </code> operation.
+///
+/// @nodoc
 class ListDomainsForPackageResponse {
   /// List of <code>DomainPackageDetails</code> objects.
   final List<DomainPackageDetails>? domainPackageDetailsList;
@@ -3093,6 +3159,8 @@ class ListDomainsForPackageResponse {
 
 /// Container for the parameters returned by <code>
 /// <a>ListElasticsearchInstanceTypes</a> </code> operation.
+///
+/// @nodoc
 class ListElasticsearchInstanceTypesResponse {
   /// List of instance types supported by Amazon Elasticsearch service for given
   /// <code> <a>ElasticsearchVersion</a> </code>
@@ -3133,6 +3201,8 @@ class ListElasticsearchInstanceTypesResponse {
 
 /// Container for the parameters for response received from <code>
 /// <a>ListElasticsearchVersions</a> </code> operation.
+///
+/// @nodoc
 class ListElasticsearchVersionsResponse {
   final List<String>? elasticsearchVersions;
   final String? nextToken;
@@ -3166,6 +3236,8 @@ class ListElasticsearchVersionsResponse {
 
 /// Container for response parameters to <code> <a>ListPackagesForDomain</a>
 /// </code> operation.
+///
+/// @nodoc
 class ListPackagesForDomainResponse {
   /// List of <code>DomainPackageDetails</code> objects.
   final List<DomainPackageDetails>? domainPackageDetailsList;
@@ -3202,6 +3274,8 @@ class ListPackagesForDomainResponse {
 
 /// The result of a <code>ListTags</code> operation. Contains tags for all
 /// requested Elasticsearch domains.
+///
+/// @nodoc
 class ListTagsResponse {
   /// List of <code>Tag</code> for the requested Elasticsearch domain.
   final List<Tag>? tagList;
@@ -3230,6 +3304,8 @@ class ListTagsResponse {
 /// Container for response parameters to the
 /// <code><a>ListVpcEndpointAccess</a></code> operation. Returns a list of
 /// accounts id and account type authorized to manage VPC endpoints.
+///
+/// @nodoc
 class ListVpcEndpointAccessResponse {
   /// List of <code>AuthorizedPrincipal</code> describing the details of the
   /// permissions to manage VPC endpoints against the specified domain.
@@ -3267,6 +3343,8 @@ class ListVpcEndpointAccessResponse {
 /// Container for response parameters to the
 /// <code><a>ListVpcEndpoints</a></code> operation. Returns a list containing
 /// summarized details of the VPC endpoints.
+///
+/// @nodoc
 class ListVpcEndpointsResponse {
   /// Provides an identifier to allow retrieval of paginated results.
   final String nextToken;
@@ -3303,6 +3381,8 @@ class ListVpcEndpointsResponse {
 /// Container for response parameters to the
 /// <code><a>ListVpcEndpointsForDomain</a></code> operation. Returns a list
 /// containing summarized details of the VPC endpoints.
+///
+/// @nodoc
 class ListVpcEndpointsForDomainResponse {
   /// Information about each endpoint associated with the domain.
   final String nextToken;
@@ -3340,6 +3420,8 @@ class ListVpcEndpointsForDomainResponse {
 
 /// Represents the output of a
 /// <code>PurchaseReservedElasticsearchInstanceOffering</code> operation.
+///
+/// @nodoc
 class PurchaseReservedElasticsearchInstanceOfferingResponse {
   /// The customer-specified identifier used to track this reservation.
   final String? reservationName;
@@ -3376,6 +3458,8 @@ class PurchaseReservedElasticsearchInstanceOfferingResponse {
 /// The result of a
 /// <code><a>RejectInboundCrossClusterSearchConnection</a></code> operation.
 /// Contains details of rejected inbound connection.
+///
+/// @nodoc
 class RejectInboundCrossClusterSearchConnectionResponse {
   /// Specifies the <code><a>InboundCrossClusterSearchConnection</a></code> of
   /// rejected inbound connection.
@@ -3407,6 +3491,8 @@ class RejectInboundCrossClusterSearchConnectionResponse {
 /// Container for response parameters to the
 /// <code><a>RevokeVpcEndpointAccess</a></code> operation. The response body for
 /// this operation is empty.
+///
+/// @nodoc
 class RevokeVpcEndpointAccessResponse {
   RevokeVpcEndpointAccessResponse();
 
@@ -3421,6 +3507,8 @@ class RevokeVpcEndpointAccessResponse {
 
 /// The result of a <code>StartElasticsearchServiceSoftwareUpdate</code>
 /// operation. Contains the status of the update.
+///
+/// @nodoc
 class StartElasticsearchServiceSoftwareUpdateResponse {
   /// The current status of the Elasticsearch service software update.
   final ServiceSoftwareOptions? serviceSoftwareOptions;
@@ -3450,6 +3538,8 @@ class StartElasticsearchServiceSoftwareUpdateResponse {
 
 /// The result of an <code>UpdateElasticsearchDomain</code> request. Contains
 /// the status of the Elasticsearch domain being updated.
+///
+/// @nodoc
 class UpdateElasticsearchDomainConfigResponse {
   /// The status of the updated Elasticsearch domain.
   final ElasticsearchDomainConfig domainConfig;
@@ -3487,6 +3577,8 @@ class UpdateElasticsearchDomainConfigResponse {
 
 /// Container for response returned by <code> <a>UpdatePackage</a> </code>
 /// operation.
+///
+/// @nodoc
 class UpdatePackageResponse {
   /// Information about the package <code>PackageDetails</code>.
   final PackageDetails? packageDetails;
@@ -3513,6 +3605,8 @@ class UpdatePackageResponse {
 }
 
 /// Contains the configuration and status of the VPC endpoint being updated.
+///
+/// @nodoc
 class UpdateVpcEndpointResponse {
   /// The endpoint to be updated.
   final VpcEndpoint vpcEndpoint;
@@ -3539,6 +3633,8 @@ class UpdateVpcEndpointResponse {
 
 /// Container for response returned by <code> <a>UpgradeElasticsearchDomain</a>
 /// </code> operation.
+///
+/// @nodoc
 class UpgradeElasticsearchDomainResponse {
   final ChangeProgressDetails? changeProgressDetails;
   final String? domainName;
@@ -3586,6 +3682,8 @@ class UpgradeElasticsearchDomainResponse {
 }
 
 /// Specifies change details of the domain configuration change.
+///
+/// @nodoc
 class ChangeProgressDetails {
   /// The unique change identifier associated with a specific domain configuration
   /// change.
@@ -3650,6 +3748,7 @@ class ChangeProgressDetails {
   }
 }
 
+/// @nodoc
 class ConfigChangeStatus {
   static const pending = ConfigChangeStatus._('Pending');
   static const initializing = ConfigChangeStatus._('Initializing');
@@ -3690,6 +3789,7 @@ class ConfigChangeStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InitiatedBy {
   static const customer = InitiatedBy._('CUSTOMER');
   static const service = InitiatedBy._('SERVICE');
@@ -3715,6 +3815,8 @@ class InitiatedBy {
 
 /// The connection endpoint for connecting to an Amazon OpenSearch Service
 /// domain through a proxy.
+///
+/// @nodoc
 class VpcEndpoint {
   /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
   final String? domainArn;
@@ -3779,6 +3881,8 @@ class VpcEndpoint {
 /// more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html"
 /// target="_blank"> VPC Endpoints for Amazon Elasticsearch Service Domains</a>.
+///
+/// @nodoc
 class VPCDerivedInfo {
   /// The availability zones for the Elasticsearch domain. Exists only if the
   /// domain was created with VPCOptions.
@@ -3846,6 +3950,8 @@ class VPCDerivedInfo {
 /// deleted.</li>
 /// <li>DELETE_FAILED: Indicates that the VPC endpoint deletion failed.</li>
 /// </ul>
+///
+/// @nodoc
 class VpcEndpointStatus {
   static const creating = VpcEndpointStatus._('CREATING');
   static const createFailed = VpcEndpointStatus._('CREATE_FAILED');
@@ -3887,6 +3993,8 @@ class VpcEndpointStatus {
 /// more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html"
 /// target="_blank"> VPC Endpoints for Amazon Elasticsearch Service Domains</a>.
+///
+/// @nodoc
 class VPCOptions {
   /// Specifies the security groups for VPC endpoint.
   final List<String>? securityGroupIds;
@@ -3910,6 +4018,8 @@ class VPCOptions {
 }
 
 /// Basic information about a package.
+///
+/// @nodoc
 class PackageDetails {
   final String? availablePackageVersion;
 
@@ -3992,6 +4102,7 @@ class PackageDetails {
   }
 }
 
+/// @nodoc
 class PackageType {
   static const txtDictionary = PackageType._('TXT-DICTIONARY');
 
@@ -4014,6 +4125,7 @@ class PackageType {
   String toString() => value;
 }
 
+/// @nodoc
 class PackageStatus {
   static const copying = PackageStatus._('COPYING');
   static const copyFailed = PackageStatus._('COPY_FAILED');
@@ -4053,6 +4165,7 @@ class PackageStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ErrorDetails {
   final String? errorMessage;
   final String? errorType;
@@ -4081,6 +4194,8 @@ class ErrorDetails {
 
 /// The S3 location for importing the package specified as
 /// <code>S3BucketName</code> and <code>S3Key</code>
+///
+/// @nodoc
 class PackageSource {
   /// Name of the bucket containing the package.
   final String? s3BucketName;
@@ -4104,6 +4219,8 @@ class PackageSource {
 }
 
 /// The configuration of an Elasticsearch domain.
+///
+/// @nodoc
 class ElasticsearchDomainConfig {
   /// IAM access policy as a JSON-formatted string.
   final AccessPoliciesStatus? accessPolicies;
@@ -4323,6 +4440,7 @@ class ElasticsearchDomainConfig {
   }
 }
 
+/// @nodoc
 class DryRunResults {
   /// Specifies the deployment mechanism through which the update shall be applied
   /// on the domain. Possible responses are <code>Blue/Green</code> (The update
@@ -4361,6 +4479,8 @@ class DryRunResults {
 
 /// Status of the Elasticsearch version options for the specified Elasticsearch
 /// domain.
+///
+/// @nodoc
 class ElasticsearchVersionStatus {
   /// Specifies the Elasticsearch version for the specified Elasticsearch domain.
   final String options;
@@ -4393,6 +4513,8 @@ class ElasticsearchVersionStatus {
 }
 
 /// Specifies the configuration status for the specified Elasticsearch domain.
+///
+/// @nodoc
 class ElasticsearchClusterConfigStatus {
   /// Specifies the cluster configuration for the specified Elasticsearch domain.
   final ElasticsearchClusterConfig options;
@@ -4427,6 +4549,8 @@ class ElasticsearchClusterConfigStatus {
 }
 
 /// Status of the EBS options for the specified Elasticsearch domain.
+///
+/// @nodoc
 class EBSOptionsStatus {
   /// Specifies the EBS options for the specified Elasticsearch domain.
   final EBSOptions options;
@@ -4461,6 +4585,8 @@ class EBSOptionsStatus {
 
 /// The configured access rules for the domain's document and search endpoints,
 /// and the current status of those rules.
+///
+/// @nodoc
 class AccessPoliciesStatus {
   /// The access policy configured for the Elasticsearch domain. Access policies
   /// may be resource-based, IP-based, or IAM-based. See <a
@@ -4496,6 +4622,8 @@ class AccessPoliciesStatus {
 }
 
 /// Status of a daily automated snapshot.
+///
+/// @nodoc
 class SnapshotOptionsStatus {
   /// Specifies the daily snapshot options specified for the Elasticsearch domain.
   final SnapshotOptions options;
@@ -4529,6 +4657,8 @@ class SnapshotOptionsStatus {
 }
 
 /// Status of the VPC options for the specified Elasticsearch domain.
+///
+/// @nodoc
 class VPCDerivedInfoStatus {
   /// Specifies the VPC options for the specified Elasticsearch domain.
   final VPCDerivedInfo options;
@@ -4563,6 +4693,8 @@ class VPCDerivedInfoStatus {
 }
 
 /// Status of the Cognito options for the specified Elasticsearch domain.
+///
+/// @nodoc
 class CognitoOptionsStatus {
   /// Specifies the Cognito options for the specified Elasticsearch domain.
   final CognitoOptions options;
@@ -4598,6 +4730,8 @@ class CognitoOptionsStatus {
 
 /// Status of the Encryption At Rest options for the specified Elasticsearch
 /// domain.
+///
+/// @nodoc
 class EncryptionAtRestOptionsStatus {
   /// Specifies the Encryption At Rest options for the specified Elasticsearch
   /// domain.
@@ -4634,6 +4768,8 @@ class EncryptionAtRestOptionsStatus {
 
 /// Status of the node-to-node encryption options for the specified
 /// Elasticsearch domain.
+///
+/// @nodoc
 class NodeToNodeEncryptionOptionsStatus {
   /// Specifies the node-to-node encryption options for the specified
   /// Elasticsearch domain.
@@ -4685,6 +4821,8 @@ class NodeToNodeEncryptionOptionsStatus {
 /// For more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-advanced-options">Configuring
 /// Advanced Options</a>.
+///
+/// @nodoc
 class AdvancedOptionsStatus {
   /// Specifies the status of advanced options for the specified Elasticsearch
   /// domain.
@@ -4721,6 +4859,8 @@ class AdvancedOptionsStatus {
 
 /// The configured log publishing options for the domain and their current
 /// status.
+///
+/// @nodoc
 class LogPublishingOptionsStatus {
   /// The log publishing options configured for the Elasticsearch domain.
   final Map<LogType, LogPublishingOption>? options;
@@ -4757,6 +4897,8 @@ class LogPublishingOptionsStatus {
 }
 
 /// The configured endpoint options for the domain and their current status.
+///
+/// @nodoc
 class DomainEndpointOptionsStatus {
   /// Options to configure endpoint for the Elasticsearch domain.
   final DomainEndpointOptions options;
@@ -4792,6 +4934,8 @@ class DomainEndpointOptionsStatus {
 
 /// Specifies the status of advanced security options for the specified
 /// Elasticsearch domain.
+///
+/// @nodoc
 class AdvancedSecurityOptionsStatus {
   /// Specifies advanced security options for the specified Elasticsearch domain.
   final AdvancedSecurityOptions options;
@@ -4827,6 +4971,8 @@ class AdvancedSecurityOptionsStatus {
 
 /// Specifies the status of Auto-Tune options for the specified Elasticsearch
 /// domain.
+///
+/// @nodoc
 class AutoTuneOptionsStatus {
   /// Specifies Auto-Tune options for the specified Elasticsearch domain.
   final AutoTuneOptions? options;
@@ -4863,6 +5009,8 @@ class AutoTuneOptionsStatus {
 
 /// Specifies the status of deployment strategy options for the specified
 /// Elasticsearch domain.
+///
+/// @nodoc
 class DeploymentStrategyOptionsStatus {
   /// Specifies deployment strategy options for the specified Elasticsearch
   /// domain.
@@ -4899,6 +5047,8 @@ class DeploymentStrategyOptionsStatus {
 
 /// The status of automated snapshot pause options for the specified
 /// Elasticsearch domain.
+///
+/// @nodoc
 class AutomatedSnapshotPauseOptionsStatus {
   /// Automated snapshot pause options for the specified Elasticsearch domain.
   final AutomatedSnapshotPauseOptions options;
@@ -4936,6 +5086,8 @@ class AutomatedSnapshotPauseOptionsStatus {
 /// Specifies the automated snapshot pause options for the domain. These options
 /// allow you to temporarily pause automated snapshots for a specified time
 /// period.
+///
+/// @nodoc
 class AutomatedSnapshotPauseOptions {
   /// Whether automated snapshot pause is enabled for the domain.
   final bool enabled;
@@ -4982,6 +5134,8 @@ class AutomatedSnapshotPauseOptions {
 }
 
 /// Provides the current status of the entity.
+///
+/// @nodoc
 class OptionStatus {
   /// Timestamp which tells the creation date for the entity.
   final DateTime creationDate;
@@ -5039,6 +5193,8 @@ class OptionStatus {
 /// <li>Active: The request change is processed and deployed to the
 /// Elasticsearch domain.</li>
 /// </ul>
+///
+/// @nodoc
 class OptionState {
   static const requiresIndexDocuments = OptionState._('RequiresIndexDocuments');
   static const processing = OptionState._('Processing');
@@ -5063,6 +5219,7 @@ class OptionState {
   String toString() => value;
 }
 
+/// @nodoc
 class PauseState {
   static const active = PauseState._('Active');
   static const completed = PauseState._('Completed');
@@ -5089,6 +5246,8 @@ class PauseState {
 }
 
 /// Specifies the deployment strategy options for the domain.
+///
+/// @nodoc
 class DeploymentStrategyOptions {
   /// Specifies the deployment strategy for the domain. Valid values are
   /// <code>Default</code> and <code>CapacityOptimized</code>.
@@ -5115,6 +5274,8 @@ class DeploymentStrategyOptions {
 
 /// Specifies the deployment strategy for the domain. Valid values are
 /// <code>Default</code> and <code>CapacityOptimized</code>.
+///
+/// @nodoc
 class DeploymentStrategy {
   static const $default = DeploymentStrategy._('Default');
   static const capacityOptimized = DeploymentStrategy._('CapacityOptimized');
@@ -5141,6 +5302,8 @@ class DeploymentStrategy {
 }
 
 /// Information about the domain properties that are currently being modified.
+///
+/// @nodoc
 class ModifyingProperties {
   /// The current value of the domain property that is being modified.
   final String? activeValue;
@@ -5194,6 +5357,7 @@ class ModifyingProperties {
   }
 }
 
+/// @nodoc
 class PropertyValueType {
   static const plainText = PropertyValueType._('PLAIN_TEXT');
   static const stringifiedJson = PropertyValueType._('STRINGIFIED_JSON');
@@ -5221,6 +5385,8 @@ class PropertyValueType {
 /// Specifies the Auto-Tune options: the Auto-Tune desired state for the domain,
 /// rollback state when disabling Auto-Tune options and list of maintenance
 /// schedules.
+///
+/// @nodoc
 class AutoTuneOptions {
   /// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
   final AutoTuneDesiredState? desiredState;
@@ -5269,6 +5435,8 @@ class AutoTuneOptions {
 }
 
 /// Provides the current status of the Auto-Tune options.
+///
+/// @nodoc
 class AutoTuneStatus {
   /// Timestamp which tells Auto-Tune options creation date .
   final DateTime creationDate;
@@ -5331,6 +5499,8 @@ class AutoTuneStatus {
 /// see the <a
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a>.
+///
+/// @nodoc
 class AutoTuneState {
   static const enabled = AutoTuneState._('ENABLED');
   static const disabled = AutoTuneState._('DISABLED');
@@ -5377,6 +5547,8 @@ class AutoTuneState {
 }
 
 /// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
+///
+/// @nodoc
 class AutoTuneDesiredState {
   static const enabled = AutoTuneDesiredState._('ENABLED');
   static const disabled = AutoTuneDesiredState._('DISABLED');
@@ -5404,6 +5576,8 @@ class AutoTuneDesiredState {
 
 /// Specifies the rollback state while disabling Auto-Tune for the domain. Valid
 /// values are NO_ROLLBACK, DEFAULT_ROLLBACK.
+///
+/// @nodoc
 class RollbackOnDisable {
   static const noRollback = RollbackOnDisable._('NO_ROLLBACK');
   static const defaultRollback = RollbackOnDisable._('DEFAULT_ROLLBACK');
@@ -5431,6 +5605,8 @@ class RollbackOnDisable {
 /// Specifies Auto-Tune maitenance schedule. See the <a
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a> for more information.
+///
+/// @nodoc
 class AutoTuneMaintenanceSchedule {
   /// Specifies cron expression for a recurring maintenance schedule. See the <a
   /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
@@ -5480,6 +5656,8 @@ class AutoTuneMaintenanceSchedule {
 /// See the <a
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a> for more information.
+///
+/// @nodoc
 class Duration {
   /// Specifies the unit of a maintenance schedule duration. Valid value is HOURS.
   /// See the <a
@@ -5518,6 +5696,8 @@ class Duration {
 /// See the <a
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a> for more information.
+///
+/// @nodoc
 class TimeUnit {
   static const hours = TimeUnit._('HOURS');
 
@@ -5542,6 +5722,8 @@ class TimeUnit {
 
 /// Specifies the advanced security configuration: whether advanced security is
 /// enabled, whether the internal database option is enabled.
+///
+/// @nodoc
 class AdvancedSecurityOptions {
   /// Specifies the Anonymous Auth Disable Date when Anonymous Auth is enabled.
   final DateTime? anonymousAuthDisableDate;
@@ -5602,6 +5784,8 @@ class AdvancedSecurityOptions {
 }
 
 /// Describes the SAML application configured for the domain.
+///
+/// @nodoc
 class SAMLOptionsOutput {
   /// True if SAML is enabled.
   final bool? enabled;
@@ -5656,6 +5840,8 @@ class SAMLOptionsOutput {
 }
 
 /// Specifies the SAML Identity Provider's information.
+///
+/// @nodoc
 class SAMLIdp {
   /// The unique Entity ID of the application in SAML Identity Provider.
   final String entityId;
@@ -5686,6 +5872,8 @@ class SAMLIdp {
 }
 
 /// Options to configure endpoint for the Elasticsearch domain.
+///
+/// @nodoc
 class DomainEndpointOptions {
   /// Specify the fully qualified domain for your custom endpoint.
   final String? customEndpoint;
@@ -5755,6 +5943,7 @@ class DomainEndpointOptions {
   }
 }
 
+/// @nodoc
 class TLSSecurityPolicy {
   static const policyMinTls_1_0_2019_07 =
       TLSSecurityPolicy._('Policy-Min-TLS-1-0-2019-07');
@@ -5802,6 +5991,8 @@ class TLSSecurityPolicy {
 /// <li>AUDIT_LOGS: Audit logs contain records of user requests for access from
 /// the domain.</li>
 /// </ul>
+///
+/// @nodoc
 class LogType {
   static const indexSlowLogs = LogType._('INDEX_SLOW_LOGS');
   static const searchSlowLogs = LogType._('SEARCH_SLOW_LOGS');
@@ -5840,6 +6031,8 @@ class LogType {
 /// <li>Enabled: Whether the log publishing for given log type is enabled or
 /// not</li>
 /// </ul>
+///
+/// @nodoc
 class LogPublishingOption {
   final String? cloudWatchLogsLogGroupArn;
 
@@ -5870,6 +6063,8 @@ class LogPublishingOption {
 }
 
 /// Specifies the node-to-node encryption options.
+///
+/// @nodoc
 class NodeToNodeEncryptionOptions {
   /// Specify true to enable node-to-node encryption.
   final bool? enabled;
@@ -5893,6 +6088,8 @@ class NodeToNodeEncryptionOptions {
 }
 
 /// Specifies the Encryption At Rest Options.
+///
+/// @nodoc
 class EncryptionAtRestOptions {
   /// Specifies the option to enable Encryption At Rest.
   final bool? enabled;
@@ -5926,6 +6123,8 @@ class EncryptionAtRestOptions {
 /// authentication. For more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html"
 /// target="_blank">Amazon Cognito Authentication for Kibana</a>.
+///
+/// @nodoc
 class CognitoOptions {
   /// Specifies the option to enable Cognito for Kibana authentication.
   final bool? enabled;
@@ -5973,6 +6172,8 @@ class CognitoOptions {
 /// Specifies the time, in UTC format, when the service takes a daily automated
 /// snapshot of the specified Elasticsearch domain. Default value is
 /// <code>0</code> hours.
+///
+/// @nodoc
 class SnapshotOptions {
   /// Specifies the time, in UTC format, when the service takes a daily automated
   /// snapshot of the specified Elasticsearch domain. Default value is
@@ -6002,6 +6203,8 @@ class SnapshotOptions {
 /// volumes. For more information, see <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
 /// target="_blank"> Configuring EBS-based Storage</a>.
+///
+/// @nodoc
 class EBSOptions {
   /// Specifies whether EBS-based storage is enabled.
   final bool? eBSEnabled;
@@ -6055,6 +6258,8 @@ class EBSOptions {
 /// The type of EBS volume, standard, gp2, gp3 or io1. See <a
 /// href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs"
 /// target="_blank">Configuring EBS-based Storage</a>for more information.
+///
+/// @nodoc
 class VolumeType {
   static const standard = VolumeType._('standard');
   static const gp2 = VolumeType._('gp2');
@@ -6082,6 +6287,8 @@ class VolumeType {
 
 /// Specifies the configuration for the domain cluster, such as the type and
 /// number of instances.
+///
+/// @nodoc
 class ElasticsearchClusterConfig {
   /// Specifies the <code>ColdStorageOptions</code> config for Elasticsearch
   /// Domain
@@ -6197,6 +6404,7 @@ class ElasticsearchClusterConfig {
   }
 }
 
+/// @nodoc
 class ESPartitionInstanceType {
   static const m3MediumElasticsearch =
       ESPartitionInstanceType._('m3.medium.elasticsearch');
@@ -6397,6 +6605,8 @@ class ESPartitionInstanceType {
 
 /// Specifies the zone awareness configuration for the domain cluster, such as
 /// the number of availability zones.
+///
+/// @nodoc
 class ZoneAwarenessConfig {
   /// An integer value to indicate the number of availability zones for a domain
   /// when zone awareness is enabled. This should be equal to number of subnets if
@@ -6422,6 +6632,7 @@ class ZoneAwarenessConfig {
   }
 }
 
+/// @nodoc
 class ESWarmPartitionInstanceType {
   static const ultrawarm1MediumElasticsearch =
       ESWarmPartitionInstanceType._('ultrawarm1.medium.elasticsearch');
@@ -6453,6 +6664,8 @@ class ESWarmPartitionInstanceType {
 }
 
 /// Specifies the configuration for cold storage options such as enabled
+///
+/// @nodoc
 class ColdStorageOptions {
   /// Enable cold storage option. Accepted values true or false
   final bool enabled;
@@ -6479,6 +6692,8 @@ class ColdStorageOptions {
 /// enabled, whether the internal database option is enabled, master username
 /// and password (if internal database is enabled), and master user ARN (if IAM
 /// is enabled).
+///
+/// @nodoc
 class AdvancedSecurityOptionsInput {
   /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when
   /// AdvancedSecurity is enabled on existing domains.
@@ -6529,6 +6744,8 @@ class AdvancedSecurityOptionsInput {
 /// short-term operational needs such as migrations or maintenance windows.
 /// </important>
 /// Maximum suspension duration: 3 days.
+///
+/// @nodoc
 class AutomatedSnapshotPauseRequestOptions {
   /// Whether to enable or disable automated snapshot pause for the domain.
   final bool enabled;
@@ -6560,6 +6777,8 @@ class AutomatedSnapshotPauseRequestOptions {
 }
 
 /// Credentials for the master user: username and password, ARN, or both.
+///
+/// @nodoc
 class MasterUserOptions {
   /// ARN for the master user (if IAM is enabled).
   final String? masterUserARN;
@@ -6591,6 +6810,8 @@ class MasterUserOptions {
 }
 
 /// Specifies the SAML application configuration for the domain.
+///
+/// @nodoc
 class SAMLOptionsInput {
   /// True if SAML is enabled.
   final bool? enabled;
@@ -6647,6 +6868,8 @@ class SAMLOptionsInput {
 }
 
 /// The current options of an Elasticsearch domain service software options.
+///
+/// @nodoc
 class ServiceSoftwareOptions {
   /// Timestamp, in Epoch time, until which you can manually request a service
   /// software update. After this date, we automatically update your service
@@ -6731,6 +6954,7 @@ class ServiceSoftwareOptions {
   }
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const pendingUpdate = DeploymentStatus._('PENDING_UPDATE');
   static const inProgress = DeploymentStatus._('IN_PROGRESS');
@@ -6765,6 +6989,8 @@ class DeploymentStatus {
 }
 
 /// Specifies details of an inbound connection.
+///
+/// @nodoc
 class InboundCrossClusterSearchConnection {
   /// Specifies the <code><a>InboundCrossClusterSearchConnectionStatus</a></code>
   /// for the outbound connection.
@@ -6824,6 +7050,7 @@ class InboundCrossClusterSearchConnection {
   }
 }
 
+/// @nodoc
 class DomainInformation {
   final String domainName;
   final String? ownerId;
@@ -6857,6 +7084,8 @@ class DomainInformation {
 
 /// Specifies the coonection status of an inbound cross-cluster search
 /// connection.
+///
+/// @nodoc
 class InboundCrossClusterSearchConnectionStatus {
   /// Specifies verbose information for the inbound connection status.
   final String? message;
@@ -6899,6 +7128,7 @@ class InboundCrossClusterSearchConnectionStatus {
   }
 }
 
+/// @nodoc
 class InboundCrossClusterSearchConnectionStatusCode {
   static const pendingAcceptance =
       InboundCrossClusterSearchConnectionStatusCode._('PENDING_ACCEPTANCE');
@@ -6944,6 +7174,8 @@ class InboundCrossClusterSearchConnectionStatusCode {
 }
 
 /// Summary information for an Amazon OpenSearch Service-managed VPC endpoint.
+///
+/// @nodoc
 class VpcEndpointSummary {
   /// The Amazon Resource Name (ARN) of the domain associated with the endpoint.
   final String? domainArn;
@@ -6989,6 +7221,8 @@ class VpcEndpointSummary {
 
 /// Information about an account or service that has access to an Amazon
 /// OpenSearch Service domain through the use of an interface VPC endpoint.
+///
+/// @nodoc
 class AuthorizedPrincipal {
   /// The IAM principal that is allowed access to the domain.
   final String? principal;
@@ -7024,6 +7258,8 @@ class AuthorizedPrincipal {
 /// <li>AWS_ACCOUNT: Indicates that the account is owned by an AWS user.</li>
 /// <li>AWS_SERVICE: Indicates the the account is owned by an AWS service.</li>
 /// </ul>
+///
+/// @nodoc
 class PrincipalType {
   static const awsAccount = PrincipalType._('AWS_ACCOUNT');
   static const awsService = PrincipalType._('AWS_SERVICE');
@@ -7049,6 +7285,8 @@ class PrincipalType {
 }
 
 /// Specifies a key value pair for a resource tag.
+///
+/// @nodoc
 class Tag {
   /// Specifies the <code>TagKey</code>, the name of the tag. Tag keys must be
   /// unique for the Elasticsearch domain to which they are attached.
@@ -7083,6 +7321,8 @@ class Tag {
 }
 
 /// Information on a package that is associated with a domain.
+///
+/// @nodoc
 class DomainPackageDetails {
   /// Name of the domain you've associated a package with.
   final String? domainName;
@@ -7166,6 +7406,7 @@ class DomainPackageDetails {
   }
 }
 
+/// @nodoc
 class DomainPackageStatus {
   static const associating = DomainPackageStatus._('ASSOCIATING');
   static const associationFailed = DomainPackageStatus._('ASSOCIATION_FAILED');
@@ -7201,6 +7442,7 @@ class DomainPackageStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DomainInfo {
   /// Specifies the <code>DomainName</code>.
   final String? domainName;
@@ -7230,6 +7472,7 @@ class DomainInfo {
   }
 }
 
+/// @nodoc
 class EngineType {
   static const openSearch = EngineType._('OpenSearch');
   static const elasticsearch = EngineType._('Elasticsearch');
@@ -7253,6 +7496,7 @@ class EngineType {
   String toString() => value;
 }
 
+/// @nodoc
 class UpgradeStep {
   static const preUpgradeCheck = UpgradeStep._('PRE_UPGRADE_CHECK');
   static const snapshot = UpgradeStep._('SNAPSHOT');
@@ -7277,6 +7521,7 @@ class UpgradeStep {
   String toString() => value;
 }
 
+/// @nodoc
 class UpgradeStatus {
   static const inProgress = UpgradeStatus._('IN_PROGRESS');
   static const succeeded = UpgradeStatus._('SUCCEEDED');
@@ -7304,6 +7549,8 @@ class UpgradeStatus {
 }
 
 /// History of the last 10 Upgrades and Upgrade Eligibility Checks.
+///
+/// @nodoc
 class UpgradeHistory {
   /// UTC Timestamp at which the Upgrade API call was made in
   /// "yyyy-MM-ddTHH:mm:ssZ" format.
@@ -7364,6 +7611,8 @@ class UpgradeHistory {
 
 /// Represents a single step of the Upgrade or Upgrade Eligibility Check
 /// workflow.
+///
+/// @nodoc
 class UpgradeStepItem {
   /// A list of strings containing detailed information about the errors
   /// encountered in a particular step.
@@ -7427,6 +7676,8 @@ class UpgradeStepItem {
 }
 
 /// Details of a package version.
+///
+/// @nodoc
 class PackageVersionHistory {
   /// A message associated with the version.
   final String? commitMessage;
@@ -7466,6 +7717,8 @@ class PackageVersionHistory {
 /// A map from an <code> <a>ElasticsearchVersion</a> </code> to a list of
 /// compatible <code> <a>ElasticsearchVersion</a> </code> s to which the domain
 /// can be upgraded.
+///
+/// @nodoc
 class CompatibleVersionsMap {
   /// The current version of Elasticsearch on which a domain is.
   final String? sourceVersion;
@@ -7498,6 +7751,8 @@ class CompatibleVersionsMap {
 
 /// Error information when attempting to describe an Amazon OpenSearch
 /// Service-managed VPC endpoint.
+///
+/// @nodoc
 class VpcEndpointError {
   /// The code associated with the error.
   final VpcEndpointErrorCode? errorCode;
@@ -7543,6 +7798,8 @@ class VpcEndpointError {
 /// <li>SERVER_ERROR: Indicates the describe endpoint operation failed due to an
 /// internal server error.</li>
 /// </ul>
+///
+/// @nodoc
 class VpcEndpointErrorCode {
   static const endpointNotFound = VpcEndpointErrorCode._('ENDPOINT_NOT_FOUND');
   static const serverError = VpcEndpointErrorCode._('SERVER_ERROR');
@@ -7569,6 +7826,8 @@ class VpcEndpointErrorCode {
 }
 
 /// Details of a reserved Elasticsearch instance.
+///
+/// @nodoc
 class ReservedElasticsearchInstance {
   /// The currency code for the reserved Elasticsearch instance offering.
   final String? currencyCode;
@@ -7693,6 +7952,7 @@ class ReservedElasticsearchInstance {
   }
 }
 
+/// @nodoc
 class ReservedElasticsearchInstancePaymentOption {
   static const allUpfront =
       ReservedElasticsearchInstancePaymentOption._('ALL_UPFRONT');
@@ -7726,6 +7986,8 @@ class ReservedElasticsearchInstancePaymentOption {
 /// Contains the specific price and frequency of a recurring charges for a
 /// reserved Elasticsearch instance, or for a reserved Elasticsearch instance
 /// offering.
+///
+/// @nodoc
 class RecurringCharge {
   /// The monetary amount of the recurring charge.
   final double? recurringChargeAmount;
@@ -7758,6 +8020,8 @@ class RecurringCharge {
 }
 
 /// Details of a reserved Elasticsearch instance offering.
+///
+/// @nodoc
 class ReservedElasticsearchInstanceOffering {
   /// The currency code for the reserved Elasticsearch instance offering.
   final String? currencyCode;
@@ -7845,6 +8109,8 @@ class ReservedElasticsearchInstanceOffering {
 }
 
 /// Filter to apply in <code>DescribePackage</code> response.
+///
+/// @nodoc
 class DescribePackagesFilter {
   /// Any field from <code>PackageDetails</code>.
   final DescribePackagesFilterName? name;
@@ -7867,6 +8133,7 @@ class DescribePackagesFilter {
   }
 }
 
+/// @nodoc
 class DescribePackagesFilterName {
   static const packageID = DescribePackagesFilterName._('PackageID');
   static const packageName = DescribePackagesFilterName._('PackageName');
@@ -7894,6 +8161,8 @@ class DescribePackagesFilterName {
 }
 
 /// Specifies details of an outbound connection.
+///
+/// @nodoc
 class OutboundCrossClusterSearchConnection {
   /// Specifies the connection alias for the outbound cross-cluster search
   /// connection.
@@ -7964,6 +8233,8 @@ class OutboundCrossClusterSearchConnection {
 
 /// Specifies the connection status of an outbound cross-cluster search
 /// connection.
+///
+/// @nodoc
 class OutboundCrossClusterSearchConnectionStatus {
   /// Specifies verbose information for the outbound connection status.
   final String? message;
@@ -8008,6 +8279,7 @@ class OutboundCrossClusterSearchConnectionStatus {
   }
 }
 
+/// @nodoc
 class OutboundCrossClusterSearchConnectionStatusCode {
   static const pendingAcceptance =
       OutboundCrossClusterSearchConnectionStatusCode._('PENDING_ACCEPTANCE');
@@ -8063,6 +8335,8 @@ class OutboundCrossClusterSearchConnectionStatusCode {
 /// cross-cluster search connections. Multiple values can be specified per
 /// filter. A cross-cluster search connection must match at least one of the
 /// specified values for it to be returned from an operation.
+///
+/// @nodoc
 class Filter {
   /// Specifies the name of the filter.
   final String? name;
@@ -8088,6 +8362,8 @@ class Filter {
 /// Limits for given InstanceType and for each of it's role. <br></br> Limits
 /// contains following <code> <a>StorageTypes,</a> </code> <code>
 /// <a>InstanceLimits</a> </code> and <code> <a>AdditionalLimits</a> </code>
+///
+/// @nodoc
 class Limits {
   /// List of additional limits that are specific to a given InstanceType and for
   /// each of it's <code> <a>InstanceRole</a> </code> .
@@ -8135,6 +8411,8 @@ class Limits {
 
 /// InstanceLimits represents the list of instance related attributes that are
 /// available for given InstanceType.
+///
+/// @nodoc
 class InstanceLimits {
   final InstanceCountLimits? instanceCountLimits;
 
@@ -8162,6 +8440,8 @@ class InstanceLimits {
 
 /// List of limits that are specific to a given InstanceType and for each of
 /// it's <code> <a>InstanceRole</a> </code> .
+///
+/// @nodoc
 class AdditionalLimit {
   /// Name of Additional Limit is specific to a given InstanceType and for each of
   /// it's <code> <a>InstanceRole</a> </code> etc. <br></br> Attributes and their
@@ -8207,6 +8487,8 @@ class AdditionalLimit {
 
 /// InstanceCountLimits represents the limits on number of instances that be
 /// created in Amazon Elasticsearch for given InstanceType.
+///
+/// @nodoc
 class InstanceCountLimits {
   final int? maximumInstanceCount;
   final int? minimumInstanceCount;
@@ -8237,6 +8519,8 @@ class InstanceCountLimits {
 
 /// StorageTypes represents the list of storage related types and their
 /// attributes that are available for given InstanceType.
+///
+/// @nodoc
 class StorageType {
   final String? storageSubTypeName;
 
@@ -8274,6 +8558,8 @@ class StorageType {
 }
 
 /// Limits that are applicable for given storage type.
+///
+/// @nodoc
 class StorageTypeLimit {
   /// Name of storage limits that are applicable for given storage type. If <code>
   /// <a>StorageType</a> </code> is ebs, following storage options are applicable
@@ -8321,6 +8607,8 @@ class StorageTypeLimit {
 }
 
 /// The current status of an Elasticsearch domain.
+///
+/// @nodoc
 class ElasticsearchDomainStatus {
   /// The Amazon resource name (ARN) of an Elasticsearch domain. See <a
   /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/index.html?Using_Identifiers.html"
@@ -8629,6 +8917,8 @@ class ElasticsearchDomainStatus {
 
 /// Specifies the Auto-Tune options: the Auto-Tune desired state for the domain
 /// and list of maintenance schedules.
+///
+/// @nodoc
 class AutoTuneOptionsOutput {
   /// Specifies the error message while enabling or disabling the Auto-Tune.
   final String? errorMessage;
@@ -8658,6 +8948,7 @@ class AutoTuneOptionsOutput {
   }
 }
 
+/// @nodoc
 class DomainProcessingStatusType {
   static const creating = DomainProcessingStatusType._('Creating');
   static const active = DomainProcessingStatusType._('Active');
@@ -8699,6 +8990,8 @@ class DomainProcessingStatusType {
 }
 
 /// The progress details of a specific domain configuration change.
+///
+/// @nodoc
 class ChangeProgressStatusDetails {
   /// The unique change identifier associated with a specific domain configuration
   /// change.
@@ -8807,6 +9100,8 @@ class ChangeProgressStatusDetails {
 }
 
 /// The overall status value of the domain configuration change.
+///
+/// @nodoc
 class OverallChangeStatus {
   static const pending = OverallChangeStatus._('PENDING');
   static const processing = OverallChangeStatus._('PROCESSING');
@@ -8835,6 +9130,8 @@ class OverallChangeStatus {
 }
 
 /// A progress stage details of a specific domain configuration change.
+///
+/// @nodoc
 class ChangeProgressStage {
   /// The description of the progress stage.
   final String? description;
@@ -8879,6 +9176,8 @@ class ChangeProgressStage {
 }
 
 /// Specifies Auto-Tune type and Auto-Tune action details.
+///
+/// @nodoc
 class AutoTune {
   /// Specifies details of the Auto-Tune action. See the <a
   /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
@@ -8915,6 +9214,8 @@ class AutoTune {
 }
 
 /// Specifies Auto-Tune type. Valid value is SCHEDULED_ACTION.
+///
+/// @nodoc
 class AutoTuneType {
   static const scheduledAction = AutoTuneType._('SCHEDULED_ACTION');
 
@@ -8940,6 +9241,8 @@ class AutoTuneType {
 /// Specifies details of the Auto-Tune action. See the <a
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a> for more information.
+///
+/// @nodoc
 class AutoTuneDetails {
   final ScheduledAutoTuneDetails? scheduledAutoTuneDetails;
 
@@ -8968,6 +9271,8 @@ class AutoTuneDetails {
 /// Specifies details of the scheduled Auto-Tune action. See the <a
 /// href="https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html"
 /// target="_blank">Developer Guide</a> for more information.
+///
+/// @nodoc
 class ScheduledAutoTuneDetails {
   /// Specifies Auto-Tune action description.
   final String? action;
@@ -9016,6 +9321,8 @@ class ScheduledAutoTuneDetails {
 
 /// Specifies Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING and
 /// JVM_YOUNG_GEN_TUNING.
+///
+/// @nodoc
 class ScheduledAutoTuneActionType {
   static const jvmHeapSizeTuning =
       ScheduledAutoTuneActionType._('JVM_HEAP_SIZE_TUNING');
@@ -9044,6 +9351,8 @@ class ScheduledAutoTuneActionType {
 }
 
 /// Specifies Auto-Tune action severity. Valid values are LOW, MEDIUM and HIGH.
+///
+/// @nodoc
 class ScheduledAutoTuneSeverityType {
   static const low = ScheduledAutoTuneSeverityType._('LOW');
   static const medium = ScheduledAutoTuneSeverityType._('MEDIUM');
@@ -9072,6 +9381,8 @@ class ScheduledAutoTuneSeverityType {
 
 /// Specifies the Auto-Tune options: the Auto-Tune desired state for the domain
 /// and list of maintenance schedules.
+///
+/// @nodoc
 class AutoTuneOptionsInput {
   /// Specifies the Auto-Tune desired state. Valid values are ENABLED, DISABLED.
   final AutoTuneDesiredState? desiredState;
@@ -9099,6 +9410,8 @@ class AutoTuneOptionsInput {
 
 /// A property change that was cancelled for an Amazon OpenSearch Service
 /// domain.
+///
+/// @nodoc
 class CancelledChangeProperty {
   /// The current value of the property, after the change was cancelled.
   final String? activeValue;
@@ -9136,31 +9449,37 @@ class CancelledChangeProperty {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BaseException extends _s.GenericAwsException {
   BaseException({String? type, String? message})
       : super(type: type, code: 'BaseException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DisabledOperationException extends _s.GenericAwsException {
   DisabledOperationException({String? type, String? message})
       : super(type: type, code: 'DisabledOperationException', message: message);
 }
 
+/// @nodoc
 class InternalException extends _s.GenericAwsException {
   InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
+/// @nodoc
 class InvalidPaginationTokenException extends _s.GenericAwsException {
   InvalidPaginationTokenException({String? type, String? message})
       : super(
@@ -9169,16 +9488,19 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTypeException extends _s.GenericAwsException {
   InvalidTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -9187,11 +9509,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

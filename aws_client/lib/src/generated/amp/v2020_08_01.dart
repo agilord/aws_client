@@ -1882,6 +1882,8 @@ class Amp {
 
 /// Represents the output of a <code>GetDefaultScraperConfiguration</code>
 /// operation.
+///
+/// @nodoc
 class GetDefaultScraperConfigurationResponse {
   /// The configuration file. Base 64 encoded. For more information, see <a
   /// href="https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration">Scraper
@@ -1909,6 +1911,7 @@ class GetDefaultScraperConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tag keys and values associated with the resource.
   final Map<String, String>? tags;
@@ -1932,6 +1935,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1944,6 +1948,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1957,6 +1962,8 @@ class UntagResourceResponse {
 }
 
 /// Represents the output of a <code>CreateScraper</code> operation.
+///
+/// @nodoc
 class CreateScraperResponse {
   /// The Amazon Resource Name (ARN) of the new scraper.
   final String arn;
@@ -2004,6 +2011,8 @@ class CreateScraperResponse {
 }
 
 /// Represents the output of a <code>DescribeScraper</code> operation.
+///
+/// @nodoc
 class DescribeScraperResponse {
   /// Contains details about the scraper.
   final ScraperDescription scraper;
@@ -2028,6 +2037,7 @@ class DescribeScraperResponse {
   }
 }
 
+/// @nodoc
 class UpdateScraperResponse {
   /// The Amazon Resource Name (ARN) of the updated scraper.
   final String arn;
@@ -2075,6 +2085,8 @@ class UpdateScraperResponse {
 }
 
 /// Represents the output of a <code>DeleteScraper</code> operation.
+///
+/// @nodoc
 class DeleteScraperResponse {
   /// The ID of the scraper to delete.
   final String scraperId;
@@ -2107,6 +2119,8 @@ class DeleteScraperResponse {
 }
 
 /// Represents the output of a <code>ListScrapers</code> operation.
+///
+/// @nodoc
 class ListScrapersResponse {
   /// A list of <code>ScraperSummary</code> structures giving information about
   /// scrapers in the account that match the filters provided.
@@ -2142,6 +2156,7 @@ class ListScrapersResponse {
   }
 }
 
+/// @nodoc
 class UpdateScraperLoggingConfigurationResponse {
   /// The status of the updated scraper logging configuration.
   final ScraperLoggingConfigurationStatus status;
@@ -2167,6 +2182,7 @@ class UpdateScraperLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeScraperLoggingConfigurationResponse {
   /// The destination where scraper logs are sent.
   final ScraperLoggingDestination loggingDestination;
@@ -2226,6 +2242,8 @@ class DescribeScraperLoggingConfigurationResponse {
 }
 
 /// Represents the output of a <code>CreateWorkspace</code> operation.
+///
+/// @nodoc
 class CreateWorkspaceResponse {
   /// The ARN for the new workspace.
   final String arn;
@@ -2282,6 +2300,8 @@ class CreateWorkspaceResponse {
 }
 
 /// Represents the output of a <code>DescribeWorkspace</code> operation.
+///
+/// @nodoc
 class DescribeWorkspaceResponse {
   /// A structure that contains details about the workspace.
   final WorkspaceDescription workspace;
@@ -2307,6 +2327,8 @@ class DescribeWorkspaceResponse {
 }
 
 /// Represents the output of a <code>ListWorkspaces</code> operation.
+///
+/// @nodoc
 class ListWorkspacesResponse {
   /// An array of <code>WorkspaceSummary</code> structures containing information
   /// about the workspaces requested.
@@ -2344,6 +2366,8 @@ class ListWorkspacesResponse {
 
 /// Represents the output of a <code>CreateAlertManagerDefinition</code>
 /// operation.
+///
+/// @nodoc
 class CreateAlertManagerDefinitionResponse {
   /// A structure that displays the current status of the alert manager
   /// definition.
@@ -2372,6 +2396,8 @@ class CreateAlertManagerDefinitionResponse {
 
 /// Represents the output of a <code>DescribeAlertManagerDefinition</code>
 /// operation.
+///
+/// @nodoc
 class DescribeAlertManagerDefinitionResponse {
   /// The alert manager definition.
   final AlertManagerDefinitionDescription alertManagerDefinition;
@@ -2398,6 +2424,8 @@ class DescribeAlertManagerDefinitionResponse {
 }
 
 /// Represents the output of a <code>PutAlertManagerDefinition</code> operation.
+///
+/// @nodoc
 class PutAlertManagerDefinitionResponse {
   /// A structure that returns the current status of the alert manager definition.
   final AlertManagerDefinitionStatus status;
@@ -2423,6 +2451,7 @@ class PutAlertManagerDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateAnomalyDetectorResponse {
   /// The unique identifier of the created anomaly detector.
   final String anomalyDetectorId;
@@ -2469,6 +2498,7 @@ class CreateAnomalyDetectorResponse {
   }
 }
 
+/// @nodoc
 class PutAnomalyDetectorResponse {
   /// The unique identifier of the updated anomaly detector.
   final String anomalyDetectorId;
@@ -2515,6 +2545,7 @@ class PutAnomalyDetectorResponse {
   }
 }
 
+/// @nodoc
 class DescribeAnomalyDetectorResponse {
   /// The detailed information about the anomaly detector.
   final AnomalyDetectorDescription anomalyDetector;
@@ -2539,6 +2570,7 @@ class DescribeAnomalyDetectorResponse {
   }
 }
 
+/// @nodoc
 class ListAnomalyDetectorsResponse {
   /// The list of anomaly detectors in the workspace.
   final List<AnomalyDetectorSummary> anomalyDetectors;
@@ -2574,6 +2606,8 @@ class ListAnomalyDetectorsResponse {
 
 /// Represents the output of a <code>CreateLoggingConfiguration</code>
 /// operation.
+///
+/// @nodoc
 class CreateLoggingConfigurationResponse {
   /// A structure that displays the current status of the logging configuration.
   final LoggingConfigurationStatus status;
@@ -2601,6 +2635,8 @@ class CreateLoggingConfigurationResponse {
 
 /// Represents the output of a <code>DescribeLoggingConfiguration</code>
 /// operation.
+///
+/// @nodoc
 class DescribeLoggingConfigurationResponse {
   /// A structure that displays the information about the logging configuration.
   final LoggingConfigurationMetadata loggingConfiguration;
@@ -2628,6 +2664,8 @@ class DescribeLoggingConfigurationResponse {
 
 /// Represents the output of an <code>UpdateLoggingConfiguration</code>
 /// operation.
+///
+/// @nodoc
 class UpdateLoggingConfigurationResponse {
   /// A structure that contains the current status of the logging configuration.
   final LoggingConfigurationStatus status;
@@ -2653,6 +2691,7 @@ class UpdateLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateQueryLoggingConfigurationResponse {
   /// The current status of the query logging configuration.
   final QueryLoggingConfigurationStatus status;
@@ -2678,6 +2717,7 @@ class CreateQueryLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeQueryLoggingConfigurationResponse {
   /// The detailed information about the query logging configuration for the
   /// specified workspace.
@@ -2704,6 +2744,7 @@ class DescribeQueryLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateQueryLoggingConfigurationResponse {
   /// The current status of the query logging configuration.
   final QueryLoggingConfigurationStatus status;
@@ -2730,6 +2771,8 @@ class UpdateQueryLoggingConfigurationResponse {
 }
 
 /// Represents the output of a <code>CreateRuleGroupsNamespace</code> operation.
+///
+/// @nodoc
 class CreateRuleGroupsNamespaceResponse {
   /// The Amazon Resource Name (ARN) of the new rule groups namespace.
   final String arn;
@@ -2779,6 +2822,8 @@ class CreateRuleGroupsNamespaceResponse {
 
 /// Represents the output of a <code>DescribeRuleGroupsNamespace</code>
 /// operation.
+///
+/// @nodoc
 class DescribeRuleGroupsNamespaceResponse {
   /// The information about the rule groups namespace.
   final RuleGroupsNamespaceDescription ruleGroupsNamespace;
@@ -2805,6 +2850,8 @@ class DescribeRuleGroupsNamespaceResponse {
 }
 
 /// Represents the output of a <code>PutRuleGroupsNamespace</code> operation.
+///
+/// @nodoc
 class PutRuleGroupsNamespaceResponse {
   /// The ARN of the rule groups namespace.
   final String arn;
@@ -2852,6 +2899,8 @@ class PutRuleGroupsNamespaceResponse {
 }
 
 /// Represents the output of a <code>ListRuleGroupsNamespaces</code> operation.
+///
+/// @nodoc
 class ListRuleGroupsNamespacesResponse {
   /// The returned list of rule groups namespaces.
   final List<RuleGroupsNamespaceSummary> ruleGroupsNamespaces;
@@ -2888,6 +2937,7 @@ class ListRuleGroupsNamespacesResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceConfigurationResponse {
   /// This structure contains the information about the workspace configuration.
   final WorkspaceConfigurationDescription workspaceConfiguration;
@@ -2913,6 +2963,7 @@ class DescribeWorkspaceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceConfigurationResponse {
   /// The status of the workspace configuration.
   final WorkspaceConfigurationStatus status;
@@ -2938,6 +2989,7 @@ class UpdateWorkspaceConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The current status of the resource-based policy.
   final WorkspacePolicyStatusCode policyStatus;
@@ -2968,6 +3020,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourcePolicyResponse {
   /// The JSON policy document for the resource-based policy attached to the
   /// workspace.
@@ -3006,6 +3059,7 @@ class DescribeResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class WorkspacePolicyStatusCode {
   static const creating = WorkspacePolicyStatusCode._('CREATING');
   static const active = WorkspacePolicyStatusCode._('ACTIVE');
@@ -3035,6 +3089,8 @@ class WorkspacePolicyStatusCode {
 
 /// This structure displays the current status of the workspace configuration,
 /// and might also contain a reason for that status.
+///
+/// @nodoc
 class WorkspaceConfigurationStatus {
   /// The current status of the workspace configuration.
   final WorkspaceConfigurationStatusCode statusCode;
@@ -3065,6 +3121,7 @@ class WorkspaceConfigurationStatus {
   }
 }
 
+/// @nodoc
 class WorkspaceConfigurationStatusCode {
   static const active = WorkspaceConfigurationStatusCode._('ACTIVE');
   static const updating = WorkspaceConfigurationStatusCode._('UPDATING');
@@ -3099,6 +3156,8 @@ class WorkspaceConfigurationStatusCode {
 /// control time series limits and to monitor usage by specific label groups.
 /// Example label sets might be <code>team:finance</code> or
 /// <code>env:prod</code>
+///
+/// @nodoc
 class LimitsPerLabelSet {
   /// This defines one label set that will have an enforced active time series
   /// limit.
@@ -3107,7 +3166,7 @@ class LimitsPerLabelSet {
   /// that isn't whitespace. ASCII control characters are not accepted. If the
   /// label name is metric name label <code>__<i>name</i>__</code>, then the
   /// <i>metric</i> part of the name must conform to the following pattern:
-  /// <code>[a-zA-Z_:][a-zA-Z0-9_:]*</code>
+  /// <code>\[a-zA-Z_:\]\[a-zA-Z0-9_:\]*</code>
   final Map<String, String> labelSet;
 
   /// This structure contains the information about the limits that apply to time
@@ -3142,6 +3201,8 @@ class LimitsPerLabelSet {
 
 /// This structure contains the information about the limits that apply to time
 /// series that match one label set.
+///
+/// @nodoc
 class LimitsPerLabelSetEntry {
   /// The maximum number of active series that can be ingested that match this
   /// label set.
@@ -3170,6 +3231,8 @@ class LimitsPerLabelSetEntry {
 }
 
 /// This structure contains the description of the workspace configuration.
+///
+/// @nodoc
 class WorkspaceConfigurationDescription {
   /// This structure displays the current status of the workspace configuration,
   /// and might also contain a reason for that status.
@@ -3218,6 +3281,8 @@ class WorkspaceConfigurationDescription {
 
 /// The high-level information about a rule groups namespace. To retrieve more
 /// information, use <code>DescribeRuleGroupsNamespace</code>.
+///
+/// @nodoc
 class RuleGroupsNamespaceSummary {
   /// The ARN of the rule groups namespace.
   final String arn;
@@ -3280,6 +3345,8 @@ class RuleGroupsNamespaceSummary {
 }
 
 /// The status information about a rule groups namespace.
+///
+/// @nodoc
 class RuleGroupsNamespaceStatus {
   /// The current status of the namespace.
   final RuleGroupsNamespaceStatusCode statusCode;
@@ -3311,6 +3378,8 @@ class RuleGroupsNamespaceStatus {
 }
 
 /// State of a namespace.
+///
+/// @nodoc
 class RuleGroupsNamespaceStatusCode {
   static const creating = RuleGroupsNamespaceStatusCode._('CREATING');
   static const active = RuleGroupsNamespaceStatusCode._('ACTIVE');
@@ -3349,6 +3418,8 @@ class RuleGroupsNamespaceStatusCode {
 }
 
 /// The details about one rule groups namespace.
+///
+/// @nodoc
 class RuleGroupsNamespaceDescription {
   /// The ARN of the rule groups namespace. For example,
   /// <code>arn:aws:aps:&lt;region&gt;:123456789012:rulegroupsnamespace/ws-example1-1234-abcd-5678-ef90abcd1234/rulesfile1</code>.
@@ -3422,6 +3493,8 @@ class RuleGroupsNamespaceDescription {
 }
 
 /// The status information for a query logging configuration.
+///
+/// @nodoc
 class QueryLoggingConfigurationStatus {
   /// The current status of the query logging configuration.
   final QueryLoggingConfigurationStatusCode statusCode;
@@ -3452,6 +3525,7 @@ class QueryLoggingConfigurationStatus {
   }
 }
 
+/// @nodoc
 class QueryLoggingConfigurationStatusCode {
   static const creating = QueryLoggingConfigurationStatusCode._('CREATING');
   static const active = QueryLoggingConfigurationStatusCode._('ACTIVE');
@@ -3492,6 +3566,8 @@ class QueryLoggingConfigurationStatusCode {
 
 /// Defines a destination and its associated filtering criteria for query
 /// logging.
+///
+/// @nodoc
 class LoggingDestination {
   /// Configuration details for logging to CloudWatch Logs.
   final CloudWatchLogDestination cloudWatchLogs;
@@ -3526,6 +3602,8 @@ class LoggingDestination {
 }
 
 /// Configuration details for logging to CloudWatch Logs.
+///
+/// @nodoc
 class CloudWatchLogDestination {
   /// The ARN of the CloudWatch log group to which the vended log data will be
   /// published. This log group must exist prior to calling this operation.
@@ -3550,6 +3628,8 @@ class CloudWatchLogDestination {
 }
 
 /// Filtering criteria that determine which queries are logged.
+///
+/// @nodoc
 class LoggingFilter {
   /// The Query Samples Processed (QSP) threshold above which queries will be
   /// logged. Queries processing more samples than this threshold will be captured
@@ -3575,6 +3655,8 @@ class LoggingFilter {
 }
 
 /// The metadata for a query logging configuration.
+///
+/// @nodoc
 class QueryLoggingConfigurationMetadata {
   /// The date and time when the query logging configuration was created.
   final DateTime createdAt;
@@ -3632,6 +3714,8 @@ class QueryLoggingConfigurationMetadata {
 }
 
 /// The status of the logging configuration.
+///
+/// @nodoc
 class LoggingConfigurationStatus {
   /// The current status of the current rules and alerting logging configuration.
   /// <note>
@@ -3666,6 +3750,8 @@ class LoggingConfigurationStatus {
 }
 
 /// State of a logging configuration.
+///
+/// @nodoc
 class LoggingConfigurationStatusCode {
   static const creating = LoggingConfigurationStatusCode._('CREATING');
   static const active = LoggingConfigurationStatusCode._('ACTIVE');
@@ -3708,6 +3794,8 @@ class LoggingConfigurationStatusCode {
 /// <note>
 /// These logging configurations are only for rules and alerting logs.
 /// </note>
+///
+/// @nodoc
 class LoggingConfigurationMetadata {
   /// The date and time that the logging configuration was created.
   final DateTime createdAt;
@@ -3762,6 +3850,8 @@ class LoggingConfigurationMetadata {
 }
 
 /// Summary information about an anomaly detector for list operations.
+///
+/// @nodoc
 class AnomalyDetectorSummary {
   /// The user-friendly name of the anomaly detector.
   final String alias;
@@ -3830,6 +3920,8 @@ class AnomalyDetectorSummary {
 }
 
 /// The status information of an anomaly detector.
+///
+/// @nodoc
 class AnomalyDetectorStatus {
   /// The status code of the anomaly detector.
   final AnomalyDetectorStatusCode statusCode;
@@ -3860,6 +3952,7 @@ class AnomalyDetectorStatus {
   }
 }
 
+/// @nodoc
 class AnomalyDetectorStatusCode {
   static const creating = AnomalyDetectorStatusCode._('CREATING');
   static const active = AnomalyDetectorStatusCode._('ACTIVE');
@@ -3899,6 +3992,8 @@ class AnomalyDetectorStatusCode {
 }
 
 /// Detailed information about an anomaly detector.
+///
+/// @nodoc
 class AnomalyDetectorDescription {
   /// The user-friendly name of the anomaly detector.
   final String alias;
@@ -4005,6 +4100,8 @@ class AnomalyDetectorDescription {
 
 /// Specifies the action to take when data is missing during anomaly detection
 /// evaluation.
+///
+/// @nodoc
 class AnomalyDetectorMissingDataAction {
   /// Marks missing data points as anomalies.
   final bool? markAsAnomaly;
@@ -4035,6 +4132,8 @@ class AnomalyDetectorMissingDataAction {
 }
 
 /// The configuration for the anomaly detection algorithm.
+///
+/// @nodoc
 class AnomalyDetectorConfiguration {
   /// The Random Cut Forest algorithm configuration for anomaly detection.
   final RandomCutForestConfiguration? randomCutForest;
@@ -4062,6 +4161,8 @@ class AnomalyDetectorConfiguration {
 
 /// Configuration for the Random Cut Forest algorithm used for anomaly detection
 /// in time-series data.
+///
+/// @nodoc
 class RandomCutForestConfiguration {
   /// The Prometheus query used to retrieve the time-series data for anomaly
   /// detection.
@@ -4139,6 +4240,8 @@ class RandomCutForestConfiguration {
 
 /// Configuration for threshold settings that determine when values near
 /// expected values should be ignored during anomaly detection.
+///
+/// @nodoc
 class IgnoreNearExpected {
   /// The absolute amount by which values can differ from expected values before
   /// being considered anomalous.
@@ -4171,6 +4274,8 @@ class IgnoreNearExpected {
 }
 
 /// The status of the alert manager.
+///
+/// @nodoc
 class AlertManagerDefinitionStatus {
   /// The current status of the alert manager.
   final AlertManagerDefinitionStatusCode statusCode;
@@ -4202,6 +4307,8 @@ class AlertManagerDefinitionStatus {
 }
 
 /// State of an <code>AlertManagerDefinition</code>.
+///
+/// @nodoc
 class AlertManagerDefinitionStatusCode {
   static const creating = AlertManagerDefinitionStatusCode._('CREATING');
   static const active = AlertManagerDefinitionStatusCode._('ACTIVE');
@@ -4242,6 +4349,8 @@ class AlertManagerDefinitionStatusCode {
 
 /// The details of an alert manager definition. It is the configuration for the
 /// alert manager, including information about receivers for routing alerts.
+///
+/// @nodoc
 class AlertManagerDefinitionDescription {
   /// The date and time that the alert manager definition was created.
   final DateTime createdAt;
@@ -4295,6 +4404,8 @@ class AlertManagerDefinitionDescription {
 
 /// The information about one Amazon Managed Service for Prometheus workspace in
 /// your account.
+///
+/// @nodoc
 class WorkspaceSummary {
   /// The ARN of the workspace.
   final String arn;
@@ -4365,6 +4476,8 @@ class WorkspaceSummary {
 }
 
 /// The status of the workspace.
+///
+/// @nodoc
 class WorkspaceStatus {
   /// The current status of the workspace.
   final WorkspaceStatusCode statusCode;
@@ -4389,6 +4502,8 @@ class WorkspaceStatus {
 }
 
 /// State of a workspace.
+///
+/// @nodoc
 class WorkspaceStatusCode {
   static const creating = WorkspaceStatusCode._('CREATING');
   static const active = WorkspaceStatusCode._('ACTIVE');
@@ -4419,6 +4534,8 @@ class WorkspaceStatusCode {
 
 /// The full details about one Amazon Managed Service for Prometheus workspace
 /// in your account.
+///
+/// @nodoc
 class WorkspaceDescription {
   /// The ARN of the workspace. For example,
   /// <code>arn:aws:aps:&lt;region&gt;:123456789012:workspace/ws-example1-1234-abcd-5678-ef90abcd1234</code>.
@@ -4499,6 +4616,8 @@ class WorkspaceDescription {
 }
 
 /// The status of a scraper logging configuration.
+///
+/// @nodoc
 class ScraperLoggingConfigurationStatus {
   /// The status code of the scraper logging configuration.
   final ScraperLoggingConfigurationStatusCode statusCode;
@@ -4531,6 +4650,8 @@ class ScraperLoggingConfigurationStatus {
 }
 
 /// The destination where scraper logs are sent.
+///
+/// @nodoc
 class ScraperLoggingDestination {
   /// The CloudWatch Logs configuration for the scraper logging destination.
   final CloudWatchLogDestination? cloudWatchLogs;
@@ -4558,6 +4679,8 @@ class ScraperLoggingDestination {
 
 /// A component of a Amazon Managed Service for Prometheus scraper that can be
 /// configured for logging.
+///
+/// @nodoc
 class ScraperComponent {
   /// The type of the scraper component.
   final ScraperComponentType type;
@@ -4589,6 +4712,7 @@ class ScraperComponent {
   }
 }
 
+/// @nodoc
 class ScraperComponentType {
   static const serviceDiscovery = ScraperComponentType._('SERVICE_DISCOVERY');
   static const collector = ScraperComponentType._('COLLECTOR');
@@ -4616,6 +4740,8 @@ class ScraperComponentType {
 }
 
 /// Configuration settings for a scraper component.
+///
+/// @nodoc
 class ComponentConfig {
   /// Configuration options for the scraper component.
   final Map<String, String>? options;
@@ -4639,6 +4765,7 @@ class ComponentConfig {
   }
 }
 
+/// @nodoc
 class ScraperLoggingConfigurationStatusCode {
   static const creating = ScraperLoggingConfigurationStatusCode._('CREATING');
   static const active = ScraperLoggingConfigurationStatusCode._('ACTIVE');
@@ -4679,6 +4806,8 @@ class ScraperLoggingConfigurationStatusCode {
 
 /// The <code>ScraperSummary</code> structure contains a summary of the details
 /// about one scraper in your account.
+///
+/// @nodoc
 class ScraperSummary {
   /// The Amazon Resource Name (ARN) of the scraper.
   final String arn;
@@ -4792,6 +4921,8 @@ class ScraperSummary {
 
 /// The <code>ScraperStatus</code> structure contains status information about
 /// the scraper.
+///
+/// @nodoc
 class ScraperStatus {
   /// The current status of the scraper.
   final ScraperStatusCode statusCode;
@@ -4816,6 +4947,8 @@ class ScraperStatus {
 }
 
 /// The source of collected metrics for a scraper.
+///
+/// @nodoc
 class Source {
   /// The Amazon EKS cluster from which a scraper collects metrics.
   final EksConfiguration? eksConfiguration;
@@ -4855,6 +4988,8 @@ class Source {
 }
 
 /// Where to send the metrics from a scraper.
+///
+/// @nodoc
 class Destination {
   /// The Amazon Managed Service for Prometheus workspace to send metrics to.
   final AmpConfiguration? ampConfiguration;
@@ -4882,6 +5017,8 @@ class Destination {
 
 /// Use this structure to enable cross-account access, so that you can use a
 /// target account to access Prometheus metrics from source accounts.
+///
+/// @nodoc
 class RoleConfiguration {
   /// The Amazon Resource Name (ARN) of the role used in the source account to
   /// enable cross-account scraping. For information about the contents of this
@@ -4921,6 +5058,8 @@ class RoleConfiguration {
 
 /// The <code>AmpConfiguration</code> structure defines the Amazon Managed
 /// Service for Prometheus instance a scraper should send metrics to.
+///
+/// @nodoc
 class AmpConfiguration {
   /// ARN of the Amazon Managed Service for Prometheus workspace.
   final String workspaceArn;
@@ -4945,6 +5084,8 @@ class AmpConfiguration {
 
 /// The <code>EksConfiguration</code> structure describes the connection to the
 /// Amazon EKS cluster from which a scraper collects metrics.
+///
+/// @nodoc
 class EksConfiguration {
   /// ARN of the Amazon EKS cluster.
   final String clusterArn;
@@ -4992,6 +5133,8 @@ class EksConfiguration {
 /// Prometheus collector to securely connect to Amazon MSK clusters. This
 /// configuration includes the security groups and subnets that control network
 /// access and placement for the collector.
+///
+/// @nodoc
 class VpcConfiguration {
   /// The security group IDs that control network access for the Prometheus
   /// collector. These security groups must allow the collector to communicate
@@ -5032,6 +5175,8 @@ class VpcConfiguration {
 }
 
 /// State of a scraper.
+///
+/// @nodoc
 class ScraperStatusCode {
   static const creating = ScraperStatusCode._('CREATING');
   static const updating = ScraperStatusCode._('UPDATING');
@@ -5074,6 +5219,8 @@ class ScraperStatusCode {
 /// href="https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration">Scraper
 /// configuration</a> in the <i>Amazon Managed Service for Prometheus User
 /// Guide</i>.
+///
+/// @nodoc
 class ScrapeConfiguration {
   /// The base 64 encoded scrape configuration file.
   final Uint8List? configurationBlob;
@@ -5100,6 +5247,8 @@ class ScrapeConfiguration {
 
 /// The <code>ScraperDescription</code> structure contains the full details
 /// about one scraper in your account.
+///
+/// @nodoc
 class ScraperDescription {
   /// The Amazon Resource Name (ARN) of the scraper. For example,
   /// <code>arn:aws:aps:&lt;region&gt;:123456798012:scraper/s-example1-1234-abcd-5678-ef9012abcd34</code>.
@@ -5225,26 +5374,31 @@ class ScraperDescription {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5253,11 +5407,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

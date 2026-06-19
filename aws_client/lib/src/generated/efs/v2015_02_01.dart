@@ -2012,6 +2012,8 @@ class Efs {
 }
 
 /// Provides a description of an EFS file system access point.
+///
+/// @nodoc
 class AccessPointDescription {
   /// The unique Amazon Resource Name (ARN) associated with the access point.
   final String? accessPointArn;
@@ -2113,6 +2115,8 @@ class AccessPointDescription {
 }
 
 /// A description of the file system.
+///
+/// @nodoc
 class FileSystemDescription {
   /// The time that the file system was created, in seconds (since
   /// 1970-01-01T00:00:00Z).
@@ -2299,6 +2303,8 @@ class FileSystemDescription {
 }
 
 /// Provides a description of a mount target.
+///
+/// @nodoc
 class MountTargetDescription {
   /// The ID of the file system for which the mount target is intended.
   final String fileSystemId;
@@ -2402,6 +2408,8 @@ class MountTargetDescription {
 }
 
 /// Describes the replication configuration for a specific file system.
+///
+/// @nodoc
 class ReplicationConfigurationDescription {
   /// Describes when the replication configuration was created.
   final DateTime creationTime;
@@ -2476,6 +2484,7 @@ class ReplicationConfigurationDescription {
   }
 }
 
+/// @nodoc
 class DescribeAccessPointsResponse {
   /// An array of access point descriptions.
   final List<AccessPointDescription>? accessPoints;
@@ -2511,6 +2520,7 @@ class DescribeAccessPointsResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountPreferencesResponse {
   /// Present if there are more records than returned in the response. You can use
   /// the <code>NextToken</code> in the subsequent request to fetch the additional
@@ -2549,6 +2559,7 @@ class DescribeAccountPreferencesResponse {
   }
 }
 
+/// @nodoc
 class BackupPolicyDescription {
   /// Describes the file system's backup policy, indicating whether automatic
   /// backups are turned on or off.
@@ -2574,6 +2585,7 @@ class BackupPolicyDescription {
   }
 }
 
+/// @nodoc
 class FileSystemPolicyDescription {
   /// Specifies the EFS file system to which the <code>FileSystemPolicy</code>
   /// applies.
@@ -2604,6 +2616,7 @@ class FileSystemPolicyDescription {
   }
 }
 
+/// @nodoc
 class DescribeFileSystemsResponse {
   /// An array of file system descriptions.
   final List<FileSystemDescription>? fileSystems;
@@ -2645,6 +2658,7 @@ class DescribeFileSystemsResponse {
   }
 }
 
+/// @nodoc
 class LifecycleConfigurationDescription {
   /// An array of lifecycle management policies. EFS supports a maximum of one
   /// policy per file system.
@@ -2673,6 +2687,8 @@ class LifecycleConfigurationDescription {
 }
 
 ///
+///
+/// @nodoc
 class DescribeMountTargetsResponse {
   /// If the request included the <code>Marker</code>, the response returns that
   /// value in this field.
@@ -2717,6 +2733,7 @@ class DescribeMountTargetsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMountTargetSecurityGroupsResponse {
   /// An array of security groups.
   final List<String> securityGroups;
@@ -2743,6 +2760,7 @@ class DescribeMountTargetSecurityGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeReplicationConfigurationsResponse {
   /// You can use the <code>NextToken</code> from the previous response in a
   /// subsequent request to fetch the additional descriptions.
@@ -2779,6 +2797,8 @@ class DescribeReplicationConfigurationsResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeTagsResponse {
   /// Returns tags associated with the file system as an array of <code>Tag</code>
   /// objects.
@@ -2823,6 +2843,7 @@ class DescribeTagsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// <code>NextToken</code> is present if the response payload is paginated. You
   /// can use <code>NextToken</code> in a subsequent request to fetch the next
@@ -2857,6 +2878,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutAccountPreferencesResponse {
   final ResourceIdPreference? resourceIdPreference;
 
@@ -2883,6 +2905,8 @@ class PutAccountPreferencesResponse {
 }
 
 /// Describes the protection on a file system.
+///
+/// @nodoc
 class FileSystemProtectionDescription {
   /// The status of the file system's replication overwrite protection.
   ///
@@ -2928,6 +2952,7 @@ class FileSystemProtectionDescription {
   }
 }
 
+/// @nodoc
 class ReplicationOverwriteProtection {
   static const enabled = ReplicationOverwriteProtection._('ENABLED');
   static const disabled = ReplicationOverwriteProtection._('DISABLED');
@@ -2954,6 +2979,7 @@ class ReplicationOverwriteProtection {
   String toString() => value;
 }
 
+/// @nodoc
 class ThroughputMode {
   static const bursting = ThroughputMode._('bursting');
   static const provisioned = ThroughputMode._('provisioned');
@@ -2982,6 +3008,8 @@ class ThroughputMode {
 /// A tag is a key-value pair. Allowed characters are letters, white space, and
 /// numbers that can be represented in UTF-8, and the following
 /// characters:<code> + - = . _ : /</code>.
+///
+/// @nodoc
 class Tag {
   /// The tag key (String). The key can't start with <code>aws:</code>.
   final String key;
@@ -3025,6 +3053,8 @@ class Tag {
 /// for each transition. For more information, see the request examples in
 /// <a>PutLifecycleConfiguration</a>.
 /// </note>
+///
+/// @nodoc
 class LifecyclePolicy {
   /// The number of days after files were last accessed in primary storage (the
   /// Standard storage class) at which to move them to Archive storage. Metadata
@@ -3077,6 +3107,7 @@ class LifecyclePolicy {
   }
 }
 
+/// @nodoc
 class TransitionToIARules {
   static const after_7Days = TransitionToIARules._('AFTER_7_DAYS');
   static const after_14Days = TransitionToIARules._('AFTER_14_DAYS');
@@ -3119,6 +3150,7 @@ class TransitionToIARules {
   String toString() => value;
 }
 
+/// @nodoc
 class TransitionToPrimaryStorageClassRules {
   static const after_1Access =
       TransitionToPrimaryStorageClassRules._('AFTER_1_ACCESS');
@@ -3144,6 +3176,7 @@ class TransitionToPrimaryStorageClassRules {
   String toString() => value;
 }
 
+/// @nodoc
 class TransitionToArchiveRules {
   static const after_1Day = TransitionToArchiveRules._('AFTER_1_DAY');
   static const after_7Days = TransitionToArchiveRules._('AFTER_7_DAYS');
@@ -3191,6 +3224,8 @@ class TransitionToArchiveRules {
 /// being automatically backed up. For more information, see <a
 /// href="https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#automatic-backups">Automatic
 /// backups</a>.
+///
+/// @nodoc
 class BackupPolicy {
   /// Describes the status of the file system's backup policy.
   ///
@@ -3232,6 +3267,7 @@ class BackupPolicy {
   }
 }
 
+/// @nodoc
 class Status {
   static const enabled = Status._('ENABLED');
   static const enabling = Status._('ENABLING');
@@ -3259,6 +3295,8 @@ class Status {
 
 /// Describes the resource type and its ID preference for the user's Amazon Web
 /// Services account, in the current Amazon Web Services Region.
+///
+/// @nodoc
 class ResourceIdPreference {
   /// Identifies the EFS resource ID preference, either <code>LONG_ID</code> (17
   /// characters) or <code>SHORT_ID</code> (8 characters).
@@ -3297,6 +3335,8 @@ class ResourceIdPreference {
 
 /// A preference indicating a choice to use 63bit/32bit IDs for all applicable
 /// resources.
+///
+/// @nodoc
 class ResourceIdType {
   static const longId = ResourceIdType._('LONG_ID');
   static const shortId = ResourceIdType._('SHORT_ID');
@@ -3322,6 +3362,8 @@ class ResourceIdType {
 }
 
 /// An EFS resource, for example a file system or a mount target.
+///
+/// @nodoc
 class Resource {
   static const fileSystem = Resource._('FILE_SYSTEM');
   static const mountTarget = Resource._('MOUNT_TARGET');
@@ -3345,6 +3387,7 @@ class Resource {
   String toString() => value;
 }
 
+/// @nodoc
 class DeletionMode {
   static const allConfigurations = DeletionMode._('ALL_CONFIGURATIONS');
   static const localConfigurationOnly =
@@ -3370,6 +3413,8 @@ class DeletionMode {
 }
 
 /// Describes the destination file system in the replication configuration.
+///
+/// @nodoc
 class Destination {
   /// The ID of the destination Amazon EFS file system.
   final String fileSystemId;
@@ -3451,6 +3496,7 @@ class Destination {
   }
 }
 
+/// @nodoc
 class ReplicationStatus {
   static const enabled = ReplicationStatus._('ENABLED');
   static const enabling = ReplicationStatus._('ENABLING');
@@ -3516,6 +3562,8 @@ class ReplicationStatus {
 /// across Amazon Web Services accounts</a> in the <i>Amazon EFS User Guide</i>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DestinationToCreate {
   /// To create a file system that uses One Zone storage, specify the name of the
   /// Availability Zone in which to create the destination file system.
@@ -3600,6 +3648,7 @@ class DestinationToCreate {
   }
 }
 
+/// @nodoc
 class LifeCycleState {
   static const creating = LifeCycleState._('creating');
   static const available = LifeCycleState._('available');
@@ -3635,6 +3684,7 @@ class LifeCycleState {
   String toString() => value;
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4Only = IpAddressType._('IPV4_ONLY');
   static const ipv6Only = IpAddressType._('IPV6_ONLY');
@@ -3668,6 +3718,8 @@ class IpAddressType {
 /// represents the actual size only if the file system is not modified for a
 /// period longer than a couple of hours. Otherwise, the value is not
 /// necessarily the exact size the file system was at any instant in time.
+///
+/// @nodoc
 class FileSystemSize {
   /// The latest known metered size (in bytes) of data stored in the file system.
   final int value;
@@ -3723,6 +3775,7 @@ class FileSystemSize {
   }
 }
 
+/// @nodoc
 class PerformanceMode {
   static const generalPurpose = PerformanceMode._('generalPurpose');
   static const maxIO = PerformanceMode._('maxIO');
@@ -3750,6 +3803,8 @@ class PerformanceMode {
 /// The full POSIX identity, including the user ID, group ID, and any secondary
 /// group IDs, on the access point that is used for all file system operations
 /// performed by NFS clients using the access point.
+///
+/// @nodoc
 class PosixUser {
   /// The POSIX group ID used for all file system operations using this access
   /// point.
@@ -3797,6 +3852,8 @@ class PosixUser {
 /// as the root directory of your file system to applications using the access
 /// point. NFS clients using the access point can only access data in the access
 /// point's <code>RootDirectory</code> and its subdirectories.
+///
+/// @nodoc
 class RootDirectory {
   /// (Optional) Specifies the POSIX IDs and permissions to apply to the access
   /// point's <code>RootDirectory</code>. If the <code>RootDirectory</code> >
@@ -3858,6 +3915,8 @@ class RootDirectory {
 /// <code>RootDirectory</code> does not exist, attempts to mount the file system
 /// using the access point will fail.
 /// </important>
+///
+/// @nodoc
 class CreationInfo {
   /// Specifies the POSIX group ID to apply to the <code>RootDirectory</code>.
   /// Accepts values from 0 to 2^32 (4294967295).
@@ -3897,61 +3956,73 @@ class CreationInfo {
   }
 }
 
+/// @nodoc
 class AccessPointAlreadyExists extends _s.GenericAwsException {
   AccessPointAlreadyExists({String? type, String? message})
       : super(type: type, code: 'AccessPointAlreadyExists', message: message);
 }
 
+/// @nodoc
 class AccessPointLimitExceeded extends _s.GenericAwsException {
   AccessPointLimitExceeded({String? type, String? message})
       : super(type: type, code: 'AccessPointLimitExceeded', message: message);
 }
 
+/// @nodoc
 class AccessPointNotFound extends _s.GenericAwsException {
   AccessPointNotFound({String? type, String? message})
       : super(type: type, code: 'AccessPointNotFound', message: message);
 }
 
+/// @nodoc
 class AvailabilityZonesMismatch extends _s.GenericAwsException {
   AvailabilityZonesMismatch({String? type, String? message})
       : super(type: type, code: 'AvailabilityZonesMismatch', message: message);
 }
 
+/// @nodoc
 class BadRequest extends _s.GenericAwsException {
   BadRequest({String? type, String? message})
       : super(type: type, code: 'BadRequest', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DependencyTimeout extends _s.GenericAwsException {
   DependencyTimeout({String? type, String? message})
       : super(type: type, code: 'DependencyTimeout', message: message);
 }
 
+/// @nodoc
 class FileSystemAlreadyExists extends _s.GenericAwsException {
   FileSystemAlreadyExists({String? type, String? message})
       : super(type: type, code: 'FileSystemAlreadyExists', message: message);
 }
 
+/// @nodoc
 class FileSystemInUse extends _s.GenericAwsException {
   FileSystemInUse({String? type, String? message})
       : super(type: type, code: 'FileSystemInUse', message: message);
 }
 
+/// @nodoc
 class FileSystemLimitExceeded extends _s.GenericAwsException {
   FileSystemLimitExceeded({String? type, String? message})
       : super(type: type, code: 'FileSystemLimitExceeded', message: message);
 }
 
+/// @nodoc
 class FileSystemNotFound extends _s.GenericAwsException {
   FileSystemNotFound({String? type, String? message})
       : super(type: type, code: 'FileSystemNotFound', message: message);
 }
 
+/// @nodoc
 class IncorrectFileSystemLifeCycleState extends _s.GenericAwsException {
   IncorrectFileSystemLifeCycleState({String? type, String? message})
       : super(
@@ -3960,11 +4031,13 @@ class IncorrectFileSystemLifeCycleState extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IncorrectMountTargetState extends _s.GenericAwsException {
   IncorrectMountTargetState({String? type, String? message})
       : super(type: type, code: 'IncorrectMountTargetState', message: message);
 }
 
+/// @nodoc
 class InsufficientThroughputCapacity extends _s.GenericAwsException {
   InsufficientThroughputCapacity({String? type, String? message})
       : super(
@@ -3973,31 +4046,37 @@ class InsufficientThroughputCapacity extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidPolicyException extends _s.GenericAwsException {
   InvalidPolicyException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyException', message: message);
 }
 
+/// @nodoc
 class IpAddressInUse extends _s.GenericAwsException {
   IpAddressInUse({String? type, String? message})
       : super(type: type, code: 'IpAddressInUse', message: message);
 }
 
+/// @nodoc
 class MountTargetConflict extends _s.GenericAwsException {
   MountTargetConflict({String? type, String? message})
       : super(type: type, code: 'MountTargetConflict', message: message);
 }
 
+/// @nodoc
 class MountTargetNotFound extends _s.GenericAwsException {
   MountTargetNotFound({String? type, String? message})
       : super(type: type, code: 'MountTargetNotFound', message: message);
 }
 
+/// @nodoc
 class NetworkInterfaceLimitExceeded extends _s.GenericAwsException {
   NetworkInterfaceLimitExceeded({String? type, String? message})
       : super(
@@ -4006,62 +4085,74 @@ class NetworkInterfaceLimitExceeded extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoFreeAddressesInSubnet extends _s.GenericAwsException {
   NoFreeAddressesInSubnet({String? type, String? message})
       : super(type: type, code: 'NoFreeAddressesInSubnet', message: message);
 }
 
+/// @nodoc
 class PolicyNotFound extends _s.GenericAwsException {
   PolicyNotFound({String? type, String? message})
       : super(type: type, code: 'PolicyNotFound', message: message);
 }
 
+/// @nodoc
 class ReplicationAlreadyExists extends _s.GenericAwsException {
   ReplicationAlreadyExists({String? type, String? message})
       : super(type: type, code: 'ReplicationAlreadyExists', message: message);
 }
 
+/// @nodoc
 class ReplicationNotFound extends _s.GenericAwsException {
   ReplicationNotFound({String? type, String? message})
       : super(type: type, code: 'ReplicationNotFound', message: message);
 }
 
+/// @nodoc
 class SecurityGroupLimitExceeded extends _s.GenericAwsException {
   SecurityGroupLimitExceeded({String? type, String? message})
       : super(type: type, code: 'SecurityGroupLimitExceeded', message: message);
 }
 
+/// @nodoc
 class SecurityGroupNotFound extends _s.GenericAwsException {
   SecurityGroupNotFound({String? type, String? message})
       : super(type: type, code: 'SecurityGroupNotFound', message: message);
 }
 
+/// @nodoc
 class SubnetNotFound extends _s.GenericAwsException {
   SubnetNotFound({String? type, String? message})
       : super(type: type, code: 'SubnetNotFound', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ThroughputLimitExceeded extends _s.GenericAwsException {
   ThroughputLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ThroughputLimitExceeded', message: message);
 }
 
+/// @nodoc
 class TooManyRequests extends _s.GenericAwsException {
   TooManyRequests({String? type, String? message})
       : super(type: type, code: 'TooManyRequests', message: message);
 }
 
+/// @nodoc
 class UnsupportedAvailabilityZone extends _s.GenericAwsException {
   UnsupportedAvailabilityZone({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedAvailabilityZone', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

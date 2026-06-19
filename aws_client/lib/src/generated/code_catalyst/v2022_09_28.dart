@@ -1519,6 +1519,7 @@ class CodeCatalyst {
   }
 }
 
+/// @nodoc
 class GetUserDetailsResponse {
   /// The friendly name displayed for the user in Amazon CodeCatalyst.
   final String? displayName;
@@ -1571,6 +1572,7 @@ class GetUserDetailsResponse {
   }
 }
 
+/// @nodoc
 class VerifySessionResponse {
   /// The system-generated unique ID of the user in Amazon CodeCatalyst.
   final String? identity;
@@ -1593,6 +1595,7 @@ class VerifySessionResponse {
   }
 }
 
+/// @nodoc
 class CreateAccessTokenResponse {
   /// The system-generated unique ID of the access token.
   final String accessTokenId;
@@ -1639,6 +1642,7 @@ class CreateAccessTokenResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccessTokenResponse {
   DeleteAccessTokenResponse();
 
@@ -1651,6 +1655,7 @@ class DeleteAccessTokenResponse {
   }
 }
 
+/// @nodoc
 class ListAccessTokensResponse {
   /// A list of personal access tokens (PATs) associated with the calling user
   /// identity.
@@ -1685,6 +1690,7 @@ class ListAccessTokensResponse {
   }
 }
 
+/// @nodoc
 class GetSpaceResponse {
   /// The name of the space.
   final String name;
@@ -1728,6 +1734,7 @@ class GetSpaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateSpaceResponse {
   /// The description of the space.
   final String? description;
@@ -1764,6 +1771,7 @@ class UpdateSpaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteSpaceResponse {
   /// The name of the space.
   final String name;
@@ -1794,6 +1802,7 @@ class DeleteSpaceResponse {
   }
 }
 
+/// @nodoc
 class ListSpacesResponse {
   /// Information about the spaces.
   final List<SpaceSummary>? items;
@@ -1827,6 +1836,7 @@ class ListSpacesResponse {
   }
 }
 
+/// @nodoc
 class ListDevEnvironmentsResponse {
   /// Information about the Dev Environments in a project.
   final List<DevEnvironmentSummary> items;
@@ -1860,6 +1870,7 @@ class ListDevEnvironmentsResponse {
   }
 }
 
+/// @nodoc
 class ListEventLogsResponse {
   /// Information about each event retrieved in the list.
   final List<EventLogEntry> items;
@@ -1893,6 +1904,7 @@ class ListEventLogsResponse {
   }
 }
 
+/// @nodoc
 class CreateProjectResponse {
   /// The name of the project in the space.
   final String name;
@@ -1936,6 +1948,7 @@ class CreateProjectResponse {
   }
 }
 
+/// @nodoc
 class GetProjectResponse {
   /// The name of the project in the space.
   final String name;
@@ -1979,6 +1992,7 @@ class GetProjectResponse {
   }
 }
 
+/// @nodoc
 class UpdateProjectResponse {
   /// The description of the project.
   final String? description;
@@ -2022,6 +2036,7 @@ class UpdateProjectResponse {
   }
 }
 
+/// @nodoc
 class DeleteProjectResponse {
   /// The name of the project in the space.
   final String name;
@@ -2058,6 +2073,7 @@ class DeleteProjectResponse {
   }
 }
 
+/// @nodoc
 class ListProjectsResponse {
   /// Information about the projects.
   final List<ProjectSummary>? items;
@@ -2091,6 +2107,7 @@ class ListProjectsResponse {
   }
 }
 
+/// @nodoc
 class CreateDevEnvironmentResponse {
   /// The system-generated unique ID of the Dev Environment.
   final String id;
@@ -2135,6 +2152,7 @@ class CreateDevEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetDevEnvironmentResponse {
   /// The system-generated unique ID of the user who created the Dev Environment.
   final String creatorId;
@@ -2267,6 +2285,7 @@ class GetDevEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateDevEnvironmentResponse {
   /// The system-generated unique ID of the Dev Environment.
   final String id;
@@ -2348,6 +2367,7 @@ class UpdateDevEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteDevEnvironmentResponse {
   /// The system-generated unique ID of the deleted Dev Environment.
   final String id;
@@ -2384,6 +2404,7 @@ class DeleteDevEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class ListDevEnvironmentSessionsResponse {
   /// Information about each session retrieved in the list.
   final List<DevEnvironmentSessionSummary> items;
@@ -2419,6 +2440,7 @@ class ListDevEnvironmentSessionsResponse {
   }
 }
 
+/// @nodoc
 class StartDevEnvironmentResponse {
   /// The system-generated unique ID of the Dev Environment.
   final String id;
@@ -2463,6 +2485,7 @@ class StartDevEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class StartDevEnvironmentSessionResponse {
   final DevEnvironmentAccessDetails accessDetails;
 
@@ -2515,6 +2538,7 @@ class StartDevEnvironmentSessionResponse {
   }
 }
 
+/// @nodoc
 class StopDevEnvironmentResponse {
   /// The system-generated unique ID of the Dev Environment.
   final String id;
@@ -2559,6 +2583,7 @@ class StopDevEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class StopDevEnvironmentSessionResponse {
   /// The system-generated unique ID of the Dev Environment.
   final String id;
@@ -2603,6 +2628,7 @@ class StopDevEnvironmentSessionResponse {
   }
 }
 
+/// @nodoc
 class CreateSourceRepositoryResponse {
   /// The name of the source repository.
   final String name;
@@ -2646,6 +2672,7 @@ class CreateSourceRepositoryResponse {
   }
 }
 
+/// @nodoc
 class GetSourceRepositoryResponse {
   /// The time the source repository was created, in coordinated universal time
   /// (UTC) timestamp format as specified in <a
@@ -2708,6 +2735,7 @@ class GetSourceRepositoryResponse {
   }
 }
 
+/// @nodoc
 class DeleteSourceRepositoryResponse {
   /// The name of the repository.
   final String name;
@@ -2744,6 +2772,7 @@ class DeleteSourceRepositoryResponse {
   }
 }
 
+/// @nodoc
 class ListSourceRepositoriesResponse {
   /// Information about the source repositories.
   final List<ListSourceRepositoriesItem>? items;
@@ -2778,6 +2807,7 @@ class ListSourceRepositoriesResponse {
   }
 }
 
+/// @nodoc
 class GetSourceRepositoryCloneUrlsResponse {
   /// The HTTPS URL to use when cloning the source repository.
   final String https;
@@ -2801,6 +2831,7 @@ class GetSourceRepositoryCloneUrlsResponse {
   }
 }
 
+/// @nodoc
 class CreateSourceRepositoryBranchResponse {
   /// The commit ID of the tip of the newly created branch.
   final String? headCommitId;
@@ -2848,6 +2879,7 @@ class CreateSourceRepositoryBranchResponse {
   }
 }
 
+/// @nodoc
 class ListSourceRepositoryBranchesResponse {
   /// Information about the source branches.
   final List<ListSourceRepositoryBranchesItem> items;
@@ -2883,6 +2915,7 @@ class ListSourceRepositoryBranchesResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowResponse {
   /// The date and time the workflow was created, in coordinated universal time
   /// (UTC) timestamp format as specified in <a
@@ -2986,6 +3019,7 @@ class GetWorkflowResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowsResponse {
   /// Information about the workflows in a project.
   final List<WorkflowSummary>? items;
@@ -3019,6 +3053,7 @@ class ListWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class StartWorkflowRunResponse {
   /// The system-generated unique ID of the workflow run.
   final String id;
@@ -3062,6 +3097,7 @@ class StartWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowRunResponse {
   /// The ID of the workflow run.
   final String id;
@@ -3151,6 +3187,7 @@ class GetWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowRunsResponse {
   /// Information about the runs of a workflow.
   final List<WorkflowRunSummary>? items;
@@ -3184,6 +3221,7 @@ class ListWorkflowRunsResponse {
   }
 }
 
+/// @nodoc
 class GetSubscriptionResponse {
   /// The display name of the Amazon Web Services account used for billing for the
   /// space.
@@ -3239,6 +3277,8 @@ class GetSubscriptionResponse {
 }
 
 /// Information about a workflow run.
+///
+/// @nodoc
 class WorkflowRunSummary {
   /// The system-generated unique ID of the workflow run.
   final String id;
@@ -3321,6 +3361,7 @@ class WorkflowRunSummary {
   }
 }
 
+/// @nodoc
 class WorkflowRunStatus {
   static const succeeded = WorkflowRunStatus._('SUCCEEDED');
   static const failed = WorkflowRunStatus._('FAILED');
@@ -3367,6 +3408,8 @@ class WorkflowRunStatus {
 }
 
 /// Information about the status of a workflow run.
+///
+/// @nodoc
 class WorkflowRunStatusReason {
   WorkflowRunStatusReason();
 
@@ -3380,6 +3423,8 @@ class WorkflowRunStatusReason {
 }
 
 /// Information used to sort workflow runs in the returned list.
+///
+/// @nodoc
 class WorkflowRunSortCriteria {
   WorkflowRunSortCriteria();
 
@@ -3389,6 +3434,8 @@ class WorkflowRunSortCriteria {
 }
 
 /// Information about a workflow.
+///
+/// @nodoc
 class WorkflowSummary {
   /// The date and time the workflow was created, in coordinated universal time
   /// (UTC) timestamp format as specified in <a
@@ -3477,6 +3524,8 @@ class WorkflowSummary {
 }
 
 /// Information about a workflow definition.
+///
+/// @nodoc
 class WorkflowDefinitionSummary {
   /// The path to the workflow definition file stored in the source repository for
   /// the project, including the file name.
@@ -3500,6 +3549,7 @@ class WorkflowDefinitionSummary {
   }
 }
 
+/// @nodoc
 class WorkflowRunMode {
   static const queued = WorkflowRunMode._('QUEUED');
   static const parallel = WorkflowRunMode._('PARALLEL');
@@ -3525,6 +3575,7 @@ class WorkflowRunMode {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkflowStatus {
   static const invalid = WorkflowStatus._('INVALID');
   static const active = WorkflowStatus._('ACTIVE');
@@ -3550,6 +3601,8 @@ class WorkflowStatus {
 }
 
 /// Information used to sort workflows in the returned list.
+///
+/// @nodoc
 class WorkflowSortCriteria {
   WorkflowSortCriteria();
 
@@ -3559,6 +3612,8 @@ class WorkflowSortCriteria {
 }
 
 /// Information about a workflow definition file.
+///
+/// @nodoc
 class WorkflowDefinition {
   /// The path to the workflow definition file stored in the source repository for
   /// the project, including the file name.
@@ -3584,6 +3639,8 @@ class WorkflowDefinition {
 
 /// Information about a branch of a source repository returned in a list of
 /// branches.
+///
+/// @nodoc
 class ListSourceRepositoryBranchesItem {
   /// The commit ID of the tip of the branch at the time of the request, also
   /// known as the head commit.
@@ -3633,6 +3690,8 @@ class ListSourceRepositoryBranchesItem {
 
 /// Information about a source repository returned in a list of source
 /// repositories.
+///
+/// @nodoc
 class ListSourceRepositoriesItem {
   /// The time the source repository was created, in coordinated universal time
   /// (UTC) timestamp format as specified in <a
@@ -3688,6 +3747,7 @@ class ListSourceRepositoriesItem {
   }
 }
 
+/// @nodoc
 class DevEnvironmentStatus {
   static const pending = DevEnvironmentStatus._('PENDING');
   static const running = DevEnvironmentStatus._('RUNNING');
@@ -3729,6 +3789,8 @@ class DevEnvironmentStatus {
 }
 
 /// Information about connection details for a Dev Environment.
+///
+/// @nodoc
 class DevEnvironmentAccessDetails {
   /// The URL used to send commands to and from the Dev Environment.
   final String streamUrl;
@@ -3760,6 +3822,8 @@ class DevEnvironmentAccessDetails {
 }
 
 /// Information about the configuration of a Dev Environment session.
+///
+/// @nodoc
 class DevEnvironmentSessionConfiguration {
   /// The type of the session.
   final DevEnvironmentSessionType sessionType;
@@ -3786,6 +3850,7 @@ class DevEnvironmentSessionConfiguration {
   }
 }
 
+/// @nodoc
 class DevEnvironmentSessionType {
   static const ssm = DevEnvironmentSessionType._('SSM');
   static const ssh = DevEnvironmentSessionType._('SSH');
@@ -3813,6 +3878,8 @@ class DevEnvironmentSessionType {
 
 /// Information about the commands that will be run on a Dev Environment when an
 /// SSH session begins.
+///
+/// @nodoc
 class ExecuteCommandSessionConfiguration {
   /// The command used at the beginning of the SSH session to a Dev Environment.
   final String command;
@@ -3835,6 +3902,7 @@ class ExecuteCommandSessionConfiguration {
   }
 }
 
+/// @nodoc
 class InstanceType {
   static const devStandard1Small = InstanceType._('dev.standard1.small');
   static const devStandard1Medium = InstanceType._('dev.standard1.medium');
@@ -3867,6 +3935,8 @@ class InstanceType {
 
 /// Information about the configuration of an integrated development environment
 /// (IDE) for a Dev Environment.
+///
+/// @nodoc
 class IdeConfiguration {
   /// The name of the IDE. Valid values include <code>Cloud9</code>,
   /// <code>IntelliJ</code>, <code>PyCharm</code>, <code>GoLand</code>, and
@@ -3902,6 +3972,8 @@ class IdeConfiguration {
 }
 
 /// Information about active sessions for a Dev Environment.
+///
+/// @nodoc
 class DevEnvironmentSessionSummary {
   /// The system-generated unique ID of the Dev Environment.
   final String devEnvironmentId;
@@ -3955,6 +4027,8 @@ class DevEnvironmentSessionSummary {
 }
 
 /// Information about the persistent storage for a Dev Environment.
+///
+/// @nodoc
 class PersistentStorage {
   /// The size of the persistent storage in gigabytes (specifically GiB).
   /// <note>
@@ -3983,6 +4057,8 @@ class PersistentStorage {
 
 /// Information about an integrated development environment (IDE) used in a Dev
 /// Environment.
+///
+/// @nodoc
 class Ide {
   /// The name of the IDE.
   final String? name;
@@ -4013,6 +4089,8 @@ class Ide {
 }
 
 /// Information about the source repsitory for a Dev Environment.
+///
+/// @nodoc
 class DevEnvironmentRepositorySummary {
   /// The name of the source repository.
   final String repositoryName;
@@ -4045,6 +4123,8 @@ class DevEnvironmentRepositorySummary {
 
 /// Information about the configuration of persistent storage for a Dev
 /// Environment.
+///
+/// @nodoc
 class PersistentStorageConfiguration {
   /// The size of the persistent storage in gigabytes (specifically GiB).
   /// <note>
@@ -4066,6 +4146,8 @@ class PersistentStorageConfiguration {
 }
 
 /// Information about a repository that will be cloned to a Dev Environment.
+///
+/// @nodoc
 class RepositoryInput {
   /// The name of the source repository.
   final String repositoryName;
@@ -4089,6 +4171,8 @@ class RepositoryInput {
 }
 
 /// Information about a project.
+///
+/// @nodoc
 class ProjectSummary {
   /// The name of the project in the space.
   final String name;
@@ -4127,6 +4211,8 @@ class ProjectSummary {
 
 /// nformation about the filter used to narrow the results returned in a list of
 /// projects.
+///
+/// @nodoc
 class ProjectListFilter {
   /// A key that can be used to sort results.
   final FilterKey key;
@@ -4156,6 +4242,7 @@ class ProjectListFilter {
   }
 }
 
+/// @nodoc
 class FilterKey {
   static const hasAccessTo = FilterKey._('hasAccessTo');
   static const name = FilterKey._('name');
@@ -4179,6 +4266,7 @@ class FilterKey {
   String toString() => value;
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const eq = ComparisonOperator._('EQ');
   static const gt = ComparisonOperator._('GT');
@@ -4209,6 +4297,8 @@ class ComparisonOperator {
 }
 
 /// Information about an entry in an event log of Amazon CodeCatalyst activity.
+///
+/// @nodoc
 class EventLogEntry {
   /// The category for the event.
   final String eventCategory;
@@ -4344,6 +4434,7 @@ class EventLogEntry {
   }
 }
 
+/// @nodoc
 class OperationType {
   static const readonly = OperationType._('READONLY');
   static const mutation = OperationType._('MUTATION');
@@ -4369,6 +4460,8 @@ class OperationType {
 }
 
 /// Information about a user whose activity is recorded in an event for a space.
+///
+/// @nodoc
 class UserIdentity {
   /// The ID of the Amazon CodeCatalyst service principal.
   final String principalId;
@@ -4415,6 +4508,8 @@ class UserIdentity {
 }
 
 /// Information about a project in a space.
+///
+/// @nodoc
 class ProjectInformation {
   /// The name of the project in the space.
   final String? name;
@@ -4446,6 +4541,8 @@ class ProjectInformation {
 
 /// Information about the payload of an event recording Amazon CodeCatalyst
 /// activity.
+///
+/// @nodoc
 class EventPayload {
   /// The type of content in the event payload.
   final String? contentType;
@@ -4475,6 +4572,7 @@ class EventPayload {
   }
 }
 
+/// @nodoc
 class UserType {
   static const user = UserType._('USER');
   static const awsAccount = UserType._('AWS_ACCOUNT');
@@ -4500,6 +4598,8 @@ class UserType {
 }
 
 /// Information about a Dev Environment.
+///
+/// @nodoc
 class DevEnvironmentSummary {
   /// The system-generated unique ID of the user who created the Dev Environment.
   final String creatorId;
@@ -4634,6 +4734,8 @@ class DevEnvironmentSummary {
 }
 
 /// Information about a filter used to limit results of a query.
+///
+/// @nodoc
 class Filter {
   /// A key that can be used to sort results.
   final String key;
@@ -4663,6 +4765,8 @@ class Filter {
 }
 
 /// Information about an space.
+///
+/// @nodoc
 class SpaceSummary {
   /// The name of the space.
   final String name;
@@ -4707,6 +4811,8 @@ class SpaceSummary {
 }
 
 /// Information about a specified personal access token (PAT).
+///
+/// @nodoc
 class AccessTokenSummary {
   /// The system-generated ID of the personal access token.
   final String id;
@@ -4746,6 +4852,8 @@ class AccessTokenSummary {
 }
 
 /// Information about an email address.
+///
+/// @nodoc
 class EmailAddress {
   /// The email address.
   final String? email;

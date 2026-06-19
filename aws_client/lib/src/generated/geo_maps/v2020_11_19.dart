@@ -469,8 +469,8 @@ class GeoMaps {
   ///
   /// Parameter [boundedPositions] :
   /// Takes in two or more pair of coordinates in World Geodetic System (WGS 84)
-  /// format: [longitude, latitude], with each coordinate separated by a comma.
-  /// The API will generate an image to encompass all of the provided
+  /// format: \[longitude, latitude\], with each coordinate separated by a
+  /// comma. The API will generate an image to encompass all of the provided
   /// coordinates.
   /// <note>
   /// Cannot be used with <code>Zoom</code> and or <code>Radius</code>
@@ -479,14 +479,15 @@ class GeoMaps {
   ///
   /// Parameter [boundingBox] :
   /// Takes in two pairs of coordinates in World Geodetic System (WGS 84)
-  /// format: [longitude, latitude], denoting south-westerly and north-easterly
-  /// edges of the image. The underlying area becomes the view of the image.
+  /// format: \[longitude, latitude\], denoting south-westerly and
+  /// north-easterly edges of the image. The underlying area becomes the view of
+  /// the image.
   ///
   /// Example: -123.17075,49.26959,-123.08125,49.31429
   ///
   /// Parameter [center] :
   /// Takes in a pair of coordinates in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude], which becomes the center point of the image. This
+  /// \[longitude, latitude\], which becomes the center point of the image. This
   /// parameter requires that either zoom or radius is set.
   /// <note>
   /// Cannot be used with <code>Zoom</code> and or <code>Radius</code>
@@ -505,7 +506,7 @@ class GeoMaps {
   ///
   /// Parameter [compactOverlay] :
   /// Takes in a string to draw geometries on the image. The input is a comma
-  /// separated format as follows format: <code>[Lon, Lat]</code>
+  /// separated format as follows format: <code>\[Lon, Lat\]</code>
   ///
   /// Example:
   /// <code>line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;outline-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;label=Fog
@@ -524,9 +525,9 @@ class GeoMaps {
   /// GeoJSON collection object.
   ///
   /// Example: <code>{"type":"FeatureCollection","features":
-  /// [{"type":"Feature","geometry":{"type":"MultiPoint","coordinates":
-  /// [[-90.076345,51.504107],[-0.074451,51.506892]]},"properties":
-  /// {"color":"#00DD00"}}]}</code>
+  /// \[{"type":"Feature","geometry":{"type":"MultiPoint","coordinates":
+  /// \[\[-90.076345,51.504107\],\[-0.074451,51.506892\]\]},"properties":
+  /// {"color":"#00DD00"}}\]}</code>
   ///
   /// Parameter [key] :
   /// Optional: The API key to be used for authorization. Either an API key or
@@ -1181,6 +1182,7 @@ class GeoMaps {
   }
 }
 
+/// @nodoc
 class GetGlyphsResponse {
   /// The Glyph, as a binary blob.
   final Uint8List? blob;
@@ -1213,6 +1215,7 @@ class GetGlyphsResponse {
   }
 }
 
+/// @nodoc
 class GetSpritesResponse {
   /// The body of the sprite sheet or JSON offset file (image/png or
   /// application/json, depending on input).
@@ -1246,6 +1249,7 @@ class GetSpritesResponse {
   }
 }
 
+/// @nodoc
 class GetStaticMapResponse {
   /// The pricing bucket for which the request is charged at.
   final String pricingBucket;
@@ -1284,6 +1288,7 @@ class GetStaticMapResponse {
   }
 }
 
+/// @nodoc
 class GetStyleDescriptorResponse {
   /// This Blob contains the body of the style descriptor which is in
   /// application/json format.
@@ -1317,6 +1322,7 @@ class GetStyleDescriptorResponse {
   }
 }
 
+/// @nodoc
 class GetTileResponse {
   /// The pricing bucket for which the request is charged at.
   final String pricingBucket;
@@ -1355,6 +1361,7 @@ class GetTileResponse {
   }
 }
 
+/// @nodoc
 class TileAdditionalFeature {
   static const contourLines = TileAdditionalFeature._('ContourLines');
   static const hillshade = TileAdditionalFeature._('Hillshade');
@@ -1382,6 +1389,7 @@ class TileAdditionalFeature {
   String toString() => value;
 }
 
+/// @nodoc
 class MapStyle {
   static const standard = MapStyle._('Standard');
   static const monochrome = MapStyle._('Monochrome');
@@ -1407,6 +1415,7 @@ class MapStyle {
   String toString() => value;
 }
 
+/// @nodoc
 class ColorScheme {
   static const light = ColorScheme._('Light');
   static const dark = ColorScheme._('Dark');
@@ -1430,6 +1439,7 @@ class ColorScheme {
   String toString() => value;
 }
 
+/// @nodoc
 class Terrain {
   static const hillshade = Terrain._('Hillshade');
   static const terrain3D = Terrain._('Terrain3D');
@@ -1453,6 +1463,7 @@ class Terrain {
   String toString() => value;
 }
 
+/// @nodoc
 class ContourDensity {
   static const low = ContourDensity._('Low');
   static const medium = ContourDensity._('Medium');
@@ -1478,6 +1489,7 @@ class ContourDensity {
   String toString() => value;
 }
 
+/// @nodoc
 class Traffic {
   static const all = Traffic._('All');
   static const congestion = Traffic._('Congestion');
@@ -1501,6 +1513,7 @@ class Traffic {
   String toString() => value;
 }
 
+/// @nodoc
 class Buildings {
   static const buildings3D = Buildings._('Buildings3D');
 
@@ -1523,6 +1536,7 @@ class Buildings {
   String toString() => value;
 }
 
+/// @nodoc
 class TravelMode {
   static const transit = TravelMode._('Transit');
   static const truck = TravelMode._('Truck');
@@ -1546,6 +1560,7 @@ class TravelMode {
   String toString() => value;
 }
 
+/// @nodoc
 class LabelSize {
   static const small = LabelSize._('Small');
   static const large = LabelSize._('Large');
@@ -1569,6 +1584,7 @@ class LabelSize {
   String toString() => value;
 }
 
+/// @nodoc
 class MapFeatureMode {
   static const enabled = MapFeatureMode._('Enabled');
   static const disabled = MapFeatureMode._('Disabled');
@@ -1593,6 +1609,7 @@ class MapFeatureMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ScaleBarUnit {
   static const kilometers = ScaleBarUnit._('Kilometers');
   static const kilometersMiles = ScaleBarUnit._('KilometersMiles');
@@ -1618,6 +1635,7 @@ class ScaleBarUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class StaticMapStyle {
   static const satellite = StaticMapStyle._('Satellite');
   static const standard = StaticMapStyle._('Standard');
@@ -1642,6 +1660,7 @@ class StaticMapStyle {
   String toString() => value;
 }
 
+/// @nodoc
 class Variant {
   static const $default = Variant._('Default');
 
@@ -1664,26 +1683,31 @@ class Variant {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

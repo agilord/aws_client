@@ -113,6 +113,7 @@ class WorkMailMessageFlow {
   }
 }
 
+/// @nodoc
 class GetRawMessageContentResponse {
   /// The raw content of the email message, in MIME format.
   final Uint8List messageContent;
@@ -129,6 +130,7 @@ class GetRawMessageContentResponse {
   }
 }
 
+/// @nodoc
 class PutRawMessageContentResponse {
   PutRawMessageContentResponse();
 
@@ -176,6 +178,8 @@ class PutRawMessageContentResponse {
 /// message for more information.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RawMessageContent {
   /// The S3 reference of an email message.
   final S3Reference s3Reference;
@@ -200,6 +204,8 @@ class RawMessageContent {
 /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html">
 /// Updating message content with AWS Lambda</a>.
 /// </note>
+///
+/// @nodoc
 class S3Reference {
   /// The S3 bucket name.
   final String bucket;
@@ -228,21 +234,25 @@ class S3Reference {
   }
 }
 
+/// @nodoc
 class InvalidContentLocation extends _s.GenericAwsException {
   InvalidContentLocation({String? type, String? message})
       : super(type: type, code: 'InvalidContentLocation', message: message);
 }
 
+/// @nodoc
 class MessageFrozen extends _s.GenericAwsException {
   MessageFrozen({String? type, String? message})
       : super(type: type, code: 'MessageFrozen', message: message);
 }
 
+/// @nodoc
 class MessageRejected extends _s.GenericAwsException {
   MessageRejected({String? type, String? message})
       : super(type: type, code: 'MessageRejected', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

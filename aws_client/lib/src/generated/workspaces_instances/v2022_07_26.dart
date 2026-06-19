@@ -621,6 +621,8 @@ class WorkspacesInstances {
 }
 
 /// Confirms volume attachment.
+///
+/// @nodoc
 class AssociateVolumeResponse {
   AssociateVolumeResponse();
 
@@ -634,6 +636,8 @@ class AssociateVolumeResponse {
 }
 
 /// Returns the created volume identifier.
+///
+/// @nodoc
 class CreateVolumeResponse {
   /// Unique identifier for the new volume.
   final String? volumeId;
@@ -657,6 +661,8 @@ class CreateVolumeResponse {
 }
 
 /// Returns the unique identifier for the newly created WorkSpaces Instance.
+///
+/// @nodoc
 class CreateWorkspaceInstanceResponse {
   /// Unique identifier assigned to the newly created WorkSpaces Instance.
   final String? workspaceInstanceId;
@@ -681,6 +687,8 @@ class CreateWorkspaceInstanceResponse {
 }
 
 /// Confirms volume deletion.
+///
+/// @nodoc
 class DeleteVolumeResponse {
   DeleteVolumeResponse();
 
@@ -694,6 +702,8 @@ class DeleteVolumeResponse {
 }
 
 /// Confirms the successful deletion of the specified WorkSpace Instance.
+///
+/// @nodoc
 class DeleteWorkspaceInstanceResponse {
   DeleteWorkspaceInstanceResponse();
 
@@ -707,6 +717,8 @@ class DeleteWorkspaceInstanceResponse {
 }
 
 /// Confirms volume detachment.
+///
+/// @nodoc
 class DisassociateVolumeResponse {
   DisassociateVolumeResponse();
 
@@ -720,6 +732,8 @@ class DisassociateVolumeResponse {
 }
 
 /// Provides comprehensive details about the requested WorkSpaces Instance.
+///
+/// @nodoc
 class GetWorkspaceInstanceResponse {
   /// Returns the current billing configuration for the WorkSpace Instance,
   /// indicating the active billing mode.
@@ -796,6 +810,8 @@ class GetWorkspaceInstanceResponse {
 }
 
 /// Contains the list of instance types supported by WorkSpaces Instances.
+///
+/// @nodoc
 class ListInstanceTypesResponse {
   /// Collection of supported instance types for WorkSpaces Instances.
   final List<InstanceTypeInfo> instanceTypes;
@@ -830,6 +846,8 @@ class ListInstanceTypesResponse {
 }
 
 /// Contains the list of supported AWS regions for WorkSpaces Instances.
+///
+/// @nodoc
 class ListRegionsResponse {
   /// Collection of AWS regions supported by WorkSpaces Instances.
   final List<Region> regions;
@@ -863,6 +881,8 @@ class ListRegionsResponse {
 }
 
 /// Returns the list of tags for the specified WorkSpace Instance.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Collection of tags associated with the WorkSpace Instance.
   final List<Tag>? tags;
@@ -889,6 +909,8 @@ class ListTagsForResourceResponse {
 }
 
 /// Contains the list of WorkSpaces Instances matching the specified criteria.
+///
+/// @nodoc
 class ListWorkspaceInstancesResponse {
   /// Collection of WorkSpaces Instances returned by the query.
   final List<WorkspaceInstance> workspaceInstances;
@@ -923,6 +945,8 @@ class ListWorkspaceInstancesResponse {
 }
 
 /// Confirms successful tag addition.
+///
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -936,6 +960,8 @@ class TagResourceResponse {
 }
 
 /// Confirms successful tag removal.
+///
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -949,6 +975,8 @@ class UntagResourceResponse {
 }
 
 /// Represents a key-value metadata tag.
+///
+/// @nodoc
 class Tag {
   /// Unique identifier for the tag.
   final String? key;
@@ -979,6 +1007,8 @@ class Tag {
 }
 
 /// Represents a single WorkSpace Instance.
+///
+/// @nodoc
 class WorkspaceInstance {
   /// Details of the associated EC2 managed instance.
   final EC2ManagedInstance? eC2ManagedInstance;
@@ -1020,6 +1050,7 @@ class WorkspaceInstance {
   }
 }
 
+/// @nodoc
 class ProvisionStateEnum {
   static const allocating = ProvisionStateEnum._('ALLOCATING');
   static const allocated = ProvisionStateEnum._('ALLOCATED');
@@ -1057,6 +1088,8 @@ class ProvisionStateEnum {
 }
 
 /// Represents an EC2 instance managed by WorkSpaces.
+///
+/// @nodoc
 class EC2ManagedInstance {
   /// Unique identifier of the managed EC2 instance.
   final String? instanceId;
@@ -1080,6 +1113,8 @@ class EC2ManagedInstance {
 }
 
 /// Represents an AWS region supported by WorkSpaces Instances.
+///
+/// @nodoc
 class Region {
   /// Name of the AWS region.
   final String? regionName;
@@ -1103,6 +1138,8 @@ class Region {
 }
 
 /// Provides details about a specific WorkSpace Instance type.
+///
+/// @nodoc
 class InstanceTypeInfo {
   /// Unique identifier for the WorkSpace Instance type.
   final String? instanceType;
@@ -1144,6 +1181,8 @@ class InstanceTypeInfo {
 /// Represents a single valid configuration combination that an instance type
 /// supports, combining tenancy, platform type, and billing mode into one
 /// complete configuration specification.
+///
+/// @nodoc
 class SupportedInstanceConfiguration {
   /// Specifies the billing mode supported in this configuration combination.
   final BillingMode? billingMode;
@@ -1184,6 +1223,7 @@ class SupportedInstanceConfiguration {
   }
 }
 
+/// @nodoc
 class BillingMode {
   static const monthly = BillingMode._('MONTHLY');
   static const hourly = BillingMode._('HOURLY');
@@ -1207,6 +1247,7 @@ class BillingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class PlatformTypeEnum {
   static const windows = PlatformTypeEnum._('Windows');
   static const windowsByol = PlatformTypeEnum._('Windows BYOL');
@@ -1245,6 +1286,7 @@ class PlatformTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceConfigurationTenancyEnum {
   static const shared = InstanceConfigurationTenancyEnum._('SHARED');
   static const dedicated = InstanceConfigurationTenancyEnum._('DEDICATED');
@@ -1274,6 +1316,8 @@ class InstanceConfigurationTenancyEnum {
 /// multiple filter conditions including billing mode, platform type, and
 /// tenancy to help customers find instance types that meet their specific
 /// requirements.
+///
+/// @nodoc
 class InstanceConfigurationFilter {
   /// Filters WorkSpace Instance types based on supported billing modes. Allows
   /// customers to search for instance types that support their preferred billing
@@ -1310,6 +1354,8 @@ class InstanceConfigurationFilter {
 
 /// Defines billing configuration settings for WorkSpace Instances, containing
 /// the billing mode selection.
+///
+/// @nodoc
 class BillingConfiguration {
   /// Specifies the billing mode for WorkSpace Instances. MONTHLY provides fixed
   /// monthly rates for predictable budgeting, while HOURLY enables pay-per-second
@@ -1336,6 +1382,8 @@ class BillingConfiguration {
 }
 
 /// Captures detailed error information for EC2 instance operations.
+///
+/// @nodoc
 class EC2InstanceError {
   /// Unique error code identifying the specific EC2 instance error.
   final String? eC2ErrorCode;
@@ -1373,6 +1421,8 @@ class EC2InstanceError {
 }
 
 /// Captures errors specific to WorkSpace Instance operations.
+///
+/// @nodoc
 class WorkspaceInstanceError {
   /// Unique error code for the WorkSpace Instance error.
   final String? errorCode;
@@ -1402,6 +1452,7 @@ class WorkspaceInstanceError {
   }
 }
 
+/// @nodoc
 class DisassociateModeEnum {
   static const force = DisassociateModeEnum._('FORCE');
   static const noForce = DisassociateModeEnum._('NO_FORCE');
@@ -1428,6 +1479,8 @@ class DisassociateModeEnum {
 }
 
 /// Defines comprehensive configuration for a managed WorkSpace Instance.
+///
+/// @nodoc
 class ManagedInstanceRequest {
   /// Configures block device mappings for storage.
   final List<BlockDeviceMappingRequest>? blockDeviceMappings;
@@ -1639,6 +1692,8 @@ class ManagedInstanceRequest {
 }
 
 /// Specifies capacity reservation preferences.
+///
+/// @nodoc
 class CapacityReservationSpecification {
   /// Preference for using capacity reservation.
   final CapacityReservationPreferenceEnum? capacityReservationPreference;
@@ -1664,6 +1719,8 @@ class CapacityReservationSpecification {
 }
 
 /// Configures CPU-specific settings for WorkSpace Instance.
+///
+/// @nodoc
 class CpuOptionsRequest {
   /// AMD Secure Encrypted Virtualization configuration.
   final AmdSevSnpEnum? amdSevSnp;
@@ -1693,6 +1750,8 @@ class CpuOptionsRequest {
 }
 
 /// Defines CPU credit configuration for burstable instances.
+///
+/// @nodoc
 class CreditSpecificationRequest {
   /// CPU credit specification mode.
   final CpuCreditsEnum? cpuCredits;
@@ -1710,6 +1769,8 @@ class CreditSpecificationRequest {
 }
 
 /// Configures AWS Nitro Enclave options for the WorkSpace Instance.
+///
+/// @nodoc
 class EnclaveOptionsRequest {
   /// Enables or disables AWS Nitro Enclaves for enhanced security.
   final bool? enabled;
@@ -1727,6 +1788,8 @@ class EnclaveOptionsRequest {
 }
 
 /// Defines hibernation configuration for the WorkSpace Instance.
+///
+/// @nodoc
 class HibernationOptionsRequest {
   /// Enables or disables instance hibernation capability.
   final bool? configured;
@@ -1744,6 +1807,8 @@ class HibernationOptionsRequest {
 }
 
 /// Defines IAM instance profile configuration for WorkSpace Instance.
+///
+/// @nodoc
 class IamInstanceProfileSpecification {
   /// Amazon Resource Name (ARN) of the IAM instance profile.
   final String? arn;
@@ -1767,6 +1832,8 @@ class IamInstanceProfileSpecification {
 }
 
 /// Configures marketplace-specific instance deployment options.
+///
+/// @nodoc
 class InstanceMarketOptionsRequest {
   /// Specifies the type of marketplace for instance deployment.
   final MarketTypeEnum? marketType;
@@ -1790,6 +1857,8 @@ class InstanceMarketOptionsRequest {
 }
 
 /// Configures automatic maintenance settings for WorkSpace Instance.
+///
+/// @nodoc
 class InstanceMaintenanceOptionsRequest {
   /// Enables or disables automatic instance recovery.
   final AutoRecoveryEnum? autoRecovery;
@@ -1807,6 +1876,8 @@ class InstanceMaintenanceOptionsRequest {
 }
 
 /// Defines instance metadata service configuration.
+///
+/// @nodoc
 class InstanceMetadataOptionsRequest {
   /// Enables or disables HTTP endpoint for instance metadata.
   final HttpEndpointEnum? httpEndpoint;
@@ -1850,6 +1921,8 @@ class InstanceMetadataOptionsRequest {
 }
 
 /// Configures detailed monitoring for WorkSpace Instance.
+///
+/// @nodoc
 class RunInstancesMonitoringEnabled {
   /// Enables or disables detailed instance monitoring.
   final bool? enabled;
@@ -1867,6 +1940,8 @@ class RunInstancesMonitoringEnabled {
 }
 
 /// Configures network performance settings for WorkSpace Instance.
+///
+/// @nodoc
 class InstanceNetworkPerformanceOptionsRequest {
   /// Defines bandwidth allocation strategy for network interfaces.
   final BandwidthWeightingEnum? bandwidthWeighting;
@@ -1885,6 +1960,8 @@ class InstanceNetworkPerformanceOptionsRequest {
 }
 
 /// Defines instance placement configuration for WorkSpace Instance.
+///
+/// @nodoc
 class Placement {
   /// Specifies host affinity for dedicated instances.
   final String? affinity;
@@ -1945,6 +2022,8 @@ class Placement {
 }
 
 /// Configures private DNS name settings for WorkSpace Instance.
+///
+/// @nodoc
 class PrivateDnsNameOptionsRequest {
   /// Enables DNS AAAA record for resource name resolution.
   final bool? enableResourceNameDnsAAAARecord;
@@ -1977,6 +2056,8 @@ class PrivateDnsNameOptionsRequest {
 }
 
 /// Defines tagging configuration for a resource.
+///
+/// @nodoc
 class TagSpecification {
   /// Type of resource being tagged.
   final ResourceTypeEnum? resourceType;
@@ -1999,6 +2080,7 @@ class TagSpecification {
   }
 }
 
+/// @nodoc
 class ResourceTypeEnum {
   static const instance = ResourceTypeEnum._('instance');
   static const volume = ResourceTypeEnum._('volume');
@@ -2031,6 +2113,7 @@ class ResourceTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class HostnameTypeEnum {
   static const ipName = HostnameTypeEnum._('ip-name');
   static const resourceName = HostnameTypeEnum._('resource-name');
@@ -2055,6 +2138,7 @@ class HostnameTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class TenancyEnum {
   static const $default = TenancyEnum._('default');
   static const dedicated = TenancyEnum._('dedicated');
@@ -2079,6 +2163,7 @@ class TenancyEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class BandwidthWeightingEnum {
   static const $default = BandwidthWeightingEnum._('default');
   static const vpc_1 = BandwidthWeightingEnum._('vpc-1');
@@ -2106,6 +2191,8 @@ class BandwidthWeightingEnum {
 }
 
 /// Defines network interface configuration for WorkSpace Instance.
+///
+/// @nodoc
 class InstanceNetworkInterfaceSpecification {
   /// Enables carrier IP address association.
   final bool? associateCarrierIpAddress;
@@ -2249,6 +2336,8 @@ class InstanceNetworkInterfaceSpecification {
 }
 
 /// Defines connection tracking parameters for network interfaces.
+///
+/// @nodoc
 class ConnectionTrackingSpecificationRequest {
   /// Timeout for established TCP connections.
   final int? tcpEstablishedTimeout;
@@ -2280,6 +2369,8 @@ class ConnectionTrackingSpecificationRequest {
 
 /// Defines Elastic Network Adapter (ENA) Scalable Reliable Datagram (SRD)
 /// configuration.
+///
+/// @nodoc
 class EnaSrdSpecificationRequest {
   /// Enables or disables ENA SRD for network performance.
   final bool? enaSrdEnabled;
@@ -2303,6 +2394,7 @@ class EnaSrdSpecificationRequest {
   }
 }
 
+/// @nodoc
 class InterfaceTypeEnum {
   static const interface = InterfaceTypeEnum._('interface');
   static const efa = InterfaceTypeEnum._('efa');
@@ -2329,6 +2421,8 @@ class InterfaceTypeEnum {
 }
 
 /// Defines private IP address configuration for network interface.
+///
+/// @nodoc
 class PrivateIpAddressSpecification {
   /// Indicates if this is the primary private IP address.
   final bool? primary;
@@ -2352,6 +2446,8 @@ class PrivateIpAddressSpecification {
 }
 
 /// Specifies IPv6 prefix configuration for network interfaces.
+///
+/// @nodoc
 class Ipv6PrefixSpecificationRequest {
   /// Specific IPv6 prefix for network interface configuration.
   final String? ipv6Prefix;
@@ -2369,6 +2465,8 @@ class Ipv6PrefixSpecificationRequest {
 }
 
 /// Specifies IPv4 prefix configuration for network interfaces.
+///
+/// @nodoc
 class Ipv4PrefixSpecificationRequest {
   /// Specific IPv4 prefix for network interface configuration.
   final String? ipv4Prefix;
@@ -2386,6 +2484,8 @@ class Ipv4PrefixSpecificationRequest {
 }
 
 /// Specifies UDP configuration for ENA SRD.
+///
+/// @nodoc
 class EnaSrdUdpSpecificationRequest {
   /// Enables or disables ENA SRD for UDP traffic.
   final bool? enaSrdUdpEnabled;
@@ -2402,6 +2502,7 @@ class EnaSrdUdpSpecificationRequest {
   }
 }
 
+/// @nodoc
 class HttpEndpointEnum {
   static const enabled = HttpEndpointEnum._('enabled');
   static const disabled = HttpEndpointEnum._('disabled');
@@ -2426,6 +2527,7 @@ class HttpEndpointEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class HttpProtocolIpv6Enum {
   static const enabled = HttpProtocolIpv6Enum._('enabled');
   static const disabled = HttpProtocolIpv6Enum._('disabled');
@@ -2451,6 +2553,7 @@ class HttpProtocolIpv6Enum {
   String toString() => value;
 }
 
+/// @nodoc
 class HttpTokensEnum {
   static const optional = HttpTokensEnum._('optional');
   static const required = HttpTokensEnum._('required');
@@ -2475,6 +2578,7 @@ class HttpTokensEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceMetadataTagsEnum {
   static const enabled = InstanceMetadataTagsEnum._('enabled');
   static const disabled = InstanceMetadataTagsEnum._('disabled');
@@ -2500,6 +2604,7 @@ class InstanceMetadataTagsEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoRecoveryEnum {
   static const disabled = AutoRecoveryEnum._('disabled');
   static const $default = AutoRecoveryEnum._('default');
@@ -2525,6 +2630,8 @@ class AutoRecoveryEnum {
 }
 
 /// Specifies license configuration for WorkSpace Instance.
+///
+/// @nodoc
 class LicenseConfigurationRequest {
   /// ARN of the license configuration for the WorkSpace Instance.
   final String? licenseConfigurationArn;
@@ -2543,6 +2650,8 @@ class LicenseConfigurationRequest {
 }
 
 /// Represents an IPv6 address configuration for a WorkSpace Instance.
+///
+/// @nodoc
 class InstanceIpv6Address {
   /// Specific IPv6 address assigned to the instance.
   final String? ipv6Address;
@@ -2565,6 +2674,7 @@ class InstanceIpv6Address {
   }
 }
 
+/// @nodoc
 class MarketTypeEnum {
   static const spot = MarketTypeEnum._('spot');
   static const capacityBlock = MarketTypeEnum._('capacity-block');
@@ -2590,6 +2700,8 @@ class MarketTypeEnum {
 }
 
 /// Defines configuration for spot instance deployment.
+///
+/// @nodoc
 class SpotMarketOptions {
   /// Duration of spot instance block reservation.
   final int? blockDurationMinutes;
@@ -2633,6 +2745,7 @@ class SpotMarketOptions {
   }
 }
 
+/// @nodoc
 class InstanceInterruptionBehaviorEnum {
   static const hibernate = InstanceInterruptionBehaviorEnum._('hibernate');
   static const stop = InstanceInterruptionBehaviorEnum._('stop');
@@ -2658,6 +2771,7 @@ class InstanceInterruptionBehaviorEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class SpotInstanceTypeEnum {
   static const oneTime = SpotInstanceTypeEnum._('one-time');
   static const persistent = SpotInstanceTypeEnum._('persistent');
@@ -2683,6 +2797,7 @@ class SpotInstanceTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class CpuCreditsEnum {
   static const standard = CpuCreditsEnum._('standard');
   static const unlimited = CpuCreditsEnum._('unlimited');
@@ -2707,6 +2822,7 @@ class CpuCreditsEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AmdSevSnpEnum {
   static const enabled = AmdSevSnpEnum._('enabled');
   static const disabled = AmdSevSnpEnum._('disabled');
@@ -2731,6 +2847,7 @@ class AmdSevSnpEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class CapacityReservationPreferenceEnum {
   static const capacityReservationsOnly =
       CapacityReservationPreferenceEnum._('capacity-reservations-only');
@@ -2759,6 +2876,8 @@ class CapacityReservationPreferenceEnum {
 }
 
 /// Identifies a specific capacity reservation.
+///
+/// @nodoc
 class CapacityReservationTarget {
   /// Unique identifier for the capacity reservation.
   final String? capacityReservationId;
@@ -2786,6 +2905,8 @@ class CapacityReservationTarget {
 }
 
 /// Defines device mapping for WorkSpace Instance storage.
+///
+/// @nodoc
 class BlockDeviceMappingRequest {
   /// Name of the device for storage mapping.
   final String? deviceName;
@@ -2821,6 +2942,8 @@ class BlockDeviceMappingRequest {
 }
 
 /// Defines configuration for an Elastic Block Store volume.
+///
+/// @nodoc
 class EbsBlockDevice {
   /// Indicates if the volume is encrypted.
   final bool? encrypted;
@@ -2867,6 +2990,7 @@ class EbsBlockDevice {
   }
 }
 
+/// @nodoc
 class VolumeTypeEnum {
   static const standard = VolumeTypeEnum._('standard');
   static const io1 = VolumeTypeEnum._('io1');
@@ -2896,26 +3020,31 @@ class VolumeTypeEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2924,11 +3053,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -4423,6 +4423,8 @@ class SesV2 {
 }
 
 /// Represents the result of processing your metric data batch request
+///
+/// @nodoc
 class BatchGetMetricDataResponse {
   /// A list of <code>MetricDataError</code> encountered while processing your
   /// metric data batch request.
@@ -4461,6 +4463,8 @@ class BatchGetMetricDataResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CancelExportJobResponse {
   CancelExportJobResponse();
 
@@ -4475,6 +4479,8 @@ class CancelExportJobResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateConfigurationSetResponse {
   CreateConfigurationSetResponse();
 
@@ -4489,6 +4495,8 @@ class CreateConfigurationSetResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateConfigurationSetEventDestinationResponse {
   CreateConfigurationSetEventDestinationResponse();
 
@@ -4502,6 +4510,7 @@ class CreateConfigurationSetEventDestinationResponse {
   }
 }
 
+/// @nodoc
 class CreateContactResponse {
   CreateContactResponse();
 
@@ -4514,6 +4523,7 @@ class CreateContactResponse {
   }
 }
 
+/// @nodoc
 class CreateContactListResponse {
   CreateContactListResponse();
 
@@ -4528,6 +4538,8 @@ class CreateContactListResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class CreateCustomVerificationEmailTemplateResponse {
   CreateCustomVerificationEmailTemplateResponse();
 
@@ -4543,6 +4555,8 @@ class CreateCustomVerificationEmailTemplateResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateDedicatedIpPoolResponse {
   CreateDedicatedIpPoolResponse();
 
@@ -4556,6 +4570,8 @@ class CreateDedicatedIpPoolResponse {
 }
 
 /// Information about the predictive inbox placement test that you created.
+///
+/// @nodoc
 class CreateDeliverabilityTestReportResponse {
   /// The status of the predictive inbox placement test. If the status is
   /// <code>IN_PROGRESS</code>, then the predictive inbox placement test is
@@ -4596,6 +4612,8 @@ class CreateDeliverabilityTestReportResponse {
 /// the DKIM verification status for the domain.
 ///
 /// If the email identity is an email address, this object is empty.
+///
+/// @nodoc
 class CreateEmailIdentityResponse {
   /// An object that contains information about the DKIM attributes for the
   /// identity.
@@ -4645,6 +4663,8 @@ class CreateEmailIdentityResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateEmailIdentityPolicyResponse {
   CreateEmailIdentityPolicyResponse();
 
@@ -4659,6 +4679,8 @@ class CreateEmailIdentityPolicyResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class CreateEmailTemplateResponse {
   CreateEmailTemplateResponse();
 
@@ -4673,6 +4695,8 @@ class CreateEmailTemplateResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateExportJobResponse {
   /// A string that represents the export job ID.
   final String? jobId;
@@ -4697,6 +4721,8 @@ class CreateExportJobResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateImportJobResponse {
   /// A string that represents the import job ID.
   final String? jobId;
@@ -4721,6 +4747,8 @@ class CreateImportJobResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class CreateMultiRegionEndpointResponse {
   /// The ID of the multi-region endpoint (global-endpoint).
   final String? endpointId;
@@ -4768,6 +4796,8 @@ class CreateMultiRegionEndpointResponse {
 }
 
 /// Information about a newly created tenant.
+///
+/// @nodoc
 class CreateTenantResponse {
   /// The date and time when the tenant was created.
   final DateTime? createdTimestamp;
@@ -4842,6 +4872,8 @@ class CreateTenantResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class CreateTenantResourceAssociationResponse {
   CreateTenantResourceAssociationResponse();
 
@@ -4857,6 +4889,8 @@ class CreateTenantResourceAssociationResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteConfigurationSetResponse {
   DeleteConfigurationSetResponse();
 
@@ -4871,6 +4905,8 @@ class DeleteConfigurationSetResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteConfigurationSetEventDestinationResponse {
   DeleteConfigurationSetEventDestinationResponse();
 
@@ -4884,6 +4920,7 @@ class DeleteConfigurationSetEventDestinationResponse {
   }
 }
 
+/// @nodoc
 class DeleteContactResponse {
   DeleteContactResponse();
 
@@ -4896,6 +4933,7 @@ class DeleteContactResponse {
   }
 }
 
+/// @nodoc
 class DeleteContactListResponse {
   DeleteContactListResponse();
 
@@ -4910,6 +4948,8 @@ class DeleteContactListResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class DeleteCustomVerificationEmailTemplateResponse {
   DeleteCustomVerificationEmailTemplateResponse();
 
@@ -4925,6 +4965,8 @@ class DeleteCustomVerificationEmailTemplateResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteDedicatedIpPoolResponse {
   DeleteDedicatedIpPoolResponse();
 
@@ -4939,6 +4981,8 @@ class DeleteDedicatedIpPoolResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteEmailIdentityResponse {
   DeleteEmailIdentityResponse();
 
@@ -4953,6 +4997,8 @@ class DeleteEmailIdentityResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteEmailIdentityPolicyResponse {
   DeleteEmailIdentityPolicyResponse();
 
@@ -4967,6 +5013,8 @@ class DeleteEmailIdentityPolicyResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class DeleteEmailTemplateResponse {
   DeleteEmailTemplateResponse();
 
@@ -4981,6 +5029,8 @@ class DeleteEmailTemplateResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteMultiRegionEndpointResponse {
   /// A status of the multi-region endpoint (global-endpoint) right after the
   /// delete request.
@@ -5022,6 +5072,8 @@ class DeleteMultiRegionEndpointResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class DeleteSuppressedDestinationResponse {
   DeleteSuppressedDestinationResponse();
 
@@ -5036,6 +5088,8 @@ class DeleteSuppressedDestinationResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class DeleteTenantResponse {
   DeleteTenantResponse();
 
@@ -5050,6 +5104,8 @@ class DeleteTenantResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class DeleteTenantResourceAssociationResponse {
   DeleteTenantResourceAssociationResponse();
 
@@ -5065,6 +5121,8 @@ class DeleteTenantResourceAssociationResponse {
 
 /// A list of details about the email-sending capabilities of your Amazon SES
 /// account in the current Amazon Web Services Region.
+///
+/// @nodoc
 class GetAccountResponse {
   /// Indicates whether or not the automatic warm-up feature is enabled for
   /// dedicated IP addresses that are associated with your account.
@@ -5185,6 +5243,8 @@ class GetAccountResponse {
 }
 
 /// An object that contains information about blacklist events.
+///
+/// @nodoc
 class GetBlacklistReportsResponse {
   /// An object that contains information about a blacklist that one of your
   /// dedicated IP addresses appears on.
@@ -5217,6 +5277,8 @@ class GetBlacklistReportsResponse {
 }
 
 /// Information about a configuration set.
+///
+/// @nodoc
 class GetConfigurationSetResponse {
   /// An object that defines the MailManager archive where sent emails are
   /// archived that you send using the configuration set.
@@ -5328,6 +5390,8 @@ class GetConfigurationSetResponse {
 }
 
 /// Information about an event destination for a configuration set.
+///
+/// @nodoc
 class GetConfigurationSetEventDestinationsResponse {
   /// An array that includes all of the events destinations that have been
   /// configured for the configuration set.
@@ -5355,6 +5419,7 @@ class GetConfigurationSetEventDestinationsResponse {
   }
 }
 
+/// @nodoc
 class GetContactResponse {
   /// The attribute data attached to a contact.
   final String? attributesData;
@@ -5436,6 +5501,7 @@ class GetContactResponse {
   }
 }
 
+/// @nodoc
 class GetContactListResponse {
   /// The name of the contact list.
   final String? contactListName;
@@ -5503,6 +5569,8 @@ class GetContactListResponse {
 }
 
 /// The following elements are returned by the service.
+///
+/// @nodoc
 class GetCustomVerificationEmailTemplateResponse {
   /// The URL that the recipient of the verification email is sent to if his or
   /// her address is not successfully verified.
@@ -5577,6 +5645,8 @@ class GetCustomVerificationEmailTemplateResponse {
 }
 
 /// Information about a dedicated IP address.
+///
+/// @nodoc
 class GetDedicatedIpResponse {
   /// An object that contains information about a dedicated IP address.
   final DedicatedIp? dedicatedIp;
@@ -5602,6 +5672,8 @@ class GetDedicatedIpResponse {
 }
 
 /// The following element is returned by the service.
+///
+/// @nodoc
 class GetDedicatedIpPoolResponse {
   /// An object that contains information about a dedicated IP pool.
   final DedicatedIpPool? dedicatedIpPool;
@@ -5629,6 +5701,8 @@ class GetDedicatedIpPoolResponse {
 
 /// Information about the dedicated IP addresses that are associated with your
 /// Amazon Web Services account.
+///
+/// @nodoc
 class GetDedicatedIpsResponse {
   /// A list of dedicated IP addresses that are associated with your Amazon Web
   /// Services account.
@@ -5666,6 +5740,8 @@ class GetDedicatedIpsResponse {
 }
 
 /// An object that shows the status of the Deliverability dashboard.
+///
+/// @nodoc
 class GetDeliverabilityDashboardOptionsResponse {
   /// Specifies whether the Deliverability dashboard is enabled. If this value is
   /// <code>true</code>, the dashboard is enabled.
@@ -5744,6 +5820,8 @@ class GetDeliverabilityDashboardOptionsResponse {
 }
 
 /// The results of the predictive inbox placement test.
+///
+/// @nodoc
 class GetDeliverabilityTestReportResponse {
   /// An object that contains the results of the predictive inbox placement test.
   final DeliverabilityTestReport deliverabilityTestReport;
@@ -5813,6 +5891,8 @@ class GetDeliverabilityTestReportResponse {
 /// An object that contains all the deliverability data for a specific campaign.
 /// This data is available for a campaign only if the campaign sent email by
 /// using a domain that the Deliverability dashboard is enabled for.
+///
+/// @nodoc
 class GetDomainDeliverabilityCampaignResponse {
   /// An object that contains the deliverability data for the campaign.
   final DomainDeliverabilityCampaign domainDeliverabilityCampaign;
@@ -5840,6 +5920,8 @@ class GetDomainDeliverabilityCampaignResponse {
 
 /// An object that includes statistics that are related to the domain that you
 /// specified.
+///
+/// @nodoc
 class GetDomainStatisticsReportResponse {
   /// An object that contains deliverability metrics for the domain that you
   /// specified. This object contains data for each day, starting on the
@@ -5880,6 +5962,8 @@ class GetDomainStatisticsReportResponse {
 }
 
 /// Validation insights about an email address.
+///
+/// @nodoc
 class GetEmailAddressInsightsResponse {
   /// Detailed validation results for the email address.
   final MailboxValidation? mailboxValidation;
@@ -5906,6 +5990,8 @@ class GetEmailAddressInsightsResponse {
 }
 
 /// Details about an email identity.
+///
+/// @nodoc
 class GetEmailIdentityResponse {
   /// The configuration set used by default when sending from this identity.
   final String? configurationSetName;
@@ -6053,6 +6139,8 @@ class GetEmailIdentityResponse {
 }
 
 /// Identity policies associated with email identity.
+///
+/// @nodoc
 class GetEmailIdentityPoliciesResponse {
   /// A map of policy names to policies.
   final Map<String, String>? policies;
@@ -6077,6 +6165,8 @@ class GetEmailIdentityPoliciesResponse {
 }
 
 /// The following element is returned by the service.
+///
+/// @nodoc
 class GetEmailTemplateResponse {
   /// The content of the email template, composed of a subject line, an HTML part,
   /// and a text-only part.
@@ -6122,6 +6212,8 @@ class GetEmailTemplateResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class GetExportJobResponse {
   /// The timestamp of when the export job was completed.
   final DateTime? completedTimestamp;
@@ -6216,6 +6308,8 @@ class GetExportJobResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class GetImportJobResponse {
   /// The time stamp of when the import job was completed.
   final DateTime? completedTimestamp;
@@ -6307,6 +6401,8 @@ class GetImportJobResponse {
 }
 
 /// Information about a message.
+///
+/// @nodoc
 class GetMessageInsightsResponse {
   /// A list of tags, in the form of name/value pairs, that were applied to the
   /// email you sent, along with Amazon SES <a
@@ -6367,6 +6463,8 @@ class GetMessageInsightsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class GetMultiRegionEndpointResponse {
   /// The time stamp of when the multi-region endpoint (global-endpoint) was
   /// created.
@@ -6447,6 +6545,8 @@ class GetMultiRegionEndpointResponse {
 }
 
 /// Information about the requested reputation entity.
+///
+/// @nodoc
 class GetReputationEntityResponse {
   /// The reputation entity information, including status records, policy
   /// configuration, and reputation impact.
@@ -6474,6 +6574,8 @@ class GetReputationEntityResponse {
 }
 
 /// Information about the suppressed email address.
+///
+/// @nodoc
 class GetSuppressedDestinationResponse {
   /// An object containing information about the suppressed email address.
   final SuppressedDestination suppressedDestination;
@@ -6499,6 +6601,8 @@ class GetSuppressedDestinationResponse {
 }
 
 /// Information about a specific tenant.
+///
+/// @nodoc
 class GetTenantResponse {
   /// A structure that contains details about the tenant.
   final Tenant? tenant;
@@ -6525,6 +6629,8 @@ class GetTenantResponse {
 
 /// A list of configuration sets in your Amazon SES account in the current
 /// Amazon Web Services Region.
+///
+/// @nodoc
 class ListConfigurationSetsResponse {
   /// An array that contains all of the configuration sets in your Amazon SES
   /// account in the current Amazon Web Services Region.
@@ -6561,6 +6667,7 @@ class ListConfigurationSetsResponse {
   }
 }
 
+/// @nodoc
 class ListContactListsResponse {
   /// The available contact lists.
   final List<ContactList>? contactLists;
@@ -6596,6 +6703,7 @@ class ListContactListsResponse {
   }
 }
 
+/// @nodoc
 class ListContactsResponse {
   /// The contacts present in a specific contact list.
   final List<Contact>? contacts;
@@ -6632,6 +6740,8 @@ class ListContactsResponse {
 }
 
 /// The following elements are returned by the service.
+///
+/// @nodoc
 class ListCustomVerificationEmailTemplatesResponse {
   /// A list of the custom verification email templates that exist in your
   /// account.
@@ -6675,6 +6785,8 @@ class ListCustomVerificationEmailTemplatesResponse {
 }
 
 /// A list of dedicated IP pools.
+///
+/// @nodoc
 class ListDedicatedIpPoolsResponse {
   /// A list of all of the dedicated IP pools that are associated with your Amazon
   /// Web Services account in the current Region.
@@ -6713,6 +6825,8 @@ class ListDedicatedIpPoolsResponse {
 
 /// A list of the predictive inbox placement test reports that are available for
 /// your account, regardless of whether or not those tests are complete.
+///
+/// @nodoc
 class ListDeliverabilityTestReportsResponse {
   /// An object that contains a lists of predictive inbox placement tests that
   /// you've performed.
@@ -6756,6 +6870,8 @@ class ListDeliverabilityTestReportsResponse {
 /// that used a specific domain to send email during a specified time range.
 /// This data is available for a domain only if you enabled the Deliverability
 /// dashboard for the domain.
+///
+/// @nodoc
 class ListDomainDeliverabilityCampaignsResponse {
   /// An array of responses, one for each campaign that used the domain to send
   /// email during the specified time range.
@@ -6797,6 +6913,8 @@ class ListDomainDeliverabilityCampaignsResponse {
 
 /// A list of all of the identities that you've attempted to verify, regardless
 /// of whether or not those identities were successfully verified.
+///
+/// @nodoc
 class ListEmailIdentitiesResponse {
   /// An array that includes all of the email identities associated with your
   /// Amazon Web Services account.
@@ -6834,6 +6952,8 @@ class ListEmailIdentitiesResponse {
 }
 
 /// The following elements are returned by the service.
+///
+/// @nodoc
 class ListEmailTemplatesResponse {
   /// A token indicating that there are additional email templates available to be
   /// listed. Pass this token to a subsequent <code>ListEmailTemplates</code> call
@@ -6871,6 +6991,8 @@ class ListEmailTemplatesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class ListExportJobsResponse {
   /// A list of the export job summaries.
   final List<ExportJobSummary>? exportJobs;
@@ -6908,6 +7030,8 @@ class ListExportJobsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class ListImportJobsResponse {
   /// A list of the import job summaries.
   final List<ImportJobSummary>? importJobs;
@@ -6944,6 +7068,8 @@ class ListImportJobsResponse {
 }
 
 /// The following elements are returned by the service.
+///
+/// @nodoc
 class ListMultiRegionEndpointsResponse {
   /// An array that contains key multi-region endpoint (global-endpoint)
   /// properties.
@@ -6982,6 +7108,8 @@ class ListMultiRegionEndpointsResponse {
 
 /// Contains the response to your request to retrieve the list of
 /// recommendations for your account.
+///
+/// @nodoc
 class ListRecommendationsResponse {
   /// A string token indicating that there might be additional recommendations
   /// available to be listed. Use the token provided in the
@@ -7019,6 +7147,8 @@ class ListRecommendationsResponse {
 }
 
 /// A list of reputation entities in your account.
+///
+/// @nodoc
 class ListReputationEntitiesResponse {
   /// A token that indicates that there are additional reputation entities to
   /// list. To view additional reputation entities, issue another request to
@@ -7056,6 +7186,8 @@ class ListReputationEntitiesResponse {
 }
 
 /// Information about tenants associated with a specific resource.
+///
+/// @nodoc
 class ListResourceTenantsResponse {
   /// A token that indicates that there are additional tenants to list. To view
   /// additional tenants, issue another request to
@@ -7094,6 +7226,8 @@ class ListResourceTenantsResponse {
 }
 
 /// A list of suppressed email addresses.
+///
+/// @nodoc
 class ListSuppressedDestinationsResponse {
   /// A token that indicates that there are additional email addresses on the
   /// suppression list for your account or for the specified tenant. To view
@@ -7135,6 +7269,7 @@ class ListSuppressedDestinationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// An array that lists all the tags that are associated with the resource. Each
   /// tag consists of a required tag key (<code>Key</code>) and an associated tag
@@ -7163,6 +7298,8 @@ class ListTagsForResourceResponse {
 }
 
 /// Information about resources associated with a specific tenant.
+///
+/// @nodoc
 class ListTenantResourcesResponse {
   /// A token that indicates that there are additional resources to list. To view
   /// additional resources, issue another request to
@@ -7200,6 +7337,8 @@ class ListTenantResourcesResponse {
 }
 
 /// Information about tenants associated with your account.
+///
+/// @nodoc
 class ListTenantsResponse {
   /// A token that indicates that there are additional tenants to list. To view
   /// additional tenants, issue another request to <code>ListTenants</code>, and
@@ -7236,6 +7375,8 @@ class ListTenantsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutAccountDedicatedIpWarmupAttributesResponse {
   PutAccountDedicatedIpWarmupAttributesResponse();
 
@@ -7251,6 +7392,8 @@ class PutAccountDedicatedIpWarmupAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutAccountDetailsResponse {
   PutAccountDetailsResponse();
 
@@ -7265,6 +7408,8 @@ class PutAccountDetailsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutAccountSendingAttributesResponse {
   PutAccountSendingAttributesResponse();
 
@@ -7279,6 +7424,8 @@ class PutAccountSendingAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutAccountSuppressionAttributesResponse {
   PutAccountSuppressionAttributesResponse();
 
@@ -7292,6 +7439,7 @@ class PutAccountSuppressionAttributesResponse {
   }
 }
 
+/// @nodoc
 class PutAccountVdmAttributesResponse {
   PutAccountVdmAttributesResponse();
 
@@ -7306,6 +7454,8 @@ class PutAccountVdmAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetArchivingOptionsResponse {
   PutConfigurationSetArchivingOptionsResponse();
 
@@ -7321,6 +7471,8 @@ class PutConfigurationSetArchivingOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetDeliveryOptionsResponse {
   PutConfigurationSetDeliveryOptionsResponse();
 
@@ -7336,6 +7488,8 @@ class PutConfigurationSetDeliveryOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetReputationOptionsResponse {
   PutConfigurationSetReputationOptionsResponse();
 
@@ -7351,6 +7505,8 @@ class PutConfigurationSetReputationOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetSendingOptionsResponse {
   PutConfigurationSetSendingOptionsResponse();
 
@@ -7366,6 +7522,8 @@ class PutConfigurationSetSendingOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetSuppressionOptionsResponse {
   PutConfigurationSetSuppressionOptionsResponse();
 
@@ -7381,6 +7539,8 @@ class PutConfigurationSetSuppressionOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetTrackingOptionsResponse {
   PutConfigurationSetTrackingOptionsResponse();
 
@@ -7396,6 +7556,8 @@ class PutConfigurationSetTrackingOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetVdmOptionsResponse {
   PutConfigurationSetVdmOptionsResponse();
 
@@ -7411,6 +7573,8 @@ class PutConfigurationSetVdmOptionsResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutDedicatedIpInPoolResponse {
   PutDedicatedIpInPoolResponse();
 
@@ -7425,6 +7589,8 @@ class PutDedicatedIpInPoolResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutDedicatedIpPoolScalingAttributesResponse {
   PutDedicatedIpPoolScalingAttributesResponse();
 
@@ -7440,6 +7606,8 @@ class PutDedicatedIpPoolScalingAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutDedicatedIpWarmupAttributesResponse {
   PutDedicatedIpWarmupAttributesResponse();
 
@@ -7454,6 +7622,8 @@ class PutDedicatedIpWarmupAttributesResponse {
 }
 
 /// A response that indicates whether the Deliverability dashboard is enabled.
+///
+/// @nodoc
 class PutDeliverabilityDashboardOptionResponse {
   PutDeliverabilityDashboardOptionResponse();
 
@@ -7469,6 +7639,8 @@ class PutDeliverabilityDashboardOptionResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class PutEmailIdentityConfigurationSetAttributesResponse {
   PutEmailIdentityConfigurationSetAttributesResponse();
 
@@ -7484,6 +7656,8 @@ class PutEmailIdentityConfigurationSetAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutEmailIdentityDkimAttributesResponse {
   PutEmailIdentityDkimAttributesResponse();
 
@@ -7500,6 +7674,8 @@ class PutEmailIdentityDkimAttributesResponse {
 /// If the action is successful, the service sends back an HTTP 200 response.
 ///
 /// The following data is returned in JSON format by the service.
+///
+/// @nodoc
 class PutEmailIdentityDkimSigningAttributesResponse {
   /// The DKIM authentication status of the identity. Amazon SES determines the
   /// authentication status by searching for specific records in the DNS
@@ -7606,6 +7782,8 @@ class PutEmailIdentityDkimSigningAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutEmailIdentityFeedbackAttributesResponse {
   PutEmailIdentityFeedbackAttributesResponse();
 
@@ -7621,6 +7799,8 @@ class PutEmailIdentityFeedbackAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutEmailIdentityMailFromAttributesResponse {
   PutEmailIdentityMailFromAttributesResponse();
 
@@ -7636,6 +7816,8 @@ class PutEmailIdentityMailFromAttributesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutSuppressedDestinationResponse {
   PutSuppressedDestinationResponse();
 
@@ -7650,6 +7832,8 @@ class PutSuppressedDestinationResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class PutTenantSuppressionAttributesResponse {
   PutTenantSuppressionAttributesResponse();
 
@@ -7664,6 +7848,8 @@ class PutTenantSuppressionAttributesResponse {
 }
 
 /// The following data is returned in JSON format by the service.
+///
+/// @nodoc
 class SendBulkEmailResponse {
   /// One object per intended recipient. Check each response object and retry any
   /// messages with a failure status.
@@ -7692,6 +7878,8 @@ class SendBulkEmailResponse {
 }
 
 /// The following element is returned by the service.
+///
+/// @nodoc
 class SendCustomVerificationEmailResponse {
   /// The unique message identifier returned from the
   /// <code>SendCustomVerificationEmail</code> operation.
@@ -7717,6 +7905,8 @@ class SendCustomVerificationEmailResponse {
 }
 
 /// A unique message ID that you receive when an email is accepted for sending.
+///
+/// @nodoc
 class SendEmailResponse {
   /// A unique identifier for the message that is generated when the message is
   /// accepted.
@@ -7746,6 +7936,7 @@ class SendEmailResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -7759,6 +7950,8 @@ class TagResourceResponse {
 }
 
 /// The following element is returned by the service.
+///
+/// @nodoc
 class TestRenderEmailTemplateResponse {
   /// The complete MIME message rendered by applying the data in the
   /// <code>TemplateData</code> parameter to the template specified in the
@@ -7783,6 +7976,7 @@ class TestRenderEmailTemplateResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -7797,6 +7991,8 @@ class UntagResourceResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class UpdateConfigurationSetEventDestinationResponse {
   UpdateConfigurationSetEventDestinationResponse();
 
@@ -7810,6 +8006,7 @@ class UpdateConfigurationSetEventDestinationResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactResponse {
   UpdateContactResponse();
 
@@ -7822,6 +8019,7 @@ class UpdateContactResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactListResponse {
   UpdateContactListResponse();
 
@@ -7836,6 +8034,8 @@ class UpdateContactListResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class UpdateCustomVerificationEmailTemplateResponse {
   UpdateCustomVerificationEmailTemplateResponse();
 
@@ -7851,6 +8051,8 @@ class UpdateCustomVerificationEmailTemplateResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class UpdateEmailIdentityPolicyResponse {
   UpdateEmailIdentityPolicyResponse();
 
@@ -7865,6 +8067,8 @@ class UpdateEmailIdentityPolicyResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class UpdateEmailTemplateResponse {
   UpdateEmailTemplateResponse();
 
@@ -7879,6 +8083,8 @@ class UpdateEmailTemplateResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class UpdateReputationEntityCustomerManagedStatusResponse {
   UpdateReputationEntityCustomerManagedStatusResponse();
 
@@ -7894,6 +8100,8 @@ class UpdateReputationEntityCustomerManagedStatusResponse {
 
 /// If the action is successful, the service sends back an HTTP 200 response
 /// with an empty HTTP body.
+///
+/// @nodoc
 class UpdateReputationEntityPolicyResponse {
   UpdateReputationEntityPolicyResponse();
 
@@ -7910,6 +8118,8 @@ class UpdateReputationEntityPolicyResponse {
 /// The type of reputation entity. Currently, only <code>RESOURCE</code> type
 /// entities are supported, which represent resources in your Amazon SES account
 /// that have reputation tracking capabilities.
+///
+/// @nodoc
 class ReputationEntityType {
   static const resource = ReputationEntityType._('RESOURCE');
 
@@ -7949,6 +8159,8 @@ class ReputationEntityType {
 /// reputation findings.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SendingStatus {
   static const enabled = SendingStatus._('ENABLED');
   static const reinstated = SendingStatus._('REINSTATED');
@@ -7976,6 +8188,8 @@ class SendingStatus {
 
 /// The content of the email, composed of a subject line, an HTML part, and a
 /// text-only part.
+///
+/// @nodoc
 class EmailTemplateContent {
   /// The HTML body of the email.
   final String? html;
@@ -8015,6 +8229,8 @@ class EmailTemplateContent {
 
 /// An interest group, theme, or label within a list. Lists can have multiple
 /// topics.
+///
+/// @nodoc
 class Topic {
   /// The default subscription status to be applied to a contact if the contact
   /// has not noted their preference for subscribing to a topic.
@@ -8060,6 +8276,7 @@ class Topic {
   }
 }
 
+/// @nodoc
 class SubscriptionStatus {
   static const optIn = SubscriptionStatus._('OPT_IN');
   static const optOut = SubscriptionStatus._('OPT_OUT');
@@ -8086,6 +8303,8 @@ class SubscriptionStatus {
 }
 
 /// The contact's preference for being opted-in to or opted-out of a topic.
+///
+/// @nodoc
 class TopicPreference {
   /// The contact's subscription status to a topic which is either
   /// <code>OPT_IN</code> or <code>OPT_OUT</code>.
@@ -8121,6 +8340,8 @@ class TopicPreference {
 /// services receive events from emails sent using the configuration set that
 /// the event destination is associated with. Also defines the types of events
 /// that are sent to the event destination.
+///
+/// @nodoc
 class EventDestinationDefinition {
   /// An object that defines an Amazon CloudWatch destination for email events.
   /// You can use Amazon CloudWatch to monitor and gain insights on your email
@@ -8199,6 +8420,8 @@ class EventDestinationDefinition {
 /// An object that defines an Amazon Kinesis Data Firehose destination for email
 /// events. You can use Amazon Kinesis Data Firehose to stream data to other
 /// services, such as Amazon S3 and Amazon Redshift.
+///
+/// @nodoc
 class KinesisFirehoseDestination {
   /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream
   /// that the Amazon SES API v2 sends email events to.
@@ -8233,6 +8456,8 @@ class KinesisFirehoseDestination {
 /// An object that defines an Amazon CloudWatch destination for email events.
 /// You can use Amazon CloudWatch to monitor and gain insights on your email
 /// sending metrics.
+///
+/// @nodoc
 class CloudWatchDestination {
   /// An array of objects that define the dimensions to use when you send email
   /// events to Amazon CloudWatch.
@@ -8263,6 +8488,8 @@ class CloudWatchDestination {
 
 /// An object that defines an Amazon SNS destination for email events. You can
 /// use Amazon SNS to send notifications when certain email events occur.
+///
+/// @nodoc
 class SnsDestination {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email
   /// events to. For more information about Amazon SNS topics, see the <a
@@ -8291,6 +8518,8 @@ class SnsDestination {
 /// An object that defines an Amazon EventBridge destination for email events.
 /// You can use Amazon EventBridge to send notifications when certain email
 /// events occur.
+///
+/// @nodoc
 class EventBridgeDestination {
   /// The Amazon Resource Name (ARN) of the Amazon EventBridge bus to publish
   /// email events to. Only the default bus is supported.
@@ -8320,6 +8549,8 @@ class EventBridgeDestination {
 /// Amazon Pinpoint. For more information, see <a
 /// href="https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-transactional-messages.html">Transactional
 /// Messaging Charts</a> in the <i>Amazon Pinpoint User Guide</i>.
+///
+/// @nodoc
 class PinpointDestination {
   /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send email
   /// events to.
@@ -8345,6 +8576,8 @@ class PinpointDestination {
 
 /// An object that defines the dimension configuration to use when you send
 /// email events to Amazon CloudWatch.
+///
+/// @nodoc
 class CloudWatchDimensionConfiguration {
   /// The default value of the dimension that is published to Amazon CloudWatch if
   /// you don't provide the value of the dimension when you send an email. This
@@ -8416,6 +8649,8 @@ class CloudWatchDimensionConfiguration {
 /// <code>SendEmail</code> or <code>SendRawEmail</code> API, choose
 /// <code>messageTag</code>. To use your own email headers, choose
 /// <code>emailHeader</code>. To use link tags, choose <code>linkTags</code>.
+///
+/// @nodoc
 class DimensionValueSource {
   static const messageTag = DimensionValueSource._('MESSAGE_TAG');
   static const emailHeader = DimensionValueSource._('EMAIL_HEADER');
@@ -8444,6 +8679,8 @@ class DimensionValueSource {
 
 /// An email sending event type. For example, email sends, opens, and bounces
 /// are all email events.
+///
+/// @nodoc
 class EventType {
   static const send = EventType._('SEND');
   static const reject = EventType._('REJECT');
@@ -8523,6 +8760,8 @@ class EventType {
 /// your Amazon Web Services account.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that defines a tag. The maximum length of a tag
   /// key is 128 characters. The minimum length is 1 character.
@@ -8569,6 +8808,8 @@ class Tag {
 /// as described in <a
 /// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>.
 /// </note>
+///
+/// @nodoc
 class Destination {
   /// An array that contains the email addresses of the "BCC" (blind carbon copy)
   /// recipients for the email.
@@ -8606,6 +8847,8 @@ class Destination {
 /// message body. You can also add attachments to simple and templated messages.
 /// For a raw message, you provide a complete MIME-formatted message, which can
 /// include custom headers and attachments.
+///
+/// @nodoc
 class EmailContent {
   /// The raw email message. The message has to meet the following criteria:
   ///
@@ -8669,6 +8912,8 @@ class EmailContent {
 
 /// An object used to specify a list or topic to which an email belongs, which
 /// will be used when a contact chooses to unsubscribe.
+///
+/// @nodoc
 class ListManagementOptions {
   /// The name of the contact list.
   final String contactListName;
@@ -8693,6 +8938,8 @@ class ListManagementOptions {
 
 /// Contains the name and value of a tag that you apply to an email. You can use
 /// message tags when you publish email sending events.
+///
+/// @nodoc
 class MessageTag {
   /// The name of the message tag. The message tag name has to meet the following
   /// criteria:
@@ -8746,6 +8993,8 @@ class MessageTag {
 
 /// Represents the email message that you're sending. The <code>Message</code>
 /// object consists of a subject line and a message body.
+///
+/// @nodoc
 class Message {
   /// The body of the message. You can specify an HTML version of the message, a
   /// text-only version of the message, or both.
@@ -8786,6 +9035,8 @@ class Message {
 }
 
 /// Represents the raw content of an email message.
+///
+/// @nodoc
 class RawMessage {
   /// The raw email message. The message has to meet the following criteria:
   ///
@@ -8839,6 +9090,8 @@ class RawMessage {
 /// want to reuse in email messages that you send. You can specifiy the email
 /// template by providing the name or ARN of an <i>email template</i> previously
 /// saved in your Amazon SES account or by providing the full template content.
+///
+/// @nodoc
 class Template {
   /// The List of attachments to include in your email. All recipients will
   /// receive the same attachments.
@@ -8896,6 +9149,8 @@ class Template {
 }
 
 /// Contains metadata and attachment raw content.
+///
+/// @nodoc
 class Attachment {
   /// The file name for the attachment as it will appear in the email. Amazon SES
   /// restricts certain file extensions. To ensure attachments are accepted, check
@@ -8963,6 +9218,7 @@ class Attachment {
   }
 }
 
+/// @nodoc
 class AttachmentContentDisposition {
   static const attachment = AttachmentContentDisposition._('ATTACHMENT');
   static const inline = AttachmentContentDisposition._('INLINE');
@@ -8988,6 +9244,7 @@ class AttachmentContentDisposition {
   String toString() => value;
 }
 
+/// @nodoc
 class AttachmentContentTransferEncoding {
   static const base64 = AttachmentContentTransferEncoding._('BASE64');
   static const quotedPrintable =
@@ -9016,6 +9273,8 @@ class AttachmentContentTransferEncoding {
 }
 
 /// Contains the name and value of a message header that you add to an email.
+///
+/// @nodoc
 class MessageHeader {
   /// The name of the message header. The message header name has to meet the
   /// following criteria:
@@ -9064,6 +9323,8 @@ class MessageHeader {
 
 /// An object that represents the content of the email, and optionally a
 /// character set specification.
+///
+/// @nodoc
 class Content {
   /// The content of the message itself.
   final String data;
@@ -9091,6 +9352,8 @@ class Content {
 }
 
 /// Represents the body of the email message.
+///
+/// @nodoc
 class Body {
   /// An object that represents the version of the message that is displayed in
   /// email clients that support HTML. HTML messages can include formatted text,
@@ -9119,6 +9382,8 @@ class Body {
 
 /// The result of the <code>SendBulkEmail</code> operation of each specified
 /// <code>BulkEmailEntry</code>.
+///
+/// @nodoc
 class BulkEmailEntryResult {
   /// A description of an error that prevented a message being sent using the
   /// <code>SendBulkTemplatedEmail</code> operation.
@@ -9222,6 +9487,7 @@ class BulkEmailEntryResult {
   }
 }
 
+/// @nodoc
 class BulkEmailStatus {
   static const success = BulkEmailStatus._('SUCCESS');
   static const messageRejected = BulkEmailStatus._('MESSAGE_REJECTED');
@@ -9281,6 +9547,8 @@ class BulkEmailStatus {
 
 /// An object that contains the body of the message. You can specify a template
 /// message.
+///
+/// @nodoc
 class BulkEmailContent {
   /// The template to use for the bulk email message.
   final Template? template;
@@ -9297,6 +9565,7 @@ class BulkEmailContent {
   }
 }
 
+/// @nodoc
 class BulkEmailEntry {
   /// Represents the destination of the message, consisting of To:, CC:, and BCC:
   /// fields.
@@ -9378,6 +9647,8 @@ class BulkEmailEntry {
 /// The <code>ReplaceEmailContent</code> object to be used for a specific
 /// <code>BulkEmailEntry</code>. The <code>ReplacementTemplate</code> can be
 /// specified within this object.
+///
+/// @nodoc
 class ReplacementEmailContent {
   /// The <code>ReplacementTemplate</code> associated with
   /// <code>ReplacementEmailContent</code>.
@@ -9398,6 +9669,8 @@ class ReplacementEmailContent {
 
 /// An object which contains <code>ReplacementTemplateData</code> to be used for
 /// a specific <code>BulkEmailEntry</code>.
+///
+/// @nodoc
 class ReplacementTemplate {
   /// A list of replacement values to apply to the template. This parameter is a
   /// JSON object, typically consisting of key-value pairs in which the keys
@@ -9428,6 +9701,8 @@ class ReplacementTemplate {
 /// <code>ACCOUNT</code> – Use the account-level suppression list.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SuppressionListScope {
   static const account = SuppressionListScope._('ACCOUNT');
   static const tenant = SuppressionListScope._('TENANT');
@@ -9468,6 +9743,8 @@ class SuppressionListScope {
 /// that address results in a hard bounce.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SuppressionListReason {
   static const bounce = SuppressionListReason._('BOUNCE');
   static const complaint = SuppressionListReason._('COMPLAINT');
@@ -9503,6 +9780,8 @@ class SuppressionListReason {
 /// These behaviors are taken when the custom MAIL FROM domain configuration is
 /// in the <code>Pending</code>, <code>Failed</code>, and
 /// <code>TemporaryFailure</code> states.
+///
+/// @nodoc
 class BehaviorOnMxFailure {
   static const useDefaultValue = BehaviorOnMxFailure._('USE_DEFAULT_VALUE');
   static const rejectMessage = BehaviorOnMxFailure._('REJECT_MESSAGE');
@@ -9554,6 +9833,8 @@ class BehaviorOnMxFailure {
 /// initiated for the domain.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DkimStatus {
   static const pending = DkimStatus._('PENDING');
   static const success = DkimStatus._('SUCCESS');
@@ -9586,6 +9867,7 @@ class DkimStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DkimSigningAttributesOrigin {
   static const awsSes = DkimSigningAttributesOrigin._('AWS_SES');
   static const external = DkimSigningAttributesOrigin._('EXTERNAL');
@@ -9697,6 +9979,8 @@ class DkimSigningAttributesOrigin {
 
 /// An object that contains configuration for Bring Your Own DKIM (BYODKIM), or,
 /// for Easy DKIM
+///
+/// @nodoc
 class DkimSigningAttributes {
   /// The attribute to use for configuring DKIM for the identity depends on the
   /// operation:
@@ -9867,19 +10151,19 @@ class DkimSigningAttributes {
   /// </ul>
   final DkimSigningAttributesOrigin? domainSigningAttributesOrigin;
 
-  /// [Bring Your Own DKIM] A private key that's used to generate a DKIM
+  /// \[Bring Your Own DKIM\] A private key that's used to generate a DKIM
   /// signature.
   ///
   /// The private key must use 1024 or 2048-bit RSA encryption, and must be
   /// encoded using base64 encoding.
   final String? domainSigningPrivateKey;
 
-  /// [Bring Your Own DKIM] A string that's used to identify a public key in the
+  /// \[Bring Your Own DKIM\] A string that's used to identify a public key in the
   /// DNS configuration for a domain.
   final String? domainSigningSelector;
 
-  /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This
-  /// can be changed at most once per day.
+  /// \[Easy DKIM\] The key length of the future DKIM key pair to be generated.
+  /// This can be changed at most once per day.
   final DkimSigningKeyLength? nextSigningKeyLength;
 
   DkimSigningAttributes({
@@ -9907,6 +10191,7 @@ class DkimSigningAttributes {
   }
 }
 
+/// @nodoc
 class DkimSigningKeyLength {
   static const rsa_1024Bit = DkimSigningKeyLength._('RSA_1024_BIT');
   static const rsa_2048Bit = DkimSigningKeyLength._('RSA_2048_BIT');
@@ -9937,6 +10222,8 @@ class DkimSigningKeyLength {
 /// has an active Deliverability dashboard subscription. If a Deliverability
 /// dashboard subscription is active for a domain, you gain access to
 /// reputation, inbox placement, and other metrics for the domain.
+///
+/// @nodoc
 class DomainDeliverabilityTrackingOption {
   /// A verified domain that’s associated with your Amazon Web Services account
   /// and currently has an active Deliverability dashboard subscription.
@@ -9985,6 +10272,8 @@ class DomainDeliverabilityTrackingOption {
 /// for a verified domain that’s associated with your Amazon Web Services
 /// account. This data is available only if you enabled the Deliverability
 /// dashboard for the domain.
+///
+/// @nodoc
 class InboxPlacementTrackingOption {
   /// Specifies whether inbox placement data is being tracked for the domain.
   final bool? global;
@@ -10018,6 +10307,7 @@ class InboxPlacementTrackingOption {
   }
 }
 
+/// @nodoc
 class ScalingMode {
   static const standard = ScalingMode._('STANDARD');
   static const managed = ScalingMode._('MANAGED');
@@ -10043,6 +10333,8 @@ class ScalingMode {
 
 /// An object that defines the VDM settings that apply to emails that you send
 /// using the configuration set.
+///
+/// @nodoc
 class VdmOptions {
   /// Specifies additional settings for your VDM configuration as applicable to
   /// the Dashboard.
@@ -10082,6 +10374,8 @@ class VdmOptions {
 
 /// An object containing additional settings for your VDM configuration as
 /// applicable to the Dashboard.
+///
+/// @nodoc
 class DashboardOptions {
   /// Specifies the status of your VDM engagement metrics collection. Can be one
   /// of the following:
@@ -10120,6 +10414,8 @@ class DashboardOptions {
 
 /// An object containing additional settings for your VDM configuration as
 /// applicable to the Guardian.
+///
+/// @nodoc
 class GuardianOptions {
   /// Specifies the status of your VDM optimized shared delivery. Can be one of
   /// the following:
@@ -10156,6 +10452,7 @@ class GuardianOptions {
   }
 }
 
+/// @nodoc
 class FeatureStatus {
   static const enabled = FeatureStatus._('ENABLED');
   static const disabled = FeatureStatus._('DISABLED');
@@ -10186,6 +10483,8 @@ class FeatureStatus {
 /// REQUIRE, both open and click tracker uses HTTPS and if the value is
 /// REQUIRE_OPEN_ONLY open tracker uses HTTPS and link tracker is same as
 /// original protocol of the link.
+///
+/// @nodoc
 class HttpsPolicy {
   static const require = HttpsPolicy._('REQUIRE');
   static const requireOpenOnly = HttpsPolicy._('REQUIRE_OPEN_ONLY');
@@ -10211,6 +10510,8 @@ class HttpsPolicy {
 }
 
 /// Contains validation options for email address suppression.
+///
+/// @nodoc
 class SuppressionValidationOptions {
   /// Specifies the condition threshold settings for suppression validation.
   final SuppressionConditionThreshold conditionThreshold;
@@ -10240,6 +10541,8 @@ class SuppressionValidationOptions {
 /// on Auto Validation, see <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/email-validation.html">Auto
 /// Validation</a>.
+///
+/// @nodoc
 class SuppressionConditionThreshold {
   /// Indicates whether Auto Validation is enabled for suppression. Set to
   /// <code>ENABLED</code> to enable the Auto Validation feature, or set to
@@ -10277,6 +10580,8 @@ class SuppressionConditionThreshold {
 }
 
 /// Contains the confidence threshold settings for Auto Validation.
+///
+/// @nodoc
 class SuppressionConfidenceThreshold {
   /// The confidence level threshold for suppression decisions.
   final SuppressionConfidenceVerdictThreshold confidenceVerdictThreshold;
@@ -10317,6 +10622,8 @@ class SuppressionConfidenceThreshold {
 /// automatically determines the appropriate level.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SuppressionConfidenceVerdictThreshold {
   static const medium = SuppressionConfidenceVerdictThreshold._('MEDIUM');
   static const high = SuppressionConfidenceVerdictThreshold._('HIGH');
@@ -10348,6 +10655,8 @@ class SuppressionConfidenceVerdictThreshold {
 /// messages are only delivered if a TLS connection can be established. If the
 /// value is <code>Optional</code>, messages can be delivered in plain text if a
 /// TLS connection can't be established.
+///
+/// @nodoc
 class TlsPolicy {
   static const require = TlsPolicy._('REQUIRE');
   static const optional = TlsPolicy._('OPTIONAL');
@@ -10372,6 +10681,8 @@ class TlsPolicy {
 }
 
 /// The VDM attributes that apply to your Amazon SES account.
+///
+/// @nodoc
 class VdmAttributes {
   /// Specifies the status of your VDM configuration. Can be one of the following:
   ///
@@ -10429,6 +10740,8 @@ class VdmAttributes {
 
 /// An object containing additional settings for your VDM configuration as
 /// applicable to the Dashboard.
+///
+/// @nodoc
 class DashboardAttributes {
   /// Specifies the status of your VDM engagement metrics collection. Can be one
   /// of the following:
@@ -10467,6 +10780,8 @@ class DashboardAttributes {
 
 /// An object containing additional settings for your VDM configuration as
 /// applicable to the Guardian.
+///
+/// @nodoc
 class GuardianAttributes {
   /// Specifies the status of your VDM optimized shared delivery. Can be one of
   /// the following:
@@ -10505,6 +10820,8 @@ class GuardianAttributes {
 
 /// Structure containing validation attributes used for suppressing sending to
 /// specific destination on account level.
+///
+/// @nodoc
 class SuppressionValidationAttributes {
   /// Specifies the condition threshold settings for account-level suppression.
   final SuppressionConditionThreshold conditionThreshold;
@@ -10529,6 +10846,7 @@ class SuppressionValidationAttributes {
   }
 }
 
+/// @nodoc
 class MailType {
   static const marketing = MailType._('MARKETING');
   static const transactional = MailType._('TRANSACTIONAL');
@@ -10552,6 +10870,7 @@ class MailType {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactLanguage {
   static const en = ContactLanguage._('EN');
   static const ja = ContactLanguage._('JA');
@@ -10577,6 +10896,8 @@ class ContactLanguage {
 }
 
 /// A structure that contains basic information about a tenant.
+///
+/// @nodoc
 class TenantInfo {
   /// The date and time when the tenant was created.
   final DateTime? createdTimestamp;
@@ -10623,6 +10944,8 @@ class TenantInfo {
 
 /// A structure that contains information about a resource associated with a
 /// tenant.
+///
+/// @nodoc
 class TenantResource {
   /// The Amazon Resource Name (ARN) of the resource associated with the tenant.
   final String? resourceArn;
@@ -10672,6 +10995,8 @@ class TenantResource {
 /// email message.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ResourceType {
   static const emailIdentity = ResourceType._('EMAIL_IDENTITY');
   static const configurationSet = ResourceType._('CONFIGURATION_SET');
@@ -10698,6 +11023,8 @@ class ResourceType {
 
 /// The key used to filter tenant resources. Currently, the only supported
 /// filter key is <code>RESOURCE_TYPE</code>.
+///
+/// @nodoc
 class ListTenantResourcesFilterKey {
   static const resourceType = ListTenantResourcesFilterKey._('RESOURCE_TYPE');
 
@@ -10723,6 +11050,8 @@ class ListTenantResourcesFilterKey {
 }
 
 /// A summary that describes the suppressed email address.
+///
+/// @nodoc
 class SuppressedDestinationSummary {
   /// The email address that's on the suppression list for your account or for a
   /// specific tenant.
@@ -10765,6 +11094,8 @@ class SuppressedDestinationSummary {
 
 /// A structure that contains information about a tenant associated with a
 /// resource.
+///
+/// @nodoc
 class ResourceTenantMetadata {
   /// The date and time when the resource was associated with the tenant.
   final DateTime? associatedTimestamp;
@@ -10811,6 +11142,8 @@ class ResourceTenantMetadata {
 
 /// An object that contains information about a reputation entity, including its
 /// reference, type, policy, status records, and reputation impact.
+///
+/// @nodoc
 class ReputationEntity {
   /// The Amazon Web Services Amazon SES-managed status record for this reputation
   /// entity, including the current status, cause description, and last updated
@@ -10909,6 +11242,8 @@ class ReputationEntity {
 
 /// An object that contains status information for a reputation entity,
 /// including the current status, cause description, and timestamp.
+///
+/// @nodoc
 class StatusRecord {
   /// A description of the reason for the current status, or null if no specific
   /// cause is available.
@@ -10960,6 +11295,7 @@ class StatusRecord {
   }
 }
 
+/// @nodoc
 class RecommendationImpact {
   static const low = RecommendationImpact._('LOW');
   static const high = RecommendationImpact._('HIGH');
@@ -11002,6 +11338,8 @@ class RecommendationImpact {
 /// <code>ENTITY_REFERENCE_PREFIX</code> – Filter by entity reference prefix.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ReputationEntityFilterKey {
   static const entityType = ReputationEntityFilterKey._('ENTITY_TYPE');
   static const reputationImpact =
@@ -11037,6 +11375,8 @@ class ReputationEntityFilterKey {
 }
 
 /// A recommendation generated for your account.
+///
+/// @nodoc
 class Recommendation {
   /// The first time this issue was encountered and the recommendation was
   /// generated.
@@ -11110,6 +11450,7 @@ class Recommendation {
   }
 }
 
+/// @nodoc
 class RecommendationType {
   static const dkim = RecommendationType._('DKIM');
   static const dmarc = RecommendationType._('DMARC');
@@ -11150,6 +11491,7 @@ class RecommendationType {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationStatus {
   static const open = RecommendationStatus._('OPEN');
   static const fixed = RecommendationStatus._('FIXED');
@@ -11198,6 +11540,8 @@ class RecommendationStatus {
 /// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ListRecommendationsFilterKey {
   static const type = ListRecommendationsFilterKey._('TYPE');
   static const impact = ListRecommendationsFilterKey._('IMPACT');
@@ -11226,6 +11570,8 @@ class ListRecommendationsFilterKey {
 }
 
 /// An object that contains multi-region endpoint (global-endpoint) properties.
+///
+/// @nodoc
 class MultiRegionEndpoint {
   /// The time stamp of when the multi-region endpoint (global-endpoint) was
   /// created.
@@ -11320,6 +11666,8 @@ class MultiRegionEndpoint {
 /// <code>DELETING</code> – The resource is being deleted as requested.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Status {
   static const creating = Status._('CREATING');
   static const ready = Status._('READY');
@@ -11346,6 +11694,8 @@ class Status {
 }
 
 /// A summary of the import job.
+///
+/// @nodoc
 class ImportJobSummary {
   /// The date and time when the import job was created.
   final DateTime? createdTimestamp;
@@ -11405,6 +11755,8 @@ class ImportJobSummary {
 
 /// An object that contains details about the resource destination the import
 /// job is going to target.
+///
+/// @nodoc
 class ImportDestination {
   /// An object that contains the action of the import job towards a contact list.
   final ContactListDestination? contactListDestination;
@@ -11459,6 +11811,8 @@ class ImportDestination {
 /// <code>COMPLETED</code> – Job has completed processing successfully.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class JobStatus {
   static const created = JobStatus._('CREATED');
   static const processing = JobStatus._('PROCESSING');
@@ -11486,6 +11840,8 @@ class JobStatus {
 }
 
 /// An object that contains details about the action of suppression list.
+///
+/// @nodoc
 class SuppressionListDestination {
   /// The type of action to perform on the address. The following are possible
   /// values:
@@ -11521,6 +11877,8 @@ class SuppressionListDestination {
 }
 
 /// An object that contains details about the action of a contact list.
+///
+/// @nodoc
 class ContactListDestination {
   /// >The type of action to perform on the addresses. The following are the
   /// possible values:
@@ -11562,6 +11920,7 @@ class ContactListDestination {
   }
 }
 
+/// @nodoc
 class ContactListImportAction {
   static const delete = ContactListImportAction._('DELETE');
   static const put = ContactListImportAction._('PUT');
@@ -11598,6 +11957,8 @@ class ContactListImportAction {
 /// DELETE: remove the address from the suppression list.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SuppressionListImportAction {
   static const delete = SuppressionListImportAction._('DELETE');
   static const put = SuppressionListImportAction._('PUT');
@@ -11625,6 +11986,8 @@ class SuppressionListImportAction {
 
 /// The destination of the import job, which can be used to list import jobs
 /// that have a certain <code>ImportDestinationType</code>.
+///
+/// @nodoc
 class ImportDestinationType {
   static const suppressionList = ImportDestinationType._('SUPPRESSION_LIST');
   static const contactList = ImportDestinationType._('CONTACT_LIST');
@@ -11651,6 +12014,8 @@ class ImportDestinationType {
 }
 
 /// A summary of the export job.
+///
+/// @nodoc
 class ExportJobSummary {
   /// The timestamp of when the export job was completed.
   final DateTime? completedTimestamp;
@@ -11714,6 +12079,8 @@ class ExportJobSummary {
 /// <code>MESSAGE_INSIGHTS</code> - The Message Insights export.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ExportSourceType {
   static const metricsData = ExportSourceType._('METRICS_DATA');
   static const messageInsights = ExportSourceType._('MESSAGE_INSIGHTS');
@@ -11739,6 +12106,8 @@ class ExportSourceType {
 }
 
 /// Contains information about an email template.
+///
+/// @nodoc
 class EmailTemplateMetadata {
   /// The time and date the template was created.
   final DateTime? createdTimestamp;
@@ -11770,6 +12139,8 @@ class EmailTemplateMetadata {
 }
 
 /// Information about an email identity.
+///
+/// @nodoc
 class IdentityInfo {
   /// The address or domain of the identity.
   final String? identityName;
@@ -11844,6 +12215,7 @@ class IdentityInfo {
   }
 }
 
+/// @nodoc
 class IdentityType {
   static const emailAddress = IdentityType._('EMAIL_ADDRESS');
   static const domain = IdentityType._('DOMAIN');
@@ -11868,6 +12240,7 @@ class IdentityType {
   String toString() => value;
 }
 
+/// @nodoc
 class VerificationStatus {
   static const pending = VerificationStatus._('PENDING');
   static const success = VerificationStatus._('SUCCESS');
@@ -11906,6 +12279,8 @@ class VerificationStatus {
 /// This data is available for a campaign only if the campaign sent email by
 /// using a domain that the Deliverability dashboard is enabled for
 /// (<code>PutDeliverabilityDashboardOption</code> operation).
+///
+/// @nodoc
 class DomainDeliverabilityCampaign {
   /// The unique identifier for the campaign. The Deliverability dashboard
   /// automatically generates and assigns this identifier to a campaign.
@@ -12041,6 +12416,8 @@ class DomainDeliverabilityCampaign {
 
 /// An object that contains metadata related to a predictive inbox placement
 /// test.
+///
+/// @nodoc
 class DeliverabilityTestReport {
   /// The date and time when the predictive inbox placement test was created.
   final DateTime? createDate;
@@ -12114,6 +12491,8 @@ class DeliverabilityTestReport {
 /// <code>COMPLETE</code>, then the test is finished, and you can use the
 /// <code>GetDeliverabilityTestReport</code> operation to view the results of
 /// the test.
+///
+/// @nodoc
 class DeliverabilityTestStatus {
   static const inProgress = DeliverabilityTestStatus._('IN_PROGRESS');
   static const completed = DeliverabilityTestStatus._('COMPLETED');
@@ -12140,6 +12519,8 @@ class DeliverabilityTestStatus {
 }
 
 /// Contains information about a custom verification email template.
+///
+/// @nodoc
 class CustomVerificationEmailTemplateMetadata {
   /// The URL that the recipient of the verification email is sent to if his or
   /// her address is not successfully verified.
@@ -12196,6 +12577,8 @@ class CustomVerificationEmailTemplateMetadata {
 }
 
 /// A contact is the end-user who is receiving the email.
+///
+/// @nodoc
 class Contact {
   /// The contact's email address.
   final String? emailAddress;
@@ -12256,6 +12639,8 @@ class Contact {
 }
 
 /// A filter that can be applied to a list of contacts.
+///
+/// @nodoc
 class ListContactsFilter {
   /// The status by which you are filtering: <code>OPT_IN</code> or
   /// <code>OPT_OUT</code>.
@@ -12280,6 +12665,8 @@ class ListContactsFilter {
 }
 
 /// Used for filtering by a specific topic preference.
+///
+/// @nodoc
 class TopicFilter {
   /// The name of a topic on which you wish to apply the filter.
   final String? topicName;
@@ -12308,6 +12695,8 @@ class TopicFilter {
 
 /// A list that contains contacts that have subscribed to a particular topic or
 /// topics.
+///
+/// @nodoc
 class ContactList {
   /// The name of the contact list.
   final String? contactListName;
@@ -12339,6 +12728,8 @@ class ContactList {
 }
 
 /// A structure that contains details about a tenant.
+///
+/// @nodoc
 class Tenant {
   /// The date and time when the tenant was created.
   final DateTime? createdTimestamp;
@@ -12415,6 +12806,8 @@ class Tenant {
 }
 
 /// An object that contains the suppression list preferences for a tenant.
+///
+/// @nodoc
 class TenantSuppressionAttributes {
   /// A list that contains the reasons that email addresses are automatically
   /// added to the suppression list for the tenant. This list can contain any or
@@ -12476,6 +12869,8 @@ class TenantSuppressionAttributes {
 
 /// An object that contains information about an email address that is on the
 /// suppression list for your account or for a specific tenant.
+///
+/// @nodoc
 class SuppressedDestination {
   /// The email address that is on the suppression list for your account or for a
   /// specific tenant.
@@ -12540,6 +12935,8 @@ class SuppressedDestination {
 /// An object that contains additional attributes that are related an email
 /// address that is on the suppression list for your account or for a specific
 /// tenant.
+///
+/// @nodoc
 class SuppressedDestinationAttributes {
   /// A unique identifier that's generated when an email address is added to the
   /// suppression list for your account or for a specific tenant.
@@ -12572,6 +12969,8 @@ class SuppressedDestinationAttributes {
 }
 
 /// An object which contains an AWS-Region and routing status.
+///
+/// @nodoc
 class Route {
   /// The name of an AWS-Region.
   final String region;
@@ -12596,6 +12995,8 @@ class Route {
 
 /// An email's insights contain metadata and delivery information about a
 /// specific email.
+///
+/// @nodoc
 class EmailInsights {
   /// The recipient of the email.
   final String? destination;
@@ -12636,6 +13037,8 @@ class EmailInsights {
 }
 
 /// An object containing details about a specific event.
+///
+/// @nodoc
 class InsightsEvent {
   /// Details about bounce or complaint events.
   final EventDetails? details;
@@ -12712,6 +13115,8 @@ class InsightsEvent {
 /// Contains a <code>Bounce</code> object if the event type is
 /// <code>BOUNCE</code>. Contains a <code>Complaint</code> object if the event
 /// type is <code>COMPLAINT</code>.
+///
+/// @nodoc
 class EventDetails {
   /// Information about a <code>Bounce</code> event.
   final Bounce? bounce;
@@ -12746,6 +13151,8 @@ class EventDetails {
 }
 
 /// Information about a <code>Bounce</code> event.
+///
+/// @nodoc
 class Bounce {
   /// The subtype of the bounce, as determined by SES.
   final String? bounceSubType;
@@ -12786,6 +13193,8 @@ class Bounce {
 }
 
 /// Information about a <code>Complaint</code> event.
+///
+/// @nodoc
 class Complaint {
   /// The value of the <code>Feedback-Type</code> field from the feedback report
   /// received from the ISP.
@@ -12820,6 +13229,7 @@ class Complaint {
   }
 }
 
+/// @nodoc
 class BounceType {
   static const undetermined = BounceType._('UNDETERMINED');
   static const transient = BounceType._('TRANSIENT');
@@ -12845,6 +13255,8 @@ class BounceType {
 }
 
 /// An object that contains details about the data source of the import job.
+///
+/// @nodoc
 class ImportDataSource {
   /// The data format of the import job's data source.
   final DataFormat dataFormat;
@@ -12875,6 +13287,8 @@ class ImportDataSource {
 }
 
 /// An object that contains the failure details about a job.
+///
+/// @nodoc
 class FailureInfo {
   /// A message about why the job failed.
   final String? errorMessage;
@@ -12915,6 +13329,8 @@ class FailureInfo {
 /// <code>JSON</code> – A JSON file.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DataFormat {
   static const csv = DataFormat._('CSV');
   static const json = DataFormat._('JSON');
@@ -12939,6 +13355,8 @@ class DataFormat {
 }
 
 /// An object that contains details about the destination of the export job.
+///
+/// @nodoc
 class ExportDestination {
   /// The data format of the final export job file, can be one of the following:
   ///
@@ -12980,6 +13398,8 @@ class ExportDestination {
 /// An object that contains details about the data source of the export job. It
 /// can only contain one of <code>MetricsDataSource</code> or
 /// <code>MessageInsightsDataSource</code> object.
+///
+/// @nodoc
 class ExportDataSource {
   final MessageInsightsDataSource? messageInsightsDataSource;
   final MetricsDataSource? metricsDataSource;
@@ -13014,6 +13434,8 @@ class ExportDataSource {
 }
 
 /// Statistics about the execution of an export job.
+///
+/// @nodoc
 class ExportStatistics {
   /// The number of records that were exported to the final export file.
   ///
@@ -13049,6 +13471,8 @@ class ExportStatistics {
 
 /// An object that contains details about the data source for the metrics
 /// export.
+///
+/// @nodoc
 class MetricsDataSource {
   /// An object that contains a mapping between a <code>MetricDimensionName</code>
   /// and <code>MetricDimensionValue</code> to filter metrics by. Must contain a
@@ -13110,6 +13534,8 @@ class MetricsDataSource {
 
 /// An object that contains filters applied when performing the Message Insights
 /// export.
+///
+/// @nodoc
 class MessageInsightsDataSource {
   /// Represents the end date for the export interval as a timestamp. The end date
   /// is inclusive.
@@ -13182,6 +13608,8 @@ class MessageInsightsDataSource {
 /// (contains match). In order to match the literal characters <code>*</code> or
 /// <code>\</code>, they must be escaped using the <code>\</code> character. If
 /// no wildcard character is present, an exact match is performed.
+///
+/// @nodoc
 class MessageInsightsFilters {
   /// The recipient's email address.
   final List<String>? destination;
@@ -13273,6 +13701,8 @@ class MessageInsightsFilters {
 /// Excludes clicks for emails addressed to more than one recipient.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EngagementEventType {
   static const open = EngagementEventType._('OPEN');
   static const click = EngagementEventType._('CLICK');
@@ -13335,6 +13765,8 @@ class EngagementEventType {
 /// to more than one recipient.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DeliveryEventType {
   static const send = DeliveryEventType._('SEND');
   static const delivery = DeliveryEventType._('DELIVERY');
@@ -13370,6 +13802,7 @@ class DeliveryEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricNamespace {
   static const vdm = MetricNamespace._('VDM');
 
@@ -13395,6 +13828,8 @@ class MetricNamespace {
 
 /// An object that contains a mapping between a <code>Metric</code> and
 /// <code>MetricAggregation</code>.
+///
+/// @nodoc
 class ExportMetric {
   final MetricAggregation? aggregation;
   final Metric? name;
@@ -13478,6 +13913,8 @@ class ExportMetric {
 /// ISPs with which Amazon SES does not have a feedback loop agreement.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Metric {
   static const send = Metric._('SEND');
   static const complaint = Metric._('COMPLAINT');
@@ -13531,6 +13968,8 @@ class Metric {
 /// <code>SEND</code> metric volume.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MetricAggregation {
   static const rate = MetricAggregation._('RATE');
   static const volume = MetricAggregation._('VOLUME');
@@ -13571,6 +14010,8 @@ class MetricAggregation {
 /// <code>Yahoo</code>, etc.).
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MetricDimensionName {
   static const emailIdentity = MetricDimensionName._('EMAIL_IDENTITY');
   static const configurationSet = MetricDimensionName._('CONFIGURATION_SET');
@@ -13609,15 +14050,17 @@ class MetricDimensionName {
 /// find a TXT record that uses the selector that you specified. The value of
 /// the TXT record must be a public key that's paired with the private key that
 /// you specified in the process of creating the identity
+///
+/// @nodoc
 class DkimAttributes {
-  /// [Easy DKIM] The key length of the DKIM key pair in use.
+  /// \[Easy DKIM\] The key length of the DKIM key pair in use.
   final DkimSigningKeyLength? currentSigningKeyLength;
 
-  /// [Easy DKIM] The last time a key pair was generated for this identity.
+  /// \[Easy DKIM\] The last time a key pair was generated for this identity.
   final DateTime? lastKeyGenerationTimestamp;
 
-  /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This
-  /// can be changed at most once per day.
+  /// \[Easy DKIM\] The key length of the future DKIM key pair to be generated.
+  /// This can be changed at most once per day.
   final DkimSigningKeyLength? nextSigningKeyLength;
 
   /// A string that indicates how DKIM was configured for the identity. These are
@@ -13897,6 +14340,8 @@ class DkimAttributes {
 }
 
 /// A list of attributes that are associated with a MAIL FROM domain.
+///
+/// @nodoc
 class MailFromAttributes {
   /// The action to take if the required MX record can't be found when you send an
   /// email. When you set this value to <code>USE_DEFAULT_VALUE</code>, the mail
@@ -13967,6 +14412,8 @@ class MailFromAttributes {
 
 /// An object that contains additional information about the verification status
 /// for the identity.
+///
+/// @nodoc
 class VerificationInfo {
   /// Provides the reason for the failure describing why Amazon SES was not able
   /// to successfully verify the identity. Below are the possible values:
@@ -14072,6 +14519,7 @@ class VerificationInfo {
   }
 }
 
+/// @nodoc
 class VerificationError {
   static const serviceError = VerificationError._('SERVICE_ERROR');
   static const dnsServerError = VerificationError._('DNS_SERVER_ERROR');
@@ -14122,6 +14570,8 @@ class VerificationError {
 
 /// An object that contains information about the start of authority (SOA)
 /// record associated with the identity.
+///
+/// @nodoc
 class SOARecord {
   /// Administrative contact email from the SOA record.
   final String? adminEmail;
@@ -14179,6 +14629,8 @@ class SOARecord {
 /// Amazon SES from determining the status of the MAIL FROM domain.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MailFromDomainStatus {
   static const pending = MailFromDomainStatus._('PENDING');
   static const success = MailFromDomainStatus._('SUCCESS');
@@ -14207,6 +14659,8 @@ class MailFromDomainStatus {
 }
 
 /// Contains detailed validation information about an email address.
+///
+/// @nodoc
 class MailboxValidation {
   /// Specific validation checks performed on the email address.
   final EmailAddressInsightsMailboxEvaluations? evaluations;
@@ -14243,6 +14697,8 @@ class MailboxValidation {
 }
 
 /// Contains the overall validation verdict for an email address.
+///
+/// @nodoc
 class EmailAddressInsightsVerdict {
   /// The confidence level of the validation verdict.
   final EmailAddressInsightsConfidenceVerdict? confidenceVerdict;
@@ -14268,6 +14724,8 @@ class EmailAddressInsightsVerdict {
 }
 
 /// Contains individual validation checks performed on an email address.
+///
+/// @nodoc
 class EmailAddressInsightsMailboxEvaluations {
   /// Checks that the domain exists, has valid DNS records, and is conﬁgured to
   /// receive email.
@@ -14366,6 +14824,8 @@ class EmailAddressInsightsMailboxEvaluations {
 /// IsRandomInput means the email is very likely randomly generated).
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class EmailAddressInsightsConfidenceVerdict {
   static const low = EmailAddressInsightsConfidenceVerdict._('LOW');
   static const medium = EmailAddressInsightsConfidenceVerdict._('MEDIUM');
@@ -14394,6 +14854,8 @@ class EmailAddressInsightsConfidenceVerdict {
 
 /// An object that contains information about email that was sent from the
 /// selected domain.
+///
+/// @nodoc
 class OverallVolume {
   /// An object that contains inbox and junk mail placement metrics for individual
   /// email providers.
@@ -14442,6 +14904,8 @@ class OverallVolume {
 
 /// An object that contains information about the volume of email sent on each
 /// day of the analysis period.
+///
+/// @nodoc
 class DailyVolume {
   /// An object that contains inbox placement metrics for a specified day in the
   /// analysis period, broken out by the recipient's email provider.
@@ -14489,6 +14953,8 @@ class DailyVolume {
 
 /// An object that contains information about the amount of email that was
 /// delivered to recipients.
+///
+/// @nodoc
 class VolumeStatistics {
   /// The total number of emails that arrived in recipients' inboxes.
   final int? inboxRawCount;
@@ -14537,6 +15003,8 @@ class VolumeStatistics {
 
 /// An object that contains inbox placement data for email sent from one of your
 /// email domains to a specific email provider.
+///
+/// @nodoc
 class DomainIspPlacement {
   /// The percentage of messages that were sent from the selected domain to the
   /// specified email provider that arrived in recipients' inboxes.
@@ -14594,6 +15062,8 @@ class DomainIspPlacement {
 }
 
 /// An object that contains inbox placement data for an email provider.
+///
+/// @nodoc
 class PlacementStatistics {
   /// The percentage of emails that were authenticated by using DomainKeys
   /// Identified Mail (DKIM) during the predictive inbox placement test.
@@ -14651,6 +15121,8 @@ class PlacementStatistics {
 
 /// An object that describes how email sent during the predictive inbox
 /// placement test was handled by a certain email provider.
+///
+/// @nodoc
 class IspPlacement {
   /// The name of the email provider that the inbox placement data applies to.
   final String? ispName;
@@ -14688,6 +15160,8 @@ class IspPlacement {
 /// The current status of your Deliverability dashboard subscription. If this
 /// value is <code>PENDING_EXPIRATION</code>, your subscription is scheduled to
 /// expire at the end of the current calendar month.
+///
+/// @nodoc
 class DeliverabilityDashboardAccountStatus {
   static const active = DeliverabilityDashboardAccountStatus._('ACTIVE');
   static const pendingExpiration =
@@ -14722,6 +15196,8 @@ class DeliverabilityDashboardAccountStatus {
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dedicated-ip-case.html">Requesting
 /// and Relinquishing Dedicated IP Addresses</a> in the <i>Amazon SES Developer
 /// Guide</i>.
+///
+/// @nodoc
 class DedicatedIp {
   /// An IPv4 address.
   final String ip;
@@ -14797,6 +15273,8 @@ class DedicatedIp {
 }
 
 /// The warmup status of a dedicated IP.
+///
+/// @nodoc
 class WarmupStatus {
   static const inProgress = WarmupStatus._('IN_PROGRESS');
   static const done = WarmupStatus._('DONE');
@@ -14822,6 +15300,8 @@ class WarmupStatus {
 }
 
 /// Contains information about a dedicated IP pool.
+///
+/// @nodoc
 class DedicatedIpPool {
   /// The name of the dedicated IP pool.
   final String poolName;
@@ -14869,6 +15349,8 @@ class DedicatedIpPool {
 /// to. For example, you can send event data to Amazon SNS to receive
 /// notifications when you receive bounces or complaints, or you can use Amazon
 /// Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+///
+/// @nodoc
 class EventDestination {
   /// The types of events that Amazon SES sends to the specified event
   /// destinations.
@@ -15046,6 +15528,8 @@ class EventDestination {
 /// These images and links include references to a domain operated by Amazon Web
 /// Services. You can optionally configure the Amazon SES to use a domain that
 /// you operate for these images and links.
+///
+/// @nodoc
 class TrackingOptions {
   /// The domain to use for tracking open and click events.
   final String customRedirectDomain;
@@ -15077,6 +15561,8 @@ class TrackingOptions {
 }
 
 /// Used to associate a configuration set with a dedicated IP pool.
+///
+/// @nodoc
 class DeliveryOptions {
   /// The maximum amount of time, in seconds, that Amazon SES API v2 will attempt
   /// delivery of email. If specified, the value must greater than or equal to 300
@@ -15121,6 +15607,8 @@ class DeliveryOptions {
 
 /// Enable or disable collection of reputation metrics for emails that you send
 /// using this configuration set in the current Amazon Web Services Region.
+///
+/// @nodoc
 class ReputationOptions {
   /// The date and time (in Unix time) when the reputation metrics were last given
   /// a fresh start. When your account is given a fresh start, your reputation
@@ -15158,6 +15646,8 @@ class ReputationOptions {
 
 /// Used to enable or disable email sending for messages that use this
 /// configuration set in the current Amazon Web Services Region.
+///
+/// @nodoc
 class SendingOptions {
   /// If <code>true</code>, email sending is enabled for the configuration set. If
   /// <code>false</code>, email sending is disabled for the configuration set.
@@ -15183,6 +15673,8 @@ class SendingOptions {
 
 /// An object that contains information about the suppression list preferences
 /// for your account or for a specific tenant.
+///
+/// @nodoc
 class SuppressionOptions {
   /// A list that contains the reasons that email addresses are automatically
   /// added to the suppression list for your account or for a specific tenant.
@@ -15252,6 +15744,8 @@ class SuppressionOptions {
 }
 
 /// Used to associate a configuration set with a MailManager archive.
+///
+/// @nodoc
 class ArchivingOptions {
   /// The Amazon Resource Name (ARN) of the MailManager archive where the Amazon
   /// SES API v2 will archive sent emails.
@@ -15277,6 +15771,8 @@ class ArchivingOptions {
 
 /// An object that contains information about a blacklisting event that impacts
 /// one of the dedicated IP addresses that is associated with your account.
+///
+/// @nodoc
 class BlacklistEntry {
   /// Additional information about the blacklisting event, as provided by the
   /// blacklist maintainer.
@@ -15317,6 +15813,8 @@ class BlacklistEntry {
 /// An object that contains information about the per-day and per-second sending
 /// limits for your Amazon SES account in the current Amazon Web Services
 /// Region.
+///
+/// @nodoc
 class SendQuota {
   /// The maximum number of emails that you can send in the current Amazon Web
   /// Services Region over a 24-hour period. A value of -1 signifies an unlimited
@@ -15360,6 +15858,8 @@ class SendQuota {
 
 /// An object that contains information about the email address suppression
 /// preferences for your account in the current Amazon Web Services Region.
+///
+/// @nodoc
 class SuppressionAttributes {
   /// A list that contains the reasons that email addresses will be automatically
   /// added to the suppression list for your account. This list can contain any or
@@ -15411,6 +15911,8 @@ class SuppressionAttributes {
 }
 
 /// An object that contains information about your account details.
+///
+/// @nodoc
 class AccountDetails {
   /// Additional email addresses where updates are sent about your account review
   /// process.
@@ -15494,6 +15996,8 @@ class AccountDetails {
 }
 
 /// An object that contains information about your account details review.
+///
+/// @nodoc
 class ReviewDetails {
   /// The associated support center case ID (if any).
   final String? caseId;
@@ -15543,6 +16047,7 @@ class ReviewDetails {
   }
 }
 
+/// @nodoc
 class ReviewStatus {
   static const pending = ReviewStatus._('PENDING');
   static const failed = ReviewStatus._('FAILED');
@@ -15570,6 +16075,8 @@ class ReviewStatus {
 
 /// An object that contains configuration details of multi-region endpoint
 /// (global-endpoint).
+///
+/// @nodoc
 class Details {
   /// A list of route configuration details. Must contain exactly one route
   /// configuration.
@@ -15588,6 +16095,8 @@ class Details {
 }
 
 /// An object that contains route configuration. Includes secondary region name.
+///
+/// @nodoc
 class RouteDetails {
   /// The name of an AWS-Region to be a secondary region for the multi-region
   /// endpoint (global-endpoint).
@@ -15607,6 +16116,8 @@ class RouteDetails {
 
 /// An error corresponding to the unsuccessful processing of a single metric
 /// data query.
+///
+/// @nodoc
 class MetricDataError {
   /// The query error code. Can be one of:
   ///
@@ -15654,6 +16165,7 @@ class MetricDataError {
   }
 }
 
+/// @nodoc
 class QueryErrorCode {
   static const internalFailure = QueryErrorCode._('INTERNAL_FAILURE');
   static const accessDenied = QueryErrorCode._('ACCESS_DENIED');
@@ -15679,6 +16191,8 @@ class QueryErrorCode {
 }
 
 /// The result of a single metric data query.
+///
+/// @nodoc
 class MetricDataResult {
   /// The query identifier.
   final String? id;
@@ -15720,6 +16234,8 @@ class MetricDataResult {
 }
 
 /// Represents a single metric data query to include in a batch.
+///
+/// @nodoc
 class BatchGetMetricDataQuery {
   /// Represents the end date for the query interval.
   final DateTime endDate;
@@ -15823,21 +16339,25 @@ class BatchGetMetricDataQuery {
   }
 }
 
+/// @nodoc
 class AccountSuspendedException extends _s.GenericAwsException {
   AccountSuspendedException({String? type, String? message})
       : super(type: type, code: 'AccountSuspendedException', message: message);
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -15846,11 +16366,13 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -15859,16 +16381,19 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
   MailFromDomainNotVerifiedException({String? type, String? message})
       : super(
@@ -15877,21 +16402,25 @@ class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MessageRejected extends _s.GenericAwsException {
   MessageRejected({String? type, String? message})
       : super(type: type, code: 'MessageRejected', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class SendingPausedException extends _s.GenericAwsException {
   SendingPausedException({String? type, String? message})
       : super(type: type, code: 'SendingPausedException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

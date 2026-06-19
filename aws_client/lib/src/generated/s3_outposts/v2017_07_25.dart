@@ -325,6 +325,7 @@ class S3Outposts {
   }
 }
 
+/// @nodoc
 class CreateEndpointResult {
   /// The Amazon Resource Name (ARN) of the endpoint.
   final String? endpointArn;
@@ -347,6 +348,7 @@ class CreateEndpointResult {
   }
 }
 
+/// @nodoc
 class ListEndpointsResult {
   /// The list of endpoints associated with the specified Outpost.
   final List<Endpoint>? endpoints;
@@ -381,6 +383,7 @@ class ListEndpointsResult {
   }
 }
 
+/// @nodoc
 class ListOutpostsWithS3Result {
   /// Returns a token that you can use to call <code>ListOutpostsWithS3</code>
   /// again and receive additional results, if there are any.
@@ -427,6 +430,7 @@ class ListOutpostsWithS3Result {
   }
 }
 
+/// @nodoc
 class ListSharedEndpointsResult {
   /// The list of endpoints associated with the specified Outpost that have been
   /// shared by Amazon Web Services Resource Access Manager (RAM).
@@ -469,6 +473,8 @@ class ListSharedEndpointsResult {
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/WorkingWithS3Outposts.html">
 /// Accessing S3 on Outposts using VPC-only access points</a> in the <i>Amazon
 /// Simple Storage Service User Guide</i>.
+///
+/// @nodoc
 class Endpoint {
   /// The type of connectivity used to access the Amazon S3 on Outposts endpoint.
   final EndpointAccessType? accessType;
@@ -576,6 +582,7 @@ class Endpoint {
   }
 }
 
+/// @nodoc
 class EndpointStatus {
   static const pending = EndpointStatus._('Pending');
   static const available = EndpointStatus._('Available');
@@ -609,6 +616,7 @@ class EndpointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointAccessType {
   static const private = EndpointAccessType._('Private');
   static const customerOwnedIp = EndpointAccessType._('CustomerOwnedIp');
@@ -635,6 +643,8 @@ class EndpointAccessType {
 }
 
 /// The failure reason, if any, for a create or delete endpoint operation.
+///
+/// @nodoc
 class FailedReason {
   /// The failure code, if any, for a create or delete endpoint operation.
   final String? errorCode;
@@ -666,6 +676,8 @@ class FailedReason {
 }
 
 /// The container for the network interface.
+///
+/// @nodoc
 class NetworkInterface {
   /// The ID for the network interface.
   final String? networkInterfaceId;
@@ -689,6 +701,8 @@ class NetworkInterface {
 }
 
 /// Contains the details for the Outpost object.
+///
+/// @nodoc
 class Outpost {
   /// The Amazon S3 capacity of the outpost in bytes.
   final int? capacityInBytes;
@@ -741,36 +755,43 @@ class Outpost {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class OutpostOfflineException extends _s.GenericAwsException {
   OutpostOfflineException({String? type, String? message})
       : super(type: type, code: 'OutpostOfflineException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1257,6 +1257,7 @@ class DevOpsGuru {
   }
 }
 
+/// @nodoc
 class AddNotificationChannelResponse {
   /// The ID of the added notification channel.
   final String id;
@@ -1279,6 +1280,7 @@ class AddNotificationChannelResponse {
   }
 }
 
+/// @nodoc
 class DeleteInsightResponse {
   DeleteInsightResponse();
 
@@ -1291,6 +1293,7 @@ class DeleteInsightResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountHealthResponse {
   /// An integer that specifies the number of metrics that have been analyzed in
   /// your Amazon Web Services account.
@@ -1347,6 +1350,7 @@ class DescribeAccountHealthResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountOverviewResponse {
   /// The Mean Time to Recover (MTTR) for all closed insights that were created
   /// during the time range passed in.
@@ -1390,6 +1394,7 @@ class DescribeAccountOverviewResponse {
   }
 }
 
+/// @nodoc
 class DescribeAnomalyResponse {
   /// A <code>ProactiveAnomaly</code> object that represents the requested
   /// anomaly.
@@ -1426,6 +1431,7 @@ class DescribeAnomalyResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventSourcesConfigResponse {
   /// Lists the event sources in the configuration.
   final EventSourcesConfig? eventSources;
@@ -1452,6 +1458,7 @@ class DescribeEventSourcesConfigResponse {
   }
 }
 
+/// @nodoc
 class DescribeFeedbackResponse {
   final InsightFeedback? insightFeedback;
 
@@ -1476,6 +1483,7 @@ class DescribeFeedbackResponse {
   }
 }
 
+/// @nodoc
 class DescribeInsightResponse {
   /// A <code>ProactiveInsight</code> object that represents the requested
   /// insight.
@@ -1512,6 +1520,7 @@ class DescribeInsightResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationHealthResponse {
   /// An integer that specifies the number of metrics that have been analyzed in
   /// your organization.
@@ -1560,6 +1569,7 @@ class DescribeOrganizationHealthResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationOverviewResponse {
   /// An integer that specifies the number of open proactive insights in your
   /// Amazon Web Services account.
@@ -1592,6 +1602,7 @@ class DescribeOrganizationOverviewResponse {
   }
 }
 
+/// @nodoc
 class DescribeOrganizationResourceCollectionHealthResponse {
   /// The name of the organization's account.
   final List<AccountHealth>? account;
@@ -1697,6 +1708,7 @@ class DescribeOrganizationResourceCollectionHealthResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourceCollectionHealthResponse {
   /// The returned <code>CloudFormationHealthOverview</code> object that contains
   /// an <code>InsightHealthOverview</code> object with the requested system
@@ -1795,6 +1807,7 @@ class DescribeResourceCollectionHealthResponse {
   }
 }
 
+/// @nodoc
 class DescribeServiceIntegrationResponse {
   final ServiceIntegrationConfig? serviceIntegration;
 
@@ -1820,6 +1833,7 @@ class DescribeServiceIntegrationResponse {
   }
 }
 
+/// @nodoc
 class GetCostEstimationResponse {
   /// An array of <code>ResourceCost</code> objects that each contains details
   /// about the monthly cost estimate to analyze one of your Amazon Web Services
@@ -1894,6 +1908,7 @@ class GetCostEstimationResponse {
   }
 }
 
+/// @nodoc
 class GetResourceCollectionResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -1933,6 +1948,7 @@ class GetResourceCollectionResponse {
   }
 }
 
+/// @nodoc
 class ListAnomaliesForInsightResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -1980,6 +1996,7 @@ class ListAnomaliesForInsightResponse {
   }
 }
 
+/// @nodoc
 class ListAnomalousLogGroupsResponse {
   /// The list of Amazon CloudWatch log groups that are related to an insight.
   final List<AnomalousLogGroup> anomalousLogGroups;
@@ -2020,6 +2037,7 @@ class ListAnomalousLogGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListEventsResponse {
   /// A list of the requested events.
   final List<Event> events;
@@ -2053,6 +2071,7 @@ class ListEventsResponse {
   }
 }
 
+/// @nodoc
 class ListInsightsResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -2098,6 +2117,7 @@ class ListInsightsResponse {
   }
 }
 
+/// @nodoc
 class ListMonitoredResourcesResponse {
   /// Information about the resource that is being monitored, including the name
   /// of the resource, the type of resource, and whether or not permission is
@@ -2136,6 +2156,7 @@ class ListMonitoredResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListNotificationChannelsResponse {
   /// An array that contains the requested notification channels.
   final List<NotificationChannel>? channels;
@@ -2169,6 +2190,7 @@ class ListNotificationChannelsResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationInsightsResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -2216,6 +2238,7 @@ class ListOrganizationInsightsResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationsResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -2249,6 +2272,7 @@ class ListRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class PutFeedbackResponse {
   PutFeedbackResponse();
 
@@ -2261,6 +2285,7 @@ class PutFeedbackResponse {
   }
 }
 
+/// @nodoc
 class RemoveNotificationChannelResponse {
   RemoveNotificationChannelResponse();
 
@@ -2273,6 +2298,7 @@ class RemoveNotificationChannelResponse {
   }
 }
 
+/// @nodoc
 class SearchInsightsResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -2318,6 +2344,7 @@ class SearchInsightsResponse {
   }
 }
 
+/// @nodoc
 class SearchOrganizationInsightsResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -2366,6 +2393,7 @@ class SearchOrganizationInsightsResponse {
   }
 }
 
+/// @nodoc
 class StartCostEstimationResponse {
   StartCostEstimationResponse();
 
@@ -2378,6 +2406,7 @@ class StartCostEstimationResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventSourcesConfigResponse {
   UpdateEventSourcesConfigResponse();
 
@@ -2390,6 +2419,7 @@ class UpdateEventSourcesConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceCollectionResponse {
   UpdateResourceCollectionResponse();
 
@@ -2402,6 +2432,7 @@ class UpdateResourceCollectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceIntegrationResponse {
   UpdateServiceIntegrationResponse();
 
@@ -2416,6 +2447,8 @@ class UpdateServiceIntegrationResponse {
 
 /// Information about updating the integration status of an Amazon Web Services
 /// service, such as Amazon Web Services Systems Manager, with DevOps Guru.
+///
+/// @nodoc
 class UpdateServiceIntegrationConfig {
   /// Information about whether DevOps Guru is configured to encrypt server-side
   /// data using KMS.
@@ -2449,6 +2482,8 @@ class UpdateServiceIntegrationConfig {
 /// Information about whether DevOps Guru is configured to create an OpsItem in
 /// Amazon Web Services Systems Manager OpsCenter for each created insight. You
 /// can use this to update the configuration.
+///
+/// @nodoc
 class OpsCenterIntegrationConfig {
   /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
   /// Manager OpsItem for each created insight.
@@ -2468,6 +2503,8 @@ class OpsCenterIntegrationConfig {
 
 /// Information about the integration of DevOps Guru with CloudWatch log groups
 /// for log anomaly detection. You can use this to update the configuration.
+///
+/// @nodoc
 class LogsAnomalyDetectionIntegrationConfig {
   /// Specifies if DevOps Guru is configured to perform log anomaly detection on
   /// CloudWatch log groups.
@@ -2487,6 +2524,8 @@ class LogsAnomalyDetectionIntegrationConfig {
 
 /// Information about whether DevOps Guru is configured to encrypt server-side
 /// data using KMS.
+///
+/// @nodoc
 class KMSServerSideEncryptionIntegrationConfig {
   /// Describes the specified KMS key.
   ///
@@ -2538,6 +2577,8 @@ class KMSServerSideEncryptionIntegrationConfig {
 
 /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
 /// Manager OpsItem for each created insight.
+///
+/// @nodoc
 class OptInStatus {
   static const enabled = OptInStatus._('ENABLED');
   static const disabled = OptInStatus._('DISABLED');
@@ -2561,6 +2602,7 @@ class OptInStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ServerSideEncryptionType {
   static const customerManagedKey =
       ServerSideEncryptionType._('CUSTOMER_MANAGED_KEY');
@@ -2587,6 +2629,7 @@ class ServerSideEncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateResourceCollectionAction {
   static const add = UpdateResourceCollectionAction._('ADD');
   static const remove = UpdateResourceCollectionAction._('REMOVE');
@@ -2614,6 +2657,8 @@ class UpdateResourceCollectionAction {
 
 /// Contains information used to update a collection of Amazon Web Services
 /// resources.
+///
+/// @nodoc
 class UpdateResourceCollectionFilter {
   /// A collection of Amazon Web Services CloudFormation stacks. You can specify
   /// up to 500 Amazon Web Services CloudFormation stacks.
@@ -2680,6 +2725,8 @@ class UpdateResourceCollectionFilter {
 /// Contains the names of Amazon Web Services CloudFormation stacks used to
 /// update a collection of stacks. You can specify up to 500 Amazon Web Services
 /// CloudFormation stacks.
+///
+/// @nodoc
 class UpdateCloudFormationCollectionFilter {
   /// An array of the names of the Amazon Web Services CloudFormation stacks to
   /// update. You can specify up to 500 Amazon Web Services CloudFormation stacks.
@@ -2699,6 +2746,8 @@ class UpdateCloudFormationCollectionFilter {
 
 /// A new collection of Amazon Web Services resources that are defined by an
 /// Amazon Web Services tag or tag <i>key</i>/<i>value</i> pair.
+///
+/// @nodoc
 class UpdateTagCollectionFilter {
   /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
   /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
@@ -2746,6 +2795,8 @@ class UpdateTagCollectionFilter {
 
 /// Information about the integration of DevOps Guru as consumer with another
 /// AWS service, such as AWS CodeGuru Profiler via EventBridge.
+///
+/// @nodoc
 class EventSourcesConfig {
   /// Information about whether DevOps Guru is configured to consume
   /// recommendations which are generated from AWS CodeGuru Profiler.
@@ -2776,6 +2827,8 @@ class EventSourcesConfig {
 /// Information about your account's integration with Amazon CodeGuru Profiler.
 /// This returns whether DevOps Guru is configured to consume recommendations
 /// generated from Amazon CodeGuru Profiler.
+///
+/// @nodoc
 class AmazonCodeGuruProfilerIntegration {
   /// The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is
   /// enabled to consume recommendations that are generated from Amazon CodeGuru
@@ -2802,6 +2855,7 @@ class AmazonCodeGuruProfilerIntegration {
   }
 }
 
+/// @nodoc
 class EventSourceOptInStatus {
   static const enabled = EventSourceOptInStatus._('ENABLED');
   static const disabled = EventSourceOptInStatus._('DISABLED');
@@ -2834,6 +2888,8 @@ class EventSourceOptInStatus {
 /// your Amazon DevOps Guru costs</a> and <a
 /// href="http://aws.amazon.com/devops-guru/pricing/">Amazon DevOps Guru
 /// pricing</a>.
+///
+/// @nodoc
 class CostEstimationResourceCollectionFilter {
   /// An object that specifies the CloudFormation stack that defines the Amazon
   /// Web Services resources used to create a monthly estimate for DevOps Guru.
@@ -2919,6 +2975,8 @@ class CostEstimationResourceCollectionFilter {
 /// Services resources defined by the stack. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
 /// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+///
+/// @nodoc
 class CloudFormationCostEstimationResourceCollectionFilter {
   /// An array of CloudFormation stack names. Its size is fixed at 1 item.
   final List<String>? stackNames;
@@ -2953,6 +3011,8 @@ class CloudFormationCostEstimationResourceCollectionFilter {
 /// Web Services resources defined by the tag. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
 /// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+///
+/// @nodoc
 class TagCostEstimationResourceCollectionFilter {
   /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
   /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
@@ -3011,6 +3071,8 @@ class TagCostEstimationResourceCollectionFilter {
 
 /// Information about a reactive insight. This object is returned by
 /// <code>DescribeInsight.</code>
+///
+/// @nodoc
 class ReactiveInsightSummary {
   /// The Amazon Resource Names (ARNs) of the Amazon Web Services resources that
   /// generated this insight.
@@ -3094,6 +3156,7 @@ class ReactiveInsightSummary {
   }
 }
 
+/// @nodoc
 class InsightSeverity {
   static const low = InsightSeverity._('LOW');
   static const medium = InsightSeverity._('MEDIUM');
@@ -3119,6 +3182,7 @@ class InsightSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class InsightStatus {
   static const ongoing = InsightStatus._('ONGOING');
   static const closed = InsightStatus._('CLOSED');
@@ -3145,6 +3209,8 @@ class InsightStatus {
 
 /// A time ranged that specifies when the observed behavior in an insight
 /// started and ended.
+///
+/// @nodoc
 class InsightTimeRange {
   /// The time when the behavior described in an insight started.
   final DateTime startTime;
@@ -3181,6 +3247,8 @@ class InsightTimeRange {
 /// analyze the Amazon Web Services resources that are defined in the stacks or
 /// that are tagged using the same tag <i>key</i>. You can specify up to 500
 /// Amazon Web Services CloudFormation stacks.
+///
+/// @nodoc
 class ResourceCollection {
   /// An array of the names of Amazon Web Services CloudFormation stacks. The
   /// stacks define Amazon Web Services resources that DevOps Guru analyzes. You
@@ -3259,6 +3327,8 @@ class ResourceCollection {
 }
 
 /// A collection of the names of Amazon Web Services services.
+///
+/// @nodoc
 class ServiceCollection {
   /// An array of strings that each specifies the name of an Amazon Web Services
   /// service.
@@ -3286,6 +3356,7 @@ class ServiceCollection {
   }
 }
 
+/// @nodoc
 class ServiceName {
   static const apiGateway = ServiceName._('API_GATEWAY');
   static const applicationElb = ServiceName._('APPLICATION_ELB');
@@ -3363,6 +3434,8 @@ class ServiceName {
 /// to analyze. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
 /// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+///
+/// @nodoc
 class CloudFormationCollection {
   /// An array of CloudFormation stack names.
   final List<String>? stackNames;
@@ -3428,6 +3501,8 @@ class CloudFormationCollection {
 /// <code>Devops-Guru-production-application/RDS</code> or
 /// <code>Devops-Guru-production-application/containers</code>.
 /// </important>
+///
+/// @nodoc
 class TagCollection {
   /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
   /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
@@ -3485,6 +3560,8 @@ class TagCollection {
 
 /// Details about a proactive insight. This object is returned by
 /// <code>DescribeInsight.</code>
+///
+/// @nodoc
 class ProactiveInsightSummary {
   /// The Amazon Resource Names (ARNs) of the Amazon Web Services resources that
   /// generated this insight.
@@ -3579,6 +3656,8 @@ class ProactiveInsightSummary {
 
 /// The time range during which anomalous behavior in a proactive anomaly or an
 /// insight is expected to occur.
+///
+/// @nodoc
 class PredictionTimeRange {
   /// The time range during which a metric limit is expected to be exceeded. This
   /// applies to proactive insights only.
@@ -3611,6 +3690,8 @@ class PredictionTimeRange {
 
 /// A time range used to specify when the behavior of an insight or anomaly
 /// started.
+///
+/// @nodoc
 class StartTimeRange {
   /// The start time of the time range.
   final DateTime? fromTime;
@@ -3635,6 +3716,8 @@ class StartTimeRange {
 
 /// Filters you can use to specify which events are returned when
 /// <code>ListEvents</code> is called.
+///
+/// @nodoc
 class SearchOrganizationInsightsFilters {
   final ResourceCollection? resourceCollection;
   final ServiceCollection? serviceCollection;
@@ -3667,6 +3750,7 @@ class SearchOrganizationInsightsFilters {
   }
 }
 
+/// @nodoc
 class InsightType {
   static const reactive = InsightType._('REACTIVE');
   static const proactive = InsightType._('PROACTIVE');
@@ -3696,6 +3780,8 @@ class InsightType {
 /// contains one or more values to search for. If you specify multiple filter
 /// types, the filter types are joined with an <code>AND</code>, and the request
 /// returns only results that match all of the specified filters.
+///
+/// @nodoc
 class SearchInsightsFilters {
   final ResourceCollection? resourceCollection;
 
@@ -3731,6 +3817,8 @@ class SearchInsightsFilters {
 }
 
 /// Information about insight feedback received from a customer.
+///
+/// @nodoc
 class InsightFeedback {
   /// The feedback provided by the customer.
   final InsightFeedbackOption? feedback;
@@ -3761,6 +3849,7 @@ class InsightFeedback {
   }
 }
 
+/// @nodoc
 class InsightFeedbackOption {
   static const validCollection = InsightFeedbackOption._('VALID_COLLECTION');
   static const recommendationUseful =
@@ -3799,6 +3888,8 @@ class InsightFeedbackOption {
 
 /// Recommendation information to help you remediate detected anomalous behavior
 /// that generated an insight.
+///
+/// @nodoc
 class Recommendation {
   /// The category type of the recommendation.
   final String? category;
@@ -3874,6 +3965,8 @@ class Recommendation {
 }
 
 /// Information about an anomaly that is related to a recommendation.
+///
+/// @nodoc
 class RecommendationRelatedAnomaly {
   /// The ID of an anomaly that generated the insight with this recommendation.
   final String? anomalyId;
@@ -3923,6 +4016,8 @@ class RecommendationRelatedAnomaly {
 /// Contains an array of
 /// <code>RecommendationRelatedCloudWatchMetricsSourceDetail</code> objects that
 /// contain the name and namespace of an Amazon CloudWatch metric.
+///
+/// @nodoc
 class RecommendationRelatedAnomalySourceDetail {
   /// An array of <code>CloudWatchMetricsDetail</code> objects that contains
   /// information about the analyzed metrics that displayed anomalous behavior.
@@ -3955,6 +4050,8 @@ class RecommendationRelatedAnomalySourceDetail {
 
 /// Information about an Amazon CloudWatch metric that is analyzed by DevOps
 /// Guru. It is one of many analyzed metrics that are used to generate insights.
+///
+/// @nodoc
 class RecommendationRelatedCloudWatchMetricsSourceDetail {
   /// The name of the CloudWatch metric.
   final String? metricName;
@@ -3988,6 +4085,8 @@ class RecommendationRelatedCloudWatchMetricsSourceDetail {
 
 /// Information about a resource in which DevOps Guru detected anomalous
 /// behavior.
+///
+/// @nodoc
 class RecommendationRelatedAnomalyResource {
   /// The name of the resource.
   final String? name;
@@ -4025,6 +4124,8 @@ class RecommendationRelatedAnomalyResource {
 }
 
 /// Information about an event that is related to a recommendation.
+///
+/// @nodoc
 class RecommendationRelatedEvent {
   /// The name of the event. This corresponds to the <code>Name</code> field in an
   /// <code>Event</code> object.
@@ -4063,6 +4164,8 @@ class RecommendationRelatedEvent {
 
 /// Information about an Amazon Web Services resource that emitted and event
 /// that is related to a recommendation in an insight.
+///
+/// @nodoc
 class RecommendationRelatedEventResource {
   /// The name of the resource that emitted the event. This corresponds to the
   /// <code>Name</code> field in an <code>EventResource</code> object.
@@ -4095,6 +4198,7 @@ class RecommendationRelatedEventResource {
   }
 }
 
+/// @nodoc
 class Locale {
   static const deDe = Locale._('DE_DE');
   static const enUs = Locale._('EN_US');
@@ -4141,6 +4245,8 @@ class Locale {
 
 /// Information about a reactive insight. This object is returned by
 /// <code>DescribeInsight</code>.
+///
+/// @nodoc
 class ReactiveOrganizationInsightSummary {
   /// The ID of the Amazon Web Services account.
   final String? accountId;
@@ -4229,6 +4335,8 @@ class ReactiveOrganizationInsightSummary {
 
 /// Details about a proactive insight. This object is returned by
 /// <code>DescribeInsight</code>.
+///
+/// @nodoc
 class ProactiveOrganizationInsightSummary {
   /// The ID of the Amazon Web Services account.
   final String? accountId;
@@ -4326,6 +4434,8 @@ class ProactiveOrganizationInsightSummary {
 
 /// A filter used by <code>ListInsights</code> to specify which insights to
 /// return.
+///
+/// @nodoc
 class ListInsightsStatusFilter {
   /// A <code>ListInsightsAnyStatusFilter</code> that specifies insights of any
   /// status that are either <code>REACTIVE</code> or <code>PROACTIVE</code>.
@@ -4358,6 +4468,8 @@ class ListInsightsStatusFilter {
 }
 
 /// Used to filter for insights that have the status <code>ONGOING</code>.
+///
+/// @nodoc
 class ListInsightsOngoingStatusFilter {
   /// Use to filter for either <code>REACTIVE</code> or <code>PROACTIVE</code>
   /// insights.
@@ -4376,6 +4488,8 @@ class ListInsightsOngoingStatusFilter {
 }
 
 /// Used to filter for insights that have the status <code>CLOSED</code>.
+///
+/// @nodoc
 class ListInsightsClosedStatusFilter {
   /// A time range used to specify when the behavior of the filtered insights
   /// ended.
@@ -4401,6 +4515,8 @@ class ListInsightsClosedStatusFilter {
 }
 
 /// Used to filter for insights that have any status.
+///
+/// @nodoc
 class ListInsightsAnyStatusFilter {
   /// A time range used to specify when the behavior of the filtered insights
   /// started.
@@ -4427,6 +4543,8 @@ class ListInsightsAnyStatusFilter {
 
 /// A range of time that specifies when anomalous behavior in an anomaly or
 /// insight ended.
+///
+/// @nodoc
 class EndTimeRange {
   /// The earliest end time in the time range.
   final DateTime? fromTime;
@@ -4466,6 +4584,8 @@ class EndTimeRange {
 /// permissions to the CMK. For more information, see <a
 /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html">Permissions
 /// for Amazon Web Services KMS–encrypted Amazon SNS topics</a>.
+///
+/// @nodoc
 class NotificationChannel {
   /// A <code>NotificationChannelConfig</code> object that contains information
   /// about configured notification channels.
@@ -4502,6 +4622,8 @@ class NotificationChannel {
 /// Information about notification channels you have configured with DevOps
 /// Guru. The one supported notification channel is Amazon Simple Notification
 /// Service (Amazon SNS).
+///
+/// @nodoc
 class NotificationChannelConfig {
   /// Information about a notification channel configured in DevOps Guru to send
   /// notifications when insights are created.
@@ -4569,6 +4691,8 @@ class NotificationChannelConfig {
 /// permissions to the CMK. For more information, see <a
 /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html">Permissions
 /// for Amazon Web Services KMS–encrypted Amazon SNS topics</a>.
+///
+/// @nodoc
 class SnsChannelConfig {
   /// The Amazon Resource Name (ARN) of an Amazon Simple Notification Service
   /// topic.
@@ -4596,6 +4720,8 @@ class SnsChannelConfig {
 /// DevOps Guru. You can choose to specify which events or message types to
 /// receive notifications for. You can also choose to specify which severity
 /// levels to receive notifications for.
+///
+/// @nodoc
 class NotificationFilterConfig {
   /// The events that you want to receive notifications for. For example, you can
   /// choose to receive notifications only when the severity level is upgraded or
@@ -4640,6 +4766,7 @@ class NotificationFilterConfig {
   }
 }
 
+/// @nodoc
 class NotificationMessageType {
   static const newInsight = NotificationMessageType._('NEW_INSIGHT');
   static const closedInsight = NotificationMessageType._('CLOSED_INSIGHT');
@@ -4679,6 +4806,8 @@ class NotificationMessageType {
 /// Information about the resource that is being monitored, including the name
 /// of the resource, the type of resource, and whether or not permission is
 /// given to DevOps Guru to access that resource.
+///
+/// @nodoc
 class MonitoredResourceIdentifier {
   /// The time at which DevOps Guru last updated this resource.
   final DateTime? lastUpdated;
@@ -4733,6 +4862,7 @@ class MonitoredResourceIdentifier {
   }
 }
 
+/// @nodoc
 class ResourcePermission {
   static const fullPermission = ResourcePermission._('FULL_PERMISSION');
   static const missingPermission = ResourcePermission._('MISSING_PERMISSION');
@@ -4760,6 +4890,8 @@ class ResourcePermission {
 
 /// Filters to determine which monitored resources you want to retrieve. You can
 /// filter by resource type or resource permission status.
+///
+/// @nodoc
 class ListMonitoredResourcesFilters {
   /// The permission status of a resource.
   final ResourcePermission resourcePermission;
@@ -4782,6 +4914,7 @@ class ListMonitoredResourcesFilters {
   }
 }
 
+/// @nodoc
 class ResourceTypeFilter {
   static const logGroups = ResourceTypeFilter._('LOG_GROUPS');
   static const cloudfrontDistribution =
@@ -4874,6 +5007,8 @@ class ResourceTypeFilter {
 /// An Amazon Web Services resource event. Amazon Web Services resource events
 /// and metrics are analyzed by DevOps Guru to find anomalous behavior and
 /// provide recommendations to improve your operational solutions.
+///
+/// @nodoc
 class Event {
   /// The source, <code>AWS_CLOUD_TRAIL</code> or <code>AWS_CODE_DEPLOY</code>,
   /// where DevOps Guru analysis found the event.
@@ -4953,6 +5088,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class EventDataSource {
   static const awsCloudTrail = EventDataSource._('AWS_CLOUD_TRAIL');
   static const awsCodeDeploy = EventDataSource._('AWS_CODE_DEPLOY');
@@ -4977,6 +5113,7 @@ class EventDataSource {
   String toString() => value;
 }
 
+/// @nodoc
 class EventClass {
   static const infrastructure = EventClass._('INFRASTRUCTURE');
   static const deployment = EventClass._('DEPLOYMENT');
@@ -5012,6 +5149,8 @@ class EventClass {
 /// The Amazon Web Services resource that emitted an event. Amazon Web Services
 /// resource events and metrics are analyzed by DevOps Guru to find anomalous
 /// behavior and provide recommendations to improve your operational solutions.
+///
+/// @nodoc
 class EventResource {
   /// The Amazon Resource Name (ARN) of the resource that emitted an event.
   final String? arn;
@@ -5050,6 +5189,8 @@ class EventResource {
 
 /// Filters you can use to specify which events are returned when
 /// <code>ListEvents</code> is called.
+///
+/// @nodoc
 class ListEventsFilters {
   /// The source, <code>AWS_CLOUD_TRAIL</code> or <code>AWS_CODE_DEPLOY</code>, of
   /// the events you want returned.
@@ -5101,6 +5242,8 @@ class ListEventsFilters {
 /// Web Services resource events and metrics are analyzed by DevOps Guru to find
 /// anomalous behavior and provide recommendations to improve your operational
 /// solutions.
+///
+/// @nodoc
 class EventTimeRange {
   /// The time when the event started.
   final DateTime fromTime;
@@ -5125,6 +5268,8 @@ class EventTimeRange {
 
 /// An Amazon CloudWatch log group that contains log anomalies and is used to
 /// generate an insight.
+///
+/// @nodoc
 class AnomalousLogGroup {
   /// The time the anomalous log events stopped.
   final DateTime? impactEndTime;
@@ -5185,6 +5330,8 @@ class AnomalousLogGroup {
 }
 
 /// A cluster of similar anomalous log events found within a log group.
+///
+/// @nodoc
 class LogAnomalyShowcase {
   /// A list of anomalous log events that may be related.
   final List<LogAnomalyClass>? logAnomalyClasses;
@@ -5211,6 +5358,8 @@ class LogAnomalyShowcase {
 }
 
 /// Information about an anomalous log event found within a log group.
+///
+/// @nodoc
 class LogAnomalyClass {
   /// The explanation for why the log event is considered an anomaly.
   final String? explanation;
@@ -5282,6 +5431,7 @@ class LogAnomalyClass {
   }
 }
 
+/// @nodoc
 class LogAnomalyType {
   static const keyword = LogAnomalyType._('KEYWORD');
   static const keywordToken = LogAnomalyType._('KEYWORD_TOKEN');
@@ -5323,6 +5473,8 @@ class LogAnomalyType {
 
 /// Details about a reactive anomaly. This object is returned by
 /// <code>DescribeAnomaly.</code>
+///
+/// @nodoc
 class ReactiveAnomalySummary {
   /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
   /// range between when the anomaly is opened and the time when it is closed.
@@ -5460,6 +5612,7 @@ class ReactiveAnomalySummary {
   }
 }
 
+/// @nodoc
 class AnomalySeverity {
   static const low = AnomalySeverity._('LOW');
   static const medium = AnomalySeverity._('MEDIUM');
@@ -5485,6 +5638,7 @@ class AnomalySeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class AnomalyStatus {
   static const ongoing = AnomalyStatus._('ONGOING');
   static const closed = AnomalyStatus._('CLOSED');
@@ -5513,6 +5667,8 @@ class AnomalyStatus {
 /// started and ended. This is different from
 /// <code>AnomalyReportedTimeRange</code>, which specifies the time range when
 /// DevOps Guru opens and then closes an anomaly.
+///
+/// @nodoc
 class AnomalyTimeRange {
   /// The time when the anomalous behavior started.
   final DateTime startTime;
@@ -5546,6 +5702,8 @@ class AnomalyTimeRange {
 /// anomaly. This is different from <code>AnomalyTimeRange</code>, which
 /// specifies the time range when DevOps Guru actually observes the anomalous
 /// behavior.
+///
+/// @nodoc
 class AnomalyReportedTimeRange {
   /// The time when an anomaly is opened.
   final DateTime openTime;
@@ -5577,6 +5735,8 @@ class AnomalyReportedTimeRange {
 
 /// Details about the source of the anomalous operational data that triggered
 /// the anomaly.
+///
+/// @nodoc
 class AnomalySourceDetails {
   /// An array of <code>CloudWatchMetricsDetail</code> objects that contain
   /// information about analyzed CloudWatch metrics that show anomalous behavior.
@@ -5618,6 +5778,7 @@ class AnomalySourceDetails {
   }
 }
 
+/// @nodoc
 class AnomalyType {
   static const causal = AnomalyType._('CAUSAL');
   static const contextual = AnomalyType._('CONTEXTUAL');
@@ -5646,6 +5807,8 @@ class AnomalyType {
 /// detects multiple related anomalies, it creates and insight with details
 /// about the anomalous behavior and suggestions about how to correct the
 /// problem.
+///
+/// @nodoc
 class AnomalyResource {
   /// The name of the Amazon Web Services resource.
   final String? name;
@@ -5700,6 +5863,8 @@ class AnomalyResource {
 /// Amazon RDS User Guide</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PerformanceInsightsMetricsDetail {
   /// The name used for a specific Performance Insights metric.
   final String? metricDisplayName;
@@ -5808,6 +5973,8 @@ class PerformanceInsightsMetricsDetail {
 /// Amazon RDS User Guide</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PerformanceInsightsMetricQuery {
   /// One or more filters to apply to a Performance Insights
   /// <code>GetResourceMetrics</code> API query. Restrictions:
@@ -5886,6 +6053,8 @@ class PerformanceInsightsMetricQuery {
 }
 
 /// A statistic in a Performance Insights collection.
+///
+/// @nodoc
 class PerformanceInsightsStat {
   /// The statistic type.
   final String? type;
@@ -5917,6 +6086,8 @@ class PerformanceInsightsStat {
 
 /// Reference data used to evaluate Performance Insights to determine if its
 /// performance is anomalous or not.
+///
+/// @nodoc
 class PerformanceInsightsReferenceData {
   /// The specific reference values used to evaluate the Performance Insights. For
   /// more information, see <code> <a
@@ -5956,6 +6127,8 @@ class PerformanceInsightsReferenceData {
 /// graph in its console along with the actual metrics it analyzed. Compare
 /// these reference values to your actual metrics to help you understand
 /// anomalous behavior that DevOps Guru detected.
+///
+/// @nodoc
 class PerformanceInsightsReferenceComparisonValues {
   /// A metric that DevOps Guru compares to actual metric values. This reference
   /// metric is used to determine if an actual metric should be considered
@@ -5998,6 +6171,8 @@ class PerformanceInsightsReferenceComparisonValues {
 
 /// A reference value to compare Performance Insights metrics against to
 /// determine if the metrics demonstrate anomalous behavior.
+///
+/// @nodoc
 class PerformanceInsightsReferenceScalar {
   /// The reference value.
   final double? value;
@@ -6022,6 +6197,8 @@ class PerformanceInsightsReferenceScalar {
 }
 
 /// Information about a reference metric used to evaluate Performance Insights.
+///
+/// @nodoc
 class PerformanceInsightsReferenceMetric {
   /// A query to be processed on the metric.
   final PerformanceInsightsMetricQuery? metricQuery;
@@ -6079,6 +6256,8 @@ class PerformanceInsightsReferenceMetric {
 /// Amazon RDS User Guide</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PerformanceInsightsMetricDimensionGroup {
   /// A list of specific dimensions from a dimension group. If this parameter is
   /// not present, then it signifies that all of the dimensions in the group were
@@ -6229,6 +6408,8 @@ class PerformanceInsightsMetricDimensionGroup {
 }
 
 /// Information about an Amazon CloudWatch metric.
+///
+/// @nodoc
 class CloudWatchMetricsDetail {
   /// An array of CloudWatch dimensions associated with
   final List<CloudWatchMetricsDimension>? dimensions;
@@ -6307,6 +6488,7 @@ class CloudWatchMetricsDetail {
   }
 }
 
+/// @nodoc
 class CloudWatchMetricsStat {
   static const sum = CloudWatchMetricsStat._('Sum');
   static const average = CloudWatchMetricsStat._('Average');
@@ -6349,6 +6531,8 @@ class CloudWatchMetricsStat {
 
 /// Contains information about the analyzed metrics that displayed anomalous
 /// behavior.
+///
+/// @nodoc
 class CloudWatchMetricsDataSummary {
   /// This is an enum of the status showing whether the metric value pair list has
   /// partial or complete data, or if there was an error.
@@ -6386,6 +6570,7 @@ class CloudWatchMetricsDataSummary {
   }
 }
 
+/// @nodoc
 class CloudWatchMetricDataStatusCode {
   static const complete = CloudWatchMetricDataStatusCode._('Complete');
   static const internalError =
@@ -6414,6 +6599,8 @@ class CloudWatchMetricDataStatusCode {
 }
 
 /// A pair that contains metric values at the respective timestamp.
+///
+/// @nodoc
 class TimestampMetricValuePair {
   /// Value of the anomalous metric data point at respective Timestamp.
   final double? metricValue;
@@ -6450,6 +6637,8 @@ class TimestampMetricValuePair {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Dimension">Dimensions</a>
 /// in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// @nodoc
 class CloudWatchMetricsDimension {
   /// The name of the CloudWatch dimension.
   final String? name;
@@ -6481,6 +6670,8 @@ class CloudWatchMetricsDimension {
 
 /// Details about a proactive anomaly. This object is returned by
 /// <code>DescribeAnomaly.</code>
+///
+/// @nodoc
 class ProactiveAnomalySummary {
   /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
   /// range between when the anomaly is opened and the time when it is closed.
@@ -6623,6 +6814,8 @@ class ProactiveAnomalySummary {
 
 /// Metadata about the detection source that generates proactive anomalies. The
 /// anomaly is detected using analysis of the metric data over a period of time
+///
+/// @nodoc
 class AnomalySourceMetadata {
   /// The source of the anomaly.
   final String? source;
@@ -6660,6 +6853,8 @@ class AnomalySourceMetadata {
 }
 
 /// Specifies one or more service names that are used to list anomalies.
+///
+/// @nodoc
 class ListAnomaliesForInsightFilters {
   final ServiceCollection? serviceCollection;
 
@@ -6677,6 +6872,8 @@ class ListAnomaliesForInsightFilters {
 
 /// Information about a filter used to specify which Amazon Web Services
 /// resources are analyzed for anomalous behavior by DevOps Guru.
+///
+/// @nodoc
 class ResourceCollectionFilter {
   /// Information about Amazon Web Services CloudFormation stacks. You can use up
   /// to 500 stacks to specify which Amazon Web Services resources in your account
@@ -6761,6 +6958,8 @@ class ResourceCollectionFilter {
 /// to analyze. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
 /// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+///
+/// @nodoc
 class CloudFormationCollectionFilter {
   /// An array of CloudFormation stack names.
   final List<String>? stackNames;
@@ -6789,6 +6988,8 @@ class CloudFormationCollectionFilter {
 /// A collection of Amazon Web Services tags used to filter insights. This is
 /// used to return insights generated from only resources that contain the tags
 /// in the tag collection.
+///
+/// @nodoc
 class TagCollectionFilter {
   /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
   /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
@@ -6844,6 +7045,7 @@ class TagCollectionFilter {
   }
 }
 
+/// @nodoc
 class ResourceCollectionType {
   static const awsCloudFormation =
       ResourceCollectionType._('AWS_CLOUD_FORMATION');
@@ -6871,6 +7073,7 @@ class ResourceCollectionType {
   String toString() => value;
 }
 
+/// @nodoc
 class CostEstimationStatus {
   static const ongoing = CostEstimationStatus._('ONGOING');
   static const completed = CostEstimationStatus._('COMPLETED');
@@ -6897,6 +7100,8 @@ class CostEstimationStatus {
 }
 
 /// The time range of a cost estimation.
+///
+/// @nodoc
 class CostEstimationTimeRange {
   /// The end time of the cost estimation.
   final DateTime? endTime;
@@ -6932,6 +7137,8 @@ class CostEstimationTimeRange {
 /// your Amazon DevOps Guru costs</a> and <a
 /// href="http://aws.amazon.com/devops-guru/pricing/">Amazon DevOps Guru
 /// pricing</a>.
+///
+/// @nodoc
 class ServiceResourceCost {
   /// The total estimated monthly cost to analyze the active resources for this
   /// resource.
@@ -6994,6 +7201,7 @@ class ServiceResourceCost {
   }
 }
 
+/// @nodoc
 class CostEstimationServiceResourceState {
   static const active = CostEstimationServiceResourceState._('ACTIVE');
   static const inactive = CostEstimationServiceResourceState._('INACTIVE');
@@ -7021,6 +7229,8 @@ class CostEstimationServiceResourceState {
 
 /// Information about the integration of DevOps Guru with another Amazon Web
 /// Services service, such as Amazon Web Services Systems Manager.
+///
+/// @nodoc
 class ServiceIntegrationConfig {
   /// Information about whether DevOps Guru is configured to encrypt server-side
   /// data using KMS.
@@ -7073,6 +7283,8 @@ class ServiceIntegrationConfig {
 
 /// Information about whether DevOps Guru is configured to create an OpsItem in
 /// Amazon Web Services Systems Manager OpsCenter for each created insight.
+///
+/// @nodoc
 class OpsCenterIntegration {
   /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
   /// Manager OpsItem for each created insight.
@@ -7099,6 +7311,8 @@ class OpsCenterIntegration {
 
 /// Information about the integration of DevOps Guru with CloudWatch log groups
 /// for log anomaly detection.
+///
+/// @nodoc
 class LogsAnomalyDetectionIntegration {
   /// Specifies if DevOps Guru is configured to perform log anomaly detection on
   /// CloudWatch log groups.
@@ -7124,6 +7338,8 @@ class LogsAnomalyDetectionIntegration {
 }
 
 /// Information about the KMS encryption used with DevOps Guru.
+///
+/// @nodoc
 class KMSServerSideEncryptionIntegration {
   /// Describes the specified KMS key.
   ///
@@ -7185,6 +7401,8 @@ class KMSServerSideEncryptionIntegration {
 
 /// Information about the health of Amazon Web Services resources in your
 /// account that are specified by an Amazon Web Services tag <i>key</i>.
+///
+/// @nodoc
 class TagHealth {
   /// Number of resources that DevOps Guru is monitoring in your account that are
   /// specified by an Amazon Web Services tag.
@@ -7260,6 +7478,8 @@ class TagHealth {
 
 /// Information about the number of open reactive and proactive insights that
 /// can be used to gauge the health of your system.
+///
+/// @nodoc
 class InsightHealth {
   /// The Meant Time to Recover (MTTR) for the insight.
   final int? meanTimeToRecoverInMilliseconds;
@@ -7302,6 +7522,8 @@ class InsightHealth {
 }
 
 /// Represents the health of an Amazon Web Services service.
+///
+/// @nodoc
 class ServiceHealth {
   /// Number of resources that DevOps Guru is monitoring in an analyzed Amazon Web
   /// Services service.
@@ -7348,6 +7570,8 @@ class ServiceHealth {
 
 /// Contains the number of open proactive and reactive insights in an analyzed
 /// Amazon Web Services service.
+///
+/// @nodoc
 class ServiceInsightHealth {
   /// The number of open proactive insights in the Amazon Web Services service
   final int? openProactiveInsights;
@@ -7381,6 +7605,8 @@ class ServiceInsightHealth {
 
 /// Information about the health of Amazon Web Services resources in your
 /// account that are specified by an Amazon Web Services CloudFormation stack.
+///
+/// @nodoc
 class CloudFormationHealth {
   /// Number of resources that DevOps Guru is monitoring in your account that are
   /// specified by an Amazon Web Services CloudFormation stack.
@@ -7428,6 +7654,8 @@ class CloudFormationHealth {
 /// insights, and the number of metrics analyzed in your Amazon Web Services
 /// account. Use these numbers to gauge the health of operations in your Amazon
 /// Web Services account.
+///
+/// @nodoc
 class AccountHealth {
   /// The ID of the Amazon Web Services account.
   final String? accountId;
@@ -7464,6 +7692,8 @@ class AccountHealth {
 
 /// Information about the number of open reactive and proactive insights that
 /// can be used to gauge the health of your system.
+///
+/// @nodoc
 class AccountInsightHealth {
   /// An integer that specifies the number of open proactive insights in your
   /// Amazon Web Services account.
@@ -7497,6 +7727,7 @@ class AccountInsightHealth {
   }
 }
 
+/// @nodoc
 class OrganizationResourceCollectionType {
   static const awsCloudFormation =
       OrganizationResourceCollectionType._('AWS_CLOUD_FORMATION');
@@ -7527,6 +7758,8 @@ class OrganizationResourceCollectionType {
 
 /// Details about a proactive insight. This object is returned by
 /// <code>ListInsights</code>.
+///
+/// @nodoc
 class ProactiveInsight {
   /// Describes the proactive insight.
   final String? description;
@@ -7615,6 +7848,8 @@ class ProactiveInsight {
 
 /// Information about a reactive insight. This object is returned by
 /// <code>ListInsights</code>.
+///
+/// @nodoc
 class ReactiveInsight {
   /// Describes the reactive insight.
   final String? description;
@@ -7694,6 +7929,8 @@ class ReactiveInsight {
 
 /// Information about an anomaly. This object is returned by
 /// <code>ListAnomalies</code>.
+///
+/// @nodoc
 class ProactiveAnomaly {
   /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
   /// range between when the anomaly is opened and the time when it is closed.
@@ -7836,6 +8073,8 @@ class ProactiveAnomaly {
 
 /// Details about a reactive anomaly. This object is returned by
 /// <code>ListAnomalies</code>.
+///
+/// @nodoc
 class ReactiveAnomaly {
   /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
   /// range between when the anomaly is opened and the time when it is closed.
@@ -7973,26 +8212,31 @@ class ReactiveAnomaly {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8001,11 +8245,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

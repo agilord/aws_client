@@ -690,6 +690,7 @@ class LexRuntimeV2 {
   }
 }
 
+/// @nodoc
 class DeleteSessionResponse {
   /// The alias identifier in use for the bot that contained the session data.
   final String? botAliasId;
@@ -734,6 +735,8 @@ class DeleteSessionResponse {
 }
 
 ///
+///
+/// @nodoc
 class AccessDeniedException implements _s.AwsException {
   final String? message;
 
@@ -756,6 +759,8 @@ class AccessDeniedException implements _s.AwsException {
 }
 
 ///
+///
+/// @nodoc
 class ConflictException implements _s.AwsException {
   final String? message;
 
@@ -778,6 +783,8 @@ class ConflictException implements _s.AwsException {
 }
 
 ///
+///
+/// @nodoc
 class InternalServerException implements _s.AwsException {
   final String? message;
 
@@ -800,6 +807,8 @@ class InternalServerException implements _s.AwsException {
 }
 
 ///
+///
+/// @nodoc
 class ResourceNotFoundException implements _s.AwsException {
   final String? message;
 
@@ -822,6 +831,8 @@ class ResourceNotFoundException implements _s.AwsException {
 }
 
 ///
+///
+/// @nodoc
 class ThrottlingException implements _s.AwsException {
   final String? message;
 
@@ -844,6 +855,8 @@ class ThrottlingException implements _s.AwsException {
 }
 
 ///
+///
+/// @nodoc
 class ValidationException implements _s.AwsException {
   final String? message;
 
@@ -865,6 +878,7 @@ class ValidationException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// A list of intents that Amazon Lex V2 determined might satisfy the user's
   /// utterance.
@@ -927,6 +941,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class PutSessionResponse {
   /// If the requested content type was audio, the audio version of the message to
   /// convey to the user.
@@ -978,6 +993,8 @@ class PutSessionResponse {
 }
 
 ///
+///
+/// @nodoc
 class BadGatewayException implements _s.AwsException {
   final String? message;
 
@@ -1000,6 +1017,8 @@ class BadGatewayException implements _s.AwsException {
 }
 
 ///
+///
+/// @nodoc
 class DependencyFailedException implements _s.AwsException {
   final String? message;
 
@@ -1021,6 +1040,7 @@ class DependencyFailedException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class RecognizeTextResponse {
   /// A list of intents that Amazon Lex V2 determined might satisfy the user's
   /// utterance.
@@ -1102,6 +1122,7 @@ class RecognizeTextResponse {
   }
 }
 
+/// @nodoc
 class RecognizeUtteranceResponse {
   /// The prompt or statement to send to the user. This is based on the bot
   /// configuration and context. For example, if Amazon Lex V2 did not understand
@@ -1213,6 +1234,7 @@ class RecognizeUtteranceResponse {
   }
 }
 
+/// @nodoc
 class StartConversationResponse {
   /// Represents the stream of events from Amazon Lex V2 to your application. The
   /// events are encoded as HTTP/2 data frames.
@@ -1232,6 +1254,8 @@ class StartConversationResponse {
 }
 
 /// Represents a stream of events between Amazon Lex V2 and your application.
+///
+/// @nodoc
 class StartConversationResponseEventStream {
   /// Exception thrown when the credentials passed with the request are invalid or
   /// expired. Also thrown when the credentials in the request do not have
@@ -1395,6 +1419,8 @@ class StartConversationResponseEventStream {
 /// number before the prompt is complete. Amazon Lex V2 sends this event to the
 /// client application to indicate that the user is responding and that Amazon
 /// Lex V2 is processing their input.
+///
+/// @nodoc
 class PlaybackInterruptionEvent {
   /// The identifier of the event that contained the audio, DTMF, or text that
   /// caused the interruption.
@@ -1437,6 +1463,8 @@ class PlaybackInterruptionEvent {
 
 /// Event sent from Amazon Lex V2 to your client application that contains a
 /// transcript of voice audio.
+///
+/// @nodoc
 class TranscriptEvent {
   /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in
   /// the form <code>RESPONSE-N</code>, where N is a number starting with one and
@@ -1470,6 +1498,8 @@ class TranscriptEvent {
 
 /// Contains the current state of the conversation between the client
 /// application and Amazon Lex V2.
+///
+/// @nodoc
 class IntentResultEvent {
   /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in
   /// the form <code>RESPONSE-N</code>, where N is a number starting with one and
@@ -1553,6 +1583,8 @@ class IntentResultEvent {
 
 /// The event sent from Amazon Lex V2 to your application with text to present
 /// to the user.
+///
+/// @nodoc
 class TextResponseEvent {
   /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in
   /// the form <code>RESPONSE-N</code>, where N is a number starting with one and
@@ -1591,6 +1623,8 @@ class TextResponseEvent {
 
 /// An event sent from Amazon Lex V2 to your client application containing audio
 /// to play to the user.
+///
+/// @nodoc
 class AudioResponseEvent {
   /// A chunk of the audio to play.
   final Uint8List? audioChunk;
@@ -1633,6 +1667,8 @@ class AudioResponseEvent {
 
 /// Event that Amazon Lex V2 sends to indicate that the stream is still open
 /// between the client application and Amazon Lex V2
+///
+/// @nodoc
 class HeartbeatEvent {
   /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in
   /// the form <code>RESPONSE-N</code>, where N is a number starting with one and
@@ -1658,6 +1694,8 @@ class HeartbeatEvent {
 }
 
 /// Container for text that is returned to the customer..
+///
+/// @nodoc
 class Message {
   /// Indicates the type of response.
   final MessageContentType contentType;
@@ -1696,6 +1734,7 @@ class Message {
   }
 }
 
+/// @nodoc
 class MessageContentType {
   static const customPayload = MessageContentType._('CustomPayload');
   static const imageResponseCard = MessageContentType._('ImageResponseCard');
@@ -1728,6 +1767,8 @@ class MessageContentType {
 ///
 /// When you use a response card, the response from the user is constrained to
 /// the text associated with a button on the card.
+///
+/// @nodoc
 class ImageResponseCard {
   /// The title to display on the response card. The format of the title is
   /// determined by the platform displaying the response card.
@@ -1781,6 +1822,8 @@ class ImageResponseCard {
 }
 
 /// A button that appears on a response card show to the user.
+///
+/// @nodoc
 class Button {
   /// The text that is displayed on the button.
   final String text;
@@ -1810,6 +1853,7 @@ class Button {
   }
 }
 
+/// @nodoc
 class InputMode {
   static const text = InputMode._('Text');
   static const speech = InputMode._('Speech');
@@ -1835,6 +1879,8 @@ class InputMode {
 }
 
 /// The state of the user's session with Amazon Lex V2.
+///
+/// @nodoc
 class SessionState {
   /// One or more contexts that indicate to Amazon Lex V2 the context of a
   /// request. When a context is active, Amazon Lex V2 considers intents with the
@@ -1910,6 +1956,8 @@ class SessionState {
 }
 
 /// The bot member that processes the request.
+///
+/// @nodoc
 class RecognizedBotMember {
   /// The identifier of the bot member that processes the request.
   final String botId;
@@ -1940,6 +1988,8 @@ class RecognizedBotMember {
 }
 
 /// The next action that Amazon Lex V2 should take.
+///
+/// @nodoc
 class DialogAction {
   /// The next action that the bot should take in its interaction with the user.
   /// The following values are possible:
@@ -2029,6 +2079,8 @@ class DialogAction {
 }
 
 /// The current intent that Amazon Lex V2 is attempting to fulfill.
+///
+/// @nodoc
 class Intent {
   /// The name of the intent.
   final String name;
@@ -2115,6 +2167,8 @@ class Intent {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html">Using
 /// runtime hints to improve recognition of slot values</a>.
+///
+/// @nodoc
 class RuntimeHints {
   /// A list of the slots in the intent that should have runtime hints added, and
   /// the phrases that should be added for each slot.
@@ -2152,6 +2206,8 @@ class RuntimeHints {
 
 /// Provides an array of phrases that should be given preference when resolving
 /// values for a slot.
+///
+/// @nodoc
 class RuntimeHintDetails {
   /// One or more strings that Amazon Lex V2 should look for in the input to the
   /// bot. Each phrase is given preference when deciding on slot values.
@@ -2194,6 +2250,8 @@ class RuntimeHintDetails {
 
 /// Provides the phrase that Amazon Lex V2 should look for in the user's input
 /// to the bot.
+///
+/// @nodoc
 class RuntimeHintValue {
   /// The phrase that Amazon Lex V2 should look for in the user's input to the
   /// bot.
@@ -2226,6 +2284,8 @@ class RuntimeHintValue {
 /// <code>order-fulfilled</code>, only intents that have
 /// <code>order-fulfilled</code> configured as a trigger are considered for
 /// follow up.
+///
+/// @nodoc
 class ActiveContext {
   /// A list of contexts active for the request. A context can be activated when a
   /// previous intent is fulfilled, or by including the context in the request.
@@ -2275,6 +2335,8 @@ class ActiveContext {
 
 /// The time that a context is active. You can specify the time to live in
 /// seconds or in conversation turns.
+///
+/// @nodoc
 class ActiveContextTimeToLive {
   /// The number of seconds that the context is active. You can specify between 5
   /// and 86400 seconds (24 hours).
@@ -2306,6 +2368,7 @@ class ActiveContextTimeToLive {
   }
 }
 
+/// @nodoc
 class IntentState {
   static const failed = IntentState._('Failed');
   static const fulfilled = IntentState._('Fulfilled');
@@ -2340,6 +2403,7 @@ class IntentState {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfirmationState {
   static const confirmed = ConfirmationState._('Confirmed');
   static const denied = ConfirmationState._('Denied');
@@ -2366,6 +2430,8 @@ class ConfirmationState {
 }
 
 /// A value that Amazon Lex V2 uses to fulfill an intent.
+///
+/// @nodoc
 class Slot {
   /// When the <code>shape</code> value is <code>List</code>, it indicates that
   /// the <code>values</code> field contains a list of slot values. When the value
@@ -2422,6 +2488,8 @@ class Slot {
 
 /// Information about the value provided for a slot and Amazon Lex V2's
 /// interpretation.
+///
+/// @nodoc
 class Value {
   /// The value that Amazon Lex V2 determines for the slot, given the user input.
   /// The actual value depends on the setting of the value selection strategy for
@@ -2467,6 +2535,7 @@ class Value {
   }
 }
 
+/// @nodoc
 class Shape {
   static const scalar = Shape._('Scalar');
   static const list = Shape._('List');
@@ -2491,6 +2560,7 @@ class Shape {
   String toString() => value;
 }
 
+/// @nodoc
 class DialogActionType {
   static const close = DialogActionType._('Close');
   static const confirmIntent = DialogActionType._('ConfirmIntent');
@@ -2526,6 +2596,7 @@ class DialogActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class StyleType {
   static const $default = StyleType._('Default');
   static const spellByLetter = StyleType._('SpellByLetter');
@@ -2552,6 +2623,8 @@ class StyleType {
 
 /// The specific constituent sub slot of the composite slot to elicit in dialog
 /// action.
+///
+/// @nodoc
 class ElicitSubSlot {
   /// The name of the slot that should be elicited from the user.
   final String name;
@@ -2587,6 +2660,8 @@ class ElicitSubSlot {
 /// An object containing information about an intent that Amazon Lex V2
 /// determined might satisfy the user's utterance. The intents are ordered by
 /// the confidence score.
+///
+/// @nodoc
 class Interpretation {
   /// A list of intents that might satisfy the user's utterance. The intents are
   /// ordered by the confidence score.
@@ -2651,6 +2726,8 @@ class Interpretation {
 
 /// Provides a score that indicates the confidence that Amazon Lex V2 has that
 /// an intent is the one that satisfies the user's intent.
+///
+/// @nodoc
 class ConfidenceScore {
   /// A score that indicates how confident Amazon Lex V2 is that an intent
   /// satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores
@@ -2682,6 +2759,8 @@ class ConfidenceScore {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/comprehend/latest/dg/how-sentiment.html">
 /// Determine Sentiment </a> in the <i>Amazon Comprehend developer guide</i>.
+///
+/// @nodoc
 class SentimentResponse {
   /// The overall sentiment expressed in the user's response. This is the
   /// sentiment most likely expressed by the user based on the analysis by Amazon
@@ -2714,6 +2793,7 @@ class SentimentResponse {
   }
 }
 
+/// @nodoc
 class InterpretationSource {
   static const bedrock = InterpretationSource._('Bedrock');
   static const lex = InterpretationSource._('Lex');
@@ -2739,6 +2819,7 @@ class InterpretationSource {
   String toString() => value;
 }
 
+/// @nodoc
 class SentimentType {
   static const mixed = SentimentType._('MIXED');
   static const negative = SentimentType._('NEGATIVE');
@@ -2766,6 +2847,8 @@ class SentimentType {
 }
 
 /// The individual sentiment responses for the utterance.
+///
+/// @nodoc
 class SentimentScore {
   /// The level of confidence that Amazon Comprehend has in the accuracy of its
   /// detection of the <code>MIXED</code> sentiment.
@@ -2813,6 +2896,7 @@ class SentimentScore {
   }
 }
 
+/// @nodoc
 class PlaybackInterruptionReason {
   static const dtmfStartDetected =
       PlaybackInterruptionReason._('DTMF_START_DETECTED');
@@ -2841,6 +2925,7 @@ class PlaybackInterruptionReason {
   String toString() => value;
 }
 
+/// @nodoc
 class ConversationMode {
   static const audio = ConversationMode._('AUDIO');
   static const text = ConversationMode._('TEXT');
@@ -2866,6 +2951,8 @@ class ConversationMode {
 }
 
 /// Represents a stream of events between your application and Amazon Lex V2.
+///
+/// @nodoc
 class StartConversationRequestEventStream {
   /// Speech audio sent from your client application to Amazon Lex V2. Audio
   /// starts accumulating when Amazon Lex V2 identifies a voice and continues
@@ -2937,6 +3024,8 @@ class StartConversationRequestEventStream {
 /// The initial event sent from the application to Amazon Lex V2 to configure
 /// the conversation, including session and request attributes and the response
 /// content type.
+///
+/// @nodoc
 class ConfigurationEvent {
   /// The message that Amazon Lex V2 returns in the response can be either text or
   /// speech based on the <code>responseContentType</code> value.
@@ -3051,6 +3140,8 @@ class ConfigurationEvent {
 ///
 /// Amazon Lex V2 accumulates audio chunks until it recognizes a natural pause
 /// in speech before processing the input.
+///
+/// @nodoc
 class AudioInputEvent {
   /// The encoding used for the audio chunk. You must use 8 KHz PCM 16-bit
   /// mono-channel little-endian format. The value of the field should be:
@@ -3095,6 +3186,8 @@ class AudioInputEvent {
 /// A DTMF character sent from the client application. DTMF characters are
 /// typically sent from a phone keypad to represent numbers. For example, you
 /// can have Amazon Lex V2 process a credit card number input from a phone.
+///
+/// @nodoc
 class DTMFInputEvent {
   /// The DTMF character that the user pressed. The allowed characters are A - D,
   /// 0 - 9, # and *.
@@ -3129,6 +3222,8 @@ class DTMFInputEvent {
 
 /// The event sent from your client application to Amazon Lex V2 with text input
 /// from the user.
+///
+/// @nodoc
 class TextInputEvent {
   /// The text from the user. Amazon Lex V2 processes this as a complete
   /// statement.
@@ -3164,6 +3259,8 @@ class TextInputEvent {
 /// Event sent from the client application to Amazon Lex V2 to indicate that
 /// playback of audio is complete and that Amazon Lex V2 should start processing
 /// the user's input.
+///
+/// @nodoc
 class PlaybackCompletionEvent {
   /// A timestamp set by the client of the date and time that the event was sent
   /// to Amazon Lex V2.
@@ -3192,6 +3289,8 @@ class PlaybackCompletionEvent {
 /// A notification from the client that it is disconnecting from Amazon Lex V2.
 /// Sending a <code>DisconnectionEvent</code> event is optional, but can help
 /// identify a conversation in logs.
+///
+/// @nodoc
 class DisconnectionEvent {
   /// A timestamp set by the client of the date and time that the event was sent
   /// to Amazon Lex V2.

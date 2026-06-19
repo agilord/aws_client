@@ -995,6 +995,7 @@ class BackupGateway {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The Amazon Resource Name (ARN) of the resource's tags that you listed.
   final String? resourceArn;
@@ -1027,6 +1028,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   /// The Amazon Resource Name (ARN) of the resource you tagged.
   final String? resourceARN;
@@ -1049,6 +1051,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   /// The Amazon Resource Name (ARN) of the resource from which you removed tags.
   final String? resourceARN;
@@ -1071,6 +1074,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateGatewayOutput {
   /// The Amazon Resource Name (ARN) of the gateway you create.
   final String? gatewayArn;
@@ -1093,6 +1097,7 @@ class CreateGatewayOutput {
   }
 }
 
+/// @nodoc
 class GetGatewayOutput {
   /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
   final GatewayDetails? gateway;
@@ -1117,6 +1122,7 @@ class GetGatewayOutput {
   }
 }
 
+/// @nodoc
 class UpdateGatewayInformationOutput {
   /// The Amazon Resource Name (ARN) of the gateway you updated.
   final String? gatewayArn;
@@ -1139,6 +1145,7 @@ class UpdateGatewayInformationOutput {
   }
 }
 
+/// @nodoc
 class DeleteGatewayOutput {
   /// The Amazon Resource Name (ARN) of the gateway you deleted.
   final String? gatewayArn;
@@ -1161,6 +1168,7 @@ class DeleteGatewayOutput {
   }
 }
 
+/// @nodoc
 class ListGatewaysOutput {
   /// A list of your gateways.
   final List<Gateway>? gateways;
@@ -1196,6 +1204,7 @@ class ListGatewaysOutput {
   }
 }
 
+/// @nodoc
 class AssociateGatewayToServerOutput {
   /// The Amazon Resource Name (ARN) of a gateway.
   final String? gatewayArn;
@@ -1218,6 +1227,7 @@ class AssociateGatewayToServerOutput {
   }
 }
 
+/// @nodoc
 class DisassociateGatewayFromServerOutput {
   /// The Amazon Resource Name (ARN) of the gateway you disassociated.
   final String? gatewayArn;
@@ -1241,6 +1251,7 @@ class DisassociateGatewayFromServerOutput {
   }
 }
 
+/// @nodoc
 class PutMaintenanceStartTimeOutput {
   /// The Amazon Resource Name (ARN) of a gateway for which you set the
   /// maintenance start time.
@@ -1264,6 +1275,7 @@ class PutMaintenanceStartTimeOutput {
   }
 }
 
+/// @nodoc
 class TestHypervisorConfigurationOutput {
   TestHypervisorConfigurationOutput();
 
@@ -1276,6 +1288,7 @@ class TestHypervisorConfigurationOutput {
   }
 }
 
+/// @nodoc
 class UpdateGatewaySoftwareNowOutput {
   /// The Amazon Resource Name (ARN) of the gateway you updated.
   final String? gatewayArn;
@@ -1298,6 +1311,7 @@ class UpdateGatewaySoftwareNowOutput {
   }
 }
 
+/// @nodoc
 class PutBandwidthRateLimitScheduleOutput {
   /// The Amazon Resource Name (ARN) of the gateway. Use the <a
   /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html">
@@ -1324,6 +1338,7 @@ class PutBandwidthRateLimitScheduleOutput {
   }
 }
 
+/// @nodoc
 class GetBandwidthRateLimitScheduleOutput {
   /// An array containing bandwidth rate limit schedule intervals for a gateway.
   /// When no bandwidth rate limit intervals have been scheduled, the array is
@@ -1365,6 +1380,7 @@ class GetBandwidthRateLimitScheduleOutput {
   }
 }
 
+/// @nodoc
 class ImportHypervisorConfigurationOutput {
   /// The Amazon Resource Name (ARN) of the hypervisor you disassociated.
   final String? hypervisorArn;
@@ -1388,6 +1404,7 @@ class ImportHypervisorConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetHypervisorOutput {
   /// Details about the requested hypervisor.
   final HypervisorDetails? hypervisor;
@@ -1413,6 +1430,7 @@ class GetHypervisorOutput {
   }
 }
 
+/// @nodoc
 class UpdateHypervisorOutput {
   /// The Amazon Resource Name (ARN) of the hypervisor you updated.
   final String? hypervisorArn;
@@ -1435,6 +1453,7 @@ class UpdateHypervisorOutput {
   }
 }
 
+/// @nodoc
 class DeleteHypervisorOutput {
   /// The Amazon Resource Name (ARN) of the hypervisor you deleted.
   final String? hypervisorArn;
@@ -1457,6 +1476,7 @@ class DeleteHypervisorOutput {
   }
 }
 
+/// @nodoc
 class ListHypervisorsOutput {
   /// A list of your <code>Hypervisor</code> objects, ordered by their Amazon
   /// Resource Names (ARNs).
@@ -1493,6 +1513,7 @@ class ListHypervisorsOutput {
   }
 }
 
+/// @nodoc
 class StartVirtualMachinesMetadataSyncOutput {
   /// The Amazon Resource Name (ARN) of the hypervisor.
   final String? hypervisorArn;
@@ -1516,6 +1537,7 @@ class StartVirtualMachinesMetadataSyncOutput {
   }
 }
 
+/// @nodoc
 class PutHypervisorPropertyMappingsOutput {
   /// The Amazon Resource Name (ARN) of the hypervisor.
   final String? hypervisorArn;
@@ -1539,6 +1561,7 @@ class PutHypervisorPropertyMappingsOutput {
   }
 }
 
+/// @nodoc
 class GetHypervisorPropertyMappingsOutput {
   /// The Amazon Resource Name (ARN) of the hypervisor.
   final String? hypervisorArn;
@@ -1581,6 +1604,7 @@ class GetHypervisorPropertyMappingsOutput {
   }
 }
 
+/// @nodoc
 class GetVirtualMachineOutput {
   /// This object contains the basic attributes of <code>VirtualMachine</code>
   /// contained by the output of <code>GetVirtualMachine</code>
@@ -1607,6 +1631,7 @@ class GetVirtualMachineOutput {
   }
 }
 
+/// @nodoc
 class ListVirtualMachinesOutput {
   /// The next item following a partial list of returned resources. For example,
   /// if a request is made to return <code>maxResults</code> number of resources,
@@ -1644,6 +1669,8 @@ class ListVirtualMachinesOutput {
 }
 
 /// A virtual machine that is on a hypervisor.
+///
+/// @nodoc
 class VirtualMachine {
   /// The host name of the virtual machine.
   final String? hostName;
@@ -1706,6 +1733,8 @@ class VirtualMachine {
 
 /// Your <code>VirtualMachine</code> objects, ordered by their Amazon Resource
 /// Names (ARNs).
+///
+/// @nodoc
 class VirtualMachineDetails {
   /// The host name of the virtual machine.
   final String? hostName;
@@ -1783,6 +1812,8 @@ class VirtualMachineDetails {
 /// resources.
 ///
 /// The content of VMware tags can be matched to Amazon Web Services tags.
+///
+/// @nodoc
 class VmwareTag {
   /// The is the category of VMware.
   final String? vmwareCategory;
@@ -1822,6 +1853,8 @@ class VmwareTag {
 
 /// This displays the mapping of VMware tags to the corresponding Amazon Web
 /// Services tags.
+///
+/// @nodoc
 class VmwareToAwsTagMapping {
   /// The key part of the Amazon Web Services tag's key-value pair.
   final String awsTagKey;
@@ -1869,6 +1902,8 @@ class VmwareToAwsTagMapping {
 ///
 /// A hypervisor is hardware, software, or firmware that creates and manages
 /// virtual machines, and allocates resources to them.
+///
+/// @nodoc
 class Hypervisor {
   /// The server host of the hypervisor. This can be either an IP address or a
   /// fully-qualified domain name (FQDN).
@@ -1921,6 +1956,7 @@ class Hypervisor {
   }
 }
 
+/// @nodoc
 class HypervisorState {
   static const pending = HypervisorState._('PENDING');
   static const online = HypervisorState._('ONLINE');
@@ -1950,6 +1986,8 @@ class HypervisorState {
 /// These are the details of the specified hypervisor. A hypervisor is hardware,
 /// software, or firmware that creates and manages virtual machines, and
 /// allocates resources to them.
+///
+/// @nodoc
 class HypervisorDetails {
   /// The server host of the hypervisor. This can be either an IP address or a
   /// fully-qualified domain name (FQDN).
@@ -2041,6 +2079,7 @@ class HypervisorDetails {
   }
 }
 
+/// @nodoc
 class SyncMetadataStatus {
   static const created = SyncMetadataStatus._('CREATED');
   static const running = SyncMetadataStatus._('RUNNING');
@@ -2072,6 +2111,8 @@ class SyncMetadataStatus {
 /// A key-value pair you can use to manage, filter, and search for your
 /// resources. Allowed characters include UTF-8 letters, numbers, and the
 /// following characters: + - = . _ : /. Spaces are not allowed in tag values.
+///
+/// @nodoc
 class Tag {
   /// The key part of a tag's key-value pair. The key can't start with
   /// <code>aws:</code>.
@@ -2107,6 +2148,8 @@ class Tag {
 /// bandwidth rate limit interval defines a period of time on one or more days
 /// of the week, during which bandwidth rate limits are specified for uploading,
 /// downloading, or both.
+///
+/// @nodoc
 class BandwidthRateLimitInterval {
   /// The days of the week component of the bandwidth rate limit interval,
   /// represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6
@@ -2184,6 +2227,8 @@ class BandwidthRateLimitInterval {
 /// A gateway is an Backup Gateway appliance that runs on the customer's network
 /// to provide seamless connectivity to backup storage in the Amazon Web
 /// Services Cloud.
+///
+/// @nodoc
 class Gateway {
   /// The Amazon Resource Name (ARN) of the gateway. Use the
   /// <code>ListGateways</code> operation to return a list of gateways for your
@@ -2239,6 +2284,7 @@ class Gateway {
   }
 }
 
+/// @nodoc
 class GatewayType {
   static const backupVm = GatewayType._('BACKUP_VM');
 
@@ -2262,6 +2308,8 @@ class GatewayType {
 }
 
 /// The details of gateway.
+///
+/// @nodoc
 class GatewayDetails {
   /// Date after which this gateway will not receive software updates for new
   /// features and bug fixes.
@@ -2367,6 +2415,8 @@ class GatewayDetails {
 /// This is your gateway's weekly maintenance start time including the day and
 /// time of the week. Note that values are in terms of the gateway's time zone.
 /// Can be weekly or monthly.
+///
+/// @nodoc
 class MaintenanceStartTime {
   /// The hour component of the maintenance start time represented as <i>hh</i>,
   /// where <i>hh</i> is the hour (0 to 23). The hour of the day is in the time
@@ -2418,16 +2468,19 @@ class MaintenanceStartTime {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

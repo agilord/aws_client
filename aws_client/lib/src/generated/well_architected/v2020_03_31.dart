@@ -2776,6 +2776,7 @@ class WellArchitected {
   }
 }
 
+/// @nodoc
 class CreateLensShareOutput {
   final String? shareId;
 
@@ -2797,6 +2798,7 @@ class CreateLensShareOutput {
   }
 }
 
+/// @nodoc
 class CreateLensVersionOutput {
   /// The ARN for the lens.
   final String? lensArn;
@@ -2827,6 +2829,8 @@ class CreateLensVersionOutput {
 }
 
 /// Output of a create milestone call.
+///
+/// @nodoc
 class CreateMilestoneOutput {
   final int? milestoneNumber;
   final String? workloadId;
@@ -2853,6 +2857,7 @@ class CreateMilestoneOutput {
   }
 }
 
+/// @nodoc
 class CreateProfileOutput {
   /// The profile ARN.
   final String? profileArn;
@@ -2882,6 +2887,7 @@ class CreateProfileOutput {
   }
 }
 
+/// @nodoc
 class CreateProfileShareOutput {
   /// The profile ARN.
   final String? profileArn;
@@ -2909,6 +2915,7 @@ class CreateProfileShareOutput {
   }
 }
 
+/// @nodoc
 class CreateReviewTemplateOutput {
   /// The review template ARN.
   final String? templateArn;
@@ -2931,6 +2938,7 @@ class CreateReviewTemplateOutput {
   }
 }
 
+/// @nodoc
 class CreateTemplateShareOutput {
   final String? shareId;
 
@@ -2960,6 +2968,8 @@ class CreateTemplateShareOutput {
 }
 
 /// Output of a create workload call.
+///
+/// @nodoc
 class CreateWorkloadOutput {
   final String? workloadArn;
   final String? workloadId;
@@ -2987,6 +2997,8 @@ class CreateWorkloadOutput {
 }
 
 /// Input for Create Workload Share
+///
+/// @nodoc
 class CreateWorkloadShareOutput {
   final String? shareId;
   final String? workloadId;
@@ -3013,6 +3025,7 @@ class CreateWorkloadShareOutput {
   }
 }
 
+/// @nodoc
 class ExportLensOutput {
   /// The JSON representation of a lens.
   final String? lensJSON;
@@ -3036,6 +3049,8 @@ class ExportLensOutput {
 }
 
 /// Output of a get answer call.
+///
+/// @nodoc
 class GetAnswerOutput {
   final Answer? answer;
   final String? lensAlias;
@@ -3081,6 +3096,7 @@ class GetAnswerOutput {
   }
 }
 
+/// @nodoc
 class GetConsolidatedReportOutput {
   final String? base64String;
 
@@ -3120,6 +3136,7 @@ class GetConsolidatedReportOutput {
   }
 }
 
+/// @nodoc
 class GetGlobalSettingsOutput {
   /// Discovery integration status.
   final DiscoveryIntegrationStatus? discoveryIntegrationStatus;
@@ -3164,6 +3181,7 @@ class GetGlobalSettingsOutput {
   }
 }
 
+/// @nodoc
 class GetLensOutput {
   /// A lens return object.
   final Lens? lens;
@@ -3189,6 +3207,8 @@ class GetLensOutput {
 }
 
 /// Output of a get lens review call.
+///
+/// @nodoc
 class GetLensReviewOutput {
   final LensReview? lensReview;
   final int? milestoneNumber;
@@ -3223,6 +3243,8 @@ class GetLensReviewOutput {
 }
 
 /// Output of a get lens review report call.
+///
+/// @nodoc
 class GetLensReviewReportOutput {
   final LensReviewReport? lensReviewReport;
   final int? milestoneNumber;
@@ -3257,6 +3279,7 @@ class GetLensReviewReportOutput {
   }
 }
 
+/// @nodoc
 class GetLensVersionDifferenceOutput {
   /// The base version of the lens.
   final String? baseLensVersion;
@@ -3314,6 +3337,8 @@ class GetLensVersionDifferenceOutput {
 }
 
 /// Output of a get milestone call.
+///
+/// @nodoc
 class GetMilestoneOutput {
   final Milestone? milestone;
   final String? workloadId;
@@ -3342,6 +3367,7 @@ class GetMilestoneOutput {
   }
 }
 
+/// @nodoc
 class GetProfileOutput {
   /// The profile.
   final Profile? profile;
@@ -3366,6 +3392,7 @@ class GetProfileOutput {
   }
 }
 
+/// @nodoc
 class GetProfileTemplateOutput {
   /// The profile template.
   final ProfileTemplate? profileTemplate;
@@ -3391,6 +3418,7 @@ class GetProfileTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetReviewTemplateOutput {
   /// The review template.
   final ReviewTemplate? reviewTemplate;
@@ -3416,6 +3444,7 @@ class GetReviewTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetReviewTemplateAnswerOutput {
   /// An answer of the question.
   final ReviewTemplateAnswer? answer;
@@ -3453,6 +3482,7 @@ class GetReviewTemplateAnswerOutput {
   }
 }
 
+/// @nodoc
 class GetReviewTemplateLensReviewOutput {
   /// A lens review of a question.
   final ReviewTemplateLensReview? lensReview;
@@ -3487,6 +3517,8 @@ class GetReviewTemplateLensReviewOutput {
 }
 
 /// Output of a get workload call.
+///
+/// @nodoc
 class GetWorkloadOutput {
   final Workload? workload;
 
@@ -3510,6 +3542,7 @@ class GetWorkloadOutput {
   }
 }
 
+/// @nodoc
 class ImportLensOutput {
   /// The ARN for the lens that was created or updated.
   final String? lensArn;
@@ -3540,6 +3573,8 @@ class ImportLensOutput {
 }
 
 /// Output of a list answers call.
+///
+/// @nodoc
 class ListAnswersOutput {
   final List<AnswerSummary>? answerSummaries;
   final String? lensAlias;
@@ -3591,6 +3626,7 @@ class ListAnswersOutput {
   }
 }
 
+/// @nodoc
 class ListCheckDetailsOutput {
   /// The details about the Trusted Advisor checks related to the Well-Architected
   /// best practice.
@@ -3622,6 +3658,7 @@ class ListCheckDetailsOutput {
   }
 }
 
+/// @nodoc
 class ListCheckSummariesOutput {
   /// List of Trusted Advisor summaries related to the Well-Architected best
   /// practice.
@@ -3654,6 +3691,8 @@ class ListCheckSummariesOutput {
 }
 
 /// Output of a list lenses call.
+///
+/// @nodoc
 class ListLensesOutput {
   final List<LensSummary>? lensSummaries;
   final String? nextToken;
@@ -3684,6 +3723,8 @@ class ListLensesOutput {
 }
 
 /// Output of a list lens review improvements call.
+///
+/// @nodoc
 class ListLensReviewImprovementsOutput {
   final List<ImprovementSummary>? improvementSummaries;
   final String? lensAlias;
@@ -3737,6 +3778,8 @@ class ListLensReviewImprovementsOutput {
 }
 
 /// Output of a list lens reviews call.
+///
+/// @nodoc
 class ListLensReviewsOutput {
   final List<LensReviewSummary>? lensReviewSummaries;
   final int? milestoneNumber;
@@ -3777,6 +3820,7 @@ class ListLensReviewsOutput {
   }
 }
 
+/// @nodoc
 class ListLensSharesOutput {
   /// A list of lens share summaries.
   final List<LensShareSummary>? lensShareSummaries;
@@ -3808,6 +3852,8 @@ class ListLensSharesOutput {
 }
 
 /// Output of a list milestones call.
+///
+/// @nodoc
 class ListMilestonesOutput {
   final List<MilestoneSummary>? milestoneSummaries;
   final String? nextToken;
@@ -3842,6 +3888,7 @@ class ListMilestonesOutput {
   }
 }
 
+/// @nodoc
 class ListNotificationsOutput {
   final String? nextToken;
 
@@ -3874,6 +3921,7 @@ class ListNotificationsOutput {
   }
 }
 
+/// @nodoc
 class ListProfileNotificationsOutput {
   final String? nextToken;
 
@@ -3907,6 +3955,7 @@ class ListProfileNotificationsOutput {
   }
 }
 
+/// @nodoc
 class ListProfilesOutput {
   final String? nextToken;
 
@@ -3938,6 +3987,7 @@ class ListProfilesOutput {
   }
 }
 
+/// @nodoc
 class ListProfileSharesOutput {
   final String? nextToken;
 
@@ -3970,6 +4020,7 @@ class ListProfileSharesOutput {
   }
 }
 
+/// @nodoc
 class ListReviewTemplateAnswersOutput {
   /// List of answer summaries of a lens review in a review template.
   final List<ReviewTemplateAnswerSummary>? answerSummaries;
@@ -4013,6 +4064,7 @@ class ListReviewTemplateAnswersOutput {
   }
 }
 
+/// @nodoc
 class ListReviewTemplatesOutput {
   final String? nextToken;
 
@@ -4045,6 +4097,8 @@ class ListReviewTemplatesOutput {
 }
 
 /// Input for List Share Invitations
+///
+/// @nodoc
 class ListShareInvitationsOutput {
   final String? nextToken;
 
@@ -4078,6 +4132,7 @@ class ListShareInvitationsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -4101,6 +4156,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class ListTemplateSharesOutput {
   final String? nextToken;
 
@@ -4141,6 +4197,8 @@ class ListTemplateSharesOutput {
 }
 
 /// Output of a list workloads call.
+///
+/// @nodoc
 class ListWorkloadsOutput {
   final String? nextToken;
   final List<WorkloadSummary>? workloadSummaries;
@@ -4171,6 +4229,8 @@ class ListWorkloadsOutput {
 }
 
 /// Input for List Workload Share
+///
+/// @nodoc
 class ListWorkloadSharesOutput {
   final String? nextToken;
   final String? workloadId;
@@ -4206,6 +4266,7 @@ class ListWorkloadSharesOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -4218,6 +4279,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -4231,6 +4293,8 @@ class UntagResourceOutput {
 }
 
 /// Output of a update answer call.
+///
+/// @nodoc
 class UpdateAnswerOutput {
   final Answer? answer;
   final String? lensAlias;
@@ -4272,6 +4336,8 @@ class UpdateAnswerOutput {
 }
 
 /// Output of a update lens review call.
+///
+/// @nodoc
 class UpdateLensReviewOutput {
   final LensReview? lensReview;
   final String? workloadId;
@@ -4300,6 +4366,7 @@ class UpdateLensReviewOutput {
   }
 }
 
+/// @nodoc
 class UpdateProfileOutput {
   /// The profile.
   final Profile? profile;
@@ -4324,6 +4391,7 @@ class UpdateProfileOutput {
   }
 }
 
+/// @nodoc
 class UpdateReviewTemplateOutput {
   /// A review template.
   final ReviewTemplate? reviewTemplate;
@@ -4349,6 +4417,7 @@ class UpdateReviewTemplateOutput {
   }
 }
 
+/// @nodoc
 class UpdateReviewTemplateAnswerOutput {
   /// An answer of the question.
   final ReviewTemplateAnswer? answer;
@@ -4386,6 +4455,7 @@ class UpdateReviewTemplateAnswerOutput {
   }
 }
 
+/// @nodoc
 class UpdateReviewTemplateLensReviewOutput {
   /// A lens review of a question.
   final ReviewTemplateLensReview? lensReview;
@@ -4419,6 +4489,7 @@ class UpdateReviewTemplateLensReviewOutput {
   }
 }
 
+/// @nodoc
 class UpdateShareInvitationOutput {
   /// The updated workload or custom lens share invitation.
   final ShareInvitation? shareInvitation;
@@ -4445,6 +4516,8 @@ class UpdateShareInvitationOutput {
 }
 
 /// Output of an update workload call.
+///
+/// @nodoc
 class UpdateWorkloadOutput {
   final Workload? workload;
 
@@ -4469,6 +4542,8 @@ class UpdateWorkloadOutput {
 }
 
 /// Input for Update Workload Share
+///
+/// @nodoc
 class UpdateWorkloadShareOutput {
   final String? workloadId;
   final WorkloadShare? workloadShare;
@@ -4499,6 +4574,8 @@ class UpdateWorkloadShareOutput {
 }
 
 /// A workload share return object.
+///
+/// @nodoc
 class WorkloadShare {
   final PermissionType? permissionType;
   final String? shareId;
@@ -4552,6 +4629,8 @@ class WorkloadShare {
 }
 
 /// Permission granted on a share request.
+///
+/// @nodoc
 class PermissionType {
   static const readonly = PermissionType._('READONLY');
   static const contributor = PermissionType._('CONTRIBUTOR');
@@ -4577,6 +4656,8 @@ class PermissionType {
 }
 
 /// The status of the share request.
+///
+/// @nodoc
 class ShareStatus {
   static const accepted = ShareStatus._('ACCEPTED');
   static const rejected = ShareStatus._('REJECTED');
@@ -4616,6 +4697,8 @@ class ShareStatus {
 }
 
 /// A workload return object.
+///
+/// @nodoc
 class Workload {
   final List<String>? accountIds;
 
@@ -4832,6 +4915,8 @@ class Workload {
 }
 
 /// The environment for the workload.
+///
+/// @nodoc
 class WorkloadEnvironment {
   static const production = WorkloadEnvironment._('PRODUCTION');
   static const preproduction = WorkloadEnvironment._('PREPRODUCTION');
@@ -4858,6 +4943,8 @@ class WorkloadEnvironment {
 }
 
 /// The improvement status for a workload.
+///
+/// @nodoc
 class WorkloadImprovementStatus {
   static const notApplicable = WorkloadImprovementStatus._('NOT_APPLICABLE');
   static const notStarted = WorkloadImprovementStatus._('NOT_STARTED');
@@ -4894,6 +4981,8 @@ class WorkloadImprovementStatus {
 }
 
 /// Discovery configuration associated to the workload.
+///
+/// @nodoc
 class WorkloadDiscoveryConfig {
   /// Discovery integration status in respect to Trusted Advisor for the workload.
   final TrustedAdvisorIntegrationStatus? trustedAdvisorIntegrationStatus;
@@ -4937,6 +5026,8 @@ class WorkloadDiscoveryConfig {
 }
 
 /// Workload-level: Output configuration of the Jira integration.
+///
+/// @nodoc
 class WorkloadJiraConfigurationOutput {
   /// Workload-level: Jira issue management status.
   final WorkloadIssueManagementStatus? issueManagementStatus;
@@ -4984,6 +5075,7 @@ class WorkloadJiraConfigurationOutput {
   }
 }
 
+/// @nodoc
 class WorkloadIssueManagementStatus {
   static const enabled = WorkloadIssueManagementStatus._('ENABLED');
   static const disabled = WorkloadIssueManagementStatus._('DISABLED');
@@ -5010,6 +5102,7 @@ class WorkloadIssueManagementStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IssueManagementType {
   static const auto = IssueManagementType._('AUTO');
   static const manual = IssueManagementType._('MANUAL');
@@ -5036,6 +5129,8 @@ class IssueManagementType {
 }
 
 /// The profile associated with a workload.
+///
+/// @nodoc
 class WorkloadProfile {
   /// The profile ARN.
   final String? profileArn;
@@ -5065,6 +5160,7 @@ class WorkloadProfile {
   }
 }
 
+/// @nodoc
 class TrustedAdvisorIntegrationStatus {
   static const enabled = TrustedAdvisorIntegrationStatus._('ENABLED');
   static const disabled = TrustedAdvisorIntegrationStatus._('DISABLED');
@@ -5090,6 +5186,7 @@ class TrustedAdvisorIntegrationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DefinitionType {
   static const workloadMetadata = DefinitionType._('WORKLOAD_METADATA');
   static const appRegistry = DefinitionType._('APP_REGISTRY');
@@ -5115,6 +5212,8 @@ class DefinitionType {
 }
 
 /// The risk for a given workload, lens review, pillar, or question.
+///
+/// @nodoc
 class Risk {
   static const unanswered = Risk._('UNANSWERED');
   static const high = Risk._('HIGH');
@@ -5142,6 +5241,8 @@ class Risk {
 }
 
 /// Workload-level: Input for the Jira configuration.
+///
+/// @nodoc
 class WorkloadJiraConfigurationInput {
   /// Workload-level: Jira issue management status.
   final WorkloadIssueManagementStatus? issueManagementStatus;
@@ -5173,6 +5274,8 @@ class WorkloadJiraConfigurationInput {
 }
 
 /// The share invitation.
+///
+/// @nodoc
 class ShareInvitation {
   final String? lensAlias;
 
@@ -5236,6 +5339,7 @@ class ShareInvitation {
   }
 }
 
+/// @nodoc
 class ShareResourceType {
   static const workload = ShareResourceType._('WORKLOAD');
   static const lens = ShareResourceType._('LENS');
@@ -5263,6 +5367,8 @@ class ShareResourceType {
 }
 
 /// Share invitation action taken by contributor.
+///
+/// @nodoc
 class ShareInvitationAction {
   static const accept = ShareInvitationAction._('ACCEPT');
   static const reject = ShareInvitationAction._('REJECT');
@@ -5289,6 +5395,8 @@ class ShareInvitationAction {
 }
 
 /// The lens review of a review template.
+///
+/// @nodoc
 class ReviewTemplateLensReview {
   final String? lensAlias;
 
@@ -5373,6 +5481,7 @@ class ReviewTemplateLensReview {
   }
 }
 
+/// @nodoc
 class LensStatus {
   static const current = LensStatus._('CURRENT');
   static const notCurrent = LensStatus._('NOT_CURRENT');
@@ -5399,6 +5508,7 @@ class LensStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Question {
   static const unanswered = Question._('UNANSWERED');
   static const answered = Question._('ANSWERED');
@@ -5423,6 +5533,8 @@ class Question {
 }
 
 /// Summary of a review template.
+///
+/// @nodoc
 class ReviewTemplatePillarReviewSummary {
   final String? notes;
   final String? pillarId;
@@ -5466,6 +5578,8 @@ class ReviewTemplatePillarReviewSummary {
 }
 
 /// An answer of the question.
+///
+/// @nodoc
 class ReviewTemplateAnswer {
   /// The status of whether or not this question has been answered.
   final ReviewTemplateAnswerStatus? answerStatus;
@@ -5574,6 +5688,7 @@ class ReviewTemplateAnswer {
   }
 }
 
+/// @nodoc
 class ReviewTemplateAnswerStatus {
   static const unanswered = ReviewTemplateAnswerStatus._('UNANSWERED');
   static const answered = ReviewTemplateAnswerStatus._('ANSWERED');
@@ -5599,6 +5714,7 @@ class ReviewTemplateAnswerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AnswerReason {
   static const outOfScope = AnswerReason._('OUT_OF_SCOPE');
   static const businessPriorities = AnswerReason._('BUSINESS_PRIORITIES');
@@ -5633,6 +5749,8 @@ class AnswerReason {
 }
 
 /// A choice that has been answered on a question in your workload.
+///
+/// @nodoc
 class ChoiceAnswer {
   final String? choiceId;
 
@@ -5675,6 +5793,7 @@ class ChoiceAnswer {
   }
 }
 
+/// @nodoc
 class ChoiceStatus {
   static const selected = ChoiceStatus._('SELECTED');
   static const notApplicable = ChoiceStatus._('NOT_APPLICABLE');
@@ -5699,6 +5818,7 @@ class ChoiceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ChoiceReason {
   static const outOfScope = ChoiceReason._('OUT_OF_SCOPE');
   static const businessPriorities = ChoiceReason._('BUSINESS_PRIORITIES');
@@ -5733,6 +5853,8 @@ class ChoiceReason {
 }
 
 /// A choice available to answer question.
+///
+/// @nodoc
 class Choice {
   /// The additional resources for a choice in a custom lens.
   ///
@@ -5805,6 +5927,8 @@ class Choice {
 }
 
 /// The choice content.
+///
+/// @nodoc
 class ChoiceContent {
   /// The display text for the choice content.
   final String? displayText;
@@ -5837,6 +5961,8 @@ class ChoiceContent {
 /// The choice level additional resources for a custom lens.
 ///
 /// This field does not apply to Amazon Web Services official lenses.
+///
+/// @nodoc
 class AdditionalResources {
   /// The URLs for additional resources, either helpful resources or improvement
   /// plans, for a custom lens. Up to five additional URLs can be specified.
@@ -5870,6 +5996,7 @@ class AdditionalResources {
   }
 }
 
+/// @nodoc
 class AdditionalResourceType {
   static const helpfulResource = AdditionalResourceType._('HELPFUL_RESOURCE');
   static const improvementPlan = AdditionalResourceType._('IMPROVEMENT_PLAN');
@@ -5896,6 +6023,8 @@ class AdditionalResourceType {
 }
 
 /// A list of choices to be updated.
+///
+/// @nodoc
 class ChoiceUpdate {
   /// The status of a choice.
   final ChoiceStatus status;
@@ -5925,6 +6054,8 @@ class ChoiceUpdate {
 }
 
 /// A review template.
+///
+/// @nodoc
 class ReviewTemplate {
   /// The review template description.
   final String? description;
@@ -6017,6 +6148,7 @@ class ReviewTemplate {
   }
 }
 
+/// @nodoc
 class ReviewTemplateUpdateStatus {
   static const current = ReviewTemplateUpdateStatus._('CURRENT');
   static const lensNotCurrent =
@@ -6044,6 +6176,8 @@ class ReviewTemplateUpdateStatus {
 }
 
 /// A profile.
+///
+/// @nodoc
 class Profile {
   final DateTime? createdAt;
   final String? owner;
@@ -6129,6 +6263,8 @@ class Profile {
 }
 
 /// A profile question.
+///
+/// @nodoc
 class ProfileQuestion {
   /// The maximum number of selected choices.
   final int? maxSelectedChoices;
@@ -6195,6 +6331,8 @@ class ProfileQuestion {
 }
 
 /// The profile choice.
+///
+/// @nodoc
 class ProfileChoice {
   final String? choiceDescription;
   final String? choiceId;
@@ -6227,6 +6365,8 @@ class ProfileChoice {
 }
 
 /// An update to a profile question.
+///
+/// @nodoc
 class ProfileQuestionUpdate {
   final String? questionId;
 
@@ -6249,6 +6389,8 @@ class ProfileQuestionUpdate {
 }
 
 /// A lens review of a question.
+///
+/// @nodoc
 class LensReview {
   /// Jira configuration status of the Lens review.
   final JiraSelectedQuestionConfiguration? jiraConfiguration;
@@ -6356,6 +6498,8 @@ class LensReview {
 }
 
 /// Selected questions in the workload.
+///
+/// @nodoc
 class JiraSelectedQuestionConfiguration {
   /// Selected pillars in the workload.
   final List<SelectedPillar>? selectedPillars;
@@ -6383,6 +6527,8 @@ class JiraSelectedQuestionConfiguration {
 }
 
 /// The selected pillar.
+///
+/// @nodoc
 class SelectedPillar {
   final String? pillarId;
 
@@ -6416,6 +6562,8 @@ class SelectedPillar {
 }
 
 /// A pillar review summary of a lens review.
+///
+/// @nodoc
 class PillarReviewSummary {
   final String? notes;
   final String? pillarId;
@@ -6463,6 +6611,7 @@ class PillarReviewSummary {
   }
 }
 
+/// @nodoc
 class IntegratingService {
   static const jira = IntegratingService._('JIRA');
 
@@ -6487,6 +6636,7 @@ class IntegratingService {
   String toString() => value;
 }
 
+/// @nodoc
 class OrganizationSharingStatus {
   static const enabled = OrganizationSharingStatus._('ENABLED');
   static const disabled = OrganizationSharingStatus._('DISABLED');
@@ -6512,6 +6662,7 @@ class OrganizationSharingStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DiscoveryIntegrationStatus {
   static const enabled = DiscoveryIntegrationStatus._('ENABLED');
   static const disabled = DiscoveryIntegrationStatus._('DISABLED');
@@ -6538,6 +6689,8 @@ class DiscoveryIntegrationStatus {
 }
 
 /// Account-level: Input for the Jira configuration.
+///
+/// @nodoc
 class AccountJiraConfigurationInput {
   /// Account-level: Configuration status of the Jira integration.
   final IntegrationStatusInput? integrationStatus;
@@ -6575,6 +6728,7 @@ class AccountJiraConfigurationInput {
   }
 }
 
+/// @nodoc
 class AccountJiraIssueManagementStatus {
   static const enabled = AccountJiraIssueManagementStatus._('ENABLED');
   static const disabled = AccountJiraIssueManagementStatus._('DISABLED');
@@ -6600,6 +6754,7 @@ class AccountJiraIssueManagementStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IntegrationStatusInput {
   static const notConfigured = IntegrationStatusInput._('NOT_CONFIGURED');
 
@@ -6625,6 +6780,8 @@ class IntegrationStatusInput {
 }
 
 /// An answer of the question.
+///
+/// @nodoc
 class Answer {
   /// A list of selected choices to a question in your workload.
   final List<ChoiceAnswer>? choiceAnswers;
@@ -6740,6 +6897,8 @@ class Answer {
 }
 
 /// Configuration of the Jira integration.
+///
+/// @nodoc
 class JiraConfiguration {
   /// The URL of the associated Jira issue.
   final String? jiraIssueUrl;
@@ -6769,6 +6928,8 @@ class JiraConfiguration {
 }
 
 /// A workload share summary return object.
+///
+/// @nodoc
 class WorkloadShareSummary {
   final PermissionType? permissionType;
   final String? shareId;
@@ -6814,6 +6975,8 @@ class WorkloadShareSummary {
 }
 
 /// A workload summary return object.
+///
+/// @nodoc
 class WorkloadSummary {
   final WorkloadImprovementStatus? improvementStatus;
   final List<String>? lenses;
@@ -6895,6 +7058,8 @@ class WorkloadSummary {
 }
 
 /// Summary of a review template share.
+///
+/// @nodoc
 class TemplateShareSummary {
   final String? shareId;
   final String? sharedWith;
@@ -6934,6 +7099,8 @@ class TemplateShareSummary {
 }
 
 /// A share invitation summary return object.
+///
+/// @nodoc
 class ShareInvitationSummary {
   /// The ARN for the lens.
   final String? lensArn;
@@ -7032,6 +7199,8 @@ class ShareInvitationSummary {
 }
 
 /// Summary of a review template.
+///
+/// @nodoc
 class ReviewTemplateSummary {
   /// Description of the review template.
   final String? description;
@@ -7095,6 +7264,8 @@ class ReviewTemplateSummary {
 }
 
 /// The summary of review template answers.
+///
+/// @nodoc
 class ReviewTemplateAnswerSummary {
   /// The status of whether or not this question has been answered.
   final ReviewTemplateAnswerStatus? answerStatus;
@@ -7181,6 +7352,7 @@ class ReviewTemplateAnswerSummary {
   }
 }
 
+/// @nodoc
 class QuestionType {
   static const prioritized = QuestionType._('PRIORITIZED');
   static const nonPrioritized = QuestionType._('NON_PRIORITIZED');
@@ -7205,6 +7377,8 @@ class QuestionType {
 }
 
 /// A choice summary that has been answered on a question in your workload.
+///
+/// @nodoc
 class ChoiceAnswerSummary {
   final String? choiceId;
 
@@ -7241,6 +7415,8 @@ class ChoiceAnswerSummary {
 }
 
 /// Summary of a profile share.
+///
+/// @nodoc
 class ProfileShareSummary {
   final String? shareId;
   final String? sharedWith;
@@ -7280,6 +7456,8 @@ class ProfileShareSummary {
 }
 
 /// Summary of a profile.
+///
+/// @nodoc
 class ProfileSummary {
   final DateTime? createdAt;
   final String? owner;
@@ -7339,6 +7517,7 @@ class ProfileSummary {
   }
 }
 
+/// @nodoc
 class ProfileOwnerType {
   static const self = ProfileOwnerType._('SELF');
   static const shared = ProfileOwnerType._('SHARED');
@@ -7364,6 +7543,8 @@ class ProfileOwnerType {
 }
 
 /// The profile notification summary.
+///
+/// @nodoc
 class ProfileNotificationSummary {
   /// The current profile version.
   final String? currentProfileVersion;
@@ -7426,6 +7607,7 @@ class ProfileNotificationSummary {
   }
 }
 
+/// @nodoc
 class ProfileNotificationType {
   static const profileAnswersUpdated =
       ProfileNotificationType._('PROFILE_ANSWERS_UPDATED');
@@ -7453,6 +7635,8 @@ class ProfileNotificationType {
 }
 
 /// A notification summary return object.
+///
+/// @nodoc
 class NotificationSummary {
   /// Summary of lens upgrade.
   final LensUpgradeSummary? lensUpgradeSummary;
@@ -7485,6 +7669,7 @@ class NotificationSummary {
   }
 }
 
+/// @nodoc
 class NotificationType {
   static const lensVersionUpgraded =
       NotificationType._('LENS_VERSION_UPGRADED');
@@ -7512,6 +7697,8 @@ class NotificationType {
 }
 
 /// Lens upgrade summary return object.
+///
+/// @nodoc
 class LensUpgradeSummary {
   /// The current version of the lens.
   final String? currentLensVersion;
@@ -7576,6 +7763,8 @@ class LensUpgradeSummary {
 }
 
 /// A milestone summary return object.
+///
+/// @nodoc
 class MilestoneSummary {
   final String? milestoneName;
   final int? milestoneNumber;
@@ -7616,6 +7805,8 @@ class MilestoneSummary {
 }
 
 /// A lens share summary return object.
+///
+/// @nodoc
 class LensShareSummary {
   final String? shareId;
   final String? sharedWith;
@@ -7655,6 +7846,8 @@ class LensShareSummary {
 }
 
 /// A lens review summary of a workload.
+///
+/// @nodoc
 class LensReviewSummary {
   final String? lensAlias;
 
@@ -7734,6 +7927,8 @@ class LensReviewSummary {
 }
 
 /// An improvement summary of a lens review in a workload.
+///
+/// @nodoc
 class ImprovementSummary {
   final String? improvementPlanUrl;
 
@@ -7796,6 +7991,8 @@ class ImprovementSummary {
 }
 
 /// The choice level improvement plan.
+///
+/// @nodoc
 class ChoiceImprovementPlan {
   final String? choiceId;
 
@@ -7829,6 +8026,7 @@ class ChoiceImprovementPlan {
   }
 }
 
+/// @nodoc
 class QuestionPriority {
   static const prioritized = QuestionPriority._('PRIORITIZED');
   static const none = QuestionPriority._('NONE');
@@ -7854,6 +8052,8 @@ class QuestionPriority {
 }
 
 /// A lens summary of a lens.
+///
+/// @nodoc
 class LensSummary {
   final DateTime? createdAt;
   final String? description;
@@ -7928,6 +8128,7 @@ class LensSummary {
   }
 }
 
+/// @nodoc
 class LensType {
   static const awsOfficial = LensType._('AWS_OFFICIAL');
   static const customShared = LensType._('CUSTOM_SHARED');
@@ -7952,6 +8153,7 @@ class LensType {
   String toString() => value;
 }
 
+/// @nodoc
 class LensStatusType {
   static const all = LensStatusType._('ALL');
   static const draft = LensStatusType._('DRAFT');
@@ -7978,6 +8180,8 @@ class LensStatusType {
 }
 
 /// Trusted Advisor check summary.
+///
+/// @nodoc
 class CheckSummary {
   /// Account summary associated to the check.
   final Map<CheckStatus, int>? accountSummary;
@@ -8064,6 +8268,7 @@ class CheckSummary {
   }
 }
 
+/// @nodoc
 class CheckProvider {
   static const trustedAdvisor = CheckProvider._('TRUSTED_ADVISOR');
 
@@ -8087,6 +8292,7 @@ class CheckProvider {
   String toString() => value;
 }
 
+/// @nodoc
 class CheckStatus {
   static const okay = CheckStatus._('OKAY');
   static const warning = CheckStatus._('WARNING');
@@ -8115,6 +8321,8 @@ class CheckStatus {
 
 /// Account details for a Well-Architected best practice in relation to Trusted
 /// Advisor checks.
+///
+/// @nodoc
 class CheckDetail {
   final String? accountId;
   final String? choiceId;
@@ -8212,6 +8420,7 @@ class CheckDetail {
   }
 }
 
+/// @nodoc
 class CheckFailureReason {
   static const assumeRoleError = CheckFailureReason._('ASSUME_ROLE_ERROR');
   static const accessDenied = CheckFailureReason._('ACCESS_DENIED');
@@ -8246,6 +8455,8 @@ class CheckFailureReason {
 }
 
 /// An answer summary of a lens review in a workload.
+///
+/// @nodoc
 class AnswerSummary {
   /// A list of selected choices to a question in your workload.
   final List<ChoiceAnswerSummary>? choiceAnswerSummaries;
@@ -8338,6 +8549,7 @@ class AnswerSummary {
   }
 }
 
+/// @nodoc
 class ImportLensStatus {
   static const inProgress = ImportLensStatus._('IN_PROGRESS');
   static const complete = ImportLensStatus._('COMPLETE');
@@ -8364,6 +8576,8 @@ class ImportLensStatus {
 }
 
 /// The profile template.
+///
+/// @nodoc
 class ProfileTemplate {
   final DateTime? createdAt;
 
@@ -8409,6 +8623,8 @@ class ProfileTemplate {
 }
 
 /// A profile template question.
+///
+/// @nodoc
 class ProfileTemplateQuestion {
   /// The maximum number of choices selected.
   final int? maxSelectedChoices;
@@ -8465,6 +8681,8 @@ class ProfileTemplateQuestion {
 }
 
 /// A profile template choice.
+///
+/// @nodoc
 class ProfileTemplateChoice {
   final String? choiceDescription;
   final String? choiceId;
@@ -8497,6 +8715,8 @@ class ProfileTemplateChoice {
 }
 
 /// A milestone return object.
+///
+/// @nodoc
 class Milestone {
   final String? milestoneName;
   final int? milestoneNumber;
@@ -8536,6 +8756,8 @@ class Milestone {
 }
 
 /// The differences between the base and latest versions of the lens.
+///
+/// @nodoc
 class VersionDifferences {
   /// The differences between the base and latest versions of the lens.
   final List<PillarDifference>? pillarDifferences;
@@ -8562,6 +8784,8 @@ class VersionDifferences {
 }
 
 /// A pillar difference return object.
+///
+/// @nodoc
 class PillarDifference {
   /// Indicates the type of change to the pillar.
   final DifferenceStatus? differenceStatus;
@@ -8606,6 +8830,7 @@ class PillarDifference {
   }
 }
 
+/// @nodoc
 class DifferenceStatus {
   static const updated = DifferenceStatus._('UPDATED');
   static const $new = DifferenceStatus._('NEW');
@@ -8632,6 +8857,8 @@ class DifferenceStatus {
 }
 
 /// A question difference return object.
+///
+/// @nodoc
 class QuestionDifference {
   /// Indicates the type of change to the question.
   final DifferenceStatus? differenceStatus;
@@ -8666,6 +8893,8 @@ class QuestionDifference {
 }
 
 /// A report of a lens review.
+///
+/// @nodoc
 class LensReviewReport {
   final String? base64String;
   final String? lensAlias;
@@ -8700,6 +8929,8 @@ class LensReviewReport {
 }
 
 /// A lens return object.
+///
+/// @nodoc
 class Lens {
   final String? description;
 
@@ -8763,6 +8994,8 @@ class Lens {
 }
 
 /// Account-level: Output configuration of the Jira integration.
+///
+/// @nodoc
 class AccountJiraConfigurationOutput {
   /// Account-level: Configuration status of the Jira integration.
   final IntegrationStatus? integrationStatus;
@@ -8826,6 +9059,7 @@ class AccountJiraConfigurationOutput {
   }
 }
 
+/// @nodoc
 class IntegrationStatus {
   static const configured = IntegrationStatus._('CONFIGURED');
   static const notConfigured = IntegrationStatus._('NOT_CONFIGURED');
@@ -8851,6 +9085,8 @@ class IntegrationStatus {
 }
 
 /// A metric that contributes to the consolidated report.
+///
+/// @nodoc
 class ConsolidatedReportMetric {
   /// The metrics for the lenses in the workload.
   final List<LensMetric>? lenses;
@@ -8918,6 +9154,7 @@ class ConsolidatedReportMetric {
   }
 }
 
+/// @nodoc
 class MetricType {
   static const workload = MetricType._('WORKLOAD');
 
@@ -8941,6 +9178,8 @@ class MetricType {
 }
 
 /// A metric for a particular lens in a workload.
+///
+/// @nodoc
 class LensMetric {
   /// The lens ARN.
   final String? lensArn;
@@ -8981,6 +9220,8 @@ class LensMetric {
 }
 
 /// A metric for a particular pillar in a lens.
+///
+/// @nodoc
 class PillarMetric {
   final String? pillarId;
 
@@ -9020,6 +9261,8 @@ class PillarMetric {
 }
 
 /// A metric for a particular question in the pillar.
+///
+/// @nodoc
 class QuestionMetric {
   /// The best practices, or choices, that have been identified as contributing to
   /// risk in a question.
@@ -9058,6 +9301,8 @@ class QuestionMetric {
 
 /// A best practice, or question choice, that has been identified as a risk in
 /// this question.
+///
+/// @nodoc
 class BestPractice {
   final String? choiceId;
   final String? choiceTitle;
@@ -9084,6 +9329,7 @@ class BestPractice {
   }
 }
 
+/// @nodoc
 class ReportFormat {
   static const pdf = ReportFormat._('PDF');
   static const json = ReportFormat._('JSON');
@@ -9107,26 +9353,31 @@ class ReportFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -9135,11 +9386,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

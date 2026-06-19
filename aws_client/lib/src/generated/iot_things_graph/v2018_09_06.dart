@@ -1651,6 +1651,7 @@ class IoTThingsGraph {
   }
 }
 
+/// @nodoc
 class AssociateEntityToThingResponse {
   AssociateEntityToThingResponse();
 
@@ -1663,6 +1664,7 @@ class AssociateEntityToThingResponse {
   }
 }
 
+/// @nodoc
 class CreateFlowTemplateResponse {
   /// The summary object that describes the created workflow.
   final FlowTemplateSummary? summary;
@@ -1688,6 +1690,7 @@ class CreateFlowTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateSystemInstanceResponse {
   /// The summary object that describes the new system instance.
   final SystemInstanceSummary? summary;
@@ -1713,6 +1716,7 @@ class CreateSystemInstanceResponse {
   }
 }
 
+/// @nodoc
 class CreateSystemTemplateResponse {
   /// The summary object that describes the created system.
   final SystemTemplateSummary? summary;
@@ -1738,6 +1742,7 @@ class CreateSystemTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlowTemplateResponse {
   DeleteFlowTemplateResponse();
 
@@ -1750,6 +1755,7 @@ class DeleteFlowTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteNamespaceResponse {
   /// The ARN of the namespace to be deleted.
   final String? namespaceArn;
@@ -1779,6 +1785,7 @@ class DeleteNamespaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteSystemInstanceResponse {
   DeleteSystemInstanceResponse();
 
@@ -1791,6 +1798,7 @@ class DeleteSystemInstanceResponse {
   }
 }
 
+/// @nodoc
 class DeleteSystemTemplateResponse {
   DeleteSystemTemplateResponse();
 
@@ -1803,6 +1811,7 @@ class DeleteSystemTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeploySystemInstanceResponse {
   /// An object that contains summary information about a system instance that was
   /// deployed.
@@ -1836,6 +1845,7 @@ class DeploySystemInstanceResponse {
   }
 }
 
+/// @nodoc
 class DeprecateFlowTemplateResponse {
   DeprecateFlowTemplateResponse();
 
@@ -1848,6 +1858,7 @@ class DeprecateFlowTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeprecateSystemTemplateResponse {
   DeprecateSystemTemplateResponse();
 
@@ -1860,6 +1871,7 @@ class DeprecateSystemTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeNamespaceResponse {
   /// The ARN of the namespace.
   final String? namespaceArn;
@@ -1913,6 +1925,7 @@ class DescribeNamespaceResponse {
   }
 }
 
+/// @nodoc
 class DissociateEntityFromThingResponse {
   DissociateEntityFromThingResponse();
 
@@ -1925,6 +1938,7 @@ class DissociateEntityFromThingResponse {
   }
 }
 
+/// @nodoc
 class GetEntitiesResponse {
   /// An array of descriptions for the specified entities.
   final List<EntityDescription>? descriptions;
@@ -1950,6 +1964,7 @@ class GetEntitiesResponse {
   }
 }
 
+/// @nodoc
 class GetFlowTemplateResponse {
   /// The object that describes the specified workflow.
   final FlowTemplateDescription? description;
@@ -1975,6 +1990,7 @@ class GetFlowTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetFlowTemplateRevisionsResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
@@ -2008,6 +2024,7 @@ class GetFlowTemplateRevisionsResponse {
   }
 }
 
+/// @nodoc
 class GetNamespaceDeletionStatusResponse {
   /// An error code returned by the namespace deletion task.
   final NamespaceDeletionStatusErrorCodes? errorCode;
@@ -2061,6 +2078,7 @@ class GetNamespaceDeletionStatusResponse {
   }
 }
 
+/// @nodoc
 class GetSystemInstanceResponse {
   /// An object that describes the system instance.
   final SystemInstanceDescription? description;
@@ -2086,6 +2104,7 @@ class GetSystemInstanceResponse {
   }
 }
 
+/// @nodoc
 class GetSystemTemplateResponse {
   /// An object that contains summary data about the system.
   final SystemTemplateDescription? description;
@@ -2111,6 +2130,7 @@ class GetSystemTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetSystemTemplateRevisionsResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
@@ -2146,6 +2166,7 @@ class GetSystemTemplateRevisionsResponse {
   }
 }
 
+/// @nodoc
 class GetUploadStatusResponse {
   /// The date at which the upload was created.
   final DateTime createdDate;
@@ -2216,6 +2237,7 @@ class GetUploadStatusResponse {
   }
 }
 
+/// @nodoc
 class ListFlowExecutionMessagesResponse {
   /// A list of objects that contain information about events in the specified
   /// flow execution.
@@ -2251,6 +2273,7 @@ class ListFlowExecutionMessagesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The token that specifies the next page of results to return.
   final String? nextToken;
@@ -2283,6 +2306,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class SearchEntitiesResponse {
   /// An array of descriptions for each entity returned in the search result.
   final List<EntityDescription>? descriptions;
@@ -2316,6 +2340,7 @@ class SearchEntitiesResponse {
   }
 }
 
+/// @nodoc
 class SearchFlowExecutionsResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
@@ -2350,6 +2375,7 @@ class SearchFlowExecutionsResponse {
   }
 }
 
+/// @nodoc
 class SearchFlowTemplatesResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
@@ -2384,6 +2410,7 @@ class SearchFlowTemplatesResponse {
   }
 }
 
+/// @nodoc
 class SearchSystemInstancesResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
@@ -2418,6 +2445,7 @@ class SearchSystemInstancesResponse {
   }
 }
 
+/// @nodoc
 class SearchSystemTemplatesResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
@@ -2452,6 +2480,7 @@ class SearchSystemTemplatesResponse {
   }
 }
 
+/// @nodoc
 class SearchThingsResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
@@ -2485,6 +2514,7 @@ class SearchThingsResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2497,6 +2527,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UndeploySystemInstanceResponse {
   /// An object that contains summary information about the system instance that
   /// was removed from its target.
@@ -2523,6 +2554,7 @@ class UndeploySystemInstanceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2535,6 +2567,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowTemplateResponse {
   /// An object containing summary information about the updated workflow.
   final FlowTemplateSummary? summary;
@@ -2560,6 +2593,7 @@ class UpdateFlowTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateSystemTemplateResponse {
   /// An object containing summary information about the updated system.
   final SystemTemplateSummary? summary;
@@ -2585,6 +2619,7 @@ class UpdateSystemTemplateResponse {
   }
 }
 
+/// @nodoc
 class UploadEntityDefinitionsResponse {
   /// The ID that specifies the upload action. You can use this to track the
   /// status of the upload.
@@ -2609,6 +2644,8 @@ class UploadEntityDefinitionsResponse {
 }
 
 /// A document that defines an entity.
+///
+/// @nodoc
 class DefinitionDocument {
   /// The language used to define the entity. <code>GRAPHQL</code> is the only
   /// valid value.
@@ -2640,6 +2677,7 @@ class DefinitionDocument {
   }
 }
 
+/// @nodoc
 class DefinitionLanguage {
   static const graphql = DefinitionLanguage._('GRAPHQL');
 
@@ -2665,6 +2703,8 @@ class DefinitionLanguage {
 }
 
 /// An object that contains information about a system.
+///
+/// @nodoc
 class SystemTemplateSummary {
   /// The ARN of the system.
   final String? arn;
@@ -2709,6 +2749,8 @@ class SystemTemplateSummary {
 }
 
 /// An object that contains summary information about a workflow.
+///
+/// @nodoc
 class FlowTemplateSummary {
   /// The ARN of the workflow.
   final String? arn;
@@ -2753,6 +2795,8 @@ class FlowTemplateSummary {
 }
 
 /// An object that contains summary information about a system instance.
+///
+/// @nodoc
 class SystemInstanceSummary {
   /// The ARN of the system instance.
   final String? arn;
@@ -2834,6 +2878,7 @@ class SystemInstanceSummary {
   }
 }
 
+/// @nodoc
 class SystemInstanceDeploymentStatus {
   static const notDeployed = SystemInstanceDeploymentStatus._('NOT_DEPLOYED');
   static const bootstrap = SystemInstanceDeploymentStatus._('BOOTSTRAP');
@@ -2879,6 +2924,7 @@ class SystemInstanceDeploymentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentTarget {
   static const greengrass = DeploymentTarget._('GREENGRASS');
   static const cloud = DeploymentTarget._('CLOUD');
@@ -2905,6 +2951,8 @@ class DeploymentTarget {
 
 /// Metadata assigned to an AWS IoT Things Graph resource consisting of a
 /// key-value pair.
+///
+/// @nodoc
 class Tag {
   /// The required name of the tag. The string value can be from 1 to 128 Unicode
   /// characters in length.
@@ -2937,6 +2985,8 @@ class Tag {
 }
 
 /// An AWS IoT thing.
+///
+/// @nodoc
 class Thing {
   /// The ARN of the thing.
   final String? thingArn;
@@ -2967,6 +3017,8 @@ class Thing {
 }
 
 /// An object that filters a system search.
+///
+/// @nodoc
 class SystemTemplateFilter {
   /// The name of the system search filter field.
   final SystemTemplateFilterName name;
@@ -2990,6 +3042,7 @@ class SystemTemplateFilter {
   }
 }
 
+/// @nodoc
 class SystemTemplateFilterName {
   static const flowTemplateId = SystemTemplateFilterName._('FLOW_TEMPLATE_ID');
 
@@ -3018,6 +3071,8 @@ class SystemTemplateFilterName {
 /// as OR criteria in the search. For example a search that includes a
 /// GREENGRASS_GROUP_NAME and a STATUS filter searches for system instances in
 /// the specified Greengrass group that have the specified status.
+///
+/// @nodoc
 class SystemInstanceFilter {
   /// The name of the search filter field.
   final SystemInstanceFilterName? name;
@@ -3041,6 +3096,7 @@ class SystemInstanceFilter {
   }
 }
 
+/// @nodoc
 class SystemInstanceFilterName {
   static const systemTemplateId =
       SystemInstanceFilterName._('SYSTEM_TEMPLATE_ID');
@@ -3070,6 +3126,8 @@ class SystemInstanceFilterName {
 }
 
 /// An object that filters a workflow search.
+///
+/// @nodoc
 class FlowTemplateFilter {
   /// The name of the search filter field.
   final FlowTemplateFilterName name;
@@ -3093,6 +3151,7 @@ class FlowTemplateFilter {
   }
 }
 
+/// @nodoc
 class FlowTemplateFilterName {
   static const deviceModelId = FlowTemplateFilterName._('DEVICE_MODEL_ID');
 
@@ -3118,6 +3177,8 @@ class FlowTemplateFilterName {
 }
 
 /// An object that contains summary information about a flow execution.
+///
+/// @nodoc
 class FlowExecutionSummary {
   /// The date and time when the flow execution summary was created.
   final DateTime? createdAt;
@@ -3175,6 +3236,7 @@ class FlowExecutionSummary {
   }
 }
 
+/// @nodoc
 class FlowExecutionStatus {
   static const running = FlowExecutionStatus._('RUNNING');
   static const aborted = FlowExecutionStatus._('ABORTED');
@@ -3203,6 +3265,8 @@ class FlowExecutionStatus {
 }
 
 /// Describes the properties of an entity.
+///
+/// @nodoc
 class EntityDescription {
   /// The entity ARN.
   final String? arn;
@@ -3256,6 +3320,7 @@ class EntityDescription {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const device = EntityType._('DEVICE');
   static const service = EntityType._('SERVICE');
@@ -3303,6 +3368,8 @@ class EntityType {
 /// <code>NAMESPACE</code> and a <code>REFERENCED_ENTITY_ID</code> filter
 /// searches for entities in the specified namespace that use the entity
 /// specified by the value of <code>REFERENCED_ENTITY_ID</code>.
+///
+/// @nodoc
 class EntityFilter {
   /// The name of the entity search filter field.
   /// <code>REFERENCED_ENTITY_ID</code> filters on entities that are used by the
@@ -3329,6 +3396,7 @@ class EntityFilter {
   }
 }
 
+/// @nodoc
 class EntityFilterName {
   static const name = EntityFilterName._('NAME');
   static const namespace = EntityFilterName._('NAMESPACE');
@@ -3356,6 +3424,8 @@ class EntityFilterName {
 }
 
 /// An object that contains information about a flow event.
+///
+/// @nodoc
 class FlowExecutionMessage {
   /// The type of flow event .
   final FlowExecutionEventType? eventType;
@@ -3400,6 +3470,7 @@ class FlowExecutionMessage {
   }
 }
 
+/// @nodoc
 class FlowExecutionEventType {
   static const executionStarted = FlowExecutionEventType._('EXECUTION_STARTED');
   static const executionFailed = FlowExecutionEventType._('EXECUTION_FAILED');
@@ -3466,6 +3537,7 @@ class FlowExecutionEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class UploadStatus {
   static const inProgress = UploadStatus._('IN_PROGRESS');
   static const succeeded = UploadStatus._('SUCCEEDED');
@@ -3492,6 +3564,8 @@ class UploadStatus {
 
 /// An object that contains a system's definition document and summary
 /// information.
+///
+/// @nodoc
 class SystemTemplateDescription {
   /// The definition document of a system.
   final DefinitionDocument? definition;
@@ -3538,6 +3612,8 @@ class SystemTemplateDescription {
 
 /// An object that contains a system instance definition and summary
 /// information.
+///
+/// @nodoc
 class SystemInstanceDescription {
   final DefinitionDocument? definition;
 
@@ -3623,6 +3699,8 @@ class SystemInstanceDescription {
 
 /// An object that specifies whether cloud metrics are collected in a deployment
 /// and, if so, what role is used to collect metrics.
+///
+/// @nodoc
 class MetricsConfiguration {
   /// A Boolean that specifies whether cloud metrics are collected.
   final bool? cloudMetricEnabled;
@@ -3654,6 +3732,8 @@ class MetricsConfiguration {
 
 /// An object that contains the ID and revision number of a workflow or system
 /// that is part of a deployment.
+///
+/// @nodoc
 class DependencyRevision {
   /// The ID of the workflow or system.
   final String? id;
@@ -3683,6 +3763,7 @@ class DependencyRevision {
   }
 }
 
+/// @nodoc
 class NamespaceDeletionStatus {
   static const inProgress = NamespaceDeletionStatus._('IN_PROGRESS');
   static const succeeded = NamespaceDeletionStatus._('SUCCEEDED');
@@ -3709,6 +3790,7 @@ class NamespaceDeletionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NamespaceDeletionStatusErrorCodes {
   static const validationFailed =
       NamespaceDeletionStatusErrorCodes._('VALIDATION_FAILED');
@@ -3735,6 +3817,8 @@ class NamespaceDeletionStatusErrorCodes {
 }
 
 /// An object that contains a workflow's definition and summary information.
+///
+/// @nodoc
 class FlowTemplateDescription {
   /// A workflow's definition document.
   final DefinitionDocument? definition;
@@ -3779,21 +3863,25 @@ class FlowTemplateDescription {
   }
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -3802,16 +3890,19 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

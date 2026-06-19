@@ -1350,6 +1350,8 @@ class CognitoIdentity {
 }
 
 /// An object representing an Amazon Cognito identity pool.
+///
+/// @nodoc
 class IdentityPool {
   /// TRUE if the identity pool supports unauthenticated logins.
   final bool allowUnauthenticatedIdentities;
@@ -1462,6 +1464,8 @@ class IdentityPool {
 
 /// Returned in response to a successful <code>DeleteIdentities</code>
 /// operation.
+///
+/// @nodoc
 class DeleteIdentitiesResponse {
   /// An array of UnprocessedIdentityId objects, each of which contains an
   /// ErrorCode and IdentityId.
@@ -1490,6 +1494,8 @@ class DeleteIdentitiesResponse {
 }
 
 /// A description of the identity.
+///
+/// @nodoc
 class IdentityDescription {
   /// Date on which the identity was created.
   final DateTime? creationDate;
@@ -1538,6 +1544,8 @@ class IdentityDescription {
 
 /// Returned in response to a successful <code>GetCredentialsForIdentity</code>
 /// operation.
+///
+/// @nodoc
 class GetCredentialsForIdentityResponse {
   /// Credentials for the provided identity ID.
   final Credentials? credentials;
@@ -1571,6 +1579,8 @@ class GetCredentialsForIdentityResponse {
 }
 
 /// Returned in response to a GetId request.
+///
+/// @nodoc
 class GetIdResponse {
   /// A unique identifier in the format REGION:GUID.
   final String? identityId;
@@ -1595,6 +1605,8 @@ class GetIdResponse {
 
 /// Returned in response to a successful <code>GetIdentityPoolRoles</code>
 /// operation.
+///
+/// @nodoc
 class GetIdentityPoolRolesResponse {
   /// An identity pool ID in the format REGION:GUID.
   final String? identityPoolId;
@@ -1639,6 +1651,8 @@ class GetIdentityPoolRolesResponse {
 }
 
 /// Returned in response to a successful GetOpenIdToken request.
+///
+/// @nodoc
 class GetOpenIdTokenResponse {
   /// A unique identifier in the format REGION:GUID. Note that the IdentityId
   /// returned may not match the one passed on input.
@@ -1671,6 +1685,8 @@ class GetOpenIdTokenResponse {
 
 /// Returned in response to a successful
 /// <code>GetOpenIdTokenForDeveloperIdentity</code> request.
+///
+/// @nodoc
 class GetOpenIdTokenForDeveloperIdentityResponse {
   /// A unique identifier in the format REGION:GUID.
   final String? identityId;
@@ -1701,6 +1717,7 @@ class GetOpenIdTokenForDeveloperIdentityResponse {
   }
 }
 
+/// @nodoc
 class GetPrincipalTagAttributeMapResponse {
   /// You can use this operation to get the ID of the Identity Pool you setup
   /// attribute mappings for.
@@ -1751,6 +1768,8 @@ class GetPrincipalTagAttributeMapResponse {
 }
 
 /// The response to a ListIdentities request.
+///
+/// @nodoc
 class ListIdentitiesResponse {
   /// An object containing a set of identities and associated mappings.
   final List<IdentityDescription>? identities;
@@ -1791,6 +1810,8 @@ class ListIdentitiesResponse {
 }
 
 /// The result of a successful ListIdentityPools action.
+///
+/// @nodoc
 class ListIdentityPoolsResponse {
   /// The identity pools returned by the ListIdentityPools action.
   final List<IdentityPoolShortDescription>? identityPools;
@@ -1824,6 +1845,7 @@ class ListIdentityPoolsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags that are assigned to the identity pool.
   final Map<String, String>? tags;
@@ -1849,6 +1871,8 @@ class ListTagsForResourceResponse {
 
 /// Returned in response to a successful <code>LookupDeveloperIdentity</code>
 /// action.
+///
+/// @nodoc
 class LookupDeveloperIdentityResponse {
   /// This is the list of developer user identifiers associated with an identity
   /// ID. Cognito supports the association of multiple developer user identifiers
@@ -1900,6 +1924,8 @@ class LookupDeveloperIdentityResponse {
 
 /// Returned in response to a successful <code>MergeDeveloperIdentities</code>
 /// action.
+///
+/// @nodoc
 class MergeDeveloperIdentitiesResponse {
   /// A unique identifier in the format REGION:GUID.
   final String? identityId;
@@ -1922,6 +1948,7 @@ class MergeDeveloperIdentitiesResponse {
   }
 }
 
+/// @nodoc
 class SetPrincipalTagAttributeMapResponse {
   /// The ID of the Identity Pool you want to set attribute mappings for.
   final String? identityPoolId;
@@ -1971,6 +1998,7 @@ class SetPrincipalTagAttributeMapResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1983,6 +2011,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1996,6 +2025,8 @@ class UntagResourceResponse {
 }
 
 /// A role mapping.
+///
+/// @nodoc
 class RoleMapping {
   /// The role mapping type. Token will use <code>cognito:roles</code> and
   /// <code>cognito:preferred_role</code> claims from the Cognito identity
@@ -2049,6 +2080,7 @@ class RoleMapping {
   }
 }
 
+/// @nodoc
 class RoleMappingType {
   static const token = RoleMappingType._('Token');
   static const rules = RoleMappingType._('Rules');
@@ -2073,6 +2105,7 @@ class RoleMappingType {
   String toString() => value;
 }
 
+/// @nodoc
 class AmbiguousRoleResolutionType {
   static const authenticatedRole =
       AmbiguousRoleResolutionType._('AuthenticatedRole');
@@ -2100,6 +2133,8 @@ class AmbiguousRoleResolutionType {
 }
 
 /// A container for rules.
+///
+/// @nodoc
 class RulesConfigurationType {
   /// An array of rules. You can specify up to 25 rules per identity provider.
   ///
@@ -2129,6 +2164,8 @@ class RulesConfigurationType {
 
 /// A rule that maps a claim name, a claim value, and a match type to a role
 /// ARN.
+///
+/// @nodoc
 class MappingRule {
   /// The claim name that must be present in the token, for example, "isAdmin" or
   /// "paid".
@@ -2175,6 +2212,7 @@ class MappingRule {
   }
 }
 
+/// @nodoc
 class MappingRuleMatchType {
   static const equals = MappingRuleMatchType._('Equals');
   static const contains = MappingRuleMatchType._('Contains');
@@ -2203,6 +2241,8 @@ class MappingRuleMatchType {
 }
 
 /// A description of the identity pool.
+///
+/// @nodoc
 class IdentityPoolShortDescription {
   /// An identity pool ID in the format REGION:GUID.
   final String? identityPoolId;
@@ -2233,6 +2273,8 @@ class IdentityPoolShortDescription {
 }
 
 /// Credentials for the provided identity ID.
+///
+/// @nodoc
 class Credentials {
   /// The Access Key portion of the credentials.
   final String? accessKeyId;
@@ -2278,6 +2320,8 @@ class Credentials {
 
 /// An array of UnprocessedIdentityId objects, each of which contains an
 /// ErrorCode and IdentityId.
+///
+/// @nodoc
 class UnprocessedIdentityId {
   /// The error code indicating the type of error that occurred.
   final ErrorCode? errorCode;
@@ -2307,6 +2351,7 @@ class UnprocessedIdentityId {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const accessDenied = ErrorCode._('AccessDenied');
   static const internalServerError = ErrorCode._('InternalServerError');
@@ -2331,6 +2376,8 @@ class ErrorCode {
 }
 
 /// A provider representing an Amazon Cognito user pool and its client ID.
+///
+/// @nodoc
 class CognitoIdentityProvider {
   /// The client ID for the Amazon Cognito user pool.
   final String? clientId;
@@ -2379,6 +2426,7 @@ class CognitoIdentityProvider {
   }
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -2387,6 +2435,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeveloperUserAlreadyRegisteredException extends _s.GenericAwsException {
   DeveloperUserAlreadyRegisteredException({String? type, String? message})
       : super(
@@ -2395,16 +2444,19 @@ class DeveloperUserAlreadyRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ExternalServiceException extends _s.GenericAwsException {
   ExternalServiceException({String? type, String? message})
       : super(type: type, code: 'ExternalServiceException', message: message);
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class InvalidIdentityPoolConfigurationException extends _s.GenericAwsException {
   InvalidIdentityPoolConfigurationException({String? type, String? message})
       : super(
@@ -2413,31 +2465,37 @@ class InvalidIdentityPoolConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+/// @nodoc
 class ResourceConflictException extends _s.GenericAwsException {
   ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

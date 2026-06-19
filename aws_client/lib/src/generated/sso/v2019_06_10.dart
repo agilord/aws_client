@@ -267,6 +267,7 @@ class Sso {
   }
 }
 
+/// @nodoc
 class GetRoleCredentialsResponse {
   /// The credentials for the role that is assigned to the user.
   final RoleCredentials? roleCredentials;
@@ -292,6 +293,7 @@ class GetRoleCredentialsResponse {
   }
 }
 
+/// @nodoc
 class ListAccountRolesResponse {
   /// The page token client that is used to retrieve the list of accounts.
   final String? nextToken;
@@ -325,6 +327,7 @@ class ListAccountRolesResponse {
   }
 }
 
+/// @nodoc
 class ListAccountsResponse {
   /// A paginated response with the list of account information and the next token
   /// if more results are available.
@@ -359,6 +362,8 @@ class ListAccountsResponse {
 }
 
 /// Provides information about your AWS account.
+///
+/// @nodoc
 class AccountInfo {
   /// The identifier of the AWS account that is assigned to the user.
   final String? accountId;
@@ -396,6 +401,8 @@ class AccountInfo {
 }
 
 /// Provides information about the role that is assigned to the user.
+///
+/// @nodoc
 class RoleInfo {
   /// The identifier of the AWS account assigned to the user.
   final String? accountId;
@@ -427,6 +434,8 @@ class RoleInfo {
 
 /// Provides information about the role credentials that are assigned to the
 /// user.
+///
+/// @nodoc
 class RoleCredentials {
   /// The identifier used for the temporary security credentials. For more
   /// information, see <a
@@ -480,21 +489,25 @@ class RoleCredentials {
   }
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

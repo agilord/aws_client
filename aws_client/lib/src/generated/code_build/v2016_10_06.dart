@@ -4164,6 +4164,7 @@ class CodeBuild {
   }
 }
 
+/// @nodoc
 class BatchDeleteBuildsOutput {
   /// The IDs of the builds that were successfully deleted.
   final List<String>? buildsDeleted;
@@ -4199,6 +4200,7 @@ class BatchDeleteBuildsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetBuildBatchesOutput {
   /// An array of <code>BuildBatch</code> objects that represent the retrieved
   /// batch builds.
@@ -4237,6 +4239,7 @@ class BatchGetBuildBatchesOutput {
   }
 }
 
+/// @nodoc
 class BatchGetBuildsOutput {
   /// Information about the requested builds.
   final List<Build>? builds;
@@ -4272,6 +4275,7 @@ class BatchGetBuildsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetCommandExecutionsOutput {
   /// Information about the requested command executions.
   final List<CommandExecution>? commandExecutions;
@@ -4308,6 +4312,7 @@ class BatchGetCommandExecutionsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetFleetsOutput {
   /// Information about the requested compute fleets.
   final List<Fleet>? fleets;
@@ -4343,6 +4348,7 @@ class BatchGetFleetsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetProjectsOutput {
   /// Information about the requested build projects.
   final List<Project>? projects;
@@ -4378,6 +4384,7 @@ class BatchGetProjectsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetReportGroupsOutput {
   /// The array of report groups returned by <code>BatchGetReportGroups</code>.
   final List<ReportGroup>? reportGroups;
@@ -4415,6 +4422,7 @@ class BatchGetReportGroupsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetReportsOutput {
   /// The array of <code>Report</code> objects returned by
   /// <code>BatchGetReports</code>.
@@ -4452,6 +4460,7 @@ class BatchGetReportsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetSandboxesOutput {
   /// Information about the requested sandboxes.
   final List<Sandbox>? sandboxes;
@@ -4487,6 +4496,7 @@ class BatchGetSandboxesOutput {
   }
 }
 
+/// @nodoc
 class CreateFleetOutput {
   /// Information about the compute fleet
   final Fleet? fleet;
@@ -4511,6 +4521,7 @@ class CreateFleetOutput {
   }
 }
 
+/// @nodoc
 class CreateProjectOutput {
   /// Information about the build project that was created.
   final Project? project;
@@ -4535,6 +4546,7 @@ class CreateProjectOutput {
   }
 }
 
+/// @nodoc
 class CreateReportGroupOutput {
   /// Information about the report group that was created.
   final ReportGroup? reportGroup;
@@ -4559,6 +4571,7 @@ class CreateReportGroupOutput {
   }
 }
 
+/// @nodoc
 class CreateWebhookOutput {
   /// Information about a webhook that connects repository events to a build
   /// project in CodeBuild.
@@ -4584,6 +4597,7 @@ class CreateWebhookOutput {
   }
 }
 
+/// @nodoc
 class DeleteBuildBatchOutput {
   /// An array of strings that contain the identifiers of the builds that were
   /// deleted.
@@ -4628,6 +4642,7 @@ class DeleteBuildBatchOutput {
   }
 }
 
+/// @nodoc
 class DeleteFleetOutput {
   DeleteFleetOutput();
 
@@ -4640,6 +4655,7 @@ class DeleteFleetOutput {
   }
 }
 
+/// @nodoc
 class DeleteProjectOutput {
   DeleteProjectOutput();
 
@@ -4652,6 +4668,7 @@ class DeleteProjectOutput {
   }
 }
 
+/// @nodoc
 class DeleteReportOutput {
   DeleteReportOutput();
 
@@ -4664,6 +4681,7 @@ class DeleteReportOutput {
   }
 }
 
+/// @nodoc
 class DeleteReportGroupOutput {
   DeleteReportGroupOutput();
 
@@ -4676,6 +4694,7 @@ class DeleteReportGroupOutput {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyOutput {
   DeleteResourcePolicyOutput();
 
@@ -4688,6 +4707,7 @@ class DeleteResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class DeleteSourceCredentialsOutput {
   /// The Amazon Resource Name (ARN) of the token.
   final String? arn;
@@ -4710,6 +4730,7 @@ class DeleteSourceCredentialsOutput {
   }
 }
 
+/// @nodoc
 class DeleteWebhookOutput {
   DeleteWebhookOutput();
 
@@ -4722,6 +4743,7 @@ class DeleteWebhookOutput {
   }
 }
 
+/// @nodoc
 class DescribeCodeCoveragesOutput {
   /// An array of <code>CodeCoverage</code> objects that contain the results.
   final List<CodeCoverage>? codeCoverages;
@@ -4756,6 +4778,7 @@ class DescribeCodeCoveragesOutput {
   }
 }
 
+/// @nodoc
 class DescribeTestCasesOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -4794,6 +4817,7 @@ class DescribeTestCasesOutput {
   }
 }
 
+/// @nodoc
 class GetReportGroupTrendOutput {
   /// An array that contains the raw data for each report.
   final List<ReportWithRawData>? rawData;
@@ -4829,6 +4853,7 @@ class GetReportGroupTrendOutput {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyOutput {
   /// The resource policy for the resource identified by the input ARN parameter.
   final String? policy;
@@ -4851,6 +4876,7 @@ class GetResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class ImportSourceCredentialsOutput {
   /// The Amazon Resource Name (ARN) of the token.
   final String? arn;
@@ -4873,6 +4899,7 @@ class ImportSourceCredentialsOutput {
   }
 }
 
+/// @nodoc
 class InvalidateProjectCacheOutput {
   InvalidateProjectCacheOutput();
 
@@ -4885,6 +4912,7 @@ class InvalidateProjectCacheOutput {
   }
 }
 
+/// @nodoc
 class ListBuildBatchesOutput {
   /// An array of strings that contains the batch build identifiers.
   final List<String>? ids;
@@ -4916,6 +4944,7 @@ class ListBuildBatchesOutput {
   }
 }
 
+/// @nodoc
 class ListBuildBatchesForProjectOutput {
   /// An array of strings that contains the batch build identifiers.
   final List<String>? ids;
@@ -4947,6 +4976,7 @@ class ListBuildBatchesForProjectOutput {
   }
 }
 
+/// @nodoc
 class ListBuildsOutput {
   /// A list of build IDs, with each build ID representing a single build.
   final List<String>? ids;
@@ -4979,6 +5009,7 @@ class ListBuildsOutput {
   }
 }
 
+/// @nodoc
 class ListBuildsForProjectOutput {
   /// A list of build identifiers for the specified build project, with each build
   /// ID representing a single build.
@@ -5012,6 +5043,7 @@ class ListBuildsForProjectOutput {
   }
 }
 
+/// @nodoc
 class ListCommandExecutionsForSandboxOutput {
   /// Information about the requested command executions.
   final List<CommandExecution>? commandExecutions;
@@ -5045,6 +5077,7 @@ class ListCommandExecutionsForSandboxOutput {
   }
 }
 
+/// @nodoc
 class ListCuratedEnvironmentImagesOutput {
   /// Information about supported platforms for Docker images that are managed by
   /// CodeBuild.
@@ -5072,6 +5105,7 @@ class ListCuratedEnvironmentImagesOutput {
   }
 }
 
+/// @nodoc
 class ListFleetsOutput {
   /// The list of compute fleet names.
   final List<String>? fleets;
@@ -5105,6 +5139,7 @@ class ListFleetsOutput {
   }
 }
 
+/// @nodoc
 class ListProjectsOutput {
   /// If there are more than 100 items in the list, only the first 100 items are
   /// returned, along with a unique string called a <i>nextToken</i>. To get the
@@ -5141,6 +5176,7 @@ class ListProjectsOutput {
   }
 }
 
+/// @nodoc
 class ListReportGroupsOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5180,6 +5216,7 @@ class ListReportGroupsOutput {
   }
 }
 
+/// @nodoc
 class ListReportsOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5217,6 +5254,7 @@ class ListReportsOutput {
   }
 }
 
+/// @nodoc
 class ListReportsForReportGroupOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5253,6 +5291,7 @@ class ListReportsForReportGroupOutput {
   }
 }
 
+/// @nodoc
 class ListSandboxesOutput {
   /// Information about the requested sandbox IDs.
   final List<String>? ids;
@@ -5282,6 +5321,7 @@ class ListSandboxesOutput {
   }
 }
 
+/// @nodoc
 class ListSandboxesForProjectOutput {
   /// Information about the requested sandbox IDs.
   final List<String>? ids;
@@ -5311,6 +5351,7 @@ class ListSandboxesForProjectOutput {
   }
 }
 
+/// @nodoc
 class ListSharedProjectsOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5350,6 +5391,7 @@ class ListSharedProjectsOutput {
   }
 }
 
+/// @nodoc
 class ListSharedReportGroupsOutput {
   /// During a previous call, the maximum number of items that can be returned is
   /// the value specified in <code>maxResults</code>. If there more items in the
@@ -5389,6 +5431,7 @@ class ListSharedReportGroupsOutput {
   }
 }
 
+/// @nodoc
 class ListSourceCredentialsOutput {
   /// A list of <code>SourceCredentialsInfo</code> objects. Each
   /// <code>SourceCredentialsInfo</code> object includes the authentication type,
@@ -5417,6 +5460,7 @@ class ListSourceCredentialsOutput {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyOutput {
   /// The ARN of the <code>Project</code> or <code>ReportGroup</code> resource
   /// that is associated with a resource policy.
@@ -5440,6 +5484,7 @@ class PutResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class RetryBuildOutput {
   final Build? build;
 
@@ -5463,6 +5508,7 @@ class RetryBuildOutput {
   }
 }
 
+/// @nodoc
 class RetryBuildBatchOutput {
   final BuildBatch? buildBatch;
 
@@ -5486,6 +5532,7 @@ class RetryBuildBatchOutput {
   }
 }
 
+/// @nodoc
 class StartBuildOutput {
   /// Information about the build to be run.
   final Build? build;
@@ -5510,6 +5557,7 @@ class StartBuildOutput {
   }
 }
 
+/// @nodoc
 class StartBuildBatchOutput {
   /// A <code>BuildBatch</code> object that contains information about the batch
   /// build.
@@ -5535,6 +5583,7 @@ class StartBuildBatchOutput {
   }
 }
 
+/// @nodoc
 class StartCommandExecutionOutput {
   /// Information about the requested command executions.
   final CommandExecution? commandExecution;
@@ -5560,6 +5609,7 @@ class StartCommandExecutionOutput {
   }
 }
 
+/// @nodoc
 class StartSandboxOutput {
   /// Information about the requested sandbox.
   final Sandbox? sandbox;
@@ -5584,6 +5634,7 @@ class StartSandboxOutput {
   }
 }
 
+/// @nodoc
 class StartSandboxConnectionOutput {
   /// Information about the Session Manager session.
   final SSMSession? ssmSession;
@@ -5608,6 +5659,7 @@ class StartSandboxConnectionOutput {
   }
 }
 
+/// @nodoc
 class StopBuildOutput {
   /// Information about the build.
   final Build? build;
@@ -5632,6 +5684,7 @@ class StopBuildOutput {
   }
 }
 
+/// @nodoc
 class StopBuildBatchOutput {
   final BuildBatch? buildBatch;
 
@@ -5655,6 +5708,7 @@ class StopBuildBatchOutput {
   }
 }
 
+/// @nodoc
 class StopSandboxOutput {
   /// Information about the requested sandbox.
   final Sandbox? sandbox;
@@ -5679,6 +5733,7 @@ class StopSandboxOutput {
   }
 }
 
+/// @nodoc
 class UpdateFleetOutput {
   /// A <code>Fleet</code> object.
   final Fleet? fleet;
@@ -5703,6 +5758,7 @@ class UpdateFleetOutput {
   }
 }
 
+/// @nodoc
 class UpdateProjectOutput {
   /// Information about the build project that was changed.
   final Project? project;
@@ -5727,6 +5783,7 @@ class UpdateProjectOutput {
   }
 }
 
+/// @nodoc
 class UpdateProjectVisibilityOutput {
   /// The Amazon Resource Name (ARN) of the build project.
   final String? projectArn;
@@ -5763,6 +5820,7 @@ class UpdateProjectVisibilityOutput {
   }
 }
 
+/// @nodoc
 class UpdateReportGroupOutput {
   /// Information about the updated report group.
   final ReportGroup? reportGroup;
@@ -5787,6 +5845,7 @@ class UpdateReportGroupOutput {
   }
 }
 
+/// @nodoc
 class UpdateWebhookOutput {
   /// Information about a repository's webhook that is associated with a project
   /// in CodeBuild.
@@ -5814,6 +5873,8 @@ class UpdateWebhookOutput {
 
 /// Information about a webhook that connects repository events to a build
 /// project in CodeBuild.
+///
+/// @nodoc
 class Webhook {
   /// A regular expression used to determine which repository branches are built
   /// when a webhook is triggered. If the name of a branch matches the regular
@@ -5977,6 +6038,7 @@ class Webhook {
   }
 }
 
+/// @nodoc
 class WebhookBuildType {
   static const build = WebhookBuildType._('BUILD');
   static const buildBatch = WebhookBuildType._('BUILD_BATCH');
@@ -6004,6 +6066,8 @@ class WebhookBuildType {
 }
 
 /// Contains configuration information about the scope for a webhook.
+///
+/// @nodoc
 class ScopeConfiguration {
   /// The name of either the group, enterprise, or organization that will send
   /// webhook events to CodeBuild, depending on the type of webhook.
@@ -6044,6 +6108,7 @@ class ScopeConfiguration {
   }
 }
 
+/// @nodoc
 class WebhookStatus {
   static const creating = WebhookStatus._('CREATING');
   static const createFailed = WebhookStatus._('CREATE_FAILED');
@@ -6074,6 +6139,8 @@ class WebhookStatus {
 /// requirements for triggering builds on pull requests. This policy helps
 /// control when automated builds are executed based on contributor permissions
 /// and approval workflows.
+///
+/// @nodoc
 class PullRequestBuildPolicy {
   /// Specifies when comment-based approval is required before triggering a build
   /// on pull requests. This setting determines whether builds run automatically
@@ -6130,6 +6197,7 @@ class PullRequestBuildPolicy {
   }
 }
 
+/// @nodoc
 class PullRequestBuildCommentApproval {
   static const disabled = PullRequestBuildCommentApproval._('DISABLED');
   static const allPullRequests =
@@ -6158,6 +6226,7 @@ class PullRequestBuildCommentApproval {
   String toString() => value;
 }
 
+/// @nodoc
 class PullRequestBuildApproverRole {
   static const githubRead = PullRequestBuildApproverRole._('GITHUB_READ');
   static const githubTriage = PullRequestBuildApproverRole._('GITHUB_TRIAGE');
@@ -6216,6 +6285,7 @@ class PullRequestBuildApproverRole {
   String toString() => value;
 }
 
+/// @nodoc
 class WebhookScopeType {
   static const githubOrganization = WebhookScopeType._('GITHUB_ORGANIZATION');
   static const githubGlobal = WebhookScopeType._('GITHUB_GLOBAL');
@@ -6242,6 +6312,8 @@ class WebhookScopeType {
 }
 
 /// A filter used to determine which webhooks trigger a build.
+///
+/// @nodoc
 class WebhookFilter {
   /// For a <code>WebHookFilter</code> that uses <code>EVENT</code> type, a
   /// comma-separated string that specifies one or more events. For example, the
@@ -6435,6 +6507,7 @@ class WebhookFilter {
   }
 }
 
+/// @nodoc
 class WebhookFilterType {
   static const event = WebhookFilterType._('EVENT');
   static const baseRef = WebhookFilterType._('BASE_REF');
@@ -6484,6 +6557,8 @@ class WebhookFilterType {
 /// running a series of test cases. You specify the test cases for a report
 /// group in the buildspec for a build project using one or more paths to the
 /// test case files.
+///
+/// @nodoc
 class ReportGroup {
   /// The ARN of the <code>ReportGroup</code>.
   final String? arn;
@@ -6580,6 +6655,7 @@ class ReportGroup {
   }
 }
 
+/// @nodoc
 class ReportType {
   static const test = ReportType._('TEST');
   static const codeCoverage = ReportType._('CODE_COVERAGE');
@@ -6604,6 +6680,8 @@ class ReportType {
 }
 
 /// Information about the location where the run of a report is exported.
+///
+/// @nodoc
 class ReportExportConfig {
   /// The export configuration type. Valid values are:
   ///
@@ -6647,6 +6725,7 @@ class ReportExportConfig {
   }
 }
 
+/// @nodoc
 class ReportGroupStatusType {
   static const active = ReportGroupStatusType._('ACTIVE');
   static const deleting = ReportGroupStatusType._('DELETING');
@@ -6676,6 +6755,8 @@ class ReportGroupStatusType {
 ///
 /// This tag is available for use by Amazon Web Services services that support
 /// tags in CodeBuild.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String? key;
@@ -6705,6 +6786,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ReportExportConfigType {
   static const s3 = ReportExportConfigType._('S3');
   static const noExport = ReportExportConfigType._('NO_EXPORT');
@@ -6731,6 +6813,8 @@ class ReportExportConfigType {
 }
 
 /// Information about the S3 bucket where the raw data of a report are exported.
+///
+/// @nodoc
 class S3ReportExportConfig {
   /// The name of the S3 bucket where the raw data of a report are exported.
   final String? bucket;
@@ -6802,6 +6886,7 @@ class S3ReportExportConfig {
   }
 }
 
+/// @nodoc
 class ReportPackagingType {
   static const zip = ReportPackagingType._('ZIP');
   static const none = ReportPackagingType._('NONE');
@@ -6833,6 +6918,8 @@ class ReportPackagingType {
 /// </dd> <dt>PRIVATE</dt> <dd>
 /// The project builds are not visible to the public.
 /// </dd> </dl>
+///
+/// @nodoc
 class ProjectVisibilityType {
   static const publicRead = ProjectVisibilityType._('PUBLIC_READ');
   static const private = ProjectVisibilityType._('PRIVATE');
@@ -6859,6 +6946,8 @@ class ProjectVisibilityType {
 }
 
 /// Information about a build project.
+///
+/// @nodoc
 class Project {
   /// The Amazon Resource Name (ARN) of the build project.
   final String? arn;
@@ -7188,6 +7277,8 @@ class Project {
 }
 
 /// Information about the build input source code for the build project.
+///
+/// @nodoc
 class ProjectSource {
   /// The type of repository that contains the source code to be built. Valid
   /// values include:
@@ -7426,6 +7517,8 @@ class ProjectSource {
 }
 
 /// Information about the build output artifacts for the build project.
+///
+/// @nodoc
 class ProjectArtifacts {
   /// The type of build output artifact. Valid values include:
   ///
@@ -7671,6 +7764,8 @@ class ProjectArtifacts {
 }
 
 /// Information about the cache for the build project.
+///
+/// @nodoc
 class ProjectCache {
   /// The type of cache used by the build project. Valid values include:
   ///
@@ -7790,6 +7885,8 @@ class ProjectCache {
 }
 
 /// Information about the build environment of the build project.
+///
+/// @nodoc
 class ProjectEnvironment {
   /// Information about the compute resources the build project uses. Available
   /// values include:
@@ -8070,6 +8167,8 @@ class ProjectEnvironment {
 }
 
 /// Information about the VPC configuration that CodeBuild accesses.
+///
+/// @nodoc
 class VpcConfig {
   /// A list of one or more security groups IDs in your Amazon VPC.
   final List<String>? securityGroupIds;
@@ -8111,6 +8210,8 @@ class VpcConfig {
 }
 
 /// Information about the build badge for the build project.
+///
+/// @nodoc
 class ProjectBadge {
   /// Set this to true to generate a publicly accessible URL for your project's
   /// build badge.
@@ -8144,6 +8245,8 @@ class ProjectBadge {
 
 /// Information about logs for a build project. These can be logs in CloudWatch
 /// Logs, built in a specified S3 bucket, or both.
+///
+/// @nodoc
 class LogsConfig {
   /// Information about CloudWatch Logs for a build project. CloudWatch Logs are
   /// enabled by default.
@@ -8181,6 +8284,8 @@ class LogsConfig {
 }
 
 /// Contains configuration information about a batch build project.
+///
+/// @nodoc
 class ProjectBuildBatchConfig {
   /// Specifies how build status reports are sent to the source provider for the
   /// batch build. This property is only used when the source provider for your
@@ -8247,6 +8352,8 @@ class ProjectBuildBatchConfig {
 }
 
 /// Specifies restrictions for the batch build.
+///
+/// @nodoc
 class BatchRestrictions {
   /// An array of strings that specify the compute types that are allowed for the
   /// batch build. See <a
@@ -8299,6 +8406,7 @@ class BatchRestrictions {
   }
 }
 
+/// @nodoc
 class BatchReportModeType {
   static const reportIndividualBuilds =
       BatchReportModeType._('REPORT_INDIVIDUAL_BUILDS');
@@ -8330,6 +8438,8 @@ class BatchReportModeType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html">What Is
 /// Amazon Elastic File System?</a>
+///
+/// @nodoc
 class ProjectFileSystemLocation {
   /// The name used to access a file system created by Amazon EFS. CodeBuild
   /// creates an environment variable by appending the <code>identifier</code> in
@@ -8403,6 +8513,7 @@ class ProjectFileSystemLocation {
   }
 }
 
+/// @nodoc
 class FileSystemType {
   static const efs = FileSystemType._('EFS');
 
@@ -8427,6 +8538,8 @@ class FileSystemType {
 }
 
 /// Information about CloudWatch Logs for a build project.
+///
+/// @nodoc
 class CloudWatchLogsConfig {
   /// The current status of the logs in CloudWatch Logs for a build project. Valid
   /// values are:
@@ -8481,6 +8594,8 @@ class CloudWatchLogsConfig {
 }
 
 /// Information about S3 logs for a build project.
+///
+/// @nodoc
 class S3LogsConfig {
   /// The current status of the S3 build logs. Valid values are:
   ///
@@ -8539,6 +8654,7 @@ class S3LogsConfig {
   }
 }
 
+/// @nodoc
 class LogsConfigStatusType {
   static const enabled = LogsConfigStatusType._('ENABLED');
   static const disabled = LogsConfigStatusType._('DISABLED');
@@ -8598,6 +8714,8 @@ class LogsConfigStatusType {
 /// ownership of uploaded objects using S3 Object Ownership</a> in the <i>Amazon
 /// Simple Storage Service User Guide</i>.
 /// </dd> </dl>
+///
+/// @nodoc
 class BucketOwnerAccess {
   static const none = BucketOwnerAccess._('NONE');
   static const readOnly = BucketOwnerAccess._('READ_ONLY');
@@ -8623,6 +8741,7 @@ class BucketOwnerAccess {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentType {
   static const windowsContainer = EnvironmentType._('WINDOWS_CONTAINER');
   static const linuxContainer = EnvironmentType._('LINUX_CONTAINER');
@@ -8673,6 +8792,7 @@ class EnvironmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ComputeType {
   static const buildGeneral1Small = ComputeType._('BUILD_GENERAL1_SMALL');
   static const buildGeneral1Medium = ComputeType._('BUILD_GENERAL1_MEDIUM');
@@ -8722,6 +8842,8 @@ class ComputeType {
 /// Contains compute attributes. These attributes only need be specified when
 /// your project's or fleet's <code>computeType</code> is set to
 /// <code>ATTRIBUTE_BASED_COMPUTE</code> or <code>CUSTOM_INSTANCE_TYPE</code>.
+///
+/// @nodoc
 class ComputeConfiguration {
   /// The amount of disk space of the instance type included in your fleet.
   final int? disk;
@@ -8777,6 +8899,8 @@ class ComputeConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/fleets.html">Working
 /// with reserved capacity in CodeBuild</a>.
+///
+/// @nodoc
 class ProjectFleet {
   /// Specifies the compute fleet ARN for the build project.
   final String? fleetArn;
@@ -8814,6 +8938,8 @@ class ProjectFleet {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-private-registry.html">Private
 /// Registry with Secrets Manager Sample for CodeBuild</a>.
+///
+/// @nodoc
 class RegistryCredential {
   /// The Amazon Resource Name (ARN) or name of credentials created using Secrets
   /// Manager.
@@ -8850,6 +8976,7 @@ class RegistryCredential {
   }
 }
 
+/// @nodoc
 class ImagePullCredentialsType {
   static const codebuild = ImagePullCredentialsType._('CODEBUILD');
   static const serviceRole = ImagePullCredentialsType._('SERVICE_ROLE');
@@ -8876,6 +9003,8 @@ class ImagePullCredentialsType {
 }
 
 /// Contains docker server information.
+///
+/// @nodoc
 class DockerServer {
   /// Information about the compute resources the docker server uses. Available
   /// values include:
@@ -8948,6 +9077,8 @@ class DockerServer {
 }
 
 /// Contains information about the status of the docker server.
+///
+/// @nodoc
 class DockerServerStatus {
   /// A message associated with the status of a docker server.
   final String? message;
@@ -8977,6 +9108,7 @@ class DockerServerStatus {
   }
 }
 
+/// @nodoc
 class CredentialProviderType {
   static const secretsManager = CredentialProviderType._('SECRETS_MANAGER');
 
@@ -9002,6 +9134,8 @@ class CredentialProviderType {
 }
 
 /// Information about an environment variable for a build project or a build.
+///
+/// @nodoc
 class EnvironmentVariable {
   /// The name or key of the environment variable.
   final String name;
@@ -9073,6 +9207,7 @@ class EnvironmentVariable {
   }
 }
 
+/// @nodoc
 class EnvironmentVariableType {
   static const plaintext = EnvironmentVariableType._('PLAINTEXT');
   static const parameterStore = EnvironmentVariableType._('PARAMETER_STORE');
@@ -9099,6 +9234,7 @@ class EnvironmentVariableType {
   String toString() => value;
 }
 
+/// @nodoc
 class MachineType {
   static const general = MachineType._('GENERAL');
   static const nvme = MachineType._('NVME');
@@ -9122,6 +9258,7 @@ class MachineType {
   String toString() => value;
 }
 
+/// @nodoc
 class CacheType {
   static const noCache = CacheType._('NO_CACHE');
   static const s3 = CacheType._('S3');
@@ -9146,6 +9283,7 @@ class CacheType {
   String toString() => value;
 }
 
+/// @nodoc
 class CacheMode {
   static const localDockerLayerCache = CacheMode._('LOCAL_DOCKER_LAYER_CACHE');
   static const localSourceCache = CacheMode._('LOCAL_SOURCE_CACHE');
@@ -9174,6 +9312,7 @@ class CacheMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ArtifactsType {
   static const codepipeline = ArtifactsType._('CODEPIPELINE');
   static const s3 = ArtifactsType._('S3');
@@ -9199,6 +9338,7 @@ class ArtifactsType {
   String toString() => value;
 }
 
+/// @nodoc
 class ArtifactNamespace {
   static const none = ArtifactNamespace._('NONE');
   static const buildId = ArtifactNamespace._('BUILD_ID');
@@ -9223,6 +9363,7 @@ class ArtifactNamespace {
   String toString() => value;
 }
 
+/// @nodoc
 class ArtifactPackaging {
   static const none = ArtifactPackaging._('NONE');
   static const zip = ArtifactPackaging._('ZIP');
@@ -9248,6 +9389,8 @@ class ArtifactPackaging {
 }
 
 /// A source identifier and its corresponding version.
+///
+/// @nodoc
 class ProjectSourceVersion {
   /// An identifier for a source in the build project. The identifier can only
   /// contain alphanumeric characters and underscores, and must be less than 128
@@ -9310,6 +9453,7 @@ class ProjectSourceVersion {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const codecommit = SourceType._('CODECOMMIT');
   static const codepipeline = SourceType._('CODEPIPELINE');
@@ -9352,6 +9496,8 @@ class SourceType {
 
 /// Information about the Git submodules configuration for an CodeBuild build
 /// project.
+///
+/// @nodoc
 class GitSubmodulesConfig {
   /// Set to true to fetch Git submodules for your CodeBuild build project.
   final bool fetchSubmodules;
@@ -9376,6 +9522,8 @@ class GitSubmodulesConfig {
 
 /// Information about the authorization settings for CodeBuild to access the
 /// source code to be built.
+///
+/// @nodoc
 class SourceAuth {
   /// The authorization type to use. Valid options are OAUTH, CODECONNECTIONS, or
   /// SECRETS_MANAGER.
@@ -9408,6 +9556,8 @@ class SourceAuth {
 
 /// Contains information that defines how the CodeBuild build project reports
 /// the build status to the source provider.
+///
+/// @nodoc
 class BuildStatusConfig {
   /// Specifies the context of the build status CodeBuild sends to the source
   /// provider. The usage of this parameter depends on the source provider.
@@ -9461,6 +9611,7 @@ class BuildStatusConfig {
   }
 }
 
+/// @nodoc
 class SourceAuthType {
   static const oauth = SourceAuthType._('OAUTH');
   static const codeconnections = SourceAuthType._('CODECONNECTIONS');
@@ -9487,6 +9638,8 @@ class SourceAuthType {
 }
 
 /// A set of dedicated instances for your build environment.
+///
+/// @nodoc
 class Fleet {
   /// The ARN of the compute fleet.
   final String? arn;
@@ -9835,6 +9988,8 @@ class Fleet {
 }
 
 /// The status of the compute fleet.
+///
+/// @nodoc
 class FleetStatus {
   /// Additional information about a compute fleet. Valid values include:
   ///
@@ -9910,6 +10065,8 @@ class FleetStatus {
 }
 
 /// The scaling configuration output of a compute fleet.
+///
+/// @nodoc
 class ScalingConfigurationOutput {
   /// The desired number of instances in the ﬂeet when auto-scaling.
   final int? desiredCapacity;
@@ -9960,6 +10117,7 @@ class ScalingConfigurationOutput {
   }
 }
 
+/// @nodoc
 class FleetOverflowBehavior {
   static const queue = FleetOverflowBehavior._('QUEUE');
   static const onDemand = FleetOverflowBehavior._('ON_DEMAND');
@@ -9987,6 +10145,8 @@ class FleetOverflowBehavior {
 
 /// Information about the proxy configurations that apply network access control
 /// to your reserved capacity instances.
+///
+/// @nodoc
 class ProxyConfiguration {
   /// The default behavior of outgoing traffic.
   final FleetProxyRuleBehavior? defaultBehavior;
@@ -10021,6 +10181,7 @@ class ProxyConfiguration {
   }
 }
 
+/// @nodoc
 class FleetProxyRuleBehavior {
   static const allowAll = FleetProxyRuleBehavior._('ALLOW_ALL');
   static const denyAll = FleetProxyRuleBehavior._('DENY_ALL');
@@ -10047,6 +10208,8 @@ class FleetProxyRuleBehavior {
 }
 
 /// Information about the proxy rule for your reserved capacity instances.
+///
+/// @nodoc
 class FleetProxyRule {
   /// The behavior of the proxy rule.
   final FleetProxyRuleEffectType effect;
@@ -10087,6 +10250,7 @@ class FleetProxyRule {
   }
 }
 
+/// @nodoc
 class FleetProxyRuleType {
   static const domain = FleetProxyRuleType._('DOMAIN');
   static const ip = FleetProxyRuleType._('IP');
@@ -10112,6 +10276,7 @@ class FleetProxyRuleType {
   String toString() => value;
 }
 
+/// @nodoc
 class FleetProxyRuleEffectType {
   static const allow = FleetProxyRuleEffectType._('ALLOW');
   static const deny = FleetProxyRuleEffectType._('DENY');
@@ -10137,6 +10302,7 @@ class FleetProxyRuleEffectType {
   String toString() => value;
 }
 
+/// @nodoc
 class FleetScalingType {
   static const targetTrackingScaling =
       FleetScalingType._('TARGET_TRACKING_SCALING');
@@ -10162,6 +10328,8 @@ class FleetScalingType {
 }
 
 /// Defines when a new instance is auto-scaled into the compute fleet.
+///
+/// @nodoc
 class TargetTrackingScalingConfiguration {
   /// The metric type to determine auto-scaling.
   final FleetScalingMetricType? metricType;
@@ -10193,6 +10361,7 @@ class TargetTrackingScalingConfiguration {
   }
 }
 
+/// @nodoc
 class FleetScalingMetricType {
   static const fleetUtilizationRate =
       FleetScalingMetricType._('FLEET_UTILIZATION_RATE');
@@ -10218,6 +10387,7 @@ class FleetScalingMetricType {
   String toString() => value;
 }
 
+/// @nodoc
 class FleetStatusCode {
   static const creating = FleetStatusCode._('CREATING');
   static const updating = FleetStatusCode._('UPDATING');
@@ -10258,6 +10428,7 @@ class FleetStatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class FleetContextCode {
   static const createFailed = FleetContextCode._('CREATE_FAILED');
   static const updateFailed = FleetContextCode._('UPDATE_FAILED');
@@ -10293,6 +10464,8 @@ class FleetContextCode {
 }
 
 /// The scaling configuration input of a compute fleet.
+///
+/// @nodoc
 class ScalingConfigurationInput {
   /// The maximum number of instances in the ﬂeet when auto-scaling.
   final int? maxCapacity;
@@ -10323,6 +10496,8 @@ class ScalingConfigurationInput {
 }
 
 /// Contains sandbox information.
+///
+/// @nodoc
 class Sandbox {
   /// The ARN of the sandbox.
   final String? arn;
@@ -10503,6 +10678,8 @@ class Sandbox {
 }
 
 /// Contains information about the sandbox session.
+///
+/// @nodoc
 class SandboxSession {
   /// The current phase for the sandbox.
   final String? currentPhase;
@@ -10587,6 +10764,8 @@ class SandboxSession {
 }
 
 /// Information about build logs in CloudWatch Logs.
+///
+/// @nodoc
 class LogsLocation {
   /// Information about CloudWatch Logs for a build project.
   final CloudWatchLogsConfig? cloudWatchLogs;
@@ -10676,6 +10855,8 @@ class LogsLocation {
 }
 
 /// Describes a network interface.
+///
+/// @nodoc
 class NetworkInterface {
   /// The ID of the network interface.
   final String? networkInterfaceId;
@@ -10706,6 +10887,8 @@ class NetworkInterface {
 }
 
 /// Contains information about the sandbox phase.
+///
+/// @nodoc
 class SandboxSessionPhase {
   /// An array of <code>PhaseContext</code> objects.
   final List<PhaseContext>? contexts;
@@ -10780,6 +10963,7 @@ class SandboxSessionPhase {
   }
 }
 
+/// @nodoc
 class StatusType {
   static const succeeded = StatusType._('SUCCEEDED');
   static const failed = StatusType._('FAILED');
@@ -10816,6 +11000,8 @@ class StatusType {
 
 /// Additional information about a build phase that has an error. You can use
 /// this information for troubleshooting.
+///
+/// @nodoc
 class PhaseContext {
   /// An explanation of the build phase's context. This might include a command ID
   /// and an exit code.
@@ -10847,6 +11033,8 @@ class PhaseContext {
 }
 
 /// Contains information about a batch build.
+///
+/// @nodoc
 class BuildBatch {
   /// The ARN of the batch build.
   final String? arn;
@@ -11192,6 +11380,8 @@ class BuildBatch {
 }
 
 /// Information about build output artifacts.
+///
+/// @nodoc
 class BuildArtifacts {
   /// An identifier for this artifact definition.
   final String? artifactIdentifier;
@@ -11277,6 +11467,8 @@ class BuildArtifacts {
 /// Contains information about a batch build build group. Build groups are used
 /// to combine builds that can run in parallel, while still being able to set
 /// dependencies on other build groups.
+///
+/// @nodoc
 class BuildGroup {
   /// A <code>BuildSummary</code> object that contains a summary of the current
   /// build group.
@@ -11342,6 +11534,8 @@ class BuildGroup {
 }
 
 /// Contains summary information about a batch build group.
+///
+/// @nodoc
 class BuildSummary {
   /// The batch build ARN.
   final String? arn;
@@ -11415,6 +11609,8 @@ class BuildSummary {
 
 /// Represents a resolved build artifact. A resolved artifact is an artifact
 /// that is built and deployed to the destination, such as Amazon S3.
+///
+/// @nodoc
 class ResolvedArtifact {
   /// The identifier of the artifact.
   final String? identifier;
@@ -11452,6 +11648,8 @@ class ResolvedArtifact {
 }
 
 /// Contains information about a stage for a batch build.
+///
+/// @nodoc
 class BuildBatchPhase {
   /// Additional information about the batch build phase. Especially to help
   /// troubleshoot a failed batch build.
@@ -11544,6 +11742,7 @@ class BuildBatchPhase {
   }
 }
 
+/// @nodoc
 class BuildBatchPhaseType {
   static const submitted = BuildBatchPhaseType._('SUBMITTED');
   static const downloadBatchspec = BuildBatchPhaseType._('DOWNLOAD_BATCHSPEC');
@@ -11583,6 +11782,8 @@ class BuildBatchPhaseType {
 }
 
 /// Information about a build.
+///
+/// @nodoc
 class Build {
   /// The Amazon Resource Name (ARN) of the build.
   final String? arn;
@@ -11988,6 +12189,8 @@ class Build {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html">Viewing
 /// a running build in Session Manager</a>.
+///
+/// @nodoc
 class DebugSession {
   /// Specifies if session debugging is enabled for this build.
   final bool? sessionEnabled;
@@ -12020,6 +12223,8 @@ class DebugSession {
 }
 
 /// Information about the auto-retry configuration for the build.
+///
+/// @nodoc
 class AutoRetryConfig {
   /// The maximum number of additional automatic retries after a failed build. For
   /// example, if the auto-retry limit is set to 2, CodeBuild will call the
@@ -12084,6 +12289,8 @@ class AutoRetryConfig {
 /// After the <code>post_build</code> phase ends, the value of exported
 /// variables cannot change.
 /// </note>
+///
+/// @nodoc
 class ExportedEnvironmentVariable {
   /// The name of the exported environment variable.
   final String? name;
@@ -12114,6 +12321,8 @@ class ExportedEnvironmentVariable {
 }
 
 /// Information about a stage for a build.
+///
+/// @nodoc
 class BuildPhase {
   /// Additional information about a build phase, especially to help troubleshoot
   /// a failed build.
@@ -12212,6 +12421,7 @@ class BuildPhase {
   }
 }
 
+/// @nodoc
 class BuildPhaseType {
   static const submitted = BuildPhaseType._('SUBMITTED');
   static const queued = BuildPhaseType._('QUEUED');
@@ -12258,6 +12468,8 @@ class BuildPhaseType {
 }
 
 /// Contains information about the Session Manager session.
+///
+/// @nodoc
 class SSMSession {
   /// The ID of the session.
   final String? sessionId;
@@ -12296,6 +12508,8 @@ class SSMSession {
 }
 
 /// Contains command execution information.
+///
+/// @nodoc
 class CommandExecution {
   /// The command that needs to be executed.
   final String? command;
@@ -12404,6 +12618,7 @@ class CommandExecution {
   }
 }
 
+/// @nodoc
 class CommandType {
   static const shell = CommandType._('SHELL');
 
@@ -12426,6 +12641,7 @@ class CommandType {
   String toString() => value;
 }
 
+/// @nodoc
 class RetryBuildBatchType {
   static const retryAllBuilds = RetryBuildBatchType._('RETRY_ALL_BUILDS');
   static const retryFailedBuilds = RetryBuildBatchType._('RETRY_FAILED_BUILDS');
@@ -12453,6 +12669,8 @@ class RetryBuildBatchType {
 
 /// Information about the credentials for a GitHub, GitHub Enterprise, GitLab,
 /// GitLab Self Managed, or Bitbucket repository.
+///
+/// @nodoc
 class SourceCredentialsInfo {
   /// The Amazon Resource Name (ARN) of the token.
   final String? arn;
@@ -12498,6 +12716,7 @@ class SourceCredentialsInfo {
   }
 }
 
+/// @nodoc
 class ServerType {
   static const github = ServerType._('GITHUB');
   static const bitbucket = ServerType._('BITBUCKET');
@@ -12530,6 +12749,7 @@ class ServerType {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthType {
   static const oauth = AuthType._('OAUTH');
   static const basicAuth = AuthType._('BASIC_AUTH');
@@ -12562,6 +12782,7 @@ class AuthType {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrderType {
   static const ascending = SortOrderType._('ASCENDING');
   static const descending = SortOrderType._('DESCENDING');
@@ -12586,6 +12807,7 @@ class SortOrderType {
   String toString() => value;
 }
 
+/// @nodoc
 class SharedResourceSortByType {
   static const arn = SharedResourceSortByType._('ARN');
   static const modifiedTime = SharedResourceSortByType._('MODIFIED_TIME');
@@ -12613,6 +12835,8 @@ class SharedResourceSortByType {
 
 /// A filter used to return reports with the status specified by the input
 /// <code>status</code> parameter.
+///
+/// @nodoc
 class ReportFilter {
   /// The status used to filter reports. You can filter using one status only.
   final ReportStatusType? status;
@@ -12629,6 +12853,7 @@ class ReportFilter {
   }
 }
 
+/// @nodoc
 class ReportStatusType {
   static const generating = ReportStatusType._('GENERATING');
   static const succeeded = ReportStatusType._('SUCCEEDED');
@@ -12656,6 +12881,7 @@ class ReportStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportGroupSortByType {
   static const name = ReportGroupSortByType._('NAME');
   static const createdTime = ReportGroupSortByType._('CREATED_TIME');
@@ -12682,6 +12908,7 @@ class ReportGroupSortByType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProjectSortByType {
   static const name = ProjectSortByType._('NAME');
   static const createdTime = ProjectSortByType._('CREATED_TIME');
@@ -12707,6 +12934,7 @@ class ProjectSortByType {
   String toString() => value;
 }
 
+/// @nodoc
 class FleetSortByType {
   static const name = FleetSortByType._('NAME');
   static const createdTime = FleetSortByType._('CREATED_TIME');
@@ -12734,6 +12962,8 @@ class FleetSortByType {
 
 /// A set of Docker images that are related by platform and are managed by
 /// CodeBuild.
+///
+/// @nodoc
 class EnvironmentPlatform {
   /// The list of programming languages that are available for the specified
   /// platform.
@@ -12767,6 +12997,7 @@ class EnvironmentPlatform {
   }
 }
 
+/// @nodoc
 class PlatformType {
   static const debian = PlatformType._('DEBIAN');
   static const amazonLinux = PlatformType._('AMAZON_LINUX');
@@ -12794,6 +13025,8 @@ class PlatformType {
 
 /// A set of Docker images that are related by programming language and are
 /// managed by CodeBuild.
+///
+/// @nodoc
 class EnvironmentLanguage {
   /// The list of Docker images that are related by the specified programming
   /// language.
@@ -12827,6 +13060,7 @@ class EnvironmentLanguage {
   }
 }
 
+/// @nodoc
 class LanguageType {
   static const java = LanguageType._('JAVA');
   static const python = LanguageType._('PYTHON');
@@ -12870,6 +13104,8 @@ class LanguageType {
 }
 
 /// Information about a Docker image that is managed by CodeBuild.
+///
+/// @nodoc
 class EnvironmentImage {
   /// The description of the Docker image.
   final String? description;
@@ -12910,6 +13146,8 @@ class EnvironmentImage {
 }
 
 /// Specifies filters when retrieving batch builds.
+///
+/// @nodoc
 class BuildBatchFilter {
   /// The status of the batch builds to retrieve. Only batch builds that have this
   /// status will be retrieved.
@@ -12929,6 +13167,8 @@ class BuildBatchFilter {
 
 /// Contains trend statistics for a set of reports. The actual values depend on
 /// the type of trend being collected. For more information, see .
+///
+/// @nodoc
 class ReportGroupTrendStats {
   /// Contains the average of all values analyzed.
   final String? average;
@@ -12966,6 +13206,8 @@ class ReportGroupTrendStats {
 }
 
 /// Contains the unmodified data for the report. For more information, see .
+///
+/// @nodoc
 class ReportWithRawData {
   /// The value of the requested data field from the report.
   final String? data;
@@ -12995,6 +13237,7 @@ class ReportWithRawData {
   }
 }
 
+/// @nodoc
 class ReportGroupTrendFieldType {
   static const passRate = ReportGroupTrendFieldType._('PASS_RATE');
   static const duration = ReportGroupTrendFieldType._('DURATION');
@@ -13040,6 +13283,8 @@ class ReportGroupTrendFieldType {
 
 /// Information about a test case created using a framework such as NUnit or
 /// Cucumber. A test case might be a unit test or a configuration test.
+///
+/// @nodoc
 class TestCase {
   /// The number of nanoseconds it took to run this test case.
   final int? durationInNanoSeconds;
@@ -13127,6 +13372,8 @@ class TestCase {
 
 /// A filter used to return specific types of test cases. In order to pass the
 /// filter, the report must meet all of the filter properties.
+///
+/// @nodoc
 class TestCaseFilter {
   /// A keyword that is used to filter on the <code>name</code> or the
   /// <code>prefix</code> of the test cases. Only test cases where the keyword is
@@ -13179,6 +13426,8 @@ class TestCaseFilter {
 /// Branch coverage determines if your tests cover every possible branch of a
 /// control structure, such as an <code>if</code> or <code>case</code>
 /// statement.
+///
+/// @nodoc
 class CodeCoverage {
   /// The percentage of branches that are covered by your tests.
   final double? branchCoveragePercentage;
@@ -13266,6 +13515,7 @@ class CodeCoverage {
   }
 }
 
+/// @nodoc
 class ReportCodeCoverageSortByType {
   static const lineCoveragePercentage =
       ReportCodeCoverageSortByType._('LINE_COVERAGE_PERCENTAGE');
@@ -13293,6 +13543,8 @@ class ReportCodeCoverageSortByType {
 }
 
 /// Information about a build that could not be successfully deleted.
+///
+/// @nodoc
 class BuildNotDeleted {
   /// The ID of the build that could not be successfully deleted.
   final String? id;
@@ -13328,6 +13580,8 @@ class BuildNotDeleted {
 /// the build project using one or more paths to the test case files. You can
 /// specify any type of tests you want, such as unit tests, integration tests,
 /// and functional tests.
+///
+/// @nodoc
 class Report {
   /// The ARN of the report run.
   final String? arn;
@@ -13448,6 +13702,8 @@ class Report {
 }
 
 /// Information about a test report.
+///
+/// @nodoc
 class TestReportSummary {
   /// The number of nanoseconds it took to run all of the test cases in this
   /// report.
@@ -13497,6 +13753,8 @@ class TestReportSummary {
 /// Branch coverage determines if your tests cover every possible branch of a
 /// control structure, such as an <code>if</code> or <code>case</code>
 /// statement.
+///
+/// @nodoc
 class CodeCoverageReportSummary {
   /// The percentage of branches that are covered by your tests.
   final double? branchCoveragePercentage;
@@ -13556,6 +13814,7 @@ class CodeCoverageReportSummary {
   }
 }
 
+/// @nodoc
 class AccountLimitExceededException extends _s.GenericAwsException {
   AccountLimitExceededException({String? type, String? message})
       : super(
@@ -13564,21 +13823,25 @@ class AccountLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AccountSuspendedException extends _s.GenericAwsException {
   AccountSuspendedException({String? type, String? message})
       : super(type: type, code: 'AccountSuspendedException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class OAuthProviderException extends _s.GenericAwsException {
   OAuthProviderException({String? type, String? message})
       : super(type: type, code: 'OAuthProviderException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -13587,6 +13850,7 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

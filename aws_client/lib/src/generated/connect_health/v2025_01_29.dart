@@ -557,6 +557,7 @@ class ConnectHealth {
   }
 }
 
+/// @nodoc
 class ActivateSubscriptionOutput {
   /// <p/>
   final SubscriptionDescription? subscription;
@@ -583,6 +584,8 @@ class ActivateSubscriptionOutput {
 }
 
 /// This error is thrown when a transient error causes our API to fail.
+///
+/// @nodoc
 class InternalServerException implements _s.AwsException {
   final String? message;
 
@@ -605,6 +608,8 @@ class InternalServerException implements _s.AwsException {
 }
 
 /// This error is thrown when the client supplies invalid input to the API.
+///
+/// @nodoc
 class ValidationException implements _s.AwsException {
   final String? message;
 
@@ -626,6 +631,7 @@ class ValidationException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class CreateDomainOutput {
   /// <p/>
   final String arn;
@@ -711,6 +717,7 @@ class CreateDomainOutput {
   }
 }
 
+/// @nodoc
 class CreateSubscriptionOutput {
   /// <p/>
   final String arn;
@@ -783,6 +790,7 @@ class CreateSubscriptionOutput {
   }
 }
 
+/// @nodoc
 class DeactivateSubscriptionOutput {
   /// <p/>
   final SubscriptionDescription? subscription;
@@ -808,6 +816,7 @@ class DeactivateSubscriptionOutput {
   }
 }
 
+/// @nodoc
 class DeleteDomainOutput {
   /// The ARN of the Domain that was requested for deletion
   final String arn;
@@ -844,6 +853,7 @@ class DeleteDomainOutput {
   }
 }
 
+/// @nodoc
 class GetDomainOutput {
   /// <p/>
   final String arn;
@@ -937,6 +947,7 @@ class GetDomainOutput {
   }
 }
 
+/// @nodoc
 class GetMedicalScribeListeningSessionOutput {
   /// Details about the Medical Scribe listening session
   final MedicalScribeListeningSessionDetails?
@@ -969,6 +980,7 @@ class GetMedicalScribeListeningSessionOutput {
   }
 }
 
+/// @nodoc
 class GetPatientInsightsJobResponse {
   /// <p/>
   final PatientInsightsEncounterContext encounterContext;
@@ -1090,6 +1102,7 @@ class GetPatientInsightsJobResponse {
   }
 }
 
+/// @nodoc
 class GetSubscriptionOutput {
   /// <p/>
   final SubscriptionDescription? subscription;
@@ -1115,6 +1128,7 @@ class GetSubscriptionOutput {
   }
 }
 
+/// @nodoc
 class ListDomainsOutput {
   /// List of Domains.
   final List<DomainSummary> domains;
@@ -1147,6 +1161,7 @@ class ListDomainsOutput {
   }
 }
 
+/// @nodoc
 class ListSubscriptionsOutput {
   /// List of Subscriptions.
   final List<SubscriptionDescription> subscriptions;
@@ -1180,6 +1195,7 @@ class ListSubscriptionsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The tags associated with the resource
   final Map<String, String>? tags;
@@ -1203,6 +1219,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class StartMedicalScribeListeningSessionOutput {
   /// The Domain identifier
   final String? domainId;
@@ -1254,6 +1271,7 @@ class StartMedicalScribeListeningSessionOutput {
   }
 }
 
+/// @nodoc
 class StartPatientInsightsJobResponse {
   /// <p/>
   final String jobArn;
@@ -1291,6 +1309,8 @@ class StartPatientInsightsJobResponse {
 }
 
 /// Details for a patient
+///
+/// @nodoc
 class PatientInsightsPatientContext {
   /// Unique identifier of the patient
   final String patientId;
@@ -1328,6 +1348,8 @@ class PatientInsightsPatientContext {
 }
 
 /// Details for insights that user wants to generate
+///
+/// @nodoc
 class InsightsContext {
   /// <p/>
   final InsightsType insightsType;
@@ -1352,6 +1374,8 @@ class InsightsContext {
 }
 
 /// Details for an encounter
+///
+/// @nodoc
 class PatientInsightsEncounterContext {
   /// Chief complaint for the visit
   final String encounterReason;
@@ -1375,6 +1399,8 @@ class PatientInsightsEncounterContext {
 }
 
 /// Details for user initiating insights job
+///
+/// @nodoc
 class UserContext {
   /// <p/>
   final ProviderRole role;
@@ -1412,6 +1438,8 @@ class UserContext {
 }
 
 /// Configuration details for input patient data
+///
+/// @nodoc
 class InputDataConfig {
   /// FHIR server configuration to retrieve patient data.
   final FHIRServer? fhirServer;
@@ -1447,6 +1475,8 @@ class InputDataConfig {
 }
 
 /// Configuration details for insights output.
+///
+/// @nodoc
 class OutputDataConfig {
   /// S3 URI where the insights output will be stored.
   final String s3OutputPath;
@@ -1470,6 +1500,8 @@ class OutputDataConfig {
 }
 
 /// FHIR server configuration for input data source
+///
+/// @nodoc
 class FHIRServer {
   /// FHIR server endpoint URL for accessing patient data.
   final String fhirEndpoint;
@@ -1500,6 +1532,8 @@ class FHIRServer {
 }
 
 /// S3 uri for input data source
+///
+/// @nodoc
 class S3Source {
   /// The S3 URI.
   final String uri;
@@ -1522,6 +1556,7 @@ class S3Source {
   }
 }
 
+/// @nodoc
 class ProviderRole {
   static const clinician = ProviderRole._('CLINICIAN');
 
@@ -1544,6 +1579,7 @@ class ProviderRole {
   String toString() => value;
 }
 
+/// @nodoc
 class Specialty {
   static const primaryCare = Specialty._('PRIMARY_CARE');
 
@@ -1566,6 +1602,7 @@ class Specialty {
   String toString() => value;
 }
 
+/// @nodoc
 class InsightsType {
   static const preVisit = InsightsType._('PRE_VISIT');
 
@@ -1588,6 +1625,7 @@ class InsightsType {
   String toString() => value;
 }
 
+/// @nodoc
 class Pronouns {
   static const heHim = Pronouns._('HE_HIM');
   static const sheHer = Pronouns._('SHE_HER');
@@ -1612,6 +1650,7 @@ class Pronouns {
   String toString() => value;
 }
 
+/// @nodoc
 class MedicalScribeLanguageCode {
   static const enUs = MedicalScribeLanguageCode._('en-US');
 
@@ -1636,6 +1675,7 @@ class MedicalScribeLanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class MedicalScribeMediaEncoding {
   static const pcm = MedicalScribeMediaEncoding._('pcm');
   static const flac = MedicalScribeMediaEncoding._('flac');
@@ -1662,6 +1702,8 @@ class MedicalScribeMediaEncoding {
 }
 
 /// Output stream from Medical Scribe containing transcript events and errors
+///
+/// @nodoc
 class MedicalScribeOutputStream {
   /// <p/>
   final InternalServerException? internalFailureException;
@@ -1710,6 +1752,8 @@ class MedicalScribeOutputStream {
 }
 
 /// An event containing transcript data from the Medical Scribe stream
+///
+/// @nodoc
 class MedicalScribeTranscriptEvent {
   /// A segment of the transcript
   final MedicalScribeTranscriptSegment? transcriptSegment;
@@ -1736,6 +1780,8 @@ class MedicalScribeTranscriptEvent {
 }
 
 /// A segment of transcript text with timing and channel information
+///
+/// @nodoc
 class MedicalScribeTranscriptSegment {
   /// The offset from audio start when the audio for this segment begins
   final double? audioBeginOffset;
@@ -1794,6 +1840,8 @@ class MedicalScribeTranscriptSegment {
 }
 
 /// Input stream for Medical Scribe containing audio and configuration events
+///
+/// @nodoc
 class MedicalScribeInputStream {
   /// <p/>
   final MedicalScribeAudioEvent? audioEvent;
@@ -1824,6 +1872,8 @@ class MedicalScribeInputStream {
 }
 
 /// An event containing audio data for the Medical Scribe stream
+///
+/// @nodoc
 class MedicalScribeAudioEvent {
   /// The audio data chunk
   final Uint8List audioChunk;
@@ -1841,6 +1891,8 @@ class MedicalScribeAudioEvent {
 }
 
 /// An event for controlling the Medical Scribe session
+///
+/// @nodoc
 class MedicalScribeSessionControlEvent {
   /// The type of session control event
   final MedicalScribeSessionControlEventType? type;
@@ -1858,6 +1910,8 @@ class MedicalScribeSessionControlEvent {
 }
 
 /// An event containing configuration for the Medical Scribe session
+///
+/// @nodoc
 class MedicalScribeConfigurationEvent {
   /// Settings for actions to perform after the stream ends
   final MedicalScribePostStreamActionSettings postStreamActionSettings;
@@ -1887,6 +1941,8 @@ class MedicalScribeConfigurationEvent {
 }
 
 /// Settings for actions to perform after the audio stream ends
+///
+/// @nodoc
 class MedicalScribePostStreamActionSettings {
   /// Settings for clinical note generation
   final ClinicalNoteGenerationSettings clinicalNoteGenerationSettings;
@@ -1910,6 +1966,8 @@ class MedicalScribePostStreamActionSettings {
 }
 
 /// Context information about the clinical encounter
+///
+/// @nodoc
 class EncounterContext {
   /// Unstructured context information in markdown format
   final String? unstructuredContext;
@@ -1928,6 +1986,8 @@ class EncounterContext {
 }
 
 /// Defines a channel in the audio stream
+///
+/// @nodoc
 class MedicalScribeChannelDefinition {
   /// The channel identifier
   final int channelId;
@@ -1958,6 +2018,7 @@ class MedicalScribeChannelDefinition {
   }
 }
 
+/// @nodoc
 class MedicalScribeParticipantRole {
   static const patient = MedicalScribeParticipantRole._('PATIENT');
   static const clinician = MedicalScribeParticipantRole._('CLINICIAN');
@@ -1984,6 +2045,8 @@ class MedicalScribeParticipantRole {
 }
 
 /// Settings for generating clinical notes from the audio stream
+///
+/// @nodoc
 class ClinicalNoteGenerationSettings {
   /// Settings for the note template to use
   final NoteTemplateSettings noteTemplateSettings;
@@ -2001,6 +2064,8 @@ class ClinicalNoteGenerationSettings {
 }
 
 /// Settings for the note template to use for clinical note generation
+///
+/// @nodoc
 class NoteTemplateSettings {
   /// <p/>
   final CustomTemplate? customTemplate;
@@ -2024,6 +2089,8 @@ class NoteTemplateSettings {
 }
 
 /// Configuration for using a managed note template
+///
+/// @nodoc
 class ManagedTemplate {
   /// The type of managed template to use
   final ManagedNoteTemplate templateType;
@@ -2041,6 +2108,8 @@ class ManagedTemplate {
 }
 
 /// Configuration for using a custom note template with specific instructions
+///
+/// @nodoc
 class CustomTemplate {
   /// Custom instructions for each section of the template
   final List<TemplateSectionInstruction> templateInstructions;
@@ -2063,6 +2132,7 @@ class CustomTemplate {
   }
 }
 
+/// @nodoc
 class CustomTemplateBase {
   static const historyAndPhysical =
       CustomTemplateBase._('HISTORY_AND_PHYSICAL');
@@ -2101,6 +2171,8 @@ class CustomTemplateBase {
 }
 
 /// Instructions for generating a specific section of a clinical note
+///
+/// @nodoc
 class TemplateSectionInstruction {
   /// The header for this section of the template
   final String sectionHeader;
@@ -2123,6 +2195,7 @@ class TemplateSectionInstruction {
   }
 }
 
+/// @nodoc
 class ManagedNoteTemplate {
   static const historyAndPhysical =
       ManagedNoteTemplate._('HISTORY_AND_PHYSICAL');
@@ -2162,6 +2235,7 @@ class ManagedNoteTemplate {
   String toString() => value;
 }
 
+/// @nodoc
 class MedicalScribeSessionControlEventType {
   static const endOfSession =
       MedicalScribeSessionControlEventType._('END_OF_SESSION');
@@ -2188,6 +2262,8 @@ class MedicalScribeSessionControlEventType {
 }
 
 /// Complete subscription resource data.
+///
+/// @nodoc
 class SubscriptionDescription {
   /// <p/>
   final String arn;
@@ -2260,6 +2336,7 @@ class SubscriptionDescription {
   }
 }
 
+/// @nodoc
 class SubscriptionStatus {
   static const active = SubscriptionStatus._('ACTIVE');
   static const inactive = SubscriptionStatus._('INACTIVE');
@@ -2287,6 +2364,8 @@ class SubscriptionStatus {
 }
 
 /// Summary information about a Domain.
+///
+/// @nodoc
 class DomainSummary {
   /// <p/>
   final String arn;
@@ -2337,6 +2416,7 @@ class DomainSummary {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const active = DomainStatus._('ACTIVE');
   static const deleting = DomainStatus._('DELETING');
@@ -2361,6 +2441,7 @@ class DomainStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const inProgress = JobStatus._('IN_PROGRESS');
@@ -2387,6 +2468,8 @@ class JobStatus {
 }
 
 /// Output of patient insights job
+///
+/// @nodoc
 class InsightsOutput {
   /// <p/>
   final String uri;
@@ -2410,6 +2493,8 @@ class InsightsOutput {
 }
 
 /// Detailed information about a Medical Scribe listening session
+///
+/// @nodoc
 class MedicalScribeListeningSessionDetails {
   /// Channel definitions for the audio stream
   final List<MedicalScribeChannelDefinition>? channelDefinitions;
@@ -2537,6 +2622,8 @@ class MedicalScribeListeningSessionDetails {
 }
 
 /// Response containing settings for post-stream actions
+///
+/// @nodoc
 class MedicalScribePostStreamActionSettingsResponse {
   /// Settings for clinical note generation
   final ClinicalNoteGenerationSettingsResponse clinicalNoteGenerationSettings;
@@ -2572,6 +2659,8 @@ class MedicalScribePostStreamActionSettingsResponse {
 }
 
 /// Results of post-stream actions performed after the audio stream ended
+///
+/// @nodoc
 class MedicalScribePostStreamActionsResult {
   /// Results of clinical note generation
   final ClinicalNoteGenerationResult? clinicalNoteGenerationResult;
@@ -2599,6 +2688,7 @@ class MedicalScribePostStreamActionsResult {
   }
 }
 
+/// @nodoc
 class MedicalScribeStreamStatus {
   static const inProgress = MedicalScribeStreamStatus._('IN_PROGRESS');
   static const paused = MedicalScribeStreamStatus._('PAUSED');
@@ -2627,6 +2717,8 @@ class MedicalScribeStreamStatus {
 }
 
 /// Results of clinical note generation including note, transcript, and summary
+///
+/// @nodoc
 class ClinicalNoteGenerationResult {
   /// Details about the generated after visit summary
   final ArtifactDetails? afterVisitSummaryResult;
@@ -2673,6 +2765,8 @@ class ClinicalNoteGenerationResult {
 }
 
 /// Details about a generated artifact including location and status
+///
+/// @nodoc
 class ArtifactDetails {
   /// The reason for failure if the artifact generation failed
   final String? failureReason;
@@ -2710,6 +2804,7 @@ class ArtifactDetails {
   }
 }
 
+/// @nodoc
 class PostStreamArtifactGenerationStatus {
   static const inProgress = PostStreamArtifactGenerationStatus._('IN_PROGRESS');
   static const failed = PostStreamArtifactGenerationStatus._('FAILED');
@@ -2737,6 +2832,8 @@ class PostStreamArtifactGenerationStatus {
 }
 
 /// Response containing settings for clinical note generation
+///
+/// @nodoc
 class ClinicalNoteGenerationSettingsResponse {
   /// Settings for the note template used
   final NoteTemplateSettingsResponse? noteTemplateSettings;
@@ -2765,6 +2862,8 @@ class ClinicalNoteGenerationSettingsResponse {
 }
 
 /// Response containing note template settings
+///
+/// @nodoc
 class NoteTemplateSettingsResponse {
   /// <p/>
   final CustomTemplateResponse? customTemplate;
@@ -2801,6 +2900,8 @@ class NoteTemplateSettingsResponse {
 }
 
 /// Response containing managed template information
+///
+/// @nodoc
 class ManagedTemplateResponse {
   /// The type of managed template used
   final ManagedNoteTemplate? templateType;
@@ -2825,6 +2926,8 @@ class ManagedTemplateResponse {
 }
 
 /// Response containing custom template information
+///
+/// @nodoc
 class CustomTemplateResponse {
   /// The base template type that was customized
   final CustomTemplateBase? templateType;
@@ -2849,6 +2952,8 @@ class CustomTemplateResponse {
 }
 
 /// Encryption context for a Domain.
+///
+/// @nodoc
 class EncryptionContext {
   /// The type of encryption key used.
   final EncryptionType encryptionType;
@@ -2882,6 +2987,8 @@ class EncryptionContext {
 
 /// Configuration for the Domain web application, including Identity Center
 /// settings. If provided, all fields are required.
+///
+/// @nodoc
 class WebAppConfiguration {
   /// ARN of the IAM role used for EHR operations.
   final String ehrRole;
@@ -2918,6 +3025,7 @@ class WebAppConfiguration {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const awsOwnedKey = EncryptionType._('AWS_OWNED_KEY');
   static const customerManagedKey = EncryptionType._('CUSTOMER_MANAGED_KEY');
@@ -2944,6 +3052,8 @@ class EncryptionType {
 
 /// Input configuration for creating a web application. Used only in
 /// CreateDomain operation input.
+///
+/// @nodoc
 class CreateWebAppConfiguration {
   /// ARN of the IAM role used for EHR operations.
   final String ehrRole;
@@ -2972,21 +3082,25 @@ class CreateWebAppConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2995,6 +3109,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

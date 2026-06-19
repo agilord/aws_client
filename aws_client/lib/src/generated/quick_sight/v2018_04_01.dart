@@ -6273,7 +6273,7 @@ class QuickSight {
   ///
   /// Parameter [sessionLifetimeInMinutes] :
   /// How many minutes the session is valid. The session lifetime must be in
-  /// [15-600] minutes range.
+  /// \[15-600\] minutes range.
   ///
   /// Parameter [sessionTags] :
   /// Session tags are user-specified strings that identify a session in your
@@ -6423,7 +6423,7 @@ class QuickSight {
   ///
   /// Parameter [sessionLifetimeInMinutes] :
   /// How many minutes the session is valid. The session lifetime must be in
-  /// [15-600] minutes range.
+  /// \[15-600\] minutes range.
   Future<GenerateEmbedUrlForRegisteredUserResponse>
       generateEmbedUrlForRegisteredUser({
     required String awsAccountId,
@@ -9561,9 +9561,9 @@ class QuickSight {
   ///
   /// Parameter [filters] :
   /// The filters to apply to the search. Currently, you can search only by user
-  /// name, for example, <code>"Filters": [ { "Name": "QUICKSIGHT_USER",
+  /// name, for example, <code>"Filters": \[ { "Name": "QUICKSIGHT_USER",
   /// "Operator": "StringEquals", "Value":
-  /// "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ]</code>
+  /// "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } \]</code>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -9758,9 +9758,9 @@ class QuickSight {
   ///
   /// Parameter [filters] :
   /// The filters to apply to the search. Currently, you can search only by the
-  /// parent folder ARN. For example, <code>"Filters": [ { "Name":
+  /// parent folder ARN. For example, <code>"Filters": \[ { "Name":
   /// "PARENT_FOLDER_ARN", "Operator": "StringEquals", "Value":
-  /// "arn:aws:quicksight:us-east-1:1:folder/folderId" } ]</code>.
+  /// "arn:aws:quicksight:us-east-1:1:folder/folderId" } \]</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -13791,6 +13791,7 @@ class QuickSight {
   }
 }
 
+/// @nodoc
 class BatchCreateTopicReviewedAnswerResponse {
   /// The definition of Answers that are invalid and not created.
   final List<InvalidTopicReviewedAnswer>? invalidAnswers;
@@ -13857,6 +13858,7 @@ class BatchCreateTopicReviewedAnswerResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteKnowledgeBaseResponse {
   /// A list of knowledge bases that were successfully deleted.
   final List<BatchDeleteKnowledgeBaseSuccess> deleted;
@@ -13907,6 +13909,7 @@ class BatchDeleteKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteTopicReviewedAnswerResponse {
   /// The definition of Answers that are invalid and not deleted.
   final List<InvalidTopicReviewedAnswer>? invalidAnswers;
@@ -13973,6 +13976,7 @@ class BatchDeleteTopicReviewedAnswerResponse {
   }
 }
 
+/// @nodoc
 class CancelIngestionResponse {
   /// The Amazon Resource Name (ARN) for the data ingestion.
   final String? arn;
@@ -14015,6 +14019,7 @@ class CancelIngestionResponse {
   }
 }
 
+/// @nodoc
 class CreateAccountCustomizationResponse {
   /// The Quick Sight customizations you're adding.
   final AccountCustomization? accountCustomization;
@@ -14078,6 +14083,7 @@ class CreateAccountCustomizationResponse {
   }
 }
 
+/// @nodoc
 class CreateAccountSubscriptionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -14118,6 +14124,7 @@ class CreateAccountSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class CreateActionConnectorResponse {
   /// The unique identifier of the created action connector.
   final String? actionConnectorId;
@@ -14168,6 +14175,7 @@ class CreateActionConnectorResponse {
   }
 }
 
+/// @nodoc
 class CreateAgentResponse {
   /// The unique identifier for the agent.
   final String agentId;
@@ -14219,6 +14227,7 @@ class CreateAgentResponse {
   }
 }
 
+/// @nodoc
 class CreateAnalysisResponse {
   /// The ID of the analysis.
   final String? analysisId;
@@ -14269,6 +14278,7 @@ class CreateAnalysisResponse {
   }
 }
 
+/// @nodoc
 class CreateBrandResponse {
   /// The definition of the brand.
   final BrandDefinition? brandDefinition;
@@ -14310,6 +14320,7 @@ class CreateBrandResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the custom permissions profile.
   final String? arn;
@@ -14346,6 +14357,7 @@ class CreateCustomPermissionsResponse {
   }
 }
 
+/// @nodoc
 class CreateDashboardResponse {
   /// The ARN of the dashboard.
   final String? arn;
@@ -14404,6 +14416,7 @@ class CreateDashboardResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? arn;
@@ -14463,6 +14476,7 @@ class CreateDataSetResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSourceResponse {
   /// The Amazon Resource Name (ARN) of the data source.
   final String? arn;
@@ -14514,6 +14528,7 @@ class CreateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class CreateFlowResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -14556,6 +14571,7 @@ class CreateFlowResponse {
   }
 }
 
+/// @nodoc
 class CreateFolderResponse {
   /// The Amazon Resource Name (ARN) for the newly created folder.
   final String? arn;
@@ -14598,6 +14614,7 @@ class CreateFolderResponse {
   }
 }
 
+/// @nodoc
 class CreateFolderMembershipResponse {
   /// Information about the member in the folder.
   final FolderMember? folderMember;
@@ -14637,6 +14654,8 @@ class CreateFolderMembershipResponse {
 }
 
 /// The response object for this operation.
+///
+/// @nodoc
 class CreateGroupResponse {
   /// The name of the group.
   final Group? group;
@@ -14674,6 +14693,7 @@ class CreateGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupMembershipResponse {
   /// The group member.
   final GroupMember? groupMember;
@@ -14711,6 +14731,7 @@ class CreateGroupMembershipResponse {
   }
 }
 
+/// @nodoc
 class CreateIAMPolicyAssignmentResponse {
   /// The ID for the assignment.
   final String? assignmentId;
@@ -14795,6 +14816,7 @@ class CreateIAMPolicyAssignmentResponse {
   }
 }
 
+/// @nodoc
 class CreateIngestionResponse {
   /// The Amazon Resource Name (ARN) for the data ingestion.
   final String? arn;
@@ -14845,6 +14867,7 @@ class CreateIngestionResponse {
   }
 }
 
+/// @nodoc
 class CreateNamespaceResponse {
   /// The ARN of the Quick Sight namespace you created.
   final String? arn;
@@ -14917,6 +14940,7 @@ class CreateNamespaceResponse {
   }
 }
 
+/// @nodoc
 class CreateOAuthClientApplicationResponse {
   /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
   final String? arn;
@@ -14970,6 +14994,7 @@ class CreateOAuthClientApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) for the refresh schedule.
   final String? arn;
@@ -15012,6 +15037,7 @@ class CreateRefreshScheduleResponse {
   }
 }
 
+/// @nodoc
 class CreateRoleMembershipResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15040,6 +15066,7 @@ class CreateRoleMembershipResponse {
   }
 }
 
+/// @nodoc
 class CreateSpaceResponse {
   /// The ID of the space.
   final String spaceId;
@@ -15076,6 +15103,7 @@ class CreateSpaceResponse {
   }
 }
 
+/// @nodoc
 class CreateTemplateResponse {
   /// The ARN for the template.
   final String? arn;
@@ -15134,6 +15162,7 @@ class CreateTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateTemplateAliasResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15172,6 +15201,7 @@ class CreateTemplateAliasResponse {
   }
 }
 
+/// @nodoc
 class CreateThemeResponse {
   /// The Amazon Resource Name (ARN) for the theme.
   final String? arn;
@@ -15229,6 +15259,7 @@ class CreateThemeResponse {
   }
 }
 
+/// @nodoc
 class CreateThemeAliasResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15266,6 +15297,7 @@ class CreateThemeAliasResponse {
   }
 }
 
+/// @nodoc
 class CreateTopicResponse {
   /// The Amazon Resource Name (ARN) of the topic.
   final String? arn;
@@ -15316,6 +15348,7 @@ class CreateTopicResponse {
   }
 }
 
+/// @nodoc
 class CreateTopicRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? datasetArn;
@@ -15367,6 +15400,7 @@ class CreateTopicRefreshScheduleResponse {
   }
 }
 
+/// @nodoc
 class CreateVPCConnectionResponse {
   /// The Amazon Resource Name (ARN) of the VPC connection.
   final String? arn;
@@ -15427,6 +15461,7 @@ class CreateVPCConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccountCustomizationResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15456,6 +15491,7 @@ class DeleteAccountCustomizationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccountCustomPermissionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15486,6 +15522,7 @@ class DeleteAccountCustomPermissionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAccountSubscriptionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15515,6 +15552,7 @@ class DeleteAccountSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteActionConnectorResponse {
   /// The unique identifier of the deleted action connector.
   final String? actionConnectorId;
@@ -15557,6 +15595,7 @@ class DeleteActionConnectorResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15579,6 +15618,7 @@ class DeleteAgentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAnalysisResponse {
   /// The ID of the deleted analysis.
   final String? analysisId;
@@ -15629,6 +15669,7 @@ class DeleteAnalysisResponse {
   }
 }
 
+/// @nodoc
 class DeleteBrandResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15651,6 +15692,7 @@ class DeleteBrandResponse {
   }
 }
 
+/// @nodoc
 class DeleteBrandAssignmentResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15673,6 +15715,7 @@ class DeleteBrandAssignmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the custom permissions profile.
   final String? arn;
@@ -15709,6 +15752,7 @@ class DeleteCustomPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DeleteDashboardResponse {
   /// The Secure Socket Layer (SSL) properties that apply for the resource.
   final String? arn;
@@ -15751,6 +15795,7 @@ class DeleteDashboardResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataSetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? arn;
@@ -15794,6 +15839,7 @@ class DeleteDataSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataSetRefreshPropertiesResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15823,6 +15869,7 @@ class DeleteDataSetRefreshPropertiesResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataSourceResponse {
   /// The Amazon Resource Name (ARN) of the data source that you deleted.
   final String? arn;
@@ -15866,6 +15913,7 @@ class DeleteDataSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteDefaultQBusinessApplicationResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15895,6 +15943,7 @@ class DeleteDefaultQBusinessApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlowResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15923,6 +15972,7 @@ class DeleteFlowResponse {
   }
 }
 
+/// @nodoc
 class DeleteFolderResponse {
   /// The Amazon Resource Name of the deleted folder.
   final String? arn;
@@ -15965,6 +16015,7 @@ class DeleteFolderResponse {
   }
 }
 
+/// @nodoc
 class DeleteFolderMembershipResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -15994,6 +16045,7 @@ class DeleteFolderMembershipResponse {
   }
 }
 
+/// @nodoc
 class DeleteGroupResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16022,6 +16074,7 @@ class DeleteGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteGroupMembershipResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16050,6 +16103,7 @@ class DeleteGroupMembershipResponse {
   }
 }
 
+/// @nodoc
 class DeleteIAMPolicyAssignmentResponse {
   /// The name of the assignment.
   final String? assignmentName;
@@ -16086,6 +16140,7 @@ class DeleteIAMPolicyAssignmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteIdentityPropagationConfigResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16115,6 +16170,7 @@ class DeleteIdentityPropagationConfigResponse {
   }
 }
 
+/// @nodoc
 class DeleteKnowledgeBaseResponse {
   /// The ARN of the deleted knowledge base.
   final String knowledgeBaseArn;
@@ -16157,6 +16213,7 @@ class DeleteKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteNamespaceResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16185,6 +16242,7 @@ class DeleteNamespaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteOAuthClientApplicationResponse {
   /// The Amazon Resource Name (ARN) of the OAuthClientApplication that you
   /// deleted.
@@ -16231,6 +16289,7 @@ class DeleteOAuthClientApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) for the refresh schedule.
   final String? arn;
@@ -16273,6 +16332,7 @@ class DeleteRefreshScheduleResponse {
   }
 }
 
+/// @nodoc
 class DeleteRoleCustomPermissionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16303,6 +16363,7 @@ class DeleteRoleCustomPermissionResponse {
   }
 }
 
+/// @nodoc
 class DeleteRoleMembershipResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16331,6 +16392,7 @@ class DeleteRoleMembershipResponse {
   }
 }
 
+/// @nodoc
 class DeleteSpaceResponse {
   /// The ID of the space.
   final String spaceId;
@@ -16367,6 +16429,7 @@ class DeleteSpaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteTemplateResponse {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -16409,6 +16472,7 @@ class DeleteTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteTemplateAliasResponse {
   /// The name for the template alias.
   final String? aliasName;
@@ -16458,6 +16522,7 @@ class DeleteTemplateAliasResponse {
   }
 }
 
+/// @nodoc
 class DeleteThemeResponse {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -16500,6 +16565,7 @@ class DeleteThemeResponse {
   }
 }
 
+/// @nodoc
 class DeleteThemeAliasResponse {
   /// The name for the theme alias.
   final String? aliasName;
@@ -16550,6 +16616,7 @@ class DeleteThemeAliasResponse {
   }
 }
 
+/// @nodoc
 class DeleteTopicResponse {
   /// The Amazon Resource Name (ARN) of the topic.
   final String? arn;
@@ -16593,6 +16660,7 @@ class DeleteTopicResponse {
   }
 }
 
+/// @nodoc
 class DeleteTopicRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? datasetArn;
@@ -16644,6 +16712,7 @@ class DeleteTopicRefreshScheduleResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16672,6 +16741,7 @@ class DeleteUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserByPrincipalIdResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16700,6 +16770,7 @@ class DeleteUserByPrincipalIdResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserCustomPermissionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -16729,6 +16800,7 @@ class DeleteUserCustomPermissionResponse {
   }
 }
 
+/// @nodoc
 class DeleteVPCConnectionResponse {
   /// The Amazon Resource Name (ARN) of the deleted VPC connection.
   final String? arn;
@@ -16790,6 +16862,7 @@ class DeleteVPCConnectionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountCustomizationResponse {
   /// The Quick Sight customizations that exist.
   final AccountCustomization? accountCustomization;
@@ -16852,6 +16925,7 @@ class DescribeAccountCustomizationResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountCustomPermissionResponse {
   /// The name of the custom permissions profile.
   final String? customPermissionsName;
@@ -16890,6 +16964,7 @@ class DescribeAccountCustomPermissionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountSettingsResponse {
   /// The Amazon Quick Sight settings for this Amazon Web Services account. This
   /// information includes the edition of Amazon Quick Sight that you subscribed
@@ -16937,6 +17012,7 @@ class DescribeAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountSubscriptionResponse {
   /// A structure that contains the following elements:
   ///
@@ -16994,6 +17070,7 @@ class DescribeAccountSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DescribeActionConnectorResponse {
   /// The detailed information about the action connector, including its
   /// configuration and current state.
@@ -17033,6 +17110,7 @@ class DescribeActionConnectorResponse {
   }
 }
 
+/// @nodoc
 class DescribeActionConnectorPermissionsResponse {
   /// The unique identifier of the action connector.
   final String? actionConnectorId;
@@ -17087,6 +17165,7 @@ class DescribeActionConnectorPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeAgentResponse {
   /// The full details of the agent, including its configuration, status, and
   /// associations.
@@ -17118,6 +17197,7 @@ class DescribeAgentResponse {
   }
 }
 
+/// @nodoc
 class DescribeAgentPermissionsResponse {
   /// The unique identifier for the agent.
   final String agentId;
@@ -17164,6 +17244,7 @@ class DescribeAgentPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeAnalysisResponse {
   /// A metadata structure that contains summary information for the analysis that
   /// you're describing.
@@ -17202,6 +17283,7 @@ class DescribeAnalysisResponse {
   }
 }
 
+/// @nodoc
 class DescribeAnalysisDefinitionResponse {
   /// The ID of the analysis described.
   final String? analysisId;
@@ -17307,6 +17389,7 @@ class DescribeAnalysisDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeAnalysisPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the analysis whose permissions you're
   /// describing.
@@ -17362,6 +17445,7 @@ class DescribeAnalysisPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetBundleExportJobResponse {
   /// The Amazon Resource Name (ARN) for the export job.
   final String? arn;
@@ -17569,6 +17653,7 @@ class DescribeAssetBundleExportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeAssetBundleImportJobResponse {
   /// The Amazon Resource Name (ARN) for the import job.
   final String? arn;
@@ -17763,6 +17848,7 @@ class DescribeAssetBundleImportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeAutomationJobResponse {
   /// The Amazon Resource Name (ARN) of the automation job.
   final String arn;
@@ -17839,6 +17925,7 @@ class DescribeAutomationJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeBrandResponse {
   /// The definition of the brand.
   final BrandDefinition? brandDefinition;
@@ -17880,6 +17967,7 @@ class DescribeBrandResponse {
   }
 }
 
+/// @nodoc
 class DescribeBrandAssignmentResponse {
   /// The Amazon Resource Name (ARN) of the brand.
   final String? brandArn;
@@ -17909,6 +17997,7 @@ class DescribeBrandAssignmentResponse {
   }
 }
 
+/// @nodoc
 class DescribeBrandPublishedVersionResponse {
   /// The definition of the brand.
   final BrandDefinition? brandDefinition;
@@ -17951,6 +18040,7 @@ class DescribeBrandPublishedVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomPermissionsResponse {
   /// The custom permissions profile.
   final CustomPermissions? customPermissions;
@@ -17991,6 +18081,7 @@ class DescribeCustomPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDashboardResponse {
   /// Information about the dashboard.
   final Dashboard? dashboard;
@@ -18028,6 +18119,7 @@ class DescribeDashboardResponse {
   }
 }
 
+/// @nodoc
 class DescribeDashboardDefinitionResponse {
   /// The ID of the dashboard described.
   final String? dashboardId;
@@ -18184,6 +18276,7 @@ class DescribeDashboardDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeDashboardPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the dashboard.
   final String? dashboardArn;
@@ -18253,6 +18346,7 @@ class DescribeDashboardPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDashboardSnapshotJobResponse {
   /// The Amazon Resource Name (ARN) for the snapshot job. The job ARN is
   /// generated when you start a new job with a
@@ -18377,6 +18471,7 @@ class DescribeDashboardSnapshotJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeDashboardSnapshotJobResultResponse {
   /// The Amazon Resource Name (ARN) for the snapshot job. The job ARN is
   /// generated when you start a new job with a
@@ -18461,6 +18556,7 @@ class DescribeDashboardSnapshotJobResultResponse {
   }
 }
 
+/// @nodoc
 class DescribeDashboardsQAConfigurationResponse {
   /// The status of dashboards QA configuration that you want described.
   final DashboardsQAStatus? dashboardsQAStatus;
@@ -18499,6 +18595,7 @@ class DescribeDashboardsQAConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataSetResponse {
   /// Information on the dataset.
   final DataSet? dataSet;
@@ -18536,6 +18633,7 @@ class DescribeDataSetResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataSetPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? dataSetArn;
@@ -18590,6 +18688,7 @@ class DescribeDataSetPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataSetRefreshPropertiesResponse {
   /// The dataset refresh properties.
   final DataSetRefreshProperties? dataSetRefreshProperties;
@@ -18630,6 +18729,7 @@ class DescribeDataSetRefreshPropertiesResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataSourceResponse {
   /// The information on the data source.
   final DataSource? dataSource;
@@ -18667,6 +18767,7 @@ class DescribeDataSourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataSourcePermissionsResponse {
   /// The Amazon Resource Name (ARN) of the data source.
   final String? dataSourceArn;
@@ -18721,6 +18822,7 @@ class DescribeDataSourcePermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDefaultQBusinessApplicationResponse {
   /// The ID of the Amazon Q Business application that is linked to the Quick
   /// Sight account.
@@ -18758,6 +18860,7 @@ class DescribeDefaultQBusinessApplicationResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlowResponse {
   /// The full details of the flow.
   final FlowDetail flow;
@@ -18794,6 +18897,7 @@ class DescribeFlowResponse {
   }
 }
 
+/// @nodoc
 class DescribeFolderResponse {
   /// Information about the folder.
   final Folder? folder;
@@ -18831,6 +18935,7 @@ class DescribeFolderResponse {
   }
 }
 
+/// @nodoc
 class DescribeFolderPermissionsResponse {
   /// The Amazon Resource Name (ARN) for the folder.
   final String? arn;
@@ -18892,6 +18997,7 @@ class DescribeFolderPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeFolderResolvedPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the folder.
   final String? arn;
@@ -18953,6 +19059,7 @@ class DescribeFolderResolvedPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeGroupResponse {
   /// The name of the group.
   final Group? group;
@@ -18990,6 +19097,7 @@ class DescribeGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeGroupMembershipResponse {
   final GroupMember? groupMember;
 
@@ -19026,6 +19134,7 @@ class DescribeGroupMembershipResponse {
   }
 }
 
+/// @nodoc
 class DescribeIAMPolicyAssignmentResponse {
   /// Information describing the IAM policy assignment.
   final IAMPolicyAssignment? iAMPolicyAssignment;
@@ -19066,6 +19175,7 @@ class DescribeIAMPolicyAssignmentResponse {
   }
 }
 
+/// @nodoc
 class DescribeIngestionResponse {
   /// Information about the ingestion.
   final Ingestion? ingestion;
@@ -19103,6 +19213,7 @@ class DescribeIngestionResponse {
   }
 }
 
+/// @nodoc
 class DescribeIpRestrictionResponse {
   /// The ID of the Amazon Web Services account that contains the IP rules.
   final String? awsAccountId;
@@ -19176,6 +19287,7 @@ class DescribeIpRestrictionResponse {
   }
 }
 
+/// @nodoc
 class DescribeKeyRegistrationResponse {
   /// The ID of the Amazon Web Services account that contains the customer managed
   /// key registration specified in the request.
@@ -19234,6 +19346,7 @@ class DescribeKeyRegistrationResponse {
   }
 }
 
+/// @nodoc
 class DescribeKnowledgeBaseResponse {
   /// The knowledge base.
   final KnowledgeBase knowledgeBase;
@@ -19271,6 +19384,7 @@ class DescribeKnowledgeBaseResponse {
   }
 }
 
+/// @nodoc
 class DescribeKnowledgeBasePermissionsResponse {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String knowledgeBaseArn;
@@ -19324,6 +19438,7 @@ class DescribeKnowledgeBasePermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeNamespaceResponse {
   /// The information about the namespace that you're describing. The response
   /// includes the namespace ARN, name, Amazon Web Services Region, creation
@@ -19366,6 +19481,7 @@ class DescribeNamespaceResponse {
   }
 }
 
+/// @nodoc
 class DescribeOAuthClientApplicationResponse {
   /// The information about the OAuthClientApplication.
   final OAuthClientApplication? oAuthClientApplication;
@@ -19406,6 +19522,7 @@ class DescribeOAuthClientApplicationResponse {
   }
 }
 
+/// @nodoc
 class DescribeQPersonalizationConfigurationResponse {
   /// A value that indicates whether personalization is enabled or not.
   final PersonalizationMode? personalizationMode;
@@ -19444,6 +19561,7 @@ class DescribeQPersonalizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeQuickSightQSearchConfigurationResponse {
   /// The status of Quick Sight Q Search configuration.
   final QSearchStatus? qSearchStatus;
@@ -19481,6 +19599,7 @@ class DescribeQuickSightQSearchConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) for the refresh schedule.
   final String? arn;
@@ -19526,6 +19645,7 @@ class DescribeRefreshScheduleResponse {
   }
 }
 
+/// @nodoc
 class DescribeRoleCustomPermissionResponse {
   /// The name of the custom permission that is described.
   final String? customPermissionsName;
@@ -19564,6 +19684,7 @@ class DescribeRoleCustomPermissionResponse {
   }
 }
 
+/// @nodoc
 class DescribeSelfUpgradeConfigurationResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -19604,6 +19725,7 @@ class DescribeSelfUpgradeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeSpaceResponse {
   /// The details of the space.
   final SpaceDetails space;
@@ -19658,6 +19780,7 @@ class DescribeSpaceResponse {
   }
 }
 
+/// @nodoc
 class DescribeSpacePermissionsResponse {
   /// The ID of the space.
   final String spaceId;
@@ -19704,6 +19827,7 @@ class DescribeSpacePermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeTemplateResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -19741,6 +19865,7 @@ class DescribeTemplateResponse {
   }
 }
 
+/// @nodoc
 class DescribeTemplateAliasResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -19779,6 +19904,7 @@ class DescribeTemplateAliasResponse {
   }
 }
 
+/// @nodoc
 class DescribeTemplateDefinitionResponse {
   /// The definition of the template.
   ///
@@ -19884,6 +20010,7 @@ class DescribeTemplateDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeTemplatePermissionsResponse {
   /// A list of resource permissions to be set on the template.
   final List<ResourcePermission>? permissions;
@@ -19937,6 +20064,7 @@ class DescribeTemplatePermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeThemeResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -19974,6 +20102,7 @@ class DescribeThemeResponse {
   }
 }
 
+/// @nodoc
 class DescribeThemeAliasResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -20011,6 +20140,7 @@ class DescribeThemeAliasResponse {
   }
 }
 
+/// @nodoc
 class DescribeThemePermissionsResponse {
   /// A list of resource permissions set on the theme.
   final List<ResourcePermission>? permissions;
@@ -20063,6 +20193,7 @@ class DescribeThemePermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeTopicResponse {
   /// The Amazon Resource Name (ARN) of the topic.
   final String? arn;
@@ -20125,6 +20256,7 @@ class DescribeTopicResponse {
   }
 }
 
+/// @nodoc
 class DescribeTopicPermissionsResponse {
   /// A list of resource permissions that are configured to the topic.
   final List<ResourcePermission>? permissions;
@@ -20178,6 +20310,7 @@ class DescribeTopicPermissionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeTopicRefreshResponse {
   /// Details of the refresh, which is performed when the topic is created or
   /// updated.
@@ -20217,6 +20350,7 @@ class DescribeTopicRefreshResponse {
   }
 }
 
+/// @nodoc
 class DescribeTopicRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? datasetArn;
@@ -20279,6 +20413,7 @@ class DescribeTopicRefreshScheduleResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -20316,6 +20451,7 @@ class DescribeUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeVPCConnectionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -20356,6 +20492,7 @@ class DescribeVPCConnectionResponse {
   }
 }
 
+/// @nodoc
 class GenerateEmbedUrlForAnonymousUserResponse {
   /// The Amazon Resource Name (ARN) to use for the anonymous Amazon Quick user.
   final String anonymousUserArn;
@@ -20399,6 +20536,7 @@ class GenerateEmbedUrlForAnonymousUserResponse {
   }
 }
 
+/// @nodoc
 class GenerateEmbedUrlForRegisteredUserResponse {
   /// The embed URL for the Amazon Quick Sight dashboard, visual, Q search bar,
   /// Generative Q&A experience, or console.
@@ -20436,6 +20574,7 @@ class GenerateEmbedUrlForRegisteredUserResponse {
   }
 }
 
+/// @nodoc
 class GenerateEmbedUrlForRegisteredUserWithIdentityResponse {
   /// The generated embed URL for the registered user.
   final String embedUrl;
@@ -20473,6 +20612,8 @@ class GenerateEmbedUrlForRegisteredUserWithIdentityResponse {
 }
 
 /// Output returned from the <code>GetDashboardEmbedUrl</code> operation.
+///
+/// @nodoc
 class GetDashboardEmbedUrlResponse {
   /// A single-use URL that you can put into your server-side webpage to embed
   /// your dashboard. This URL is valid for 5 minutes. The API operation provides
@@ -20511,6 +20652,7 @@ class GetDashboardEmbedUrlResponse {
   }
 }
 
+/// @nodoc
 class GetFlowMetadataOutput {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -20605,6 +20747,7 @@ class GetFlowMetadataOutput {
   }
 }
 
+/// @nodoc
 class GetFlowPermissionsOutput {
   /// The Amazon Resource Name (ARN) of the flow you are getting permissions
   /// against.
@@ -20658,6 +20801,7 @@ class GetFlowPermissionsOutput {
   }
 }
 
+/// @nodoc
 class GetIdentityContextResponse {
   /// The Amazon Web Services request ID for this operation.
   final String requestId;
@@ -20697,6 +20841,7 @@ class GetIdentityContextResponse {
   }
 }
 
+/// @nodoc
 class GetSessionEmbedUrlResponse {
   /// A single-use URL that you can put into your server-side web page to embed
   /// your Quick session. This URL is valid for 5 minutes. The API operation
@@ -20735,6 +20880,7 @@ class GetSessionEmbedUrlResponse {
   }
 }
 
+/// @nodoc
 class ListActionConnectorsResponse {
   /// A list of action connector summaries containing basic information about each
   /// connector.
@@ -20784,6 +20930,7 @@ class ListActionConnectorsResponse {
   }
 }
 
+/// @nodoc
 class ListAgentsResponse {
   /// A list of agent summaries.
   final List<AgentSummary> agentSummaries;
@@ -20823,6 +20970,7 @@ class ListAgentsResponse {
   }
 }
 
+/// @nodoc
 class ListAnalysesResponse {
   /// Metadata describing each of the analyses that are listed.
   final List<AnalysisSummary>? analysisSummaryList;
@@ -20869,6 +21017,7 @@ class ListAnalysesResponse {
   }
 }
 
+/// @nodoc
 class ListAssetBundleExportJobsResponse {
   /// A list of export job summaries.
   final List<AssetBundleExportJobSummary>? assetBundleExportJobSummaryList;
@@ -20919,6 +21068,7 @@ class ListAssetBundleExportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListAssetBundleImportJobsResponse {
   /// A list of import job summaries.
   final List<AssetBundleImportJobSummary>? assetBundleImportJobSummaryList;
@@ -20969,6 +21119,7 @@ class ListAssetBundleImportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListBrandsResponse {
   /// A list of all brands in your Amazon Web Services account. This structure
   /// provides basic information about each brand.
@@ -21002,6 +21153,7 @@ class ListBrandsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomPermissionsResponse {
   /// A list of custom permissions profiles.
   final List<CustomPermissions>? customPermissionsList;
@@ -21048,6 +21200,7 @@ class ListCustomPermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListDashboardsResponse {
   /// A structure that contains all of the dashboards in your Amazon Web Services
   /// account. This structure provides basic information about the dashboards.
@@ -21095,6 +21248,7 @@ class ListDashboardsResponse {
   }
 }
 
+/// @nodoc
 class ListDashboardVersionsResponse {
   /// A structure that contains information about each version of the dashboard.
   final List<DashboardVersionSummary>? dashboardVersionSummaryList;
@@ -21143,6 +21297,7 @@ class ListDashboardVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListDataSetsResponse {
   /// The list of dataset summaries.
   final List<DataSetSummary>? dataSetSummaries;
@@ -21188,6 +21343,7 @@ class ListDataSetsResponse {
   }
 }
 
+/// @nodoc
 class ListDataSourcesResponse {
   /// A list of data sources.
   final List<DataSource>? dataSources;
@@ -21233,6 +21389,7 @@ class ListDataSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListFlowsOutput {
   /// A structure that contains all of the flows in your Amazon Web Services
   /// account. This structure provides basic information about the flows.
@@ -21279,6 +21436,7 @@ class ListFlowsOutput {
   }
 }
 
+/// @nodoc
 class ListFolderMembersResponse {
   /// A structure that contains all of the folder members (dashboards, analyses,
   /// and datasets) in the folder.
@@ -21325,6 +21483,7 @@ class ListFolderMembersResponse {
   }
 }
 
+/// @nodoc
 class ListFoldersResponse {
   /// A structure that contains all of the folders in the Amazon Web Services
   /// account. This structure provides basic information about the folders.
@@ -21371,6 +21530,7 @@ class ListFoldersResponse {
   }
 }
 
+/// @nodoc
 class ListFoldersForResourceResponse {
   /// A list that contains the Amazon Resource Names (ARNs) of all folders that
   /// the resource is a member of.
@@ -21415,6 +21575,7 @@ class ListFoldersForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListGroupMembershipsResponse {
   /// The list of the members of the group.
   final List<GroupMember>? groupMemberList;
@@ -21460,6 +21621,7 @@ class ListGroupMembershipsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsResponse {
   /// The list of the groups.
   final List<Group>? groupList;
@@ -21505,6 +21667,7 @@ class ListGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListIAMPolicyAssignmentsResponse {
   /// Information describing the IAM policy assignments.
   final List<IAMPolicyAssignmentSummary>? iAMPolicyAssignments;
@@ -21552,6 +21715,7 @@ class ListIAMPolicyAssignmentsResponse {
   }
 }
 
+/// @nodoc
 class ListIAMPolicyAssignmentsForUserResponse {
   /// The active assignments for this user.
   final List<ActiveIAMPolicyAssignment>? activeAssignments;
@@ -21599,6 +21763,7 @@ class ListIAMPolicyAssignmentsForUserResponse {
   }
 }
 
+/// @nodoc
 class ListIdentityPropagationConfigsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -21647,6 +21812,7 @@ class ListIdentityPropagationConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListIngestionsResponse {
   /// A list of the ingestions.
   final List<Ingestion>? ingestions;
@@ -21692,6 +21858,7 @@ class ListIngestionsResponse {
   }
 }
 
+/// @nodoc
 class ListKnowledgeBasesResponse {
   /// A list of knowledge base summaries.
   final List<KnowledgeBaseSummary> knowledgeBaseSummaries;
@@ -21738,6 +21905,7 @@ class ListKnowledgeBasesResponse {
   }
 }
 
+/// @nodoc
 class ListNamespacesResponse {
   /// The information about the namespaces in this Amazon Web Services account.
   /// The response includes the namespace ARN, name, Amazon Web Services Region,
@@ -21791,6 +21959,7 @@ class ListNamespacesResponse {
   }
 }
 
+/// @nodoc
 class ListOAuthClientApplicationsResponse {
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
@@ -21839,6 +22008,7 @@ class ListOAuthClientApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListRefreshSchedulesResponse {
   /// The list of refresh schedules for the dataset.
   final List<RefreshSchedule>? refreshSchedules;
@@ -21877,6 +22047,7 @@ class ListRefreshSchedulesResponse {
   }
 }
 
+/// @nodoc
 class ListRoleMembershipsResponse {
   /// The list of groups associated with a role
   final List<String>? membersList;
@@ -21922,6 +22093,7 @@ class ListRoleMembershipsResponse {
   }
 }
 
+/// @nodoc
 class ListSelfUpgradesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -21969,6 +22141,7 @@ class ListSelfUpgradesResponse {
   }
 }
 
+/// @nodoc
 class ListSpaceResourcesResponse {
   /// A list of resource summaries in the space.
   final List<SpaceResourceSummary> spaceResources;
@@ -22015,6 +22188,7 @@ class ListSpaceResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListSpacesResponse {
   /// A list of space summaries.
   final List<SpaceSummary> spaceSummaries;
@@ -22068,6 +22242,7 @@ class ListSpacesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -22107,6 +22282,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTemplateAliasesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22152,6 +22328,7 @@ class ListTemplateAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListTemplatesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22198,6 +22375,7 @@ class ListTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListTemplateVersionsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22245,6 +22423,7 @@ class ListTemplateVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListThemeAliasesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22290,6 +22469,7 @@ class ListThemeAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListThemesResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22335,6 +22515,7 @@ class ListThemesResponse {
   }
 }
 
+/// @nodoc
 class ListThemeVersionsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22381,6 +22562,7 @@ class ListThemeVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTopicRefreshSchedulesResponse {
   /// The list of topic refresh schedules.
   final List<TopicRefreshScheduleSummary>? refreshSchedules;
@@ -22436,6 +22618,7 @@ class ListTopicRefreshSchedulesResponse {
   }
 }
 
+/// @nodoc
 class ListTopicReviewedAnswersResponse {
   /// The definition of all Answers in the topic.
   final List<TopicReviewedAnswer>? answers;
@@ -22490,6 +22673,7 @@ class ListTopicReviewedAnswersResponse {
   }
 }
 
+/// @nodoc
 class ListTopicsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22535,6 +22719,7 @@ class ListTopicsResponse {
   }
 }
 
+/// @nodoc
 class ListUserGroupsResponse {
   /// The list of groups the user is a member of.
   final List<Group>? groupList;
@@ -22580,6 +22765,7 @@ class ListUserGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// A pagination token that can be used in a subsequent request.
   final String? nextToken;
@@ -22625,6 +22811,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class ListUsersIndexCapacityResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22664,6 +22851,7 @@ class ListUsersIndexCapacityResponse {
   }
 }
 
+/// @nodoc
 class ListVPCConnectionsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -22711,6 +22899,7 @@ class ListVPCConnectionsResponse {
   }
 }
 
+/// @nodoc
 class PredictQAResultsResponse {
   /// Additional visual responses.
   final List<QAResult>? additionalResults;
@@ -22758,6 +22947,7 @@ class PredictQAResultsResponse {
   }
 }
 
+/// @nodoc
 class PutDataSetRefreshPropertiesResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -22787,6 +22977,7 @@ class PutDataSetRefreshPropertiesResponse {
   }
 }
 
+/// @nodoc
 class RegisterUserResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -22833,6 +23024,7 @@ class RegisterUserResponse {
   }
 }
 
+/// @nodoc
 class RestoreAnalysisResponse {
   /// The ID of the analysis that you're restoring.
   final String? analysisId;
@@ -22887,6 +23079,7 @@ class RestoreAnalysisResponse {
   }
 }
 
+/// @nodoc
 class SearchActionConnectorsResponse {
   /// A list of action connector summaries that match the search criteria.
   final List<ActionConnectorSummary>? actionConnectorSummaries;
@@ -22935,6 +23128,7 @@ class SearchActionConnectorsResponse {
   }
 }
 
+/// @nodoc
 class SearchAgentsResponse {
   /// A list of agent summaries.
   final List<AgentSummary>? agentSummaries;
@@ -22974,6 +23168,7 @@ class SearchAgentsResponse {
   }
 }
 
+/// @nodoc
 class SearchAnalysesResponse {
   /// Metadata describing the analyses that you searched for.
   final List<AnalysisSummary>? analysisSummaryList;
@@ -23020,6 +23215,7 @@ class SearchAnalysesResponse {
   }
 }
 
+/// @nodoc
 class SearchDashboardsResponse {
   /// The list of dashboards owned by the user specified in <code>Filters</code>
   /// in your request.
@@ -23067,6 +23263,7 @@ class SearchDashboardsResponse {
   }
 }
 
+/// @nodoc
 class SearchDataSetsResponse {
   /// A <code>DataSetSummaries</code> object that returns a summary of a dataset.
   final List<DataSetSummary>? dataSetSummaries;
@@ -23112,6 +23309,7 @@ class SearchDataSetsResponse {
   }
 }
 
+/// @nodoc
 class SearchDataSourcesResponse {
   /// A <code>DataSourceSummaries</code> object that returns a summary of a data
   /// source.
@@ -23159,6 +23357,7 @@ class SearchDataSourcesResponse {
   }
 }
 
+/// @nodoc
 class SearchFlowsOutput {
   /// The list of flows found against the search.
   final List<FlowSummary> flowSummaryList;
@@ -23204,6 +23403,7 @@ class SearchFlowsOutput {
   }
 }
 
+/// @nodoc
 class SearchFoldersResponse {
   /// A structure that contains all of the folders in the Amazon Web Services
   /// account. This structure provides basic information about the folders.
@@ -23250,6 +23450,7 @@ class SearchFoldersResponse {
   }
 }
 
+/// @nodoc
 class SearchGroupsResponse {
   /// A list of groups in a specified namespace that match the filters you set in
   /// your <code>SearchGroups</code> request.
@@ -23296,6 +23497,7 @@ class SearchGroupsResponse {
   }
 }
 
+/// @nodoc
 class SearchKnowledgeBasesResponse {
   /// A list of knowledge base summaries.
   final List<KnowledgeBaseSummary> knowledgeBaseSummaries;
@@ -23342,6 +23544,7 @@ class SearchKnowledgeBasesResponse {
   }
 }
 
+/// @nodoc
 class SearchSpacesResponse {
   /// A list of space summaries that match the search criteria.
   final List<SpaceSummary> spaceSummaries;
@@ -23395,6 +23598,7 @@ class SearchSpacesResponse {
   }
 }
 
+/// @nodoc
 class SearchTopicsResponse {
   /// The token for the next set of results, or null if there are no more results.
   final String? nextToken;
@@ -23440,6 +23644,7 @@ class SearchTopicsResponse {
   }
 }
 
+/// @nodoc
 class StartAssetBundleExportJobResponse {
   /// The Amazon Resource Name (ARN) for the export job.
   final String? arn;
@@ -23485,6 +23690,7 @@ class StartAssetBundleExportJobResponse {
   }
 }
 
+/// @nodoc
 class StartAssetBundleImportJobResponse {
   /// The Amazon Resource Name (ARN) for the import job.
   final String? arn;
@@ -23530,6 +23736,7 @@ class StartAssetBundleImportJobResponse {
   }
 }
 
+/// @nodoc
 class StartAutomationJobResponse {
   /// The Amazon Resource Name (ARN) of the automation job.
   final String arn;
@@ -23572,6 +23779,7 @@ class StartAutomationJobResponse {
   }
 }
 
+/// @nodoc
 class StartDashboardSnapshotJobResponse {
   /// The Amazon Resource Name (ARN) for the dashboard snapshot job.
   final String? arn;
@@ -23616,6 +23824,7 @@ class StartDashboardSnapshotJobResponse {
   }
 }
 
+/// @nodoc
 class StartDashboardSnapshotJobScheduleResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -23645,6 +23854,7 @@ class StartDashboardSnapshotJobScheduleResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -23673,6 +23883,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -23701,6 +23912,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountCustomizationResponse {
   /// The Quick Sight customizations you're updating.
   final AccountCustomization? accountCustomization;
@@ -23764,6 +23976,7 @@ class UpdateAccountCustomizationResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountCustomPermissionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -23794,6 +24007,7 @@ class UpdateAccountCustomPermissionResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountSettingsResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -23822,6 +24036,7 @@ class UpdateAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateActionConnectorResponse {
   /// The unique identifier of the updated action connector.
   final String? actionConnectorId;
@@ -23872,6 +24087,7 @@ class UpdateActionConnectorResponse {
   }
 }
 
+/// @nodoc
 class UpdateActionConnectorPermissionsResponse {
   /// The unique identifier of the action connector.
   final String? actionConnectorId;
@@ -23925,6 +24141,7 @@ class UpdateActionConnectorPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentResponse {
   /// The unique identifier for the agent.
   final String agentId;
@@ -24021,6 +24238,7 @@ class UpdateAgentResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgentPermissionsResponse {
   /// The unique identifier for the agent.
   final String agentId;
@@ -24067,6 +24285,7 @@ class UpdateAgentPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateAnalysisResponse {
   /// The ID of the analysis.
   final String? analysisId;
@@ -24117,6 +24336,7 @@ class UpdateAnalysisResponse {
   }
 }
 
+/// @nodoc
 class UpdateAnalysisPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the analysis that you updated.
   final String? analysisArn;
@@ -24171,6 +24391,7 @@ class UpdateAnalysisPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationWithTokenExchangeGrantResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -24200,6 +24421,7 @@ class UpdateApplicationWithTokenExchangeGrantResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrandResponse {
   /// The definition of the brand.
   final BrandDefinition? brandDefinition;
@@ -24241,6 +24463,7 @@ class UpdateBrandResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrandAssignmentResponse {
   /// The Amazon Resource Name (ARN) of the brand.
   final String? brandArn;
@@ -24270,6 +24493,7 @@ class UpdateBrandAssignmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrandPublishedVersionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -24300,6 +24524,7 @@ class UpdateBrandPublishedVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateCustomPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the custom permissions profile.
   final String? arn;
@@ -24336,6 +24561,7 @@ class UpdateCustomPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateDashboardResponse {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -24394,6 +24620,7 @@ class UpdateDashboardResponse {
   }
 }
 
+/// @nodoc
 class UpdateDashboardLinksResponse {
   /// The Amazon Resource Name (ARN) of the dashboard.
   final String? dashboardArn;
@@ -24440,6 +24667,7 @@ class UpdateDashboardLinksResponse {
   }
 }
 
+/// @nodoc
 class UpdateDashboardPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the dashboard.
   final String? dashboardArn;
@@ -24504,6 +24732,7 @@ class UpdateDashboardPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateDashboardPublishedVersionResponse {
   /// The Amazon Resource Name (ARN) of the dashboard.
   final String? dashboardArn;
@@ -24547,6 +24776,7 @@ class UpdateDashboardPublishedVersionResponse {
   }
 }
 
+/// @nodoc
 class UpdateDashboardsQAConfigurationResponse {
   /// A value that indicates whether the dashboard QA configuration is enabled or
   /// not.
@@ -24586,6 +24816,7 @@ class UpdateDashboardsQAConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataSetResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? arn;
@@ -24645,6 +24876,7 @@ class UpdateDataSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataSetPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? dataSetArn;
@@ -24688,6 +24920,7 @@ class UpdateDataSetPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataSourceResponse {
   /// The Amazon Resource Name (ARN) of the data source.
   final String? arn;
@@ -24739,6 +24972,7 @@ class UpdateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataSourcePermissionsResponse {
   /// The Amazon Resource Name (ARN) of the data source.
   final String? dataSourceArn;
@@ -24783,6 +25017,7 @@ class UpdateDataSourcePermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateDefaultQBusinessApplicationResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -24812,6 +25047,7 @@ class UpdateDefaultQBusinessApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -24854,6 +25090,7 @@ class UpdateFlowResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowPermissionsOutput {
   /// The Amazon Resource Name (ARN) of the flow you are updating permissions
   /// against.
@@ -24907,6 +25144,7 @@ class UpdateFlowPermissionsOutput {
   }
 }
 
+/// @nodoc
 class UpdateFolderResponse {
   /// The Amazon Resource Name (ARN) of the folder.
   final String? arn;
@@ -24949,6 +25187,7 @@ class UpdateFolderResponse {
   }
 }
 
+/// @nodoc
 class UpdateFolderPermissionsResponse {
   /// The Amazon Resource Name (ARN) of the folder.
   final String? arn;
@@ -25002,6 +25241,7 @@ class UpdateFolderPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateGroupResponse {
   /// The name of the group.
   final Group? group;
@@ -25039,6 +25279,7 @@ class UpdateGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateIAMPolicyAssignmentResponse {
   /// The ID of the assignment.
   final String? assignmentId;
@@ -25122,6 +25363,7 @@ class UpdateIAMPolicyAssignmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateIdentityPropagationConfigResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -25151,6 +25393,7 @@ class UpdateIdentityPropagationConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateIpRestrictionResponse {
   /// The ID of the Amazon Web Services account that contains the IP rules.
   final String? awsAccountId;
@@ -25186,6 +25429,7 @@ class UpdateIpRestrictionResponse {
   }
 }
 
+/// @nodoc
 class UpdateKeyRegistrationResponse {
   /// A list of all customer managed key registrations that failed to update.
   final List<FailedKeyRegistrationEntry>? failedKeyRegistration;
@@ -25233,6 +25477,7 @@ class UpdateKeyRegistrationResponse {
   }
 }
 
+/// @nodoc
 class UpdateKnowledgeBasePermissionsResponse {
   /// The Amazon Resource Name (ARN) of the knowledge base.
   final String knowledgeBaseArn;
@@ -25286,6 +25531,7 @@ class UpdateKnowledgeBasePermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateOAuthClientApplicationResponse {
   /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
   final String? arn;
@@ -25339,6 +25585,7 @@ class UpdateOAuthClientApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdatePublicSharingSettingsResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -25368,6 +25615,7 @@ class UpdatePublicSharingSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateQPersonalizationConfigurationResponse {
   /// The personalization mode that is used for the personalization configuration.
   final PersonalizationMode? personalizationMode;
@@ -25406,6 +25654,7 @@ class UpdateQPersonalizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateQuickSightQSearchConfigurationResponse {
   /// The status of the Quick Sight Q Search configuration.
   final QSearchStatus? qSearchStatus;
@@ -25443,6 +25692,7 @@ class UpdateQuickSightQSearchConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) for the refresh schedule.
   final String? arn;
@@ -25485,6 +25735,7 @@ class UpdateRefreshScheduleResponse {
   }
 }
 
+/// @nodoc
 class UpdateRoleCustomPermissionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -25515,6 +25766,7 @@ class UpdateRoleCustomPermissionResponse {
   }
 }
 
+/// @nodoc
 class UpdateSelfUpgradeResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -25554,6 +25806,7 @@ class UpdateSelfUpgradeResponse {
   }
 }
 
+/// @nodoc
 class UpdateSelfUpgradeConfigurationResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -25583,6 +25836,7 @@ class UpdateSelfUpgradeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSpaceResponse {
   /// The ID of the space.
   final String spaceId;
@@ -25619,6 +25873,7 @@ class UpdateSpaceResponse {
   }
 }
 
+/// @nodoc
 class UpdateSpacePermissionsResponse {
   /// The ID of the space.
   final String spaceId;
@@ -25665,6 +25920,7 @@ class UpdateSpacePermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateSpaceResourcesResponse {
   /// The ID of the space.
   final String spaceId;
@@ -25713,6 +25969,7 @@ class UpdateSpaceResourcesResponse {
   }
 }
 
+/// @nodoc
 class UpdateSPICECapacityConfigurationResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -25742,6 +25999,7 @@ class UpdateSPICECapacityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateTemplateResponse {
   /// The Amazon Resource Name (ARN) for the template.
   final String? arn;
@@ -25800,6 +26058,7 @@ class UpdateTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateTemplateAliasResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -25838,6 +26097,7 @@ class UpdateTemplateAliasResponse {
   }
 }
 
+/// @nodoc
 class UpdateTemplatePermissionsResponse {
   /// A list of resource permissions to be set on the template.
   final List<ResourcePermission>? permissions;
@@ -25891,6 +26151,7 @@ class UpdateTemplatePermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateThemeResponse {
   /// The Amazon Resource Name (ARN) for the theme.
   final String? arn;
@@ -25948,6 +26209,7 @@ class UpdateThemeResponse {
   }
 }
 
+/// @nodoc
 class UpdateThemeAliasResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -25985,6 +26247,7 @@ class UpdateThemeAliasResponse {
   }
 }
 
+/// @nodoc
 class UpdateThemePermissionsResponse {
   /// The resulting list of resource permissions for the theme.
   final List<ResourcePermission>? permissions;
@@ -26037,6 +26300,7 @@ class UpdateThemePermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateTopicResponse {
   /// The Amazon Resource Name (ARN) of the topic.
   final String? arn;
@@ -26087,6 +26351,7 @@ class UpdateTopicResponse {
   }
 }
 
+/// @nodoc
 class UpdateTopicPermissionsResponse {
   /// A list of resource permissions on the topic.
   final List<ResourcePermission>? permissions;
@@ -26140,6 +26405,7 @@ class UpdateTopicPermissionsResponse {
   }
 }
 
+/// @nodoc
 class UpdateTopicRefreshScheduleResponse {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? datasetArn;
@@ -26191,6 +26457,7 @@ class UpdateTopicRefreshScheduleResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -26228,6 +26495,7 @@ class UpdateUserResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserCustomPermissionResponse {
   /// The Amazon Web Services request ID for this operation.
   final String? requestId;
@@ -26257,6 +26525,7 @@ class UpdateUserCustomPermissionResponse {
   }
 }
 
+/// @nodoc
 class UpdateVPCConnectionResponse {
   /// The Amazon Resource Name (ARN) of the VPC connection.
   final String? arn;
@@ -26318,6 +26587,7 @@ class UpdateVPCConnectionResponse {
   }
 }
 
+/// @nodoc
 class VPCConnectionResourceStatus {
   static const creationInProgress =
       VPCConnectionResourceStatus._('CREATION_IN_PROGRESS');
@@ -26367,6 +26637,7 @@ class VPCConnectionResourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VPCConnectionAvailabilityStatus {
   static const available = VPCConnectionAvailabilityStatus._('AVAILABLE');
   static const unavailable = VPCConnectionAvailabilityStatus._('UNAVAILABLE');
@@ -26395,6 +26666,8 @@ class VPCConnectionAvailabilityStatus {
 }
 
 /// A registered user of Quick Sight.
+///
+/// @nodoc
 class User {
   /// The active status of user. When you create an Quick Sight user that's not an
   /// IAM user or an Active Directory user, that user is inactive until they sign
@@ -26552,6 +26825,7 @@ class User {
   }
 }
 
+/// @nodoc
 class UserRole {
   static const admin = UserRole._('ADMIN');
   static const author = UserRole._('AUTHOR');
@@ -26590,6 +26864,7 @@ class UserRole {
   String toString() => value;
 }
 
+/// @nodoc
 class IdentityType {
   static const iam = IdentityType._('IAM');
   static const quicksight = IdentityType._('QUICKSIGHT');
@@ -26615,6 +26890,8 @@ class IdentityType {
 }
 
 /// A structure that represents a topic refresh schedule.
+///
+/// @nodoc
 class TopicRefreshSchedule {
   /// A Boolean value that controls whether to schedule runs at the same schedule
   /// that is specified in SPICE dataset.
@@ -26677,6 +26954,7 @@ class TopicRefreshSchedule {
   }
 }
 
+/// @nodoc
 class TopicScheduleType {
   static const hourly = TopicScheduleType._('HOURLY');
   static const daily = TopicScheduleType._('DAILY');
@@ -26704,6 +26982,8 @@ class TopicScheduleType {
 }
 
 /// Permission for the resource.
+///
+/// @nodoc
 class ResourcePermission {
   /// The IAM action to grant or revoke permissions on.
   final List<String> actions;
@@ -26757,6 +27037,8 @@ class ResourcePermission {
 
 /// A structure that describes the details of a topic, such as its name,
 /// description, and associated data sets.
+///
+/// @nodoc
 class TopicDetails {
   /// Configuration options for a <code>Topic</code>.
   final TopicConfigOptions? configOptions;
@@ -26817,6 +27099,8 @@ class TopicDetails {
 
 /// Instructions that provide additional guidance and context for response
 /// generation.
+///
+/// @nodoc
 class CustomInstructions {
   /// A text field for providing additional guidance or context for response
   /// generation.
@@ -26841,6 +27125,7 @@ class CustomInstructions {
   }
 }
 
+/// @nodoc
 class TopicUserExperienceVersion {
   static const legacy = TopicUserExperienceVersion._('LEGACY');
   static const newReaderExperience =
@@ -26868,6 +27153,8 @@ class TopicUserExperienceVersion {
 }
 
 /// Configuration options for a <code>Topic</code>.
+///
+/// @nodoc
 class TopicConfigOptions {
   /// Enables Amazon Q Business Insights for a <code>Topic</code>.
   final bool? qBusinessInsightsEnabled;
@@ -26892,6 +27179,8 @@ class TopicConfigOptions {
 }
 
 /// A structure that represents a dataset.
+///
+/// @nodoc
 class DatasetMetadata {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String datasetArn;
@@ -26979,6 +27268,8 @@ class DatasetMetadata {
 }
 
 /// A structure that represents a data aggregation.
+///
+/// @nodoc
 class DataAggregation {
   /// The level of time precision that is used to aggregate <code>DateTime</code>
   /// values.
@@ -27013,6 +27304,8 @@ class DataAggregation {
 }
 
 /// A structure that represents a named entity.
+///
+/// @nodoc
 class TopicNamedEntity {
   /// The name of the named entity.
   final String entityName;
@@ -27073,6 +27366,8 @@ class TopicNamedEntity {
 }
 
 /// A structure that represents a semantic entity type.
+///
+/// @nodoc
 class SemanticEntityType {
   /// The semantic entity sub type name.
   final String? subTypeName;
@@ -27111,6 +27406,8 @@ class SemanticEntityType {
 }
 
 /// A structure that represents a named entity.
+///
+/// @nodoc
 class NamedEntityDefinition {
   /// The name of the entity.
   final String? fieldName;
@@ -27168,6 +27465,7 @@ class NamedEntityDefinition {
   }
 }
 
+/// @nodoc
 class PropertyRole {
   static const primary = PropertyRole._('PRIMARY');
   static const id = PropertyRole._('ID');
@@ -27191,6 +27489,7 @@ class PropertyRole {
   String toString() => value;
 }
 
+/// @nodoc
 class PropertyUsage {
   static const inherit = PropertyUsage._('INHERIT');
   static const dimension = PropertyUsage._('DIMENSION');
@@ -27217,6 +27516,8 @@ class PropertyUsage {
 }
 
 /// A structure that represents a metric.
+///
+/// @nodoc
 class NamedEntityDefinitionMetric {
   /// The aggregation of a named entity. Valid values for this structure are
   /// <code>SUM</code>, <code>MIN</code>, <code>MAX</code>, <code>COUNT</code>,
@@ -27254,6 +27555,7 @@ class NamedEntityDefinitionMetric {
   }
 }
 
+/// @nodoc
 class NamedEntityAggType {
   static const sum = NamedEntityAggType._('SUM');
   static const min = NamedEntityAggType._('MIN');
@@ -27305,6 +27607,8 @@ class NamedEntityAggType {
 }
 
 /// A structure that represents a calculated field.
+///
+/// @nodoc
 class TopicCalculatedField {
   /// The calculated field name.
   final String calculatedFieldName;
@@ -27486,6 +27790,7 @@ class TopicCalculatedField {
   }
 }
 
+/// @nodoc
 class ColumnDataRole {
   static const dimension = ColumnDataRole._('DIMENSION');
   static const measure = ColumnDataRole._('MEASURE');
@@ -27510,6 +27815,7 @@ class ColumnDataRole {
   String toString() => value;
 }
 
+/// @nodoc
 class TopicTimeGranularity {
   static const second = TopicTimeGranularity._('SECOND');
   static const minute = TopicTimeGranularity._('MINUTE');
@@ -27542,6 +27848,8 @@ class TopicTimeGranularity {
 }
 
 /// A structure that represents a default formatting definition.
+///
+/// @nodoc
 class DefaultFormatting {
   /// The display format. Valid values for this structure are <code>AUTO</code>,
   /// <code>PERCENT</code>, <code>CURRENCY</code>, <code>NUMBER</code>,
@@ -27578,6 +27886,7 @@ class DefaultFormatting {
   }
 }
 
+/// @nodoc
 class DefaultAggregation {
   static const sum = DefaultAggregation._('SUM');
   static const max = DefaultAggregation._('MAX');
@@ -27625,6 +27934,8 @@ class DefaultAggregation {
 }
 
 /// A structure that represents a comparative order.
+///
+/// @nodoc
 class ComparativeOrder {
   /// The list of columns to be used in the ordering.
   final List<String>? specifedOrder;
@@ -27672,6 +27983,8 @@ class ComparativeOrder {
 }
 
 /// A structure that represents a semantic type.
+///
+/// @nodoc
 class SemanticType {
   /// The semantic type falsey cell value.
   final String? falseyCellValue;
@@ -27746,6 +28059,8 @@ class SemanticType {
 }
 
 /// A structure that represents the cell value synonym.
+///
+/// @nodoc
 class CellValueSynonym {
   /// The cell value.
   final String? cellValue;
@@ -27778,6 +28093,7 @@ class CellValueSynonym {
   }
 }
 
+/// @nodoc
 class AuthorSpecifiedAggregation {
   static const count = AuthorSpecifiedAggregation._('COUNT');
   static const distinctCount = AuthorSpecifiedAggregation._('DISTINCT_COUNT');
@@ -27826,6 +28142,7 @@ class AuthorSpecifiedAggregation {
   String toString() => value;
 }
 
+/// @nodoc
 class ColumnOrderingType {
   static const greaterIsBetter = ColumnOrderingType._('GREATER_IS_BETTER');
   static const lesserIsBetter = ColumnOrderingType._('LESSER_IS_BETTER');
@@ -27852,6 +28169,7 @@ class ColumnOrderingType {
   String toString() => value;
 }
 
+/// @nodoc
 class UndefinedSpecifiedValueType {
   static const least = UndefinedSpecifiedValueType._('LEAST');
   static const most = UndefinedSpecifiedValueType._('MOST');
@@ -27877,6 +28195,7 @@ class UndefinedSpecifiedValueType {
   String toString() => value;
 }
 
+/// @nodoc
 class DisplayFormat {
   static const auto = DisplayFormat._('AUTO');
   static const percent = DisplayFormat._('PERCENT');
@@ -27906,6 +28225,8 @@ class DisplayFormat {
 }
 
 /// A structure that represents additional options for display formatting.
+///
+/// @nodoc
 class DisplayFormatOptions {
   /// Determines the blank cell format.
   final String? blankCellFormat;
@@ -28011,6 +28332,7 @@ class DisplayFormatOptions {
   }
 }
 
+/// @nodoc
 class TopicNumericSeparatorSymbol {
   static const comma = TopicNumericSeparatorSymbol._('COMMA');
   static const dot = TopicNumericSeparatorSymbol._('DOT');
@@ -28036,6 +28358,7 @@ class TopicNumericSeparatorSymbol {
   String toString() => value;
 }
 
+/// @nodoc
 class NumberScale {
   static const none = NumberScale._('NONE');
   static const auto = NumberScale._('AUTO');
@@ -28075,6 +28398,8 @@ class NumberScale {
 }
 
 /// A structure that represents a negative format.
+///
+/// @nodoc
 class NegativeFormat {
   /// The prefix for a negative format.
   final String? prefix;
@@ -28105,6 +28430,8 @@ class NegativeFormat {
 }
 
 /// Represents a column in a dataset.
+///
+/// @nodoc
 class TopicColumn {
   /// The name of the column.
   final String columnName;
@@ -28283,6 +28610,8 @@ class TopicColumn {
 }
 
 /// A structure that represents a filter used to select items for a topic.
+///
+/// @nodoc
 class TopicFilter {
   /// The name of the filter.
   final String filterName;
@@ -28410,6 +28739,7 @@ class TopicFilter {
   }
 }
 
+/// @nodoc
 class FilterClass {
   static const enforcedValueFilter = FilterClass._('ENFORCED_VALUE_FILTER');
   static const conditionalValueFilter =
@@ -28439,6 +28769,7 @@ class FilterClass {
   String toString() => value;
 }
 
+/// @nodoc
 class NamedFilterType {
   static const categoryFilter = NamedFilterType._('CATEGORY_FILTER');
   static const numericEqualityFilter =
@@ -28476,6 +28807,8 @@ class NamedFilterType {
 }
 
 /// A structure that represents a category filter.
+///
+/// @nodoc
 class TopicCategoryFilter {
   /// The category filter function. Valid values for this structure are
   /// <code>EXACT</code> and <code>CONTAINS</code>.
@@ -28531,6 +28864,8 @@ class TopicCategoryFilter {
 /// A filter that filters topics based on the value of a numeric field. The
 /// filter includes only topics whose numeric field value matches the specified
 /// value.
+///
+/// @nodoc
 class TopicNumericEqualityFilter {
   /// An aggregation function that specifies how to calculate the value of a
   /// numeric field for a topic. Valid values for this structure are
@@ -28572,6 +28907,8 @@ class TopicNumericEqualityFilter {
 /// A filter that filters topics based on the value of a numeric field. The
 /// filter includes only topics whose numeric field value falls within the
 /// specified range.
+///
+/// @nodoc
 class TopicNumericRangeFilter {
   /// An aggregation function that specifies how to calculate the value of a
   /// numeric field for a topic, Valid values for this structure are
@@ -28622,6 +28959,8 @@ class TopicNumericRangeFilter {
 }
 
 /// A filter used to restrict data based on a range of dates or times.
+///
+/// @nodoc
 class TopicDateRangeFilter {
   /// The constant used in a date range filter.
   final TopicRangeFilterConstant? constant;
@@ -28657,6 +28996,8 @@ class TopicDateRangeFilter {
 }
 
 /// A structure that represents a relative date filter.
+///
+/// @nodoc
 class TopicRelativeDateFilter {
   /// The constant used in a relative date filter.
   final TopicSingularFilterConstant? constant;
@@ -28704,6 +29045,8 @@ class TopicRelativeDateFilter {
 }
 
 /// The structure that represents a null filter.
+///
+/// @nodoc
 class TopicNullFilter {
   final TopicSingularFilterConstant? constant;
 
@@ -28745,6 +29088,7 @@ class TopicNullFilter {
   }
 }
 
+/// @nodoc
 class NullFilterType {
   static const allValues = NullFilterType._('ALL_VALUES');
   static const nonNullsOnly = NullFilterType._('NON_NULLS_ONLY');
@@ -28772,6 +29116,8 @@ class NullFilterType {
 
 /// A structure that represents a singular filter constant, used in filters to
 /// specify a single value to match against.
+///
+/// @nodoc
 class TopicSingularFilterConstant {
   /// The type of the singular filter constant. Valid values for this structure
   /// are <code>SINGULAR</code>.
@@ -28803,6 +29149,7 @@ class TopicSingularFilterConstant {
   }
 }
 
+/// @nodoc
 class ConstantType {
   static const singular = ConstantType._('SINGULAR');
   static const range = ConstantType._('RANGE');
@@ -28827,6 +29174,7 @@ class ConstantType {
   String toString() => value;
 }
 
+/// @nodoc
 class TopicRelativeDateFilterFunction {
   static const previous = TopicRelativeDateFilterFunction._('PREVIOUS');
   static const $this = TopicRelativeDateFilterFunction._('THIS');
@@ -28857,6 +29205,8 @@ class TopicRelativeDateFilterFunction {
 
 /// A constant value that is used in a range filter to specify the endpoints of
 /// the range.
+///
+/// @nodoc
 class TopicRangeFilterConstant {
   /// The data type of the constant value that is used in a range filter. Valid
   /// values for this structure are <code>RANGE</code>.
@@ -28893,6 +29243,8 @@ class TopicRangeFilterConstant {
 }
 
 /// A structure that represents a range constant.
+///
+/// @nodoc
 class RangeConstant {
   /// The maximum value for a range constant.
   final String? maximum;
@@ -28922,6 +29274,7 @@ class RangeConstant {
   }
 }
 
+/// @nodoc
 class NamedFilterAggType {
   static const noAggregation = NamedFilterAggType._('NO_AGGREGATION');
   static const sum = NamedFilterAggType._('SUM');
@@ -28970,6 +29323,7 @@ class NamedFilterAggType {
   String toString() => value;
 }
 
+/// @nodoc
 class CategoryFilterFunction {
   static const exact = CategoryFilterFunction._('EXACT');
   static const contains = CategoryFilterFunction._('CONTAINS');
@@ -28995,6 +29349,7 @@ class CategoryFilterFunction {
   String toString() => value;
 }
 
+/// @nodoc
 class CategoryFilterType {
   static const customFilter = CategoryFilterType._('CUSTOM_FILTER');
   static const customFilterList = CategoryFilterType._('CUSTOM_FILTER_LIST');
@@ -29022,6 +29377,8 @@ class CategoryFilterType {
 }
 
 /// A constant used in a category filter.
+///
+/// @nodoc
 class TopicCategoryFilterConstant {
   /// A collective constant used in a category filter. This element is used to
   /// specify a list of values for the constant.
@@ -29067,6 +29424,8 @@ class TopicCategoryFilterConstant {
 }
 
 /// A structure that represents a collective constant.
+///
+/// @nodoc
 class CollectiveConstant {
   /// A list of values for the collective constant.
   final List<String>? valueList;
@@ -29093,6 +29452,8 @@ class CollectiveConstant {
 }
 
 /// An alias for a theme.
+///
+/// @nodoc
 class ThemeAlias {
   /// The display name of the theme alias.
   final String? aliasName;
@@ -29129,6 +29490,7 @@ class ThemeAlias {
   }
 }
 
+/// @nodoc
 class ResourceStatus {
   static const creationInProgress = ResourceStatus._('CREATION_IN_PROGRESS');
   static const creationSuccessful = ResourceStatus._('CREATION_SUCCESSFUL');
@@ -29168,6 +29530,8 @@ class ResourceStatus {
 
 /// The theme configuration. This configuration contains all of the display
 /// properties for a theme.
+///
+/// @nodoc
 class ThemeConfiguration {
   /// Color properties that apply to chart data colors.
   final DataColorPalette? dataColorPalette;
@@ -29223,6 +29587,8 @@ class ThemeConfiguration {
 /// The theme colors that are used for data colors in charts. The colors
 /// description is a hexadecimal color code that consists of six alphanumerical
 /// characters, prefixed with <code>#</code>, for example #37BFF5.
+///
+/// @nodoc
 class DataColorPalette {
   /// The hexadecimal codes for the colors.
   final List<String>? colors;
@@ -29270,6 +29636,8 @@ class DataColorPalette {
 /// #37BFF5. For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html">Using
 /// Themes in Quick Sight</a> in the <i>Quick Sight User Guide.</i>
+///
+/// @nodoc
 class UIColorPalette {
   /// This color is that applies to selected states and buttons.
   final String? accent;
@@ -29414,6 +29782,8 @@ class UIColorPalette {
 }
 
 /// The theme display options for sheets.
+///
+/// @nodoc
 class SheetStyle {
   /// The background for sheets.
   final SheetBackgroundStyle? background;
@@ -29458,6 +29828,8 @@ class SheetStyle {
 }
 
 /// Determines the typography options.
+///
+/// @nodoc
 class Typography {
   final FontConfiguration? axisLabelFontConfiguration;
   final FontConfiguration? axisTitleFontConfiguration;
@@ -29567,6 +29939,8 @@ class Typography {
 }
 
 /// Configures the display properties of the given text.
+///
+/// @nodoc
 class FontConfiguration {
   /// Determines the color of the text.
   final String? fontColor;
@@ -29630,6 +30004,8 @@ class FontConfiguration {
 }
 
 /// Configures the display properties of the visual title.
+///
+/// @nodoc
 class VisualTitleFontConfiguration {
   final FontConfiguration? fontConfiguration;
 
@@ -29671,6 +30047,8 @@ class VisualTitleFontConfiguration {
 }
 
 /// Configures the display properties of the visual sub-title.
+///
+/// @nodoc
 class VisualSubtitleFontConfiguration {
   final FontConfiguration? fontConfiguration;
 
@@ -29712,6 +30090,8 @@ class VisualSubtitleFontConfiguration {
 }
 
 /// Configures the display properties of the control title.
+///
+/// @nodoc
 class ControlTitleFontConfiguration {
   /// Configures the font settings for the control title.
   final FontConfiguration? fontConfiguration;
@@ -29745,6 +30125,7 @@ class ControlTitleFontConfiguration {
   }
 }
 
+/// @nodoc
 class HorizontalTextAlignment {
   static const left = HorizontalTextAlignment._('LEFT');
   static const center = HorizontalTextAlignment._('CENTER');
@@ -29772,6 +30153,7 @@ class HorizontalTextAlignment {
   String toString() => value;
 }
 
+/// @nodoc
 class TextTransform {
   static const capitalize = TextTransform._('CAPITALIZE');
 
@@ -29796,6 +30178,8 @@ class TextTransform {
 }
 
 /// The option that determines the text display size.
+///
+/// @nodoc
 class FontSize {
   /// The font size that you want to use in px.
   final String? absolute;
@@ -29825,6 +30209,7 @@ class FontSize {
   }
 }
 
+/// @nodoc
 class FontDecoration {
   static const underline = FontDecoration._('UNDERLINE');
   static const none = FontDecoration._('NONE');
@@ -29850,6 +30235,8 @@ class FontDecoration {
 }
 
 /// The option that determines the text display weight, or boldness.
+///
+/// @nodoc
 class FontWeight {
   /// The lexical name for the level of boldness of the text display.
   final FontWeightName? name;
@@ -29872,6 +30259,7 @@ class FontWeight {
   }
 }
 
+/// @nodoc
 class FontStyle {
   static const normal = FontStyle._('NORMAL');
   static const italic = FontStyle._('ITALIC');
@@ -29895,6 +30283,7 @@ class FontStyle {
   String toString() => value;
 }
 
+/// @nodoc
 class FontWeightName {
   static const normal = FontWeightName._('NORMAL');
   static const bold = FontWeightName._('BOLD');
@@ -29919,6 +30308,7 @@ class FontWeightName {
   String toString() => value;
 }
 
+/// @nodoc
 class RelativeFontSize {
   static const extraSmall = RelativeFontSize._('EXTRA_SMALL');
   static const small = RelativeFontSize._('SMALL');
@@ -29947,6 +30337,8 @@ class RelativeFontSize {
 }
 
 /// Determines the font settings.
+///
+/// @nodoc
 class Font {
   /// Determines the font family settings.
   final String? fontFamily;
@@ -29970,6 +30362,8 @@ class Font {
 }
 
 /// Display options related to tiles on a sheet.
+///
+/// @nodoc
 class TileStyle {
   /// The background color of a tile.
   final String? backgroundColor;
@@ -30016,6 +30410,8 @@ class TileStyle {
 }
 
 /// The display options for the layout of tiles on a sheet.
+///
+/// @nodoc
 class TileLayoutStyle {
   /// The gutter settings that apply between tiles.
   final GutterStyle? gutter;
@@ -30050,6 +30446,8 @@ class TileLayoutStyle {
 }
 
 /// The background configuration for sheets.
+///
+/// @nodoc
 class SheetBackgroundStyle {
   /// The solid color background option for sheets.
   final String? color;
@@ -30080,6 +30478,8 @@ class SheetBackgroundStyle {
 }
 
 /// The display options for gutter spacing between tiles on a sheet.
+///
+/// @nodoc
 class GutterStyle {
   /// This Boolean value controls whether to display a gutter space between sheet
   /// tiles.
@@ -30104,6 +30504,8 @@ class GutterStyle {
 }
 
 /// The display options for margins around the outside edge of sheets.
+///
+/// @nodoc
 class MarginStyle {
   /// This Boolean value controls whether to display sheet margins.
   final bool? show;
@@ -30127,6 +30529,8 @@ class MarginStyle {
 }
 
 /// The display options for tile borders for visuals.
+///
+/// @nodoc
 class BorderStyle {
   /// The option to add color for tile borders for visuals.
   final String? color;
@@ -30164,6 +30568,8 @@ class BorderStyle {
 }
 
 /// The template alias.
+///
+/// @nodoc
 class TemplateAlias {
   /// The display name of the template alias.
   final String? aliasName;
@@ -30202,6 +30608,8 @@ class TemplateAlias {
 }
 
 /// The source entity of the template.
+///
+/// @nodoc
 class TemplateSourceEntity {
   /// The source analysis, if it is based on an analysis.
   final TemplateSourceAnalysis? sourceAnalysis;
@@ -30225,6 +30633,8 @@ class TemplateSourceEntity {
 }
 
 /// The detailed definition of a template.
+///
+/// @nodoc
 class TemplateVersionDefinition {
   /// An array of dataset configurations. These configurations define the required
   /// columns for each dataset used within a template.
@@ -30368,6 +30778,8 @@ class TemplateVersionDefinition {
 /// analyses, dashboards, and templates with definition objects. When you set
 /// this value to <code>LENIENT</code>, validation is skipped for specific
 /// errors.
+///
+/// @nodoc
 class ValidationStrategy {
   /// The mode of validation for the asset to be created or updated. When you set
   /// this value to <code>STRICT</code>, strict validation for every error is
@@ -30387,6 +30799,7 @@ class ValidationStrategy {
   }
 }
 
+/// @nodoc
 class ValidationStrategyMode {
   static const strict = ValidationStrategyMode._('STRICT');
   static const lenient = ValidationStrategyMode._('LENIENT');
@@ -30413,6 +30826,8 @@ class ValidationStrategyMode {
 }
 
 /// The configuration for default analysis settings.
+///
+/// @nodoc
 class AnalysisDefaults {
   /// The configuration for default new sheet settings.
   final DefaultNewSheetConfiguration defaultNewSheetConfiguration;
@@ -30438,6 +30853,8 @@ class AnalysisDefaults {
 }
 
 /// An array of analysis level configurations.
+///
+/// @nodoc
 class AssetOptions {
   /// A list of visual custom actions for the analysis.
   final VisualCustomActionDefaults? customActionDefaults;
@@ -30500,6 +30917,8 @@ class AssetOptions {
 }
 
 /// A structure that describes the query execution options.
+///
+/// @nodoc
 class QueryExecutionOptions {
   /// A structure that describes the query execution mode.
   final QueryExecutionMode? queryExecutionMode;
@@ -30525,6 +30944,8 @@ class QueryExecutionOptions {
 }
 
 /// The static file.
+///
+/// @nodoc
 class StaticFile {
   /// The image static file.
   final ImageStaticFile? imageStaticFile;
@@ -30561,6 +30982,8 @@ class StaticFile {
 }
 
 /// A static file that contains an image.
+///
+/// @nodoc
 class ImageStaticFile {
   /// The ID of the static file that contains an image.
   final String staticFileId;
@@ -30593,6 +31016,8 @@ class ImageStaticFile {
 }
 
 /// A static file that contains the geospatial data.
+///
+/// @nodoc
 class SpatialStaticFile {
   /// The ID of the spatial static file.
   final String staticFileId;
@@ -30625,6 +31050,8 @@ class SpatialStaticFile {
 }
 
 /// The source of the static file.
+///
+/// @nodoc
 class StaticFileSource {
   /// The structure that contains the Amazon S3 location to download the static
   /// file from.
@@ -30662,6 +31089,8 @@ class StaticFileSource {
 }
 
 /// The structure that contains the URL to download the static file from.
+///
+/// @nodoc
 class StaticFileUrlSourceOptions {
   /// The URL to download the static file from.
   final String url;
@@ -30686,6 +31115,8 @@ class StaticFileUrlSourceOptions {
 
 /// The structure that contains the Amazon S3 location to download the static
 /// file from.
+///
+/// @nodoc
 class StaticFileS3SourceOptions {
   /// The name of the Amazon S3 bucket.
   final String bucketName;
@@ -30722,6 +31153,7 @@ class StaticFileS3SourceOptions {
   }
 }
 
+/// @nodoc
 class QueryExecutionMode {
   static const auto = QueryExecutionMode._('AUTO');
   static const manual = QueryExecutionMode._('MANUAL');
@@ -30747,6 +31179,7 @@ class QueryExecutionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class DayOfTheWeek {
   static const sunday = DayOfTheWeek._('SUNDAY');
   static const monday = DayOfTheWeek._('MONDAY');
@@ -30783,6 +31216,7 @@ class DayOfTheWeek {
   String toString() => value;
 }
 
+/// @nodoc
 class QBusinessInsightsStatus {
   static const enabled = QBusinessInsightsStatus._('ENABLED');
   static const disabled = QBusinessInsightsStatus._('DISABLED');
@@ -30809,6 +31243,8 @@ class QBusinessInsightsStatus {
 }
 
 /// A list of custom actions applied to visuals in an analysis or sheet.
+///
+/// @nodoc
 class VisualCustomActionDefaults {
   /// A list of highlight operations available for visuals in an analysis or
   /// sheet.
@@ -30837,6 +31273,8 @@ class VisualCustomActionDefaults {
 
 /// Defines what initiates a highlight operation on a visual, such as a click or
 /// hover.
+///
+/// @nodoc
 class VisualHighlightOperation {
   /// Specifies whether a highlight operation is initiated by a click or hover, or
   /// whether it's disabled.
@@ -30861,6 +31299,7 @@ class VisualHighlightOperation {
   }
 }
 
+/// @nodoc
 class VisualHighlightTrigger {
   static const dataPointClick = VisualHighlightTrigger._('DATA_POINT_CLICK');
   static const dataPointHover = VisualHighlightTrigger._('DATA_POINT_HOVER');
@@ -30888,6 +31327,8 @@ class VisualHighlightTrigger {
 }
 
 /// The configuration for default new sheet settings.
+///
+/// @nodoc
 class DefaultNewSheetConfiguration {
   /// The options that determine the default settings for interactive layout
   /// configuration.
@@ -30938,6 +31379,8 @@ class DefaultNewSheetConfiguration {
 
 /// The options that determine the default settings for interactive layout
 /// configuration.
+///
+/// @nodoc
 class DefaultInteractiveLayoutConfiguration {
   /// The options that determine the default settings of a free-form layout
   /// configuration.
@@ -30978,6 +31421,8 @@ class DefaultInteractiveLayoutConfiguration {
 
 /// The options that determine the default settings for a paginated layout
 /// configuration.
+///
+/// @nodoc
 class DefaultPaginatedLayoutConfiguration {
   /// The options that determine the default settings for a section-based layout
   /// configuration.
@@ -31005,6 +31450,7 @@ class DefaultPaginatedLayoutConfiguration {
   }
 }
 
+/// @nodoc
 class SheetContentType {
   static const paginated = SheetContentType._('PAGINATED');
   static const interactive = SheetContentType._('INTERACTIVE');
@@ -31031,6 +31477,8 @@ class SheetContentType {
 
 /// The options that determine the default settings for a section-based layout
 /// configuration.
+///
+/// @nodoc
 class DefaultSectionBasedLayoutConfiguration {
   /// Determines the screen canvas size options for a section-based layout.
   final SectionBasedLayoutCanvasSizeOptions canvasSizeOptions;
@@ -31057,6 +31505,8 @@ class DefaultSectionBasedLayoutConfiguration {
 }
 
 /// The options for the canvas of a section-based layout.
+///
+/// @nodoc
 class SectionBasedLayoutCanvasSizeOptions {
   /// The options for a paper canvas of a section-based layout.
   final SectionBasedLayoutPaperCanvasSizeOptions? paperCanvasSizeOptions;
@@ -31085,6 +31535,8 @@ class SectionBasedLayoutCanvasSizeOptions {
 }
 
 /// The options for a paper canvas of a section-based layout.
+///
+/// @nodoc
 class SectionBasedLayoutPaperCanvasSizeOptions {
   /// Defines the spacing between the canvas content and the top, bottom, left,
   /// and right edges.
@@ -31136,6 +31588,7 @@ class SectionBasedLayoutPaperCanvasSizeOptions {
   }
 }
 
+/// @nodoc
 class PaperSize {
   static const usLetter = PaperSize._('US_LETTER');
   static const usLegal = PaperSize._('US_LEGAL');
@@ -31180,6 +31633,7 @@ class PaperSize {
   String toString() => value;
 }
 
+/// @nodoc
 class PaperOrientation {
   static const portrait = PaperOrientation._('PORTRAIT');
   static const landscape = PaperOrientation._('LANDSCAPE');
@@ -31205,6 +31659,8 @@ class PaperOrientation {
 }
 
 /// The configuration of spacing (often a margin or padding).
+///
+/// @nodoc
 class Spacing {
   /// Define the bottom spacing.
   final String? bottom;
@@ -31250,6 +31706,8 @@ class Spacing {
 
 /// The options that determine the default settings for a grid layout
 /// configuration.
+///
+/// @nodoc
 class DefaultGridLayoutConfiguration {
   /// Determines the screen canvas size options for a grid layout.
   final GridLayoutCanvasSizeOptions canvasSizeOptions;
@@ -31276,6 +31734,8 @@ class DefaultGridLayoutConfiguration {
 
 /// The options that determine the default settings of a free-form layout
 /// configuration.
+///
+/// @nodoc
 class DefaultFreeFormLayoutConfiguration {
   /// Determines the screen canvas size options for a free-form layout.
   final FreeFormLayoutCanvasSizeOptions canvasSizeOptions;
@@ -31302,6 +31762,8 @@ class DefaultFreeFormLayoutConfiguration {
 }
 
 /// Configuration options for the canvas of a free-form layout.
+///
+/// @nodoc
 class FreeFormLayoutCanvasSizeOptions {
   /// The options that determine the sizing of the canvas used in a free-form
   /// layout.
@@ -31331,6 +31793,8 @@ class FreeFormLayoutCanvasSizeOptions {
 
 /// The options that determine the sizing of the canvas used in a free-form
 /// layout.
+///
+/// @nodoc
 class FreeFormLayoutScreenCanvasSizeOptions {
   /// The width that the view port will be optimized for when the layout renders.
   final String optimizedViewPortWidth;
@@ -31355,6 +31819,8 @@ class FreeFormLayoutScreenCanvasSizeOptions {
 }
 
 /// Configuration options for the canvas of a grid layout.
+///
+/// @nodoc
 class GridLayoutCanvasSizeOptions {
   /// The options that determine the sizing of the canvas used in a grid layout.
   final GridLayoutScreenCanvasSizeOptions? screenCanvasSizeOptions;
@@ -31382,6 +31848,8 @@ class GridLayoutCanvasSizeOptions {
 }
 
 /// The options that determine the sizing of the canvas used in a grid layout.
+///
+/// @nodoc
 class GridLayoutScreenCanvasSizeOptions {
   /// This value determines the layout behavior when the viewport is resized.
   ///
@@ -31426,6 +31894,7 @@ class GridLayoutScreenCanvasSizeOptions {
   }
 }
 
+/// @nodoc
 class ResizeOption {
   static const fixed = ResizeOption._('FIXED');
   static const responsive = ResizeOption._('RESPONSIVE');
@@ -31450,6 +31919,8 @@ class ResizeOption {
 }
 
 /// The general configuration of a column.
+///
+/// @nodoc
 class ColumnConfiguration {
   /// The column.
   final ColumnIdentifier column;
@@ -31515,6 +31986,8 @@ class ColumnConfiguration {
 }
 
 /// A column of a data set.
+///
+/// @nodoc
 class ColumnIdentifier {
   /// The name of the column.
   final String columnName;
@@ -31545,6 +32018,8 @@ class ColumnIdentifier {
 }
 
 /// The formatting configuration for all types of field.
+///
+/// @nodoc
 class FormatConfiguration {
   /// Formatting configuration for <code>DateTime</code> fields.
   final DateTimeFormatConfiguration? dateTimeFormatConfiguration;
@@ -31593,6 +32068,7 @@ class FormatConfiguration {
   }
 }
 
+/// @nodoc
 class ColumnRole {
   static const dimension = ColumnRole._('DIMENSION');
   static const measure = ColumnRole._('MEASURE');
@@ -31617,6 +32093,8 @@ class ColumnRole {
 }
 
 /// The color configurations for a column.
+///
+/// @nodoc
 class ColorsConfiguration {
   /// A list of up to 50 custom colors.
   final List<CustomColor>? customColors;
@@ -31643,6 +32121,8 @@ class ColorsConfiguration {
 }
 
 /// Decal settings configuration for a column
+///
+/// @nodoc
 class DecalSettingsConfiguration {
   /// A list of up to 50 decal settings.
   final List<DecalSettings>? customDecalSettings;
@@ -31671,6 +32151,8 @@ class DecalSettingsConfiguration {
 
 /// Decal settings for accessibility features that define visual patterns and
 /// styling for data elements.
+///
+/// @nodoc
 class DecalSettings {
   /// Color configuration for the decal pattern.
   final String? decalColor;
@@ -31808,6 +32290,7 @@ class DecalSettings {
   }
 }
 
+/// @nodoc
 class Visibility {
   static const hidden = Visibility._('HIDDEN');
   static const visible = Visibility._('VISIBLE');
@@ -31831,6 +32314,7 @@ class Visibility {
   String toString() => value;
 }
 
+/// @nodoc
 class DecalPatternType {
   static const solid = DecalPatternType._('SOLID');
   static const diagonalMedium = DecalPatternType._('DIAGONAL_MEDIUM');
@@ -31901,6 +32385,7 @@ class DecalPatternType {
   String toString() => value;
 }
 
+/// @nodoc
 class DecalStyleType {
   static const manual = DecalStyleType._('Manual');
   static const auto = DecalStyleType._('Auto');
@@ -31926,6 +32411,8 @@ class DecalStyleType {
 }
 
 /// Determines the color that's applied to a particular data value in a column.
+///
+/// @nodoc
 class CustomColor {
   /// The color that is applied to the data value.
   final String color;
@@ -31963,6 +32450,7 @@ class CustomColor {
   }
 }
 
+/// @nodoc
 class SpecialValue {
   static const empty = SpecialValue._('EMPTY');
   static const $null = SpecialValue._('NULL');
@@ -31988,6 +32476,8 @@ class SpecialValue {
 }
 
 /// Formatting configuration for string fields.
+///
+/// @nodoc
 class StringFormatConfiguration {
   /// The options that determine the null value format configuration.
   final NullValueFormatConfiguration? nullValueFormatConfiguration;
@@ -32026,6 +32516,8 @@ class StringFormatConfiguration {
 }
 
 /// Formatting configuration for number fields.
+///
+/// @nodoc
 class NumberFormatConfiguration {
   /// The options that determine the numeric format configuration.
   final NumericFormatConfiguration? formatConfiguration;
@@ -32053,6 +32545,8 @@ class NumberFormatConfiguration {
 }
 
 /// Formatting configuration for <code>DateTime</code> fields.
+///
+/// @nodoc
 class DateTimeFormatConfiguration {
   /// Determines the <code>DateTime</code> format.
   final String? dateTimeFormat;
@@ -32098,6 +32592,8 @@ class DateTimeFormatConfiguration {
 }
 
 /// The options that determine the null value format configuration.
+///
+/// @nodoc
 class NullValueFormatConfiguration {
   /// Determines the null string of null values.
   final String nullString;
@@ -32124,6 +32620,8 @@ class NullValueFormatConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class NumericFormatConfiguration {
   /// The options that determine the currency display format configuration.
   final CurrencyDisplayFormatConfiguration? currencyDisplayFormatConfiguration;
@@ -32185,6 +32683,8 @@ class NumericFormatConfiguration {
 }
 
 /// The options that determine the number display format configuration.
+///
+/// @nodoc
 class NumberDisplayFormatConfiguration {
   /// The option that determines the decimal places configuration.
   final DecimalPlacesConfiguration? decimalPlacesConfiguration;
@@ -32267,6 +32767,8 @@ class NumberDisplayFormatConfiguration {
 }
 
 /// The options that determine the currency display format configuration.
+///
+/// @nodoc
 class CurrencyDisplayFormatConfiguration {
   /// The option that determines the decimal places configuration.
   final DecimalPlacesConfiguration? decimalPlacesConfiguration;
@@ -32357,6 +32859,8 @@ class CurrencyDisplayFormatConfiguration {
 }
 
 /// The options that determine the percentage display format configuration.
+///
+/// @nodoc
 class PercentageDisplayFormatConfiguration {
   /// The option that determines the decimal places configuration.
   final DecimalPlacesConfiguration? decimalPlacesConfiguration;
@@ -32432,6 +32936,8 @@ class PercentageDisplayFormatConfiguration {
 }
 
 /// The options that determine the numeric separator configuration.
+///
+/// @nodoc
 class NumericSeparatorConfiguration {
   /// Determines the decimal separator.
   final NumericSeparatorSymbol? decimalSeparator;
@@ -32466,6 +32972,8 @@ class NumericSeparatorConfiguration {
 }
 
 /// The option that determines the decimal places configuration.
+///
+/// @nodoc
 class DecimalPlacesConfiguration {
   /// The values of the decimal places.
   final int decimalPlaces;
@@ -32489,6 +32997,8 @@ class DecimalPlacesConfiguration {
 }
 
 /// The options that determine the negative value configuration.
+///
+/// @nodoc
 class NegativeValueConfiguration {
   /// Determines the display mode of the negative value configuration.
   final NegativeValueDisplayMode displayMode;
@@ -32512,6 +33022,7 @@ class NegativeValueConfiguration {
   }
 }
 
+/// @nodoc
 class NegativeValueDisplayMode {
   static const positive = NegativeValueDisplayMode._('POSITIVE');
   static const negative = NegativeValueDisplayMode._('NEGATIVE');
@@ -32537,6 +33048,7 @@ class NegativeValueDisplayMode {
   String toString() => value;
 }
 
+/// @nodoc
 class NumericSeparatorSymbol {
   static const comma = NumericSeparatorSymbol._('COMMA');
   static const dot = NumericSeparatorSymbol._('DOT');
@@ -32564,6 +33076,8 @@ class NumericSeparatorSymbol {
 }
 
 /// The options that determine the thousands separator configuration.
+///
+/// @nodoc
 class ThousandSeparatorOptions {
   /// Determines the way numbers are styled to accommodate different readability
   /// standards. The <code>DEFAULT</code> value uses the standard international
@@ -32606,6 +33120,7 @@ class ThousandSeparatorOptions {
   }
 }
 
+/// @nodoc
 class DigitGroupingStyle {
   static const $default = DigitGroupingStyle._('DEFAULT');
   static const lakhs = DigitGroupingStyle._('LAKHS');
@@ -32638,6 +33153,8 @@ class DigitGroupingStyle {
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/add-a-compound-filter.html">Adding
 /// filter conditions (group filters) with AND and OR operators</a> in the
 /// <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class FilterGroup {
   /// The filter new feature which can apply filter group to all data sets. Choose
   /// one of the following options:
@@ -32713,6 +33230,8 @@ class FilterGroup {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class FilterScopeConfiguration {
   /// The configuration that applies a filter to all sheets. When you choose
   /// <code>AllSheets</code> as the value for a
@@ -32752,6 +33271,7 @@ class FilterScopeConfiguration {
   }
 }
 
+/// @nodoc
 class WidgetStatus {
   static const enabled = WidgetStatus._('ENABLED');
   static const disabled = WidgetStatus._('DISABLED');
@@ -32775,6 +33295,7 @@ class WidgetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CrossDatasetTypes {
   static const allDatasets = CrossDatasetTypes._('ALL_DATASETS');
   static const singleDataset = CrossDatasetTypes._('SINGLE_DATASET');
@@ -32805,6 +33326,8 @@ class CrossDatasetTypes {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class SelectedSheetsFilterScopeConfiguration {
   /// The sheet ID and visual IDs of the sheet and visuals that the filter is
   /// applied to.
@@ -32843,6 +33366,8 @@ class SelectedSheetsFilterScopeConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class AllSheetsFilterScopeConfiguration {
   AllSheetsFilterScopeConfiguration();
 
@@ -32856,6 +33381,8 @@ class AllSheetsFilterScopeConfiguration {
 }
 
 /// The filter that is applied to the options.
+///
+/// @nodoc
 class SheetVisualScopingConfiguration {
   /// The scope of the applied entities. Choose one of the following options:
   ///
@@ -32904,6 +33431,7 @@ class SheetVisualScopingConfiguration {
   }
 }
 
+/// @nodoc
 class FilterVisualScope {
   static const allVisuals = FilterVisualScope._('ALL_VISUALS');
   static const selectedVisuals = FilterVisualScope._('SELECTED_VISUALS');
@@ -32933,6 +33461,8 @@ class FilterVisualScope {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class Filter {
   /// A <code>CategoryFilter</code> filters text values.
   ///
@@ -33045,6 +33575,8 @@ class Filter {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html">Adding
 /// text filters</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class CategoryFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -33103,6 +33635,8 @@ class CategoryFilter {
 
 /// A <code>NumericRangeFilter</code> filters values that are within the value
 /// range.
+///
+/// @nodoc
 class NumericRangeFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -33234,6 +33768,8 @@ class NumericRangeFilter {
 
 /// A <code>NumericEqualityFilter</code> filters values that are equal to the
 /// specified value.
+///
+/// @nodoc
 class NumericEqualityFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -33351,6 +33887,8 @@ class NumericEqualityFilter {
 
 /// A <code>TimeEqualityFilter</code> filters values that are equal to a given
 /// value.
+///
+/// @nodoc
 class TimeEqualityFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -33442,6 +33980,8 @@ class TimeEqualityFilter {
 
 /// A <code>TimeRangeFilter</code> filters values that are between two specified
 /// values.
+///
+/// @nodoc
 class TimeRangeFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -33567,6 +34107,8 @@ class TimeRangeFilter {
 }
 
 /// A <code>RelativeDatesFilter</code> filters relative dates values.
+///
+/// @nodoc
 class RelativeDatesFilter {
   /// The date configuration of the filter.
   final AnchorDateConfiguration anchorDateConfiguration;
@@ -33715,6 +34257,8 @@ class RelativeDatesFilter {
 
 /// A <code>TopBottomFilter</code> filters values that are at the top or the
 /// bottom.
+///
+/// @nodoc
 class TopBottomFilter {
   /// The aggregation and sort configuration of the top bottom filter.
   final List<AggregationSortConfiguration> aggregationSortConfigurations;
@@ -33800,6 +34344,8 @@ class TopBottomFilter {
 
 /// A <code>NestedFilter</code> filters data with a subset of data that is
 /// defined by the nested inner filter.
+///
+/// @nodoc
 class NestedFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -33852,6 +34398,8 @@ class NestedFilter {
 
 /// The <code>InnerFilter</code> defines the subset of data to be used with the
 /// <code>NestedFilter</code>.
+///
+/// @nodoc
 class InnerFilter {
   /// A <code>CategoryInnerFilter</code> filters text values for the
   /// <code>NestedFilter</code>.
@@ -33881,6 +34429,8 @@ class InnerFilter {
 
 /// A <code>CategoryInnerFilter</code> filters text values for the
 /// <code>NestedFilter</code>.
+///
+/// @nodoc
 class CategoryInnerFilter {
   final ColumnIdentifier column;
   final CategoryFilterConfiguration configuration;
@@ -33927,6 +34477,8 @@ class CategoryInnerFilter {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class CategoryFilterConfiguration {
   /// A custom filter that filters based on a single value. This filter can be
   /// partially matched.
@@ -33980,6 +34532,8 @@ class CategoryFilterConfiguration {
 }
 
 /// The default configuration for all dependent controls of the filter.
+///
+/// @nodoc
 class DefaultFilterControlConfiguration {
   /// The control option for the <code>DefaultFilterControlConfiguration</code>.
   final DefaultFilterControlOptions controlOptions;
@@ -34025,6 +34579,8 @@ class DefaultFilterControlConfiguration {
 }
 
 /// The option that corresponds to the control type of the filter.
+///
+/// @nodoc
 class DefaultFilterControlOptions {
   /// The default options that correspond to the filter control type of a
   /// <code>DateTimePicker</code>.
@@ -34127,6 +34683,8 @@ class DefaultFilterControlOptions {
 /// The title format text configuration for a sheet control. This is a tagged
 /// union type. Specify either <code>PlainText</code> or <code>RichText</code>,
 /// but not both.
+///
+/// @nodoc
 class ControlTitleFormatText {
   /// The plain text format of the title text.
   final String? plainText;
@@ -34158,6 +34716,8 @@ class ControlTitleFormatText {
 
 /// The default options that correspond to the filter control type of a
 /// <code>DateTimePicker</code>.
+///
+/// @nodoc
 class DefaultDateTimePickerControlOptions {
   /// The visibility configuration of the Apply button on a
   /// <code>DateTimePickerControl</code>.
@@ -34213,6 +34773,8 @@ class DefaultDateTimePickerControlOptions {
 
 /// The default options that correspond to the <code>List</code> filter control
 /// type.
+///
+/// @nodoc
 class DefaultFilterListControlOptions {
   /// The sort configuration for the values displayed in the control. Only one
   /// sort configuration can be applied per control.
@@ -34282,6 +34844,8 @@ class DefaultFilterListControlOptions {
 
 /// The default options that correspond to the <code>Dropdown</code> filter
 /// control type.
+///
+/// @nodoc
 class DefaultFilterDropDownControlOptions {
   /// The visibility configuration of the Apply button on a
   /// <code>FilterDropDownControl</code>.
@@ -34360,6 +34924,8 @@ class DefaultFilterDropDownControlOptions {
 
 /// The default options that correspond to the <code>TextField</code> filter
 /// control type.
+///
+/// @nodoc
 class DefaultTextFieldControlOptions {
   /// The display options of a control.
   final TextFieldControlDisplayOptions? displayOptions;
@@ -34387,6 +34953,8 @@ class DefaultTextFieldControlOptions {
 
 /// The default options that correspond to the <code>TextArea</code> filter
 /// control type.
+///
+/// @nodoc
 class DefaultTextAreaControlOptions {
   /// The delimiter that is used to separate the lines in text.
   final String? delimiter;
@@ -34421,6 +34989,8 @@ class DefaultTextAreaControlOptions {
 
 /// The default options that correspond to the <code>Slider</code> filter
 /// control type.
+///
+/// @nodoc
 class DefaultSliderControlOptions {
   /// The larger value that is displayed at the right of the slider.
   final double maximumValue;
@@ -34486,6 +35056,8 @@ class DefaultSliderControlOptions {
 
 /// The default options that correspond to the <code>RelativeDateTime</code>
 /// filter control type.
+///
+/// @nodoc
 class DefaultRelativeDateTimeControlOptions {
   /// The visibility configuration of the Apply button on a
   /// <code>RelativeDateTimeControl</code>.
@@ -34521,6 +35093,8 @@ class DefaultRelativeDateTimeControlOptions {
 }
 
 /// The display options of a control.
+///
+/// @nodoc
 class RelativeDateTimeControlDisplayOptions {
   /// Customize how dates are formatted in controls.
   final String? dateTimeFormat;
@@ -34564,6 +35138,7 @@ class RelativeDateTimeControlDisplayOptions {
   }
 }
 
+/// @nodoc
 class CommitMode {
   static const auto = CommitMode._('AUTO');
   static const manual = CommitMode._('MANUAL');
@@ -34588,6 +35163,8 @@ class CommitMode {
 }
 
 /// The share label options for the labels.
+///
+/// @nodoc
 class LabelOptions {
   /// The text for the label.
   final String? customLabel;
@@ -34628,6 +35205,8 @@ class LabelOptions {
 }
 
 /// A control to display info icons for filters and parameters.
+///
+/// @nodoc
 class SheetControlInfoIconLabelOptions {
   /// The text content of info icon.
   final String? infoIconText;
@@ -34658,6 +35237,8 @@ class SheetControlInfoIconLabelOptions {
 }
 
 /// The display options of a control.
+///
+/// @nodoc
 class SliderControlDisplayOptions {
   /// The configuration of info icon label options.
   final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
@@ -34693,6 +35274,7 @@ class SliderControlDisplayOptions {
   }
 }
 
+/// @nodoc
 class SheetControlSliderType {
   static const singlePoint = SheetControlSliderType._('SINGLE_POINT');
   static const range = SheetControlSliderType._('RANGE');
@@ -34719,6 +35301,8 @@ class SheetControlSliderType {
 }
 
 /// The display options of a control.
+///
+/// @nodoc
 class TextAreaControlDisplayOptions {
   /// The configuration of info icon label options.
   final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
@@ -34765,6 +35349,8 @@ class TextAreaControlDisplayOptions {
 }
 
 /// The configuration of the placeholder options in a text control.
+///
+/// @nodoc
 class TextControlPlaceholderOptions {
   /// The visibility configuration of the placeholder options in a text control.
   final Visibility? visibility;
@@ -34788,6 +35374,8 @@ class TextControlPlaceholderOptions {
 }
 
 /// The display options of a control.
+///
+/// @nodoc
 class TextFieldControlDisplayOptions {
   /// The configuration of info icon label options.
   final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
@@ -34834,6 +35422,8 @@ class TextFieldControlDisplayOptions {
 }
 
 /// The display options of a control.
+///
+/// @nodoc
 class DropDownControlDisplayOptions {
   /// The configuration of info icon label options.
   final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
@@ -34880,6 +35470,7 @@ class DropDownControlDisplayOptions {
   }
 }
 
+/// @nodoc
 class SheetControlListType {
   static const multiSelect = SheetControlListType._('MULTI_SELECT');
   static const singleSelect = SheetControlListType._('SINGLE_SELECT');
@@ -34906,6 +35497,8 @@ class SheetControlListType {
 }
 
 /// A list of selectable values that are used in a control.
+///
+/// @nodoc
 class FilterSelectableValues {
   /// The values that are used in the <code>FilterSelectableValues</code>.
   final List<String>? values;
@@ -34932,6 +35525,8 @@ class FilterSelectableValues {
 /// The sort configuration for control values. This is a tagged union type.
 /// Specify either <code>SelectableValuesSort</code> or
 /// <code>ControlColumnSort</code>, but not both.
+///
+/// @nodoc
 class ControlSortConfiguration {
   /// The sort configuration for controls that are tied to a dataset column. Use
   /// this option to sort control values by an aggregate of a column.
@@ -34972,6 +35567,8 @@ class ControlSortConfiguration {
 }
 
 /// The sort configuration for selectable values in a control.
+///
+/// @nodoc
 class SelectableValuesSort {
   /// The sort direction for the selectable values. Choose one of the following
   /// options:
@@ -35010,6 +35607,8 @@ class SelectableValuesSort {
 }
 
 /// The configuration options to sort aggregated values.
+///
+/// @nodoc
 class AggregationSortConfiguration {
   /// The column that determines the sort order of aggregated values.
   final ColumnIdentifier column;
@@ -35062,6 +35661,7 @@ class AggregationSortConfiguration {
   }
 }
 
+/// @nodoc
 class SortDirection {
   static const asc = SortDirection._('ASC');
   static const desc = SortDirection._('DESC');
@@ -35090,6 +35690,8 @@ class SortDirection {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class AggregationFunction {
   /// Aggregation for attributes.
   final AttributeAggregationFunction? attributeAggregationFunction;
@@ -35175,6 +35777,8 @@ class AggregationFunction {
 }
 
 /// Aggregation for numerical values.
+///
+/// @nodoc
 class NumericalAggregationFunction {
   /// An aggregation based on the percentile of values in a dimension or measure.
   final PercentileAggregation? percentileAggregation;
@@ -35249,6 +35853,7 @@ class NumericalAggregationFunction {
   }
 }
 
+/// @nodoc
 class CategoricalAggregationFunction {
   static const count = CategoricalAggregationFunction._('COUNT');
   static const distinctCount =
@@ -35275,6 +35880,7 @@ class CategoricalAggregationFunction {
   String toString() => value;
 }
 
+/// @nodoc
 class DateAggregationFunction {
   static const count = DateAggregationFunction._('COUNT');
   static const distinctCount = DateAggregationFunction._('DISTINCT_COUNT');
@@ -35303,6 +35909,8 @@ class DateAggregationFunction {
 }
 
 /// Aggregation for attributes.
+///
+/// @nodoc
 class AttributeAggregationFunction {
   /// The built-in aggregation functions for attributes.
   ///
@@ -35345,6 +35953,7 @@ class AttributeAggregationFunction {
   }
 }
 
+/// @nodoc
 class SimpleAttributeAggregationFunction {
   static const uniqueValue =
       SimpleAttributeAggregationFunction._('UNIQUE_VALUE');
@@ -35370,6 +35979,7 @@ class SimpleAttributeAggregationFunction {
   String toString() => value;
 }
 
+/// @nodoc
 class SimpleNumericalAggregationFunction {
   static const sum = SimpleNumericalAggregationFunction._('SUM');
   static const average = SimpleNumericalAggregationFunction._('AVERAGE');
@@ -35418,6 +36028,8 @@ class SimpleNumericalAggregationFunction {
 }
 
 /// An aggregation based on the percentile of values in a dimension or measure.
+///
+/// @nodoc
 class PercentileAggregation {
   /// The percentile value. This value can be any numeric constant 0–100. A
   /// percentile value of 50 computes the median value of the measure.
@@ -35441,6 +36053,7 @@ class PercentileAggregation {
   }
 }
 
+/// @nodoc
 class ControlSortDirection {
   static const asc = ControlSortDirection._('ASC');
   static const desc = ControlSortDirection._('DESC');
@@ -35468,6 +36081,8 @@ class ControlSortDirection {
 }
 
 /// The configuration of the <code>Select all</code> options in a list control.
+///
+/// @nodoc
 class ListControlSelectAllOptions {
   /// The visibility configuration of the <code>Select all</code> options in a
   /// list control.
@@ -35492,6 +36107,8 @@ class ListControlSelectAllOptions {
 }
 
 /// The display options of a control.
+///
+/// @nodoc
 class ListControlDisplayOptions {
   /// The configuration of info icon label options.
   final SheetControlInfoIconLabelOptions? infoIconLabelOptions;
@@ -35548,6 +36165,8 @@ class ListControlDisplayOptions {
 }
 
 /// The configuration of the search options in a list control.
+///
+/// @nodoc
 class ListControlSearchOptions {
   /// The visibility configuration of the search options in a list control.
   final Visibility? visibility;
@@ -35570,6 +36189,7 @@ class ListControlSearchOptions {
   }
 }
 
+/// @nodoc
 class SheetControlDateTimePickerType {
   static const singleValued = SheetControlDateTimePickerType._('SINGLE_VALUED');
   static const dateRange = SheetControlDateTimePickerType._('DATE_RANGE');
@@ -35596,6 +36216,8 @@ class SheetControlDateTimePickerType {
 }
 
 /// The display options of a control.
+///
+/// @nodoc
 class DateTimePickerControlDisplayOptions {
   /// The date icon visibility of the
   /// <code>DateTimePickerControlDisplayOptions</code>.
@@ -35660,6 +36282,8 @@ class DateTimePickerControlDisplayOptions {
 }
 
 /// A list of filter configurations.
+///
+/// @nodoc
 class FilterListConfiguration {
   /// The match operator that is used to determine if a filter should be applied.
   final CategoryFilterMatchOperator matchOperator;
@@ -35729,6 +36353,8 @@ class FilterListConfiguration {
 }
 
 /// A list of custom filter values.
+///
+/// @nodoc
 class CustomFilterListConfiguration {
   /// The match operator that is used to determine if a filter should be applied.
   final CategoryFilterMatchOperator matchOperator;
@@ -35799,6 +36425,8 @@ class CustomFilterListConfiguration {
 
 /// A custom filter that filters based on a single value. This filter can be
 /// partially matched.
+///
+/// @nodoc
 class CustomFilterConfiguration {
   /// The match operator that is used to determine if a filter should be applied.
   final CategoryFilterMatchOperator matchOperator;
@@ -35875,6 +36503,7 @@ class CustomFilterConfiguration {
   }
 }
 
+/// @nodoc
 class CategoryFilterMatchOperator {
   static const equals = CategoryFilterMatchOperator._('EQUALS');
   static const doesNotEqual = CategoryFilterMatchOperator._('DOES_NOT_EQUAL');
@@ -35912,6 +36541,7 @@ class CategoryFilterMatchOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class CategoryFilterSelectAllOptions {
   static const filterAllValues =
       CategoryFilterSelectAllOptions._('FILTER_ALL_VALUES');
@@ -35937,6 +36567,7 @@ class CategoryFilterSelectAllOptions {
   String toString() => value;
 }
 
+/// @nodoc
 class FilterNullOption {
   static const allValues = FilterNullOption._('ALL_VALUES');
   static const nullsOnly = FilterNullOption._('NULLS_ONLY');
@@ -35962,6 +36593,7 @@ class FilterNullOption {
   String toString() => value;
 }
 
+/// @nodoc
 class TimeGranularity {
   static const year = TimeGranularity._('YEAR');
   static const quarter = TimeGranularity._('QUARTER');
@@ -36004,6 +36636,8 @@ class TimeGranularity {
 }
 
 /// The date configuration of the filter.
+///
+/// @nodoc
 class AnchorDateConfiguration {
   /// The options for the date configuration. Choose one of the options below:
   ///
@@ -36040,6 +36674,7 @@ class AnchorDateConfiguration {
   }
 }
 
+/// @nodoc
 class RelativeDateType {
   static const previous = RelativeDateType._('PREVIOUS');
   static const $this = RelativeDateType._('THIS');
@@ -36069,6 +36704,8 @@ class RelativeDateType {
 
 /// The exclude period of <code>TimeRangeFilter</code> or
 /// <code>RelativeDatesFilter</code>.
+///
+/// @nodoc
 class ExcludePeriodConfiguration {
   /// The amount or number of the exclude period.
   final int amount;
@@ -36115,6 +36752,7 @@ class ExcludePeriodConfiguration {
   }
 }
 
+/// @nodoc
 class AnchorOption {
   static const now = AnchorOption._('NOW');
 
@@ -36141,6 +36779,8 @@ class AnchorOption {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class TimeRangeFilterValue {
   /// The parameter type input value.
   final String? parameter;
@@ -36181,6 +36821,8 @@ class TimeRangeFilterValue {
 }
 
 /// The rolling date configuration of a date time filter.
+///
+/// @nodoc
 class RollingDateConfiguration {
   /// The expression of the rolling date configuration.
   final String expression;
@@ -36210,6 +36852,7 @@ class RollingDateConfiguration {
   }
 }
 
+/// @nodoc
 class NumericFilterSelectAllOptions {
   static const filterAllValues =
       NumericFilterSelectAllOptions._('FILTER_ALL_VALUES');
@@ -36235,6 +36878,7 @@ class NumericFilterSelectAllOptions {
   String toString() => value;
 }
 
+/// @nodoc
 class NumericEqualityMatchOperator {
   static const equals = NumericEqualityMatchOperator._('EQUALS');
   static const doesNotEqual = NumericEqualityMatchOperator._('DOES_NOT_EQUAL');
@@ -36261,6 +36905,8 @@ class NumericEqualityMatchOperator {
 }
 
 /// The value input pf the numeric range filter.
+///
+/// @nodoc
 class NumericRangeFilterValue {
   /// The parameter that is used in the numeric range.
   final String? parameter;
@@ -36298,6 +36944,8 @@ class NumericRangeFilterValue {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class ParameterDeclaration {
   /// A parameter declaration for the <code>DateTime</code> data type.
   final DateTimeParameterDeclaration? dateTimeParameterDeclaration;
@@ -36358,6 +37006,8 @@ class ParameterDeclaration {
 }
 
 /// A parameter declaration for the <code>String</code> data type.
+///
+/// @nodoc
 class StringParameterDeclaration {
   /// The name of the parameter that is being declared.
   final String name;
@@ -36422,6 +37072,8 @@ class StringParameterDeclaration {
 }
 
 /// A parameter declaration for the <code>Decimal</code> data type.
+///
+/// @nodoc
 class DecimalParameterDeclaration {
   /// The name of the parameter that is being declared.
   final String name;
@@ -36486,6 +37138,8 @@ class DecimalParameterDeclaration {
 }
 
 /// A parameter declaration for the <code>Integer</code> data type.
+///
+/// @nodoc
 class IntegerParameterDeclaration {
   /// The name of the parameter that is being declared.
   final String name;
@@ -36549,6 +37203,8 @@ class IntegerParameterDeclaration {
 }
 
 /// A parameter declaration for the <code>DateTime</code> data type.
+///
+/// @nodoc
 class DateTimeParameterDeclaration {
   /// The name of the parameter that is being declared.
   final String name;
@@ -36613,6 +37269,8 @@ class DateTimeParameterDeclaration {
 }
 
 /// The default values of the <code>DateTimeParameterDeclaration</code>.
+///
+/// @nodoc
 class DateTimeDefaultValues {
   /// The dynamic value of the <code>DataTimeDefaultValues</code>. Different
   /// defaults are displayed according to users, groups, and values mapping.
@@ -36663,6 +37321,8 @@ class DateTimeDefaultValues {
 
 /// The configuration that defines the default value of a <code>DateTime</code>
 /// parameter when a value has not been set.
+///
+/// @nodoc
 class DateTimeValueWhenUnsetConfiguration {
   /// A custom value that's used when the value of a parameter isn't set.
   final DateTime? customValue;
@@ -36706,6 +37366,8 @@ class DateTimeValueWhenUnsetConfiguration {
 }
 
 /// A dataset parameter that is mapped to an analysis parameter.
+///
+/// @nodoc
 class MappedDataSetParameter {
   /// A unique name that identifies a dataset within the analysis or dashboard.
   final String dataSetIdentifier;
@@ -36735,6 +37397,7 @@ class MappedDataSetParameter {
   }
 }
 
+/// @nodoc
 class ValueWhenUnsetOption {
   static const recommendedValue = ValueWhenUnsetOption._('RECOMMENDED_VALUE');
   static const $null = ValueWhenUnsetOption._('NULL');
@@ -36761,6 +37424,8 @@ class ValueWhenUnsetOption {
 }
 
 /// Defines different defaults to the users or groups based on mapping.
+///
+/// @nodoc
 class DynamicDefaultValue {
   /// The column that contains the default value of each user or group.
   final ColumnIdentifier defaultValueColumn;
@@ -36805,6 +37470,7 @@ class DynamicDefaultValue {
   }
 }
 
+/// @nodoc
 class ParameterValueType {
   static const multiValued = ParameterValueType._('MULTI_VALUED');
   static const singleValued = ParameterValueType._('SINGLE_VALUED');
@@ -36831,6 +37497,8 @@ class ParameterValueType {
 }
 
 /// The default values of the <code>IntegerParameterDeclaration</code>.
+///
+/// @nodoc
 class IntegerDefaultValues {
   /// The dynamic value of the <code>IntegerDefaultValues</code>. Different
   /// defaults are displayed according to users, groups, and values mapping.
@@ -36871,6 +37539,8 @@ class IntegerDefaultValues {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class IntegerValueWhenUnsetConfiguration {
   /// A custom value that's used when the value of a parameter isn't set.
   final int? customValue;
@@ -36914,6 +37584,8 @@ class IntegerValueWhenUnsetConfiguration {
 }
 
 /// The default values of the <code>DecimalParameterDeclaration</code>.
+///
+/// @nodoc
 class DecimalDefaultValues {
   /// The dynamic value of the <code>DecimalDefaultValues</code>. Different
   /// defaults are displayed according to users, groups, and values mapping.
@@ -36952,6 +37624,8 @@ class DecimalDefaultValues {
 
 /// The configuration that defines the default value of a <code>Decimal</code>
 /// parameter when a value has not been set.
+///
+/// @nodoc
 class DecimalValueWhenUnsetConfiguration {
   /// A custom value that's used when the value of a parameter isn't set.
   final double? customValue;
@@ -36995,6 +37669,8 @@ class DecimalValueWhenUnsetConfiguration {
 }
 
 /// The default values of the <code>StringParameterDeclaration</code>.
+///
+/// @nodoc
 class StringDefaultValues {
   /// The dynamic value of the <code>StringDefaultValues</code>. Different
   /// defaults displayed according to users, groups, and values mapping.
@@ -37033,6 +37709,8 @@ class StringDefaultValues {
 
 /// The configuration that defines the default value of a <code>String</code>
 /// parameter when a value has not been set.
+///
+/// @nodoc
 class StringValueWhenUnsetConfiguration {
   /// A custom value that's used when the value of a parameter isn't set.
   final String? customValue;
@@ -37076,6 +37754,8 @@ class StringValueWhenUnsetConfiguration {
 }
 
 /// The calculated field of an analysis.
+///
+/// @nodoc
 class CalculatedField {
   /// The data set that is used in this calculated field.
   final String dataSetIdentifier;
@@ -37115,6 +37795,8 @@ class CalculatedField {
 /// A tooltip sheet is an object that contains a set of visuals that are used as
 /// a tooltip. Every analysis and dashboard must contain at least one
 /// non-tooltip sheet.
+///
+/// @nodoc
 class TooltipSheetDefinition {
   /// The unique identifier of a tooltip sheet.
   final String sheetId;
@@ -37197,6 +37879,8 @@ class TooltipSheetDefinition {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class Layout {
   /// The configuration that determines what the type of layout for a sheet.
   final LayoutConfiguration configuration;
@@ -37226,6 +37910,8 @@ class Layout {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class LayoutConfiguration {
   /// A free-form is optimized for a fixed width and has more control over the
   /// exact placement of layout elements.
@@ -37281,6 +37967,8 @@ class LayoutConfiguration {
 ///
 /// Visuals snap to a grid with standard spacing and alignment. Dashboards are
 /// displayed as designed, with options to fit to screen or view at actual size.
+///
+/// @nodoc
 class GridLayoutConfiguration {
   /// The elements that are included in a grid layout.
   final List<GridLayoutElement> elements;
@@ -37315,6 +38003,8 @@ class GridLayoutConfiguration {
 }
 
 /// The configuration of a free-form layout.
+///
+/// @nodoc
 class FreeFormLayoutConfiguration {
   /// The elements that are included in a free-form layout.
   final List<FreeFormLayoutElement> elements;
@@ -37359,6 +38049,8 @@ class FreeFormLayoutConfiguration {
 }
 
 /// The configuration for a section-based layout.
+///
+/// @nodoc
 class SectionBasedLayoutConfiguration {
   /// A list of body section configurations.
   final List<BodySectionConfiguration> bodySections;
@@ -37417,6 +38109,8 @@ class SectionBasedLayoutConfiguration {
 }
 
 /// The configuration of a body section.
+///
+/// @nodoc
 class BodySectionConfiguration {
   /// The configuration of content in a body section.
   final BodySectionContent content;
@@ -37481,6 +38175,8 @@ class BodySectionConfiguration {
 }
 
 /// The configuration of content in a body section.
+///
+/// @nodoc
 class BodySectionContent {
   /// The layout configuration of a body section.
   final SectionLayoutConfiguration? layout;
@@ -37507,6 +38203,8 @@ class BodySectionContent {
 }
 
 /// The options that style a section.
+///
+/// @nodoc
 class SectionStyle {
   /// The height of a section.
   ///
@@ -37545,6 +38243,8 @@ class SectionStyle {
 }
 
 /// The configuration of a page break for a section.
+///
+/// @nodoc
 class SectionPageBreakConfiguration {
   /// The configuration of a page break after a section.
   final SectionAfterPageBreak? after;
@@ -37572,6 +38272,8 @@ class SectionPageBreakConfiguration {
 
 /// Describes the configurations that are required to declare a section as
 /// repeating.
+///
+/// @nodoc
 class BodySectionRepeatConfiguration {
   /// List of <code>BodySectionRepeatDimensionConfiguration</code> values that
   /// describe the dataset column and constraints for the column used to repeat
@@ -37626,6 +38328,8 @@ class BodySectionRepeatConfiguration {
 }
 
 /// The page break configuration to apply for each repeating instance.
+///
+/// @nodoc
 class BodySectionRepeatPageBreakConfiguration {
   final SectionAfterPageBreak? after;
 
@@ -37652,6 +38356,8 @@ class BodySectionRepeatPageBreakConfiguration {
 }
 
 /// The configuration of a page break after a section.
+///
+/// @nodoc
 class SectionAfterPageBreak {
   /// The option that enables or disables a page break at the end of a section.
   final SectionPageBreakStatus? status;
@@ -37675,6 +38381,7 @@ class SectionAfterPageBreak {
   }
 }
 
+/// @nodoc
 class SectionPageBreakStatus {
   static const enabled = SectionPageBreakStatus._('ENABLED');
   static const disabled = SectionPageBreakStatus._('DISABLED');
@@ -37703,6 +38410,8 @@ class SectionPageBreakStatus {
 /// Describes the dataset column and constraints for the dynamic values used to
 /// repeat the contents of a section. The dataset column is either
 /// <b>Category</b> or <b>Numeric</b> column configuration
+///
+/// @nodoc
 class BodySectionRepeatDimensionConfiguration {
   /// Describes the <b>Category</b> dataset column and constraints around the
   /// dynamic values that will be used in repeating the section contents.
@@ -37755,6 +38464,8 @@ class BodySectionRepeatDimensionConfiguration {
 
 /// Describes the <b>Category</b> dataset column and constraints for the dynamic
 /// values used to repeat the contents of a section.
+///
+/// @nodoc
 class BodySectionDynamicCategoryDimensionConfiguration {
   final ColumnIdentifier column;
 
@@ -37798,6 +38509,8 @@ class BodySectionDynamicCategoryDimensionConfiguration {
 
 /// Describes the <b>Numeric</b> dataset column and constraints for the dynamic
 /// values used to repeat the contents of a section.
+///
+/// @nodoc
 class BodySectionDynamicNumericDimensionConfiguration {
   final ColumnIdentifier column;
 
@@ -37840,6 +38553,8 @@ class BodySectionDynamicNumericDimensionConfiguration {
 }
 
 /// The sort configuration for a column that is not used in a field well.
+///
+/// @nodoc
 class ColumnSort {
   /// The sort direction.
   final SortDirection direction;
@@ -37881,6 +38596,8 @@ class ColumnSort {
 }
 
 /// The layout configuration of a section.
+///
+/// @nodoc
 class SectionLayoutConfiguration {
   /// The free-form layout configuration of a section.
   final FreeFormSectionLayoutConfiguration freeFormLayout;
@@ -37906,6 +38623,8 @@ class SectionLayoutConfiguration {
 }
 
 /// The free-form layout configuration of a section.
+///
+/// @nodoc
 class FreeFormSectionLayoutConfiguration {
   /// The elements that are included in the free-form layout.
   final List<FreeFormLayoutElement> elements;
@@ -37933,6 +38652,8 @@ class FreeFormSectionLayoutConfiguration {
 }
 
 /// An element within a free-form layout.
+///
+/// @nodoc
 class FreeFormLayoutElement {
   /// A unique identifier for an element within a free-form layout.
   final String elementId;
@@ -38066,6 +38787,7 @@ class FreeFormLayoutElement {
   }
 }
 
+/// @nodoc
 class LayoutElementType {
   static const visual = LayoutElementType._('VISUAL');
   static const filterControl = LayoutElementType._('FILTER_CONTROL');
@@ -38100,6 +38822,8 @@ class LayoutElementType {
 }
 
 /// The background style configuration of a free-form layout element.
+///
+/// @nodoc
 class FreeFormLayoutElementBorderStyle {
   /// The border color of a free-form layout element.
   final String? color;
@@ -38137,6 +38861,8 @@ class FreeFormLayoutElementBorderStyle {
 }
 
 /// The background style configuration of a free-form layout element.
+///
+/// @nodoc
 class FreeFormLayoutElementBackgroundStyle {
   /// The background color of a free-form layout element.
   final String? color;
@@ -38168,6 +38894,8 @@ class FreeFormLayoutElementBackgroundStyle {
 }
 
 /// The configuration of loading animation in free-form layout.
+///
+/// @nodoc
 class LoadingAnimation {
   /// The visibility configuration of <code>LoadingAnimation</code>.
   final Visibility? visibility;
@@ -38191,6 +38919,8 @@ class LoadingAnimation {
 }
 
 /// The rendering rules of a sheet that uses a free-form layout.
+///
+/// @nodoc
 class SheetElementRenderingRule {
   /// The override configuration of the rendering rules of a sheet.
   final SheetElementConfigurationOverrides configurationOverrides;
@@ -38223,6 +38953,8 @@ class SheetElementRenderingRule {
 }
 
 /// The override configuration of the rendering rules of a sheet.
+///
+/// @nodoc
 class SheetElementConfigurationOverrides {
   /// Determines whether or not the overrides are visible. Choose one of the
   /// following options:
@@ -38257,6 +38989,8 @@ class SheetElementConfigurationOverrides {
 }
 
 /// The configuration of a header or footer section.
+///
+/// @nodoc
 class HeaderFooterSectionConfiguration {
   /// The layout configuration of the header or footer section.
   final SectionLayoutConfiguration layout;
@@ -38298,6 +39032,8 @@ class HeaderFooterSectionConfiguration {
 }
 
 /// A group of elements within a sheet layout.
+///
+/// @nodoc
 class SheetLayoutGroup {
   /// A unique identifier for the group.
   final String id;
@@ -38332,6 +39068,8 @@ class SheetLayoutGroup {
 }
 
 /// A member of a sheet layout group.
+///
+/// @nodoc
 class SheetLayoutGroupMember {
   /// The unique identifier of the group member.
   final String id;
@@ -38362,6 +39100,7 @@ class SheetLayoutGroupMember {
   }
 }
 
+/// @nodoc
 class SheetLayoutGroupMemberType {
   static const element = SheetLayoutGroupMemberType._('ELEMENT');
   static const group = SheetLayoutGroupMemberType._('GROUP');
@@ -38388,6 +39127,8 @@ class SheetLayoutGroupMemberType {
 }
 
 /// An element within a grid layout.
+///
+/// @nodoc
 class GridLayoutElement {
   /// The width of a grid element expressed as a number of grid columns.
   final int columnSpan;
@@ -38501,6 +39242,8 @@ class GridLayoutElement {
 }
 
 /// The border style configuration of a grid layout element.
+///
+/// @nodoc
 class GridLayoutElementBorderStyle {
   /// The border color of a grid layout element.
   final String? color;
@@ -38538,6 +39281,8 @@ class GridLayoutElementBorderStyle {
 }
 
 /// The background style configuration of a grid layout element.
+///
+/// @nodoc
 class GridLayoutElementBackgroundStyle {
   /// The background color of a grid layout element.
   final String? color;
@@ -38568,6 +39313,8 @@ class GridLayoutElementBackgroundStyle {
 }
 
 /// An image that is located on a sheet.
+///
+/// @nodoc
 class SheetImage {
   /// The ID of the sheet image.
   final String sheetImageId;
@@ -38648,6 +39395,8 @@ class SheetImage {
 }
 
 /// The source of the image.
+///
+/// @nodoc
 class SheetImageSource {
   /// The source of the static file that contains the image.
   final SheetImageStaticFileSource? sheetImageStaticFileSource;
@@ -38675,6 +39424,8 @@ class SheetImageSource {
 }
 
 /// Determines how the image is scaled
+///
+/// @nodoc
 class SheetImageScalingConfiguration {
   /// The scaling option to use when fitting the image inside the container.
   ///
@@ -38720,6 +39471,8 @@ class SheetImageScalingConfiguration {
 }
 
 /// The tooltip configuration for a sheet image.
+///
+/// @nodoc
 class SheetImageTooltipConfiguration {
   /// The text that appears in the tooltip.
   final SheetImageTooltipText? tooltipText;
@@ -38753,6 +39506,8 @@ class SheetImageTooltipConfiguration {
 }
 
 /// The general image interactions setup for image publish options.
+///
+/// @nodoc
 class ImageInteractionOptions {
   /// The menu options for the image.
   final ImageMenuOption? imageMenuOption;
@@ -38779,6 +39534,8 @@ class ImageInteractionOptions {
 }
 
 /// A custom action defined on an image.
+///
+/// @nodoc
 class ImageCustomAction {
   /// A list of <code>ImageCustomActionOperations</code>.
   ///
@@ -38850,6 +39607,7 @@ class ImageCustomAction {
   }
 }
 
+/// @nodoc
 class ImageCustomActionTrigger {
   static const click = ImageCustomActionTrigger._('CLICK');
   static const menu = ImageCustomActionTrigger._('MENU');
@@ -38879,6 +39637,8 @@ class ImageCustomActionTrigger {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class ImageCustomActionOperation {
   final CustomActionNavigationOperation? navigationOperation;
   final CustomActionSetParametersOperation? setParametersOperation;
@@ -38926,6 +39686,8 @@ class ImageCustomActionOperation {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class CustomActionNavigationOperation {
   /// The configuration that chooses the navigation target.
   final LocalNavigationConfiguration? localNavigationConfiguration;
@@ -38953,6 +39715,8 @@ class CustomActionNavigationOperation {
 }
 
 /// The URL operation that opens a link to another webpage.
+///
+/// @nodoc
 class CustomActionURLOperation {
   /// The target of the <code>CustomActionURLOperation</code>.
   ///
@@ -38998,6 +39762,8 @@ class CustomActionURLOperation {
 }
 
 /// The set parameter operation that sets parameters in custom action.
+///
+/// @nodoc
 class CustomActionSetParametersOperation {
   /// The parameter that determines the value configuration.
   final List<SetParameterValueConfiguration> parameterValueConfigurations;
@@ -39027,6 +39793,8 @@ class CustomActionSetParametersOperation {
 }
 
 /// The configuration of adding parameters in action.
+///
+/// @nodoc
 class SetParameterValueConfiguration {
   /// The destination parameter name of the
   /// <code>SetParameterValueConfiguration</code>.
@@ -39062,6 +39830,8 @@ class SetParameterValueConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class DestinationParameterValueConfiguration {
   /// The configuration of custom values for destination parameter in
   /// <code>DestinationParameterValueConfiguration</code>.
@@ -39124,6 +39894,8 @@ class DestinationParameterValueConfiguration {
 
 /// The configuration of custom values for the destination parameter in
 /// <code>DestinationParameterValueConfiguration</code>.
+///
+/// @nodoc
 class CustomValuesConfiguration {
   final CustomParameterValues customValues;
 
@@ -39154,6 +39926,7 @@ class CustomValuesConfiguration {
   }
 }
 
+/// @nodoc
 class SelectAllValueOptions {
   static const allValues = SelectAllValueOptions._('ALL_VALUES');
 
@@ -39182,6 +39955,8 @@ class SelectAllValueOptions {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class CustomParameterValues {
   /// A list of datetime-type parameter values.
   final List<DateTime>? dateTimeValues;
@@ -39238,6 +40013,7 @@ class CustomParameterValues {
   }
 }
 
+/// @nodoc
 class URLTargetConfiguration {
   static const newTab = URLTargetConfiguration._('NEW_TAB');
   static const newWindow = URLTargetConfiguration._('NEW_WINDOW');
@@ -39266,6 +40042,8 @@ class URLTargetConfiguration {
 
 /// The navigation configuration for
 /// <code>CustomActionNavigationOperation</code>.
+///
+/// @nodoc
 class LocalNavigationConfiguration {
   /// The sheet that is targeted for navigation in the same analysis.
   final String targetSheetId;
@@ -39289,6 +40067,8 @@ class LocalNavigationConfiguration {
 }
 
 /// The menu options for the interactions of an image.
+///
+/// @nodoc
 class ImageMenuOption {
   /// The availability status of the image menu. If the value of this property is
   /// set to <code>ENABLED</code>, dashboard readers can interact with the image
@@ -39315,6 +40095,7 @@ class ImageMenuOption {
   }
 }
 
+/// @nodoc
 class DashboardBehavior {
   static const enabled = DashboardBehavior._('ENABLED');
   static const disabled = DashboardBehavior._('DISABLED');
@@ -39340,6 +40121,8 @@ class DashboardBehavior {
 }
 
 /// The text that appears in the sheet image tooltip.
+///
+/// @nodoc
 class SheetImageTooltipText {
   /// The plain text format.
   final String? plainText;
@@ -39362,6 +40145,7 @@ class SheetImageTooltipText {
   }
 }
 
+/// @nodoc
 class SheetImageScalingType {
   static const scaleToWidth = SheetImageScalingType._('SCALE_TO_WIDTH');
   static const scaleToHeight = SheetImageScalingType._('SCALE_TO_HEIGHT');
@@ -39395,6 +40179,8 @@ class SheetImageScalingType {
 }
 
 /// The source of the static file that contains the image.
+///
+/// @nodoc
 class SheetImageStaticFileSource {
   /// The ID of the static file that contains the image.
   final String staticFileId;
@@ -39418,6 +40204,8 @@ class SheetImageStaticFileSource {
 }
 
 /// A text box.
+///
+/// @nodoc
 class SheetTextBox {
   /// The unique identifier for a text box. This identifier must be unique within
   /// the context of a dashboard, template, or analysis. Two dashboards, analyses,
@@ -39460,6 +40248,8 @@ class SheetTextBox {
 }
 
 /// The general textbox interactions setup for textbox publish options.
+///
+/// @nodoc
 class TextBoxInteractionOptions {
   /// The menu options for the textbox.
   final TextBoxMenuOption? textBoxMenuOption;
@@ -39486,6 +40276,8 @@ class TextBoxInteractionOptions {
 }
 
 /// The menu options for the interactions of a textbox.
+///
+/// @nodoc
 class TextBoxMenuOption {
   /// The availability status of the textbox menu. If the value of this property
   /// is set to <code>ENABLED</code>, dashboard readers can interact with the
@@ -39516,6 +40308,8 @@ class TextBoxMenuOption {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class Visual {
   /// A bar chart.
   ///
@@ -39873,6 +40667,8 @@ class Visual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/tabular.html">Using
 /// tables as visuals</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class TableVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -39961,6 +40757,8 @@ class TableVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/pivot-table.html">Using
 /// pivot tables</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class PivotTableVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40073,6 +40871,8 @@ class PivotTableVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/bar-charts.html">Using
 /// bar charts</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class BarChartVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40160,6 +40960,8 @@ class BarChartVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/kpi.html">Using
 /// KPIs</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class KPIVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40275,6 +41077,8 @@ class KPIVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/donut-chart.html">Using
 /// donut charts</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class PieChartVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40362,6 +41166,8 @@ class PieChartVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/gauge-chart.html">Using
 /// gauge charts</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class GaugeChartVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40450,6 +41256,8 @@ class GaugeChartVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/line-charts.html">Using
 /// line charts</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class LineChartVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40537,6 +41345,8 @@ class LineChartVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/heat-map.html">Using
 /// heat maps</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class HeatMapVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40624,6 +41434,8 @@ class HeatMapVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/tree-map.html">Using
 /// tree maps</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class TreeMapVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40711,6 +41523,8 @@ class TreeMapVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/point-maps.html">Creating
 /// point maps</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class GeospatialMapVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40809,6 +41623,8 @@ class GeospatialMapVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/filled-maps.html">Creating
 /// filled maps</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class FilledMapVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -40914,6 +41730,8 @@ class FilledMapVisual {
 }
 
 /// A layer map visual.
+///
+/// @nodoc
 class LayerMapVisual {
   /// The dataset that is used to create the layer map visual. You can't create a
   /// visual without a dataset.
@@ -40983,6 +41801,8 @@ class LayerMapVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/funnel-visual-content.html">Using
 /// funnel charts</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class FunnelChartVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41070,6 +41890,8 @@ class FunnelChartVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/scatter-plot.html">Using
 /// scatter plots</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class ScatterPlotVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41160,6 +41982,8 @@ class ScatterPlotVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/combo-charts.html">Using
 /// combo charts</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class ComboChartVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41247,6 +42071,8 @@ class ComboChartVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/box-plots.html">Using
 /// box plots</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class BoxPlotVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41334,6 +42160,8 @@ class BoxPlotVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/waterfall-chart.html">Using
 /// waterfall charts</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class WaterfallVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41421,6 +42249,8 @@ class WaterfallVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/histogram-charts.html">Using
 /// histograms</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class HistogramVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41498,6 +42328,8 @@ class HistogramVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/word-cloud.html">Using
 /// word clouds</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class WordCloudVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41585,6 +42417,8 @@ class WordCloudVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/computational-insights.html">Working
 /// with insights</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class InsightVisual {
   /// The dataset that is used in the insight visual.
   final String dataSetIdentifier;
@@ -41670,6 +42504,8 @@ class InsightVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/sankey-diagram.html">Using
 /// Sankey diagrams</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class SankeyDiagramVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41747,6 +42583,8 @@ class SankeyDiagramVisual {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/user/custom-visual-content.html">Using
 /// custom visual content</a> in the <i>Amazon Quick Suite User Guide</i>.
+///
+/// @nodoc
 class CustomContentVisual {
   /// The dataset that is used to create the custom content visual. You can't
   /// create a visual without a dataset.
@@ -41832,6 +42670,8 @@ class CustomContentVisual {
 /// Empty visuals are used in layouts but have not been configured to show any
 /// data. A new visual created in the Quick Sight console is considered an
 /// <code>EmptyVisual</code> until a visual type is selected.
+///
+/// @nodoc
 class EmptyVisual {
   /// The data set that is used in the empty visual. Every visual requires a
   /// dataset to render.
@@ -41875,6 +42715,8 @@ class EmptyVisual {
 }
 
 /// A radar chart visual.
+///
+/// @nodoc
 class RadarChartVisual {
   /// The unique identifier of a visual. This identifier must be unique within the
   /// context of a dashboard, template, or analysis. Two dashboards, analyses, or
@@ -41959,6 +42801,8 @@ class RadarChartVisual {
 
 /// A flexible visualization type that allows engineers to create new custom
 /// charts in Quick Sight.
+///
+/// @nodoc
 class PluginVisual {
   /// The Amazon Resource Name (ARN) that reflects the plugin and version.
   final String pluginArn;
@@ -42033,6 +42877,8 @@ class PluginVisual {
 }
 
 /// The title label options for a visual.
+///
+/// @nodoc
 class VisualTitleLabelOptions {
   /// The short text format of the title label, such as plain text or rich text.
   final ShortFormatText? formatText;
@@ -42065,6 +42911,8 @@ class VisualTitleLabelOptions {
 }
 
 /// The subtitle label options for a visual.
+///
+/// @nodoc
 class VisualSubtitleLabelOptions {
   /// The long text format of the subtitle label, such as plain text or rich text.
   final LongFormatText? formatText;
@@ -42098,6 +42946,8 @@ class VisualSubtitleLabelOptions {
 
 /// The plugin visual configuration. This includes the field wells, sorting
 /// options, and persisted options of the plugin visual.
+///
+/// @nodoc
 class PluginVisualConfiguration {
   /// The field wells configuration of the plugin visual.
   final List<PluginVisualFieldWell>? fieldWells;
@@ -42144,6 +42994,8 @@ class PluginVisualConfiguration {
 }
 
 /// A custom action defined on a visual.
+///
+/// @nodoc
 class VisualCustomAction {
   /// A list of <code>VisualCustomActionOperations</code>.
   ///
@@ -42215,6 +43067,7 @@ class VisualCustomAction {
   }
 }
 
+/// @nodoc
 class VisualCustomActionTrigger {
   static const dataPointClick = VisualCustomActionTrigger._('DATA_POINT_CLICK');
   static const dataPointMenu = VisualCustomActionTrigger._('DATA_POINT_MENU');
@@ -42244,6 +43097,8 @@ class VisualCustomActionTrigger {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class VisualCustomActionOperation {
   /// The filter operation that filters data included in a visual or in an entire
   /// sheet.
@@ -42305,6 +43160,8 @@ class VisualCustomActionOperation {
 
 /// The filter operation that filters data included in a visual or in an entire
 /// sheet.
+///
+/// @nodoc
 class CustomActionFilterOperation {
   /// The configuration that chooses the fields to be filtered.
   final FilterOperationSelectedFieldsConfiguration selectedFieldsConfiguration;
@@ -42345,6 +43202,8 @@ class CustomActionFilterOperation {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class FilterOperationSelectedFieldsConfiguration {
   /// The selected columns of a dataset.
   final List<ColumnIdentifier>? selectedColumns;
@@ -42404,6 +43263,8 @@ class FilterOperationSelectedFieldsConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class FilterOperationTargetVisualsConfiguration {
   /// The configuration of the same-sheet target visuals that you want to be
   /// filtered.
@@ -42441,6 +43302,8 @@ class FilterOperationTargetVisualsConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class SameSheetTargetVisualConfiguration {
   /// The options that choose the target visual in the same sheet.
   ///
@@ -42486,6 +43349,7 @@ class SameSheetTargetVisualConfiguration {
   }
 }
 
+/// @nodoc
 class TargetVisualOptions {
   static const allVisuals = TargetVisualOptions._('ALL_VISUALS');
 
@@ -42510,6 +43374,7 @@ class TargetVisualOptions {
   String toString() => value;
 }
 
+/// @nodoc
 class SelectedFieldOptions {
   static const allFields = SelectedFieldOptions._('ALL_FIELDS');
 
@@ -42535,6 +43400,8 @@ class SelectedFieldOptions {
 }
 
 /// The options and persisted properties for the plugin visual.
+///
+/// @nodoc
 class PluginVisualOptions {
   /// The persisted properties and their values.
   final List<PluginVisualProperty>? visualProperties;
@@ -42561,6 +43428,8 @@ class PluginVisualOptions {
 }
 
 /// Determines how the plugin visual sorts the data during query.
+///
+/// @nodoc
 class PluginVisualSortConfiguration {
   /// The table query sorting options for the plugin visual.
   final PluginVisualTableQuerySort? pluginVisualTableQuerySort;
@@ -42588,6 +43457,8 @@ class PluginVisualSortConfiguration {
 }
 
 /// The table query sorting options for the plugin visual.
+///
+/// @nodoc
 class PluginVisualTableQuerySort {
   /// The maximum amount of data to be returned by a query.
   final PluginVisualItemsLimitConfiguration? itemsLimitConfiguration;
@@ -42625,6 +43496,8 @@ class PluginVisualTableQuerySort {
 }
 
 /// A query limits configuration.
+///
+/// @nodoc
 class PluginVisualItemsLimitConfiguration {
   /// Determines how many values are be fetched at once.
   final int? itemsLimit;
@@ -42649,6 +43522,8 @@ class PluginVisualItemsLimitConfiguration {
 }
 
 /// The field sort options in a chart configuration.
+///
+/// @nodoc
 class FieldSortOptions {
   /// The sort configuration for a column that is not used in a field well.
   final ColumnSort? columnSort;
@@ -42683,6 +43558,8 @@ class FieldSortOptions {
 }
 
 /// The sort configuration for a field in a field well.
+///
+/// @nodoc
 class FieldSort {
   /// The sort direction. Choose one of the following options:
   ///
@@ -42722,6 +43599,8 @@ class FieldSort {
 }
 
 /// The key value pair of the persisted property.
+///
+/// @nodoc
 class PluginVisualProperty {
   /// The name of the plugin visual property.
   final String? name;
@@ -42752,6 +43631,8 @@ class PluginVisualProperty {
 }
 
 /// A collection of field wells for a plugin visual.
+///
+/// @nodoc
 class PluginVisualFieldWell {
   /// The semantic axis name for the field well.
   final PluginVisualAxisName? axisName;
@@ -42805,6 +43686,7 @@ class PluginVisualFieldWell {
   }
 }
 
+/// @nodoc
 class PluginVisualAxisName {
   static const groupBy = PluginVisualAxisName._('GROUP_BY');
   static const $value = PluginVisualAxisName._('VALUE');
@@ -42831,6 +43713,8 @@ class PluginVisualAxisName {
 }
 
 /// The unaggregated field for a table.
+///
+/// @nodoc
 class UnaggregatedField {
   /// The column that is used in the <code>UnaggregatedField</code>.
   final ColumnIdentifier column;
@@ -42874,6 +43758,8 @@ class UnaggregatedField {
 }
 
 /// The measure (metric) type field.
+///
+/// @nodoc
 class MeasureField {
   /// The calculated measure field only used in pivot tables.
   final CalculatedMeasureField? calculatedMeasureField;
@@ -42933,6 +43819,8 @@ class MeasureField {
 }
 
 /// The measure type field with numerical type columns.
+///
+/// @nodoc
 class NumericalMeasureField {
   /// The column that is used in the <code>NumericalMeasureField</code>.
   final ColumnIdentifier column;
@@ -42987,6 +43875,8 @@ class NumericalMeasureField {
 }
 
 /// The measure type field with categorical type columns.
+///
+/// @nodoc
 class CategoricalMeasureField {
   /// The column that is used in the <code>CategoricalMeasureField</code>.
   final ColumnIdentifier column;
@@ -43039,6 +43929,8 @@ class CategoricalMeasureField {
 }
 
 /// The measure type field with date type columns.
+///
+/// @nodoc
 class DateMeasureField {
   /// The column that is used in the <code>DateMeasureField</code>.
   final ColumnIdentifier column;
@@ -43091,6 +43983,8 @@ class DateMeasureField {
 }
 
 /// The table calculation measure field for pivot tables.
+///
+/// @nodoc
 class CalculatedMeasureField {
   /// The expression in the table calculation.
   final String expression;
@@ -43121,6 +44015,8 @@ class CalculatedMeasureField {
 }
 
 /// The dimension type field.
+///
+/// @nodoc
 class DimensionField {
   /// The dimension type field with categorical type columns.
   final CategoricalDimensionField? categoricalDimensionField;
@@ -43169,6 +44065,8 @@ class DimensionField {
 }
 
 /// The dimension type field with numerical type columns.
+///
+/// @nodoc
 class NumericalDimensionField {
   /// The column that is used in the <code>NumericalDimensionField</code>.
   final ColumnIdentifier column;
@@ -43219,6 +44117,8 @@ class NumericalDimensionField {
 }
 
 /// The dimension type field with categorical type columns..
+///
+/// @nodoc
 class CategoricalDimensionField {
   /// The column that is used in the <code>CategoricalDimensionField</code>.
   final ColumnIdentifier column;
@@ -43269,6 +44169,8 @@ class CategoricalDimensionField {
 }
 
 /// The dimension type field with date type columns.
+///
+/// @nodoc
 class DateDimensionField {
   /// The column that is used in the <code>DateDimensionField</code>.
   final ColumnIdentifier column;
@@ -43361,6 +44263,8 @@ class DateDimensionField {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class LongFormatText {
   /// Plain text format.
   final String? plainText;
@@ -43394,6 +44298,8 @@ class LongFormatText {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class ShortFormatText {
   /// Plain text format.
   final String? plainText;
@@ -43424,6 +44330,8 @@ class ShortFormatText {
 }
 
 /// The configuration of a <code>RadarChartVisual</code>.
+///
+/// @nodoc
 class RadarChartConfiguration {
   /// Determines the visibility of the colors of alternatign bands in a radar
   /// chart.
@@ -43589,6 +44497,8 @@ class RadarChartConfiguration {
 }
 
 /// The option that determines the hierarchy of the fields for a visual element.
+///
+/// @nodoc
 class ColumnHierarchy {
   /// The option that determines the hierarchy of any <code>DateTime</code>
   /// fields.
@@ -43641,6 +44551,8 @@ class ColumnHierarchy {
 
 /// The option that determines the hierarchy of the fields that are built within
 /// a visual's field wells. These fields can't be duplicated to other visuals.
+///
+/// @nodoc
 class ExplicitHierarchy {
   /// The list of columns that define the explicit hierarchy.
   final List<ColumnIdentifier> columns;
@@ -43686,6 +44598,8 @@ class ExplicitHierarchy {
 
 /// The option that determines the hierarchy of any <code>DateTime</code>
 /// fields.
+///
+/// @nodoc
 class DateTimeHierarchy {
   /// The hierarchy ID of the <code>DateTime</code> hierarchy.
   final String hierarchyId;
@@ -43722,6 +44636,8 @@ class DateTimeHierarchy {
 /// The option that determines the hierarchy of the fields that are defined
 /// during data preparation. These fields are available to use in any analysis
 /// that uses the data source.
+///
+/// @nodoc
 class PredefinedHierarchy {
   /// The list of columns that define the predefined hierarchy.
   final List<ColumnIdentifier> columns;
@@ -43769,6 +44685,8 @@ class PredefinedHierarchy {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class DrillDownFilter {
   /// The category type drill down filter. This filter is used for string type
   /// columns.
@@ -43818,6 +44736,8 @@ class DrillDownFilter {
 }
 
 /// The numeric equality type drill down filter.
+///
+/// @nodoc
 class NumericEqualityDrillDownFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -43850,6 +44770,8 @@ class NumericEqualityDrillDownFilter {
 }
 
 /// The category drill down filter.
+///
+/// @nodoc
 class CategoryDrillDownFilter {
   /// A list of the string inputs that are the values of the category drill down
   /// filter.
@@ -43886,6 +44808,8 @@ class CategoryDrillDownFilter {
 }
 
 /// The time range drill down filter.
+///
+/// @nodoc
 class TimeRangeDrillDownFilter {
   /// The column that the filter is applied to.
   final ColumnIdentifier column;
@@ -43934,6 +44858,8 @@ class TimeRangeDrillDownFilter {
 }
 
 /// The field wells of a radar chart visual.
+///
+/// @nodoc
 class RadarChartFieldWells {
   /// The aggregated field wells of a radar chart visual.
   final RadarChartAggregatedFieldWells? radarChartAggregatedFieldWells;
@@ -43962,6 +44888,8 @@ class RadarChartFieldWells {
 }
 
 /// The sort configuration of a <code>RadarChartVisual</code>.
+///
+/// @nodoc
 class RadarChartSortConfiguration {
   /// The category items limit for a radar chart.
   final ItemsLimitConfiguration? categoryItemsLimit;
@@ -44017,6 +44945,7 @@ class RadarChartSortConfiguration {
   }
 }
 
+/// @nodoc
 class RadarChartShape {
   static const circle = RadarChartShape._('CIRCLE');
   static const polygon = RadarChartShape._('POLYGON');
@@ -44042,6 +44971,8 @@ class RadarChartShape {
 }
 
 /// The series settings of a radar chart.
+///
+/// @nodoc
 class RadarChartSeriesSettings {
   /// The area style settings of a radar chart.
   final RadarChartAreaStyleSettings? areaStyleSettings;
@@ -44068,6 +44999,8 @@ class RadarChartSeriesSettings {
 }
 
 /// The visual display options for the visual palette.
+///
+/// @nodoc
 class VisualPalette {
   /// The chart color options for the visual palette.
   final String? chartColor;
@@ -44101,6 +45034,8 @@ class VisualPalette {
 }
 
 /// The display options for the axis label.
+///
+/// @nodoc
 class AxisDisplayOptions {
   /// Determines whether or not the axis line is visible.
   final Visibility? axisLineVisibility;
@@ -44173,6 +45108,8 @@ class AxisDisplayOptions {
 }
 
 /// The label options for an axis on a chart.
+///
+/// @nodoc
 class ChartAxisLabelOptions {
   /// The label options for a chart axis.
   final List<AxisLabelOptions>? axisLabelOptions;
@@ -44225,6 +45162,8 @@ class ChartAxisLabelOptions {
 }
 
 /// The options for the legend setup of a visual.
+///
+/// @nodoc
 class LegendOptions {
   /// The height of the legend. If this value is omitted, a default height is used
   /// when rendering.
@@ -44303,6 +45242,7 @@ class LegendOptions {
   }
 }
 
+/// @nodoc
 class RadarChartAxesRangeScale {
   static const auto = RadarChartAxesRangeScale._('AUTO');
   static const independent = RadarChartAxesRangeScale._('INDEPENDENT');
@@ -44330,6 +45270,8 @@ class RadarChartAxesRangeScale {
 }
 
 /// The general visual interactions setup for visual publish options
+///
+/// @nodoc
 class VisualInteractionOptions {
   /// The context menu options for a visual.
   final ContextMenuOption? contextMenuOption;
@@ -44366,6 +45308,8 @@ class VisualInteractionOptions {
 }
 
 /// The menu options for a visual.
+///
+/// @nodoc
 class VisualMenuOption {
   /// The availaiblity status of a visual's menu options.
   final DashboardBehavior? availabilityStatus;
@@ -44391,6 +45335,8 @@ class VisualMenuOption {
 }
 
 /// The context menu options for a visual's interactions.
+///
+/// @nodoc
 class ContextMenuOption {
   /// The availability status of the context menu options. If the value of this
   /// property is set to <code>ENABLED</code>, dashboard readers can interact with
@@ -44417,6 +45363,7 @@ class ContextMenuOption {
   }
 }
 
+/// @nodoc
 class LegendPosition {
   static const auto = LegendPosition._('AUTO');
   static const right = LegendPosition._('RIGHT');
@@ -44445,6 +45392,8 @@ class LegendPosition {
 
 /// The label options for a chart axis. You must specify the field that the
 /// label is targeted to.
+///
+/// @nodoc
 class AxisLabelOptions {
   /// The options that indicate which field the label belongs to.
   final AxisLabelReferenceOptions? applyTo;
@@ -44488,6 +45437,8 @@ class AxisLabelOptions {
 }
 
 /// The reference that specifies where the axis label is applied to.
+///
+/// @nodoc
 class AxisLabelReferenceOptions {
   /// The column that the axis label is targeted to.
   final ColumnIdentifier column;
@@ -44520,6 +45471,8 @@ class AxisLabelReferenceOptions {
 }
 
 /// The tick label options of an axis.
+///
+/// @nodoc
 class AxisTickLabelOptions {
   /// Determines whether or not the axis ticks are visible.
   final LabelOptions? labelOptions;
@@ -44555,6 +45508,8 @@ class AxisTickLabelOptions {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class AxisDataOptions {
   /// The options for an axis with a date field.
   final DateAxisOptions? dateAxisOptions;
@@ -44591,6 +45546,8 @@ class AxisDataOptions {
 }
 
 /// The visual display options for a data zoom scroll bar.
+///
+/// @nodoc
 class ScrollBarOptions {
   /// The visibility of the data zoom scroll bar.
   final Visibility? visibility;
@@ -44624,6 +45581,8 @@ class ScrollBarOptions {
 }
 
 /// The range options for the data zoom scroll bar.
+///
+/// @nodoc
 class VisibleRangeOptions {
   /// The percent range in the visible range.
   final PercentVisibleRange? percentRange;
@@ -44650,6 +45609,8 @@ class VisibleRangeOptions {
 }
 
 /// The percent range in the visible range.
+///
+/// @nodoc
 class PercentVisibleRange {
   /// The lower bound of the range.
   final double? from;
@@ -44680,6 +45641,8 @@ class PercentVisibleRange {
 }
 
 /// The options for an axis with a numeric field.
+///
+/// @nodoc
 class NumericAxisOptions {
   /// The range setup of a numeric axis.
   final AxisDisplayRange? range;
@@ -44714,6 +45677,8 @@ class NumericAxisOptions {
 }
 
 /// The options that determine how a date axis is displayed.
+///
+/// @nodoc
 class DateAxisOptions {
   /// Determines whether or not missing dates are displayed.
   final Visibility? missingDateVisibility;
@@ -44742,6 +45707,8 @@ class DateAxisOptions {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class AxisScale {
   /// The linear axis scale setup.
   final AxisLinearScale? linear;
@@ -44780,6 +45747,8 @@ class AxisScale {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class AxisDisplayRange {
   /// The data-driven setup of an axis display range.
   final AxisDisplayDataDrivenRange? dataDriven;
@@ -44816,6 +45785,8 @@ class AxisDisplayRange {
 }
 
 /// The minimum and maximum setup for an axis display range.
+///
+/// @nodoc
 class AxisDisplayMinMaxRange {
   /// The maximum setup for an axis display range.
   final double? maximum;
@@ -44846,6 +45817,8 @@ class AxisDisplayMinMaxRange {
 }
 
 /// The options that are saved for future extension.
+///
+/// @nodoc
 class AxisDisplayDataDrivenRange {
   AxisDisplayDataDrivenRange();
 
@@ -44862,6 +45835,8 @@ class AxisDisplayDataDrivenRange {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class AxisLinearScale {
   /// The step count setup of a linear axis.
   final int? stepCount;
@@ -44892,6 +45867,8 @@ class AxisLinearScale {
 }
 
 /// The logarithmic axis scale setup.
+///
+/// @nodoc
 class AxisLogarithmicScale {
   /// The base setup of a logarithmic axis scale.
   final double? base;
@@ -44915,6 +45892,8 @@ class AxisLogarithmicScale {
 }
 
 /// The color map that determines the color options for a particular element.
+///
+/// @nodoc
 class DataPathColor {
   /// The color that needs to be applied to the element.
   final String color;
@@ -44955,6 +45934,8 @@ class DataPathColor {
 }
 
 /// The data path that needs to be sorted.
+///
+/// @nodoc
 class DataPathValue {
   /// The type configuration of the field.
   final DataPathType? dataPathType;
@@ -44994,6 +45975,8 @@ class DataPathValue {
 }
 
 /// The type of the data path value.
+///
+/// @nodoc
 class DataPathType {
   /// The type of data path value utilized in a pivot table. Choose one of the
   /// following options:
@@ -45041,6 +46024,7 @@ class DataPathType {
   }
 }
 
+/// @nodoc
 class PivotTableDataPathType {
   static const hierarchyRowsLayoutColumn =
       PivotTableDataPathType._('HIERARCHY_ROWS_LAYOUT_COLUMN');
@@ -45078,6 +46062,8 @@ class PivotTableDataPathType {
 }
 
 /// The configured style settings of a radar chart.
+///
+/// @nodoc
 class RadarChartAreaStyleSettings {
   /// The visibility settings of a radar chart.
   final Visibility? visibility;
@@ -45101,6 +46087,8 @@ class RadarChartAreaStyleSettings {
 }
 
 /// The limit configuration of the visual display for an axis.
+///
+/// @nodoc
 class ItemsLimitConfiguration {
   /// The limit on how many items of a field are showed in the chart. For example,
   /// the number of slices that are displayed in a pie chart.
@@ -45142,6 +46130,7 @@ class ItemsLimitConfiguration {
   }
 }
 
+/// @nodoc
 class OtherCategories {
   static const include = OtherCategories._('INCLUDE');
   static const exclude = OtherCategories._('EXCLUDE');
@@ -45167,6 +46156,8 @@ class OtherCategories {
 }
 
 /// The aggregated field well configuration of a <code>RadarChartVisual</code>.
+///
+/// @nodoc
 class RadarChartAggregatedFieldWells {
   /// The aggregated field well categories of a radar chart.
   final List<DimensionField>? category;
@@ -45213,6 +46204,8 @@ class RadarChartAggregatedFieldWells {
 }
 
 /// The configuration of a <code>CustomContentVisual</code>.
+///
+/// @nodoc
 class CustomContentConfiguration {
   /// The content type of the custom content visual. You can use this to have the
   /// visual render as an image.
@@ -45265,6 +46258,7 @@ class CustomContentConfiguration {
   }
 }
 
+/// @nodoc
 class CustomContentType {
   static const image = CustomContentType._('IMAGE');
   static const otherEmbeddedContent =
@@ -45290,6 +46284,7 @@ class CustomContentType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomContentImageScalingConfiguration {
   static const fitToHeight =
       CustomContentImageScalingConfiguration._('FIT_TO_HEIGHT');
@@ -45322,6 +46317,8 @@ class CustomContentImageScalingConfiguration {
 }
 
 /// The configuration of a sankey diagram.
+///
+/// @nodoc
 class SankeyDiagramChartConfiguration {
   /// The data label configuration of a sankey diagram.
   final DataLabelOptions? dataLabels;
@@ -45378,6 +46375,8 @@ class SankeyDiagramChartConfiguration {
 }
 
 /// The field well configuration of a sankey diagram.
+///
+/// @nodoc
 class SankeyDiagramFieldWells {
   /// The field well configuration of a sankey diagram.
   final SankeyDiagramAggregatedFieldWells? sankeyDiagramAggregatedFieldWells;
@@ -45408,6 +46407,8 @@ class SankeyDiagramFieldWells {
 }
 
 /// The sort configuration of a sankey diagram.
+///
+/// @nodoc
 class SankeyDiagramSortConfiguration {
   /// The limit on the number of destination nodes that are displayed in a sankey
   /// diagram.
@@ -45457,6 +46458,8 @@ class SankeyDiagramSortConfiguration {
 }
 
 /// The options that determine the presentation of the data labels.
+///
+/// @nodoc
 class DataLabelOptions {
   /// Determines the visibility of the category field labels.
   final Visibility? categoryLabelVisibility;
@@ -45556,6 +46559,7 @@ class DataLabelOptions {
   }
 }
 
+/// @nodoc
 class DataLabelPosition {
   static const inside = DataLabelPosition._('INSIDE');
   static const outside = DataLabelPosition._('OUTSIDE');
@@ -45584,6 +46588,7 @@ class DataLabelPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class DataLabelContent {
   static const $value = DataLabelContent._('VALUE');
   static const percent = DataLabelContent._('PERCENT');
@@ -45609,6 +46614,7 @@ class DataLabelContent {
   String toString() => value;
 }
 
+/// @nodoc
 class DataLabelOverlap {
   static const disableOverlap = DataLabelOverlap._('DISABLE_OVERLAP');
   static const enableOverlap = DataLabelOverlap._('ENABLE_OVERLAP');
@@ -45637,6 +46643,8 @@ class DataLabelOverlap {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class DataLabelType {
   /// The option that specifies individual data values for labels.
   final DataPathLabelType? dataPathLabelType;
@@ -45703,6 +46711,8 @@ class DataLabelType {
 }
 
 /// The field label type.
+///
+/// @nodoc
 class FieldLabelType {
   /// Indicates the field that is targeted by the field label.
   final String? fieldId;
@@ -45733,6 +46743,8 @@ class FieldLabelType {
 }
 
 /// The option that specifies individual data values for labels.
+///
+/// @nodoc
 class DataPathLabelType {
   /// The field ID of the field that the data label needs to be applied to.
   final String? fieldId;
@@ -45770,6 +46782,8 @@ class DataPathLabelType {
 }
 
 /// The range ends label type of a data path label.
+///
+/// @nodoc
 class RangeEndsLabelType {
   /// The visibility of the range ends label.
   final Visibility? visibility;
@@ -45793,6 +46807,8 @@ class RangeEndsLabelType {
 }
 
 /// The minimum label of a data path label.
+///
+/// @nodoc
 class MinimumLabelType {
   /// The visibility of the minimum label.
   final Visibility? visibility;
@@ -45816,6 +46832,8 @@ class MinimumLabelType {
 }
 
 /// The maximum label of a data path label.
+///
+/// @nodoc
 class MaximumLabelType {
   /// The visibility of the maximum label.
   final Visibility? visibility;
@@ -45839,6 +46857,8 @@ class MaximumLabelType {
 }
 
 /// The field well configuration of a sankey diagram.
+///
+/// @nodoc
 class SankeyDiagramAggregatedFieldWells {
   /// The destination field wells of a sankey diagram.
   final List<DimensionField>? destination;
@@ -45886,6 +46906,8 @@ class SankeyDiagramAggregatedFieldWells {
 }
 
 /// The configuration of an insight visual.
+///
+/// @nodoc
 class InsightConfiguration {
   /// The computations configurations of the insight visual
   final List<Computation>? computations;
@@ -45932,6 +46954,8 @@ class InsightConfiguration {
 }
 
 /// The custom narrative options.
+///
+/// @nodoc
 class CustomNarrativeOptions {
   /// The string input of custom narrative.
   final String narrative;
@@ -45958,6 +46982,8 @@ class CustomNarrativeOptions {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class Computation {
   /// The forecast computation configuration.
   final ForecastComputation? forecast;
@@ -46074,6 +47100,8 @@ class Computation {
 }
 
 /// The top ranked and bottom ranked computation configuration.
+///
+/// @nodoc
 class TopBottomRankedComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46146,6 +47174,8 @@ class TopBottomRankedComputation {
 }
 
 /// The top movers and bottom movers computation setup.
+///
+/// @nodoc
 class TopBottomMoversComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46235,6 +47265,8 @@ class TopBottomMoversComputation {
 }
 
 /// The total aggregation computation configuration.
+///
+/// @nodoc
 class TotalAggregationComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46274,6 +47306,8 @@ class TotalAggregationComputation {
 }
 
 /// The maximum and minimum computation configuration.
+///
+/// @nodoc
 class MaximumMinimumComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46339,6 +47373,8 @@ class MaximumMinimumComputation {
 }
 
 /// The metric comparison computation configuration.
+///
+/// @nodoc
 class MetricComparisonComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46396,6 +47432,8 @@ class MetricComparisonComputation {
 }
 
 /// The period over period computation configuration.
+///
+/// @nodoc
 class PeriodOverPeriodComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46444,6 +47482,8 @@ class PeriodOverPeriodComputation {
 }
 
 /// The period to date computation configuration.
+///
+/// @nodoc
 class PeriodToDateComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46511,6 +47551,8 @@ class PeriodToDateComputation {
 }
 
 /// The growth rate computation configuration.
+///
+/// @nodoc
 class GrowthRateComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46566,6 +47608,8 @@ class GrowthRateComputation {
 }
 
 /// The unique values computation configuration.
+///
+/// @nodoc
 class UniqueValuesComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46605,6 +47649,8 @@ class UniqueValuesComputation {
 }
 
 /// The forecast computation configuration.
+///
+/// @nodoc
 class ForecastComputation {
   /// The ID for a computation.
   final String computationId;
@@ -46713,6 +47759,7 @@ class ForecastComputation {
   }
 }
 
+/// @nodoc
 class ForecastComputationSeasonality {
   static const automatic = ForecastComputationSeasonality._('AUTOMATIC');
   static const custom = ForecastComputationSeasonality._('CUSTOM');
@@ -46738,6 +47785,7 @@ class ForecastComputationSeasonality {
   String toString() => value;
 }
 
+/// @nodoc
 class MaximumMinimumComputationType {
   static const maximum = MaximumMinimumComputationType._('MAXIMUM');
   static const minimum = MaximumMinimumComputationType._('MINIMUM');
@@ -46763,6 +47811,7 @@ class MaximumMinimumComputationType {
   String toString() => value;
 }
 
+/// @nodoc
 class TopBottomSortOrder {
   static const percentDifference = TopBottomSortOrder._('PERCENT_DIFFERENCE');
   static const absoluteDifference = TopBottomSortOrder._('ABSOLUTE_DIFFERENCE');
@@ -46788,6 +47837,7 @@ class TopBottomSortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class TopBottomComputationType {
   static const top = TopBottomComputationType._('TOP');
   static const bottom = TopBottomComputationType._('BOTTOM');
@@ -46814,6 +47864,8 @@ class TopBottomComputationType {
 }
 
 /// The configuration of a word cloud visual.
+///
+/// @nodoc
 class WordCloudChartConfiguration {
   /// The label options (label text, label visibility, and sort icon visibility)
   /// for the word cloud category.
@@ -46885,6 +47937,8 @@ class WordCloudChartConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class WordCloudFieldWells {
   /// The aggregated field wells of a word cloud.
   final WordCloudAggregatedFieldWells? wordCloudAggregatedFieldWells;
@@ -46913,6 +47967,8 @@ class WordCloudFieldWells {
 }
 
 /// The sort configuration of a word cloud visual.
+///
+/// @nodoc
 class WordCloudSortConfiguration {
   /// The limit on the number of groups that are displayed in a word cloud.
   final ItemsLimitConfiguration? categoryItemsLimit;
@@ -46949,6 +48005,8 @@ class WordCloudSortConfiguration {
 }
 
 /// The word cloud options for a word cloud visual.
+///
+/// @nodoc
 class WordCloudOptions {
   /// The cloud layout options (fluid, normal) of a word cloud.
   final WordCloudCloudLayout? cloudLayout;
@@ -47015,6 +48073,7 @@ class WordCloudOptions {
   }
 }
 
+/// @nodoc
 class WordCloudWordOrientation {
   static const horizontal = WordCloudWordOrientation._('HORIZONTAL');
   static const horizontalAndVertical =
@@ -47041,6 +48100,7 @@ class WordCloudWordOrientation {
   String toString() => value;
 }
 
+/// @nodoc
 class WordCloudWordScaling {
   static const emphasize = WordCloudWordScaling._('EMPHASIZE');
   static const normal = WordCloudWordScaling._('NORMAL');
@@ -47066,6 +48126,7 @@ class WordCloudWordScaling {
   String toString() => value;
 }
 
+/// @nodoc
 class WordCloudCloudLayout {
   static const fluid = WordCloudCloudLayout._('FLUID');
   static const normal = WordCloudCloudLayout._('NORMAL');
@@ -47091,6 +48152,7 @@ class WordCloudCloudLayout {
   String toString() => value;
 }
 
+/// @nodoc
 class WordCloudWordCasing {
   static const lowerCase = WordCloudWordCasing._('LOWER_CASE');
   static const existingCase = WordCloudWordCasing._('EXISTING_CASE');
@@ -47116,6 +48178,7 @@ class WordCloudWordCasing {
   String toString() => value;
 }
 
+/// @nodoc
 class WordCloudWordPadding {
   static const none = WordCloudWordPadding._('NONE');
   static const small = WordCloudWordPadding._('SMALL');
@@ -47144,6 +48207,8 @@ class WordCloudWordPadding {
 }
 
 /// The aggregated field wells of a word cloud.
+///
+/// @nodoc
 class WordCloudAggregatedFieldWells {
   /// The group by field well of a word cloud. Values are grouped by group by
   /// fields.
@@ -47182,6 +48247,8 @@ class WordCloudAggregatedFieldWells {
 }
 
 /// The configuration for a <code>HistogramVisual</code>.
+///
+/// @nodoc
 class HistogramConfiguration {
   /// The options that determine the presentation of histogram bins.
   final HistogramBinOptions? binOptions;
@@ -47289,6 +48356,8 @@ class HistogramConfiguration {
 }
 
 /// The field well configuration of a histogram.
+///
+/// @nodoc
 class HistogramFieldWells {
   /// The field well configuration of a histogram.
   final HistogramAggregatedFieldWells? histogramAggregatedFieldWells;
@@ -47317,6 +48386,8 @@ class HistogramFieldWells {
 }
 
 /// The options that determine the presentation of histogram bins.
+///
+/// @nodoc
 class HistogramBinOptions {
   /// The options that determine the bin count of a histogram.
   final BinCountOptions? binCount;
@@ -47366,6 +48437,8 @@ class HistogramBinOptions {
 }
 
 /// The display options for the visual tooltip.
+///
+/// @nodoc
 class TooltipOptions {
   /// The setup for the detailed tooltip. The tooltip setup is always saved. The
   /// display type is decided based on the tooltip type.
@@ -47426,6 +48499,7 @@ class TooltipOptions {
   }
 }
 
+/// @nodoc
 class SelectedTooltipType {
   static const basic = SelectedTooltipType._('BASIC');
   static const detailed = SelectedTooltipType._('DETAILED');
@@ -47453,6 +48527,8 @@ class SelectedTooltipType {
 }
 
 /// The setup for the detailed tooltip.
+///
+/// @nodoc
 class FieldBasedTooltip {
   /// The visibility of <code>Show aggregations</code>.
   final Visibility? aggregationVisibility;
@@ -47505,6 +48581,8 @@ class FieldBasedTooltip {
 }
 
 /// The configuration of the sheet tooltip.
+///
+/// @nodoc
 class SheetTooltip {
   /// The sheet ID of the tooltip sheet that is used by the tooltip.
   final String? sheetId;
@@ -47527,6 +48605,7 @@ class SheetTooltip {
   }
 }
 
+/// @nodoc
 class TooltipTitleType {
   static const none = TooltipTitleType._('NONE');
   static const primaryValue = TooltipTitleType._('PRIMARY_VALUE');
@@ -47555,6 +48634,8 @@ class TooltipTitleType {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class TooltipItem {
   /// The tooltip item for the columns that are not part of a field well.
   final ColumnTooltipItem? columnTooltipItem;
@@ -47591,6 +48672,8 @@ class TooltipItem {
 }
 
 /// The tooltip item for the fields.
+///
+/// @nodoc
 class FieldTooltipItem {
   /// The unique ID of the field that is targeted by the tooltip.
   final String fieldId;
@@ -47636,6 +48719,8 @@ class FieldTooltipItem {
 }
 
 /// The tooltip item for the columns that are not part of a field well.
+///
+/// @nodoc
 class ColumnTooltipItem {
   /// The target column of the tooltip item.
   final ColumnIdentifier column;
@@ -47692,6 +48777,7 @@ class ColumnTooltipItem {
   }
 }
 
+/// @nodoc
 class TooltipTarget {
   static const both = TooltipTarget._('BOTH');
   static const bar = TooltipTarget._('BAR');
@@ -47717,6 +48803,7 @@ class TooltipTarget {
   String toString() => value;
 }
 
+/// @nodoc
 class HistogramBinType {
   static const binCount = HistogramBinType._('BIN_COUNT');
   static const binWidth = HistogramBinType._('BIN_WIDTH');
@@ -47742,6 +48829,8 @@ class HistogramBinType {
 }
 
 /// The options that determine the bin count of a histogram.
+///
+/// @nodoc
 class BinCountOptions {
   /// The options that determine the bin count value.
   final int? value;
@@ -47765,6 +48854,8 @@ class BinCountOptions {
 }
 
 /// The options that determine the bin width of a histogram.
+///
+/// @nodoc
 class BinWidthOptions {
   /// The options that determine the bin count limit.
   final int? binCountLimit;
@@ -47795,6 +48886,8 @@ class BinWidthOptions {
 }
 
 /// The field well configuration of a histogram.
+///
+/// @nodoc
 class HistogramAggregatedFieldWells {
   /// The value field wells of a histogram. Values are aggregated by
   /// <code>COUNT</code> or <code>DISTINCT_COUNT</code>.
@@ -47822,6 +48915,8 @@ class HistogramAggregatedFieldWells {
 }
 
 /// The configuration for a waterfall visual.
+///
+/// @nodoc
 class WaterfallChartConfiguration {
   /// The options that determine the presentation of the category axis.
   final AxisDisplayOptions? categoryAxisDisplayOptions;
@@ -47962,6 +49057,8 @@ class WaterfallChartConfiguration {
 }
 
 /// The field well configuration of a waterfall visual.
+///
+/// @nodoc
 class WaterfallChartFieldWells {
   /// The field well configuration of a waterfall visual.
   final WaterfallChartAggregatedFieldWells? waterfallChartAggregatedFieldWells;
@@ -47993,6 +49090,8 @@ class WaterfallChartFieldWells {
 }
 
 /// The sort configuration of a waterfall visual.
+///
+/// @nodoc
 class WaterfallChartSortConfiguration {
   /// The limit on the number of bar groups that are displayed.
   final ItemsLimitConfiguration? breakdownItemsLimit;
@@ -48030,6 +49129,8 @@ class WaterfallChartSortConfiguration {
 }
 
 /// The options that determine the presentation of a waterfall visual.
+///
+/// @nodoc
 class WaterfallChartOptions {
   /// This option determines the total bar label of a waterfall visual.
   final String? totalBarLabel;
@@ -48053,6 +49154,8 @@ class WaterfallChartOptions {
 }
 
 /// The color configuration of a waterfall visual.
+///
+/// @nodoc
 class WaterfallChartColorConfiguration {
   /// The color configuration for individual groups within a waterfall visual.
   final WaterfallChartGroupColorConfiguration? groupColorConfiguration;
@@ -48080,6 +49183,8 @@ class WaterfallChartColorConfiguration {
 }
 
 /// The color configuration for individual groups within a waterfall visual.
+///
+/// @nodoc
 class WaterfallChartGroupColorConfiguration {
   /// Defines the color for the negative bars of a waterfall chart.
   final String? negativeBarColor;
@@ -48118,6 +49223,8 @@ class WaterfallChartGroupColorConfiguration {
 }
 
 /// The field well configuration of a waterfall visual.
+///
+/// @nodoc
 class WaterfallChartAggregatedFieldWells {
   /// The breakdown field wells of a waterfall visual.
   final List<DimensionField>? breakdowns;
@@ -48165,6 +49272,8 @@ class WaterfallChartAggregatedFieldWells {
 }
 
 /// The configuration of a <code>BoxPlotVisual</code>.
+///
+/// @nodoc
 class BoxPlotChartConfiguration {
   /// The box plot chart options for a box plot visual
   final BoxPlotOptions? boxPlotOptions;
@@ -48307,6 +49416,8 @@ class BoxPlotChartConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class BoxPlotFieldWells {
   /// The aggregated field wells of a box plot.
   final BoxPlotAggregatedFieldWells? boxPlotAggregatedFieldWells;
@@ -48334,6 +49445,8 @@ class BoxPlotFieldWells {
 }
 
 /// The sort configuration of a <code>BoxPlotVisual</code>.
+///
+/// @nodoc
 class BoxPlotSortConfiguration {
   /// The sort configuration of a group by fields.
   final List<FieldSortOptions>? categorySort;
@@ -48371,6 +49484,8 @@ class BoxPlotSortConfiguration {
 }
 
 /// The options of a box plot visual.
+///
+/// @nodoc
 class BoxPlotOptions {
   /// Determines the visibility of all data points of the box plot.
   final Visibility? allDataPointsVisibility;
@@ -48415,6 +49530,8 @@ class BoxPlotOptions {
 }
 
 /// The reference line visual display options.
+///
+/// @nodoc
 class ReferenceLine {
   /// The data configuration of the reference line.
   final ReferenceLineDataConfiguration dataConfiguration;
@@ -48476,6 +49593,8 @@ class ReferenceLine {
 }
 
 /// The data configuration of the reference line.
+///
+/// @nodoc
 class ReferenceLineDataConfiguration {
   /// The axis binding type of the reference line. Choose one of the following
   /// options:
@@ -48550,6 +49669,8 @@ class ReferenceLineDataConfiguration {
 }
 
 /// The style configuration of the reference line.
+///
+/// @nodoc
 class ReferenceLineStyleConfiguration {
   /// The hex color of the reference line.
   final String? color;
@@ -48593,6 +49714,8 @@ class ReferenceLineStyleConfiguration {
 }
 
 /// The label configuration of a reference line.
+///
+/// @nodoc
 class ReferenceLineLabelConfiguration {
   /// The custom label configuration of the label in a reference line.
   final ReferenceLineCustomLabelConfiguration? customLabelConfiguration;
@@ -48688,6 +49811,8 @@ class ReferenceLineLabelConfiguration {
 }
 
 /// The value label configuration of the label in a reference line.
+///
+/// @nodoc
 class ReferenceLineValueLabelConfiguration {
   /// The format configuration of the value label.
   final NumericFormatConfiguration? formatConfiguration;
@@ -48734,6 +49859,8 @@ class ReferenceLineValueLabelConfiguration {
 }
 
 /// The configuration for a custom label on a <code>ReferenceLine</code>.
+///
+/// @nodoc
 class ReferenceLineCustomLabelConfiguration {
   /// The string text of the custom label.
   final String customLabel;
@@ -48757,6 +49884,7 @@ class ReferenceLineCustomLabelConfiguration {
   }
 }
 
+/// @nodoc
 class ReferenceLineLabelHorizontalPosition {
   static const left = ReferenceLineLabelHorizontalPosition._('LEFT');
   static const center = ReferenceLineLabelHorizontalPosition._('CENTER');
@@ -48783,6 +49911,7 @@ class ReferenceLineLabelHorizontalPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class ReferenceLineLabelVerticalPosition {
   static const above = ReferenceLineLabelVerticalPosition._('ABOVE');
   static const below = ReferenceLineLabelVerticalPosition._('BELOW');
@@ -48808,6 +49937,7 @@ class ReferenceLineLabelVerticalPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class ReferenceLineValueLabelRelativePosition {
   static const beforeCustomLabel =
       ReferenceLineValueLabelRelativePosition._('BEFORE_CUSTOM_LABEL');
@@ -48835,6 +49965,7 @@ class ReferenceLineValueLabelRelativePosition {
   String toString() => value;
 }
 
+/// @nodoc
 class ReferenceLinePatternType {
   static const solid = ReferenceLinePatternType._('SOLID');
   static const dashed = ReferenceLinePatternType._('DASHED');
@@ -48862,6 +49993,8 @@ class ReferenceLinePatternType {
 }
 
 /// The static data configuration of the reference line data configuration.
+///
+/// @nodoc
 class ReferenceLineStaticDataConfiguration {
   /// The double input of the static data.
   final double value;
@@ -48886,6 +50019,8 @@ class ReferenceLineStaticDataConfiguration {
 }
 
 /// The dynamic configuration of the reference line data configuration.
+///
+/// @nodoc
 class ReferenceLineDynamicDataConfiguration {
   /// The calculation that is used in the dynamic data.
   final NumericalAggregationFunction calculation;
@@ -48931,6 +50066,7 @@ class ReferenceLineDynamicDataConfiguration {
   }
 }
 
+/// @nodoc
 class AxisBinding {
   static const primaryYaxis = AxisBinding._('PRIMARY_YAXIS');
   static const secondaryYaxis = AxisBinding._('SECONDARY_YAXIS');
@@ -48954,6 +50090,7 @@ class AxisBinding {
   String toString() => value;
 }
 
+/// @nodoc
 class ReferenceLineSeriesType {
   static const bar = ReferenceLineSeriesType._('BAR');
   static const line = ReferenceLineSeriesType._('LINE');
@@ -48980,6 +50117,8 @@ class ReferenceLineSeriesType {
 }
 
 /// The style options of the box plot.
+///
+/// @nodoc
 class BoxPlotStyleOptions {
   /// The fill styles (solid, transparent) of the box plot.
   final BoxPlotFillStyle? fillStyle;
@@ -49003,6 +50142,7 @@ class BoxPlotStyleOptions {
   }
 }
 
+/// @nodoc
 class BoxPlotFillStyle {
   static const solid = BoxPlotFillStyle._('SOLID');
   static const transparent = BoxPlotFillStyle._('TRANSPARENT');
@@ -49028,6 +50168,8 @@ class BoxPlotFillStyle {
 }
 
 /// The pagination configuration for a table visual or boxplot.
+///
+/// @nodoc
 class PaginationConfiguration {
   /// Indicates the page number.
   final int pageNumber;
@@ -49058,6 +50200,8 @@ class PaginationConfiguration {
 }
 
 /// The aggregated field well for a box plot.
+///
+/// @nodoc
 class BoxPlotAggregatedFieldWells {
   /// The group by field well of a box plot chart. Values are grouped based on
   /// group by fields.
@@ -49096,6 +50240,8 @@ class BoxPlotAggregatedFieldWells {
 }
 
 /// The configuration of a <code>ComboChartVisual</code>.
+///
+/// @nodoc
 class ComboChartConfiguration {
   /// The options that determine if visual data labels are displayed.
   ///
@@ -49340,6 +50486,8 @@ class ComboChartConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class ComboChartFieldWells {
   /// The aggregated field wells of a combo chart. Combo charts only have
   /// aggregated field wells. Columns in a combo chart are aggregated by category.
@@ -49369,6 +50517,8 @@ class ComboChartFieldWells {
 }
 
 /// The sort configuration of a <code>ComboChartVisual</code>.
+///
+/// @nodoc
 class ComboChartSortConfiguration {
   /// The item limit configuration for the category field well of a combo chart.
   final ItemsLimitConfiguration? categoryItemsLimit;
@@ -49424,6 +50574,7 @@ class ComboChartSortConfiguration {
   }
 }
 
+/// @nodoc
 class BarsArrangement {
   static const clustered = BarsArrangement._('CLUSTERED');
   static const stacked = BarsArrangement._('STACKED');
@@ -49450,6 +50601,8 @@ class BarsArrangement {
 }
 
 /// The settings of a chart's single axis configuration.
+///
+/// @nodoc
 class SingleAxisOptions {
   /// The Y axis options of a single axis configuration.
   final YAxisOptions? yAxisOptions;
@@ -49476,6 +50629,8 @@ class SingleAxisOptions {
 
 /// The options that determine the default presentation of all series in
 /// <code>ComboChartVisual</code>.
+///
+/// @nodoc
 class ComboChartDefaultSeriesSettings {
   /// Border settings for all bar series in the visual.
   final BorderSettings? borderSettings;
@@ -49536,6 +50691,8 @@ class ComboChartDefaultSeriesSettings {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class ComboSeriesItem {
   /// The data field series item configuration of a <code>ComboChartVisual</code>.
   final DataFieldComboSeriesItem? dataFieldComboSeriesItem;
@@ -49574,6 +50731,8 @@ class ComboSeriesItem {
 }
 
 /// The field series item configuration of a <code>ComboChartVisual</code>.
+///
+/// @nodoc
 class FieldComboSeriesItem {
   /// Field ID of the field for which you are setting the series configuration.
   final String fieldId;
@@ -49607,6 +50766,8 @@ class FieldComboSeriesItem {
 }
 
 /// The data field series item configuration of a <code>ComboChartVisual</code>.
+///
+/// @nodoc
 class DataFieldComboSeriesItem {
   /// Field ID of the field that you are setting the series configuration for.
   final String fieldId;
@@ -49647,6 +50808,8 @@ class DataFieldComboSeriesItem {
 }
 
 /// Options that determine the presentation of a series in the visual.
+///
+/// @nodoc
 class ComboChartSeriesSettings {
   /// Border settings for the bar series in the visual.
   final BorderSettings? borderSettings;
@@ -49704,6 +50867,8 @@ class ComboChartSeriesSettings {
 }
 
 /// Line styles options for a line series in <code>LineChartVisual</code>.
+///
+/// @nodoc
 class LineChartLineStyleSettings {
   /// Interpolation style for line series.
   ///
@@ -49777,6 +50942,8 @@ class LineChartLineStyleSettings {
 }
 
 /// Marker styles options for a line series in <code>LineChartVisual</code>.
+///
+/// @nodoc
 class LineChartMarkerStyleSettings {
   /// Color of marker in the series.
   final String? markerColor;
@@ -49843,6 +51010,8 @@ class LineChartMarkerStyleSettings {
 
 /// Border settings configuration for visual elements, including visibility,
 /// width, and color properties.
+///
+/// @nodoc
 class BorderSettings {
   /// Color of the border.
   final String? borderColor;
@@ -49880,6 +51049,7 @@ class BorderSettings {
   }
 }
 
+/// @nodoc
 class LineChartMarkerShape {
   static const circle = LineChartMarkerShape._('CIRCLE');
   static const triangle = LineChartMarkerShape._('TRIANGLE');
@@ -49908,6 +51078,7 @@ class LineChartMarkerShape {
   String toString() => value;
 }
 
+/// @nodoc
 class LineInterpolation {
   static const linear = LineInterpolation._('LINEAR');
   static const smooth = LineInterpolation._('SMOOTH');
@@ -49933,6 +51104,7 @@ class LineInterpolation {
   String toString() => value;
 }
 
+/// @nodoc
 class LineChartLineStyle {
   static const solid = LineChartLineStyle._('SOLID');
   static const dotted = LineChartLineStyle._('DOTTED');
@@ -49960,6 +51132,8 @@ class LineChartLineStyle {
 }
 
 /// The options that are available for a single Y axis in a chart.
+///
+/// @nodoc
 class YAxisOptions {
   /// The Y axis type to be used in the chart.
   ///
@@ -49985,6 +51159,7 @@ class YAxisOptions {
   }
 }
 
+/// @nodoc
 class SingleYAxisOption {
   static const primaryYAxis = SingleYAxisOption._('PRIMARY_Y_AXIS');
 
@@ -50009,6 +51184,8 @@ class SingleYAxisOption {
 }
 
 /// The aggregated field wells of a combo chart.
+///
+/// @nodoc
 class ComboChartAggregatedFieldWells {
   /// The aggregated <code>BarValues</code> field well of a combo chart.
   final List<MeasureField>? barValues;
@@ -50065,6 +51242,8 @@ class ComboChartAggregatedFieldWells {
 }
 
 /// The configuration of a scatter plot.
+///
+/// @nodoc
 class ScatterPlotConfiguration {
   /// The options that determine if visual data labels are displayed.
   final DataLabelOptions? dataLabels;
@@ -50198,6 +51377,8 @@ class ScatterPlotConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class ScatterPlotFieldWells {
   /// The aggregated field wells of a scatter plot. The x and y-axes of scatter
   /// plots with aggregated field wells are aggregated by category, label, or
@@ -50247,6 +51428,8 @@ class ScatterPlotFieldWells {
 }
 
 /// The sort configuration of a scatter plot.
+///
+/// @nodoc
 class ScatterPlotSortConfiguration {
   final ItemsLimitConfiguration? scatterPlotLimitConfiguration;
 
@@ -50274,6 +51457,8 @@ class ScatterPlotSortConfiguration {
 }
 
 /// The aggregated field well of a scatter plot.
+///
+/// @nodoc
 class ScatterPlotCategoricallyAggregatedFieldWells {
   /// The category field well of a scatter plot.
   final List<DimensionField>? category;
@@ -50345,6 +51530,8 @@ class ScatterPlotCategoricallyAggregatedFieldWells {
 }
 
 /// The unaggregated field wells of a scatter plot.
+///
+/// @nodoc
 class ScatterPlotUnaggregatedFieldWells {
   /// The category field well of a scatter plot.
   final List<DimensionField>? category;
@@ -50416,6 +51603,8 @@ class ScatterPlotUnaggregatedFieldWells {
 }
 
 /// The configuration of a <code>FunnelChartVisual</code>.
+///
+/// @nodoc
 class FunnelChartConfiguration {
   /// The label options of the categories that are displayed in a
   /// <code>FunnelChartVisual</code>.
@@ -50517,6 +51706,8 @@ class FunnelChartConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class FunnelChartFieldWells {
   /// The field well configuration of a <code>FunnelChartVisual</code>.
   final FunnelChartAggregatedFieldWells? funnelChartAggregatedFieldWells;
@@ -50547,6 +51738,8 @@ class FunnelChartFieldWells {
 }
 
 /// The sort configuration of a <code>FunnelChartVisual</code>.
+///
+/// @nodoc
 class FunnelChartSortConfiguration {
   /// The limit on the number of categories displayed.
   final ItemsLimitConfiguration? categoryItemsLimit;
@@ -50583,6 +51776,8 @@ class FunnelChartSortConfiguration {
 }
 
 /// The options that determine the presentation of the data labels.
+///
+/// @nodoc
 class FunnelChartDataLabelOptions {
   /// The visibility of the category labels within the data labels.
   final Visibility? categoryLabelVisibility;
@@ -50662,6 +51857,7 @@ class FunnelChartDataLabelOptions {
   }
 }
 
+/// @nodoc
 class FunnelChartMeasureDataLabelStyle {
   static const valueOnly = FunnelChartMeasureDataLabelStyle._('VALUE_ONLY');
   static const percentageByFirstStage =
@@ -50702,6 +51898,8 @@ class FunnelChartMeasureDataLabelStyle {
 }
 
 /// The field well configuration of a <code>FunnelChartVisual</code>.
+///
+/// @nodoc
 class FunnelChartAggregatedFieldWells {
   /// The category field wells of a funnel chart. Values are grouped by category
   /// fields.
@@ -50740,6 +51938,8 @@ class FunnelChartAggregatedFieldWells {
 }
 
 /// The map definition that defines map state, map style, and geospatial layers.
+///
+/// @nodoc
 class GeospatialLayerMapConfiguration {
   final VisualInteractionOptions? interactions;
   final LegendOptions? legend;
@@ -50802,6 +52002,8 @@ class GeospatialLayerMapConfiguration {
 }
 
 /// The map state properties for a map.
+///
+/// @nodoc
 class GeospatialMapState {
   final GeospatialCoordinateBounds? bounds;
 
@@ -50835,6 +52037,8 @@ class GeospatialMapState {
 }
 
 /// The map style properties for a map.
+///
+/// @nodoc
 class GeospatialMapStyle {
   /// The background color and opacity values for a map.
   final String? backgroundColor;
@@ -50874,6 +52078,7 @@ class GeospatialMapStyle {
   }
 }
 
+/// @nodoc
 class BaseMapStyleType {
   static const lightGray = BaseMapStyleType._('LIGHT_GRAY');
   static const darkGray = BaseMapStyleType._('DARK_GRAY');
@@ -50902,6 +52107,8 @@ class BaseMapStyleType {
 
 /// The bound options (north, south, west, east) of the geospatial window
 /// options.
+///
+/// @nodoc
 class GeospatialCoordinateBounds {
   /// The longitude of the east bound of the geospatial coordinate bounds.
   final double east;
@@ -50945,6 +52152,7 @@ class GeospatialCoordinateBounds {
   }
 }
 
+/// @nodoc
 class GeospatialMapNavigation {
   static const enabled = GeospatialMapNavigation._('ENABLED');
   static const disabled = GeospatialMapNavigation._('DISABLED');
@@ -50971,6 +52179,8 @@ class GeospatialMapNavigation {
 }
 
 /// The properties for a single geospatial layer.
+///
+/// @nodoc
 class GeospatialLayerItem {
   /// The ID of the layer.
   final String layerId;
@@ -51062,6 +52272,7 @@ class GeospatialLayerItem {
   }
 }
 
+/// @nodoc
 class GeospatialLayerType {
   static const point = GeospatialLayerType._('POINT');
   static const line = GeospatialLayerType._('LINE');
@@ -51089,6 +52300,8 @@ class GeospatialLayerType {
 }
 
 /// The data source properties for the geospatial data.
+///
+/// @nodoc
 class GeospatialDataSourceItem {
   /// The static file data source properties for the geospatial data.
   final GeospatialStaticFileSource? staticFileDataSource;
@@ -51116,6 +52329,8 @@ class GeospatialDataSourceItem {
 }
 
 /// The definition properties for a geospatial layer.
+///
+/// @nodoc
 class GeospatialLayerDefinition {
   /// The definition for a line layer.
   final GeospatialLineLayer? lineLayer;
@@ -51162,6 +52377,8 @@ class GeospatialLayerDefinition {
 }
 
 /// The custom actions for a layer.
+///
+/// @nodoc
 class GeospatialLayerJoinDefinition {
   /// The geospatial color field for the join definition.
   final GeospatialLayerColorField? colorField;
@@ -51203,6 +52420,8 @@ class GeospatialLayerJoinDefinition {
 }
 
 /// A layer custom action.
+///
+/// @nodoc
 class LayerCustomAction {
   /// A list of <code>LayerCustomActionOperations</code>.
   ///
@@ -51274,6 +52493,7 @@ class LayerCustomAction {
   }
 }
 
+/// @nodoc
 class LayerCustomActionTrigger {
   static const dataPointClick = LayerCustomActionTrigger._('DATA_POINT_CLICK');
   static const dataPointMenu = LayerCustomActionTrigger._('DATA_POINT_MENU');
@@ -51303,6 +52523,8 @@ class LayerCustomActionTrigger {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class LayerCustomActionOperation {
   final CustomActionFilterOperation? filterOperation;
   final CustomActionNavigationOperation? navigationOperation;
@@ -51354,6 +52576,8 @@ class LayerCustomActionOperation {
 }
 
 /// The color field that defines a gradient or categorical style.
+///
+/// @nodoc
 class GeospatialLayerColorField {
   /// A list of color dimension fields.
   final List<DimensionField>? colorDimensionsFields;
@@ -51391,6 +52615,8 @@ class GeospatialLayerColorField {
 }
 
 /// The geospatial Point layer.
+///
+/// @nodoc
 class GeospatialPointLayer {
   /// The visualization style for a point layer.
   final GeospatialPointStyle style;
@@ -51416,6 +52642,8 @@ class GeospatialPointLayer {
 }
 
 /// The geospatial Line layer.
+///
+/// @nodoc
 class GeospatialLineLayer {
   /// The visualization style for a line layer.
   final GeospatialLineStyle style;
@@ -51441,6 +52669,8 @@ class GeospatialLineLayer {
 }
 
 /// The geospatial polygon layer.
+///
+/// @nodoc
 class GeospatialPolygonLayer {
   /// The visualization style for a polygon layer.
   final GeospatialPolygonStyle style;
@@ -51466,6 +52696,8 @@ class GeospatialPolygonLayer {
 }
 
 /// The polygon style for a polygon layer.
+///
+/// @nodoc
 class GeospatialPolygonStyle {
   /// The polygon symbol style for a polygon layer.
   final GeospatialPolygonSymbolStyle? polygonSymbolStyle;
@@ -51492,6 +52724,8 @@ class GeospatialPolygonStyle {
 }
 
 /// The polygon symbol style for a polygon layer.
+///
+/// @nodoc
 class GeospatialPolygonSymbolStyle {
   /// The color and opacity values for the fill color.
   final GeospatialColor? fillColor;
@@ -51537,6 +52771,8 @@ class GeospatialPolygonSymbolStyle {
 }
 
 /// The visualization properties for solid, gradient, and categorical colors.
+///
+/// @nodoc
 class GeospatialColor {
   /// The visualization properties for the categorical color.
   final GeospatialCategoricalColor? categorical;
@@ -51582,6 +52818,8 @@ class GeospatialColor {
 }
 
 /// The width properties for a line.
+///
+/// @nodoc
 class GeospatialLineWidth {
   /// The positive value for the width of a line.
   final double? lineWidth;
@@ -51605,6 +52843,8 @@ class GeospatialLineWidth {
 }
 
 /// The definition for a solid color.
+///
+/// @nodoc
 class GeospatialSolidColor {
   /// The color and opacity values for the color.
   final String color;
@@ -51635,6 +52875,8 @@ class GeospatialSolidColor {
 }
 
 /// The definition for a gradient color.
+///
+/// @nodoc
 class GeospatialGradientColor {
   /// A list of gradient step colors for the gradient.
   final List<GeospatialGradientStepColor> stepColors;
@@ -51688,6 +52930,8 @@ class GeospatialGradientColor {
 }
 
 /// The definition for a categorical color.
+///
+/// @nodoc
 class GeospatialCategoricalColor {
   /// A list of categorical data colors for each category.
   final List<GeospatialCategoricalDataColor> categoryDataColors;
@@ -51741,6 +52985,8 @@ class GeospatialCategoricalColor {
 }
 
 /// The properties for the visualization of null data.
+///
+/// @nodoc
 class GeospatialNullDataSettings {
   /// The symbol style for null data.
   final GeospatialNullSymbolStyle symbolStyle;
@@ -51766,6 +53012,8 @@ class GeospatialNullDataSettings {
 }
 
 /// The symbol style for null data.
+///
+/// @nodoc
 class GeospatialNullSymbolStyle {
   /// The color and opacity values for the fill color.
   final String? fillColor;
@@ -51803,6 +53051,8 @@ class GeospatialNullSymbolStyle {
 }
 
 /// The categorical data color for a single category.
+///
+/// @nodoc
 class GeospatialCategoricalDataColor {
   /// The color and opacity values for the category data color.
   final String color;
@@ -51833,6 +53083,8 @@ class GeospatialCategoricalDataColor {
 }
 
 /// The gradient step color for a single step.
+///
+/// @nodoc
 class GeospatialGradientStepColor {
   /// The color and opacity values for the gradient step color.
   final String color;
@@ -51862,6 +53114,7 @@ class GeospatialGradientStepColor {
   }
 }
 
+/// @nodoc
 class GeospatialColorState {
   static const enabled = GeospatialColorState._('ENABLED');
   static const disabled = GeospatialColorState._('DISABLED');
@@ -51888,6 +53141,8 @@ class GeospatialColorState {
 }
 
 /// The visualization style for a line layer.
+///
+/// @nodoc
 class GeospatialLineStyle {
   /// The symbol style for a line style.
   final GeospatialLineSymbolStyle? lineSymbolStyle;
@@ -51914,6 +53169,8 @@ class GeospatialLineStyle {
 }
 
 /// The symbol style for a line layer.
+///
+/// @nodoc
 class GeospatialLineSymbolStyle {
   /// The color and opacity values for the fill color.
   final GeospatialColor? fillColor;
@@ -51949,6 +53206,8 @@ class GeospatialLineSymbolStyle {
 }
 
 /// The point style for a point layer.
+///
+/// @nodoc
 class GeospatialPointStyle {
   /// The circle symbol style for a point layer.
   final GeospatialCircleSymbolStyle? circleSymbolStyle;
@@ -51975,6 +53234,8 @@ class GeospatialPointStyle {
 }
 
 /// The properties for a circle symbol style.
+///
+/// @nodoc
 class GeospatialCircleSymbolStyle {
   /// The radius of the circle.
   final GeospatialCircleRadius? circleRadius;
@@ -52030,6 +53291,8 @@ class GeospatialCircleSymbolStyle {
 }
 
 /// The geospatial radius for a circle.
+///
+/// @nodoc
 class GeospatialCircleRadius {
   /// The positive value for the radius of a circle.
   final double? radius;
@@ -52053,6 +53316,8 @@ class GeospatialCircleRadius {
 }
 
 /// The source properties for a geospatial static file.
+///
+/// @nodoc
 class GeospatialStaticFileSource {
   /// The ID of the static file.
   final String staticFileId;
@@ -52076,6 +53341,8 @@ class GeospatialStaticFileSource {
 }
 
 /// The configuration for a <code>FilledMapVisual</code>.
+///
+/// @nodoc
 class FilledMapConfiguration {
   /// The field wells of the visual.
   final FilledMapFieldWells? fieldWells;
@@ -52160,6 +53427,8 @@ class FilledMapConfiguration {
 }
 
 /// The conditional formatting of a <code>FilledMapVisual</code>.
+///
+/// @nodoc
 class FilledMapConditionalFormatting {
   /// Conditional formatting options of a <code>FilledMapVisual</code>.
   final List<FilledMapConditionalFormattingOption> conditionalFormattingOptions;
@@ -52188,6 +53457,8 @@ class FilledMapConditionalFormatting {
 }
 
 /// The geocode preference.
+///
+/// @nodoc
 class GeocodePreference {
   /// The preference definition for the geocode preference.
   final GeocodePreferenceValue preference;
@@ -52222,6 +53493,8 @@ class GeocodePreference {
 }
 
 /// The preference hierarchy for the geocode preference.
+///
+/// @nodoc
 class GeocoderHierarchy {
   /// The city value for the preference hierarchy.
   final String? city;
@@ -52273,6 +53546,8 @@ class GeocoderHierarchy {
 }
 
 /// The preference value for the geocode preference.
+///
+/// @nodoc
 class GeocodePreferenceValue {
   /// The preference coordinate for the geocode preference.
   final Coordinate? coordinate;
@@ -52308,6 +53583,8 @@ class GeocodePreferenceValue {
 }
 
 /// The preference coordinate for the geocode preference.
+///
+/// @nodoc
 class Coordinate {
   /// The latitude coordinate value for the geocode preference.
   final double latitude;
@@ -52338,6 +53615,8 @@ class Coordinate {
 }
 
 /// Conditional formatting options of a <code>FilledMapVisual</code>.
+///
+/// @nodoc
 class FilledMapConditionalFormattingOption {
   /// The conditional formatting that determines the shape of the filled map.
   final FilledMapShapeConditionalFormatting shape;
@@ -52364,6 +53643,8 @@ class FilledMapConditionalFormattingOption {
 }
 
 /// The conditional formatting that determines the shape of the filled map.
+///
+/// @nodoc
 class FilledMapShapeConditionalFormatting {
   /// The field ID of the filled map shape.
   final String fieldId;
@@ -52399,6 +53680,8 @@ class FilledMapShapeConditionalFormatting {
 }
 
 /// The shape conditional formatting of a filled map visual.
+///
+/// @nodoc
 class ShapeConditionalFormat {
   /// The conditional formatting for the shape background color of a filled map
   /// visual.
@@ -52425,6 +53708,8 @@ class ShapeConditionalFormat {
 }
 
 /// The formatting configuration for the color.
+///
+/// @nodoc
 class ConditionalFormattingColor {
   /// Formatting configuration for gradient color.
   final ConditionalFormattingGradientColor? gradient;
@@ -52461,6 +53746,8 @@ class ConditionalFormattingColor {
 }
 
 /// Formatting configuration for solid color.
+///
+/// @nodoc
 class ConditionalFormattingSolidColor {
   /// The expression that determines the formatting configuration for solid color.
   final String expression;
@@ -52491,6 +53778,8 @@ class ConditionalFormattingSolidColor {
 }
 
 /// Formatting configuration for gradient color.
+///
+/// @nodoc
 class ConditionalFormattingGradientColor {
   /// Determines the color.
   final GradientColor color;
@@ -52524,6 +53813,8 @@ class ConditionalFormattingGradientColor {
 }
 
 /// Determines the gradient color settings.
+///
+/// @nodoc
 class GradientColor {
   /// The list of gradient color stops.
   final List<GradientStop>? stops;
@@ -52550,6 +53841,8 @@ class GradientColor {
 }
 
 /// Determines the gradient stop configuration.
+///
+/// @nodoc
 class GradientStop {
   /// Determines gradient offset value.
   final double gradientOffset;
@@ -52590,6 +53883,8 @@ class GradientStop {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class FilledMapFieldWells {
   /// The aggregated field well of the filled map.
   final FilledMapAggregatedFieldWells? filledMapAggregatedFieldWells;
@@ -52618,6 +53913,8 @@ class FilledMapFieldWells {
 }
 
 /// The sort configuration of a <code>FilledMapVisual</code>.
+///
+/// @nodoc
 class FilledMapSortConfiguration {
   /// The sort configuration of the location fields.
   final List<FieldSortOptions>? categorySort;
@@ -52644,6 +53941,8 @@ class FilledMapSortConfiguration {
 }
 
 /// The window options of the geospatial map visual.
+///
+/// @nodoc
 class GeospatialWindowOptions {
   /// The bounds options (north, south, west, east) of the geospatial window
   /// options.
@@ -52679,6 +53978,8 @@ class GeospatialWindowOptions {
 }
 
 /// The map style options of the geospatial map.
+///
+/// @nodoc
 class GeospatialMapStyleOptions {
   /// The base map style of the geospatial map.
   final BaseMapStyleType? baseMapStyle;
@@ -52702,6 +54003,7 @@ class GeospatialMapStyleOptions {
   }
 }
 
+/// @nodoc
 class MapZoomMode {
   static const auto = MapZoomMode._('AUTO');
   static const manual = MapZoomMode._('MANUAL');
@@ -52726,6 +54028,8 @@ class MapZoomMode {
 }
 
 /// The aggregated field well of the filled map.
+///
+/// @nodoc
 class FilledMapAggregatedFieldWells {
   /// The aggregated location field well of the filled map. Values are grouped by
   /// location fields.
@@ -52764,6 +54068,8 @@ class FilledMapAggregatedFieldWells {
 }
 
 /// The configuration of a <code>GeospatialMapVisual</code>.
+///
+/// @nodoc
 class GeospatialMapConfiguration {
   /// The field wells of the visual.
   final GeospatialMapFieldWells? fieldWells;
@@ -52859,6 +54165,8 @@ class GeospatialMapConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class GeospatialMapFieldWells {
   /// The aggregated field well for a geospatial map.
   final GeospatialMapAggregatedFieldWells? geospatialMapAggregatedFieldWells;
@@ -52889,6 +54197,8 @@ class GeospatialMapFieldWells {
 }
 
 /// The point style of the geospatial map.
+///
+/// @nodoc
 class GeospatialPointStyleOptions {
   /// The cluster marker configuration of the geospatial point style.
   final ClusterMarkerConfiguration? clusterMarkerConfiguration;
@@ -52935,6 +54245,7 @@ class GeospatialPointStyleOptions {
   }
 }
 
+/// @nodoc
 class GeospatialSelectedPointStyle {
   static const point = GeospatialSelectedPointStyle._('POINT');
   static const cluster = GeospatialSelectedPointStyle._('CLUSTER');
@@ -52962,6 +54273,8 @@ class GeospatialSelectedPointStyle {
 }
 
 /// The cluster marker configuration of the geospatial map selected point style.
+///
+/// @nodoc
 class ClusterMarkerConfiguration {
   /// The cluster marker that is a part of the cluster marker configuration.
   final ClusterMarker? clusterMarker;
@@ -52988,6 +54301,8 @@ class ClusterMarkerConfiguration {
 }
 
 /// The heatmap configuration of the geospatial point style.
+///
+/// @nodoc
 class GeospatialHeatmapConfiguration {
   /// The color scale specification for the heatmap point style.
   final GeospatialHeatmapColorScale? heatmapColor;
@@ -53014,6 +54329,8 @@ class GeospatialHeatmapConfiguration {
 }
 
 /// The color scale specification for the heatmap point style.
+///
+/// @nodoc
 class GeospatialHeatmapColorScale {
   /// The list of colors to be used in heatmap point style.
   final List<GeospatialHeatmapDataColor>? colors;
@@ -53041,6 +54358,8 @@ class GeospatialHeatmapColorScale {
 }
 
 /// The color to be used in the heatmap point style.
+///
+/// @nodoc
 class GeospatialHeatmapDataColor {
   /// The hex color to be used in the heatmap point style.
   final String color;
@@ -53064,6 +54383,8 @@ class GeospatialHeatmapDataColor {
 }
 
 /// The cluster marker that is a part of the cluster marker configuration.
+///
+/// @nodoc
 class ClusterMarker {
   /// The simple cluster marker of the cluster marker.
   final SimpleClusterMarker? simpleClusterMarker;
@@ -53091,6 +54412,8 @@ class ClusterMarker {
 }
 
 /// The simple cluster marker of the cluster marker.
+///
+/// @nodoc
 class SimpleClusterMarker {
   /// The color of the simple cluster marker.
   final String? color;
@@ -53114,6 +54437,8 @@ class SimpleClusterMarker {
 }
 
 /// The aggregated field wells for a geospatial map.
+///
+/// @nodoc
 class GeospatialMapAggregatedFieldWells {
   /// The color field wells of a geospatial map.
   final List<DimensionField>? colors;
@@ -53163,6 +54488,8 @@ class GeospatialMapAggregatedFieldWells {
 }
 
 /// The configuration of a tree map.
+///
+/// @nodoc
 class TreeMapConfiguration {
   /// The label options (label text, label visibility) for the colors displayed in
   /// a tree map.
@@ -53282,6 +54609,8 @@ class TreeMapConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class TreeMapFieldWells {
   /// The aggregated field wells of a tree map.
   final TreeMapAggregatedFieldWells? treeMapAggregatedFieldWells;
@@ -53309,6 +54638,8 @@ class TreeMapFieldWells {
 }
 
 /// The sort configuration of a tree map.
+///
+/// @nodoc
 class TreeMapSortConfiguration {
   /// The limit on the number of groups that are displayed.
   final ItemsLimitConfiguration? treeMapGroupItemsLimitConfiguration;
@@ -53350,6 +54681,8 @@ class TreeMapSortConfiguration {
 }
 
 /// Determines the color scale that is applied to the visual.
+///
+/// @nodoc
 class ColorScale {
   /// Determines the color fill type.
   final ColorFillType colorFillType;
@@ -53392,6 +54725,7 @@ class ColorScale {
   }
 }
 
+/// @nodoc
 class ColorFillType {
   static const discrete = ColorFillType._('DISCRETE');
   static const gradient = ColorFillType._('GRADIENT');
@@ -53417,6 +54751,8 @@ class ColorFillType {
 }
 
 /// Determines the color that is applied to a particular data value.
+///
+/// @nodoc
 class DataColor {
   /// The color that is applied to the data value.
   final String? color;
@@ -53447,6 +54783,8 @@ class DataColor {
 }
 
 /// Aggregated field wells of a tree map.
+///
+/// @nodoc
 class TreeMapAggregatedFieldWells {
   /// The color field well of a tree map. Values are grouped by aggregations based
   /// on group by fields.
@@ -53496,6 +54834,8 @@ class TreeMapAggregatedFieldWells {
 }
 
 /// The configuration of a heat map.
+///
+/// @nodoc
 class HeatMapConfiguration {
   /// The color options (gradient color, point of divergence) in a heat map.
   final ColorScale? colorScale;
@@ -53624,6 +54964,8 @@ class HeatMapConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class HeatMapFieldWells {
   /// The aggregated field wells of a heat map.
   final HeatMapAggregatedFieldWells? heatMapAggregatedFieldWells;
@@ -53651,6 +54993,8 @@ class HeatMapFieldWells {
 }
 
 /// The sort configuration of a heat map.
+///
+/// @nodoc
 class HeatMapSortConfiguration {
   /// The limit on the number of columns that are displayed in a heat map.
   final ItemsLimitConfiguration? heatMapColumnItemsLimitConfiguration;
@@ -53717,6 +55061,8 @@ class HeatMapSortConfiguration {
 }
 
 /// The aggregated field wells of a heat map.
+///
+/// @nodoc
 class HeatMapAggregatedFieldWells {
   /// The columns field well of a heat map.
   final List<DimensionField>? columns;
@@ -53763,6 +55109,8 @@ class HeatMapAggregatedFieldWells {
 }
 
 /// The configuration of a line chart.
+///
+/// @nodoc
 class LineChartConfiguration {
   /// The default configuration of a line chart's contribution analysis.
   final List<ContributionAnalysisDefault>? contributionAnalysisDefaults;
@@ -53994,6 +55342,8 @@ class LineChartConfiguration {
 }
 
 /// The field well configuration of a line chart.
+///
+/// @nodoc
 class LineChartFieldWells {
   /// The field well configuration of a line chart.
   final LineChartAggregatedFieldWells? lineChartAggregatedFieldWells;
@@ -54022,6 +55372,8 @@ class LineChartFieldWells {
 }
 
 /// The sort configuration of a line chart.
+///
+/// @nodoc
 class LineChartSortConfiguration {
   /// The limit on the number of categories that are displayed in a line chart.
   final ItemsLimitConfiguration? categoryItemsLimitConfiguration;
@@ -54096,6 +55448,7 @@ class LineChartSortConfiguration {
   }
 }
 
+/// @nodoc
 class LineChartType {
   static const line = LineChartType._('LINE');
   static const area = LineChartType._('AREA');
@@ -54123,6 +55476,8 @@ class LineChartType {
 
 /// Options that determine the layout and display options of a chart's small
 /// multiples.
+///
+/// @nodoc
 class SmallMultiplesOptions {
   /// Sets the maximum number of visible columns to display in the grid of small
   /// multiples panels.
@@ -54191,6 +55546,8 @@ class SmallMultiplesOptions {
 }
 
 /// The series axis configuration of a line chart.
+///
+/// @nodoc
 class LineSeriesAxisDisplayOptions {
   /// The options that determine the presentation of the line series axis.
   final AxisDisplayOptions? axisOptions;
@@ -54231,6 +55588,8 @@ class LineSeriesAxisDisplayOptions {
 
 /// The options that determine the default presentation of all line series in
 /// <code>LineChartVisual</code>.
+///
+/// @nodoc
 class LineChartDefaultSeriesSettings {
   /// The axis to which you are binding all line series to.
   final AxisBinding? axisBinding;
@@ -54286,6 +55645,8 @@ class LineChartDefaultSeriesSettings {
 }
 
 /// The contribution analysis visual display for a line, pie, or bar chart.
+///
+/// @nodoc
 class ContributionAnalysisDefault {
   /// The dimensions columns that are used in the contribution analysis, usually a
   /// list of <code>ColumnIdentifiers</code>.
@@ -54324,6 +55685,8 @@ class ContributionAnalysisDefault {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class SeriesItem {
   /// The data field series item configuration of a line chart.
   final DataFieldSeriesItem? dataFieldSeriesItem;
@@ -54361,6 +55724,8 @@ class SeriesItem {
 }
 
 /// The field series item configuration of a line chart.
+///
+/// @nodoc
 class FieldSeriesItem {
   /// The axis that you are binding the field to.
   final AxisBinding axisBinding;
@@ -54403,6 +55768,8 @@ class FieldSeriesItem {
 }
 
 /// The data field series item configuration of a line chart.
+///
+/// @nodoc
 class DataFieldSeriesItem {
   /// The axis that you are binding the field to.
   final AxisBinding axisBinding;
@@ -54452,6 +55819,8 @@ class DataFieldSeriesItem {
 }
 
 /// The options that determine the presentation of a line series in the visual
+///
+/// @nodoc
 class LineChartSeriesSettings {
   /// Decal settings for a line series in <code>LineChartVisual</code>.
   final DecalSettings? decalSettings;
@@ -54500,6 +55869,8 @@ class LineChartSeriesSettings {
 
 /// The configuration options that determine how missing data is treated during
 /// the rendering of a line chart.
+///
+/// @nodoc
 class MissingDataConfiguration {
   /// The treatment option that determines how missing data should be rendered.
   /// Choose from the following options:
@@ -54538,6 +55909,7 @@ class MissingDataConfiguration {
   }
 }
 
+/// @nodoc
 class MissingDataTreatmentOption {
   static const interpolate = MissingDataTreatmentOption._('INTERPOLATE');
   static const showAsZero = MissingDataTreatmentOption._('SHOW_AS_ZERO');
@@ -54566,6 +55938,8 @@ class MissingDataTreatmentOption {
 
 /// A collection of options that configure how each panel displays in a small
 /// multiples chart.
+///
+/// @nodoc
 class PanelConfiguration {
   /// Sets the background color for each panel.
   final String? backgroundColor;
@@ -54654,6 +56028,8 @@ class PanelConfiguration {
 
 /// Configures the properties of a chart's axes that are used by small multiples
 /// panels.
+///
+/// @nodoc
 class SmallMultiplesAxisProperties {
   /// Defines the placement of the axis. By default, axes are rendered
   /// <code>OUTSIDE</code> of the panels. Axes with <code>INDEPENDENT</code> scale
@@ -54688,6 +56064,7 @@ class SmallMultiplesAxisProperties {
   }
 }
 
+/// @nodoc
 class SmallMultiplesAxisScale {
   static const shared = SmallMultiplesAxisScale._('SHARED');
   static const independent = SmallMultiplesAxisScale._('INDEPENDENT');
@@ -54713,6 +56090,7 @@ class SmallMultiplesAxisScale {
   String toString() => value;
 }
 
+/// @nodoc
 class SmallMultiplesAxisPlacement {
   static const outside = SmallMultiplesAxisPlacement._('OUTSIDE');
   static const inside = SmallMultiplesAxisPlacement._('INSIDE');
@@ -54739,6 +56117,8 @@ class SmallMultiplesAxisPlacement {
 }
 
 /// The options that determine the title styles for each small multiples panel.
+///
+/// @nodoc
 class PanelTitleOptions {
   final FontConfiguration? fontConfiguration;
 
@@ -54779,6 +56159,7 @@ class PanelTitleOptions {
   }
 }
 
+/// @nodoc
 class PanelBorderStyle {
   static const solid = PanelBorderStyle._('SOLID');
   static const dashed = PanelBorderStyle._('DASHED');
@@ -54806,6 +56187,8 @@ class PanelBorderStyle {
 
 /// The forecast configuration that is used in a line chart's display
 /// properties.
+///
+/// @nodoc
 class ForecastConfiguration {
   /// The forecast properties setup of a forecast in the line chart.
   final TimeBasedForecastProperties? forecastProperties;
@@ -54841,6 +56224,8 @@ class ForecastConfiguration {
 }
 
 /// The forecast properties setup of a forecast in the line chart.
+///
+/// @nodoc
 class TimeBasedForecastProperties {
   /// The lower boundary setup of a forecast computation.
   final double? lowerBoundary;
@@ -54909,6 +56294,8 @@ class TimeBasedForecastProperties {
 }
 
 /// The forecast scenario of a forecast in the line chart.
+///
+/// @nodoc
 class ForecastScenario {
   /// The what-if analysis forecast setup with the target date.
   final WhatIfPointScenario? whatIfPointScenario;
@@ -54947,6 +56334,8 @@ class ForecastScenario {
 }
 
 /// Provides the forecast to meet the target for a particular date.
+///
+/// @nodoc
 class WhatIfPointScenario {
   /// The date that you need the forecast results for.
   final DateTime date;
@@ -54977,6 +56366,8 @@ class WhatIfPointScenario {
 }
 
 /// Provides the forecast to meet the target for a particular date range.
+///
+/// @nodoc
 class WhatIfRangeScenario {
   /// The end date in the date range that you need the forecast results for.
   final DateTime endDate;
@@ -55014,6 +56405,8 @@ class WhatIfRangeScenario {
 }
 
 /// The field well configuration of a line chart.
+///
+/// @nodoc
 class LineChartAggregatedFieldWells {
   /// The category field wells of a line chart. Values are grouped by category
   /// fields.
@@ -55073,6 +56466,8 @@ class LineChartAggregatedFieldWells {
 }
 
 /// The configuration of a <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class GaugeChartConfiguration {
   /// The color configuration of a <code>GaugeChartVisual</code>.
   final GaugeChartColorConfiguration? colorConfiguration;
@@ -55160,6 +56555,8 @@ class GaugeChartConfiguration {
 }
 
 /// The conditional formatting of a <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class GaugeChartConditionalFormatting {
   /// Conditional formatting options of a <code>GaugeChartVisual</code>.
   final List<GaugeChartConditionalFormattingOption>?
@@ -55190,6 +56587,8 @@ class GaugeChartConditionalFormatting {
 }
 
 /// Conditional formatting options of a <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class GaugeChartConditionalFormattingOption {
   /// The options that determine the presentation of the arc of a
   /// <code>GaugeChartVisual</code>.
@@ -55230,6 +56629,8 @@ class GaugeChartConditionalFormattingOption {
 
 /// The conditional formatting for the primary value of a
 /// <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class GaugeChartPrimaryValueConditionalFormatting {
   /// The conditional formatting of the primary value icon.
   final ConditionalFormattingIcon? icon;
@@ -55268,6 +56669,8 @@ class GaugeChartPrimaryValueConditionalFormatting {
 
 /// The options that determine the presentation of the arc of a
 /// <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class GaugeChartArcConditionalFormatting {
   /// The conditional formatting of the arc foreground color.
   final ConditionalFormattingColor? foregroundColor;
@@ -55295,6 +56698,8 @@ class GaugeChartArcConditionalFormatting {
 }
 
 /// The formatting configuration for the icon.
+///
+/// @nodoc
 class ConditionalFormattingIcon {
   /// Determines the custom condition for an icon set.
   final ConditionalFormattingCustomIconCondition? customCondition;
@@ -55331,6 +56736,8 @@ class ConditionalFormattingIcon {
 }
 
 /// Formatting configuration for icon set.
+///
+/// @nodoc
 class ConditionalFormattingIconSet {
   /// The expression that determines the formatting configuration for the icon
   /// set.
@@ -55363,6 +56770,8 @@ class ConditionalFormattingIconSet {
 }
 
 /// Determines the custom condition for an icon set.
+///
+/// @nodoc
 class ConditionalFormattingCustomIconCondition {
   /// The expression that determines the condition of the icon set.
   final String expression;
@@ -55414,6 +56823,8 @@ class ConditionalFormattingCustomIconCondition {
 }
 
 /// Custom icon options for an icon set.
+///
+/// @nodoc
 class ConditionalFormattingCustomIconOptions {
   /// Determines the type of icon.
   final Icon? icon;
@@ -55445,6 +56856,8 @@ class ConditionalFormattingCustomIconOptions {
 }
 
 /// Determines the icon display configuration.
+///
+/// @nodoc
 class ConditionalFormattingIconDisplayConfiguration {
   /// Determines the icon display configuration.
   final ConditionalFormattingIconDisplayOption? iconDisplayOption;
@@ -55470,6 +56883,7 @@ class ConditionalFormattingIconDisplayConfiguration {
   }
 }
 
+/// @nodoc
 class ConditionalFormattingIconDisplayOption {
   static const iconOnly = ConditionalFormattingIconDisplayOption._('ICON_ONLY');
 
@@ -55494,6 +56908,7 @@ class ConditionalFormattingIconDisplayOption {
   String toString() => value;
 }
 
+/// @nodoc
 class Icon {
   static const caretUp = Icon._('CARET_UP');
   static const caretDown = Icon._('CARET_DOWN');
@@ -55568,6 +56983,7 @@ class Icon {
   String toString() => value;
 }
 
+/// @nodoc
 class ConditionalFormattingIconSetType {
   static const plusMinus = ConditionalFormattingIconSetType._('PLUS_MINUS');
   static const checkX = ConditionalFormattingIconSetType._('CHECK_X');
@@ -55620,6 +57036,8 @@ class ConditionalFormattingIconSetType {
 }
 
 /// The field well configuration of a <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class GaugeChartFieldWells {
   /// The target value field wells of a <code>GaugeChartVisual</code>.
   final List<MeasureField>? targetValues;
@@ -55657,6 +57075,8 @@ class GaugeChartFieldWells {
 
 /// The options that determine the presentation of the
 /// <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class GaugeChartOptions {
   /// The arc configuration of a <code>GaugeChartVisual</code>.
   final ArcConfiguration? arc;
@@ -55723,6 +57143,8 @@ class GaugeChartOptions {
 }
 
 /// The color configuration of a <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class GaugeChartColorConfiguration {
   /// The background color configuration of a <code>GaugeChartVisual</code>.
   final String? backgroundColor;
@@ -55752,6 +57174,7 @@ class GaugeChartColorConfiguration {
   }
 }
 
+/// @nodoc
 class PrimaryValueDisplayType {
   static const hidden = PrimaryValueDisplayType._('HIDDEN');
   static const comparison = PrimaryValueDisplayType._('COMPARISON');
@@ -55779,6 +57202,8 @@ class PrimaryValueDisplayType {
 }
 
 /// The comparison display configuration of a KPI or gauge chart.
+///
+/// @nodoc
 class ComparisonConfiguration {
   /// The format of the comparison.
   final ComparisonFormatConfiguration? comparisonFormat;
@@ -55825,6 +57250,8 @@ class ComparisonConfiguration {
 }
 
 /// The arc axis configuration of a <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class ArcAxisConfiguration {
   /// The arc axis range of a <code>GaugeChartVisual</code>.
   final ArcAxisDisplayRange? range;
@@ -55857,6 +57284,8 @@ class ArcAxisConfiguration {
 }
 
 /// The arc configuration of a <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class ArcConfiguration {
   /// The option that determines the arc angle of a <code>GaugeChartVisual</code>.
   final double? arcAngle;
@@ -55888,6 +57317,7 @@ class ArcConfiguration {
   }
 }
 
+/// @nodoc
 class ArcThicknessOptions {
   static const small = ArcThicknessOptions._('SMALL');
   static const medium = ArcThicknessOptions._('MEDIUM');
@@ -55915,6 +57345,8 @@ class ArcThicknessOptions {
 }
 
 /// The arc axis range of a <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class ArcAxisDisplayRange {
   /// The maximum value of the arc axis range.
   final double? max;
@@ -55944,6 +57376,7 @@ class ArcAxisDisplayRange {
   }
 }
 
+/// @nodoc
 class ComparisonMethod {
   static const difference = ComparisonMethod._('DIFFERENCE');
   static const percentDifference = ComparisonMethod._('PERCENT_DIFFERENCE');
@@ -55973,6 +57406,8 @@ class ComparisonMethod {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class ComparisonFormatConfiguration {
   /// The number display format.
   final NumberDisplayFormatConfiguration? numberDisplayFormatConfiguration;
@@ -56019,6 +57454,8 @@ class ComparisonFormatConfiguration {
 }
 
 /// The configuration of a pie chart.
+///
+/// @nodoc
 class PieChartConfiguration {
   /// The label options of the group/color that is displayed in a pie chart.
   final ChartAxisLabelOptions? categoryLabelOptions;
@@ -56161,6 +57598,8 @@ class PieChartConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class PieChartFieldWells {
   /// The field well configuration of a pie chart.
   final PieChartAggregatedFieldWells? pieChartAggregatedFieldWells;
@@ -56188,6 +57627,8 @@ class PieChartFieldWells {
 }
 
 /// The sort configuration of a pie chart.
+///
+/// @nodoc
 class PieChartSortConfiguration {
   /// The limit on the number of categories that are displayed in a pie chart.
   final ItemsLimitConfiguration? categoryItemsLimit;
@@ -56248,6 +57689,8 @@ class PieChartSortConfiguration {
 }
 
 /// The options for configuring a donut chart or pie chart.
+///
+/// @nodoc
 class DonutOptions {
   /// The option for define the arc of the chart shape. Valid values are as
   /// follows:
@@ -56301,6 +57744,8 @@ class DonutOptions {
 
 /// The options that determine the arc thickness of a
 /// <code>GaugeChartVisual</code>.
+///
+/// @nodoc
 class ArcOptions {
   /// The arc thickness of a <code>GaugeChartVisual</code>.
   final ArcThickness? arcThickness;
@@ -56326,6 +57771,8 @@ class ArcOptions {
 
 /// The label options of the label that is displayed in the center of a donut
 /// chart. This option isn't available for pie charts.
+///
+/// @nodoc
 class DonutCenterOptions {
   /// Determines the visibility of the label in a donut chart. In the Quick Sight
   /// console, this option is called <code>'Show total'</code>.
@@ -56350,6 +57797,7 @@ class DonutCenterOptions {
   }
 }
 
+/// @nodoc
 class ArcThickness {
   static const small = ArcThickness._('SMALL');
   static const medium = ArcThickness._('MEDIUM');
@@ -56376,6 +57824,8 @@ class ArcThickness {
 }
 
 /// The field well configuration of a pie chart.
+///
+/// @nodoc
 class PieChartAggregatedFieldWells {
   /// The category (group/color) field wells of a pie chart.
   final List<DimensionField>? category;
@@ -56423,6 +57873,8 @@ class PieChartAggregatedFieldWells {
 }
 
 /// The configuration of a KPI visual.
+///
+/// @nodoc
 class KPIConfiguration {
   /// The field well configuration of a KPI visual.
   final KPIFieldWells? fieldWells;
@@ -56477,6 +57929,8 @@ class KPIConfiguration {
 }
 
 /// The conditional formatting of a KPI visual.
+///
+/// @nodoc
 class KPIConditionalFormatting {
   /// The conditional formatting options of a KPI visual.
   final List<KPIConditionalFormattingOption>? conditionalFormattingOptions;
@@ -56506,6 +57960,8 @@ class KPIConditionalFormatting {
 }
 
 /// The conditional formatting options of a KPI visual.
+///
+/// @nodoc
 class KPIConditionalFormattingOption {
   /// The conditional formatting for the actual value of a KPI visual.
   final KPIActualValueConditionalFormatting? actualValue;
@@ -56562,6 +58018,8 @@ class KPIConditionalFormattingOption {
 }
 
 /// The conditional formatting for the primary value of a KPI visual.
+///
+/// @nodoc
 class KPIPrimaryValueConditionalFormatting {
   /// The conditional formatting of the primary value's icon.
   final ConditionalFormattingIcon? icon;
@@ -56599,6 +58057,8 @@ class KPIPrimaryValueConditionalFormatting {
 }
 
 /// The conditional formatting for the progress bar of a KPI visual.
+///
+/// @nodoc
 class KPIProgressBarConditionalFormatting {
   /// The conditional formatting of the progress bar's foreground color.
   final ConditionalFormattingColor? foregroundColor;
@@ -56626,6 +58086,8 @@ class KPIProgressBarConditionalFormatting {
 }
 
 /// The conditional formatting for the actual value of a KPI visual.
+///
+/// @nodoc
 class KPIActualValueConditionalFormatting {
   /// The conditional formatting of the actual value's icon.
   final ConditionalFormattingIcon? icon;
@@ -56663,6 +58125,8 @@ class KPIActualValueConditionalFormatting {
 }
 
 /// The conditional formatting for the comparison value of a KPI visual.
+///
+/// @nodoc
 class KPIComparisonValueConditionalFormatting {
   /// The conditional formatting of the comparison value's icon.
   final ConditionalFormattingIcon? icon;
@@ -56700,6 +58164,8 @@ class KPIComparisonValueConditionalFormatting {
 }
 
 /// The field well configuration of a KPI visual.
+///
+/// @nodoc
 class KPIFieldWells {
   /// The target value field wells of a KPI visual.
   final List<MeasureField>? targetValues;
@@ -56746,6 +58212,8 @@ class KPIFieldWells {
 }
 
 /// The sort configuration of a KPI visual.
+///
+/// @nodoc
 class KPISortConfiguration {
   /// The sort configuration of the trend group fields.
   final List<FieldSortOptions>? trendGroupSort;
@@ -56772,6 +58240,8 @@ class KPISortConfiguration {
 }
 
 /// The options that determine the presentation of a KPI visual.
+///
+/// @nodoc
 class KPIOptions {
   /// The comparison configuration of a KPI visual.
   final ComparisonConfiguration? comparison;
@@ -56888,6 +58358,8 @@ class KPIOptions {
 
 /// The options that determine the presentation of the progress bar of a KPI
 /// visual.
+///
+/// @nodoc
 class ProgressBarOptions {
   /// The visibility of the progress bar.
   final Visibility? visibility;
@@ -56911,6 +58383,8 @@ class ProgressBarOptions {
 }
 
 /// The options that determine the presentation of trend arrows in a KPI visual.
+///
+/// @nodoc
 class TrendArrowOptions {
   /// The visibility of the trend arrows.
   final Visibility? visibility;
@@ -56935,6 +58409,8 @@ class TrendArrowOptions {
 
 /// The options that determine the presentation of the secondary value of a KPI
 /// visual.
+///
+/// @nodoc
 class SecondaryValueOptions {
   /// Determines the visibility of the secondary value.
   final Visibility? visibility;
@@ -56959,6 +58435,8 @@ class SecondaryValueOptions {
 
 /// The options that determine the visibility, color, type, and tooltip
 /// visibility of the sparkline of a KPI visual.
+///
+/// @nodoc
 class KPISparklineOptions {
   /// The type of the sparkline.
   final KPISparklineType type;
@@ -57005,6 +58483,8 @@ class KPISparklineOptions {
 }
 
 /// The options that determine the layout a KPI visual.
+///
+/// @nodoc
 class KPIVisualLayoutOptions {
   /// The standard layout of the KPI visual.
   final KPIVisualStandardLayout? standardLayout;
@@ -57031,6 +58511,8 @@ class KPIVisualLayoutOptions {
 }
 
 /// The standard layout of the KPI visual.
+///
+/// @nodoc
 class KPIVisualStandardLayout {
   /// The standard layout type.
   final KPIVisualStandardLayoutType type;
@@ -57054,6 +58536,7 @@ class KPIVisualStandardLayout {
   }
 }
 
+/// @nodoc
 class KPIVisualStandardLayoutType {
   static const classic = KPIVisualStandardLayoutType._('CLASSIC');
   static const vertical = KPIVisualStandardLayoutType._('VERTICAL');
@@ -57079,6 +58562,7 @@ class KPIVisualStandardLayoutType {
   String toString() => value;
 }
 
+/// @nodoc
 class KPISparklineType {
   static const line = KPISparklineType._('LINE');
   static const area = KPISparklineType._('AREA');
@@ -57104,6 +58588,8 @@ class KPISparklineType {
 }
 
 /// The configuration of a <code>BarChartVisual</code>.
+///
+/// @nodoc
 class BarChartConfiguration {
   /// Determines the arrangement of the bars. The orientation and arrangement of
   /// bars determine the type of bar that is used in the visual.
@@ -57334,6 +58820,8 @@ class BarChartConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class BarChartFieldWells {
   /// The aggregated field wells of a bar chart.
   final BarChartAggregatedFieldWells? barChartAggregatedFieldWells;
@@ -57361,6 +58849,8 @@ class BarChartFieldWells {
 }
 
 /// sort-configuration-description
+///
+/// @nodoc
 class BarChartSortConfiguration {
   /// The limit on the number of categories displayed in a bar chart.
   final ItemsLimitConfiguration? categoryItemsLimit;
@@ -57440,6 +58930,7 @@ class BarChartSortConfiguration {
   }
 }
 
+/// @nodoc
 class BarChartOrientation {
   static const horizontal = BarChartOrientation._('HORIZONTAL');
   static const vertical = BarChartOrientation._('VERTICAL');
@@ -57467,6 +58958,8 @@ class BarChartOrientation {
 
 /// The options that determine the default presentation of all bar series in
 /// <code>BarChartVisual</code>.
+///
+/// @nodoc
 class BarChartDefaultSeriesSettings {
   /// Border settings for all bar series in the visual.
   final BorderSettings? borderSettings;
@@ -57506,6 +58999,8 @@ class BarChartDefaultSeriesSettings {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class BarSeriesItem {
   /// The data field series item configuration of a <code>BarChartVisual</code>.
   final DataFieldBarSeriesItem? dataFieldBarSeriesItem;
@@ -57543,6 +59038,8 @@ class BarSeriesItem {
 }
 
 /// The field series item configuration of a <code>BarChartVisual</code>.
+///
+/// @nodoc
 class FieldBarSeriesItem {
   /// Field ID of the field for which you are setting the series configuration.
   final String fieldId;
@@ -57577,6 +59074,8 @@ class FieldBarSeriesItem {
 }
 
 /// The data field series item configuration of a <code>BarChartVisual</code>.
+///
+/// @nodoc
 class DataFieldBarSeriesItem {
   /// Field ID of the field that you are setting the series configuration for.
   final String fieldId;
@@ -57618,6 +59117,8 @@ class DataFieldBarSeriesItem {
 }
 
 /// Options that determine the presentation of a bar series in the visual.
+///
+/// @nodoc
 class BarChartSeriesSettings {
   /// Border settings for the bar series.
   final BorderSettings? borderSettings;
@@ -57654,6 +59155,8 @@ class BarChartSeriesSettings {
 }
 
 /// The aggregated field wells of a bar chart.
+///
+/// @nodoc
 class BarChartAggregatedFieldWells {
   /// The category (y-axis) field well of a bar chart.
   final List<DimensionField>? category;
@@ -57710,6 +59213,8 @@ class BarChartAggregatedFieldWells {
 }
 
 /// The configuration for a <code>PivotTableVisual</code>.
+///
+/// @nodoc
 class PivotTableConfiguration {
   /// The options that define customizations available to dashboard readers for a
   /// specific visual
@@ -57821,6 +59326,8 @@ class PivotTableConfiguration {
 }
 
 /// The conditional formatting for a <code>PivotTableVisual</code>.
+///
+/// @nodoc
 class PivotTableConditionalFormatting {
   /// Conditional formatting options for a <code>PivotTableVisual</code>.
   final List<PivotTableConditionalFormattingOption>?
@@ -57851,6 +59358,8 @@ class PivotTableConditionalFormatting {
 }
 
 /// Conditional formatting options for a <code>PivotTableVisual</code>.
+///
+/// @nodoc
 class PivotTableConditionalFormattingOption {
   /// The cell conditional formatting option for a pivot table.
   final PivotTableCellConditionalFormatting? cell;
@@ -57878,6 +59387,8 @@ class PivotTableConditionalFormattingOption {
 }
 
 /// The cell conditional formatting option for a pivot table.
+///
+/// @nodoc
 class PivotTableCellConditionalFormatting {
   /// The field ID of the cell for conditional formatting.
   final String fieldId;
@@ -57933,6 +59444,8 @@ class PivotTableCellConditionalFormatting {
 }
 
 /// The conditional formatting for the text.
+///
+/// @nodoc
 class TextConditionalFormat {
   /// The conditional formatting for the text background color.
   final ConditionalFormattingColor? backgroundColor;
@@ -57979,6 +59492,8 @@ class TextConditionalFormat {
 }
 
 /// The scope of the cell for conditional formatting.
+///
+/// @nodoc
 class PivotTableConditionalFormattingScope {
   /// The role (field, field total, grand total) of the cell for conditional
   /// formatting.
@@ -58004,6 +59519,7 @@ class PivotTableConditionalFormattingScope {
   }
 }
 
+/// @nodoc
 class PivotTableConditionalFormattingScopeRole {
   static const field = PivotTableConditionalFormattingScopeRole._('FIELD');
   static const fieldTotal =
@@ -58036,6 +59552,8 @@ class PivotTableConditionalFormattingScopeRole {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class PivotTableFieldWells {
   /// The aggregated field well for the pivot table.
   final PivotTableAggregatedFieldWells? pivotTableAggregatedFieldWells;
@@ -58064,6 +59582,8 @@ class PivotTableFieldWells {
 }
 
 /// The sort configuration for a <code>PivotTableVisual</code>.
+///
+/// @nodoc
 class PivotTableSortConfiguration {
   /// The field sort options for a pivot table sort configuration.
   final List<PivotFieldSortOptions>? fieldSortOptions;
@@ -58090,6 +59610,8 @@ class PivotTableSortConfiguration {
 }
 
 /// The table options for a pivot table visual.
+///
+/// @nodoc
 class PivotTableOptions {
   /// The table cell style of cells.
   final TableCellStyle? cellStyle;
@@ -58245,6 +59767,8 @@ class PivotTableOptions {
 }
 
 /// The total options for a pivot table visual.
+///
+/// @nodoc
 class PivotTableTotalOptions {
   /// The column subtotal options.
   final SubtotalOptions? columnSubtotalOptions;
@@ -58302,6 +59826,8 @@ class PivotTableTotalOptions {
 }
 
 /// The field options for a pivot table visual.
+///
+/// @nodoc
 class PivotTableFieldOptions {
   /// The collapse state options for the pivot table field options.
   final List<PivotTableFieldCollapseStateOption>? collapseStateOptions;
@@ -58352,6 +59878,8 @@ class PivotTableFieldOptions {
 }
 
 /// The paginated report options for a pivot table visual.
+///
+/// @nodoc
 class PivotTablePaginatedReportOptions {
   /// The visibility of the repeating header rows on each page.
   final Visibility? overflowColumnHeaderVisibility;
@@ -58389,6 +59917,8 @@ class PivotTablePaginatedReportOptions {
 
 /// The options that define customizations available to dashboard readers for a
 /// specific visual
+///
+/// @nodoc
 class DashboardCustomizationVisualOptions {
   /// The configuration that controls field customization options available to
   /// dashboard readers for a visual.
@@ -58419,6 +59949,8 @@ class DashboardCustomizationVisualOptions {
 
 /// The configuration that controls field customization options available to
 /// dashboard readers for a visual.
+///
+/// @nodoc
 class VisualCustomizationFieldsConfiguration {
   /// The additional dataset fields available for dashboard readers to customize
   /// the visual with, beyond the fields already configured on the visual.
@@ -58455,6 +59987,7 @@ class VisualCustomizationFieldsConfiguration {
   }
 }
 
+/// @nodoc
 class DashboardCustomizationStatus {
   static const enabled = DashboardCustomizationStatus._('ENABLED');
   static const disabled = DashboardCustomizationStatus._('DISABLED');
@@ -58481,6 +60014,8 @@ class DashboardCustomizationStatus {
 }
 
 /// The collapse state options for the pivot table field options.
+///
+/// @nodoc
 class PivotTableFieldCollapseStateOption {
   /// A tagged-union object that sets the collapse state.
   final PivotTableFieldCollapseStateTarget target;
@@ -58525,6 +60060,8 @@ class PivotTableFieldCollapseStateOption {
 }
 
 /// The target of a pivot table field collapse state.
+///
+/// @nodoc
 class PivotTableFieldCollapseStateTarget {
   /// The data path of the pivot table's header. Used to set the collapse state.
   final List<DataPathValue>? fieldDataPathValues;
@@ -58559,6 +60096,7 @@ class PivotTableFieldCollapseStateTarget {
   }
 }
 
+/// @nodoc
 class PivotTableFieldCollapseState {
   static const collapsed = PivotTableFieldCollapseState._('COLLAPSED');
   static const expanded = PivotTableFieldCollapseState._('EXPANDED');
@@ -58585,6 +60123,8 @@ class PivotTableFieldCollapseState {
 }
 
 /// The data path options for the pivot table field options.
+///
+/// @nodoc
 class PivotTableDataPathOption {
   /// The list of data path values for the data path options.
   final List<DataPathValue> dataPathList;
@@ -58618,6 +60158,8 @@ class PivotTableDataPathOption {
 }
 
 /// The selected field options for the pivot table field options.
+///
+/// @nodoc
 class PivotTableFieldOption {
   /// The field ID of the pivot table field.
   final String fieldId;
@@ -58655,6 +60197,8 @@ class PivotTableFieldOption {
 }
 
 /// The subtotal options.
+///
+/// @nodoc
 class SubtotalOptions {
   /// The custom label string for the subtotal cells.
   final String? customLabel;
@@ -58747,6 +60291,8 @@ class SubtotalOptions {
 
 /// The optional configuration of totals cells in a
 /// <code>PivotTableVisual</code>.
+///
+/// @nodoc
 class PivotTotalOptions {
   /// The custom label string for the total cells.
   final String? customLabel;
@@ -58836,6 +60382,7 @@ class PivotTotalOptions {
   }
 }
 
+/// @nodoc
 class TableTotalsPlacement {
   static const start = TableTotalsPlacement._('START');
   static const end = TableTotalsPlacement._('END');
@@ -58862,6 +60409,7 @@ class TableTotalsPlacement {
   String toString() => value;
 }
 
+/// @nodoc
 class TableTotalsScrollStatus {
   static const pinned = TableTotalsScrollStatus._('PINNED');
   static const scrolled = TableTotalsScrollStatus._('SCROLLED');
@@ -58888,6 +60436,8 @@ class TableTotalsScrollStatus {
 }
 
 /// The table cell style for a cell in pivot table or table visual.
+///
+/// @nodoc
 class TableCellStyle {
   /// The background color for the table cells.
   final String? backgroundColor;
@@ -58971,6 +60521,8 @@ class TableCellStyle {
 }
 
 /// The total aggregation settings map of a field id.
+///
+/// @nodoc
 class TotalAggregationOption {
   /// The field id that's associated with the total aggregation option.
   final String fieldId;
@@ -59004,6 +60556,8 @@ class TotalAggregationOption {
 }
 
 /// An aggregation function that aggregates the total values of a measure.
+///
+/// @nodoc
 class TotalAggregationFunction {
   /// A built in aggregation function for total values.
   final SimpleTotalAggregationFunction? simpleTotalAggregationFunction;
@@ -59029,6 +60583,7 @@ class TotalAggregationFunction {
   }
 }
 
+/// @nodoc
 class SimpleTotalAggregationFunction {
   static const $default = SimpleTotalAggregationFunction._('DEFAULT');
   static const sum = SimpleTotalAggregationFunction._('SUM');
@@ -59058,6 +60613,7 @@ class SimpleTotalAggregationFunction {
   String toString() => value;
 }
 
+/// @nodoc
 class TextWrap {
   static const none = TextWrap._('NONE');
   static const wrap = TextWrap._('WRAP');
@@ -59081,6 +60637,7 @@ class TextWrap {
   String toString() => value;
 }
 
+/// @nodoc
 class VerticalTextAlignment {
   static const top = VerticalTextAlignment._('TOP');
   static const middle = VerticalTextAlignment._('MIDDLE');
@@ -59109,6 +60666,8 @@ class VerticalTextAlignment {
 }
 
 /// Determines the border options for a table visual.
+///
+/// @nodoc
 class GlobalTableBorderOptions {
   /// Determines the options for side specific border.
   final TableSideBorderOptions? sideSpecificBorder;
@@ -59145,6 +60704,8 @@ class GlobalTableBorderOptions {
 }
 
 /// The border options for a table border.
+///
+/// @nodoc
 class TableBorderOptions {
   /// The color of a table border.
   final String? color;
@@ -59182,6 +60743,8 @@ class TableBorderOptions {
 }
 
 /// The side border options for a table.
+///
+/// @nodoc
 class TableSideBorderOptions {
   /// The table border options of the bottom border.
   final TableBorderOptions? bottom;
@@ -59253,6 +60816,7 @@ class TableSideBorderOptions {
   }
 }
 
+/// @nodoc
 class TableBorderStyle {
   static const none = TableBorderStyle._('NONE');
   static const solid = TableBorderStyle._('SOLID');
@@ -59277,6 +60841,7 @@ class TableBorderStyle {
   String toString() => value;
 }
 
+/// @nodoc
 class PivotTableSubtotalLevel {
   static const all = PivotTableSubtotalLevel._('ALL');
   static const custom = PivotTableSubtotalLevel._('CUSTOM');
@@ -59304,6 +60869,8 @@ class PivotTableSubtotalLevel {
 }
 
 /// The table style target.
+///
+/// @nodoc
 class TableStyleTarget {
   /// The cell type of the table style target.
   final StyledCellType cellType;
@@ -59326,6 +60893,7 @@ class TableStyleTarget {
   }
 }
 
+/// @nodoc
 class StyledCellType {
   static const total = StyledCellType._('TOTAL');
   static const metricHeader = StyledCellType._('METRIC_HEADER');
@@ -59352,6 +60920,8 @@ class StyledCellType {
 }
 
 /// The optional configuration of subtotals cells.
+///
+/// @nodoc
 class PivotTableFieldSubtotalOptions {
   /// The field ID of the subtotal options.
   final String? fieldId;
@@ -59374,6 +60944,7 @@ class PivotTableFieldSubtotalOptions {
   }
 }
 
+/// @nodoc
 class PivotTableMetricPlacement {
   static const row = PivotTableMetricPlacement._('ROW');
   static const column = PivotTableMetricPlacement._('COLUMN');
@@ -59400,6 +60971,8 @@ class PivotTableMetricPlacement {
 }
 
 /// Determines the row alternate color options.
+///
+/// @nodoc
 class RowAlternateColorOptions {
   /// Determines the list of row alternate colors.
   final List<String>? rowAlternateColors;
@@ -59441,6 +61014,7 @@ class RowAlternateColorOptions {
   }
 }
 
+/// @nodoc
 class PivotTableRowsLayout {
   static const tabular = PivotTableRowsLayout._('TABULAR');
   static const hierarchy = PivotTableRowsLayout._('HIERARCHY');
@@ -59469,6 +61043,8 @@ class PivotTableRowsLayout {
 /// The options for the label thta is located above the row headers. This option
 /// is only applicable when <code>RowsLayout</code> is set to
 /// <code>HIERARCHY</code>.
+///
+/// @nodoc
 class PivotTableRowsLabelOptions {
   /// The custom label string for the rows label.
   final String? customLabel;
@@ -59499,6 +61075,8 @@ class PivotTableRowsLabelOptions {
 }
 
 /// The field sort options for a pivot table sort configuration.
+///
+/// @nodoc
 class PivotFieldSortOptions {
   /// The field ID for the field sort options.
   final String fieldId;
@@ -59531,6 +61109,8 @@ class PivotFieldSortOptions {
 }
 
 /// The sort by field for the field sort options.
+///
+/// @nodoc
 class PivotTableSortBy {
   /// The column sort (field id, direction) for the pivot table sort by options.
   final ColumnSort? column;
@@ -59575,6 +61155,8 @@ class PivotTableSortBy {
 }
 
 /// Allows data paths to be sorted by a specific data value.
+///
+/// @nodoc
 class DataPathSort {
   /// Determines the sort direction.
   final SortDirection direction;
@@ -59608,6 +61190,8 @@ class DataPathSort {
 }
 
 /// The aggregated field well for the pivot table.
+///
+/// @nodoc
 class PivotTableAggregatedFieldWells {
   /// The columns field well for a pivot table. Values are grouped by columns
   /// fields.
@@ -59656,6 +61240,8 @@ class PivotTableAggregatedFieldWells {
 }
 
 /// The configuration for a <code>TableVisual</code>.
+///
+/// @nodoc
 class TableConfiguration {
   /// The options that define customizations available to dashboard readers for a
   /// specific visual
@@ -59776,6 +61362,8 @@ class TableConfiguration {
 }
 
 /// The conditional formatting for a <code>PivotTableVisual</code>.
+///
+/// @nodoc
 class TableConditionalFormatting {
   /// Conditional formatting options for a <code>PivotTableVisual</code>.
   final List<TableConditionalFormattingOption>? conditionalFormattingOptions;
@@ -59805,6 +61393,8 @@ class TableConditionalFormatting {
 }
 
 /// Conditional formatting options for a <code>PivotTableVisual</code>.
+///
+/// @nodoc
 class TableConditionalFormattingOption {
   /// The cell conditional formatting option for a table.
   final TableCellConditionalFormatting? cell;
@@ -59841,6 +61431,8 @@ class TableConditionalFormattingOption {
 }
 
 /// The cell conditional formatting option for a table.
+///
+/// @nodoc
 class TableCellConditionalFormatting {
   /// The field ID of the cell for conditional formatting.
   final String fieldId;
@@ -59874,6 +61466,8 @@ class TableCellConditionalFormatting {
 }
 
 /// The conditional formatting of a table row.
+///
+/// @nodoc
 class TableRowConditionalFormatting {
   /// The conditional formatting color (solid, gradient) of the background for a
   /// table row.
@@ -59915,6 +61509,8 @@ class TableRowConditionalFormatting {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class TableFieldWells {
   /// The aggregated field well for the table.
   final TableAggregatedFieldWells? tableAggregatedFieldWells;
@@ -59953,6 +61549,8 @@ class TableFieldWells {
 }
 
 /// The sort configuration for a <code>TableVisual</code>.
+///
+/// @nodoc
 class TableSortConfiguration {
   /// The pagination configuration (page size, page number) for the table.
   final PaginationConfiguration? paginationConfiguration;
@@ -59990,6 +61588,8 @@ class TableSortConfiguration {
 }
 
 /// The table options for a table visual.
+///
+/// @nodoc
 class TableOptions {
   /// The table cell style of table cells.
   final TableCellStyle? cellStyle;
@@ -60044,6 +61644,8 @@ class TableOptions {
 }
 
 /// The total options for a table visual.
+///
+/// @nodoc
 class TotalOptions {
   /// The custom label string for the total cells.
   final String? customLabel;
@@ -60113,6 +61715,8 @@ class TotalOptions {
 }
 
 /// The field options of a table visual.
+///
+/// @nodoc
 class TableFieldOptions {
   /// The order of the field IDs that are configured as field options for a table
   /// visual.
@@ -60170,6 +61774,8 @@ class TableFieldOptions {
 }
 
 /// The paginated report options for a table visual.
+///
+/// @nodoc
 class TablePaginatedReportOptions {
   /// The visibility of repeating header rows on each page.
   final Visibility? overflowColumnHeaderVisibility;
@@ -60206,6 +61812,8 @@ class TablePaginatedReportOptions {
 }
 
 /// The inline visualization of a specific type to display within a chart.
+///
+/// @nodoc
 class TableInlineVisualization {
   /// The configuration of the inline visualization of the data bars within a
   /// chart.
@@ -60243,6 +61851,8 @@ class TableInlineVisualization {
 }
 
 /// The options for data bars.
+///
+/// @nodoc
 class DataBarsOptions {
   /// The field ID for the data bars options.
   final String fieldId;
@@ -60280,6 +61890,8 @@ class DataBarsOptions {
 }
 
 /// The options for sparklines in a table.
+///
+/// @nodoc
 class SparklinesOptions {
   /// The field ID of the value column that the sparkline is applied to.
   final String fieldId;
@@ -60367,6 +61979,7 @@ class SparklinesOptions {
   }
 }
 
+/// @nodoc
 class SparklineAxisBehavior {
   static const shared = SparklineAxisBehavior._('SHARED');
   static const independent = SparklineAxisBehavior._('INDEPENDENT');
@@ -60392,6 +62005,7 @@ class SparklineAxisBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class SparklineVisualType {
   static const line = SparklineVisualType._('LINE');
   static const areaLine = SparklineVisualType._('AREA_LINE');
@@ -60418,6 +62032,8 @@ class SparklineVisualType {
 }
 
 /// The settings for the pinned columns of a table visual.
+///
+/// @nodoc
 class TablePinnedFieldOptions {
   /// A list of columns to be pinned to the left of a table visual.
   final List<String>? pinnedLeftFields;
@@ -60444,6 +62060,8 @@ class TablePinnedFieldOptions {
 }
 
 /// The column option of the transposed table.
+///
+/// @nodoc
 class TransposedTableOption {
   /// The column type of the column in a transposed table. Choose one of the
   /// following options:
@@ -60493,6 +62111,7 @@ class TransposedTableOption {
   }
 }
 
+/// @nodoc
 class TransposedColumnType {
   static const rowHeaderColumn = TransposedColumnType._('ROW_HEADER_COLUMN');
   static const valueColumn = TransposedColumnType._('VALUE_COLUMN');
@@ -60519,6 +62138,8 @@ class TransposedColumnType {
 }
 
 /// The options for a table field.
+///
+/// @nodoc
 class TableFieldOption {
   /// The field ID for a table field.
   final String fieldId;
@@ -60573,6 +62194,8 @@ class TableFieldOption {
 }
 
 /// The URL configuration for a table field.
+///
+/// @nodoc
 class TableFieldURLConfiguration {
   /// The image configuration of a table field URL.
   final TableFieldImageConfiguration? imageConfiguration;
@@ -60609,6 +62232,8 @@ class TableFieldURLConfiguration {
 }
 
 /// The link configuration of a table field URL.
+///
+/// @nodoc
 class TableFieldLinkConfiguration {
   /// The URL content (text, icon) for the table link configuration.
   final TableFieldLinkContentConfiguration content;
@@ -60643,6 +62268,8 @@ class TableFieldLinkConfiguration {
 }
 
 /// The image configuration of a table field URL.
+///
+/// @nodoc
 class TableFieldImageConfiguration {
   /// The sizing options for the table image configuration.
   final TableCellImageSizingConfiguration? sizingOptions;
@@ -60669,6 +62296,8 @@ class TableFieldImageConfiguration {
 }
 
 /// The sizing options for the table image configuration.
+///
+/// @nodoc
 class TableCellImageSizingConfiguration {
   /// The cell scaling configuration of the sizing options for the table image
   /// configuration.
@@ -60698,6 +62327,7 @@ class TableCellImageSizingConfiguration {
   }
 }
 
+/// @nodoc
 class TableCellImageScalingConfiguration {
   static const fitToCellHeight =
       TableCellImageScalingConfiguration._('FIT_TO_CELL_HEIGHT');
@@ -60728,6 +62358,8 @@ class TableCellImageScalingConfiguration {
 }
 
 /// The URL content (text, icon) for the table link configuration.
+///
+/// @nodoc
 class TableFieldLinkContentConfiguration {
   /// The custom icon content for the table link content configuration.
   final TableFieldCustomIconContent? customIconContent;
@@ -60767,6 +62399,8 @@ class TableFieldLinkContentConfiguration {
 
 /// The custom text content (value, font configuration) for the table link
 /// content configuration.
+///
+/// @nodoc
 class TableFieldCustomTextContent {
   /// The font configuration of the custom text content for the table URL link
   /// content.
@@ -60800,6 +62434,8 @@ class TableFieldCustomTextContent {
 }
 
 /// The custom icon content for the table link content configuration.
+///
+/// @nodoc
 class TableFieldCustomIconContent {
   /// The icon set type (link) of the custom icon content for table URL link
   /// content.
@@ -60823,6 +62459,7 @@ class TableFieldCustomIconContent {
   }
 }
 
+/// @nodoc
 class TableFieldIconSetType {
   static const link = TableFieldIconSetType._('LINK');
 
@@ -60847,6 +62484,7 @@ class TableFieldIconSetType {
   String toString() => value;
 }
 
+/// @nodoc
 class TableOrientation {
   static const vertical = TableOrientation._('VERTICAL');
   static const horizontal = TableOrientation._('HORIZONTAL');
@@ -60872,6 +62510,8 @@ class TableOrientation {
 }
 
 /// The aggregated field well for the table.
+///
+/// @nodoc
 class TableAggregatedFieldWells {
   /// The group by field well for a pivot table. Values are grouped by group by
   /// fields.
@@ -60910,6 +62550,8 @@ class TableAggregatedFieldWells {
 }
 
 /// The unaggregated field well for the table.
+///
+/// @nodoc
 class TableUnaggregatedFieldWells {
   /// The values field well for a pivot table. Values are unaggregated for an
   /// unaggregated table.
@@ -60939,6 +62581,8 @@ class TableUnaggregatedFieldWells {
 /// A sheet is an object that contains a set of visuals that are viewed together
 /// on one page in a paginated report. Every analysis and dashboard must contain
 /// at least one sheet.
+///
+/// @nodoc
 class SheetDefinition {
   /// The unique identifier of a sheet.
   final String sheetId;
@@ -61098,6 +62742,8 @@ class SheetDefinition {
 }
 
 /// A grid layout to define the placement of sheet control.
+///
+/// @nodoc
 class SheetControlLayout {
   /// The configuration that determines the elements and canvas size options of
   /// sheet control.
@@ -61125,6 +62771,8 @@ class SheetControlLayout {
 
 /// The configuration that determines the elements and canvas size options of
 /// sheet control.
+///
+/// @nodoc
 class SheetControlLayoutConfiguration {
   /// The configuration that determines the elements and canvas size options of
   /// sheet control.
@@ -61156,6 +62804,8 @@ class SheetControlLayoutConfiguration {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class FilterControl {
   /// A control from a filter that is scoped across more than one sheet. This
   /// represents your filter control on a sheet
@@ -61254,6 +62904,8 @@ class FilterControl {
 }
 
 /// A control from a date filter that is used to specify date and time.
+///
+/// @nodoc
 class FilterDateTimePickerControl {
   /// The ID of the <code>FilterDateTimePickerControl</code>.
   final String filterControlId;
@@ -61341,6 +62993,8 @@ class FilterDateTimePickerControl {
 
 /// A control to display a list of buttons or boxes. This is used to select
 /// either a single value or multiple values.
+///
+/// @nodoc
 class FilterListControl {
   /// The ID of the <code>FilterListControl</code>.
   final String filterControlId;
@@ -61455,6 +63109,8 @@ class FilterListControl {
 
 /// A control to display a dropdown list with buttons that are used to select a
 /// single value.
+///
+/// @nodoc
 class FilterDropDownControl {
   /// The ID of the <code>FilterDropDownControl</code>.
   final String filterControlId;
@@ -61576,6 +63232,8 @@ class FilterDropDownControl {
 }
 
 /// A control to display a text box that is used to enter a single entry.
+///
+/// @nodoc
 class FilterTextFieldControl {
   /// The ID of the <code>FilterTextFieldControl</code>.
   final String filterControlId;
@@ -61634,6 +63292,8 @@ class FilterTextFieldControl {
 }
 
 /// A control to display a text box that is used to enter multiple entries.
+///
+/// @nodoc
 class FilterTextAreaControl {
   /// The ID of the <code>FilterTextAreaControl</code>.
   final String filterControlId;
@@ -61700,6 +63360,8 @@ class FilterTextAreaControl {
 
 /// A control to display a horizontal toggle bar. This is used to change a value
 /// by sliding the toggle.
+///
+/// @nodoc
 class FilterSliderControl {
   /// The ID of the <code>FilterSliderControl</code>.
   final String filterControlId;
@@ -61796,6 +63458,8 @@ class FilterSliderControl {
 }
 
 /// A control from a date filter that is used to specify the relative date.
+///
+/// @nodoc
 class FilterRelativeDateTimeControl {
   /// The ID of the <code>FilterTextAreaControl</code>.
   final String filterControlId;
@@ -61863,6 +63527,8 @@ class FilterRelativeDateTimeControl {
 
 /// A control from a filter that is scoped across more than one sheet. This
 /// represents your filter control on a sheet
+///
+/// @nodoc
 class FilterCrossSheetControl {
   /// The ID of the <code>FilterCrossSheetControl</code>.
   final String filterControlId;
@@ -61907,6 +63573,8 @@ class FilterCrossSheetControl {
 
 /// The values that are displayed in a control can be configured to only show
 /// values that are valid based on what's selected in other controls.
+///
+/// @nodoc
 class CascadingControlConfiguration {
   /// A list of source controls that determine the values that are used in the
   /// current control.
@@ -61936,6 +63604,8 @@ class CascadingControlConfiguration {
 
 /// The source controls that are used in a
 /// <code>CascadingControlConfiguration</code>.
+///
+/// @nodoc
 class CascadingControlSource {
   /// The column identifier that determines which column to look up for the source
   /// sheet control.
@@ -61975,6 +63645,8 @@ class CascadingControlSource {
 ///
 /// This is a union type structure. For this structure to be valid, only one of
 /// the attributes can be defined.
+///
+/// @nodoc
 class ParameterControl {
   /// A control from a date parameter that specifies date and time.
   final ParameterDateTimePickerControl? dateTimePicker;
@@ -62053,6 +63725,8 @@ class ParameterControl {
 }
 
 /// A control from a date parameter that specifies date and time.
+///
+/// @nodoc
 class ParameterDateTimePickerControl {
   /// The ID of the <code>ParameterDateTimePickerControl</code>.
   final String parameterControlId;
@@ -62112,6 +63786,8 @@ class ParameterDateTimePickerControl {
 
 /// A control to display a list with buttons or boxes that are used to select
 /// either a single value or multiple values.
+///
+/// @nodoc
 class ParameterListControl {
   /// The ID of the <code>ParameterListControl</code>.
   final String parameterControlId;
@@ -62214,6 +63890,8 @@ class ParameterListControl {
 
 /// A control to display a dropdown list with buttons that are used to select a
 /// single value.
+///
+/// @nodoc
 class ParameterDropDownControl {
   /// The ID of the <code>ParameterDropDownControl</code>.
   final String parameterControlId;
@@ -62323,6 +64001,8 @@ class ParameterDropDownControl {
 }
 
 /// A control to display a text box that is used to enter a single entry.
+///
+/// @nodoc
 class ParameterTextFieldControl {
   /// The ID of the <code>ParameterTextFieldControl</code>.
   final String parameterControlId;
@@ -62381,6 +64061,8 @@ class ParameterTextFieldControl {
 }
 
 /// A control to display a text box that is used to enter multiple entries.
+///
+/// @nodoc
 class ParameterTextAreaControl {
   /// The ID of the <code>ParameterTextAreaControl</code>.
   final String parameterControlId;
@@ -62447,6 +64129,8 @@ class ParameterTextAreaControl {
 
 /// A control to display a horizontal toggle bar. This is used to change a value
 /// by sliding the toggle.
+///
+/// @nodoc
 class ParameterSliderControl {
   /// The larger value that is displayed at the right of the slider.
   final double maximumValue;
@@ -62526,6 +64210,8 @@ class ParameterSliderControl {
 }
 
 /// A list of selectable values that are used in a control.
+///
+/// @nodoc
 class ParameterSelectableValues {
   /// The column identifier that fetches values from the data set.
   final ColumnIdentifier? linkToDataSetColumn;
@@ -62561,6 +64247,8 @@ class ParameterSelectableValues {
 }
 
 /// Dataset configuration.
+///
+/// @nodoc
 class DataSetConfiguration {
   /// A structure containing the list of column group schemas.
   final List<ColumnGroupSchema>? columnGroupSchemaList;
@@ -62605,6 +64293,8 @@ class DataSetConfiguration {
 }
 
 /// Dataset schema.
+///
+/// @nodoc
 class DataSetSchema {
   /// A structure containing the list of column schemas.
   final List<ColumnSchema>? columnSchemaList;
@@ -62631,6 +64321,8 @@ class DataSetSchema {
 }
 
 /// The column group schema.
+///
+/// @nodoc
 class ColumnGroupSchema {
   /// A structure containing the list of schemas for column group columns.
   final List<ColumnGroupColumnSchema>? columnGroupColumnSchemaList;
@@ -62668,6 +64360,8 @@ class ColumnGroupSchema {
 
 /// A structure describing the name, data type, and geographic role of the
 /// columns.
+///
+/// @nodoc
 class ColumnGroupColumnSchema {
   /// The name of the column group's column schema.
   final String? name;
@@ -62691,6 +64385,8 @@ class ColumnGroupColumnSchema {
 }
 
 /// The column schema.
+///
+/// @nodoc
 class ColumnSchema {
   /// The data type of the column schema.
   final String? dataType;
@@ -62728,6 +64424,8 @@ class ColumnSchema {
 }
 
 /// The source analysis of the template.
+///
+/// @nodoc
 class TemplateSourceAnalysis {
   /// The Amazon Resource Name (ARN) of the resource.
   final String arn;
@@ -62752,6 +64450,8 @@ class TemplateSourceAnalysis {
 }
 
 /// The source template of the template.
+///
+/// @nodoc
 class TemplateSourceTemplate {
   /// The Amazon Resource Name (ARN) of the resource.
   final String arn;
@@ -62769,6 +64469,8 @@ class TemplateSourceTemplate {
 }
 
 /// Dataset reference.
+///
+/// @nodoc
 class DataSetReference {
   /// Dataset Amazon Resource Name (ARN).
   final String dataSetArn;
@@ -62791,6 +64493,7 @@ class DataSetReference {
   }
 }
 
+/// @nodoc
 class PurchaseMode {
   static const manual = PurchaseMode._('MANUAL');
   static const autoPurchase = PurchaseMode._('AUTO_PURCHASE');
@@ -62815,6 +64518,8 @@ class PurchaseMode {
 }
 
 /// A resource operation that failed.
+///
+/// @nodoc
 class FailedSpaceResourceOperation {
   /// The error message that describes why the operation failed.
   final String errorMessage;
@@ -62855,6 +64560,7 @@ class FailedSpaceResourceOperation {
   }
 }
 
+/// @nodoc
 class SpaceQuickSightResourceType {
   static const topic = SpaceQuickSightResourceType._('TOPIC');
   static const dashboard = SpaceQuickSightResourceType._('DASHBOARD');
@@ -62895,6 +64601,8 @@ class SpaceQuickSightResourceType {
 }
 
 /// The details of a QuickSight resource in a space.
+///
+/// @nodoc
 class SpaceQuickSightResourceDetails {
   /// The ARN of the QuickSight resource.
   final String? resourceArn;
@@ -62918,6 +64626,8 @@ class SpaceQuickSightResourceDetails {
 }
 
 /// An operation to perform on a resource in a space.
+///
+/// @nodoc
 class SpaceResourceOperation {
   /// The details of the resource.
   final SpaceQuickSightResourceDetails resourceDetails;
@@ -62940,6 +64650,7 @@ class SpaceResourceOperation {
   }
 }
 
+/// @nodoc
 class SelfUpgradeStatus {
   static const autoApproval = SelfUpgradeStatus._('AUTO_APPROVAL');
   static const adminApproval = SelfUpgradeStatus._('ADMIN_APPROVAL');
@@ -62965,6 +64676,8 @@ class SelfUpgradeStatus {
 }
 
 /// Details of a self-upgrade request.
+///
+/// @nodoc
 class SelfUpgradeRequestDetail {
   /// The time when the self-upgrade request was created.
   final int? creationTime;
@@ -63047,6 +64760,7 @@ class SelfUpgradeRequestDetail {
   }
 }
 
+/// @nodoc
 class SelfUpgradeRequestStatus {
   static const pending = SelfUpgradeRequestStatus._('PENDING');
   static const approved = SelfUpgradeRequestStatus._('APPROVED');
@@ -63075,6 +64789,7 @@ class SelfUpgradeRequestStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SelfUpgradeAdminAction {
   static const approve = SelfUpgradeAdminAction._('APPROVE');
   static const deny = SelfUpgradeAdminAction._('DENY');
@@ -63101,6 +64816,7 @@ class SelfUpgradeAdminAction {
   String toString() => value;
 }
 
+/// @nodoc
 class Role {
   static const admin = Role._('ADMIN');
   static const author = Role._('AUTHOR');
@@ -63129,6 +64845,8 @@ class Role {
 }
 
 /// The refresh schedule of a dataset.
+///
+/// @nodoc
 class RefreshSchedule {
   /// The type of refresh that a datset undergoes. Valid values are as follows:
   ///
@@ -63198,6 +64916,8 @@ class RefreshSchedule {
 }
 
 /// Specifies the interval between each scheduled refresh of a dataset.
+///
+/// @nodoc
 class RefreshFrequency {
   /// The interval between scheduled refreshes. Valid values are as follows:
   ///
@@ -63277,6 +64997,8 @@ class RefreshFrequency {
 
 /// This defines the type of ingestion user wants to trigger. This is part of
 /// create ingestion request.
+///
+/// @nodoc
 class IngestionType {
   static const incrementalRefresh = IngestionType._('INCREMENTAL_REFRESH');
   static const fullRefresh = IngestionType._('FULL_REFRESH');
@@ -63301,6 +65023,7 @@ class IngestionType {
   String toString() => value;
 }
 
+/// @nodoc
 class RefreshInterval {
   static const minute15 = RefreshInterval._('MINUTE15');
   static const minute30 = RefreshInterval._('MINUTE30');
@@ -63330,6 +65053,8 @@ class RefreshInterval {
 }
 
 /// The refresh on entity for weekly or monthly schedules.
+///
+/// @nodoc
 class ScheduleRefreshOnEntity {
   /// The day of the month that you want to schedule refresh on.
   final String? dayOfMonth;
@@ -63359,6 +65084,7 @@ class ScheduleRefreshOnEntity {
   }
 }
 
+/// @nodoc
 class DayOfWeek {
   static const sunday = DayOfWeek._('SUNDAY');
   static const monday = DayOfWeek._('MONDAY');
@@ -63395,6 +65121,7 @@ class DayOfWeek {
   String toString() => value;
 }
 
+/// @nodoc
 class QSearchStatus {
   static const enabled = QSearchStatus._('ENABLED');
   static const disabled = QSearchStatus._('DISABLED');
@@ -63419,6 +65146,7 @@ class QSearchStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PersonalizationMode {
   static const enabled = PersonalizationMode._('ENABLED');
   static const disabled = PersonalizationMode._('DISABLED');
@@ -63444,6 +65172,7 @@ class PersonalizationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSourceType {
   static const adobeAnalytics = DataSourceType._('ADOBE_ANALYTICS');
   static const amazonElasticsearch = DataSourceType._('AMAZON_ELASTICSEARCH');
@@ -63544,6 +65273,8 @@ class DataSourceType {
 }
 
 /// VPC connection properties.
+///
+/// @nodoc
 class VpcConnectionProperties {
   /// The Amazon Resource Name (ARN) for the VPC connection.
   final String vpcConnectionArn;
@@ -63568,6 +65299,8 @@ class VpcConnectionProperties {
 
 /// A success entry that occurs when a <code>KeyRegistration</code> job is
 /// successfully applied to the Quick Sight account.
+///
+/// @nodoc
 class SuccessfulKeyRegistrationEntry {
   /// The ARN of the KMS key that is associated with the
   /// <code>SuccessfulKeyRegistrationEntry</code> entry.
@@ -63600,6 +65333,8 @@ class SuccessfulKeyRegistrationEntry {
 
 /// An entry that appears when a <code>KeyRegistration</code> update to Quick
 /// Sight fails.
+///
+/// @nodoc
 class FailedKeyRegistrationEntry {
   /// A message that provides information about why a
   /// <code>FailedKeyRegistrationEntry</code> error occurred.
@@ -63661,6 +65396,8 @@ class FailedKeyRegistrationEntry {
 /// default key for encryption and decryption use.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RegisteredCustomerManagedKey {
   /// Indicates whether a <code>RegisteredCustomerManagedKey</code> is set as the
   /// default key for encryption and decryption use.
@@ -63692,6 +65429,7 @@ class RegisteredCustomerManagedKey {
   }
 }
 
+/// @nodoc
 class ServiceType {
   static const redshift = ServiceType._('REDSHIFT');
   static const qbusiness = ServiceType._('QBUSINESS');
@@ -63716,6 +65454,7 @@ class ServiceType {
   String toString() => value;
 }
 
+/// @nodoc
 class AssignmentStatus {
   static const enabled = AssignmentStatus._('ENABLED');
   static const draft = AssignmentStatus._('DRAFT');
@@ -63743,6 +65482,8 @@ class AssignmentStatus {
 
 /// A <i>group</i> in Quick Sight consists of a set of users. You can use groups
 /// to make it easier to manage access and security.
+///
+/// @nodoc
 class Group {
   /// The Amazon Resource Name (ARN) for the group.
   final String? arn;
@@ -63788,6 +65529,8 @@ class Group {
 
 /// A structure that contains the permission information for one principal
 /// against one flow.
+///
+/// @nodoc
 class Permission {
   /// A list of actions that the principal can perform against the flow.
   ///
@@ -63895,6 +65638,8 @@ class Permission {
 /// The parameters that Quick Sight uses to connect to your underlying data
 /// source. This is a variant type structure. For this structure to be valid,
 /// only one of the attributes can be non-null.
+///
+/// @nodoc
 class DataSourceParameters {
   /// The parameters for OpenSearch.
   final AmazonElasticsearchParameters? amazonElasticsearchParameters;
@@ -64258,6 +66003,8 @@ class DataSourceParameters {
 
 /// Data source credentials. This is a variant type structure. For this
 /// structure to be valid, only one of the attributes can be non-null.
+///
+/// @nodoc
 class DataSourceCredentials {
   /// The Amazon Resource Name (ARN) of a data source that has the credential pair
   /// that you want to use. When <code>CopySourceArn</code> is not null, the
@@ -64317,6 +66064,8 @@ class DataSourceCredentials {
 
 /// Secure Socket Layer (SSL) properties that apply when Quick Sight connects to
 /// your underlying data source.
+///
+/// @nodoc
 class SslProperties {
   /// A Boolean option to control whether SSL should be disabled.
   final bool? disableSsl;
@@ -64340,6 +66089,8 @@ class SslProperties {
 }
 
 /// The combination of user name and password that are used as credentials.
+///
+/// @nodoc
 class CredentialPair {
   /// Password.
   final String password;
@@ -64380,6 +66131,8 @@ class CredentialPair {
 
 /// The combination of username, private key and passphrase that are used as
 /// credentials.
+///
+/// @nodoc
 class KeyPairCredentials {
   /// Username
   final String keyPairUsername;
@@ -64410,6 +66163,8 @@ class KeyPairCredentials {
 }
 
 /// The credentials for authenticating with a web proxy server.
+///
+/// @nodoc
 class WebProxyCredentials {
   /// The password for authenticating with the web proxy server.
   final String webProxyPassword;
@@ -64437,6 +66192,8 @@ class WebProxyCredentials {
 /// username directly instead of referencing a secret stored in Amazon Secrets
 /// Manager. This structure supports data sources that use two-legged OAuth
 /// (2LO) authentication, such as Snowflake.
+///
+/// @nodoc
 class OAuthClientCredentials {
   /// The client ID of the OAuth 2.0 application that is registered with the data
   /// source provider.
@@ -64469,6 +66226,8 @@ class OAuthClientCredentials {
 }
 
 /// The parameters for OpenSearch.
+///
+/// @nodoc
 class AmazonElasticsearchParameters {
   /// The OpenSearch domain.
   final String domain;
@@ -64492,6 +66251,8 @@ class AmazonElasticsearchParameters {
 }
 
 /// Parameters for Amazon Athena.
+///
+/// @nodoc
 class AthenaParameters {
   /// Use <code>ConsumerAccountRoleArn</code> to perform cross-account Athena
   /// access. This is an IAM role ARN in the same AWS account as the Athena
@@ -64556,6 +66317,8 @@ class AthenaParameters {
 }
 
 /// Parameters for Amazon Aurora.
+///
+/// @nodoc
 class AuroraParameters {
   /// Database.
   final String database;
@@ -64593,6 +66356,8 @@ class AuroraParameters {
 }
 
 /// Parameters for Amazon Aurora PostgreSQL-Compatible Edition.
+///
+/// @nodoc
 class AuroraPostgreSqlParameters {
   /// The Amazon Aurora PostgreSQL database to connect to.
   final String database;
@@ -64630,6 +66395,8 @@ class AuroraPostgreSqlParameters {
 }
 
 /// The parameters for IoT Analytics.
+///
+/// @nodoc
 class AwsIotAnalyticsParameters {
   /// Dataset name.
   final String dataSetName;
@@ -64653,6 +66420,8 @@ class AwsIotAnalyticsParameters {
 }
 
 /// The parameters for Jira.
+///
+/// @nodoc
 class JiraParameters {
   /// The base URL of the Jira site.
   final String siteBaseUrl;
@@ -64676,6 +66445,8 @@ class JiraParameters {
 }
 
 /// The parameters for MariaDB.
+///
+/// @nodoc
 class MariaDbParameters {
   /// Database.
   final String database;
@@ -64713,6 +66484,8 @@ class MariaDbParameters {
 }
 
 /// The parameters for MySQL.
+///
+/// @nodoc
 class MySqlParameters {
   /// Database.
   final String database;
@@ -64750,6 +66523,8 @@ class MySqlParameters {
 }
 
 /// The parameters for Oracle.
+///
+/// @nodoc
 class OracleParameters {
   /// The database.
   final String database;
@@ -64797,6 +66572,8 @@ class OracleParameters {
 }
 
 /// The parameters for PostgreSQL.
+///
+/// @nodoc
 class PostgreSqlParameters {
   /// Database.
   final String database;
@@ -64834,6 +66611,8 @@ class PostgreSqlParameters {
 }
 
 /// The parameters for Presto.
+///
+/// @nodoc
 class PrestoParameters {
   /// Catalog.
   final String catalog;
@@ -64871,6 +66650,8 @@ class PrestoParameters {
 }
 
 /// The parameters for Amazon RDS.
+///
+/// @nodoc
 class RdsParameters {
   /// Database.
   final String database;
@@ -64904,6 +66685,8 @@ class RdsParameters {
 /// blank if <code>Host</code> and <code>Port</code> are both set. The
 /// <code>Host</code> and <code>Port</code> fields can be blank if the
 /// <code>ClusterId</code> field is set.
+///
+/// @nodoc
 class RedshiftParameters {
   /// Database.
   final String database;
@@ -64976,6 +66759,8 @@ class RedshiftParameters {
 }
 
 /// The parameters for S3.
+///
+/// @nodoc
 class S3Parameters {
   /// Location of the Amazon S3 manifest file. This is NULL if the manifest file
   /// was uploaded into Quick Sight.
@@ -65014,6 +66799,8 @@ class S3Parameters {
 }
 
 /// The parameters for S3 Tables.
+///
+/// @nodoc
 class S3TablesParameters {
   /// The Amazon Resource Name (ARN) of the S3 Tables bucket.
   final String? tableBucketArn;
@@ -65038,6 +66825,8 @@ class S3TablesParameters {
 
 /// The parameters that are required to connect to a S3 Knowledge Base data
 /// source.
+///
+/// @nodoc
 class S3KnowledgeBaseParameters {
   /// The URL of the S3 bucket that contains the knowledge base data.
   final String bucketUrl;
@@ -65083,6 +66872,8 @@ class S3KnowledgeBaseParameters {
 }
 
 /// The parameters for ServiceNow.
+///
+/// @nodoc
 class ServiceNowParameters {
   /// URL of the base site.
   final String siteBaseUrl;
@@ -65106,6 +66897,8 @@ class ServiceNowParameters {
 }
 
 /// The parameters for Snowflake.
+///
+/// @nodoc
 class SnowflakeParameters {
   /// Database.
   final String database;
@@ -65172,6 +66965,8 @@ class SnowflakeParameters {
 }
 
 /// The parameters for Spark.
+///
+/// @nodoc
 class SparkParameters {
   /// Host.
   final String host;
@@ -65202,6 +66997,8 @@ class SparkParameters {
 }
 
 /// The parameters for SQL Server.
+///
+/// @nodoc
 class SqlServerParameters {
   /// Database.
   final String database;
@@ -65239,6 +67036,8 @@ class SqlServerParameters {
 }
 
 /// The parameters for Teradata.
+///
+/// @nodoc
 class TeradataParameters {
   /// Database.
   final String database;
@@ -65276,6 +67075,8 @@ class TeradataParameters {
 }
 
 /// The parameters for Twitter.
+///
+/// @nodoc
 class TwitterParameters {
   /// Maximum number of rows to query Twitter.
   final int maxRows;
@@ -65306,6 +67107,8 @@ class TwitterParameters {
 }
 
 /// The parameters for OpenSearch.
+///
+/// @nodoc
 class AmazonOpenSearchParameters {
   /// The OpenSearch domain.
   final String domain;
@@ -65329,6 +67132,8 @@ class AmazonOpenSearchParameters {
 }
 
 /// The required parameters for connecting to an Exasol data source.
+///
+/// @nodoc
 class ExasolParameters {
   /// The hostname or IP address of the Exasol data source.
   final String host;
@@ -65359,6 +67164,8 @@ class ExasolParameters {
 }
 
 /// The parameters that are required to connect to a Databricks data source.
+///
+/// @nodoc
 class DatabricksParameters {
   /// The host name of the Databricks data source.
   final String host;
@@ -65396,6 +67203,8 @@ class DatabricksParameters {
 }
 
 /// The parameters that are required to connect to a Starburst data source.
+///
+/// @nodoc
 class StarburstParameters {
   /// The catalog name for the Starburst data source.
   final String catalog;
@@ -65470,6 +67279,8 @@ class StarburstParameters {
 }
 
 /// The parameters that are required to connect to a Trino data source.
+///
+/// @nodoc
 class TrinoParameters {
   /// The catalog name for the Trino data source.
   final String catalog;
@@ -65508,6 +67319,8 @@ class TrinoParameters {
 
 /// The parameters that are required to connect to a Google BigQuery data
 /// source.
+///
+/// @nodoc
 class BigQueryParameters {
   /// The Google Cloud Platform project ID where your datasource was created.
   final String projectId;
@@ -65538,6 +67351,8 @@ class BigQueryParameters {
 }
 
 /// The parameters that are required to connect to a Impala data source.
+///
+/// @nodoc
 class ImpalaParameters {
   /// The host name of the Impala data source.
   final String host;
@@ -65583,6 +67398,8 @@ class ImpalaParameters {
 
 /// The parameters that are required to connect to a custom connection data
 /// source.
+///
+/// @nodoc
 class CustomConnectionParameters {
   /// The type of custom connector.
   final String? connectionType;
@@ -65606,6 +67423,8 @@ class CustomConnectionParameters {
 }
 
 /// The parameters for a web crawler data source.
+///
+/// @nodoc
 class WebCrawlerParameters {
   /// The authentication type for the web crawler. The type can be one of the
   /// following:
@@ -65699,6 +67518,8 @@ class WebCrawlerParameters {
 }
 
 /// The parameters that are required to connect to a Confluence data source
+///
+/// @nodoc
 class ConfluenceParameters {
   /// The URL of the Confluence site to connect to.
   final String confluenceUrl;
@@ -65723,6 +67544,8 @@ class ConfluenceParameters {
 
 /// The parameters that are required to connect to an Amazon Q Business data
 /// source.
+///
+/// @nodoc
 class QBusinessParameters {
   /// The Amazon Resource Name (ARN) of the Amazon Q Business application.
   final String applicationArn;
@@ -65745,6 +67568,7 @@ class QBusinessParameters {
   }
 }
 
+/// @nodoc
 class WebCrawlerAuthType {
   static const noAuth = WebCrawlerAuthType._('NO_AUTH');
   static const basicAuth = WebCrawlerAuthType._('BASIC_AUTH');
@@ -65772,6 +67596,7 @@ class WebCrawlerAuthType {
   String toString() => value;
 }
 
+/// @nodoc
 class StarburstProductType {
   static const galaxy = StarburstProductType._('GALAXY');
   static const enterprise = StarburstProductType._('ENTERPRISE');
@@ -65797,6 +67622,7 @@ class StarburstProductType {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticationType {
   static const password = AuthenticationType._('PASSWORD');
   static const keypair = AuthenticationType._('KEYPAIR');
@@ -65827,6 +67653,8 @@ class AuthenticationType {
 /// An object that contains information needed to create a data source
 /// connection that uses OAuth client credentials. This option is available for
 /// data source connections that are made with Snowflake and Starburst.
+///
+/// @nodoc
 class OAuthParameters {
   /// The token endpoint URL of the identity provider.
   final String tokenProviderUrl;
@@ -65893,6 +67721,8 @@ class OAuthParameters {
 }
 
 /// Amazon S3 manifest file location.
+///
+/// @nodoc
 class ManifestFileLocation {
   /// Amazon S3 bucket.
   final String bucket;
@@ -65927,6 +67757,8 @@ class ManifestFileLocation {
 /// on the <code>redshift:GetClusterCredentials</code> API, see <a
 /// href="https://docs.aws.amazon.com/redshift/latest/APIReference/API_GetClusterCredentials.html">
 /// <code>GetClusterCredentials</code> </a>.
+///
+/// @nodoc
 class RedshiftIAMParameters {
   /// Use the <code>RoleArn</code> structure to allow Quick Sight to call
   /// <code>redshift:GetClusterCredentials</code> on your cluster. The calling
@@ -65991,6 +67823,8 @@ class RedshiftIAMParameters {
 }
 
 /// The parameters for an IAM Identity Center configuration.
+///
+/// @nodoc
 class IdentityCenterConfiguration {
   /// A Boolean option that controls whether Trusted Identity Propagation should
   /// be used.
@@ -66015,6 +67849,7 @@ class IdentityCenterConfiguration {
   }
 }
 
+/// @nodoc
 class DataSetImportMode {
   static const spice = DataSetImportMode._('SPICE');
   static const directQuery = DataSetImportMode._('DIRECT_QUERY');
@@ -66048,6 +67883,8 @@ class DataSetImportMode {
 ///
 /// The option to deny permissions by setting <code>PermissionPolicy</code> to
 /// <code>DENY_ACCESS</code> is not supported for new RLS datasets.
+///
+/// @nodoc
 class RowLevelPermissionDataSet {
   /// The Amazon Resource Name (ARN) of the dataset that contains permissions for
   /// RLS.
@@ -66112,6 +67949,8 @@ class RowLevelPermissionDataSet {
 }
 
 /// The configuration of tags on a dataset to set row-level security.
+///
+/// @nodoc
 class RowLevelPermissionTagConfiguration {
   /// A set of rules associated with row-level security, such as the tag names and
   /// columns that they are assigned to.
@@ -66164,6 +68003,8 @@ class RowLevelPermissionTagConfiguration {
 
 /// The usage configuration to apply to child datasets that reference this
 /// dataset as a source.
+///
+/// @nodoc
 class DataSetUsageConfiguration {
   /// An option that controls whether a child dataset of a direct query can use
   /// this dataset as a source.
@@ -66200,6 +68041,8 @@ class DataSetUsageConfiguration {
 
 /// The configuration for the performance optimization of the dataset that
 /// contains a <code>UniqueKey</code> configuration.
+///
+/// @nodoc
 class PerformanceConfiguration {
   /// A <code>UniqueKey</code> configuration.
   final List<UniqueKey>? uniqueKeys;
@@ -66227,6 +68070,8 @@ class PerformanceConfiguration {
 
 /// Configuration for data preparation operations, defining the complete
 /// pipeline from source tables through transformations to destination tables.
+///
+/// @nodoc
 class DataPrepConfiguration {
   /// A map of destination tables that receive the final prepared data.
   final Map<String, DestinationTable> destinationTableMap;
@@ -66275,6 +68120,8 @@ class DataPrepConfiguration {
 
 /// Configuration for the semantic model that defines how prepared data is
 /// structured for analysis and reporting.
+///
+/// @nodoc
 class SemanticModelConfiguration {
   /// The dataset-level semantic metadata, including a description and custom
   /// instructions.
@@ -66312,6 +68159,8 @@ class SemanticModelConfiguration {
 
 /// Semantic metadata for a dataset, including a description and custom
 /// instructions.
+///
+/// @nodoc
 class DataSetSemanticMetadata {
   /// A list of custom instructions that guide how the dataset should be consumed.
   final List<CustomInstruction>? customInstructions;
@@ -66348,6 +68197,8 @@ class DataSetSemanticMetadata {
 }
 
 /// A description structure for dataset-level semantic metadata.
+///
+/// @nodoc
 class DataSetSemanticDescription {
   /// The descriptive text for the dataset.
   final String text;
@@ -66372,6 +68223,8 @@ class DataSetSemanticDescription {
 
 /// A custom instruction that provides guidance on how the dataset should be
 /// consumed.
+///
+/// @nodoc
 class CustomInstruction {
   /// An inline custom instruction containing text and optional uploaded document
   /// metadata.
@@ -66401,6 +68254,8 @@ class CustomInstruction {
 
 /// An inline custom instruction with text content and optional file upload
 /// metadata.
+///
+/// @nodoc
 class InlineCustomInstruction {
   /// The instruction text content.
   final String instructionText;
@@ -66435,6 +68290,8 @@ class InlineCustomInstruction {
 }
 
 /// Metadata for an uploaded document associated with a custom instruction.
+///
+/// @nodoc
 class UploadedDocumentMetadata {
   /// The name of the uploaded document.
   final String? name;
@@ -66458,6 +68315,8 @@ class UploadedDocumentMetadata {
 }
 
 /// A semantic table that represents the final analytical structure of the data.
+///
+/// @nodoc
 class SemanticTable {
   /// Alias for the semantic table.
   final String alias;
@@ -66514,6 +68373,8 @@ class SemanticTable {
 }
 
 /// Configuration for row level security.
+///
+/// @nodoc
 class RowLevelPermissionConfiguration {
   final RowLevelPermissionDataSet? rowLevelPermissionDataSet;
   final RowLevelPermissionTagConfiguration? tagConfiguration;
@@ -66548,6 +68409,8 @@ class RowLevelPermissionConfiguration {
 }
 
 /// Column-level semantic metadata for a semantic table.
+///
+/// @nodoc
 class TableSemanticMetadata {
   /// A list of column semantic metadata entries.
   final List<SharedColumnSemanticMetadata>? columnMetadata;
@@ -66575,6 +68438,8 @@ class TableSemanticMetadata {
 }
 
 /// Semantic metadata shared across one or more columns.
+///
+/// @nodoc
 class SharedColumnSemanticMetadata {
   /// The semantic properties for the specified columns.
   final List<ColumnSemanticProperty> columnProperties;
@@ -66612,6 +68477,8 @@ class SharedColumnSemanticMetadata {
 }
 
 /// A semantic property for a column.
+///
+/// @nodoc
 class ColumnSemanticProperty {
   /// Additional notes for the column.
   final AdditionalNotes? additionalNotes;
@@ -66658,6 +68525,8 @@ class ColumnSemanticProperty {
 }
 
 /// Metadata that contains a description for a column.
+///
+/// @nodoc
 class ColumnDescription {
   /// The text of a description for a column.
   final String? text;
@@ -66681,6 +68550,8 @@ class ColumnDescription {
 }
 
 /// Additional notes that provide supplementary context for a column.
+///
+/// @nodoc
 class AdditionalNotes {
   /// The additional notes text.
   final String? text;
@@ -66705,6 +68576,8 @@ class AdditionalNotes {
 
 /// The semantic type information for a column in the new data preparation
 /// experience.
+///
+/// @nodoc
 class ColumnSemanticType {
   /// The geographical role of the column in the new data preparation experience.
   final GeoSpatialDataRole? geographicalRole;
@@ -66728,6 +68601,7 @@ class ColumnSemanticType {
   }
 }
 
+/// @nodoc
 class GeoSpatialDataRole {
   static const country = GeoSpatialDataRole._('COUNTRY');
   static const state = GeoSpatialDataRole._('STATE');
@@ -66768,6 +68642,8 @@ class GeoSpatialDataRole {
 
 /// Defines a destination table in data preparation that receives the final
 /// transformed data.
+///
+/// @nodoc
 class DestinationTable {
   /// Alias for the destination table.
   final String alias;
@@ -66802,6 +68678,8 @@ class DestinationTable {
 
 /// Specifies the source of data for a destination table, including the
 /// transform operation and column mappings.
+///
+/// @nodoc
 class DestinationTableSource {
   /// The identifier of the transform operation that provides data to the
   /// destination table.
@@ -66826,6 +68704,8 @@ class DestinationTableSource {
 }
 
 /// A step in data preparation that performs a specific operation on the data.
+///
+/// @nodoc
 class TransformStep {
   /// A transform step that groups data and applies aggregation functions to
   /// calculate summary values.
@@ -66951,6 +68831,8 @@ class TransformStep {
 }
 
 /// A transform operation that imports data from a source table.
+///
+/// @nodoc
 class ImportTableOperation {
   /// Alias for this operation.
   final String alias;
@@ -66985,6 +68867,8 @@ class ImportTableOperation {
 
 /// A transform operation that projects columns. Operations that come after a
 /// projection can only refer to projected columns.
+///
+/// @nodoc
 class ProjectOperation {
   /// Projected columns.
   final List<String> projectedColumns;
@@ -67029,6 +68913,8 @@ class ProjectOperation {
 }
 
 /// A transform operation that applies one or more filter conditions.
+///
+/// @nodoc
 class FiltersOperation {
   /// Alias for this operation.
   final String alias;
@@ -67072,6 +68958,8 @@ class FiltersOperation {
 
 /// A transform operation that creates calculated columns. Columns created in
 /// one such operation form a lexical closure.
+///
+/// @nodoc
 class CreateColumnsOperation {
   /// Calculated columns to create.
   final List<CalculatedColumn> columns;
@@ -67116,6 +69004,8 @@ class CreateColumnsOperation {
 }
 
 /// A transform operation that renames one or more columns in the dataset.
+///
+/// @nodoc
 class RenameColumnsOperation {
   /// Alias for this operation.
   final String alias;
@@ -67161,6 +69051,8 @@ class RenameColumnsOperation {
 
 /// A transform operation that changes the data types of one or more columns in
 /// the dataset.
+///
+/// @nodoc
 class CastColumnTypesOperation {
   /// Alias for this operation.
   final String alias;
@@ -67207,6 +69099,8 @@ class CastColumnTypesOperation {
 
 /// A transform operation that combines data from two sources based on specified
 /// join conditions.
+///
+/// @nodoc
 class JoinOperation {
   /// Alias for this operation.
   final String alias;
@@ -67289,6 +69183,8 @@ class JoinOperation {
 
 /// A transform operation that groups rows by specified columns and applies
 /// aggregation functions to calculate summary values.
+///
+/// @nodoc
 class AggregateOperation {
   /// The list of aggregation functions to apply to the grouped data, such as
   /// <code>SUM</code>, <code>COUNT</code>, or <code>AVERAGE</code>.
@@ -67344,6 +69240,8 @@ class AggregateOperation {
 
 /// A transform operation that pivots data by converting row values into
 /// columns.
+///
+/// @nodoc
 class PivotOperation {
   /// Alias for this operation.
   final String alias;
@@ -67407,6 +69305,8 @@ class PivotOperation {
 
 /// A transform operation that converts columns into rows, normalizing the data
 /// structure.
+///
+/// @nodoc
 class UnpivotOperation {
   /// Alias for this operation.
   final String alias;
@@ -67482,6 +69382,8 @@ class UnpivotOperation {
 
 /// A transform operation that combines rows from two data sources by stacking
 /// them vertically (union operation).
+///
+/// @nodoc
 class AppendOperation {
   /// Alias for this operation.
   final String alias;
@@ -67537,6 +69439,8 @@ class AppendOperation {
 
 /// Specifies the source of data for a transform operation, including the source
 /// operation and column mappings.
+///
+/// @nodoc
 class TransformOperationSource {
   /// The identifier of the transform operation that provides input data.
   final String transformOperationId;
@@ -67573,6 +69477,8 @@ class TransformOperationSource {
 
 /// Represents a column that will be included in the result of an append
 /// operation, combining data from multiple sources.
+///
+/// @nodoc
 class AppendedColumn {
   /// The name of the column to include in the appended result.
   final String columnName;
@@ -67604,6 +69510,8 @@ class AppendedColumn {
 
 /// Maps a source column identifier to a target column identifier during
 /// transform operations.
+///
+/// @nodoc
 class DataSetColumnIdMapping {
   /// Source column ID.
   final String sourceColumnId;
@@ -67635,6 +69543,8 @@ class DataSetColumnIdMapping {
 
 /// Specifies a column to be unpivoted, transforming it from a column into rows
 /// with associated values.
+///
+/// @nodoc
 class ColumnToUnpivot {
   /// The name of the column to unpivot from the source data.
   final String? columnName;
@@ -67667,6 +69577,8 @@ class ColumnToUnpivot {
 
 /// Configuration for how to handle value columns in pivot operations, including
 /// aggregation settings.
+///
+/// @nodoc
 class ValueColumnConfiguration {
   /// The aggregation function to apply when multiple values map to the same
   /// pivoted cell.
@@ -67696,6 +69608,8 @@ class ValueColumnConfiguration {
 
 /// Configuration for a pivot operation, specifying which column contains labels
 /// and how to pivot them.
+///
+/// @nodoc
 class PivotConfiguration {
   /// The list of specific label values to pivot into separate columns.
   final List<PivotedLabel> pivotedLabels;
@@ -67731,6 +69645,8 @@ class PivotConfiguration {
 
 /// Specifies a label value to be pivoted into a separate column, including the
 /// new column name and identifier.
+///
+/// @nodoc
 class PivotedLabel {
   /// The label value from the source data to be pivoted.
   final String labelName;
@@ -67769,6 +69685,8 @@ class PivotedLabel {
 
 /// Defines the type of aggregation function to apply to data during data
 /// preparation, supporting simple and list aggregations.
+///
+/// @nodoc
 class DataPrepAggregationFunction {
   /// A list aggregation function that concatenates values from multiple rows into
   /// a single delimited string.
@@ -67810,6 +69728,8 @@ class DataPrepAggregationFunction {
 
 /// A simple aggregation function that performs standard statistical operations
 /// on a column.
+///
+/// @nodoc
 class DataPrepSimpleAggregationFunction {
   /// The type of aggregation function to perform, such as <code>COUNT</code>,
   /// <code>SUM</code>, <code>AVERAGE</code>, <code>MIN</code>, <code>MAX</code>,
@@ -67846,6 +69766,8 @@ class DataPrepSimpleAggregationFunction {
 
 /// An aggregation function that concatenates values from multiple rows into a
 /// single string with a specified separator.
+///
+/// @nodoc
 class DataPrepListAggregationFunction {
   /// Whether to include only distinct values in the concatenated result, removing
   /// duplicates.
@@ -67883,6 +69805,7 @@ class DataPrepListAggregationFunction {
   }
 }
 
+/// @nodoc
 class DataPrepSimpleAggregationFunctionType {
   static const count = DataPrepSimpleAggregationFunctionType._('COUNT');
   static const distinctCount =
@@ -67915,6 +69838,8 @@ class DataPrepSimpleAggregationFunctionType {
 
 /// Defines an aggregation function to be applied to grouped data, creating a
 /// new column with the calculated result.
+///
+/// @nodoc
 class Aggregation {
   /// The aggregation function to apply, such as <code>SUM</code>,
   /// <code>COUNT</code>, <code>AVERAGE</code>, <code>MIN</code>, <code>MAX</code>
@@ -67955,6 +69880,7 @@ class Aggregation {
   }
 }
 
+/// @nodoc
 class JoinOperationType {
   static const inner = JoinOperationType._('INNER');
   static const outer = JoinOperationType._('OUTER');
@@ -67983,6 +69909,8 @@ class JoinOperationType {
 
 /// Properties that control how columns are handled for a join operand,
 /// including column name overrides.
+///
+/// @nodoc
 class JoinOperandProperties {
   /// A list of column name overrides to apply to the join operand's output
   /// columns.
@@ -68013,6 +69941,8 @@ class JoinOperandProperties {
 
 /// Specifies a mapping to override the name of an output column from a
 /// transform operation.
+///
+/// @nodoc
 class OutputColumnNameOverride {
   /// The new name to assign to the column in the output.
   final String outputColumnName;
@@ -68043,6 +69973,8 @@ class OutputColumnNameOverride {
 }
 
 /// A transform operation that casts a column to a different type.
+///
+/// @nodoc
 class CastColumnTypeOperation {
   /// Column name.
   final String columnName;
@@ -68089,6 +70021,7 @@ class CastColumnTypeOperation {
   }
 }
 
+/// @nodoc
 class ColumnDataType {
   static const string = ColumnDataType._('STRING');
   static const integer = ColumnDataType._('INTEGER');
@@ -68115,6 +70048,7 @@ class ColumnDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class ColumnDataSubType {
   static const float = ColumnDataSubType._('FLOAT');
   static const fixed = ColumnDataSubType._('FIXED');
@@ -68140,6 +70074,8 @@ class ColumnDataSubType {
 }
 
 /// A transform operation that renames a column.
+///
+/// @nodoc
 class RenameColumnOperation {
   /// The name of the column to be renamed.
   final String columnName;
@@ -68170,6 +70106,8 @@ class RenameColumnOperation {
 }
 
 /// A calculated column for a dataset.
+///
+/// @nodoc
 class CalculatedColumn {
   /// A unique ID to identify a calculated column. During a dataset update, if the
   /// column ID of a calculated column matches that of an existing calculated
@@ -68209,6 +70147,8 @@ class CalculatedColumn {
 }
 
 /// A transform operation that filters rows based on a condition.
+///
+/// @nodoc
 class FilterOperation {
   /// An expression that must evaluate to a Boolean value. Rows for which the
   /// expression evaluates to true are kept in the dataset.
@@ -68268,6 +70208,8 @@ class FilterOperation {
 
 /// A filter condition for string columns, supporting both comparison and
 /// list-based filtering.
+///
+/// @nodoc
 class DataSetStringFilterCondition {
   /// The name of the string column to filter.
   final String? columnName;
@@ -68315,6 +70257,8 @@ class DataSetStringFilterCondition {
 
 /// A filter condition for numeric columns, supporting both comparison and
 /// range-based filtering.
+///
+/// @nodoc
 class DataSetNumericFilterCondition {
   /// The name of the numeric column to filter.
   final String? columnName;
@@ -68362,6 +70306,8 @@ class DataSetNumericFilterCondition {
 
 /// A filter condition for date columns, supporting both comparison and
 /// range-based filtering.
+///
+/// @nodoc
 class DataSetDateFilterCondition {
   /// The name of the date column to filter.
   final String? columnName;
@@ -68409,6 +70355,8 @@ class DataSetDateFilterCondition {
 
 /// A filter condition that compares date values using operators like
 /// <code>BEFORE</code>, <code>AFTER</code>, or their inclusive variants.
+///
+/// @nodoc
 class DataSetDateComparisonFilterCondition {
   /// The comparison operator to use, such as <code>BEFORE</code>,
   /// <code>BEFORE_OR_EQUALS_TO</code>, <code>AFTER</code>, or
@@ -68446,6 +70394,8 @@ class DataSetDateComparisonFilterCondition {
 }
 
 /// A filter condition that filters date values within a specified range.
+///
+/// @nodoc
 class DataSetDateRangeFilterCondition {
   /// Whether to include the maximum value in the filter range.
   final bool? includeMaximum;
@@ -68496,6 +70446,8 @@ class DataSetDateRangeFilterCondition {
 }
 
 /// Represents a date value used in filter conditions.
+///
+/// @nodoc
 class DataSetDateFilterValue {
   /// A static date value used for filtering.
   final DateTime? staticValue;
@@ -68518,6 +70470,7 @@ class DataSetDateFilterValue {
   }
 }
 
+/// @nodoc
 class DataSetDateComparisonFilterOperator {
   static const before = DataSetDateComparisonFilterOperator._('BEFORE');
   static const beforeOrEqualsTo =
@@ -68549,6 +70502,8 @@ class DataSetDateComparisonFilterOperator {
 
 /// A filter condition that compares numeric values using operators like
 /// <code>EQUALS</code>, <code>GREATER_THAN</code>, or <code>LESS_THAN</code>.
+///
+/// @nodoc
 class DataSetNumericComparisonFilterCondition {
   /// The comparison operator to use, such as <code>EQUALS</code>,
   /// <code>GREATER_THAN</code>, <code>LESS_THAN</code>, or their variants.
@@ -68585,6 +70540,8 @@ class DataSetNumericComparisonFilterCondition {
 }
 
 /// A filter condition that filters numeric values within a specified range.
+///
+/// @nodoc
 class DataSetNumericRangeFilterCondition {
   /// Whether to include the maximum value in the filter range.
   final bool? includeMaximum;
@@ -68636,6 +70593,8 @@ class DataSetNumericRangeFilterCondition {
 }
 
 /// Represents a numeric value used in filter conditions.
+///
+/// @nodoc
 class DataSetNumericFilterValue {
   /// A static numeric value used for filtering.
   final double? staticValue;
@@ -68658,6 +70617,7 @@ class DataSetNumericFilterValue {
   }
 }
 
+/// @nodoc
 class DataSetNumericComparisonFilterOperator {
   static const equals = DataSetNumericComparisonFilterOperator._('EQUALS');
   static const doesNotEqual =
@@ -68700,6 +70660,8 @@ class DataSetNumericComparisonFilterOperator {
 
 /// A filter condition that compares string values using operators like
 /// <code>EQUALS</code>, <code>CONTAINS</code>, or <code>STARTS_WITH</code>.
+///
+/// @nodoc
 class DataSetStringComparisonFilterCondition {
   /// The comparison operator to use, such as <code>EQUALS</code>,
   /// <code>CONTAINS</code>, <code>STARTS_WITH</code>, <code>ENDS_WITH</code>, or
@@ -68738,6 +70700,8 @@ class DataSetStringComparisonFilterCondition {
 
 /// A filter condition that includes or excludes string values from a specified
 /// list.
+///
+/// @nodoc
 class DataSetStringListFilterCondition {
   /// The list operator to use, either <code>INCLUDE</code> to match values in the
   /// list or <code>EXCLUDE</code> to filter out values in the list.
@@ -68772,6 +70736,7 @@ class DataSetStringListFilterCondition {
   }
 }
 
+/// @nodoc
 class DataSetStringListFilterOperator {
   static const include = DataSetStringListFilterOperator._('INCLUDE');
   static const exclude = DataSetStringListFilterOperator._('EXCLUDE');
@@ -68798,6 +70763,8 @@ class DataSetStringListFilterOperator {
 }
 
 /// Represents a list of string values used in filter conditions.
+///
+/// @nodoc
 class DataSetStringListFilterValue {
   /// A list of static string values used for filtering.
   final List<String>? staticValues;
@@ -68823,6 +70790,7 @@ class DataSetStringListFilterValue {
   }
 }
 
+/// @nodoc
 class DataSetStringComparisonFilterOperator {
   static const equals = DataSetStringComparisonFilterOperator._('EQUALS');
   static const doesNotEqual =
@@ -68863,6 +70831,8 @@ class DataSetStringComparisonFilterOperator {
 }
 
 /// Represents a string value used in filter conditions.
+///
+/// @nodoc
 class DataSetStringFilterValue {
   /// A static string value used for filtering.
   final String? staticValue;
@@ -68887,6 +70857,8 @@ class DataSetStringFilterValue {
 
 /// Specifies the source table and column mappings for an import table
 /// operation.
+///
+/// @nodoc
 class ImportTableOperationSource {
   /// The identifier of the source table to import data from.
   final String sourceTableId;
@@ -68923,6 +70895,8 @@ class ImportTableOperationSource {
 
 /// A source table that provides initial data from either a physical table or
 /// parent dataset.
+///
+/// @nodoc
 class SourceTable {
   /// A parent dataset that serves as the data source instead of a physical table.
   final ParentDataSet? dataSet;
@@ -68956,6 +70930,8 @@ class SourceTable {
 
 /// References a parent dataset that serves as a data source, including its
 /// columns and metadata.
+///
+/// @nodoc
 class ParentDataSet {
   /// The Amazon Resource Name (ARN) of the parent dataset.
   final String dataSetArn;
@@ -68989,6 +70965,8 @@ class ParentDataSet {
 }
 
 /// Metadata for a column that is used as the input of a transform operation.
+///
+/// @nodoc
 class InputColumn {
   /// The name of this column in the underlying data source.
   final String name;
@@ -69037,6 +71015,7 @@ class InputColumn {
   }
 }
 
+/// @nodoc
 class InputColumnDataType {
   static const string = InputColumnDataType._('STRING');
   static const integer = InputColumnDataType._('INTEGER');
@@ -69078,6 +71057,8 @@ class InputColumnDataType {
 }
 
 /// A <code>UniqueKey</code> configuration that references a dataset column.
+///
+/// @nodoc
 class UniqueKey {
   /// The name of the column that is referenced in the <code>UniqueKey</code>
   /// configuration.
@@ -69106,6 +71087,8 @@ class UniqueKey {
 
 /// A parameter that is created in a dataset. The parameter can be a string,
 /// integer, decimal, or datetime data type.
+///
+/// @nodoc
 class DatasetParameter {
   /// A date time parameter that is created in the dataset.
   final DateTimeDatasetParameter? dateTimeDatasetParameter;
@@ -69166,6 +71149,8 @@ class DatasetParameter {
 }
 
 /// A string parameter for a dataset.
+///
+/// @nodoc
 class StringDatasetParameter {
   /// An identifier for the string parameter that is created in the dataset.
   final String id;
@@ -69216,6 +71201,8 @@ class StringDatasetParameter {
 }
 
 /// A decimal parameter for a dataset.
+///
+/// @nodoc
 class DecimalDatasetParameter {
   /// An identifier for the decimal parameter created in the dataset.
   final String id;
@@ -69266,6 +71253,8 @@ class DecimalDatasetParameter {
 }
 
 /// An integer parameter for a dataset.
+///
+/// @nodoc
 class IntegerDatasetParameter {
   /// An identifier for the integer parameter created in the dataset.
   final String id;
@@ -69316,6 +71305,8 @@ class IntegerDatasetParameter {
 }
 
 /// A date time parameter for a dataset.
+///
+/// @nodoc
 class DateTimeDatasetParameter {
   /// An identifier for the parameter that is created in the dataset.
   final String id;
@@ -69375,6 +71366,8 @@ class DateTimeDatasetParameter {
 
 /// The value type of the parameter. The value type is used to validate the
 /// parameter before it is evaluated.
+///
+/// @nodoc
 class DatasetParameterValueType {
   static const multiValued = DatasetParameterValueType._('MULTI_VALUED');
   static const singleValued = DatasetParameterValueType._('SINGLE_VALUED');
@@ -69401,6 +71394,8 @@ class DatasetParameterValueType {
 }
 
 /// The default values of a date time parameter.
+///
+/// @nodoc
 class DateTimeDatasetParameterDefaultValues {
   /// A list of static default values for a given date time parameter.
   final List<DateTime>? staticValues;
@@ -69429,6 +71424,8 @@ class DateTimeDatasetParameterDefaultValues {
 }
 
 /// The default values of an integer parameter.
+///
+/// @nodoc
 class IntegerDatasetParameterDefaultValues {
   /// A list of static default values for a given integer parameter.
   final List<int>? staticValues;
@@ -69456,6 +71453,8 @@ class IntegerDatasetParameterDefaultValues {
 }
 
 /// The default values of a decimal parameter.
+///
+/// @nodoc
 class DecimalDatasetParameterDefaultValues {
   /// A list of static default values for a given decimal parameter.
   final List<double>? staticValues;
@@ -69483,6 +71482,8 @@ class DecimalDatasetParameterDefaultValues {
 }
 
 /// The default values of a string parameter.
+///
+/// @nodoc
 class StringDatasetParameterDefaultValues {
   /// A list of static default values for a given string parameter.
   final List<String>? staticValues;
@@ -69514,6 +71515,8 @@ class StringDatasetParameterDefaultValues {
 /// to one or more rules. Each rule must contain at least one column and at
 /// least one user or group. To be able to see a restricted column, a user or
 /// group needs to be added to a rule for that column.
+///
+/// @nodoc
 class ColumnLevelPermissionRule {
   /// An array of column names.
   final List<String>? columnNames;
@@ -69549,6 +71552,7 @@ class ColumnLevelPermissionRule {
   }
 }
 
+/// @nodoc
 class Status {
   static const enabled = Status._('ENABLED');
   static const disabled = Status._('DISABLED');
@@ -69573,6 +71577,8 @@ class Status {
 }
 
 /// A set of rules associated with a tag.
+///
+/// @nodoc
 class RowLevelPermissionTagRule {
   /// The column name that a tag key is assigned to.
   final String columnName;
@@ -69620,6 +71626,7 @@ class RowLevelPermissionTagRule {
   }
 }
 
+/// @nodoc
 class RowLevelPermissionPolicy {
   static const grantAccess = RowLevelPermissionPolicy._('GRANT_ACCESS');
   static const denyAccess = RowLevelPermissionPolicy._('DENY_ACCESS');
@@ -69645,6 +71652,7 @@ class RowLevelPermissionPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class RowLevelPermissionFormatVersion {
   static const version_1 = RowLevelPermissionFormatVersion._('VERSION_1');
   static const version_2 = RowLevelPermissionFormatVersion._('VERSION_2');
@@ -69672,6 +71680,8 @@ class RowLevelPermissionFormatVersion {
 
 /// A FieldFolder element is a folder that contains fields and nested
 /// subfolders.
+///
+/// @nodoc
 class FieldFolder {
   /// A folder has a list of columns. A column can only be in one folder.
   final List<String>? columns;
@@ -69705,6 +71715,8 @@ class FieldFolder {
 /// Groupings of columns that work together in certain Quick Sight features.
 /// This is a variant type structure. For this structure to be valid, only one
 /// of the attributes can be non-null.
+///
+/// @nodoc
 class ColumnGroup {
   /// Geospatial column group that denotes a hierarchy.
   final GeoSpatialColumnGroup? geoSpatialColumnGroup;
@@ -69732,6 +71744,8 @@ class ColumnGroup {
 }
 
 /// Geospatial column group that denotes a hierarchy.
+///
+/// @nodoc
 class GeoSpatialColumnGroup {
   /// Columns in this hierarchy.
   final List<String> columns;
@@ -69772,6 +71786,7 @@ class GeoSpatialColumnGroup {
   }
 }
 
+/// @nodoc
 class GeoSpatialCountryCode {
   static const us = GeoSpatialCountryCode._('US');
 
@@ -69801,6 +71816,8 @@ class GeoSpatialCountryCode {
 /// table or result of a join. When a logical table points to a physical table,
 /// the logical table acts as a mutable copy of that physical table through
 /// transform operations.
+///
+/// @nodoc
 class LogicalTable {
   /// A display name for the logical table.
   final String alias;
@@ -69846,6 +71863,8 @@ class LogicalTable {
 /// Information about the source of a logical table. This is a variant type
 /// structure. For this structure to be valid, only one of the attributes can be
 /// non-null.
+///
+/// @nodoc
 class LogicalTableSource {
   /// The Amazon Resource Number (ARN) of the parent dataset.
   final String? dataSetArn;
@@ -69886,6 +71905,8 @@ class LogicalTableSource {
 }
 
 /// The instructions associated with a join.
+///
+/// @nodoc
 class JoinInstruction {
   /// The operand on the left side of a join.
   final String leftOperand;
@@ -69952,6 +71973,8 @@ class JoinInstruction {
 }
 
 /// Properties associated with the columns participating in a join.
+///
+/// @nodoc
 class JoinKeyProperties {
   /// A value that indicates that a row in a table is uniquely identified by the
   /// columns in a join key. This is used by Quick Sight to optimize query
@@ -69976,6 +71999,7 @@ class JoinKeyProperties {
   }
 }
 
+/// @nodoc
 class JoinType {
   static const inner = JoinType._('INNER');
   static const outer = JoinType._('OUTER');
@@ -70003,6 +72027,8 @@ class JoinType {
 
 /// A data transformation on a logical table. This is a variant type structure.
 /// For this structure to be valid, only one of the attributes can be non-null.
+///
+/// @nodoc
 class TransformOperation {
   /// A transform operation that casts a column to a different type.
   final CastColumnTypeOperation? castColumnTypeOperation;
@@ -70105,6 +72131,8 @@ class TransformOperation {
 }
 
 /// A transform operation that tags a column with additional information.
+///
+/// @nodoc
 class TagColumnOperation {
   /// The column that this operation acts on.
   final String columnName;
@@ -70141,6 +72169,8 @@ class TagColumnOperation {
 }
 
 /// A transform operation that removes tags associated with a column.
+///
+/// @nodoc
 class UntagColumnOperation {
   /// The column that this operation acts on.
   final String columnName;
@@ -70175,6 +72205,8 @@ class UntagColumnOperation {
 
 /// A transform operation that overrides the dataset parameter values that are
 /// defined in another dataset.
+///
+/// @nodoc
 class OverrideDatasetParameterOperation {
   /// The name of the parameter to be overridden with different values.
   final String parameterName;
@@ -70217,6 +72249,8 @@ class OverrideDatasetParameterOperation {
 
 /// The configuration that overrides the existing default values for a dataset
 /// parameter that is inherited from another dataset.
+///
+/// @nodoc
 class NewDefaultValues {
   /// A list of static default values for a given date time parameter.
   final List<DateTime>? dateTimeStaticValues;
@@ -70276,6 +72310,7 @@ class NewDefaultValues {
   }
 }
 
+/// @nodoc
 class ColumnTagName {
   static const columnGeographicRole = ColumnTagName._('COLUMN_GEOGRAPHIC_ROLE');
   static const columnDescription = ColumnTagName._('COLUMN_DESCRIPTION');
@@ -70304,6 +72339,8 @@ class ColumnTagName {
 /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_TagColumnOperation.html">TagColumnOperation</a>
 /// </code> structure. This is a variant type structure. For this structure to
 /// be valid, only one of the attributes can be non-null.
+///
+/// @nodoc
 class ColumnTag {
   /// A description for a column.
   final ColumnDescription? columnDescription;
@@ -70341,6 +72378,8 @@ class ColumnTag {
 /// A view of a data source that contains information about the shape of the
 /// data in the underlying source. This is a variant type structure. For this
 /// structure to be valid, only one of the attributes can be non-null.
+///
+/// @nodoc
 class PhysicalTable {
   /// A physical table type built from the results of the custom SQL query.
   final CustomSql? customSql;
@@ -70394,6 +72433,8 @@ class PhysicalTable {
 }
 
 /// A physical table type for relational data sources.
+///
+/// @nodoc
 class RelationalTable {
   /// The Amazon Resource Name (ARN) for the data source.
   final String dataSourceArn;
@@ -70448,6 +72489,8 @@ class RelationalTable {
 }
 
 /// A physical table type built from the results of the custom SQL query.
+///
+/// @nodoc
 class CustomSql {
   /// The Amazon Resource Name (ARN) of the data source.
   final String dataSourceArn;
@@ -70495,6 +72538,8 @@ class CustomSql {
 }
 
 /// A physical table type for an S3 data source.
+///
+/// @nodoc
 class S3Source {
   /// The Amazon Resource Name (ARN) for the data source.
   final String dataSourceArn;
@@ -70543,6 +72588,8 @@ class S3Source {
 
 /// A table from a Software-as-a-Service (SaaS) data source, including
 /// connection details and column definitions.
+///
+/// @nodoc
 class SaaSTable {
   /// The Amazon Resource Name (ARN) of the SaaS data source.
   final String dataSourceArn;
@@ -70587,6 +72634,8 @@ class SaaSTable {
 
 /// An element in the hierarchical path to a table within a data source,
 /// containing both name and identifier.
+///
+/// @nodoc
 class TablePathElement {
   /// The unique identifier of the path element.
   final String? id;
@@ -70617,6 +72666,8 @@ class TablePathElement {
 }
 
 /// Information about the format for a source file or files.
+///
+/// @nodoc
 class UploadSettings {
   /// Whether the file has a header row, or the files each have a header row.
   final bool? containsHeader;
@@ -70677,6 +72728,7 @@ class UploadSettings {
   }
 }
 
+/// @nodoc
 class FileFormat {
   static const csv = FileFormat._('CSV');
   static const tsv = FileFormat._('TSV');
@@ -70704,6 +72756,7 @@ class FileFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class TextQualifier {
   static const doubleQuote = TextQualifier._('DOUBLE_QUOTE');
   static const singleQuote = TextQualifier._('SINGLE_QUOTE');
@@ -70728,6 +72781,7 @@ class TextQualifier {
   String toString() => value;
 }
 
+/// @nodoc
 class DashboardsQAStatus {
   static const enabled = DashboardsQAStatus._('ENABLED');
   static const disabled = DashboardsQAStatus._('DISABLED');
@@ -70755,6 +72809,8 @@ class DashboardsQAStatus {
 
 /// A structure that contains the configuration of a shareable link to the
 /// dashboard.
+///
+/// @nodoc
 class LinkSharingConfiguration {
   /// A structure that contains the permissions of a shareable link.
   final List<ResourcePermission>? permissions;
@@ -70781,6 +72837,8 @@ class LinkSharingConfiguration {
 }
 
 /// Dashboard source entity.
+///
+/// @nodoc
 class DashboardSourceEntity {
   /// Source template.
   final DashboardSourceTemplate? sourceTemplate;
@@ -70798,6 +72856,8 @@ class DashboardSourceEntity {
 }
 
 /// A list of Quick Sight parameters and the list's override values.
+///
+/// @nodoc
 class Parameters {
   /// The parameters that have a data type of date-time.
   final List<DateTimeParameter>? dateTimeParameters;
@@ -70854,6 +72914,8 @@ class Parameters {
 }
 
 /// Dashboard publish options.
+///
+/// @nodoc
 class DashboardPublishOptions {
   /// Ad hoc (one-time) filtering option.
   final AdHocFilteringOption? adHocFilteringOption;
@@ -71041,6 +73103,8 @@ class DashboardPublishOptions {
 }
 
 /// The contents of a dashboard.
+///
+/// @nodoc
 class DashboardVersionDefinition {
   /// An array of dataset identifier declarations. With this mapping,you can use
   /// dataset identifiers instead of dataset Amazon Resource Names (ARNs)
@@ -71173,6 +73237,8 @@ class DashboardVersionDefinition {
 }
 
 /// A data set.
+///
+/// @nodoc
 class DataSetIdentifierDeclaration {
   /// The Amazon Resource Name (ARN) of the data set.
   final String dataSetArn;
@@ -71203,6 +73269,8 @@ class DataSetIdentifierDeclaration {
 }
 
 /// An ad hoc (one-time) filtering option.
+///
+/// @nodoc
 class AdHocFilteringOption {
   /// Availability status.
   final DashboardBehavior? availabilityStatus;
@@ -71228,6 +73296,8 @@ class AdHocFilteringOption {
 }
 
 /// Export to .csv option.
+///
+/// @nodoc
 class ExportToCSVOption {
   /// Availability status.
   final DashboardBehavior? availabilityStatus;
@@ -71253,6 +73323,8 @@ class ExportToCSVOption {
 }
 
 /// Sheet controls option.
+///
+/// @nodoc
 class SheetControlsOption {
   /// Visibility state.
   final DashboardUIState? visibilityState;
@@ -71277,6 +73349,8 @@ class SheetControlsOption {
 }
 
 /// The visual publish options of a visual in a dashboard
+///
+/// @nodoc
 class DashboardVisualPublishOptions {
   /// Determines if hidden fields are included in an exported dashboard.
   final ExportHiddenFieldsOption? exportHiddenFieldsOption;
@@ -71304,6 +73378,8 @@ class DashboardVisualPublishOptions {
 }
 
 /// The sheet layout maximization options of a dashbaord.
+///
+/// @nodoc
 class SheetLayoutElementMaximizationOption {
   /// The status of the sheet layout maximization options of a dashbaord.
   final DashboardBehavior? availabilityStatus;
@@ -71330,6 +73406,8 @@ class SheetLayoutElementMaximizationOption {
 }
 
 /// The axis sort options for a visual.
+///
+/// @nodoc
 class VisualAxisSortOption {
   /// The availaiblity status of a visual's axis sort options.
   final DashboardBehavior? availabilityStatus;
@@ -71355,6 +73433,8 @@ class VisualAxisSortOption {
 }
 
 /// Determines whether or not hidden fields are visible on exported dashbaords.
+///
+/// @nodoc
 class ExportWithHiddenFieldsOption {
   /// The status of the export with hidden fields options.
   final DashboardBehavior? availabilityStatus;
@@ -71380,6 +73460,8 @@ class ExportWithHiddenFieldsOption {
 }
 
 /// The drill down options for data points in a dashbaord.
+///
+/// @nodoc
 class DataPointDrillUpDownOption {
   /// The status of the drill down options of data points.
   final DashboardBehavior? availabilityStatus;
@@ -71405,6 +73487,8 @@ class DataPointDrillUpDownOption {
 }
 
 /// The data point menu options of a dashboard.
+///
+/// @nodoc
 class DataPointMenuLabelOption {
   /// The status of the data point menu options.
   final DashboardBehavior? availabilityStatus;
@@ -71430,6 +73514,8 @@ class DataPointMenuLabelOption {
 }
 
 /// The data point tooltip options.
+///
+/// @nodoc
 class DataPointTooltipOption {
   /// The status of the data point tool tip options.
   final DashboardBehavior? availabilityStatus;
@@ -71458,6 +73544,8 @@ class DataPointTooltipOption {
 /// uses the data values that are rendered on the dashboard. End users can use
 /// Dashboard Q&A to ask for different slices of the data that they see on the
 /// dashboard. If a topic is linked, Topic Q&A is enabled.
+///
+/// @nodoc
 class DataQAEnabledOption {
   /// The status of the Data Q&A option on the dashboard.
   final DashboardBehavior? availabilityStatus;
@@ -71483,6 +73571,8 @@ class DataQAEnabledOption {
 }
 
 /// Determines if Actions in Amazon Quick Suite are enabled in a dashboard..
+///
+/// @nodoc
 class QuickSuiteActionsOption {
   /// Availability status.
   final DashboardBehavior? availabilityStatus;
@@ -71508,6 +73598,8 @@ class QuickSuiteActionsOption {
 }
 
 /// Data stories sharing option.
+///
+/// @nodoc
 class ExecutiveSummaryOption {
   /// Availability status.
   final DashboardBehavior? availabilityStatus;
@@ -71533,6 +73625,8 @@ class ExecutiveSummaryOption {
 }
 
 /// Executive summary option.
+///
+/// @nodoc
 class DataStoriesSharingOption {
   /// Availability status.
   final DashboardBehavior? availabilityStatus;
@@ -71558,6 +73652,8 @@ class DataStoriesSharingOption {
 }
 
 /// Determines if hidden fields are included in an exported dashboard.
+///
+/// @nodoc
 class ExportHiddenFieldsOption {
   /// The status of the export hidden fields options of a dashbaord.
   final DashboardBehavior? availabilityStatus;
@@ -71582,6 +73678,7 @@ class ExportHiddenFieldsOption {
   }
 }
 
+/// @nodoc
 class DashboardUIState {
   static const expanded = DashboardUIState._('EXPANDED');
   static const collapsed = DashboardUIState._('COLLAPSED');
@@ -71607,6 +73704,8 @@ class DashboardUIState {
 }
 
 /// A date-time parameter.
+///
+/// @nodoc
 class DateTimeParameter {
   /// A display name for the date-time parameter.
   final String name;
@@ -71640,6 +73739,8 @@ class DateTimeParameter {
 }
 
 /// A decimal parameter.
+///
+/// @nodoc
 class DecimalParameter {
   /// A display name for the decimal parameter.
   final String name;
@@ -71673,6 +73774,8 @@ class DecimalParameter {
 }
 
 /// An integer parameter.
+///
+/// @nodoc
 class IntegerParameter {
   /// The name of the integer parameter.
   final String name;
@@ -71706,6 +73809,8 @@ class IntegerParameter {
 }
 
 /// A string parameter.
+///
+/// @nodoc
 class StringParameter {
   /// A display name for a string parameter.
   final String name;
@@ -71739,6 +73844,8 @@ class StringParameter {
 }
 
 /// Dashboard source template.
+///
+/// @nodoc
 class DashboardSourceTemplate {
   /// The Amazon Resource Name (ARN) of the resource.
   final String arn;
@@ -71762,6 +73869,8 @@ class DashboardSourceTemplate {
 }
 
 /// A set of actions that correspond to Amazon Quick Sight permissions.
+///
+/// @nodoc
 class Capabilities {
   /// The ability to access the native data store for new and existing apps.
   final CapabilityState? accessAppsNativeDataStore;
@@ -73881,6 +75990,7 @@ class Capabilities {
   }
 }
 
+/// @nodoc
 class CapabilityState {
   static const deny = CapabilityState._('DENY');
 
@@ -73905,6 +76015,8 @@ class CapabilityState {
 }
 
 /// The details of the brand.
+///
+/// @nodoc
 class BrandDetail {
   /// The ID of the Quick brand.
   final String brandId;
@@ -73990,6 +76102,8 @@ class BrandDetail {
 }
 
 /// The definition of the brand.
+///
+/// @nodoc
 class BrandDefinition {
   /// The name of the brand.
   final String brandName;
@@ -74040,6 +76154,8 @@ class BrandDefinition {
 }
 
 /// The application theme.
+///
+/// @nodoc
 class ApplicationTheme {
   /// The color palette.
   final BrandColorPalette? brandColorPalette;
@@ -74087,6 +76203,8 @@ class ApplicationTheme {
 }
 
 /// The logo configuration.
+///
+/// @nodoc
 class LogoConfiguration {
   /// The alt text for the logo.
   final String altText;
@@ -74119,6 +76237,8 @@ class LogoConfiguration {
 }
 
 /// The logo set configuration.
+///
+/// @nodoc
 class LogoSetConfiguration {
   /// The primary logo.
   final ImageSetConfiguration primary;
@@ -74154,6 +76274,8 @@ class LogoSetConfiguration {
 }
 
 /// The image set configuration.
+///
+/// @nodoc
 class ImageSetConfiguration {
   /// The original image.
   final ImageConfiguration original;
@@ -74179,6 +76301,8 @@ class ImageSetConfiguration {
 }
 
 /// The logo image configuration.
+///
+/// @nodoc
 class ImageConfiguration {
   /// The source of the image.
   final ImageSource? source;
@@ -74204,6 +76328,8 @@ class ImageConfiguration {
 }
 
 /// The source of the image.
+///
+/// @nodoc
 class ImageSource {
   /// The public URL that points to the source image.
   final String? publicUrl;
@@ -74234,6 +76360,8 @@ class ImageSource {
 }
 
 /// The color palette.
+///
+/// @nodoc
 class BrandColorPalette {
   /// The color that is used for accent elements.
   final Palette? accent;
@@ -74331,6 +76459,8 @@ class BrandColorPalette {
 }
 
 /// The contextual accent palette.
+///
+/// @nodoc
 class ContextualAccentPalette {
   final Palette? automation;
   final Palette? connection;
@@ -74376,6 +76506,8 @@ class ContextualAccentPalette {
 }
 
 /// The element style.
+///
+/// @nodoc
 class BrandElementStyle {
   /// The navigation bar style.
   final NavbarStyle? navbarStyle;
@@ -74401,6 +76533,8 @@ class BrandElementStyle {
 }
 
 /// The navigation bar style.
+///
+/// @nodoc
 class NavbarStyle {
   /// The contextual navigation bar style.
   final Palette? contextualNavbar;
@@ -74435,6 +76569,8 @@ class NavbarStyle {
 }
 
 /// The color palette.
+///
+/// @nodoc
 class Palette {
   /// The background color.
   final String? background;
@@ -74464,6 +76600,7 @@ class Palette {
   }
 }
 
+/// @nodoc
 class BrandStatus {
   static const createInProgress = BrandStatus._('CREATE_IN_PROGRESS');
   static const createSucceeded = BrandStatus._('CREATE_SUCCEEDED');
@@ -74496,6 +76633,7 @@ class BrandStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BrandVersionStatus {
   static const createInProgress = BrandVersionStatus._('CREATE_IN_PROGRESS');
   static const createSucceeded = BrandVersionStatus._('CREATE_SUCCEEDED');
@@ -74523,6 +76661,8 @@ class BrandVersionStatus {
 }
 
 /// The logo configuration.
+///
+/// @nodoc
 class Logo {
   /// The alt text for the logo.
   final String altText;
@@ -74554,6 +76694,8 @@ class Logo {
 }
 
 /// A set of logos.
+///
+/// @nodoc
 class LogoSet {
   /// The primary logo.
   final ImageSet primary;
@@ -74587,6 +76729,8 @@ class LogoSet {
 }
 
 /// The image set.
+///
+/// @nodoc
 class ImageSet {
   /// The original image.
   final Image original;
@@ -74629,6 +76773,8 @@ class ImageSet {
 }
 
 /// The logo image.
+///
+/// @nodoc
 class Image {
   /// The URL that points to the generated logo image.
   final String? generatedImageUrl;
@@ -74661,6 +76807,8 @@ class Image {
 }
 
 /// The source entity of an analysis.
+///
+/// @nodoc
 class AnalysisSourceEntity {
   /// The source template for the source entity of the analysis.
   final AnalysisSourceTemplate? sourceTemplate;
@@ -74678,6 +76826,8 @@ class AnalysisSourceEntity {
 }
 
 /// The definition of an analysis.
+///
+/// @nodoc
 class AnalysisDefinition {
   /// An array of dataset identifier declarations. This mapping allows the usage
   /// of dataset identifiers instead of dataset ARNs throughout analysis
@@ -74825,6 +76975,8 @@ class AnalysisDefinition {
 }
 
 /// The source template of an analysis.
+///
+/// @nodoc
 class AnalysisSourceTemplate {
   /// The Amazon Resource Name (ARN) of the source template of an analysis.
   final String arn;
@@ -74847,6 +76999,7 @@ class AnalysisSourceTemplate {
   }
 }
 
+/// @nodoc
 class AgentStatus {
   static const active = AgentStatus._('ACTIVE');
   static const updating = AgentStatus._('UPDATING');
@@ -74873,6 +77026,8 @@ class AgentStatus {
 }
 
 /// Information about a per-ARN failure when updating agent associations.
+///
+/// @nodoc
 class FailedToUpdateAssociation {
   /// The ARN that could not be added or removed.
   final String? arn;
@@ -74911,6 +77066,8 @@ class FailedToUpdateAssociation {
 
 /// The custom prompt input for an agent. This is a union type that can be
 /// either an existing prompt profile or new prompt parameters.
+///
+/// @nodoc
 class CustomPromptInput {
   /// An existing custom prompt profile to use for the agent.
   final CustomPromptProfile? existingPrompt;
@@ -74934,6 +77091,8 @@ class CustomPromptInput {
 }
 
 /// A reference to an existing custom prompt profile.
+///
+/// @nodoc
 class CustomPromptProfile {
   /// The identifier of the model profile.
   final String modelProfileId;
@@ -74963,6 +77122,8 @@ class CustomPromptProfile {
 }
 
 /// The parameters for configuring a custom prompt for an agent.
+///
+/// @nodoc
 class CustomPromptInputParameters {
   /// Custom instructions for the agent's behavior.
   final String? customInstructions;
@@ -75004,6 +77165,8 @@ class CustomPromptInputParameters {
 }
 
 /// Authentication configuration for connecting to external services.
+///
+/// @nodoc
 class AuthConfig {
   /// The authentication metadata containing the specific configuration for the
   /// chosen authentication type.
@@ -75027,6 +77190,7 @@ class AuthConfig {
   }
 }
 
+/// @nodoc
 class ConnectionAuthType {
   static const basic = ConnectionAuthType._('BASIC');
   static const apiKey = ConnectionAuthType._('API_KEY');
@@ -75067,6 +77231,8 @@ class ConnectionAuthType {
 
 /// Union type containing authentication metadata for different authentication
 /// methods.
+///
+/// @nodoc
 class AuthenticationMetadata {
   /// API key authentication metadata.
   final APIKeyConnectionMetadata? apiKeyConnectionMetadata;
@@ -75120,6 +77286,8 @@ class AuthenticationMetadata {
 }
 
 /// Metadata for OAuth 2.0 authorization code grant authentication.
+///
+/// @nodoc
 class AuthorizationCodeGrantMetadata {
   /// The base URL endpoint for the external service.
   final String baseEndpoint;
@@ -75164,6 +77332,8 @@ class AuthorizationCodeGrantMetadata {
 
 /// Configuration for OAuth 2.0 client credentials grant authentication,
 /// including client ID, client secret, token endpoint, and optional scopes.
+///
+/// @nodoc
 class ClientCredentialsGrantMetadata {
   /// The base endpoint URL for the external service.
   final String baseEndpoint;
@@ -75196,6 +77366,8 @@ class ClientCredentialsGrantMetadata {
 }
 
 /// Metadata for basic authentication using username and password.
+///
+/// @nodoc
 class BasicAuthConnectionMetadata {
   /// The base URL endpoint for the external service.
   final String baseEndpoint;
@@ -75225,6 +77397,8 @@ class BasicAuthConnectionMetadata {
 }
 
 /// Configuration for API key-based authentication to external services.
+///
+/// @nodoc
 class APIKeyConnectionMetadata {
   /// The API key used for authentication.
   final String apiKey;
@@ -75255,6 +77429,8 @@ class APIKeyConnectionMetadata {
 
 /// Authentication metadata for connections that do not require authentication
 /// credentials.
+///
+/// @nodoc
 class NoneConnectionMetadata {
   /// The base endpoint URL for connections that do not require authentication.
   final String baseEndpoint;
@@ -75273,6 +77449,8 @@ class NoneConnectionMetadata {
 
 /// Authentication metadata for IAM-based connections, used for first-party
 /// Amazon Web Services service integrations.
+///
+/// @nodoc
 class IAMConnectionMetadata {
   /// The Amazon Resource Name (ARN) of the IAM role to assume for authentication
   /// with Amazon Web Services services. This IAM role should be in the same
@@ -75291,6 +77469,7 @@ class IAMConnectionMetadata {
   }
 }
 
+/// @nodoc
 class ClientCredentialsSource {
   static const plainCredentials =
       ClientCredentialsSource._('PLAIN_CREDENTIALS');
@@ -75317,6 +77496,8 @@ class ClientCredentialsSource {
 }
 
 /// Details for OAuth 2.0 client credentials grant authentication.
+///
+/// @nodoc
 class ClientCredentialsDetails {
   /// The OAuth2 client credentials grant configuration details for
   /// authentication.
@@ -75337,6 +77518,8 @@ class ClientCredentialsDetails {
 
 /// Configuration details for OAuth2 client credentials grant flow, including
 /// client ID, client secret, token endpoint, and optional scopes.
+///
+/// @nodoc
 class ClientCredentialsGrantDetails {
   /// The client identifier issued to the client during the registration process
   /// with the authorization server.
@@ -75368,6 +77551,7 @@ class ClientCredentialsGrantDetails {
   }
 }
 
+/// @nodoc
 class AuthorizationCodeGrantCredentialsSource {
   static const plainCredentials =
       AuthorizationCodeGrantCredentialsSource._('PLAIN_CREDENTIALS');
@@ -75394,6 +77578,8 @@ class AuthorizationCodeGrantCredentialsSource {
 }
 
 /// Details for OAuth 2.0 authorization code grant credentials.
+///
+/// @nodoc
 class AuthorizationCodeGrantCredentialsDetails {
   /// The authorization code grant configuration details.
   final AuthorizationCodeGrantDetails? authorizationCodeGrantDetails;
@@ -75412,6 +77598,8 @@ class AuthorizationCodeGrantCredentialsDetails {
 }
 
 /// Configuration details for OAuth 2.0 authorization code grant flow.
+///
+/// @nodoc
 class AuthorizationCodeGrantDetails {
   /// The authorization endpoint URL for the OAuth flow.
   final String authorizationEndpoint;
@@ -75448,6 +77636,8 @@ class AuthorizationCodeGrantDetails {
 
 /// The Quick Sight customizations associated with your Amazon Web Services
 /// account or a Quick Sight namespace in a specific Amazon Web Services Region.
+///
+/// @nodoc
 class AccountCustomization {
   /// The default email customization template.
   final String? defaultEmailCustomizationTemplate;
@@ -75482,6 +77672,8 @@ class AccountCustomization {
 
 /// The key or keys of the key-value pairs for the resource tag or tags assigned
 /// to the resource.
+///
+/// @nodoc
 class Tag {
   /// Tag key.
   final String key;
@@ -75517,6 +77709,8 @@ class Tag {
 /// When using identity-enhanced session credentials, set the UserConfiguration
 /// request attribute to null. Otherwise, the request will be invalid.
 /// </important>
+///
+/// @nodoc
 class SnapshotUserConfiguration {
   /// An array of records that describe the anonymous users that the dashboard
   /// snapshot is generated for.
@@ -75535,6 +77729,8 @@ class SnapshotUserConfiguration {
 }
 
 /// Describes the configuration of the dashboard snapshot.
+///
+/// @nodoc
 class SnapshotConfiguration {
   /// A list of <code>SnapshotJobResultFileGroup</code> objects that contain
   /// information about the snapshot that is generated. This list can hold a
@@ -75583,6 +77779,8 @@ class SnapshotConfiguration {
 
 /// A structure that contains information on the Amazon S3 destinations of the
 /// generated snapshot.
+///
+/// @nodoc
 class SnapshotDestinationConfiguration {
   /// A list of <code>SnapshotS3DestinationConfiguration</code> objects that
   /// contain Amazon S3 destination configurations. This structure can hold a
@@ -75613,6 +77811,8 @@ class SnapshotDestinationConfiguration {
 
 /// A structure that describes the Amazon S3 settings to use to save the
 /// generated dashboard snapshot.
+///
+/// @nodoc
 class SnapshotS3DestinationConfiguration {
   /// A structure that contains details about the Amazon S3 bucket that the
   /// generated dashboard snapshot is saved in.
@@ -75643,6 +77843,8 @@ class SnapshotS3DestinationConfiguration {
 /// the generated snapshots are stored in. If you don't provide this
 /// information, generated snapshots are stored in the default Amazon Quick
 /// Sight bucket.
+///
+/// @nodoc
 class S3BucketConfiguration {
   /// The name of an existing Amazon S3 bucket where the generated snapshot
   /// artifacts are sent.
@@ -75684,6 +77886,8 @@ class S3BucketConfiguration {
 }
 
 /// A structure that contains the information on the snapshot files.
+///
+/// @nodoc
 class SnapshotFileGroup {
   /// A list of <code>SnapshotFile</code> objects that contain the information on
   /// the snapshot files that need to be generated. This structure can hold 1
@@ -75714,6 +77918,8 @@ class SnapshotFileGroup {
 /// A structure that contains the information for the snapshot that you want to
 /// generate. This information is provided by you when you start a new snapshot
 /// job.
+///
+/// @nodoc
 class SnapshotFile {
   /// The format of the snapshot file to be generated. You can choose between
   /// <code>CSV</code>, <code>Excel</code>, or <code>PDF</code>.
@@ -75753,6 +77959,7 @@ class SnapshotFile {
   }
 }
 
+/// @nodoc
 class SnapshotFileFormatType {
   static const csv = SnapshotFileFormatType._('CSV');
   static const pdf = SnapshotFileFormatType._('PDF');
@@ -75781,6 +77988,8 @@ class SnapshotFileFormatType {
 
 /// A structure that contains information that identifies the snapshot that
 /// needs to be generated.
+///
+/// @nodoc
 class SnapshotFileSheetSelection {
   /// The selection scope of the visuals on a sheet of a dashboard that you are
   /// generating a snapthot of. You can choose one of the following options.
@@ -75841,6 +78050,7 @@ class SnapshotFileSheetSelection {
   }
 }
 
+/// @nodoc
 class SnapshotFileSheetSelectionScope {
   static const allVisuals = SnapshotFileSheetSelectionScope._('ALL_VISUALS');
   static const selectedVisuals =
@@ -75868,6 +78078,8 @@ class SnapshotFileSheetSelectionScope {
 }
 
 /// A structure that contains information on the anonymous user configuration.
+///
+/// @nodoc
 class SnapshotAnonymousUser {
   /// The tags to be used for row-level security (RLS). Make sure that the
   /// relevant datasets have RLS tags configured before you start a snapshot
@@ -75895,6 +78107,8 @@ class SnapshotAnonymousUser {
 }
 
 /// The key-value pair used for the row-level security tags feature.
+///
+/// @nodoc
 class SessionTag {
   /// The key for the tag.
   final String key;
@@ -75919,6 +78133,8 @@ class SessionTag {
 
 /// The source of the asset bundle zip file that contains the data that you want
 /// to import. The file must be in <code>QUICKSIGHT_JSON</code> format.
+///
+/// @nodoc
 class AssetBundleImportSource {
   /// The bytes of the base64 encoded asset bundle import zip file. This file
   /// can't exceed 20 MB. If the size of the file that you want to upload is more
@@ -75954,6 +78170,8 @@ class AssetBundleImportSource {
 
 /// A list of overrides that modify the asset bundle resource configuration
 /// before the resource is imported.
+///
+/// @nodoc
 class AssetBundleImportJobOverrideParameters {
   /// A list of overrides for any <code>Analysis</code> resources that are present
   /// in the asset bundle that is imported.
@@ -76086,6 +78304,7 @@ class AssetBundleImportJobOverrideParameters {
   }
 }
 
+/// @nodoc
 class AssetBundleImportFailureAction {
   static const doNothing = AssetBundleImportFailureAction._('DO_NOTHING');
   static const rollback = AssetBundleImportFailureAction._('ROLLBACK');
@@ -76113,6 +78332,8 @@ class AssetBundleImportFailureAction {
 
 /// A structure that contains the override permission configurations that modify
 /// the permissions for specified resources before the resource is imported.
+///
+/// @nodoc
 class AssetBundleImportJobOverridePermissions {
   /// A list of permissions overrides for any <code>Analysis</code> resources that
   /// are present in the asset bundle that is imported.
@@ -76204,6 +78425,8 @@ class AssetBundleImportJobOverridePermissions {
 /// A structure that contains the override tag configuration that modify the
 /// tags that are assigned to specified resources before the resource is
 /// imported.
+///
+/// @nodoc
 class AssetBundleImportJobOverrideTags {
   /// A list of tag overrides for any <code>Analysis</code> resources that are
   /// present in the asset bundle that is imported.
@@ -76305,6 +78528,8 @@ class AssetBundleImportJobOverrideTags {
 
 /// An optional parameter that overrides the validation strategy for all
 /// analyses and dashboards before the resource is imported.
+///
+/// @nodoc
 class AssetBundleImportJobOverrideValidationStrategy {
   /// A Boolean value that indicates whether to import all analyses and dashboards
   /// under strict or lenient mode.
@@ -76332,6 +78557,8 @@ class AssetBundleImportJobOverrideValidationStrategy {
 
 /// An object that contains a list of tags to be assigned to a list of folder
 /// IDs.
+///
+/// @nodoc
 class AssetBundleImportJobFolderOverrideTags {
   /// A list of folder IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all folders in this asset bundle.
@@ -76371,6 +78598,8 @@ class AssetBundleImportJobFolderOverrideTags {
 
 /// An object that contains a list of tags to be assigned to a list of dashboard
 /// IDs.
+///
+/// @nodoc
 class AssetBundleImportJobDashboardOverrideTags {
   /// A list of dashboard IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all dashboards in this asset bundle.
@@ -76410,6 +78639,8 @@ class AssetBundleImportJobDashboardOverrideTags {
 
 /// An object that contains a list of tags to be assigned to a list of analysis
 /// IDs.
+///
+/// @nodoc
 class AssetBundleImportJobAnalysisOverrideTags {
   /// A list of analysis IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all analyses in this asset bundle.
@@ -76449,6 +78680,8 @@ class AssetBundleImportJobAnalysisOverrideTags {
 
 /// An object that contains a list of tags to be assigned to a list of theme
 /// IDs.
+///
+/// @nodoc
 class AssetBundleImportJobThemeOverrideTags {
   /// A list of tags for the themes that you want to apply overrides to.
   final List<Tag> tags;
@@ -76488,6 +78721,8 @@ class AssetBundleImportJobThemeOverrideTags {
 
 /// An object that contains a list of tags to be assigned to a list of dataset
 /// IDs.
+///
+/// @nodoc
 class AssetBundleImportJobDataSetOverrideTags {
   /// A list of dataset IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all datasets in this asset bundle.
@@ -76527,6 +78762,8 @@ class AssetBundleImportJobDataSetOverrideTags {
 
 /// An object that contains a list of tags to be assigned to a list of data
 /// source IDs.
+///
+/// @nodoc
 class AssetBundleImportJobDataSourceOverrideTags {
   /// A list of data source IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all data sources in this asset bundle.
@@ -76566,6 +78803,8 @@ class AssetBundleImportJobDataSourceOverrideTags {
 
 /// An object that contains a list of tags to be assigned to a list of VPC
 /// connection IDs.
+///
+/// @nodoc
 class AssetBundleImportJobVPCConnectionOverrideTags {
   /// A list of tags for the VPC connections that you want to apply overrides to.
   final List<Tag> tags;
@@ -76605,6 +78844,8 @@ class AssetBundleImportJobVPCConnectionOverrideTags {
 
 /// An object that contains a list of permissions to be applied to a list of
 /// folder IDs.
+///
+/// @nodoc
 class AssetBundleImportJobFolderOverridePermissions {
   /// A list of folder IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all folders in this asset bundle.
@@ -76642,6 +78883,8 @@ class AssetBundleImportJobFolderOverridePermissions {
 
 /// A structure that contains the permissions for the resource that you want to
 /// override in an asset bundle import job.
+///
+/// @nodoc
 class AssetBundleResourcePermissions {
   /// A list of IAM actions to grant permissions on.
   final List<String> actions;
@@ -76679,6 +78922,8 @@ class AssetBundleResourcePermissions {
 
 /// An object that contains a list of permissions to be applied to a list of
 /// dashboard IDs.
+///
+/// @nodoc
 class AssetBundleImportJobDashboardOverridePermissions {
   /// A list of dashboard IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all dashboards in this asset bundle.
@@ -76731,6 +78976,8 @@ class AssetBundleImportJobDashboardOverridePermissions {
 
 /// A structure that contains the configuration of a shared link to an Amazon
 /// Quick Sight dashboard.
+///
+/// @nodoc
 class AssetBundleResourceLinkSharingConfiguration {
   /// A list of link sharing permissions for the dashboards that you want to apply
   /// overrides to.
@@ -76760,6 +79007,8 @@ class AssetBundleResourceLinkSharingConfiguration {
 
 /// An object that contains a list of permissions to be applied to a list of
 /// analysis IDs.
+///
+/// @nodoc
 class AssetBundleImportJobAnalysisOverridePermissions {
   /// A list of analysis IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all analyses in this asset bundle.
@@ -76798,6 +79047,8 @@ class AssetBundleImportJobAnalysisOverridePermissions {
 
 /// An object that contains a list of permissions to be applied to a list of
 /// theme IDs.
+///
+/// @nodoc
 class AssetBundleImportJobThemeOverridePermissions {
   /// A list of permissions for the themes that you want to apply overrides to.
   final AssetBundleResourcePermissions permissions;
@@ -76836,6 +79087,8 @@ class AssetBundleImportJobThemeOverridePermissions {
 
 /// An object that contains a list of permissions to be applied to a list of
 /// dataset IDs.
+///
+/// @nodoc
 class AssetBundleImportJobDataSetOverridePermissions {
   /// A list of dataset IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all datasets in this asset bundle.
@@ -76874,6 +79127,8 @@ class AssetBundleImportJobDataSetOverridePermissions {
 
 /// An object that contains a list of permissions to be applied to a list of
 /// data source IDs.
+///
+/// @nodoc
 class AssetBundleImportJobDataSourceOverridePermissions {
   /// A list of data source IDs that you want to apply overrides to. You can use
   /// <code>*</code> to override all data sources in this asset bundle.
@@ -76913,6 +79168,8 @@ class AssetBundleImportJobDataSourceOverridePermissions {
 
 /// An optional structure that configures resource ID overrides for the import
 /// job.
+///
+/// @nodoc
 class AssetBundleImportJobResourceIdOverrideConfiguration {
   /// An option to request a CloudFormation variable for a prefix to be prepended
   /// to each resource's ID before import. The prefix is only added to the asset
@@ -76940,6 +79197,8 @@ class AssetBundleImportJobResourceIdOverrideConfiguration {
 }
 
 /// The override parameters for a single folder that is being imported.
+///
+/// @nodoc
 class AssetBundleImportJobFolderOverrideParameters {
   /// The ID of the folder that you want to apply overrides to.
   final String folderId;
@@ -76979,6 +79238,8 @@ class AssetBundleImportJobFolderOverrideParameters {
 }
 
 /// The override parameters for a single dashboard that is being imported.
+///
+/// @nodoc
 class AssetBundleImportJobDashboardOverrideParameters {
   /// The ID of the dashboard that you want to apply overrides to.
   final String dashboardId;
@@ -77010,6 +79271,8 @@ class AssetBundleImportJobDashboardOverrideParameters {
 }
 
 /// The override parameters for a single analysis that is being imported.
+///
+/// @nodoc
 class AssetBundleImportJobAnalysisOverrideParameters {
   /// The ID of the analysis that you ant to apply overrides to.
   final String analysisId;
@@ -77041,6 +79304,8 @@ class AssetBundleImportJobAnalysisOverrideParameters {
 }
 
 /// The override parameters for a single theme that is imported.
+///
+/// @nodoc
 class AssetBundleImportJobThemeOverrideParameters {
   /// The ID of the theme to apply overrides to.
   final String themeId;
@@ -77072,6 +79337,8 @@ class AssetBundleImportJobThemeOverrideParameters {
 }
 
 /// The override parameters for a single dataset that is being imported.
+///
+/// @nodoc
 class AssetBundleImportJobDataSetOverrideParameters {
   /// The ID of the dataset to apply overrides to.
   final String dataSetId;
@@ -77112,6 +79379,8 @@ class AssetBundleImportJobDataSetOverrideParameters {
 }
 
 /// The refresh properties of a dataset.
+///
+/// @nodoc
 class DataSetRefreshProperties {
   /// The failure configuration for a dataset.
   final RefreshFailureConfiguration? failureConfiguration;
@@ -77150,6 +79419,8 @@ class DataSetRefreshProperties {
 }
 
 /// The refresh configuration of a dataset.
+///
+/// @nodoc
 class RefreshConfiguration {
   /// The incremental refresh for the dataset.
   final IncrementalRefresh incrementalRefresh;
@@ -77175,6 +79446,8 @@ class RefreshConfiguration {
 }
 
 /// The failure configuration of a dataset.
+///
+/// @nodoc
 class RefreshFailureConfiguration {
   /// The email alert configuration for a dataset refresh failure.
   final RefreshFailureEmailAlert? emailAlert;
@@ -77202,6 +79475,8 @@ class RefreshFailureConfiguration {
 
 /// The configuration settings for the email alerts that are sent when a dataset
 /// refresh fails.
+///
+/// @nodoc
 class RefreshFailureEmailAlert {
   /// The status value that determines if email alerts are sent.
   final RefreshFailureAlertStatus? alertStatus;
@@ -77225,6 +79500,7 @@ class RefreshFailureEmailAlert {
   }
 }
 
+/// @nodoc
 class RefreshFailureAlertStatus {
   static const enabled = RefreshFailureAlertStatus._('ENABLED');
   static const disabled = RefreshFailureAlertStatus._('DISABLED');
@@ -77251,6 +79527,8 @@ class RefreshFailureAlertStatus {
 }
 
 /// The incremental refresh configuration for a dataset.
+///
+/// @nodoc
 class IncrementalRefresh {
   /// The lookback window setup for an incremental refresh configuration.
   final LookbackWindow lookbackWindow;
@@ -77276,6 +79554,8 @@ class IncrementalRefresh {
 }
 
 /// The lookback window setup of an incremental refresh configuration.
+///
+/// @nodoc
 class LookbackWindow {
   /// The name of the lookback window column.
   final String columnName;
@@ -77315,6 +79595,7 @@ class LookbackWindow {
   }
 }
 
+/// @nodoc
 class LookbackWindowSizeUnit {
   static const hour = LookbackWindowSizeUnit._('HOUR');
   static const day = LookbackWindowSizeUnit._('DAY');
@@ -77342,6 +79623,8 @@ class LookbackWindowSizeUnit {
 }
 
 /// The override parameters for a single data source that is being imported.
+///
+/// @nodoc
 class AssetBundleImportJobDataSourceOverrideParameters {
   /// The ID of the data source to apply overrides to.
   final String dataSourceId;
@@ -77410,6 +79693,8 @@ class AssetBundleImportJobDataSourceOverrideParameters {
 }
 
 /// The login credentials to use to import a data source resource.
+///
+/// @nodoc
 class AssetBundleImportJobDataSourceCredentials {
   /// A username and password credential pair to be used to create the imported
   /// data source. Keep this field blank if you are using a Secrets Manager secret
@@ -77449,6 +79734,8 @@ class AssetBundleImportJobDataSourceCredentials {
 
 /// A username and password credential pair to use to import a data source
 /// resource.
+///
+/// @nodoc
 class AssetBundleImportJobDataSourceCredentialPair {
   /// The password for the data source connection.
   final String password;
@@ -77481,6 +79768,8 @@ class AssetBundleImportJobDataSourceCredentialPair {
 
 /// A list of overrides for a specific <code>RefreshsSchedule</code> resource
 /// that is present in the asset bundle that is imported.
+///
+/// @nodoc
 class AssetBundleImportJobRefreshScheduleOverrideParameters {
   /// A partial identifier for the specific <code>RefreshSchedule</code> resource
   /// that is being overridden. This structure is used together with the
@@ -77527,6 +79816,8 @@ class AssetBundleImportJobRefreshScheduleOverrideParameters {
 }
 
 /// The override parameters for a single VPC connection that is imported.
+///
+/// @nodoc
 class AssetBundleImportJobVPCConnectionOverrideParameters {
   /// The ID of the VPC Connection to apply overrides to.
   final String vPCConnectionId;
@@ -77598,6 +79889,7 @@ class AssetBundleImportJobVPCConnectionOverrideParameters {
   }
 }
 
+/// @nodoc
 class AssetBundleExportFormat {
   static const cloudformationJson =
       AssetBundleExportFormat._('CLOUDFORMATION_JSON');
@@ -77626,6 +79918,8 @@ class AssetBundleExportFormat {
 
 /// An optional collection of CloudFormation property configurations that
 /// control how the export job is generated.
+///
+/// @nodoc
 class AssetBundleCloudFormationOverridePropertyConfiguration {
   /// An optional list of structures that control how <code>Analysis</code>
   /// resources are parameterized in the returned CloudFormation template.
@@ -77761,6 +80055,8 @@ class AssetBundleCloudFormationOverridePropertyConfiguration {
 /// The option to relax the validation that is required to export each asset.
 /// When <code>StrictModeForAllResource</code> is set to <code>false</code>,
 /// validation is skipped for specific UI errors.
+///
+/// @nodoc
 class AssetBundleExportJobValidationStrategy {
   /// A Boolean value that indicates whether to export resources under strict or
   /// lenient mode.
@@ -77786,6 +80082,7 @@ class AssetBundleExportJobValidationStrategy {
   }
 }
 
+/// @nodoc
 class IncludeFolderMembers {
   static const recurse = IncludeFolderMembers._('RECURSE');
   static const oneLevel = IncludeFolderMembers._('ONE_LEVEL');
@@ -77814,6 +80111,8 @@ class IncludeFolderMembers {
 
 /// An optional structure that configures resource ID overrides for the export
 /// job.
+///
+/// @nodoc
 class AssetBundleExportJobResourceIdOverrideConfiguration {
   /// An option to request a CloudFormation variable for a prefix to be prepended
   /// to each resource's ID before import. The prefix is only added to the asset
@@ -77842,6 +80141,8 @@ class AssetBundleExportJobResourceIdOverrideConfiguration {
 
 /// Controls how a specific <code>Folder</code> resource is parameterized in the
 /// returned CloudFormation template.
+///
+/// @nodoc
 class AssetBundleExportJobFolderOverrideProperties {
   /// The ARN of the specific <code>Folder</code> resource whose override
   /// properties are configured in this structure.
@@ -77878,6 +80179,7 @@ class AssetBundleExportJobFolderOverrideProperties {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobFolderPropertyToOverride {
   static const name = AssetBundleExportJobFolderPropertyToOverride._('Name');
   static const parentFolderArn =
@@ -77908,6 +80210,8 @@ class AssetBundleExportJobFolderPropertyToOverride {
 
 /// Controls how a specific <code>Dashboard</code> resource is parameterized in
 /// the returned CloudFormation template.
+///
+/// @nodoc
 class AssetBundleExportJobDashboardOverrideProperties {
   /// The ARN of the specific <code>Dashboard</code> resource whose override
   /// properties are configured in this structure.
@@ -77945,6 +80249,7 @@ class AssetBundleExportJobDashboardOverrideProperties {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobDashboardPropertyToOverride {
   static const name = AssetBundleExportJobDashboardPropertyToOverride._('Name');
 
@@ -77974,6 +80279,8 @@ class AssetBundleExportJobDashboardPropertyToOverride {
 
 /// Controls how a specific <code>Analysis</code> resource is parameterized in
 /// the returned CloudFormation template.
+///
+/// @nodoc
 class AssetBundleExportJobAnalysisOverrideProperties {
   /// The ARN of the specific <code>Analysis</code> resource whose override
   /// properties are configured in this structure.
@@ -78010,6 +80317,7 @@ class AssetBundleExportJobAnalysisOverrideProperties {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobAnalysisPropertyToOverride {
   static const name = AssetBundleExportJobAnalysisPropertyToOverride._('Name');
 
@@ -78039,6 +80347,8 @@ class AssetBundleExportJobAnalysisPropertyToOverride {
 
 /// Controls how a specific <code>Theme</code> resource is parameterized in the
 /// returned CloudFormation template.
+///
+/// @nodoc
 class AssetBundleExportJobThemeOverrideProperties {
   /// The ARN of the specific <code>Theme</code> resource whose override
   /// properties are configured in this structure.
@@ -78075,6 +80385,7 @@ class AssetBundleExportJobThemeOverrideProperties {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobThemePropertyToOverride {
   static const name = AssetBundleExportJobThemePropertyToOverride._('Name');
 
@@ -78102,6 +80413,8 @@ class AssetBundleExportJobThemePropertyToOverride {
 
 /// Controls how a specific <code>DataSet</code> resource is parameterized in
 /// the returned CloudFormation template.
+///
+/// @nodoc
 class AssetBundleExportJobDataSetOverrideProperties {
   /// The ARN of the specific <code>DataSet</code> resource whose override
   /// properties are configured in this structure.
@@ -78138,6 +80451,7 @@ class AssetBundleExportJobDataSetOverrideProperties {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobDataSetPropertyToOverride {
   static const name = AssetBundleExportJobDataSetPropertyToOverride._('Name');
   static const refreshFailureEmailAlertStatus =
@@ -78169,6 +80483,8 @@ class AssetBundleExportJobDataSetPropertyToOverride {
 
 /// Controls how a specific <code>DataSource</code> resource is parameterized in
 /// the returned CloudFormation template.
+///
+/// @nodoc
 class AssetBundleExportJobDataSourceOverrideProperties {
   /// The ARN of the specific <code>DataSource</code> resource whose override
   /// properties are configured in this structure.
@@ -78206,6 +80522,7 @@ class AssetBundleExportJobDataSourceOverrideProperties {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobDataSourcePropertyToOverride {
   static const name =
       AssetBundleExportJobDataSourcePropertyToOverride._('Name');
@@ -78290,6 +80607,8 @@ class AssetBundleExportJobDataSourcePropertyToOverride {
 
 /// Controls how a specific <code>RefreshSchedule</code> resource is
 /// parameterized in the returned CloudFormation template.
+///
+/// @nodoc
 class AssetBundleExportJobRefreshScheduleOverrideProperties {
   /// The ARN of the specific <code>RefreshSchedule</code> resource whose override
   /// properties are configured in this structure.
@@ -78327,6 +80646,7 @@ class AssetBundleExportJobRefreshScheduleOverrideProperties {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobRefreshSchedulePropertyToOverride {
   static const startAfterDateTime =
       AssetBundleExportJobRefreshSchedulePropertyToOverride._(
@@ -78358,6 +80678,8 @@ class AssetBundleExportJobRefreshSchedulePropertyToOverride {
 
 /// Controls how a specific <code>VPCConnection</code> resource is parameterized
 /// in the outputted CloudFormation template.
+///
+/// @nodoc
 class AssetBundleExportJobVPCConnectionOverrideProperties {
   /// The ARN of the specific <code>VPCConnection</code> resource whose override
   /// properties are configured in this structure.
@@ -78395,6 +80717,7 @@ class AssetBundleExportJobVPCConnectionOverrideProperties {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobVPCConnectionPropertyToOverride {
   static const name =
       AssetBundleExportJobVPCConnectionPropertyToOverride._('Name');
@@ -78428,6 +80751,8 @@ class AssetBundleExportJobVPCConnectionPropertyToOverride {
 }
 
 /// A topic summary.
+///
+/// @nodoc
 class TopicSummary {
   /// The Amazon Resource Name (ARN) of the topic.
   final String? arn;
@@ -78475,6 +80800,8 @@ class TopicSummary {
 }
 
 /// The filter that is used to search for a topic.
+///
+/// @nodoc
 class TopicSearchFilter {
   /// The name of the topic search filter.
   final TopicFilterAttribute name;
@@ -78503,6 +80830,7 @@ class TopicSearchFilter {
   }
 }
 
+/// @nodoc
 class TopicFilterOperator {
   static const stringEquals = TopicFilterOperator._('StringEquals');
   static const stringLike = TopicFilterOperator._('StringLike');
@@ -78528,6 +80856,7 @@ class TopicFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class TopicFilterAttribute {
   static const quicksightUser = TopicFilterAttribute._('QUICKSIGHT_USER');
   static const quicksightViewerOrOwner =
@@ -78571,6 +80900,8 @@ class TopicFilterAttribute {
 }
 
 /// A summary of an Amazon QuickSight space.
+///
+/// @nodoc
 class SpaceSummary {
   /// The ID of the space.
   final String spaceId;
@@ -78665,6 +80996,8 @@ class SpaceSummary {
 }
 
 /// A filter to use when searching for spaces.
+///
+/// @nodoc
 class SpaceQuicksightSearchFilter {
   /// The name of the filter field to use.
   final SpaceQuickSightSearchFilterName name;
@@ -78693,6 +81026,7 @@ class SpaceQuicksightSearchFilter {
   }
 }
 
+/// @nodoc
 class SpaceQuickSightSearchFilterName {
   static const spaceId = SpaceQuickSightSearchFilterName._('SPACE_ID');
   static const spaceName = SpaceQuickSightSearchFilterName._('SPACE_NAME');
@@ -78738,6 +81072,7 @@ class SpaceQuickSightSearchFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class SpaceSearchOperator {
   static const stringEquals = SpaceSearchOperator._('STRING_EQUALS');
   static const stringLike = SpaceSearchOperator._('STRING_LIKE');
@@ -78766,6 +81101,8 @@ class SpaceSearchOperator {
 
 /// A summary of a knowledge base, including its identifier, name, status, and
 /// metadata.
+///
+/// @nodoc
 class KnowledgeBaseSummary {
   /// The ARN of the data source associated with the knowledge base.
   final String dataSourceArn;
@@ -78867,6 +81204,7 @@ class KnowledgeBaseSummary {
   }
 }
 
+/// @nodoc
 class DataSetStatus {
   static const creating = DataSetStatus._('CREATING');
   static const updating = DataSetStatus._('UPDATING');
@@ -78895,6 +81233,8 @@ class DataSetStatus {
 }
 
 /// The sort configuration for searching knowledge bases.
+///
+/// @nodoc
 class KnowledgeBaseSortBy {
   /// The field to sort by.
   final KnowledgeBaseSortByField sortByField;
@@ -78917,6 +81257,7 @@ class KnowledgeBaseSortBy {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseSortByField {
   static const knowledgeBaseSizeBytes =
       KnowledgeBaseSortByField._('KNOWLEDGE_BASE_SIZE_BYTES');
@@ -78943,6 +81284,7 @@ class KnowledgeBaseSortByField {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -78967,6 +81309,8 @@ class SortOrder {
 }
 
 /// A filter to apply when searching knowledge bases.
+///
+/// @nodoc
 class KnowledgeBaseSearchFilter {
   /// The name of the field to filter on.
   final KnowledgeBaseSearchFilterName name;
@@ -78995,6 +81339,7 @@ class KnowledgeBaseSearchFilter {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseSearchFilterName {
   static const knowledgeBaseId =
       KnowledgeBaseSearchFilterName._('KNOWLEDGE_BASE_ID');
@@ -79039,6 +81384,7 @@ class KnowledgeBaseSearchFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class KnowledgeBaseSearchOperator {
   static const stringEquals = KnowledgeBaseSearchOperator._('STRING_EQUALS');
   static const stringLike = KnowledgeBaseSearchOperator._('STRING_LIKE');
@@ -79075,6 +81421,8 @@ class KnowledgeBaseSearchOperator {
 
 /// A <code>GroupSearchFilter</code> object that you want to apply to your
 /// search.
+///
+/// @nodoc
 class GroupSearchFilter {
   /// The name of the value that you want to use as a filter, for example
   /// <code>"Name": "GROUP_NAME"</code>. Currently, the only supported name is
@@ -79108,6 +81456,7 @@ class GroupSearchFilter {
   }
 }
 
+/// @nodoc
 class GroupFilterOperator {
   static const startsWith = GroupFilterOperator._('StartsWith');
 
@@ -79132,6 +81481,7 @@ class GroupFilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupFilterAttribute {
   static const groupName = GroupFilterAttribute._('GROUP_NAME');
 
@@ -79157,6 +81507,8 @@ class GroupFilterAttribute {
 }
 
 /// A summary of information about an existing Quick Sight folder.
+///
+/// @nodoc
 class FolderSummary {
   /// The Amazon Resource Name (ARN) of the folder.
   final String? arn;
@@ -79223,6 +81575,7 @@ class FolderSummary {
   }
 }
 
+/// @nodoc
 class FolderType {
   static const shared = FolderType._('SHARED');
   static const restricted = FolderType._('RESTRICTED');
@@ -79246,6 +81599,7 @@ class FolderType {
   String toString() => value;
 }
 
+/// @nodoc
 class SharingModel {
   static const account = SharingModel._('ACCOUNT');
   static const namespace = SharingModel._('NAMESPACE');
@@ -79270,6 +81624,8 @@ class SharingModel {
 }
 
 /// A filter to use to search an Quick Sight folder.
+///
+/// @nodoc
 class FolderSearchFilter {
   /// The name of a value that you want to use in the filter. For example,
   /// <code>"Name": "QUICKSIGHT_OWNER"</code>.
@@ -79360,6 +81716,7 @@ class FolderSearchFilter {
   }
 }
 
+/// @nodoc
 class FilterOperator {
   static const stringEquals = FilterOperator._('StringEquals');
   static const stringLike = FilterOperator._('StringLike');
@@ -79384,6 +81741,7 @@ class FilterOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class FolderFilterAttribute {
   static const parentFolderArn = FolderFilterAttribute._('PARENT_FOLDER_ARN');
   static const directQuicksightOwner =
@@ -79428,6 +81786,8 @@ class FolderFilterAttribute {
 
 /// The basic information of the flow exluding its definition specifying the
 /// steps.
+///
+/// @nodoc
 class FlowSummary {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -79538,6 +81898,7 @@ class FlowSummary {
   }
 }
 
+/// @nodoc
 class FlowPublishState {
   static const published = FlowPublishState._('PUBLISHED');
   static const draft = FlowPublishState._('DRAFT');
@@ -79564,6 +81925,8 @@ class FlowPublishState {
 }
 
 /// A structure that contains the filter information when searching flows.
+///
+/// @nodoc
 class SearchFlowsFilter {
   /// The name of the value that you want to use as a filter, for example
   /// <code>"Name": "DIRECT_QUICKSIGHT_SOLE_OWNER"</code>.
@@ -79628,6 +81991,7 @@ class SearchFlowsFilter {
   }
 }
 
+/// @nodoc
 class FieldName {
   static const assetName = FieldName._('assetName');
   static const assetDescription = FieldName._('assetDescription');
@@ -79662,6 +82026,7 @@ class FieldName {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchFilterOperator {
   static const stringEquals = SearchFilterOperator._('StringEquals');
   static const stringLike = SearchFilterOperator._('StringLike');
@@ -79689,6 +82054,8 @@ class SearchFilterOperator {
 
 /// A <code>DataSourceSummary</code> object that returns a summary of a data
 /// source.
+///
+/// @nodoc
 class DataSourceSummary {
   /// The arn of the datasource.
   final String? arn;
@@ -79750,6 +82117,8 @@ class DataSourceSummary {
 }
 
 /// A filter that you apply when searching for data sources.
+///
+/// @nodoc
 class DataSourceSearchFilter {
   /// The name of the value that you want to use as a filter, for example,
   /// <code>"Name": "DIRECT_QUICKSIGHT_OWNER"</code>.
@@ -79824,6 +82193,7 @@ class DataSourceSearchFilter {
   }
 }
 
+/// @nodoc
 class DataSourceFilterAttribute {
   static const directQuicksightViewerOrOwner =
       DataSourceFilterAttribute._('DIRECT_QUICKSIGHT_VIEWER_OR_OWNER');
@@ -79860,6 +82230,8 @@ class DataSourceFilterAttribute {
 }
 
 /// Dataset summary.
+///
+/// @nodoc
 class DataSetSummary {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? arn;
@@ -79972,6 +82344,7 @@ class DataSetSummary {
   }
 }
 
+/// @nodoc
 class DataSetUseAs {
   static const rlsRules = DataSetUseAs._('RLS_RULES');
 
@@ -79995,6 +82368,8 @@ class DataSetUseAs {
 }
 
 /// A filter that you apply when searching for datasets.
+///
+/// @nodoc
 class DataSetSearchFilter {
   /// The name of the value that you want to use as a filter, for example,
   /// <code>"Name": "QUICKSIGHT_OWNER"</code>.
@@ -80078,6 +82453,7 @@ class DataSetSearchFilter {
   }
 }
 
+/// @nodoc
 class DataSetFilterAttribute {
   static const quicksightViewerOrOwner =
       DataSetFilterAttribute._('QUICKSIGHT_VIEWER_OR_OWNER');
@@ -80119,6 +82495,8 @@ class DataSetFilterAttribute {
 }
 
 /// Dashboard summary.
+///
+/// @nodoc
 class DashboardSummary {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -80187,6 +82565,8 @@ class DashboardSummary {
 }
 
 /// A filter that you apply when searching for dashboards.
+///
+/// @nodoc
 class DashboardSearchFilter {
   /// The comparison operator that you want to use as a filter, for example
   /// <code>"Operator": "StringEquals"</code>. Valid values are
@@ -80271,6 +82651,7 @@ class DashboardSearchFilter {
   }
 }
 
+/// @nodoc
 class DashboardFilterAttribute {
   static const quicksightUser = DashboardFilterAttribute._('QUICKSIGHT_USER');
   static const quicksightViewerOrOwner =
@@ -80314,6 +82695,8 @@ class DashboardFilterAttribute {
 }
 
 /// The summary metadata that describes an analysis.
+///
+/// @nodoc
 class AnalysisSummary {
   /// The ID of the analysis. This ID displays in the URL.
   final String? analysisId;
@@ -80373,6 +82756,8 @@ class AnalysisSummary {
 }
 
 /// A filter that you apply when searching for one or more analyses.
+///
+/// @nodoc
 class AnalysisSearchFilter {
   /// The name of the value that you want to use as a filter, for example
   /// <code>"Name": "QUICKSIGHT_OWNER"</code>.
@@ -80456,6 +82841,7 @@ class AnalysisSearchFilter {
   }
 }
 
+/// @nodoc
 class AnalysisFilterAttribute {
   static const quicksightUser = AnalysisFilterAttribute._('QUICKSIGHT_USER');
   static const quicksightViewerOrOwner =
@@ -80499,6 +82885,8 @@ class AnalysisFilterAttribute {
 }
 
 /// A summary of an agent, including its identifier, name, and metadata.
+///
+/// @nodoc
 class AgentSummary {
   /// The unique identifier for the agent.
   final String agentId;
@@ -80564,6 +82952,8 @@ class AgentSummary {
 }
 
 /// A filter to apply when searching agents.
+///
+/// @nodoc
 class AgentSearchFilter {
   /// The name of the field to filter on.
   final AgentOwnershipFilterAttribute? name;
@@ -80592,6 +82982,7 @@ class AgentSearchFilter {
   }
 }
 
+/// @nodoc
 class AgentOwnershipFilterAttribute {
   static const directQuicksightOwner =
       AgentOwnershipFilterAttribute._('DIRECT_QUICKSIGHT_OWNER');
@@ -80627,6 +83018,7 @@ class AgentOwnershipFilterAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const stringEquals = ComparisonOperator._('StringEquals');
   static const stringLike = ComparisonOperator._('StringLike');
@@ -80654,6 +83046,8 @@ class ComparisonOperator {
 
 /// Contains summary information about an action connector, used in list and
 /// search operations.
+///
+/// @nodoc
 class ActionConnectorSummary {
   /// The unique identifier of the action connector.
   final String actionConnectorId;
@@ -80728,6 +83122,7 @@ class ActionConnectorSummary {
   }
 }
 
+/// @nodoc
 class ActionConnectorType {
   static const genericHttp = ActionConnectorType._('GENERIC_HTTP');
   static const servicenowNowPlatform =
@@ -80819,6 +83214,8 @@ class ActionConnectorType {
 
 /// Contains error information for an action connector that is in an error
 /// state.
+///
+/// @nodoc
 class ActionConnectorError {
   /// The error message describing what went wrong with the action connector.
   final String? message;
@@ -80848,6 +83245,7 @@ class ActionConnectorError {
   }
 }
 
+/// @nodoc
 class ActionConnectorErrorType {
   static const internalFailure = ActionConnectorErrorType._('INTERNAL_FAILURE');
 
@@ -80873,6 +83271,8 @@ class ActionConnectorErrorType {
 }
 
 /// A filter used to search for action connectors based on specific criteria.
+///
+/// @nodoc
 class ActionConnectorSearchFilter {
   /// The name of the filter attribute (e.g., ACTION_CONNECTOR_NAME,
   /// ACTION_CONNECTOR_TYPE, QUICKSIGHT_VIEWER_OR_OWNER).
@@ -80903,6 +83303,7 @@ class ActionConnectorSearchFilter {
   }
 }
 
+/// @nodoc
 class ActionConnectorSearchFilterNameEnum {
   static const actionConnectorName =
       ActionConnectorSearchFilterNameEnum._('ACTION_CONNECTOR_NAME');
@@ -80951,6 +83352,8 @@ class ActionConnectorSearchFilterNameEnum {
 
 /// The QA result that is made from the <code>DashboardVisual</code> or
 /// <code>GeneratedAnswer</code>.
+///
+/// @nodoc
 class QAResult {
   /// The representation of a dashboard visual result.
   final DashboardVisualResult? dashboardVisual;
@@ -80993,6 +83396,7 @@ class QAResult {
   }
 }
 
+/// @nodoc
 class QAResultType {
   static const dashboardVisual = QAResultType._('DASHBOARD_VISUAL');
   static const generatedAnswer = QAResultType._('GENERATED_ANSWER');
@@ -81018,6 +83422,8 @@ class QAResultType {
 }
 
 /// The QA result that is made from dashboard visual.
+///
+/// @nodoc
 class DashboardVisualResult {
   /// The ID of the dashboard.
   final String? dashboardId;
@@ -81090,6 +83496,8 @@ class DashboardVisualResult {
 }
 
 /// The QA result that is made from generated answer.
+///
+/// @nodoc
 class GeneratedAnswerResult {
   /// The ID of the answer.
   final String? answerId;
@@ -81162,6 +83570,7 @@ class GeneratedAnswerResult {
   }
 }
 
+/// @nodoc
 class GeneratedAnswerStatus {
   static const answerGenerated = GeneratedAnswerStatus._('ANSWER_GENERATED');
   static const answerRetrieved = GeneratedAnswerStatus._('ANSWER_RETRIEVED');
@@ -81188,6 +83597,7 @@ class GeneratedAnswerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IncludeQuickSightQIndex {
   static const include = IncludeQuickSightQIndex._('INCLUDE');
   static const exclude = IncludeQuickSightQIndex._('EXCLUDE');
@@ -81213,6 +83623,7 @@ class IncludeQuickSightQIndex {
   String toString() => value;
 }
 
+/// @nodoc
 class IncludeGeneratedAnswer {
   static const include = IncludeGeneratedAnswer._('INCLUDE');
   static const exclude = IncludeGeneratedAnswer._('EXCLUDE');
@@ -81239,6 +83650,8 @@ class IncludeGeneratedAnswer {
 }
 
 /// The summary metadata that describes a VPC connection.
+///
+/// @nodoc
 class VPCConnectionSummary {
   /// The Amazon Resource Name (ARN) of the VPC connection.
   final String? arn;
@@ -81354,6 +83767,8 @@ class VPCConnectionSummary {
 }
 
 /// The structure that contains information about a network interface.
+///
+/// @nodoc
 class NetworkInterface {
   /// The availability zone that the network interface resides in.
   final String? availabilityZone;
@@ -81405,6 +83820,7 @@ class NetworkInterface {
   }
 }
 
+/// @nodoc
 class NetworkInterfaceStatus {
   static const creating = NetworkInterfaceStatus._('CREATING');
   static const available = NetworkInterfaceStatus._('AVAILABLE');
@@ -81452,6 +83868,8 @@ class NetworkInterfaceStatus {
 }
 
 /// A summary of a user's index capacity consumption.
+///
+/// @nodoc
 class UserIndexCapacity {
   /// The email address of the user.
   final String? email;
@@ -81533,6 +83951,8 @@ class UserIndexCapacity {
 }
 
 /// The field to sort user index capacity results by.
+///
+/// @nodoc
 class UserIndexCapacitySortBy {
   static const totalCapacityBytes =
       UserIndexCapacitySortBy._('TOTAL_CAPACITY_BYTES');
@@ -81559,6 +83979,8 @@ class UserIndexCapacitySortBy {
 }
 
 /// The sort order for user index capacity results.
+///
+/// @nodoc
 class UserIndexCapacitySortOrder {
   static const asc = UserIndexCapacitySortOrder._('ASC');
   static const desc = UserIndexCapacitySortOrder._('DESC');
@@ -81586,6 +84008,8 @@ class UserIndexCapacitySortOrder {
 
 /// A filter for user index capacity queries. Only one filter type can be
 /// specified per request.
+///
+/// @nodoc
 class UserIndexCapacityFilter {
   /// Filter users by total capacity range in bytes.
   final CapacityBytesRangeFilter? totalCapacityBytes;
@@ -81609,6 +84033,8 @@ class UserIndexCapacityFilter {
 }
 
 /// A filter that matches users by username or email prefix.
+///
+/// @nodoc
 class UserNameOrEmailFilter {
   /// The prefix to match against username or email (starts-with match).
   final String prefix;
@@ -81626,6 +84052,8 @@ class UserNameOrEmailFilter {
 }
 
 /// A filter that matches users by total capacity range in bytes.
+///
+/// @nodoc
 class CapacityBytesRangeFilter {
   /// The maximum capacity in bytes (inclusive). At least one of minBytes or
   /// maxBytes is required.
@@ -81651,6 +84079,8 @@ class CapacityBytesRangeFilter {
 }
 
 /// The deinition for a <code>TopicReviewedAnswer</code>.
+///
+/// @nodoc
 class TopicReviewedAnswer {
   /// The answer ID of the reviewed answer.
   final String answerId;
@@ -81722,6 +84152,8 @@ class TopicReviewedAnswer {
 }
 
 /// The definition for a <code>TopicIR</code>.
+///
+/// @nodoc
 class TopicIR {
   /// The contribution analysis for the <code>TopicIR</code>.
   final TopicIRContributionAnalysis? contributionAnalysis;
@@ -81801,6 +84233,8 @@ class TopicIR {
 }
 
 /// The definition for a <code>TopicVisual</code>.
+///
+/// @nodoc
 class TopicVisual {
   /// The ir for the <code>TopicVisual</code>.
   final TopicIR? ir;
@@ -81850,6 +84284,8 @@ class TopicVisual {
 }
 
 /// The definition for a <code>TopicTemplate</code>.
+///
+/// @nodoc
 class TopicTemplate {
   /// The slots for the <code>TopicTemplate</code>.
   final List<Slot>? slots;
@@ -81883,6 +84319,8 @@ class TopicTemplate {
 }
 
 /// The definition for the slot.
+///
+/// @nodoc
 class Slot {
   /// The slot ID of the slot.
   final String? slotId;
@@ -81912,6 +84350,7 @@ class Slot {
   }
 }
 
+/// @nodoc
 class VisualRole {
   static const primary = VisualRole._('PRIMARY');
   static const complimentary = VisualRole._('COMPLIMENTARY');
@@ -81945,6 +84384,8 @@ class VisualRole {
 }
 
 /// The definition for a <code>TopicSortClause</code>.
+///
+/// @nodoc
 class TopicSortClause {
   /// The operand for a <code>TopicSortClause</code>.
   final Identifier? operand;
@@ -81978,6 +84419,8 @@ class TopicSortClause {
 }
 
 /// The definition for a <code>TopicIRContributionAnalysis</code>.
+///
+/// @nodoc
 class TopicIRContributionAnalysis {
   /// The direction for the <code>TopicIRContributionAnalysis</code>.
   final ContributionAnalysisDirection? direction;
@@ -82031,6 +84474,8 @@ class TopicIRContributionAnalysis {
 }
 
 /// The definition for a <code>VisualOptions</code>.
+///
+/// @nodoc
 class VisualOptions {
   /// The type for a <code>VisualOptions</code>.
   final String? type;
@@ -82054,6 +84499,8 @@ class VisualOptions {
 }
 
 /// The definition for the <code>ContributionAnalysisTimeRanges</code>.
+///
+/// @nodoc
 class ContributionAnalysisTimeRanges {
   /// The end range for the <code>ContributionAnalysisTimeRanges</code>.
   final TopicIRFilterOption? endRange;
@@ -82089,6 +84536,7 @@ class ContributionAnalysisTimeRanges {
   }
 }
 
+/// @nodoc
 class ContributionAnalysisDirection {
   static const increase = ContributionAnalysisDirection._('INCREASE');
   static const decrease = ContributionAnalysisDirection._('DECREASE');
@@ -82115,6 +84563,7 @@ class ContributionAnalysisDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class ContributionAnalysisSortType {
   static const absoluteDifference =
       ContributionAnalysisSortType._('ABSOLUTE_DIFFERENCE');
@@ -82152,6 +84601,8 @@ class ContributionAnalysisSortType {
 }
 
 /// The definition for a <code>TopicIRFilterOption</code>.
+///
+/// @nodoc
 class TopicIRFilterOption {
   /// The agg metrics for the <code>TopicIRFilterOption</code>.
   final List<FilterAggMetrics>? aggMetrics;
@@ -82327,6 +84778,7 @@ class TopicIRFilterOption {
   }
 }
 
+/// @nodoc
 class TopicIRFilterType {
   static const categoryFilter = TopicIRFilterType._('CATEGORY_FILTER');
   static const numericEqualityFilter =
@@ -82370,6 +84822,8 @@ class TopicIRFilterType {
 }
 
 /// The definition for the identifier.
+///
+/// @nodoc
 class Identifier {
   /// The identity of the identifier.
   final String identity;
@@ -82392,6 +84846,7 @@ class Identifier {
   }
 }
 
+/// @nodoc
 class TopicIRFilterFunction {
   static const contains = TopicIRFilterFunction._('CONTAINS');
   static const exact = TopicIRFilterFunction._('EXACT');
@@ -82437,6 +84892,8 @@ class TopicIRFilterFunction {
 }
 
 /// The definition for a <code>TopicConstantValue</code>.
+///
+/// @nodoc
 class TopicConstantValue {
   /// The constant type of a <code>TopicConstantValue</code>.
   final ConstantType? constantType;
@@ -82492,6 +84949,7 @@ class TopicConstantValue {
   }
 }
 
+/// @nodoc
 class NullFilterOption {
   static const allValues = NullFilterOption._('ALL_VALUES');
   static const nonNullsOnly = NullFilterOption._('NON_NULLS_ONLY');
@@ -82517,6 +84975,7 @@ class NullFilterOption {
   String toString() => value;
 }
 
+/// @nodoc
 class AggType {
   static const sum = AggType._('SUM');
   static const min = AggType._('MIN');
@@ -82579,6 +85038,7 @@ class AggType {
   String toString() => value;
 }
 
+/// @nodoc
 class TopicSortDirection {
   static const ascending = TopicSortDirection._('ASCENDING');
   static const descending = TopicSortDirection._('DESCENDING');
@@ -82605,6 +85065,8 @@ class TopicSortDirection {
 }
 
 /// The definition of the Anchor.
+///
+/// @nodoc
 class Anchor {
   /// The <code>AnchorType</code> for the Anchor.
   final AnchorType? anchorType;
@@ -82642,6 +85104,7 @@ class Anchor {
   }
 }
 
+/// @nodoc
 class AnchorType {
   static const today = AnchorType._('TODAY');
 
@@ -82665,6 +85128,8 @@ class AnchorType {
 }
 
 /// The definition for the <code>FilterAggMetrics</code>.
+///
+/// @nodoc
 class FilterAggMetrics {
   /// The function for the <code>FilterAggMetrics</code>.
   final AggType? function;
@@ -82705,6 +85170,8 @@ class FilterAggMetrics {
 }
 
 /// The definition of an <code>AggregationPartitionBy</code>.
+///
+/// @nodoc
 class AggregationPartitionBy {
   /// The field Name for an <code>AggregationPartitionBy</code>.
   final String? fieldName;
@@ -82736,6 +85203,8 @@ class AggregationPartitionBy {
 }
 
 /// The definition for a <code>CollectiveConstantEntry</code>.
+///
+/// @nodoc
 class CollectiveConstantEntry {
   /// The <code>ConstantType</code> of a <code>CollectiveConstantEntry</code>.
   final ConstantType? constantType;
@@ -82767,6 +85236,8 @@ class CollectiveConstantEntry {
 }
 
 /// The definition for the <code>ContributionAnalysisFactor</code>.
+///
+/// @nodoc
 class ContributionAnalysisFactor {
   /// The field name of the <code>ContributionAnalysisFactor</code>.
   final String? fieldName;
@@ -82790,6 +85261,8 @@ class ContributionAnalysisFactor {
 }
 
 /// The definition for a <code>TopicIRGroupBy</code>.
+///
+/// @nodoc
 class TopicIRGroupBy {
   /// The display format for the <code>TopicIRGroupBy</code>.
   final DisplayFormat? displayFormat;
@@ -82858,6 +85331,8 @@ class TopicIRGroupBy {
 }
 
 /// The definition for a <code>NamedEntityRef</code>.
+///
+/// @nodoc
 class NamedEntityRef {
   /// The <code>NamedEntityName</code> for the <code>NamedEntityRef</code>.
   final String? namedEntityName;
@@ -82881,6 +85356,8 @@ class NamedEntityRef {
 }
 
 /// The definition for a <code>TopicIRMetric</code>.
+///
+/// @nodoc
 class TopicIRMetric {
   /// The calculated field references for the <code>TopicIRMetric</code>.
   final List<Identifier>? calculatedFieldReferences;
@@ -82979,6 +85456,8 @@ class TopicIRMetric {
 }
 
 /// The definition of an Agg function.
+///
+/// @nodoc
 class AggFunction {
   /// The aggregation of an Agg function.
   final AggType? aggregation;
@@ -83026,6 +85505,8 @@ class AggFunction {
 }
 
 /// The definition of a <code>TopicIRComparisonMethod</code>.
+///
+/// @nodoc
 class TopicIRComparisonMethod {
   /// The period for the <code>TopicIRComparisonMethod</code>.
   final TopicTimeGranularity? period;
@@ -83062,6 +85543,7 @@ class TopicIRComparisonMethod {
   }
 }
 
+/// @nodoc
 class ComparisonMethodType {
   static const diff = ComparisonMethodType._('DIFF');
   static const percDiff = ComparisonMethodType._('PERC_DIFF');
@@ -83109,6 +85591,8 @@ class ComparisonMethodType {
 }
 
 /// A summary of the refresh schedule details for a dataset.
+///
+/// @nodoc
 class TopicRefreshScheduleSummary {
   /// The Amazon Resource Name (ARN) of the dataset.
   final String? datasetArn;
@@ -83156,6 +85640,8 @@ class TopicRefreshScheduleSummary {
 }
 
 /// The theme version.
+///
+/// @nodoc
 class ThemeVersionSummary {
   /// The Amazon Resource Name (ARN) of the theme version.
   final String? arn;
@@ -83207,6 +85693,8 @@ class ThemeVersionSummary {
 }
 
 /// The theme summary.
+///
+/// @nodoc
 class ThemeSummary {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -83267,6 +85755,7 @@ class ThemeSummary {
   }
 }
 
+/// @nodoc
 class ThemeType {
   static const quicksight = ThemeType._('QUICKSIGHT');
   static const custom = ThemeType._('CUSTOM');
@@ -83292,6 +85781,8 @@ class ThemeType {
 }
 
 /// The template version.
+///
+/// @nodoc
 class TemplateVersionSummary {
   /// The Amazon Resource Name (ARN) of the template version.
   final String? arn;
@@ -83343,6 +85834,8 @@ class TemplateVersionSummary {
 }
 
 /// The template summary.
+///
+/// @nodoc
 class TemplateSummary {
   /// A summary of a template.
   final String? arn;
@@ -83404,6 +85897,8 @@ class TemplateSummary {
 }
 
 /// A summary of a resource in a space.
+///
+/// @nodoc
 class SpaceResourceSummary {
   /// The details of the resource.
   final SpaceQuickSightResourceDetails resourceDetails;
@@ -83451,6 +85946,8 @@ class SpaceResourceSummary {
 }
 
 /// A summary of an OAuthClientApplication.
+///
+/// @nodoc
 class OAuthClientApplicationSummary {
   /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
   final String? arn;
@@ -83537,6 +86034,7 @@ class OAuthClientApplicationSummary {
   }
 }
 
+/// @nodoc
 class OAuthClientAuthenticationType {
   static const token = OAuthClientAuthenticationType._('TOKEN');
 
@@ -83562,6 +86060,8 @@ class OAuthClientAuthenticationType {
 }
 
 /// The error type.
+///
+/// @nodoc
 class NamespaceInfoV2 {
   /// The namespace ARN.
   final String? arn;
@@ -83643,6 +86143,7 @@ class NamespaceInfoV2 {
   }
 }
 
+/// @nodoc
 class NamespaceStatus {
   static const created = NamespaceStatus._('CREATED');
   static const creating = NamespaceStatus._('CREATING');
@@ -83676,6 +86177,7 @@ class NamespaceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IdentityStore {
   static const quicksight = IdentityStore._('QUICKSIGHT');
 
@@ -83700,6 +86202,8 @@ class IdentityStore {
 }
 
 /// Errors that occur during namespace creation.
+///
+/// @nodoc
 class NamespaceError {
   /// The message for the error.
   final String? message;
@@ -83729,6 +86233,7 @@ class NamespaceError {
   }
 }
 
+/// @nodoc
 class NamespaceErrorType {
   static const permissionDenied = NamespaceErrorType._('PERMISSION_DENIED');
   static const internalServiceError =
@@ -83756,6 +86261,8 @@ class NamespaceErrorType {
 }
 
 /// Information about the SPICE ingestion for a dataset.
+///
+/// @nodoc
 class Ingestion {
   /// The Amazon Resource Name (ARN) of the resource.
   final String arn;
@@ -83855,6 +86362,7 @@ class Ingestion {
   }
 }
 
+/// @nodoc
 class IngestionStatus {
   static const initialized = IngestionStatus._('INITIALIZED');
   static const queued = IngestionStatus._('QUEUED');
@@ -83891,6 +86399,8 @@ class IngestionStatus {
 }
 
 /// Error information for the SPICE ingestion of a dataset.
+///
+/// @nodoc
 class ErrorInfo {
   /// Error message.
   final String? message;
@@ -83921,6 +86431,8 @@ class ErrorInfo {
 }
 
 /// Information about rows for a data set SPICE ingestion.
+///
+/// @nodoc
 class RowInfo {
   /// The number of rows that were not ingested.
   final int? rowsDropped;
@@ -83958,6 +86470,8 @@ class RowInfo {
 }
 
 /// Information about a queued dataset SPICE ingestion.
+///
+/// @nodoc
 class QueueInfo {
   /// The ID of the ongoing ingestion. The queued ingestion is waiting for the
   /// ongoing ingestion to complete.
@@ -83988,6 +86502,7 @@ class QueueInfo {
   }
 }
 
+/// @nodoc
 class IngestionRequestSource {
   static const manual = IngestionRequestSource._('MANUAL');
   static const scheduled = IngestionRequestSource._('SCHEDULED');
@@ -84015,6 +86530,8 @@ class IngestionRequestSource {
 
 /// This defines the type of ingestion request. This is returned as part of
 /// create ingestion response.
+///
+/// @nodoc
 class IngestionRequestType {
   static const initialIngestion = IngestionRequestType._('INITIAL_INGESTION');
   static const edit = IngestionRequestType._('EDIT');
@@ -84048,6 +86565,7 @@ class IngestionRequestType {
   String toString() => value;
 }
 
+/// @nodoc
 class IngestionErrorType {
   static const failureToAssumeRole =
       IngestionErrorType._('FAILURE_TO_ASSUME_ROLE');
@@ -84192,6 +86710,8 @@ class IngestionErrorType {
 }
 
 /// The authorized targets that are associated with a service.
+///
+/// @nodoc
 class AuthorizedTargetsByService {
   /// Aist of authorized targets that are represented by IAM Identity Center
   /// application ARNs.
@@ -84226,6 +86746,8 @@ class AuthorizedTargetsByService {
 }
 
 /// The active Identity and Access Management (IAM) policy assignment.
+///
+/// @nodoc
 class ActiveIAMPolicyAssignment {
   /// A name for the IAM policy assignment.
   final String? assignmentName;
@@ -84256,6 +86778,8 @@ class ActiveIAMPolicyAssignment {
 }
 
 /// IAM policy assignment summary.
+///
+/// @nodoc
 class IAMPolicyAssignmentSummary {
   /// Assignment name.
   final String? assignmentName;
@@ -84288,6 +86812,8 @@ class IAMPolicyAssignmentSummary {
 
 /// A member of an Quick Sight group. Currently, group members must be users.
 /// Groups can't be members of another group. .
+///
+/// @nodoc
 class GroupMember {
   /// The Amazon Resource Name (ARN) for the group member (user).
   final String? arn;
@@ -84319,6 +86845,8 @@ class GroupMember {
 
 /// An object that consists of a member Amazon Resource Name (ARN) and a member
 /// ID.
+///
+/// @nodoc
 class MemberIdArnPair {
   /// The Amazon Resource Name (ARN) of the member.
   final String? memberArn;
@@ -84349,6 +86877,8 @@ class MemberIdArnPair {
 }
 
 /// The structure of a data source.
+///
+/// @nodoc
 class DataSource {
   /// A set of alternate data source parameters that you want to share for the
   /// credentials stored with this data source. The credentials are applied in
@@ -84494,6 +87024,8 @@ class DataSource {
 }
 
 /// Error information for the data source creation or update.
+///
+/// @nodoc
 class DataSourceErrorInfo {
   /// Error message.
   final String? message;
@@ -84523,6 +87055,7 @@ class DataSourceErrorInfo {
   }
 }
 
+/// @nodoc
 class DataSourceErrorInfoType {
   static const accessDenied = DataSourceErrorInfoType._('ACCESS_DENIED');
   static const copySourceNotFound =
@@ -84567,6 +87100,8 @@ class DataSourceErrorInfoType {
 }
 
 /// Dashboard version summary.
+///
+/// @nodoc
 class DashboardVersionSummary {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -84625,6 +87160,8 @@ class DashboardVersionSummary {
 }
 
 /// The custom permissions profile.
+///
+/// @nodoc
 class CustomPermissions {
   /// The Amazon Resource Name (ARN) of the custom permissions profile.
   final String? arn;
@@ -84665,6 +87202,8 @@ class CustomPermissions {
 }
 
 /// A summary of the brand.
+///
+/// @nodoc
 class BrandSummary {
   /// The Amazon Resource Name (ARN) of the brand.
   final String? arn;
@@ -84733,6 +87272,8 @@ class BrandSummary {
 
 /// A summary of the import job that includes details of the requested job's
 /// configuration and its current status.
+///
+/// @nodoc
 class AssetBundleImportJobSummary {
   /// The ARN of the import job.
   final String? arn;
@@ -84787,6 +87328,7 @@ class AssetBundleImportJobSummary {
   }
 }
 
+/// @nodoc
 class AssetBundleImportJobStatus {
   static const queuedForImmediateExecution =
       AssetBundleImportJobStatus._('QUEUED_FOR_IMMEDIATE_EXECUTION');
@@ -84831,6 +87373,8 @@ class AssetBundleImportJobStatus {
 
 /// A summary of the export job that includes details of the job's configuration
 /// and its current status.
+///
+/// @nodoc
 class AssetBundleExportJobSummary {
   /// The ARN of the export job.
   final String? arn;
@@ -84909,6 +87453,7 @@ class AssetBundleExportJobSummary {
   }
 }
 
+/// @nodoc
 class AssetBundleExportJobStatus {
   static const queuedForImmediateExecution =
       AssetBundleExportJobStatus._('QUEUED_FOR_IMMEDIATE_EXECUTION');
@@ -84943,6 +87488,8 @@ class AssetBundleExportJobStatus {
 }
 
 /// A structure that contains information to identify a user.
+///
+/// @nodoc
 class UserIdentifier {
   /// The email address of the user that you want to get identity context for.
   final String? email;
@@ -84972,6 +87519,7 @@ class UserIdentifier {
   }
 }
 
+/// @nodoc
 class EmbeddingIdentityType {
   static const iam = EmbeddingIdentityType._('IAM');
   static const quicksight = EmbeddingIdentityType._('QUICKSIGHT');
@@ -85005,6 +87553,8 @@ class EmbeddingIdentityType {
 /// <code>Dashboard</code> or <code>QuickSightConsole</code>. You cannot choose
 /// more than one experience configuration.
 /// </note>
+///
+/// @nodoc
 class RegisteredUserEmbeddingExperienceConfiguration {
   /// The configuration details for providing a dashboard embedding experience.
   final RegisteredUserDashboardEmbeddingConfiguration? dashboard;
@@ -85099,6 +87649,8 @@ class RegisteredUserEmbeddingExperienceConfiguration {
 }
 
 /// Information about the dashboard you want to embed.
+///
+/// @nodoc
 class RegisteredUserDashboardEmbeddingConfiguration {
   /// The dashboard ID for the dashboard that you want the user to see first. This
   /// ID is included in the output URL. When the URL in response is accessed,
@@ -85129,6 +87681,8 @@ class RegisteredUserDashboardEmbeddingConfiguration {
 }
 
 /// Information about the Amazon Quick Sight console that you want to embed.
+///
+/// @nodoc
 class RegisteredUserQuickSightConsoleEmbeddingConfiguration {
   /// The embedding configuration of an embedded Amazon Quick Sight console.
   final RegisteredUserConsoleFeatureConfigurations? featureConfigurations;
@@ -85179,6 +87733,8 @@ class RegisteredUserQuickSightConsoleEmbeddingConfiguration {
 }
 
 /// Information about the Q search bar embedding experience.
+///
+/// @nodoc
 class RegisteredUserQSearchBarEmbeddingConfiguration {
   /// The ID of the legacy Q topic that you want to use as the starting topic in
   /// the Q search bar. To locate the topic ID of the topic that you want to use,
@@ -85207,6 +87763,8 @@ class RegisteredUserQSearchBarEmbeddingConfiguration {
 
 /// The experience that you are embedding. You can use this object to generate a
 /// url that embeds a visual into your application.
+///
+/// @nodoc
 class RegisteredUserDashboardVisualEmbeddingConfiguration {
   /// The visual ID for the visual that you want the user to embed. This ID is
   /// included in the output URL. When the URL in response is accessed, Amazon
@@ -85232,6 +87790,8 @@ class RegisteredUserDashboardVisualEmbeddingConfiguration {
 
 /// An object that provides information about the configuration of a Generative
 /// Q&A experience.
+///
+/// @nodoc
 class RegisteredUserGenerativeQnAEmbeddingConfiguration {
   /// The ID of the new Q reader experience topic that you want to make the
   /// starting topic in the Generative Q&A experience. You can find a topic ID by
@@ -85259,6 +87819,8 @@ class RegisteredUserGenerativeQnAEmbeddingConfiguration {
 }
 
 /// An object that provides information about the configuration of a chat agent.
+///
+/// @nodoc
 class RegisteredUserQuickChatEmbeddingConfiguration {
   RegisteredUserQuickChatEmbeddingConfiguration();
 
@@ -85287,6 +87849,8 @@ class RegisteredUserQuickChatEmbeddingConfiguration {
 /// section of the <code>Embed visual</code> pane of the visual's on-visual menu
 /// of the Amazon Quick Sight console. You can also get the
 /// <code>DashboardId</code> with a <code>ListDashboards</code> API operation.
+///
+/// @nodoc
 class DashboardVisualId {
   /// The ID of the dashboard that has the visual that you want to embed. The
   /// <code>DashboardId</code> can be found in the <code>IDs for developers</code>
@@ -85326,6 +87890,8 @@ class DashboardVisualId {
 }
 
 /// The feature configurations of an embedded Amazon Quick Sight console.
+///
+/// @nodoc
 class RegisteredUserConsoleFeatureConfigurations {
   /// The Amazon Q configurations of an embedded Amazon Quick Sight console.
   final AmazonQInQuickSightConsoleConfigurations? amazonQInQuickSight;
@@ -85384,6 +87950,8 @@ class RegisteredUserConsoleFeatureConfigurations {
 }
 
 /// The state perssitence configuration of an embedded dashboard.
+///
+/// @nodoc
 class StatePersistenceConfigurations {
   /// Determines if a Quick Sight dashboard's state persistence settings are
   /// turned on or off.
@@ -85402,6 +87970,8 @@ class StatePersistenceConfigurations {
 }
 
 /// The shared view settings of an embedded dashboard.
+///
+/// @nodoc
 class SharedViewConfigurations {
   /// The shared view settings of an embedded dashboard.
   final bool enabled;
@@ -85420,6 +87990,8 @@ class SharedViewConfigurations {
 
 /// A collection of Amazon Q feature configurations in an embedded Quick Sight
 /// console.
+///
+/// @nodoc
 class AmazonQInQuickSightConsoleConfigurations {
   /// Adds generative Q&A capabilitiees to an embedded Quick Sight console.
   final DataQnAConfigurations? dataQnA;
@@ -85457,6 +88029,8 @@ class AmazonQInQuickSightConsoleConfigurations {
 }
 
 /// The schedules configuration for an embedded Quick Sight dashboard.
+///
+/// @nodoc
 class SchedulesConfigurations {
   /// The schedules configuration for an embedded Quick Sight dashboard.
   final bool enabled;
@@ -85474,6 +88048,8 @@ class SchedulesConfigurations {
 }
 
 /// The recent snapshots configuration for an embedded Quick Sight dashboard.
+///
+/// @nodoc
 class RecentSnapshotsConfigurations {
   /// The recent snapshots configuration for an embedded Quick Sight dashboard.
   final bool enabled;
@@ -85491,6 +88067,8 @@ class RecentSnapshotsConfigurations {
 }
 
 /// The threshold alerts configuration for an embedded Quick Sight dashboard.
+///
+/// @nodoc
 class ThresholdAlertsConfigurations {
   /// The threshold alerts configuration for an embedded Quick Sight dashboard.
   final bool enabled;
@@ -85509,6 +88087,8 @@ class ThresholdAlertsConfigurations {
 
 /// The dashboard customization summary configuration for an embedded Quick
 /// Sight dashboard.
+///
+/// @nodoc
 class DashboardCustomizationSummaryConfigurations {
   /// The enabled status of the dashboard customization summary configuration for
   /// an embedded Quick Sight dashboard.
@@ -85527,6 +88107,8 @@ class DashboardCustomizationSummaryConfigurations {
 }
 
 /// The generative Q&A settings of an embedded Quick Sight console.
+///
+/// @nodoc
 class DataQnAConfigurations {
   /// The generative Q&A settings of an embedded Quick Sight console.
   final bool enabled;
@@ -85544,6 +88126,8 @@ class DataQnAConfigurations {
 }
 
 /// The generative BI authoring settings of an embedded Quick Sight console.
+///
+/// @nodoc
 class GenerativeAuthoringConfigurations {
   /// The generative BI authoring settings of an embedded Quick Sight console.
   final bool enabled;
@@ -85562,6 +88146,8 @@ class GenerativeAuthoringConfigurations {
 
 /// The executive summary settings of an embedded Quick Sight console or
 /// dashboard.
+///
+/// @nodoc
 class ExecutiveSummaryConfigurations {
   /// The executive summary settings of an embedded Quick Sight console or
   /// dashboard.
@@ -85580,6 +88166,8 @@ class ExecutiveSummaryConfigurations {
 }
 
 /// The data story settings of an embedded Quick Sight console.
+///
+/// @nodoc
 class DataStoriesConfigurations {
   /// The data story settings of an embedded Quick Sight console.
   final bool enabled;
@@ -85597,6 +88185,8 @@ class DataStoriesConfigurations {
 }
 
 /// The feature configuration for an embedded dashboard.
+///
+/// @nodoc
 class RegisteredUserDashboardFeatureConfigurations {
   /// The Amazon Q configurations of an embedded Amazon Quick Sight dashboard.
   final AmazonQInQuickSightDashboardConfigurations? amazonQInQuickSight;
@@ -85660,6 +88250,8 @@ class RegisteredUserDashboardFeatureConfigurations {
 }
 
 /// The bookmarks configuration of an embedded dashboard.
+///
+/// @nodoc
 class BookmarksConfigurations {
   /// A Boolean value that determines whether a user can bookmark an embedded
   /// dashboard.
@@ -85679,6 +88271,8 @@ class BookmarksConfigurations {
 
 /// A collection of Amazon Q feature configurations in an embedded Quick Sight
 /// dashboard.
+///
+/// @nodoc
 class AmazonQInQuickSightDashboardConfigurations {
   /// A generated executive summary of an embedded Quick Sight dashboard.
   final ExecutiveSummaryConfigurations? executiveSummary;
@@ -85697,6 +88291,8 @@ class AmazonQInQuickSightDashboardConfigurations {
 
 /// The type of experience you want to embed. For anonymous users, you can embed
 /// Quick dashboards.
+///
+/// @nodoc
 class AnonymousUserEmbeddingExperienceConfiguration {
   /// The type of embedding experience. In this case, Amazon Quick Sight
   /// dashboards.
@@ -85734,6 +88330,8 @@ class AnonymousUserEmbeddingExperienceConfiguration {
 }
 
 /// Information about the dashboard that you want to embed.
+///
+/// @nodoc
 class AnonymousUserDashboardEmbeddingConfiguration {
   /// The dashboard ID for the dashboard that you want the user to see first. This
   /// ID is included in the output URL. When the URL in response is accessed,
@@ -85781,6 +88379,8 @@ class AnonymousUserDashboardEmbeddingConfiguration {
 
 /// The experience that you are embedding. You can use this object to generate a
 /// url that embeds a visual into your application.
+///
+/// @nodoc
 class AnonymousUserDashboardVisualEmbeddingConfiguration {
   /// The visual ID for the visual that you want the user to see. This ID is
   /// included in the output URL. When the URL in response is accessed, Amazon
@@ -85805,6 +88405,8 @@ class AnonymousUserDashboardVisualEmbeddingConfiguration {
 }
 
 /// The settings that you want to use with the Q search bar.
+///
+/// @nodoc
 class AnonymousUserQSearchBarEmbeddingConfiguration {
   /// The Quick Sight Q topic ID of the legacy topic that you want the anonymous
   /// user to see first. This ID is included in the output URL. When the URL in
@@ -85829,6 +88431,8 @@ class AnonymousUserQSearchBarEmbeddingConfiguration {
 }
 
 /// The settings that you want to use for the Generative Q&A experience.
+///
+/// @nodoc
 class AnonymousUserGenerativeQnAEmbeddingConfiguration {
   /// The Quick Sight Q topic ID of the new reader experience topic that you want
   /// the anonymous user to see first. This ID is included in the output URL. When
@@ -85853,6 +88457,8 @@ class AnonymousUserGenerativeQnAEmbeddingConfiguration {
 }
 
 /// The feature configuration for an embedded dashboard.
+///
+/// @nodoc
 class AnonymousUserDashboardFeatureConfigurations {
   /// The shared view settings of an embedded dashboard.
   final SharedViewConfigurations? sharedView;
@@ -85869,6 +88475,7 @@ class AnonymousUserDashboardFeatureConfigurations {
   }
 }
 
+/// @nodoc
 class AnonymousUserDashboardEmbeddingConfigurationDisabledFeature {
   static const sharedView =
       AnonymousUserDashboardEmbeddingConfigurationDisabledFeature._(
@@ -85900,6 +88507,7 @@ class AnonymousUserDashboardEmbeddingConfigurationDisabledFeature {
   String toString() => value;
 }
 
+/// @nodoc
 class AnonymousUserDashboardEmbeddingConfigurationEnabledFeature {
   static const sharedView =
       AnonymousUserDashboardEmbeddingConfigurationEnabledFeature._(
@@ -85932,6 +88540,8 @@ class AnonymousUserDashboardEmbeddingConfigurationEnabledFeature {
 }
 
 /// The structure of a VPC connection.
+///
+/// @nodoc
 class VPCConnection {
   /// The Amazon Resource Name (ARN) of the VPC connection.
   final String? arn;
@@ -86047,6 +88657,8 @@ class VPCConnection {
 }
 
 /// The details about the refresh of a topic.
+///
+/// @nodoc
 class TopicRefreshDetails {
   /// The Amazon Resource Name (ARN) of the topic refresh.
   final String? refreshArn;
@@ -86086,6 +88698,7 @@ class TopicRefreshDetails {
   }
 }
 
+/// @nodoc
 class TopicRefreshStatus {
   static const initialized = TopicRefreshStatus._('INITIALIZED');
   static const running = TopicRefreshStatus._('RUNNING');
@@ -86115,6 +88728,8 @@ class TopicRefreshStatus {
 }
 
 /// Summary information about a theme.
+///
+/// @nodoc
 class Theme {
   /// The Amazon Resource Name (ARN) of the theme.
   final String? arn;
@@ -86182,6 +88797,8 @@ class Theme {
 }
 
 /// A version of a theme.
+///
+/// @nodoc
 class ThemeVersion {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -86261,6 +88878,8 @@ class ThemeVersion {
 }
 
 /// Theme error.
+///
+/// @nodoc
 class ThemeError {
   /// The error message.
   final String? message;
@@ -86290,6 +88909,7 @@ class ThemeError {
   }
 }
 
+/// @nodoc
 class ThemeErrorType {
   static const internalFailure = ThemeErrorType._('INTERNAL_FAILURE');
 
@@ -86314,6 +88934,8 @@ class ThemeErrorType {
 }
 
 /// List of errors that occurred when the template version creation failed.
+///
+/// @nodoc
 class TemplateError {
   /// Description of the error type.
   final String? message;
@@ -86353,6 +88975,7 @@ class TemplateError {
   }
 }
 
+/// @nodoc
 class TemplateErrorType {
   static const sourceNotFound = TemplateErrorType._('SOURCE_NOT_FOUND');
   static const dataSetNotFound = TemplateErrorType._('DATA_SET_NOT_FOUND');
@@ -86386,6 +89009,8 @@ class TemplateErrorType {
 
 /// An object, structure, or sub-structure of an analysis, template, or
 /// dashboard.
+///
+/// @nodoc
 class Entity {
   /// The hierarchical path of the entity within the analysis, template, or
   /// dashboard definition tree.
@@ -86420,6 +89045,8 @@ class Entity {
 /// You can share templates across Amazon Web Services accounts by allowing
 /// users in other Amazon Web Services accounts to create a template or a
 /// dashboard from an existing template.
+///
+/// @nodoc
 class Template {
   /// The Amazon Resource Name (ARN) of the template.
   final String? arn;
@@ -86482,6 +89109,8 @@ class Template {
 }
 
 /// A version of a template.
+///
+/// @nodoc
 class TemplateVersion {
   /// The time that this template version was created.
   final DateTime? createdTime;
@@ -86603,6 +89232,8 @@ class TemplateVersion {
 /// contains at least one sheet. Each sheet contains at least one visualization
 /// widget, for example a chart, pivot table, or narrative insight. Sheets can
 /// be associated with other components, such as controls, filters, and so on.
+///
+/// @nodoc
 class Sheet {
   /// A list of images on a sheet.
   final List<SheetImage>? images;
@@ -86644,6 +89275,8 @@ class Sheet {
 }
 
 /// The details of an Amazon QuickSight space.
+///
+/// @nodoc
 class SpaceDetails {
   /// The number of consumed source documents.
   final int? consumedSourceDocCount;
@@ -86728,6 +89361,8 @@ class SpaceDetails {
 }
 
 /// A contributor to an Amazon QuickSight space.
+///
+/// @nodoc
 class SpaceContributor {
   /// The raw file size in bytes contributed by the user.
   final int rawFileSizeBytes;
@@ -86765,6 +89400,8 @@ class SpaceContributor {
 }
 
 /// A QuickSight resource that is associated with a space.
+///
+/// @nodoc
 class SpaceQuickSightResource {
   /// The details of the QuickSight resource.
   final SpaceQuickSightResourceDetails resourceDetails;
@@ -86798,6 +89435,8 @@ class SpaceQuickSightResource {
 }
 
 /// The self-upgrade configuration for the Quick account.
+///
+/// @nodoc
 class SelfUpgradeConfiguration {
   /// Status set for the self-upgrade configuration for the Quick account. It can
   /// contain the following values:
@@ -86836,6 +89475,8 @@ class SelfUpgradeConfiguration {
 
 /// An OAuth client application that is used to authenticate connections to a
 /// data source through an OAuth identity provider.
+///
+/// @nodoc
 class OAuthClientApplication {
   /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
   final String? arn;
@@ -86951,6 +89592,8 @@ class OAuthClientApplication {
 
 /// A knowledge base resource that provides data from connected sources for
 /// AI-powered experiences in Amazon QuickSight.
+///
+/// @nodoc
 class KnowledgeBase {
   /// The ARN of the data source associated with the knowledge base.
   final String dataSourceArn;
@@ -87128,6 +89771,8 @@ class KnowledgeBase {
 }
 
 /// The configuration settings for a knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseConfiguration {
   /// Indicates whether event notifications are enabled for the knowledge base.
   final bool? eventEnabled;
@@ -87162,6 +89807,8 @@ class KnowledgeBaseConfiguration {
 }
 
 /// The configuration for media extraction from knowledge base documents.
+///
+/// @nodoc
 class MediaExtractionConfiguration {
   /// The configuration for audio extraction.
   final AudioExtractionConfiguration? audioExtractionConfiguration;
@@ -87211,6 +89858,8 @@ class MediaExtractionConfiguration {
 }
 
 /// A summary of an ingestion job for a knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseIngestionSummary {
   /// The unique identifier for the ingestion job.
   final String ingestionId;
@@ -87255,6 +89904,7 @@ class KnowledgeBaseIngestionSummary {
   }
 }
 
+/// @nodoc
 class KbIngestionStatus {
   static const queued = KbIngestionStatus._('QUEUED');
   static const running = KbIngestionStatus._('RUNNING');
@@ -87295,6 +89945,8 @@ class KbIngestionStatus {
 }
 
 /// The configuration for image extraction from knowledge base documents.
+///
+/// @nodoc
 class ImageExtractionConfiguration {
   /// The status of image extraction. Valid values are ENABLED and DISABLED.
   final ImageExtractionStatus imageExtractionStatus;
@@ -87319,6 +89971,8 @@ class ImageExtractionConfiguration {
 }
 
 /// The configuration for audio extraction from knowledge base documents.
+///
+/// @nodoc
 class AudioExtractionConfiguration {
   /// The status of audio extraction. Valid values are ENABLED and DISABLED.
   final AudioExtractionStatus audioExtractionStatus;
@@ -87343,6 +89997,8 @@ class AudioExtractionConfiguration {
 }
 
 /// The configuration for video extraction from knowledge base documents.
+///
+/// @nodoc
 class VideoExtractionConfiguration {
   /// The status of video extraction. Valid values are ENABLED and DISABLED.
   final VideoExtractionStatus videoExtractionStatus;
@@ -87375,6 +90031,7 @@ class VideoExtractionConfiguration {
   }
 }
 
+/// @nodoc
 class VideoExtractionStatus {
   static const enabled = VideoExtractionStatus._('ENABLED');
   static const disabled = VideoExtractionStatus._('DISABLED');
@@ -87400,6 +90057,7 @@ class VideoExtractionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VideoExtractionType {
   static const audioTranscriptionOnly =
       VideoExtractionType._('AUDIO_TRANSCRIPTION_ONLY');
@@ -87430,6 +90088,7 @@ class VideoExtractionType {
   String toString() => value;
 }
 
+/// @nodoc
 class AudioExtractionStatus {
   static const enabled = AudioExtractionStatus._('ENABLED');
   static const disabled = AudioExtractionStatus._('DISABLED');
@@ -87455,6 +90114,7 @@ class AudioExtractionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageExtractionStatus {
   static const enabled = ImageExtractionStatus._('ENABLED');
   static const disabled = ImageExtractionStatus._('DISABLED');
@@ -87481,6 +90141,8 @@ class ImageExtractionStatus {
 }
 
 /// The template configuration for a knowledge base.
+///
+/// @nodoc
 class KbTemplateConfiguration {
   /// The template document that defines the knowledge base behavior.
   final Object? template;
@@ -87504,6 +90166,8 @@ class KbTemplateConfiguration {
 }
 
 /// A structure that contains information about the <code>QDataKey</code>.
+///
+/// @nodoc
 class QDataKey {
   /// The ARN of the KMS key that is registered to a Quick Sight account for
   /// encryption and decryption use as a <code>QDataKey</code>.
@@ -87535,6 +90199,7 @@ class QDataKey {
   }
 }
 
+/// @nodoc
 class QDataKeyType {
   static const awsOwned = QDataKeyType._('AWS_OWNED');
   static const cmk = QDataKeyType._('CMK');
@@ -87559,6 +90224,8 @@ class QDataKeyType {
 }
 
 /// An Identity and Access Management (IAM) policy assignment.
+///
+/// @nodoc
 class IAMPolicyAssignment {
   /// Assignment ID.
   final String? assignmentId;
@@ -87619,6 +90286,8 @@ class IAMPolicyAssignment {
 }
 
 /// A folder in Quick Sight.
+///
+/// @nodoc
 class Folder {
   /// The Amazon Resource Name (ARN) for the folder.
   final String? arn;
@@ -87696,6 +90365,8 @@ class Folder {
 }
 
 /// The full details of a flow, including its definition specifying the steps.
+///
+/// @nodoc
 class FlowDetail {
   /// The Amazon Resource Name (ARN) of the flow.
   final String arn;
@@ -87797,6 +90468,8 @@ class FlowDetail {
 }
 
 /// A mapping between a step identifier and its alias in a flow.
+///
+/// @nodoc
 class StepAliasMapping {
   /// The alias for the step.
   final String stepAlias;
@@ -87827,6 +90500,8 @@ class StepAliasMapping {
 }
 
 /// Dataset.
+///
+/// @nodoc
 class DataSet {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -88050,6 +90725,8 @@ class DataSet {
 }
 
 /// Output column.
+///
+/// @nodoc
 class OutputColumn {
   /// A description for a column.
   final String? description;
@@ -88100,6 +90777,7 @@ class OutputColumn {
   }
 }
 
+/// @nodoc
 class SnapshotJobStatus {
   static const queued = SnapshotJobStatus._('QUEUED');
   static const running = SnapshotJobStatus._('RUNNING');
@@ -88129,6 +90807,8 @@ class SnapshotJobStatus {
 /// An object that provides information on the result of a snapshot job. This
 /// object provides information about the job, the job status, and the location
 /// of the generated file.
+///
+/// @nodoc
 class SnapshotJobResult {
   /// A list of <code>AnonymousUserSnapshotJobResult</code> objects that contain
   /// information on anonymous users and their user configurations. This data
@@ -88177,6 +90857,8 @@ class SnapshotJobResult {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboardSnapshotJobResult.html">DescribeDashboardSnapshotJobResult
 /// API</a>.
+///
+/// @nodoc
 class SnapshotJobErrorInfo {
   /// The error message.
   final String? errorMessage;
@@ -88208,6 +90890,8 @@ class SnapshotJobErrorInfo {
 
 /// A structure that contains information about files that are requested for
 /// registered user during a <code>StartDashboardSnapshotJob</code> API call.
+///
+/// @nodoc
 class RegisteredUserSnapshotJobResult {
   /// A list of <code>SnapshotJobResultFileGroup</code> objects that contain
   /// information on the files that are requested for registered user during a
@@ -88240,6 +90924,8 @@ class RegisteredUserSnapshotJobResult {
 }
 
 /// A structure that contains information on the generated snapshot file groups.
+///
+/// @nodoc
 class SnapshotJobResultFileGroup {
   /// A list of <code>SnapshotFile</code> objects.
   final List<SnapshotFile>? files;
@@ -88278,6 +90964,8 @@ class SnapshotJobResultFileGroup {
 /// The Amazon S3 result from the snapshot job. The result includes the
 /// <code>DestinationConfiguration</code> and the Amazon S3 Uri. If an error
 /// occured during the job, the result returns information on the error.
+///
+/// @nodoc
 class SnapshotJobS3Result {
   /// An array of error records that describe any failures that occur while the
   /// dashboard snapshot job runs.
@@ -88325,6 +91013,8 @@ class SnapshotJobS3Result {
 }
 
 /// Information on the error that caused the snapshot job to fail.
+///
+/// @nodoc
 class SnapshotJobResultErrorInfo {
   /// The error message.
   final String? errorMessage;
@@ -88356,6 +91046,8 @@ class SnapshotJobResultErrorInfo {
 
 /// A structure that contains the file groups that are requested for the
 /// artifact generation in a <code>StartDashboardSnapshotJob</code> API call.
+///
+/// @nodoc
 class AnonymousUserSnapshotJobResult {
   /// A list of <code>SnapshotJobResultFileGroup</code> objects that contain
   /// information on the files that are requested during a
@@ -88389,6 +91081,8 @@ class AnonymousUserSnapshotJobResult {
 
 /// A structure that contains information about the users that the dashboard
 /// snapshot is generated for. Sensitive user information is excluded.
+///
+/// @nodoc
 class SnapshotUserConfigurationRedacted {
   /// An array of records that describe anonymous users that the dashboard
   /// snapshot is generated for. Sensitive user information is excluded.
@@ -88419,6 +91113,8 @@ class SnapshotUserConfigurationRedacted {
 
 /// Use this structure to redact sensitive information that you provide about an
 /// anonymous user from the snapshot.
+///
+/// @nodoc
 class SnapshotAnonymousUserRedacted {
   /// The tag keys for the <code>RowLevelPermissionTags</code>.
   final List<String>? rowLevelPermissionTagKeys;
@@ -88446,6 +91142,8 @@ class SnapshotAnonymousUserRedacted {
 }
 
 /// Dashboard error.
+///
+/// @nodoc
 class DashboardError {
   /// Message.
   final String? message;
@@ -88485,6 +91183,7 @@ class DashboardError {
   }
 }
 
+/// @nodoc
 class DashboardErrorType {
   static const accessDenied = DashboardErrorType._('ACCESS_DENIED');
   static const sourceNotFound = DashboardErrorType._('SOURCE_NOT_FOUND');
@@ -88535,6 +91234,8 @@ class DashboardErrorType {
 }
 
 /// Dashboard.
+///
+/// @nodoc
 class Dashboard {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -88615,6 +91316,8 @@ class Dashboard {
 }
 
 /// Dashboard version.
+///
+/// @nodoc
 class DashboardVersion {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? arn;
@@ -88711,6 +91414,7 @@ class DashboardVersion {
   }
 }
 
+/// @nodoc
 class AutomationJobStatus {
   static const failed = AutomationJobStatus._('FAILED');
   static const running = AutomationJobStatus._('RUNNING');
@@ -88743,6 +91447,8 @@ class AutomationJobStatus {
 /// import job. This value is set to either <code>Body</code> or
 /// <code>S3Uri</code>, depending on how the
 /// <code>StartAssetBundleImportJobRequest</code> is configured.
+///
+/// @nodoc
 class AssetBundleImportSourceDescription {
   /// An HTTPS download URL for the provided asset bundle that you optionally
   /// provided at the start of the import job. This URL is valid for five minutes
@@ -88778,6 +91484,8 @@ class AssetBundleImportSourceDescription {
 }
 
 /// Describes a warning that occurred during an Asset Bundle import job.
+///
+/// @nodoc
 class AssetBundleImportJobWarning {
   /// The ARN of the resource that the warning occurred for.
   final String? arn;
@@ -88809,6 +91517,8 @@ class AssetBundleImportJobWarning {
 }
 
 /// Describes an error that occurred within an Asset Bundle import execution.
+///
+/// @nodoc
 class AssetBundleImportJobError {
   /// The ARN of the resource whose processing caused an error.
   final String? arn;
@@ -88846,6 +91556,8 @@ class AssetBundleImportJobError {
 }
 
 /// Describes a warning that occurred during an Asset Bundle export job.
+///
+/// @nodoc
 class AssetBundleExportJobWarning {
   /// The ARN of the resource whose processing caused a warning.
   final String? arn;
@@ -88876,6 +91588,8 @@ class AssetBundleExportJobWarning {
 }
 
 /// Describes an error that occurred during an Asset Bundle export job.
+///
+/// @nodoc
 class AssetBundleExportJobError {
   /// The ARN of the resource whose processing caused an error.
   final String? arn;
@@ -88913,6 +91627,8 @@ class AssetBundleExportJobError {
 }
 
 /// Analysis error.
+///
+/// @nodoc
 class AnalysisError {
   /// The message associated with the analysis error.
   final String? message;
@@ -88952,6 +91668,7 @@ class AnalysisError {
   }
 }
 
+/// @nodoc
 class AnalysisErrorType {
   static const accessDenied = AnalysisErrorType._('ACCESS_DENIED');
   static const sourceNotFound = AnalysisErrorType._('SOURCE_NOT_FOUND');
@@ -89000,6 +91717,8 @@ class AnalysisErrorType {
 }
 
 /// Metadata structure for an analysis in Quick Sight
+///
+/// @nodoc
 class Analysis {
   /// The ID of the analysis.
   final String? analysisId;
@@ -89098,6 +91817,8 @@ class Analysis {
 
 /// An agent resource in Amazon QuickSight that provides AI-powered
 /// conversational experiences.
+///
+/// @nodoc
 class Agent {
   /// The unique identifier for the agent.
   final String agentId;
@@ -89242,6 +91963,7 @@ class Agent {
   }
 }
 
+/// @nodoc
 class AgentLifecycle {
   static const preview = AgentLifecycle._('PREVIEW');
   static const published = AgentLifecycle._('PUBLISHED');
@@ -89268,6 +91990,8 @@ class AgentLifecycle {
 
 /// The custom prompt interface configuration that defines how an agent's prompt
 /// is configured.
+///
+/// @nodoc
 class CustomPromptInterface {
   /// The identifier of the model profile.
   final String modelProfileId;
@@ -89348,6 +92072,8 @@ class CustomPromptInterface {
 
 /// Contains detailed information about an action connector, including its
 /// configuration, status, and enabled actions.
+///
+/// @nodoc
 class ActionConnector {
   /// The unique identifier of the action connector.
   final String actionConnectorId;
@@ -89460,6 +92186,8 @@ class ActionConnector {
 
 /// Read-only authentication configuration containing non-sensitive
 /// authentication details for action connectors.
+///
+/// @nodoc
 class ReadAuthConfig {
   /// The authentication metadata containing configuration details specific to the
   /// authentication type.
@@ -89496,6 +92224,8 @@ class ReadAuthConfig {
 
 /// Read-only authentication metadata union containing non-sensitive
 /// configuration details for different authentication types.
+///
+/// @nodoc
 class ReadAuthenticationMetadata {
   /// Read-only metadata for API key authentication configuration.
   final ReadAPIKeyConnectionMetadata? apiKeyConnectionMetadata;
@@ -89581,6 +92311,8 @@ class ReadAuthenticationMetadata {
 
 /// Read-only metadata for OAuth2 authorization code grant authentication
 /// configuration.
+///
+/// @nodoc
 class ReadAuthorizationCodeGrantMetadata {
   /// The base endpoint URL for the OAuth2 authorization code grant flow.
   final String baseEndpoint;
@@ -89643,6 +92375,8 @@ class ReadAuthorizationCodeGrantMetadata {
 
 /// Read-only metadata for OAuth2 client credentials grant authentication
 /// configuration.
+///
+/// @nodoc
 class ReadClientCredentialsGrantMetadata {
   /// The base endpoint URL for the OAuth2 client credentials grant flow.
   final String baseEndpoint;
@@ -89689,6 +92423,8 @@ class ReadClientCredentialsGrantMetadata {
 
 /// Read-only metadata for basic authentication connections, containing
 /// non-sensitive configuration details.
+///
+/// @nodoc
 class ReadBasicAuthConnectionMetadata {
   /// The base endpoint URL for basic authentication.
   final String baseEndpoint;
@@ -89720,6 +92456,8 @@ class ReadBasicAuthConnectionMetadata {
 
 /// Read-only authentication metadata for API key-based connections, containing
 /// non-sensitive configuration details.
+///
+/// @nodoc
 class ReadAPIKeyConnectionMetadata {
   /// The base endpoint URL for API key authentication.
   final String baseEndpoint;
@@ -89751,6 +92489,8 @@ class ReadAPIKeyConnectionMetadata {
 
 /// Read-only metadata for connections that do not require authentication
 /// credentials.
+///
+/// @nodoc
 class ReadNoneConnectionMetadata {
   /// The base endpoint URL for connections that do not require authentication.
   final String baseEndpoint;
@@ -89775,6 +92515,8 @@ class ReadNoneConnectionMetadata {
 
 /// Read-only metadata for IAM-based connections, containing role and source ARN
 /// information.
+///
+/// @nodoc
 class ReadIamConnectionMetadata {
   /// The Amazon Resource Name (ARN) of the IAM role to assume for authentication.
   final String roleArn;
@@ -89807,6 +92549,8 @@ class ReadIamConnectionMetadata {
 
 /// Read-only details for OAuth2 client credentials, containing non-sensitive
 /// configuration information.
+///
+/// @nodoc
 class ReadClientCredentialsDetails {
   /// The read-only client credentials grant configuration details.
   final ReadClientCredentialsGrantDetails? readClientCredentialsGrantDetails;
@@ -89838,6 +92582,8 @@ class ReadClientCredentialsDetails {
 
 /// Read-only configuration details for OAuth2 client credentials grant flow,
 /// including client ID and token endpoint.
+///
+/// @nodoc
 class ReadClientCredentialsGrantDetails {
   /// The client identifier for the OAuth2 client credentials grant flow.
   final String clientId;
@@ -89871,6 +92617,8 @@ class ReadClientCredentialsGrantDetails {
 
 /// Read-only credentials details for OAuth2 authorization code grant flow,
 /// containing non-sensitive configuration information.
+///
+/// @nodoc
 class ReadAuthorizationCodeGrantCredentialsDetails {
   /// The read-only authorization code grant configuration details.
   final ReadAuthorizationCodeGrantDetails? readAuthorizationCodeGrantDetails;
@@ -89903,6 +92651,8 @@ class ReadAuthorizationCodeGrantCredentialsDetails {
 
 /// Read-only configuration details for OAuth2 authorization code grant flow,
 /// including endpoints and client information.
+///
+/// @nodoc
 class ReadAuthorizationCodeGrantDetails {
   /// The authorization server endpoint used to obtain authorization codes from
   /// the resource owner.
@@ -89962,6 +92712,8 @@ class ReadAuthorizationCodeGrantDetails {
 /// The status of the Quick Sight account's subscription.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AccountInfo {
   /// The account name that you provided for the Amazon Quick Sight subscription
   /// in your Amazon Web Services account. You create this name when you sign up
@@ -90026,6 +92778,7 @@ class AccountInfo {
   }
 }
 
+/// @nodoc
 class Edition {
   static const standard = Edition._('STANDARD');
   static const enterprise = Edition._('ENTERPRISE');
@@ -90051,6 +92804,8 @@ class Edition {
 }
 
 /// The Quick Sight settings associated with your Amazon Web Services account.
+///
+/// @nodoc
 class AccountSettings {
   /// The "account name" you provided for the Quick Sight subscription in your
   /// Amazon Web Services account. You create this name when you sign up for Quick
@@ -90121,6 +92876,7 @@ class AccountSettings {
   }
 }
 
+/// @nodoc
 class MemberType {
   static const dashboard = MemberType._('DASHBOARD');
   static const analysis = MemberType._('ANALYSIS');
@@ -90148,6 +92904,8 @@ class MemberType {
 }
 
 /// An asset in a Quick Sight folder, such as a dashboard, analysis, or dataset.
+///
+/// @nodoc
 class FolderMember {
   /// The ID of an asset in the folder.
   final String? memberId;
@@ -90179,6 +92937,8 @@ class FolderMember {
 
 /// A <code>SignupResponse</code> object that contains a summary of a newly
 /// created account.
+///
+/// @nodoc
 class SignupResponse {
   /// A Boolean that is <code>TRUE</code> if the Amazon Quick Sight uses IAM as an
   /// authentication method.
@@ -90225,6 +92985,7 @@ class SignupResponse {
   }
 }
 
+/// @nodoc
 class AuthenticationMethodOption {
   static const iamAndQuicksight =
       AuthenticationMethodOption._('IAM_AND_QUICKSIGHT');
@@ -90261,6 +93022,8 @@ class AuthenticationMethodOption {
 }
 
 /// The definition for a <code>InvalidTopicReviewedAnswer</code>.
+///
+/// @nodoc
 class InvalidTopicReviewedAnswer {
   /// The answer ID for the <code>InvalidTopicReviewedAnswer</code>.
   final String? answerId;
@@ -90291,6 +93054,7 @@ class InvalidTopicReviewedAnswer {
   }
 }
 
+/// @nodoc
 class ReviewedAnswerErrorCode {
   static const internalError = ReviewedAnswerErrorCode._('INTERNAL_ERROR');
   static const missingAnswer = ReviewedAnswerErrorCode._('MISSING_ANSWER');
@@ -90334,6 +93098,8 @@ class ReviewedAnswerErrorCode {
 }
 
 /// The definition for a <code>SucceededTopicReviewedAnswer</code>.
+///
+/// @nodoc
 class SucceededTopicReviewedAnswer {
   /// The answer ID for the <code>SucceededTopicReviewedAnswer</code>.
   final String? answerId;
@@ -90358,6 +93124,8 @@ class SucceededTopicReviewedAnswer {
 
 /// Information about a knowledge base that failed to be deleted in a batch
 /// operation.
+///
+/// @nodoc
 class BatchDeleteKnowledgeBaseFailure {
   /// The error code for the deletion failure.
   final String errorCode;
@@ -90396,6 +93164,8 @@ class BatchDeleteKnowledgeBaseFailure {
 
 /// Information about a knowledge base that was successfully deleted in a batch
 /// operation.
+///
+/// @nodoc
 class BatchDeleteKnowledgeBaseSuccess {
   /// The ARN of the successfully deleted knowledge base.
   final String knowledgeBaseArn;
@@ -90426,6 +93196,8 @@ class BatchDeleteKnowledgeBaseSuccess {
 }
 
 /// The definition for a <code>CreateTopicReviewedAnswer</code>.
+///
+/// @nodoc
 class CreateTopicReviewedAnswer {
   /// The answer ID for the <code>CreateTopicReviewedAnswer</code>.
   final String answerId;
@@ -90473,22 +93245,26 @@ class CreateTopicReviewedAnswer {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConcurrentUpdatingException extends _s.GenericAwsException {
   ConcurrentUpdatingException({String? type, String? message})
       : super(
             type: type, code: 'ConcurrentUpdatingException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class CustomerManagedKeyUnavailableException extends _s.GenericAwsException {
   CustomerManagedKeyUnavailableException({String? type, String? message})
       : super(
@@ -90497,6 +93273,7 @@ class CustomerManagedKeyUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DomainNotWhitelistedException extends _s.GenericAwsException {
   DomainNotWhitelistedException({String? type, String? message})
       : super(
@@ -90505,6 +93282,7 @@ class DomainNotWhitelistedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IdentityTypeNotSupportedException extends _s.GenericAwsException {
   IdentityTypeNotSupportedException({String? type, String? message})
       : super(
@@ -90513,16 +93291,19 @@ class IdentityTypeNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalFailureException extends _s.GenericAwsException {
   InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidDataSetParameterValueException extends _s.GenericAwsException {
   InvalidDataSetParameterValueException({String? type, String? message})
       : super(
@@ -90531,16 +93312,19 @@ class InvalidDataSetParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -90549,22 +93333,26 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class PreconditionNotMetException extends _s.GenericAwsException {
   PreconditionNotMetException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionNotMetException', message: message);
 }
 
+/// @nodoc
 class QuickSightUserNotFoundException extends _s.GenericAwsException {
   QuickSightUserNotFoundException({String? type, String? message})
       : super(
@@ -90573,22 +93361,26 @@ class QuickSightUserNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceExistsException extends _s.GenericAwsException {
   ResourceExistsException({String? type, String? message})
       : super(type: type, code: 'ResourceExistsException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class SessionLifetimeInMinutesInvalidException extends _s.GenericAwsException {
   SessionLifetimeInMinutesInvalidException({String? type, String? message})
       : super(
@@ -90597,11 +93389,13 @@ class SessionLifetimeInMinutesInvalidException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnsupportedPricingPlanException extends _s.GenericAwsException {
   UnsupportedPricingPlanException({String? type, String? message})
       : super(
@@ -90610,6 +93404,7 @@ class UnsupportedPricingPlanException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedUserEditionException extends _s.GenericAwsException {
   UnsupportedUserEditionException({String? type, String? message})
       : super(

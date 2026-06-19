@@ -2266,6 +2266,7 @@ class AppMesh {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The tags for the resource.
   final List<TagRef> tags;
@@ -2302,6 +2303,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -2314,6 +2316,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -2326,6 +2329,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateMeshOutput {
   /// The full description of your service mesh following the create call.
   final MeshData mesh;
@@ -2342,6 +2346,7 @@ class CreateMeshOutput {
   }
 }
 
+/// @nodoc
 class DescribeMeshOutput {
   /// The full description of your service mesh.
   final MeshData mesh;
@@ -2358,6 +2363,7 @@ class DescribeMeshOutput {
   }
 }
 
+/// @nodoc
 class UpdateMeshOutput {
   final MeshData mesh;
 
@@ -2373,6 +2379,7 @@ class UpdateMeshOutput {
   }
 }
 
+/// @nodoc
 class DeleteMeshOutput {
   /// The service mesh that was deleted.
   final MeshData mesh;
@@ -2389,6 +2396,7 @@ class DeleteMeshOutput {
   }
 }
 
+/// @nodoc
 class ListMeshesOutput {
   /// The list of existing service meshes.
   final List<MeshRef> meshes;
@@ -2425,6 +2433,7 @@ class ListMeshesOutput {
   }
 }
 
+/// @nodoc
 class CreateVirtualGatewayOutput {
   /// The full description of your virtual gateway following the create call.
   final VirtualGatewayData virtualGateway;
@@ -2441,6 +2450,7 @@ class CreateVirtualGatewayOutput {
   }
 }
 
+/// @nodoc
 class DescribeVirtualGatewayOutput {
   /// The full description of your virtual gateway.
   final VirtualGatewayData virtualGateway;
@@ -2457,6 +2467,7 @@ class DescribeVirtualGatewayOutput {
   }
 }
 
+/// @nodoc
 class UpdateVirtualGatewayOutput {
   /// A full description of the virtual gateway that was updated.
   final VirtualGatewayData virtualGateway;
@@ -2473,6 +2484,7 @@ class UpdateVirtualGatewayOutput {
   }
 }
 
+/// @nodoc
 class DeleteVirtualGatewayOutput {
   /// The virtual gateway that was deleted.
   final VirtualGatewayData virtualGateway;
@@ -2489,6 +2501,7 @@ class DeleteVirtualGatewayOutput {
   }
 }
 
+/// @nodoc
 class ListVirtualGatewaysOutput {
   /// The list of existing virtual gateways for the specified service mesh.
   final List<VirtualGatewayRef> virtualGateways;
@@ -2525,6 +2538,7 @@ class ListVirtualGatewaysOutput {
   }
 }
 
+/// @nodoc
 class CreateGatewayRouteOutput {
   /// The full description of your gateway route following the create call.
   final GatewayRouteData gatewayRoute;
@@ -2541,6 +2555,7 @@ class CreateGatewayRouteOutput {
   }
 }
 
+/// @nodoc
 class DescribeGatewayRouteOutput {
   /// The full description of your gateway route.
   final GatewayRouteData gatewayRoute;
@@ -2557,6 +2572,7 @@ class DescribeGatewayRouteOutput {
   }
 }
 
+/// @nodoc
 class UpdateGatewayRouteOutput {
   /// A full description of the gateway route that was updated.
   final GatewayRouteData gatewayRoute;
@@ -2573,6 +2589,7 @@ class UpdateGatewayRouteOutput {
   }
 }
 
+/// @nodoc
 class DeleteGatewayRouteOutput {
   /// The gateway route that was deleted.
   final GatewayRouteData gatewayRoute;
@@ -2589,6 +2606,7 @@ class DeleteGatewayRouteOutput {
   }
 }
 
+/// @nodoc
 class ListGatewayRoutesOutput {
   /// The list of existing gateway routes for the specified service mesh and
   /// virtual gateway.
@@ -2626,6 +2644,7 @@ class ListGatewayRoutesOutput {
   }
 }
 
+/// @nodoc
 class CreateVirtualNodeOutput {
   /// The full description of your virtual node following the create call.
   final VirtualNodeData virtualNode;
@@ -2642,6 +2661,7 @@ class CreateVirtualNodeOutput {
   }
 }
 
+/// @nodoc
 class DescribeVirtualNodeOutput {
   /// The full description of your virtual node.
   final VirtualNodeData virtualNode;
@@ -2658,6 +2678,7 @@ class DescribeVirtualNodeOutput {
   }
 }
 
+/// @nodoc
 class UpdateVirtualNodeOutput {
   /// A full description of the virtual node that was updated.
   final VirtualNodeData virtualNode;
@@ -2674,6 +2695,7 @@ class UpdateVirtualNodeOutput {
   }
 }
 
+/// @nodoc
 class DeleteVirtualNodeOutput {
   /// The virtual node that was deleted.
   final VirtualNodeData virtualNode;
@@ -2690,6 +2712,7 @@ class DeleteVirtualNodeOutput {
   }
 }
 
+/// @nodoc
 class ListVirtualNodesOutput {
   /// The list of existing virtual nodes for the specified service mesh.
   final List<VirtualNodeRef> virtualNodes;
@@ -2726,6 +2749,7 @@ class ListVirtualNodesOutput {
   }
 }
 
+/// @nodoc
 class CreateVirtualRouterOutput {
   /// The full description of your virtual router following the create call.
   final VirtualRouterData virtualRouter;
@@ -2742,6 +2766,7 @@ class CreateVirtualRouterOutput {
   }
 }
 
+/// @nodoc
 class DescribeVirtualRouterOutput {
   /// The full description of your virtual router.
   final VirtualRouterData virtualRouter;
@@ -2758,6 +2783,7 @@ class DescribeVirtualRouterOutput {
   }
 }
 
+/// @nodoc
 class UpdateVirtualRouterOutput {
   /// A full description of the virtual router that was updated.
   final VirtualRouterData virtualRouter;
@@ -2774,6 +2800,7 @@ class UpdateVirtualRouterOutput {
   }
 }
 
+/// @nodoc
 class DeleteVirtualRouterOutput {
   /// The virtual router that was deleted.
   final VirtualRouterData virtualRouter;
@@ -2790,6 +2817,7 @@ class DeleteVirtualRouterOutput {
   }
 }
 
+/// @nodoc
 class ListVirtualRoutersOutput {
   /// The list of existing virtual routers for the specified service mesh.
   final List<VirtualRouterRef> virtualRouters;
@@ -2826,6 +2854,7 @@ class ListVirtualRoutersOutput {
   }
 }
 
+/// @nodoc
 class CreateRouteOutput {
   /// The full description of your mesh following the create call.
   final RouteData route;
@@ -2842,6 +2871,7 @@ class CreateRouteOutput {
   }
 }
 
+/// @nodoc
 class DescribeRouteOutput {
   /// The full description of your route.
   final RouteData route;
@@ -2858,6 +2888,7 @@ class DescribeRouteOutput {
   }
 }
 
+/// @nodoc
 class UpdateRouteOutput {
   /// A full description of the route that was updated.
   final RouteData route;
@@ -2874,6 +2905,7 @@ class UpdateRouteOutput {
   }
 }
 
+/// @nodoc
 class DeleteRouteOutput {
   /// The route that was deleted.
   final RouteData route;
@@ -2890,6 +2922,7 @@ class DeleteRouteOutput {
   }
 }
 
+/// @nodoc
 class ListRoutesOutput {
   /// The list of existing routes for the specified service mesh and virtual
   /// router.
@@ -2927,6 +2960,7 @@ class ListRoutesOutput {
   }
 }
 
+/// @nodoc
 class CreateVirtualServiceOutput {
   /// The full description of your virtual service following the create call.
   final VirtualServiceData virtualService;
@@ -2943,6 +2977,7 @@ class CreateVirtualServiceOutput {
   }
 }
 
+/// @nodoc
 class DescribeVirtualServiceOutput {
   /// The full description of your virtual service.
   final VirtualServiceData virtualService;
@@ -2959,6 +2994,7 @@ class DescribeVirtualServiceOutput {
   }
 }
 
+/// @nodoc
 class UpdateVirtualServiceOutput {
   /// A full description of the virtual service that was updated.
   final VirtualServiceData virtualService;
@@ -2975,6 +3011,7 @@ class UpdateVirtualServiceOutput {
   }
 }
 
+/// @nodoc
 class DeleteVirtualServiceOutput {
   /// The virtual service that was deleted.
   final VirtualServiceData virtualService;
@@ -2991,6 +3028,7 @@ class DeleteVirtualServiceOutput {
   }
 }
 
+/// @nodoc
 class ListVirtualServicesOutput {
   /// The list of existing virtual services for the specified service mesh.
   final List<VirtualServiceRef> virtualServices;
@@ -3028,6 +3066,8 @@ class ListVirtualServicesOutput {
 }
 
 /// An object that represents a virtual service returned by a list operation.
+///
+/// @nodoc
 class VirtualServiceRef {
   /// The full Amazon Resource Name (ARN) for the virtual service.
   final String arn;
@@ -3111,6 +3151,8 @@ class VirtualServiceRef {
 
 /// An object that represents a virtual service returned by a describe
 /// operation.
+///
+/// @nodoc
 class VirtualServiceData {
   /// The name of the service mesh that the virtual service resides in.
   final String meshName;
@@ -3165,6 +3207,8 @@ class VirtualServiceData {
 }
 
 /// An object that represents the specification of a virtual service.
+///
+/// @nodoc
 class VirtualServiceSpec {
   /// The App Mesh object that is acting as the provider for a virtual service.
   /// You can specify a single virtual node or virtual router.
@@ -3192,6 +3236,8 @@ class VirtualServiceSpec {
 }
 
 /// An object that represents metadata for a resource.
+///
+/// @nodoc
 class ResourceMetadata {
   /// The full Amazon Resource Name (ARN) for the resource.
   final String arn;
@@ -3267,6 +3313,8 @@ class ResourceMetadata {
 }
 
 /// An object that represents the status of a virtual service.
+///
+/// @nodoc
 class VirtualServiceStatus {
   /// The current status of the virtual service.
   final VirtualServiceStatusCode status;
@@ -3290,6 +3338,7 @@ class VirtualServiceStatus {
   }
 }
 
+/// @nodoc
 class VirtualServiceStatusCode {
   static const active = VirtualServiceStatusCode._('ACTIVE');
   static const inactive = VirtualServiceStatusCode._('INACTIVE');
@@ -3317,6 +3366,8 @@ class VirtualServiceStatusCode {
 }
 
 /// An object that represents the provider for a virtual service.
+///
+/// @nodoc
 class VirtualServiceProvider {
   /// The virtual node associated with a virtual service.
   final VirtualNodeServiceProvider? virtualNode;
@@ -3353,6 +3404,8 @@ class VirtualServiceProvider {
 }
 
 /// An object that represents a virtual node service provider.
+///
+/// @nodoc
 class VirtualNodeServiceProvider {
   /// The name of the virtual node that is acting as a service provider.
   final String virtualNodeName;
@@ -3376,6 +3429,8 @@ class VirtualNodeServiceProvider {
 }
 
 /// An object that represents a virtual node service provider.
+///
+/// @nodoc
 class VirtualRouterServiceProvider {
   /// The name of the virtual router that is acting as a service provider.
   final String virtualRouterName;
@@ -3402,6 +3457,8 @@ class VirtualRouterServiceProvider {
 /// and organization. Each tag consists of a key and an optional value, both of
 /// which you define. Tag keys can have a maximum character length of 128
 /// characters, and tag values can have a maximum length of 256 characters.
+///
+/// @nodoc
 class TagRef {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
@@ -3434,6 +3491,8 @@ class TagRef {
 }
 
 /// An object that represents a route returned by a list operation.
+///
+/// @nodoc
 class RouteRef {
   /// The full Amazon Resource Name (ARN) for the route.
   final String arn;
@@ -3523,6 +3582,8 @@ class RouteRef {
 }
 
 /// An object that represents a route returned by a describe operation.
+///
+/// @nodoc
 class RouteData {
   /// The name of the service mesh that the route resides in.
   final String meshName;
@@ -3585,6 +3646,8 @@ class RouteData {
 }
 
 /// An object that represents a route specification. Specify one route type.
+///
+/// @nodoc
 class RouteSpec {
   /// An object that represents the specification of a gRPC route.
   final GrpcRoute? grpcRoute;
@@ -3645,6 +3708,8 @@ class RouteSpec {
 }
 
 /// An object that represents the current status of a route.
+///
+/// @nodoc
 class RouteStatus {
   /// The current status for the route.
   final RouteStatusCode status;
@@ -3667,6 +3732,7 @@ class RouteStatus {
   }
 }
 
+/// @nodoc
 class RouteStatusCode {
   static const active = RouteStatusCode._('ACTIVE');
   static const inactive = RouteStatusCode._('INACTIVE');
@@ -3693,6 +3759,8 @@ class RouteStatusCode {
 }
 
 /// An object that represents an HTTP or HTTP/2 route type.
+///
+/// @nodoc
 class HttpRoute {
   /// An object that represents the action to take if a match is determined.
   final HttpRouteAction action;
@@ -3745,6 +3813,8 @@ class HttpRoute {
 }
 
 /// An object that represents a TCP route type.
+///
+/// @nodoc
 class TcpRoute {
   /// The action to take if a match is determined.
   final TcpRouteAction action;
@@ -3788,6 +3858,8 @@ class TcpRoute {
 }
 
 /// An object that represents a gRPC route type.
+///
+/// @nodoc
 class GrpcRoute {
   /// An object that represents the action to take if a match is determined.
   final GrpcRouteAction action;
@@ -3840,6 +3912,8 @@ class GrpcRoute {
 }
 
 /// An object that represents the action to take if a match is determined.
+///
+/// @nodoc
 class GrpcRouteAction {
   /// An object that represents the targets that traffic is routed to when a
   /// request matches the route.
@@ -3867,6 +3941,8 @@ class GrpcRouteAction {
 }
 
 /// An object that represents the criteria for determining a request match.
+///
+/// @nodoc
 class GrpcRouteMatch {
   /// An object that represents the data to match from the request.
   final List<GrpcRouteMetadata>? metadata;
@@ -3922,6 +3998,8 @@ class GrpcRouteMatch {
 /// For more information on the <code>reset</code> policy, see the <a
 /// href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on">Envoy
 /// documentation</a>.
+///
+/// @nodoc
 class GrpcRetryPolicy {
   /// The maximum number of retry attempts.
   final int maxRetries;
@@ -4004,6 +4082,8 @@ class GrpcRetryPolicy {
 }
 
 /// An object that represents types of timeouts.
+///
+/// @nodoc
 class GrpcTimeout {
   /// An object that represents an idle timeout. An idle timeout bounds the amount
   /// of time that a connection may be idle. The default value is none.
@@ -4044,6 +4124,8 @@ class GrpcTimeout {
 }
 
 /// An object that represents a duration of time.
+///
+/// @nodoc
 class Duration {
   /// A unit of time.
   final DurationUnit? unit;
@@ -4073,6 +4155,7 @@ class Duration {
   }
 }
 
+/// @nodoc
 class DurationUnit {
   static const s = DurationUnit._('s');
   static const ms = DurationUnit._('ms');
@@ -4096,6 +4179,7 @@ class DurationUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class GrpcRetryPolicyEvent {
   static const cancelled = GrpcRetryPolicyEvent._('cancelled');
   static const deadlineExceeded = GrpcRetryPolicyEvent._('deadline-exceeded');
@@ -4130,6 +4214,7 @@ class GrpcRetryPolicyEvent {
   String toString() => value;
 }
 
+/// @nodoc
 class TcpRetryPolicyEvent {
   static const connectionError = TcpRetryPolicyEvent._('connection-error');
 
@@ -4155,6 +4240,8 @@ class TcpRetryPolicyEvent {
 }
 
 /// An object that represents the match metadata for the route.
+///
+/// @nodoc
 class GrpcRouteMetadata {
   /// The name of the route.
   final String name;
@@ -4196,6 +4283,8 @@ class GrpcRouteMetadata {
 }
 
 /// An object that represents the match method. Specify one of the match values.
+///
+/// @nodoc
 class GrpcRouteMetadataMatchMethod {
   /// The value sent by the client must match the specified value exactly.
   final String? exact;
@@ -4252,6 +4341,8 @@ class GrpcRouteMetadataMatchMethod {
 /// character of the range is included in the range, though the last character
 /// is not. For example, if the range specified were 1-100, only values 1-99
 /// would be matched.
+///
+/// @nodoc
 class MatchRange {
   /// The end of the range.
   final int end;
@@ -4286,6 +4377,8 @@ class MatchRange {
 /// a weighted target with a relative weight of 50 receives five times as much
 /// traffic as one with a relative weight of 10. The total weight for all
 /// targets combined must be less than or equal to 100.
+///
+/// @nodoc
 class WeightedTarget {
   /// The virtual node to associate with the weighted target.
   final String virtualNode;
@@ -4323,6 +4416,8 @@ class WeightedTarget {
 }
 
 /// An object that represents the action to take if a match is determined.
+///
+/// @nodoc
 class TcpRouteAction {
   /// An object that represents the targets that traffic is routed to when a
   /// request matches the route.
@@ -4350,6 +4445,8 @@ class TcpRouteAction {
 }
 
 /// An object that represents types of timeouts.
+///
+/// @nodoc
 class TcpTimeout {
   /// An object that represents an idle timeout. An idle timeout bounds the amount
   /// of time that a connection may be idle. The default value is none.
@@ -4376,6 +4473,8 @@ class TcpTimeout {
 }
 
 /// An object representing the TCP route to match.
+///
+/// @nodoc
 class TcpRouteMatch {
   /// The port number to match on.
   final int? port;
@@ -4400,6 +4499,8 @@ class TcpRouteMatch {
 
 /// An object that represents the requirements for a route to match HTTP
 /// requests for a virtual router.
+///
+/// @nodoc
 class HttpRouteMatch {
   /// The client request headers to match on.
   final List<HttpRouteHeader>? headers;
@@ -4480,6 +4581,8 @@ class HttpRouteMatch {
 }
 
 /// An object that represents the action to take if a match is determined.
+///
+/// @nodoc
 class HttpRouteAction {
   /// An object that represents the targets that traffic is routed to when a
   /// request matches the route.
@@ -4514,6 +4617,8 @@ class HttpRouteAction {
 /// For more information on the <code>reset</code> policy, see the <a
 /// href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/router_filter#x-envoy-retry-on">Envoy
 /// documentation</a>.
+///
+/// @nodoc
 class HttpRetryPolicy {
   /// The maximum number of retry attempts.
   final int maxRetries;
@@ -4585,6 +4690,8 @@ class HttpRetryPolicy {
 }
 
 /// An object that represents types of timeouts.
+///
+/// @nodoc
 class HttpTimeout {
   /// An object that represents an idle timeout. An idle timeout bounds the amount
   /// of time that a connection may be idle. The default value is none.
@@ -4625,6 +4732,8 @@ class HttpTimeout {
 }
 
 /// An object representing the path to match in the request.
+///
+/// @nodoc
 class HttpPathMatch {
   /// The exact path to match on.
   final String? exact;
@@ -4654,6 +4763,7 @@ class HttpPathMatch {
   }
 }
 
+/// @nodoc
 class HttpMethod {
   static const get = HttpMethod._('GET');
   static const head = HttpMethod._('HEAD');
@@ -4694,6 +4804,7 @@ class HttpMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class HttpScheme {
   static const http = HttpScheme._('http');
   static const https = HttpScheme._('https');
@@ -4718,6 +4829,8 @@ class HttpScheme {
 }
 
 /// An object that represents the HTTP header in the request.
+///
+/// @nodoc
 class HttpRouteHeader {
   /// A name for the HTTP header in the client request that will be matched on.
   final String name;
@@ -4759,6 +4872,8 @@ class HttpRouteHeader {
 
 /// An object that represents the method and value to match with the header
 /// value sent in a request. Specify one match method.
+///
+/// @nodoc
 class HeaderMatchMethod {
   /// The value sent by the client must match the specified value exactly.
   final String? exact;
@@ -4812,6 +4927,8 @@ class HeaderMatchMethod {
 }
 
 /// An object that represents the query parameter in the request.
+///
+/// @nodoc
 class HttpQueryParameter {
   /// A name for the query parameter that will be matched on.
   final String name;
@@ -4844,6 +4961,8 @@ class HttpQueryParameter {
 }
 
 /// An object representing the query parameter to match.
+///
+/// @nodoc
 class QueryParameterMatch {
   /// The exact query parameter to match on.
   final String? exact;
@@ -4867,6 +4986,8 @@ class QueryParameterMatch {
 }
 
 /// An object that represents a virtual router returned by a list operation.
+///
+/// @nodoc
 class VirtualRouterRef {
   /// The full Amazon Resource Name (ARN) for the virtual router.
   final String arn;
@@ -4949,6 +5070,8 @@ class VirtualRouterRef {
 }
 
 /// An object that represents a virtual router returned by a describe operation.
+///
+/// @nodoc
 class VirtualRouterData {
   /// The name of the service mesh that the virtual router resides in.
   final String meshName;
@@ -5005,6 +5128,8 @@ class VirtualRouterData {
 }
 
 /// An object that represents the specification of a virtual router.
+///
+/// @nodoc
 class VirtualRouterSpec {
   /// The listeners that the virtual router is expected to receive inbound traffic
   /// from. You can specify one listener.
@@ -5032,6 +5157,8 @@ class VirtualRouterSpec {
 }
 
 /// An object that represents the status of a virtual router.
+///
+/// @nodoc
 class VirtualRouterStatus {
   /// The current status of the virtual router.
   final VirtualRouterStatusCode status;
@@ -5055,6 +5182,7 @@ class VirtualRouterStatus {
   }
 }
 
+/// @nodoc
 class VirtualRouterStatusCode {
   static const active = VirtualRouterStatusCode._('ACTIVE');
   static const inactive = VirtualRouterStatusCode._('INACTIVE');
@@ -5082,6 +5210,8 @@ class VirtualRouterStatusCode {
 }
 
 /// An object that represents a virtual router listener.
+///
+/// @nodoc
 class VirtualRouterListener {
   final PortMapping portMapping;
 
@@ -5106,6 +5236,8 @@ class VirtualRouterListener {
 }
 
 /// An object that represents a port mapping.
+///
+/// @nodoc
 class PortMapping {
   /// The port used for the port mapping.
   final int port;
@@ -5135,6 +5267,7 @@ class PortMapping {
   }
 }
 
+/// @nodoc
 class PortProtocol {
   static const http = PortProtocol._('http');
   static const tcp = PortProtocol._('tcp');
@@ -5161,6 +5294,8 @@ class PortProtocol {
 }
 
 /// An object that represents a virtual node returned by a list operation.
+///
+/// @nodoc
 class VirtualNodeRef {
   /// The full Amazon Resource Name (ARN) for the virtual node.
   final String arn;
@@ -5243,6 +5378,8 @@ class VirtualNodeRef {
 }
 
 /// An object that represents a virtual node returned by a describe operation.
+///
+/// @nodoc
 class VirtualNodeData {
   /// The name of the service mesh that the virtual node resides in.
   final String meshName;
@@ -5299,6 +5436,8 @@ class VirtualNodeData {
 }
 
 /// An object that represents the specification of a virtual node.
+///
+/// @nodoc
 class VirtualNodeSpec {
   /// A reference to an object that represents the defaults for backends.
   final BackendDefaults? backendDefaults;
@@ -5368,6 +5507,8 @@ class VirtualNodeSpec {
 }
 
 /// An object that represents the current status of the virtual node.
+///
+/// @nodoc
 class VirtualNodeStatus {
   /// The current status of the virtual node.
   final VirtualNodeStatusCode status;
@@ -5391,6 +5532,7 @@ class VirtualNodeStatus {
   }
 }
 
+/// @nodoc
 class VirtualNodeStatusCode {
   static const active = VirtualNodeStatusCode._('ACTIVE');
   static const inactive = VirtualNodeStatusCode._('INACTIVE');
@@ -5419,6 +5561,8 @@ class VirtualNodeStatusCode {
 
 /// An object that represents the service discovery information for a virtual
 /// node.
+///
+/// @nodoc
 class ServiceDiscovery {
   /// Specifies any Cloud Map information for the virtual node.
   final AwsCloudMapServiceDiscovery? awsCloudMap;
@@ -5454,6 +5598,8 @@ class ServiceDiscovery {
 }
 
 /// An object that represents the default properties for a backend.
+///
+/// @nodoc
 class BackendDefaults {
   /// A reference to an object that represents a client policy.
   final ClientPolicy? clientPolicy;
@@ -5479,6 +5625,8 @@ class BackendDefaults {
 }
 
 /// An object that represents the logging information for a virtual node.
+///
+/// @nodoc
 class Logging {
   /// The access log configuration for a virtual node.
   final AccessLog? accessLog;
@@ -5504,6 +5652,8 @@ class Logging {
 }
 
 /// An object that represents the access logging information for a virtual node.
+///
+/// @nodoc
 class AccessLog {
   /// The file object to send virtual node access logs to.
   final FileAccessLog? file;
@@ -5529,6 +5679,8 @@ class AccessLog {
 }
 
 /// An object that represents an access log file.
+///
+/// @nodoc
 class FileAccessLog {
   /// The file path to write access logs to. You can use <code>/dev/stdout</code>
   /// to send access logs to standard out and configure your Envoy container to
@@ -5570,6 +5722,8 @@ class FileAccessLog {
 }
 
 /// An object that represents the format for the logs.
+///
+/// @nodoc
 class LoggingFormat {
   /// <p/>
   final List<JsonFormatRef>? json;
@@ -5603,6 +5757,8 @@ class LoggingFormat {
 }
 
 /// An object that represents the key value pairs for the JSON.
+///
+/// @nodoc
 class JsonFormatRef {
   /// The specified key for the JSON.
   final String key;
@@ -5633,6 +5789,8 @@ class JsonFormatRef {
 }
 
 /// An object that represents a client policy.
+///
+/// @nodoc
 class ClientPolicy {
   /// A reference to an object that represents a Transport Layer Security (TLS)
   /// client policy.
@@ -5660,6 +5818,8 @@ class ClientPolicy {
 
 /// A reference to an object that represents a Transport Layer Security (TLS)
 /// client policy.
+///
+/// @nodoc
 class ClientPolicyTls {
   /// A reference to an object that represents a TLS validation context.
   final TlsValidationContext validation;
@@ -5710,6 +5870,8 @@ class ClientPolicyTls {
 }
 
 /// An object that represents the client's certificate.
+///
+/// @nodoc
 class ClientTlsCertificate {
   /// An object that represents a local file certificate. The certificate must
   /// meet specific requirements and you must have proxy authorization enabled.
@@ -5752,6 +5914,8 @@ class ClientTlsCertificate {
 
 /// An object that represents how the proxy will validate its peer during
 /// Transport Layer Security (TLS) negotiation.
+///
+/// @nodoc
 class TlsValidationContext {
   /// A reference to where to retrieve the trust chain when validating a peer’s
   /// Transport Layer Security (TLS) certificate.
@@ -5798,6 +5962,8 @@ class TlsValidationContext {
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust.
+///
+/// @nodoc
 class TlsValidationContextTrust {
   /// A reference to an object that represents a Transport Layer Security (TLS)
   /// validation context trust for an Certificate Manager certificate.
@@ -5848,6 +6014,8 @@ class TlsValidationContextTrust {
 
 /// An object that represents the subject alternative names secured by the
 /// certificate.
+///
+/// @nodoc
 class SubjectAlternativeNames {
   /// An object that represents the criteria for determining a SANs match.
   final SubjectAlternativeNameMatchers match;
@@ -5874,6 +6042,8 @@ class SubjectAlternativeNames {
 
 /// An object that represents the methods by which a subject alternative name on
 /// a peer Transport Layer Security (TLS) certificate can be matched.
+///
+/// @nodoc
 class SubjectAlternativeNameMatchers {
   /// The values sent must match the specified values exactly.
   final List<String> exact;
@@ -5901,6 +6071,8 @@ class SubjectAlternativeNameMatchers {
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust for an Certificate Manager certificate.
+///
+/// @nodoc
 class TlsValidationContextAcmTrust {
   /// One or more ACM Amazon Resource Name (ARN)s.
   final List<String> certificateAuthorityArns;
@@ -5929,6 +6101,8 @@ class TlsValidationContextAcmTrust {
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust for a local file.
+///
+/// @nodoc
 class TlsValidationContextFileTrust {
   /// The certificate trust chain for a certificate stored on the file system of
   /// the virtual node that the proxy is running on.
@@ -5957,6 +6131,8 @@ class TlsValidationContextFileTrust {
 /// SDS provider via a Unix Domain Socket. See App Mesh <a
 /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html">TLS
 /// documentation</a> for more info.
+///
+/// @nodoc
 class TlsValidationContextSdsTrust {
   /// A reference to an object that represents the name of the secret for a
   /// Transport Layer Security (TLS) Secret Discovery Service validation context
@@ -5986,6 +6162,8 @@ class TlsValidationContextSdsTrust {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites">Transport
 /// Layer Security (TLS)</a>.
+///
+/// @nodoc
 class ListenerTlsFileCertificate {
   /// The certificate chain for the certificate.
   final String certificateChain;
@@ -6021,6 +6199,8 @@ class ListenerTlsFileCertificate {
 /// Unix Domain Socket. See App Mesh <a
 /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html">TLS
 /// documentation</a> for more info.
+///
+/// @nodoc
 class ListenerTlsSdsCertificate {
   /// A reference to an object that represents the name of the secret requested
   /// from the Secret Discovery Service provider representing Transport Layer
@@ -6047,6 +6227,8 @@ class ListenerTlsSdsCertificate {
 
 /// An object that represents the backends that a virtual node is expected to
 /// send outbound traffic to.
+///
+/// @nodoc
 class Backend {
   /// Specifies a virtual service to use as a backend.
   final VirtualServiceBackend? virtualService;
@@ -6073,6 +6255,8 @@ class Backend {
 }
 
 /// An object that represents a virtual service backend for a virtual node.
+///
+/// @nodoc
 class VirtualServiceBackend {
   /// The name of the virtual service that is acting as a virtual node backend.
   final String virtualServiceName;
@@ -6105,6 +6289,8 @@ class VirtualServiceBackend {
 }
 
 /// An object that represents a listener for a virtual node.
+///
+/// @nodoc
 class Listener {
   /// The port mapping information for the listener.
   final PortMapping portMapping;
@@ -6180,6 +6366,8 @@ class Listener {
 
 /// An object that represents the Transport Layer Security (TLS) properties for
 /// a listener.
+///
+/// @nodoc
 class ListenerTls {
   /// A reference to an object that represents a listener's Transport Layer
   /// Security (TLS) certificate.
@@ -6237,6 +6425,8 @@ class ListenerTls {
 
 /// An object that represents the health check policy for a virtual node's
 /// listener.
+///
+/// @nodoc
 class HealthCheckPolicy {
   /// The number of consecutive successful health checks that must occur before
   /// declaring listener healthy.
@@ -6311,6 +6501,8 @@ class HealthCheckPolicy {
 }
 
 /// An object that represents timeouts for different protocols.
+///
+/// @nodoc
 class ListenerTimeout {
   /// An object that represents types of timeouts.
   final GrpcTimeout? grpc;
@@ -6364,6 +6556,8 @@ class ListenerTimeout {
 
 /// An object that represents the outlier detection for a virtual node's
 /// listener.
+///
+/// @nodoc
 class OutlierDetection {
   /// The base amount of time for which a host is ejected.
   final Duration baseEjectionDuration;
@@ -6419,6 +6613,8 @@ class OutlierDetection {
 /// If not present the default value for <code>maxPendingRequests</code> is
 /// <code>2147483647</code>.
 /// <p/>
+///
+/// @nodoc
 class VirtualNodeConnectionPool {
   /// An object that represents a type of connection pool.
   final VirtualNodeGrpcConnectionPool? grpc;
@@ -6475,6 +6671,8 @@ class VirtualNodeConnectionPool {
 }
 
 /// An object that represents a type of connection pool.
+///
+/// @nodoc
 class VirtualNodeTcpConnectionPool {
   /// Maximum number of outbound TCP connections Envoy can establish concurrently
   /// with all hosts in upstream cluster.
@@ -6499,6 +6697,8 @@ class VirtualNodeTcpConnectionPool {
 }
 
 /// An object that represents a type of connection pool.
+///
+/// @nodoc
 class VirtualNodeHttpConnectionPool {
   /// Maximum number of outbound TCP connections Envoy can establish concurrently
   /// with all hosts in upstream cluster.
@@ -6531,6 +6731,8 @@ class VirtualNodeHttpConnectionPool {
 }
 
 /// An object that represents a type of connection pool.
+///
+/// @nodoc
 class VirtualNodeHttp2ConnectionPool {
   /// Maximum number of inflight requests Envoy can concurrently support across
   /// hosts in upstream cluster.
@@ -6555,6 +6757,8 @@ class VirtualNodeHttp2ConnectionPool {
 }
 
 /// An object that represents a type of connection pool.
+///
+/// @nodoc
 class VirtualNodeGrpcConnectionPool {
   /// Maximum number of inflight requests Envoy can concurrently support across
   /// hosts in upstream cluster.
@@ -6578,6 +6782,7 @@ class VirtualNodeGrpcConnectionPool {
   }
 }
 
+/// @nodoc
 class ListenerTlsMode {
   static const strict = ListenerTlsMode._('STRICT');
   static const permissive = ListenerTlsMode._('PERMISSIVE');
@@ -6605,6 +6810,8 @@ class ListenerTlsMode {
 
 /// An object that represents a listener's Transport Layer Security (TLS)
 /// certificate.
+///
+/// @nodoc
 class ListenerTlsCertificate {
   /// A reference to an object that represents an Certificate Manager certificate.
   final ListenerTlsAcmCertificate? acm;
@@ -6653,6 +6860,8 @@ class ListenerTlsCertificate {
 
 /// An object that represents a listener's Transport Layer Security (TLS)
 /// validation context.
+///
+/// @nodoc
 class ListenerTlsValidationContext {
   /// A reference to where to retrieve the trust chain when validating a peer’s
   /// Transport Layer Security (TLS) certificate.
@@ -6692,6 +6901,8 @@ class ListenerTlsValidationContext {
 
 /// An object that represents a listener's Transport Layer Security (TLS)
 /// validation context trust.
+///
+/// @nodoc
 class ListenerTlsValidationContextTrust {
   /// An object that represents a Transport Layer Security (TLS) validation
   /// context trust for a local file.
@@ -6731,6 +6942,8 @@ class ListenerTlsValidationContextTrust {
 }
 
 /// An object that represents an Certificate Manager certificate.
+///
+/// @nodoc
 class ListenerTlsAcmCertificate {
   /// The Amazon Resource Name (ARN) for the certificate. The certificate must
   /// meet specific requirements and you must have proxy authorization enabled.
@@ -6759,6 +6972,8 @@ class ListenerTlsAcmCertificate {
 
 /// An object that represents the DNS service discovery information for your
 /// virtual node.
+///
+/// @nodoc
 class DnsServiceDiscovery {
   /// Specifies the DNS service discovery hostname for the virtual node.
   final String hostname;
@@ -6804,6 +7019,8 @@ class DnsServiceDiscovery {
 /// <note>
 /// Cloud Map is not available in the eu-south-1 Region.
 /// </note>
+///
+/// @nodoc
 class AwsCloudMapServiceDiscovery {
   /// The name of the Cloud Map namespace to use.
   final String namespaceName;
@@ -6857,6 +7074,7 @@ class AwsCloudMapServiceDiscovery {
   }
 }
 
+/// @nodoc
 class IpPreference {
   static const iPv6Preferred = IpPreference._('IPv6_PREFERRED');
   static const iPv4Preferred = IpPreference._('IPv4_PREFERRED');
@@ -6887,6 +7105,8 @@ class IpPreference {
 /// <note>
 /// Cloud Map is not available in the eu-south-1 Region.
 /// </note>
+///
+/// @nodoc
 class AwsCloudMapInstanceAttribute {
   /// The name of an Cloud Map service instance attribute key. Any Cloud Map
   /// service instance that contains the specified key and value is returned.
@@ -6918,6 +7138,7 @@ class AwsCloudMapInstanceAttribute {
   }
 }
 
+/// @nodoc
 class DnsResponseType {
   static const loadbalancer = DnsResponseType._('LOADBALANCER');
   static const endpoints = DnsResponseType._('ENDPOINTS');
@@ -6943,6 +7164,8 @@ class DnsResponseType {
 }
 
 /// An object that represents a gateway route returned by a list operation.
+///
+/// @nodoc
 class GatewayRouteRef {
   /// The full Amazon Resource Name (ARN) for the gateway route.
   final String arn;
@@ -7032,6 +7255,8 @@ class GatewayRouteRef {
 }
 
 /// An object that represents a gateway route returned by a describe operation.
+///
+/// @nodoc
 class GatewayRouteData {
   /// The name of the gateway route.
   final String gatewayRouteName;
@@ -7094,6 +7319,8 @@ class GatewayRouteData {
 
 /// An object that represents a gateway route specification. Specify one gateway
 /// route type.
+///
+/// @nodoc
 class GatewayRouteSpec {
   /// An object that represents the specification of a gRPC gateway route.
   final GrpcGatewayRoute? grpcRoute;
@@ -7145,6 +7372,8 @@ class GatewayRouteSpec {
 }
 
 /// An object that represents the current status of a gateway route.
+///
+/// @nodoc
 class GatewayRouteStatus {
   /// The current status for the gateway route.
   final GatewayRouteStatusCode status;
@@ -7168,6 +7397,7 @@ class GatewayRouteStatus {
   }
 }
 
+/// @nodoc
 class GatewayRouteStatusCode {
   static const active = GatewayRouteStatusCode._('ACTIVE');
   static const inactive = GatewayRouteStatusCode._('INACTIVE');
@@ -7195,6 +7425,8 @@ class GatewayRouteStatusCode {
 }
 
 /// An object that represents an HTTP gateway route.
+///
+/// @nodoc
 class HttpGatewayRoute {
   /// An object that represents the action to take if a match is determined.
   final HttpGatewayRouteAction action;
@@ -7229,6 +7461,8 @@ class HttpGatewayRoute {
 }
 
 /// An object that represents a gRPC gateway route.
+///
+/// @nodoc
 class GrpcGatewayRoute {
   /// An object that represents the action to take if a match is determined.
   final GrpcGatewayRouteAction action;
@@ -7263,6 +7497,8 @@ class GrpcGatewayRoute {
 }
 
 /// An object that represents the criteria for determining a request match.
+///
+/// @nodoc
 class GrpcGatewayRouteMatch {
   /// The gateway route host name to be matched on.
   final GatewayRouteHostnameMatch? hostname;
@@ -7314,6 +7550,8 @@ class GrpcGatewayRouteMatch {
 }
 
 /// An object that represents the action to take if a match is determined.
+///
+/// @nodoc
 class GrpcGatewayRouteAction {
   /// An object that represents the target that traffic is routed to when a
   /// request matches the gateway route.
@@ -7350,6 +7588,8 @@ class GrpcGatewayRouteAction {
 }
 
 /// An object that represents a gateway route target.
+///
+/// @nodoc
 class GatewayRouteTarget {
   /// An object that represents a virtual service gateway route target.
   final GatewayRouteVirtualService virtualService;
@@ -7382,6 +7622,8 @@ class GatewayRouteTarget {
 }
 
 /// An object that represents the gateway route to rewrite.
+///
+/// @nodoc
 class GrpcGatewayRouteRewrite {
   /// The host name of the gateway route to rewrite.
   final GatewayRouteHostnameRewrite? hostname;
@@ -7408,6 +7650,8 @@ class GrpcGatewayRouteRewrite {
 }
 
 /// An object representing the gateway route host name to rewrite.
+///
+/// @nodoc
 class GatewayRouteHostnameRewrite {
   /// The default target host name to write to.
   final DefaultGatewayRouteRewrite? defaultTargetHostname;
@@ -7432,6 +7676,7 @@ class GatewayRouteHostnameRewrite {
   }
 }
 
+/// @nodoc
 class DefaultGatewayRouteRewrite {
   static const enabled = DefaultGatewayRouteRewrite._('ENABLED');
   static const disabled = DefaultGatewayRouteRewrite._('DISABLED');
@@ -7458,6 +7703,8 @@ class DefaultGatewayRouteRewrite {
 }
 
 /// An object that represents the virtual service that traffic is routed to.
+///
+/// @nodoc
 class GatewayRouteVirtualService {
   /// The name of the virtual service that traffic is routed to.
   final String virtualServiceName;
@@ -7481,6 +7728,8 @@ class GatewayRouteVirtualService {
 }
 
 /// An object representing the gateway route host name to match.
+///
+/// @nodoc
 class GatewayRouteHostnameMatch {
   /// The exact host name to match on.
   final String? exact;
@@ -7511,6 +7760,8 @@ class GatewayRouteHostnameMatch {
 }
 
 /// An object representing the metadata of the gateway route.
+///
+/// @nodoc
 class GrpcGatewayRouteMetadata {
   /// A name for the gateway route metadata.
   final String name;
@@ -7552,6 +7803,8 @@ class GrpcGatewayRouteMetadata {
 }
 
 /// An object representing the method header to be matched.
+///
+/// @nodoc
 class GrpcMetadataMatchMethod {
   /// The exact method header to be matched on.
   final String? exact;
@@ -7603,6 +7856,8 @@ class GrpcMetadataMatchMethod {
 }
 
 /// An object that represents the criteria for determining a request match.
+///
+/// @nodoc
 class HttpGatewayRouteMatch {
   /// The client request headers to match on.
   final List<HttpGatewayRouteHeader>? headers;
@@ -7686,6 +7941,8 @@ class HttpGatewayRouteMatch {
 }
 
 /// An object that represents the action to take if a match is determined.
+///
+/// @nodoc
 class HttpGatewayRouteAction {
   /// An object that represents the target that traffic is routed to when a
   /// request matches the gateway route.
@@ -7722,6 +7979,8 @@ class HttpGatewayRouteAction {
 }
 
 /// An object representing the gateway route to rewrite.
+///
+/// @nodoc
 class HttpGatewayRouteRewrite {
   /// The host name to rewrite.
   final GatewayRouteHostnameRewrite? hostname;
@@ -7768,6 +8027,8 @@ class HttpGatewayRouteRewrite {
 }
 
 /// An object representing the beginning characters of the route to rewrite.
+///
+/// @nodoc
 class HttpGatewayRoutePrefixRewrite {
   /// The default prefix used to replace the incoming route prefix when rewritten.
   final DefaultGatewayRouteRewrite? defaultPrefix;
@@ -7799,6 +8060,8 @@ class HttpGatewayRoutePrefixRewrite {
 }
 
 /// An object that represents the path to rewrite.
+///
+/// @nodoc
 class HttpGatewayRoutePathRewrite {
   /// The exact path to rewrite.
   final String? exact;
@@ -7822,6 +8085,8 @@ class HttpGatewayRoutePathRewrite {
 }
 
 /// An object that represents the HTTP header in the gateway route.
+///
+/// @nodoc
 class HttpGatewayRouteHeader {
   /// A name for the HTTP header in the gateway route that will be matched on.
   final String name;
@@ -7863,6 +8128,8 @@ class HttpGatewayRouteHeader {
 }
 
 /// An object that represents a virtual gateway returned by a list operation.
+///
+/// @nodoc
 class VirtualGatewayRef {
   /// The full Amazon Resource Name (ARN) for the resource.
   final String arn;
@@ -7946,6 +8213,8 @@ class VirtualGatewayRef {
 
 /// An object that represents a virtual gateway returned by a describe
 /// operation.
+///
+/// @nodoc
 class VirtualGatewayData {
   /// The name of the service mesh that the virtual gateway resides in.
   final String meshName;
@@ -8000,6 +8269,8 @@ class VirtualGatewayData {
 }
 
 /// An object that represents the specification of a service mesh resource.
+///
+/// @nodoc
 class VirtualGatewaySpec {
   /// The listeners that the mesh endpoint is expected to receive inbound traffic
   /// from. You can specify one listener.
@@ -8046,6 +8317,8 @@ class VirtualGatewaySpec {
 }
 
 /// An object that represents the status of the mesh resource.
+///
+/// @nodoc
 class VirtualGatewayStatus {
   /// The current status.
   final VirtualGatewayStatusCode status;
@@ -8069,6 +8342,7 @@ class VirtualGatewayStatus {
   }
 }
 
+/// @nodoc
 class VirtualGatewayStatusCode {
   static const active = VirtualGatewayStatusCode._('ACTIVE');
   static const inactive = VirtualGatewayStatusCode._('INACTIVE');
@@ -8096,6 +8370,8 @@ class VirtualGatewayStatusCode {
 }
 
 /// An object that represents the default properties for a backend.
+///
+/// @nodoc
 class VirtualGatewayBackendDefaults {
   /// A reference to an object that represents a client policy.
   final VirtualGatewayClientPolicy? clientPolicy;
@@ -8122,6 +8398,8 @@ class VirtualGatewayBackendDefaults {
 }
 
 /// An object that represents logging information.
+///
+/// @nodoc
 class VirtualGatewayLogging {
   /// The access log configuration.
   final VirtualGatewayAccessLog? accessLog;
@@ -8148,6 +8426,8 @@ class VirtualGatewayLogging {
 }
 
 /// The access log configuration for a virtual gateway.
+///
+/// @nodoc
 class VirtualGatewayAccessLog {
   /// The file object to send virtual gateway access logs to.
   final VirtualGatewayFileAccessLog? file;
@@ -8174,6 +8454,8 @@ class VirtualGatewayAccessLog {
 }
 
 /// An object that represents an access log file.
+///
+/// @nodoc
 class VirtualGatewayFileAccessLog {
   /// The file path to write access logs to. You can use <code>/dev/stdout</code>
   /// to send access logs to standard out and configure your Envoy container to
@@ -8211,6 +8493,8 @@ class VirtualGatewayFileAccessLog {
 }
 
 /// An object that represents a listener for a virtual gateway.
+///
+/// @nodoc
 class VirtualGatewayListener {
   /// The port mapping information for the listener.
   final VirtualGatewayPortMapping portMapping;
@@ -8268,6 +8552,8 @@ class VirtualGatewayListener {
 
 /// An object that represents the health check policy for a virtual gateway's
 /// listener.
+///
+/// @nodoc
 class VirtualGatewayHealthCheckPolicy {
   /// The number of consecutive successful health checks that must occur before
   /// declaring the listener healthy.
@@ -8343,6 +8629,8 @@ class VirtualGatewayHealthCheckPolicy {
 }
 
 /// An object that represents a port mapping.
+///
+/// @nodoc
 class VirtualGatewayPortMapping {
   /// The port used for the port mapping. Specify one protocol.
   final int port;
@@ -8375,6 +8663,8 @@ class VirtualGatewayPortMapping {
 
 /// An object that represents the Transport Layer Security (TLS) properties for
 /// a listener.
+///
+/// @nodoc
 class VirtualGatewayListenerTls {
   /// An object that represents a Transport Layer Security (TLS) certificate.
   final VirtualGatewayListenerTlsCertificate certificate;
@@ -8437,6 +8727,8 @@ class VirtualGatewayListenerTls {
 ///
 /// If not present the default value for <code>maxPendingRequests</code> is
 /// <code>2147483647</code>.
+///
+/// @nodoc
 class VirtualGatewayConnectionPool {
   /// An object that represents a type of connection pool.
   final VirtualGatewayGrpcConnectionPool? grpc;
@@ -8483,6 +8775,8 @@ class VirtualGatewayConnectionPool {
 }
 
 /// An object that represents a type of connection pool.
+///
+/// @nodoc
 class VirtualGatewayHttpConnectionPool {
   /// Maximum number of outbound TCP connections Envoy can establish concurrently
   /// with all hosts in upstream cluster.
@@ -8515,6 +8809,8 @@ class VirtualGatewayHttpConnectionPool {
 }
 
 /// An object that represents a type of connection pool.
+///
+/// @nodoc
 class VirtualGatewayHttp2ConnectionPool {
   /// Maximum number of inflight requests Envoy can concurrently support across
   /// hosts in upstream cluster.
@@ -8540,6 +8836,8 @@ class VirtualGatewayHttp2ConnectionPool {
 }
 
 /// An object that represents a type of connection pool.
+///
+/// @nodoc
 class VirtualGatewayGrpcConnectionPool {
   /// Maximum number of inflight requests Envoy can concurrently support across
   /// hosts in upstream cluster.
@@ -8563,6 +8861,7 @@ class VirtualGatewayGrpcConnectionPool {
   }
 }
 
+/// @nodoc
 class VirtualGatewayListenerTlsMode {
   static const strict = VirtualGatewayListenerTlsMode._('STRICT');
   static const permissive = VirtualGatewayListenerTlsMode._('PERMISSIVE');
@@ -8591,6 +8890,8 @@ class VirtualGatewayListenerTlsMode {
 
 /// An object that represents a virtual gateway's listener's Transport Layer
 /// Security (TLS) validation context.
+///
+/// @nodoc
 class VirtualGatewayListenerTlsValidationContext {
   /// A reference to where to retrieve the trust chain when validating a peer’s
   /// Transport Layer Security (TLS) certificate.
@@ -8631,6 +8932,8 @@ class VirtualGatewayListenerTlsValidationContext {
 
 /// An object that represents a listener's Transport Layer Security (TLS)
 /// certificate.
+///
+/// @nodoc
 class VirtualGatewayListenerTlsCertificate {
   /// A reference to an object that represents an Certificate Manager certificate.
   final VirtualGatewayListenerTlsAcmCertificate? acm;
@@ -8679,6 +8982,8 @@ class VirtualGatewayListenerTlsCertificate {
 }
 
 /// An object that represents an Certificate Manager certificate.
+///
+/// @nodoc
 class VirtualGatewayListenerTlsAcmCertificate {
   /// The Amazon Resource Name (ARN) for the certificate. The certificate must
   /// meet specific requirements and you must have proxy authorization enabled.
@@ -8711,6 +9016,8 @@ class VirtualGatewayListenerTlsAcmCertificate {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html#virtual-node-tls-prerequisites">Transport
 /// Layer Security (TLS)</a>.
+///
+/// @nodoc
 class VirtualGatewayListenerTlsFileCertificate {
   /// The certificate chain for the certificate.
   final String certificateChain;
@@ -8747,6 +9054,8 @@ class VirtualGatewayListenerTlsFileCertificate {
 /// via a Unix Domain Socket. See App Mesh<a
 /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html">TLS
 /// documentation</a> for more info.
+///
+/// @nodoc
 class VirtualGatewayListenerTlsSdsCertificate {
   /// A reference to an object that represents the name of the secret secret
   /// requested from the Secret Discovery Service provider representing Transport
@@ -8774,6 +9083,8 @@ class VirtualGatewayListenerTlsSdsCertificate {
 
 /// An object that represents a virtual gateway's listener's Transport Layer
 /// Security (TLS) validation context trust.
+///
+/// @nodoc
 class VirtualGatewayListenerTlsValidationContextTrust {
   /// An object that represents a Transport Layer Security (TLS) validation
   /// context trust for a local file.
@@ -8815,6 +9126,8 @@ class VirtualGatewayListenerTlsValidationContextTrust {
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust for a local file.
+///
+/// @nodoc
 class VirtualGatewayTlsValidationContextFileTrust {
   /// The certificate trust chain for a certificate stored on the file system of
   /// the virtual node that the proxy is running on.
@@ -8845,6 +9158,8 @@ class VirtualGatewayTlsValidationContextFileTrust {
 /// App Mesh <a
 /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/tls.html">TLS
 /// documentation</a> for more info.
+///
+/// @nodoc
 class VirtualGatewayTlsValidationContextSdsTrust {
   /// A reference to an object that represents the name of the secret for a
   /// virtual gateway's Transport Layer Security (TLS) Secret Discovery Service
@@ -8870,6 +9185,7 @@ class VirtualGatewayTlsValidationContextSdsTrust {
   }
 }
 
+/// @nodoc
 class VirtualGatewayPortProtocol {
   static const http = VirtualGatewayPortProtocol._('http');
   static const http2 = VirtualGatewayPortProtocol._('http2');
@@ -8897,6 +9213,8 @@ class VirtualGatewayPortProtocol {
 }
 
 /// An object that represents a client policy.
+///
+/// @nodoc
 class VirtualGatewayClientPolicy {
   /// A reference to an object that represents a Transport Layer Security (TLS)
   /// client policy.
@@ -8924,6 +9242,8 @@ class VirtualGatewayClientPolicy {
 }
 
 /// An object that represents a Transport Layer Security (TLS) client policy.
+///
+/// @nodoc
 class VirtualGatewayClientPolicyTls {
   /// A reference to an object that represents a Transport Layer Security (TLS)
   /// validation context.
@@ -8977,6 +9297,8 @@ class VirtualGatewayClientPolicyTls {
 
 /// An object that represents the virtual gateway's client's Transport Layer
 /// Security (TLS) certificate.
+///
+/// @nodoc
 class VirtualGatewayClientTlsCertificate {
   /// An object that represents a local file certificate. The certificate must
   /// meet specific requirements and you must have proxy authorization enabled.
@@ -9020,6 +9342,8 @@ class VirtualGatewayClientTlsCertificate {
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context.
+///
+/// @nodoc
 class VirtualGatewayTlsValidationContext {
   /// A reference to where to retrieve the trust chain when validating a peer’s
   /// Transport Layer Security (TLS) certificate.
@@ -9060,6 +9384,8 @@ class VirtualGatewayTlsValidationContext {
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust.
+///
+/// @nodoc
 class VirtualGatewayTlsValidationContextTrust {
   /// A reference to an object that represents a Transport Layer Security (TLS)
   /// validation context trust for an Certificate Manager certificate.
@@ -9111,6 +9437,8 @@ class VirtualGatewayTlsValidationContextTrust {
 
 /// An object that represents a Transport Layer Security (TLS) validation
 /// context trust for an Certificate Manager certificate.
+///
+/// @nodoc
 class VirtualGatewayTlsValidationContextAcmTrust {
   /// One or more ACM Amazon Resource Name (ARN)s.
   final List<String> certificateAuthorityArns;
@@ -9139,6 +9467,8 @@ class VirtualGatewayTlsValidationContextAcmTrust {
 }
 
 /// An object that represents a service mesh returned by a list operation.
+///
+/// @nodoc
 class MeshRef {
   /// The full Amazon Resource Name (ARN) of the service mesh.
   final String arn;
@@ -9214,6 +9544,8 @@ class MeshRef {
 }
 
 /// An object that represents a service mesh returned by a describe operation.
+///
+/// @nodoc
 class MeshData {
   /// The name of the service mesh.
   final String meshName;
@@ -9262,6 +9594,8 @@ class MeshData {
 }
 
 /// An object that represents the specification of a service mesh.
+///
+/// @nodoc
 class MeshSpec {
   /// The egress filter rules for the service mesh.
   final EgressFilter? egressFilter;
@@ -9295,6 +9629,8 @@ class MeshSpec {
 }
 
 /// An object that represents the status of a service mesh.
+///
+/// @nodoc
 class MeshStatus {
   /// The current mesh status.
   final MeshStatusCode? status;
@@ -9317,6 +9653,7 @@ class MeshStatus {
   }
 }
 
+/// @nodoc
 class MeshStatusCode {
   static const active = MeshStatusCode._('ACTIVE');
   static const inactive = MeshStatusCode._('INACTIVE');
@@ -9343,6 +9680,8 @@ class MeshStatusCode {
 }
 
 /// An object that represents the egress filter rules for a service mesh.
+///
+/// @nodoc
 class EgressFilter {
   /// The egress filter type. By default, the type is <code>DROP_ALL</code>, which
   /// allows egress only from virtual nodes to other defined resources in the
@@ -9372,6 +9711,8 @@ class EgressFilter {
 
 /// An object that represents the service discovery information for a service
 /// mesh.
+///
+/// @nodoc
 class MeshServiceDiscovery {
   /// The IP version to use to control traffic within the mesh.
   final IpPreference? ipPreference;
@@ -9395,6 +9736,7 @@ class MeshServiceDiscovery {
   }
 }
 
+/// @nodoc
 class EgressFilterType {
   static const allowAll = EgressFilterType._('ALLOW_ALL');
   static const dropAll = EgressFilterType._('DROP_ALL');
@@ -9419,53 +9761,63 @@ class EgressFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

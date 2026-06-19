@@ -1145,6 +1145,7 @@ class Mq {
   }
 }
 
+/// @nodoc
 class CreateBrokerResponse {
   /// The broker's Amazon Resource Name (ARN).
   final String? brokerArn;
@@ -1174,6 +1175,7 @@ class CreateBrokerResponse {
   }
 }
 
+/// @nodoc
 class CreateConfigurationResponse {
   /// Required. The Amazon Resource Name (ARN) of the configuration.
   final String? arn;
@@ -1239,6 +1241,7 @@ class CreateConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   CreateUserResponse();
 
@@ -1251,6 +1254,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteBrokerResponse {
   /// The unique ID that Amazon MQ generates for the broker.
   final String? brokerId;
@@ -1273,6 +1277,7 @@ class DeleteBrokerResponse {
   }
 }
 
+/// @nodoc
 class DeleteConfigurationResponse {
   /// The unique ID that Amazon MQ generates for the configuration.
   final String? configurationId;
@@ -1295,6 +1300,7 @@ class DeleteConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserResponse {
   DeleteUserResponse();
 
@@ -1307,6 +1313,7 @@ class DeleteUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeBrokerResponse {
   /// Actions required for a broker.
   final List<ActionRequired>? actionsRequired;
@@ -1645,6 +1652,7 @@ class DescribeBrokerResponse {
   }
 }
 
+/// @nodoc
 class DescribeBrokerEngineTypesResponse {
   /// List of available engine types and versions.
   final List<BrokerEngineType>? brokerEngineTypes;
@@ -1687,6 +1695,7 @@ class DescribeBrokerEngineTypesResponse {
   }
 }
 
+/// @nodoc
 class DescribeBrokerInstanceOptionsResponse {
   /// List of available broker instance options.
   final List<BrokerInstanceOption>? brokerInstanceOptions;
@@ -1730,6 +1739,7 @@ class DescribeBrokerInstanceOptionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationResponse {
   /// Required. The ARN of the configuration.
   final String? arn;
@@ -1831,6 +1841,7 @@ class DescribeConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeConfigurationRevisionResponse {
   /// Required. The unique ID that Amazon MQ generates for the configuration.
   final String? configurationId;
@@ -1876,6 +1887,7 @@ class DescribeConfigurationRevisionResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserResponse {
   /// Required. The unique ID that Amazon MQ generates for the broker.
   final String? brokerId;
@@ -1940,6 +1952,7 @@ class DescribeUserResponse {
   }
 }
 
+/// @nodoc
 class ListBrokersResponse {
   /// A list of information about all brokers.
   final List<BrokerSummary>? brokerSummaries;
@@ -1973,6 +1986,7 @@ class ListBrokersResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationRevisionsResponse {
   /// The unique ID that Amazon MQ generates for the configuration.
   final String? configurationId;
@@ -2022,6 +2036,7 @@ class ListConfigurationRevisionsResponse {
   }
 }
 
+/// @nodoc
 class ListConfigurationsResponse {
   /// The list of all revisions for the specified configuration.
   final List<Configuration>? configurations;
@@ -2063,6 +2078,7 @@ class ListConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsResponse {
   /// The key-value pair for the resource tag.
   final Map<String, String>? tags;
@@ -2086,6 +2102,7 @@ class ListTagsResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// Required. The unique ID that Amazon MQ generates for the broker.
   final String? brokerId;
@@ -2135,6 +2152,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class PromoteResponse {
   /// The unique ID that Amazon MQ generates for the broker.
   final String? brokerId;
@@ -2157,6 +2175,7 @@ class PromoteResponse {
   }
 }
 
+/// @nodoc
 class RebootBrokerResponse {
   RebootBrokerResponse();
 
@@ -2169,6 +2188,7 @@ class RebootBrokerResponse {
   }
 }
 
+/// @nodoc
 class UpdateBrokerResponse {
   /// Optional. The authentication strategy used to secure the broker. The default
   /// is SIMPLE.
@@ -2329,6 +2349,7 @@ class UpdateBrokerResponse {
   }
 }
 
+/// @nodoc
 class UpdateConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the configuration.
   final String? arn;
@@ -2395,6 +2416,7 @@ class UpdateConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   UpdateUserResponse();
 
@@ -2408,6 +2430,8 @@ class UpdateUserResponse {
 }
 
 /// Returns information about the specified configuration revision.
+///
+/// @nodoc
 class ConfigurationRevision {
   /// Required. The date and time of the configuration revision.
   final DateTime created;
@@ -2446,6 +2470,8 @@ class ConfigurationRevision {
 
 /// Returns information about the configuration element or attribute that was
 /// sanitized in the configuration.
+///
+/// @nodoc
 class SanitizationWarning {
   /// The reason for which the configuration elements or attributes were
   /// sanitized.
@@ -2486,6 +2512,8 @@ class SanitizationWarning {
 
 /// The reason for which the configuration elements or attributes were
 /// sanitized.
+///
+/// @nodoc
 class SanitizationWarningReason {
   static const disallowedElementRemoved =
       SanitizationWarningReason._('DISALLOWED_ELEMENT_REMOVED');
@@ -2521,6 +2549,8 @@ class SanitizationWarningReason {
 
 /// Optional. The authentication strategy used to secure the broker. The default
 /// is SIMPLE.
+///
+/// @nodoc
 class AuthenticationStrategy {
   static const simple = AuthenticationStrategy._('SIMPLE');
   static const ldap = AuthenticationStrategy._('LDAP');
@@ -2548,6 +2578,8 @@ class AuthenticationStrategy {
 }
 
 /// A list of information about the configuration.
+///
+/// @nodoc
 class ConfigurationId {
   /// Required. The unique ID that Amazon MQ generates for the configuration.
   final String id;
@@ -2579,6 +2611,8 @@ class ConfigurationId {
 
 /// Optional. The metadata of the LDAP server used to authenticate and authorize
 /// connections to the broker.
+///
+/// @nodoc
 class LdapServerMetadataOutput {
   /// Specifies the location of the LDAP server such as Directory Service for
   /// Microsoft Active Directory. Optional failover server.
@@ -2693,6 +2727,8 @@ class LdapServerMetadataOutput {
 }
 
 /// The list of information about logs to be enabled for the specified broker.
+///
+/// @nodoc
 class Logs {
   /// Enables audit logging. Every user management action made using JMX or the
   /// ActiveMQ Web Console is logged. Does not apply to RabbitMQ brokers.
@@ -2725,6 +2761,8 @@ class Logs {
 
 /// The scheduled time period relative to UTC during which Amazon MQ begins to
 /// apply pending updates or patches to the broker.
+///
+/// @nodoc
 class WeeklyStartTime {
   /// Required. The day of the week.
   final DayOfWeek dayOfWeek;
@@ -2765,6 +2803,8 @@ class WeeklyStartTime {
 /// The replication details of the data replication-enabled broker. Only
 /// returned if dataReplicationMode or pendingDataReplicationMode is set to
 /// CRDR.
+///
+/// @nodoc
 class DataReplicationMetadataOutput {
   /// Defines the role of this broker in a data replication pair. When a replica
   /// broker is promoted to primary, this role is interchanged.
@@ -2802,6 +2842,8 @@ class DataReplicationMetadataOutput {
 }
 
 /// Specifies whether a broker is a part of a data replication pair.
+///
+/// @nodoc
 class DataReplicationMode {
   static const none = DataReplicationMode._('NONE');
   static const crdr = DataReplicationMode._('CRDR');
@@ -2828,6 +2870,8 @@ class DataReplicationMode {
 }
 
 /// Specifies a broker in a data replication pair.
+///
+/// @nodoc
 class DataReplicationCounterpart {
   /// Required. The unique broker id generated by Amazon MQ.
   final String brokerId;
@@ -2857,6 +2901,7 @@ class DataReplicationCounterpart {
   }
 }
 
+/// @nodoc
 class DayOfWeek {
   static const monday = DayOfWeek._('MONDAY');
   static const tuesday = DayOfWeek._('TUESDAY');
@@ -2898,6 +2943,8 @@ class DayOfWeek {
 /// <important>
 /// Does not apply to RabbitMQ brokers.
 /// </important>
+///
+/// @nodoc
 class LdapServerMetadataInput {
   /// Specifies the location of the LDAP server such as Directory Service for
   /// Microsoft Active Directory. Optional failover server.
@@ -3002,6 +3049,8 @@ class LdapServerMetadataInput {
 }
 
 /// The Promote mode requested.
+///
+/// @nodoc
 class PromoteMode {
   static const switchover = PromoteMode._('SWITCHOVER');
   static const failover = PromoteMode._('FAILOVER');
@@ -3026,6 +3075,8 @@ class PromoteMode {
 }
 
 /// Returns a list of all broker users. Does not apply to RabbitMQ brokers.
+///
+/// @nodoc
 class UserSummary {
   /// Required. The username of the broker user. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
@@ -3059,6 +3110,8 @@ class UserSummary {
 }
 
 /// The type of change pending for the ActiveMQ user.
+///
+/// @nodoc
 class ChangeType {
   static const create = ChangeType._('CREATE');
   static const update = ChangeType._('UPDATE');
@@ -3084,6 +3137,8 @@ class ChangeType {
 }
 
 /// Returns information about all configurations.
+///
+/// @nodoc
 class Configuration {
   /// Required. The ARN of the configuration.
   final String arn;
@@ -3184,6 +3239,8 @@ class Configuration {
 }
 
 /// The type of broker engine. Amazon MQ supports ActiveMQ and RabbitMQ.
+///
+/// @nodoc
 class EngineType {
   static const activemq = EngineType._('ACTIVEMQ');
   static const rabbitmq = EngineType._('RABBITMQ');
@@ -3208,6 +3265,8 @@ class EngineType {
 }
 
 /// Returns information about all brokers.
+///
+/// @nodoc
 class BrokerSummary {
   /// The broker's deployment mode.
   final DeploymentMode deploymentMode;
@@ -3285,6 +3344,8 @@ class BrokerSummary {
 }
 
 /// The broker's status.
+///
+/// @nodoc
 class BrokerState {
   static const creationInProgress = BrokerState._('CREATION_IN_PROGRESS');
   static const creationFailed = BrokerState._('CREATION_FAILED');
@@ -3323,6 +3384,8 @@ class BrokerState {
 }
 
 /// The broker's deployment mode.
+///
+/// @nodoc
 class DeploymentMode {
   static const singleInstance = DeploymentMode._('SINGLE_INSTANCE');
   static const activeStandbyMultiAz =
@@ -3351,6 +3414,8 @@ class DeploymentMode {
 
 /// Returns information about the status of the changes pending for the ActiveMQ
 /// user.
+///
+/// @nodoc
 class UserPendingChanges {
   /// Required. The type of change pending for the ActiveMQ user.
   final ChangeType pendingChange;
@@ -3392,6 +3457,8 @@ class UserPendingChanges {
 }
 
 /// Option for host instance type.
+///
+/// @nodoc
 class BrokerInstanceOption {
   /// The list of available az.
   final List<AvailabilityZone>? availabilityZones;
@@ -3466,6 +3533,8 @@ class BrokerInstanceOption {
 /// <important>
 /// EFS is not supported for RabbitMQ engine type.
 /// </important>
+///
+/// @nodoc
 class BrokerStorageType {
   static const ebs = BrokerStorageType._('EBS');
   static const efs = BrokerStorageType._('EFS');
@@ -3491,6 +3560,8 @@ class BrokerStorageType {
 }
 
 /// Name of the availability zone.
+///
+/// @nodoc
 class AvailabilityZone {
   /// Id for the availability zone.
   final String? name;
@@ -3514,6 +3585,8 @@ class AvailabilityZone {
 }
 
 /// Types of broker engines.
+///
+/// @nodoc
 class BrokerEngineType {
   /// The broker's engine type.
   final EngineType? engineType;
@@ -3547,6 +3620,8 @@ class BrokerEngineType {
 }
 
 /// Id of the engine version.
+///
+/// @nodoc
 class EngineVersion {
   /// Id for the version.
   final String? name;
@@ -3570,6 +3645,8 @@ class EngineVersion {
 }
 
 /// Broker configuration information
+///
+/// @nodoc
 class Configurations {
   /// The broker's current configuration.
   final ConfigurationId? current;
@@ -3614,6 +3691,8 @@ class Configurations {
 }
 
 /// Encryption options for the broker.
+///
+/// @nodoc
 class EncryptionOptions {
   /// Enables the use of an Amazon Web Services owned CMK using KMS (KMS). Set to
   /// true by default, if no value is provided, for example, for RabbitMQ brokers.
@@ -3648,6 +3727,8 @@ class EncryptionOptions {
 
 /// The list of information about logs currently enabled and pending to be
 /// deployed for the specified broker.
+///
+/// @nodoc
 class LogsSummary {
   /// Enables general logging.
   final bool general;
@@ -3703,6 +3784,8 @@ class LogsSummary {
 }
 
 /// The list of information about logs to be enabled for the specified broker.
+///
+/// @nodoc
 class PendingLogs {
   /// Enables audit logging. Every user management action made using JMX or the
   /// ActiveMQ Web Console is logged.
@@ -3734,6 +3817,8 @@ class PendingLogs {
 }
 
 /// Returns information about all brokers.
+///
+/// @nodoc
 class BrokerInstance {
   /// The brokers web console URL.
   final String? consoleURL;
@@ -3775,6 +3860,8 @@ class BrokerInstance {
 }
 
 /// Action required for a broker.
+///
+/// @nodoc
 class ActionRequired {
   /// The code you can use to find instructions on the action required to resolve
   /// your broker issue.
@@ -3809,6 +3896,8 @@ class ActionRequired {
 /// and only one administrative user is accepted and created when a broker is
 /// first provisioned. All subsequent broker users are created by making
 /// RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
+///
+/// @nodoc
 class User {
   /// Required. The password of the user. This value must be at least 12
   /// characters long, must contain at least 4 unique characters, and must not
@@ -3875,32 +3964,38 @@ class User {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

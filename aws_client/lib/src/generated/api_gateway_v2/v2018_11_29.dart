@@ -285,7 +285,7 @@ class ApiGatewayV2 {
   /// hosting the Lambda function, path indicates that the remaining substring
   /// in the URI should be treated as the path to the resource, including the
   /// initial /. For Lambda functions, this is usually of the form
-  /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for
+  /// /2015-03-31/functions/\[FunctionARN\]/invocations. Supported only for
   /// REQUEST authorizers.
   ///
   /// Parameter [enableSimpleResponses] :
@@ -1187,7 +1187,7 @@ class ApiGatewayV2 {
   /// Parameter [stageVariables] :
   /// A map that defines the stage variables for a Stage. Variable names can
   /// have alphanumeric and underscore characters, and the values must match
-  /// [A-Za-z0-9-._~:/?#&amp;=,]+.
+  /// \[A-Za-z0-9-._~:/?#&amp;=,\]+.
   ///
   /// Parameter [tags] :
   /// The collection of tags. Each tag element is associated with a given
@@ -3477,7 +3477,7 @@ class ApiGatewayV2 {
   /// hosting the Lambda function, path indicates that the remaining substring
   /// in the URI should be treated as the path to the resource, including the
   /// initial /. For Lambda functions, this is usually of the form
-  /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for
+  /// /2015-03-31/functions/\[FunctionARN\]/invocations. Supported only for
   /// REQUEST authorizers.
   ///
   /// Parameter [enableSimpleResponses] :
@@ -4382,7 +4382,7 @@ class ApiGatewayV2 {
   /// Parameter [stageVariables] :
   /// A map that defines the stage variables for a Stage. Variable names can
   /// have alphanumeric and underscore characters, and the values must match
-  /// [A-Za-z0-9-._~:/?#&amp;=,]+.
+  /// \[A-Za-z0-9-._~:/?#&amp;=,\]+.
   Future<UpdateStageResponse> updateStage({
     required String apiId,
     required String stageName,
@@ -4445,6 +4445,7 @@ class ApiGatewayV2 {
   }
 }
 
+/// @nodoc
 class CreateApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
@@ -4611,6 +4612,7 @@ class CreateApiResponse {
   }
 }
 
+/// @nodoc
 class CreateApiMappingResponse {
   /// The API identifier.
   final String? apiId;
@@ -4654,6 +4656,7 @@ class CreateApiMappingResponse {
   }
 }
 
+/// @nodoc
 class CreateAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
@@ -4692,8 +4695,8 @@ class CreateAuthorizerResponse {
   /// hosting the Lambda function, path indicates that the remaining substring in
   /// the URI should be treated as the path to the resource, including the initial
   /// /. For Lambda functions, this is usually of the form
-  /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
-  /// authorizers.
+  /// /2015-03-31/functions/\[FunctionARN\]/invocations. Supported only for
+  /// REQUEST authorizers.
   final String? authorizerUri;
 
   /// Specifies whether a Lambda authorizer returns a response in a simple format.
@@ -4812,6 +4815,7 @@ class CreateAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class CreateDeploymentResponse {
   /// Specifies whether a deployment was automatically released.
   final bool? autoDeployed;
@@ -4871,6 +4875,7 @@ class CreateDeploymentResponse {
   }
 }
 
+/// @nodoc
 class CreateDomainNameResponse {
   /// The API mapping selection expression.
   final String? apiMappingSelectionExpression;
@@ -4946,6 +4951,7 @@ class CreateDomainNameResponse {
   }
 }
 
+/// @nodoc
 class CreateIntegrationResult {
   /// Specifies whether an integration is managed by API Gateway. If you created
   /// an API using using quick create, the resulting integration is managed by API
@@ -5249,6 +5255,7 @@ class CreateIntegrationResult {
   }
 }
 
+/// @nodoc
 class CreateIntegrationResponseResponse {
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -5340,6 +5347,7 @@ class CreateIntegrationResponseResponse {
   }
 }
 
+/// @nodoc
 class CreateModelResponse {
   /// The content-type for the model, for example, "application/json".
   final String? contentType;
@@ -5391,6 +5399,7 @@ class CreateModelResponse {
   }
 }
 
+/// @nodoc
 class CreatePortalResponse {
   /// The authorization for the portal. Supports Cognito-based user authentication
   /// or no authentication.
@@ -5521,6 +5530,7 @@ class CreatePortalResponse {
   }
 }
 
+/// @nodoc
 class CreatePortalProductResponse {
   /// A description of the portal product.
   final String? description;
@@ -5590,6 +5600,7 @@ class CreatePortalProductResponse {
   }
 }
 
+/// @nodoc
 class CreateProductPageResponse {
   /// The content of the product page.
   final DisplayContent? displayContent;
@@ -5636,6 +5647,7 @@ class CreateProductPageResponse {
   }
 }
 
+/// @nodoc
 class CreateProductRestEndpointPageResponse {
   /// The display content.
   final EndpointDisplayContentResponse? displayContent;
@@ -5720,6 +5732,7 @@ class CreateProductRestEndpointPageResponse {
   }
 }
 
+/// @nodoc
 class CreateRouteResult {
   /// Specifies whether a route is managed by API Gateway. If you created an API
   /// using quick create, the $default route is managed by API Gateway. You can't
@@ -5857,6 +5870,7 @@ class CreateRouteResult {
   }
 }
 
+/// @nodoc
 class CreateRouteResponseResponse {
   /// Represents the model selection expression of a route response. Supported
   /// only for WebSocket APIs.
@@ -5912,6 +5926,7 @@ class CreateRouteResponseResponse {
   }
 }
 
+/// @nodoc
 class CreateRoutingRuleResponse {
   /// Represents a routing rule action. The only supported action is invokeApi.
   final List<RoutingRuleAction>? actions;
@@ -5971,6 +5986,7 @@ class CreateRoutingRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateStageResponse {
   /// Settings for logging access in this stage.
   final AccessLogSettings? accessLogSettings;
@@ -6016,7 +6032,7 @@ class CreateStageResponse {
 
   /// A map that defines the stage variables for a stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
-  /// [A-Za-z0-9-._~:/?#&amp;=,]+.
+  /// \[A-Za-z0-9-._~:/?#&amp;=,\]+.
   final Map<String, String>? stageVariables;
 
   /// The collection of tags. Each tag element is associated with a given
@@ -6108,6 +6124,7 @@ class CreateStageResponse {
   }
 }
 
+/// @nodoc
 class CreateVpcLinkResponse {
   /// The timestamp when the VPC link was created.
   final DateTime? createdDate;
@@ -6196,6 +6213,7 @@ class CreateVpcLinkResponse {
   }
 }
 
+/// @nodoc
 class DeleteVpcLinkResponse {
   DeleteVpcLinkResponse();
 
@@ -6208,6 +6226,7 @@ class DeleteVpcLinkResponse {
   }
 }
 
+/// @nodoc
 class ExportApiResponse {
   final Uint8List? body;
 
@@ -6223,6 +6242,7 @@ class ExportApiResponse {
   }
 }
 
+/// @nodoc
 class GetApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
@@ -6389,6 +6409,7 @@ class GetApiResponse {
   }
 }
 
+/// @nodoc
 class GetApiMappingResponse {
   /// The API identifier.
   final String? apiId;
@@ -6432,6 +6453,7 @@ class GetApiMappingResponse {
   }
 }
 
+/// @nodoc
 class GetApiMappingsResponse {
   /// The elements from this collection.
   final List<ApiMapping>? items;
@@ -6465,6 +6487,7 @@ class GetApiMappingsResponse {
   }
 }
 
+/// @nodoc
 class GetApisResponse {
   /// The elements from this collection.
   final List<Api>? items;
@@ -6498,6 +6521,7 @@ class GetApisResponse {
   }
 }
 
+/// @nodoc
 class GetAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
@@ -6536,8 +6560,8 @@ class GetAuthorizerResponse {
   /// hosting the Lambda function, path indicates that the remaining substring in
   /// the URI should be treated as the path to the resource, including the initial
   /// /. For Lambda functions, this is usually of the form
-  /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
-  /// authorizers.
+  /// /2015-03-31/functions/\[FunctionARN\]/invocations. Supported only for
+  /// REQUEST authorizers.
   final String? authorizerUri;
 
   /// Specifies whether a Lambda authorizer returns a response in a simple format.
@@ -6656,6 +6680,7 @@ class GetAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class GetAuthorizersResponse {
   /// The elements from this collection.
   final List<Authorizer>? items;
@@ -6689,6 +6714,7 @@ class GetAuthorizersResponse {
   }
 }
 
+/// @nodoc
 class GetDeploymentResponse {
   /// Specifies whether a deployment was automatically released.
   final bool? autoDeployed;
@@ -6748,6 +6774,7 @@ class GetDeploymentResponse {
   }
 }
 
+/// @nodoc
 class GetDeploymentsResponse {
   /// The elements from this collection.
   final List<Deployment>? items;
@@ -6781,6 +6808,7 @@ class GetDeploymentsResponse {
   }
 }
 
+/// @nodoc
 class GetDomainNameResponse {
   /// The API mapping selection expression.
   final String? apiMappingSelectionExpression;
@@ -6858,6 +6886,7 @@ class GetDomainNameResponse {
   }
 }
 
+/// @nodoc
 class GetDomainNamesResponse {
   /// The elements from this collection.
   final List<DomainName>? items;
@@ -6891,6 +6920,7 @@ class GetDomainNamesResponse {
   }
 }
 
+/// @nodoc
 class GetIntegrationResult {
   /// Specifies whether an integration is managed by API Gateway. If you created
   /// an API using using quick create, the resulting integration is managed by API
@@ -7194,6 +7224,7 @@ class GetIntegrationResult {
   }
 }
 
+/// @nodoc
 class GetIntegrationResponseResponse {
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -7284,6 +7315,7 @@ class GetIntegrationResponseResponse {
   }
 }
 
+/// @nodoc
 class GetIntegrationResponsesResponse {
   /// The elements from this collection.
   final List<IntegrationResponse>? items;
@@ -7317,6 +7349,7 @@ class GetIntegrationResponsesResponse {
   }
 }
 
+/// @nodoc
 class GetIntegrationsResponse {
   /// The elements from this collection.
   final List<Integration>? items;
@@ -7350,6 +7383,7 @@ class GetIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class GetModelResponse {
   /// The content-type for the model, for example, "application/json".
   final String? contentType;
@@ -7401,6 +7435,7 @@ class GetModelResponse {
   }
 }
 
+/// @nodoc
 class GetModelsResponse {
   /// The elements from this collection.
   final List<Model>? items;
@@ -7434,6 +7469,7 @@ class GetModelsResponse {
   }
 }
 
+/// @nodoc
 class GetModelTemplateResponse {
   /// The template value.
   final String? value;
@@ -7456,6 +7492,7 @@ class GetModelTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetPortalResponse {
   /// The authorization for the portal.
   final Authorization? authorization;
@@ -7594,6 +7631,7 @@ class GetPortalResponse {
   }
 }
 
+/// @nodoc
 class GetPortalProductResponse {
   /// The description of a portal product.
   final String? description;
@@ -7662,6 +7700,7 @@ class GetPortalProductResponse {
   }
 }
 
+/// @nodoc
 class GetPortalProductSharingPolicyResponse {
   /// The product sharing policy.
   final String? policyDocument;
@@ -7692,6 +7731,7 @@ class GetPortalProductSharingPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetProductPageResponse {
   /// The content of the product page.
   final DisplayContent? displayContent;
@@ -7738,6 +7778,7 @@ class GetProductPageResponse {
   }
 }
 
+/// @nodoc
 class GetProductRestEndpointPageResponse {
   /// The content of the product REST endpoint page.
   final EndpointDisplayContentResponse? displayContent;
@@ -7829,6 +7870,7 @@ class GetProductRestEndpointPageResponse {
   }
 }
 
+/// @nodoc
 class GetRouteResult {
   /// Specifies whether a route is managed by API Gateway. If you created an API
   /// using quick create, the $default route is managed by API Gateway. You can't
@@ -7966,6 +8008,7 @@ class GetRouteResult {
   }
 }
 
+/// @nodoc
 class GetRouteResponseResponse {
   /// Represents the model selection expression of a route response. Supported
   /// only for WebSocket APIs.
@@ -8021,6 +8064,7 @@ class GetRouteResponseResponse {
   }
 }
 
+/// @nodoc
 class GetRouteResponsesResponse {
   /// The elements from this collection.
   final List<RouteResponse>? items;
@@ -8054,6 +8098,7 @@ class GetRouteResponsesResponse {
   }
 }
 
+/// @nodoc
 class GetRoutesResponse {
   /// The elements from this collection.
   final List<Route>? items;
@@ -8087,6 +8132,7 @@ class GetRoutesResponse {
   }
 }
 
+/// @nodoc
 class GetRoutingRuleResponse {
   /// The resulting action based on matching a routing rules condition. Only
   /// InvokeApi is supported.
@@ -8145,6 +8191,7 @@ class GetRoutingRuleResponse {
   }
 }
 
+/// @nodoc
 class GetStageResponse {
   /// Settings for logging access in this stage.
   final AccessLogSettings? accessLogSettings;
@@ -8190,7 +8237,7 @@ class GetStageResponse {
 
   /// A map that defines the stage variables for a stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
-  /// [A-Za-z0-9-._~:/?#&amp;=,]+.
+  /// \[A-Za-z0-9-._~:/?#&amp;=,\]+.
   final Map<String, String>? stageVariables;
 
   /// The collection of tags. Each tag element is associated with a given
@@ -8282,6 +8329,7 @@ class GetStageResponse {
   }
 }
 
+/// @nodoc
 class GetStagesResponse {
   /// The elements from this collection.
   final List<Stage>? items;
@@ -8315,6 +8363,7 @@ class GetStagesResponse {
   }
 }
 
+/// @nodoc
 class GetTagsResponse {
   final Map<String, String>? tags;
 
@@ -8337,6 +8386,7 @@ class GetTagsResponse {
   }
 }
 
+/// @nodoc
 class GetVpcLinkResponse {
   /// The timestamp when the VPC link was created.
   final DateTime? createdDate;
@@ -8425,6 +8475,7 @@ class GetVpcLinkResponse {
   }
 }
 
+/// @nodoc
 class GetVpcLinksResponse {
   /// A collection of VPC links.
   final List<VpcLink>? items;
@@ -8458,6 +8509,7 @@ class GetVpcLinksResponse {
   }
 }
 
+/// @nodoc
 class ImportApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
@@ -8624,6 +8676,7 @@ class ImportApiResponse {
   }
 }
 
+/// @nodoc
 class ListPortalProductsResponse {
   /// The elements from this collection.
   final List<PortalProductSummary>? items;
@@ -8657,6 +8710,7 @@ class ListPortalProductsResponse {
   }
 }
 
+/// @nodoc
 class ListPortalsResponse {
   /// The elements from this collection.
   final List<PortalSummary>? items;
@@ -8690,6 +8744,7 @@ class ListPortalsResponse {
   }
 }
 
+/// @nodoc
 class ListProductPagesResponse {
   /// The elements from this collection.
   final List<ProductPageSummaryNoBody>? items;
@@ -8724,6 +8779,7 @@ class ListProductPagesResponse {
   }
 }
 
+/// @nodoc
 class ListProductRestEndpointPagesResponse {
   /// The elements from this collection.
   final List<ProductRestEndpointPageSummaryNoBody>? items;
@@ -8759,6 +8815,7 @@ class ListProductRestEndpointPagesResponse {
   }
 }
 
+/// @nodoc
 class ListRoutingRulesResponse {
   final String? nextToken;
 
@@ -8790,6 +8847,7 @@ class ListRoutingRulesResponse {
   }
 }
 
+/// @nodoc
 class PreviewPortalResponse {
   PreviewPortalResponse();
 
@@ -8802,6 +8860,7 @@ class PreviewPortalResponse {
   }
 }
 
+/// @nodoc
 class PublishPortalResponse {
   PublishPortalResponse();
 
@@ -8814,6 +8873,7 @@ class PublishPortalResponse {
   }
 }
 
+/// @nodoc
 class PutPortalProductSharingPolicyResponse {
   PutPortalProductSharingPolicyResponse();
 
@@ -8827,6 +8887,7 @@ class PutPortalProductSharingPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutRoutingRuleResponse {
   /// The routing rule action.
   final List<RoutingRuleAction>? actions;
@@ -8883,6 +8944,7 @@ class PutRoutingRuleResponse {
   }
 }
 
+/// @nodoc
 class ReimportApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
@@ -9049,6 +9111,7 @@ class ReimportApiResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -9061,6 +9124,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApiResponse {
   /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com.
   /// The stage name is typically appended to this URI to form a complete path to
@@ -9227,6 +9291,7 @@ class UpdateApiResponse {
   }
 }
 
+/// @nodoc
 class UpdateApiMappingResponse {
   /// The API identifier.
   final String? apiId;
@@ -9270,6 +9335,7 @@ class UpdateApiMappingResponse {
   }
 }
 
+/// @nodoc
 class UpdateAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
@@ -9308,8 +9374,8 @@ class UpdateAuthorizerResponse {
   /// hosting the Lambda function, path indicates that the remaining substring in
   /// the URI should be treated as the path to the resource, including the initial
   /// /. For Lambda functions, this is usually of the form
-  /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
-  /// authorizers.
+  /// /2015-03-31/functions/\[FunctionARN\]/invocations. Supported only for
+  /// REQUEST authorizers.
   final String? authorizerUri;
 
   /// Specifies whether a Lambda authorizer returns a response in a simple format.
@@ -9428,6 +9494,7 @@ class UpdateAuthorizerResponse {
   }
 }
 
+/// @nodoc
 class UpdateDeploymentResponse {
   /// Specifies whether a deployment was automatically released.
   final bool? autoDeployed;
@@ -9487,6 +9554,7 @@ class UpdateDeploymentResponse {
   }
 }
 
+/// @nodoc
 class UpdateDomainNameResponse {
   /// The API mapping selection expression.
   final String? apiMappingSelectionExpression;
@@ -9564,6 +9632,7 @@ class UpdateDomainNameResponse {
   }
 }
 
+/// @nodoc
 class UpdateIntegrationResult {
   /// Specifies whether an integration is managed by API Gateway. If you created
   /// an API using using quick create, the resulting integration is managed by API
@@ -9867,6 +9936,7 @@ class UpdateIntegrationResult {
   }
 }
 
+/// @nodoc
 class UpdateIntegrationResponseResponse {
   /// Supported only for WebSocket APIs. Specifies how to handle response payload
   /// content type conversions. Supported values are CONVERT_TO_BINARY and
@@ -9958,6 +10028,7 @@ class UpdateIntegrationResponseResponse {
   }
 }
 
+/// @nodoc
 class UpdateModelResponse {
   /// The content-type for the model, for example, "application/json".
   final String? contentType;
@@ -10009,6 +10080,7 @@ class UpdateModelResponse {
   }
 }
 
+/// @nodoc
 class UpdatePortalResponse {
   /// The authorization for the portal.
   final Authorization? authorization;
@@ -10147,6 +10219,7 @@ class UpdatePortalResponse {
   }
 }
 
+/// @nodoc
 class UpdatePortalProductResponse {
   /// The description of the portal product.
   final String? description;
@@ -10215,6 +10288,7 @@ class UpdatePortalProductResponse {
   }
 }
 
+/// @nodoc
 class UpdateProductPageResponse {
   /// The content of the product page.
   final DisplayContent? displayContent;
@@ -10261,6 +10335,7 @@ class UpdateProductPageResponse {
   }
 }
 
+/// @nodoc
 class UpdateProductRestEndpointPageResponse {
   /// The content of the product REST endpoint page.
   final EndpointDisplayContentResponse? displayContent;
@@ -10345,6 +10420,7 @@ class UpdateProductRestEndpointPageResponse {
   }
 }
 
+/// @nodoc
 class UpdateRouteResult {
   /// Specifies whether a route is managed by API Gateway. If you created an API
   /// using quick create, the $default route is managed by API Gateway. You can't
@@ -10482,6 +10558,7 @@ class UpdateRouteResult {
   }
 }
 
+/// @nodoc
 class UpdateRouteResponseResponse {
   /// Represents the model selection expression of a route response. Supported
   /// only for WebSocket APIs.
@@ -10537,6 +10614,7 @@ class UpdateRouteResponseResponse {
   }
 }
 
+/// @nodoc
 class UpdateStageResponse {
   /// Settings for logging access in this stage.
   final AccessLogSettings? accessLogSettings;
@@ -10582,7 +10660,7 @@ class UpdateStageResponse {
 
   /// A map that defines the stage variables for a stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
-  /// [A-Za-z0-9-._~:/?#&amp;=,]+.
+  /// \[A-Za-z0-9-._~:/?#&amp;=,\]+.
   final Map<String, String>? stageVariables;
 
   /// The collection of tags. Each tag element is associated with a given
@@ -10674,6 +10752,7 @@ class UpdateStageResponse {
   }
 }
 
+/// @nodoc
 class UpdateVpcLinkResponse {
   /// The timestamp when the VPC link was created.
   final DateTime? createdDate;
@@ -10763,6 +10842,8 @@ class UpdateVpcLinkResponse {
 }
 
 /// The status of the VPC link.
+///
+/// @nodoc
 class VpcLinkStatus {
   static const pending = VpcLinkStatus._('PENDING');
   static const available = VpcLinkStatus._('AVAILABLE');
@@ -10791,6 +10872,8 @@ class VpcLinkStatus {
 }
 
 /// The version of the VPC link.
+///
+/// @nodoc
 class VpcLinkVersion {
   static const v2 = VpcLinkVersion._('V2');
 
@@ -10815,6 +10898,8 @@ class VpcLinkVersion {
 }
 
 /// Settings for logging access in a stage.
+///
+/// @nodoc
 class AccessLogSettings {
   /// The ARN of the CloudWatch Logs log group to receive access logs.
   final String? destinationArn;
@@ -10846,6 +10931,8 @@ class AccessLogSettings {
 }
 
 /// Represents a collection of route settings.
+///
+/// @nodoc
 class RouteSettings {
   /// Specifies whether (true) or not (false) data trace logging is enabled for
   /// this route. This property affects the log entries pushed to Amazon
@@ -10905,6 +10992,8 @@ class RouteSettings {
 }
 
 /// The logging level.
+///
+/// @nodoc
 class LoggingLevel {
   static const error = LoggingLevel._('ERROR');
   static const info = LoggingLevel._('INFO');
@@ -10931,6 +11020,8 @@ class LoggingLevel {
 
 /// Validation constraints imposed on parameters of a request (path, query
 /// string, headers).
+///
+/// @nodoc
 class ParameterConstraints {
   /// Whether or not the parameter is required.
   final bool? required;
@@ -10958,6 +11049,8 @@ class ParameterConstraints {
 /// authorizer. For HTTP APIs, valid values are NONE for open access, JWT for
 /// using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for
 /// using a Lambda authorizer.
+///
+/// @nodoc
 class AuthorizationType {
   static const none = AuthorizationType._('NONE');
   static const awsIam = AuthorizationType._('AWS_IAM');
@@ -10985,6 +11078,8 @@ class AuthorizationType {
 }
 
 /// The product REST endpoint page.
+///
+/// @nodoc
 class EndpointDisplayContentResponse {
   /// The URL to invoke your REST API.
   final String endpoint;
@@ -11022,6 +11117,8 @@ class EndpointDisplayContentResponse {
 }
 
 /// The REST API endpoint identifier.
+///
+/// @nodoc
 class RestEndpointIdentifier {
   /// The identifier parts of the REST endpoint identifier.
   final IdentifierParts? identifierParts;
@@ -11048,6 +11145,8 @@ class RestEndpointIdentifier {
 }
 
 /// The status.
+///
+/// @nodoc
 class Status {
   static const available = Status._('AVAILABLE');
   static const inProgress = Status._('IN_PROGRESS');
@@ -11073,6 +11172,8 @@ class Status {
 }
 
 /// Represents a StatusException.
+///
+/// @nodoc
 class StatusException {
   /// The exception.
   final String? exception;
@@ -11103,6 +11204,8 @@ class StatusException {
 }
 
 /// Represents the try it state for a product REST endpoint page.
+///
+/// @nodoc
 class TryItState {
   static const enabled = TryItState._('ENABLED');
   static const disabled = TryItState._('DISABLED');
@@ -11127,6 +11230,8 @@ class TryItState {
 }
 
 /// The identifier parts of a product REST endpoint.
+///
+/// @nodoc
 class IdentifierParts {
   /// The method of the product REST endpoint.
   final String method;
@@ -11171,6 +11276,8 @@ class IdentifierParts {
 }
 
 /// Represents the endpoint display content.
+///
+/// @nodoc
 class EndpointDisplayContent {
   /// If your product REST endpoint contains no overrides, the none object is
   /// returned.
@@ -11195,6 +11302,8 @@ class EndpointDisplayContent {
 }
 
 /// The none option.
+///
+/// @nodoc
 class None {
   None();
 
@@ -11209,6 +11318,8 @@ class None {
 
 /// Contains any values that override the default configuration generated from
 /// API Gateway.
+///
+/// @nodoc
 class DisplayContentOverrides {
   /// By default, this is the documentation of your REST API from API Gateway. You
   /// can provide custom documentation to override this value.
@@ -11240,6 +11351,8 @@ class DisplayContentOverrides {
 }
 
 /// The content of the product page.
+///
+/// @nodoc
 class DisplayContent {
   /// The body.
   final String body;
@@ -11270,6 +11383,8 @@ class DisplayContent {
 }
 
 /// The display order.
+///
+/// @nodoc
 class DisplayOrder {
   /// Represents a list of sections which include section name and list of product
   /// REST endpoints for a product.
@@ -11314,6 +11429,8 @@ class DisplayOrder {
 }
 
 /// Contains the section name and list of product REST endpoints for a product.
+///
+/// @nodoc
 class Section {
   /// The ARNs of the product REST endpoint pages in a portal product.
   final List<String> productRestEndpointPageArns;
@@ -11348,6 +11465,8 @@ class Section {
 }
 
 /// Represents an authorization configuration for a portal.
+///
+/// @nodoc
 class Authorization {
   /// The Amazon Cognito configuration.
   final CognitoConfig? cognitoConfig;
@@ -11384,6 +11503,8 @@ class Authorization {
 }
 
 /// Represents an endpoint configuration.
+///
+/// @nodoc
 class EndpointConfigurationResponse {
   /// The portal default domain name. This domain name is generated and managed by
   /// API Gateway.
@@ -11432,6 +11553,8 @@ class EndpointConfigurationResponse {
 
 /// Contains the content that is visible to portal consumers including the
 /// themes, display names, and description.
+///
+/// @nodoc
 class PortalContent {
   /// The display name for the portal.
   final String displayName;
@@ -11470,6 +11593,8 @@ class PortalContent {
 }
 
 /// Contains the preview status and preview URL.
+///
+/// @nodoc
 class Preview {
   /// The status of the preview.
   final PreviewStatus previewStatus;
@@ -11511,6 +11636,8 @@ class Preview {
 }
 
 /// Represents a publish status.
+///
+/// @nodoc
 class PublishStatus {
   static const published = PublishStatus._('PUBLISHED');
   static const publishInProgress = PublishStatus._('PUBLISH_IN_PROGRESS');
@@ -11547,6 +11674,8 @@ class PublishStatus {
 }
 
 /// Represents the preview status.
+///
+/// @nodoc
 class PreviewStatus {
   static const previewInProgress = PreviewStatus._('PREVIEW_IN_PROGRESS');
   static const previewFailed = PreviewStatus._('PREVIEW_FAILED');
@@ -11573,6 +11702,8 @@ class PreviewStatus {
 }
 
 /// Defines the theme for a portal.
+///
+/// @nodoc
 class PortalTheme {
   /// Defines custom color values.
   final CustomColors customColors;
@@ -11606,6 +11737,8 @@ class PortalTheme {
 }
 
 /// Represents custom colors for a published portal.
+///
+/// @nodoc
 class CustomColors {
   /// Represents the accent color.
   final String accentColor;
@@ -11665,6 +11798,8 @@ class CustomColors {
 
 /// The configuration for using Amazon Cognito user pools to control access to
 /// your portal.
+///
+/// @nodoc
 class CognitoConfig {
   /// The app client ID.
   final String appClientId;
@@ -11702,6 +11837,8 @@ class CognitoConfig {
 }
 
 /// Represents an endpoint configuration.
+///
+/// @nodoc
 class EndpointConfigurationRequest {
   /// Represents a domain name and certificate for a portal.
   final ACMManaged? acmManaged;
@@ -11726,6 +11863,8 @@ class EndpointConfigurationRequest {
 }
 
 /// Represents a domain name and certificate for a portal.
+///
+/// @nodoc
 class ACMManaged {
   /// The certificate ARN.
   final String certificateArn;
@@ -11750,6 +11889,8 @@ class ACMManaged {
 
 /// Specifies how to handle response payload content type conversions. Supported
 /// only for WebSocket APIs.
+///
+/// @nodoc
 class ContentHandlingStrategy {
   static const convertToBinary = ContentHandlingStrategy._('CONVERT_TO_BINARY');
   static const convertToText = ContentHandlingStrategy._('CONVERT_TO_TEXT');
@@ -11776,6 +11917,8 @@ class ContentHandlingStrategy {
 }
 
 /// Represents a connection type.
+///
+/// @nodoc
 class ConnectionType {
   static const internet = ConnectionType._('INTERNET');
   static const vpcLink = ConnectionType._('VPC_LINK');
@@ -11801,6 +11944,8 @@ class ConnectionType {
 }
 
 /// Represents an API method integration type.
+///
+/// @nodoc
 class IntegrationType {
   static const aws = IntegrationType._('AWS');
   static const http = IntegrationType._('HTTP');
@@ -11830,6 +11975,8 @@ class IntegrationType {
 
 /// Represents passthrough behavior for an integration response. Supported only
 /// for WebSocket APIs.
+///
+/// @nodoc
 class PassthroughBehavior {
   static const whenNoMatch = PassthroughBehavior._('WHEN_NO_MATCH');
   static const never = PassthroughBehavior._('NEVER');
@@ -11859,6 +12006,8 @@ class PassthroughBehavior {
 /// The TLS configuration for a private integration. If you specify a TLS
 /// configuration, private integration traffic uses the HTTPS protocol.
 /// Supported only for HTTP APIs.
+///
+/// @nodoc
 class TlsConfig {
   /// If you specify a server name, API Gateway uses it to verify the hostname on
   /// the integration's certificate. The server name is also included in the TLS
@@ -11886,6 +12035,8 @@ class TlsConfig {
 /// The TLS configuration for a private integration. If you specify a TLS
 /// configuration, private integration traffic uses the HTTPS protocol.
 /// Supported only for HTTP APIs.
+///
+/// @nodoc
 class TlsConfigInput {
   /// If you specify a server name, API Gateway uses it to verify the hostname on
   /// the integration's certificate. The server name is also included in the TLS
@@ -11904,6 +12055,7 @@ class TlsConfigInput {
   }
 }
 
+/// @nodoc
 class MutualTlsAuthentication {
   /// An Amazon S3 URL that specifies the truststore for mutual TLS
   /// authentication, for example,
@@ -11954,6 +12106,7 @@ class MutualTlsAuthentication {
   }
 }
 
+/// @nodoc
 class RoutingMode {
   static const apiMappingOnly = RoutingMode._('API_MAPPING_ONLY');
   static const routingRuleOnly = RoutingMode._('ROUTING_RULE_ONLY');
@@ -11984,6 +12137,8 @@ class RoutingMode {
 }
 
 /// The domain name configuration.
+///
+/// @nodoc
 class DomainNameConfiguration {
   /// A domain name for the API.
   final String? apiGatewayDomainName;
@@ -12105,6 +12260,8 @@ class DomainNameConfiguration {
 /// If the status is UPDATING, the domain cannot be modified further until the
 /// existing operation is complete. If it is AVAILABLE, the domain can be
 /// updated.
+///
+/// @nodoc
 class DomainNameStatus {
   static const available = DomainNameStatus._('AVAILABLE');
   static const updating = DomainNameStatus._('UPDATING');
@@ -12139,6 +12296,8 @@ class DomainNameStatus {
 }
 
 /// Represents an endpoint type.
+///
+/// @nodoc
 class EndpointType {
   static const regional = EndpointType._('REGIONAL');
   static const edge = EndpointType._('EDGE');
@@ -12163,6 +12322,8 @@ class EndpointType {
 }
 
 /// The IP address types that can invoke your API or domain name.
+///
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('ipv4');
   static const dualstack = IpAddressType._('dualstack');
@@ -12189,6 +12350,8 @@ class IpAddressType {
 
 /// The Transport Layer Security (TLS) version of the security policy for this
 /// domain name. The valid values are TLS_1_0 and TLS_1_2.
+///
+/// @nodoc
 class SecurityPolicy {
   static const tls_1_0 = SecurityPolicy._('TLS_1_0');
   static const tls_1_2 = SecurityPolicy._('TLS_1_2');
@@ -12213,6 +12376,7 @@ class SecurityPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class MutualTlsAuthenticationInput {
   /// An Amazon S3 URL that specifies the truststore for mutual TLS
   /// authentication, for example,
@@ -12243,6 +12407,8 @@ class MutualTlsAuthenticationInput {
 }
 
 /// Represents a deployment status.
+///
+/// @nodoc
 class DeploymentStatus {
   static const pending = DeploymentStatus._('PENDING');
   static const failed = DeploymentStatus._('FAILED');
@@ -12271,6 +12437,8 @@ class DeploymentStatus {
 /// The authorizer type. Specify REQUEST for a Lambda function using incoming
 /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
 /// HTTP APIs).
+///
+/// @nodoc
 class AuthorizerType {
   static const request = AuthorizerType._('REQUEST');
   static const jwt = AuthorizerType._('JWT');
@@ -12297,6 +12465,8 @@ class AuthorizerType {
 
 /// Represents the configuration of a JWT authorizer. Required for the JWT
 /// authorizer type. Supported only for HTTP APIs.
+///
+/// @nodoc
 class JWTConfiguration {
   /// A list of the intended recipients of the JWT. A valid JWT must provide an
   /// aud that matches at least one entry in this list. See <a
@@ -12338,6 +12508,8 @@ class JWTConfiguration {
 /// Represents a CORS configuration. Supported only for HTTP APIs. See <a
 /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-cors.html">Configuring
 /// CORS</a> for more information.
+///
+/// @nodoc
 class Cors {
   /// Specifies whether credentials are included in the CORS request. Supported
   /// only for HTTP APIs.
@@ -12411,6 +12583,8 @@ class Cors {
 }
 
 /// Represents a protocol type.
+///
+/// @nodoc
 class ProtocolType {
   static const websocket = ProtocolType._('WEBSOCKET');
   static const http = ProtocolType._('HTTP');
@@ -12435,6 +12609,8 @@ class ProtocolType {
 }
 
 /// Represents a routing rule condition.
+///
+/// @nodoc
 class RoutingRuleCondition {
   /// The base path to be matched.
   final RoutingRuleMatchBasePaths? matchBasePaths;
@@ -12471,6 +12647,8 @@ class RoutingRuleCondition {
 }
 
 /// Represents a MatchBasePaths condition.
+///
+/// @nodoc
 class RoutingRuleMatchBasePaths {
   /// The string of the case sensitive base path to be matched.
   final List<String> anyOf;
@@ -12497,6 +12675,8 @@ class RoutingRuleMatchBasePaths {
 }
 
 /// Represents a MatchHeaders condition.
+///
+/// @nodoc
 class RoutingRuleMatchHeaders {
   /// The header name and header value glob to be matched. The matchHeaders
   /// condition is matched if any of the header name and header value globs are
@@ -12526,6 +12706,8 @@ class RoutingRuleMatchHeaders {
 }
 
 /// Represents a MatchHeaderValue.
+///
+/// @nodoc
 class RoutingRuleMatchHeaderValue {
   final String header;
   final String valueGlob;
@@ -12553,6 +12735,8 @@ class RoutingRuleMatchHeaderValue {
 }
 
 /// The routing rule action.
+///
+/// @nodoc
 class RoutingRuleAction {
   final RoutingRuleActionInvokeApi invokeApi;
 
@@ -12577,6 +12761,8 @@ class RoutingRuleAction {
 }
 
 /// Represents an InvokeApi action.
+///
+/// @nodoc
 class RoutingRuleActionInvokeApi {
   final String apiId;
   final String stage;
@@ -12611,6 +12797,8 @@ class RoutingRuleActionInvokeApi {
 }
 
 /// Represents a routing rule.
+///
+/// @nodoc
 class RoutingRule {
   /// The routing rule action.
   final List<RoutingRuleAction>? actions;
@@ -12669,6 +12857,8 @@ class RoutingRule {
 
 /// A summary of a product REST endpoint page, without providing the page
 /// content.
+///
+/// @nodoc
 class ProductRestEndpointPageSummaryNoBody {
   /// The endpoint of the product REST endpoint page.
   final String endpoint;
@@ -12756,6 +12946,8 @@ class ProductRestEndpointPageSummaryNoBody {
 }
 
 /// Represents a product page summary without listing any page content.
+///
+/// @nodoc
 class ProductPageSummaryNoBody {
   /// The timestamp when the product page was last modified.
   final DateTime lastModified;
@@ -12800,6 +12992,8 @@ class ProductPageSummaryNoBody {
 }
 
 /// Represents a portal summary.
+///
+/// @nodoc
 class PortalSummary {
   /// The authorization of the portal.
   final Authorization authorization;
@@ -12935,6 +13129,8 @@ class PortalSummary {
 }
 
 /// Represents a portal product.
+///
+/// @nodoc
 class PortalProductSummary {
   /// The description.
   final String description;
@@ -12995,6 +13191,8 @@ class PortalProductSummary {
 }
 
 /// Represents a VPC link.
+///
+/// @nodoc
 class VpcLink {
   /// The name of the VPC link.
   final String name;
@@ -13084,6 +13282,8 @@ class VpcLink {
 }
 
 /// Represents an API stage.
+///
+/// @nodoc
 class Stage {
   /// The name of the stage.
   final String stageName;
@@ -13129,7 +13329,7 @@ class Stage {
 
   /// A map that defines the stage variables for a stage resource. Variable names
   /// can have alphanumeric and underscore characters, and the values must match
-  /// [A-Za-z0-9-._~:/?#&amp;=,]+.
+  /// \[A-Za-z0-9-._~:/?#&amp;=,\]+.
   final Map<String, String>? stageVariables;
 
   /// The collection of tags. Each tag element is associated with a given
@@ -13222,6 +13422,8 @@ class Stage {
 }
 
 /// Represents a route.
+///
+/// @nodoc
 class Route {
   /// The route key for the route.
   final String routeKey;
@@ -13360,6 +13562,8 @@ class Route {
 }
 
 /// Represents a route response.
+///
+/// @nodoc
 class RouteResponse {
   /// Represents the route response key of a route response.
   final String routeResponseKey;
@@ -13419,6 +13623,8 @@ class RouteResponse {
 /// <a
 /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/models-mappings.html">Create
 /// Models and Mapping Templates for Request and Response Mappings</a>.
+///
+/// @nodoc
 class Model {
   /// The name of the model. Must be alphanumeric.
   final String name;
@@ -13471,6 +13677,8 @@ class Model {
 }
 
 /// Represents an integration.
+///
+/// @nodoc
 class Integration {
   /// Specifies whether an integration is managed by API Gateway. If you created
   /// an API using using quick create, the resulting integration is managed by API
@@ -13775,6 +13983,8 @@ class Integration {
 }
 
 /// Represents an integration response.
+///
+/// @nodoc
 class IntegrationResponse {
   /// The integration response key.
   final String integrationResponseKey;
@@ -13865,6 +14075,8 @@ class IntegrationResponse {
 }
 
 /// Represents a domain name.
+///
+/// @nodoc
 class DomainName {
   /// The name of the DomainName resource.
   final String domainName;
@@ -13943,6 +14155,8 @@ class DomainName {
 /// An immutable representation of an API that can be called by users. A
 /// Deployment must be associated with a Stage for it to be callable over the
 /// internet.
+///
+/// @nodoc
 class Deployment {
   /// Specifies whether a deployment was automatically released.
   final bool? autoDeployed;
@@ -14003,6 +14217,8 @@ class Deployment {
 }
 
 /// Represents an authorizer.
+///
+/// @nodoc
 class Authorizer {
   /// The name of the authorizer.
   final String name;
@@ -14044,8 +14260,8 @@ class Authorizer {
   /// hosting the Lambda function, path indicates that the remaining substring in
   /// the URI should be treated as the path to the resource, including the initial
   /// /. For Lambda functions, this is usually of the form
-  /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST
-  /// authorizers.
+  /// /2015-03-31/functions/\[FunctionARN\]/invocations. Supported only for
+  /// REQUEST authorizers.
   final String? authorizerUri;
 
   /// Specifies whether a Lambda authorizer returns a response in a simple format.
@@ -14162,6 +14378,8 @@ class Authorizer {
 }
 
 /// Represents an API.
+///
+/// @nodoc
 class Api {
   /// The name of the API.
   final String name;
@@ -14329,6 +14547,8 @@ class Api {
 }
 
 /// Represents an API mapping.
+///
+/// @nodoc
 class ApiMapping {
   /// The API identifier.
   final String apiId;
@@ -14372,26 +14592,31 @@ class ApiMapping {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

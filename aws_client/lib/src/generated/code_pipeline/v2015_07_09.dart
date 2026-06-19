@@ -1880,7 +1880,7 @@ class CodePipeline {
   ///
   /// Parameter [variables] :
   /// A list that overrides pipeline variables for a pipeline execution that's
-  /// being started. Variable names must match <code>[A-Za-z0-9@\-_]+</code>,
+  /// being started. Variable names must match <code>\[A-Za-z0-9@\-_\]+</code>,
   /// and the values can be anything except an empty string.
   Future<StartPipelineExecutionOutput> startPipelineExecution({
     required String name,
@@ -2105,6 +2105,8 @@ class CodePipeline {
 }
 
 /// Represents the output of an AcknowledgeJob action.
+///
+/// @nodoc
 class AcknowledgeJobOutput {
   /// Whether the job worker has received the specified job.
   final JobStatus? status;
@@ -2128,6 +2130,8 @@ class AcknowledgeJobOutput {
 }
 
 /// Represents the output of an AcknowledgeThirdPartyJob action.
+///
+/// @nodoc
 class AcknowledgeThirdPartyJobOutput {
   /// The status information for the third party job, if any.
   final JobStatus? status;
@@ -2151,6 +2155,8 @@ class AcknowledgeThirdPartyJobOutput {
 }
 
 /// Represents the output of a <code>CreateCustomActionType</code> operation.
+///
+/// @nodoc
 class CreateCustomActionTypeOutput {
   /// Returns information about the details of an action type.
   final ActionType actionType;
@@ -2186,6 +2192,8 @@ class CreateCustomActionTypeOutput {
 }
 
 /// Represents the output of a <code>CreatePipeline</code> action.
+///
+/// @nodoc
 class CreatePipelineOutput {
   /// Represents the structure of actions and stages to be performed in the
   /// pipeline.
@@ -2222,6 +2230,7 @@ class CreatePipelineOutput {
   }
 }
 
+/// @nodoc
 class DeleteWebhookOutput {
   DeleteWebhookOutput();
 
@@ -2234,6 +2243,7 @@ class DeleteWebhookOutput {
   }
 }
 
+/// @nodoc
 class DeregisterWebhookWithThirdPartyOutput {
   DeregisterWebhookWithThirdPartyOutput();
 
@@ -2247,6 +2257,7 @@ class DeregisterWebhookWithThirdPartyOutput {
   }
 }
 
+/// @nodoc
 class GetActionTypeOutput {
   /// The action type information for the requested action type, such as the
   /// action type ID.
@@ -2274,6 +2285,8 @@ class GetActionTypeOutput {
 }
 
 /// Represents the output of a <code>GetJobDetails</code> action.
+///
+/// @nodoc
 class GetJobDetailsOutput {
   /// The details of the job.
   /// <note>
@@ -2303,6 +2316,8 @@ class GetJobDetailsOutput {
 }
 
 /// Represents the output of a <code>GetPipeline</code> action.
+///
+/// @nodoc
 class GetPipelineOutput {
   /// Represents the pipeline metadata information returned as part of the output
   /// of a <code>GetPipeline</code> action.
@@ -2340,6 +2355,8 @@ class GetPipelineOutput {
 }
 
 /// Represents the output of a <code>GetPipelineExecution</code> action.
+///
+/// @nodoc
 class GetPipelineExecutionOutput {
   /// Represents information about the execution of a pipeline.
   final PipelineExecution? pipelineExecution;
@@ -2366,6 +2383,8 @@ class GetPipelineExecutionOutput {
 }
 
 /// Represents the output of a <code>GetPipelineState</code> action.
+///
+/// @nodoc
 class GetPipelineStateOutput {
   /// The date and time the pipeline was created, in timestamp format.
   final DateTime? created;
@@ -2426,6 +2445,8 @@ class GetPipelineStateOutput {
 }
 
 /// Represents the output of a <code>GetThirdPartyJobDetails</code> action.
+///
+/// @nodoc
 class GetThirdPartyJobDetailsOutput {
   /// The details of the job, including any protected values defined for the job.
   final ThirdPartyJobDetails? jobDetails;
@@ -2451,6 +2472,7 @@ class GetThirdPartyJobDetailsOutput {
   }
 }
 
+/// @nodoc
 class ListActionExecutionsOutput {
   /// The details for a list of recent executions, such as action execution ID.
   final List<ActionExecutionDetail>? actionExecutionDetails;
@@ -2488,6 +2510,8 @@ class ListActionExecutionsOutput {
 }
 
 /// Represents the output of a <code>ListActionTypes</code> action.
+///
+/// @nodoc
 class ListActionTypesOutput {
   /// Provides details of the action types.
   final List<ActionType> actionTypes;
@@ -2522,6 +2546,7 @@ class ListActionTypesOutput {
   }
 }
 
+/// @nodoc
 class ListDeployActionExecutionTargetsOutput {
   /// An identifier that was returned from the previous list action types call,
   /// which can be used to return the next set of action types in the list.
@@ -2558,6 +2583,8 @@ class ListDeployActionExecutionTargetsOutput {
 }
 
 /// Represents the output of a <code>ListPipelineExecutions</code> action.
+///
+/// @nodoc
 class ListPipelineExecutionsOutput {
   /// A token that can be used in the next <code>ListPipelineExecutions</code>
   /// call. To view all items in the list, continue to call this operation with
@@ -2595,6 +2622,8 @@ class ListPipelineExecutionsOutput {
 }
 
 /// Represents the output of a <code>ListPipelines</code> action.
+///
+/// @nodoc
 class ListPipelinesOutput {
   /// If the amount of returned information is significantly large, an identifier
   /// is also returned. It can be used in a subsequent list pipelines call to
@@ -2629,6 +2658,7 @@ class ListPipelinesOutput {
   }
 }
 
+/// @nodoc
 class ListRuleExecutionsOutput {
   /// A token that can be used in the next <code>ListRuleExecutions</code> call.
   /// To view all items in the list, continue to call this operation with each
@@ -2664,6 +2694,7 @@ class ListRuleExecutionsOutput {
   }
 }
 
+/// @nodoc
 class ListRuleTypesOutput {
   /// Lists the rules that are configured for the condition.
   final List<RuleType> ruleTypes;
@@ -2689,6 +2720,7 @@ class ListRuleTypesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// If the amount of returned information is significantly large, an identifier
   /// is also returned and can be used in a subsequent API call to return the next
@@ -2724,6 +2756,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class ListWebhooksOutput {
   /// If the amount of returned information is significantly large, an identifier
   /// is also returned and can be used in a subsequent ListWebhooks call to return
@@ -2760,6 +2793,8 @@ class ListWebhooksOutput {
 }
 
 /// Represents the output of a <code>PollForJobs</code> action.
+///
+/// @nodoc
 class PollForJobsOutput {
   /// Information about the jobs to take action on.
   final List<Job>? jobs;
@@ -2786,6 +2821,8 @@ class PollForJobsOutput {
 }
 
 /// Represents the output of a <code>PollForThirdPartyJobs</code> action.
+///
+/// @nodoc
 class PollForThirdPartyJobsOutput {
   /// Information about the jobs to take action on.
   final List<ThirdPartyJob>? jobs;
@@ -2812,6 +2849,8 @@ class PollForThirdPartyJobsOutput {
 }
 
 /// Represents the output of a <code>PutActionRevision</code> action.
+///
+/// @nodoc
 class PutActionRevisionOutput {
   /// Indicates whether the artifact revision was previously used in an execution
   /// of the specified pipeline.
@@ -2844,6 +2883,8 @@ class PutActionRevisionOutput {
 }
 
 /// Represents the output of a <code>PutApprovalResult</code> action.
+///
+/// @nodoc
 class PutApprovalResultOutput {
   /// The timestamp showing when the approval or rejection was submitted.
   final DateTime? approvedAt;
@@ -2866,6 +2907,7 @@ class PutApprovalResultOutput {
   }
 }
 
+/// @nodoc
 class PutWebhookOutput {
   /// The detail returned from creating the webhook, such as the webhook name,
   /// webhook URL, and webhook ARN.
@@ -2891,6 +2933,7 @@ class PutWebhookOutput {
   }
 }
 
+/// @nodoc
 class RegisterWebhookWithThirdPartyOutput {
   RegisterWebhookWithThirdPartyOutput();
 
@@ -2904,6 +2947,8 @@ class RegisterWebhookWithThirdPartyOutput {
 }
 
 /// Represents the output of a <code>RetryStageExecution</code> action.
+///
+/// @nodoc
 class RetryStageExecutionOutput {
   /// The ID of the current workflow execution in the failed stage.
   final String? pipelineExecutionId;
@@ -2927,6 +2972,7 @@ class RetryStageExecutionOutput {
   }
 }
 
+/// @nodoc
 class RollbackStageOutput {
   /// The execution ID of the pipeline execution for the stage that has been
   /// rolled back.
@@ -2951,6 +2997,8 @@ class RollbackStageOutput {
 }
 
 /// Represents the output of a <code>StartPipelineExecution</code> action.
+///
+/// @nodoc
 class StartPipelineExecutionOutput {
   /// The unique system-generated ID of the pipeline execution that was started.
   final String? pipelineExecutionId;
@@ -2974,6 +3022,7 @@ class StartPipelineExecutionOutput {
   }
 }
 
+/// @nodoc
 class StopPipelineExecutionOutput {
   /// The unique system-generated ID of the pipeline execution that was stopped.
   final String? pipelineExecutionId;
@@ -2997,6 +3046,7 @@ class StopPipelineExecutionOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -3009,6 +3059,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -3022,6 +3073,8 @@ class UntagResourceOutput {
 }
 
 /// Represents the output of an <code>UpdatePipeline</code> action.
+///
+/// @nodoc
 class UpdatePipelineOutput {
   /// The structure of the updated pipeline.
   final PipelineDeclaration? pipeline;
@@ -3049,6 +3102,8 @@ class UpdatePipelineOutput {
 
 /// Represents the structure of actions and stages to be performed in the
 /// pipeline.
+///
+/// @nodoc
 class PipelineDeclaration {
   /// The name of the pipeline.
   final String name;
@@ -3122,7 +3177,7 @@ class PipelineDeclaration {
 
   /// A list that defines the pipeline variables for a pipeline resource. Variable
   /// names can have alphanumeric and underscore characters, and the values must
-  /// match <code>[A-Za-z0-9@\-_]+</code>.
+  /// match <code>\[A-Za-z0-9@\-_\]+</code>.
   final List<PipelineVariableDeclaration>? variables;
 
   /// The version number of the pipeline. A new pipeline always has a version
@@ -3208,6 +3263,8 @@ class PipelineDeclaration {
 /// you create a cross-region action in your pipeline, you must use
 /// <code>artifactStores</code>.
 /// </note>
+///
+/// @nodoc
 class ArtifactStore {
   /// The S3 bucket used for storing the artifacts for a pipeline. You can specify
   /// the name of an S3 bucket but not a folder in the bucket. A folder to contain
@@ -3253,6 +3310,7 @@ class ArtifactStore {
   }
 }
 
+/// @nodoc
 class ExecutionMode {
   static const queued = ExecutionMode._('QUEUED');
   static const superseded = ExecutionMode._('SUPERSEDED');
@@ -3278,6 +3336,7 @@ class ExecutionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class PipelineType {
   static const v1 = PipelineType._('V1');
   static const v2 = PipelineType._('V2');
@@ -3311,6 +3370,8 @@ class PipelineType {
 /// When a trigger configuration is specified, default change detection for
 /// repository and branch commits is disabled.
 /// </note>
+///
+/// @nodoc
 class PipelineTriggerDeclaration {
   /// Provides the filter criteria and the source stage for the repository event
   /// that starts the pipeline, such as Git tags.
@@ -3345,6 +3406,7 @@ class PipelineTriggerDeclaration {
   }
 }
 
+/// @nodoc
 class PipelineTriggerProviderType {
   static const codeStarSourceConnection =
       PipelineTriggerProviderType._('CodeStarSourceConnection');
@@ -3376,6 +3438,8 @@ class PipelineTriggerProviderType {
 /// Git-based source actions that are supported by the
 /// <code>CodeStarSourceConnection</code> action type.
 /// </note>
+///
+/// @nodoc
 class GitConfiguration {
   /// The name of the pipeline source action where the trigger configuration, such
   /// as Git tags, is specified. The trigger configuration will start the pipeline
@@ -3441,6 +3505,8 @@ class GitConfiguration {
 /// UPDATED
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GitPullRequestFilter {
   /// The field that specifies to filter on branches for the pull request trigger
   /// configuration.
@@ -3491,6 +3557,8 @@ class GitPullRequestFilter {
 
 /// The Git repository branches specified as filter criteria to start the
 /// pipeline.
+///
+/// @nodoc
 class GitBranchFilterCriteria {
   /// The list of patterns of Git branches that, when a commit is pushed, are to
   /// be excluded from starting the pipeline.
@@ -3530,6 +3598,8 @@ class GitBranchFilterCriteria {
 
 /// The Git repository file paths specified as filter criteria to start the
 /// pipeline.
+///
+/// @nodoc
 class GitFilePathFilterCriteria {
   /// The list of patterns of Git repository file paths that, when a commit is
   /// pushed, are to be excluded from starting the pipeline.
@@ -3567,6 +3637,7 @@ class GitFilePathFilterCriteria {
   }
 }
 
+/// @nodoc
 class GitPullRequestEventType {
   static const open = GitPullRequestEventType._('OPEN');
   static const updated = GitPullRequestEventType._('UPDATED');
@@ -3596,6 +3667,8 @@ class GitPullRequestEventType {
 /// The event criteria that specify when a specified repository event will start
 /// the pipeline for the specified trigger configuration, such as the lists of
 /// Git tags to include and exclude.
+///
+/// @nodoc
 class GitPushFilter {
   /// The field that specifies to filter on branches for the push trigger
   /// configuration.
@@ -3644,6 +3717,8 @@ class GitPushFilter {
 
 /// The Git tags specified as filter criteria for whether a Git tag repository
 /// event will start the pipeline.
+///
+/// @nodoc
 class GitTagFilterCriteria {
   /// The list of patterns of Git tags that, when pushed, are to be excluded from
   /// starting the pipeline.
@@ -3682,6 +3757,8 @@ class GitTagFilterCriteria {
 }
 
 /// A variable declared at the pipeline level.
+///
+/// @nodoc
 class PipelineVariableDeclaration {
   /// The name of a pipeline-level variable.
   final String name;
@@ -3721,6 +3798,8 @@ class PipelineVariableDeclaration {
 }
 
 /// Represents information about a stage and its definition.
+///
+/// @nodoc
 class StageDeclaration {
   /// The actions included in a stage.
   final List<ActionDeclaration> actions;
@@ -3805,6 +3884,8 @@ class StageDeclaration {
 /// conditions</a> and <a
 /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html">How
 /// do stage conditions work?</a>.
+///
+/// @nodoc
 class FailureConditions {
   /// The conditions that are configured as failure conditions. For more
   /// information about conditions, see <a
@@ -3860,6 +3941,8 @@ class FailureConditions {
 /// conditions</a> and <a
 /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html">How
 /// do stage conditions work?</a>.
+///
+/// @nodoc
 class SuccessConditions {
   /// The conditions that are success conditions.
   final List<Condition> conditions;
@@ -3891,6 +3974,8 @@ class SuccessConditions {
 /// conditions</a> and <a
 /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html">How
 /// do stage conditions work?</a>.
+///
+/// @nodoc
 class BeforeEntryConditions {
   /// The conditions that are configured as entry conditions.
   final List<Condition> conditions;
@@ -3924,6 +4009,8 @@ class BeforeEntryConditions {
 /// do stage conditions work?</a>.. For more information about rules, see the <a
 /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html">CodePipeline
 /// rule reference</a>.
+///
+/// @nodoc
 class Condition {
   /// The action to be done when the condition is met. For example, rolling back
   /// an execution for a failure condition.
@@ -3957,6 +4044,7 @@ class Condition {
   }
 }
 
+/// @nodoc
 class Result {
   static const rollback = Result._('ROLLBACK');
   static const fail = Result._('FAIL');
@@ -3992,6 +4080,8 @@ class Result {
 /// do stage conditions work?</a>. For more information about rules, see the <a
 /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html">CodePipeline
 /// rule reference</a>.
+///
+/// @nodoc
 class RuleDeclaration {
   /// The name of the rule that is created for the condition, such as
   /// <code>VariableCheck</code>.
@@ -4087,6 +4177,8 @@ class RuleDeclaration {
 /// conditions</a>. For more information about rules, see the <a
 /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html">CodePipeline
 /// rule reference</a>.
+///
+/// @nodoc
 class RuleTypeId {
   /// A category defines what kind of rule can be run in the stage, and constrains
   /// the provider type for the rule. The valid category is <code>Rule</code>.
@@ -4137,6 +4229,8 @@ class RuleTypeId {
 
 /// Represents information about an artifact to be worked on, such as a test or
 /// build artifact.
+///
+/// @nodoc
 class InputArtifact {
   /// The name of the artifact to be worked on (for example, "My App").
   ///
@@ -4171,6 +4265,7 @@ class InputArtifact {
   }
 }
 
+/// @nodoc
 class RuleCategory {
   static const rule = RuleCategory._('Rule');
 
@@ -4193,6 +4288,7 @@ class RuleCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleOwner {
   static const aws = RuleOwner._('AWS');
 
@@ -4217,6 +4313,8 @@ class RuleOwner {
 
 /// The retry configuration specifies automatic retry for a failed stage, along
 /// with the configured retry mode.
+///
+/// @nodoc
 class RetryConfiguration {
   /// The method that you want to configure for automatic stage retry on stage
   /// failure. You can specify to retry only failed action in the stage or all
@@ -4241,6 +4339,7 @@ class RetryConfiguration {
   }
 }
 
+/// @nodoc
 class StageRetryMode {
   static const failedActions = StageRetryMode._('FAILED_ACTIONS');
   static const allActions = StageRetryMode._('ALL_ACTIONS');
@@ -4266,6 +4365,8 @@ class StageRetryMode {
 }
 
 /// Represents information about an action declaration.
+///
+/// @nodoc
 class ActionDeclaration {
   /// Specifies the action type and the provider of the action.
   final ActionTypeId actionTypeId;
@@ -4423,6 +4524,8 @@ class ActionDeclaration {
 }
 
 /// Represents information about an action type.
+///
+/// @nodoc
 class ActionTypeId {
   /// A category defines what kind of action can be taken in the stage, and
   /// constrains the provider type for the action. Valid categories are limited to
@@ -4503,6 +4606,8 @@ class ActionTypeId {
 }
 
 /// The environment variables for the action.
+///
+/// @nodoc
 class EnvironmentVariable {
   /// The environment variable name in the key-value pair.
   final String name;
@@ -4542,6 +4647,7 @@ class EnvironmentVariable {
   }
 }
 
+/// @nodoc
 class EnvironmentVariableType {
   static const plaintext = EnvironmentVariableType._('PLAINTEXT');
   static const secretsManager = EnvironmentVariableType._('SECRETS_MANAGER');
@@ -4568,6 +4674,8 @@ class EnvironmentVariableType {
 }
 
 /// Represents information about the output of an action.
+///
+/// @nodoc
 class OutputArtifact {
   /// The name of the output of an artifact, such as "My App".
   ///
@@ -4607,6 +4715,7 @@ class OutputArtifact {
   }
 }
 
+/// @nodoc
 class ActionCategory {
   static const source = ActionCategory._('Source');
   static const build = ActionCategory._('Build');
@@ -4644,6 +4753,7 @@ class ActionCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionOwner {
   static const aws = ActionOwner._('AWS');
   static const thirdParty = ActionOwner._('ThirdParty');
@@ -4669,6 +4779,8 @@ class ActionOwner {
 }
 
 /// Reserved for future use.
+///
+/// @nodoc
 class BlockerDeclaration {
   /// Reserved for future use.
   final String name;
@@ -4698,6 +4810,7 @@ class BlockerDeclaration {
   }
 }
 
+/// @nodoc
 class BlockerType {
   static const schedule = BlockerType._('Schedule');
 
@@ -4720,6 +4833,7 @@ class BlockerType {
   String toString() => value;
 }
 
+/// @nodoc
 class ArtifactStoreType {
   static const s3 = ArtifactStoreType._('S3');
 
@@ -4746,6 +4860,8 @@ class ArtifactStoreType {
 /// Represents information about the key used to encrypt data in the artifact
 /// store, such as an Amazon Web Services Key Management Service (Key Management
 /// Service) key.
+///
+/// @nodoc
 class EncryptionKey {
   /// The ID used to identify the key. For an Amazon Web Services KMS key, you can
   /// use the key ID, the key ARN, or the alias ARN.
@@ -4784,6 +4900,7 @@ class EncryptionKey {
   }
 }
 
+/// @nodoc
 class EncryptionKeyType {
   static const kms = EncryptionKeyType._('KMS');
 
@@ -4809,6 +4926,8 @@ class EncryptionKeyType {
 
 /// The parameters for the action type definition that are provided when the
 /// action type is created or updated.
+///
+/// @nodoc
 class ActionTypeDeclaration {
   /// Information about the executor for an action type that was created with any
   /// supported integration model.
@@ -4905,6 +5024,8 @@ class ActionTypeDeclaration {
 /// where the action is to be used by customers of the provider. The action
 /// engine is associated with the model used to create and update the action,
 /// such as the Lambda integration model.
+///
+/// @nodoc
 class ActionTypeExecutor {
   /// The action configuration properties for the action type. These properties
   /// are specified in the action definition when the action type is created.
@@ -4963,6 +5084,8 @@ class ActionTypeExecutor {
 }
 
 /// Specifies the category, owner, provider, and version of the action type.
+///
+/// @nodoc
 class ActionTypeIdentifier {
   /// Defines what kind of action can be taken in the stage, one of the following:
   ///
@@ -5031,6 +5154,8 @@ class ActionTypeIdentifier {
 
 /// Information about parameters for artifacts associated with the action type,
 /// such as the minimum and maximum artifacts allowed.
+///
+/// @nodoc
 class ActionTypeArtifactDetails {
   /// The maximum number of artifacts that can be used with the actiontype. For
   /// example, you should specify a minimum and maximum of zero input artifacts
@@ -5065,6 +5190,8 @@ class ActionTypeArtifactDetails {
 }
 
 /// Details identifying the users with permissions to use the action type.
+///
+/// @nodoc
 class ActionTypePermissions {
   /// A list of Amazon Web Services account IDs with access to use the action type
   /// in their pipelines.
@@ -5094,6 +5221,8 @@ class ActionTypePermissions {
 /// Returns information about URLs for web pages that display to customers as
 /// links on the pipeline view, such as an external configuration page for the
 /// action type.
+///
+/// @nodoc
 class ActionTypeUrls {
   /// The URL returned to the CodePipeline console that contains a link to the
   /// page where customers can configure the external action.
@@ -5149,6 +5278,8 @@ class ActionTypeUrls {
 /// Represents information about each property specified in the action
 /// configuration, such as the description and key name that display for the
 /// customer using the action type.
+///
+/// @nodoc
 class ActionTypeProperty {
   /// Whether the configuration property is a key.
   final bool key;
@@ -5213,6 +5344,8 @@ class ActionTypeProperty {
 /// The action engine, or executor, related to the supported integration model
 /// used to create and update the action type. The available executor types are
 /// <code>Lambda</code> and <code>JobWorker</code>.
+///
+/// @nodoc
 class ExecutorConfiguration {
   /// Details about the <code>JobWorker</code> executor of the action type.
   final JobWorkerExecutorConfiguration? jobWorkerExecutorConfiguration;
@@ -5251,6 +5384,7 @@ class ExecutorConfiguration {
   }
 }
 
+/// @nodoc
 class ExecutorType {
   static const jobWorker = ExecutorType._('JobWorker');
   static const lambda = ExecutorType._('Lambda');
@@ -5276,6 +5410,8 @@ class ExecutorType {
 
 /// Details about the configuration for the <code>Lambda</code> action engine,
 /// or executor.
+///
+/// @nodoc
 class LambdaExecutorConfiguration {
   /// The ARN of the Lambda function used by the action engine.
   final String lambdaFunctionArn;
@@ -5300,6 +5436,8 @@ class LambdaExecutorConfiguration {
 
 /// Details about the polling configuration for the <code>JobWorker</code>
 /// action engine, or executor.
+///
+/// @nodoc
 class JobWorkerExecutorConfiguration {
   /// The accounts in which the job worker is configured and might poll for jobs
   /// as part of the action execution.
@@ -5339,6 +5477,8 @@ class JobWorkerExecutorConfiguration {
 }
 
 /// A tag is a key-value pair that is used to manage the resource.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String key;
@@ -5378,6 +5518,8 @@ class Tag {
 /// they can be used together to override the source with a specific ObjectKey
 /// and VersionID.
 /// </note>
+///
+/// @nodoc
 class SourceRevisionOverride {
   /// The name of the action where the override will be applied.
   final String actionName;
@@ -5408,6 +5550,7 @@ class SourceRevisionOverride {
   }
 }
 
+/// @nodoc
 class SourceRevisionType {
   static const commitId = SourceRevisionType._('COMMIT_ID');
   static const imageDigest = SourceRevisionType._('IMAGE_DIGEST');
@@ -5436,6 +5579,8 @@ class SourceRevisionType {
 }
 
 /// A pipeline-level variable used for a pipeline execution.
+///
+/// @nodoc
 class PipelineVariable {
   /// The name of a pipeline-level variable.
   final String name;
@@ -5460,6 +5605,8 @@ class PipelineVariable {
 
 /// The detail returned for each webhook after listing webhooks, such as the
 /// webhook URL, the webhook name, and the webhook ARN.
+///
+/// @nodoc
 class ListWebhookItem {
   /// The detail returned for each webhook, such as the webhook authentication
   /// type and filter rules.
@@ -5536,6 +5683,8 @@ class ListWebhookItem {
 }
 
 /// Represents information about a webhook and its definition.
+///
+/// @nodoc
 class WebhookDefinition {
   /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.
   /// <important>
@@ -5632,6 +5781,7 @@ class WebhookDefinition {
   }
 }
 
+/// @nodoc
 class WebhookAuthenticationType {
   static const githubHmac = WebhookAuthenticationType._('GITHUB_HMAC');
   static const ip = WebhookAuthenticationType._('IP');
@@ -5659,6 +5809,8 @@ class WebhookAuthenticationType {
 }
 
 /// The authentication applied to incoming webhook trigger requests.
+///
+/// @nodoc
 class WebhookAuthConfiguration {
   /// The property used to configure acceptance of webhooks in an IP address
   /// range. For IP, only the <code>AllowedIPRange</code> property must be set.
@@ -5705,6 +5857,8 @@ class WebhookAuthConfiguration {
 
 /// The event criteria that specify when a webhook notification is sent to your
 /// URL.
+///
+/// @nodoc
 class WebhookFilterRule {
   /// A JsonPath expression that is applied to the body/payload of the webhook.
   /// The value selected by the JsonPath expression must match the value specified
@@ -5750,6 +5904,8 @@ class WebhookFilterRule {
 }
 
 /// Represents information about a current revision.
+///
+/// @nodoc
 class CurrentRevision {
   /// The change identifier for the current revision.
   final String changeIdentifier;
@@ -5787,6 +5943,8 @@ class CurrentRevision {
 
 /// The details of the actions taken and results produced on an artifact as it
 /// passes through stages in the pipeline.
+///
+/// @nodoc
 class ExecutionDetails {
   /// The system-generated unique ID of this action used to identify this job
   /// worker in any external systems, such as CodeDeploy.
@@ -5819,6 +5977,8 @@ class ExecutionDetails {
 }
 
 /// Represents information about failure details.
+///
+/// @nodoc
 class FailureDetails {
   /// The message about the failure.
   final String message;
@@ -5848,6 +6008,7 @@ class FailureDetails {
   }
 }
 
+/// @nodoc
 class FailureType {
   static const jobFailed = FailureType._('JobFailed');
   static const configurationError = FailureType._('ConfigurationError');
@@ -5883,6 +6044,8 @@ class FailureType {
 }
 
 /// Represents information about the result of an approval request.
+///
+/// @nodoc
 class ApprovalResult {
   /// The response submitted by a reviewer assigned to an approval action request.
   final ApprovalStatus status;
@@ -5905,6 +6068,7 @@ class ApprovalResult {
   }
 }
 
+/// @nodoc
 class ApprovalStatus {
   static const approved = ApprovalStatus._('Approved');
   static const rejected = ApprovalStatus._('Rejected');
@@ -5930,6 +6094,8 @@ class ApprovalStatus {
 }
 
 /// Represents information about the version (or revision) of an action.
+///
+/// @nodoc
 class ActionRevision {
   /// The date and time when the most recent version of the action was created, in
   /// timestamp format.
@@ -5971,6 +6137,8 @@ class ActionRevision {
 
 /// A response to a <code>PollForThirdPartyJobs</code> request returned by
 /// CodePipeline when there is a job to be worked on by a partner action.
+///
+/// @nodoc
 class ThirdPartyJob {
   /// The <code>clientToken</code> portion of the <code>clientId</code> and
   /// <code>clientToken</code> pair used to verify that the calling entity is
@@ -6003,6 +6171,8 @@ class ThirdPartyJob {
 }
 
 /// Represents information about a job.
+///
+/// @nodoc
 class Job {
   /// The ID of the Amazon Web Services account to use when performing the job.
   final String? accountId;
@@ -6052,6 +6222,8 @@ class Job {
 
 /// Represents other information about a job required for a job worker to
 /// complete the job.
+///
+/// @nodoc
 class JobData {
   /// Represents information about an action configuration.
   final ActionConfiguration? actionConfiguration;
@@ -6156,6 +6328,8 @@ class JobData {
 }
 
 /// Represents information about an action configuration.
+///
+/// @nodoc
 class ActionConfiguration {
   /// The configuration data for the action.
   final Map<String, String>? configuration;
@@ -6186,6 +6360,8 @@ class ActionConfiguration {
 /// <code>pipelineArn</code> and <code>pipelineExecutionId</code> fields are not
 /// populated for ThirdParty action jobs.
 /// </note>
+///
+/// @nodoc
 class PipelineContext {
   /// The context of an action to a job worker in the stage of a pipeline.
   final ActionContext? action;
@@ -6248,6 +6424,8 @@ class PipelineContext {
 /// Secure Token Service (STS). They can be used to access input and output
 /// artifacts in the S3 bucket used to store artifact for the pipeline in
 /// CodePipeline.
+///
+/// @nodoc
 class AWSSessionCredentials {
   /// The access key for the session.
   final String accessKeyId;
@@ -6289,6 +6467,8 @@ class AWSSessionCredentials {
 /// parameters. For example, the S3 source action artifact is a file name (or
 /// file path), and the files are generally provided as a ZIP file. Example
 /// artifact name: SampleApp_Windows.zip
+///
+/// @nodoc
 class Artifact {
   /// The location of an artifact.
   final ArtifactLocation? location;
@@ -6329,6 +6509,8 @@ class Artifact {
 }
 
 /// Represents information about the location of an artifact.
+///
+/// @nodoc
 class ArtifactLocation {
   /// The S3 bucket that contains the artifact.
   final S3ArtifactLocation? s3Location;
@@ -6361,6 +6543,7 @@ class ArtifactLocation {
   }
 }
 
+/// @nodoc
 class ArtifactLocationType {
   static const s3 = ArtifactLocationType._('S3');
 
@@ -6386,6 +6569,8 @@ class ArtifactLocationType {
 }
 
 /// The location of the S3 bucket that contains a revision.
+///
+/// @nodoc
 class S3ArtifactLocation {
   /// The name of the S3 bucket.
   final String bucketName;
@@ -6417,6 +6602,8 @@ class S3ArtifactLocation {
 }
 
 /// Represents information about a stage to a job worker.
+///
+/// @nodoc
 class StageContext {
   /// The name of the stage.
   final String? name;
@@ -6441,6 +6628,8 @@ class StageContext {
 
 /// Represents the context of an action in the stage of a pipeline to a job
 /// worker.
+///
+/// @nodoc
 class ActionContext {
   /// The system-generated unique ID that corresponds to an action's execution.
   final String? actionExecutionId;
@@ -6470,6 +6659,7 @@ class ActionContext {
   }
 }
 
+/// @nodoc
 class ConditionType {
   static const beforeEntry = ConditionType._('BEFORE_ENTRY');
   static const onSuccess = ConditionType._('ON_SUCCESS');
@@ -6496,6 +6686,8 @@ class ConditionType {
 
 /// The rule type, which is made up of the combined values for category, owner,
 /// provider, and version.
+///
+/// @nodoc
 class RuleType {
   /// Represents information about a rule type.
   final RuleTypeId id;
@@ -6549,6 +6741,8 @@ class RuleType {
 }
 
 /// Returns information about the settings for a rule type.
+///
+/// @nodoc
 class RuleTypeSettings {
   /// The URL returned to the CodePipeline console that provides a deep link to
   /// the resources of the external system, such as the configuration page for a
@@ -6605,6 +6799,8 @@ class RuleTypeSettings {
 }
 
 /// Returns information about the details of an artifact.
+///
+/// @nodoc
 class ArtifactDetails {
   /// The maximum number of artifacts allowed for the action type.
   final int maximumCount;
@@ -6635,6 +6831,8 @@ class ArtifactDetails {
 }
 
 /// Represents information about a rule configuration property.
+///
+/// @nodoc
 class RuleConfigurationProperty {
   /// Whether the configuration property is a key.
   final bool key;
@@ -6710,6 +6908,7 @@ class RuleConfigurationProperty {
   }
 }
 
+/// @nodoc
 class RuleConfigurationPropertyType {
   static const string = RuleConfigurationPropertyType._('String');
   static const number = RuleConfigurationPropertyType._('Number');
@@ -6738,6 +6937,8 @@ class RuleConfigurationPropertyType {
 
 /// The details of the runs for a rule and the results produced on an artifact
 /// as it passes through stages in the pipeline.
+///
+/// @nodoc
 class RuleExecutionDetail {
   /// Input details for the rule execution, such as role ARN, Region, and input
   /// artifacts.
@@ -6841,6 +7042,7 @@ class RuleExecutionDetail {
   }
 }
 
+/// @nodoc
 class RuleExecutionStatus {
   static const inProgress = RuleExecutionStatus._('InProgress');
   static const abandoned = RuleExecutionStatus._('Abandoned');
@@ -6869,6 +7071,8 @@ class RuleExecutionStatus {
 }
 
 /// Input information used for a rule execution.
+///
+/// @nodoc
 class RuleExecutionInput {
   /// Configuration data for a rule execution, such as the resolved values for
   /// that run.
@@ -6947,6 +7151,8 @@ class RuleExecutionInput {
 
 /// Output details listed for a rule execution, such as the rule execution
 /// result.
+///
+/// @nodoc
 class RuleExecutionOutput {
   /// Execution result information listed in the output details for a rule
   /// execution.
@@ -6974,6 +7180,8 @@ class RuleExecutionOutput {
 }
 
 /// Execution result information, such as the external execution ID.
+///
+/// @nodoc
 class RuleExecutionResult {
   final ErrorDetails? errorDetails;
 
@@ -7023,6 +7231,8 @@ class RuleExecutionResult {
 }
 
 /// Represents information about an error in CodePipeline.
+///
+/// @nodoc
 class ErrorDetails {
   /// The system ID or number code of the error.
   final String? code;
@@ -7053,6 +7263,8 @@ class ErrorDetails {
 }
 
 /// Artifact details for the action execution, such as the artifact location.
+///
+/// @nodoc
 class ArtifactDetail {
   /// The artifact object name for the action execution.
   final String? name;
@@ -7085,6 +7297,8 @@ class ArtifactDetail {
 }
 
 /// The Amazon S3 artifact location for an action's artifacts.
+///
+/// @nodoc
 class S3Location {
   /// The Amazon S3 artifact bucket for an action's artifacts.
   final String? bucket;
@@ -7115,6 +7329,8 @@ class S3Location {
 }
 
 /// Filter values for the rule execution.
+///
+/// @nodoc
 class RuleExecutionFilter {
   final LatestInPipelineExecutionFilter? latestInPipelineExecution;
 
@@ -7143,6 +7359,8 @@ class RuleExecutionFilter {
 /// Filtering on the latest execution is available for executions run on or
 /// after February 08, 2024.
 /// </note>
+///
+/// @nodoc
 class LatestInPipelineExecutionFilter {
   /// The execution ID for the latest execution in the pipeline.
   final String pipelineExecutionId;
@@ -7175,6 +7393,7 @@ class LatestInPipelineExecutionFilter {
   }
 }
 
+/// @nodoc
 class StartTimeRange {
   static const latest = StartTimeRange._('Latest');
   static const all = StartTimeRange._('All');
@@ -7200,6 +7419,8 @@ class StartTimeRange {
 }
 
 /// Returns a summary of a pipeline.
+///
+/// @nodoc
 class PipelineSummary {
   /// The date and time the pipeline was created, in timestamp format.
   final DateTime? created;
@@ -7284,6 +7505,8 @@ class PipelineSummary {
 }
 
 /// Summary information about a pipeline execution.
+///
+/// @nodoc
 class PipelineExecutionSummary {
   /// The method that the pipeline will use to handle multiple executions. The
   /// default mode is SUPERSEDED.
@@ -7428,6 +7651,7 @@ class PipelineExecutionSummary {
   }
 }
 
+/// @nodoc
 class PipelineExecutionStatus {
   static const cancelled = PipelineExecutionStatus._('Cancelled');
   static const inProgress = PipelineExecutionStatus._('InProgress');
@@ -7467,6 +7691,8 @@ class PipelineExecutionStatus {
 }
 
 /// The interaction or event that started a pipeline execution.
+///
+/// @nodoc
 class ExecutionTrigger {
   /// Detail related to the event that started a pipeline execution, such as the
   /// webhook ARN of the webhook that triggered the pipeline execution or the user
@@ -7501,6 +7727,8 @@ class ExecutionTrigger {
 }
 
 /// The interaction that stopped a pipeline execution.
+///
+/// @nodoc
 class StopExecutionTrigger {
   /// The user-specified reason the pipeline was stopped.
   final String? reason;
@@ -7523,6 +7751,7 @@ class StopExecutionTrigger {
   }
 }
 
+/// @nodoc
 class ExecutionType {
   static const standard = ExecutionType._('STANDARD');
   static const rollback = ExecutionType._('ROLLBACK');
@@ -7548,6 +7777,8 @@ class ExecutionType {
 }
 
 /// The metadata for the stage execution to be rolled back.
+///
+/// @nodoc
 class PipelineRollbackMetadata {
   /// The pipeline execution ID to which the stage will be rolled back.
   final String? rollbackTargetPipelineExecutionId;
@@ -7573,6 +7804,7 @@ class PipelineRollbackMetadata {
   }
 }
 
+/// @nodoc
 class TriggerType {
   static const createPipeline = TriggerType._('CreatePipeline');
   static const startPipelineExecution = TriggerType._('StartPipelineExecution');
@@ -7615,6 +7847,8 @@ class TriggerType {
 
 /// Information about the version (or revision) of a source artifact that
 /// initiated a pipeline execution.
+///
+/// @nodoc
 class SourceRevision {
   /// The name of the action that processed the revision to the source artifact.
   final String actionName;
@@ -7665,6 +7899,8 @@ class SourceRevision {
 }
 
 /// The pipeline execution to filter on.
+///
+/// @nodoc
 class PipelineExecutionFilter {
   /// Filter for pipeline executions where the stage was successful in the current
   /// pipeline version.
@@ -7684,6 +7920,8 @@ class PipelineExecutionFilter {
 
 /// Filter for pipeline executions that have successfully completed the stage in
 /// the current pipeline version.
+///
+/// @nodoc
 class SucceededInStageFilter {
   /// The name of the stage for filtering for pipeline executions where the stage
   /// was successful in the current pipeline version.
@@ -7702,6 +7940,8 @@ class SucceededInStageFilter {
 }
 
 /// The target for the deploy action.
+///
+/// @nodoc
 class DeployActionExecutionTarget {
   /// The end time for the deploy action.
   final DateTime? endTime;
@@ -7763,6 +8003,8 @@ class DeployActionExecutionTarget {
 }
 
 /// A lifecycle event for the deploy action.
+///
+/// @nodoc
 class DeployTargetEvent {
   /// The context for the event for the deploy action.
   final DeployTargetEventContext? context;
@@ -7817,6 +8059,8 @@ class DeployTargetEvent {
 }
 
 /// The context for the event for the deploy action.
+///
+/// @nodoc
 class DeployTargetEventContext {
   /// The context message for the event for the deploy action.
   final String? message;
@@ -7847,6 +8091,8 @@ class DeployTargetEventContext {
 }
 
 /// Filters the list of targets.
+///
+/// @nodoc
 class TargetFilter {
   /// The name on which to filter.
   final TargetFilterName? name;
@@ -7869,6 +8115,7 @@ class TargetFilter {
   }
 }
 
+/// @nodoc
 class TargetFilterName {
   static const targetStatus = TargetFilterName._('TARGET_STATUS');
 
@@ -7893,6 +8140,8 @@ class TargetFilterName {
 }
 
 /// Returns information about the details of an action type.
+///
+/// @nodoc
 class ActionType {
   /// Represents information about an action type.
   final ActionTypeId id;
@@ -7958,6 +8207,8 @@ class ActionType {
 }
 
 /// Returns information about the settings for an action type.
+///
+/// @nodoc
 class ActionTypeSettings {
   /// The URL returned to the CodePipeline console that provides a deep link to
   /// the resources of the external system, such as the configuration page for a
@@ -8014,6 +8265,8 @@ class ActionTypeSettings {
 }
 
 /// Represents information about an action configuration property.
+///
+/// @nodoc
 class ActionConfigurationProperty {
   /// Whether the configuration property is a key.
   final bool key;
@@ -8094,6 +8347,7 @@ class ActionConfigurationProperty {
   }
 }
 
+/// @nodoc
 class ActionConfigurationPropertyType {
   static const string = ActionConfigurationPropertyType._('String');
   static const number = ActionConfigurationPropertyType._('Number');
@@ -8122,6 +8376,8 @@ class ActionConfigurationPropertyType {
 
 /// Returns information about an execution of an action, including the action
 /// execution ID, and the name, version, and timing of the action.
+///
+/// @nodoc
 class ActionExecutionDetail {
   /// The action execution ID.
   final String? actionExecutionId;
@@ -8225,6 +8481,7 @@ class ActionExecutionDetail {
   }
 }
 
+/// @nodoc
 class ActionExecutionStatus {
   static const inProgress = ActionExecutionStatus._('InProgress');
   static const abandoned = ActionExecutionStatus._('Abandoned');
@@ -8253,6 +8510,8 @@ class ActionExecutionStatus {
 }
 
 /// Input information used for an action execution.
+///
+/// @nodoc
 class ActionExecutionInput {
   final ActionTypeId? actionTypeId;
 
@@ -8331,6 +8590,8 @@ class ActionExecutionInput {
 
 /// Output details listed for an action execution, such as the action execution
 /// result.
+///
+/// @nodoc
 class ActionExecutionOutput {
   /// Execution result information listed in the output details for an action
   /// execution.
@@ -8378,6 +8639,8 @@ class ActionExecutionOutput {
 }
 
 /// Execution result information, such as the external execution ID.
+///
+/// @nodoc
 class ActionExecutionResult {
   final ErrorDetails? errorDetails;
 
@@ -8434,6 +8697,8 @@ class ActionExecutionResult {
 }
 
 /// Filter values for the action execution.
+///
+/// @nodoc
 class ActionExecutionFilter {
   /// The latest execution in the pipeline.
   /// <note>
@@ -8464,6 +8729,8 @@ class ActionExecutionFilter {
 
 /// The details of a job sent in response to a
 /// <code>GetThirdPartyJobDetails</code> request.
+///
+/// @nodoc
 class ThirdPartyJobDetails {
   /// The data to be returned by the third party job worker.
   final ThirdPartyJobData? data;
@@ -8505,6 +8772,8 @@ class ThirdPartyJobDetails {
 }
 
 /// Represents information about the job data for a partner action.
+///
+/// @nodoc
 class ThirdPartyJobData {
   /// Represents information about an action configuration.
   final ActionConfiguration? actionConfiguration;
@@ -8616,6 +8885,8 @@ class ThirdPartyJobData {
 }
 
 /// Represents information about the state of the stage.
+///
+/// @nodoc
 class StageState {
   /// The state of the stage.
   final List<ActionState>? actionStates;
@@ -8733,6 +9004,8 @@ class StageState {
 }
 
 /// Represents information about the run of a stage.
+///
+/// @nodoc
 class StageExecution {
   /// The ID of the pipeline execution associated with the stage.
   final String pipelineExecutionId;
@@ -8778,6 +9051,8 @@ class StageExecution {
 
 /// Represents information about the state of transitions between one stage and
 /// another stage.
+///
+/// @nodoc
 class TransitionState {
   /// The user-specified reason why the transition between two stages of a
   /// pipeline was disabled.
@@ -8824,6 +9099,8 @@ class TransitionState {
 }
 
 /// The state of a run of a condition for a stage.
+///
+/// @nodoc
 class StageConditionState {
   /// The states of the conditions for a run of a condition for a stage.
   final List<ConditionState>? conditionStates;
@@ -8861,6 +9138,8 @@ class StageConditionState {
 
 /// The details of a specific automatic retry on stage failure, including the
 /// attempt number and trigger.
+///
+/// @nodoc
 class RetryStageMetadata {
   /// The number of attempts for a specific stage with automatic retry on stage
   /// failure. One attempt is allowed for automatic stage retry on failure.
@@ -8904,6 +9183,7 @@ class RetryStageMetadata {
   }
 }
 
+/// @nodoc
 class RetryTrigger {
   static const automatedStageRetry = RetryTrigger._('AutomatedStageRetry');
   static const manualStageRetry = RetryTrigger._('ManualStageRetry');
@@ -8928,6 +9208,8 @@ class RetryTrigger {
 }
 
 /// Represents information about the run of a condition for a stage.
+///
+/// @nodoc
 class StageConditionsExecution {
   /// The status of a run of a condition for a stage.
   final ConditionExecutionStatus? status;
@@ -8959,6 +9241,8 @@ class StageConditionsExecution {
 }
 
 /// Information about the state of the condition.
+///
+/// @nodoc
 class ConditionState {
   /// The state of the latest run of the rule.
   final ConditionExecution? latestExecution;
@@ -8995,6 +9279,8 @@ class ConditionState {
 }
 
 /// The run of a condition.
+///
+/// @nodoc
 class ConditionExecution {
   /// The last status change of the condition.
   final DateTime? lastStatusChange;
@@ -9038,6 +9324,8 @@ class ConditionExecution {
 /// Values returned in the <code>revisionId</code> field indicate the rule
 /// revision information, such as the commit ID, for the current state.
 /// </note>
+///
+/// @nodoc
 class RuleState {
   /// The ID of the current revision of the artifact successfully worked on by the
   /// job.
@@ -9098,6 +9386,8 @@ class RuleState {
 }
 
 /// The change to a rule that creates a revision of the rule.
+///
+/// @nodoc
 class RuleRevision {
   /// The date and time when the most recent version of the rule was created, in
   /// timestamp format.
@@ -9139,6 +9429,8 @@ class RuleRevision {
 
 /// Represents information about each time a rule is run as part of the pipeline
 /// execution for a pipeline configured with conditions.
+///
+/// @nodoc
 class RuleExecution {
   final ErrorDetails? errorDetails;
 
@@ -9222,6 +9514,7 @@ class RuleExecution {
   }
 }
 
+/// @nodoc
 class ConditionExecutionStatus {
   static const inProgress = ConditionExecutionStatus._('InProgress');
   static const failed = ConditionExecutionStatus._('Failed');
@@ -9261,6 +9554,8 @@ class ConditionExecutionStatus {
 }
 
 /// Represents information about the state of an action.
+///
+/// @nodoc
 class ActionState {
   /// The name of the action.
   final String? actionName;
@@ -9320,6 +9615,8 @@ class ActionState {
 }
 
 /// Represents information about the run of an action.
+///
+/// @nodoc
 class ActionExecution {
   /// ID of the workflow action execution in the current stage. Use the
   /// <a>GetPipelineState</a> action to retrieve the current action execution
@@ -9429,6 +9726,7 @@ class ActionExecution {
   }
 }
 
+/// @nodoc
 class StageExecutionStatus {
   static const cancelled = StageExecutionStatus._('Cancelled');
   static const inProgress = StageExecutionStatus._('InProgress');
@@ -9468,6 +9766,8 @@ class StageExecutionStatus {
 }
 
 /// Represents information about an execution of a pipeline.
+///
+/// @nodoc
 class PipelineExecution {
   /// A list of <code>ArtifactRevision</code> objects included in a pipeline
   /// execution.
@@ -9613,6 +9913,8 @@ class PipelineExecution {
 }
 
 /// A pipeline-level variable used for a pipeline execution.
+///
+/// @nodoc
 class ResolvedPipelineVariable {
   /// The name of a pipeline-level variable.
   final String? name;
@@ -9643,6 +9945,8 @@ class ResolvedPipelineVariable {
 }
 
 /// Represents revision details of an artifact.
+///
+/// @nodoc
 class ArtifactRevision {
   /// The date and time when the most recent revision of the artifact was created,
   /// in timestamp format.
@@ -9710,6 +10014,8 @@ class ArtifactRevision {
 }
 
 /// Information about a pipeline.
+///
+/// @nodoc
 class PipelineMetadata {
   /// The date and time the pipeline was created, in timestamp format.
   final DateTime? created;
@@ -9772,6 +10078,8 @@ class PipelineMetadata {
 }
 
 /// Represents information about the details of a job.
+///
+/// @nodoc
 class JobDetails {
   /// The Amazon Web Services account ID associated with the job.
   final String? accountId;
@@ -9811,6 +10119,7 @@ class JobDetails {
   }
 }
 
+/// @nodoc
 class StageTransitionType {
   static const inbound = StageTransitionType._('Inbound');
   static const outbound = StageTransitionType._('Outbound');
@@ -9836,6 +10145,7 @@ class StageTransitionType {
   String toString() => value;
 }
 
+/// @nodoc
 class JobStatus {
   static const created = JobStatus._('Created');
   static const queued = JobStatus._('Queued');
@@ -9872,6 +10182,7 @@ class JobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionExecutionNotFoundException extends _s.GenericAwsException {
   ActionExecutionNotFoundException({String? type, String? message})
       : super(
@@ -9880,17 +10191,20 @@ class ActionExecutionNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ActionNotFoundException extends _s.GenericAwsException {
   ActionNotFoundException({String? type, String? message})
       : super(type: type, code: 'ActionNotFoundException', message: message);
 }
 
+/// @nodoc
 class ActionTypeNotFoundException extends _s.GenericAwsException {
   ActionTypeNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'ActionTypeNotFoundException', message: message);
 }
 
+/// @nodoc
 class ApprovalAlreadyCompletedException extends _s.GenericAwsException {
   ApprovalAlreadyCompletedException({String? type, String? message})
       : super(
@@ -9899,6 +10213,7 @@ class ApprovalAlreadyCompletedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -9907,6 +10222,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConcurrentPipelineExecutionsLimitExceededException
     extends _s.GenericAwsException {
   ConcurrentPipelineExecutionsLimitExceededException(
@@ -9917,6 +10233,7 @@ class ConcurrentPipelineExecutionsLimitExceededException
             message: message);
 }
 
+/// @nodoc
 class ConditionNotOverridableException extends _s.GenericAwsException {
   ConditionNotOverridableException({String? type, String? message})
       : super(
@@ -9925,11 +10242,13 @@ class ConditionNotOverridableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DuplicatedStopRequestException extends _s.GenericAwsException {
   DuplicatedStopRequestException({String? type, String? message})
       : super(
@@ -9938,6 +10257,7 @@ class DuplicatedStopRequestException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidActionDeclarationException extends _s.GenericAwsException {
   InvalidActionDeclarationException({String? type, String? message})
       : super(
@@ -9946,6 +10266,7 @@ class InvalidActionDeclarationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidApprovalTokenException extends _s.GenericAwsException {
   InvalidApprovalTokenException({String? type, String? message})
       : super(
@@ -9954,11 +10275,13 @@ class InvalidApprovalTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArnException extends _s.GenericAwsException {
   InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
+/// @nodoc
 class InvalidBlockerDeclarationException extends _s.GenericAwsException {
   InvalidBlockerDeclarationException({String? type, String? message})
       : super(
@@ -9967,32 +10290,38 @@ class InvalidBlockerDeclarationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClientTokenException extends _s.GenericAwsException {
   InvalidClientTokenException({String? type, String? message})
       : super(
             type: type, code: 'InvalidClientTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidJobException extends _s.GenericAwsException {
   InvalidJobException({String? type, String? message})
       : super(type: type, code: 'InvalidJobException', message: message);
 }
 
+/// @nodoc
 class InvalidJobStateException extends _s.GenericAwsException {
   InvalidJobStateException({String? type, String? message})
       : super(type: type, code: 'InvalidJobStateException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidNonceException extends _s.GenericAwsException {
   InvalidNonceException({String? type, String? message})
       : super(type: type, code: 'InvalidNonceException', message: message);
 }
 
+/// @nodoc
 class InvalidStageDeclarationException extends _s.GenericAwsException {
   InvalidStageDeclarationException({String? type, String? message})
       : super(
@@ -10001,16 +10330,19 @@ class InvalidStageDeclarationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidStructureException extends _s.GenericAwsException {
   InvalidStructureException({String? type, String? message})
       : super(type: type, code: 'InvalidStructureException', message: message);
 }
 
+/// @nodoc
 class InvalidTagsException extends _s.GenericAwsException {
   InvalidTagsException({String? type, String? message})
       : super(type: type, code: 'InvalidTagsException', message: message);
 }
 
+/// @nodoc
 class InvalidWebhookAuthenticationParametersException
     extends _s.GenericAwsException {
   InvalidWebhookAuthenticationParametersException(
@@ -10021,6 +10353,7 @@ class InvalidWebhookAuthenticationParametersException
             message: message);
 }
 
+/// @nodoc
 class InvalidWebhookFilterPatternException extends _s.GenericAwsException {
   InvalidWebhookFilterPatternException({String? type, String? message})
       : super(
@@ -10029,16 +10362,19 @@ class InvalidWebhookFilterPatternException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class JobNotFoundException extends _s.GenericAwsException {
   JobNotFoundException({String? type, String? message})
       : super(type: type, code: 'JobNotFoundException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotLatestPipelineExecutionException extends _s.GenericAwsException {
   NotLatestPipelineExecutionException({String? type, String? message})
       : super(
@@ -10047,6 +10383,7 @@ class NotLatestPipelineExecutionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OutputVariablesSizeExceededException extends _s.GenericAwsException {
   OutputVariablesSizeExceededException({String? type, String? message})
       : super(
@@ -10055,6 +10392,7 @@ class OutputVariablesSizeExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PipelineExecutionNotFoundException extends _s.GenericAwsException {
   PipelineExecutionNotFoundException({String? type, String? message})
       : super(
@@ -10063,6 +10401,7 @@ class PipelineExecutionNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PipelineExecutionNotStoppableException extends _s.GenericAwsException {
   PipelineExecutionNotStoppableException({String? type, String? message})
       : super(
@@ -10071,6 +10410,7 @@ class PipelineExecutionNotStoppableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PipelineExecutionOutdatedException extends _s.GenericAwsException {
   PipelineExecutionOutdatedException({String? type, String? message})
       : super(
@@ -10079,16 +10419,19 @@ class PipelineExecutionOutdatedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PipelineNameInUseException extends _s.GenericAwsException {
   PipelineNameInUseException({String? type, String? message})
       : super(type: type, code: 'PipelineNameInUseException', message: message);
 }
 
+/// @nodoc
 class PipelineNotFoundException extends _s.GenericAwsException {
   PipelineNotFoundException({String? type, String? message})
       : super(type: type, code: 'PipelineNotFoundException', message: message);
 }
 
+/// @nodoc
 class PipelineVersionNotFoundException extends _s.GenericAwsException {
   PipelineVersionNotFoundException({String? type, String? message})
       : super(
@@ -10097,31 +10440,37 @@ class PipelineVersionNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RequestFailedException extends _s.GenericAwsException {
   RequestFailedException({String? type, String? message})
       : super(type: type, code: 'RequestFailedException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class StageNotFoundException extends _s.GenericAwsException {
   StageNotFoundException({String? type, String? message})
       : super(type: type, code: 'StageNotFoundException', message: message);
 }
 
+/// @nodoc
 class StageNotRetryableException extends _s.GenericAwsException {
   StageNotRetryableException({String? type, String? message})
       : super(type: type, code: 'StageNotRetryableException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnableToRollbackStageException extends _s.GenericAwsException {
   UnableToRollbackStageException({String? type, String? message})
       : super(
@@ -10130,11 +10479,13 @@ class UnableToRollbackStageException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
+/// @nodoc
 class WebhookNotFoundException extends _s.GenericAwsException {
   WebhookNotFoundException({String? type, String? message})
       : super(type: type, code: 'WebhookNotFoundException', message: message);

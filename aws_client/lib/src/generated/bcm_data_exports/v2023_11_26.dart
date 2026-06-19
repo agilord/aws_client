@@ -540,6 +540,7 @@ class BcmDataExports {
   }
 }
 
+/// @nodoc
 class GetExecutionResponse {
   /// The ID for this specific execution.
   final String? executionId;
@@ -584,6 +585,7 @@ class GetExecutionResponse {
   }
 }
 
+/// @nodoc
 class GetTableResponse {
   /// The table description.
   final String? description;
@@ -634,6 +636,7 @@ class GetTableResponse {
   }
 }
 
+/// @nodoc
 class ListExecutionsResponse {
   /// The list of executions.
   final List<ExecutionReference>? executions;
@@ -666,6 +669,7 @@ class ListExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListTablesResponse {
   /// The token to retrieve the next set of results.
   final String? nextToken;
@@ -698,6 +702,7 @@ class ListTablesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The token to retrieve the next set of results.
   final String? nextToken;
@@ -731,6 +736,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -743,6 +749,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -755,6 +762,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateExportResponse {
   /// The Amazon Resource Name (ARN) for this export.
   final String? exportArn;
@@ -777,6 +785,7 @@ class CreateExportResponse {
   }
 }
 
+/// @nodoc
 class GetExportResponse {
   /// The data for this specific export.
   final Export? export;
@@ -810,6 +819,7 @@ class GetExportResponse {
   }
 }
 
+/// @nodoc
 class UpdateExportResponse {
   /// The Amazon Resource Name (ARN) for this export.
   final String? exportArn;
@@ -832,6 +842,7 @@ class UpdateExportResponse {
   }
 }
 
+/// @nodoc
 class DeleteExportResponse {
   /// The Amazon Resource Name (ARN) for this export.
   final String? exportArn;
@@ -854,6 +865,7 @@ class DeleteExportResponse {
   }
 }
 
+/// @nodoc
 class ListExportsResponse {
   /// The details of the exports, including name and export status.
   final List<ExportReference>? exports;
@@ -887,6 +899,8 @@ class ListExportsResponse {
 }
 
 /// The reference details for a given export.
+///
+/// @nodoc
 class ExportReference {
   /// The Amazon Resource Name (ARN) for this export.
   final String exportArn;
@@ -926,6 +940,8 @@ class ExportReference {
 }
 
 /// The status of the data export.
+///
+/// @nodoc
 class ExportStatus {
   /// The timestamp of when the export was created.
   final DateTime? createdAt;
@@ -979,6 +995,7 @@ class ExportStatus {
   }
 }
 
+/// @nodoc
 class ExportStatusCode {
   static const healthy = ExportStatusCode._('HEALTHY');
   static const unhealthy = ExportStatusCode._('UNHEALTHY');
@@ -1003,6 +1020,7 @@ class ExportStatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ExecutionStatusReason {
   static const insufficientPermission =
       ExecutionStatusReason._('INSUFFICIENT_PERMISSION');
@@ -1035,6 +1053,8 @@ class ExecutionStatusReason {
 }
 
 /// The details that are available for an export.
+///
+/// @nodoc
 class Export {
   /// The data query for this specific data export.
   final DataQuery dataQuery;
@@ -1100,6 +1120,8 @@ class Export {
 
 /// The SQL query of column selections and row filters from the data table you
 /// want.
+///
+/// @nodoc
 class DataQuery {
   /// The query statement.
   final String queryStatement;
@@ -1136,6 +1158,8 @@ class DataQuery {
 }
 
 /// The destinations used for data exports.
+///
+/// @nodoc
 class DestinationConfigurations {
   /// An object that describes the destination of the data exports file.
   final S3Destination s3Destination;
@@ -1162,6 +1186,8 @@ class DestinationConfigurations {
 
 /// The cadence for Amazon Web Services to update the data export in your S3
 /// bucket.
+///
+/// @nodoc
 class RefreshCadence {
   /// The frequency that data exports are updated. The export refreshes each time
   /// the source data updates, up to three times daily.
@@ -1186,6 +1212,7 @@ class RefreshCadence {
   }
 }
 
+/// @nodoc
 class FrequencyOption {
   static const synchronous = FrequencyOption._('SYNCHRONOUS');
 
@@ -1211,6 +1238,8 @@ class FrequencyOption {
 
 /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket
 /// name and object keys of a data exports file.
+///
+/// @nodoc
 class S3Destination {
   /// The name of the Amazon S3 bucket used as the destination of a data export
   /// file.
@@ -1267,6 +1296,8 @@ class S3Destination {
 
 /// The compression type, file format, and overwrite preference for the data
 /// export.
+///
+/// @nodoc
 class S3OutputConfigurations {
   /// The compression type for the data export.
   final CompressionOption compression;
@@ -1317,6 +1348,7 @@ class S3OutputConfigurations {
   }
 }
 
+/// @nodoc
 class S3OutputType {
   static const custom = S3OutputType._('CUSTOM');
   static const athena = S3OutputType._('ATHENA');
@@ -1341,6 +1373,7 @@ class S3OutputType {
   String toString() => value;
 }
 
+/// @nodoc
 class FormatOption {
   static const textOrCsv = FormatOption._('TEXT_OR_CSV');
   static const parquet = FormatOption._('PARQUET');
@@ -1364,6 +1397,7 @@ class FormatOption {
   String toString() => value;
 }
 
+/// @nodoc
 class CompressionOption {
   static const gzip = CompressionOption._('GZIP');
   static const parquet = CompressionOption._('PARQUET');
@@ -1388,6 +1422,7 @@ class CompressionOption {
   String toString() => value;
 }
 
+/// @nodoc
 class OverwriteOption {
   static const createNewReport = OverwriteOption._('CREATE_NEW_REPORT');
   static const overwriteReport = OverwriteOption._('OVERWRITE_REPORT');
@@ -1413,6 +1448,8 @@ class OverwriteOption {
 }
 
 /// The tag structure that contains a tag key and value.
+///
+/// @nodoc
 class ResourceTag {
   /// The key that's associated with the tag.
   final String key;
@@ -1443,6 +1480,8 @@ class ResourceTag {
 }
 
 /// The details for the data export table.
+///
+/// @nodoc
 class Table {
   /// The description for the table.
   final String? description;
@@ -1484,6 +1523,8 @@ class Table {
 }
 
 /// The properties for the data export table.
+///
+/// @nodoc
 class TablePropertyDescription {
   /// The default value for the table.
   final String? defaultValue;
@@ -1531,6 +1572,8 @@ class TablePropertyDescription {
 }
 
 /// The reference for the data export update.
+///
+/// @nodoc
 class ExecutionReference {
   /// The ID for this specific execution.
   final String executionId;
@@ -1563,6 +1606,8 @@ class ExecutionReference {
 }
 
 /// The status of the execution.
+///
+/// @nodoc
 class ExecutionStatus {
   /// The time when the execution was completed.
   final DateTime? completedAt;
@@ -1615,6 +1660,7 @@ class ExecutionStatus {
   }
 }
 
+/// @nodoc
 class ExecutionStatusCode {
   static const initiationInProcess =
       ExecutionStatusCode._('INITIATION_IN_PROCESS');
@@ -1656,6 +1702,8 @@ class ExecutionStatusCode {
 
 /// Includes basic information for a data column such as its description, name,
 /// and type.
+///
+/// @nodoc
 class Column {
   /// The description for a column.
   final String? description;
@@ -1692,21 +1740,25 @@ class Column {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1715,11 +1767,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

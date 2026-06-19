@@ -331,6 +331,8 @@ class MarketplaceCommerceAnalytics {
 }
 
 /// Container for the result of the GenerateDataSet operation.
+///
+/// @nodoc
 class GenerateDataSetResult {
   /// A unique identifier representing a specific request to the GenerateDataSet
   /// operation. This identifier can be used to correlate a request with
@@ -357,6 +359,8 @@ class GenerateDataSetResult {
 
 /// <i>This target has been deprecated.</i> Container for the result of the
 /// StartSupportDataExport operation.
+///
+/// @nodoc
 class StartSupportDataExportResult {
   /// <i>This target has been deprecated.</i> A unique identifier representing a
   /// specific request to the StartSupportDataExport operation. This identifier
@@ -381,6 +385,7 @@ class StartSupportDataExportResult {
   }
 }
 
+/// @nodoc
 class SupportDataSetType {
   static const customerSupportContactsData =
       SupportDataSetType._('customer_support_contacts_data');
@@ -411,6 +416,7 @@ class SupportDataSetType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataSetType {
   static const customerSubscriberHourlyMonthlySubscriptions =
       DataSetType._('customer_subscriber_hourly_monthly_subscriptions');
@@ -507,6 +513,7 @@ class DataSetType {
   String toString() => value;
 }
 
+/// @nodoc
 class MarketplaceCommerceAnalyticsException extends _s.GenericAwsException {
   MarketplaceCommerceAnalyticsException({String? type, String? message})
       : super(

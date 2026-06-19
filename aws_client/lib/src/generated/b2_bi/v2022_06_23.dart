@@ -1610,6 +1610,7 @@ class B2Bi {
   }
 }
 
+/// @nodoc
 class CreateStarterMappingTemplateResponse {
   /// Returns a string that represents the mapping template.
   final String mappingTemplate;
@@ -1633,6 +1634,7 @@ class CreateStarterMappingTemplateResponse {
   }
 }
 
+/// @nodoc
 class GenerateMappingResponse {
   /// Returns a mapping template based on your inputs.
   final String mappingTemplate;
@@ -1662,6 +1664,7 @@ class GenerateMappingResponse {
   }
 }
 
+/// @nodoc
 class GetTransformerJobResponse {
   /// Returns the current state of the transformer job, either
   /// <code>running</code>, <code>succeeded</code>, or <code>failed</code>.
@@ -1706,6 +1709,7 @@ class GetTransformerJobResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Returns the key-value pairs assigned to ARNs that you can use to group and
   /// search for resources by type. You can attach this metadata to resources
@@ -1733,6 +1737,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartTransformerJobResponse {
   /// Returns the unique, system-generated identifier for a transformer run.
   final String transformerJobId;
@@ -1755,6 +1760,7 @@ class StartTransformerJobResponse {
   }
 }
 
+/// @nodoc
 class TestConversionResponse {
   /// Returns the converted file content.
   final String convertedFileContent;
@@ -1793,6 +1799,7 @@ class TestConversionResponse {
   }
 }
 
+/// @nodoc
 class TestMappingResponse {
   /// Returns a string for the mapping that can be used to identify the mapping.
   /// Similar to a fingerprint
@@ -1816,6 +1823,7 @@ class TestMappingResponse {
   }
 }
 
+/// @nodoc
 class TestParsingResponse {
   /// Returns the contents of the input file being tested, parsed according to the
   /// specified EDI (electronic data interchange) type.
@@ -1867,6 +1875,7 @@ class TestParsingResponse {
   }
 }
 
+/// @nodoc
 class CreateCapabilityResponse {
   /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services
   /// resource, such as a capability, partnership, profile, or transformer.
@@ -1941,6 +1950,7 @@ class CreateCapabilityResponse {
   }
 }
 
+/// @nodoc
 class GetCapabilityResponse {
   /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services
   /// resource, such as a capability, partnership, profile, or transformer.
@@ -2022,6 +2032,7 @@ class GetCapabilityResponse {
   }
 }
 
+/// @nodoc
 class UpdateCapabilityResponse {
   /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services
   /// resource, such as a capability, partnership, profile, or transformer.
@@ -2103,6 +2114,7 @@ class UpdateCapabilityResponse {
   }
 }
 
+/// @nodoc
 class ListCapabilitiesResponse {
   /// Returns one or more capabilities associated with this partnership.
   final List<CapabilitySummary> capabilities;
@@ -2138,6 +2150,7 @@ class ListCapabilitiesResponse {
   }
 }
 
+/// @nodoc
 class CreatePartnershipResponse {
   /// Returns a timestamp for creation date and time of the partnership.
   final DateTime createdAt;
@@ -2232,6 +2245,7 @@ class CreatePartnershipResponse {
   }
 }
 
+/// @nodoc
 class GetPartnershipResponse {
   /// Returns a timestamp for creation date and time of the partnership.
   final DateTime createdAt;
@@ -2331,6 +2345,7 @@ class GetPartnershipResponse {
   }
 }
 
+/// @nodoc
 class UpdatePartnershipResponse {
   /// Returns a timestamp that identifies the most recent date and time that the
   /// partnership was modified.
@@ -2434,6 +2449,7 @@ class UpdatePartnershipResponse {
   }
 }
 
+/// @nodoc
 class ListPartnershipsResponse {
   /// Specifies a list of your partnerships.
   final List<PartnershipSummary> partnerships;
@@ -2469,6 +2485,7 @@ class ListPartnershipsResponse {
   }
 }
 
+/// @nodoc
 class CreateProfileResponse {
   /// Returns the name for the business associated with this profile.
   final String businessName;
@@ -2547,6 +2564,7 @@ class CreateProfileResponse {
   }
 }
 
+/// @nodoc
 class GetProfileResponse {
   /// Returns the name for the business associated with this profile.
   final String businessName;
@@ -2633,6 +2651,7 @@ class GetProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateProfileResponse {
   /// Returns the name for the business associated with this profile.
   final String businessName;
@@ -2718,6 +2737,7 @@ class UpdateProfileResponse {
   }
 }
 
+/// @nodoc
 class ListProfilesResponse {
   /// Returns an array of <code>ProfileSummary</code> objects.
   final List<ProfileSummary> profiles;
@@ -2753,6 +2773,7 @@ class ListProfilesResponse {
   }
 }
 
+/// @nodoc
 class CreateTransformerResponse {
   /// Returns a timestamp for creation date and time of the transformer.
   final DateTime createdAt;
@@ -2884,6 +2905,7 @@ class CreateTransformerResponse {
   }
 }
 
+/// @nodoc
 class GetTransformerResponse {
   /// Returns a timestamp for creation date and time of the transformer.
   final DateTime createdAt;
@@ -3022,6 +3044,7 @@ class GetTransformerResponse {
   }
 }
 
+/// @nodoc
 class UpdateTransformerResponse {
   /// Returns a timestamp for creation date and time of the transformer.
   final DateTime createdAt;
@@ -3160,6 +3183,7 @@ class UpdateTransformerResponse {
   }
 }
 
+/// @nodoc
 class ListTransformersResponse {
   /// Returns an array of one or more transformer objects.
   ///
@@ -3203,6 +3227,8 @@ class ListTransformersResponse {
 /// file as input and transform it into a JSON-or XML-formatted document.
 /// Alternatively, a transformer can take a JSON-or XML-formatted document as
 /// input and transform it into an EDI file.
+///
+/// @nodoc
 class TransformerSummary {
   /// Returns a timestamp indicating when the transformer was created. For
   /// example, <code>2023-07-20T19:58:44.624Z</code>.
@@ -3334,6 +3360,7 @@ class TransformerSummary {
   }
 }
 
+/// @nodoc
 class TransformerStatus {
   static const active = TransformerStatus._('active');
   static const inactive = TransformerStatus._('inactive');
@@ -3358,6 +3385,7 @@ class TransformerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FileFormat {
   static const xml = FileFormat._('XML');
   static const json = FileFormat._('JSON');
@@ -3385,6 +3413,8 @@ class FileFormat {
 /// Specifies the details for the EDI standard that is being used for the
 /// transformer. Currently, only X12 is supported. X12 is a set of standards and
 /// corresponding messages that define specific business documents.
+///
+/// @nodoc
 class EdiType {
   /// Returns the details for the EDI standard that is being used for the
   /// transformer. Currently, only X12 is supported. X12 is a set of standards and
@@ -3413,6 +3443,8 @@ class EdiType {
 
 /// Contains the input formatting options for an inbound transformer (takes an
 /// X12-formatted EDI document as input and converts it to JSON or XML.
+///
+/// @nodoc
 class InputConversion {
   /// The format for the transformer input: currently on <code>X12</code> is
   /// supported.
@@ -3460,6 +3492,8 @@ class InputConversion {
 
 /// Specifies the mapping template for the transformer. This template is used to
 /// map the parsed EDI file using JSONata or XSLT.
+///
+/// @nodoc
 class Mapping {
   /// The transformation language for the template, either XSLT or JSONATA.
   final MappingTemplateLanguage templateLanguage;
@@ -3494,6 +3528,8 @@ class Mapping {
 /// Contains the formatting options for an outbound transformer (takes JSON or
 /// XML as input and converts it to an EDI document (currently only X12 format
 /// is supported).
+///
+/// @nodoc
 class OutputConversion {
   /// The format for the output from an outbound transformer: only X12 is
   /// currently supported.
@@ -3538,6 +3574,8 @@ class OutputConversion {
 
 /// Describes a structure that contains the Amazon S3 bucket and an array of the
 /// corresponding keys used to identify the location for your sample documents.
+///
+/// @nodoc
 class SampleDocuments {
   /// Contains the Amazon S3 bucket that is used to hold your sample documents.
   final String bucketName;
@@ -3573,6 +3611,8 @@ class SampleDocuments {
 
 /// An array of the Amazon S3 keys used to identify the location for your sample
 /// documents.
+///
+/// @nodoc
 class SampleDocumentKeys {
   /// An array of keys for your input sample documents.
   final String? input;
@@ -3602,6 +3642,7 @@ class SampleDocumentKeys {
   }
 }
 
+/// @nodoc
 class ToFormat {
   static const x12 = ToFormat._('X12');
 
@@ -3625,6 +3666,8 @@ class ToFormat {
 }
 
 /// A structure that contains the X12 transaction set and version.
+///
+/// @nodoc
 class FormatOptions {
   final X12Details? x12;
 
@@ -3650,6 +3693,8 @@ class FormatOptions {
 
 /// A structure that contains advanced options for EDI processing. Currently,
 /// only X12 advanced options are supported.
+///
+/// @nodoc
 class AdvancedOptions {
   /// A structure that contains X12-specific advanced options, such as split
   /// options for processing X12 EDI files.
@@ -3677,6 +3722,8 @@ class AdvancedOptions {
 
 /// Contains advanced options specific to X12 EDI processing, such as splitting
 /// large X12 files into smaller units.
+///
+/// @nodoc
 class X12AdvancedOptions {
   /// Specifies options for splitting X12 EDI files. These options control how
   /// large X12 files are divided into smaller, more manageable units.
@@ -3718,6 +3765,8 @@ class X12AdvancedOptions {
 
 /// Contains options for splitting X12 EDI files into smaller units. This is
 /// useful for processing large EDI files more efficiently.
+///
+/// @nodoc
 class X12SplitOptions {
   /// Specifies the method used to split X12 EDI files. Valid values include
   /// <code>TRANSACTION</code> (split by individual transaction sets), or
@@ -3750,6 +3799,8 @@ class X12SplitOptions {
 /// while maintaining EDI compliance. The validation rules are applied in
 /// addition to standard X12 validation to ensure documents meet both standard
 /// and custom requirements.
+///
+/// @nodoc
 class X12ValidationOptions {
   /// Specifies a list of validation rules to apply during EDI document
   /// processing. These rules can include code list modifications, element length
@@ -3785,6 +3836,8 @@ class X12ValidationOptions {
 /// mandatory/optional status. Each validation rule targets specific aspects of
 /// EDI document validation to ensure compliance with trading partner
 /// requirements and business rules.
+///
+/// @nodoc
 class X12ValidationRule {
   /// Specifies a code list validation rule that modifies the allowed code values
   /// for a specific X12 element. This rule enables you to customize which codes
@@ -3851,6 +3904,8 @@ class X12ValidationRule {
 /// trading partner-specific requirements or industry variations. You can
 /// specify codes to add to expand the allowed values beyond the X12 standard,
 /// or codes to remove to restrict the allowed values for stricter validation.
+///
+/// @nodoc
 class X12CodeListValidationRule {
   /// Specifies the four-digit element ID to which the code list modifications
   /// apply. This identifies which X12 element will have its allowed code values
@@ -3905,6 +3960,8 @@ class X12CodeListValidationRule {
 /// trading partner-specific length requirements that may differ from the X12
 /// specification. Both minimum and maximum length values must be specified and
 /// must be between 1 and 200 characters.
+///
+/// @nodoc
 class X12ElementLengthValidationRule {
   /// Specifies the four-digit element ID to which the length constraints will be
   /// applied. This identifies which X12 element will have its length requirements
@@ -3953,6 +4010,8 @@ class X12ElementLengthValidationRule {
 /// accommodate different trading partner requirements and business rules. The
 /// rule targets a specific element position within a segment and sets its
 /// requirement status to either OPTIONAL or MANDATORY.
+///
+/// @nodoc
 class X12ElementRequirementValidationRule {
   /// Specifies the position of the element within an X12 segment for which the
   /// requirement status will be modified. The format follows the pattern of
@@ -3989,6 +4048,7 @@ class X12ElementRequirementValidationRule {
   }
 }
 
+/// @nodoc
 class ElementRequirement {
   static const optional = ElementRequirement._('OPTIONAL');
   static const mandatory = ElementRequirement._('MANDATORY');
@@ -4014,6 +4074,7 @@ class ElementRequirement {
   String toString() => value;
 }
 
+/// @nodoc
 class X12SplitBy {
   static const none = X12SplitBy._('NONE');
   static const transaction = X12SplitBy._('TRANSACTION');
@@ -4045,6 +4106,8 @@ class X12SplitBy {
 /// must have the same transaction set and version, for example 214/4010. If
 /// not, the transformer cannot parse the file.
 /// </note>
+///
+/// @nodoc
 class X12Details {
   /// Returns an enumerated type where each value identifies an X12 transaction
   /// set. Transaction sets are maintained by the X12 Accredited Standards
@@ -4077,6 +4140,7 @@ class X12Details {
   }
 }
 
+/// @nodoc
 class X12TransactionSet {
   static const x12_100 = X12TransactionSet._('X12_100');
   static const x12_101 = X12TransactionSet._('X12_101');
@@ -4784,6 +4848,7 @@ class X12TransactionSet {
   String toString() => value;
 }
 
+/// @nodoc
 class X12Version {
   static const version_4010 = X12Version._('VERSION_4010');
   static const version_4030 = X12Version._('VERSION_4030');
@@ -4818,6 +4883,7 @@ class X12Version {
   String toString() => value;
 }
 
+/// @nodoc
 class MappingTemplateLanguage {
   static const xslt = MappingTemplateLanguage._('XSLT');
   static const jsonata = MappingTemplateLanguage._('JSONATA');
@@ -4843,6 +4909,7 @@ class MappingTemplateLanguage {
   String toString() => value;
 }
 
+/// @nodoc
 class FromFormat {
   static const x12 = FromFormat._('X12');
 
@@ -4872,6 +4939,8 @@ class FromFormat {
 /// accounting purposes, you might create a tag called <code>Group</code> and
 /// assign the values <code>Research</code> and <code>Accounting</code> to that
 /// group.
+///
+/// @nodoc
 class Tag {
   /// Specifies the name assigned to the tag that you create.
   final String key;
@@ -4904,6 +4973,8 @@ class Tag {
 
 /// Contains the details for a profile. A profile is the mechanism used to
 /// create the concept of a private network.
+///
+/// @nodoc
 class ProfileSummary {
   /// Returns the name for the business associated with this profile.
   final String businessName;
@@ -4969,6 +5040,7 @@ class ProfileSummary {
   }
 }
 
+/// @nodoc
 class Logging {
   static const enabled = Logging._('ENABLED');
   static const disabled = Logging._('DISABLED');
@@ -4995,6 +5067,8 @@ class Logging {
 /// A structure that contains the details for a partnership. A partnership
 /// represents the connection between you and your trading partner. It ties
 /// together a profile and one or more trading capabilities.
+///
+/// @nodoc
 class PartnershipSummary {
   /// Returns a timestamp for creation date and time of the partnership.
   final DateTime createdAt;
@@ -5073,6 +5147,8 @@ class PartnershipSummary {
 }
 
 /// Contains the details for an Outbound EDI capability.
+///
+/// @nodoc
 class CapabilityOptions {
   /// A structure that contains the inbound EDI options for the capability.
   final InboundEdiOptions? inboundEdi;
@@ -5109,6 +5185,8 @@ class CapabilityOptions {
 }
 
 /// A container for outbound EDI options.
+///
+/// @nodoc
 class OutboundEdiOptions {
   /// A structure that contains an X12 envelope structure.
   final X12Envelope? x12;
@@ -5135,6 +5213,8 @@ class OutboundEdiOptions {
 
 /// Contains options for processing inbound EDI files. These options allow for
 /// customizing how incoming EDI documents are processed.
+///
+/// @nodoc
 class InboundEdiOptions {
   /// A structure that contains X12-specific options for processing inbound X12
   /// EDI files.
@@ -5161,6 +5241,8 @@ class InboundEdiOptions {
 }
 
 /// Contains options specific to processing inbound X12 EDI files.
+///
+/// @nodoc
 class X12InboundEdiOptions {
   /// Specifies acknowledgment options for inbound X12 EDI files. These options
   /// control how functional and technical acknowledgments are handled.
@@ -5190,6 +5272,8 @@ class X12InboundEdiOptions {
 
 /// Contains options for configuring X12 acknowledgments. These options control
 /// how functional and technical acknowledgments are handled.
+///
+/// @nodoc
 class X12AcknowledgmentOptions {
   /// Specifies whether functional acknowledgments (997/999) should be generated
   /// for incoming X12 transactions. Valid values are
@@ -5230,6 +5314,7 @@ class X12AcknowledgmentOptions {
   }
 }
 
+/// @nodoc
 class X12FunctionalAcknowledgment {
   static const doNotGenerate = X12FunctionalAcknowledgment._('DO_NOT_GENERATE');
   static const generateAllSegments =
@@ -5263,6 +5348,7 @@ class X12FunctionalAcknowledgment {
   String toString() => value;
 }
 
+/// @nodoc
 class X12TechnicalAcknowledgment {
   static const doNotGenerate = X12TechnicalAcknowledgment._('DO_NOT_GENERATE');
   static const generateAllSegments =
@@ -5306,6 +5392,8 @@ class X12TechnicalAcknowledgment {
 /// Transaction Set
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class X12Envelope {
   /// A container for the X12 outbound EDI headers.
   final X12OutboundEdiHeaders? common;
@@ -5339,6 +5427,8 @@ class X12Envelope {
 }
 
 /// A structure containing the details for an outbound EDI object.
+///
+/// @nodoc
 class X12OutboundEdiHeaders {
   /// Specifies control number configuration for outbound X12 EDI headers. These
   /// settings determine the starting values for interchange, functional group,
@@ -5419,6 +5509,8 @@ class X12OutboundEdiHeaders {
 
 /// Contains options for wrapping (line folding) in X12 EDI files. Wrapping
 /// controls how long lines are handled in the EDI output.
+///
+/// @nodoc
 class WrapOptions {
   /// Specifies the method used for wrapping lines in the EDI output. Valid
   /// values:
@@ -5488,6 +5580,7 @@ class WrapOptions {
   }
 }
 
+/// @nodoc
 class WrapFormat {
   static const segment = WrapFormat._('SEGMENT');
   static const oneLine = WrapFormat._('ONE_LINE');
@@ -5512,6 +5605,7 @@ class WrapFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class LineTerminator {
   static const crlf = LineTerminator._('CRLF');
   static const lf = LineTerminator._('LF');
@@ -5542,6 +5636,8 @@ class LineTerminator {
 /// about the sender and receiver, the date and time of transmission, and the
 /// X12 version being used. It also includes delivery information, such as the
 /// sender and receiver IDs.
+///
+/// @nodoc
 class X12InterchangeControlHeaders {
   /// Located at position ISA-14 in the header. The value "1" indicates that the
   /// sender is requesting an interchange acknowledgment at receipt of the
@@ -5644,6 +5740,8 @@ class X12InterchangeControlHeaders {
 
 /// Part of the X12 message structure. These are the functional group headers
 /// for the X12 EDI object.
+///
+/// @nodoc
 class X12FunctionalGroupHeaders {
   /// A value representing the code used to identify the party receiving a
   /// message, at position GS-03.
@@ -5688,6 +5786,8 @@ class X12FunctionalGroupHeaders {
 /// In X12 EDI messages, delimiters are used to mark the end of segments or
 /// elements, and are defined in the interchange control header. The delimiters
 /// are part of the message's syntax and divide up its different elements.
+///
+/// @nodoc
 class X12Delimiters {
   /// The component, or sub-element, separator. The default value is
   /// <code>:</code> (colon).
@@ -5729,6 +5829,8 @@ class X12Delimiters {
 /// Contains configuration for X12 control numbers used in X12 EDI generation.
 /// Control numbers are used to uniquely identify interchanges, functional
 /// groups, and transaction sets.
+///
+/// @nodoc
 class X12ControlNumbers {
   /// Specifies the starting functional group control number (GS06) to use for X12
   /// EDI generation. This number is incremented for each new functional group.
@@ -5815,6 +5917,8 @@ class X12ControlNumbers {
 /// <code>DD</code> - Hundredths of seconds (00-99)
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class X12GS05TimeFormat {
   static const hhmm = X12GS05TimeFormat._('HHMM');
   static const hhmmss = X12GS05TimeFormat._('HHMMSS');
@@ -5843,6 +5947,8 @@ class X12GS05TimeFormat {
 /// Returns the capability summary details. A trading capability contains the
 /// information required to transform incoming EDI documents into JSON or XML
 /// outputs.
+///
+/// @nodoc
 class CapabilitySummary {
   /// Returns a system-assigned unique identifier for the capability.
   final String capabilityId;
@@ -5895,6 +6001,7 @@ class CapabilitySummary {
   }
 }
 
+/// @nodoc
 class CapabilityType {
   static const edi = CapabilityType._('edi');
 
@@ -5921,6 +6028,8 @@ class CapabilityType {
 /// A capability object. Currently, only EDI (electronic data interchange)
 /// capabilities are supported. A trading capability contains the information
 /// required to transform incoming EDI documents into JSON or XML outputs.
+///
+/// @nodoc
 class CapabilityConfiguration {
   /// An EDI (electronic data interchange) configuration object.
   final EdiConfiguration? edi;
@@ -5948,6 +6057,8 @@ class CapabilityConfiguration {
 /// Specifies the details for the Amazon S3 file location that is being used
 /// with Amazon Web Services B2B Data Interchange. File locations in Amazon S3
 /// are identified using a combination of the bucket and key.
+///
+/// @nodoc
 class S3Location {
   /// Specifies the name of the Amazon S3 bucket.
   final String? bucketName;
@@ -5979,6 +6090,8 @@ class S3Location {
 
 /// Specifies the details for the EDI (electronic data interchange)
 /// transformation.
+///
+/// @nodoc
 class EdiConfiguration {
   /// Contains the Amazon S3 bucket and prefix for the location of the input file,
   /// which is contained in an <code>S3Location</code> object.
@@ -6040,6 +6153,7 @@ class EdiConfiguration {
   }
 }
 
+/// @nodoc
 class CapabilityDirection {
   static const inbound = CapabilityDirection._('INBOUND');
   static const outbound = CapabilityDirection._('OUTBOUND');
@@ -6066,6 +6180,8 @@ class CapabilityDirection {
 }
 
 /// Describes the input for an outbound transformation.
+///
+/// @nodoc
 class ConversionSource {
   /// The format for the input file: either JSON or XML.
   final ConversionSourceFormat fileFormat;
@@ -6089,6 +6205,8 @@ class ConversionSource {
 }
 
 /// Provide a sample of what the output of the transformation should look like.
+///
+/// @nodoc
 class ConversionTarget {
   /// Currently, only X12 format is supported.
   final ConversionTargetFormat fileFormat;
@@ -6122,6 +6240,7 @@ class ConversionTarget {
   }
 }
 
+/// @nodoc
 class ConversionTargetFormat {
   static const x12 = ConversionTargetFormat._('X12');
 
@@ -6147,6 +6266,8 @@ class ConversionTargetFormat {
 }
 
 /// Contains a structure describing the X12 details for the conversion target.
+///
+/// @nodoc
 class ConversionTargetFormatDetails {
   final X12Details? x12;
 
@@ -6164,6 +6285,8 @@ class ConversionTargetFormatDetails {
 
 /// Container for the location of a sample file used for outbound
 /// transformations.
+///
+/// @nodoc
 class OutputSampleFileSource {
   final S3Location? fileLocation;
 
@@ -6179,6 +6302,7 @@ class OutputSampleFileSource {
   }
 }
 
+/// @nodoc
 class ConversionSourceFormat {
   static const json = ConversionSourceFormat._('JSON');
   static const xml = ConversionSourceFormat._('XML');
@@ -6205,6 +6329,8 @@ class ConversionSourceFormat {
 }
 
 /// The input file to use for an outbound transformation.
+///
+/// @nodoc
 class InputFileSource {
   /// Specify the input contents, as a string, for the source of an outbound
   /// transformation.
@@ -6222,6 +6348,7 @@ class InputFileSource {
   }
 }
 
+/// @nodoc
 class TransformerJobStatus {
   static const running = TransformerJobStatus._('running');
   static const succeeded = TransformerJobStatus._('succeeded');
@@ -6248,6 +6375,7 @@ class TransformerJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MappingType {
   static const jsonata = MappingType._('JSONATA');
   static const xslt = MappingType._('XSLT');
@@ -6273,6 +6401,8 @@ class MappingType {
 
 /// A data structure that contains the information to use when generating a
 /// mapping template.
+///
+/// @nodoc
 class TemplateDetails {
   final X12Details? x12;
 
@@ -6288,26 +6418,31 @@ class TemplateDetails {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6316,11 +6451,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

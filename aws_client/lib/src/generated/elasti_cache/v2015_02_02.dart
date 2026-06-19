@@ -6865,6 +6865,8 @@ class ElastiCache {
 /// Represents the output from the <code>AddTagsToResource</code>,
 /// <code>ListTagsForResource</code>, and <code>RemoveTagsFromResource</code>
 /// operations.
+///
+/// @nodoc
 class TagListMessage {
   /// A list of tags as key-value pairs.
   final List<Tag>? tagList;
@@ -6888,6 +6890,7 @@ class TagListMessage {
   }
 }
 
+/// @nodoc
 class AuthorizeCacheSecurityGroupIngressResult {
   final CacheSecurityGroup? cacheSecurityGroup;
 
@@ -6910,6 +6913,7 @@ class AuthorizeCacheSecurityGroupIngressResult {
   }
 }
 
+/// @nodoc
 class UpdateActionResultsMessage {
   /// Update actions that have been processed successfully
   final List<ProcessedUpdateAction>? processedUpdateActions;
@@ -6950,6 +6954,7 @@ class UpdateActionResultsMessage {
   }
 }
 
+/// @nodoc
 class CompleteMigrationResponse {
   final ReplicationGroup? replicationGroup;
 
@@ -6972,6 +6977,7 @@ class CompleteMigrationResponse {
   }
 }
 
+/// @nodoc
 class CopyServerlessCacheSnapshotResponse {
   /// The response for the attempt to copy the serverless cache snapshot.
   /// Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -6997,6 +7003,7 @@ class CopyServerlessCacheSnapshotResponse {
   }
 }
 
+/// @nodoc
 class CopySnapshotResult {
   final Snapshot? snapshot;
 
@@ -7017,6 +7024,7 @@ class CopySnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateCacheClusterResult {
   final CacheCluster? cacheCluster;
 
@@ -7038,6 +7046,7 @@ class CreateCacheClusterResult {
   }
 }
 
+/// @nodoc
 class CreateCacheParameterGroupResult {
   final CacheParameterGroup? cacheParameterGroup;
 
@@ -7061,6 +7070,7 @@ class CreateCacheParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CreateCacheSecurityGroupResult {
   final CacheSecurityGroup? cacheSecurityGroup;
 
@@ -7083,6 +7093,7 @@ class CreateCacheSecurityGroupResult {
   }
 }
 
+/// @nodoc
 class CreateCacheSubnetGroupResult {
   final CacheSubnetGroup? cacheSubnetGroup;
 
@@ -7105,6 +7116,7 @@ class CreateCacheSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class CreateGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -7128,6 +7140,7 @@ class CreateGlobalReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class CreateReplicationGroupResult {
   final ReplicationGroup? replicationGroup;
 
@@ -7150,6 +7163,7 @@ class CreateReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class CreateServerlessCacheResponse {
   /// The response for the attempt to create the serverless cache.
   final ServerlessCache? serverlessCache;
@@ -7173,6 +7187,7 @@ class CreateServerlessCacheResponse {
   }
 }
 
+/// @nodoc
 class CreateServerlessCacheSnapshotResponse {
   /// The state of a serverless cache snapshot at a specific point in time, to the
   /// millisecond. Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -7198,6 +7213,7 @@ class CreateServerlessCacheSnapshotResponse {
   }
 }
 
+/// @nodoc
 class CreateSnapshotResult {
   final Snapshot? snapshot;
 
@@ -7218,6 +7234,7 @@ class CreateSnapshotResult {
   }
 }
 
+/// @nodoc
 class User {
   /// The Amazon Resource Name (ARN) of the user.
   final String? arn;
@@ -7301,6 +7318,7 @@ class User {
   }
 }
 
+/// @nodoc
 class UserGroup {
   /// The Amazon Resource Name (ARN) of the user group.
   final String? arn;
@@ -7390,6 +7408,7 @@ class UserGroup {
   }
 }
 
+/// @nodoc
 class DecreaseNodeGroupsInGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -7414,6 +7433,7 @@ class DecreaseNodeGroupsInGlobalReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class DecreaseReplicaCountResult {
   final ReplicationGroup? replicationGroup;
 
@@ -7436,6 +7456,7 @@ class DecreaseReplicaCountResult {
   }
 }
 
+/// @nodoc
 class DeleteCacheClusterResult {
   final CacheCluster? cacheCluster;
 
@@ -7457,6 +7478,7 @@ class DeleteCacheClusterResult {
   }
 }
 
+/// @nodoc
 class DeleteGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -7480,6 +7502,7 @@ class DeleteGlobalReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class DeleteReplicationGroupResult {
   final ReplicationGroup? replicationGroup;
 
@@ -7502,6 +7525,7 @@ class DeleteReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class DeleteServerlessCacheResponse {
   /// Provides the details of the specified serverless cache that is about to be
   /// deleted.
@@ -7526,6 +7550,7 @@ class DeleteServerlessCacheResponse {
   }
 }
 
+/// @nodoc
 class DeleteServerlessCacheSnapshotResponse {
   /// The snapshot to be deleted. Available for Valkey, Redis OSS and Serverless
   /// Memcached only.
@@ -7551,6 +7576,7 @@ class DeleteServerlessCacheSnapshotResponse {
   }
 }
 
+/// @nodoc
 class DeleteSnapshotResult {
   final Snapshot? snapshot;
 
@@ -7572,6 +7598,8 @@ class DeleteSnapshotResult {
 }
 
 /// Represents the output of a <code>DescribeCacheClusters</code> operation.
+///
+/// @nodoc
 class CacheClusterMessage {
   /// A list of clusters. Each item in the list contains detailed information
   /// about one cluster.
@@ -7603,6 +7631,8 @@ class CacheClusterMessage {
 }
 
 /// Represents the output of a <a>DescribeCacheEngineVersions</a> operation.
+///
+/// @nodoc
 class CacheEngineVersionMessage {
   /// A list of cache engine version details. Each element in the list contains
   /// detailed information about one cache engine version.
@@ -7639,6 +7669,8 @@ class CacheEngineVersionMessage {
 
 /// Represents the output of a <code>DescribeCacheParameterGroups</code>
 /// operation.
+///
+/// @nodoc
 class CacheParameterGroupsMessage {
   /// A list of cache parameter groups. Each element in the list contains detailed
   /// information about one cache parameter group.
@@ -7675,6 +7707,8 @@ class CacheParameterGroupsMessage {
 }
 
 /// Represents the output of a <code>DescribeCacheParameters</code> operation.
+///
+/// @nodoc
 class CacheParameterGroupDetails {
   /// A list of parameters specific to a particular cache node type. Each element
   /// in the list contains detailed information about one parameter.
@@ -7721,6 +7755,8 @@ class CacheParameterGroupDetails {
 
 /// Represents the output of a <code>DescribeCacheSecurityGroups</code>
 /// operation.
+///
+/// @nodoc
 class CacheSecurityGroupMessage {
   /// A list of cache security groups. Each element in the list contains detailed
   /// information about one group.
@@ -7756,6 +7792,8 @@ class CacheSecurityGroupMessage {
 }
 
 /// Represents the output of a <code>DescribeCacheSubnetGroups</code> operation.
+///
+/// @nodoc
 class CacheSubnetGroupMessage {
   /// A list of cache subnet groups. Each element in the list contains detailed
   /// information about one group.
@@ -7789,6 +7827,7 @@ class CacheSubnetGroupMessage {
   }
 }
 
+/// @nodoc
 class DescribeEngineDefaultParametersResult {
   final EngineDefaults? engineDefaults;
 
@@ -7812,6 +7851,8 @@ class DescribeEngineDefaultParametersResult {
 }
 
 /// Represents the output of a <code>DescribeEvents</code> operation.
+///
+/// @nodoc
 class EventsMessage {
   /// A list of events. Each element in the list contains detailed information
   /// about one event.
@@ -7842,6 +7883,7 @@ class EventsMessage {
   }
 }
 
+/// @nodoc
 class DescribeGlobalReplicationGroupsResult {
   /// Indicates the slot configuration and global identifier for each slice group.
   final List<GlobalReplicationGroup>? globalReplicationGroups;
@@ -7880,6 +7922,8 @@ class DescribeGlobalReplicationGroupsResult {
 }
 
 /// Represents the output of a <code>DescribeReplicationGroups</code> operation.
+///
+/// @nodoc
 class ReplicationGroupMessage {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? marker;
@@ -7915,6 +7959,8 @@ class ReplicationGroupMessage {
 
 /// Represents the output of a <code>DescribeReservedCacheNodes</code>
 /// operation.
+///
+/// @nodoc
 class ReservedCacheNodeMessage {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? marker;
@@ -7950,6 +7996,8 @@ class ReservedCacheNodeMessage {
 
 /// Represents the output of a <code>DescribeReservedCacheNodesOfferings</code>
 /// operation.
+///
+/// @nodoc
 class ReservedCacheNodesOfferingMessage {
   /// Provides an identifier to allow retrieval of paginated results.
   final String? marker;
@@ -7985,6 +8033,7 @@ class ReservedCacheNodesOfferingMessage {
   }
 }
 
+/// @nodoc
 class DescribeServerlessCachesResponse {
   /// An optional marker returned from a prior request to support pagination of
   /// results from this operation. If this parameter is specified, the response
@@ -8020,6 +8069,7 @@ class DescribeServerlessCachesResponse {
   }
 }
 
+/// @nodoc
 class DescribeServerlessCacheSnapshotsResponse {
   /// An optional marker returned from a prior request to support pagination of
   /// results from this operation. If this parameter is specified, the response
@@ -8058,6 +8108,7 @@ class DescribeServerlessCacheSnapshotsResponse {
   }
 }
 
+/// @nodoc
 class ServiceUpdatesMessage {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
@@ -8094,6 +8145,8 @@ class ServiceUpdatesMessage {
 }
 
 /// Represents the output of a <code>DescribeSnapshots</code> operation.
+///
+/// @nodoc
 class DescribeSnapshotsListMessage {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
@@ -8127,6 +8180,7 @@ class DescribeSnapshotsListMessage {
   }
 }
 
+/// @nodoc
 class UpdateActionsMessage {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
@@ -8159,6 +8213,7 @@ class UpdateActionsMessage {
   }
 }
 
+/// @nodoc
 class DescribeUserGroupsResult {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
@@ -8191,6 +8246,7 @@ class DescribeUserGroupsResult {
   }
 }
 
+/// @nodoc
 class DescribeUsersResult {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
@@ -8223,6 +8279,7 @@ class DescribeUsersResult {
   }
 }
 
+/// @nodoc
 class DisassociateGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -8246,6 +8303,7 @@ class DisassociateGlobalReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class ExportServerlessCacheSnapshotResponse {
   /// The state of a serverless cache at a specific point in time, to the
   /// millisecond. Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -8271,6 +8329,7 @@ class ExportServerlessCacheSnapshotResponse {
   }
 }
 
+/// @nodoc
 class FailoverGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -8294,6 +8353,7 @@ class FailoverGlobalReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class IncreaseNodeGroupsInGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -8318,6 +8378,7 @@ class IncreaseNodeGroupsInGlobalReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class IncreaseReplicaCountResult {
   final ReplicationGroup? replicationGroup;
 
@@ -8342,6 +8403,8 @@ class IncreaseReplicaCountResult {
 
 /// Represents the allowed node types you can use to modify your cluster or
 /// replication group.
+///
+/// @nodoc
 class AllowedNodeTypeModificationsMessage {
   /// A string list, each element of which specifies a cache node type which you
   /// can use to scale your cluster or replication group. When scaling down a
@@ -8385,6 +8448,7 @@ class AllowedNodeTypeModificationsMessage {
   }
 }
 
+/// @nodoc
 class ModifyCacheClusterResult {
   final CacheCluster? cacheCluster;
 
@@ -8416,6 +8480,8 @@ class ModifyCacheClusterResult {
 /// <code>ResetCacheParameterGroup</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CacheParameterGroupNameMessage {
   /// The name of the cache parameter group.
   final String? cacheParameterGroupName;
@@ -8439,6 +8505,7 @@ class CacheParameterGroupNameMessage {
   }
 }
 
+/// @nodoc
 class ModifyCacheSubnetGroupResult {
   final CacheSubnetGroup? cacheSubnetGroup;
 
@@ -8461,6 +8528,7 @@ class ModifyCacheSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class ModifyGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -8484,6 +8552,7 @@ class ModifyGlobalReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class ModifyReplicationGroupResult {
   final ReplicationGroup? replicationGroup;
 
@@ -8506,6 +8575,7 @@ class ModifyReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class ModifyReplicationGroupShardConfigurationResult {
   final ReplicationGroup? replicationGroup;
 
@@ -8529,6 +8599,7 @@ class ModifyReplicationGroupShardConfigurationResult {
   }
 }
 
+/// @nodoc
 class ModifyServerlessCacheResponse {
   /// The response for the attempt to modify the serverless cache.
   final ServerlessCache? serverlessCache;
@@ -8552,6 +8623,7 @@ class ModifyServerlessCacheResponse {
   }
 }
 
+/// @nodoc
 class PurchaseReservedCacheNodesOfferingResult {
   final ReservedCacheNode? reservedCacheNode;
 
@@ -8574,6 +8646,7 @@ class PurchaseReservedCacheNodesOfferingResult {
   }
 }
 
+/// @nodoc
 class RebalanceSlotsInGlobalReplicationGroupResult {
   final GlobalReplicationGroup? globalReplicationGroup;
 
@@ -8598,6 +8671,7 @@ class RebalanceSlotsInGlobalReplicationGroupResult {
   }
 }
 
+/// @nodoc
 class RebootCacheClusterResult {
   final CacheCluster? cacheCluster;
 
@@ -8619,6 +8693,7 @@ class RebootCacheClusterResult {
   }
 }
 
+/// @nodoc
 class RevokeCacheSecurityGroupIngressResult {
   final CacheSecurityGroup? cacheSecurityGroup;
 
@@ -8641,6 +8716,7 @@ class RevokeCacheSecurityGroupIngressResult {
   }
 }
 
+/// @nodoc
 class StartMigrationResponse {
   final ReplicationGroup? replicationGroup;
 
@@ -8663,6 +8739,7 @@ class StartMigrationResponse {
   }
 }
 
+/// @nodoc
 class TestFailoverResult {
   final ReplicationGroup? replicationGroup;
 
@@ -8685,6 +8762,7 @@ class TestFailoverResult {
   }
 }
 
+/// @nodoc
 class TestMigrationResponse {
   final ReplicationGroup? replicationGroup;
 
@@ -8709,6 +8787,8 @@ class TestMigrationResponse {
 
 /// Contains all of the attributes of a specific Valkey or Redis OSS replication
 /// group.
+///
+/// @nodoc
 class ReplicationGroup {
   /// The ARN (Amazon Resource Name) of the replication group.
   final String? arn;
@@ -9118,6 +9198,8 @@ class ReplicationGroup {
 
 /// The name of the Global datastore and role of this replication group in the
 /// Global datastore.
+///
+/// @nodoc
 class GlobalReplicationGroupInfo {
   /// The name of the Global datastore
   final String? globalReplicationGroupId;
@@ -9154,6 +9236,8 @@ class GlobalReplicationGroupInfo {
 
 /// The settings to be applied to the Valkey or Redis OSS replication group,
 /// either immediately or during the next maintenance window.
+///
+/// @nodoc
 class ReplicationGroupPendingModifiedValues {
   /// The auth token status
   final AuthTokenUpdateStatus? authTokenStatus;
@@ -9261,6 +9345,7 @@ class ReplicationGroupPendingModifiedValues {
   }
 }
 
+/// @nodoc
 class AutomaticFailoverStatus {
   static const enabled = AutomaticFailoverStatus._('enabled');
   static const disabled = AutomaticFailoverStatus._('disabled');
@@ -9288,6 +9373,7 @@ class AutomaticFailoverStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MultiAZStatus {
   static const enabled = MultiAZStatus._('enabled');
   static const disabled = MultiAZStatus._('disabled');
@@ -9314,6 +9400,8 @@ class MultiAZStatus {
 
 /// Represents the information required for client programs to connect to a
 /// cache node. This value is read-only.
+///
+/// @nodoc
 class Endpoint {
   /// The DNS hostname of the cache node.
   final String? address;
@@ -9342,6 +9430,7 @@ class Endpoint {
   }
 }
 
+/// @nodoc
 class StorageEncryptionType {
   static const none = StorageEncryptionType._('none');
   static const sseElasticache = StorageEncryptionType._('sse-elasticache');
@@ -9368,6 +9457,7 @@ class StorageEncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataTieringStatus {
   static const enabled = DataTieringStatus._('enabled');
   static const disabled = DataTieringStatus._('disabled');
@@ -9392,6 +9482,7 @@ class DataTieringStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('ipv4');
   static const ipv6 = NetworkType._('ipv6');
@@ -9416,6 +9507,7 @@ class NetworkType {
   String toString() => value;
 }
 
+/// @nodoc
 class IpDiscovery {
   static const ipv4 = IpDiscovery._('ipv4');
   static const ipv6 = IpDiscovery._('ipv6');
@@ -9439,6 +9531,7 @@ class IpDiscovery {
   String toString() => value;
 }
 
+/// @nodoc
 class TransitEncryptionMode {
   static const preferred = TransitEncryptionMode._('preferred');
   static const required = TransitEncryptionMode._('required');
@@ -9464,6 +9557,7 @@ class TransitEncryptionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ClusterMode {
   static const enabled = ClusterMode._('enabled');
   static const disabled = ClusterMode._('disabled');
@@ -9488,6 +9582,7 @@ class ClusterMode {
   String toString() => value;
 }
 
+/// @nodoc
 class Durability {
   static const $default = Durability._('default');
   static const async = Durability._('async');
@@ -9513,6 +9608,7 @@ class Durability {
   String toString() => value;
 }
 
+/// @nodoc
 class EffectiveDurability {
   static const async = EffectiveDurability._('async');
   static const sync = EffectiveDurability._('sync');
@@ -9540,6 +9636,8 @@ class EffectiveDurability {
 }
 
 /// Returns the destination, format and type of the logs.
+///
+/// @nodoc
 class LogDeliveryConfiguration {
   /// Configuration details of either a CloudWatch Logs destination or Kinesis
   /// Data Firehose destination.
@@ -9610,6 +9708,7 @@ class LogDeliveryConfiguration {
   }
 }
 
+/// @nodoc
 class LogType {
   static const slowLog = LogType._('slow-log');
   static const engineLog = LogType._('engine-log');
@@ -9633,6 +9732,7 @@ class LogType {
   String toString() => value;
 }
 
+/// @nodoc
 class DestinationType {
   static const cloudwatchLogs = DestinationType._('cloudwatch-logs');
   static const kinesisFirehose = DestinationType._('kinesis-firehose');
@@ -9659,6 +9759,8 @@ class DestinationType {
 
 /// Configuration details of either a CloudWatch Logs destination or Kinesis
 /// Data Firehose destination.
+///
+/// @nodoc
 class DestinationDetails {
   /// The configuration details of the CloudWatch Logs destination.
   final CloudWatchLogsDestinationDetails? cloudWatchLogsDetails;
@@ -9706,6 +9808,7 @@ class DestinationDetails {
   }
 }
 
+/// @nodoc
 class LogFormat {
   static const text = LogFormat._('text');
   static const json = LogFormat._('json');
@@ -9729,6 +9832,7 @@ class LogFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class LogDeliveryConfigurationStatus {
   static const active = LogDeliveryConfigurationStatus._('active');
   static const enabling = LogDeliveryConfigurationStatus._('enabling');
@@ -9758,6 +9862,8 @@ class LogDeliveryConfigurationStatus {
 }
 
 /// The configuration details of the CloudWatch Logs destination.
+///
+/// @nodoc
 class CloudWatchLogsDestinationDetails {
   /// The name of the CloudWatch Logs log group.
   final String? logGroup;
@@ -9787,6 +9893,8 @@ class CloudWatchLogsDestinationDetails {
 }
 
 /// The configuration details of the Kinesis Data Firehose destination.
+///
+/// @nodoc
 class KinesisFirehoseDestinationDetails {
   /// The name of the Kinesis Data Firehose delivery stream.
   final String? deliveryStream;
@@ -9818,6 +9926,8 @@ class KinesisFirehoseDestinationDetails {
 /// Represents a collection of cache nodes in a replication group. One node in
 /// the node group is the read/write primary node. All the other nodes are
 /// read-only Replica nodes.
+///
+/// @nodoc
 class NodeGroup {
   /// The identifier for the node group (shard). A Valkey or Redis OSS (cluster
   /// mode disabled) replication group contains only 1 node group; therefore, the
@@ -9888,6 +9998,8 @@ class NodeGroup {
 }
 
 /// Represents a single node within a node group (shard).
+///
+/// @nodoc
 class NodeGroupMember {
   /// The ID of the cluster to which the node belongs.
   final String? cacheClusterId;
@@ -9954,6 +10066,7 @@ class NodeGroupMember {
   }
 }
 
+/// @nodoc
 class PendingAutomaticFailoverStatus {
   static const enabled = PendingAutomaticFailoverStatus._('enabled');
   static const disabled = PendingAutomaticFailoverStatus._('disabled');
@@ -9980,6 +10093,8 @@ class PendingAutomaticFailoverStatus {
 }
 
 /// The status of an online resharding operation.
+///
+/// @nodoc
 class ReshardingStatus {
   /// Represents the progress of an online resharding operation.
   final SlotMigration? slotMigration;
@@ -10002,6 +10117,7 @@ class ReshardingStatus {
   }
 }
 
+/// @nodoc
 class AuthTokenUpdateStatus {
   static const setting = AuthTokenUpdateStatus._('SETTING');
   static const rotating = AuthTokenUpdateStatus._('ROTATING');
@@ -10028,6 +10144,8 @@ class AuthTokenUpdateStatus {
 }
 
 /// The status of the user group update.
+///
+/// @nodoc
 class UserGroupsUpdateStatus {
   /// The ID of the user group to add.
   final List<String>? userGroupIdsToAdd;
@@ -10062,6 +10180,8 @@ class UserGroupsUpdateStatus {
 }
 
 /// The log delivery configurations being modified
+///
+/// @nodoc
 class PendingLogDeliveryConfiguration {
   /// Configuration details of either a CloudWatch Logs destination or Kinesis
   /// Data Firehose destination.
@@ -10115,6 +10235,8 @@ class PendingLogDeliveryConfiguration {
 }
 
 /// Represents the progress of an online resharding operation.
+///
+/// @nodoc
 class SlotMigration {
   /// The percentage of the slot migration that is complete.
   final double? progressPercentage;
@@ -10137,6 +10259,8 @@ class SlotMigration {
 }
 
 /// The endpoint from which data should be migrated.
+///
+/// @nodoc
 class CustomerNodeEndpoint {
   /// The address of the node endpoint
   final String? address;
@@ -10181,6 +10305,8 @@ class CustomerNodeEndpoint {
 /// <code>RevokeCacheSecurityGroupIngress</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CacheSecurityGroup {
   /// The ARN of the cache security group,
   final String? arn;
@@ -10238,6 +10364,8 @@ class CacheSecurityGroup {
 }
 
 /// Provides ownership and status information for an Amazon EC2 security group.
+///
+/// @nodoc
 class EC2SecurityGroup {
   /// The name of the Amazon EC2 security group.
   final String? eC2SecurityGroupName;
@@ -10278,6 +10406,8 @@ class EC2SecurityGroup {
 }
 
 /// Describes a name-value pair that is used to update the value of a parameter.
+///
+/// @nodoc
 class ParameterNameValue {
   /// The name of the parameter.
   final String? parameterName;
@@ -10310,6 +10440,8 @@ class ParameterNameValue {
 }
 
 /// Contains all of the attributes of a specific cluster.
+///
+/// @nodoc
 class CacheCluster {
   /// The ARN (Amazon Resource Name) of the cache cluster.
   final String? arn;
@@ -10848,6 +10980,8 @@ class CacheCluster {
 
 /// A group of settings that are applied to the cluster in the future, or that
 /// are currently being applied.
+///
+/// @nodoc
 class PendingModifiedValues {
   /// The auth token status
   final AuthTokenUpdateStatus? authTokenStatus;
@@ -10951,6 +11085,8 @@ class PendingModifiedValues {
 /// Describes a notification topic and its status. Notification topics are used
 /// for publishing ElastiCache events to subscribers using Amazon Simple
 /// Notification Service (SNS).
+///
+/// @nodoc
 class NotificationConfiguration {
   /// The Amazon Resource Name (ARN) that identifies the topic.
   final String? topicArn;
@@ -10980,6 +11116,8 @@ class NotificationConfiguration {
 }
 
 /// Status of the cache parameter group.
+///
+/// @nodoc
 class CacheParameterGroupStatus {
   /// A list of the cache node IDs which need to be rebooted for parameter changes
   /// to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
@@ -11024,6 +11162,8 @@ class CacheParameterGroupStatus {
 }
 
 /// Represents a single cache security group and its status.
+///
+/// @nodoc
 class SecurityGroupMembership {
   /// The identifier of the cache security group.
   final String? securityGroupId;
@@ -11199,6 +11339,8 @@ class SecurityGroupMembership {
 /// version 2.8.22 and later.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CacheNode {
   /// The date and time when the cache node was created.
   final DateTime? cacheNodeCreateTime;
@@ -11281,6 +11423,8 @@ class CacheNode {
 }
 
 /// Represents a cluster's status within a particular cache security group.
+///
+/// @nodoc
 class CacheSecurityGroupMembership {
   /// The name of the cache security group.
   final String? cacheSecurityGroupName;
@@ -11315,6 +11459,8 @@ class CacheSecurityGroupMembership {
 
 /// Configuration settings for horizontal or vertical scaling operations on
 /// Memcached clusters.
+///
+/// @nodoc
 class ScaleConfig {
   /// The time interval in seconds between scaling operations when performing
   /// gradual scaling for a Memcached cluster.
@@ -11368,6 +11514,8 @@ class ScaleConfig {
 /// datastore, which is what you use to associate a secondary cluster.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GlobalReplicationGroup {
   /// The ARN (Amazon Resource Name) of the global replication group.
   final String? arn;
@@ -11506,6 +11654,8 @@ class GlobalReplicationGroup {
 }
 
 /// Indicates the slot configuration and global identifier for a slice group.
+///
+/// @nodoc
 class GlobalNodeGroup {
   /// The name of the global node group
   final String? globalNodeGroupId;
@@ -11536,6 +11686,8 @@ class GlobalNodeGroup {
 
 /// A member of a Global datastore. It contains the Replication Group Id, the
 /// Amazon region and the role of the replication group.
+///
+/// @nodoc
 class GlobalReplicationGroupMember {
   /// Indicates whether automatic failover is enabled for the replication group.
   final AutomaticFailoverStatus? automaticFailover;
@@ -11592,6 +11744,8 @@ class GlobalReplicationGroupMember {
 
 /// Represents the output of a <code>PurchaseReservedCacheNodesOffering</code>
 /// operation.
+///
+/// @nodoc
 class ReservedCacheNode {
   /// The number of cache nodes that have been reserved.
   final int? cacheNodeCount;
@@ -11852,6 +12006,8 @@ class ReservedCacheNode {
 
 /// Contains the specific price and frequency of a recurring charges for a
 /// reserved cache node, or for a reserved cache node offering.
+///
+/// @nodoc
 class RecurringCharge {
   /// The monetary amount of the recurring charge.
   final double? recurringChargeAmount;
@@ -11890,6 +12046,8 @@ class RecurringCharge {
 /// group. When you add or remove tags on replication groups, those actions will
 /// be replicated to all nodes in the replication group. A tag with a null Value
 /// is permitted.
+///
+/// @nodoc
 class Tag {
   /// The key for the tag. May not be null.
   final String? key;
@@ -11928,6 +12086,8 @@ class Tag {
 }
 
 /// Specifies the authentication mode to use.
+///
+/// @nodoc
 class AuthenticationMode {
   /// Specifies the passwords to use for authentication if <code>Type</code> is
   /// set to <code>password</code>.
@@ -11966,6 +12126,7 @@ class AuthenticationMode {
   }
 }
 
+/// @nodoc
 class InputAuthenticationType {
   static const password = InputAuthenticationType._('password');
   static const noPasswordRequired =
@@ -11994,6 +12155,8 @@ class InputAuthenticationType {
 }
 
 /// The resource representing a serverless cache.
+///
+/// @nodoc
 class ServerlessCache {
   /// The Amazon Resource Name (ARN) of the serverless cache.
   final String? arn;
@@ -12171,6 +12334,8 @@ class ServerlessCache {
 }
 
 /// The usage limits for storage and ElastiCache Processing Units for the cache.
+///
+/// @nodoc
 class CacheUsageLimits {
   /// The maximum data storage limit in the cache, expressed in Gigabytes.
   final DataStorage? dataStorage;
@@ -12213,6 +12378,8 @@ class CacheUsageLimits {
 }
 
 /// The data storage limit.
+///
+/// @nodoc
 class DataStorage {
   /// The unit that the storage is measured in, in GB.
   final DataStorageUnit unit;
@@ -12263,6 +12430,8 @@ class DataStorage {
 
 /// The configuration for the number of ElastiCache Processing Units (ECPU) the
 /// cache can consume per second.
+///
+/// @nodoc
 class ECPUPerSecond {
   /// The configuration for the maximum number of ECPUs the cache can consume per
   /// second.
@@ -12302,6 +12471,7 @@ class ECPUPerSecond {
   }
 }
 
+/// @nodoc
 class DataStorageUnit {
   static const gb = DataStorageUnit._('GB');
 
@@ -12327,6 +12497,8 @@ class DataStorageUnit {
 
 /// A list of <code>PreferredAvailabilityZones</code> objects that specifies the
 /// configuration of a node group in the resharded cluster.
+///
+/// @nodoc
 class ReshardingConfiguration {
   /// Either the ElastiCache supplied 4-digit id or a user supplied id for the
   /// node group these configuration values apply to.
@@ -12366,6 +12538,7 @@ class ReshardingConfiguration {
   }
 }
 
+/// @nodoc
 class AuthTokenUpdateStrategyType {
   static const set = AuthTokenUpdateStrategyType._('SET');
   static const rotate = AuthTokenUpdateStrategyType._('ROTATE');
@@ -12393,6 +12566,8 @@ class AuthTokenUpdateStrategyType {
 }
 
 /// Specifies the destination, format and type of the logs.
+///
+/// @nodoc
 class LogDeliveryConfigurationRequest {
   /// Configuration details of either a CloudWatch Logs destination or Kinesis
   /// Data Firehose destination.
@@ -12463,6 +12638,8 @@ class LogDeliveryConfigurationRequest {
 /// <code>ModifyCacheSubnetGroup</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class CacheSubnetGroup {
   /// The ARN (Amazon Resource Name) of the cache subnet group.
   final String? arn;
@@ -12539,6 +12716,8 @@ class CacheSubnetGroup {
 /// Represents the subnet associated with a cluster. This parameter refers to
 /// subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used with
 /// ElastiCache.
+///
+/// @nodoc
 class Subnet {
   /// The Availability Zone associated with the subnet.
   final AvailabilityZone? subnetAvailabilityZone;
@@ -12597,6 +12776,8 @@ class Subnet {
 }
 
 /// Describes an Availability Zone in which the cluster is launched.
+///
+/// @nodoc
 class AvailabilityZone {
   /// The name of the Availability Zone.
   final String? name;
@@ -12619,6 +12800,8 @@ class AvailabilityZone {
 }
 
 /// The ID of the outpost subnet.
+///
+/// @nodoc
 class SubnetOutpost {
   /// The outpost ARN of the subnet.
   final String? subnetOutpostArn;
@@ -12640,6 +12823,7 @@ class SubnetOutpost {
   }
 }
 
+/// @nodoc
 class AZMode {
   static const singleAz = AZMode._('single-az');
   static const crossAz = AZMode._('cross-az');
@@ -12666,6 +12850,8 @@ class AZMode {
 /// Node group (shard) configuration options when adding or removing replicas.
 /// Each node group (shard) configuration has the following members:
 /// NodeGroupId, NewReplicaCount, and PreferredAvailabilityZones.
+///
+/// @nodoc
 class ConfigureShard {
   /// The number of replicas you want in this node group at the end of this
   /// operation. The maximum value for <code>NewReplicaCount</code> is 5. The
@@ -12761,6 +12947,8 @@ class ConfigureShard {
 }
 
 /// A list of the replication groups
+///
+/// @nodoc
 class RegionalConfiguration {
   /// The name of the secondary cluster
   final String replicationGroupId;
@@ -12809,6 +12997,8 @@ class RegionalConfiguration {
 
 /// The resource representing a serverless cache snapshot. Available for Valkey,
 /// Redis OSS and Serverless Memcached only.
+///
+/// @nodoc
 class ServerlessCacheSnapshot {
   /// The Amazon Resource Name (ARN) of a serverless cache snapshot. Available for
   /// Valkey, Redis OSS and Serverless Memcached only.
@@ -12903,6 +13093,8 @@ class ServerlessCacheSnapshot {
 }
 
 /// The configuration settings for a specific serverless cache.
+///
+/// @nodoc
 class ServerlessCacheConfiguration {
   /// The engine that the serverless cache is configured with.
   final String? engine;
@@ -12941,6 +13133,8 @@ class ServerlessCacheConfiguration {
 }
 
 /// Used to streamline results of a search based on the property being filtered.
+///
+/// @nodoc
 class Filter {
   /// The property being filtered. For example, UserId.
   final String name;
@@ -12977,6 +13171,8 @@ class Filter {
 }
 
 /// The status of the service update for a specific replication group
+///
+/// @nodoc
 class UpdateAction {
   /// The ID of the cache cluster
   final String? cacheClusterId;
@@ -13154,6 +13350,7 @@ class UpdateAction {
   }
 }
 
+/// @nodoc
 class ServiceUpdateSeverity {
   static const critical = ServiceUpdateSeverity._('critical');
   static const important = ServiceUpdateSeverity._('important');
@@ -13181,6 +13378,7 @@ class ServiceUpdateSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceUpdateStatus {
   static const available = ServiceUpdateStatus._('available');
   static const cancelled = ServiceUpdateStatus._('cancelled');
@@ -13207,6 +13405,7 @@ class ServiceUpdateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceUpdateType {
   static const securityUpdate = ServiceUpdateType._('security-update');
 
@@ -13230,6 +13429,7 @@ class ServiceUpdateType {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateActionStatus {
   static const notApplied = UpdateActionStatus._('not-applied');
   static const waitingToStart = UpdateActionStatus._('waiting-to-start');
@@ -13272,6 +13472,7 @@ class UpdateActionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SlaMet {
   static const yes = SlaMet._('yes');
   static const no = SlaMet._('no');
@@ -13297,6 +13498,8 @@ class SlaMet {
 }
 
 /// The status of the service update on the cache node
+///
+/// @nodoc
 class CacheNodeUpdateStatus {
   /// The node ID of the cache cluster
   final String? cacheNodeId;
@@ -13382,6 +13585,7 @@ class CacheNodeUpdateStatus {
   }
 }
 
+/// @nodoc
 class NodeUpdateStatus {
   static const notApplied = NodeUpdateStatus._('not-applied');
   static const waitingToStart = NodeUpdateStatus._('waiting-to-start');
@@ -13417,6 +13621,7 @@ class NodeUpdateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class NodeUpdateInitiatedBy {
   static const system = NodeUpdateInitiatedBy._('system');
   static const customer = NodeUpdateInitiatedBy._('customer');
@@ -13443,6 +13648,8 @@ class NodeUpdateInitiatedBy {
 }
 
 /// The status of the service update on the node group
+///
+/// @nodoc
 class NodeGroupUpdateStatus {
   /// The ID of the node group
   final String? nodeGroupId;
@@ -13478,6 +13685,8 @@ class NodeGroupUpdateStatus {
 }
 
 /// The status of the service update on the node group member
+///
+/// @nodoc
 class NodeGroupMemberUpdateStatus {
   /// The cache cluster ID
   final String? cacheClusterId;
@@ -13572,6 +13781,8 @@ class NodeGroupMemberUpdateStatus {
 
 /// Filters update actions from the service updates that are in available status
 /// during the time range.
+///
+/// @nodoc
 class TimeRangeFilter {
   /// The end time of the time range filter
   final DateTime? endTime;
@@ -13605,6 +13816,8 @@ class TimeRangeFilter {
 
 /// Represents a copy of an entire Valkey or Redis OSS cluster as of the time
 /// when the snapshot was taken.
+///
+/// @nodoc
 class Snapshot {
   /// The ARN (Amazon Resource Name) of the snapshot.
   final String? arn;
@@ -14055,6 +14268,8 @@ class Snapshot {
 }
 
 /// Represents an individual cache node in a snapshot of a cluster.
+///
+/// @nodoc
 class NodeSnapshot {
   /// A unique identifier for the source cluster.
   final String? cacheClusterId;
@@ -14130,6 +14345,8 @@ class NodeSnapshot {
 /// configuration has the following: <code>Slots</code>,
 /// <code>PrimaryAvailabilityZone</code>, <code>ReplicaAvailabilityZones</code>,
 /// <code>ReplicaCount</code>.
+///
+/// @nodoc
 class NodeGroupConfiguration {
   /// Either the ElastiCache supplied 4-digit id or a user supplied id for the
   /// node group these configuration values apply to.
@@ -14242,6 +14459,8 @@ class NodeGroupConfiguration {
 }
 
 /// An update that you can apply to your Valkey or Redis OSS clusters.
+///
+/// @nodoc
 class ServiceUpdate {
   /// Indicates whether the service update will be automatically applied once the
   /// recommended apply-by date has expired.
@@ -14372,6 +14591,8 @@ class ServiceUpdate {
 }
 
 /// Describes all of the attributes of a reserved cache node offering.
+///
+/// @nodoc
 class ReservedCacheNodesOffering {
   /// The cache node type for the reserved cache node.
   ///
@@ -14593,6 +14814,8 @@ class ReservedCacheNodesOffering {
 /// Represents a single occurrence of something interesting within the system.
 /// Some examples of events are creating a cluster, adding or removing a cache
 /// node, or rebooting a node.
+///
+/// @nodoc
 class Event {
   /// The date and time when the event occurred.
   final DateTime? date;
@@ -14640,6 +14863,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const cacheCluster = SourceType._('cache-cluster');
   static const cacheParameterGroup = SourceType._('cache-parameter-group');
@@ -14683,6 +14907,8 @@ class SourceType {
 
 /// Represents the output of a <code>DescribeEngineDefaultParameters</code>
 /// operation.
+///
+/// @nodoc
 class EngineDefaults {
   /// A list of parameters specific to a particular cache node type. Each element
   /// in the list contains detailed information about one parameter.
@@ -14746,6 +14972,8 @@ class EngineDefaults {
 /// applied to. For example, in a Valkey or Redis OSS cluster, a
 /// <code>cache.m1.large</code> cache node type would have a larger
 /// <code>maxmemory</code> value than a <code>cache.m1.small</code> type.
+///
+/// @nodoc
 class CacheNodeTypeSpecificParameter {
   /// The valid range of values for the parameter.
   final String? allowedValues;
@@ -14841,6 +15069,7 @@ class CacheNodeTypeSpecificParameter {
   }
 }
 
+/// @nodoc
 class ChangeType {
   static const immediate = ChangeType._('immediate');
   static const requiresReboot = ChangeType._('requires-reboot');
@@ -14865,6 +15094,8 @@ class ChangeType {
 }
 
 /// A value that applies only to a certain cache node type.
+///
+/// @nodoc
 class CacheNodeTypeSpecificValue {
   /// The cache node type for which this value applies.
   final String? cacheNodeType;
@@ -14895,6 +15126,8 @@ class CacheNodeTypeSpecificValue {
 
 /// Describes an individual setting that controls some aspect of ElastiCache
 /// behavior.
+///
+/// @nodoc
 class Parameter {
   /// The valid range of values for the parameter.
   final String? allowedValues;
@@ -14984,6 +15217,8 @@ class Parameter {
 }
 
 /// Represents the output of a <code>CreateCacheParameterGroup</code> operation.
+///
+/// @nodoc
 class CacheParameterGroup {
   /// The ARN (Amazon Resource Name) of the cache parameter group.
   final String? arn;
@@ -15044,6 +15279,8 @@ class CacheParameterGroup {
 }
 
 /// Provides all of the details about a particular cache engine version.
+///
+/// @nodoc
 class CacheEngineVersion {
   /// The description of the cache engine.
   final String? cacheEngineDescription;
@@ -15106,6 +15343,8 @@ class CacheEngineVersion {
 }
 
 /// Returns the updates being applied to the user group.
+///
+/// @nodoc
 class UserGroupPendingChanges {
   /// The list of user IDs to add.
   final List<String>? userIdsToAdd;
@@ -15139,6 +15378,8 @@ class UserGroupPendingChanges {
 }
 
 /// Indicates whether the user requires a password to authenticate.
+///
+/// @nodoc
 class Authentication {
   /// The number of passwords belonging to the user. The maximum is two.
   final int? passwordCount;
@@ -15169,6 +15410,7 @@ class Authentication {
   }
 }
 
+/// @nodoc
 class AuthenticationType {
   static const password = AuthenticationType._('password');
   static const noPassword = AuthenticationType._('no-password');
@@ -15195,6 +15437,7 @@ class AuthenticationType {
   String toString() => value;
 }
 
+/// @nodoc
 class OutpostMode {
   static const singleOutpost = OutpostMode._('single-outpost');
   static const crossOutpost = OutpostMode._('cross-outpost');
@@ -15220,6 +15463,8 @@ class OutpostMode {
 
 /// Update action that has failed to be processed for the corresponding
 /// apply/stop request
+///
+/// @nodoc
 class UnprocessedUpdateAction {
   /// The ID of the cache cluster
   final String? cacheClusterId;
@@ -15271,6 +15516,8 @@ class UnprocessedUpdateAction {
 
 /// Update action that has been processed for the corresponding apply/stop
 /// request
+///
+/// @nodoc
 class ProcessedUpdateAction {
   /// The ID of the cache cluster
   final String? cacheClusterId;
@@ -15316,6 +15563,7 @@ class ProcessedUpdateAction {
   }
 }
 
+/// @nodoc
 class APICallRateForCustomerExceededFault extends _s.GenericAwsException {
   APICallRateForCustomerExceededFault({String? type, String? message})
       : super(
@@ -15324,6 +15572,7 @@ class APICallRateForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
   AuthorizationAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15332,11 +15581,13 @@ class AuthorizationAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AuthorizationNotFoundFault extends _s.GenericAwsException {
   AuthorizationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'AuthorizationNotFoundFault', message: message);
 }
 
+/// @nodoc
 class CacheClusterAlreadyExistsFault extends _s.GenericAwsException {
   CacheClusterAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15345,11 +15596,13 @@ class CacheClusterAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheClusterNotFoundFault extends _s.GenericAwsException {
   CacheClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'CacheClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class CacheParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
   CacheParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15358,6 +15611,7 @@ class CacheParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheParameterGroupNotFoundFault extends _s.GenericAwsException {
   CacheParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -15366,6 +15620,7 @@ class CacheParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheParameterGroupQuotaExceededFault extends _s.GenericAwsException {
   CacheParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -15374,6 +15629,7 @@ class CacheParameterGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
   CacheSecurityGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15382,6 +15638,7 @@ class CacheSecurityGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheSecurityGroupNotFoundFault extends _s.GenericAwsException {
   CacheSecurityGroupNotFoundFault({String? type, String? message})
       : super(
@@ -15390,6 +15647,7 @@ class CacheSecurityGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
   CacheSecurityGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -15398,6 +15656,7 @@ class CacheSecurityGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
   CacheSubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15406,11 +15665,13 @@ class CacheSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheSubnetGroupInUse extends _s.GenericAwsException {
   CacheSubnetGroupInUse({String? type, String? message})
       : super(type: type, code: 'CacheSubnetGroupInUse', message: message);
 }
 
+/// @nodoc
 class CacheSubnetGroupNotFoundFault extends _s.GenericAwsException {
   CacheSubnetGroupNotFoundFault({String? type, String? message})
       : super(
@@ -15419,6 +15680,7 @@ class CacheSubnetGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
   CacheSubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -15427,6 +15689,7 @@ class CacheSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CacheSubnetQuotaExceededFault extends _s.GenericAwsException {
   CacheSubnetQuotaExceededFault({String? type, String? message})
       : super(
@@ -15435,6 +15698,7 @@ class CacheSubnetQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
   ClusterQuotaForCustomerExceededFault({String? type, String? message})
       : super(
@@ -15443,6 +15707,7 @@ class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DefaultUserAssociatedToUserGroupFault extends _s.GenericAwsException {
   DefaultUserAssociatedToUserGroupFault({String? type, String? message})
       : super(
@@ -15451,16 +15716,19 @@ class DefaultUserAssociatedToUserGroupFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DefaultUserRequired extends _s.GenericAwsException {
   DefaultUserRequired({String? type, String? message})
       : super(type: type, code: 'DefaultUserRequired', message: message);
 }
 
+/// @nodoc
 class DuplicateUserNameFault extends _s.GenericAwsException {
   DuplicateUserNameFault({String? type, String? message})
       : super(type: type, code: 'DuplicateUserNameFault', message: message);
 }
 
+/// @nodoc
 class GlobalReplicationGroupAlreadyExistsFault extends _s.GenericAwsException {
   GlobalReplicationGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15469,6 +15737,7 @@ class GlobalReplicationGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GlobalReplicationGroupNotFoundFault extends _s.GenericAwsException {
   GlobalReplicationGroupNotFoundFault({String? type, String? message})
       : super(
@@ -15477,6 +15746,7 @@ class GlobalReplicationGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientCacheClusterCapacityFault extends _s.GenericAwsException {
   InsufficientCacheClusterCapacityFault({String? type, String? message})
       : super(
@@ -15485,11 +15755,13 @@ class InsufficientCacheClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidARNFault extends _s.GenericAwsException {
   InvalidARNFault({String? type, String? message})
       : super(type: type, code: 'InvalidARNFault', message: message);
 }
 
+/// @nodoc
 class InvalidCacheClusterStateFault extends _s.GenericAwsException {
   InvalidCacheClusterStateFault({String? type, String? message})
       : super(
@@ -15498,6 +15770,7 @@ class InvalidCacheClusterStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCacheParameterGroupStateFault extends _s.GenericAwsException {
   InvalidCacheParameterGroupStateFault({String? type, String? message})
       : super(
@@ -15506,6 +15779,7 @@ class InvalidCacheParameterGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCacheSecurityGroupStateFault extends _s.GenericAwsException {
   InvalidCacheSecurityGroupStateFault({String? type, String? message})
       : super(
@@ -15514,12 +15788,14 @@ class InvalidCacheSecurityGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCredentialsException extends _s.GenericAwsException {
   InvalidCredentialsException({String? type, String? message})
       : super(
             type: type, code: 'InvalidCredentialsException', message: message);
 }
 
+/// @nodoc
 class InvalidGlobalReplicationGroupStateFault extends _s.GenericAwsException {
   InvalidGlobalReplicationGroupStateFault({String? type, String? message})
       : super(
@@ -15528,11 +15804,13 @@ class InvalidGlobalReplicationGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidKMSKeyFault extends _s.GenericAwsException {
   InvalidKMSKeyFault({String? type, String? message})
       : super(type: type, code: 'InvalidKMSKeyFault', message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -15541,6 +15819,7 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -15549,6 +15828,7 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidReplicationGroupStateFault extends _s.GenericAwsException {
   InvalidReplicationGroupStateFault({String? type, String? message})
       : super(
@@ -15557,6 +15837,7 @@ class InvalidReplicationGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidServerlessCacheSnapshotStateFault extends _s.GenericAwsException {
   InvalidServerlessCacheSnapshotStateFault({String? type, String? message})
       : super(
@@ -15565,6 +15846,7 @@ class InvalidServerlessCacheSnapshotStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidServerlessCacheStateFault extends _s.GenericAwsException {
   InvalidServerlessCacheStateFault({String? type, String? message})
       : super(
@@ -15573,42 +15855,50 @@ class InvalidServerlessCacheStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSnapshotStateFault extends _s.GenericAwsException {
   InvalidSnapshotStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidSnapshotStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
+/// @nodoc
 class InvalidUserGroupStateFault extends _s.GenericAwsException {
   InvalidUserGroupStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidUserGroupStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidUserStateFault extends _s.GenericAwsException {
   InvalidUserStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidUserStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
+/// @nodoc
 class NoOperationFault extends _s.GenericAwsException {
   NoOperationFault({String? type, String? message})
       : super(type: type, code: 'NoOperationFault', message: message);
 }
 
+/// @nodoc
 class NodeGroupNotFoundFault extends _s.GenericAwsException {
   NodeGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'NodeGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class NodeGroupsPerReplicationGroupQuotaExceededFault
     extends _s.GenericAwsException {
   NodeGroupsPerReplicationGroupQuotaExceededFault(
@@ -15619,6 +15909,7 @@ class NodeGroupsPerReplicationGroupQuotaExceededFault
             message: message);
 }
 
+/// @nodoc
 class NodeQuotaForClusterExceededFault extends _s.GenericAwsException {
   NodeQuotaForClusterExceededFault({String? type, String? message})
       : super(
@@ -15627,6 +15918,7 @@ class NodeQuotaForClusterExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NodeQuotaForCustomerExceededFault extends _s.GenericAwsException {
   NodeQuotaForCustomerExceededFault({String? type, String? message})
       : super(
@@ -15635,6 +15927,7 @@ class NodeQuotaForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReplicationGroupAlreadyExistsFault extends _s.GenericAwsException {
   ReplicationGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15643,6 +15936,7 @@ class ReplicationGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReplicationGroupAlreadyUnderMigrationFault
     extends _s.GenericAwsException {
   ReplicationGroupAlreadyUnderMigrationFault({String? type, String? message})
@@ -15652,6 +15946,7 @@ class ReplicationGroupAlreadyUnderMigrationFault
             message: message);
 }
 
+/// @nodoc
 class ReplicationGroupNotFoundFault extends _s.GenericAwsException {
   ReplicationGroupNotFoundFault({String? type, String? message})
       : super(
@@ -15660,6 +15955,7 @@ class ReplicationGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReplicationGroupNotUnderMigrationFault extends _s.GenericAwsException {
   ReplicationGroupNotUnderMigrationFault({String? type, String? message})
       : super(
@@ -15668,6 +15964,7 @@ class ReplicationGroupNotUnderMigrationFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedCacheNodeAlreadyExistsFault extends _s.GenericAwsException {
   ReservedCacheNodeAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15676,6 +15973,7 @@ class ReservedCacheNodeAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedCacheNodeNotFoundFault extends _s.GenericAwsException {
   ReservedCacheNodeNotFoundFault({String? type, String? message})
       : super(
@@ -15684,6 +15982,7 @@ class ReservedCacheNodeNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedCacheNodeQuotaExceededFault extends _s.GenericAwsException {
   ReservedCacheNodeQuotaExceededFault({String? type, String? message})
       : super(
@@ -15692,6 +15991,7 @@ class ReservedCacheNodeQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedCacheNodesOfferingNotFoundFault extends _s.GenericAwsException {
   ReservedCacheNodesOfferingNotFoundFault({String? type, String? message})
       : super(
@@ -15700,6 +16000,7 @@ class ReservedCacheNodesOfferingNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServerlessCacheAlreadyExistsFault extends _s.GenericAwsException {
   ServerlessCacheAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15708,12 +16009,14 @@ class ServerlessCacheAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServerlessCacheNotFoundFault extends _s.GenericAwsException {
   ServerlessCacheNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'ServerlessCacheNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ServerlessCacheQuotaForCustomerExceededFault
     extends _s.GenericAwsException {
   ServerlessCacheQuotaForCustomerExceededFault({String? type, String? message})
@@ -15723,6 +16026,7 @@ class ServerlessCacheQuotaForCustomerExceededFault
             message: message);
 }
 
+/// @nodoc
 class ServerlessCacheSnapshotAlreadyExistsFault extends _s.GenericAwsException {
   ServerlessCacheSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
@@ -15731,6 +16035,7 @@ class ServerlessCacheSnapshotAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServerlessCacheSnapshotNotFoundFault extends _s.GenericAwsException {
   ServerlessCacheSnapshotNotFoundFault({String? type, String? message})
       : super(
@@ -15739,6 +16044,7 @@ class ServerlessCacheSnapshotNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServerlessCacheSnapshotQuotaExceededFault extends _s.GenericAwsException {
   ServerlessCacheSnapshotQuotaExceededFault({String? type, String? message})
       : super(
@@ -15747,6 +16053,7 @@ class ServerlessCacheSnapshotQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceLinkedRoleNotFoundFault extends _s.GenericAwsException {
   ServiceLinkedRoleNotFoundFault({String? type, String? message})
       : super(
@@ -15755,16 +16062,19 @@ class ServiceLinkedRoleNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUpdateNotFoundFault extends _s.GenericAwsException {
   ServiceUpdateNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ServiceUpdateNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SnapshotAlreadyExistsFault extends _s.GenericAwsException {
   SnapshotAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'SnapshotAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class SnapshotFeatureNotSupportedFault extends _s.GenericAwsException {
   SnapshotFeatureNotSupportedFault({String? type, String? message})
       : super(
@@ -15773,37 +16083,44 @@ class SnapshotFeatureNotSupportedFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotNotFoundFault extends _s.GenericAwsException {
   SnapshotNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SnapshotNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SnapshotQuotaExceededFault extends _s.GenericAwsException {
   SnapshotQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SnapshotQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class SubnetInUse extends _s.GenericAwsException {
   SubnetInUse({String? type, String? message})
       : super(type: type, code: 'SubnetInUse', message: message);
 }
 
+/// @nodoc
 class SubnetNotAllowedFault extends _s.GenericAwsException {
   SubnetNotAllowedFault({String? type, String? message})
       : super(type: type, code: 'SubnetNotAllowedFault', message: message);
 }
 
+/// @nodoc
 class TagNotFoundFault extends _s.GenericAwsException {
   TagNotFoundFault({String? type, String? message})
       : super(type: type, code: 'TagNotFoundFault', message: message);
 }
 
+/// @nodoc
 class TagQuotaPerResourceExceeded extends _s.GenericAwsException {
   TagQuotaPerResourceExceeded({String? type, String? message})
       : super(
             type: type, code: 'TagQuotaPerResourceExceeded', message: message);
 }
 
+/// @nodoc
 class TestFailoverNotAvailableFault extends _s.GenericAwsException {
   TestFailoverNotAvailableFault({String? type, String? message})
       : super(
@@ -15812,33 +16129,39 @@ class TestFailoverNotAvailableFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UserAlreadyExistsFault extends _s.GenericAwsException {
   UserAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'UserAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class UserGroupAlreadyExistsFault extends _s.GenericAwsException {
   UserGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'UserGroupAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class UserGroupNotFoundFault extends _s.GenericAwsException {
   UserGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'UserGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class UserGroupQuotaExceededFault extends _s.GenericAwsException {
   UserGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type, code: 'UserGroupQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class UserNotFoundFault extends _s.GenericAwsException {
   UserNotFoundFault({String? type, String? message})
       : super(type: type, code: 'UserNotFoundFault', message: message);
 }
 
+/// @nodoc
 class UserQuotaExceededFault extends _s.GenericAwsException {
   UserQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'UserQuotaExceededFault', message: message);

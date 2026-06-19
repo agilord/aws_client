@@ -904,6 +904,7 @@ class Fis {
   }
 }
 
+/// @nodoc
 class CreateExperimentTemplateResponse {
   /// Information about the experiment template.
   final ExperimentTemplate? experimentTemplate;
@@ -929,6 +930,7 @@ class CreateExperimentTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateTargetAccountConfigurationResponse {
   /// Information about the target account configuration.
   final TargetAccountConfiguration? targetAccountConfiguration;
@@ -956,6 +958,7 @@ class CreateTargetAccountConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteExperimentTemplateResponse {
   /// Information about the experiment template.
   final ExperimentTemplate? experimentTemplate;
@@ -981,6 +984,7 @@ class DeleteExperimentTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteTargetAccountConfigurationResponse {
   /// Information about the target account configuration.
   final TargetAccountConfiguration? targetAccountConfiguration;
@@ -1008,6 +1012,7 @@ class DeleteTargetAccountConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetActionResponse {
   /// Information about the action.
   final Action? action;
@@ -1032,6 +1037,7 @@ class GetActionResponse {
   }
 }
 
+/// @nodoc
 class GetExperimentResponse {
   /// Information about the experiment.
   final Experiment? experiment;
@@ -1056,6 +1062,7 @@ class GetExperimentResponse {
   }
 }
 
+/// @nodoc
 class GetExperimentTargetAccountConfigurationResponse {
   /// Information about the target account configuration.
   final ExperimentTargetAccountConfiguration? targetAccountConfiguration;
@@ -1083,6 +1090,7 @@ class GetExperimentTargetAccountConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetExperimentTemplateResponse {
   /// Information about the experiment template.
   final ExperimentTemplate? experimentTemplate;
@@ -1108,6 +1116,7 @@ class GetExperimentTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetSafetyLeverResponse {
   /// Information about the safety lever.
   final SafetyLever? safetyLever;
@@ -1132,6 +1141,7 @@ class GetSafetyLeverResponse {
   }
 }
 
+/// @nodoc
 class GetTargetAccountConfigurationResponse {
   /// Information about the target account configuration.
   final TargetAccountConfiguration? targetAccountConfiguration;
@@ -1159,6 +1169,7 @@ class GetTargetAccountConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetTargetResourceTypeResponse {
   /// Information about the resource type.
   final TargetResourceType? targetResourceType;
@@ -1184,6 +1195,7 @@ class GetTargetResourceTypeResponse {
   }
 }
 
+/// @nodoc
 class ListActionsResponse {
   /// The actions.
   final List<ActionSummary>? actions;
@@ -1217,6 +1229,7 @@ class ListActionsResponse {
   }
 }
 
+/// @nodoc
 class ListExperimentResolvedTargetsResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -1251,6 +1264,7 @@ class ListExperimentResolvedTargetsResponse {
   }
 }
 
+/// @nodoc
 class ListExperimentsResponse {
   /// The experiments.
   final List<ExperimentSummary>? experiments;
@@ -1284,6 +1298,7 @@ class ListExperimentsResponse {
   }
 }
 
+/// @nodoc
 class ListExperimentTargetAccountConfigurationsResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -1322,6 +1337,7 @@ class ListExperimentTargetAccountConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListExperimentTemplatesResponse {
   /// The experiment templates.
   final List<ExperimentTemplateSummary>? experimentTemplates;
@@ -1357,6 +1373,7 @@ class ListExperimentTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -1380,6 +1397,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTargetAccountConfigurationsResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -1417,6 +1435,7 @@ class ListTargetAccountConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListTargetResourceTypesResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
@@ -1452,6 +1471,7 @@ class ListTargetResourceTypesResponse {
   }
 }
 
+/// @nodoc
 class StartExperimentResponse {
   /// Information about the experiment.
   final Experiment? experiment;
@@ -1476,6 +1496,7 @@ class StartExperimentResponse {
   }
 }
 
+/// @nodoc
 class StopExperimentResponse {
   /// Information about the experiment.
   final Experiment? experiment;
@@ -1500,6 +1521,7 @@ class StopExperimentResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1512,6 +1534,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1524,6 +1547,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateExperimentTemplateResponse {
   /// Information about the experiment template.
   final ExperimentTemplate? experimentTemplate;
@@ -1549,6 +1573,7 @@ class UpdateExperimentTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateSafetyLeverStateResponse {
   /// Information about the safety lever.
   final SafetyLever? safetyLever;
@@ -1573,6 +1598,7 @@ class UpdateSafetyLeverStateResponse {
   }
 }
 
+/// @nodoc
 class UpdateTargetAccountConfigurationResponse {
   /// Information about the target account configuration.
   final TargetAccountConfiguration? targetAccountConfiguration;
@@ -1601,6 +1627,8 @@ class UpdateTargetAccountConfigurationResponse {
 }
 
 /// Describes a target account configuration.
+///
+/// @nodoc
 class TargetAccountConfiguration {
   /// The Amazon Web Services account ID of the target account.
   final String? accountId;
@@ -1638,6 +1666,8 @@ class TargetAccountConfiguration {
 }
 
 /// Describes a safety lever.
+///
+/// @nodoc
 class SafetyLever {
   /// The Amazon Resource Name (ARN) of the safety lever.
   final String? arn;
@@ -1677,6 +1707,8 @@ class SafetyLever {
 }
 
 /// Describes the state of the safety lever.
+///
+/// @nodoc
 class SafetyLeverState {
   /// The reason for the state of the safety lever.
   final String? reason;
@@ -1706,6 +1738,7 @@ class SafetyLeverState {
   }
 }
 
+/// @nodoc
 class SafetyLeverStatus {
   static const disengaged = SafetyLeverStatus._('disengaged');
   static const engaged = SafetyLeverStatus._('engaged');
@@ -1732,6 +1765,8 @@ class SafetyLeverStatus {
 }
 
 /// Specifies a state for a safety lever.
+///
+/// @nodoc
 class UpdateSafetyLeverStateInput {
   /// The reason for updating the state of the safety lever.
   final String reason;
@@ -1754,6 +1789,7 @@ class UpdateSafetyLeverStateInput {
   }
 }
 
+/// @nodoc
 class SafetyLeverStatusInput {
   static const disengaged = SafetyLeverStatusInput._('disengaged');
   static const engaged = SafetyLeverStatusInput._('engaged');
@@ -1780,6 +1816,8 @@ class SafetyLeverStatusInput {
 }
 
 /// Describes an experiment template.
+///
+/// @nodoc
 class ExperimentTemplate {
   /// The actions for the experiment.
   final Map<String, ExperimentTemplateAction>? actions;
@@ -1919,6 +1957,8 @@ class ExperimentTemplate {
 }
 
 /// Describes the configuration for experiment logging.
+///
+/// @nodoc
 class ExperimentTemplateLogConfiguration {
   /// The configuration for experiment logging to Amazon CloudWatch Logs.
   final ExperimentTemplateCloudWatchLogsLogConfiguration?
@@ -1965,6 +2005,8 @@ class ExperimentTemplateLogConfiguration {
 }
 
 /// Describes the experiment options for an experiment template.
+///
+/// @nodoc
 class ExperimentTemplateExperimentOptions {
   /// The account targeting setting for an experiment template.
   final AccountTargeting? accountTargeting;
@@ -2001,6 +2043,8 @@ class ExperimentTemplateExperimentOptions {
 /// Describes the experiment report configuration. For more information, see <a
 /// href="https://docs.aws.amazon.com/fis/latest/userguide/experiment-report-configuration">Experiment
 /// report configurations for AWS FIS</a>.
+///
+/// @nodoc
 class ExperimentTemplateReportConfiguration {
   /// The data sources for the experiment report.
   final ExperimentTemplateReportConfigurationDataSources? dataSources;
@@ -2056,6 +2100,8 @@ class ExperimentTemplateReportConfiguration {
 }
 
 /// The output destinations of the experiment report.
+///
+/// @nodoc
 class ExperimentTemplateReportConfigurationOutputs {
   /// The S3 destination for the experiment report.
   final ReportConfigurationS3Output? s3Configuration;
@@ -2083,6 +2129,8 @@ class ExperimentTemplateReportConfigurationOutputs {
 }
 
 /// Describes the data sources for the experiment report.
+///
+/// @nodoc
 class ExperimentTemplateReportConfigurationDataSources {
   /// The CloudWatch dashboards to include as data sources in the experiment
   /// report.
@@ -2116,6 +2164,8 @@ class ExperimentTemplateReportConfigurationDataSources {
 
 /// The CloudWatch dashboards to include as data sources in the experiment
 /// report.
+///
+/// @nodoc
 class ExperimentTemplateReportConfigurationCloudWatchDashboard {
   /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the
   /// experiment report.
@@ -2142,6 +2192,8 @@ class ExperimentTemplateReportConfigurationCloudWatchDashboard {
 }
 
 /// Describes the S3 destination for the experiment report.
+///
+/// @nodoc
 class ReportConfigurationS3Output {
   /// The name of the S3 bucket where the experiment report will be stored.
   final String? bucketName;
@@ -2171,6 +2223,7 @@ class ReportConfigurationS3Output {
   }
 }
 
+/// @nodoc
 class AccountTargeting {
   static const singleAccount = AccountTargeting._('single-account');
   static const multiAccount = AccountTargeting._('multi-account');
@@ -2195,6 +2248,7 @@ class AccountTargeting {
   String toString() => value;
 }
 
+/// @nodoc
 class EmptyTargetResolutionMode {
   static const fail = EmptyTargetResolutionMode._('fail');
   static const skip = EmptyTargetResolutionMode._('skip');
@@ -2222,6 +2276,8 @@ class EmptyTargetResolutionMode {
 
 /// Describes the configuration for experiment logging to Amazon CloudWatch
 /// Logs.
+///
+/// @nodoc
 class ExperimentTemplateCloudWatchLogsLogConfiguration {
   /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
   /// group.
@@ -2247,6 +2303,8 @@ class ExperimentTemplateCloudWatchLogsLogConfiguration {
 }
 
 /// Describes the configuration for experiment logging to Amazon S3.
+///
+/// @nodoc
 class ExperimentTemplateS3LogConfiguration {
   /// The name of the destination bucket.
   final String? bucketName;
@@ -2278,6 +2336,8 @@ class ExperimentTemplateS3LogConfiguration {
 }
 
 /// Describes a stop condition for an experiment template.
+///
+/// @nodoc
 class ExperimentTemplateStopCondition {
   /// The source for the stop condition.
   final String? source;
@@ -2308,6 +2368,8 @@ class ExperimentTemplateStopCondition {
 }
 
 /// Describes an action for an experiment template.
+///
+/// @nodoc
 class ExperimentTemplateAction {
   /// The ID of the action.
   final String? actionId;
@@ -2365,6 +2427,8 @@ class ExperimentTemplateAction {
 }
 
 /// Describes a target for an experiment template.
+///
+/// @nodoc
 class ExperimentTemplateTarget {
   /// The filters to apply to identify target resources using specific attributes.
   final List<ExperimentTemplateTargetFilter>? filters;
@@ -2432,6 +2496,8 @@ class ExperimentTemplateTarget {
 }
 
 /// Describes a filter used for the target resources in an experiment template.
+///
+/// @nodoc
 class ExperimentTemplateTargetFilter {
   /// The attribute path for the filter.
   final String? path;
@@ -2463,6 +2529,8 @@ class ExperimentTemplateTargetFilter {
 }
 
 /// Specifies the configuration for experiment logging.
+///
+/// @nodoc
 class UpdateExperimentTemplateLogConfigurationInput {
   /// The configuration for experiment logging to Amazon CloudWatch Logs.
   final ExperimentTemplateCloudWatchLogsLogConfigurationInput?
@@ -2494,6 +2562,8 @@ class UpdateExperimentTemplateLogConfigurationInput {
 }
 
 /// Specifies an experiment option for an experiment template.
+///
+/// @nodoc
 class UpdateExperimentTemplateExperimentOptionsInput {
   /// The empty target resolution mode of the experiment template.
   final EmptyTargetResolutionMode? emptyTargetResolutionMode;
@@ -2512,6 +2582,8 @@ class UpdateExperimentTemplateExperimentOptionsInput {
 }
 
 /// Specifies the input for the experiment report configuration.
+///
+/// @nodoc
 class UpdateExperimentTemplateReportConfigurationInput {
   /// The data sources for the experiment report.
   final ExperimentTemplateReportConfigurationDataSourcesInput? dataSources;
@@ -2551,6 +2623,8 @@ class UpdateExperimentTemplateReportConfigurationInput {
 }
 
 /// Specifies the outputs for the experiment templates.
+///
+/// @nodoc
 class ExperimentTemplateReportConfigurationOutputsInput {
   /// The S3 destination for the experiment report.
   final ReportConfigurationS3OutputInput? s3Configuration;
@@ -2568,6 +2642,8 @@ class ExperimentTemplateReportConfigurationOutputsInput {
 }
 
 /// Specifies the data sources for the experiment report.
+///
+/// @nodoc
 class ExperimentTemplateReportConfigurationDataSourcesInput {
   /// The CloudWatch dashboards to include as data sources in the experiment
   /// report.
@@ -2587,6 +2663,8 @@ class ExperimentTemplateReportConfigurationDataSourcesInput {
 }
 
 /// Specifies the CloudWatch dashboard for the experiment report.
+///
+/// @nodoc
 class ReportConfigurationCloudWatchDashboardInput {
   /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the
   /// experiment report.
@@ -2606,6 +2684,8 @@ class ReportConfigurationCloudWatchDashboardInput {
 }
 
 /// Specifies the S3 destination for the experiment report.
+///
+/// @nodoc
 class ReportConfigurationS3OutputInput {
   /// The name of the S3 bucket where the experiment report will be stored.
   final String? bucketName;
@@ -2630,6 +2710,8 @@ class ReportConfigurationS3OutputInput {
 
 /// Specifies the configuration for experiment logging to Amazon CloudWatch
 /// Logs.
+///
+/// @nodoc
 class ExperimentTemplateCloudWatchLogsLogConfigurationInput {
   /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
   /// group.
@@ -2648,6 +2730,8 @@ class ExperimentTemplateCloudWatchLogsLogConfigurationInput {
 }
 
 /// Specifies the configuration for experiment logging to Amazon S3.
+///
+/// @nodoc
 class ExperimentTemplateS3LogConfigurationInput {
   /// The name of the destination bucket.
   final String bucketName;
@@ -2671,6 +2755,8 @@ class ExperimentTemplateS3LogConfigurationInput {
 }
 
 /// Specifies an action for an experiment template.
+///
+/// @nodoc
 class UpdateExperimentTemplateActionInputItem {
   /// The ID of the action.
   final String? actionId;
@@ -2715,6 +2801,8 @@ class UpdateExperimentTemplateActionInputItem {
 
 /// Specifies a target for an experiment. You must specify at least one Amazon
 /// Resource Name (ARN) or at least one resource tag. You cannot specify both.
+///
+/// @nodoc
 class UpdateExperimentTemplateTargetInput {
   /// The resource type. The resource type must be supported for the specified
   /// action.
@@ -2768,6 +2856,8 @@ class UpdateExperimentTemplateTargetInput {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/fis/latest/userguide/targets.html#target-filters">Resource
 /// filters</a> in the <i>Fault Injection Service User Guide</i>.
+///
+/// @nodoc
 class ExperimentTemplateTargetInputFilter {
   /// The attribute path for the filter.
   final String path;
@@ -2792,6 +2882,8 @@ class ExperimentTemplateTargetInputFilter {
 
 /// Specifies a stop condition for an experiment. You can define a stop
 /// condition as a CloudWatch alarm.
+///
+/// @nodoc
 class UpdateExperimentTemplateStopConditionInput {
   /// The source for the stop condition. Specify <code>aws:cloudwatch:alarm</code>
   /// if the stop condition is defined by a CloudWatch alarm. Specify
@@ -2817,6 +2909,8 @@ class UpdateExperimentTemplateStopConditionInput {
 }
 
 /// Describes an experiment.
+///
+/// @nodoc
 class Experiment {
   /// The actions for the experiment.
   final Map<String, ExperimentAction>? actions;
@@ -2981,6 +3075,8 @@ class Experiment {
 }
 
 /// Describes the state of an experiment.
+///
+/// @nodoc
 class ExperimentState {
   /// The error information of the experiment when the action has
   /// <code>failed</code>.
@@ -3021,6 +3117,8 @@ class ExperimentState {
 }
 
 /// Describes the configuration for experiment logging.
+///
+/// @nodoc
 class ExperimentLogConfiguration {
   /// The configuration for experiment logging to Amazon CloudWatch Logs.
   final ExperimentCloudWatchLogsLogConfiguration? cloudWatchLogsConfiguration;
@@ -3065,6 +3163,8 @@ class ExperimentLogConfiguration {
 }
 
 /// Describes the options for an experiment.
+///
+/// @nodoc
 class ExperimentOptions {
   /// The account targeting setting for an experiment.
   final AccountTargeting? accountTargeting;
@@ -3110,6 +3210,8 @@ class ExperimentOptions {
 /// see <a
 /// href="https://docs.aws.amazon.com/fis/latest/userguide/experiment-report-configuration">Experiment
 /// report configurations for AWS FIS</a>.
+///
+/// @nodoc
 class ExperimentReportConfiguration {
   /// The data sources for the experiment report.
   final ExperimentReportConfigurationDataSources? dataSources;
@@ -3164,6 +3266,8 @@ class ExperimentReportConfiguration {
 }
 
 /// Describes the experiment report.
+///
+/// @nodoc
 class ExperimentReport {
   /// The S3 destination of the experiment report.
   final List<ExperimentReportS3Report>? s3Reports;
@@ -3201,6 +3305,8 @@ class ExperimentReport {
 }
 
 /// Describes the state of the experiment report generation.
+///
+/// @nodoc
 class ExperimentReportState {
   /// The error information of the experiment when the experiment report
   /// generation has failed.
@@ -3243,6 +3349,8 @@ class ExperimentReportState {
 }
 
 /// Describes the S3 destination for the report.
+///
+/// @nodoc
 class ExperimentReportS3Report {
   /// The Amazon Resource Name (ARN) of the generated report.
   final String? arn;
@@ -3272,6 +3380,7 @@ class ExperimentReportS3Report {
   }
 }
 
+/// @nodoc
 class ExperimentReportStatus {
   static const pending = ExperimentReportStatus._('pending');
   static const running = ExperimentReportStatus._('running');
@@ -3301,6 +3410,8 @@ class ExperimentReportStatus {
 }
 
 /// Describes the error when experiment report generation has failed.
+///
+/// @nodoc
 class ExperimentReportError {
   /// The error code for the failed experiment report generation.
   final String? code;
@@ -3324,6 +3435,8 @@ class ExperimentReportError {
 }
 
 /// Describes the output destinations of the experiment report.
+///
+/// @nodoc
 class ExperimentReportConfigurationOutputs {
   /// The S3 destination for the experiment report.
   final ExperimentReportConfigurationOutputsS3Configuration? s3Configuration;
@@ -3351,6 +3464,8 @@ class ExperimentReportConfigurationOutputs {
 }
 
 /// Describes the data sources for the experiment report.
+///
+/// @nodoc
 class ExperimentReportConfigurationDataSources {
   /// The CloudWatch dashboards to include as data sources in the experiment
   /// report.
@@ -3383,6 +3498,8 @@ class ExperimentReportConfigurationDataSources {
 
 /// Specifies the CloudWatch dashboard to include in the experiment report. The
 /// dashboard widgets will be captured as snapshot graphs within the report.
+///
+/// @nodoc
 class ExperimentReportConfigurationCloudWatchDashboard {
   /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the
   /// experiment report.
@@ -3409,6 +3526,8 @@ class ExperimentReportConfigurationCloudWatchDashboard {
 }
 
 /// Specifies the S3 destination for the experiment report.
+///
+/// @nodoc
 class ExperimentReportConfigurationOutputsS3Configuration {
   /// The name of the S3 bucket where the experiment report will be stored.
   final String? bucketName;
@@ -3439,6 +3558,7 @@ class ExperimentReportConfigurationOutputsS3Configuration {
   }
 }
 
+/// @nodoc
 class ActionsMode {
   static const skipAll = ActionsMode._('skip-all');
   static const runAll = ActionsMode._('run-all');
@@ -3464,6 +3584,8 @@ class ActionsMode {
 
 /// Describes the configuration for experiment logging to Amazon CloudWatch
 /// Logs.
+///
+/// @nodoc
 class ExperimentCloudWatchLogsLogConfiguration {
   /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
   /// group.
@@ -3489,6 +3611,8 @@ class ExperimentCloudWatchLogsLogConfiguration {
 }
 
 /// Describes the configuration for experiment logging to Amazon S3.
+///
+/// @nodoc
 class ExperimentS3LogConfiguration {
   /// The name of the destination bucket.
   final String? bucketName;
@@ -3519,6 +3643,8 @@ class ExperimentS3LogConfiguration {
 }
 
 /// Describes the stop condition for an experiment.
+///
+/// @nodoc
 class ExperimentStopCondition {
   /// The source for the stop condition.
   final String? source;
@@ -3549,6 +3675,8 @@ class ExperimentStopCondition {
 }
 
 /// Describes the action for an experiment.
+///
+/// @nodoc
 class ExperimentAction {
   /// The ID of the action.
   final String? actionId;
@@ -3629,6 +3757,8 @@ class ExperimentAction {
 }
 
 /// Describes the state of an action.
+///
+/// @nodoc
 class ExperimentActionState {
   /// The reason for the state.
   final String? reason;
@@ -3659,6 +3789,7 @@ class ExperimentActionState {
   }
 }
 
+/// @nodoc
 class ExperimentActionStatus {
   static const pending = ExperimentActionStatus._('pending');
   static const initiating = ExperimentActionStatus._('initiating');
@@ -3702,6 +3833,8 @@ class ExperimentActionStatus {
 }
 
 /// Describes a target for an experiment.
+///
+/// @nodoc
 class ExperimentTarget {
   /// The filters to apply to identify target resources using specific attributes.
   final List<ExperimentTargetFilter>? filters;
@@ -3769,6 +3902,8 @@ class ExperimentTarget {
 }
 
 /// Describes a filter used for the target resources in an experiment.
+///
+/// @nodoc
 class ExperimentTargetFilter {
   /// The attribute path for the filter.
   final String? path;
@@ -3799,6 +3934,7 @@ class ExperimentTargetFilter {
   }
 }
 
+/// @nodoc
 class ExperimentStatus {
   static const pending = ExperimentStatus._('pending');
   static const initiating = ExperimentStatus._('initiating');
@@ -3839,6 +3975,8 @@ class ExperimentStatus {
 }
 
 /// Describes the error when an experiment has <code>failed</code>.
+///
+/// @nodoc
 class ExperimentError {
   /// The Amazon Web Services Account ID where the experiment failure occurred.
   final String? accountId;
@@ -3876,6 +4014,8 @@ class ExperimentError {
 }
 
 /// Specifies experiment options for running an experiment.
+///
+/// @nodoc
 class StartExperimentExperimentOptionsInput {
   /// Specifies the actions mode for experiment options.
   final ActionsMode? actionsMode;
@@ -3893,6 +4033,8 @@ class StartExperimentExperimentOptionsInput {
 }
 
 /// Describes a resource type.
+///
+/// @nodoc
 class TargetResourceTypeSummary {
   /// A description of the resource type.
   final String? description;
@@ -3923,6 +4065,8 @@ class TargetResourceTypeSummary {
 }
 
 /// Provides a summary of a target account configuration.
+///
+/// @nodoc
 class TargetAccountConfigurationSummary {
   /// The Amazon Web Services account ID of the target account.
   final String? accountId;
@@ -3961,6 +4105,8 @@ class TargetAccountConfigurationSummary {
 }
 
 /// Provides a summary of an experiment template.
+///
+/// @nodoc
 class ExperimentTemplateSummary {
   /// The Amazon Resource Name (ARN) of the experiment template.
   final String? arn;
@@ -4022,6 +4168,8 @@ class ExperimentTemplateSummary {
 }
 
 /// Provides a summary of a target account configuration.
+///
+/// @nodoc
 class ExperimentTargetAccountConfigurationSummary {
   /// The Amazon Web Services account ID of the target account.
   final String? accountId;
@@ -4060,6 +4208,8 @@ class ExperimentTargetAccountConfigurationSummary {
 }
 
 /// Provides a summary of an experiment.
+///
+/// @nodoc
 class ExperimentSummary {
   /// The Amazon Resource Name (ARN) of the experiment.
   final String? arn;
@@ -4133,6 +4283,8 @@ class ExperimentSummary {
 }
 
 /// Describes a resolved target.
+///
+/// @nodoc
 class ResolvedTarget {
   /// The resource type of the target.
   final String? resourceType;
@@ -4171,6 +4323,8 @@ class ResolvedTarget {
 }
 
 /// Provides a summary of an action.
+///
+/// @nodoc
 class ActionSummary {
   /// The Amazon Resource Name (ARN) of the action.
   final String? arn;
@@ -4224,6 +4378,8 @@ class ActionSummary {
 }
 
 /// Describes a target for an action.
+///
+/// @nodoc
 class ActionTarget {
   /// The resource type of the target.
   final String? resourceType;
@@ -4247,6 +4403,8 @@ class ActionTarget {
 }
 
 /// Describes a resource type.
+///
+/// @nodoc
 class TargetResourceType {
   /// A description of the resource type.
   final String? description;
@@ -4287,6 +4445,8 @@ class TargetResourceType {
 
 /// Describes the parameters for a resource type. Use parameters to determine
 /// which tasks are identified during target resolution.
+///
+/// @nodoc
 class TargetResourceTypeParameter {
   /// A description of the parameter.
   final String? description;
@@ -4317,6 +4477,8 @@ class TargetResourceTypeParameter {
 }
 
 /// Describes a target account configuration for an experiment.
+///
+/// @nodoc
 class ExperimentTargetAccountConfiguration {
   /// The Amazon Web Services account ID of the target account.
   final String? accountId;
@@ -4357,6 +4519,8 @@ class ExperimentTargetAccountConfiguration {
 /// Describes an action. For more information, see <a
 /// href="https://docs.aws.amazon.com/fis/latest/userguide/fis-actions-reference.html">FIS
 /// actions</a> in the <i>Fault Injection Service User Guide</i>.
+///
+/// @nodoc
 class Action {
   /// The Amazon Resource Name (ARN) of the action.
   final String? arn;
@@ -4418,6 +4582,8 @@ class Action {
 }
 
 /// Describes a parameter for an action.
+///
+/// @nodoc
 class ActionParameter {
   /// The parameter description.
   final String? description;
@@ -4448,6 +4614,8 @@ class ActionParameter {
 }
 
 /// Specifies the configuration for experiment logging.
+///
+/// @nodoc
 class CreateExperimentTemplateLogConfigurationInput {
   /// The schema version.
   final int logSchemaVersion;
@@ -4479,6 +4647,8 @@ class CreateExperimentTemplateLogConfigurationInput {
 }
 
 /// Specifies experiment options for an experiment template.
+///
+/// @nodoc
 class CreateExperimentTemplateExperimentOptionsInput {
   /// Specifies the account targeting setting for experiment options.
   final AccountTargeting? accountTargeting;
@@ -4503,6 +4673,8 @@ class CreateExperimentTemplateExperimentOptionsInput {
 }
 
 /// Specifies the configuration for experiment reports.
+///
+/// @nodoc
 class CreateExperimentTemplateReportConfigurationInput {
   /// The data sources for the experiment report.
   final ExperimentTemplateReportConfigurationDataSourcesInput? dataSources;
@@ -4546,6 +4718,8 @@ class CreateExperimentTemplateReportConfigurationInput {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/fis/latest/userguide/actions.html">Actions</a>
 /// in the <i>Fault Injection Service User Guide</i>.
+///
+/// @nodoc
 class CreateExperimentTemplateActionInput {
   /// The ID of the action. The format of the action ID is:
   /// aws:<i>service-name</i>:<i>action-type</i>.
@@ -4596,6 +4770,8 @@ class CreateExperimentTemplateActionInput {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/fis/latest/userguide/targets.html">Targets</a>
 /// in the <i>Fault Injection Service User Guide</i>.
+///
+/// @nodoc
 class CreateExperimentTemplateTargetInput {
   /// The resource type. The resource type must be supported for the specified
   /// action.
@@ -4662,6 +4838,8 @@ class CreateExperimentTemplateTargetInput {
 }
 
 /// Specifies a stop condition for an experiment template.
+///
+/// @nodoc
 class CreateExperimentTemplateStopConditionInput {
   /// The source for the stop condition. Specify <code>aws:cloudwatch:alarm</code>
   /// if the stop condition is defined by a CloudWatch alarm. Specify
@@ -4687,16 +4865,19 @@ class CreateExperimentTemplateStopConditionInput {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4705,6 +4886,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

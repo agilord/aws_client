@@ -575,8 +575,8 @@ class WafRegional {
   /// For example, you can create a <code>RegexMatchSet</code> that contains a
   /// <code>RegexMatchTuple</code> that looks for any requests with
   /// <code>User-Agent</code> headers that match a <code>RegexPatternSet</code>
-  /// with pattern <code>B[a@]dB[o0]t</code>. You can then configure AWS WAF to
-  /// reject those requests.
+  /// with pattern <code>B\[a@\]dB\[o0\]t</code>. You can then configure AWS WAF
+  /// to reject those requests.
   ///
   /// To create and configure a <code>RegexMatchSet</code>, perform the
   /// following steps:
@@ -653,8 +653,8 @@ class WafRegional {
   /// Creates a <code>RegexPatternSet</code>. You then use
   /// <a>UpdateRegexPatternSet</a> to specify the regular expression (regex)
   /// pattern that you want AWS WAF to search for, such as
-  /// <code>B[a@]dB[o0]t</code>. You can then configure AWS WAF to reject those
-  /// requests.
+  /// <code>B\[a@\]dB\[o0\]t</code>. You can then configure AWS WAF to reject
+  /// those requests.
   ///
   /// To create and configure a <code>RegexPatternSet</code>, perform the
   /// following steps:
@@ -5082,8 +5082,8 @@ class WafRegional {
   /// </ul>
   /// For example, you can create a <code>RegexPatternSet</code> that matches
   /// any requests with <code>User-Agent</code> headers that contain the string
-  /// <code>B[a@]dB[o0]t</code>. You can then configure AWS WAF to reject those
-  /// requests.
+  /// <code>B\[a@\]dB\[o0\]t</code>. You can then configure AWS WAF to reject
+  /// those requests.
   ///
   /// To create and configure a <code>RegexMatchSet</code>, perform the
   /// following steps:
@@ -5179,7 +5179,7 @@ class WafRegional {
   /// </li>
   /// </ul>
   /// For example, you can create a <code>RegexPatternString</code> such as
-  /// <code>B[a@]dB[o0]t</code>. AWS WAF will match this
+  /// <code>B\[a@\]dB\[o0\]t</code>. AWS WAF will match this
   /// <code>RegexPatternString</code> to:
   ///
   /// <ul>
@@ -6032,6 +6032,7 @@ class WafRegional {
   }
 }
 
+/// @nodoc
 class AssociateWebACLResponse {
   AssociateWebACLResponse();
 
@@ -6044,6 +6045,7 @@ class AssociateWebACLResponse {
   }
 }
 
+/// @nodoc
 class CreateByteMatchSetResponse {
   /// A <a>ByteMatchSet</a> that contains no <code>ByteMatchTuple</code> objects.
   final ByteMatchSet? byteMatchSet;
@@ -6078,6 +6080,7 @@ class CreateByteMatchSetResponse {
   }
 }
 
+/// @nodoc
 class CreateGeoMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateGeoMatchSet</code> request. You can also use this value to query
@@ -6114,6 +6117,7 @@ class CreateGeoMatchSetResponse {
   }
 }
 
+/// @nodoc
 class CreateIPSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateIPSet</code> request. You can also use this value to query the
@@ -6148,6 +6152,7 @@ class CreateIPSetResponse {
   }
 }
 
+/// @nodoc
 class CreateRateBasedRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRateBasedRule</code> request. You can also use this value to
@@ -6183,6 +6188,7 @@ class CreateRateBasedRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateRegexMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRegexMatchSet</code> request. You can also use this value to
@@ -6219,6 +6225,7 @@ class CreateRegexMatchSetResponse {
   }
 }
 
+/// @nodoc
 class CreateRegexPatternSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRegexPatternSet</code> request. You can also use this value to
@@ -6254,6 +6261,7 @@ class CreateRegexPatternSetResponse {
   }
 }
 
+/// @nodoc
 class CreateRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRule</code> request. You can also use this value to query the
@@ -6288,6 +6296,7 @@ class CreateRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateRuleGroupResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateRuleGroup</code> request. You can also use this value to query
@@ -6322,6 +6331,7 @@ class CreateRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateSizeConstraintSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateSizeConstraintSet</code> request. You can also use this value to
@@ -6359,6 +6369,8 @@ class CreateSizeConstraintSetResponse {
 }
 
 /// The response to a <code>CreateSqlInjectionMatchSet</code> request.
+///
+/// @nodoc
 class CreateSqlInjectionMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateSqlInjectionMatchSet</code> request. You can also use this value
@@ -6396,6 +6408,7 @@ class CreateSqlInjectionMatchSetResponse {
   }
 }
 
+/// @nodoc
 class CreateWebACLResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateWebACL</code> request. You can also use this value to query the
@@ -6430,6 +6443,7 @@ class CreateWebACLResponse {
   }
 }
 
+/// @nodoc
 class CreateWebACLMigrationStackResponse {
   /// The URL of the template created in Amazon S3.
   final String s3ObjectUrl;
@@ -6454,6 +6468,8 @@ class CreateWebACLMigrationStackResponse {
 }
 
 /// The response to a <code>CreateXssMatchSet</code> request.
+///
+/// @nodoc
 class CreateXssMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>CreateXssMatchSet</code> request. You can also use this value to query
@@ -6488,6 +6504,7 @@ class CreateXssMatchSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteByteMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteByteMatchSet</code> request. You can also use this value to
@@ -6513,6 +6530,7 @@ class DeleteByteMatchSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteGeoMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteGeoMatchSet</code> request. You can also use this value to query
@@ -6538,6 +6556,7 @@ class DeleteGeoMatchSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteIPSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteIPSet</code> request. You can also use this value to query the
@@ -6563,6 +6582,7 @@ class DeleteIPSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteLoggingConfigurationResponse {
   DeleteLoggingConfigurationResponse();
 
@@ -6575,6 +6595,7 @@ class DeleteLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeletePermissionPolicyResponse {
   DeletePermissionPolicyResponse();
 
@@ -6587,6 +6608,7 @@ class DeletePermissionPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteRateBasedRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRateBasedRule</code> request. You can also use this value to
@@ -6612,6 +6634,7 @@ class DeleteRateBasedRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteRegexMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRegexMatchSet</code> request. You can also use this value to
@@ -6637,6 +6660,7 @@ class DeleteRegexMatchSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteRegexPatternSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRegexPatternSet</code> request. You can also use this value to
@@ -6662,6 +6686,7 @@ class DeleteRegexPatternSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRule</code> request. You can also use this value to query the
@@ -6687,6 +6712,7 @@ class DeleteRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteRuleGroupResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteRuleGroup</code> request. You can also use this value to query
@@ -6712,6 +6738,7 @@ class DeleteRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteSizeConstraintSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteSizeConstraintSet</code> request. You can also use this value to
@@ -6739,6 +6766,8 @@ class DeleteSizeConstraintSetResponse {
 
 /// The response to a request to delete a <a>SqlInjectionMatchSet</a> from AWS
 /// WAF.
+///
+/// @nodoc
 class DeleteSqlInjectionMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteSqlInjectionMatchSet</code> request. You can also use this value
@@ -6765,6 +6794,7 @@ class DeleteSqlInjectionMatchSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteWebACLResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteWebACL</code> request. You can also use this value to query the
@@ -6791,6 +6821,8 @@ class DeleteWebACLResponse {
 }
 
 /// The response to a request to delete an <a>XssMatchSet</a> from AWS WAF.
+///
+/// @nodoc
 class DeleteXssMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>DeleteXssMatchSet</code> request. You can also use this value to query
@@ -6816,6 +6848,7 @@ class DeleteXssMatchSetResponse {
   }
 }
 
+/// @nodoc
 class DisassociateWebACLResponse {
   DisassociateWebACLResponse();
 
@@ -6828,6 +6861,7 @@ class DisassociateWebACLResponse {
   }
 }
 
+/// @nodoc
 class GetByteMatchSetResponse {
   /// Information about the <a>ByteMatchSet</a> that you specified in the
   /// <code>GetByteMatchSet</code> request. For more information, see the
@@ -6870,6 +6904,7 @@ class GetByteMatchSetResponse {
   }
 }
 
+/// @nodoc
 class GetChangeTokenResponse {
   /// The <code>ChangeToken</code> that you used in the request. Use this value in
   /// a <code>GetChangeTokenStatus</code> request to get the current status of the
@@ -6894,6 +6929,7 @@ class GetChangeTokenResponse {
   }
 }
 
+/// @nodoc
 class GetChangeTokenStatusResponse {
   /// The status of the change token.
   final ChangeTokenStatus? changeTokenStatus;
@@ -6918,6 +6954,7 @@ class GetChangeTokenStatusResponse {
   }
 }
 
+/// @nodoc
 class GetGeoMatchSetResponse {
   /// Information about the <a>GeoMatchSet</a> that you specified in the
   /// <code>GetGeoMatchSet</code> request. This includes the <code>Type</code>,
@@ -6946,6 +6983,7 @@ class GetGeoMatchSetResponse {
   }
 }
 
+/// @nodoc
 class GetIPSetResponse {
   /// Information about the <a>IPSet</a> that you specified in the
   /// <code>GetIPSet</code> request. For more information, see the following
@@ -6984,6 +7022,7 @@ class GetIPSetResponse {
   }
 }
 
+/// @nodoc
 class GetLoggingConfigurationResponse {
   /// The <a>LoggingConfiguration</a> for the specified web ACL.
   final LoggingConfiguration? loggingConfiguration;
@@ -7010,6 +7049,7 @@ class GetLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetPermissionPolicyResponse {
   /// The IAM policy attached to the specified RuleGroup.
   final String? policy;
@@ -7032,6 +7072,7 @@ class GetPermissionPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetRateBasedRuleResponse {
   /// Information about the <a>RateBasedRule</a> that you specified in the
   /// <code>GetRateBasedRule</code> request.
@@ -7057,6 +7098,7 @@ class GetRateBasedRuleResponse {
   }
 }
 
+/// @nodoc
 class GetRateBasedRuleManagedKeysResponse {
   /// An array of IP addresses that currently are blocked by the specified
   /// <a>RateBasedRule</a>.
@@ -7091,6 +7133,7 @@ class GetRateBasedRuleManagedKeysResponse {
   }
 }
 
+/// @nodoc
 class GetRegexMatchSetResponse {
   /// Information about the <a>RegexMatchSet</a> that you specified in the
   /// <code>GetRegexMatchSet</code> request. For more information, see
@@ -7118,6 +7161,7 @@ class GetRegexMatchSetResponse {
   }
 }
 
+/// @nodoc
 class GetRegexPatternSetResponse {
   /// Information about the <a>RegexPatternSet</a> that you specified in the
   /// <code>GetRegexPatternSet</code> request, including the identifier of the
@@ -7146,6 +7190,7 @@ class GetRegexPatternSetResponse {
   }
 }
 
+/// @nodoc
 class GetRuleResponse {
   /// Information about the <a>Rule</a> that you specified in the
   /// <code>GetRule</code> request. For more information, see the following
@@ -7183,6 +7228,7 @@ class GetRuleResponse {
   }
 }
 
+/// @nodoc
 class GetRuleGroupResponse {
   /// Information about the <a>RuleGroup</a> that you specified in the
   /// <code>GetRuleGroup</code> request.
@@ -7208,6 +7254,7 @@ class GetRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class GetSampledRequestsResponse {
   /// The total number of requests from which <code>GetSampledRequests</code> got
   /// a sample of <code>MaxItems</code> requests. If <code>PopulationSize</code>
@@ -7258,6 +7305,7 @@ class GetSampledRequestsResponse {
   }
 }
 
+/// @nodoc
 class GetSizeConstraintSetResponse {
   /// Information about the <a>SizeConstraintSet</a> that you specified in the
   /// <code>GetSizeConstraintSet</code> request. For more information, see the
@@ -7302,6 +7350,8 @@ class GetSizeConstraintSetResponse {
 }
 
 /// The response to a <a>GetSqlInjectionMatchSet</a> request.
+///
+/// @nodoc
 class GetSqlInjectionMatchSetResponse {
   /// Information about the <a>SqlInjectionMatchSet</a> that you specified in the
   /// <code>GetSqlInjectionMatchSet</code> request. For more information, see the
@@ -7346,6 +7396,7 @@ class GetSqlInjectionMatchSetResponse {
   }
 }
 
+/// @nodoc
 class GetWebACLResponse {
   /// Information about the <a>WebACL</a> that you specified in the
   /// <code>GetWebACL</code> request. For more information, see the following
@@ -7392,6 +7443,7 @@ class GetWebACLResponse {
   }
 }
 
+/// @nodoc
 class GetWebACLForResourceResponse {
   /// Information about the web ACL that you specified in the
   /// <code>GetWebACLForResource</code> request. If there is no associated
@@ -7420,6 +7472,8 @@ class GetWebACLForResourceResponse {
 }
 
 /// The response to a <a>GetXssMatchSet</a> request.
+///
+/// @nodoc
 class GetXssMatchSetResponse {
   /// Information about the <a>XssMatchSet</a> that you specified in the
   /// <code>GetXssMatchSet</code> request. For more information, see the following
@@ -7460,6 +7514,7 @@ class GetXssMatchSetResponse {
   }
 }
 
+/// @nodoc
 class ListActivatedRulesInRuleGroupResponse {
   /// An array of <code>ActivatedRules</code> objects.
   final List<ActivatedRule>? activatedRules;
@@ -7498,6 +7553,7 @@ class ListActivatedRulesInRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class ListByteMatchSetsResponse {
   /// An array of <a>ByteMatchSetSummary</a> objects.
   final List<ByteMatchSetSummary>? byteMatchSets;
@@ -7535,6 +7591,7 @@ class ListByteMatchSetsResponse {
   }
 }
 
+/// @nodoc
 class ListGeoMatchSetsResponse {
   /// An array of <a>GeoMatchSetSummary</a> objects.
   final List<GeoMatchSetSummary>? geoMatchSets;
@@ -7572,6 +7629,7 @@ class ListGeoMatchSetsResponse {
   }
 }
 
+/// @nodoc
 class ListIPSetsResponse {
   /// An array of <a>IPSetSummary</a> objects.
   final List<IPSetSummary>? iPSets;
@@ -7606,6 +7664,7 @@ class ListIPSetsResponse {
   }
 }
 
+/// @nodoc
 class ListLoggingConfigurationsResponse {
   /// An array of <a>LoggingConfiguration</a> objects.
   final List<LoggingConfiguration>? loggingConfigurations;
@@ -7646,6 +7705,7 @@ class ListLoggingConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListRateBasedRulesResponse {
   /// If you have more <code>Rules</code> than the number that you specified for
   /// <code>Limit</code> in the request, the response includes a
@@ -7683,6 +7743,7 @@ class ListRateBasedRulesResponse {
   }
 }
 
+/// @nodoc
 class ListRegexMatchSetsResponse {
   /// If you have more <code>RegexMatchSet</code> objects than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -7720,6 +7781,7 @@ class ListRegexMatchSetsResponse {
   }
 }
 
+/// @nodoc
 class ListRegexPatternSetsResponse {
   /// If you have more <code>RegexPatternSet</code> objects than the number that
   /// you specified for <code>Limit</code> in the request, the response includes a
@@ -7758,6 +7820,7 @@ class ListRegexPatternSetsResponse {
   }
 }
 
+/// @nodoc
 class ListResourcesForWebACLResponse {
   /// An array of ARNs (Amazon Resource Names) of the resources associated with
   /// the specified web ACL. An array with zero elements is returned if there are
@@ -7785,6 +7848,7 @@ class ListResourcesForWebACLResponse {
   }
 }
 
+/// @nodoc
 class ListRuleGroupsResponse {
   /// If you have more <code>RuleGroups</code> than the number that you specified
   /// for <code>Limit</code> in the request, the response includes a
@@ -7822,6 +7886,7 @@ class ListRuleGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListRulesResponse {
   /// If you have more <code>Rules</code> than the number that you specified for
   /// <code>Limit</code> in the request, the response includes a
@@ -7859,6 +7924,7 @@ class ListRulesResponse {
   }
 }
 
+/// @nodoc
 class ListSizeConstraintSetsResponse {
   /// If you have more <code>SizeConstraintSet</code> objects than the number that
   /// you specified for <code>Limit</code> in the request, the response includes a
@@ -7898,6 +7964,8 @@ class ListSizeConstraintSetsResponse {
 }
 
 /// The response to a <a>ListSqlInjectionMatchSets</a> request.
+///
+/// @nodoc
 class ListSqlInjectionMatchSetsResponse {
   /// If you have more <a>SqlInjectionMatchSet</a> objects than the number that
   /// you specified for <code>Limit</code> in the request, the response includes a
@@ -7939,6 +8007,7 @@ class ListSqlInjectionMatchSetsResponse {
   }
 }
 
+/// @nodoc
 class ListSubscribedRuleGroupsResponse {
   /// If you have more objects than the number that you specified for
   /// <code>Limit</code> in the request, the response includes a
@@ -7977,6 +8046,7 @@ class ListSubscribedRuleGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   ///
   final String? nextMarker;
@@ -8009,6 +8079,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWebACLsResponse {
   /// If you have more <code>WebACL</code> objects than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -8047,6 +8118,8 @@ class ListWebACLsResponse {
 }
 
 /// The response to a <a>ListXssMatchSets</a> request.
+///
+/// @nodoc
 class ListXssMatchSetsResponse {
   /// If you have more <a>XssMatchSet</a> objects than the number that you
   /// specified for <code>Limit</code> in the request, the response includes a
@@ -8084,6 +8157,7 @@ class ListXssMatchSetsResponse {
   }
 }
 
+/// @nodoc
 class PutLoggingConfigurationResponse {
   /// The <a>LoggingConfiguration</a> that you submitted in the request.
   final LoggingConfiguration? loggingConfiguration;
@@ -8110,6 +8184,7 @@ class PutLoggingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutPermissionPolicyResponse {
   PutPermissionPolicyResponse();
 
@@ -8122,6 +8197,7 @@ class PutPermissionPolicyResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -8134,6 +8210,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -8146,6 +8223,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateByteMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateByteMatchSet</code> request. You can also use this value to
@@ -8171,6 +8249,7 @@ class UpdateByteMatchSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateGeoMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateGeoMatchSet</code> request. You can also use this value to query
@@ -8196,6 +8275,7 @@ class UpdateGeoMatchSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateIPSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateIPSet</code> request. You can also use this value to query the
@@ -8221,6 +8301,7 @@ class UpdateIPSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateRateBasedRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRateBasedRule</code> request. You can also use this value to
@@ -8246,6 +8327,7 @@ class UpdateRateBasedRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateRegexMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRegexMatchSet</code> request. You can also use this value to
@@ -8271,6 +8353,7 @@ class UpdateRegexMatchSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateRegexPatternSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRegexPatternSet</code> request. You can also use this value to
@@ -8296,6 +8379,7 @@ class UpdateRegexPatternSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateRuleResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRule</code> request. You can also use this value to query the
@@ -8321,6 +8405,7 @@ class UpdateRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateRuleGroupResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateRuleGroup</code> request. You can also use this value to query
@@ -8346,6 +8431,7 @@ class UpdateRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateSizeConstraintSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateSizeConstraintSet</code> request. You can also use this value to
@@ -8372,6 +8458,8 @@ class UpdateSizeConstraintSetResponse {
 }
 
 /// The response to an <a>UpdateSqlInjectionMatchSets</a> request.
+///
+/// @nodoc
 class UpdateSqlInjectionMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateSqlInjectionMatchSet</code> request. You can also use this value
@@ -8398,6 +8486,7 @@ class UpdateSqlInjectionMatchSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateWebACLResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateWebACL</code> request. You can also use this value to query the
@@ -8424,6 +8513,8 @@ class UpdateWebACLResponse {
 }
 
 /// The response to an <a>UpdateXssMatchSets</a> request.
+///
+/// @nodoc
 class UpdateXssMatchSetResponse {
   /// The <code>ChangeToken</code> that you used to submit the
   /// <code>UpdateXssMatchSet</code> request. You can also use this value to query
@@ -8463,6 +8554,8 @@ class UpdateXssMatchSetResponse {
 /// Specifies the part of a web request that you want to inspect for cross-site
 /// scripting attacks and indicates whether you want to add the specification to
 /// an <a>XssMatchSet</a> or delete it from an <code>XssMatchSet</code>.
+///
+/// @nodoc
 class XssMatchSetUpdate {
   /// Specify <code>INSERT</code> to add an <a>XssMatchSetUpdate</a> to an
   /// <a>XssMatchSet</a>. Use <code>DELETE</code> to remove an
@@ -8489,6 +8582,7 @@ class XssMatchSetUpdate {
   }
 }
 
+/// @nodoc
 class ChangeAction {
   static const insert = ChangeAction._('INSERT');
   static const delete = ChangeAction._('DELETE');
@@ -8526,6 +8620,8 @@ class ChangeAction {
 /// Specifies the part of a web request that you want AWS WAF to inspect for
 /// cross-site scripting attacks and, if you want AWS WAF to inspect a header,
 /// the name of the header.
+///
+/// @nodoc
 class XssMatchTuple {
   /// Specifies where in a web request to look for cross-site scripting attacks.
   final FieldToMatch fieldToMatch;
@@ -8668,6 +8764,8 @@ class XssMatchTuple {
 /// of endpoints for regional and global use.
 /// </note>
 /// Specifies where in a web request to look for <code>TargetString</code>.
+///
+/// @nodoc
 class FieldToMatch {
   /// The part of the web request that you want AWS WAF to search for a specified
   /// string. Parts of a request that you can search include the following:
@@ -8753,6 +8851,7 @@ class FieldToMatch {
   }
 }
 
+/// @nodoc
 class TextTransformation {
   static const none = TextTransformation._('NONE');
   static const compressWhiteSpace =
@@ -8790,6 +8889,7 @@ class TextTransformation {
   String toString() => value;
 }
 
+/// @nodoc
 class MatchFieldType {
   static const uri = MatchFieldType._('URI');
   static const queryString = MatchFieldType._('QUERY_STRING');
@@ -8844,6 +8944,8 @@ class MatchFieldType {
 /// <code>WebACL</code>, specifies the action that you want AWS WAF to take when
 /// a web request doesn't match all of the conditions in any of the rules in a
 /// <code>WebACL</code>.
+///
+/// @nodoc
 class WafAction {
   /// Specifies how you want AWS WAF to respond to requests that match the
   /// settings in a <code>Rule</code>. Valid settings include the following:
@@ -8882,6 +8984,7 @@ class WafAction {
   }
 }
 
+/// @nodoc
 class WafActionType {
   static const block = WafActionType._('BLOCK');
   static const allow = WafActionType._('ALLOW');
@@ -8920,6 +9023,8 @@ class WafActionType {
 /// </note>
 /// Specifies whether to insert a <code>Rule</code> into or delete a
 /// <code>Rule</code> from a <code>WebACL</code>.
+///
+/// @nodoc
 class WebACLUpdate {
   /// Specifies whether to insert a <code>Rule</code> into or delete a
   /// <code>Rule</code> from a <code>WebACL</code>.
@@ -8968,6 +9073,8 @@ class WebACLUpdate {
 ///
 /// To specify whether to insert or delete a <code>Rule</code>, use the
 /// <code>Action</code> parameter in the <a>WebACLUpdate</a> data type.
+///
+/// @nodoc
 class ActivatedRule {
   /// Specifies the order in which the <code>Rules</code> in a <code>WebACL</code>
   /// are evaluated. Rules with a lower value for <code>Priority</code> are
@@ -9146,6 +9253,8 @@ class ActivatedRule {
 /// </note>
 /// The action to take if any rule within the <code>RuleGroup</code> matches a
 /// request.
+///
+/// @nodoc
 class WafOverrideAction {
   /// <code>COUNT</code> overrides the action specified by the individual rule
   /// within a <code>RuleGroup</code> . If set to <code>NONE</code>, the rule's
@@ -9170,6 +9279,7 @@ class WafOverrideAction {
   }
 }
 
+/// @nodoc
 class WafRuleType {
   static const regular = WafRuleType._('REGULAR');
   static const rateBased = WafRuleType._('RATE_BASED');
@@ -9209,6 +9319,8 @@ class WafRuleType {
 /// <code>ActivatedRule</code> refers to a <code>RuleGroup</code>. The rule must
 /// belong to the <code>RuleGroup</code> that is specified by the
 /// <code>ActivatedRule</code>.
+///
+/// @nodoc
 class ExcludedRule {
   /// The unique identifier for the rule to exclude from the rule group.
   final String ruleId;
@@ -9231,6 +9343,7 @@ class ExcludedRule {
   }
 }
 
+/// @nodoc
 class WafOverrideActionType {
   static const none = WafOverrideActionType._('NONE');
   static const count = WafOverrideActionType._('COUNT');
@@ -9271,6 +9384,8 @@ class WafOverrideActionType {
 /// malicious SQL code and indicates whether you want to add the specification
 /// to a <a>SqlInjectionMatchSet</a> or delete it from a
 /// <code>SqlInjectionMatchSet</code>.
+///
+/// @nodoc
 class SqlInjectionMatchSetUpdate {
   /// Specify <code>INSERT</code> to add a <a>SqlInjectionMatchSetUpdate</a> to a
   /// <a>SqlInjectionMatchSet</a>. Use <code>DELETE</code> to remove a
@@ -9312,6 +9427,8 @@ class SqlInjectionMatchSetUpdate {
 /// Specifies the part of a web request that you want AWS WAF to inspect for
 /// snippets of malicious SQL code and, if you want AWS WAF to inspect a header,
 /// the name of the header.
+///
+/// @nodoc
 class SqlInjectionMatchTuple {
   /// Specifies where in a web request to look for snippets of malicious SQL code.
   final FieldToMatch fieldToMatch;
@@ -9456,6 +9573,8 @@ class SqlInjectionMatchTuple {
 /// Specifies the part of a web request that you want to inspect the size of and
 /// indicates whether you want to add the specification to a
 /// <a>SizeConstraintSet</a> or delete it from a <code>SizeConstraintSet</code>.
+///
+/// @nodoc
 class SizeConstraintSetUpdate {
   /// Specify <code>INSERT</code> to add a <a>SizeConstraintSetUpdate</a> to a
   /// <a>SizeConstraintSet</a>. Use <code>DELETE</code> to remove a
@@ -9502,6 +9621,8 @@ class SizeConstraintSetUpdate {
 /// "<code>Size</code> <code>ComparisonOperator</code> size in bytes of
 /// <code>FieldToMatch</code>". If that expression is true, the
 /// <code>SizeConstraint</code> is considered to match.
+///
+/// @nodoc
 class SizeConstraint {
   /// The type of comparison you want AWS WAF to perform. AWS WAF uses this in
   /// combination with the provided <code>Size</code> and
@@ -9686,6 +9807,7 @@ class SizeConstraint {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const eq = ComparisonOperator._('EQ');
   static const ne = ComparisonOperator._('NE');
@@ -9729,6 +9851,8 @@ class ComparisonOperator {
 /// Specifies an <code>ActivatedRule</code> and indicates whether you want to
 /// add it to a <code>RuleGroup</code> or delete it from a
 /// <code>RuleGroup</code>.
+///
+/// @nodoc
 class RuleGroupUpdate {
   /// Specify <code>INSERT</code> to add an <code>ActivatedRule</code> to a
   /// <code>RuleGroup</code>. Use <code>DELETE</code> to remove an
@@ -9771,6 +9895,8 @@ class RuleGroupUpdate {
 /// Specifies a <code>Predicate</code> (such as an <code>IPSet</code>) and
 /// indicates whether you want to add it to a <code>Rule</code> or delete it
 /// from a <code>Rule</code>.
+///
+/// @nodoc
 class RuleUpdate {
   /// Specify <code>INSERT</code> to add a <code>Predicate</code> to a
   /// <code>Rule</code>. Use <code>DELETE</code> to remove a
@@ -9813,6 +9939,8 @@ class RuleUpdate {
 /// add to a <code>Rule</code> and, for each object, indicates whether you want
 /// to negate the settings, for example, requests that do NOT originate from the
 /// IP address 192.0.2.44.
+///
+/// @nodoc
 class Predicate {
   /// A unique identifier for a predicate in a <code>Rule</code>, such as
   /// <code>ByteMatchSetId</code> or <code>IPSetId</code>. The ID is returned by
@@ -9866,6 +9994,7 @@ class Predicate {
   }
 }
 
+/// @nodoc
 class PredicateType {
   static const iPMatch = PredicateType._('IPMatch');
   static const byteMatch = PredicateType._('ByteMatch');
@@ -9918,12 +10047,14 @@ class PredicateType {
 /// <code>RegexPatternSetUpdate</code> specifies whether to insert or delete a
 /// <code>RegexPatternString</code> and includes the settings for the
 /// <code>RegexPatternString</code>.
+///
+/// @nodoc
 class RegexPatternSetUpdate {
   /// Specifies whether to insert or delete a <code>RegexPatternString</code>.
   final ChangeAction action;
 
   /// Specifies the regular expression (regex) pattern that you want AWS WAF to
-  /// search for, such as <code>B[a@]dB[o0]t</code>.
+  /// search for, such as <code>B\[a@\]dB\[o0\]t</code>.
   final String regexPatternString;
 
   RegexPatternSetUpdate({
@@ -9955,6 +10086,8 @@ class RegexPatternSetUpdate {
 /// In an <a>UpdateRegexMatchSet</a> request, <code>RegexMatchSetUpdate</code>
 /// specifies whether to insert or delete a <a>RegexMatchTuple</a> and includes
 /// the settings for the <code>RegexMatchTuple</code>.
+///
+/// @nodoc
 class RegexMatchSetUpdate {
   /// Specifies whether to insert or delete a <a>RegexMatchTuple</a>.
   final ChangeAction action;
@@ -10011,6 +10144,8 @@ class RegexMatchSetUpdate {
 /// lowercase, before inspecting it for the specified string.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RegexMatchTuple {
   /// Specifies where in a web request to look for the
   /// <code>RegexPatternSet</code>.
@@ -10172,6 +10307,8 @@ class RegexMatchTuple {
 /// </note>
 /// Specifies the type of update to perform to an <a>IPSet</a> with
 /// <a>UpdateIPSet</a>.
+///
+/// @nodoc
 class IPSetUpdate {
   /// Specifies whether to insert or delete an IP address with <a>UpdateIPSet</a>.
   final ChangeAction action;
@@ -10208,6 +10345,8 @@ class IPSetUpdate {
 /// </note>
 /// Specifies the IP address type (<code>IPV4</code> or <code>IPV6</code>) and
 /// the IP address range (in CIDR format) that web requests originate from.
+///
+/// @nodoc
 class IPSetDescriptor {
   /// Specify <code>IPV4</code> or <code>IPV6</code>.
   final IPSetDescriptorType type;
@@ -10268,6 +10407,7 @@ class IPSetDescriptor {
   }
 }
 
+/// @nodoc
 class IPSetDescriptorType {
   static const ipv4 = IPSetDescriptorType._('IPV4');
   static const ipv6 = IPSetDescriptorType._('IPV6');
@@ -10306,6 +10446,8 @@ class IPSetDescriptorType {
 /// </note>
 /// Specifies the type of update to perform to an <a>GeoMatchSet</a> with
 /// <a>UpdateGeoMatchSet</a>.
+///
+/// @nodoc
 class GeoMatchSetUpdate {
   /// Specifies whether to insert or delete a country with
   /// <a>UpdateGeoMatchSet</a>.
@@ -10343,6 +10485,8 @@ class GeoMatchSetUpdate {
 /// </note>
 /// The country from which web requests originate that you want AWS WAF to
 /// search for.
+///
+/// @nodoc
 class GeoMatchConstraint {
   /// The type of geographical area you want AWS WAF to search for. Currently
   /// <code>Country</code> is the only valid value.
@@ -10374,6 +10518,7 @@ class GeoMatchConstraint {
   }
 }
 
+/// @nodoc
 class GeoMatchConstraintType {
   static const country = GeoMatchConstraintType._('Country');
 
@@ -10398,6 +10543,7 @@ class GeoMatchConstraintType {
   String toString() => value;
 }
 
+/// @nodoc
 class GeoMatchConstraintValue {
   static const af = GeoMatchConstraintValue._('AF');
   static const ax = GeoMatchConstraintValue._('AX');
@@ -10934,6 +11080,8 @@ class GeoMatchConstraintValue {
 /// In an <a>UpdateByteMatchSet</a> request, <code>ByteMatchSetUpdate</code>
 /// specifies whether to insert or delete a <a>ByteMatchTuple</a> and includes
 /// the settings for the <code>ByteMatchTuple</code>.
+///
+/// @nodoc
 class ByteMatchSetUpdate {
   /// Specifies whether to insert or delete a <a>ByteMatchTuple</a>.
   final ChangeAction action;
@@ -10975,6 +11123,8 @@ class ByteMatchSetUpdate {
 /// The bytes (typically a string that corresponds with ASCII characters) that
 /// you want AWS WAF to search for in web requests, the location in requests
 /// that you want AWS WAF to search, and other settings.
+///
+/// @nodoc
 class ByteMatchTuple {
   /// The part of a web request that you want AWS WAF to search, such as a
   /// specified header or a query string. For more information, see
@@ -11241,6 +11391,7 @@ class ByteMatchTuple {
   }
 }
 
+/// @nodoc
 class PositionalConstraint {
   static const exactly = PositionalConstraint._('EXACTLY');
   static const startsWith = PositionalConstraint._('STARTS_WITH');
@@ -11290,6 +11441,8 @@ class PositionalConstraint {
 /// or view tags through the AWS WAF Classic console. You can tag the AWS
 /// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
 /// and rules.
+///
+/// @nodoc
 class Tag {
   ///
   final String key;
@@ -11332,6 +11485,8 @@ class Tag {
 /// </note>
 /// The Amazon Kinesis Data Firehose, <code>RedactedFields</code> information,
 /// and the web ACL Amazon Resource Name (ARN).
+///
+/// @nodoc
 class LoggingConfiguration {
   /// An array of Amazon Kinesis Data Firehose ARNs.
   final List<String> logDestinationConfigs;
@@ -11390,6 +11545,8 @@ class LoggingConfiguration {
 /// of endpoints for regional and global use.
 /// </note>
 /// The <code>Id</code> and <code>Name</code> of an <code>XssMatchSet</code>.
+///
+/// @nodoc
 class XssMatchSetSummary {
   /// The name of the <code>XssMatchSet</code>, if any, specified by
   /// <code>Id</code>.
@@ -11441,6 +11598,8 @@ class XssMatchSetSummary {
 /// of endpoints for regional and global use.
 /// </note>
 /// Contains the identifier and the name or description of the <a>WebACL</a>.
+///
+/// @nodoc
 class WebACLSummary {
   /// A friendly name or description of the <a>WebACL</a>. You can't change the
   /// name of a <code>WebACL</code> after you create it.
@@ -11498,6 +11657,8 @@ class WebACLSummary {
 /// or view tags through the AWS WAF Classic console. You can tag the AWS
 /// resources that you manage through AWS WAF Classic: web ACLs, rule groups,
 /// and rules.
+///
+/// @nodoc
 class TagInfoForResource {
   ///
   final String? resourceARN;
@@ -11542,6 +11703,8 @@ class TagInfoForResource {
 /// of endpoints for regional and global use.
 /// </note>
 /// A summary of the rule groups you are subscribed to.
+///
+/// @nodoc
 class SubscribedRuleGroupSummary {
   /// A friendly name or description for the metrics for this
   /// <code>RuleGroup</code>. The name can contain only alphanumeric characters
@@ -11597,6 +11760,8 @@ class SubscribedRuleGroupSummary {
 /// </note>
 /// The <code>Id</code> and <code>Name</code> of a
 /// <code>SqlInjectionMatchSet</code>.
+///
+/// @nodoc
 class SqlInjectionMatchSetSummary {
   /// The name of the <code>SqlInjectionMatchSet</code>, if any, specified by
   /// <code>Id</code>.
@@ -11651,6 +11816,8 @@ class SqlInjectionMatchSetSummary {
 /// </note>
 /// The <code>Id</code> and <code>Name</code> of a
 /// <code>SizeConstraintSet</code>.
+///
+/// @nodoc
 class SizeConstraintSetSummary {
   /// The name of the <code>SizeConstraintSet</code>, if any.
   final String name;
@@ -11703,6 +11870,8 @@ class SizeConstraintSetSummary {
 /// </note>
 /// Contains the identifier and the friendly name or description of the
 /// <code>Rule</code>.
+///
+/// @nodoc
 class RuleSummary {
   /// A friendly name or description of the <a>Rule</a>. You can't change the name
   /// of a <code>Rule</code> after you create it.
@@ -11754,6 +11923,8 @@ class RuleSummary {
 /// </note>
 /// Contains the identifier and the friendly name or description of the
 /// <code>RuleGroup</code>.
+///
+/// @nodoc
 class RuleGroupSummary {
   /// A friendly name or description of the <a>RuleGroup</a>. You can't change the
   /// name of a <code>RuleGroup</code> after you create it.
@@ -11793,6 +11964,7 @@ class RuleGroupSummary {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const applicationLoadBalancer =
       ResourceType._('APPLICATION_LOAD_BALANCER');
@@ -11831,6 +12003,8 @@ class ResourceType {
 /// Returned by <a>ListRegexPatternSets</a>. Each
 /// <code>RegexPatternSetSummary</code> object includes the <code>Name</code>
 /// and <code>RegexPatternSetId</code> for one <a>RegexPatternSet</a>.
+///
+/// @nodoc
 class RegexPatternSetSummary {
   /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
   /// change <code>Name</code> after you create a <code>RegexPatternSet</code>.
@@ -11882,6 +12056,8 @@ class RegexPatternSetSummary {
 /// Returned by <a>ListRegexMatchSets</a>. Each
 /// <code>RegexMatchSetSummary</code> object includes the <code>Name</code> and
 /// <code>RegexMatchSetId</code> for one <a>RegexMatchSet</a>.
+///
+/// @nodoc
 class RegexMatchSetSummary {
   /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
   /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
@@ -11931,6 +12107,8 @@ class RegexMatchSetSummary {
 /// of endpoints for regional and global use.
 /// </note>
 /// Contains the identifier and the name of the <code>IPSet</code>.
+///
+/// @nodoc
 class IPSetSummary {
   /// The <code>IPSetId</code> for an <a>IPSet</a>. You can use
   /// <code>IPSetId</code> in a <a>GetIPSet</a> request to get detailed
@@ -11975,6 +12153,8 @@ class IPSetSummary {
 /// of endpoints for regional and global use.
 /// </note>
 /// Contains the identifier and the name of the <code>GeoMatchSet</code>.
+///
+/// @nodoc
 class GeoMatchSetSummary {
   /// The <code>GeoMatchSetId</code> for an <a>GeoMatchSet</a>. You can use
   /// <code>GeoMatchSetId</code> in a <a>GetGeoMatchSet</a> request to get
@@ -12021,6 +12201,8 @@ class GeoMatchSetSummary {
 /// Returned by <a>ListByteMatchSets</a>. Each <code>ByteMatchSetSummary</code>
 /// object includes the <code>Name</code> and <code>ByteMatchSetId</code> for
 /// one <a>ByteMatchSet</a>.
+///
+/// @nodoc
 class ByteMatchSetSummary {
   /// The <code>ByteMatchSetId</code> for a <code>ByteMatchSet</code>. You use
   /// <code>ByteMatchSetId</code> to get information about a
@@ -12076,6 +12258,8 @@ class ByteMatchSetSummary {
 /// <code>XssMatchTuple</code> object, a request needs to include cross-site
 /// scripting attacks in only one of the specified parts of the request to be
 /// considered a match.
+///
+/// @nodoc
 class XssMatchSet {
   /// A unique identifier for an <code>XssMatchSet</code>. You use
   /// <code>XssMatchSetId</code> to get information about an
@@ -12146,6 +12330,8 @@ class XssMatchSet {
 /// you add more than one <code>Rule</code> to a <code>WebACL</code>, a request
 /// needs to match only one of the specifications to be allowed, blocked, or
 /// counted. For more information, see <a>UpdateWebACL</a>.
+///
+/// @nodoc
 class WebACL {
   /// The action to perform if none of the <code>Rules</code> contained in the
   /// <code>WebACL</code> match. The action is specified by the <a>WafAction</a>
@@ -12242,6 +12428,8 @@ class WebACL {
 /// than one <code>SqlInjectionMatchTuple</code> object, a request needs to
 /// include snippets of SQL code in only one of the specified parts of the
 /// request to be considered a match.
+///
+/// @nodoc
 class SqlInjectionMatchSet {
   /// A unique identifier for a <code>SqlInjectionMatchSet</code>. You use
   /// <code>SqlInjectionMatchSetId</code> to get information about a
@@ -12311,6 +12499,8 @@ class SqlInjectionMatchSet {
 /// of. If a <code>SizeConstraintSet</code> contains more than one
 /// <code>SizeConstraint</code> object, a request only needs to match one
 /// constraint to be considered a match.
+///
+/// @nodoc
 class SizeConstraintSet {
   /// A unique identifier for a <code>SizeConstraintSet</code>. You use
   /// <code>SizeConstraintSetId</code> to get information about a
@@ -12387,6 +12577,8 @@ class SizeConstraintSet {
 /// receives more than 5,000 requests during that period, AWS WAF stops sampling
 /// after the 5,000th request. In that case, <code>EndTime</code> is the time
 /// that AWS WAF received the 5,000th request.
+///
+/// @nodoc
 class TimeWindow {
   /// The end of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
@@ -12443,6 +12635,8 @@ class TimeWindow {
 /// <code>SampledHTTPRequests</code> contains one
 /// <code>SampledHTTPRequest</code> object for each web request that is returned
 /// by <code>GetSampledRequests</code>.
+///
+/// @nodoc
 class SampledHTTPRequest {
   /// A complex type that contains detailed information about the request.
   final HTTPRequest request;
@@ -12521,6 +12715,8 @@ class SampledHTTPRequest {
 /// in the response syntax. <code>HTTPRequest</code> contains information about
 /// one of the web requests that were returned by
 /// <code>GetSampledRequests</code>.
+///
+/// @nodoc
 class HTTPRequest {
   /// The IP address that the request originated from. If the <code>WebACL</code>
   /// is associated with a CloudFront distribution, this is the value of one of
@@ -12619,6 +12815,8 @@ class HTTPRequest {
 /// the response syntax. <code>HTTPHeader</code> contains the names and values
 /// of all of the headers that appear in one of the web requests that were
 /// returned by <code>GetSampledRequests</code>.
+///
+/// @nodoc
 class HTTPHeader {
   /// The name of one of the headers in the sampled web request.
   final String? name;
@@ -12675,6 +12873,8 @@ class HTTPHeader {
 /// Ten rules per rule group.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RuleGroup {
   /// A unique identifier for a <code>RuleGroup</code>. You use
   /// <code>RuleGroupId</code> to get more information about a
@@ -12756,6 +12956,8 @@ class RuleGroup {
 /// To match the settings in this <code>Rule</code>, a request must originate
 /// from <code>192.0.2.44</code> AND include a <code>User-Agent</code> header
 /// for which the value is <code>BadBot</code>.
+///
+/// @nodoc
 class Rule {
   /// The <code>Predicates</code> object contains one <code>Predicate</code>
   /// element for each <a>ByteMatchSet</a>, <a>IPSet</a>, or
@@ -12831,8 +13033,10 @@ class Rule {
 /// </note>
 /// The <code>RegexPatternSet</code> specifies the regular expression (regex)
 /// pattern that you want AWS WAF to search for, such as
-/// <code>B[a@]dB[o0]t</code>. You can then configure AWS WAF to reject those
-/// requests.
+/// <code>B\[a@\]dB\[o0\]t</code>. You can then configure AWS WAF to reject
+/// those requests.
+///
+/// @nodoc
 class RegexPatternSet {
   /// The identifier for the <code>RegexPatternSet</code>. You use
   /// <code>RegexPatternSetId</code> to get information about a
@@ -12845,7 +13049,7 @@ class RegexPatternSet {
   final String regexPatternSetId;
 
   /// Specifies the regular expression (regex) patterns that you want AWS WAF to
-  /// search for, such as <code>B[a@]dB[o0]t</code>.
+  /// search for, such as <code>B\[a@\]dB\[o0\]t</code>.
   final List<String> regexPatternStrings;
 
   /// A friendly name or description of the <a>RegexPatternSet</a>. You can't
@@ -12903,6 +13107,8 @@ class RegexPatternSet {
 /// contains more than one <code>RegexMatchTuple</code> object, a request needs
 /// to match the settings in only one <code>ByteMatchTuple</code> to be
 /// considered a match.
+///
+/// @nodoc
 class RegexMatchSet {
   /// A friendly name or description of the <a>RegexMatchSet</a>. You can't change
   /// <code>Name</code> after you create a <code>RegexMatchSet</code>.
@@ -12999,6 +13205,8 @@ class RegexMatchSet {
 /// Requests that meet both of these conditions and exceed 1,000 requests every
 /// five minutes trigger the rule's action (block or count), which is defined in
 /// the web ACL.
+///
+/// @nodoc
 class RateBasedRule {
   /// The <code>Predicates</code> object contains one <code>Predicate</code>
   /// element for each <a>ByteMatchSet</a>, <a>IPSet</a>, or
@@ -13082,6 +13290,7 @@ class RateBasedRule {
   }
 }
 
+/// @nodoc
 class RateKey {
   static const ip = RateKey._('IP');
 
@@ -13127,6 +13336,8 @@ class RateKey {
 /// information about CIDR notation, see the Wikipedia entry <a
 /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
 /// Inter-Domain Routing</a>.
+///
+/// @nodoc
 class IPSet {
   /// The IP address type (<code>IPV4</code> or <code>IPV6</code>) and the IP
   /// address range (in CIDR notation) that web requests originate from. If the
@@ -13191,6 +13402,8 @@ class IPSet {
 /// of endpoints for regional and global use.
 /// </note>
 /// Contains one or more countries that AWS WAF will search for.
+///
+/// @nodoc
 class GeoMatchSet {
   /// An array of <a>GeoMatchConstraint</a> objects, which contain the country
   /// that you want AWS WAF to search for.
@@ -13241,6 +13454,7 @@ class GeoMatchSet {
   }
 }
 
+/// @nodoc
 class ChangeTokenStatus {
   static const provisioned = ChangeTokenStatus._('PROVISIONED');
   static const pending = ChangeTokenStatus._('PENDING');
@@ -13288,6 +13502,8 @@ class ChangeTokenStatus {
 /// contains more than one <code>ByteMatchTuple</code> object, a request needs
 /// to match the settings in only one <code>ByteMatchTuple</code> to be
 /// considered a match.
+///
+/// @nodoc
 class ByteMatchSet {
   /// The <code>ByteMatchSetId</code> for a <code>ByteMatchSet</code>. You use
   /// <code>ByteMatchSetId</code> to get information about a
@@ -13339,44 +13555,52 @@ class ByteMatchSet {
   }
 }
 
+/// @nodoc
 class WAFBadRequestException extends _s.GenericAwsException {
   WAFBadRequestException({String? type, String? message})
       : super(type: type, code: 'WAFBadRequestException', message: message);
 }
 
+/// @nodoc
 class WAFDisallowedNameException extends _s.GenericAwsException {
   WAFDisallowedNameException({String? type, String? message})
       : super(type: type, code: 'WAFDisallowedNameException', message: message);
 }
 
+/// @nodoc
 class WAFEntityMigrationException extends _s.GenericAwsException {
   WAFEntityMigrationException({String? type, String? message})
       : super(
             type: type, code: 'WAFEntityMigrationException', message: message);
 }
 
+/// @nodoc
 class WAFInternalErrorException extends _s.GenericAwsException {
   WAFInternalErrorException({String? type, String? message})
       : super(type: type, code: 'WAFInternalErrorException', message: message);
 }
 
+/// @nodoc
 class WAFInvalidAccountException extends _s.GenericAwsException {
   WAFInvalidAccountException({String? type, String? message})
       : super(type: type, code: 'WAFInvalidAccountException', message: message);
 }
 
+/// @nodoc
 class WAFInvalidOperationException extends _s.GenericAwsException {
   WAFInvalidOperationException({String? type, String? message})
       : super(
             type: type, code: 'WAFInvalidOperationException', message: message);
 }
 
+/// @nodoc
 class WAFInvalidParameterException extends _s.GenericAwsException {
   WAFInvalidParameterException({String? type, String? message})
       : super(
             type: type, code: 'WAFInvalidParameterException', message: message);
 }
 
+/// @nodoc
 class WAFInvalidPermissionPolicyException extends _s.GenericAwsException {
   WAFInvalidPermissionPolicyException({String? type, String? message})
       : super(
@@ -13385,6 +13609,7 @@ class WAFInvalidPermissionPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFInvalidRegexPatternException extends _s.GenericAwsException {
   WAFInvalidRegexPatternException({String? type, String? message})
       : super(
@@ -13393,16 +13618,19 @@ class WAFInvalidRegexPatternException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFLimitsExceededException extends _s.GenericAwsException {
   WAFLimitsExceededException({String? type, String? message})
       : super(type: type, code: 'WAFLimitsExceededException', message: message);
 }
 
+/// @nodoc
 class WAFNonEmptyEntityException extends _s.GenericAwsException {
   WAFNonEmptyEntityException({String? type, String? message})
       : super(type: type, code: 'WAFNonEmptyEntityException', message: message);
 }
 
+/// @nodoc
 class WAFNonexistentContainerException extends _s.GenericAwsException {
   WAFNonexistentContainerException({String? type, String? message})
       : super(
@@ -13411,17 +13639,20 @@ class WAFNonexistentContainerException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFNonexistentItemException extends _s.GenericAwsException {
   WAFNonexistentItemException({String? type, String? message})
       : super(
             type: type, code: 'WAFNonexistentItemException', message: message);
 }
 
+/// @nodoc
 class WAFReferencedItemException extends _s.GenericAwsException {
   WAFReferencedItemException({String? type, String? message})
       : super(type: type, code: 'WAFReferencedItemException', message: message);
 }
 
+/// @nodoc
 class WAFServiceLinkedRoleErrorException extends _s.GenericAwsException {
   WAFServiceLinkedRoleErrorException({String? type, String? message})
       : super(
@@ -13430,11 +13661,13 @@ class WAFServiceLinkedRoleErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFStaleDataException extends _s.GenericAwsException {
   WAFStaleDataException({String? type, String? message})
       : super(type: type, code: 'WAFStaleDataException', message: message);
 }
 
+/// @nodoc
 class WAFSubscriptionNotFoundException extends _s.GenericAwsException {
   WAFSubscriptionNotFoundException({String? type, String? message})
       : super(
@@ -13443,11 +13676,13 @@ class WAFSubscriptionNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFTagOperationException extends _s.GenericAwsException {
   WAFTagOperationException({String? type, String? message})
       : super(type: type, code: 'WAFTagOperationException', message: message);
 }
 
+/// @nodoc
 class WAFTagOperationInternalErrorException extends _s.GenericAwsException {
   WAFTagOperationInternalErrorException({String? type, String? message})
       : super(
@@ -13456,6 +13691,7 @@ class WAFTagOperationInternalErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WAFUnavailableEntityException extends _s.GenericAwsException {
   WAFUnavailableEntityException({String? type, String? message})
       : super(

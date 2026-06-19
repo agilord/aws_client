@@ -2160,6 +2160,7 @@ class ConnectCases {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of of key-value pairs that represent tags on a resource. Tags are used
   /// to organize, track, or control access for this resource.
@@ -2184,6 +2185,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateCaseResponse {
   /// The Amazon Resource Name (ARN) of the case.
   final String caseArn;
@@ -2213,6 +2215,7 @@ class CreateCaseResponse {
   }
 }
 
+/// @nodoc
 class GetCaseResponse {
   /// A list of detailed field information.
   final List<FieldValue> fields;
@@ -2262,6 +2265,7 @@ class GetCaseResponse {
   }
 }
 
+/// @nodoc
 class UpdateCaseResponse {
   UpdateCaseResponse();
 
@@ -2274,6 +2278,7 @@ class UpdateCaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteCaseResponse {
   DeleteCaseResponse();
 
@@ -2286,6 +2291,7 @@ class DeleteCaseResponse {
   }
 }
 
+/// @nodoc
 class GetCaseAuditEventsResponse {
   /// A list of case audits where each represents a particular edit of the case.
   final List<AuditEvent> auditEvents;
@@ -2319,6 +2325,7 @@ class GetCaseAuditEventsResponse {
   }
 }
 
+/// @nodoc
 class ListCasesForContactResponse {
   /// A list of Case summary information.
   final List<CaseSummary> cases;
@@ -2352,6 +2359,7 @@ class ListCasesForContactResponse {
   }
 }
 
+/// @nodoc
 class SearchCasesResponse {
   /// A list of case documents where each case contains the properties
   /// <code>CaseId</code> and <code>Fields</code> where each field is a complex
@@ -2395,6 +2403,7 @@ class SearchCasesResponse {
   }
 }
 
+/// @nodoc
 class CreateRelatedItemResponse {
   /// The Amazon Resource Name (ARN) of the related item.
   final String relatedItemArn;
@@ -2424,6 +2433,7 @@ class CreateRelatedItemResponse {
   }
 }
 
+/// @nodoc
 class UpdateRelatedItemResponse {
   /// Time at which the related item was associated with the case.
   final DateTime associationTime;
@@ -2504,6 +2514,7 @@ class UpdateRelatedItemResponse {
   }
 }
 
+/// @nodoc
 class DeleteRelatedItemResponse {
   DeleteRelatedItemResponse();
 
@@ -2516,6 +2527,7 @@ class DeleteRelatedItemResponse {
   }
 }
 
+/// @nodoc
 class SearchRelatedItemsResponse {
   /// A list of items related to a case.
   final List<SearchRelatedItemsResponseItem> relatedItems;
@@ -2550,6 +2562,7 @@ class SearchRelatedItemsResponse {
   }
 }
 
+/// @nodoc
 class CreateCaseRuleResponse {
   /// The Amazon Resource Name (ARN) of a case rule.
   final String caseRuleArn;
@@ -2579,6 +2592,7 @@ class CreateCaseRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateCaseRuleResponse {
   UpdateCaseRuleResponse();
 
@@ -2591,6 +2605,7 @@ class UpdateCaseRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteCaseRuleResponse {
   DeleteCaseRuleResponse();
 
@@ -2603,6 +2618,7 @@ class DeleteCaseRuleResponse {
   }
 }
 
+/// @nodoc
 class ListCaseRulesResponse {
   /// A list of field summary objects.
   final List<CaseRuleSummary> caseRules;
@@ -2636,6 +2652,7 @@ class ListCaseRulesResponse {
   }
 }
 
+/// @nodoc
 class BatchGetCaseRuleResponse {
   /// A list of detailed case rule information.
   final List<GetCaseRuleResponse> caseRules;
@@ -2682,6 +2699,7 @@ class BatchGetCaseRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateDomainResponse {
   /// The Amazon Resource Name (ARN) for the Cases domain.
   final String domainArn;
@@ -2719,6 +2737,7 @@ class CreateDomainResponse {
   }
 }
 
+/// @nodoc
 class GetDomainResponse {
   /// The timestamp when the Cases domain was created.
   final DateTime createdTime;
@@ -2779,6 +2798,7 @@ class GetDomainResponse {
   }
 }
 
+/// @nodoc
 class DeleteDomainResponse {
   DeleteDomainResponse();
 
@@ -2791,6 +2811,7 @@ class DeleteDomainResponse {
   }
 }
 
+/// @nodoc
 class ListDomainsResponse {
   /// The Cases domain.
   final List<DomainSummary> domains;
@@ -2824,6 +2845,7 @@ class ListDomainsResponse {
   }
 }
 
+/// @nodoc
 class GetCaseEventConfigurationResponse {
   /// Configuration to enable EventBridge case event delivery and determine what
   /// data is delivered.
@@ -2850,6 +2872,7 @@ class GetCaseEventConfigurationResponse {
   }
 }
 
+/// @nodoc
 class PutCaseEventConfigurationResponse {
   PutCaseEventConfigurationResponse();
 
@@ -2862,6 +2885,7 @@ class PutCaseEventConfigurationResponse {
   }
 }
 
+/// @nodoc
 class SearchAllRelatedItemsResponse {
   /// A list of items related to a case.
   final List<SearchAllRelatedItemsResponseItem> relatedItems;
@@ -2896,6 +2920,7 @@ class SearchAllRelatedItemsResponse {
   }
 }
 
+/// @nodoc
 class CreateFieldResponse {
   /// The Amazon Resource Name (ARN) of the field.
   final String fieldArn;
@@ -2925,6 +2950,7 @@ class CreateFieldResponse {
   }
 }
 
+/// @nodoc
 class UpdateFieldResponse {
   UpdateFieldResponse();
 
@@ -2937,6 +2963,7 @@ class UpdateFieldResponse {
   }
 }
 
+/// @nodoc
 class DeleteFieldResponse {
   DeleteFieldResponse();
 
@@ -2949,6 +2976,7 @@ class DeleteFieldResponse {
   }
 }
 
+/// @nodoc
 class ListFieldsResponse {
   /// List of detailed field information.
   final List<FieldSummary> fields;
@@ -2982,6 +3010,7 @@ class ListFieldsResponse {
   }
 }
 
+/// @nodoc
 class BatchPutFieldOptionsResponse {
   /// A list of field errors.
   final List<FieldOptionError>? errors;
@@ -3007,6 +3036,7 @@ class BatchPutFieldOptionsResponse {
   }
 }
 
+/// @nodoc
 class ListFieldOptionsResponse {
   /// A list of <code>FieldOption</code> objects.
   final List<FieldOption> options;
@@ -3040,6 +3070,7 @@ class ListFieldOptionsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetFieldResponse {
   /// A list of field errors.
   final List<FieldError> errors;
@@ -3075,6 +3106,7 @@ class BatchGetFieldResponse {
   }
 }
 
+/// @nodoc
 class CreateLayoutResponse {
   /// The Amazon Resource Name (ARN) of the newly created layout.
   final String layoutArn;
@@ -3104,6 +3136,7 @@ class CreateLayoutResponse {
   }
 }
 
+/// @nodoc
 class GetLayoutResponse {
   /// Information about which fields will be present in the layout, the order of
   /// the fields, and read-only attribute of the field.
@@ -3181,6 +3214,7 @@ class GetLayoutResponse {
   }
 }
 
+/// @nodoc
 class UpdateLayoutResponse {
   UpdateLayoutResponse();
 
@@ -3193,6 +3227,7 @@ class UpdateLayoutResponse {
   }
 }
 
+/// @nodoc
 class DeleteLayoutResponse {
   DeleteLayoutResponse();
 
@@ -3205,6 +3240,7 @@ class DeleteLayoutResponse {
   }
 }
 
+/// @nodoc
 class ListLayoutsResponse {
   /// The layouts for the domain.
   final List<LayoutSummary> layouts;
@@ -3238,6 +3274,7 @@ class ListLayoutsResponse {
   }
 }
 
+/// @nodoc
 class CreateTemplateResponse {
   /// The Amazon Resource Name (ARN) of the newly created template.
   final String templateArn;
@@ -3267,6 +3304,7 @@ class CreateTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetTemplateResponse {
   /// The name of the template.
   final String name;
@@ -3397,6 +3435,7 @@ class GetTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateTemplateResponse {
   UpdateTemplateResponse();
 
@@ -3409,6 +3448,7 @@ class UpdateTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteTemplateResponse {
   DeleteTemplateResponse();
 
@@ -3421,6 +3461,7 @@ class DeleteTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListTemplatesResponse {
   /// List of template summary objects.
   final List<TemplateSummary> templates;
@@ -3455,6 +3496,8 @@ class ListTemplatesResponse {
 }
 
 /// Template summary information.
+///
+/// @nodoc
 class TemplateSummary {
   /// The template name.
   final String name;
@@ -3513,6 +3556,7 @@ class TemplateSummary {
   }
 }
 
+/// @nodoc
 class TemplateStatus {
   static const active = TemplateStatus._('Active');
   static const inactive = TemplateStatus._('Inactive');
@@ -3540,6 +3584,8 @@ class TemplateStatus {
 /// Defines tag propagation configuration for resources created within a domain.
 /// Tags specified here will be automatically applied to resources being created
 /// for the specified resource type.
+///
+/// @nodoc
 class TagPropagationConfiguration {
   /// Supported resource types for tag propagation. Determines which resources
   /// will receive automatically propagated tags.
@@ -3573,6 +3619,7 @@ class TagPropagationConfiguration {
   }
 }
 
+/// @nodoc
 class TagPropagationResourceType {
   static const cases = TagPropagationResourceType._('Cases');
 
@@ -3598,6 +3645,8 @@ class TagPropagationResourceType {
 }
 
 /// Object to store configuration of layouts associated to the template.
+///
+/// @nodoc
 class LayoutConfiguration {
   /// Unique identifier of a layout.
   final String? defaultLayout;
@@ -3625,6 +3674,8 @@ class LayoutConfiguration {
 /// For more information about case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class TemplateRule {
   /// Unique identifier of a case rule.
   final String caseRuleId;
@@ -3655,6 +3706,8 @@ class TemplateRule {
 }
 
 /// List of fields that must have a value provided to create a case.
+///
+/// @nodoc
 class RequiredField {
   /// Unique identifier of a field.
   final String fieldId;
@@ -3678,6 +3731,8 @@ class RequiredField {
 }
 
 /// Object for the summarized details of the layout.
+///
+/// @nodoc
 class LayoutSummary {
   /// The Amazon Resource Name (ARN) of the layout.
   final String layoutArn;
@@ -3715,6 +3770,8 @@ class LayoutSummary {
 }
 
 /// Object to store union of different versions of layout content.
+///
+/// @nodoc
 class LayoutContent {
   /// Content specific to <code>BasicLayout</code> type. It configures fields in
   /// the top panel and More Info tab of Cases user interface.
@@ -3742,6 +3799,8 @@ class LayoutContent {
 
 /// Content specific to <code>BasicLayout</code> type. It configures fields in
 /// the top panel and More Info tab of agent application.
+///
+/// @nodoc
 class BasicLayout {
   /// This represents sections in a tab of the page layout.
   final LayoutSections? moreInfo;
@@ -3777,6 +3836,8 @@ class BasicLayout {
 
 /// Ordered list containing different kinds of sections that can be added. A
 /// LayoutSections object can only contain one section.
+///
+/// @nodoc
 class LayoutSections {
   final List<Section>? sections;
 
@@ -3802,6 +3863,8 @@ class LayoutSections {
 }
 
 /// This represents a sections within a panel or tab of the page layout.
+///
+/// @nodoc
 class Section {
   /// Consists of a group of fields and associated properties.
   final FieldGroup? fieldGroup;
@@ -3827,6 +3890,8 @@ class Section {
 }
 
 /// Object for a group of fields and associated properties.
+///
+/// @nodoc
 class FieldGroup {
   /// Represents an ordered list containing field related information.
   final List<FieldItem> fields;
@@ -3860,6 +3925,8 @@ class FieldGroup {
 }
 
 /// Object for field related information.
+///
+/// @nodoc
 class FieldItem {
   /// Unique identifier of a field.
   final String id;
@@ -3883,6 +3950,8 @@ class FieldItem {
 }
 
 /// Object for errors on fields.
+///
+/// @nodoc
 class FieldError {
   /// The error code from getting a field.
   final String errorCode;
@@ -3920,6 +3989,8 @@ class FieldError {
 }
 
 /// Object to store detailed field information.
+///
+/// @nodoc
 class GetFieldResponse {
   /// The Amazon Resource Name (ARN) of the field.
   final String fieldArn;
@@ -4018,6 +4089,7 @@ class GetFieldResponse {
   }
 }
 
+/// @nodoc
 class FieldType {
   static const text = FieldType._('Text');
   static const number = FieldType._('Number');
@@ -4054,6 +4126,7 @@ class FieldType {
   String toString() => value;
 }
 
+/// @nodoc
 class FieldNamespace {
   static const system = FieldNamespace._('System');
   static const custom = FieldNamespace._('Custom');
@@ -4079,6 +4152,8 @@ class FieldNamespace {
 }
 
 /// Union of field attributes.
+///
+/// @nodoc
 class FieldAttributes {
   /// Field attributes for Text field type.
   final TextAttributes? text;
@@ -4104,6 +4179,8 @@ class FieldAttributes {
 }
 
 /// Field attributes for Text field type.
+///
+/// @nodoc
 class TextAttributes {
   /// Attribute that defines rendering component and validation.
   final bool isMultiline;
@@ -4127,6 +4204,8 @@ class TextAttributes {
 }
 
 /// Object for unique identifier of a field.
+///
+/// @nodoc
 class FieldIdentifier {
   /// Unique identifier of a field.
   final String id;
@@ -4150,6 +4229,8 @@ class FieldIdentifier {
 }
 
 /// Object for field Options information.
+///
+/// @nodoc
 class FieldOption {
   /// Describes whether the <code>FieldOption</code> is active (displayed) or
   /// inactive.
@@ -4190,6 +4271,8 @@ class FieldOption {
 }
 
 /// Object for field Options errors.
+///
+/// @nodoc
 class FieldOptionError {
   /// Error code from creating or updating field option.
   final String errorCode;
@@ -4227,6 +4310,8 @@ class FieldOptionError {
 }
 
 /// Object for the summarized details of the field.
+///
+/// @nodoc
 class FieldSummary {
   /// The Amazon Resource Name (ARN) of the field.
   final String fieldArn;
@@ -4290,6 +4375,8 @@ class FieldSummary {
 /// A list of items that represent RelatedItems. This data type is similar to <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchRelatedItemsResponseItem.html">SearchRelatedItemsResponseItem</a>
 /// except Search<b>All</b>RelatedItemsResponseItem has a caseId field.
+///
+/// @nodoc
 class SearchAllRelatedItemsResponseItem {
   /// Time at which a related item was associated with a case.
   final DateTime associationTime;
@@ -4358,6 +4445,7 @@ class SearchAllRelatedItemsResponseItem {
   }
 }
 
+/// @nodoc
 class RelatedItemType {
   static const contact = RelatedItemType._('Contact');
   static const comment = RelatedItemType._('Comment');
@@ -4387,6 +4475,8 @@ class RelatedItemType {
 }
 
 /// Represents the content of a particular type of related item.
+///
+/// @nodoc
 class RelatedItemContent {
   /// Represents the content of a comment to be returned to agents.
   final CommentContent? comment;
@@ -4458,6 +4548,8 @@ class RelatedItemContent {
 }
 
 /// Represents the entity that performed the action.
+///
+/// @nodoc
 class UserUnion {
   /// Any provided entity.
   final String? customEntity;
@@ -4488,6 +4580,8 @@ class UserUnion {
 }
 
 /// An object that represents a content of an Amazon Connect contact object.
+///
+/// @nodoc
 class ContactContent {
   /// A list of channels to filter on for related items of type
   /// <code>Contact</code>.
@@ -4528,6 +4622,8 @@ class ContactContent {
 }
 
 /// Represents the content of a <code>Comment</code> to be returned to agents.
+///
+/// @nodoc
 class CommentContent {
   /// Text in the body of a <code>Comment</code> on a case.
   final String body;
@@ -4559,6 +4655,8 @@ class CommentContent {
 }
 
 /// An object that represents a content of an Amazon Connect file object.
+///
+/// @nodoc
 class FileContent {
   /// The Amazon Resource Name (ARN) of a File in Amazon Connect.
   final String fileArn;
@@ -4582,6 +4680,8 @@ class FileContent {
 }
 
 /// Represents the content of an SLA to be returned to agents.
+///
+/// @nodoc
 class SlaContent {
   /// Represents an SLA configuration.
   final SlaConfiguration slaConfiguration;
@@ -4607,6 +4707,8 @@ class SlaContent {
 }
 
 /// Represents the content of a <code>ConnectCase</code> type related item.
+///
+/// @nodoc
 class ConnectCaseContent {
   /// A unique identifier of the case.
   final String caseId;
@@ -4630,6 +4732,8 @@ class ConnectCaseContent {
 }
 
 /// Represents the content of a <code>Custom</code> type related item.
+///
+/// @nodoc
 class CustomContent {
   /// List of field values for the <code>Custom</code> related item.
   final List<FieldValue> fields;
@@ -4656,6 +4760,8 @@ class CustomContent {
 }
 
 /// Object for case field values.
+///
+/// @nodoc
 class FieldValue {
   /// Unique identifier of a field.
   final String id;
@@ -4693,6 +4799,8 @@ class FieldValue {
 /// all other fields accept up to 4100 characters. If you use multi-byte
 /// characters, the effective character limit may be lower.
 /// </note>
+///
+/// @nodoc
 class FieldValueUnion {
   /// Can be either null, or have a Boolean value type. Only one value can be
   /// provided.
@@ -4752,6 +4860,8 @@ class FieldValueUnion {
 ///
 /// This structure will never have any data members. It signifies an empty value
 /// on a case field.
+///
+/// @nodoc
 class EmptyFieldValue {
   EmptyFieldValue();
 
@@ -4765,6 +4875,8 @@ class EmptyFieldValue {
 }
 
 /// Represents an SLA configuration.
+///
+/// @nodoc
 class SlaConfiguration {
   /// Name of an SLA.
   final String name;
@@ -4834,6 +4946,7 @@ class SlaConfiguration {
   }
 }
 
+/// @nodoc
 class SlaType {
   static const caseField = SlaType._('CaseField');
 
@@ -4856,6 +4969,7 @@ class SlaType {
   String toString() => value;
 }
 
+/// @nodoc
 class SlaStatus {
   static const active = SlaStatus._('Active');
   static const overdue = SlaStatus._('Overdue');
@@ -4881,6 +4995,7 @@ class SlaStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CommentBodyTextType {
   static const textPlain = CommentBodyTextType._('Text/Plain');
 
@@ -4906,6 +5021,8 @@ class CommentBodyTextType {
 }
 
 /// The order in which all returned related items should be sorted.
+///
+/// @nodoc
 class SearchAllRelatedItemsSort {
   /// Whether related items should be sorted by association time or case ID.
   final Order sortOrder;
@@ -4928,6 +5045,7 @@ class SearchAllRelatedItemsSort {
   }
 }
 
+/// @nodoc
 class SearchAllRelatedItemsSortProperty {
   static const associationTime =
       SearchAllRelatedItemsSortProperty._('AssociationTime');
@@ -4954,6 +5072,7 @@ class SearchAllRelatedItemsSortProperty {
   String toString() => value;
 }
 
+/// @nodoc
 class Order {
   static const asc = Order._('Asc');
   static const desc = Order._('Desc');
@@ -4979,6 +5098,8 @@ class Order {
 
 /// The list of types of related items and their parameters to use for
 /// filtering.
+///
+/// @nodoc
 class RelatedItemTypeFilter {
   /// A filter for related items of type <code>Comment</code>.
   final CommentFilter? comment;
@@ -5026,6 +5147,8 @@ class RelatedItemTypeFilter {
 }
 
 /// A filter for related items of type <code>Contact</code>.
+///
+/// @nodoc
 class ContactFilter {
   /// A list of channels to filter on for related items of type
   /// <code>Contact</code>.
@@ -5050,6 +5173,8 @@ class ContactFilter {
 }
 
 /// A filter for related items of type <code>Comment</code>.
+///
+/// @nodoc
 class CommentFilter {
   CommentFilter();
 
@@ -5059,6 +5184,8 @@ class CommentFilter {
 }
 
 /// A filter for related items of type <code>File</code>.
+///
+/// @nodoc
 class FileFilter {
   /// The Amazon Resource Name (ARN) of the file.
   final String? fileArn;
@@ -5076,6 +5203,8 @@ class FileFilter {
 }
 
 /// A filter for related items of type <code>SLA</code>.
+///
+/// @nodoc
 class SlaFilter {
   /// Name of an SLA.
   final String? name;
@@ -5099,6 +5228,8 @@ class SlaFilter {
 }
 
 /// A filter for related items of type <code>ConnectCase</code>.
+///
+/// @nodoc
 class ConnectCaseFilter {
   /// A unique identifier of the case.
   final String? caseId;
@@ -5116,6 +5247,8 @@ class ConnectCaseFilter {
 }
 
 /// A filter for related items of type <code>Custom</code>.
+///
+/// @nodoc
 class CustomFilter {
   /// Filter conditions for custom fields.
   final CustomFieldsFilter? fields;
@@ -5134,6 +5267,8 @@ class CustomFilter {
 
 /// A filter for fields in <code>Custom</code> type related items. Only one
 /// value can be provided.
+///
+/// @nodoc
 class CustomFieldsFilter {
   /// Provides "and all" filtering.
   final List<CustomFieldsFilter>? andAll;
@@ -5167,6 +5302,8 @@ class CustomFieldsFilter {
 }
 
 /// A filter for fields. Only one value can be provided.
+///
+/// @nodoc
 class FieldFilter {
   /// Object containing field identifier and value information.
   final FieldValue? contains;
@@ -5216,6 +5353,8 @@ class FieldFilter {
 
 /// Configuration to enable EventBridge case event delivery and determine what
 /// data is delivered.
+///
+/// @nodoc
 class EventBridgeConfiguration {
   /// Indicates whether the to broadcast case event data to the customer.
   final bool enabled;
@@ -5251,6 +5390,8 @@ class EventBridgeConfiguration {
 
 /// Details of what case and related item data is published through the case
 /// event stream.
+///
+/// @nodoc
 class EventIncludedData {
   /// Details of what case data is published through the case event stream.
   final CaseEventIncludedData? caseData;
@@ -5288,6 +5429,8 @@ class EventIncludedData {
 }
 
 /// Details of what case data is published through the case event stream.
+///
+/// @nodoc
 class CaseEventIncludedData {
   /// List of field identifiers.
   final List<FieldIdentifier> fields;
@@ -5315,6 +5458,8 @@ class CaseEventIncludedData {
 
 /// Details of what related item data is published through the case event
 /// stream.
+///
+/// @nodoc
 class RelatedItemEventIncludedData {
   /// Details of what related item data is published through the case event
   /// stream.
@@ -5339,6 +5484,8 @@ class RelatedItemEventIncludedData {
 }
 
 /// Object for the summarized details of the domain.
+///
+/// @nodoc
 class DomainSummary {
   /// The Amazon Resource Name (ARN) of the domain.
   final String domainArn;
@@ -5375,6 +5522,7 @@ class DomainSummary {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const active = DomainStatus._('Active');
   static const creationInProgress = DomainStatus._('CreationInProgress');
@@ -5404,6 +5552,8 @@ class DomainStatus {
 /// information about case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class CaseRuleError {
   /// Error code from getting a case rule.
   final String errorCode;
@@ -5445,6 +5595,8 @@ class CaseRuleError {
 /// case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class GetCaseRuleResponse {
   /// The Amazon Resource Name (ARN) of the case rule.
   final String caseRuleArn;
@@ -5532,6 +5684,8 @@ class GetCaseRuleResponse {
 /// conditions</i>. For more information about case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class CaseRuleDetails {
   /// Which options are available in a child field based on the selected value in
   /// a parent field.
@@ -5581,6 +5735,8 @@ class CaseRuleDetails {
 /// conditions</i>. For more information about case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class RequiredCaseRule {
   /// List of conditions for the required rule; the first condition to evaluate to
   /// true dictates the value of the rule.
@@ -5617,6 +5773,8 @@ class RequiredCaseRule {
 
 /// Rules that control which options are available in a child field based on the
 /// selected value in a parent field.
+///
+/// @nodoc
 class FieldOptionsCaseRule {
   /// A mapping between a parent field option value and child field option values.
   final List<ParentChildFieldOptionsMapping> parentChildFieldOptionsMappings;
@@ -5661,6 +5819,8 @@ class FieldOptionsCaseRule {
 
 /// A rule that controls field visibility based on conditions. Fields can be
 /// shown or hidden dynamically based on values in other fields.
+///
+/// @nodoc
 class HiddenCaseRule {
   /// A list of conditions that determine field visibility.
   final List<BooleanCondition> conditions;
@@ -5698,6 +5858,8 @@ class HiddenCaseRule {
 /// case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class BooleanCondition {
   /// Combines multiple conditions with AND operator. All conditions must be true
   /// for the compound condition to be true.
@@ -5756,6 +5918,8 @@ class BooleanCondition {
 /// case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class BooleanOperands {
   /// Represents the left hand operand in the condition.
   final OperandOne operandOne;
@@ -5802,6 +5966,8 @@ class BooleanOperands {
 /// conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class CompoundCondition {
   /// The list of conditions to combine using the logical operator.
   /// <note>
@@ -5836,6 +6002,8 @@ class CompoundCondition {
 /// more information about case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class OperandOne {
   /// The field ID that this operand should take the value of.
   final String? fieldId;
@@ -5863,6 +6031,8 @@ class OperandOne {
 /// more information about case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class OperandTwo {
   /// Boolean value type.
   final bool? booleanValue;
@@ -5914,6 +6084,8 @@ class OperandTwo {
 /// case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class EmptyOperandValue {
   EmptyOperandValue();
 
@@ -5927,6 +6099,8 @@ class EmptyOperandValue {
 }
 
 /// A mapping between a parent field option value and child field option values.
+///
+/// @nodoc
 class ParentChildFieldOptionsMapping {
   /// A list of allowed values in the child field.
   final List<String> childFieldOptionValues;
@@ -5961,6 +6135,8 @@ class ParentChildFieldOptionsMapping {
 }
 
 /// Object containing case rule identifier information.
+///
+/// @nodoc
 class CaseRuleIdentifier {
   /// Unique identifier of a case rule.
   final String id;
@@ -5982,6 +6158,8 @@ class CaseRuleIdentifier {
 /// about case field conditions, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html">Add
 /// case field conditions to a case template</a>.
+///
+/// @nodoc
 class CaseRuleSummary {
   /// The Amazon Resource Name (ARN) of the case rule.
   final String caseRuleArn;
@@ -6032,6 +6210,7 @@ class CaseRuleSummary {
   }
 }
 
+/// @nodoc
 class RuleType {
   static const required = RuleType._('Required');
   static const hidden = RuleType._('Hidden');
@@ -6057,6 +6236,8 @@ class RuleType {
 }
 
 /// A list of items that represent RelatedItems.
+///
+/// @nodoc
 class SearchRelatedItemsResponseItem {
   /// Time at which a related item was associated with a case.
   final DateTime associationTime;
@@ -6123,6 +6304,8 @@ class SearchRelatedItemsResponseItem {
 
 /// Represents the content of a related item to be updated. This is a union type
 /// that can contain either comment content or custom content.
+///
+/// @nodoc
 class RelatedItemUpdateContent {
   final CommentUpdateContent? comment;
   final CustomUpdateContent? custom;
@@ -6143,6 +6326,8 @@ class RelatedItemUpdateContent {
 }
 
 /// Represents the updated content of a <code>Comment</code> related item.
+///
+/// @nodoc
 class CommentUpdateContent {
   /// Updated text in the body of a <code>Comment</code> on a case.
   final String body;
@@ -6166,6 +6351,8 @@ class CommentUpdateContent {
 }
 
 /// Represents the updated content of a <code>Custom</code> related item.
+///
+/// @nodoc
 class CustomUpdateContent {
   /// List of updated field values for the <code>Custom</code> related item. All
   /// existing and new fields, and their associated values should be included.
@@ -6185,6 +6372,8 @@ class CustomUpdateContent {
 }
 
 /// Represents the content of a related item to be created.
+///
+/// @nodoc
 class RelatedItemInputContent {
   /// Represents the content of a comment to be returned to agents.
   final CommentContent? comment;
@@ -6232,6 +6421,8 @@ class RelatedItemInputContent {
 }
 
 /// An object that represents an Amazon Connect contact object.
+///
+/// @nodoc
 class Contact {
   /// A unique identifier of a contact in Amazon Connect.
   final String contactArn;
@@ -6249,6 +6440,8 @@ class Contact {
 }
 
 /// Represents the content of an SLA.
+///
+/// @nodoc
 class SlaInputContent {
   /// Represents an input SLA configuration.
   final SlaInputConfiguration? slaInputConfiguration;
@@ -6267,6 +6460,8 @@ class SlaInputContent {
 }
 
 /// Represents the content of a <code>ConnectCase</code> related item.
+///
+/// @nodoc
 class ConnectCaseInputContent {
   /// A unique identifier of the case.
   final String caseId;
@@ -6284,6 +6479,8 @@ class ConnectCaseInputContent {
 }
 
 /// Represents the content of a <code>Custom</code> related item.
+///
+/// @nodoc
 class CustomInputContent {
   /// List of field values for the <code>Custom</code> related item.
   final List<FieldValue> fields;
@@ -6301,6 +6498,8 @@ class CustomInputContent {
 }
 
 /// Represents the input configuration of an SLA being created.
+///
+/// @nodoc
 class SlaInputConfiguration {
   /// Name of an SLA.
   final String name;
@@ -6344,6 +6543,8 @@ class SlaInputConfiguration {
 }
 
 /// A list of items that represent cases.
+///
+/// @nodoc
 class SearchCasesResponseItem {
   /// A unique identifier of the case.
   final String caseId;
@@ -6393,6 +6594,8 @@ class SearchCasesResponseItem {
 }
 
 /// A filter for cases. Only one value can be provided.
+///
+/// @nodoc
 class CaseFilter {
   /// Provides "and all" filtering.
   final List<CaseFilter>? andAll;
@@ -6432,6 +6635,8 @@ class CaseFilter {
 }
 
 /// A structured set of sort terms.
+///
+/// @nodoc
 class Sort {
   /// Unique identifier of a field.
   final String fieldId;
@@ -6455,6 +6660,8 @@ class Sort {
 }
 
 /// A filter for tags. Only one value can be provided.
+///
+/// @nodoc
 class TagFilter {
   /// Object containing tag key and value information.
   final TagValue? equalTo;
@@ -6472,6 +6679,8 @@ class TagFilter {
 }
 
 /// Object for case tag filter values.
+///
+/// @nodoc
 class TagValue {
   /// The tag key in the tag filter value.
   final String? key;
@@ -6495,6 +6704,8 @@ class TagValue {
 }
 
 /// Case summary information.
+///
+/// @nodoc
 class CaseSummary {
   /// A unique identifier of the case.
   final String caseId;
@@ -6525,6 +6736,8 @@ class CaseSummary {
 }
 
 /// Represents the content of a particular audit event.
+///
+/// @nodoc
 class AuditEvent {
   /// Unique identifier of a case audit history event.
   final String eventId;
@@ -6593,6 +6806,7 @@ class AuditEvent {
   }
 }
 
+/// @nodoc
 class AuditEventType {
   static const caseCreated = AuditEventType._('Case.Created');
   static const caseUpdated = AuditEventType._('Case.Updated');
@@ -6627,6 +6841,8 @@ class AuditEventType {
 }
 
 /// Information of the user which performed the audit.
+///
+/// @nodoc
 class AuditEventPerformedBy {
   /// Unique identifier of an IAM role.
   final String iamPrincipalArn;
@@ -6657,6 +6873,8 @@ class AuditEventPerformedBy {
 }
 
 /// Fields for audit event.
+///
+/// @nodoc
 class AuditEventField {
   /// Unique identifier of field in an Audit History entry.
   final String eventFieldId;
@@ -6699,6 +6917,8 @@ class AuditEventField {
 }
 
 /// Object to store union of Field values.
+///
+/// @nodoc
 class AuditEventFieldValueUnion {
   /// Can be either null, or have a Boolean value type. Only one value can be
   /// provided.
@@ -6753,26 +6973,31 @@ class AuditEventFieldValueUnion {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6781,11 +7006,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

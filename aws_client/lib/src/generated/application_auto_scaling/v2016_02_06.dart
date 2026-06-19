@@ -2809,7 +2809,7 @@ class ApplicationAutoScaling {
   /// At and cron expressions use Universal Coordinated Time (UTC) by default.
   ///
   /// The cron format consists of six fields separated by white spaces:
-  /// [Minutes] [Hours] [Day_of_Month] [Month] [Day_of_Week] [Year].
+  /// \[Minutes\] \[Hours\] \[Day_of_Month\] \[Month\] \[Day_of_Week\] \[Year\].
   ///
   /// For rate expressions, <i>value</i> is a positive integer and <i>unit</i>
   /// is <code>minute</code> | <code>minutes</code> | <code>hour</code> |
@@ -3413,6 +3413,7 @@ class ApplicationAutoScaling {
   }
 }
 
+/// @nodoc
 class DeleteScalingPolicyResponse {
   DeleteScalingPolicyResponse();
 
@@ -3425,6 +3426,7 @@ class DeleteScalingPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteScheduledActionResponse {
   DeleteScheduledActionResponse();
 
@@ -3437,6 +3439,7 @@ class DeleteScheduledActionResponse {
   }
 }
 
+/// @nodoc
 class DeregisterScalableTargetResponse {
   DeregisterScalableTargetResponse();
 
@@ -3449,6 +3452,7 @@ class DeregisterScalableTargetResponse {
   }
 }
 
+/// @nodoc
 class DescribeScalableTargetsResponse {
   /// The token required to get the next set of results. This value is
   /// <code>null</code> if there are no more results to return.
@@ -3482,6 +3486,7 @@ class DescribeScalableTargetsResponse {
   }
 }
 
+/// @nodoc
 class DescribeScalingActivitiesResponse {
   /// The token required to get the next set of results. This value is
   /// <code>null</code> if there are no more results to return.
@@ -3516,6 +3521,7 @@ class DescribeScalingActivitiesResponse {
   }
 }
 
+/// @nodoc
 class DescribeScalingPoliciesResponse {
   /// The token required to get the next set of results. This value is
   /// <code>null</code> if there are no more results to return.
@@ -3549,6 +3555,7 @@ class DescribeScalingPoliciesResponse {
   }
 }
 
+/// @nodoc
 class DescribeScheduledActionsResponse {
   /// The token required to get the next set of results. This value is
   /// <code>null</code> if there are no more results to return.
@@ -3582,6 +3589,7 @@ class DescribeScheduledActionsResponse {
   }
 }
 
+/// @nodoc
 class GetPredictiveScalingForecastResponse {
   /// The capacity forecast.
   final CapacityForecast? capacityForecast;
@@ -3625,6 +3633,7 @@ class GetPredictiveScalingForecastResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags. Each tag consists of a tag key and a tag value.
   final Map<String, String>? tags;
@@ -3648,6 +3657,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutScalingPolicyResponse {
   /// The Amazon Resource Name (ARN) of the resulting scaling policy.
   final String policyARN;
@@ -3680,6 +3690,7 @@ class PutScalingPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutScheduledActionResponse {
   PutScheduledActionResponse();
 
@@ -3692,6 +3703,7 @@ class PutScheduledActionResponse {
   }
 }
 
+/// @nodoc
 class RegisterScalableTargetResponse {
   /// The ARN of the scalable target.
   final String? scalableTargetARN;
@@ -3714,6 +3726,7 @@ class RegisterScalableTargetResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3726,6 +3739,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3738,6 +3752,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class ServiceNamespace {
   static const ecs = ServiceNamespace._('ecs');
   static const elasticmapreduce = ServiceNamespace._('elasticmapreduce');
@@ -3791,6 +3806,7 @@ class ServiceNamespace {
   String toString() => value;
 }
 
+/// @nodoc
 class ScalableDimension {
   static const ecsServiceDesiredCount =
       ScalableDimension._('ecs:service:DesiredCount');
@@ -3890,6 +3906,8 @@ class ScalableDimension {
 
 /// Specifies whether the scaling activities for a scalable target are in a
 /// suspended state.
+///
+/// @nodoc
 class SuspendedState {
   /// Whether scale in by a target tracking scaling policy or a step scaling
   /// policy is suspended. Set the value to <code>true</code> if you don't want
@@ -3938,6 +3956,8 @@ class SuspendedState {
 }
 
 /// Represents the minimum and maximum capacity for a scheduled action.
+///
+/// @nodoc
 class ScalableTargetAction {
   /// The maximum capacity.
   ///
@@ -3982,6 +4002,8 @@ class ScalableTargetAction {
 }
 
 /// Represents a CloudWatch alarm associated with a scaling policy.
+///
+/// @nodoc
 class Alarm {
   /// The Amazon Resource Name (ARN) of the alarm.
   final String alarmARN;
@@ -4011,6 +4033,7 @@ class Alarm {
   }
 }
 
+/// @nodoc
 class PolicyType {
   static const stepScaling = PolicyType._('StepScaling');
   static const targetTrackingScaling = PolicyType._('TargetTrackingScaling');
@@ -4041,6 +4064,8 @@ class PolicyType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html">Step
 /// scaling policies</a> in the <i>Application Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class StepScalingPolicyConfiguration {
   /// Specifies how the <code>ScalingAdjustment</code> value in a <a
   /// href="https://docs.aws.amazon.com/autoscaling/application/APIReference/API_StepAdjustment.html">StepAdjustment</a>
@@ -4128,6 +4153,8 @@ class StepScalingPolicyConfiguration {
 /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html">Target
 /// tracking scaling policies</a> in the <i>Application Auto Scaling User
 /// Guide</i>.
+///
+/// @nodoc
 class TargetTrackingScalingPolicyConfiguration {
   /// The target value for the metric. Although this property accepts numbers of
   /// type Double, it won't accept values that are either too small or too large.
@@ -4222,6 +4249,8 @@ class TargetTrackingScalingPolicyConfiguration {
 
 /// Represents a predictive scaling policy configuration. Predictive scaling is
 /// supported on Amazon ECS services.
+///
+/// @nodoc
 class PredictiveScalingPolicyConfiguration {
   /// This structure includes the metrics and target utilization to use for
   /// predictive scaling.
@@ -4299,6 +4328,7 @@ class PredictiveScalingPolicyConfiguration {
   }
 }
 
+/// @nodoc
 class PredictiveScalingMode {
   static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
   static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
@@ -4324,6 +4354,7 @@ class PredictiveScalingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class PredictiveScalingMaxCapacityBreachBehavior {
   static const honorMaxCapacity =
       PredictiveScalingMaxCapacityBreachBehavior._('HonorMaxCapacity');
@@ -4360,6 +4391,8 @@ class PredictiveScalingMaxCapacityBreachBehavior {
 /// provides a simpler way to configure metrics for a scaling policy. You choose
 /// the metric pair, and the policy automatically knows the correct sum and
 /// average statistics to use for the load metric and the scaling metric.
+///
+/// @nodoc
 class PredictiveScalingMetricSpecification {
   /// Specifies the target utilization.
   final double targetValue;
@@ -4510,6 +4543,8 @@ class PredictiveScalingMetricSpecification {
 /// <code>TotalALBRequestCount</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PredictiveScalingPredefinedMetricPairSpecification {
   /// Indicates which metrics to use. There are two different types of metrics for
   /// each metric type: one is a load metric and one is a scaling metric.
@@ -4579,6 +4614,8 @@ class PredictiveScalingPredefinedMetricPairSpecification {
 /// <code>TotalALBRequestCount</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PredictiveScalingPredefinedScalingMetricSpecification {
   /// The metric type.
   final String predefinedMetricType;
@@ -4647,6 +4684,8 @@ class PredictiveScalingPredefinedScalingMetricSpecification {
 /// <code>TotalALBRequestCount</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PredictiveScalingPredefinedLoadMetricSpecification {
   /// The metric type.
   final String predefinedMetricType;
@@ -4679,6 +4718,8 @@ class PredictiveScalingPredefinedLoadMetricSpecification {
 
 /// Represents a CloudWatch metric of your choosing for a predictive scaling
 /// policy.
+///
+/// @nodoc
 class PredictiveScalingCustomizedMetricSpecification {
   /// One or more metric data queries to provide data points for a metric
   /// specification.
@@ -4712,6 +4753,8 @@ class PredictiveScalingCustomizedMetricSpecification {
 /// values of returned metric statistics to create a new time series. A time
 /// series is a series of data points, each of which is associated with a
 /// timestamp.
+///
+/// @nodoc
 class PredictiveScalingMetricDataQuery {
   /// A short name that identifies the object's results in the response. This name
   /// must be unique among all <code>MetricDataQuery</code> objects specified for
@@ -4795,6 +4838,8 @@ class PredictiveScalingMetricDataQuery {
 
 /// This structure defines the CloudWatch metric to return, along with the
 /// statistic and unit.
+///
+/// @nodoc
 class PredictiveScalingMetricStat {
   /// The CloudWatch metric to return, including the metric name, namespace, and
   /// dimensions. To get the exact metric name, namespace, and dimensions, inspect
@@ -4848,6 +4893,8 @@ class PredictiveScalingMetricStat {
 }
 
 /// Describes the scaling metric.
+///
+/// @nodoc
 class PredictiveScalingMetric {
   /// Describes the dimensions of the metric.
   final List<PredictiveScalingMetricDimension>? dimensions;
@@ -4889,6 +4936,8 @@ class PredictiveScalingMetric {
 }
 
 /// Describes the dimension of a metric.
+///
+/// @nodoc
 class PredictiveScalingMetricDimension {
   /// The name of the dimension.
   final String name;
@@ -4925,6 +4974,8 @@ class PredictiveScalingMetricDimension {
 /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html#predefined-metrics">Predefined
 /// metrics for target tracking scaling policies</a> in the <i>Application Auto
 /// Scaling User Guide</i>.
+///
+/// @nodoc
 class PredefinedMetricSpecification {
   /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type
   /// applies only to Spot Fleets and ECS services.
@@ -5013,6 +5064,8 @@ class PredefinedMetricSpecification {
 /// For more information about the CloudWatch terminology below, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// @nodoc
 class CustomizedMetricSpecification {
   /// The dimensions of the metric.
   ///
@@ -5089,6 +5142,7 @@ class CustomizedMetricSpecification {
   }
 }
 
+/// @nodoc
 class MetricStatistic {
   static const average = MetricStatistic._('Average');
   static const minimum = MetricStatistic._('Minimum');
@@ -5126,6 +5180,8 @@ class MetricStatistic {
 /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking-metric-math.html">Create
 /// a target tracking scaling policy for Application Auto Scaling using metric
 /// math</a> in the <i>Application Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class TargetTrackingMetricDataQuery {
   /// A short name that identifies the object's results in the response. This name
   /// must be unique among all <code>MetricDataQuery</code> objects specified for
@@ -5213,6 +5269,8 @@ class TargetTrackingMetricDataQuery {
 /// For more information about the CloudWatch terminology below, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
 /// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// @nodoc
 class TargetTrackingMetricStat {
   /// The CloudWatch metric to return, including the metric name, namespace, and
   /// dimensions. To get the exact metric name, namespace, and dimensions, inspect
@@ -5267,6 +5325,8 @@ class TargetTrackingMetricStat {
 /// Represents a specific metric.
 ///
 /// Metric is a property of the <a>TargetTrackingMetricStat</a> object.
+///
+/// @nodoc
 class TargetTrackingMetric {
   /// The dimensions for the metric. For the list of available dimensions, see the
   /// Amazon Web Services documentation available from the table in <a
@@ -5318,6 +5378,8 @@ class TargetTrackingMetric {
 }
 
 /// Describes the dimension of a metric.
+///
+/// @nodoc
 class TargetTrackingMetricDimension {
   /// The name of the dimension.
   final String name;
@@ -5348,6 +5410,8 @@ class TargetTrackingMetricDimension {
 }
 
 /// Describes the dimension names and values associated with a metric.
+///
+/// @nodoc
 class MetricDimension {
   /// The name of the dimension.
   final String name;
@@ -5377,6 +5441,7 @@ class MetricDimension {
   }
 }
 
+/// @nodoc
 class MetricType {
   static const dynamoDBReadCapacityUtilization =
       MetricType._('DynamoDBReadCapacityUtilization');
@@ -5487,6 +5552,7 @@ class MetricType {
   String toString() => value;
 }
 
+/// @nodoc
 class AdjustmentType {
   static const changeInCapacity = AdjustmentType._('ChangeInCapacity');
   static const percentChangeInCapacity =
@@ -5517,6 +5583,7 @@ class AdjustmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricAggregationType {
   static const average = MetricAggregationType._('Average');
   static const minimum = MetricAggregationType._('Minimum');
@@ -5584,6 +5651,8 @@ class MetricAggregationType {
 /// The upper and lower bound can't be null in the same step adjustment.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class StepAdjustment {
   /// The amount by which to scale, based on the specified adjustment type. A
   /// positive value adds to the current capacity while a negative number removes
@@ -5641,6 +5710,8 @@ class StepAdjustment {
 /// forecast for a predictive scaling policy. This structure includes the data
 /// points for that capacity forecast, along with the timestamps of those data
 /// points.
+///
+/// @nodoc
 class CapacityForecast {
   /// The timestamps for the data points, in UTC format.
   final List<DateTime> timestamps;
@@ -5680,6 +5751,8 @@ class CapacityForecast {
 /// for a predictive scaling policy. This structure includes the data points for
 /// that load forecast, along with the timestamps of those data points and the
 /// metric specification.
+///
+/// @nodoc
 class LoadForecast {
   /// The metric specification for the load forecast.
   final PredictiveScalingMetricSpecification metricSpecification;
@@ -5725,6 +5798,8 @@ class LoadForecast {
 }
 
 /// Represents a scheduled action.
+///
+/// @nodoc
 class ScheduledAction {
   /// The date and time that the scheduled action was created.
   final DateTime creationTime;
@@ -5858,8 +5933,8 @@ class ScheduledAction {
   ///
   /// At and cron expressions use Universal Coordinated Time (UTC) by default.
   ///
-  /// The cron format consists of six fields separated by white spaces: [Minutes]
-  /// [Hours] [Day_of_Month] [Month] [Day_of_Week] [Year].
+  /// The cron format consists of six fields separated by white spaces:
+  /// \[Minutes\] \[Hours\] \[Day_of_Month\] \[Month\] \[Day_of_Week\] \[Year\].
   ///
   /// For rate expressions, <i>value</i> is a positive integer and <i>unit</i> is
   /// <code>minute</code> | <code>minutes</code> | <code>hour</code> |
@@ -6075,6 +6150,8 @@ class ScheduledAction {
 /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/integrated-services-list.html">Amazon
 /// Web Services services that you can use with Application Auto Scaling</a> in
 /// the <i>Application Auto Scaling User Guide</i>.
+///
+/// @nodoc
 class ScalingPolicy {
   /// The Unix timestamp for when the scaling policy was created.
   final DateTime creationTime;
@@ -6413,6 +6490,8 @@ class ScalingPolicy {
 }
 
 /// Represents a scaling activity.
+///
+/// @nodoc
 class ScalingActivity {
   /// The unique identifier of the scaling activity.
   final String activityId;
@@ -6730,6 +6809,7 @@ class ScalingActivity {
   }
 }
 
+/// @nodoc
 class ScalingActivityStatusCode {
   static const pending = ScalingActivityStatusCode._('Pending');
   static const inProgress = ScalingActivityStatusCode._('InProgress');
@@ -6772,6 +6852,8 @@ class ScalingActivityStatusCode {
 /// href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html">Scaling
 /// activities for Application Auto Scaling</a> in the <i>Application Auto
 /// Scaling User Guide</i>.
+///
+/// @nodoc
 class NotScaledReason {
   /// A code that represents the reason for not scaling.
   ///
@@ -6836,6 +6918,8 @@ class NotScaledReason {
 }
 
 /// Represents a scalable target.
+///
+/// @nodoc
 class ScalableTarget {
   /// The Unix timestamp for when the scalable target was created.
   final DateTime creationTime;
@@ -7136,11 +7220,13 @@ class ScalableTarget {
   }
 }
 
+/// @nodoc
 class ConcurrentUpdateException extends _s.GenericAwsException {
   ConcurrentUpdateException({String? type, String? message})
       : super(type: type, code: 'ConcurrentUpdateException', message: message);
 }
 
+/// @nodoc
 class FailedResourceAccessException extends _s.GenericAwsException {
   FailedResourceAccessException({String? type, String? message})
       : super(
@@ -7149,36 +7235,43 @@ class FailedResourceAccessException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ObjectNotFoundException extends _s.GenericAwsException {
   ObjectNotFoundException({String? type, String? message})
       : super(type: type, code: 'ObjectNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

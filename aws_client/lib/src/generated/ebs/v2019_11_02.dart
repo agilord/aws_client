@@ -691,6 +691,7 @@ class Ebs {
   }
 }
 
+/// @nodoc
 class CompleteSnapshotResponse {
   /// The status of the snapshot.
   final Status? status;
@@ -713,6 +714,7 @@ class CompleteSnapshotResponse {
   }
 }
 
+/// @nodoc
 class GetSnapshotBlockResponse {
   /// The data content of the block.
   final Uint8List? blockData;
@@ -744,6 +746,7 @@ class GetSnapshotBlockResponse {
   }
 }
 
+/// @nodoc
 class ListChangedBlocksResponse {
   /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
@@ -798,6 +801,7 @@ class ListChangedBlocksResponse {
   }
 }
 
+/// @nodoc
 class ListSnapshotBlocksResponse {
   /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
@@ -852,6 +856,7 @@ class ListSnapshotBlocksResponse {
   }
 }
 
+/// @nodoc
 class PutSnapshotBlockResponse {
   /// The SHA256 checksum generated for the block data by Amazon EBS.
   final String? checksum;
@@ -871,6 +876,7 @@ class PutSnapshotBlockResponse {
   }
 }
 
+/// @nodoc
 class StartSnapshotResponse {
   /// The size of the blocks in the snapshot, in bytes.
   final int? blockSize;
@@ -971,6 +977,7 @@ class StartSnapshotResponse {
   }
 }
 
+/// @nodoc
 class Status {
   static const completed = Status._('completed');
   static const pending = Status._('pending');
@@ -995,6 +1002,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class SSEType {
   static const sseEbs = SSEType._('sse-ebs');
   static const sseKms = SSEType._('sse-kms');
@@ -1020,6 +1028,8 @@ class SSEType {
 }
 
 /// Describes a tag.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String? key;
@@ -1049,6 +1059,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ChecksumAlgorithm {
   static const sha256 = ChecksumAlgorithm._('SHA256');
 
@@ -1073,6 +1084,8 @@ class ChecksumAlgorithm {
 }
 
 /// A block of data in an Amazon Elastic Block Store snapshot.
+///
+/// @nodoc
 class Block {
   /// The block index.
   final int? blockIndex;
@@ -1104,6 +1117,8 @@ class Block {
 
 /// A block of data in an Amazon Elastic Block Store snapshot that is different
 /// from another snapshot of the same volume/snapshot lineage.
+///
+/// @nodoc
 class ChangedBlock {
   /// The block index.
   final int? blockIndex;
@@ -1144,6 +1159,7 @@ class ChangedBlock {
   }
 }
 
+/// @nodoc
 class ChecksumAggregationMethod {
   static const linear = ChecksumAggregationMethod._('LINEAR');
 
@@ -1168,11 +1184,13 @@ class ChecksumAggregationMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConcurrentLimitExceededException extends _s.GenericAwsException {
   ConcurrentLimitExceededException({String? type, String? message})
       : super(
@@ -1181,26 +1199,31 @@ class ConcurrentLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class RequestThrottledException extends _s.GenericAwsException {
   RequestThrottledException({String? type, String? message})
       : super(type: type, code: 'RequestThrottledException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1209,6 +1232,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

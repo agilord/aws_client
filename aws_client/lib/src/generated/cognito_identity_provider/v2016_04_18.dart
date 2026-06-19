@@ -2365,7 +2365,7 @@ class CognitoIdentityProvider {
   /// device authentication.
   /// </important> <dl> <dt>SELECT_CHALLENGE</dt> <dd>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "USERNAME": "[username]", "ANSWER": "[Challenge name]"}</code>
+  /// "USERNAME": "\[username\]", "ANSWER": "\[Challenge name\]"}</code>
   ///
   /// Available challenges are <code>PASSWORD</code>, <code>PASSWORD_SRP</code>,
   /// <code>EMAIL_OTP</code>, <code>SMS_OTP</code>, and <code>WEB_AUTHN</code>.
@@ -2377,8 +2377,8 @@ class CognitoIdentityProvider {
   /// <ul>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "WEB_AUTHN", "USERNAME": "[username]", "CREDENTIAL":
-  /// "[AuthenticationResponseJSON]"}</code>
+  /// "ANSWER": "WEB_AUTHN", "USERNAME": "\[username\]", "CREDENTIAL":
+  /// "\[AuthenticationResponseJSON\]"}</code>
   ///
   /// See <a
   /// href="https://www.w3.org/TR/WebAuthn-3/#dictdef-authenticationresponsejson">
@@ -2386,13 +2386,13 @@ class CognitoIdentityProvider {
   /// </li>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "PASSWORD", "USERNAME": "[username]", "PASSWORD":
-  /// "[password]"}</code>
+  /// "ANSWER": "PASSWORD", "USERNAME": "\[username\]", "PASSWORD":
+  /// "\[password\]"}</code>
   /// </li>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "PASSWORD_SRP", "USERNAME": "[username]", "SRP_A":
-  /// "[SRP_A]"}</code>
+  /// "ANSWER": "PASSWORD_SRP", "USERNAME": "\[username\]", "SRP_A":
+  /// "\[SRP_A\]"}</code>
   /// </li>
   /// </ul>
   /// For <code>SMS_OTP</code> and <code>EMAIL_OTP</code>, respond with the
@@ -2402,34 +2402,34 @@ class CognitoIdentityProvider {
   /// <ul>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "SMS_OTP", "USERNAME": "[username]"}</code>
+  /// "ANSWER": "SMS_OTP", "USERNAME": "\[username\]"}</code>
   /// </li>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "EMAIL_OTP", "USERNAME": "[username]"}</code>
+  /// "ANSWER": "EMAIL_OTP", "USERNAME": "\[username\]"}</code>
   /// </li>
   /// </ul> </dd> <dt>WEB_AUTHN</dt> <dd>
   /// <code>"ChallengeName": "WEB_AUTHN", "ChallengeResponses": { "USERNAME":
-  /// "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}</code>
+  /// "\[username\]", "CREDENTIAL": "\[AuthenticationResponseJSON\]"}</code>
   ///
   /// See <a
   /// href="https://www.w3.org/TR/WebAuthn-3/#dictdef-authenticationresponsejson">
   /// AuthenticationResponseJSON</a>.
   /// </dd> <dt>PASSWORD</dt> <dd>
   /// <code>"ChallengeName": "PASSWORD", "ChallengeResponses": { "USERNAME":
-  /// "[username]", "PASSWORD": "[password]"}</code>
+  /// "\[username\]", "PASSWORD": "\[password\]"}</code>
   /// </dd> <dt>PASSWORD_SRP</dt> <dd>
   /// <code>"ChallengeName": "PASSWORD_SRP", "ChallengeResponses": { "USERNAME":
-  /// "[username]", "SRP_A": "[SRP_A]"}</code>
+  /// "\[username\]", "SRP_A": "\[SRP_A\]"}</code>
   /// </dd> <dt>SMS_OTP</dt> <dd>
   /// <code>"ChallengeName": "SMS_OTP", "ChallengeResponses": {"SMS_OTP_CODE":
-  /// "[code]", "USERNAME": "[username]"}</code>
+  /// "\[code\]", "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>EMAIL_OTP</dt> <dd>
   /// <code>"ChallengeName": "EMAIL_OTP", "ChallengeResponses":
-  /// {"EMAIL_OTP_CODE": "[code]", "USERNAME": "[username]"}</code>
+  /// {"EMAIL_OTP_CODE": "\[code\]", "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>SMS_MFA</dt> <dd>
   /// <code>"ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE":
-  /// "[code]", "USERNAME": "[username]"}</code>
+  /// "\[code\]", "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>PASSWORD_VERIFIER</dt> <dd>
   /// This challenge response is part of the SRP flow. Amazon Cognito requires
   /// that your application respond to this challenge within a few seconds. When
@@ -2437,21 +2437,21 @@ class CognitoIdentityProvider {
   /// <code>NotAuthorizedException</code> error.
   ///
   /// <code>"ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses":
-  /// {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]",
-  /// "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp],
-  /// "USERNAME": "[username]"}</code>
+  /// {"PASSWORD_CLAIM_SIGNATURE": "\[claim_signature\]",
+  /// "PASSWORD_CLAIM_SECRET_BLOCK": "\[secret_block\]", "TIMESTAMP":
+  /// \[timestamp\], "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>CUSTOM_CHALLENGE</dt> <dd>
   /// <code>"ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses":
-  /// {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"}</code>
+  /// {"USERNAME": "\[username\]", "ANSWER": "\[challenge_answer\]"}</code>
   /// </dd> <dt>NEW_PASSWORD_REQUIRED</dt> <dd>
   /// <code>"ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses":
-  /// {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"}</code>
+  /// {"NEW_PASSWORD": "\[new_password\]", "USERNAME": "\[username\]"}</code>
   ///
   /// To set any required attributes that <code>InitiateAuth</code> returned in
   /// an <code>requiredAttributes</code> parameter, add
-  /// <code>"userAttributes.[attribute_name]": "[attribute_value]"</code>. This
-  /// parameter can also set values for writable attributes that aren't required
-  /// by your user pool.
+  /// <code>"userAttributes.\[attribute_name\]": "\[attribute_value\]"</code>.
+  /// This parameter can also set values for writable attributes that aren't
+  /// required by your user pool.
   /// <note>
   /// In a <code>NEW_PASSWORD_REQUIRED</code> challenge response, you can't
   /// modify a required attribute that already has a value. In
@@ -2463,24 +2463,25 @@ class CognitoIdentityProvider {
   /// additional attributes.
   /// </note> </dd> <dt>SOFTWARE_TOKEN_MFA</dt> <dd>
   /// <code>"ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses":
-  /// {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE":
-  /// [authenticator_code]}</code>
+  /// {"USERNAME": "\[username\]", "SOFTWARE_TOKEN_MFA_CODE":
+  /// \[authenticator_code\]}</code>
   /// </dd> <dt>DEVICE_SRP_AUTH</dt> <dd>
   /// <code>"ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses":
-  /// {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A":
-  /// "[srp_a]"}</code>
+  /// {"USERNAME": "\[username\]", "DEVICE_KEY": "\[device_key\]", "SRP_A":
+  /// "\[srp_a\]"}</code>
   /// </dd> <dt>DEVICE_PASSWORD_VERIFIER</dt> <dd>
   /// <code>"ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses":
-  /// {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE":
-  /// "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]",
-  /// "TIMESTAMP": [timestamp], "USERNAME": "[username]"}</code>
+  /// {"DEVICE_KEY": "\[device_key\]", "PASSWORD_CLAIM_SIGNATURE":
+  /// "\[claim_signature\]", "PASSWORD_CLAIM_SECRET_BLOCK": "\[secret_block\]",
+  /// "TIMESTAMP": \[timestamp\], "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>MFA_SETUP</dt> <dd>
   /// <code>"ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME":
-  /// "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]"</code>
+  /// "\[username\]"}, "SESSION": "\[Session ID from
+  /// VerifySoftwareToken\]"</code>
   /// </dd> <dt>SELECT_MFA_TYPE</dt> <dd>
   /// <code>"ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses":
-  /// {"USERNAME": "[username]", "ANSWER":
-  /// "[SMS_MFA|EMAIL_MFA|SOFTWARE_TOKEN_MFA]"}</code>
+  /// {"USERNAME": "\[username\]", "ANSWER":
+  /// "\[SMS_MFA|EMAIL_MFA|SOFTWARE_TOKEN_MFA\]"}</code>
   /// </dd> </dl>
   /// For more information about <code>SECRET_HASH</code>, see <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash">Computing
@@ -4043,15 +4044,15 @@ class CognitoIdentityProvider {
   ///
   /// Create or update request with Metadata file: <code>"ProviderDetails": {
   /// "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true",
-  /// "MetadataFile": "[metadata XML]", "RequestSigningAlgorithm": "rsa-sha256"
-  /// }</code>
+  /// "MetadataFile": "\[metadata XML\]", "RequestSigningAlgorithm":
+  /// "rsa-sha256" }</code>
   ///
   /// The value of <code>MetadataFile</code> must be the plaintext metadata
   /// document with all quote (") characters escaped by backslashes.
   ///
   /// Describe response: <code>"ProviderDetails": { "IDPInit": "true",
   /// "IDPSignout": "true", "EncryptedResponses" : "true",
-  /// "ActiveEncryptionCertificate": "[certificate]", "MetadataURL":
+  /// "ActiveEncryptionCertificate": "\[certificate\]", "MetadataURL":
   /// "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm":
   /// "rsa-sha256", "SLORedirectBindingURI":
   /// "https://auth.example.com/slo/saml", "SSORedirectBindingURI":
@@ -4131,8 +4132,8 @@ class CognitoIdentityProvider {
   /// IdP attribute claim name as the value.
   ///
   /// Parameter [idpIdentifiers] :
-  /// An array of IdP identifiers, for example <code>"IdPIdentifiers": [
-  /// "MyIdP", "MyIdP2" ]</code>. Identifiers are friendly names that you can
+  /// An array of IdP identifiers, for example <code>"IdPIdentifiers": \[
+  /// "MyIdP", "MyIdP2" \]</code>. Identifiers are friendly names that you can
   /// pass in the <code>idp_identifier</code> query parameter of requests to the
   /// <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html">Authorize
@@ -5069,7 +5070,7 @@ class CognitoIdentityProvider {
   ///
   /// Amazon Cognito requires HTTPS over HTTP except for callback URLs to
   /// <code>http://localhost</code>, <code>http://127.0.0.1</code> and
-  /// <code>http://[::1]</code>. These callback URLs are for testing purposes
+  /// <code>http://\[::1\]</code>. These callback URLs are for testing purposes
   /// only. You can specify custom TCP ports for your callback URLs.
   ///
   /// App callback URLs such as <code>myapp://example</code> are also supported.
@@ -9632,7 +9633,7 @@ class CognitoIdentityProvider {
   /// device authentication.
   /// </important> <dl> <dt>SELECT_CHALLENGE</dt> <dd>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "USERNAME": "[username]", "ANSWER": "[Challenge name]"}</code>
+  /// "USERNAME": "\[username\]", "ANSWER": "\[Challenge name\]"}</code>
   ///
   /// Available challenges are <code>PASSWORD</code>, <code>PASSWORD_SRP</code>,
   /// <code>EMAIL_OTP</code>, <code>SMS_OTP</code>, and <code>WEB_AUTHN</code>.
@@ -9644,8 +9645,8 @@ class CognitoIdentityProvider {
   /// <ul>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "WEB_AUTHN", "USERNAME": "[username]", "CREDENTIAL":
-  /// "[AuthenticationResponseJSON]"}</code>
+  /// "ANSWER": "WEB_AUTHN", "USERNAME": "\[username\]", "CREDENTIAL":
+  /// "\[AuthenticationResponseJSON\]"}</code>
   ///
   /// See <a
   /// href="https://www.w3.org/TR/WebAuthn-3/#dictdef-authenticationresponsejson">
@@ -9653,13 +9654,13 @@ class CognitoIdentityProvider {
   /// </li>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "PASSWORD", "USERNAME": "[username]", "PASSWORD":
-  /// "[password]"}</code>
+  /// "ANSWER": "PASSWORD", "USERNAME": "\[username\]", "PASSWORD":
+  /// "\[password\]"}</code>
   /// </li>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "PASSWORD_SRP", "USERNAME": "[username]", "SRP_A":
-  /// "[SRP_A]"}</code>
+  /// "ANSWER": "PASSWORD_SRP", "USERNAME": "\[username\]", "SRP_A":
+  /// "\[SRP_A\]"}</code>
   /// </li>
   /// </ul>
   /// For <code>SMS_OTP</code> and <code>EMAIL_OTP</code>, respond with the
@@ -9669,34 +9670,34 @@ class CognitoIdentityProvider {
   /// <ul>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "SMS_OTP", "USERNAME": "[username]"}</code>
+  /// "ANSWER": "SMS_OTP", "USERNAME": "\[username\]"}</code>
   /// </li>
   /// <li>
   /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-  /// "ANSWER": "EMAIL_OTP", "USERNAME": "[username]"}</code>
+  /// "ANSWER": "EMAIL_OTP", "USERNAME": "\[username\]"}</code>
   /// </li>
   /// </ul> </dd> <dt>WEB_AUTHN</dt> <dd>
   /// <code>"ChallengeName": "WEB_AUTHN", "ChallengeResponses": { "USERNAME":
-  /// "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}</code>
+  /// "\[username\]", "CREDENTIAL": "\[AuthenticationResponseJSON\]"}</code>
   ///
   /// See <a
   /// href="https://www.w3.org/TR/WebAuthn-3/#dictdef-authenticationresponsejson">
   /// AuthenticationResponseJSON</a>.
   /// </dd> <dt>PASSWORD</dt> <dd>
   /// <code>"ChallengeName": "PASSWORD", "ChallengeResponses": { "USERNAME":
-  /// "[username]", "PASSWORD": "[password]"}</code>
+  /// "\[username\]", "PASSWORD": "\[password\]"}</code>
   /// </dd> <dt>PASSWORD_SRP</dt> <dd>
   /// <code>"ChallengeName": "PASSWORD_SRP", "ChallengeResponses": { "USERNAME":
-  /// "[username]", "SRP_A": "[SRP_A]"}</code>
+  /// "\[username\]", "SRP_A": "\[SRP_A\]"}</code>
   /// </dd> <dt>SMS_OTP</dt> <dd>
   /// <code>"ChallengeName": "SMS_OTP", "ChallengeResponses": {"SMS_OTP_CODE":
-  /// "[code]", "USERNAME": "[username]"}</code>
+  /// "\[code\]", "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>EMAIL_OTP</dt> <dd>
   /// <code>"ChallengeName": "EMAIL_OTP", "ChallengeResponses":
-  /// {"EMAIL_OTP_CODE": "[code]", "USERNAME": "[username]"}</code>
+  /// {"EMAIL_OTP_CODE": "\[code\]", "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>SMS_MFA</dt> <dd>
   /// <code>"ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE":
-  /// "[code]", "USERNAME": "[username]"}</code>
+  /// "\[code\]", "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>PASSWORD_VERIFIER</dt> <dd>
   /// This challenge response is part of the SRP flow. Amazon Cognito requires
   /// that your application respond to this challenge within a few seconds. When
@@ -9704,21 +9705,21 @@ class CognitoIdentityProvider {
   /// <code>NotAuthorizedException</code> error.
   ///
   /// <code>"ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses":
-  /// {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]",
-  /// "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp],
-  /// "USERNAME": "[username]"}</code>
+  /// {"PASSWORD_CLAIM_SIGNATURE": "\[claim_signature\]",
+  /// "PASSWORD_CLAIM_SECRET_BLOCK": "\[secret_block\]", "TIMESTAMP":
+  /// \[timestamp\], "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>CUSTOM_CHALLENGE</dt> <dd>
   /// <code>"ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses":
-  /// {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"}</code>
+  /// {"USERNAME": "\[username\]", "ANSWER": "\[challenge_answer\]"}</code>
   /// </dd> <dt>NEW_PASSWORD_REQUIRED</dt> <dd>
   /// <code>"ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses":
-  /// {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"}</code>
+  /// {"NEW_PASSWORD": "\[new_password\]", "USERNAME": "\[username\]"}</code>
   ///
   /// To set any required attributes that <code>InitiateAuth</code> returned in
   /// an <code>requiredAttributes</code> parameter, add
-  /// <code>"userAttributes.[attribute_name]": "[attribute_value]"</code>. This
-  /// parameter can also set values for writable attributes that aren't required
-  /// by your user pool.
+  /// <code>"userAttributes.\[attribute_name\]": "\[attribute_value\]"</code>.
+  /// This parameter can also set values for writable attributes that aren't
+  /// required by your user pool.
   /// <note>
   /// In a <code>NEW_PASSWORD_REQUIRED</code> challenge response, you can't
   /// modify a required attribute that already has a value. In
@@ -9730,24 +9731,25 @@ class CognitoIdentityProvider {
   /// additional attributes.
   /// </note> </dd> <dt>SOFTWARE_TOKEN_MFA</dt> <dd>
   /// <code>"ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses":
-  /// {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE":
-  /// [authenticator_code]}</code>
+  /// {"USERNAME": "\[username\]", "SOFTWARE_TOKEN_MFA_CODE":
+  /// \[authenticator_code\]}</code>
   /// </dd> <dt>DEVICE_SRP_AUTH</dt> <dd>
   /// <code>"ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses":
-  /// {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A":
-  /// "[srp_a]"}</code>
+  /// {"USERNAME": "\[username\]", "DEVICE_KEY": "\[device_key\]", "SRP_A":
+  /// "\[srp_a\]"}</code>
   /// </dd> <dt>DEVICE_PASSWORD_VERIFIER</dt> <dd>
   /// <code>"ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses":
-  /// {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE":
-  /// "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]",
-  /// "TIMESTAMP": [timestamp], "USERNAME": "[username]"}</code>
+  /// {"DEVICE_KEY": "\[device_key\]", "PASSWORD_CLAIM_SIGNATURE":
+  /// "\[claim_signature\]", "PASSWORD_CLAIM_SECRET_BLOCK": "\[secret_block\]",
+  /// "TIMESTAMP": \[timestamp\], "USERNAME": "\[username\]"}</code>
   /// </dd> <dt>MFA_SETUP</dt> <dd>
   /// <code>"ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME":
-  /// "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]"</code>
+  /// "\[username\]"}, "SESSION": "\[Session ID from
+  /// VerifySoftwareToken\]"</code>
   /// </dd> <dt>SELECT_MFA_TYPE</dt> <dd>
   /// <code>"ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses":
-  /// {"USERNAME": "[username]", "ANSWER":
-  /// "[SMS_MFA|EMAIL_MFA|SOFTWARE_TOKEN_MFA]"}</code>
+  /// {"USERNAME": "\[username\]", "ANSWER":
+  /// "\[SMS_MFA|EMAIL_MFA|SOFTWARE_TOKEN_MFA\]"}</code>
   /// </dd> </dl>
   /// For more information about <code>SECRET_HASH</code>, see <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash">Computing
@@ -11119,8 +11121,8 @@ class CognitoIdentityProvider {
   /// IdP attribute claim name as the value.
   ///
   /// Parameter [idpIdentifiers] :
-  /// An array of IdP identifiers, for example <code>"IdPIdentifiers": [
-  /// "MyIdP", "MyIdP2" ]</code>. Identifiers are friendly names that you can
+  /// An array of IdP identifiers, for example <code>"IdPIdentifiers": \[
+  /// "MyIdP", "MyIdP2" \]</code>. Identifiers are friendly names that you can
   /// pass in the <code>idp_identifier</code> query parameter of requests to the
   /// <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html">Authorize
@@ -11166,15 +11168,15 @@ class CognitoIdentityProvider {
   ///
   /// Create or update request with Metadata file: <code>"ProviderDetails": {
   /// "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true",
-  /// "MetadataFile": "[metadata XML]", "RequestSigningAlgorithm": "rsa-sha256"
-  /// }</code>
+  /// "MetadataFile": "\[metadata XML\]", "RequestSigningAlgorithm":
+  /// "rsa-sha256" }</code>
   ///
   /// The value of <code>MetadataFile</code> must be the plaintext metadata
   /// document with all quote (") characters escaped by backslashes.
   ///
   /// Describe response: <code>"ProviderDetails": { "IDPInit": "true",
   /// "IDPSignout": "true", "EncryptedResponses" : "true",
-  /// "ActiveEncryptionCertificate": "[certificate]", "MetadataURL":
+  /// "ActiveEncryptionCertificate": "\[certificate\]", "MetadataURL":
   /// "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm":
   /// "rsa-sha256", "SLORedirectBindingURI":
   /// "https://auth.example.com/slo/saml", "SSORedirectBindingURI":
@@ -12835,6 +12837,8 @@ class CognitoIdentityProvider {
 
 /// Represents the response from the server for the request to add custom
 /// attributes.
+///
+/// @nodoc
 class AddCustomAttributesResponse {
   AddCustomAttributesResponse();
 
@@ -12848,6 +12852,8 @@ class AddCustomAttributesResponse {
 }
 
 /// The response from creating a new client secret.
+///
+/// @nodoc
 class AddUserPoolClientSecretResponse {
   /// The details of the newly created client secret, including its unique
   /// identifier and creation timestamp. The ClientSecretValue is only returned
@@ -12879,6 +12885,8 @@ class AddUserPoolClientSecretResponse {
 
 /// Represents the response from the server for the request to confirm
 /// registration.
+///
+/// @nodoc
 class AdminConfirmSignUpResponse {
   AdminConfirmSignUpResponse();
 
@@ -12892,6 +12900,8 @@ class AdminConfirmSignUpResponse {
 }
 
 /// Represents the response from the server to the request to create the user.
+///
+/// @nodoc
 class AdminCreateUserResponse {
   /// The new user's profile details.
   final UserType? user;
@@ -12918,6 +12928,8 @@ class AdminCreateUserResponse {
 
 /// Represents the response received from the server for a request to delete
 /// user attributes.
+///
+/// @nodoc
 class AdminDeleteUserAttributesResponse {
   AdminDeleteUserAttributesResponse();
 
@@ -12930,6 +12942,7 @@ class AdminDeleteUserAttributesResponse {
   }
 }
 
+/// @nodoc
 class AdminDisableProviderForUserResponse {
   AdminDisableProviderForUserResponse();
 
@@ -12944,6 +12957,8 @@ class AdminDisableProviderForUserResponse {
 
 /// Represents the response received from the server to disable the user as an
 /// administrator.
+///
+/// @nodoc
 class AdminDisableUserResponse {
   AdminDisableUserResponse();
 
@@ -12958,6 +12973,8 @@ class AdminDisableUserResponse {
 
 /// Represents the response from the server for the request to enable a user as
 /// an administrator.
+///
+/// @nodoc
 class AdminEnableUserResponse {
   AdminEnableUserResponse();
 
@@ -12971,6 +12988,8 @@ class AdminEnableUserResponse {
 }
 
 /// Gets the device response, as an administrator.
+///
+/// @nodoc
 class AdminGetDeviceResponse {
   /// Details of the requested device. Includes device information, last-accessed
   /// and created dates, and the device key.
@@ -12997,6 +13016,8 @@ class AdminGetDeviceResponse {
 
 /// Represents the response from the server from the request to get the
 /// specified user as an administrator.
+///
+/// @nodoc
 class AdminGetUserResponse {
   /// The username of the user that you requested.
   final String username;
@@ -13125,6 +13146,8 @@ class AdminGetUserResponse {
 }
 
 /// Initiates the authentication response, as an administrator.
+///
+/// @nodoc
 class AdminInitiateAuthResponse {
   /// The outcome of successful authentication. This is only returned if the user
   /// pool has no additional challenges to return. If Amazon Cognito returns
@@ -13330,6 +13353,7 @@ class AdminInitiateAuthResponse {
   }
 }
 
+/// @nodoc
 class AdminLinkProviderForUserResponse {
   AdminLinkProviderForUserResponse();
 
@@ -13343,6 +13367,8 @@ class AdminLinkProviderForUserResponse {
 }
 
 /// Lists the device's response, as an administrator.
+///
+/// @nodoc
 class AdminListDevicesResponse {
   /// An array of devices and their information. Each entry that's returned
   /// includes device information, last-accessed and created dates, and the device
@@ -13380,6 +13406,7 @@ class AdminListDevicesResponse {
   }
 }
 
+/// @nodoc
 class AdminListGroupsForUserResponse {
   /// An array of groups and information about them.
   final List<GroupType>? groups;
@@ -13415,6 +13442,7 @@ class AdminListGroupsForUserResponse {
   }
 }
 
+/// @nodoc
 class AdminListUserAuthEventsResponse {
   /// The response object. It includes the <code>EventID</code>,
   /// <code>EventType</code>, <code>CreationDate</code>, <code>EventRisk</code>,
@@ -13454,6 +13482,8 @@ class AdminListUserAuthEventsResponse {
 
 /// Represents the response from the server to reset a user password as an
 /// administrator.
+///
+/// @nodoc
 class AdminResetUserPasswordResponse {
   AdminResetUserPasswordResponse();
 
@@ -13467,6 +13497,8 @@ class AdminResetUserPasswordResponse {
 }
 
 /// Responds to the authentication challenge, as an administrator.
+///
+/// @nodoc
 class AdminRespondToAuthChallengeResponse {
   /// The outcome of a successful authentication process. After your application
   /// has passed all challenges, Amazon Cognito returns an
@@ -13640,6 +13672,7 @@ class AdminRespondToAuthChallengeResponse {
   }
 }
 
+/// @nodoc
 class AdminSetUserMFAPreferenceResponse {
   AdminSetUserMFAPreferenceResponse();
 
@@ -13652,6 +13685,7 @@ class AdminSetUserMFAPreferenceResponse {
   }
 }
 
+/// @nodoc
 class AdminSetUserPasswordResponse {
   AdminSetUserPasswordResponse();
 
@@ -13666,6 +13700,8 @@ class AdminSetUserPasswordResponse {
 
 /// Represents the response from the server to set user settings as an
 /// administrator.
+///
+/// @nodoc
 class AdminSetUserSettingsResponse {
   AdminSetUserSettingsResponse();
 
@@ -13678,6 +13714,7 @@ class AdminSetUserSettingsResponse {
   }
 }
 
+/// @nodoc
 class AdminUpdateAuthEventFeedbackResponse {
   AdminUpdateAuthEventFeedbackResponse();
 
@@ -13693,6 +13730,8 @@ class AdminUpdateAuthEventFeedbackResponse {
 
 /// The status response to the request to update the device, as an
 /// administrator.
+///
+/// @nodoc
 class AdminUpdateDeviceStatusResponse {
   AdminUpdateDeviceStatusResponse();
 
@@ -13707,6 +13746,8 @@ class AdminUpdateDeviceStatusResponse {
 
 /// Represents the response from the server for the request to update user
 /// attributes as an administrator.
+///
+/// @nodoc
 class AdminUpdateUserAttributesResponse {
   AdminUpdateUserAttributesResponse();
 
@@ -13720,6 +13761,8 @@ class AdminUpdateUserAttributesResponse {
 }
 
 /// The global sign-out response, as an administrator.
+///
+/// @nodoc
 class AdminUserGlobalSignOutResponse {
   AdminUserGlobalSignOutResponse();
 
@@ -13732,6 +13775,7 @@ class AdminUserGlobalSignOutResponse {
   }
 }
 
+/// @nodoc
 class AssociateSoftwareTokenResponse {
   /// A unique generated shared secret code that is used by the TOTP algorithm to
   /// generate a one-time code.
@@ -13764,6 +13808,8 @@ class AssociateSoftwareTokenResponse {
 }
 
 /// The response from the server to the change password request.
+///
+/// @nodoc
 class ChangePasswordResponse {
   ChangePasswordResponse();
 
@@ -13776,6 +13822,7 @@ class ChangePasswordResponse {
   }
 }
 
+/// @nodoc
 class CompleteWebAuthnRegistrationResponse {
   CompleteWebAuthnRegistrationResponse();
 
@@ -13790,6 +13837,8 @@ class CompleteWebAuthnRegistrationResponse {
 }
 
 /// The confirm-device response.
+///
+/// @nodoc
 class ConfirmDeviceResponse {
   /// When <code>true</code>, your user must confirm that they want to remember
   /// the device. Prompt the user for an answer.
@@ -13824,6 +13873,8 @@ class ConfirmDeviceResponse {
 
 /// The response from the server that results from a user's request to retrieve
 /// a forgotten password.
+///
+/// @nodoc
 class ConfirmForgotPasswordResponse {
   ConfirmForgotPasswordResponse();
 
@@ -13837,6 +13888,8 @@ class ConfirmForgotPasswordResponse {
 }
 
 /// Represents the response from the server for the registration confirmation.
+///
+/// @nodoc
 class ConfirmSignUpResponse {
   /// A session identifier that you can use to immediately sign in the confirmed
   /// user. You can automatically sign users in with the one-time password that
@@ -13861,6 +13914,7 @@ class ConfirmSignUpResponse {
   }
 }
 
+/// @nodoc
 class CreateGroupResponse {
   /// The response object for a created group.
   final GroupType? group;
@@ -13885,6 +13939,7 @@ class CreateGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateIdentityProviderResponse {
   /// The details of the new user pool IdP.
   final IdentityProviderType identityProvider;
@@ -13909,6 +13964,7 @@ class CreateIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class CreateManagedLoginBrandingResponse {
   /// The details of the branding style that you created.
   final ManagedLoginBrandingType? managedLoginBranding;
@@ -13936,6 +13992,7 @@ class CreateManagedLoginBrandingResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceServerResponse {
   /// The details of the new resource server.
   final ResourceServerType resourceServer;
@@ -13960,6 +14017,7 @@ class CreateResourceServerResponse {
   }
 }
 
+/// @nodoc
 class CreateTermsResponse {
   /// A summary of your terms documents. Includes a unique identifier for later
   /// changes to the terms documents.
@@ -13987,6 +14045,8 @@ class CreateTermsResponse {
 
 /// Represents the response from the server to the request to create the user
 /// import job.
+///
+/// @nodoc
 class CreateUserImportJobResponse {
   /// The details of the user import job. Includes logging destination, status,
   /// and the Amazon S3 pre-signed URL for CSV upload.
@@ -14015,6 +14075,8 @@ class CreateUserImportJobResponse {
 
 /// Represents the response from the server for the request to create a user
 /// pool.
+///
+/// @nodoc
 class CreateUserPoolResponse {
   /// The details of the created user pool.
   final UserPoolType? userPool;
@@ -14040,6 +14102,8 @@ class CreateUserPoolResponse {
 }
 
 /// Represents the response from the server to create a user pool client.
+///
+/// @nodoc
 class CreateUserPoolClientResponse {
   /// The details of the new app client.
   final UserPoolClientType? userPoolClient;
@@ -14065,6 +14129,7 @@ class CreateUserPoolClientResponse {
   }
 }
 
+/// @nodoc
 class CreateUserPoolDomainResponse {
   /// The fully-qualified domain name (FQDN) of the Amazon CloudFront distribution
   /// that hosts your managed login or classic hosted UI pages. Your domain-name
@@ -14111,6 +14176,7 @@ class CreateUserPoolDomainResponse {
   }
 }
 
+/// @nodoc
 class CreateUserPoolReplicaResponse {
   /// Information about the created user pool replica, including its status and
   /// role.
@@ -14138,6 +14204,8 @@ class CreateUserPoolReplicaResponse {
 }
 
 /// Represents the response from the server to delete user attributes.
+///
+/// @nodoc
 class DeleteUserAttributesResponse {
   DeleteUserAttributesResponse();
 
@@ -14151,6 +14219,8 @@ class DeleteUserAttributesResponse {
 }
 
 /// The response from deleting a client secret.
+///
+/// @nodoc
 class DeleteUserPoolClientSecretResponse {
   DeleteUserPoolClientSecretResponse();
 
@@ -14163,6 +14233,7 @@ class DeleteUserPoolClientSecretResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserPoolDomainResponse {
   DeleteUserPoolDomainResponse();
 
@@ -14175,6 +14246,7 @@ class DeleteUserPoolDomainResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserPoolReplicaResponse {
   /// Information about the deleted user pool replica.
   final UserPoolReplicaType? userPoolReplica;
@@ -14200,6 +14272,7 @@ class DeleteUserPoolReplicaResponse {
   }
 }
 
+/// @nodoc
 class DeleteWebAuthnCredentialResponse {
   DeleteWebAuthnCredentialResponse();
 
@@ -14212,6 +14285,7 @@ class DeleteWebAuthnCredentialResponse {
   }
 }
 
+/// @nodoc
 class DescribeIdentityProviderResponse {
   /// The details of the requested IdP.
   final IdentityProviderType identityProvider;
@@ -14236,6 +14310,7 @@ class DescribeIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class DescribeManagedLoginBrandingResponse {
   /// The details of the requested branding style.
   final ManagedLoginBrandingType? managedLoginBranding;
@@ -14263,6 +14338,7 @@ class DescribeManagedLoginBrandingResponse {
   }
 }
 
+/// @nodoc
 class DescribeManagedLoginBrandingByClientResponse {
   /// The details of the requested branding style.
   final ManagedLoginBrandingType? managedLoginBranding;
@@ -14290,6 +14366,7 @@ class DescribeManagedLoginBrandingByClientResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourceServerResponse {
   /// The details of the requested resource server.
   final ResourceServerType resourceServer;
@@ -14314,6 +14391,7 @@ class DescribeResourceServerResponse {
   }
 }
 
+/// @nodoc
 class DescribeRiskConfigurationResponse {
   /// The details of the requested risk configuration.
   final RiskConfigurationType riskConfiguration;
@@ -14339,6 +14417,7 @@ class DescribeRiskConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeTermsResponse {
   /// A summary of the requested terms documents. Includes a unique identifier for
   /// later changes to the terms documents.
@@ -14366,6 +14445,8 @@ class DescribeTermsResponse {
 
 /// Represents the response from the server to the request to describe the user
 /// import job.
+///
+/// @nodoc
 class DescribeUserImportJobResponse {
   /// The details of the user import job. Includes logging destination, status,
   /// and the Amazon S3 pre-signed URL for CSV upload.
@@ -14393,6 +14474,8 @@ class DescribeUserImportJobResponse {
 }
 
 /// Represents the response to describe the user pool.
+///
+/// @nodoc
 class DescribeUserPoolResponse {
   /// The details of the requested user pool.
   final UserPoolType? userPool;
@@ -14419,6 +14502,8 @@ class DescribeUserPoolResponse {
 
 /// Represents the response from the server from a request to describe the user
 /// pool client.
+///
+/// @nodoc
 class DescribeUserPoolClientResponse {
   /// The details of the request app client.
   final UserPoolClientType? userPoolClient;
@@ -14444,6 +14529,7 @@ class DescribeUserPoolClientResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserPoolDomainResponse {
   /// The details of the requested user pool domain.
   final DomainDescriptionType? domainDescription;
@@ -14470,6 +14556,8 @@ class DescribeUserPoolDomainResponse {
 }
 
 /// The response from Amazon Cognito to a request to reset a password.
+///
+/// @nodoc
 class ForgotPasswordResponse {
   /// Information about the phone number or email address that Amazon Cognito sent
   /// the password-recovery code to.
@@ -14499,6 +14587,8 @@ class ForgotPasswordResponse {
 
 /// Represents the response from the server to the request to get the header
 /// information of the CSV file for the user import job.
+///
+/// @nodoc
 class GetCSVHeaderResponse {
   /// A comma-separated list of attributes from your user pool. Save this output
   /// to a <code>.csv</code> file and populate it with the attributes of the users
@@ -14534,6 +14624,8 @@ class GetCSVHeaderResponse {
 }
 
 /// Gets the device response.
+///
+/// @nodoc
 class GetDeviceResponse {
   /// Details of the requested device. Includes device information, last-accessed
   /// and created dates, and the device key.
@@ -14558,6 +14650,7 @@ class GetDeviceResponse {
   }
 }
 
+/// @nodoc
 class GetGroupResponse {
   /// A container for the requested group. Includes description, precedence, and
   /// IAM role values.
@@ -14583,6 +14676,7 @@ class GetGroupResponse {
   }
 }
 
+/// @nodoc
 class GetIdentityProviderByIdentifierResponse {
   /// The configuration of the IdP in your user pool. Includes additional
   /// identifiers, the IdP name and type, and trust-relationship details like the
@@ -14610,6 +14704,7 @@ class GetIdentityProviderByIdentifierResponse {
   }
 }
 
+/// @nodoc
 class GetLogDeliveryConfigurationResponse {
   /// The logging configuration of the requested user pool. Includes types of logs
   /// configured and their destinations.
@@ -14639,6 +14734,8 @@ class GetLogDeliveryConfigurationResponse {
 }
 
 /// Response from Amazon Cognito for a signing certificate request.
+///
+/// @nodoc
 class GetSigningCertificateResponse {
   /// The x.509 certificate that signs SAML 2.0 authentication requests for your
   /// user pool.
@@ -14662,6 +14759,7 @@ class GetSigningCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetTokensFromRefreshTokenResponse {
   final AuthenticationResultType? authenticationResult;
 
@@ -14688,6 +14786,7 @@ class GetTokensFromRefreshTokenResponse {
   }
 }
 
+/// @nodoc
 class GetUICustomizationResponse {
   /// Information about the classic hosted UI custom CSS and logo-image branding
   /// that you applied to the user pool or app client.
@@ -14715,6 +14814,8 @@ class GetUICustomizationResponse {
 
 /// Represents the response from the server from the request to get information
 /// about the user.
+///
+/// @nodoc
 class GetUserResponse {
   /// An array of name-value pairs representing user attributes.
   ///
@@ -14786,6 +14887,8 @@ class GetUserResponse {
 
 /// The verification code response returned by the server response to get the
 /// user attribute verification code.
+///
+/// @nodoc
 class GetUserAttributeVerificationCodeResponse {
   /// Information about the delivery destination of the user attribute
   /// verification code.
@@ -14814,14 +14917,15 @@ class GetUserAttributeVerificationCodeResponse {
   }
 }
 
+/// @nodoc
 class GetUserAuthFactorsResponse {
   /// The name of the user who is eligible for the authentication factors in the
   /// response.
   final String username;
 
   /// The authentication types that are available to the user with
-  /// <code>USER_AUTH</code> sign-in, for example <code>["PASSWORD",
-  /// "WEB_AUTHN"]</code>.
+  /// <code>USER_AUTH</code> sign-in, for example <code>\["PASSWORD",
+  /// "WEB_AUTHN"\]</code>.
   final List<AuthFactorType>? configuredUserAuthFactors;
 
   /// The challenge method that Amazon Cognito returns to the user in response to
@@ -14872,6 +14976,7 @@ class GetUserAuthFactorsResponse {
   }
 }
 
+/// @nodoc
 class GetUserPoolMfaConfigResponse {
   /// Shows configuration for user pool email message MFA and sign-in with
   /// one-time passwords (OTPs). Includes the subject and body of the email
@@ -14961,6 +15066,8 @@ class GetUserPoolMfaConfigResponse {
 }
 
 /// The response to the request to sign out all devices.
+///
+/// @nodoc
 class GlobalSignOutResponse {
   GlobalSignOutResponse();
 
@@ -14974,6 +15081,8 @@ class GlobalSignOutResponse {
 }
 
 /// Initiates the authentication response.
+///
+/// @nodoc
 class InitiateAuthResponse {
   /// The result of a successful and complete authentication request. This result
   /// is only returned if the user doesn't need to pass another challenge. If they
@@ -15163,6 +15272,8 @@ class InitiateAuthResponse {
 }
 
 /// Represents the response to list devices.
+///
+/// @nodoc
 class ListDevicesResponse {
   /// An array of devices and their details. Each entry that's returned includes
   /// device information, last-accessed and created dates, and the device key.
@@ -15199,6 +15310,7 @@ class ListDevicesResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsResponse {
   /// An array of groups and their details. Each entry that's returned includes
   /// description, precedence, and IAM role values.
@@ -15235,6 +15347,7 @@ class ListGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListIdentityProvidersResponse {
   /// An array of the IdPs in your user pool. For each, the response includes
   /// identifiers, the IdP name and type, and trust-relationship details like the
@@ -15272,6 +15385,7 @@ class ListIdentityProvidersResponse {
   }
 }
 
+/// @nodoc
 class ListResourceServersResponse {
   /// An array of resource servers and the details of their configuration. For
   /// each, the response includes names, identifiers, and custom scopes.
@@ -15308,6 +15422,7 @@ class ListResourceServersResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags that are assigned to the user pool.
   final Map<String, String>? tags;
@@ -15331,6 +15446,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTermsResponse {
   /// A summary of the requested terms documents. Includes unique identifiers for
   /// later changes to the terms documents.
@@ -15371,6 +15487,8 @@ class ListTermsResponse {
 
 /// Represents the response from the server to the request to list the user
 /// import jobs.
+///
+/// @nodoc
 class ListUserImportJobsResponse {
   /// The identifier that Amazon Cognito returned with the previous request to
   /// this operation. When you include a pagination token in your request, Amazon
@@ -15409,6 +15527,8 @@ class ListUserImportJobsResponse {
 }
 
 /// Represents the response from the server that lists user pool clients.
+///
+/// @nodoc
 class ListUserPoolClientsResponse {
   /// The identifier that Amazon Cognito returned with the previous request to
   /// this operation. When you include a pagination token in your request, Amazon
@@ -15448,6 +15568,8 @@ class ListUserPoolClientsResponse {
 /// The response containing the list of client secret metadata. This response
 /// does not include a NextToken field as all secrets are returned in a single
 /// response.
+///
+/// @nodoc
 class ListUserPoolClientSecretsResponse {
   /// A list of client secret descriptors containing the identifier and creation
   /// date for each secret. For security reasons, the response never reveals the
@@ -15487,6 +15609,7 @@ class ListUserPoolClientSecretsResponse {
   }
 }
 
+/// @nodoc
 class ListUserPoolReplicasResponse {
   /// A pagination token for retrieving the next page of results. If this value is
   /// null, there are no more results to retrieve.
@@ -15522,6 +15645,8 @@ class ListUserPoolReplicasResponse {
 }
 
 /// Represents the response to list user pools.
+///
+/// @nodoc
 class ListUserPoolsResponse {
   /// The identifier that Amazon Cognito returned with the previous request to
   /// this operation. When you include a pagination token in your request, Amazon
@@ -15559,6 +15684,8 @@ class ListUserPoolsResponse {
 }
 
 /// The response from the request to list users.
+///
+/// @nodoc
 class ListUsersResponse {
   /// The identifier that Amazon Cognito returned with the previous request to
   /// this operation. When you include a pagination token in your request, Amazon
@@ -15598,6 +15725,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class ListUsersInGroupResponse {
   /// The identifier that Amazon Cognito returned with the previous request to
   /// this operation. When you include a pagination token in your request, Amazon
@@ -15633,6 +15761,7 @@ class ListUsersInGroupResponse {
   }
 }
 
+/// @nodoc
 class ListWebAuthnCredentialsResponse {
   /// A list of registered passkeys for a user.
   final List<WebAuthnCredentialDescription> credentials;
@@ -15671,6 +15800,8 @@ class ListWebAuthnCredentialsResponse {
 
 /// The response from the server when Amazon Cognito makes the request to resend
 /// a confirmation code.
+///
+/// @nodoc
 class ResendConfirmationCodeResponse {
   /// Information about the phone number or email address that Amazon Cognito sent
   /// the confirmation code to.
@@ -15699,6 +15830,8 @@ class ResendConfirmationCodeResponse {
 }
 
 /// The response to respond to the authentication challenge.
+///
+/// @nodoc
 class RespondToAuthChallengeResponse {
   /// The outcome of a successful authentication process. After your application
   /// has passed all challenges, Amazon Cognito returns an
@@ -15870,6 +16003,7 @@ class RespondToAuthChallengeResponse {
   }
 }
 
+/// @nodoc
 class RevokeTokenResponse {
   RevokeTokenResponse();
 
@@ -15882,6 +16016,7 @@ class RevokeTokenResponse {
   }
 }
 
+/// @nodoc
 class SetLogDeliveryConfigurationResponse {
   /// The logging configuration that you applied to the requested user pool.
   final LogDeliveryConfigurationType? logDeliveryConfiguration;
@@ -15909,6 +16044,7 @@ class SetLogDeliveryConfigurationResponse {
   }
 }
 
+/// @nodoc
 class SetRiskConfigurationResponse {
   /// The API response that contains the risk configuration that you set and the
   /// timestamp of the most recent change.
@@ -15934,6 +16070,7 @@ class SetRiskConfigurationResponse {
   }
 }
 
+/// @nodoc
 class SetUICustomizationResponse {
   /// Information about the hosted UI branding that you applied.
   final UICustomizationType uICustomization;
@@ -15958,6 +16095,7 @@ class SetUICustomizationResponse {
   }
 }
 
+/// @nodoc
 class SetUserMFAPreferenceResponse {
   SetUserMFAPreferenceResponse();
 
@@ -15970,6 +16108,7 @@ class SetUserMFAPreferenceResponse {
   }
 }
 
+/// @nodoc
 class SetUserPoolMfaConfigResponse {
   /// Shows configuration for user pool email message MFA and sign-in with
   /// one-time passwords (OTPs). Includes the subject and body of the email
@@ -16059,6 +16198,8 @@ class SetUserPoolMfaConfigResponse {
 }
 
 /// The response from the server for a set user settings request.
+///
+/// @nodoc
 class SetUserSettingsResponse {
   SetUserSettingsResponse();
 
@@ -16072,6 +16213,8 @@ class SetUserSettingsResponse {
 }
 
 /// The response from the server for a registration request.
+///
+/// @nodoc
 class SignUpResponse {
   /// Indicates whether the user was automatically confirmed. You can auto-confirm
   /// users with a <a
@@ -16131,6 +16274,8 @@ class SignUpResponse {
 
 /// Represents the response from the server to the request to start the user
 /// import job.
+///
+/// @nodoc
 class StartUserImportJobResponse {
   /// The details of the user import job. Includes logging destination, status,
   /// and the Amazon S3 pre-signed URL for CSV upload.
@@ -16157,6 +16302,7 @@ class StartUserImportJobResponse {
   }
 }
 
+/// @nodoc
 class StartWebAuthnRegistrationResponse {
   /// The information that a user can provide in their request to register with
   /// their passkey provider.
@@ -16183,6 +16329,8 @@ class StartWebAuthnRegistrationResponse {
 
 /// Represents the response from the server to the request to stop the user
 /// import job.
+///
+/// @nodoc
 class StopUserImportJobResponse {
   /// The details of the user import job. Includes logging destination, status,
   /// and the Amazon S3 pre-signed URL for CSV upload.
@@ -16209,6 +16357,7 @@ class StopUserImportJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -16221,6 +16370,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -16233,6 +16383,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAuthEventFeedbackResponse {
   UpdateAuthEventFeedbackResponse();
 
@@ -16246,6 +16397,8 @@ class UpdateAuthEventFeedbackResponse {
 }
 
 /// The response to the request to update the device status.
+///
+/// @nodoc
 class UpdateDeviceStatusResponse {
   UpdateDeviceStatusResponse();
 
@@ -16258,6 +16411,7 @@ class UpdateDeviceStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdateGroupResponse {
   /// Contains the updated details of the group, including precedence, IAM role,
   /// and description.
@@ -16283,6 +16437,7 @@ class UpdateGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateIdentityProviderResponse {
   /// The identity provider details.
   final IdentityProviderType identityProvider;
@@ -16307,6 +16462,7 @@ class UpdateIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdateManagedLoginBrandingResponse {
   /// The details of the branding style that you updated.
   final ManagedLoginBrandingType? managedLoginBranding;
@@ -16334,6 +16490,7 @@ class UpdateManagedLoginBrandingResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceServerResponse {
   /// The updated details of the requested resource server.
   final ResourceServerType resourceServer;
@@ -16358,6 +16515,7 @@ class UpdateResourceServerResponse {
   }
 }
 
+/// @nodoc
 class UpdateTermsResponse {
   /// A summary of the updates to your terms documents.
   final TermsType? terms;
@@ -16384,6 +16542,8 @@ class UpdateTermsResponse {
 
 /// Represents the response from the server for the request to update user
 /// attributes.
+///
+/// @nodoc
 class UpdateUserAttributesResponse {
   /// When the attribute-update request includes an email address or phone number
   /// attribute, Amazon Cognito sends a message to users with a code that confirms
@@ -16421,6 +16581,8 @@ class UpdateUserAttributesResponse {
 
 /// Represents the response from the server when you make a request to update
 /// the user pool.
+///
+/// @nodoc
 class UpdateUserPoolResponse {
   UpdateUserPoolResponse();
 
@@ -16435,6 +16597,8 @@ class UpdateUserPoolResponse {
 
 /// Represents the response from the server to the request to update the user
 /// pool client.
+///
+/// @nodoc
 class UpdateUserPoolClientResponse {
   /// The updated details of your app client.
   final UserPoolClientType? userPoolClient;
@@ -16461,6 +16625,8 @@ class UpdateUserPoolClientResponse {
 }
 
 /// The UpdateUserPoolDomain response output.
+///
+/// @nodoc
 class UpdateUserPoolDomainResponse {
   /// The fully-qualified domain name (FQDN) of the Amazon CloudFront distribution
   /// that hosts your managed login or classic hosted UI pages. You domain-name
@@ -16509,6 +16675,7 @@ class UpdateUserPoolDomainResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserPoolReplicaResponse {
   /// Information about the updated user pool replica.
   final UserPoolReplicaType? userPoolReplica;
@@ -16534,6 +16701,7 @@ class UpdateUserPoolReplicaResponse {
   }
 }
 
+/// @nodoc
 class VerifySoftwareTokenResponse {
   /// This session ID satisfies an <code>MFA_SETUP</code> challenge. Supply the
   /// session ID in your challenge response.
@@ -16570,6 +16738,8 @@ class VerifySoftwareTokenResponse {
 
 /// A container representing the response from the server from the request to
 /// verify user attributes.
+///
+/// @nodoc
 class VerifyUserAttributeResponse {
   VerifyUserAttributeResponse();
 
@@ -16582,6 +16752,7 @@ class VerifyUserAttributeResponse {
   }
 }
 
+/// @nodoc
 class VerifySoftwareTokenResponseType {
   static const success = VerifySoftwareTokenResponseType._('SUCCESS');
   static const error = VerifySoftwareTokenResponseType._('ERROR');
@@ -16609,6 +16780,8 @@ class VerifySoftwareTokenResponseType {
 
 /// Contains information about a replica user pool, including Region, status,
 /// role, and ARN.
+///
+/// @nodoc
 class UserPoolReplicaType {
   /// The Amazon Web Services Region where the replica is located.
   final String? regionName;
@@ -16671,6 +16844,7 @@ class UserPoolReplicaType {
   }
 }
 
+/// @nodoc
 class ReplicaStatusType {
   static const creating = ReplicaStatusType._('CREATING');
   static const active = ReplicaStatusType._('ACTIVE');
@@ -16697,6 +16871,7 @@ class ReplicaStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicaRoleType {
   static const primary = ReplicaRoleType._('PRIMARY');
   static const secondary = ReplicaRoleType._('SECONDARY');
@@ -16721,6 +16896,7 @@ class ReplicaRoleType {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateReplicaStatusType {
   static const active = UpdateReplicaStatusType._('ACTIVE');
   static const inactive = UpdateReplicaStatusType._('INACTIVE');
@@ -16748,6 +16924,8 @@ class UpdateReplicaStatusType {
 
 /// Specifies routing configuration for user pool domains. Contains failover
 /// settings for multi-region deployments.
+///
+/// @nodoc
 class RoutingType {
   /// The failover configuration that specifies the secondary region and health
   /// check settings.
@@ -16775,6 +16953,8 @@ class RoutingType {
 
 /// Specifies failover configuration for multi-region user pool domains.
 /// Contains settings for the secondary region and health check configuration.
+///
+/// @nodoc
 class FailoverType {
   /// The ID of the Amazon Web Services Route53 healthcheck that controls routing.
   /// If the healthcheck is healthy, traffic will be routed to the primary
@@ -16810,6 +16990,8 @@ class FailoverType {
 }
 
 /// The configuration for a hosted UI custom domain.
+///
+/// @nodoc
 class CustomDomainConfigType {
   /// The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate.
   /// You use this certificate for the subdomain of your custom domain.
@@ -16834,6 +17016,8 @@ class CustomDomainConfigType {
 }
 
 /// The configuration of a user pool client.
+///
+/// @nodoc
 class UserPoolClientType {
   /// The access token time limit. After this limit expires, your user can't use
   /// their access token. To specify the time unit for
@@ -16942,7 +17126,7 @@ class UserPoolClientType {
   ///
   /// Amazon Cognito requires HTTPS over HTTP for callback URLs to
   /// <code>http://localhost</code>, <code>http://127.0.0.1</code> and
-  /// <code>http://[::1]</code>. These callback URLs are for testing purposes
+  /// <code>http://\[::1\]</code>. These callback URLs are for testing purposes
   /// only. You can specify custom TCP ports for your callback URLs.
   ///
   /// App callback URLs such as myapp://example are also supported.
@@ -16982,7 +17166,7 @@ class UserPoolClientType {
   ///
   /// Amazon Cognito requires HTTPS over HTTP for callback URLs to
   /// <code>http://localhost</code>, <code>http://127.0.0.1</code> and
-  /// <code>http://[::1]</code>. These callback URLs are for testing purposes
+  /// <code>http://\[::1\]</code>. These callback URLs are for testing purposes
   /// only. You can specify custom TCP ports for your callback URLs.
   ///
   /// App callback URLs such as myapp://example are also supported.
@@ -17381,6 +17565,8 @@ class UserPoolClientType {
 /// <code>AccessTokenValidity</code>, and <code>RefreshTokenValidity</code>, set
 /// and display the duration of ID, access, and refresh tokens for an app
 /// client. You can assign a separate token validity unit to each type of token.
+///
+/// @nodoc
 class TokenValidityUnitsType {
   /// A time unit for the value that you set in the
   /// <code>AccessTokenValidity</code> parameter. The default
@@ -17438,6 +17624,8 @@ class TokenValidityUnitsType {
 /// list of available Regions, see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html#cognito-user-pools-find-region-mappings">Amazon
 /// Cognito and Amazon Pinpoint Region availability</a>.
+///
+/// @nodoc
 class AnalyticsConfigurationType {
   /// The Amazon Resource Name (ARN) of an Amazon Pinpoint project that you want
   /// to connect to your user pool app client. Amazon Cognito publishes events to
@@ -17498,6 +17686,7 @@ class AnalyticsConfigurationType {
   }
 }
 
+/// @nodoc
 class PreventUserExistenceErrorTypes {
   static const legacy = PreventUserExistenceErrorTypes._('LEGACY');
   static const enabled = PreventUserExistenceErrorTypes._('ENABLED');
@@ -17527,6 +17716,8 @@ class PreventUserExistenceErrorTypes {
 /// enabled, your app client issues new ID, access, and refresh tokens when
 /// users renew their sessions with refresh tokens. When disabled, token refresh
 /// issues only ID and access tokens.
+///
+/// @nodoc
 class RefreshTokenRotationType {
   /// The state of refresh token rotation for the current app client.
   final FeatureType feature;
@@ -17563,6 +17754,7 @@ class RefreshTokenRotationType {
   }
 }
 
+/// @nodoc
 class FeatureType {
   static const enabled = FeatureType._('ENABLED');
   static const disabled = FeatureType._('DISABLED');
@@ -17586,6 +17778,7 @@ class FeatureType {
   String toString() => value;
 }
 
+/// @nodoc
 class OAuthFlowType {
   static const code = OAuthFlowType._('code');
   static const implicit = OAuthFlowType._('implicit');
@@ -17611,6 +17804,7 @@ class OAuthFlowType {
   String toString() => value;
 }
 
+/// @nodoc
 class ExplicitAuthFlowsType {
   static const adminNoSrpAuth = ExplicitAuthFlowsType._('ADMIN_NO_SRP_AUTH');
   static const customAuthFlowOnly =
@@ -17658,6 +17852,7 @@ class ExplicitAuthFlowsType {
   String toString() => value;
 }
 
+/// @nodoc
 class TimeUnitsType {
   static const seconds = TimeUnitsType._('seconds');
   static const minutes = TimeUnitsType._('minutes');
@@ -17686,6 +17881,8 @@ class TimeUnitsType {
 
 /// A list of user pool policies. Contains the policy that sets
 /// password-complexity requirements.
+///
+/// @nodoc
 class UserPoolPolicyType {
   /// The password policy settings for a user pool, including complexity, history,
   /// and length requirements.
@@ -17722,6 +17919,7 @@ class UserPoolPolicyType {
   }
 }
 
+/// @nodoc
 class DeletionProtectionType {
   static const active = DeletionProtectionType._('ACTIVE');
   static const inactive = DeletionProtectionType._('INACTIVE');
@@ -17750,6 +17948,8 @@ class DeletionProtectionType {
 /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers
 /// at several possible stages of user pool operations. Triggers can modify the
 /// outcome of the operations that invoked them.
+///
+/// @nodoc
 class LambdaConfigType {
   /// The configuration of a create auth challenge Lambda trigger, one of three
   /// triggers in the sequence of the <a
@@ -17942,6 +18142,8 @@ class LambdaConfigType {
 
 /// The template for the verification message that your user pool delivers to
 /// users who set an email address or phone number attribute.
+///
+/// @nodoc
 class VerificationMessageTemplateType {
   /// The configuration of verification emails to contain a clickable link or a
   /// verification code.
@@ -18039,6 +18241,8 @@ class VerificationMessageTemplateType {
 /// <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-email-phone-verification.html#user-pool-settings-verifications-verify-attribute-updates">
 /// Verifying updates to email addresses and phone numbers</a>.
+///
+/// @nodoc
 class UserAttributeUpdateSettingsType {
   /// Requires that your user verifies their email address, phone number, or both
   /// before Amazon Cognito updates the value of that attribute. When you update a
@@ -18082,6 +18286,7 @@ class UserAttributeUpdateSettingsType {
   }
 }
 
+/// @nodoc
 class UserPoolMfaType {
   static const off = UserPoolMfaType._('OFF');
   static const on = UserPoolMfaType._('ON');
@@ -18113,6 +18318,8 @@ class UserPoolMfaType {
 /// <code>DeviceConfiguration</code>, you activate the device remembering for
 /// the user pool.
 /// </note>
+///
+/// @nodoc
 class DeviceConfigurationType {
   /// When true, a remembered device can sign in with device authentication
   /// instead of SMS and time-based one-time password (TOTP) factors for
@@ -18173,6 +18380,8 @@ class DeviceConfigurationType {
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-email.html">Email
 /// settings for Amazon Cognito user pools</a>.
 /// </note>
+///
+/// @nodoc
 class EmailConfigurationType {
   /// The set of configuration rules that can be applied to emails sent using
   /// Amazon Simple Email Service. A configuration set is applied to an email by
@@ -18312,6 +18521,8 @@ class EmailConfigurationType {
 /// Notification Service. To send SMS messages with Amazon SNS in the Amazon Web
 /// Services Region that you want, the Amazon Cognito user pool uses an Identity
 /// and Access Management (IAM) role in your Amazon Web Services account.
+///
+/// @nodoc
 class SmsConfigurationType {
   /// The Amazon Resource Name (ARN) of the Amazon SNS caller. This is the ARN of
   /// the IAM role in your Amazon Web Services account that Amazon Cognito will
@@ -18377,6 +18588,8 @@ class SmsConfigurationType {
 /// The settings for administrator creation of users in a user pool. Contains
 /// settings for allowing user sign-up, customizing invitation messages to new
 /// users, and the amount of time before temporary passwords expire.
+///
+/// @nodoc
 class AdminCreateUserConfigType {
   /// The setting for allowing self-service sign-up. When <code>true</code>, only
   /// administrators can create new user profiles. When <code>false</code>, users
@@ -18449,6 +18662,8 @@ class AdminCreateUserConfigType {
 /// pool must be on the <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-plus.html">
 /// Plus tier</a>.
+///
+/// @nodoc
 class UserPoolAddOnsType {
   /// The operating mode of threat protection for standard authentication types in
   /// your user pool, including username-password and secure remote password (SRP)
@@ -18492,6 +18707,8 @@ class UserPoolAddOnsType {
 /// The settings for user message delivery in forgot-password operations.
 /// Contains preference for email or SMS message delivery of password reset
 /// codes, or for admin-only password reset.
+///
+/// @nodoc
 class AccountRecoverySettingType {
   /// The list of options and priorities for user message delivery in
   /// forgot-password operations. Sets or displays user pool preferences for email
@@ -18520,6 +18737,7 @@ class AccountRecoverySettingType {
   }
 }
 
+/// @nodoc
 class UserPoolTierType {
   static const lite = UserPoolTierType._('LITE');
   static const essentials = UserPoolTierType._('ESSENTIALS');
@@ -18547,6 +18765,8 @@ class UserPoolTierType {
 
 /// Specifies the key configuration for a user pool. Contains settings for
 /// encryption keys used to secure user pool data.
+///
+/// @nodoc
 class KeyConfigurationType {
   /// The type of encryption key used for the user pool.
   /// <dl> <dt>AWS_OWNED_KEY</dt> <dd>
@@ -18585,6 +18805,8 @@ class KeyConfigurationType {
 
 /// Specifies the issuer configuration for a user pool. Contains settings that
 /// determine how tokens are issued and validated.
+///
+/// @nodoc
 class IssuerConfigurationType {
   /// The type of issuer configuration. Determines the token issuing behavior for
   /// the user pool.
@@ -18594,14 +18816,14 @@ class IssuerConfigurationType {
   /// region.
   ///
   /// Original issuers have the format of
-  /// <code>https://cognito-idp.[region].amazonaws.com/[userPoolId]</code>
+  /// <code>https://cognito-idp.\[region\].amazonaws.com/\[userPoolId\]</code>
   /// </dd> <dt>UPDATED</dt> <dd>
   /// Recommended for all user pools, including for multi-Region replication.
   /// Updated issuers host the same JWKS content in multiple regions, resulting in
   /// improved resilience and efficiency.
   ///
   /// Updated issuers have the format of
-  /// <code>https://issuer-cognito-idp.[region].amazonaws.com/[userPoolId]</code>,
+  /// <code>https://issuer-cognito-idp.\[region\].amazonaws.com/\[userPoolId\]</code>,
   /// where region is the primary Amazon Web Services Region of your user pool.
   /// </dd> </dl>
   final IssuerType? type;
@@ -18624,6 +18846,7 @@ class IssuerConfigurationType {
   }
 }
 
+/// @nodoc
 class IssuerType {
   static const original = IssuerType._('ORIGINAL');
   static const updated = IssuerType._('UPDATED');
@@ -18647,6 +18870,7 @@ class IssuerType {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionKeyType {
   static const awsOwnedKey = EncryptionKeyType._('AWS_OWNED_KEY');
   static const customerManagedKey = EncryptionKeyType._('CUSTOMER_MANAGED_KEY');
@@ -18681,6 +18905,8 @@ class EncryptionKeyType {
 /// your user pool sends account-recovery messages to a verified email address
 /// but falls back to an SMS message if the user has a verified phone number.
 /// The <code>admin_only</code> option prevents self-service account recovery.
+///
+/// @nodoc
 class RecoveryOptionType {
   /// The recovery method that this object sets a recovery option for.
   final RecoveryOptionNameType name;
@@ -18711,6 +18937,7 @@ class RecoveryOptionType {
   }
 }
 
+/// @nodoc
 class RecoveryOptionNameType {
   static const verifiedEmail = RecoveryOptionNameType._('verified_email');
   static const verifiedPhoneNumber =
@@ -18738,6 +18965,7 @@ class RecoveryOptionNameType {
   String toString() => value;
 }
 
+/// @nodoc
 class AdvancedSecurityModeType {
   static const off = AdvancedSecurityModeType._('OFF');
   static const audit = AdvancedSecurityModeType._('AUDIT');
@@ -18766,6 +18994,8 @@ class AdvancedSecurityModeType {
 
 /// Threat protection configuration options for additional authentication types
 /// in your user pool, including custom authentication.
+///
+/// @nodoc
 class AdvancedSecurityAdditionalFlowsType {
   /// The operating mode of threat protection in custom authentication with <a
   /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html">
@@ -18792,6 +19022,7 @@ class AdvancedSecurityAdditionalFlowsType {
   }
 }
 
+/// @nodoc
 class AdvancedSecurityEnabledModeType {
   static const audit = AdvancedSecurityEnabledModeType._('AUDIT');
   static const enforced = AdvancedSecurityEnabledModeType._('ENFORCED');
@@ -18818,6 +19049,8 @@ class AdvancedSecurityEnabledModeType {
 }
 
 /// The message template structure.
+///
+/// @nodoc
 class MessageTemplateType {
   /// The message template for email messages. EmailMessage is allowed only if <a
   /// href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_EmailConfigurationType.html#CognitoUserPools-Type-EmailConfigurationType-EmailSendingAccount">EmailSendingAccount</a>
@@ -18858,6 +19091,7 @@ class MessageTemplateType {
   }
 }
 
+/// @nodoc
 class EmailSendingAccountType {
   static const cognitoDefault = EmailSendingAccountType._('COGNITO_DEFAULT');
   static const developer = EmailSendingAccountType._('DEVELOPER');
@@ -18883,6 +19117,7 @@ class EmailSendingAccountType {
   String toString() => value;
 }
 
+/// @nodoc
 class VerifiedAttributeType {
   static const phoneNumber = VerifiedAttributeType._('phone_number');
   static const email = VerifiedAttributeType._('email');
@@ -18908,6 +19143,7 @@ class VerifiedAttributeType {
   String toString() => value;
 }
 
+/// @nodoc
 class DefaultEmailOptionType {
   static const confirmWithLink = DefaultEmailOptionType._('CONFIRM_WITH_LINK');
   static const confirmWithCode = DefaultEmailOptionType._('CONFIRM_WITH_CODE');
@@ -18934,6 +19170,8 @@ class DefaultEmailOptionType {
 }
 
 /// The properties of a pre token generation Lambda trigger.
+///
+/// @nodoc
 class PreTokenGenerationVersionConfigType {
   /// The Amazon Resource Name (ARN) of the function that you want to assign to
   /// your Lambda trigger.
@@ -18973,6 +19211,8 @@ class PreTokenGenerationVersionConfigType {
 }
 
 /// The properties of a custom SMS sender Lambda trigger.
+///
+/// @nodoc
 class CustomSMSLambdaVersionConfigType {
   /// The Amazon Resource Name (ARN) of the function that you want to assign to
   /// your Lambda trigger.
@@ -19010,6 +19250,8 @@ class CustomSMSLambdaVersionConfigType {
 }
 
 /// The properties of a custom email sender Lambda trigger.
+///
+/// @nodoc
 class CustomEmailLambdaVersionConfigType {
   /// The Amazon Resource Name (ARN) of the function that you want to assign to
   /// your Lambda trigger.
@@ -19048,6 +19290,8 @@ class CustomEmailLambdaVersionConfigType {
 }
 
 /// The properties of an inbound federation Lambda trigger.
+///
+/// @nodoc
 class InboundFederationLambdaType {
   /// The Amazon Resource Name (ARN) of the function that you want to assign to
   /// your Lambda trigger.
@@ -19084,6 +19328,7 @@ class InboundFederationLambdaType {
   }
 }
 
+/// @nodoc
 class InboundFederationLambdaVersionType {
   static const v1_0 = InboundFederationLambdaVersionType._('V1_0');
 
@@ -19108,6 +19353,7 @@ class InboundFederationLambdaVersionType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomEmailSenderLambdaVersionType {
   static const v1_0 = CustomEmailSenderLambdaVersionType._('V1_0');
 
@@ -19132,6 +19378,7 @@ class CustomEmailSenderLambdaVersionType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomSMSSenderLambdaVersionType {
   static const v1_0 = CustomSMSSenderLambdaVersionType._('V1_0');
 
@@ -19156,6 +19403,7 @@ class CustomSMSSenderLambdaVersionType {
   String toString() => value;
 }
 
+/// @nodoc
 class PreTokenGenerationLambdaVersionType {
   static const v1_0 = PreTokenGenerationLambdaVersionType._('V1_0');
   static const v2_0 = PreTokenGenerationLambdaVersionType._('V2_0');
@@ -19184,6 +19432,8 @@ class PreTokenGenerationLambdaVersionType {
 
 /// The password policy settings for a user pool, including complexity, history,
 /// and length requirements.
+///
+/// @nodoc
 class PasswordPolicyType {
   /// The minimum length of the password in the policy that you have set. This
   /// value can't be less than 6.
@@ -19272,6 +19522,8 @@ class PasswordPolicyType {
 /// this setting, your user pool must be in the <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html">
 /// Essentials tier</a> or higher.
+///
+/// @nodoc
 class SignInPolicyType {
   /// The sign-in methods that a user pool supports as the first factor. You can
   /// permit users to start authentication with a standard username and password,
@@ -19301,6 +19553,7 @@ class SignInPolicyType {
   }
 }
 
+/// @nodoc
 class AuthFactorType {
   static const password = AuthFactorType._('PASSWORD');
   static const emailOtp = AuthFactorType._('EMAIL_OTP');
@@ -19329,6 +19582,8 @@ class AuthFactorType {
 
 /// The delivery details for an email or SMS message that Amazon Cognito sent
 /// for authentication or verification.
+///
+/// @nodoc
 class CodeDeliveryDetailsType {
   /// The name of the attribute that Amazon Cognito verifies with the code.
   final String? attributeName;
@@ -19367,6 +19622,7 @@ class CodeDeliveryDetailsType {
   }
 }
 
+/// @nodoc
 class DeliveryMediumType {
   static const sms = DeliveryMediumType._('SMS');
   static const email = DeliveryMediumType._('EMAIL');
@@ -19393,12 +19649,14 @@ class DeliveryMediumType {
 }
 
 /// The name and value of a user attribute.
+///
+/// @nodoc
 class AttributeType {
   /// The name of the attribute, for example <code>email</code> or
   /// <code>custom:department</code>.
   ///
   /// In some older user pools, the regex pattern for acceptable values of this
-  /// parameter is <code>[\p{L}\p{M}\p{S}\p{N}\p{P}]+</code>. Older pools will
+  /// parameter is <code>\[\p{L}\p{M}\p{S}\p{N}\p{P}\]+</code>. Older pools will
   /// eventually be updated to use the new pattern. Affected user pools are those
   /// created before May 2024 in US East (N. Virginia), US East (Ohio), US West
   /// (N. California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific
@@ -19436,6 +19694,8 @@ class AttributeType {
 /// The details of a set of terms documents. For more information, see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html#managed-login-terms-documents">Terms
 /// documents</a>.
+///
+/// @nodoc
 class TermsType {
   /// The ID of the app client that the terms documents are assigned to.
   final String clientId;
@@ -19529,6 +19789,7 @@ class TermsType {
   }
 }
 
+/// @nodoc
 class TermsSourceType {
   static const link = TermsSourceType._('LINK');
 
@@ -19552,6 +19813,7 @@ class TermsSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class TermsEnforcementType {
   static const none = TermsEnforcementType._('NONE');
 
@@ -19578,6 +19840,8 @@ class TermsEnforcementType {
 
 /// The details of a resource server configuration and associated custom scopes
 /// in a user pool.
+///
+/// @nodoc
 class ResourceServerType {
   /// A unique resource server identifier for the resource server. The identifier
   /// can be an API friendly name like <code>solar-system-data</code>. You can
@@ -19637,6 +19901,8 @@ class ResourceServerType {
 /// see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html">
 /// Scopes, M2M, and API authorization with resource servers</a>.
+///
+/// @nodoc
 class ResourceServerScopeType {
   /// A friendly description of a custom scope.
   final String scopeDescription;
@@ -19671,6 +19937,8 @@ class ResourceServerScopeType {
 }
 
 /// A managed login branding style that's assigned to a user pool app client.
+///
+/// @nodoc
 class ManagedLoginBrandingType {
   /// An array of image files that you want to apply to roles like backgrounds,
   /// logos, and icons. Each object must also indicate whether it is for dark
@@ -19775,6 +20043,8 @@ class ManagedLoginBrandingType {
 }
 
 /// An image file from a managed login branding style in a user pool.
+///
+/// @nodoc
 class AssetType {
   /// The category that the image corresponds to in your managed login
   /// configuration. Managed login has asset categories for different types of
@@ -19833,6 +20103,7 @@ class AssetType {
   }
 }
 
+/// @nodoc
 class AssetCategoryType {
   static const faviconIco = AssetCategoryType._('FAVICON_ICO');
   static const faviconSvg = AssetCategoryType._('FAVICON_SVG');
@@ -19888,6 +20159,7 @@ class AssetCategoryType {
   String toString() => value;
 }
 
+/// @nodoc
 class ColorSchemeModeType {
   static const light = ColorSchemeModeType._('LIGHT');
   static const dark = ColorSchemeModeType._('DARK');
@@ -19914,6 +20186,7 @@ class ColorSchemeModeType {
   String toString() => value;
 }
 
+/// @nodoc
 class AssetExtensionType {
   static const ico = AssetExtensionType._('ICO');
   static const jpeg = AssetExtensionType._('JPEG');
@@ -19945,6 +20218,8 @@ class AssetExtensionType {
 /// A user pool identity provider (IdP). Contains information about a
 /// third-party IdP to a user pool, the attributes that it populates to user
 /// profiles, and the trust relationship between the IdP and your user pool.
+///
+/// @nodoc
 class IdentityProviderType {
   /// A mapping of IdP attributes to standard and custom user pool attributes.
   final Map<String, String>? attributeMapping;
@@ -20004,7 +20279,7 @@ class IdentityProviderType {
   ///
   /// Create or update request with Metadata file: <code>"ProviderDetails": {
   /// "IDPInit": "true", "IDPSignout": "true", "EncryptedResponses" : "true",
-  /// "MetadataFile": "[metadata XML]", "RequestSigningAlgorithm": "rsa-sha256"
+  /// "MetadataFile": "\[metadata XML\]", "RequestSigningAlgorithm": "rsa-sha256"
   /// }</code>
   ///
   /// The value of <code>MetadataFile</code> must be the plaintext metadata
@@ -20012,7 +20287,7 @@ class IdentityProviderType {
   ///
   /// Describe response: <code>"ProviderDetails": { "IDPInit": "true",
   /// "IDPSignout": "true", "EncryptedResponses" : "true",
-  /// "ActiveEncryptionCertificate": "[certificate]", "MetadataURL":
+  /// "ActiveEncryptionCertificate": "\[certificate\]", "MetadataURL":
   /// "https://auth.example.com/sso/saml/metadata", "RequestSigningAlgorithm":
   /// "rsa-sha256", "SLORedirectBindingURI": "https://auth.example.com/slo/saml",
   /// "SSORedirectBindingURI": "https://auth.example.com/sso/saml" }</code>
@@ -20133,6 +20408,7 @@ class IdentityProviderType {
   }
 }
 
+/// @nodoc
 class IdentityProviderTypeType {
   static const saml = IdentityProviderTypeType._('SAML');
   static const facebook = IdentityProviderTypeType._('Facebook');
@@ -20173,6 +20449,8 @@ class IdentityProviderTypeType {
 /// contributes to IAM role decisions with identity pools. Identity pools can
 /// make decisions about the IAM role to assign based on groups: users get
 /// credentials for the role associated with their highest-priority group.
+///
+/// @nodoc
 class GroupType {
   /// The date and time when the item was created. Amazon Cognito returns this
   /// timestamp in UNIX epoch time format. Your SDK might render the output in a
@@ -20262,6 +20540,7 @@ class GroupType {
   }
 }
 
+/// @nodoc
 class DeviceRememberedStatusType {
   static const remembered = DeviceRememberedStatusType._('remembered');
   static const notRemembered = DeviceRememberedStatusType._('not_remembered');
@@ -20287,6 +20566,7 @@ class DeviceRememberedStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class FeedbackValueType {
   static const valid = FeedbackValueType._('Valid');
   static const invalid = FeedbackValueType._('Invalid');
@@ -20315,6 +20595,8 @@ class FeedbackValueType {
 /// CSV file. For more information, see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-using-import-tool.html">Importing
 /// users into user pools from a CSV file</a>.
+///
+/// @nodoc
 class UserImportJobType {
   /// The role Amazon Resource Name (ARN) for the Amazon CloudWatch Logging role
   /// for the user import job. For more information, see "Creating the CloudWatch
@@ -20461,6 +20743,7 @@ class UserImportJobType {
   }
 }
 
+/// @nodoc
 class UserImportJobStatusType {
   static const created = UserImportJobStatusType._('Created');
   static const pending = UserImportJobStatusType._('Pending');
@@ -20511,6 +20794,8 @@ class UserImportJobStatusType {
 /// Pinpoint resources for use with Amazon Cognito user pools, see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html">Using
 /// Amazon Pinpoint analytics with Amazon Cognito user pools</a>.
+///
+/// @nodoc
 class AnalyticsMetadataType {
   /// The endpoint ID. Information that you want to pass to Amazon Pinpoint about
   /// where to send notifications.
@@ -20532,6 +20817,8 @@ class AnalyticsMetadataType {
 /// Contextual data, such as the user's device fingerprint, IP address, or
 /// location, used for evaluating the risk of an unexpected event by Amazon
 /// Cognito threat protection.
+///
+/// @nodoc
 class UserContextDataType {
   /// Encoded device-fingerprint details that your app collected with the Amazon
   /// Cognito context data collection library. For more information, see <a
@@ -20560,6 +20847,8 @@ class UserContextDataType {
 /// <i>This data type is no longer supported.</i> Applies only to SMS
 /// multi-factor authentication (MFA) configurations. Does not apply to
 /// time-based one-time password (TOTP) software token MFA configurations.
+///
+/// @nodoc
 class MFAOptionType {
   /// The attribute name of the MFA option type. The only valid value is
   /// <code>phone_number</code>.
@@ -20594,6 +20883,8 @@ class MFAOptionType {
 
 /// The configuration of multi-factor authentication (MFA) with SMS messages in
 /// a user pool.
+///
+/// @nodoc
 class SmsMfaConfigType {
   /// The SMS authentication message that will be sent to users with the code they
   /// must sign in with. The message must contain the <code>{####}</code>
@@ -20638,6 +20929,8 @@ class SmsMfaConfigType {
 
 /// Settings for time-based one-time password (TOTP) multi-factor authentication
 /// (MFA) in a user pool. Enables and disables availability of this feature.
+///
+/// @nodoc
 class SoftwareTokenMfaConfigType {
   /// The activation state of TOTP MFA.
   final bool? enabled;
@@ -20666,6 +20959,8 @@ class SoftwareTokenMfaConfigType {
 /// your user pool must be in the <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html">
 /// Essentials tier</a> or higher.
+///
+/// @nodoc
 class EmailMfaConfigType {
   /// The template for the email messages that your user pool sends to users with
   /// codes for MFA and sign-in with email OTPs. The message must contain the
@@ -20716,6 +21011,8 @@ class EmailMfaConfigType {
 /// The providers that you want to allow as origins for passkey authentication.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class WebAuthnConfigurationType {
   /// Sets whether passkeys can be used as multi-factor authentication (MFA). When
   /// set to <code>MULTI_FACTOR_WITH_USER_VERIFICATION</code>, passkey
@@ -20785,6 +21082,7 @@ class WebAuthnConfigurationType {
   }
 }
 
+/// @nodoc
 class UserVerificationType {
   static const required = UserVerificationType._('required');
   static const preferred = UserVerificationType._('preferred');
@@ -20818,6 +21116,8 @@ class UserVerificationType {
 /// verification</a>, for example a biometric or PIN. User verification combined
 /// with the passkey constitutes multi-factor authentication. When set to
 /// <code>SINGLE_FACTOR</code>, passkeys are a single authentication factor.
+///
+/// @nodoc
 class WebAuthnFactorConfigurationType {
   static const singleFactor =
       WebAuthnFactorConfigurationType._('SINGLE_FACTOR');
@@ -20850,6 +21150,8 @@ class WebAuthnFactorConfigurationType {
 /// options are available. You can't turn off SMS MFA for any of your users when
 /// MFA is required in your user pool; you can only set the type that your user
 /// prefers.
+///
+/// @nodoc
 class SMSMfaSettingsType {
   /// Specifies whether SMS message MFA is activated. If an MFA type is activated
   /// for a user, the user will be prompted for MFA during all sign-in attempts,
@@ -20881,6 +21183,8 @@ class SMSMfaSettingsType {
 /// TOTP as preferred when other MFA options are available. You can't turn off
 /// TOTP MFA for any of your users when MFA is required in your user pool; you
 /// can only set the type that your user prefers.
+///
+/// @nodoc
 class SoftwareTokenMfaSettingsType {
   /// Specifies whether software token MFA is activated. If an MFA type is
   /// activated for a user, the user will be prompted for MFA during all sign-in
@@ -20912,6 +21216,8 @@ class SoftwareTokenMfaSettingsType {
 /// pool must be in the <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html">
 /// Essentials tier</a> or higher.
+///
+/// @nodoc
 class EmailMfaSettingsType {
   /// Specifies whether email message MFA is active for a user. When the value of
   /// this parameter is <code>Enabled</code>, the user will be prompted for MFA
@@ -20942,6 +21248,8 @@ class EmailMfaSettingsType {
 /// other MFA settings types, this type doesn't include a
 /// <code>PreferredMfa</code> option because passkey MFA applies only when
 /// passkey is the first authentication factor.
+///
+/// @nodoc
 class WebAuthnMfaSettingsType {
   /// Specifies whether passkey MFA is activated for a user. When activated, the
   /// user's passkey authentication requires user verification, and passkey
@@ -20964,6 +21272,8 @@ class WebAuthnMfaSettingsType {
 
 /// A container for the UI customization information for the hosted UI in a user
 /// pool.
+///
+/// @nodoc
 class UICustomizationType {
   /// The CSS values in the UI customization.
   final String? css;
@@ -21038,6 +21348,8 @@ class UICustomizationType {
 
 /// The settings of risk configuration for threat protection with threat
 /// protection in a user pool.
+///
+/// @nodoc
 class RiskConfigurationType {
   /// The settings for automated responses and notification templates for adaptive
   /// authentication with threat protection.
@@ -21125,6 +21437,8 @@ class RiskConfigurationType {
 
 /// Settings for compromised-credentials actions and authentication-event
 /// sources with threat protection in full-function <code>ENFORCED</code> mode.
+///
+/// @nodoc
 class CompromisedCredentialsRiskConfigurationType {
   /// Settings for the actions that you want your user pool to take when Amazon
   /// Cognito detects compromised credentials.
@@ -21165,6 +21479,8 @@ class CompromisedCredentialsRiskConfigurationType {
 
 /// The settings for automated responses and notification templates for adaptive
 /// authentication with threat protection features.
+///
+/// @nodoc
 class AccountTakeoverRiskConfigurationType {
   /// A list of account-takeover actions for each level of risk that Amazon
   /// Cognito might assess with threat protection.
@@ -21208,6 +21524,8 @@ class AccountTakeoverRiskConfigurationType {
 
 /// Exceptions to the risk evaluation configuration, including always-allow and
 /// always-block IP address ranges.
+///
+/// @nodoc
 class RiskExceptionConfigurationType {
   /// An always-block IP address list. Overrides the risk decision and always
   /// blocks authentication requests. This parameter is displayed and set in CIDR
@@ -21250,6 +21568,8 @@ class RiskExceptionConfigurationType {
 /// The configuration for Amazon SES email messages that threat protection sends
 /// to a user when your adaptive authentication automated response has a
 /// <i>Notify</i> action.
+///
+/// @nodoc
 class NotifyConfigurationType {
   /// The Amazon Resource Name (ARN) of the identity that is associated with the
   /// sending authorization policy. This identity permits Amazon Cognito to send
@@ -21325,6 +21645,8 @@ class NotifyConfigurationType {
 
 /// A list of account-takeover actions for each level of risk that Amazon
 /// Cognito might assess with threat protection features.
+///
+/// @nodoc
 class AccountTakeoverActionsType {
   /// The action that you assign to a high-risk assessment by threat protection.
   final AccountTakeoverActionType? highAction;
@@ -21373,6 +21695,8 @@ class AccountTakeoverActionsType {
 /// The automated response to a risk level for adaptive authentication in
 /// full-function, or <code>ENFORCED</code>, mode. You can assign an action to
 /// each risk level that threat protection evaluates.
+///
+/// @nodoc
 class AccountTakeoverActionType {
   /// The action to take for the attempted account takeover action for the
   /// associated risk level. Valid values are as follows:
@@ -21427,6 +21751,7 @@ class AccountTakeoverActionType {
   }
 }
 
+/// @nodoc
 class AccountTakeoverEventActionType {
   static const block = AccountTakeoverEventActionType._('BLOCK');
   static const mfaIfConfigured =
@@ -21457,6 +21782,8 @@ class AccountTakeoverEventActionType {
 
 /// The template for email messages that threat protection sends to a user when
 /// your threat protection automated response has a <i>Notify</i> action.
+///
+/// @nodoc
 class NotifyEmailType {
   /// The subject of the threat protection email notification.
   final String subject;
@@ -21500,6 +21827,8 @@ class NotifyEmailType {
 /// Settings for user pool actions when Amazon Cognito detects compromised
 /// credentials with threat protection in full-function <code>ENFORCED</code>
 /// mode.
+///
+/// @nodoc
 class CompromisedCredentialsActionsType {
   /// The action that Amazon Cognito takes when it detects compromised
   /// credentials.
@@ -21525,6 +21854,7 @@ class CompromisedCredentialsActionsType {
   }
 }
 
+/// @nodoc
 class CompromisedCredentialsEventActionType {
   static const block = CompromisedCredentialsEventActionType._('BLOCK');
   static const noAction = CompromisedCredentialsEventActionType._('NO_ACTION');
@@ -21550,6 +21880,7 @@ class CompromisedCredentialsEventActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class EventFilterType {
   static const signIn = EventFilterType._('SIGN_IN');
   static const passwordChange = EventFilterType._('PASSWORD_CHANGE');
@@ -21577,6 +21908,8 @@ class EventFilterType {
 
 /// The logging parameters of a user pool, as returned in the response to a
 /// <code>GetLogDeliveryConfiguration</code> request.
+///
+/// @nodoc
 class LogDeliveryConfigurationType {
   /// A logging destination of a user pool. User pools can have multiple logging
   /// destinations for message-delivery and user-activity logs.
@@ -21612,6 +21945,8 @@ class LogDeliveryConfigurationType {
 
 /// The configuration of user event logs to an external Amazon Web Services
 /// service like Amazon Data Firehose, Amazon S3, or Amazon CloudWatch Logs.
+///
+/// @nodoc
 class LogConfigurationType {
   /// The source of events that your user pool sends for logging. To send
   /// error-level logs about user notification activity, set to
@@ -21695,6 +22030,7 @@ class LogConfigurationType {
   }
 }
 
+/// @nodoc
 class LogLevel {
   static const error = LogLevel._('ERROR');
   static const info = LogLevel._('INFO');
@@ -21718,6 +22054,7 @@ class LogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class EventSourceName {
   static const userNotification = EventSourceName._('userNotification');
   static const userAuthEvents = EventSourceName._('userAuthEvents');
@@ -21744,6 +22081,8 @@ class EventSourceName {
 
 /// Configuration for the CloudWatch log group destination of user pool detailed
 /// activity logging, or of user activity log export with threat protection.
+///
+/// @nodoc
 class CloudWatchLogsConfigurationType {
   /// The Amazon Resource Name (arn) of a CloudWatch Logs log group where your
   /// user pool sends logs. The log group must not be encrypted with Key
@@ -21777,6 +22116,8 @@ class CloudWatchLogsConfigurationType {
 
 /// Configuration for the Amazon S3 bucket destination of user activity log
 /// export with threat protection.
+///
+/// @nodoc
 class S3ConfigurationType {
   /// The ARN of an Amazon S3 bucket that's the destination for threat protection
   /// log export.
@@ -21802,6 +22143,8 @@ class S3ConfigurationType {
 
 /// Configuration for the Amazon Data Firehose stream destination of user
 /// activity log export with threat protection.
+///
+/// @nodoc
 class FirehoseConfigurationType {
   /// The ARN of an Amazon Data Firehose stream that's the destination for threat
   /// protection log export.
@@ -21825,6 +22168,7 @@ class FirehoseConfigurationType {
   }
 }
 
+/// @nodoc
 class ChallengeNameType {
   static const smsMfa = ChallengeNameType._('SMS_MFA');
   static const emailOtp = ChallengeNameType._('EMAIL_OTP');
@@ -21884,6 +22228,8 @@ class ChallengeNameType {
 
 /// The object that your application receives after authentication. Contains
 /// tokens and information for device authentication.
+///
+/// @nodoc
 class AuthenticationResultType {
   /// Your user's access token.
   final String? accessToken;
@@ -21950,6 +22296,8 @@ class AuthenticationResultType {
 /// new device key that you can use to set up <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html">device
 /// authentication</a> in a "Remember me on this device" authentication model.
+///
+/// @nodoc
 class NewDeviceMetadataType {
   /// The device group key, an identifier used in generating the
   /// <code>DEVICE_PASSWORD_VERIFIER</code> for device SRP authentication.
@@ -21983,6 +22331,8 @@ class NewDeviceMetadataType {
 
 /// The details of a passkey, or webauthN, biometric or security-key
 /// authentication factor for a user.
+///
+/// @nodoc
 class WebAuthnCredentialDescription {
   /// Information about the transport methods of the passkey credential, for
   /// example USB or Bluetooth Low Energy.
@@ -22052,6 +22402,8 @@ class WebAuthnCredentialDescription {
 }
 
 /// A user profile in a Amazon Cognito user pool.
+///
+/// @nodoc
 class UserType {
   /// Names and values of a user's attributes, for example <code>email</code>.
   final List<AttributeType>? attributes;
@@ -22152,6 +22504,7 @@ class UserType {
   }
 }
 
+/// @nodoc
 class UserStatusType {
   static const unconfirmed = UserStatusType._('UNCONFIRMED');
   static const confirmed = UserStatusType._('CONFIRMED');
@@ -22192,6 +22545,8 @@ class UserStatusType {
 }
 
 /// A short description of a user pool.
+///
+/// @nodoc
 class UserPoolDescriptionType {
   /// The date and time when the item was created. Amazon Cognito returns this
   /// timestamp in UNIX epoch time format. Your SDK might render the output in a
@@ -22271,6 +22626,7 @@ class UserPoolDescriptionType {
   }
 }
 
+/// @nodoc
 class StatusType {
   static const enabled = StatusType._('Enabled');
   static const disabled = StatusType._('Disabled');
@@ -22296,6 +22652,8 @@ class StatusType {
 
 /// Contains information about a client secret, including its unique identifier,
 /// value, and creation timestamp.
+///
+/// @nodoc
 class ClientSecretDescriptorType {
   /// The date and time when the client secret was created.
   final DateTime? clientSecretCreateDate;
@@ -22337,6 +22695,8 @@ class ClientSecretDescriptorType {
 }
 
 /// A short description of a user pool app client.
+///
+/// @nodoc
 class UserPoolClientDescription {
   /// The app client ID.
   final String? clientId;
@@ -22376,6 +22736,8 @@ class UserPoolClientDescription {
 /// The details of a set of terms documents. For more information, see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html#managed-login-terms-documents">Terms
 /// documents</a>.
+///
+/// @nodoc
 class TermsDescriptionType {
   /// The date and time when the item was created. Amazon Cognito returns this
   /// timestamp in UNIX epoch time format. Your SDK might render the output in a
@@ -22433,6 +22795,8 @@ class TermsDescriptionType {
 }
 
 /// The details of a user pool identity provider (IdP), including name and type.
+///
+/// @nodoc
 class ProviderDescription {
   /// The date and time when the item was created. Amazon Cognito returns this
   /// timestamp in UNIX epoch time format. Your SDK might render the output in a
@@ -22490,6 +22854,8 @@ class ProviderDescription {
 /// authentication in your application. For more information, see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html">Working
 /// with user devices in your user pool</a>.
+///
+/// @nodoc
 class DeviceType {
   /// Metadata about a user's device, like name and last-access source IP.
   final List<AttributeType>? deviceAttributes;
@@ -22553,6 +22919,7 @@ class DeviceType {
   }
 }
 
+/// @nodoc
 class AuthFlowType {
   static const userSrpAuth = AuthFlowType._('USER_SRP_AUTH');
   static const refreshTokenAuth = AuthFlowType._('REFRESH_TOKEN_AUTH');
@@ -22594,6 +22961,8 @@ class AuthFlowType {
 
 /// A container for information about the user pool domain associated with the
 /// hosted UI and OAuth endpoints.
+///
+/// @nodoc
 class DomainDescriptionType {
   /// The Amazon Web Services account that you created the user pool in.
   final String? awsAccountId;
@@ -22697,6 +23066,7 @@ class DomainDescriptionType {
   }
 }
 
+/// @nodoc
 class DomainStatusType {
   static const creating = DomainStatusType._('CREATING');
   static const deleting = DomainStatusType._('DELETING');
@@ -22725,6 +23095,8 @@ class DomainStatusType {
 }
 
 /// The configuration of a user pool.
+///
+/// @nodoc
 class UserPoolType {
   /// The available verified method a user can use to recover their password when
   /// they call <code>ForgotPassword</code>. You can use this setting to define a
@@ -23187,6 +23559,8 @@ class UserPoolType {
 }
 
 /// The configuration of a user pool for username case sensitivity.
+///
+/// @nodoc
 class UsernameConfigurationType {
   /// Specifies whether user name case sensitivity will be applied for all users
   /// in the user pool through Amazon Cognito APIs. For most use cases, set case
@@ -23228,6 +23602,7 @@ class UsernameConfigurationType {
   }
 }
 
+/// @nodoc
 class UsernameAttributeType {
   static const phoneNumber = UsernameAttributeType._('phone_number');
   static const email = UsernameAttributeType._('email');
@@ -23253,6 +23628,7 @@ class UsernameAttributeType {
   String toString() => value;
 }
 
+/// @nodoc
 class AliasAttributeType {
   static const phoneNumber = AliasAttributeType._('phone_number');
   static const email = AliasAttributeType._('email');
@@ -23290,6 +23666,8 @@ class AliasAttributeType {
 /// pools, and are read-only to all app clients. You can create and update
 /// developer-only attributes only with IAM-authenticated API operations. Use
 /// app client read/write permissions instead.
+///
+/// @nodoc
 class SchemaAttributeType {
   /// The data format of the values for your attribute. When you choose an
   /// <code>AttributeDataType</code>, Amazon Cognito validates the input against
@@ -23398,6 +23776,7 @@ class SchemaAttributeType {
   }
 }
 
+/// @nodoc
 class AttributeDataType {
   static const string = AttributeDataType._('String');
   static const number = AttributeDataType._('Number');
@@ -23426,6 +23805,8 @@ class AttributeDataType {
 
 /// The minimum and maximum values of an attribute that is of the number type,
 /// for example <code>custom:age</code>.
+///
+/// @nodoc
 class NumberAttributeConstraintsType {
   /// The maximum length of a number attribute value. Must be a number less than
   /// or equal to <code>2^1023</code>, represented as a string with a length of
@@ -23459,6 +23840,8 @@ class NumberAttributeConstraintsType {
 
 /// The minimum and maximum length values of an attribute that is of the string
 /// type, for example <code>custom:department</code>.
+///
+/// @nodoc
 class StringAttributeConstraintsType {
   /// The maximum length of a string attribute value. Must be a number less than
   /// or equal to <code>2^1023</code>, represented as a string with a length of
@@ -23494,6 +23877,8 @@ class StringAttributeConstraintsType {
 /// you register a user's device. For more information, see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html#user-pools-remembered-devices-getting-a-device-key">Getting
 /// a device key</a>.
+///
+/// @nodoc
 class DeviceSecretVerifierConfigType {
   /// A password verifier for a user's device. Used in SRP authentication.
   final String? passwordVerifier;
@@ -23518,6 +23903,8 @@ class DeviceSecretVerifierConfigType {
 
 /// Contextual user data used for evaluating the risk of an authentication event
 /// by user pool threat protection.
+///
+/// @nodoc
 class ContextDataType {
   /// The HTTP headers from your user's authentication request.
   final List<HttpHeader> httpHeaders;
@@ -23562,6 +23949,8 @@ class ContextDataType {
 }
 
 /// The HTTP header in the <code>ContextData</code> parameter.
+///
+/// @nodoc
 class HttpHeader {
   /// The header name.
   final String? headerName;
@@ -23587,6 +23976,8 @@ class HttpHeader {
 /// One authentication event that Amazon Cognito logged in a user pool with
 /// threat protection active. Contains user and device metadata and a risk
 /// assessment from your user pool.
+///
+/// @nodoc
 class AuthEventType {
   /// A list of the challenges that the user was requested to answer, for example
   /// <code>Password</code>, and the result, for example <code>Success</code>.
@@ -23684,6 +24075,7 @@ class AuthEventType {
   }
 }
 
+/// @nodoc
 class EventType {
   static const signIn = EventType._('SignIn');
   static const signUp = EventType._('SignUp');
@@ -23716,6 +24108,7 @@ class EventType {
   String toString() => value;
 }
 
+/// @nodoc
 class EventResponseType {
   static const pass = EventResponseType._('Pass');
   static const fail = EventResponseType._('Fail');
@@ -23745,6 +24138,8 @@ class EventResponseType {
 /// <code>AdminListUserAuthEvents</code> response. Contains evaluations of
 /// compromised-credentials detection and assessed risk level and action taken
 /// by adaptive authentication.
+///
+/// @nodoc
 class EventRiskType {
   /// Indicates whether compromised credentials were detected during an
   /// authentication event.
@@ -23792,6 +24187,8 @@ class EventRiskType {
 /// The context data that your application submitted in an authentication
 /// request with threat protection, as displayed in an
 /// <code>AdminListUserAuthEvents</code> response.
+///
+/// @nodoc
 class EventContextDataType {
   /// The user's city.
   final String? city;
@@ -23844,6 +24241,8 @@ class EventContextDataType {
 
 /// The feedback that your application submitted to a threat protection event
 /// log, as displayed in an <code>AdminListUserAuthEvents</code> response.
+///
+/// @nodoc
 class EventFeedbackType {
   /// Your feedback to the authentication event. When you provide a
   /// <code>FeedbackValue</code> value of <code>valid</code>, you tell Amazon
@@ -23899,7 +24298,7 @@ class EventFeedbackType {
 /// device authentication.
 /// </important> <dl> <dt>SELECT_CHALLENGE</dt> <dd>
 /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": {
-/// "USERNAME": "[username]", "ANSWER": "[Challenge name]"}</code>
+/// "USERNAME": "\[username\]", "ANSWER": "\[Challenge name\]"}</code>
 ///
 /// Available challenges are <code>PASSWORD</code>, <code>PASSWORD_SRP</code>,
 /// <code>EMAIL_OTP</code>, <code>SMS_OTP</code>, and <code>WEB_AUTHN</code>.
@@ -23911,8 +24310,8 @@ class EventFeedbackType {
 /// <ul>
 /// <li>
 /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER":
-/// "WEB_AUTHN", "USERNAME": "[username]", "CREDENTIAL":
-/// "[AuthenticationResponseJSON]"}</code>
+/// "WEB_AUTHN", "USERNAME": "\[username\]", "CREDENTIAL":
+/// "\[AuthenticationResponseJSON\]"}</code>
 ///
 /// See <a
 /// href="https://www.w3.org/TR/WebAuthn-3/#dictdef-authenticationresponsejson">
@@ -23920,11 +24319,11 @@ class EventFeedbackType {
 /// </li>
 /// <li>
 /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER":
-/// "PASSWORD", "USERNAME": "[username]", "PASSWORD": "[password]"}</code>
+/// "PASSWORD", "USERNAME": "\[username\]", "PASSWORD": "\[password\]"}</code>
 /// </li>
 /// <li>
 /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER":
-/// "PASSWORD_SRP", "USERNAME": "[username]", "SRP_A": "[SRP_A]"}</code>
+/// "PASSWORD_SRP", "USERNAME": "\[username\]", "SRP_A": "\[SRP_A\]"}</code>
 /// </li>
 /// </ul>
 /// For <code>SMS_OTP</code> and <code>EMAIL_OTP</code>, respond with the
@@ -23934,34 +24333,34 @@ class EventFeedbackType {
 /// <ul>
 /// <li>
 /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER":
-/// "SMS_OTP", "USERNAME": "[username]"}</code>
+/// "SMS_OTP", "USERNAME": "\[username\]"}</code>
 /// </li>
 /// <li>
 /// <code>"ChallengeName": "SELECT_CHALLENGE", "ChallengeResponses": { "ANSWER":
-/// "EMAIL_OTP", "USERNAME": "[username]"}</code>
+/// "EMAIL_OTP", "USERNAME": "\[username\]"}</code>
 /// </li>
 /// </ul> </dd> <dt>WEB_AUTHN</dt> <dd>
 /// <code>"ChallengeName": "WEB_AUTHN", "ChallengeResponses": { "USERNAME":
-/// "[username]", "CREDENTIAL": "[AuthenticationResponseJSON]"}</code>
+/// "\[username\]", "CREDENTIAL": "\[AuthenticationResponseJSON\]"}</code>
 ///
 /// See <a
 /// href="https://www.w3.org/TR/WebAuthn-3/#dictdef-authenticationresponsejson">
 /// AuthenticationResponseJSON</a>.
 /// </dd> <dt>PASSWORD</dt> <dd>
 /// <code>"ChallengeName": "PASSWORD", "ChallengeResponses": { "USERNAME":
-/// "[username]", "PASSWORD": "[password]"}</code>
+/// "\[username\]", "PASSWORD": "\[password\]"}</code>
 /// </dd> <dt>PASSWORD_SRP</dt> <dd>
 /// <code>"ChallengeName": "PASSWORD_SRP", "ChallengeResponses": { "USERNAME":
-/// "[username]", "SRP_A": "[SRP_A]"}</code>
+/// "\[username\]", "SRP_A": "\[SRP_A\]"}</code>
 /// </dd> <dt>SMS_OTP</dt> <dd>
 /// <code>"ChallengeName": "SMS_OTP", "ChallengeResponses": {"SMS_OTP_CODE":
-/// "[code]", "USERNAME": "[username]"}</code>
+/// "\[code\]", "USERNAME": "\[username\]"}</code>
 /// </dd> <dt>EMAIL_OTP</dt> <dd>
 /// <code>"ChallengeName": "EMAIL_OTP", "ChallengeResponses": {"EMAIL_OTP_CODE":
-/// "[code]", "USERNAME": "[username]"}</code>
+/// "\[code\]", "USERNAME": "\[username\]"}</code>
 /// </dd> <dt>SMS_MFA</dt> <dd>
 /// <code>"ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE":
-/// "[code]", "USERNAME": "[username]"}</code>
+/// "\[code\]", "USERNAME": "\[username\]"}</code>
 /// </dd> <dt>PASSWORD_VERIFIER</dt> <dd>
 /// This challenge response is part of the SRP flow. Amazon Cognito requires
 /// that your application respond to this challenge within a few seconds. When
@@ -23969,21 +24368,21 @@ class EventFeedbackType {
 /// <code>NotAuthorizedException</code> error.
 ///
 /// <code>"ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses":
-/// {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]",
-/// "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp],
-/// "USERNAME": "[username]"}</code>
+/// {"PASSWORD_CLAIM_SIGNATURE": "\[claim_signature\]",
+/// "PASSWORD_CLAIM_SECRET_BLOCK": "\[secret_block\]", "TIMESTAMP":
+/// \[timestamp\], "USERNAME": "\[username\]"}</code>
 /// </dd> <dt>CUSTOM_CHALLENGE</dt> <dd>
 /// <code>"ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses":
-/// {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"}</code>
+/// {"USERNAME": "\[username\]", "ANSWER": "\[challenge_answer\]"}</code>
 /// </dd> <dt>NEW_PASSWORD_REQUIRED</dt> <dd>
 /// <code>"ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses":
-/// {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"}</code>
+/// {"NEW_PASSWORD": "\[new_password\]", "USERNAME": "\[username\]"}</code>
 ///
 /// To set any required attributes that <code>InitiateAuth</code> returned in an
 /// <code>requiredAttributes</code> parameter, add
-/// <code>"userAttributes.[attribute_name]": "[attribute_value]"</code>. This
-/// parameter can also set values for writable attributes that aren't required
-/// by your user pool.
+/// <code>"userAttributes.\[attribute_name\]": "\[attribute_value\]"</code>.
+/// This parameter can also set values for writable attributes that aren't
+/// required by your user pool.
 /// <note>
 /// In a <code>NEW_PASSWORD_REQUIRED</code> challenge response, you can't modify
 /// a required attribute that already has a value. In
@@ -23995,22 +24394,22 @@ class EventFeedbackType {
 /// additional attributes.
 /// </note> </dd> <dt>SOFTWARE_TOKEN_MFA</dt> <dd>
 /// <code>"ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses":
-/// {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE":
-/// [authenticator_code]}</code>
+/// {"USERNAME": "\[username\]", "SOFTWARE_TOKEN_MFA_CODE":
+/// \[authenticator_code\]}</code>
 /// </dd> <dt>DEVICE_SRP_AUTH</dt> <dd>
 /// <code>"ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME":
-/// "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"}</code>
+/// "\[username\]", "DEVICE_KEY": "\[device_key\]", "SRP_A": "\[srp_a\]"}</code>
 /// </dd> <dt>DEVICE_PASSWORD_VERIFIER</dt> <dd>
 /// <code>"ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses":
-/// {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE":
-/// "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]",
-/// "TIMESTAMP": [timestamp], "USERNAME": "[username]"}</code>
+/// {"DEVICE_KEY": "\[device_key\]", "PASSWORD_CLAIM_SIGNATURE":
+/// "\[claim_signature\]", "PASSWORD_CLAIM_SECRET_BLOCK": "\[secret_block\]",
+/// "TIMESTAMP": \[timestamp\], "USERNAME": "\[username\]"}</code>
 /// </dd> <dt>MFA_SETUP</dt> <dd>
 /// <code>"ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME":
-/// "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]"</code>
+/// "\[username\]"}, "SESSION": "\[Session ID from VerifySoftwareToken\]"</code>
 /// </dd> <dt>SELECT_MFA_TYPE</dt> <dd>
 /// <code>"ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME":
-/// "[username]", "ANSWER": "[SMS_MFA|EMAIL_MFA|SOFTWARE_TOKEN_MFA]"}</code>
+/// "\[username\]", "ANSWER": "\[SMS_MFA|EMAIL_MFA|SOFTWARE_TOKEN_MFA\]"}</code>
 /// </dd> </dl>
 /// For more information about <code>SECRET_HASH</code>, see <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash">Computing
@@ -24018,6 +24417,8 @@ class EventFeedbackType {
 /// <a
 /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html">Working
 /// with user devices in your user pool</a>.
+///
+/// @nodoc
 class ChallengeResponseType {
   /// The type of challenge that your previous authentication request returned in
   /// the parameter <code>ChallengeName</code>, for example <code>SMS_MFA</code>.
@@ -24052,6 +24453,7 @@ class ChallengeResponseType {
   }
 }
 
+/// @nodoc
 class ChallengeName {
   static const password = ChallengeName._('Password');
   static const mfa = ChallengeName._('Mfa');
@@ -24076,6 +24478,7 @@ class ChallengeName {
   String toString() => value;
 }
 
+/// @nodoc
 class ChallengeResponse {
   static const success = ChallengeResponse._('Success');
   static const failure = ChallengeResponse._('Failure');
@@ -24100,6 +24503,7 @@ class ChallengeResponse {
   String toString() => value;
 }
 
+/// @nodoc
 class RiskDecisionType {
   static const noRisk = RiskDecisionType._('NoRisk');
   static const accountTakeover = RiskDecisionType._('AccountTakeover');
@@ -24125,6 +24529,7 @@ class RiskDecisionType {
   String toString() => value;
 }
 
+/// @nodoc
 class RiskLevelType {
   static const low = RiskLevelType._('Low');
   static const medium = RiskLevelType._('Medium');
@@ -24152,6 +24557,8 @@ class RiskLevelType {
 
 /// The characteristics of a source or destination user for linking a federated
 /// user profile to a local user profile.
+///
+/// @nodoc
 class ProviderUserIdentifierType {
   /// The name of the provider attribute to link to, such as <code>NameID</code>.
   final String? providerAttributeName;
@@ -24183,6 +24590,7 @@ class ProviderUserIdentifierType {
   }
 }
 
+/// @nodoc
 class MessageActionType {
   static const resend = MessageActionType._('RESEND');
   static const suppress = MessageActionType._('SUPPRESS');
@@ -24207,27 +24615,32 @@ class MessageActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AliasExistsException extends _s.GenericAwsException {
   AliasExistsException({String? type, String? message})
       : super(type: type, code: 'AliasExistsException', message: message);
 }
 
+/// @nodoc
 class CodeDeliveryFailureException extends _s.GenericAwsException {
   CodeDeliveryFailureException({String? type, String? message})
       : super(
             type: type, code: 'CodeDeliveryFailureException', message: message);
 }
 
+/// @nodoc
 class CodeMismatchException extends _s.GenericAwsException {
   CodeMismatchException({String? type, String? message})
       : super(type: type, code: 'CodeMismatchException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -24236,16 +24649,19 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeviceKeyExistsException extends _s.GenericAwsException {
   DeviceKeyExistsException({String? type, String? message})
       : super(type: type, code: 'DeviceKeyExistsException', message: message);
 }
 
+/// @nodoc
 class DuplicateProviderException extends _s.GenericAwsException {
   DuplicateProviderException({String? type, String? message})
       : super(type: type, code: 'DuplicateProviderException', message: message);
 }
 
+/// @nodoc
 class EnableSoftwareTokenMFAException extends _s.GenericAwsException {
   EnableSoftwareTokenMFAException({String? type, String? message})
       : super(
@@ -24254,11 +24670,13 @@ class EnableSoftwareTokenMFAException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ExpiredCodeException extends _s.GenericAwsException {
   ExpiredCodeException({String? type, String? message})
       : super(type: type, code: 'ExpiredCodeException', message: message);
 }
 
+/// @nodoc
 class FeatureUnavailableInTierException extends _s.GenericAwsException {
   FeatureUnavailableInTierException({String? type, String? message})
       : super(
@@ -24267,26 +24685,31 @@ class FeatureUnavailableInTierException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class GroupExistsException extends _s.GenericAwsException {
   GroupExistsException({String? type, String? message})
       : super(type: type, code: 'GroupExistsException', message: message);
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidEmailRoleAccessPolicyException extends _s.GenericAwsException {
   InvalidEmailRoleAccessPolicyException({String? type, String? message})
       : super(
@@ -24295,6 +24718,7 @@ class InvalidEmailRoleAccessPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLambdaResponseException extends _s.GenericAwsException {
   InvalidLambdaResponseException({String? type, String? message})
       : super(
@@ -24303,21 +24727,25 @@ class InvalidLambdaResponseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidOAuthFlowException extends _s.GenericAwsException {
   InvalidOAuthFlowException({String? type, String? message})
       : super(type: type, code: 'InvalidOAuthFlowException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidPasswordException extends _s.GenericAwsException {
   InvalidPasswordException({String? type, String? message})
       : super(type: type, code: 'InvalidPasswordException', message: message);
 }
 
+/// @nodoc
 class InvalidSmsRoleAccessPolicyException extends _s.GenericAwsException {
   InvalidSmsRoleAccessPolicyException({String? type, String? message})
       : super(
@@ -24326,6 +24754,7 @@ class InvalidSmsRoleAccessPolicyException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSmsRoleTrustRelationshipException extends _s.GenericAwsException {
   InvalidSmsRoleTrustRelationshipException({String? type, String? message})
       : super(
@@ -24334,6 +24763,7 @@ class InvalidSmsRoleTrustRelationshipException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidUserPoolConfigurationException extends _s.GenericAwsException {
   InvalidUserPoolConfigurationException({String? type, String? message})
       : super(
@@ -24342,16 +24772,19 @@ class InvalidUserPoolConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MFAMethodNotFoundException extends _s.GenericAwsException {
   MFAMethodNotFoundException({String? type, String? message})
       : super(type: type, code: 'MFAMethodNotFoundException', message: message);
 }
 
+/// @nodoc
 class ManagedLoginBrandingExistsException extends _s.GenericAwsException {
   ManagedLoginBrandingExistsException({String? type, String? message})
       : super(
@@ -24360,17 +24793,20 @@ class ManagedLoginBrandingExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+/// @nodoc
 class OperationNotEnabledException extends _s.GenericAwsException {
   OperationNotEnabledException({String? type, String? message})
       : super(
             type: type, code: 'OperationNotEnabledException', message: message);
 }
 
+/// @nodoc
 class PasswordHistoryPolicyViolationException extends _s.GenericAwsException {
   PasswordHistoryPolicyViolationException({String? type, String? message})
       : super(
@@ -24379,6 +24815,7 @@ class PasswordHistoryPolicyViolationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PasswordResetRequiredException extends _s.GenericAwsException {
   PasswordResetRequiredException({String? type, String? message})
       : super(
@@ -24387,27 +24824,32 @@ class PasswordResetRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PreconditionNotMetException extends _s.GenericAwsException {
   PreconditionNotMetException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionNotMetException', message: message);
 }
 
+/// @nodoc
 class RefreshTokenReuseException extends _s.GenericAwsException {
   RefreshTokenReuseException({String? type, String? message})
       : super(type: type, code: 'RefreshTokenReuseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ScopeDoesNotExistException extends _s.GenericAwsException {
   ScopeDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'ScopeDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class SoftwareTokenMFANotFoundException extends _s.GenericAwsException {
   SoftwareTokenMFANotFoundException({String? type, String? message})
       : super(
@@ -24416,11 +24858,13 @@ class SoftwareTokenMFANotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TermsExistsException extends _s.GenericAwsException {
   TermsExistsException({String? type, String? message})
       : super(type: type, code: 'TermsExistsException', message: message);
 }
 
+/// @nodoc
 class TierChangeNotAllowedException extends _s.GenericAwsException {
   TierChangeNotAllowedException({String? type, String? message})
       : super(
@@ -24429,6 +24873,7 @@ class TierChangeNotAllowedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyFailedAttemptsException extends _s.GenericAwsException {
   TooManyFailedAttemptsException({String? type, String? message})
       : super(
@@ -24437,21 +24882,25 @@ class TooManyFailedAttemptsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class UnexpectedLambdaException extends _s.GenericAwsException {
   UnexpectedLambdaException({String? type, String? message})
       : super(type: type, code: 'UnexpectedLambdaException', message: message);
 }
 
+/// @nodoc
 class UnsupportedIdentityProviderException extends _s.GenericAwsException {
   UnsupportedIdentityProviderException({String? type, String? message})
       : super(
@@ -24460,6 +24909,7 @@ class UnsupportedIdentityProviderException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(
@@ -24468,6 +24918,7 @@ class UnsupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedTokenTypeException extends _s.GenericAwsException {
   UnsupportedTokenTypeException({String? type, String? message})
       : super(
@@ -24476,6 +24927,7 @@ class UnsupportedTokenTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedUserStateException extends _s.GenericAwsException {
   UnsupportedUserStateException({String? type, String? message})
       : super(
@@ -24484,6 +24936,7 @@ class UnsupportedUserStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UserImportInProgressException extends _s.GenericAwsException {
   UserImportInProgressException({String? type, String? message})
       : super(
@@ -24492,6 +24945,7 @@ class UserImportInProgressException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UserLambdaValidationException extends _s.GenericAwsException {
   UserLambdaValidationException({String? type, String? message})
       : super(
@@ -24500,16 +24954,19 @@ class UserLambdaValidationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UserNotConfirmedException extends _s.GenericAwsException {
   UserNotConfirmedException({String? type, String? message})
       : super(type: type, code: 'UserNotConfirmedException', message: message);
 }
 
+/// @nodoc
 class UserNotFoundException extends _s.GenericAwsException {
   UserNotFoundException({String? type, String? message})
       : super(type: type, code: 'UserNotFoundException', message: message);
 }
 
+/// @nodoc
 class UserPoolAddOnNotEnabledException extends _s.GenericAwsException {
   UserPoolAddOnNotEnabledException({String? type, String? message})
       : super(
@@ -24518,16 +24975,19 @@ class UserPoolAddOnNotEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UserPoolTaggingException extends _s.GenericAwsException {
   UserPoolTaggingException({String? type, String? message})
       : super(type: type, code: 'UserPoolTaggingException', message: message);
 }
 
+/// @nodoc
 class UsernameExistsException extends _s.GenericAwsException {
   UsernameExistsException({String? type, String? message})
       : super(type: type, code: 'UsernameExistsException', message: message);
 }
 
+/// @nodoc
 class WebAuthnChallengeNotFoundException extends _s.GenericAwsException {
   WebAuthnChallengeNotFoundException({String? type, String? message})
       : super(
@@ -24536,6 +24996,7 @@ class WebAuthnChallengeNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WebAuthnClientMismatchException extends _s.GenericAwsException {
   WebAuthnClientMismatchException({String? type, String? message})
       : super(
@@ -24544,6 +25005,7 @@ class WebAuthnClientMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WebAuthnConfigurationMissingException extends _s.GenericAwsException {
   WebAuthnConfigurationMissingException({String? type, String? message})
       : super(
@@ -24552,6 +25014,7 @@ class WebAuthnConfigurationMissingException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WebAuthnCredentialNotSupportedException extends _s.GenericAwsException {
   WebAuthnCredentialNotSupportedException({String? type, String? message})
       : super(
@@ -24560,12 +25023,14 @@ class WebAuthnCredentialNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WebAuthnNotEnabledException extends _s.GenericAwsException {
   WebAuthnNotEnabledException({String? type, String? message})
       : super(
             type: type, code: 'WebAuthnNotEnabledException', message: message);
 }
 
+/// @nodoc
 class WebAuthnOriginNotAllowedException extends _s.GenericAwsException {
   WebAuthnOriginNotAllowedException({String? type, String? message})
       : super(
@@ -24574,6 +25039,7 @@ class WebAuthnOriginNotAllowedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class WebAuthnRelyingPartyMismatchException extends _s.GenericAwsException {
   WebAuthnRelyingPartyMismatchException({String? type, String? message})
       : super(

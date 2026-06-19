@@ -726,6 +726,7 @@ class WorkSpacesThinClient {
   }
 }
 
+/// @nodoc
 class CreateEnvironmentResponse {
   /// Describes an environment.
   final EnvironmentSummary? environment;
@@ -751,6 +752,7 @@ class CreateEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteDeviceResponse {
   DeleteDeviceResponse();
 
@@ -763,6 +765,7 @@ class DeleteDeviceResponse {
   }
 }
 
+/// @nodoc
 class DeleteEnvironmentResponse {
   DeleteEnvironmentResponse();
 
@@ -775,6 +778,7 @@ class DeleteEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeregisterDeviceResponse {
   DeregisterDeviceResponse();
 
@@ -787,6 +791,7 @@ class DeregisterDeviceResponse {
   }
 }
 
+/// @nodoc
 class GetDeviceResponse {
   /// Describes an device.
   final Device? device;
@@ -811,6 +816,7 @@ class GetDeviceResponse {
   }
 }
 
+/// @nodoc
 class GetEnvironmentResponse {
   /// Describes an environment.
   final Environment? environment;
@@ -835,6 +841,7 @@ class GetEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class GetSoftwareSetResponse {
   /// Describes a software set.
   final SoftwareSet? softwareSet;
@@ -859,6 +866,7 @@ class GetSoftwareSetResponse {
   }
 }
 
+/// @nodoc
 class ListDevicesResponse {
   /// Describes devices.
   final List<DeviceSummary>? devices;
@@ -896,6 +904,7 @@ class ListDevicesResponse {
   }
 }
 
+/// @nodoc
 class ListEnvironmentsResponse {
   /// Describes environments.
   final List<EnvironmentSummary>? environments;
@@ -933,6 +942,7 @@ class ListEnvironmentsResponse {
   }
 }
 
+/// @nodoc
 class ListSoftwareSetsResponse {
   /// If <code>nextToken</code> is returned, there are more results available. The
   /// value of <code>nextToken</code> is a unique pagination token for each page.
@@ -970,6 +980,7 @@ class ListSoftwareSetsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of the key-value pairs for the tag or tags assigned to the specified
   /// resource.
@@ -994,6 +1005,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1006,6 +1018,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1018,6 +1031,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDeviceResponse {
   /// Describes a device.
   final DeviceSummary? device;
@@ -1042,6 +1056,7 @@ class UpdateDeviceResponse {
   }
 }
 
+/// @nodoc
 class UpdateEnvironmentResponse {
   /// Describes an environment.
   final EnvironmentSummary? environment;
@@ -1067,6 +1082,7 @@ class UpdateEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateSoftwareSetResponse {
   UpdateSoftwareSetResponse();
 
@@ -1079,6 +1095,7 @@ class UpdateSoftwareSetResponse {
   }
 }
 
+/// @nodoc
 class SoftwareSetValidationStatus {
   static const validated = SoftwareSetValidationStatus._('VALIDATED');
   static const notValidated = SoftwareSetValidationStatus._('NOT_VALIDATED');
@@ -1105,6 +1122,8 @@ class SoftwareSetValidationStatus {
 }
 
 /// Describes an environment.
+///
+/// @nodoc
 class EnvironmentSummary {
   /// The activation code to register a device to the environment.
   final String? activationCode;
@@ -1231,6 +1250,7 @@ class EnvironmentSummary {
   }
 }
 
+/// @nodoc
 class DesktopType {
   static const workspaces = DesktopType._('workspaces');
   static const appstream = DesktopType._('appstream');
@@ -1255,6 +1275,7 @@ class DesktopType {
   String toString() => value;
 }
 
+/// @nodoc
 class SoftwareSetUpdateSchedule {
   static const useMaintenanceWindow =
       SoftwareSetUpdateSchedule._('USE_MAINTENANCE_WINDOW');
@@ -1283,6 +1304,8 @@ class SoftwareSetUpdateSchedule {
 }
 
 /// Describes the maintenance window for a thin client device.
+///
+/// @nodoc
 class MaintenanceWindow {
   /// An option to select the default or custom maintenance window.
   final MaintenanceWindowType type;
@@ -1355,6 +1378,7 @@ class MaintenanceWindow {
   }
 }
 
+/// @nodoc
 class SoftwareSetUpdateMode {
   static const useLatest = SoftwareSetUpdateMode._('USE_LATEST');
   static const useDesired = SoftwareSetUpdateMode._('USE_DESIRED');
@@ -1380,6 +1404,7 @@ class SoftwareSetUpdateMode {
   String toString() => value;
 }
 
+/// @nodoc
 class MaintenanceWindowType {
   static const system = MaintenanceWindowType._('SYSTEM');
   static const custom = MaintenanceWindowType._('CUSTOM');
@@ -1405,6 +1430,7 @@ class MaintenanceWindowType {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplyTimeOf {
   static const utc = ApplyTimeOf._('UTC');
   static const device = ApplyTimeOf._('DEVICE');
@@ -1428,6 +1454,7 @@ class ApplyTimeOf {
   String toString() => value;
 }
 
+/// @nodoc
 class DayOfWeek {
   static const monday = DayOfWeek._('MONDAY');
   static const tuesday = DayOfWeek._('TUESDAY');
@@ -1465,6 +1492,8 @@ class DayOfWeek {
 }
 
 /// Describes a thin client device.
+///
+/// @nodoc
 class DeviceSummary {
   /// The Amazon Resource Name (ARN) of the device.
   final String? arn;
@@ -1600,6 +1629,7 @@ class DeviceSummary {
   }
 }
 
+/// @nodoc
 class DeviceStatus {
   static const registered = DeviceStatus._('REGISTERED');
   static const deregistering = DeviceStatus._('DEREGISTERING');
@@ -1626,6 +1656,8 @@ class DeviceStatus {
 }
 
 /// Describes a software set.
+///
+/// @nodoc
 class SoftwareSetSummary {
   /// The Amazon Resource Name (ARN) of the software set.
   final String? arn;
@@ -1686,6 +1718,8 @@ class SoftwareSetSummary {
 }
 
 /// Describes a software set.
+///
+/// @nodoc
 class SoftwareSet {
   /// The Amazon Resource Name (ARN) of the software set.
   final String? arn;
@@ -1756,6 +1790,8 @@ class SoftwareSet {
 }
 
 /// Describes software.
+///
+/// @nodoc
 class Software {
   /// The name of the software component.
   final String? name;
@@ -1786,6 +1822,8 @@ class Software {
 }
 
 /// Describes an environment.
+///
+/// @nodoc
 class Environment {
   /// The activation code to register a device to the environment.
   final String? activationCode;
@@ -1956,6 +1994,7 @@ class Environment {
   }
 }
 
+/// @nodoc
 class EnvironmentSoftwareSetComplianceStatus {
   static const noRegisteredDevices =
       EnvironmentSoftwareSetComplianceStatus._('NO_REGISTERED_DEVICES');
@@ -1986,6 +2025,8 @@ class EnvironmentSoftwareSetComplianceStatus {
 }
 
 /// Describes a thin client device.
+///
+/// @nodoc
 class Device {
   /// The Amazon Resource Name (ARN) of the device.
   final String? arn;
@@ -2166,6 +2207,7 @@ class Device {
   }
 }
 
+/// @nodoc
 class DeviceSoftwareSetComplianceStatus {
   static const none = DeviceSoftwareSetComplianceStatus._('NONE');
   static const compliant = DeviceSoftwareSetComplianceStatus._('COMPLIANT');
@@ -2193,6 +2235,7 @@ class DeviceSoftwareSetComplianceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SoftwareSetUpdateStatus {
   static const available = SoftwareSetUpdateStatus._('AVAILABLE');
   static const inProgress = SoftwareSetUpdateStatus._('IN_PROGRESS');
@@ -2219,6 +2262,7 @@ class SoftwareSetUpdateStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetDeviceStatus {
   static const deregistered = TargetDeviceStatus._('DEREGISTERED');
   static const archived = TargetDeviceStatus._('ARCHIVED');
@@ -2244,26 +2288,31 @@ class TargetDeviceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2272,11 +2321,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

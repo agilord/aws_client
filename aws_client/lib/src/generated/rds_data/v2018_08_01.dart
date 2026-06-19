@@ -526,6 +526,8 @@ class RdsData {
 
 /// The response elements represent the output of a SQL statement over an array
 /// of data.
+///
+/// @nodoc
 class BatchExecuteStatementResponse {
   /// The execution results of each batch entry.
   final List<UpdateResult>? updateResults;
@@ -553,6 +555,8 @@ class BatchExecuteStatementResponse {
 
 /// The response elements represent the output of a request to start a SQL
 /// transaction.
+///
+/// @nodoc
 class BeginTransactionResponse {
   /// The transaction ID of the transaction started by the call.
   final String? transactionId;
@@ -576,6 +580,8 @@ class BeginTransactionResponse {
 }
 
 /// The response elements represent the output of a commit transaction request.
+///
+/// @nodoc
 class CommitTransactionResponse {
   /// The status of the commit operation.
   final String? transactionStatus;
@@ -600,6 +606,8 @@ class CommitTransactionResponse {
 
 /// The response elements represent the output of a request to run one or more
 /// SQL statements.
+///
+/// @nodoc
 class ExecuteSqlResponse {
   /// The results of the SQL statement or statements.
   final List<SqlStatementResult>? sqlStatementResults;
@@ -628,6 +636,8 @@ class ExecuteSqlResponse {
 
 /// The response elements represent the output of a request to run a SQL
 /// statement against a database.
+///
+/// @nodoc
 class ExecuteStatementResponse {
   /// Metadata for the columns included in the results. This field is blank if the
   /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
@@ -708,6 +718,8 @@ class ExecuteStatementResponse {
 
 /// The response elements represent the output of a request to perform a
 /// rollback of a transaction.
+///
+/// @nodoc
 class RollbackTransactionResponse {
   /// The status of the rollback operation.
   final String? transactionStatus;
@@ -731,6 +743,8 @@ class RollbackTransactionResponse {
 }
 
 /// Contains a value.
+///
+/// @nodoc
 class Field {
   /// An array of values.
   final ArrayValue? arrayValue;
@@ -798,6 +812,8 @@ class Field {
 }
 
 /// Contains an array.
+///
+/// @nodoc
 class ArrayValue {
   /// An array of arrays. Can contain null values.
   final List<ArrayValue>? arrayValues;
@@ -862,6 +878,8 @@ class ArrayValue {
 }
 
 /// Contains the metadata for a column.
+///
+/// @nodoc
 class ColumnMetadata {
   /// The type of the column.
   final int? arrayBaseColumnType;
@@ -977,6 +995,8 @@ class ColumnMetadata {
 }
 
 /// Options that control how the result set is returned.
+///
+/// @nodoc
 class ResultSetOptions {
   /// A value that indicates how a field of <code>DECIMAL</code> type is
   /// represented in the response. The value of <code>STRING</code>, the default,
@@ -1012,6 +1032,7 @@ class ResultSetOptions {
   }
 }
 
+/// @nodoc
 class RecordsFormatType {
   static const none = RecordsFormatType._('NONE');
   static const json = RecordsFormatType._('JSON');
@@ -1036,6 +1057,7 @@ class RecordsFormatType {
   String toString() => value;
 }
 
+/// @nodoc
 class DecimalReturnType {
   static const string = DecimalReturnType._('STRING');
   static const doubleOrLong = DecimalReturnType._('DOUBLE_OR_LONG');
@@ -1060,6 +1082,7 @@ class DecimalReturnType {
   String toString() => value;
 }
 
+/// @nodoc
 class LongReturnType {
   static const string = LongReturnType._('STRING');
   static const long = LongReturnType._('LONG');
@@ -1085,6 +1108,8 @@ class LongReturnType {
 }
 
 /// A parameter used in a SQL statement.
+///
+/// @nodoc
 class SqlParameter {
   /// The name of the parameter.
   final String? name;
@@ -1109,12 +1134,12 @@ class SqlParameter {
   /// <li>
   /// <code>TIME</code> - The corresponding <code>String</code> parameter value is
   /// sent as an object of <code>TIME</code> type to the database. The accepted
-  /// format is <code>HH:MM:SS[.FFF]</code>.
+  /// format is <code>HH:MM:SS\[.FFF\]</code>.
   /// </li>
   /// <li>
   /// <code>TIMESTAMP</code> - The corresponding <code>String</code> parameter
   /// value is sent as an object of <code>TIMESTAMP</code> type to the database.
-  /// The accepted format is <code>YYYY-MM-DD HH:MM:SS[.FFF]</code>.
+  /// The accepted format is <code>YYYY-MM-DD HH:MM:SS\[.FFF\]</code>.
   /// </li>
   /// <li>
   /// <code>UUID</code> - The corresponding <code>String</code> parameter value is
@@ -1144,6 +1169,7 @@ class SqlParameter {
   }
 }
 
+/// @nodoc
 class TypeHint {
   static const json = TypeHint._('JSON');
   static const uuid = TypeHint._('UUID');
@@ -1177,6 +1203,8 @@ class TypeHint {
 /// operation. Use the <code>BatchExecuteStatement</code> or
 /// <code>ExecuteStatement</code> operation instead.
 /// </note>
+///
+/// @nodoc
 class SqlStatementResult {
   /// The number of records updated by a SQL statement.
   final int? numberOfRecordsUpdated;
@@ -1215,6 +1243,8 @@ class SqlStatementResult {
 /// operation. Use the <code>BatchExecuteStatement</code> or
 /// <code>ExecuteStatement</code> operation instead.
 /// </note>
+///
+/// @nodoc
 class ResultFrame {
   /// The records in the result set.
   final List<Record>? records;
@@ -1251,6 +1281,8 @@ class ResultFrame {
 }
 
 /// The metadata of the result set returned by a SQL statement.
+///
+/// @nodoc
 class ResultSetMetadata {
   /// The number of columns in the result set.
   final int? columnCount;
@@ -1289,6 +1321,8 @@ class ResultSetMetadata {
 /// operation. Use the <code>BatchExecuteStatement</code> or
 /// <code>ExecuteStatement</code> operation instead.
 /// </note>
+///
+/// @nodoc
 class Record {
   /// The values returned in the record.
   final List<Value>? values;
@@ -1320,6 +1354,8 @@ class Record {
 /// operation. Use the <code>BatchExecuteStatement</code> or
 /// <code>ExecuteStatement</code> operation instead.
 /// </note>
+///
+/// @nodoc
 class Value {
   /// An array of column values.
   final List<Value>? arrayValues;
@@ -1416,6 +1452,8 @@ class Value {
 /// operation. Use the <code>BatchExecuteStatement</code> or
 /// <code>ExecuteStatement</code> operation instead.
 /// </note>
+///
+/// @nodoc
 class StructValue {
   /// The attributes returned in the record.
   final List<Value>? attributes;
@@ -1442,6 +1480,8 @@ class StructValue {
 }
 
 /// The response elements represent the results of an update.
+///
+/// @nodoc
 class UpdateResult {
   /// Values for fields generated during the request.
   final List<Field>? generatedFields;
@@ -1467,42 +1507,50 @@ class UpdateResult {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class DatabaseErrorException extends _s.GenericAwsException {
   DatabaseErrorException({String? type, String? message})
       : super(type: type, code: 'DatabaseErrorException', message: message);
 }
 
+/// @nodoc
 class DatabaseNotFoundException extends _s.GenericAwsException {
   DatabaseNotFoundException({String? type, String? message})
       : super(type: type, code: 'DatabaseNotFoundException', message: message);
 }
 
+/// @nodoc
 class DatabaseResumingException extends _s.GenericAwsException {
   DatabaseResumingException({String? type, String? message})
       : super(type: type, code: 'DatabaseResumingException', message: message);
 }
 
+/// @nodoc
 class DatabaseUnavailableException extends _s.GenericAwsException {
   DatabaseUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'DatabaseUnavailableException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class HttpEndpointNotEnabledException extends _s.GenericAwsException {
   HttpEndpointNotEnabledException({String? type, String? message})
       : super(
@@ -1511,12 +1559,14 @@ class HttpEndpointNotEnabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class InvalidResourceStateException extends _s.GenericAwsException {
   InvalidResourceStateException({String? type, String? message})
       : super(
@@ -1525,37 +1575,44 @@ class InvalidResourceStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSecretException extends _s.GenericAwsException {
   InvalidSecretException({String? type, String? message})
       : super(type: type, code: 'InvalidSecretException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class SecretsErrorException extends _s.GenericAwsException {
   SecretsErrorException({String? type, String? message})
       : super(type: type, code: 'SecretsErrorException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableError extends _s.GenericAwsException {
   ServiceUnavailableError({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailableError', message: message);
 }
 
+/// @nodoc
 class StatementTimeoutException extends _s.GenericAwsException {
   StatementTimeoutException({String? type, String? message})
       : super(type: type, code: 'StatementTimeoutException', message: message);
 }
 
+/// @nodoc
 class TransactionNotFoundException extends _s.GenericAwsException {
   TransactionNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'TransactionNotFoundException', message: message);
 }
 
+/// @nodoc
 class UnsupportedResultException extends _s.GenericAwsException {
   UnsupportedResultException({String? type, String? message})
       : super(type: type, code: 'UnsupportedResultException', message: message);

@@ -6248,6 +6248,7 @@ class Neptune {
   }
 }
 
+/// @nodoc
 class AddSourceIdentifierToSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -6270,6 +6271,7 @@ class AddSourceIdentifierToSubscriptionResult {
   }
 }
 
+/// @nodoc
 class ApplyPendingMaintenanceActionResult {
   final ResourcePendingMaintenanceActions? resourcePendingMaintenanceActions;
 
@@ -6294,6 +6296,7 @@ class ApplyPendingMaintenanceActionResult {
   }
 }
 
+/// @nodoc
 class CopyDBClusterParameterGroupResult {
   final DBClusterParameterGroup? dBClusterParameterGroup;
 
@@ -6317,6 +6320,7 @@ class CopyDBClusterParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CopyDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -6339,6 +6343,7 @@ class CopyDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class CopyDBParameterGroupResult {
   final DBParameterGroup? dBParameterGroup;
 
@@ -6361,6 +6366,7 @@ class CopyDBParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CreateDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -6401,6 +6407,8 @@ class CreateDBClusterResult {
 /// </ul>
 /// For the data structure that represents Amazon Neptune DB instance endpoints,
 /// see <code>Endpoint</code>.
+///
+/// @nodoc
 class CreateDBClusterEndpointOutput {
   /// The type associated with a custom endpoint. One of: <code>READER</code>,
   /// <code>WRITER</code>, <code>ANY</code>.
@@ -6511,6 +6519,7 @@ class CreateDBClusterEndpointOutput {
   }
 }
 
+/// @nodoc
 class CreateDBClusterParameterGroupResult {
   final DBClusterParameterGroup? dBClusterParameterGroup;
 
@@ -6534,6 +6543,7 @@ class CreateDBClusterParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CreateDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -6556,6 +6566,7 @@ class CreateDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class CreateDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -6577,6 +6588,7 @@ class CreateDBInstanceResult {
   }
 }
 
+/// @nodoc
 class CreateDBParameterGroupResult {
   final DBParameterGroup? dBParameterGroup;
 
@@ -6599,6 +6611,7 @@ class CreateDBParameterGroupResult {
   }
 }
 
+/// @nodoc
 class CreateDBSubnetGroupResult {
   final DBSubnetGroup? dBSubnetGroup;
 
@@ -6620,6 +6633,7 @@ class CreateDBSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class CreateEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -6642,6 +6656,7 @@ class CreateEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class CreateGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -6663,6 +6678,7 @@ class CreateGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class DeleteDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -6703,6 +6719,8 @@ class DeleteDBClusterResult {
 /// </ul>
 /// For the data structure that represents Amazon RDS DB instance endpoints, see
 /// <code>Endpoint</code>.
+///
+/// @nodoc
 class DeleteDBClusterEndpointOutput {
   /// The type associated with a custom endpoint. One of: <code>READER</code>,
   /// <code>WRITER</code>, <code>ANY</code>.
@@ -6813,6 +6831,7 @@ class DeleteDBClusterEndpointOutput {
   }
 }
 
+/// @nodoc
 class DeleteDBClusterSnapshotResult {
   final DBClusterSnapshot? dBClusterSnapshot;
 
@@ -6835,6 +6854,7 @@ class DeleteDBClusterSnapshotResult {
   }
 }
 
+/// @nodoc
 class DeleteDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -6856,6 +6876,7 @@ class DeleteDBInstanceResult {
   }
 }
 
+/// @nodoc
 class DeleteEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -6878,6 +6899,7 @@ class DeleteEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class DeleteGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -6899,6 +6921,7 @@ class DeleteGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class DBClusterEndpointMessage {
   /// Contains the details of the endpoints associated with the cluster and
   /// matching any filter conditions.
@@ -6935,6 +6958,7 @@ class DBClusterEndpointMessage {
   }
 }
 
+/// @nodoc
 class DBClusterParameterGroupsMessage {
   /// A list of DB cluster parameter groups.
   final List<DBClusterParameterGroup>? dBClusterParameterGroups;
@@ -6972,6 +6996,7 @@ class DBClusterParameterGroupsMessage {
   }
 }
 
+/// @nodoc
 class DBClusterParameterGroupDetails {
   /// An optional pagination token provided by a previous
   /// DescribeDBClusterParameters request. If this parameter is specified, the
@@ -7004,6 +7029,7 @@ class DBClusterParameterGroupDetails {
   }
 }
 
+/// @nodoc
 class DBClusterMessage {
   /// Contains a list of DB clusters for the user.
   final List<DBCluster>? dBClusters;
@@ -7034,6 +7060,7 @@ class DBClusterMessage {
   }
 }
 
+/// @nodoc
 class DescribeDBClusterSnapshotAttributesResult {
   final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
@@ -7059,6 +7086,7 @@ class DescribeDBClusterSnapshotAttributesResult {
   }
 }
 
+/// @nodoc
 class DBClusterSnapshotMessage {
   /// Provides a list of DB cluster snapshots for the user.
   final List<DBClusterSnapshot>? dBClusterSnapshots;
@@ -7094,6 +7122,7 @@ class DBClusterSnapshotMessage {
   }
 }
 
+/// @nodoc
 class DBEngineVersionMessage {
   /// A list of <code>DBEngineVersion</code> elements.
   final List<DBEngineVersion>? dBEngineVersions;
@@ -7128,6 +7157,7 @@ class DBEngineVersionMessage {
   }
 }
 
+/// @nodoc
 class DBInstanceMessage {
   /// A list of <a>DBInstance</a> instances.
   final List<DBInstance>? dBInstances;
@@ -7159,6 +7189,7 @@ class DBInstanceMessage {
   }
 }
 
+/// @nodoc
 class DBParameterGroupsMessage {
   /// A list of <a>DBParameterGroup</a> instances.
   final List<DBParameterGroup>? dBParameterGroups;
@@ -7193,6 +7224,7 @@ class DBParameterGroupsMessage {
   }
 }
 
+/// @nodoc
 class DBParameterGroupDetails {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -7224,6 +7256,7 @@ class DBParameterGroupDetails {
   }
 }
 
+/// @nodoc
 class DBSubnetGroupMessage {
   /// A list of <a>DBSubnetGroup</a> instances.
   final List<DBSubnetGroup>? dBSubnetGroups;
@@ -7258,6 +7291,7 @@ class DBSubnetGroupMessage {
   }
 }
 
+/// @nodoc
 class DescribeEngineDefaultClusterParametersResult {
   final EngineDefaults? engineDefaults;
 
@@ -7281,6 +7315,7 @@ class DescribeEngineDefaultClusterParametersResult {
   }
 }
 
+/// @nodoc
 class DescribeEngineDefaultParametersResult {
   final EngineDefaults? engineDefaults;
 
@@ -7303,6 +7338,7 @@ class DescribeEngineDefaultParametersResult {
   }
 }
 
+/// @nodoc
 class EventCategoriesMessage {
   /// A list of EventCategoriesMap data types.
   final List<EventCategoriesMap>? eventCategoriesMapList;
@@ -7330,6 +7366,7 @@ class EventCategoriesMessage {
   }
 }
 
+/// @nodoc
 class EventsMessage {
   /// A list of <a>Event</a> instances.
   final List<Event>? events;
@@ -7361,6 +7398,7 @@ class EventsMessage {
   }
 }
 
+/// @nodoc
 class EventSubscriptionsMessage {
   /// A list of EventSubscriptions data types.
   final List<EventSubscription>? eventSubscriptionsList;
@@ -7398,6 +7436,7 @@ class EventSubscriptionsMessage {
   }
 }
 
+/// @nodoc
 class GlobalClustersMessage {
   /// The list of global clusters and instances returned by this request.
   final List<GlobalCluster>? globalClusters;
@@ -7432,6 +7471,7 @@ class GlobalClustersMessage {
   }
 }
 
+/// @nodoc
 class OrderableDBInstanceOptionsMessage {
   /// An optional pagination token provided by a previous
   /// OrderableDBInstanceOptions request. If this parameter is specified, the
@@ -7470,6 +7510,7 @@ class OrderableDBInstanceOptionsMessage {
   }
 }
 
+/// @nodoc
 class PendingMaintenanceActionsMessage {
   /// An optional pagination token provided by a previous
   /// <code>DescribePendingMaintenanceActions</code> request. If this parameter is
@@ -7507,6 +7548,7 @@ class PendingMaintenanceActionsMessage {
   }
 }
 
+/// @nodoc
 class DescribeValidDBInstanceModificationsResult {
   final ValidDBInstanceModificationsMessage?
       validDBInstanceModificationsMessage;
@@ -7534,6 +7576,7 @@ class DescribeValidDBInstanceModificationsResult {
   }
 }
 
+/// @nodoc
 class FailoverDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -7554,6 +7597,7 @@ class FailoverDBClusterResult {
   }
 }
 
+/// @nodoc
 class FailoverGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -7575,6 +7619,7 @@ class FailoverGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class TagListMessage {
   /// List of tags returned by the ListTagsForResource operation.
   final List<Tag>? tagList;
@@ -7598,6 +7643,7 @@ class TagListMessage {
   }
 }
 
+/// @nodoc
 class ModifyDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -7638,6 +7684,8 @@ class ModifyDBClusterResult {
 /// </ul>
 /// For the data structure that represents Amazon RDS DB instance endpoints, see
 /// <code>Endpoint</code>.
+///
+/// @nodoc
 class ModifyDBClusterEndpointOutput {
   /// The type associated with a custom endpoint. One of: <code>READER</code>,
   /// <code>WRITER</code>, <code>ANY</code>.
@@ -7748,6 +7796,7 @@ class ModifyDBClusterEndpointOutput {
   }
 }
 
+/// @nodoc
 class DBClusterParameterGroupNameMessage {
   /// The name of the DB cluster parameter group.
   ///
@@ -7787,6 +7836,7 @@ class DBClusterParameterGroupNameMessage {
   }
 }
 
+/// @nodoc
 class ModifyDBClusterSnapshotAttributeResult {
   final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
@@ -7811,6 +7861,7 @@ class ModifyDBClusterSnapshotAttributeResult {
   }
 }
 
+/// @nodoc
 class ModifyDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -7832,6 +7883,7 @@ class ModifyDBInstanceResult {
   }
 }
 
+/// @nodoc
 class DBParameterGroupNameMessage {
   /// Provides the name of the DB parameter group.
   final String? dBParameterGroupName;
@@ -7855,6 +7907,7 @@ class DBParameterGroupNameMessage {
   }
 }
 
+/// @nodoc
 class ModifyDBSubnetGroupResult {
   final DBSubnetGroup? dBSubnetGroup;
 
@@ -7876,6 +7929,7 @@ class ModifyDBSubnetGroupResult {
   }
 }
 
+/// @nodoc
 class ModifyEventSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -7898,6 +7952,7 @@ class ModifyEventSubscriptionResult {
   }
 }
 
+/// @nodoc
 class ModifyGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -7919,6 +7974,7 @@ class ModifyGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class PromoteReadReplicaDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -7939,6 +7995,7 @@ class PromoteReadReplicaDBClusterResult {
   }
 }
 
+/// @nodoc
 class RebootDBInstanceResult {
   final DBInstance? dBInstance;
 
@@ -7960,6 +8017,7 @@ class RebootDBInstanceResult {
   }
 }
 
+/// @nodoc
 class RemoveFromGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -7981,6 +8039,7 @@ class RemoveFromGlobalClusterResult {
   }
 }
 
+/// @nodoc
 class RemoveSourceIdentifierFromSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -8004,6 +8063,7 @@ class RemoveSourceIdentifierFromSubscriptionResult {
   }
 }
 
+/// @nodoc
 class RestoreDBClusterFromSnapshotResult {
   final DBCluster? dBCluster;
 
@@ -8024,6 +8084,7 @@ class RestoreDBClusterFromSnapshotResult {
   }
 }
 
+/// @nodoc
 class RestoreDBClusterToPointInTimeResult {
   final DBCluster? dBCluster;
 
@@ -8044,6 +8105,7 @@ class RestoreDBClusterToPointInTimeResult {
   }
 }
 
+/// @nodoc
 class StartDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -8064,6 +8126,7 @@ class StartDBClusterResult {
   }
 }
 
+/// @nodoc
 class StopDBClusterResult {
   final DBCluster? dBCluster;
 
@@ -8084,6 +8147,7 @@ class StopDBClusterResult {
   }
 }
 
+/// @nodoc
 class SwitchoverGlobalClusterResult {
   final GlobalCluster? globalCluster;
 
@@ -8111,6 +8175,8 @@ class SwitchoverGlobalClusterResult {
 /// <a>CreateGlobalCluster</a>, <a>DescribeGlobalClusters</a>,
 /// <a>ModifyGlobalCluster</a>, <a>DeleteGlobalCluster</a>,
 /// <a>FailoverGlobalCluster</a>, and <a>RemoveFromGlobalCluster</a> actions.
+///
+/// @nodoc
 class GlobalCluster {
   /// The default database name within the new global database cluster.
   final String? databaseName;
@@ -8235,6 +8301,8 @@ class GlobalCluster {
 /// (Neptune global database). This data type is empty unless a switchover or
 /// failover operation is scheduled or is in progress on the Neptune global
 /// database.
+///
+/// @nodoc
 class FailoverState {
   /// The Amazon Resource Name (ARN) of the Neptune DB cluster that is currently
   /// being demoted, and which is associated with this state.
@@ -8308,19 +8376,21 @@ class FailoverState {
 
 /// Metadata assigned to an Amazon Neptune resource consisting of a key-value
 /// pair.
+///
+/// @nodoc
 class Tag {
   /// A key is the required name of the tag. The string value can be from 1 to 128
   /// Unicode characters in length and can't be prefixed with <code>aws:</code> or
   /// <code>rds:</code>. The string can only contain the set of Unicode letters,
   /// digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-\]*)$").
   final String? key;
 
   /// A value is the optional value of the tag. The string value can be from 1 to
   /// 256 Unicode characters in length and can't be prefixed with
   /// <code>aws:</code> or <code>rds:</code>. The string can only contain the set
   /// of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java
-  /// regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  /// regex: "^(\[\\p{L}\\p{Z}\\p{N}_.:/=+\\-\]*)$").
   final String? value;
 
   Tag({
@@ -8353,6 +8423,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class FailoverStatus {
   static const pending = FailoverStatus._('pending');
   static const failingOver = FailoverStatus._('failing-over');
@@ -8380,6 +8451,8 @@ class FailoverStatus {
 
 /// A data structure with information about any primary and secondary clusters
 /// associated with an Neptune global database.
+///
+/// @nodoc
 class GlobalClusterMember {
   /// The Amazon Resource Name (ARN) for each Neptune cluster.
   final String? dBClusterArn;
@@ -8424,6 +8497,8 @@ class GlobalClusterMember {
 ///
 /// This data type is used as a response element in the
 /// <a>DescribeDBClusters</a>.
+///
+/// @nodoc
 class DBCluster {
   /// <code>AllocatedStorage</code> always returns 1, because Neptune DB cluster
   /// storage size is not fixed, but instead automatically adjusts as needed.
@@ -8887,6 +8962,8 @@ class DBCluster {
 /// This data type is used as a response element in the
 /// <code>ModifyDBCluster</code> operation and contains changes that will be
 /// applied during the next maintenance window.
+///
+/// @nodoc
 class ClusterPendingModifiedValues {
   /// The allocated storage size in gibibytes (GiB) for database engines. For
   /// Neptune, <code>AllocatedStorage</code> always returns 1, because Neptune DB
@@ -8996,6 +9073,8 @@ class ClusterPendingModifiedValues {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html">Using
 /// Amazon Neptune Serverless</a> in the <i>Amazon Neptune User Guide</i>.
+///
+/// @nodoc
 class ServerlessV2ScalingConfigurationInfo {
   /// The maximum number of Neptune capacity units (NCUs) for a DB instance in a
   /// Neptune Serverless cluster. You can specify NCU values in half-step
@@ -9035,6 +9114,8 @@ class ServerlessV2ScalingConfigurationInfo {
 /// <code>slowquery</code> (to publish slow-query logs). See <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html">Publishing
 /// Neptune logs to Amazon CloudWatch logs</a>.
+///
+/// @nodoc
 class PendingCloudwatchLogsExports {
   /// Log types that are in the process of being enabled. After they are enabled,
   /// these log types are exported to CloudWatch Logs.
@@ -9071,6 +9152,8 @@ class PendingCloudwatchLogsExports {
 
 /// Describes an Amazon Identity and Access Management (IAM) role that is
 /// associated with a DB cluster.
+///
+/// @nodoc
 class DBClusterRole {
   /// The name of the feature associated with the Amazon Identity and Access
   /// Management (IAM) role. For the list of supported feature names, see
@@ -9128,6 +9211,8 @@ class DBClusterRole {
 
 /// This data type is used as a response element for queries on VPC security
 /// group membership.
+///
+/// @nodoc
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
   final String? status;
@@ -9157,6 +9242,8 @@ class VpcSecurityGroupMembership {
 }
 
 /// Contains information about an instance that is part of a DB cluster.
+///
+/// @nodoc
 class DBClusterMember {
   /// Specifies the status of the DB cluster parameter group for this member of
   /// the DB cluster.
@@ -9207,6 +9294,8 @@ class DBClusterMember {
 }
 
 /// Not supported by Neptune.
+///
+/// @nodoc
 class DBClusterOptionGroupStatus {
   /// Not supported by Neptune.
   final String? dBClusterOptionGroupName;
@@ -9242,6 +9331,8 @@ class DBClusterOptionGroupStatus {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html">Using
 /// Amazon Neptune Serverless</a> in the <i>Amazon Neptune User Guide</i>.
+///
+/// @nodoc
 class ServerlessV2ScalingConfiguration {
   /// The maximum number of Neptune capacity units (NCUs) for a DB instance in a
   /// Neptune Serverless cluster. You can specify NCU values in half-step
@@ -9278,6 +9369,8 @@ class ServerlessV2ScalingConfiguration {
 }
 
 /// Specifies a parameter.
+///
+/// @nodoc
 class Parameter {
   /// Specifies the valid range of values for the parameter.
   final String? allowedValues;
@@ -9394,6 +9487,7 @@ class Parameter {
   }
 }
 
+/// @nodoc
 class ApplyMethod {
   static const immediate = ApplyMethod._('immediate');
   static const pendingReboot = ApplyMethod._('pending-reboot');
@@ -9419,6 +9513,8 @@ class ApplyMethod {
 
 /// Contains the results of a successful invocation of the
 /// <a>DescribeEventSubscriptions</a> action.
+///
+/// @nodoc
 class EventSubscription {
   /// The event notification subscription Id.
   final String? custSubscriptionId;
@@ -9527,6 +9623,8 @@ class EventSubscription {
 ///
 /// This data type is used as a response element in the
 /// <a>DescribeDBInstances</a> action.
+///
+/// @nodoc
 class DBInstance {
   /// Not supported by Neptune.
   final int? allocatedStorage;
@@ -10034,6 +10132,8 @@ class DBInstance {
 ///
 /// For the data structure that represents Amazon Neptune DB cluster endpoints,
 /// see <code>DBClusterEndpoint</code>.
+///
+/// @nodoc
 class Endpoint {
   /// Specifies the DNS address of the DB instance.
   final String? address;
@@ -10073,6 +10173,8 @@ class Endpoint {
 ///
 /// This data type is used as a response element in the
 /// <a>DescribeDBSubnetGroups</a> action.
+///
+/// @nodoc
 class DBSubnetGroup {
   /// The Amazon Resource Name (ARN) for the DB subnet group.
   final String? dBSubnetGroupArn;
@@ -10134,6 +10236,8 @@ class DBSubnetGroup {
 
 /// This data type is used as a response element in the <a>ModifyDBInstance</a>
 /// action.
+///
+/// @nodoc
 class PendingModifiedValues {
   /// Contains the new <code>AllocatedStorage</code> size for the DB instance that
   /// will be applied or is currently being applied.
@@ -10264,6 +10368,8 @@ class PendingModifiedValues {
 }
 
 /// An Active Directory Domain membership record associated with a DB instance.
+///
+/// @nodoc
 class DomainMembership {
   /// The identifier of the Active Directory Domain.
   final String? domain;
@@ -10309,6 +10415,8 @@ class DomainMembership {
 }
 
 /// Provides a list of status information for a DB instance.
+///
+/// @nodoc
 class DBInstanceStatusInfo {
   /// Details of the error if there is an error for the instance. If the instance
   /// is not in an error state, this value is blank.
@@ -10355,6 +10463,8 @@ class DBInstanceStatusInfo {
 }
 
 /// Not supported by Neptune.
+///
+/// @nodoc
 class OptionGroupMembership {
   /// Not supported by Neptune.
   final String? optionGroupName;
@@ -10387,6 +10497,8 @@ class OptionGroupMembership {
 ///
 /// This data type is used as a response element in the
 /// <a>DescribeDBSubnetGroups</a> action.
+///
+/// @nodoc
 class Subnet {
   /// Specifies the EC2 Availability Zone that the subnet is in.
   final AvailabilityZone? subnetAvailabilityZone;
@@ -10426,6 +10538,8 @@ class Subnet {
 }
 
 /// Specifies an Availability Zone.
+///
+/// @nodoc
 class AvailabilityZone {
   /// The name of the availability zone.
   final String? name;
@@ -10465,6 +10579,8 @@ class AvailabilityZone {
 /// <a>RebootDBInstance</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DBParameterGroupStatus {
   /// The name of the DB parameter group.
   final String? dBParameterGroupName;
@@ -10498,6 +10614,8 @@ class DBParameterGroupStatus {
 }
 
 /// Specifies membership in a designated DB security group.
+///
+/// @nodoc
 class DBSecurityGroupMembership {
   /// The name of the DB security group.
   final String? dBSecurityGroupName;
@@ -10538,6 +10656,8 @@ class DBSecurityGroupMembership {
 /// <code>slowquery</code> (to publish slow-query logs). See <a
 /// href="https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html">Publishing
 /// Neptune logs to Amazon CloudWatch logs</a>.
+///
+/// @nodoc
 class CloudwatchLogsExportConfiguration {
   /// The list of log types to disable.
   final List<String>? disableLogTypes;
@@ -10585,6 +10705,8 @@ class CloudwatchLogsExportConfiguration {
 /// Manual DB cluster snapshot attributes are used to authorize other Amazon
 /// accounts to copy or restore a manual DB cluster snapshot. For more
 /// information, see the <a>ModifyDBClusterSnapshotAttribute</a> API action.
+///
+/// @nodoc
 class DBClusterSnapshotAttributesResult {
   /// The list of attributes and values for the manual DB cluster snapshot.
   final List<DBClusterSnapshotAttribute>? dBClusterSnapshotAttributes;
@@ -10627,6 +10749,8 @@ class DBClusterSnapshotAttributesResult {
 /// Manual DB cluster snapshot attributes are used to authorize other Amazon
 /// accounts to restore a manual DB cluster snapshot. For more information, see
 /// the <a>ModifyDBClusterSnapshotAttribute</a> API action.
+///
+/// @nodoc
 class DBClusterSnapshotAttribute {
   /// The name of the manual DB cluster snapshot attribute.
   ///
@@ -10668,6 +10792,8 @@ class DBClusterSnapshotAttribute {
 }
 
 /// This type is not currently supported.
+///
+/// @nodoc
 class Filter {
   /// This parameter is not currently supported.
   final String name;
@@ -10707,6 +10833,8 @@ class Filter {
 /// Contains the result of a successful call to the
 /// <a>DescribeValidDBInstanceModifications</a> action. You can use this
 /// information when you call <a>ModifyDBInstance</a>.
+///
+/// @nodoc
 class ValidDBInstanceModificationsMessage {
   /// Valid storage options for your DB instance.
   final List<ValidStorageOptions>? storage;
@@ -10733,6 +10861,8 @@ class ValidDBInstanceModificationsMessage {
 
 /// Not applicable. In Neptune the storage type is managed at the DB Cluster
 /// level.
+///
+/// @nodoc
 class ValidStorageOptions {
   /// Not applicable. In Neptune the storage type is managed at the DB Cluster
   /// level.
@@ -10786,6 +10916,8 @@ class ValidStorageOptions {
 }
 
 /// A range of double values.
+///
+/// @nodoc
 class DoubleRange {
   /// The minimum value in the range.
   final double? from;
@@ -10815,6 +10947,8 @@ class DoubleRange {
 }
 
 /// A range of integer values.
+///
+/// @nodoc
 class Range {
   /// The minimum value in the range.
   final int? from;
@@ -10854,6 +10988,8 @@ class Range {
 }
 
 /// Describes the pending maintenance actions for a resource.
+///
+/// @nodoc
 class ResourcePendingMaintenanceActions {
   /// A list that provides details about the pending maintenance actions for the
   /// resource.
@@ -10891,6 +11027,8 @@ class ResourcePendingMaintenanceActions {
 }
 
 /// Provides information about a pending maintenance action for a resource.
+///
+/// @nodoc
 class PendingMaintenanceAction {
   /// The type of pending maintenance action that is available for the resource.
   final String? action;
@@ -10968,6 +11106,8 @@ class PendingMaintenanceAction {
 ///
 /// This data type is used as a response element in the
 /// <a>DescribeOrderableDBInstanceOptions</a> action.
+///
+/// @nodoc
 class OrderableDBInstanceOption {
   /// A list of Availability Zones for a DB instance.
   final List<AvailabilityZone>? availabilityZones;
@@ -11151,6 +11291,8 @@ class OrderableDBInstanceOption {
 
 /// This data type is used as a response element in the <a>DescribeEvents</a>
 /// action.
+///
+/// @nodoc
 class Event {
   /// Specifies the date and time of the event.
   final DateTime? date;
@@ -11211,6 +11353,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const dbInstance = SourceType._('db-instance');
   static const dbParameterGroup = SourceType._('db-parameter-group');
@@ -11247,6 +11390,8 @@ class SourceType {
 
 /// Contains the results of a successful invocation of the
 /// <a>DescribeEventCategories</a> action.
+///
+/// @nodoc
 class EventCategoriesMap {
   /// The event categories for the specified source type
   final List<String>? eventCategories;
@@ -11279,6 +11424,8 @@ class EventCategoriesMap {
 
 /// Contains the result of a successful invocation of the
 /// <a>DescribeEngineDefaultParameters</a> action.
+///
+/// @nodoc
 class EngineDefaults {
   /// Specifies the name of the DB parameter group family that the engine default
   /// parameters apply to.
@@ -11324,6 +11471,8 @@ class EngineDefaults {
 ///
 /// This data type is used as a response element in the
 /// <a>DescribeDBParameterGroups</a> action.
+///
+/// @nodoc
 class DBParameterGroup {
   /// The Amazon Resource Name (ARN) for the DB parameter group.
   final String? dBParameterGroupArn;
@@ -11375,6 +11524,8 @@ class DBParameterGroup {
 
 /// This data type is used as a response element in the action
 /// <a>DescribeDBEngineVersions</a>.
+///
+/// @nodoc
 class DBEngineVersion {
   /// The description of the database engine.
   final String? dBEngineDescription;
@@ -11516,6 +11667,8 @@ class DBEngineVersion {
 }
 
 /// Specifies a character set.
+///
+/// @nodoc
 class CharacterSet {
   /// The description of the character set.
   final String? characterSetDescription;
@@ -11547,6 +11700,8 @@ class CharacterSet {
 }
 
 /// A time zone associated with a <a>DBInstance</a>.
+///
+/// @nodoc
 class Timezone {
   /// The name of the time zone.
   final String? timezoneName;
@@ -11569,6 +11724,8 @@ class Timezone {
 }
 
 /// The version of the database engine that a DB instance can be upgraded to.
+///
+/// @nodoc
 class UpgradeTarget {
   /// A value that indicates whether the target version is applied to any source
   /// DB instances that have AutoMinorVersionUpgrade set to true.
@@ -11636,6 +11793,8 @@ class UpgradeTarget {
 ///
 /// This data type is used as a response element in the
 /// <a>DescribeDBClusterSnapshots</a> action.
+///
+/// @nodoc
 class DBClusterSnapshot {
   /// Specifies the allocated storage size in gibibytes (GiB).
   final int? allocatedStorage;
@@ -11840,6 +11999,8 @@ class DBClusterSnapshot {
 ///
 /// This data type is used as a response element in the
 /// <a>DescribeDBClusterParameterGroups</a> action.
+///
+/// @nodoc
 class DBClusterParameterGroup {
   /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
   final String? dBClusterParameterGroupArn;
@@ -11910,6 +12071,8 @@ class DBClusterParameterGroup {
 /// </ul>
 /// For the data structure that represents Amazon Neptune DB instance endpoints,
 /// see <code>Endpoint</code>.
+///
+/// @nodoc
 class DBClusterEndpoint {
   /// The type associated with a custom endpoint. One of: <code>READER</code>,
   /// <code>WRITER</code>, <code>ANY</code>.
@@ -12020,22 +12183,26 @@ class DBClusterEndpoint {
   }
 }
 
+/// @nodoc
 class AuthorizationNotFoundFault extends _s.GenericAwsException {
   AuthorizationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'AuthorizationNotFoundFault', message: message);
 }
 
+/// @nodoc
 class CertificateNotFoundFault extends _s.GenericAwsException {
   CertificateNotFoundFault({String? type, String? message})
       : super(type: type, code: 'CertificateNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBClusterAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBClusterAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBClusterEndpointAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterEndpointAlreadyExistsFault({String? type, String? message})
       : super(
@@ -12044,6 +12211,7 @@ class DBClusterEndpointAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterEndpointNotFoundFault extends _s.GenericAwsException {
   DBClusterEndpointNotFoundFault({String? type, String? message})
       : super(
@@ -12052,6 +12220,7 @@ class DBClusterEndpointNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterEndpointQuotaExceededFault extends _s.GenericAwsException {
   DBClusterEndpointQuotaExceededFault({String? type, String? message})
       : super(
@@ -12060,11 +12229,13 @@ class DBClusterEndpointQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterNotFoundFault extends _s.GenericAwsException {
   DBClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
   DBClusterParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -12073,12 +12244,14 @@ class DBClusterParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterQuotaExceededFault extends _s.GenericAwsException {
   DBClusterQuotaExceededFault({String? type, String? message})
       : super(
             type: type, code: 'DBClusterQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class DBClusterRoleAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterRoleAlreadyExistsFault({String? type, String? message})
       : super(
@@ -12087,11 +12260,13 @@ class DBClusterRoleAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterRoleNotFoundFault extends _s.GenericAwsException {
   DBClusterRoleNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBClusterRoleNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBClusterRoleQuotaExceededFault extends _s.GenericAwsException {
   DBClusterRoleQuotaExceededFault({String? type, String? message})
       : super(
@@ -12100,6 +12275,7 @@ class DBClusterRoleQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
   DBClusterSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
@@ -12108,6 +12284,7 @@ class DBClusterSnapshotAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBClusterSnapshotNotFoundFault extends _s.GenericAwsException {
   DBClusterSnapshotNotFoundFault({String? type, String? message})
       : super(
@@ -12116,17 +12293,20 @@ class DBClusterSnapshotNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBInstanceAlreadyExistsFault extends _s.GenericAwsException {
   DBInstanceAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBInstanceAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBInstanceNotFoundFault extends _s.GenericAwsException {
   DBInstanceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBInstanceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
   DBParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -12135,6 +12315,7 @@ class DBParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
   DBParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -12143,6 +12324,7 @@ class DBParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
   DBParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -12151,23 +12333,27 @@ class DBParameterGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSecurityGroupNotFoundFault extends _s.GenericAwsException {
   DBSecurityGroupNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'DBSecurityGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSnapshotAlreadyExistsFault extends _s.GenericAwsException {
   DBSnapshotAlreadyExistsFault({String? type, String? message})
       : super(
             type: type, code: 'DBSnapshotAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class DBSnapshotNotFoundFault extends _s.GenericAwsException {
   DBSnapshotNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSnapshotNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
   DBSubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -12176,6 +12362,7 @@ class DBSubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
   DBSubnetGroupDoesNotCoverEnoughAZs({String? type, String? message})
       : super(
@@ -12184,11 +12371,13 @@ class DBSubnetGroupDoesNotCoverEnoughAZs extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupNotFoundFault extends _s.GenericAwsException {
   DBSubnetGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
   DBSubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -12197,11 +12386,13 @@ class DBSubnetGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DBSubnetQuotaExceededFault extends _s.GenericAwsException {
   DBSubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'DBSubnetQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
   DBUpgradeDependencyFailureFault({String? type, String? message})
       : super(
@@ -12210,11 +12401,13 @@ class DBUpgradeDependencyFailureFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DomainNotFoundFault extends _s.GenericAwsException {
   DomainNotFoundFault({String? type, String? message})
       : super(type: type, code: 'DomainNotFoundFault', message: message);
 }
 
+/// @nodoc
 class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
   EventSubscriptionQuotaExceededFault({String? type, String? message})
       : super(
@@ -12223,6 +12416,7 @@ class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
   GlobalClusterAlreadyExistsFault({String? type, String? message})
       : super(
@@ -12231,11 +12425,13 @@ class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GlobalClusterNotFoundFault extends _s.GenericAwsException {
   GlobalClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'GlobalClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
   GlobalClusterQuotaExceededFault({String? type, String? message})
       : super(
@@ -12244,11 +12440,13 @@ class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
   InstanceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
   InsufficientDBClusterCapacityFault({String? type, String? message})
       : super(
@@ -12257,6 +12455,7 @@ class InsufficientDBClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
   InsufficientDBInstanceCapacityFault({String? type, String? message})
       : super(
@@ -12265,6 +12464,7 @@ class InsufficientDBInstanceCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
   InsufficientStorageClusterCapacityFault({String? type, String? message})
       : super(
@@ -12273,6 +12473,7 @@ class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterEndpointStateFault extends _s.GenericAwsException {
   InvalidDBClusterEndpointStateFault({String? type, String? message})
       : super(
@@ -12281,6 +12482,7 @@ class InvalidDBClusterEndpointStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
   InvalidDBClusterSnapshotStateFault({String? type, String? message})
       : super(
@@ -12289,17 +12491,20 @@ class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBClusterStateFault extends _s.GenericAwsException {
   InvalidDBClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBClusterStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBInstanceStateFault extends _s.GenericAwsException {
   InvalidDBInstanceStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBInstanceStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
   InvalidDBParameterGroupStateFault({String? type, String? message})
       : super(
@@ -12308,6 +12513,7 @@ class InvalidDBParameterGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
   InvalidDBSecurityGroupStateFault({String? type, String? message})
       : super(
@@ -12316,12 +12522,14 @@ class InvalidDBSecurityGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBSnapshotStateFault extends _s.GenericAwsException {
   InvalidDBSnapshotStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidDBSnapshotStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
   InvalidDBSubnetGroupStateFault({String? type, String? message})
       : super(
@@ -12330,11 +12538,13 @@ class InvalidDBSubnetGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDBSubnetStateFault extends _s.GenericAwsException {
   InvalidDBSubnetStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidDBSubnetStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
   InvalidEventSubscriptionStateFault({String? type, String? message})
       : super(
@@ -12343,6 +12553,7 @@ class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
   InvalidGlobalClusterStateFault({String? type, String? message})
       : super(
@@ -12351,32 +12562,38 @@ class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRestoreFault extends _s.GenericAwsException {
   InvalidRestoreFault({String? type, String? message})
       : super(type: type, code: 'InvalidRestoreFault', message: message);
 }
 
+/// @nodoc
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
+/// @nodoc
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
+/// @nodoc
 class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
   KMSKeyNotAccessibleFault({String? type, String? message})
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
+/// @nodoc
 class OptionGroupNotFoundFault extends _s.GenericAwsException {
   OptionGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'OptionGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ProvisionedIopsNotAvailableInAZFault extends _s.GenericAwsException {
   ProvisionedIopsNotAvailableInAZFault({String? type, String? message})
       : super(
@@ -12385,26 +12602,31 @@ class ProvisionedIopsNotAvailableInAZFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundFault extends _s.GenericAwsException {
   ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SNSInvalidTopicFault extends _s.GenericAwsException {
   SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
+/// @nodoc
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
   SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
+/// @nodoc
 class SNSTopicArnNotFoundFault extends _s.GenericAwsException {
   SNSTopicArnNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SNSTopicArnNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
   SharedSnapshotQuotaExceededFault({String? type, String? message})
       : super(
@@ -12413,32 +12635,38 @@ class SharedSnapshotQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotQuotaExceededFault extends _s.GenericAwsException {
   SnapshotQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SnapshotQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class SourceNotFoundFault extends _s.GenericAwsException {
   SourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SourceNotFoundFault', message: message);
 }
 
+/// @nodoc
 class StorageQuotaExceededFault extends _s.GenericAwsException {
   StorageQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'StorageQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class StorageTypeNotSupportedFault extends _s.GenericAwsException {
   StorageTypeNotSupportedFault({String? type, String? message})
       : super(
             type: type, code: 'StorageTypeNotSupportedFault', message: message);
 }
 
+/// @nodoc
 class SubnetAlreadyInUse extends _s.GenericAwsException {
   SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
+/// @nodoc
 class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
   SubscriptionAlreadyExistFault({String? type, String? message})
       : super(
@@ -12447,6 +12675,7 @@ class SubscriptionAlreadyExistFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
   SubscriptionCategoryNotFoundFault({String? type, String? message})
       : super(
@@ -12455,6 +12684,7 @@ class SubscriptionCategoryNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubscriptionNotFoundFault extends _s.GenericAwsException {
   SubscriptionNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubscriptionNotFoundFault', message: message);

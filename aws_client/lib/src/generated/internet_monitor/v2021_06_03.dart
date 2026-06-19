@@ -1039,6 +1039,7 @@ class InternetMonitor {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// Tags for a resource.
   final Map<String, String>? tags;
@@ -1062,6 +1063,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -1074,6 +1076,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -1086,6 +1089,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class GetInternetEventOutput {
   /// The impacted location, such as a city, where clients access Amazon Web
   /// Services application resources.
@@ -1156,6 +1160,7 @@ class GetInternetEventOutput {
   }
 }
 
+/// @nodoc
 class ListInternetEventsOutput {
   /// A set of internet events returned for the list operation.
   final List<InternetEventSummary> internetEvents;
@@ -1189,6 +1194,7 @@ class ListInternetEventsOutput {
   }
 }
 
+/// @nodoc
 class CreateMonitorOutput {
   /// The Amazon Resource Name (ARN) of the monitor.
   final String arn;
@@ -1218,6 +1224,7 @@ class CreateMonitorOutput {
   }
 }
 
+/// @nodoc
 class GetMonitorOutput {
   /// The time when the monitor was created.
   final DateTime createdAt;
@@ -1370,6 +1377,7 @@ class GetMonitorOutput {
   }
 }
 
+/// @nodoc
 class UpdateMonitorOutput {
   /// The Amazon Resource Name (ARN) of the monitor.
   final String monitorArn;
@@ -1399,6 +1407,7 @@ class UpdateMonitorOutput {
   }
 }
 
+/// @nodoc
 class DeleteMonitorOutput {
   DeleteMonitorOutput();
 
@@ -1411,6 +1420,7 @@ class DeleteMonitorOutput {
   }
 }
 
+/// @nodoc
 class ListMonitorsOutput {
   /// A list of monitors.
   final List<Monitor> monitors;
@@ -1444,6 +1454,7 @@ class ListMonitorsOutput {
   }
 }
 
+/// @nodoc
 class GetQueryResultsOutput {
   /// The data results that the query returns. Data is returned in arrays, aligned
   /// with the <code>Fields</code> for the query, which creates a repository of
@@ -1492,6 +1503,7 @@ class GetQueryResultsOutput {
   }
 }
 
+/// @nodoc
 class GetQueryStatusOutput {
   /// The current status for a query.
   final QueryStatus status;
@@ -1514,6 +1526,7 @@ class GetQueryStatusOutput {
   }
 }
 
+/// @nodoc
 class StartQueryOutput {
   /// The internally-generated identifier of a specific query.
   final String queryId;
@@ -1536,6 +1549,7 @@ class StartQueryOutput {
   }
 }
 
+/// @nodoc
 class StopQueryOutput {
   StopQueryOutput();
 
@@ -1548,6 +1562,7 @@ class StopQueryOutput {
   }
 }
 
+/// @nodoc
 class GetHealthEventOutput {
   /// The Amazon Resource Name (ARN) of the event.
   final String eventArn;
@@ -1655,6 +1670,7 @@ class GetHealthEventOutput {
   }
 }
 
+/// @nodoc
 class ListHealthEventsOutput {
   /// A list of health events.
   final List<HealthEvent> healthEvents;
@@ -1690,6 +1706,8 @@ class ListHealthEventsOutput {
 
 /// Information about a health event created in a monitor in Amazon CloudWatch
 /// Internet Monitor.
+///
+/// @nodoc
 class HealthEvent {
   /// The Amazon Resource Name (ARN) of the event.
   final String eventArn;
@@ -1797,6 +1815,7 @@ class HealthEvent {
   }
 }
 
+/// @nodoc
 class HealthEventStatus {
   static const active = HealthEventStatus._('ACTIVE');
   static const resolved = HealthEventStatus._('RESOLVED');
@@ -1821,6 +1840,7 @@ class HealthEventStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class HealthEventImpactType {
   static const availability = HealthEventImpactType._('AVAILABILITY');
   static const performance = HealthEventImpactType._('PERFORMANCE');
@@ -1860,6 +1880,8 @@ class HealthEventImpactType {
 /// Geographic regions are hierarchically categorized into country, subdivision,
 /// metro and city geographic granularities. The geographic region is identified
 /// based on the IP address used at the client locations.
+///
+/// @nodoc
 class ImpactedLocation {
   /// The name of the internet service provider (ISP) or network (ASN).
   final String aSName;
@@ -2004,6 +2026,8 @@ class ImpactedLocation {
 
 /// Information about the network impairment for a specific network measured by
 /// Amazon CloudWatch Internet Monitor.
+///
+/// @nodoc
 class NetworkImpairment {
   /// The combination of the Autonomous System Number (ASN) of the network and the
   /// name of the network.
@@ -2058,6 +2082,8 @@ class NetworkImpairment {
 /// baseline that's already calculated. To make it easier to see those drops,
 /// Internet Monitor reports the information to you in the form of health
 /// scores: a performance score and an availability score.
+///
+/// @nodoc
 class InternetHealth {
   /// Availability in Internet Monitor represents the estimated percentage of
   /// traffic that is not seeing an availability drop. For example, an
@@ -2134,6 +2160,8 @@ class InternetHealth {
 /// Internet Monitor calculates performance and availability scores</a> in the
 /// Amazon CloudWatch Internet Monitor section of the <i>Amazon CloudWatch User
 /// Guide</i>.
+///
+/// @nodoc
 class AvailabilityMeasurement {
   /// Experience scores, or health scores are calculated for different geographic
   /// and network provider combinations (that is, different granularities) and
@@ -2224,6 +2252,8 @@ class AvailabilityMeasurement {
 /// Internet Monitor calculates performance and availability scores</a> in the
 /// Amazon CloudWatch Internet Monitor section of the <i>CloudWatch User
 /// Guide</i>.
+///
+/// @nodoc
 class PerformanceMeasurement {
   /// Experience scores, or health scores, are calculated for different geographic
   /// and network provider combinations (that is, different granularities) and
@@ -2315,6 +2345,8 @@ class PerformanceMeasurement {
 /// Round-trip time (RTT) is how long it takes for a request from the user to
 /// return a response to the user. Amazon CloudWatch Internet Monitor calculates
 /// RTT at different percentiles: p50, p90, and p95.
+///
+/// @nodoc
 class RoundTripTime {
   /// RTT at the 50th percentile (p50).
   final double? p50;
@@ -2351,6 +2383,7 @@ class RoundTripTime {
   }
 }
 
+/// @nodoc
 class TriangulationEventType {
   static const aws = TriangulationEventType._('AWS');
   static const internet = TriangulationEventType._('Internet');
@@ -2378,6 +2411,8 @@ class TriangulationEventType {
 
 /// An internet service provider (ISP) or network (ASN) in Amazon CloudWatch
 /// Internet Monitor.
+///
+/// @nodoc
 class Network {
   /// The name of the internet service provider (ISP) or network (ASN).
   final String aSName;
@@ -2407,6 +2442,7 @@ class Network {
   }
 }
 
+/// @nodoc
 class QueryType {
   static const measurements = QueryType._('MEASUREMENTS');
   static const topLocations = QueryType._('TOP_LOCATIONS');
@@ -2455,13 +2491,15 @@ class QueryType {
 ///
 /// For each filter, you specify a field (such as <code>city</code>), an
 /// operator (such as <code>not_equals</code>, and a value or array of values
-/// (such as <code>["Seattle", "Redmond"]</code>). Separate values in the array
-/// with commas.
+/// (such as <code>\["Seattle", "Redmond"\]</code>). Separate values in the
+/// array with commas.
 ///
 /// For more information about specifying filter parameters, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html">Using
 /// the Amazon CloudWatch Internet Monitor query interface</a> in the Amazon
 /// CloudWatch Internet Monitor User Guide.
+///
+/// @nodoc
 class FilterParameter {
   /// A data field that you want to filter, to further scope your application's
   /// Internet Monitor data in a repository that you created by running a query. A
@@ -2476,7 +2514,7 @@ class FilterParameter {
 
   /// One or more values to be used, together with the specified operator, to
   /// filter data for a query. For example, you could specify an array of values
-  /// such as <code>["Seattle", "Redmond"]</code>. Values in the array are
+  /// such as <code>\["Seattle", "Redmond"\]</code>. Values in the array are
   /// separated by commas.
   final List<String>? values;
 
@@ -2498,6 +2536,7 @@ class FilterParameter {
   }
 }
 
+/// @nodoc
 class Operator {
   static const equals = Operator._('EQUALS');
   static const notEquals = Operator._('NOT_EQUALS');
@@ -2521,6 +2560,7 @@ class Operator {
   String toString() => value;
 }
 
+/// @nodoc
 class QueryStatus {
   static const queued = QueryStatus._('QUEUED');
   static const running = QueryStatus._('RUNNING');
@@ -2551,6 +2591,8 @@ class QueryStatus {
 /// Monitor data. You create a data repository by running a query of a specific
 /// type. Each <code>QueryType</code> includes a specific set of fields and
 /// datatypes to retrieve data for.
+///
+/// @nodoc
 class QueryField {
   /// The name of a field to query your application's Amazon CloudWatch Internet
   /// Monitor data for, such as <code>availability_score</code>.
@@ -2585,6 +2627,8 @@ class QueryField {
 
 /// The description of and information about a monitor in Amazon CloudWatch
 /// Internet Monitor.
+///
+/// @nodoc
 class Monitor {
   /// The Amazon Resource Name (ARN) of the monitor.
   final String monitorArn;
@@ -2629,6 +2673,7 @@ class Monitor {
   }
 }
 
+/// @nodoc
 class MonitorConfigState {
   static const pending = MonitorConfigState._('PENDING');
   static const active = MonitorConfigState._('ACTIVE');
@@ -2656,6 +2701,7 @@ class MonitorConfigState {
   String toString() => value;
 }
 
+/// @nodoc
 class MonitorProcessingStatusCode {
   static const ok = MonitorProcessingStatusCode._('OK');
   static const inactive = MonitorProcessingStatusCode._('INACTIVE');
@@ -2697,6 +2743,8 @@ class MonitorProcessingStatusCode {
 
 /// Publish internet measurements to an Amazon S3 bucket in addition to
 /// CloudWatch Logs.
+///
+/// @nodoc
 class InternetMeasurementsLogDelivery {
   /// The configuration information for publishing Internet Monitor internet
   /// measurements to Amazon S3. The configuration includes the bucket name and
@@ -2753,6 +2801,8 @@ class InternetMeasurementsLogDelivery {
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview">
 /// Change health event thresholds</a> in the Internet Monitor section of the
 /// <i>CloudWatch User Guide</i>.
+///
+/// @nodoc
 class HealthEventsConfig {
   /// The configuration that determines the threshold and other conditions for
   /// when Internet Monitor creates a health event for a local availability issue.
@@ -2834,6 +2884,8 @@ class HealthEventsConfig {
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview">
 /// Change health event thresholds</a> in the Internet Monitor section of the
 /// <i>CloudWatch User Guide</i>.
+///
+/// @nodoc
 class LocalHealthEventsConfig {
   /// The health event threshold percentage set for a local health score.
   final double? healthScoreThreshold;
@@ -2879,6 +2931,7 @@ class LocalHealthEventsConfig {
   }
 }
 
+/// @nodoc
 class LocalHealthEventsConfigStatus {
   static const enabled = LocalHealthEventsConfigStatus._('ENABLED');
   static const disabled = LocalHealthEventsConfigStatus._('DISABLED');
@@ -2910,6 +2963,8 @@ class LocalHealthEventsConfigStatus {
 /// delivery status. The delivery status is <code>ENABLED</code> or
 /// <code>DISABLED</code>, depending on whether you choose to deliver internet
 /// measurements to S3 logs.
+///
+/// @nodoc
 class S3Config {
   /// The Amazon S3 bucket name.
   final String? bucketName;
@@ -2949,6 +3004,7 @@ class S3Config {
   }
 }
 
+/// @nodoc
 class LogDeliveryStatus {
   static const enabled = LogDeliveryStatus._('ENABLED');
   static const disabled = LogDeliveryStatus._('DISABLED');
@@ -2979,6 +3035,8 @@ class LogDeliveryStatus {
 /// locations. Internet Monitor displays information about recent global health
 /// events, called internet events, on a global outages map that is available to
 /// all Amazon Web Services customers.
+///
+/// @nodoc
 class InternetEventSummary {
   /// The impacted location, such as a city, that Amazon Web Services clients
   /// access application resources from.
@@ -3051,6 +3109,8 @@ class InternetEventSummary {
 
 /// The impacted location, such as a city, that Amazon Web Services clients
 /// access application resources from.
+///
+/// @nodoc
 class ClientLocation {
   /// The name of the internet service provider (ISP) or network (ASN).
   final String aSName;
@@ -3130,6 +3190,7 @@ class ClientLocation {
   }
 }
 
+/// @nodoc
 class InternetEventType {
   static const availability = InternetEventType._('AVAILABILITY');
   static const performance = InternetEventType._('PERFORMANCE');
@@ -3154,6 +3215,7 @@ class InternetEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class InternetEventStatus {
   static const active = InternetEventStatus._('ACTIVE');
   static const resolved = InternetEventStatus._('RESOLVED');
@@ -3179,57 +3241,68 @@ class InternetEventStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

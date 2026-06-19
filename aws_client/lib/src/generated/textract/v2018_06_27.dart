@@ -1756,6 +1756,7 @@ class Textract {
   }
 }
 
+/// @nodoc
 class AnalyzeDocumentResponse {
   /// The version of the model used to analyze the document.
   final String? analyzeDocumentModelVersion;
@@ -1811,6 +1812,7 @@ class AnalyzeDocumentResponse {
   }
 }
 
+/// @nodoc
 class AnalyzeExpenseResponse {
   final DocumentMetadata? documentMetadata;
 
@@ -1845,6 +1847,7 @@ class AnalyzeExpenseResponse {
   }
 }
 
+/// @nodoc
 class AnalyzeIDResponse {
   /// The version of the AnalyzeIdentity API being used to process documents.
   final String? analyzeIDModelVersion;
@@ -1887,6 +1890,7 @@ class AnalyzeIDResponse {
   }
 }
 
+/// @nodoc
 class CreateAdapterResponse {
   /// A string containing the unique ID for the adapter that has been created.
   final String? adapterId;
@@ -1909,6 +1913,7 @@ class CreateAdapterResponse {
   }
 }
 
+/// @nodoc
 class CreateAdapterVersionResponse {
   /// A string containing the unique ID for the adapter that has received a new
   /// version.
@@ -1939,6 +1944,7 @@ class CreateAdapterVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAdapterResponse {
   DeleteAdapterResponse();
 
@@ -1951,6 +1957,7 @@ class DeleteAdapterResponse {
   }
 }
 
+/// @nodoc
 class DeleteAdapterVersionResponse {
   DeleteAdapterVersionResponse();
 
@@ -1963,6 +1970,7 @@ class DeleteAdapterVersionResponse {
   }
 }
 
+/// @nodoc
 class DetectDocumentTextResponse {
   /// An array of <code>Block</code> objects that contain the text that's detected
   /// in the document.
@@ -2009,6 +2017,7 @@ class DetectDocumentTextResponse {
   }
 }
 
+/// @nodoc
 class GetAdapterResponse {
   /// A string identifying the adapter that information has been retrieved for.
   final String? adapterId;
@@ -2081,6 +2090,7 @@ class GetAdapterResponse {
   }
 }
 
+/// @nodoc
 class GetAdapterVersionResponse {
   /// A string containing a unique ID for the adapter version being retrieved.
   final String? adapterId;
@@ -2190,6 +2200,7 @@ class GetAdapterVersionResponse {
   }
 }
 
+/// @nodoc
 class GetDocumentAnalysisResponse {
   ///
   final String? analyzeDocumentModelVersion;
@@ -2270,6 +2281,7 @@ class GetDocumentAnalysisResponse {
   }
 }
 
+/// @nodoc
 class GetDocumentTextDetectionResponse {
   /// The results of the text-detection operation.
   final List<Block>? blocks;
@@ -2351,6 +2363,7 @@ class GetDocumentTextDetectionResponse {
   }
 }
 
+/// @nodoc
 class GetExpenseAnalysisResponse {
   /// The current model version of AnalyzeExpense.
   final String? analyzeExpenseModelVersion;
@@ -2431,6 +2444,7 @@ class GetExpenseAnalysisResponse {
   }
 }
 
+/// @nodoc
 class GetLendingAnalysisResponse {
   /// The current model version of the Analyze Lending API.
   final String? analyzeLendingModelVersion;
@@ -2507,6 +2521,7 @@ class GetLendingAnalysisResponse {
   }
 }
 
+/// @nodoc
 class GetLendingAnalysisSummaryResponse {
   /// The current model version of the Analyze Lending API.
   final String? analyzeLendingModelVersion;
@@ -2573,6 +2588,7 @@ class GetLendingAnalysisSummaryResponse {
   }
 }
 
+/// @nodoc
 class ListAdaptersResponse {
   /// A list of adapters that matches the filtering criteria specified when
   /// calling ListAdapters.
@@ -2606,6 +2622,7 @@ class ListAdaptersResponse {
   }
 }
 
+/// @nodoc
 class ListAdapterVersionsResponse {
   /// Adapter versions that match the filtering criteria specified when calling
   /// ListAdapters.
@@ -2640,6 +2657,7 @@ class ListAdapterVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A set of tags (key-value pairs) that are part of the requested resource.
   final Map<String, String>? tags;
@@ -2663,6 +2681,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartDocumentAnalysisResponse {
   /// The identifier for the document text detection job. Use <code>JobId</code>
   /// to identify the job in a subsequent call to
@@ -2688,6 +2707,7 @@ class StartDocumentAnalysisResponse {
   }
 }
 
+/// @nodoc
 class StartDocumentTextDetectionResponse {
   /// The identifier of the text detection job for the document. Use
   /// <code>JobId</code> to identify the job in a subsequent call to
@@ -2714,6 +2734,7 @@ class StartDocumentTextDetectionResponse {
   }
 }
 
+/// @nodoc
 class StartExpenseAnalysisResponse {
   /// A unique identifier for the text detection job. The <code>JobId</code> is
   /// returned from <code>StartExpenseAnalysis</code>. A <code>JobId</code> value
@@ -2738,6 +2759,7 @@ class StartExpenseAnalysisResponse {
   }
 }
 
+/// @nodoc
 class StartLendingAnalysisResponse {
   /// A unique identifier for the lending or text-detection job. The
   /// <code>JobId</code> is returned from <code>StartLendingAnalysis</code>. A
@@ -2762,6 +2784,7 @@ class StartLendingAnalysisResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2774,6 +2797,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2786,6 +2810,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAdapterResponse {
   /// A string containing a unique ID for the adapter that has been updated.
   final String? adapterId;
@@ -2849,6 +2874,7 @@ class UpdateAdapterResponse {
   }
 }
 
+/// @nodoc
 class AutoUpdate {
   static const enabled = AutoUpdate._('ENABLED');
   static const disabled = AutoUpdate._('DISABLED');
@@ -2872,6 +2898,7 @@ class AutoUpdate {
   String toString() => value;
 }
 
+/// @nodoc
 class FeatureType {
   static const tables = FeatureType._('TABLES');
   static const forms = FeatureType._('FORMS');
@@ -2903,6 +2930,8 @@ class FeatureType {
 ///
 /// The input document can be an image file in JPEG or PNG format. It can also
 /// be a file in PDF format.
+///
+/// @nodoc
 class DocumentLocation {
   /// The Amazon S3 bucket that contains the input document.
   final S3Object? s3Object;
@@ -2922,6 +2951,8 @@ class DocumentLocation {
 /// The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon
 /// Textract publishes the completion status of an asynchronous document
 /// operation.
+///
+/// @nodoc
 class NotificationChannel {
   /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract
   /// publishing permissions to the Amazon SNS topic.
@@ -2970,6 +3001,8 @@ class NotificationChannel {
 /// For more information on data privacy, see the <a
 /// href="https://aws.amazon.com/compliance/data-privacy-faq/">Data Privacy
 /// FAQ</a>.
+///
+/// @nodoc
 class OutputConfig {
   /// The name of the bucket your output will go to.
   final String s3Bucket;
@@ -3007,6 +3040,8 @@ class OutputConfig {
 ///
 /// For Amazon Textract to process a file in an S3 bucket, the user must have
 /// permission to access the S3 bucket and file.
+///
+/// @nodoc
 class S3Object {
   /// The name of the S3 bucket. Note that the # character is not valid in the
   /// file name.
@@ -3046,6 +3081,8 @@ class S3Object {
 }
 
 ///
+///
+/// @nodoc
 class QueriesConfig {
   ///
   final List<Query> queries;
@@ -3064,6 +3101,8 @@ class QueriesConfig {
 
 /// Contains information about adapters used when analyzing a document, with
 /// each adapter specified using an AdapterId and version
+///
+/// @nodoc
 class AdaptersConfig {
   /// A list of adapters to be used when analyzing the specified document.
   final List<Adapter> adapters;
@@ -3083,6 +3122,8 @@ class AdaptersConfig {
 /// An adapter selected for use when analyzing documents. Contains an adapter ID
 /// and a version number. Contains information on pages selected for analysis
 /// when analyzing documents asychronously.
+///
+/// @nodoc
 class Adapter {
   /// A unique identifier for the adapter resource.
   final String adapterId;
@@ -3095,7 +3136,7 @@ class Adapter {
   ///
   /// <ul>
   /// <li>
-  /// If a page is not specified, it is set to <code>["1"]</code> by default.
+  /// If a page is not specified, it is set to <code>\["1"\]</code> by default.
   /// </li>
   /// <li>
   /// The following characters are allowed in the parameter's string: <code>0 1 2
@@ -3105,7 +3146,7 @@ class Adapter {
   /// When using * to indicate all pages, it must be the only element in the list.
   /// </li>
   /// <li>
-  /// You can use page intervals, such as <code>["1-3", "1-1", "4-*"]</code>.
+  /// You can use page intervals, such as <code>\["1-3", "1-1", "4-*"\]</code>.
   /// Where <code>*</code> indicates last page of document.
   /// </li>
   /// <li>
@@ -3135,6 +3176,8 @@ class Adapter {
 
 /// Each query contains the question you want to ask in the Text and the alias
 /// you want to associate.
+///
+/// @nodoc
 class Query {
   /// Question that Amazon Textract will apply to the document. An example would
   /// be "What is the customer's SSN?"
@@ -3148,7 +3191,7 @@ class Query {
   ///
   /// <ul>
   /// <li>
-  /// If a page is not specified, it is set to <code>["1"]</code> by default.
+  /// If a page is not specified, it is set to <code>\["1"\]</code> by default.
   /// </li>
   /// <li>
   /// The following characters are allowed in the parameter's string: <code>0 1 2
@@ -3158,7 +3201,7 @@ class Query {
   /// When using * to indicate all pages, it must be the only element in the list.
   /// </li>
   /// <li>
-  /// You can use page intervals, such as <code>[“1-3”, “1-1”, “4-*”]</code>.
+  /// You can use page intervals, such as <code>\[“1-3”, “1-1”, “4-*”\]</code>.
   /// Where <code>*</code> indicates last page of document.
   /// </li>
   /// <li>
@@ -3197,6 +3240,8 @@ class Query {
 
 /// Summary info for an adapter version. Contains information on the AdapterId,
 /// AdapterVersion, CreationTime, FeatureTypes, and Status.
+///
+/// @nodoc
 class AdapterVersionOverview {
   /// A unique identifier for the adapter associated with a given adapter version.
   final String? adapterId;
@@ -3259,6 +3304,7 @@ class AdapterVersionOverview {
   }
 }
 
+/// @nodoc
 class AdapterVersionStatus {
   static const active = AdapterVersionStatus._('ACTIVE');
   static const atRisk = AdapterVersionStatus._('AT_RISK');
@@ -3296,6 +3342,8 @@ class AdapterVersionStatus {
 
 /// Contains information on the adapter, including the adapter ID, Name,
 /// Creation time, and feature types.
+///
+/// @nodoc
 class AdapterOverview {
   /// A unique identifier for the adapter resource.
   final String? adapterId;
@@ -3345,6 +3393,8 @@ class AdapterOverview {
 }
 
 /// Information about the input document.
+///
+/// @nodoc
 class DocumentMetadata {
   /// The number of pages that are detected in the document.
   final int? pages;
@@ -3367,6 +3417,7 @@ class DocumentMetadata {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const inProgress = JobStatus._('IN_PROGRESS');
   static const succeeded = JobStatus._('SUCCEEDED');
@@ -3393,6 +3444,8 @@ class JobStatus {
 }
 
 /// Contains information regarding DocumentGroups and UndetectedDocumentTypes.
+///
+/// @nodoc
 class LendingSummary {
   /// Contains an array of all DocumentGroup objects.
   final List<DocumentGroup>? documentGroups;
@@ -3432,6 +3485,8 @@ class LendingSummary {
 /// A warning about an issue that occurred during asynchronous text analysis
 /// (<a>StartDocumentAnalysis</a>) or asynchronous document text detection
 /// (<a>StartDocumentTextDetection</a>).
+///
+/// @nodoc
 class Warning {
   /// The error code for the warning.
   final String? errorCode;
@@ -3462,6 +3517,8 @@ class Warning {
 }
 
 /// Summary information about documents grouped by the same document type.
+///
+/// @nodoc
 class DocumentGroup {
   /// A list of the detected signatures found in a document group.
   final List<DetectedSignature>? detectedSignatures;
@@ -3520,6 +3577,8 @@ class DocumentGroup {
 
 /// A structure containing information about an undetected signature on a page
 /// where it was expected but not found.
+///
+/// @nodoc
 class UndetectedSignature {
   /// The page where a signature was expected but not found.
   final int? page;
@@ -3543,6 +3602,8 @@ class UndetectedSignature {
 }
 
 /// A structure that holds information regarding a detected signature on a page.
+///
+/// @nodoc
 class DetectedSignature {
   /// The page a detected signature was found on.
   final int? page;
@@ -3567,6 +3628,8 @@ class DetectedSignature {
 
 /// Contains information about the pages of a document, defined by logical
 /// boundary.
+///
+/// @nodoc
 class SplitDocument {
   /// The index for a given document in a DocumentGroup of a specific Type.
   final int? index;
@@ -3599,6 +3662,8 @@ class SplitDocument {
 
 /// Contains the detections for each page analyzed through the Analyze Lending
 /// API.
+///
+/// @nodoc
 class LendingResult {
   /// An array of Extraction to hold structured data. e.g. normalized key value
   /// pairs instead of raw OCR detections .
@@ -3645,6 +3710,8 @@ class LendingResult {
 /// The class assigned to a Page object detected in an input document. Contains
 /// information regarding the predicted type/class of a document's page and the
 /// page number that the Page object was detected on.
+///
+/// @nodoc
 class PageClassification {
   /// The page number the value was detected on, relative to Amazon Textract's
   /// starting position.
@@ -3684,6 +3751,8 @@ class PageClassification {
 
 /// Contains information extracted by an analysis operation after using
 /// StartLendingAnalysis.
+///
+/// @nodoc
 class Extraction {
   final ExpenseDocument? expenseDocument;
   final IdentityDocument? identityDocument;
@@ -3727,6 +3796,8 @@ class Extraction {
 }
 
 /// Holds the structured data returned by AnalyzeDocument for lending documents.
+///
+/// @nodoc
 class LendingDocument {
   /// An array of LendingField objects.
   final List<LendingField>? lendingFields;
@@ -3764,6 +3835,8 @@ class LendingDocument {
 }
 
 /// The structure holding all the information returned by AnalyzeExpense
+///
+/// @nodoc
 class ExpenseDocument {
   /// This is a block object, the same as reported when DetectDocumentText is run
   /// on a document. It provides word level recognition of text.
@@ -3820,6 +3893,8 @@ class ExpenseDocument {
 }
 
 /// The structure that lists each document processed in an AnalyzeID operation.
+///
+/// @nodoc
 class IdentityDocument {
   /// Individual word recognition, as returned by document detection.
   final List<Block>? blocks;
@@ -3883,6 +3958,8 @@ class IdentityDocument {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works.html">How
 /// Amazon Textract Works</a>.
+///
+/// @nodoc
 class Block {
   /// The type of text item that's recognized. In operations for text detection,
   /// the following types are returned:
@@ -4203,6 +4280,7 @@ class Block {
   }
 }
 
+/// @nodoc
 class BlockType {
   static const keyValueSet = BlockType._('KEY_VALUE_SET');
   static const page = BlockType._('PAGE');
@@ -4273,6 +4351,7 @@ class BlockType {
   String toString() => value;
 }
 
+/// @nodoc
 class TextType {
   static const handwriting = TextType._('HANDWRITING');
   static const printed = TextType._('PRINTED');
@@ -4299,6 +4378,8 @@ class TextType {
 /// Information about where the following items are located on a document page:
 /// detected page, text, key-value pairs, tables, table cells, and selection
 /// elements.
+///
+/// @nodoc
 class Geometry {
   /// An axis-aligned coarse representation of the location of the recognized item
   /// on the document page.
@@ -4341,6 +4422,7 @@ class Geometry {
   }
 }
 
+/// @nodoc
 class SelectionStatus {
   static const selected = SelectionStatus._('SELECTED');
   static const notSelected = SelectionStatus._('NOT_SELECTED');
@@ -4365,6 +4447,7 @@ class SelectionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EntityType {
   static const key = EntityType._('KEY');
   static const $value = EntityType._('VALUE');
@@ -4411,6 +4494,8 @@ class EntityType {
 ///
 /// The <code>Type</code> element provides the type of the relationship for all
 /// blocks in the <code>IDs</code> array.
+///
+/// @nodoc
 class Relationship {
   /// An array of IDs for related blocks. You can get the type of the relationship
   /// from the <code>Type</code> element.
@@ -4474,6 +4559,7 @@ class Relationship {
   }
 }
 
+/// @nodoc
 class RelationshipType {
   static const $value = RelationshipType._('VALUE');
   static const child = RelationshipType._('CHILD');
@@ -4531,6 +4617,8 @@ class RelationshipType {
 /// dimensions of the bounding box as a ratio of the overall document page
 /// dimension. For example, if the document page size is 700 x 200 pixels, and
 /// the bounding box width is 70 pixels, the width returned is 0.1.
+///
+/// @nodoc
 class BoundingBox {
   /// The height of the bounding box as a ratio of the overall document page
   /// height.
@@ -4587,6 +4675,8 @@ class BoundingBox {
 /// <a>DetectDocumentText</a>. <code>Polygon</code> represents a fine-grained
 /// polygon around detected text. For more information, see Geometry in the
 /// Amazon Textract Developer Guide.
+///
+/// @nodoc
 class Point {
   /// The value of the X coordinate for a point on a <code>Polygon</code>.
   final double? x;
@@ -4619,6 +4709,8 @@ class Point {
 /// Structure containing both the normalized type of the extracted information
 /// and the text associated with it. These are extracted as Type and Value
 /// respectively.
+///
+/// @nodoc
 class IdentityDocumentField {
   final AnalyzeIDDetections? type;
   final AnalyzeIDDetections? valueDetection;
@@ -4651,6 +4743,8 @@ class IdentityDocumentField {
 }
 
 /// Used to contain the information detected by an AnalyzeID operation.
+///
+/// @nodoc
 class AnalyzeIDDetections {
   /// Text of either the normalized field or value associated with it.
   final String text;
@@ -4693,6 +4787,8 @@ class AnalyzeIDDetections {
 
 /// Contains information relating to dates in a document, including the type of
 /// value, and the value.
+///
+/// @nodoc
 class NormalizedValue {
   /// The value of the date, written as Year-Month-DayTHour:Minute:Second.
   final String? value;
@@ -4722,6 +4818,7 @@ class NormalizedValue {
   }
 }
 
+/// @nodoc
 class ValueType {
   static const date = ValueType._('DATE');
 
@@ -4746,6 +4843,8 @@ class ValueType {
 
 /// A grouping of tables which contain LineItems, with each table identified by
 /// the table's <code>LineItemGroupIndex</code>.
+///
+/// @nodoc
 class LineItemGroup {
   /// The number used to identify a specific table in a document. The first table
   /// encountered will have a LineItemGroupIndex of 1, the second 2, etc.
@@ -4781,6 +4880,8 @@ class LineItemGroup {
 
 /// A structure that holds information about the different lines found in a
 /// document's tables.
+///
+/// @nodoc
 class LineItemFields {
   /// ExpenseFields used to show information from detected lines on a table.
   final List<ExpenseField>? lineItemExpenseFields;
@@ -4809,6 +4910,8 @@ class LineItemFields {
 
 /// Breakdown of detected information, seperated into the catagories Type,
 /// LabelDetection, and ValueDetection
+///
+/// @nodoc
 class ExpenseField {
   /// Shows the kind of currency, both the code and confidence associated with any
   /// monatary value detected.
@@ -4884,6 +4987,8 @@ class ExpenseField {
 
 /// An object used to store information about the Type detected by Amazon
 /// Textract.
+///
+/// @nodoc
 class ExpenseType {
   /// The confidence of accuracy, as a percentage.
   final double? confidence;
@@ -4915,6 +5020,8 @@ class ExpenseType {
 
 /// An object used to store information about the Value or Label detected by
 /// Amazon Textract.
+///
+/// @nodoc
 class ExpenseDetection {
   /// The confidence in detection, as a percentage
   final double? confidence;
@@ -4952,6 +5059,8 @@ class ExpenseDetection {
 }
 
 /// Returns the kind of currency detected.
+///
+/// @nodoc
 class ExpenseCurrency {
   /// Currency code for detected currency. the current supported codes are:
   ///
@@ -5023,6 +5132,8 @@ class ExpenseCurrency {
 /// Shows the group that a certain key belongs to. This helps differentiate
 /// between names and addresses for different organizations, that can be hard to
 /// determine via JSON response.
+///
+/// @nodoc
 class ExpenseGroupProperty {
   /// Provides a group Id number, which will be the same for each in the group.
   final String? id;
@@ -5054,6 +5165,8 @@ class ExpenseGroupProperty {
 }
 
 /// Information regarding a detected signature on a page.
+///
+/// @nodoc
 class SignatureDetection {
   /// The confidence, from 0 to 100, in the predicted values for a detected
   /// signature.
@@ -5086,6 +5199,8 @@ class SignatureDetection {
 
 /// Holds the normalized key-value pairs returned by AnalyzeDocument, including
 /// the document type, detected text, and geometry.
+///
+/// @nodoc
 class LendingField {
   final LendingDetection? keyDetection;
 
@@ -5128,6 +5243,8 @@ class LendingField {
 }
 
 /// The results extracted for a lending document.
+///
+/// @nodoc
 class LendingDetection {
   /// The confidence level for the text of a detected value in a lending document.
   final double? confidence;
@@ -5176,6 +5293,8 @@ class LendingDetection {
 /// Contains information regarding predicted values returned by Amazon Textract
 /// operations, including the predicted value and the confidence in the
 /// predicted value.
+///
+/// @nodoc
 class Prediction {
   /// Amazon Textract's confidence in its predicted value.
   final double? confidence;
@@ -5207,6 +5326,8 @@ class Prediction {
 
 /// The dataset configuration options for a given version of an adapter. Can
 /// include an Amazon S3 bucket if specified.
+///
+/// @nodoc
 class AdapterVersionDatasetConfig {
   final S3Object? manifestS3Object;
 
@@ -5233,6 +5354,8 @@ class AdapterVersionDatasetConfig {
 /// Contains information on the metrics used to evalute the peformance of a
 /// given adapter version. Includes data for baseline model performance and
 /// individual adapter version perfromance.
+///
+/// @nodoc
 class AdapterVersionEvaluationMetric {
   /// The F1 score, precision, and recall metrics for the baseline model.
   final EvaluationMetric? adapterVersion;
@@ -5277,6 +5400,8 @@ class AdapterVersionEvaluationMetric {
 
 /// The evaluation metrics (F1 score, Precision, and Recall) for an adapter
 /// version.
+///
+/// @nodoc
 class EvaluationMetric {
   /// The F1 score for an adapter version.
   final double? f1Score;
@@ -5336,6 +5461,8 @@ class EvaluationMetric {
 ///
 /// For Amazon Textract to process an S3 object, the user must have permission
 /// to access the S3 object.
+///
+/// @nodoc
 class Document {
   /// A blob of base64-encoded document bytes. The maximum size of a document
   /// that's provided in a blob of bytes is 5 MB. The document bytes must be in
@@ -5366,6 +5493,8 @@ class Document {
 
 /// Shows the results of the human in the loop evaluation. If there is no
 /// HumanLoopArn, the input did not trigger human review.
+///
+/// @nodoc
 class HumanLoopActivationOutput {
   /// Shows the result of condition evaluations, including those conditions which
   /// activated a human review.
@@ -5418,6 +5547,8 @@ class HumanLoopActivationOutput {
 /// Sets up the human review workflow the document will be sent to if one of the
 /// conditions is met. You can also set certain attributes of the image before
 /// review.
+///
+/// @nodoc
 class HumanLoopConfig {
   /// The Amazon Resource Name (ARN) of the flow definition.
   final String flowDefinitionArn;
@@ -5449,6 +5580,8 @@ class HumanLoopConfig {
 
 /// Allows you to set attributes of the image. Currently, you can declare an
 /// image as free of personally identifiable information and adult content.
+///
+/// @nodoc
 class HumanLoopDataAttributes {
   /// Sets whether the input image is free of personally identifiable information
   /// or adult content.
@@ -5467,6 +5600,7 @@ class HumanLoopDataAttributes {
   }
 }
 
+/// @nodoc
 class ContentClassifier {
   static const freeOfPersonallyIdentifiableInformation =
       ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
@@ -5495,26 +5629,31 @@ class ContentClassifier {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadDocumentException extends _s.GenericAwsException {
   BadDocumentException({String? type, String? message})
       : super(type: type, code: 'BadDocumentException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DocumentTooLargeException extends _s.GenericAwsException {
   DocumentTooLargeException({String? type, String? message})
       : super(type: type, code: 'DocumentTooLargeException', message: message);
 }
 
+/// @nodoc
 class HumanLoopQuotaExceededException extends _s.GenericAwsException {
   HumanLoopQuotaExceededException({String? type, String? message})
       : super(
@@ -5523,6 +5662,7 @@ class HumanLoopQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -5531,36 +5671,43 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidJobIdException extends _s.GenericAwsException {
   InvalidJobIdException({String? type, String? message})
       : super(type: type, code: 'InvalidJobIdException', message: message);
 }
 
+/// @nodoc
 class InvalidKMSKeyException extends _s.GenericAwsException {
   InvalidKMSKeyException({String? type, String? message})
       : super(type: type, code: 'InvalidKMSKeyException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidS3ObjectException extends _s.GenericAwsException {
   InvalidS3ObjectException({String? type, String? message})
       : super(type: type, code: 'InvalidS3ObjectException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
   ProvisionedThroughputExceededException({String? type, String? message})
       : super(
@@ -5569,11 +5716,13 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5582,17 +5731,20 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnsupportedDocumentException extends _s.GenericAwsException {
   UnsupportedDocumentException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedDocumentException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

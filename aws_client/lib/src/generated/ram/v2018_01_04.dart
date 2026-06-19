@@ -2910,6 +2910,7 @@ class Ram {
   }
 }
 
+/// @nodoc
 class AcceptResourceShareInvitationResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -2948,6 +2949,7 @@ class AcceptResourceShareInvitationResponse {
   }
 }
 
+/// @nodoc
 class AssociateResourceShareResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -2986,6 +2988,7 @@ class AssociateResourceShareResponse {
   }
 }
 
+/// @nodoc
 class AssociateResourceSharePermissionResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3021,6 +3024,7 @@ class AssociateResourceSharePermissionResponse {
   }
 }
 
+/// @nodoc
 class CreatePermissionResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3057,6 +3061,7 @@ class CreatePermissionResponse {
   }
 }
 
+/// @nodoc
 class CreatePermissionVersionResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3091,6 +3096,7 @@ class CreatePermissionVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceShareResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3127,6 +3133,7 @@ class CreateResourceShareResponse {
   }
 }
 
+/// @nodoc
 class DeletePermissionResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3169,6 +3176,7 @@ class DeletePermissionResponse {
   }
 }
 
+/// @nodoc
 class DeletePermissionVersionResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3211,6 +3219,7 @@ class DeletePermissionVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourceShareResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3245,6 +3254,7 @@ class DeleteResourceShareResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResourceShareResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3285,6 +3295,7 @@ class DisassociateResourceShareResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResourceSharePermissionResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3320,6 +3331,7 @@ class DisassociateResourceSharePermissionResponse {
   }
 }
 
+/// @nodoc
 class EnableSharingWithAwsOrganizationResponse {
   /// A return value of <code>true</code> indicates that the request succeeded. A
   /// value of <code>false</code> indicates that the request failed.
@@ -3344,6 +3356,7 @@ class EnableSharingWithAwsOrganizationResponse {
   }
 }
 
+/// @nodoc
 class GetPermissionResponse {
   /// An object with details about the permission.
   final ResourceSharePermissionDetail? permission;
@@ -3369,6 +3382,7 @@ class GetPermissionResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePoliciesResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3406,6 +3420,7 @@ class GetResourcePoliciesResponse {
   }
 }
 
+/// @nodoc
 class GetResourceShareAssociationsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3446,6 +3461,7 @@ class GetResourceShareAssociationsResponse {
   }
 }
 
+/// @nodoc
 class GetResourceShareInvitationsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3486,6 +3502,7 @@ class GetResourceShareInvitationsResponse {
   }
 }
 
+/// @nodoc
 class GetResourceSharesResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3523,6 +3540,7 @@ class GetResourceSharesResponse {
   }
 }
 
+/// @nodoc
 class ListPendingInvitationResourcesResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3562,6 +3580,7 @@ class ListPendingInvitationResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionAssociationsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3600,6 +3619,7 @@ class ListPermissionAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3638,6 +3658,7 @@ class ListPermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListPermissionVersionsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3676,6 +3697,7 @@ class ListPermissionVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListPrincipalsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3713,6 +3735,7 @@ class ListPrincipalsResponse {
   }
 }
 
+/// @nodoc
 class ListReplacePermissionAssociationsWorkResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3757,6 +3780,7 @@ class ListReplacePermissionAssociationsWorkResponse {
   }
 }
 
+/// @nodoc
 class ListResourcesResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3794,6 +3818,7 @@ class ListResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListResourceSharePermissionsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3834,6 +3859,7 @@ class ListResourceSharePermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListResourceTypesResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3873,6 +3899,7 @@ class ListResourceTypesResponse {
   }
 }
 
+/// @nodoc
 class ListSourceAssociationsResponse {
   /// The pagination token to use to retrieve the next page of results. This value
   /// is <code>null</code> when there are no more results to return.
@@ -3906,6 +3933,7 @@ class ListSourceAssociationsResponse {
   }
 }
 
+/// @nodoc
 class PromotePermissionCreatedFromPolicyResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3941,6 +3969,7 @@ class PromotePermissionCreatedFromPolicyResponse {
   }
 }
 
+/// @nodoc
 class PromoteResourceShareCreatedFromPolicyResponse {
   /// A return value of <code>true</code> indicates that the request succeeded. A
   /// value of <code>false</code> indicates that the request failed.
@@ -3965,6 +3994,7 @@ class PromoteResourceShareCreatedFromPolicyResponse {
   }
 }
 
+/// @nodoc
 class RejectResourceShareInvitationResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -4003,6 +4033,7 @@ class RejectResourceShareInvitationResponse {
   }
 }
 
+/// @nodoc
 class ReplacePermissionAssociationsResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -4047,6 +4078,7 @@ class ReplacePermissionAssociationsResponse {
   }
 }
 
+/// @nodoc
 class SetDefaultPermissionVersionResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -4081,6 +4113,7 @@ class SetDefaultPermissionVersionResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -4093,6 +4126,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -4105,6 +4139,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateResourceShareResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -4142,6 +4177,8 @@ class UpdateResourceShareResponse {
 }
 
 /// Describes a resource share in RAM.
+///
+/// @nodoc
 class ResourceShare {
   /// Indicates whether principals outside your organization in Organizations can
   /// be associated with a resource share.
@@ -4286,6 +4323,7 @@ class ResourceShare {
   }
 }
 
+/// @nodoc
 class ResourceShareStatus {
   static const pending = ResourceShareStatus._('PENDING');
   static const active = ResourceShareStatus._('ACTIVE');
@@ -4314,6 +4352,7 @@ class ResourceShareStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceShareFeatureSet {
   static const createdFromPolicy =
       ResourceShareFeatureSet._('CREATED_FROM_POLICY');
@@ -4343,6 +4382,8 @@ class ResourceShareFeatureSet {
 }
 
 /// The configuration of the resource share
+///
+/// @nodoc
 class ResourceShareConfiguration {
   /// Specifies whether the consumer account retains access to the resource share
   /// after leaving the organization.
@@ -4380,6 +4421,8 @@ class ResourceShareConfiguration {
 /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
 /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
 /// Reference Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The key, or name, attached to the tag. Every tag must have a key. Key names
   /// are case sensitive.
@@ -4413,6 +4456,8 @@ class Tag {
 
 /// A structure that represents the background work that RAM performs when you
 /// invoke the <a>ReplacePermissionAssociations</a> operation.
+///
+/// @nodoc
 class ReplacePermissionAssociationsWork {
   /// The date and time when this asynchronous background task was created.
   final DateTime? creationTime;
@@ -4521,6 +4566,7 @@ class ReplacePermissionAssociationsWork {
   }
 }
 
+/// @nodoc
 class ReplacePermissionAssociationsWorkStatus {
   static const inProgress =
       ReplacePermissionAssociationsWorkStatus._('IN_PROGRESS');
@@ -4551,6 +4597,8 @@ class ReplacePermissionAssociationsWorkStatus {
 
 /// Describes an invitation for an Amazon Web Services account to join a
 /// resource share.
+///
+/// @nodoc
 class ResourceShareInvitation {
   /// The date and time when the invitation was sent.
   final DateTime? invitationTimestamp;
@@ -4645,6 +4693,7 @@ class ResourceShareInvitation {
   }
 }
 
+/// @nodoc
 class ResourceShareInvitationStatus {
   static const pending = ResourceShareInvitationStatus._('PENDING');
   static const accepted = ResourceShareInvitationStatus._('ACCEPTED');
@@ -4674,6 +4723,8 @@ class ResourceShareInvitationStatus {
 
 /// Describes an association between a resource share and either a principal or
 /// a resource.
+///
+/// @nodoc
 class ResourceShareAssociation {
   /// The associated entity. This can be either of the following:
   ///
@@ -4790,6 +4841,7 @@ class ResourceShareAssociation {
   }
 }
 
+/// @nodoc
 class ResourceShareAssociationType {
   static const principal = ResourceShareAssociationType._('PRINCIPAL');
   static const resource = ResourceShareAssociationType._('RESOURCE');
@@ -4816,6 +4868,7 @@ class ResourceShareAssociationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceShareAssociationStatus {
   static const associating = ResourceShareAssociationStatus._('ASSOCIATING');
   static const associated = ResourceShareAssociationStatus._('ASSOCIATED');
@@ -4859,6 +4912,8 @@ class ResourceShareAssociationStatus {
 }
 
 /// Information about an RAM permission.
+///
+/// @nodoc
 class ResourceSharePermissionSummary {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -5013,6 +5068,7 @@ class ResourceSharePermissionSummary {
   }
 }
 
+/// @nodoc
 class PermissionType {
   static const customerManaged = PermissionType._('CUSTOMER_MANAGED');
   static const awsManaged = PermissionType._('AWS_MANAGED');
@@ -5037,6 +5093,7 @@ class PermissionType {
   String toString() => value;
 }
 
+/// @nodoc
 class PermissionFeatureSet {
   static const createdFromPolicy =
       PermissionFeatureSet._('CREATED_FROM_POLICY');
@@ -5067,6 +5124,8 @@ class PermissionFeatureSet {
 
 /// Information about a source association in a resource share. Source
 /// associations control which sources can be used with service principals.
+///
+/// @nodoc
 class AssociatedSource {
   /// The date and time when the source association was created.
   final DateTime? creationTime;
@@ -5137,6 +5196,8 @@ class AssociatedSource {
 
 /// Information about a shareable resource type and the Amazon Web Services
 /// service to which resources of that type belong.
+///
+/// @nodoc
 class ServiceNameAndResourceType {
   /// Specifies the scope of visibility of resources of this type:
   ///
@@ -5190,6 +5251,7 @@ class ServiceNameAndResourceType {
   }
 }
 
+/// @nodoc
 class ResourceRegionScope {
   static const regional = ResourceRegionScope._('REGIONAL');
   static const global = ResourceRegionScope._('GLOBAL');
@@ -5215,6 +5277,7 @@ class ResourceRegionScope {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceRegionScopeFilter {
   static const all = ResourceRegionScopeFilter._('ALL');
   static const regional = ResourceRegionScopeFilter._('REGIONAL');
@@ -5242,6 +5305,8 @@ class ResourceRegionScopeFilter {
 }
 
 /// Describes a resource associated with a resource share in RAM.
+///
+/// @nodoc
 class Resource {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -5347,6 +5412,7 @@ class Resource {
   }
 }
 
+/// @nodoc
 class ResourceStatus {
   static const available = ResourceStatus._('AVAILABLE');
   static const zonalResourceInaccessible =
@@ -5381,6 +5447,7 @@ class ResourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceOwner {
   static const self = ResourceOwner._('SELF');
   static const otherAccounts = ResourceOwner._('OTHER-ACCOUNTS');
@@ -5406,6 +5473,8 @@ class ResourceOwner {
 }
 
 /// Describes a principal for use with Resource Access Manager.
+///
+/// @nodoc
 class Principal {
   /// The date and time when the principal was associated with the resource share.
   final DateTime? creationTime;
@@ -5473,6 +5542,7 @@ class Principal {
   }
 }
 
+/// @nodoc
 class PermissionTypeFilter {
   static const all = PermissionTypeFilter._('ALL');
   static const awsManaged = PermissionTypeFilter._('AWS_MANAGED');
@@ -5501,6 +5571,8 @@ class PermissionTypeFilter {
 
 /// An object that describes a managed permission associated with a resource
 /// share.
+///
+/// @nodoc
 class AssociatedPermission {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -5631,6 +5703,8 @@ class AssociatedPermission {
 /// <note>
 /// Multiple tag filters are evaluated as an OR condition.
 /// </note>
+///
+/// @nodoc
 class TagFilter {
   /// The tag key. This must have a valid string value and can't be empty.
   final String? tagKey;
@@ -5655,6 +5729,8 @@ class TagFilter {
 }
 
 /// Information about a RAM managed permission.
+///
+/// @nodoc
 class ResourceSharePermissionDetail {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -5835,6 +5911,7 @@ class ResourceSharePermissionDetail {
   }
 }
 
+/// @nodoc
 class PermissionStatus {
   static const attachable = PermissionStatus._('ATTACHABLE');
   static const unattachable = PermissionStatus._('UNATTACHABLE');
@@ -5861,6 +5938,7 @@ class PermissionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -5869,38 +5947,45 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidClientTokenException extends _s.GenericAwsException {
   InvalidClientTokenException({String? type, String? message})
       : super(
             type: type, code: 'InvalidClientTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidMaxResultsException extends _s.GenericAwsException {
   InvalidMaxResultsException({String? type, String? message})
       : super(type: type, code: 'InvalidMaxResultsException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidPolicyException extends _s.GenericAwsException {
   InvalidPolicyException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyException', message: message);
 }
 
+/// @nodoc
 class InvalidResourceTypeException extends _s.GenericAwsException {
   InvalidResourceTypeException({String? type, String? message})
       : super(
             type: type, code: 'InvalidResourceTypeException', message: message);
 }
 
+/// @nodoc
 class InvalidStateTransitionException extends _s.GenericAwsException {
   InvalidStateTransitionException({String? type, String? message})
       : super(
@@ -5909,11 +5994,13 @@ class InvalidStateTransitionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MalformedArnException extends _s.GenericAwsException {
   MalformedArnException({String? type, String? message})
       : super(type: type, code: 'MalformedArnException', message: message);
 }
 
+/// @nodoc
 class MalformedPolicyTemplateException extends _s.GenericAwsException {
   MalformedPolicyTemplateException({String? type, String? message})
       : super(
@@ -5922,6 +6009,7 @@ class MalformedPolicyTemplateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MissingRequiredParameterException extends _s.GenericAwsException {
   MissingRequiredParameterException({String? type, String? message})
       : super(
@@ -5930,6 +6018,7 @@ class MissingRequiredParameterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationNotPermittedException extends _s.GenericAwsException {
   OperationNotPermittedException({String? type, String? message})
       : super(
@@ -5938,6 +6027,7 @@ class OperationNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PermissionAlreadyExistsException extends _s.GenericAwsException {
   PermissionAlreadyExistsException({String? type, String? message})
       : super(
@@ -5946,6 +6036,7 @@ class PermissionAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PermissionLimitExceededException extends _s.GenericAwsException {
   PermissionLimitExceededException({String? type, String? message})
       : super(
@@ -5954,6 +6045,7 @@ class PermissionLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PermissionVersionsLimitExceededException extends _s.GenericAwsException {
   PermissionVersionsLimitExceededException({String? type, String? message})
       : super(
@@ -5962,12 +6054,14 @@ class PermissionVersionsLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceArnNotFoundException extends _s.GenericAwsException {
   ResourceArnNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'ResourceArnNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceShareInvitationAlreadyAcceptedException
     extends _s.GenericAwsException {
   ResourceShareInvitationAlreadyAcceptedException(
@@ -5978,6 +6072,7 @@ class ResourceShareInvitationAlreadyAcceptedException
             message: message);
 }
 
+/// @nodoc
 class ResourceShareInvitationAlreadyRejectedException
     extends _s.GenericAwsException {
   ResourceShareInvitationAlreadyRejectedException(
@@ -5988,6 +6083,7 @@ class ResourceShareInvitationAlreadyRejectedException
             message: message);
 }
 
+/// @nodoc
 class ResourceShareInvitationArnNotFoundException
     extends _s.GenericAwsException {
   ResourceShareInvitationArnNotFoundException({String? type, String? message})
@@ -5997,6 +6093,7 @@ class ResourceShareInvitationArnNotFoundException
             message: message);
 }
 
+/// @nodoc
 class ResourceShareInvitationExpiredException extends _s.GenericAwsException {
   ResourceShareInvitationExpiredException({String? type, String? message})
       : super(
@@ -6005,6 +6102,7 @@ class ResourceShareInvitationExpiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceShareLimitExceededException extends _s.GenericAwsException {
   ResourceShareLimitExceededException({String? type, String? message})
       : super(
@@ -6013,38 +6111,45 @@ class ResourceShareLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServerInternalException extends _s.GenericAwsException {
   ServerInternalException({String? type, String? message})
       : super(type: type, code: 'ServerInternalException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TagLimitExceededException extends _s.GenericAwsException {
   TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);
 }
 
+/// @nodoc
 class TagPolicyViolationException extends _s.GenericAwsException {
   TagPolicyViolationException({String? type, String? message})
       : super(
             type: type, code: 'TagPolicyViolationException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnknownResourceException extends _s.GenericAwsException {
   UnknownResourceException({String? type, String? message})
       : super(type: type, code: 'UnknownResourceException', message: message);
 }
 
+/// @nodoc
 class UnmatchedPolicyPermissionException extends _s.GenericAwsException {
   UnmatchedPolicyPermissionException({String? type, String? message})
       : super(

@@ -2387,6 +2387,7 @@ class MailManager {
   }
 }
 
+/// @nodoc
 class CreateAddressListImportJobResponse {
   /// The identifier of the created import job.
   final String jobId;
@@ -2417,6 +2418,7 @@ class CreateAddressListImportJobResponse {
   }
 }
 
+/// @nodoc
 class DeregisterMemberFromAddressListResponse {
   DeregisterMemberFromAddressListResponse();
 
@@ -2430,6 +2432,7 @@ class DeregisterMemberFromAddressListResponse {
   }
 }
 
+/// @nodoc
 class GetAddressListImportJobResponse {
   /// The unique identifier of the address list the import job was created for.
   final String addressListId;
@@ -2536,6 +2539,8 @@ class GetAddressListImportJobResponse {
 }
 
 /// The response containing details of the specified archive export job.
+///
+/// @nodoc
 class GetArchiveExportResponse {
   /// The identifier of the archive the email export was performed from.
   final String? archiveId;
@@ -2611,6 +2616,8 @@ class GetArchiveExportResponse {
 }
 
 /// The response containing details about the requested archived email message.
+///
+/// @nodoc
 class GetArchiveMessageResponse {
   /// The SMTP envelope information of the email.
   final Envelope? envelope;
@@ -2654,6 +2661,8 @@ class GetArchiveMessageResponse {
 
 /// The response containing the textual content of the requested archived email
 /// message.
+///
+/// @nodoc
 class GetArchiveMessageContentResponse {
   /// The textual body content of the email message.
   final MessageBody? body;
@@ -2679,6 +2688,8 @@ class GetArchiveMessageContentResponse {
 }
 
 /// The response containing details of the specified archive search job.
+///
+/// @nodoc
 class GetArchiveSearchResponse {
   /// The identifier of the archive the email search was performed in.
   final String? archiveId;
@@ -2742,6 +2753,8 @@ class GetArchiveSearchResponse {
 }
 
 /// The response containing search results from a completed archive search.
+///
+/// @nodoc
 class GetArchiveSearchResultsResponse {
   /// The list of email result objects matching the search criteria.
   final List<Row>? rows;
@@ -2767,6 +2780,7 @@ class GetArchiveSearchResultsResponse {
   }
 }
 
+/// @nodoc
 class GetMemberOfAddressListResponse {
   /// The address retrieved from the address list.
   final String address;
@@ -2797,6 +2811,7 @@ class GetMemberOfAddressListResponse {
   }
 }
 
+/// @nodoc
 class ListAddressListImportJobsResponse {
   /// The list of import jobs.
   final List<ImportJob> importJobs;
@@ -2833,6 +2848,8 @@ class ListAddressListImportJobsResponse {
 }
 
 /// The response containing a list of archive export jobs and their statuses.
+///
+/// @nodoc
 class ListArchiveExportsResponse {
   /// The list of export job identifiers and statuses.
   final List<ExportSummary>? exports;
@@ -2866,6 +2883,8 @@ class ListArchiveExportsResponse {
 }
 
 /// The response containing a list of archive search jobs and their statuses.
+///
+/// @nodoc
 class ListArchiveSearchesResponse {
   /// If present, use to retrieve the next page of results.
   final String? nextToken;
@@ -2898,6 +2917,7 @@ class ListArchiveSearchesResponse {
   }
 }
 
+/// @nodoc
 class ListMembersOfAddressListResponse {
   /// The list of addresses.
   final List<SavedAddress> addresses;
@@ -2932,6 +2952,7 @@ class ListMembersOfAddressListResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags used to organize, track, or control access for the resource. For
   /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
@@ -2958,6 +2979,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterMemberToAddressListResponse {
   RegisterMemberToAddressListResponse();
 
@@ -2970,6 +2992,7 @@ class RegisterMemberToAddressListResponse {
   }
 }
 
+/// @nodoc
 class StartAddressListImportJobResponse {
   StartAddressListImportJobResponse();
 
@@ -2983,6 +3006,8 @@ class StartAddressListImportJobResponse {
 }
 
 /// The response from initiating an archive export.
+///
+/// @nodoc
 class StartArchiveExportResponse {
   /// The unique identifier for the initiated export job.
   final String? exportId;
@@ -3006,6 +3031,8 @@ class StartArchiveExportResponse {
 }
 
 /// The response from initiating an archive search.
+///
+/// @nodoc
 class StartArchiveSearchResponse {
   /// The unique identifier for the initiated search job.
   final String? searchId;
@@ -3028,6 +3055,7 @@ class StartArchiveSearchResponse {
   }
 }
 
+/// @nodoc
 class StopAddressListImportJobResponse {
   StopAddressListImportJobResponse();
 
@@ -3044,6 +3072,8 @@ class StopAddressListImportJobResponse {
 ///
 /// On success, returns an HTTP 200 status code. On failure, returns an error
 /// message.
+///
+/// @nodoc
 class StopArchiveExportResponse {
   StopArchiveExportResponse();
 
@@ -3060,6 +3090,8 @@ class StopArchiveExportResponse {
 ///
 /// On success, returns an HTTP 200 status code. On failure, returns an error
 /// message.
+///
+/// @nodoc
 class StopArchiveSearchResponse {
   StopArchiveSearchResponse();
 
@@ -3072,6 +3104,7 @@ class StopArchiveSearchResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3084,6 +3117,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3096,6 +3130,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateAddonInstanceResponse {
   /// The unique ID of the Add On instance created by this API.
   final String addonInstanceId;
@@ -3118,6 +3153,7 @@ class CreateAddonInstanceResponse {
   }
 }
 
+/// @nodoc
 class GetAddonInstanceResponse {
   /// The Amazon Resource Name (ARN) of the Add On instance.
   final String? addonInstanceArn;
@@ -3164,6 +3200,7 @@ class GetAddonInstanceResponse {
   }
 }
 
+/// @nodoc
 class DeleteAddonInstanceResponse {
   DeleteAddonInstanceResponse();
 
@@ -3176,6 +3213,7 @@ class DeleteAddonInstanceResponse {
   }
 }
 
+/// @nodoc
 class ListAddonInstancesResponse {
   /// The list of ingress endpoints.
   final List<AddonInstance>? addonInstances;
@@ -3210,6 +3248,7 @@ class ListAddonInstancesResponse {
   }
 }
 
+/// @nodoc
 class CreateAddonSubscriptionResponse {
   /// The unique ID of the Add On subscription created by this API.
   final String addonSubscriptionId;
@@ -3232,6 +3271,7 @@ class CreateAddonSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class GetAddonSubscriptionResponse {
   /// The name of the Add On for the subscription.
   final String? addonName;
@@ -3270,6 +3310,7 @@ class GetAddonSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteAddonSubscriptionResponse {
   DeleteAddonSubscriptionResponse();
 
@@ -3282,6 +3323,7 @@ class DeleteAddonSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class ListAddonSubscriptionsResponse {
   /// The list of ingress endpoints.
   final List<AddonSubscription>? addonSubscriptions;
@@ -3316,6 +3358,7 @@ class ListAddonSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class CreateAddressListResponse {
   /// The identifier of the created address list.
   final String addressListId;
@@ -3338,6 +3381,7 @@ class CreateAddressListResponse {
   }
 }
 
+/// @nodoc
 class GetAddressListResponse {
   /// The Amazon Resource Name (ARN) of the address list resource.
   final String addressListArn;
@@ -3390,6 +3434,7 @@ class GetAddressListResponse {
   }
 }
 
+/// @nodoc
 class DeleteAddressListResponse {
   DeleteAddressListResponse();
 
@@ -3402,6 +3447,7 @@ class DeleteAddressListResponse {
   }
 }
 
+/// @nodoc
 class ListAddressListsResponse {
   /// The list of address lists.
   final List<AddressList> addressLists;
@@ -3437,6 +3483,8 @@ class ListAddressListsResponse {
 }
 
 /// The response from creating a new email archive.
+///
+/// @nodoc
 class CreateArchiveResponse {
   /// The unique identifier for the newly created archive.
   final String archiveId;
@@ -3460,6 +3508,8 @@ class CreateArchiveResponse {
 }
 
 /// The response containing details of the requested archive.
+///
+/// @nodoc
 class GetArchiveResponse {
   /// The Amazon Resource Name (ARN) of the archive.
   final String archiveArn;
@@ -3551,6 +3601,8 @@ class GetArchiveResponse {
 ///
 /// On success, returns an HTTP 200 status code. On failure, returns an error
 /// message.
+///
+/// @nodoc
 class UpdateArchiveResponse {
   UpdateArchiveResponse();
 
@@ -3567,6 +3619,8 @@ class UpdateArchiveResponse {
 ///
 /// On success, returns an HTTP 200 status code. On failure, returns an error
 /// message.
+///
+/// @nodoc
 class DeleteArchiveResponse {
   DeleteArchiveResponse();
 
@@ -3580,6 +3634,8 @@ class DeleteArchiveResponse {
 }
 
 /// The response containing a list of your email archives.
+///
+/// @nodoc
 class ListArchivesResponse {
   /// The list of archive details.
   final List<Archive> archives;
@@ -3612,6 +3668,7 @@ class ListArchivesResponse {
   }
 }
 
+/// @nodoc
 class CreateIngressPointResponse {
   /// The unique identifier for a previously created ingress endpoint.
   final String ingressPointId;
@@ -3634,6 +3691,7 @@ class CreateIngressPointResponse {
   }
 }
 
+/// @nodoc
 class GetIngressPointResponse {
   /// The identifier of an ingress endpoint resource.
   final String ingressPointId;
@@ -3753,6 +3811,7 @@ class GetIngressPointResponse {
   }
 }
 
+/// @nodoc
 class UpdateIngressPointResponse {
   UpdateIngressPointResponse();
 
@@ -3765,6 +3824,7 @@ class UpdateIngressPointResponse {
   }
 }
 
+/// @nodoc
 class DeleteIngressPointResponse {
   DeleteIngressPointResponse();
 
@@ -3777,6 +3837,7 @@ class DeleteIngressPointResponse {
   }
 }
 
+/// @nodoc
 class ListIngressPointsResponse {
   /// The list of ingress endpoints.
   final List<IngressPoint>? ingressPoints;
@@ -3811,6 +3872,7 @@ class ListIngressPointsResponse {
   }
 }
 
+/// @nodoc
 class CreateRelayResponse {
   /// A unique identifier of the created relay resource.
   final String relayId;
@@ -3833,6 +3895,7 @@ class CreateRelayResponse {
   }
 }
 
+/// @nodoc
 class GetRelayResponse {
   /// The unique relay identifier.
   final String relayId;
@@ -3910,6 +3973,7 @@ class GetRelayResponse {
   }
 }
 
+/// @nodoc
 class UpdateRelayResponse {
   UpdateRelayResponse();
 
@@ -3922,6 +3986,7 @@ class UpdateRelayResponse {
   }
 }
 
+/// @nodoc
 class DeleteRelayResponse {
   DeleteRelayResponse();
 
@@ -3934,6 +3999,7 @@ class DeleteRelayResponse {
   }
 }
 
+/// @nodoc
 class ListRelaysResponse {
   /// The list of returned relays.
   final List<Relay> relays;
@@ -3968,6 +4034,7 @@ class ListRelaysResponse {
   }
 }
 
+/// @nodoc
 class CreateRuleSetResponse {
   /// The identifier of the created rule set.
   final String ruleSetId;
@@ -3990,6 +4057,7 @@ class CreateRuleSetResponse {
   }
 }
 
+/// @nodoc
 class GetRuleSetResponse {
   /// The date of when then rule set was created.
   final DateTime createdDate;
@@ -4051,6 +4119,7 @@ class GetRuleSetResponse {
   }
 }
 
+/// @nodoc
 class UpdateRuleSetResponse {
   UpdateRuleSetResponse();
 
@@ -4063,6 +4132,7 @@ class UpdateRuleSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteRuleSetResponse {
   DeleteRuleSetResponse();
 
@@ -4075,6 +4145,7 @@ class DeleteRuleSetResponse {
   }
 }
 
+/// @nodoc
 class ListRuleSetsResponse {
   /// The list of rule sets.
   final List<RuleSet> ruleSets;
@@ -4109,6 +4180,7 @@ class ListRuleSetsResponse {
   }
 }
 
+/// @nodoc
 class CreateTrafficPolicyResponse {
   /// The identifier of the traffic policy resource.
   final String trafficPolicyId;
@@ -4131,6 +4203,7 @@ class CreateTrafficPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetTrafficPolicyResponse {
   /// The identifier of the traffic policy resource.
   final String trafficPolicyId;
@@ -4210,6 +4283,7 @@ class GetTrafficPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrafficPolicyResponse {
   UpdateTrafficPolicyResponse();
 
@@ -4222,6 +4296,7 @@ class UpdateTrafficPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteTrafficPolicyResponse {
   DeleteTrafficPolicyResponse();
 
@@ -4234,6 +4309,7 @@ class DeleteTrafficPolicyResponse {
   }
 }
 
+/// @nodoc
 class ListTrafficPoliciesResponse {
   /// If NextToken is returned, there are more results available. The value of
   /// NextToken is a unique pagination token for each page. Make the call again
@@ -4270,6 +4346,8 @@ class ListTrafficPoliciesResponse {
 
 /// The structure of a traffic policy resource which is a container for policy
 /// statements.
+///
+/// @nodoc
 class TrafficPolicy {
   /// Default action instructs the traﬃc policy to either Allow or Deny (block)
   /// messages that fall outside of (or not addressed by) the conditions of your
@@ -4309,6 +4387,7 @@ class TrafficPolicy {
   }
 }
 
+/// @nodoc
 class AcceptAction {
   static const allow = AcceptAction._('ALLOW');
   static const deny = AcceptAction._('DENY');
@@ -4333,6 +4412,8 @@ class AcceptAction {
 }
 
 /// The structure containing traffic policy conditions and actions.
+///
+/// @nodoc
 class PolicyStatement {
   /// The action that informs a traffic policy resource to either allow or block
   /// the email if it matches a condition in the policy statement.
@@ -4369,6 +4450,8 @@ class PolicyStatement {
 
 /// The email traffic filtering conditions which are contained in a traffic
 /// policy resource.
+///
+/// @nodoc
 class PolicyCondition {
   /// This represents a boolean type condition matching on the incoming mail. It
   /// performs the boolean operation configured in 'Operator' and evaluates the
@@ -4445,6 +4528,8 @@ class PolicyCondition {
 }
 
 /// The structure for a string based condition matching on the incoming mail.
+///
+/// @nodoc
 class IngressStringExpression {
   /// The left hand side argument of a string condition expression.
   final IngressStringToEvaluate evaluate;
@@ -4489,6 +4574,8 @@ class IngressStringExpression {
 
 /// The union type representing the allowed types for the left hand side of an
 /// IP condition.
+///
+/// @nodoc
 class IngressIpv4Expression {
   /// The left hand side argument of an IP condition expression.
   final IngressIpToEvaluate evaluate;
@@ -4533,6 +4620,8 @@ class IngressIpv4Expression {
 
 /// The union type representing the allowed types for the left hand side of an
 /// IPv6 condition.
+///
+/// @nodoc
 class IngressIpv6Expression {
   /// The left hand side argument of an IPv6 condition expression.
   final IngressIpv6ToEvaluate evaluate;
@@ -4576,6 +4665,8 @@ class IngressIpv6Expression {
 }
 
 /// The structure for a TLS related condition matching on the incoming mail.
+///
+/// @nodoc
 class IngressTlsProtocolExpression {
   /// The left hand side argument of a TLS condition expression.
   final IngressTlsProtocolToEvaluate evaluate;
@@ -4617,6 +4708,8 @@ class IngressTlsProtocolExpression {
 }
 
 /// The structure for a boolean condition matching on the incoming mail.
+///
+/// @nodoc
 class IngressBooleanExpression {
   /// The operand on which to perform a boolean condition operation.
   final IngressBooleanToEvaluate evaluate;
@@ -4651,6 +4744,8 @@ class IngressBooleanExpression {
 
 /// The union type representing the allowed types of operands for a boolean
 /// condition.
+///
+/// @nodoc
 class IngressBooleanToEvaluate {
   /// The structure type for a boolean condition stating the Add On ARN and its
   /// returned value.
@@ -4687,6 +4782,7 @@ class IngressBooleanToEvaluate {
   }
 }
 
+/// @nodoc
 class IngressBooleanOperator {
   static const isTrue = IngressBooleanOperator._('IS_TRUE');
   static const isFalse = IngressBooleanOperator._('IS_FALSE');
@@ -4715,6 +4811,8 @@ class IngressBooleanOperator {
 /// The Add On ARN and its returned value that is evaluated in a policy
 /// statement's conditional expression to either deny or block the incoming
 /// email.
+///
+/// @nodoc
 class IngressAnalysis {
   /// The Amazon Resource Name (ARN) of an Add On.
   final String analyzer;
@@ -4747,6 +4845,8 @@ class IngressAnalysis {
 /// The address lists and the address list attribute value that is evaluated in
 /// a policy statement's conditional expression to either deny or block the
 /// incoming email.
+///
+/// @nodoc
 class IngressIsInAddressList {
   /// The address lists that will be used for evaluation.
   final List<String> addressLists;
@@ -4780,6 +4880,7 @@ class IngressIsInAddressList {
   }
 }
 
+/// @nodoc
 class IngressAddressListEmailAttribute {
   static const recipient = IngressAddressListEmailAttribute._('RECIPIENT');
 
@@ -4806,6 +4907,8 @@ class IngressAddressListEmailAttribute {
 
 /// The union type representing the allowed types for the left hand side of a
 /// TLS condition.
+///
+/// @nodoc
 class IngressTlsProtocolToEvaluate {
   /// The enum type representing the allowed attribute types for the TLS
   /// condition.
@@ -4830,6 +4933,7 @@ class IngressTlsProtocolToEvaluate {
   }
 }
 
+/// @nodoc
 class IngressTlsProtocolOperator {
   static const minimumTlsVersion =
       IngressTlsProtocolOperator._('MINIMUM_TLS_VERSION');
@@ -4856,6 +4960,7 @@ class IngressTlsProtocolOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class IngressTlsProtocolAttribute {
   static const tls1_2 = IngressTlsProtocolAttribute._('TLS1_2');
   static const tls1_3 = IngressTlsProtocolAttribute._('TLS1_3');
@@ -4881,6 +4986,7 @@ class IngressTlsProtocolAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class IngressTlsAttribute {
   static const tlsProtocol = IngressTlsAttribute._('TLS_PROTOCOL');
 
@@ -4906,6 +5012,8 @@ class IngressTlsAttribute {
 }
 
 /// The structure for an IPv6 based condition matching on the incoming mail.
+///
+/// @nodoc
 class IngressIpv6ToEvaluate {
   /// An enum type representing the allowed attribute types for an IPv6 condition.
   final IngressIpv6Attribute? attribute;
@@ -4929,6 +5037,7 @@ class IngressIpv6ToEvaluate {
   }
 }
 
+/// @nodoc
 class IngressIpOperator {
   static const cidrMatches = IngressIpOperator._('CIDR_MATCHES');
   static const notCidrMatches = IngressIpOperator._('NOT_CIDR_MATCHES');
@@ -4953,6 +5062,7 @@ class IngressIpOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class IngressIpv6Attribute {
   static const senderIpv6 = IngressIpv6Attribute._('SENDER_IPV6');
 
@@ -4978,6 +5088,8 @@ class IngressIpv6Attribute {
 }
 
 /// The structure for an IP based condition matching on the incoming mail.
+///
+/// @nodoc
 class IngressIpToEvaluate {
   /// An enum type representing the allowed attribute types for an IP condition.
   final IngressIpv4Attribute? attribute;
@@ -5001,6 +5113,7 @@ class IngressIpToEvaluate {
   }
 }
 
+/// @nodoc
 class IngressIpv4Attribute {
   static const senderIp = IngressIpv4Attribute._('SENDER_IP');
 
@@ -5027,6 +5140,8 @@ class IngressIpv4Attribute {
 
 /// The union type representing the allowed types for the left hand side of a
 /// string condition.
+///
+/// @nodoc
 class IngressStringToEvaluate {
   /// The structure type for a string condition stating the Add On ARN and its
   /// returned value.
@@ -5061,6 +5176,7 @@ class IngressStringToEvaluate {
   }
 }
 
+/// @nodoc
 class IngressStringOperator {
   static const equals = IngressStringOperator._('EQUALS');
   static const notEquals = IngressStringOperator._('NOT_EQUALS');
@@ -5089,6 +5205,7 @@ class IngressStringOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class IngressStringEmailAttribute {
   static const recipient = IngressStringEmailAttribute._('RECIPIENT');
 
@@ -5115,6 +5232,8 @@ class IngressStringEmailAttribute {
 
 /// A key-value pair (the value is optional), that you can define and assign to
 /// Amazon Web Services resources.
+///
+/// @nodoc
 class Tag {
   /// The key of the key-value tag.
   final String key;
@@ -5146,6 +5265,8 @@ class Tag {
 
 /// A rule set contains a list of rules that are evaluated in order. Each rule
 /// is evaluated sequentially for each email.
+///
+/// @nodoc
 class RuleSet {
   /// The last modification date of the rule set.
   final DateTime? lastModificationDate;
@@ -5190,6 +5311,8 @@ class RuleSet {
 /// actions are implicitly executed. If only "unless conditions" are provided,
 /// the rule applies if the email does not match the evaluation of the "unless
 /// conditions".
+///
+/// @nodoc
 class Rule {
   /// The list of actions to execute when the conditions match the incoming email,
   /// and none of the "unless conditions" match.
@@ -5248,6 +5371,8 @@ class Rule {
 }
 
 /// The action for a rule to take. Only one of the contained actions can be set.
+///
+/// @nodoc
 class RuleAction {
   /// This action adds a header. This can be used to add arbitrary email headers.
   final AddHeaderAction? addHeader;
@@ -5382,6 +5507,8 @@ class RuleAction {
 /// This action causes processing to stop and the email to be dropped. If the
 /// action applies only to certain recipients, only those recipients are
 /// dropped, and processing continues for other recipients.
+///
+/// @nodoc
 class DropAction {
   DropAction();
 
@@ -5395,6 +5522,8 @@ class DropAction {
 }
 
 /// The action relays the email via SMTP to another specific SMTP server.
+///
+/// @nodoc
 class RelayAction {
   /// The identifier of the relay resource to be used when relaying an email.
   final String relay;
@@ -5438,6 +5567,8 @@ class RelayAction {
 
 /// The action to archive the email by delivering the email to an Amazon SES
 /// archive.
+///
+/// @nodoc
 class ArchiveAction {
   /// The identifier of the archive to send the email to.
   final String targetArchive;
@@ -5472,6 +5603,8 @@ class ArchiveAction {
 }
 
 /// Writes the MIME content of the email to an S3 bucket.
+///
+/// @nodoc
 class S3Action {
   /// The Amazon Resource Name (ARN) of the IAM Role to use while writing to S3.
   /// This role must have access to the s3:PutObject, kms:Encrypt, and
@@ -5529,6 +5662,8 @@ class S3Action {
 }
 
 /// Sends the email to the internet using the ses:SendRawEmail API.
+///
+/// @nodoc
 class SendAction {
   /// The Amazon Resource Name (ARN) of the role to use for this action. This role
   /// must have access to the ses:SendRawEmail API.
@@ -5565,6 +5700,8 @@ class SendAction {
 
 /// The action to add a header to a message. When executed, this action will add
 /// the given header to the message.
+///
+/// @nodoc
 class AddHeaderAction {
   /// The name of the header to add to an email. The header must be prefixed with
   /// "X-". Headers are added regardless of whether the header name pre-existed in
@@ -5601,6 +5738,8 @@ class AddHeaderAction {
 /// recipients, only those recipients are replaced with the recipients specified
 /// in the action. The message contents and headers are unaffected by this
 /// action, only the envelope recipients are updated.
+///
+/// @nodoc
 class ReplaceRecipientAction {
   /// This action specifies the replacement recipient email addresses to insert.
   final List<String>? replaceWith;
@@ -5627,6 +5766,8 @@ class ReplaceRecipientAction {
 }
 
 /// This action to delivers an email to a mailbox.
+///
+/// @nodoc
 class DeliverToMailboxAction {
   /// The Amazon Resource Name (ARN) of a WorkMail organization to deliver the
   /// email to.
@@ -5671,6 +5812,8 @@ class DeliverToMailboxAction {
 
 /// The action to deliver incoming emails to an Amazon Q Business application
 /// for indexing.
+///
+/// @nodoc
 class DeliverToQBusinessAction {
   /// The unique identifier of the Amazon Q Business application instance where
   /// the email content will be delivered.
@@ -5727,6 +5870,8 @@ class DeliverToQBusinessAction {
 /// The action to publish the email content to an Amazon SNS topic. When
 /// executed, this action will send the email as a notification to the specified
 /// SNS topic.
+///
+/// @nodoc
 class SnsAction {
   /// The Amazon Resource Name (ARN) of the IAM Role to use while writing to
   /// Amazon SNS. This role must have access to the <code>sns:Publish</code> API
@@ -5796,6 +5941,8 @@ class SnsAction {
 
 /// The action to send a bounce response for the email. When executed, this
 /// action generates a non-delivery report (bounce) back to the sender.
+///
+/// @nodoc
 class BounceAction {
   /// The diagnostic message included in the Diagnostic-Code header of the bounce.
   final String diagnosticMessage;
@@ -5868,6 +6015,8 @@ class BounceAction {
 
 /// The action to invoke an Amazon Web Services Lambda function for processing
 /// the email.
+///
+/// @nodoc
 class InvokeLambdaAction {
   /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
   final String functionArn;
@@ -5926,6 +6075,7 @@ class InvokeLambdaAction {
   }
 }
 
+/// @nodoc
 class ActionFailurePolicy {
   static const $continue = ActionFailurePolicy._('CONTINUE');
   static const drop = ActionFailurePolicy._('DROP');
@@ -5951,6 +6101,7 @@ class ActionFailurePolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class LambdaInvocationType {
   static const event = LambdaInvocationType._('EVENT');
   static const requestResponse = LambdaInvocationType._('REQUEST_RESPONSE');
@@ -5976,6 +6127,7 @@ class LambdaInvocationType {
   String toString() => value;
 }
 
+/// @nodoc
 class SnsNotificationEncoding {
   static const utf_8 = SnsNotificationEncoding._('UTF-8');
   static const base64 = SnsNotificationEncoding._('BASE64');
@@ -6001,6 +6153,7 @@ class SnsNotificationEncoding {
   String toString() => value;
 }
 
+/// @nodoc
 class SnsNotificationPayloadType {
   static const headers = SnsNotificationPayloadType._('HEADERS');
   static const content = SnsNotificationPayloadType._('CONTENT');
@@ -6026,6 +6179,7 @@ class SnsNotificationPayloadType {
   String toString() => value;
 }
 
+/// @nodoc
 class MailFrom {
   static const replace = MailFrom._('REPLACE');
   static const preserve = MailFrom._('PRESERVE');
@@ -6051,6 +6205,8 @@ class MailFrom {
 
 /// The conditional expression used to evaluate an email for determining if a
 /// rule action should be taken.
+///
+/// @nodoc
 class RuleCondition {
   /// The condition applies to a boolean expression passed in this field.
   final RuleBooleanExpression? booleanExpression;
@@ -6127,6 +6283,8 @@ class RuleCondition {
 }
 
 /// A boolean expression to be used in a rule condition.
+///
+/// @nodoc
 class RuleBooleanExpression {
   /// The operand on which to perform a boolean condition operation.
   final RuleBooleanToEvaluate evaluate;
@@ -6160,6 +6318,8 @@ class RuleBooleanExpression {
 }
 
 /// A string expression is evaluated against strings or substrings of the email.
+///
+/// @nodoc
 class RuleStringExpression {
   /// The string to evaluate in a string condition expression.
   final RuleStringToEvaluate evaluate;
@@ -6209,6 +6369,8 @@ class RuleStringExpression {
 
 /// A number expression to match numeric conditions with integers from the
 /// incoming email.
+///
+/// @nodoc
 class RuleNumberExpression {
   /// The number to evaluate in a numeric condition expression.
   final RuleNumberToEvaluate evaluate;
@@ -6250,6 +6412,8 @@ class RuleNumberExpression {
 
 /// An IP address expression matching certain IP addresses within a given range
 /// of IP addresses.
+///
+/// @nodoc
 class RuleIpExpression {
   /// The IP address to evaluate in this condition.
   final RuleIpToEvaluate evaluate;
@@ -6297,6 +6461,8 @@ class RuleIpExpression {
 }
 
 /// A verdict expression is evaluated against verdicts of the email.
+///
+/// @nodoc
 class RuleVerdictExpression {
   /// The verdict to evaluate in a verdict condition expression.
   final RuleVerdictToEvaluate evaluate;
@@ -6345,6 +6511,8 @@ class RuleVerdictExpression {
 
 /// A DMARC policy expression. The condition matches if the given DMARC policy
 /// matches that of the incoming email.
+///
+/// @nodoc
 class RuleDmarcExpression {
   /// The operator to apply to the DMARC policy of the incoming email.
   final RuleDmarcOperator operator;
@@ -6383,6 +6551,7 @@ class RuleDmarcExpression {
   }
 }
 
+/// @nodoc
 class RuleDmarcOperator {
   static const equals = RuleDmarcOperator._('EQUALS');
   static const notEquals = RuleDmarcOperator._('NOT_EQUALS');
@@ -6407,6 +6576,7 @@ class RuleDmarcOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleDmarcPolicy {
   static const none = RuleDmarcPolicy._('NONE');
   static const quarantine = RuleDmarcPolicy._('QUARANTINE');
@@ -6433,6 +6603,8 @@ class RuleDmarcPolicy {
 }
 
 /// The verdict to evaluate in a verdict condition expression.
+///
+/// @nodoc
 class RuleVerdictToEvaluate {
   /// The Add On ARN and its returned value to evaluate in a verdict condition
   /// expression.
@@ -6466,6 +6638,7 @@ class RuleVerdictToEvaluate {
   }
 }
 
+/// @nodoc
 class RuleVerdictOperator {
   static const equals = RuleVerdictOperator._('EQUALS');
   static const notEquals = RuleVerdictOperator._('NOT_EQUALS');
@@ -6491,6 +6664,7 @@ class RuleVerdictOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleVerdict {
   static const pass = RuleVerdict._('PASS');
   static const fail = RuleVerdict._('FAIL');
@@ -6516,6 +6690,7 @@ class RuleVerdict {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleVerdictAttribute {
   static const spf = RuleVerdictAttribute._('SPF');
   static const dkim = RuleVerdictAttribute._('DKIM');
@@ -6544,6 +6719,8 @@ class RuleVerdictAttribute {
 /// The result of an analysis can be used in conditions to trigger actions.
 /// Analyses can inspect the email content and report a certain aspect of the
 /// email.
+///
+/// @nodoc
 class Analysis {
   /// The Amazon Resource Name (ARN) of an Add On.
   final String analyzer;
@@ -6574,6 +6751,8 @@ class Analysis {
 }
 
 /// The IP address to evaluate for this condition.
+///
+/// @nodoc
 class RuleIpToEvaluate {
   /// The attribute of the email to evaluate.
   final RuleIpEmailAttribute? attribute;
@@ -6597,6 +6776,7 @@ class RuleIpToEvaluate {
   }
 }
 
+/// @nodoc
 class RuleIpOperator {
   static const cidrMatches = RuleIpOperator._('CIDR_MATCHES');
   static const notCidrMatches = RuleIpOperator._('NOT_CIDR_MATCHES');
@@ -6621,6 +6801,7 @@ class RuleIpOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleIpEmailAttribute {
   static const sourceIp = RuleIpEmailAttribute._('SOURCE_IP');
 
@@ -6646,6 +6827,8 @@ class RuleIpEmailAttribute {
 }
 
 /// The number to evaluate in a numeric condition expression.
+///
+/// @nodoc
 class RuleNumberToEvaluate {
   /// An email attribute that is used as the number to evaluate.
   final RuleNumberEmailAttribute? attribute;
@@ -6669,6 +6852,7 @@ class RuleNumberToEvaluate {
   }
 }
 
+/// @nodoc
 class RuleNumberOperator {
   static const equals = RuleNumberOperator._('EQUALS');
   static const notEquals = RuleNumberOperator._('NOT_EQUALS');
@@ -6706,6 +6890,7 @@ class RuleNumberOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleNumberEmailAttribute {
   static const messageSize = RuleNumberEmailAttribute._('MESSAGE_SIZE');
 
@@ -6731,6 +6916,8 @@ class RuleNumberEmailAttribute {
 }
 
 /// The string to evaluate in a string condition expression.
+///
+/// @nodoc
 class RuleStringToEvaluate {
   /// The Add On ARN and its returned value to evaluate in a string condition
   /// expression.
@@ -6784,6 +6971,7 @@ class RuleStringToEvaluate {
   }
 }
 
+/// @nodoc
 class RuleStringOperator {
   static const equals = RuleStringOperator._('EQUALS');
   static const notEquals = RuleStringOperator._('NOT_EQUALS');
@@ -6812,6 +7000,7 @@ class RuleStringOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleStringEmailAttribute {
   static const mailFrom = RuleStringEmailAttribute._('MAIL_FROM');
   static const helo = RuleStringEmailAttribute._('HELO');
@@ -6855,6 +7044,8 @@ class RuleStringEmailAttribute {
 /// The client certificate attribute to evaluate in a rule condition. These
 /// attributes are extracted from the client certificate presented during mutual
 /// TLS authentication.
+///
+/// @nodoc
 class RuleClientCertificateAttribute {
   static const cn = RuleClientCertificateAttribute._('CN');
   static const sanRfc822Name =
@@ -6902,6 +7093,8 @@ class RuleClientCertificateAttribute {
 
 /// The union type representing the allowed types of operands for a boolean
 /// condition.
+///
+/// @nodoc
 class RuleBooleanToEvaluate {
   /// The Add On ARN and its returned value to evaluate in a boolean condition
   /// expression.
@@ -6946,6 +7139,7 @@ class RuleBooleanToEvaluate {
   }
 }
 
+/// @nodoc
 class RuleBooleanOperator {
   static const isTrue = RuleBooleanOperator._('IS_TRUE');
   static const isFalse = RuleBooleanOperator._('IS_FALSE');
@@ -6971,6 +7165,7 @@ class RuleBooleanOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleBooleanEmailAttribute {
   static const readReceiptRequested =
       RuleBooleanEmailAttribute._('READ_RECEIPT_REQUESTED');
@@ -7000,6 +7195,8 @@ class RuleBooleanEmailAttribute {
 
 /// The structure type for a boolean condition that provides the address lists
 /// and address list attribute to evaluate.
+///
+/// @nodoc
 class RuleIsInAddressList {
   /// The address lists that will be used for evaluation.
   final List<String> addressLists;
@@ -7033,6 +7230,7 @@ class RuleIsInAddressList {
   }
 }
 
+/// @nodoc
 class RuleAddressListEmailAttribute {
   static const recipient = RuleAddressListEmailAttribute._('RECIPIENT');
   static const mailFrom = RuleAddressListEmailAttribute._('MAIL_FROM');
@@ -7064,6 +7262,8 @@ class RuleAddressListEmailAttribute {
 
 /// The relay resource that can be used as a rule to relay receiving emails to
 /// the destination relay server.
+///
+/// @nodoc
 class Relay {
   /// The timestamp of when the relay was last modified.
   final DateTime? lastModifiedTimestamp;
@@ -7105,6 +7305,8 @@ class Relay {
 /// the SMTP credentials are stored, or specify an empty NoAuthentication
 /// structure if the relay destination server does not require SMTP credential
 /// authentication.
+///
+/// @nodoc
 class RelayAuthentication {
   /// Keep an empty structure if the relay destination server does not require
   /// SMTP credential authentication.
@@ -7141,6 +7343,8 @@ class RelayAuthentication {
 
 /// Explicitly indicate that the relay destination server does not require SMTP
 /// credential authentication.
+///
+/// @nodoc
 class NoAuthentication {
   NoAuthentication();
 
@@ -7154,6 +7358,8 @@ class NoAuthentication {
 }
 
 /// The structure of an ingress endpoint resource.
+///
+/// @nodoc
 class IngressPoint {
   /// The identifier of the ingress endpoint resource.
   final String ingressPointId;
@@ -7205,6 +7411,7 @@ class IngressPoint {
   }
 }
 
+/// @nodoc
 class IngressPointStatus {
   static const provisioning = IngressPointStatus._('PROVISIONING');
   static const deprovisioning = IngressPointStatus._('DEPROVISIONING');
@@ -7244,6 +7451,7 @@ class IngressPointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IngressPointType {
   static const open = IngressPointType._('OPEN');
   static const auth = IngressPointType._('AUTH');
@@ -7269,6 +7477,7 @@ class IngressPointType {
   String toString() => value;
 }
 
+/// @nodoc
 class IngressPointStatusToUpdate {
   static const active = IngressPointStatusToUpdate._('ACTIVE');
   static const closed = IngressPointStatusToUpdate._('CLOSED');
@@ -7295,6 +7504,8 @@ class IngressPointStatusToUpdate {
 }
 
 /// The configuration of the ingress endpoint resource.
+///
+/// @nodoc
 class IngressPointConfiguration {
   /// The SecretsManager::Secret ARN of the ingress endpoint resource.
   final String? secretArn;
@@ -7325,6 +7536,7 @@ class IngressPointConfiguration {
   }
 }
 
+/// @nodoc
 class TlsPolicy {
   static const required = TlsPolicy._('REQUIRED');
   static const optional = TlsPolicy._('OPTIONAL');
@@ -7350,6 +7562,8 @@ class TlsPolicy {
 }
 
 /// The mutual TLS authentication configuration for an ingress endpoint.
+///
+/// @nodoc
 class TlsAuthConfiguration {
   /// The trust store configuration for mutual TLS authentication.
   final TrustStore? trustStore;
@@ -7377,6 +7591,8 @@ class TlsAuthConfiguration {
 /// The trust store used for mutual TLS authentication. It contains the
 /// certificate authority (CA) certificates and optional certificate revocation
 /// list (CRL).
+///
+/// @nodoc
 class TrustStore {
   /// The PEM-encoded certificate authority (CA) certificates bundle for the trust
   /// store.
@@ -7417,6 +7633,8 @@ class TrustStore {
 }
 
 /// The authentication configuration for the ingress endpoint resource.
+///
+/// @nodoc
 class IngressPointAuthConfiguration {
   /// The ingress endpoint password configuration for the ingress endpoint
   /// resource.
@@ -7469,6 +7687,8 @@ class IngressPointAuthConfiguration {
 
 /// The network type (IPv4-only, Dual-Stack, PrivateLink) of the ingress
 /// endpoint resource.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// Specifies the network configuration for the private ingress point.
   final PrivateNetworkConfiguration? privateNetworkConfiguration;
@@ -7507,6 +7727,8 @@ class NetworkConfiguration {
 }
 
 /// Specifies the network configuration for the public ingress point.
+///
+/// @nodoc
 class PublicNetworkConfiguration {
   /// The IP address type for the public ingress point. Valid values are IPV4 and
   /// DUAL_STACK.
@@ -7531,6 +7753,8 @@ class PublicNetworkConfiguration {
 }
 
 /// Specifies the network configuration for the private ingress point.
+///
+/// @nodoc
 class PrivateNetworkConfiguration {
   /// The identifier of the VPC endpoint to associate with this private ingress
   /// point.
@@ -7554,6 +7778,7 @@ class PrivateNetworkConfiguration {
   }
 }
 
+/// @nodoc
 class IpType {
   static const ipv4 = IpType._('IPV4');
   static const dualStack = IpType._('DUAL_STACK');
@@ -7578,6 +7803,8 @@ class IpType {
 }
 
 /// The password configuration of the ingress endpoint resource.
+///
+/// @nodoc
 class IngressPointPasswordConfiguration {
   /// The previous password expiry timestamp of the ingress endpoint resource.
   final DateTime? previousSmtpPasswordExpiryTimestamp;
@@ -7624,6 +7851,8 @@ class IngressPointPasswordConfiguration {
 
 /// Specifies whether to include trust store contents in the GetIngressPoint
 /// response.
+///
+/// @nodoc
 class TrustStoreResponseOption {
   static const exclude = TrustStoreResponseOption._('EXCLUDE');
   static const include = TrustStoreResponseOption._('INCLUDE');
@@ -7650,6 +7879,8 @@ class TrustStoreResponseOption {
 }
 
 /// An archive resource for storing and retaining emails.
+///
+/// @nodoc
 class Archive {
   /// The unique identifier of the archive.
   final String archiveId;
@@ -7706,6 +7937,7 @@ class Archive {
   }
 }
 
+/// @nodoc
 class ArchiveState {
   static const active = ArchiveState._('ACTIVE');
   static const pendingDeletion = ArchiveState._('PENDING_DELETION');
@@ -7731,6 +7963,8 @@ class ArchiveState {
 
 /// The retention policy for an email archive that specifies how long emails are
 /// kept before being automatically deleted.
+///
+/// @nodoc
 class ArchiveRetention {
   /// The enum value sets the period for retaining emails in an archive.
   final RetentionPeriod? retentionPeriod;
@@ -7754,6 +7988,7 @@ class ArchiveRetention {
   }
 }
 
+/// @nodoc
 class RetentionPeriod {
   static const threeMonths = RetentionPeriod._('THREE_MONTHS');
   static const sixMonths = RetentionPeriod._('SIX_MONTHS');
@@ -7811,6 +8046,8 @@ class RetentionPeriod {
 
 /// An address list contains a list of emails and domains that are used in
 /// MailManager Ingress endpoints and Rules for email management.
+///
+/// @nodoc
 class AddressList {
   /// The Amazon Resource Name (ARN) of the address list.
   final String addressListArn;
@@ -7865,6 +8102,8 @@ class AddressList {
 
 /// A subscription for an Add On representing the acceptance of its terms of use
 /// and additional pricing.
+///
+/// @nodoc
 class AddonSubscription {
   /// The name of the Add On.
   final String? addonName;
@@ -7912,6 +8151,8 @@ class AddonSubscription {
 }
 
 /// An Add On instance represents a specific configuration of an Add On.
+///
+/// @nodoc
 class AddonInstance {
   /// The Amazon Resource Name (ARN) of the Add On instance.
   final String? addonInstanceArn;
@@ -7965,6 +8206,8 @@ class AddonInstance {
 }
 
 /// A set of filter conditions to include and/or exclude emails.
+///
+/// @nodoc
 class ArchiveFilters {
   /// The filter conditions for emails to include.
   final List<ArchiveFilterCondition>? include;
@@ -8004,6 +8247,8 @@ class ArchiveFilters {
 
 /// A filter condition used to include or exclude emails when exporting from or
 /// searching an archive.
+///
+/// @nodoc
 class ArchiveFilterCondition {
   /// A boolean expression to evaluate against email attributes.
   final ArchiveBooleanExpression? booleanExpression;
@@ -8041,6 +8286,8 @@ class ArchiveFilterCondition {
 
 /// A string expression to evaluate an email attribute value against one or more
 /// string values.
+///
+/// @nodoc
 class ArchiveStringExpression {
   /// The attribute of the email to evaluate.
   final ArchiveStringToEvaluate evaluate;
@@ -8084,6 +8331,8 @@ class ArchiveStringExpression {
 }
 
 /// A boolean expression to evaluate email attribute values.
+///
+/// @nodoc
 class ArchiveBooleanExpression {
   /// The email attribute value to evaluate.
   final ArchiveBooleanToEvaluate evaluate;
@@ -8117,6 +8366,8 @@ class ArchiveBooleanExpression {
 }
 
 /// The attribute to evaluate in a boolean expression.
+///
+/// @nodoc
 class ArchiveBooleanToEvaluate {
   /// The name of the email attribute to evaluate.
   final ArchiveBooleanEmailAttribute? attribute;
@@ -8140,6 +8391,7 @@ class ArchiveBooleanToEvaluate {
   }
 }
 
+/// @nodoc
 class ArchiveBooleanOperator {
   static const isTrue = ArchiveBooleanOperator._('IS_TRUE');
   static const isFalse = ArchiveBooleanOperator._('IS_FALSE');
@@ -8165,6 +8417,7 @@ class ArchiveBooleanOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ArchiveBooleanEmailAttribute {
   static const hasAttachments =
       ArchiveBooleanEmailAttribute._('HAS_ATTACHMENTS');
@@ -8191,6 +8444,8 @@ class ArchiveBooleanEmailAttribute {
 }
 
 /// Specifies the email attribute to evaluate in a string expression.
+///
+/// @nodoc
 class ArchiveStringToEvaluate {
   /// The name of the email attribute to evaluate.
   final ArchiveStringEmailAttribute? attribute;
@@ -8214,6 +8469,7 @@ class ArchiveStringToEvaluate {
   }
 }
 
+/// @nodoc
 class ArchiveStringOperator {
   static const contains = ArchiveStringOperator._('CONTAINS');
 
@@ -8238,6 +8494,7 @@ class ArchiveStringOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ArchiveStringEmailAttribute {
   static const to = ArchiveStringEmailAttribute._('TO');
   static const from = ArchiveStringEmailAttribute._('FROM');
@@ -8268,6 +8525,8 @@ class ArchiveStringEmailAttribute {
 }
 
 /// The destination configuration for delivering exported email data.
+///
+/// @nodoc
 class ExportDestinationConfiguration {
   /// Configuration for delivering to an Amazon S3 bucket.
   final S3ExportDestinationConfiguration? s3;
@@ -8294,6 +8553,8 @@ class ExportDestinationConfiguration {
 }
 
 /// The configuration for exporting email data to an Amazon S3 bucket.
+///
+/// @nodoc
 class S3ExportDestinationConfiguration {
   /// The S3 location to deliver the exported email data.
   final String? s3Location;
@@ -8317,6 +8578,8 @@ class S3ExportDestinationConfiguration {
 }
 
 /// An address that is a member of an address list.
+///
+/// @nodoc
 class SavedAddress {
   /// The email or domain that constitutes the address.
   final String address;
@@ -8348,6 +8611,8 @@ class SavedAddress {
 }
 
 /// Filtering options for ListMembersOfAddressList operation.
+///
+/// @nodoc
 class AddressFilter {
   /// Filter to limit the results to addresses having the provided prefix.
   final String? addressPrefix;
@@ -8365,6 +8630,8 @@ class AddressFilter {
 }
 
 /// Summary details of an archive search job.
+///
+/// @nodoc
 class SearchSummary {
   /// The unique identifier of the search job.
   final String? searchId;
@@ -8397,6 +8664,8 @@ class SearchSummary {
 }
 
 /// The current status of an archive search job.
+///
+/// @nodoc
 class SearchStatus {
   /// The timestamp of when the search completed (if finished).
   final DateTime? completionTimestamp;
@@ -8442,6 +8711,7 @@ class SearchStatus {
   }
 }
 
+/// @nodoc
 class SearchState {
   static const queued = SearchState._('QUEUED');
   static const running = SearchState._('RUNNING');
@@ -8469,6 +8739,8 @@ class SearchState {
 }
 
 /// Summary statuses of an archive export job.
+///
+/// @nodoc
 class ExportSummary {
   /// The unique identifier of the export job.
   final String? exportId;
@@ -8501,6 +8773,8 @@ class ExportSummary {
 }
 
 /// The current status of an archive export job.
+///
+/// @nodoc
 class ExportStatus {
   /// The timestamp of when the export job completed (if finished).
   final DateTime? completionTimestamp;
@@ -8546,6 +8820,7 @@ class ExportStatus {
   }
 }
 
+/// @nodoc
 class ExportState {
   static const queued = ExportState._('QUEUED');
   static const preprocessing = ExportState._('PREPROCESSING');
@@ -8581,6 +8856,8 @@ class ExportState {
 }
 
 /// Details about an import job.
+///
+/// @nodoc
 class ImportJob {
   /// The unique identifier of the address list the import job was created for.
   final String addressListId;
@@ -8687,6 +8964,7 @@ class ImportJob {
   }
 }
 
+/// @nodoc
 class ImportJobStatus {
   static const created = ImportJobStatus._('CREATED');
   static const processing = ImportJobStatus._('PROCESSING');
@@ -8716,6 +8994,8 @@ class ImportJobStatus {
 
 /// The import data format contains the specifications of the input file that
 /// would be passed to the address list import job.
+///
+/// @nodoc
 class ImportDataFormat {
   /// The type of file that would be passed as an input for the address list
   /// import job.
@@ -8740,6 +9020,7 @@ class ImportDataFormat {
   }
 }
 
+/// @nodoc
 class ImportDataType {
   static const csv = ImportDataType._('CSV');
   static const json = ImportDataType._('JSON');
@@ -8765,6 +9046,8 @@ class ImportDataType {
 }
 
 /// A result row containing metadata for an archived email message.
+///
+/// @nodoc
 class Row {
   /// The unique identifier of the archived message.
   final String? archivedMessageId;
@@ -8930,6 +9213,8 @@ class Row {
 }
 
 /// The SMTP envelope information of the email.
+///
+/// @nodoc
 class Envelope {
   /// The RCPT FROM given by the host from which the email was received.
   final String? from;
@@ -8967,6 +9252,8 @@ class Envelope {
 }
 
 /// The textual body content of an email message.
+///
+/// @nodoc
 class MessageBody {
   /// The HTML body content of the message.
   final String? html;
@@ -9004,6 +9291,8 @@ class MessageBody {
 }
 
 /// The metadata about the email.
+///
+/// @nodoc
 class Metadata {
   /// The name of the configuration set used when sent through a configuration set
   /// with archiving enabled.
@@ -9117,21 +9406,25 @@ class Metadata {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -9140,11 +9433,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

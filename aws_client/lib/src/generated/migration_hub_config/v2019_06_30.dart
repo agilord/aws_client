@@ -247,6 +247,7 @@ class MigrationHubConfig {
   }
 }
 
+/// @nodoc
 class CreateHomeRegionControlResult {
   /// This object is the <code>HomeRegionControl</code> object that's returned by
   /// a successful call to <code>CreateHomeRegionControl</code>.
@@ -273,6 +274,7 @@ class CreateHomeRegionControlResult {
   }
 }
 
+/// @nodoc
 class DeleteHomeRegionControlResult {
   DeleteHomeRegionControlResult();
 
@@ -285,6 +287,7 @@ class DeleteHomeRegionControlResult {
   }
 }
 
+/// @nodoc
 class DescribeHomeRegionControlsResult {
   /// An array that contains your <code>HomeRegionControl</code> objects.
   final List<HomeRegionControl>? homeRegionControls;
@@ -319,6 +322,7 @@ class DescribeHomeRegionControlsResult {
   }
 }
 
+/// @nodoc
 class GetHomeRegionResult {
   /// The name of the home region of the calling account.
   final String? homeRegion;
@@ -345,6 +349,8 @@ class GetHomeRegionResult {
 /// account, with some additional information. It contains a target (always of
 /// type <code>ACCOUNT</code>), an ID, and a time at which the home region was
 /// set.
+///
+/// @nodoc
 class HomeRegionControl {
   /// A unique identifier that's generated for each home region control. It's
   /// always a string that begins with "hrc-" followed by 12 lowercase letters and
@@ -401,6 +407,8 @@ class HomeRegionControl {
 /// The target parameter specifies the identifier to which the home region is
 /// applied, which is always an <code>ACCOUNT</code>. It applies the home region
 /// to the current <code>ACCOUNT</code>.
+///
+/// @nodoc
 class Target {
   /// The target type is always an <code>ACCOUNT</code>.
   final TargetType type;
@@ -432,6 +440,7 @@ class Target {
   }
 }
 
+/// @nodoc
 class TargetType {
   static const account = TargetType._('ACCOUNT');
 
@@ -454,32 +463,38 @@ class TargetType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class DryRunOperation extends _s.GenericAwsException {
   DryRunOperation({String? type, String? message})
       : super(type: type, code: 'DryRunOperation', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

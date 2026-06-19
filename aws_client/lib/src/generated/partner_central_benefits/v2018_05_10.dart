@@ -935,6 +935,7 @@ class PartnerCentralBenefits {
   }
 }
 
+/// @nodoc
 class AmendBenefitApplicationOutput {
   AmendBenefitApplicationOutput();
 
@@ -947,6 +948,7 @@ class AmendBenefitApplicationOutput {
   }
 }
 
+/// @nodoc
 class AssociateBenefitApplicationResourceOutput {
   /// The Amazon Resource Name (ARN) of the benefit application after the resource
   /// association.
@@ -987,6 +989,7 @@ class AssociateBenefitApplicationResourceOutput {
   }
 }
 
+/// @nodoc
 class CancelBenefitApplicationOutput {
   CancelBenefitApplicationOutput();
 
@@ -999,6 +1002,7 @@ class CancelBenefitApplicationOutput {
   }
 }
 
+/// @nodoc
 class CreateBenefitApplicationOutput {
   /// The Amazon Resource Name (ARN) of the newly created benefit application.
   final String? arn;
@@ -1035,6 +1039,7 @@ class CreateBenefitApplicationOutput {
   }
 }
 
+/// @nodoc
 class DisassociateBenefitApplicationResourceOutput {
   /// The Amazon Resource Name (ARN) of the benefit application after the resource
   /// disassociation.
@@ -1075,6 +1080,7 @@ class DisassociateBenefitApplicationResourceOutput {
   }
 }
 
+/// @nodoc
 class GetBenefitOutput {
   /// The Amazon Resource Name (ARN) of the benefit.
   final String? arn;
@@ -1166,6 +1172,7 @@ class GetBenefitOutput {
   }
 }
 
+/// @nodoc
 class GetBenefitAllocationOutput {
   /// A list of benefit identifiers that this allocation can be applied to.
   final List<String>? applicableBenefitIds;
@@ -1305,6 +1312,7 @@ class GetBenefitAllocationOutput {
   }
 }
 
+/// @nodoc
 class GetBenefitApplicationOutput {
   /// The Amazon Resource Name (ARN) of the benefit application.
   final String? arn;
@@ -1489,6 +1497,7 @@ class GetBenefitApplicationOutput {
   }
 }
 
+/// @nodoc
 class ListBenefitAllocationsOutput {
   /// A list of benefit allocation summaries matching the specified criteria.
   final List<BenefitAllocationSummary>? benefitAllocationSummaries;
@@ -1524,6 +1533,7 @@ class ListBenefitAllocationsOutput {
   }
 }
 
+/// @nodoc
 class ListBenefitApplicationsOutput {
   /// A list of benefit application summaries matching the specified criteria.
   final List<BenefitApplicationSummary>? benefitApplicationSummaries;
@@ -1560,6 +1570,7 @@ class ListBenefitApplicationsOutput {
   }
 }
 
+/// @nodoc
 class ListBenefitsOutput {
   /// A list of benefit summaries matching the specified criteria.
   final List<BenefitSummary>? benefitSummaries;
@@ -1593,6 +1604,7 @@ class ListBenefitsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of key-value pairs representing the tags associated with the
   /// resource.
@@ -1619,6 +1631,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RecallBenefitApplicationOutput {
   RecallBenefitApplicationOutput();
 
@@ -1631,6 +1644,7 @@ class RecallBenefitApplicationOutput {
   }
 }
 
+/// @nodoc
 class SubmitBenefitApplicationOutput {
   SubmitBenefitApplicationOutput();
 
@@ -1643,6 +1657,7 @@ class SubmitBenefitApplicationOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1655,6 +1670,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1667,6 +1683,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateBenefitApplicationOutput {
   /// The Amazon Resource Name (ARN) of the updated benefit application.
   final String? arn;
@@ -1704,6 +1721,8 @@ class UpdateBenefitApplicationOutput {
 }
 
 /// Represents input information for uploading a file to a benefit application.
+///
+/// @nodoc
 class FileInput {
   /// The URI or location where the file should be stored or has been uploaded.
   final String fileURI;
@@ -1728,6 +1747,8 @@ class FileInput {
 }
 
 /// Represents contact information for a partner representative.
+///
+/// @nodoc
 class Contact {
   /// The business title or role of the contact person within the organization.
   final String? businessTitle;
@@ -1780,6 +1801,8 @@ class Contact {
 
 /// Represents a key-value pair used for categorizing and organizing AWS
 /// resources.
+///
+/// @nodoc
 class Tag {
   /// The tag key, which acts as a category or label for the tag.
   final String key;
@@ -1811,6 +1834,8 @@ class Tag {
 }
 
 /// A summary view of a benefit containing key information for list operations.
+///
+/// @nodoc
 class BenefitSummary {
   /// The Amazon Resource Name (ARN) of the benefit.
   final String? arn;
@@ -1889,6 +1914,7 @@ class BenefitSummary {
   }
 }
 
+/// @nodoc
 class BenefitStatus {
   static const active = BenefitStatus._('ACTIVE');
   static const inactive = BenefitStatus._('INACTIVE');
@@ -1913,6 +1939,7 @@ class BenefitStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FulfillmentType {
   static const credits = FulfillmentType._('CREDITS');
   static const cash = FulfillmentType._('CASH');
@@ -1940,6 +1967,8 @@ class FulfillmentType {
 
 /// A summary view of a benefit application containing key information for list
 /// operations.
+///
+/// @nodoc
 class BenefitApplicationSummary {
   /// The Amazon Resource Name (ARN) of the benefit application.
   final String? arn;
@@ -2061,6 +2090,7 @@ class BenefitApplicationSummary {
   }
 }
 
+/// @nodoc
 class BenefitApplicationStatus {
   static const pendingSubmission =
       BenefitApplicationStatus._('PENDING_SUBMISSION');
@@ -2100,6 +2130,8 @@ class BenefitApplicationStatus {
 
 /// Represents an AWS resource that is associated with a benefit application for
 /// tracking and management.
+///
+/// @nodoc
 class AssociatedResource {
   /// The Amazon Resource Name (ARN) that uniquely identifies the AWS resource.
   final String? resourceArn;
@@ -2128,6 +2160,7 @@ class AssociatedResource {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const opportunity = ResourceType._('OPPORTUNITY');
   static const benefitAllocation = ResourceType._('BENEFIT_ALLOCATION');
@@ -2153,6 +2186,8 @@ class ResourceType {
 
 /// A summary view of a benefit allocation containing key information for list
 /// operations.
+///
+/// @nodoc
 class BenefitAllocationSummary {
   /// The identifiers of the benefits applicable for this allocation.
   final List<String>? applicableBenefitIds;
@@ -2263,6 +2298,7 @@ class BenefitAllocationSummary {
   }
 }
 
+/// @nodoc
 class BenefitAllocationStatus {
   static const active = BenefitAllocationStatus._('ACTIVE');
   static const inactive = BenefitAllocationStatus._('INACTIVE');
@@ -2291,6 +2327,8 @@ class BenefitAllocationStatus {
 
 /// Represents detailed information about a file attached to a benefit
 /// application.
+///
+/// @nodoc
 class FileDetail {
   /// The URI or location where the file is stored.
   final String fileURI;
@@ -2364,6 +2402,7 @@ class FileDetail {
   }
 }
 
+/// @nodoc
 class FileType {
   static const applicationMsword = FileType._('application/msword');
   static const applicationVndOpenxmlformatsOfficedocumentWordprocessingmlDocument =
@@ -2412,6 +2451,8 @@ class FileType {
 
 /// Contains comprehensive information about how a benefit allocation is
 /// fulfilled across different fulfillment types.
+///
+/// @nodoc
 class FulfillmentDetails {
   /// Details about access-based fulfillment, if applicable to this benefit
   /// allocation.
@@ -2474,6 +2515,8 @@ class FulfillmentDetails {
 
 /// Contains information about disbursement-based benefit fulfillment, such as
 /// direct payments or reimbursements.
+///
+/// @nodoc
 class DisbursementDetails {
   /// The total amount that has been disbursed for this benefit allocation.
   final MonetaryValue? disbursedAmount;
@@ -2511,6 +2554,8 @@ class DisbursementDetails {
 
 /// Contains information about consumable benefit fulfillment, such as usage
 /// quotas or service limits.
+///
+/// @nodoc
 class ConsumableDetails {
   /// The total amount of the consumable benefit that has been allocated.
   final MonetaryValue? allocatedAmount;
@@ -2570,6 +2615,8 @@ class ConsumableDetails {
 
 /// Contains information about credit-based benefit fulfillment, including AWS
 /// promotional credits.
+///
+/// @nodoc
 class CreditDetails {
   /// The total amount of credits that have been allocated for this benefit.
   final MonetaryValue allocatedAmount;
@@ -2616,6 +2663,8 @@ class CreditDetails {
 
 /// Contains information about access-based benefit fulfillment, such as service
 /// permissions or feature access.
+///
+/// @nodoc
 class AccessDetails {
   /// A description of the access privileges or permissions granted by this
   /// benefit.
@@ -2640,6 +2689,8 @@ class AccessDetails {
 }
 
 /// Represents a monetary amount with its associated currency.
+///
+/// @nodoc
 class MonetaryValue {
   /// The numeric amount of the monetary value.
   final String amount;
@@ -2672,6 +2723,8 @@ class MonetaryValue {
 
 /// Represents an AWS credit code that can be applied to an AWS account for
 /// billing purposes.
+///
+/// @nodoc
 class CreditCode {
   /// The AWS account ID that the credit code is associated with or can be applied
   /// to.
@@ -2733,6 +2786,7 @@ class CreditCode {
   }
 }
 
+/// @nodoc
 class CurrencyCode {
   static const aed = CurrencyCode._('AED');
   static const amd = CurrencyCode._('AMD');
@@ -2946,6 +3000,8 @@ class CurrencyCode {
 }
 
 /// Represents detailed information about a specific issuance of benefit value.
+///
+/// @nodoc
 class IssuanceDetail {
   /// The monetary amount or value that was issued in this specific issuance.
   final MonetaryValue? issuanceAmount;
@@ -2986,6 +3042,8 @@ class IssuanceDetail {
 }
 
 /// Represents a specific change to be made to a benefit application field.
+///
+/// @nodoc
 class Amendment {
   /// The JSON path or field identifier specifying which field in the benefit
   /// application to modify.
@@ -3009,6 +3067,7 @@ class Amendment {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -3021,26 +3080,31 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3049,11 +3113,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

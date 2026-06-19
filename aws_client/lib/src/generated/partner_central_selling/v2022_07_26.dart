@@ -3149,6 +3149,7 @@ class PartnerCentralSelling {
   }
 }
 
+/// @nodoc
 class CreateEngagementContextResponse {
   /// The unique identifier assigned to the newly created engagement context. This
   /// ID can be used to reference the specific context within the engagement for
@@ -3202,6 +3203,7 @@ class CreateEngagementContextResponse {
   }
 }
 
+/// @nodoc
 class GetSellingSystemSettingsResponse {
   /// Specifies the catalog in which the settings are defined. Acceptable values
   /// include <code>AWS</code> for production and <code>Sandbox</code> for testing
@@ -3234,6 +3236,7 @@ class GetSellingSystemSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of the key-value pairs for the tag or tags assigned to the specified
   /// resource.
@@ -3260,6 +3263,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutSellingSystemSettingsResponse {
   /// Specifies the catalog in which the settings are defined. Acceptable values
   /// include <code>AWS</code> for production and <code>Sandbox</code> for testing
@@ -3292,6 +3296,7 @@ class PutSellingSystemSettingsResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3304,6 +3309,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3316,6 +3322,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateEngagementContextResponse {
   /// The unique identifier of the engagement context that was updated.
   final String contextId;
@@ -3360,6 +3367,7 @@ class UpdateEngagementContextResponse {
   }
 }
 
+/// @nodoc
 class CreateEngagementResponse {
   /// The Amazon Resource Name (ARN) that identifies the engagement.
   final String? arn;
@@ -3398,6 +3406,7 @@ class CreateEngagementResponse {
   }
 }
 
+/// @nodoc
 class GetEngagementResponse {
   /// The Amazon Resource Name (ARN) of the engagement retrieved.
   final String? arn;
@@ -3499,6 +3508,7 @@ class GetEngagementResponse {
   }
 }
 
+/// @nodoc
 class ListEngagementsResponse {
   /// An array of engagement summary objects.
   final List<EngagementSummary> engagementSummaryList;
@@ -3533,6 +3543,7 @@ class ListEngagementsResponse {
   }
 }
 
+/// @nodoc
 class ListEngagementMembersResponse {
   /// Provides a list of engagement members.
   final List<EngagementMember> engagementMemberList;
@@ -3569,6 +3580,7 @@ class ListEngagementMembersResponse {
   }
 }
 
+/// @nodoc
 class StartEngagementByAcceptingInvitationTaskResponse {
   /// Returns the identifier of the engagement invitation that was accepted and
   /// used to create the opportunity.
@@ -3655,6 +3667,7 @@ class StartEngagementByAcceptingInvitationTaskResponse {
   }
 }
 
+/// @nodoc
 class ListEngagementByAcceptingInvitationTasksResponse {
   /// A token used for pagination to retrieve the next page of results.If there
   /// are more results available, this field will contain a token that can be used
@@ -3694,6 +3707,7 @@ class ListEngagementByAcceptingInvitationTasksResponse {
   }
 }
 
+/// @nodoc
 class StartEngagementFromOpportunityTaskResponse {
   /// The identifier of the newly created Engagement. Only populated if TaskStatus
   /// is COMPLETE.
@@ -3728,7 +3742,7 @@ class StartEngagementFromOpportunityTaskResponse {
   final String? taskArn;
 
   /// The unique identifier of the task, used to track the task’s progress. This
-  /// value follows a specific pattern: <code>^oit-[0-9a-z]{13}$</code>.
+  /// value follows a specific pattern: <code>^oit-\[0-9a-z\]{13}$</code>.
   final String? taskId;
 
   /// Indicates the current status of the task. Valid values include
@@ -3792,6 +3806,7 @@ class StartEngagementFromOpportunityTaskResponse {
   }
 }
 
+/// @nodoc
 class ListEngagementFromOpportunityTasksResponse {
   /// A token used for pagination to retrieve the next page of results. If there
   /// are more results available, this field will contain a token that can be used
@@ -3830,6 +3845,7 @@ class ListEngagementFromOpportunityTasksResponse {
   }
 }
 
+/// @nodoc
 class CreateEngagementInvitationResponse {
   /// The Amazon Resource Name (ARN) that uniquely identifies the engagement
   /// invitation.
@@ -3861,6 +3877,7 @@ class CreateEngagementInvitationResponse {
   }
 }
 
+/// @nodoc
 class GetEngagementInvitationResponse {
   /// Indicates the catalog from which the engagement invitation details are
   /// retrieved. This field helps in identifying the appropriate catalog (e.g.,
@@ -4030,6 +4047,7 @@ class GetEngagementInvitationResponse {
   }
 }
 
+/// @nodoc
 class ListEngagementInvitationsResponse {
   /// An array containing summaries of engagement invitations. Each summary
   /// includes information such as the invitation title, invitation date, and the
@@ -4070,6 +4088,7 @@ class ListEngagementInvitationsResponse {
   }
 }
 
+/// @nodoc
 class CreateOpportunityResponse {
   /// Read-only, system-generated <code>Opportunity</code> unique identifier.
   /// Amazon Web Services creates this identifier, and it's used for all
@@ -4116,6 +4135,7 @@ class CreateOpportunityResponse {
   }
 }
 
+/// @nodoc
 class GetOpportunityResponse {
   /// Specifies the catalog associated with the request. This field takes a string
   /// value from a predefined list: <code>AWS</code> or <code>Sandbox</code>. The
@@ -4347,6 +4367,7 @@ class GetOpportunityResponse {
   }
 }
 
+/// @nodoc
 class UpdateOpportunityResponse {
   /// Read-only, system generated <code>Opportunity</code> unique identifier.
   final String id;
@@ -4377,6 +4398,7 @@ class UpdateOpportunityResponse {
   }
 }
 
+/// @nodoc
 class ListOpportunitiesResponse {
   /// An array that contains minimal details for opportunities that match the
   /// request criteria. This summary view provides a quick overview of relevant
@@ -4414,6 +4436,7 @@ class ListOpportunitiesResponse {
   }
 }
 
+/// @nodoc
 class GetAwsOpportunitySummaryResponse {
   /// Specifies the catalog in which the AWS Opportunity exists. This is the
   /// environment (e.g., <code>AWS</code> or <code>Sandbox</code>) where the
@@ -4561,6 +4584,7 @@ class GetAwsOpportunitySummaryResponse {
   }
 }
 
+/// @nodoc
 class StartOpportunityFromEngagementTaskResponse {
   /// The unique identifier of the engagement context used to create the
   /// opportunity.
@@ -4655,6 +4679,7 @@ class StartOpportunityFromEngagementTaskResponse {
   }
 }
 
+/// @nodoc
 class ListOpportunityFromEngagementTasksResponse {
   /// A token used for pagination to retrieve the next page of results. If there
   /// are more results available, this field will contain a token that can be used
@@ -4694,6 +4719,7 @@ class ListOpportunityFromEngagementTasksResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceSnapshotResponse {
   /// Specifies the Amazon Resource Name (ARN) that uniquely identifies the
   /// snapshot created.
@@ -4726,6 +4752,7 @@ class CreateResourceSnapshotResponse {
   }
 }
 
+/// @nodoc
 class GetResourceSnapshotResponse {
   /// The catalog in which the snapshot was created. Matches the Catalog specified
   /// in the request.
@@ -4836,6 +4863,7 @@ class GetResourceSnapshotResponse {
   }
 }
 
+/// @nodoc
 class ListEngagementResourceAssociationsResponse {
   /// A list of engagement-resource association summaries.
   final List<EngagementResourceAssociationSummary>
@@ -4876,6 +4904,7 @@ class ListEngagementResourceAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListResourceSnapshotsResponse {
   /// An array of resource snapshot summary objects.
   final List<ResourceSnapshotSummary> resourceSnapshotSummaries;
@@ -4911,6 +4940,7 @@ class ListResourceSnapshotsResponse {
   }
 }
 
+/// @nodoc
 class CreateResourceSnapshotJobResponse {
   /// The Amazon Resource Name (ARN) of the created snapshot job.
   final String? arn;
@@ -4941,6 +4971,7 @@ class CreateResourceSnapshotJobResponse {
   }
 }
 
+/// @nodoc
 class GetResourceSnapshotJobResponse {
   /// The catalog in which the snapshot job was created. This will match the
   /// Catalog specified in the request.
@@ -5068,6 +5099,7 @@ class GetResourceSnapshotJobResponse {
   }
 }
 
+/// @nodoc
 class ListResourceSnapshotJobsResponse {
   /// An array of resource snapshot job summary objects.
   final List<ResourceSnapshotJobSummary> resourceSnapshotJobSummaries;
@@ -5104,6 +5136,7 @@ class ListResourceSnapshotJobsResponse {
   }
 }
 
+/// @nodoc
 class ListSolutionsResponse {
   /// An array with minimal details for solutions matching the request criteria.
   final List<SolutionBase> solutionSummaries;
@@ -5140,6 +5173,8 @@ class ListSolutionsResponse {
 
 /// Specifies minimal information for the solution offered to solve the
 /// customer's business problem.
+///
+/// @nodoc
 class SolutionBase {
   /// Specifies the catalog in which the solution is hosted, either
   /// <code>AWS</code> or <code>Sandbox</code>. This helps partners differentiate
@@ -5216,6 +5251,7 @@ class SolutionBase {
   }
 }
 
+/// @nodoc
 class SolutionStatus {
   static const active = SolutionStatus._('Active');
   static const inactive = SolutionStatus._('Inactive');
@@ -5243,6 +5279,8 @@ class SolutionStatus {
 
 /// Configures the solutions' response sorting that enables partners to order
 /// solutions based on specified attributes.
+///
+/// @nodoc
 class SolutionSort {
   /// Specifies the attribute to sort by, such as <code>Name</code>,
   /// <code>CreatedDate</code>, or <code>Status</code>.
@@ -5267,6 +5305,7 @@ class SolutionSort {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -5290,6 +5329,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class SolutionSortName {
   static const identifier = SolutionSortName._('Identifier');
   static const name = SolutionSortName._('Name');
@@ -5319,6 +5359,8 @@ class SolutionSortName {
 
 /// An object that contains a <code>Resource Snapshot Job</code>'s subset of
 /// fields.
+///
+/// @nodoc
 class ResourceSnapshotJobSummary {
   /// The Amazon Resource Name (ARN) for the resource snapshot job.
   final String? arn;
@@ -5376,6 +5418,7 @@ class ResourceSnapshotJobSummary {
   }
 }
 
+/// @nodoc
 class ResourceSnapshotJobStatus {
   static const running = ResourceSnapshotJobStatus._('Running');
   static const stopped = ResourceSnapshotJobStatus._('Stopped');
@@ -5404,6 +5447,8 @@ class ResourceSnapshotJobStatus {
 /// Defines the sorting parameters for listing resource snapshot jobs. This
 /// structure allows you to specify the field to sort by and the order of
 /// sorting.
+///
+/// @nodoc
 class SortObject {
   /// Specifies the field by which to sort the resource snapshot jobs.
   final SortBy? sortBy;
@@ -5426,6 +5471,7 @@ class SortObject {
   }
 }
 
+/// @nodoc
 class SortBy {
   static const createdDate = SortBy._('CreatedDate');
 
@@ -5448,6 +5494,7 @@ class SortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const opportunity = ResourceType._('Opportunity');
 
@@ -5471,6 +5518,8 @@ class ResourceType {
 }
 
 /// The key-value pair assigned to a specified resource.
+///
+/// @nodoc
 class Tag {
   /// The key in the tag.
   final String key;
@@ -5503,6 +5552,8 @@ class Tag {
 /// Provides a concise summary of a resource snapshot, including its unique
 /// identifier and version information. This structure is used to quickly
 /// reference and identify specific versions of resource snapshots.
+///
+/// @nodoc
 class ResourceSnapshotSummary {
   /// The Amazon Resource Name (ARN) of the snapshot. This globally unique
   /// identifier can be used for cross-service references and in IAM policies.
@@ -5575,6 +5626,8 @@ class ResourceSnapshotSummary {
 /// engagements with multiple resources. They enable quick insights into
 /// resource distribution across engagements, support efficient resource
 /// management, and help maintain a clear overview of collaborative activities.
+///
+/// @nodoc
 class EngagementResourceAssociationSummary {
   /// Indicates the environment in which the resource and engagement exist.
   final String catalog;
@@ -5632,6 +5685,8 @@ class EngagementResourceAssociationSummary {
 /// Represents the payload of a resource snapshot. This structure is designed to
 /// accommodate different types of resource snapshots, currently supporting
 /// opportunity summaries.
+///
+/// @nodoc
 class ResourceSnapshotPayload {
   /// Provides a comprehensive view of AwsOpportunitySummaryFullView template.
   final AwsOpportunitySummaryFullView? awsOpportunitySummaryFullView;
@@ -5672,6 +5727,8 @@ class ResourceSnapshotPayload {
 /// Provides a comprehensive view of an opportunity summary, including lifecycle
 /// information, team details, opportunity type, primary needs from AWS, and
 /// associated project information.
+///
+/// @nodoc
 class OpportunitySummaryView {
   final Customer? customer;
 
@@ -5758,6 +5815,8 @@ class OpportunitySummaryView {
 }
 
 /// Provides a comprehensive view of AwsOpportunitySummaryFullView template.
+///
+/// @nodoc
 class AwsOpportunitySummaryFullView {
   final AwsOpportunityCustomer? customer;
   final AwsOpportunityInsights? insights;
@@ -5864,6 +5923,7 @@ class AwsOpportunitySummaryFullView {
   }
 }
 
+/// @nodoc
 class OpportunityOrigin {
   static const awsReferral = OpportunityOrigin._('AWS Referral');
   static const partnerReferral = OpportunityOrigin._('Partner Referral');
@@ -5888,6 +5948,7 @@ class OpportunityOrigin {
   String toString() => value;
 }
 
+/// @nodoc
 class SalesInvolvementType {
   static const forVisibilityOnly =
       SalesInvolvementType._('For Visibility Only');
@@ -5914,6 +5975,7 @@ class SalesInvolvementType {
   String toString() => value;
 }
 
+/// @nodoc
 class Visibility {
   static const full = Visibility._('Full');
   static const limited = Visibility._('Limited');
@@ -5940,6 +6002,8 @@ class Visibility {
 /// Tracks the lifecycle of the AWS opportunity, including stages such as
 /// qualification, validation, and closure. This field helps partners understand
 /// the current status and progression of the opportunity.
+///
+/// @nodoc
 class AwsOpportunityLifeCycle {
   /// Indicates the reason why an opportunity was marked as <code>Closed
   /// Lost</code>. This helps in understanding the context behind the lost
@@ -6008,6 +6072,8 @@ class AwsOpportunityLifeCycle {
 /// Contains insights provided by AWS for the opportunity, offering
 /// recommendations and analysis that can help the partner optimize their
 /// engagement and strategy.
+///
+/// @nodoc
 class AwsOpportunityInsights {
   /// Source-separated spend insights that provide independent analysis for AWS
   /// recommendations and partner estimates.
@@ -6056,6 +6122,7 @@ class AwsOpportunityInsights {
   }
 }
 
+/// @nodoc
 class InvolvementTypeChangeReason {
   static const expansionOpportunity =
       InvolvementTypeChangeReason._('Expansion Opportunity');
@@ -6098,6 +6165,8 @@ class InvolvementTypeChangeReason {
 /// Represents other entities related to the AWS opportunity, such as AWS
 /// products, partner solutions, and marketplace offers. These associations help
 /// build a complete picture of the solution being sold.
+///
+/// @nodoc
 class AwsOpportunityRelatedEntities {
   /// Specifies the AWS products associated with the opportunity. This field helps
   /// track the specific products that are part of the proposed solution.
@@ -6139,6 +6208,8 @@ class AwsOpportunityRelatedEntities {
 /// Represents the customer associated with the AWS opportunity. This field
 /// captures key details about the customer that are necessary for managing the
 /// opportunity.
+///
+/// @nodoc
 class AwsOpportunityCustomer {
   /// Provides a list of customer contacts involved in the opportunity. These
   /// contacts may include decision makers, influencers, and other stakeholders
@@ -6168,6 +6239,8 @@ class AwsOpportunityCustomer {
 
 /// Captures details about the project associated with the opportunity,
 /// including objectives, scope, and customer requirements.
+///
+/// @nodoc
 class AwsOpportunityProject {
   /// AWS partition where the opportunity will be deployed. Possible values:
   /// <code>aws-eusc</code> for AWS European Sovereign Cloud, <code>null</code>
@@ -6209,6 +6282,7 @@ class AwsOpportunityProject {
   }
 }
 
+/// @nodoc
 class AwsPartition {
   static const awsEusc = AwsPartition._('aws-eusc');
 
@@ -6234,6 +6308,8 @@ class AwsPartition {
 /// Provides an estimate of the revenue that the partner is expected to generate
 /// from the opportunity. This information helps partners assess the financial
 /// value of the project.
+///
+/// @nodoc
 class ExpectedCustomerSpend {
   /// Indicates the currency in which the revenue estimate is provided. This helps
   /// in understanding the financial impact across different markets. Accepted
@@ -6298,6 +6374,7 @@ class ExpectedCustomerSpend {
   }
 }
 
+/// @nodoc
 class CurrencyCode {
   static const usd = CurrencyCode._('USD');
   static const eur = CurrencyCode._('EUR');
@@ -6656,6 +6733,7 @@ class CurrencyCode {
   String toString() => value;
 }
 
+/// @nodoc
 class PaymentFrequency {
   static const monthly = PaymentFrequency._('Monthly');
 
@@ -6680,6 +6758,8 @@ class PaymentFrequency {
 }
 
 /// An object that contains a <code>Customer Partner</code>'s contact details.
+///
+/// @nodoc
 class Contact {
   /// The partner contact's title (job title or role) associated with the
   /// <code>Opportunity</code>. <code>BusinessTitle</code> supports either
@@ -6732,6 +6812,7 @@ class Contact {
   }
 }
 
+/// @nodoc
 class EngagementScore {
   static const high = EngagementScore._('High');
   static const medium = EngagementScore._('Medium');
@@ -6759,6 +6840,8 @@ class EngagementScore {
 
 /// Source-separated spend insights that provide independent analysis for AWS
 /// recommendations and partner estimates.
+///
+/// @nodoc
 class AwsProductsSpendInsightsBySource {
   /// AI-generated insights including recommended products from AWS.
   final AwsProductInsights? aws;
@@ -6795,6 +6878,8 @@ class AwsProductsSpendInsightsBySource {
 /// Comprehensive spend analysis for a single source (AWS or Partner) including
 /// total amounts, optimization savings, program category breakdowns, and
 /// detailed product-level insights.
+///
+/// @nodoc
 class AwsProductInsights {
   /// Product-level details including costs and optimization recommendations.
   final List<AwsProductDetails> awsProducts;
@@ -6874,6 +6959,8 @@ class AwsProductInsights {
 
 /// List of AWS services with program eligibility indicators (MAP, modernization
 /// pathways), cost estimates, and optimization recommendations.
+///
+/// @nodoc
 class AwsProductDetails {
   /// List of program and pathway categories this product is eligible for.
   final List<String> categories;
@@ -6947,6 +7034,8 @@ class AwsProductDetails {
 }
 
 /// Specific optimization strategies partners can implement to reduce costs.
+///
+/// @nodoc
 class AwsProductOptimization {
   /// Human-readable explanation of the optimization strategy.
   final String description;
@@ -6978,6 +7067,8 @@ class AwsProductOptimization {
 
 /// Represents an Amazon Web Services team member for the engagement. This
 /// structure includes details such as name, email, and business title.
+///
+/// @nodoc
 class AwsTeamMember {
   /// Specifies the Amazon Web Services team member's business title and indicates
   /// their organizational role.
@@ -7023,6 +7114,7 @@ class AwsTeamMember {
   }
 }
 
+/// @nodoc
 class AwsMemberBusinessTitle {
   static const awsSalesRep = AwsMemberBusinessTitle._('AWSSalesRep');
   static const awsAccountOwner = AwsMemberBusinessTitle._('AWSAccountOwner');
@@ -7059,6 +7151,7 @@ class AwsMemberBusinessTitle {
   String toString() => value;
 }
 
+/// @nodoc
 class AwsClosedLostReason {
   static const administrative = AwsClosedLostReason._('Administrative');
   static const businessAssociateAgreement =
@@ -7210,6 +7303,7 @@ class AwsClosedLostReason {
   String toString() => value;
 }
 
+/// @nodoc
 class AwsOpportunityStage {
   static const notStarted = AwsOpportunityStage._('Not Started');
   static const inProgress = AwsOpportunityStage._('In Progress');
@@ -7289,6 +7383,8 @@ class AwsOpportunityStage {
 
 /// Tracks the history of next steps associated with the opportunity. This field
 /// captures the actions planned for the future and their timeline.
+///
+/// @nodoc
 class ProfileNextStepsHistory {
   /// Indicates the date and time when a particular next step was recorded or
   /// planned. This helps in managing the timeline for the opportunity.
@@ -7321,6 +7417,7 @@ class ProfileNextStepsHistory {
   }
 }
 
+/// @nodoc
 class OpportunityType {
   static const netNewBusiness = OpportunityType._('Net New Business');
   static const flatRenewal = OpportunityType._('Flat Renewal');
@@ -7348,6 +7445,8 @@ class OpportunityType {
 
 /// Provides the lifecycle view of an opportunity resource shared through a
 /// snapshot.
+///
+/// @nodoc
 class LifeCycleForView {
   /// Describes the next steps for the opportunity shared through a snapshot.
   final String? nextSteps;
@@ -7394,6 +7493,8 @@ class LifeCycleForView {
 
 /// An object that contains the customer's <code>Account</code> and
 /// <code>Contact</code>.
+///
+/// @nodoc
 class Customer {
   /// An object that contains the customer's account details.
   final Account? account;
@@ -7434,6 +7535,8 @@ class Customer {
 
 /// Provides the project view of an opportunity resource shared through a
 /// snapshot.
+///
+/// @nodoc
 class ProjectView {
   /// Specifies the proposed solution focus or type of workload for the project.
   final String? customerUseCase;
@@ -7522,6 +7625,8 @@ class ProjectView {
 /// the opportunity. These entities include identifiers for
 /// <code>AWSProducts</code>, <code>Partner Solutions</code>, and
 /// <code>AWSMarketplaceOffers</code>.
+///
+/// @nodoc
 class RelatedEntityIdentifiers {
   /// Enables the association of AWS Marketplace offer sets with the
   /// <code>Opportunity</code>. Offer sets allow grouping multiple related
@@ -7532,7 +7637,7 @@ class RelatedEntityIdentifiers {
 
   /// Takes one value per opportunity. Each value is an Amazon Resource Name
   /// (ARN), in this format: <code>"offers":
-  /// ["arn:aws:aws-marketplace:us-east-1:999999999999:AWSMarketplace/Offer/offer-sampleOffer32"]</code>.
+  /// \["arn:aws:aws-marketplace:us-east-1:999999999999:AWSMarketplace/Offer/offer-sampleOffer32"\]</code>.
   ///
   /// Use the <a
   /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_ListEntities.html">ListEntities</a>
@@ -7544,8 +7649,8 @@ class RelatedEntityIdentifiers {
   /// <code>Opportunity</code>. Partners can indicate the relevant Amazon Web
   /// Services products for the <code>Opportunity</code>'s solution and align with
   /// the customer's needs. Returns multiple values separated by commas. For
-  /// example, <code>"AWSProducts" : ["AmazonRedshift", "AWSAppFabric",
-  /// "AWSCleanRooms"]</code>.
+  /// example, <code>"AWSProducts" : \["AmazonRedshift", "AWSAppFabric",
+  /// "AWSCleanRooms"\]</code>.
   ///
   /// Use the file with the list of Amazon Web Services products hosted on GitHub:
   /// <a
@@ -7615,6 +7720,8 @@ class RelatedEntityIdentifiers {
 /// The expected duration of a partner's contract with the customer. Used to
 /// convert Total Contract Value (TCV) to Monthly Recurring Revenue (MRR) for
 /// opportunity dealsizing calculations.
+///
+/// @nodoc
 class ExpectedContractDuration {
   /// The unit of measurement for the contract duration value. Currently accepts
   /// only <code>Months</code>.
@@ -7648,6 +7755,7 @@ class ExpectedContractDuration {
   }
 }
 
+/// @nodoc
 class SalesActivity {
   static const initializedDiscussionsWithCustomer =
       SalesActivity._('Initialized discussions with customer');
@@ -7694,6 +7802,8 @@ class SalesActivity {
 
 /// The unit of measurement for the contract duration value. Currently accepts
 /// only <code>Months</code>.
+///
+/// @nodoc
 class ExpectedContractDurationTerm {
   static const months = ExpectedContractDurationTerm._('Months');
 
@@ -7718,6 +7828,7 @@ class ExpectedContractDurationTerm {
   String toString() => value;
 }
 
+/// @nodoc
 class DeliveryModel {
   static const saaSOrPaaS = DeliveryModel._('SaaS or PaaS');
   static const byolOrAmi = DeliveryModel._('BYOL or AMI');
@@ -7755,6 +7866,8 @@ class DeliveryModel {
 
 /// Specifies the <code>Customer</code>'s account details associated with the
 /// <code>Opportunity</code>.
+///
+/// @nodoc
 class Account {
   /// Specifies the end <code>Customer</code>'s company name associated with the
   /// <code>Opportunity</code>.
@@ -7831,6 +7944,7 @@ class Account {
   }
 }
 
+/// @nodoc
 class Industry {
   static const aerospace = Industry._('Aerospace');
   static const agriculture = Industry._('Agriculture');
@@ -7917,6 +8031,8 @@ class Industry {
 
 /// Specifies the end <code>Customer</code>'s address details associated with
 /// the <code>Opportunity</code>.
+///
+/// @nodoc
 class Address {
   /// Specifies the end <code>Customer</code>'s city associated with the
   /// <code>Opportunity</code>.
@@ -7985,6 +8101,7 @@ class Address {
   }
 }
 
+/// @nodoc
 class CountryCode {
   static const us = CountryCode._('US');
   static const af = CountryCode._('AF');
@@ -8505,6 +8622,7 @@ class CountryCode {
   String toString() => value;
 }
 
+/// @nodoc
 class PrimaryNeedFromAws {
   static const coSellArchitecturalValidation =
       PrimaryNeedFromAws._('Co-Sell - Architectural Validation');
@@ -8553,6 +8671,7 @@ class PrimaryNeedFromAws {
   String toString() => value;
 }
 
+/// @nodoc
 class ReviewStatus {
   static const pendingSubmission = ReviewStatus._('Pending Submission');
   static const submitted = ReviewStatus._('Submitted');
@@ -8587,6 +8706,7 @@ class ReviewStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Stage {
   static const prospect = Stage._('Prospect');
   static const qualified = Stage._('Qualified');
@@ -8627,6 +8747,8 @@ class Stage {
 /// engagement. This structure contains key information about the task's status,
 /// associated identifiers, and any failure details for opportunity creation
 /// processes.
+///
+/// @nodoc
 class ListOpportunityFromEngagementTaskSummary {
   /// The unique identifier of the engagement context associated with the
   /// opportunity creation task. This links the task to specific contextual
@@ -8726,6 +8848,7 @@ class ListOpportunityFromEngagementTaskSummary {
   }
 }
 
+/// @nodoc
 class TaskStatus {
   static const inProgress = TaskStatus._('IN_PROGRESS');
   static const complete = TaskStatus._('COMPLETE');
@@ -8750,6 +8873,7 @@ class TaskStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ReasonCode {
   static const invitationAccessDenied = ReasonCode._('InvitationAccessDenied');
   static const invitationValidationFailed =
@@ -8832,6 +8956,8 @@ class ReasonCode {
 
 /// Defines the sorting parameters for listing tasks. This structure allows for
 /// specifying the field to sort by and the order of sorting.
+///
+/// @nodoc
 class ListTasksSortBase {
   /// Specifies the field by which the task list should be sorted.
   final ListTasksSortName sortBy;
@@ -8854,6 +8980,7 @@ class ListTasksSortBase {
   }
 }
 
+/// @nodoc
 class ListTasksSortName {
   static const startTime = ListTasksSortName._('StartTime');
 
@@ -8877,6 +9004,7 @@ class ListTasksSortName {
   String toString() => value;
 }
 
+/// @nodoc
 class RelatedEntityType {
   static const solutions = RelatedEntityType._('Solutions');
   static const awsProducts = RelatedEntityType._('AwsProducts');
@@ -8913,6 +9041,8 @@ class RelatedEntityType {
 /// Represents the contact details of the individual assigned to manage the
 /// opportunity within the partner organization. This helps to ensure that there
 /// is a point of contact for the opportunity's progress.
+///
+/// @nodoc
 class AssigneeContact {
   /// Specifies the business title of the assignee managing the opportunity. This
   /// helps clarify the individual's role and responsibilities within the
@@ -8965,6 +9095,8 @@ class AssigneeContact {
 }
 
 /// An object that contains an <code>Opportunity</code>'s subset of fields.
+///
+/// @nodoc
 class OpportunitySummary {
   /// Specifies the catalog associated with the opportunity, either
   /// <code>AWS</code> or <code>Sandbox</code>. This indicates the environment in
@@ -9086,6 +9218,8 @@ class OpportunitySummary {
 }
 
 /// An object that contains a <code>LifeCycle</code> object's subset of fields.
+///
+/// @nodoc
 class LifeCycleSummary {
   /// Specifies the reason code when an opportunity is marked as <i>Closed
   /// Lost</i>. When you select an appropriate reason code, you communicate the
@@ -9277,6 +9411,8 @@ class LifeCycleSummary {
 }
 
 /// An object that contains a <code>Customer</code> object's subset of fields.
+///
+/// @nodoc
 class CustomerSummary {
   /// An object that contains a customer's account details.
   final AccountSummary? account;
@@ -9302,6 +9438,8 @@ class CustomerSummary {
 }
 
 /// An object that contains a <code>Project</code> object's subset of fields.
+///
+/// @nodoc
 class ProjectSummary {
   /// Specifies your solution or service's deployment or consumption model in the
   /// <code>Opportunity</code>'s context. You can select multiple options.
@@ -9385,6 +9523,8 @@ class ProjectSummary {
 }
 
 /// An object that contains an <code>Account</code>'s subset of fields.
+///
+/// @nodoc
 class AccountSummary {
   /// Specifies the end <code>Customer</code>'s company name associated with the
   /// <code>Opportunity</code>.
@@ -9453,6 +9593,8 @@ class AccountSummary {
 }
 
 /// An object that contains an <code>Address</code> object's subset of fields.
+///
+/// @nodoc
 class AddressSummary {
   /// Specifies the end <code>Customer</code>'s city associated with the
   /// <code>Opportunity</code>.
@@ -9513,6 +9655,7 @@ class AddressSummary {
   }
 }
 
+/// @nodoc
 class ClosedLostReason {
   static const customerDeficiency = ClosedLostReason._('Customer Deficiency');
   static const delayCancellationOfProject =
@@ -9585,6 +9728,8 @@ class ClosedLostReason {
 }
 
 /// Object that configures response sorting.
+///
+/// @nodoc
 class OpportunitySort {
   /// Field name to sort by.
   final OpportunitySortName sortBy;
@@ -9612,6 +9757,8 @@ class OpportunitySort {
 /// Defines a filter to retrieve opportunities based on the last modified date.
 /// This filter is useful for tracking changes or updates to opportunities over
 /// time.
+///
+/// @nodoc
 class LastModifiedDate {
   /// Specifies the date after which the opportunities were modified. Use this
   /// filter to retrieve only those opportunities that were modified after a given
@@ -9641,6 +9788,8 @@ class LastModifiedDate {
 }
 
 /// Filter for opportunities based on creation date range.
+///
+/// @nodoc
 class CreatedDateFilter {
   /// Filter opportunities created after this date.
   final DateTime? afterCreatedDate;
@@ -9666,6 +9815,8 @@ class CreatedDateFilter {
 }
 
 /// Filters opportunities based on their target close date.
+///
+/// @nodoc
 class TargetCloseDateFilter {
   /// Filters opportunities with a target close date after this date. Use the
   /// <code>YYYY-MM-DD</code> format.
@@ -9692,6 +9843,7 @@ class TargetCloseDateFilter {
   }
 }
 
+/// @nodoc
 class OpportunitySortName {
   static const lastModifiedDate = OpportunitySortName._('LastModifiedDate');
   static const identifier = OpportunitySortName._('Identifier');
@@ -9727,6 +9879,7 @@ class OpportunitySortName {
   String toString() => value;
 }
 
+/// @nodoc
 class NationalSecurity {
   static const yes = NationalSecurity._('Yes');
   static const no = NationalSecurity._('No');
@@ -9752,6 +9905,8 @@ class NationalSecurity {
 }
 
 /// An object that contains the <code>Opportunity</code>'s project details.
+///
+/// @nodoc
 class Project {
   /// Captures additional comments or information for the <code>Opportunity</code>
   /// that weren't captured in other fields.
@@ -10012,6 +10167,8 @@ class Project {
 }
 
 /// An object that contains marketing details for the <code>Opportunity</code>.
+///
+/// @nodoc
 class Marketing {
   /// Indicates if the <code>Opportunity</code> is a marketing development fund
   /// (MDF) funded activity.
@@ -10097,6 +10254,8 @@ class Marketing {
 
 /// Specifies a customer's procurement terms details. Required only for partners
 /// in eligible programs.
+///
+/// @nodoc
 class SoftwareRevenue {
   /// Specifies the customer's intended payment type agreement or procurement
   /// method to acquire the solution or service outlined in the
@@ -10149,6 +10308,8 @@ class SoftwareRevenue {
 }
 
 /// An object that contains the <code>Opportunity</code> lifecycle's details.
+///
+/// @nodoc
 class LifeCycle {
   /// Specifies the reason code when an opportunity is marked as <i>Closed
   /// Lost</i>. When you select an appropriate reason code, you communicate the
@@ -10421,6 +10582,8 @@ class LifeCycle {
 
 /// Read-only; shows the last 50 values and change dates for the
 /// <code>NextSteps</code> field.
+///
+/// @nodoc
 class NextStepsHistory {
   /// Indicates the step execution time.
   final DateTime time;
@@ -10450,6 +10613,7 @@ class NextStepsHistory {
   }
 }
 
+/// @nodoc
 class RevenueModel {
   static const contract = RevenueModel._('Contract');
   static const payAsYouGo = RevenueModel._('Pay-as-you-go');
@@ -10475,6 +10639,8 @@ class RevenueModel {
 }
 
 /// Specifies payments details.
+///
+/// @nodoc
 class MonetaryValue {
   /// Specifies the payment amount.
   final String amount;
@@ -10508,6 +10674,7 @@ class MonetaryValue {
   }
 }
 
+/// @nodoc
 class MarketingSource {
   static const marketingActivity = MarketingSource._('Marketing Activity');
   static const none = MarketingSource._('None');
@@ -10532,6 +10699,7 @@ class MarketingSource {
   String toString() => value;
 }
 
+/// @nodoc
 class AwsFundingUsed {
   static const yes = AwsFundingUsed._('Yes');
   static const no = AwsFundingUsed._('No');
@@ -10556,6 +10724,7 @@ class AwsFundingUsed {
   String toString() => value;
 }
 
+/// @nodoc
 class Channel {
   static const awsMarketingCentral = Channel._('AWS Marketing Central');
   static const contentSyndication = Channel._('Content Syndication');
@@ -10604,6 +10773,7 @@ class Channel {
   String toString() => value;
 }
 
+/// @nodoc
 class CompetitorName {
   static const oracleCloud = CompetitorName._('Oracle Cloud');
   static const onPrem = CompetitorName._('On-Prem');
@@ -10653,6 +10823,8 @@ class CompetitorName {
 /// Provides a summarized view of the Engagement Invitation, including details
 /// like the identifier, status, and sender. This summary helps partners track
 /// and manage AWS originated opportunities.
+///
+/// @nodoc
 class EngagementInvitationSummary {
   /// Specifies the catalog in which the Engagement Invitation resides. This can
   /// be either the <code>AWS</code> or <code>Sandbox</code> catalog, indicating
@@ -10788,6 +10960,7 @@ class EngagementInvitationSummary {
   }
 }
 
+/// @nodoc
 class EngagementInvitationPayloadType {
   static const opportunityInvitation =
       EngagementInvitationPayloadType._('OpportunityInvitation');
@@ -10815,6 +10988,7 @@ class EngagementInvitationPayloadType {
   String toString() => value;
 }
 
+/// @nodoc
 class InvitationStatus {
   static const accepted = InvitationStatus._('ACCEPTED');
   static const pending = InvitationStatus._('PENDING');
@@ -10844,6 +11018,8 @@ class InvitationStatus {
 /// Represents the entity that received the Engagement Invitation, including
 /// account and company details. This field is essential for tracking the
 /// partner who is being invited to collaborate.
+///
+/// @nodoc
 class Receiver {
   /// Specifies the AWS account of the partner who received the Engagement
   /// Invitation. This field is used to track the invitation recipient within the
@@ -10870,6 +11046,7 @@ class Receiver {
   }
 }
 
+/// @nodoc
 class ParticipantType {
   static const sender = ParticipantType._('SENDER');
   static const receiver = ParticipantType._('RECEIVER');
@@ -10896,6 +11073,8 @@ class ParticipantType {
 
 /// Contains the account details of the partner who received the Engagement
 /// Invitation, including the AWS account ID and company name.
+///
+/// @nodoc
 class AccountReceiver {
   /// Indicates the AWS account ID of the partner who received the Engagement
   /// Invitation. This is a unique identifier for managing engagements with
@@ -10931,6 +11110,8 @@ class AccountReceiver {
 
 /// Defines sorting options for retrieving Engagement Invitations. Sorting can
 /// be done based on various criteria like the invitation date or status.
+///
+/// @nodoc
 class OpportunityEngagementInvitationSort {
   /// Specifies the field by which the Engagement Invitations are sorted. Common
   /// values include <code>InvitationDate</code> and <code>Status</code>.
@@ -10955,6 +11136,7 @@ class OpportunityEngagementInvitationSort {
   }
 }
 
+/// @nodoc
 class OpportunityEngagementInvitationSortName {
   static const invitationDate =
       OpportunityEngagementInvitationSortName._('InvitationDate');
@@ -10983,6 +11165,8 @@ class OpportunityEngagementInvitationSortName {
 /// Contains the data payload associated with the Engagement Invitation. This
 /// payload includes essential details related to the AWS opportunity and is
 /// used by partners to evaluate whether to accept or reject the engagement.
+///
+/// @nodoc
 class Payload {
   /// Specifies the details of the lead invitation within the Engagement
   /// Invitation payload. This data helps partners understand the lead context,
@@ -11028,6 +11212,8 @@ class Payload {
 /// about participants in an AWS Partner Central Engagement. This compact data
 /// structure encapsulates key details of each member, facilitating efficient
 /// collaboration and management within the Engagement.
+///
+/// @nodoc
 class EngagementMemberSummary {
   /// The official name of the member's company or organization.
   final String? companyName;
@@ -11062,6 +11248,8 @@ class EngagementMemberSummary {
 /// Represents the data payload of an Engagement Invitation for a specific
 /// opportunity. This contains detailed information that partners use to
 /// evaluate the engagement.
+///
+/// @nodoc
 class OpportunityInvitationPayload {
   /// Contains information about the customer related to the opportunity in the
   /// Engagement Invitation. This data helps partners understand the customer’s
@@ -11127,6 +11315,8 @@ class OpportunityInvitationPayload {
 /// opportunity. This contains detailed information about the customer and
 /// interaction history that partners use to evaluate whether to accept the lead
 /// engagement invitation.
+///
+/// @nodoc
 class LeadInvitationPayload {
   /// Contains information about the customer associated with the lead invitation.
   /// This data helps partners understand the customer's profile, industry, and
@@ -11167,6 +11357,8 @@ class LeadInvitationPayload {
 /// Contains customer information included in a lead invitation payload. This
 /// structure provides essential details about the customer to help partners
 /// evaluate the lead opportunity and determine their interest in engagement.
+///
+/// @nodoc
 class LeadInvitationCustomer {
   /// The name of the customer company associated with the lead invitation. This
   /// field identifies the target organization for the lead engagement
@@ -11242,6 +11434,8 @@ class LeadInvitationCustomer {
 /// structure provides context about how the lead was generated and the
 /// customer's engagement history to help partners assess the opportunity
 /// quality.
+///
+/// @nodoc
 class LeadInvitationInteraction {
   /// The business title or job role of the customer contact involved in the lead
   /// interaction. This helps partners identify the decision-making level and
@@ -11302,6 +11496,7 @@ class LeadInvitationInteraction {
   }
 }
 
+/// @nodoc
 class MarketSegment {
   static const enterprise = MarketSegment._('Enterprise');
   static const large = MarketSegment._('Large');
@@ -11331,6 +11526,8 @@ class MarketSegment {
 
 /// Contains details about the customer associated with the Engagement
 /// Invitation, including company information and industry.
+///
+/// @nodoc
 class EngagementCustomer {
   /// Represents the name of the customer’s company associated with the Engagement
   /// Invitation. This field is used to identify the customer.
@@ -11381,6 +11578,8 @@ class EngagementCustomer {
 
 /// Contains details about the project associated with the Engagement
 /// Invitation, including the business problem and expected outcomes.
+///
+/// @nodoc
 class ProjectDetails {
   /// Describes the business problem that the project aims to solve. This
   /// information is crucial for understanding the project’s goals and objectives.
@@ -11433,6 +11632,7 @@ class ProjectDetails {
   }
 }
 
+/// @nodoc
 class ReceiverResponsibility {
   static const distributor = ReceiverResponsibility._('Distributor');
   static const reseller = ReceiverResponsibility._('Reseller');
@@ -11479,6 +11679,8 @@ class ReceiverResponsibility {
 
 /// An object that contains the details of the sender-provided contact person
 /// for the <code>EngagementInvitation</code>.
+///
+/// @nodoc
 class SenderContact {
   /// The sender-provided contact's email address associated with the
   /// <code>EngagementInvitation</code>.
@@ -11537,6 +11739,8 @@ class SenderContact {
 /// The Invitation structure represents an invitation exchanged between partners
 /// and AWS. It includes a message, receiver information, and a payload
 /// providing context for the invitation.
+///
+/// @nodoc
 class Invitation {
   /// A message accompanying the invitation.
   final String message;
@@ -11564,6 +11768,8 @@ class Invitation {
 /// Provides a summary of a task related to creating an engagement from an
 /// opportunity. This structure contains key information about the task's
 /// status, associated identifiers, and any failure details.
+///
+/// @nodoc
 class ListEngagementFromOpportunityTaskSummary {
   /// The unique identifier of the engagement created as a result of the task.
   /// This field is populated when the task is completed successfully.
@@ -11665,6 +11871,8 @@ class ListEngagementFromOpportunityTaskSummary {
 /// Indicates the level of AWS involvement in the opportunity. This field helps
 /// track AWS participation throughout the engagement, such as providing
 /// technical support, deal assistance, and sales support.
+///
+/// @nodoc
 class AwsSubmission {
   /// Specifies the type of AWS involvement in the opportunity, such as coselling,
   /// deal support, or technical consultation. This helps categorize the nature of
@@ -11693,6 +11901,8 @@ class AwsSubmission {
 
 /// Specifies a subset of fields associated with tasks related to accepting an
 /// engagement invitation.
+///
+/// @nodoc
 class ListEngagementByAcceptingInvitationTaskSummary {
   /// The unique identifier of the engagement invitation that was accepted.
   final String? engagementInvitationId;
@@ -11785,6 +11995,8 @@ class ListEngagementByAcceptingInvitationTaskSummary {
 /// participation. Only existing members of an Engagement can view the list of
 /// other members. This implies a level of privacy and access control within the
 /// Engagement structure.
+///
+/// @nodoc
 class EngagementMember {
   /// This is the unique identifier for the AWS account associated with the member
   /// organization. It's used for AWS-related operations and identity
@@ -11826,6 +12038,8 @@ class EngagementMember {
 }
 
 /// An object that contains an <code>Engagement</code>'s subset of fields.
+///
+/// @nodoc
 class EngagementSummary {
   /// The Amazon Resource Name (ARN) of the created Engagement.
   final String? arn;
@@ -11912,6 +12126,7 @@ class EngagementSummary {
   }
 }
 
+/// @nodoc
 class EngagementContextType {
   static const customerProject = EngagementContextType._('CustomerProject');
   static const lead = EngagementContextType._('Lead');
@@ -11938,6 +12153,8 @@ class EngagementContextType {
 }
 
 /// Specifies the sorting parameters for listing Engagements.
+///
+/// @nodoc
 class EngagementSort {
   /// The field by which to sort the results.
   final EngagementSortName sortBy;
@@ -11960,6 +12177,7 @@ class EngagementSort {
   }
 }
 
+/// @nodoc
 class EngagementSortName {
   static const createdDate = EngagementSortName._('CreatedDate');
 
@@ -11986,6 +12204,8 @@ class EngagementSortName {
 
 /// Provides detailed context information for an Engagement. This structure
 /// allows for specifying the type of context and its associated payload.
+///
+/// @nodoc
 class EngagementContextDetails {
   /// Specifies the type of Engagement context. Valid values are "CustomerProject"
   /// or "Document", indicating whether the context relates to a customer project
@@ -12032,6 +12252,8 @@ class EngagementContextDetails {
 /// Represents the payload of an Engagement context. The structure of this
 /// payload varies based on the context type specified in the
 /// EngagementContextDetails.
+///
+/// @nodoc
 class EngagementContextPayload {
   /// Contains detailed information about a customer project when the context type
   /// is "CustomerProject". This field is present only when the Type in
@@ -12080,6 +12302,8 @@ class EngagementContextPayload {
 /// project details are not fully defined. This structure also facilitates
 /// targeted invitations, allowing partners to focus on specific customers and
 /// their business problems when sending Engagement invitations.
+///
+/// @nodoc
 class CustomerProjectsContext {
   final EngagementCustomer? customer;
 
@@ -12118,6 +12342,8 @@ class CustomerProjectsContext {
 /// This structure contains information about lead qualification status,
 /// customer details, and interaction history to facilitate lead management and
 /// tracking within the engagement.
+///
+/// @nodoc
 class LeadContext {
   /// Contains detailed information about the customer associated with the lead,
   /// including company information, contact details, and other relevant customer
@@ -12170,6 +12396,8 @@ class LeadContext {
 /// including company details, industry classification, and AWS maturity level.
 /// This information helps qualify and categorize the lead for appropriate
 /// engagement strategies.
+///
+/// @nodoc
 class LeadCustomer {
   final AddressSummary address;
 
@@ -12242,6 +12470,8 @@ class LeadCustomer {
 /// structure captures details about communications, meetings, or other
 /// engagement activities that help track the lead's progression and engagement
 /// history.
+///
+/// @nodoc
 class LeadInteraction {
   /// Contains contact information for the customer representative involved in the
   /// lead interaction, including their name, title, and contact details.
@@ -12334,6 +12564,8 @@ class LeadInteraction {
 /// An object that contains a lead contact's details associated with the
 /// engagement. This provides contact information for individuals involved in
 /// lead-related activities.
+///
+/// @nodoc
 class LeadContact {
   /// The lead contact's business title or job role associated with the
   /// engagement.
@@ -12388,6 +12620,8 @@ class LeadContact {
 /// Provides comprehensive details about a customer project associated with an
 /// Engagement. This may include information such as project goals, timelines,
 /// and specific customer requirements.
+///
+/// @nodoc
 class EngagementCustomerProjectDetails {
   /// A description of the business problem the project aims to solve.
   final String businessProblem;
@@ -12426,6 +12660,8 @@ class EngagementCustomerProjectDetails {
 
 /// Represents the updated payload of an engagement context. The structure of
 /// this payload varies based on the context type being updated.
+///
+/// @nodoc
 class UpdateEngagementContextPayload {
   final CustomerProjectsContext? customerProject;
 
@@ -12451,6 +12687,8 @@ class UpdateEngagementContextPayload {
 
 /// Updates the context information for a lead with qualification status,
 /// customer details, and interaction data.
+///
+/// @nodoc
 class UpdateLeadContext {
   /// Updated customer information associated with the lead.
   final LeadCustomer customer;
@@ -12480,26 +12718,31 @@ class UpdateLeadContext {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -12508,11 +12751,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

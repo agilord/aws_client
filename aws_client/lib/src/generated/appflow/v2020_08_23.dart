@@ -1337,6 +1337,7 @@ class Appflow {
   }
 }
 
+/// @nodoc
 class CancelFlowExecutionsResponse {
   /// The IDs of runs that Amazon AppFlow couldn't cancel. These runs might be
   /// ineligible for canceling because they haven't started yet or have already
@@ -1364,6 +1365,7 @@ class CancelFlowExecutionsResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectorProfileResponse {
   /// The Amazon Resource Name (ARN) of the connector profile.
   final String? connectorProfileArn;
@@ -1387,6 +1389,7 @@ class CreateConnectorProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateFlowResponse {
   /// The flow's Amazon Resource Name (ARN).
   final String? flowArn;
@@ -1416,6 +1419,7 @@ class CreateFlowResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectorProfileResponse {
   DeleteConnectorProfileResponse();
 
@@ -1428,6 +1432,7 @@ class DeleteConnectorProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteFlowResponse {
   DeleteFlowResponse();
 
@@ -1440,6 +1445,7 @@ class DeleteFlowResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectorResponse {
   /// Configuration info of all the connectors that the user requested.
   final ConnectorConfiguration? connectorConfiguration;
@@ -1466,6 +1472,7 @@ class DescribeConnectorResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectorEntityResponse {
   /// Describes the fields for that connector entity. For example, for an
   /// <i>account</i> entity, the fields would be <i>account name</i>, <i>account
@@ -1494,6 +1501,7 @@ class DescribeConnectorEntityResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectorProfilesResponse {
   /// Returns information about the connector profiles associated with the flow.
   final List<ConnectorProfile>? connectorProfileDetails;
@@ -1529,6 +1537,7 @@ class DescribeConnectorProfilesResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectorsResponse {
   /// The configuration that is applied to the connectors used in the flow.
   final Map<ConnectorType, ConnectorConfiguration>? connectorConfigurations;
@@ -1573,6 +1582,7 @@ class DescribeConnectorsResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlowResponse {
   /// Specifies when the flow was created.
   final DateTime? createdAt;
@@ -1775,6 +1785,7 @@ class DescribeFlowResponse {
   }
 }
 
+/// @nodoc
 class DescribeFlowExecutionRecordsResponse {
   /// Returns a list of all instances when this flow was run.
   final List<ExecutionRecord>? flowExecutions;
@@ -1808,6 +1819,7 @@ class DescribeFlowExecutionRecordsResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorEntitiesResponse {
   /// The response of <code>ListConnectorEntities</code> lists entities grouped by
   /// category. This map's key represents the group name, and its value contains
@@ -1851,6 +1863,7 @@ class ListConnectorEntitiesResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorsResponse {
   /// Contains information about the connectors supported by Amazon AppFlow.
   final List<ConnectorDetail>? connectors;
@@ -1884,6 +1897,7 @@ class ListConnectorsResponse {
   }
 }
 
+/// @nodoc
 class ListFlowsResponse {
   /// The list of flows associated with your account.
   final List<FlowDefinition>? flows;
@@ -1916,6 +1930,7 @@ class ListFlowsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags used to organize, track, or control access for your flow.
   final Map<String, String>? tags;
@@ -1939,6 +1954,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterConnectorResponse {
   /// The ARN of the connector being registered.
   final String? connectorArn;
@@ -1961,6 +1977,7 @@ class RegisterConnectorResponse {
   }
 }
 
+/// @nodoc
 class ResetConnectorMetadataCacheResponse {
   ResetConnectorMetadataCacheResponse();
 
@@ -1973,6 +1990,7 @@ class ResetConnectorMetadataCacheResponse {
   }
 }
 
+/// @nodoc
 class StartFlowResponse {
   /// Returns the internal execution ID of an on-demand flow when the flow is
   /// started. For scheduled or event-triggered flows, this value is null.
@@ -2010,6 +2028,7 @@ class StartFlowResponse {
   }
 }
 
+/// @nodoc
 class StopFlowResponse {
   /// The flow's Amazon Resource Name (ARN).
   final String? flowArn;
@@ -2039,6 +2058,7 @@ class StopFlowResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2051,6 +2071,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UnregisterConnectorResponse {
   UnregisterConnectorResponse();
 
@@ -2063,6 +2084,7 @@ class UnregisterConnectorResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2075,6 +2097,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectorProfileResponse {
   /// The Amazon Resource Name (ARN) of the connector profile.
   final String? connectorProfileArn;
@@ -2098,6 +2121,7 @@ class UpdateConnectorProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectorRegistrationResponse {
   /// The ARN of the connector being updated.
   final String? connectorArn;
@@ -2121,6 +2145,7 @@ class UpdateConnectorRegistrationResponse {
   }
 }
 
+/// @nodoc
 class UpdateFlowResponse {
   /// Indicates the current status of the flow.
   final FlowStatus? flowStatus;
@@ -2143,6 +2168,7 @@ class UpdateFlowResponse {
   }
 }
 
+/// @nodoc
 class FlowStatus {
   static const active = FlowStatus._('Active');
   static const deprecated = FlowStatus._('Deprecated');
@@ -2179,6 +2205,8 @@ class FlowStatus {
 
 /// The trigger settings that determine how and when Amazon AppFlow runs the
 /// specified flow.
+///
+/// @nodoc
 class TriggerConfig {
   /// Specifies the type of flow trigger. This can be <code>OnDemand</code>,
   /// <code>Scheduled</code>, or <code>Event</code>.
@@ -2217,6 +2245,8 @@ class TriggerConfig {
 
 /// Contains information about the configuration of the source connector used in
 /// the flow.
+///
+/// @nodoc
 class SourceFlowConfig {
   /// The type of connector, such as Salesforce, Amplitude, and so on.
   final ConnectorType connectorType;
@@ -2282,6 +2312,8 @@ class SourceFlowConfig {
 /// Specifies the configuration that Amazon AppFlow uses when it catalogs your
 /// data. When Amazon AppFlow catalogs your data, it stores metadata in a data
 /// catalog.
+///
+/// @nodoc
 class MetadataCatalogConfig {
   /// Specifies the configuration that Amazon AppFlow uses when it catalogs your
   /// data with the Glue Data Catalog.
@@ -2316,6 +2348,8 @@ class MetadataCatalogConfig {
 /// You can configure a flow with these settings only when the flow destination
 /// is Amazon S3.
 /// </note>
+///
+/// @nodoc
 class GlueDataCatalogConfig {
   /// The name of the Data Catalog database that stores the metadata tables that
   /// Amazon AppFlow creates in your Amazon Web Services account. These tables
@@ -2369,6 +2403,8 @@ class GlueDataCatalogConfig {
 
 /// A class for modeling different type of tasks. Task implementation varies
 /// based on the <code>TaskType</code>.
+///
+/// @nodoc
 class Task {
   /// The source fields to which a particular task is applied.
   final List<String> sourceFields;
@@ -2431,6 +2467,8 @@ class Task {
 }
 
 /// The operation to be performed on the provided source fields.
+///
+/// @nodoc
 class ConnectorOperator {
   /// The operation to be performed on the provided Amplitude source fields.
   final AmplitudeConnectorOperator? amplitude;
@@ -2581,6 +2619,7 @@ class ConnectorOperator {
   }
 }
 
+/// @nodoc
 class TaskType {
   static const arithmetic = TaskType._('Arithmetic');
   static const filter = TaskType._('Filter');
@@ -2623,6 +2662,7 @@ class TaskType {
   String toString() => value;
 }
 
+/// @nodoc
 class OperatorPropertiesKeys {
   static const $value = OperatorPropertiesKeys._('VALUE');
   static const $values = OperatorPropertiesKeys._('VALUES');
@@ -2687,6 +2727,7 @@ class OperatorPropertiesKeys {
   String toString() => value;
 }
 
+/// @nodoc
 class AmplitudeConnectorOperator {
   static const between = AmplitudeConnectorOperator._('BETWEEN');
 
@@ -2711,6 +2752,7 @@ class AmplitudeConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class DatadogConnectorOperator {
   static const projection = DatadogConnectorOperator._('PROJECTION');
   static const between = DatadogConnectorOperator._('BETWEEN');
@@ -2768,6 +2810,7 @@ class DatadogConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class DynatraceConnectorOperator {
   static const projection = DynatraceConnectorOperator._('PROJECTION');
   static const between = DynatraceConnectorOperator._('BETWEEN');
@@ -2826,6 +2869,7 @@ class DynatraceConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class GoogleAnalyticsConnectorOperator {
   static const projection = GoogleAnalyticsConnectorOperator._('PROJECTION');
   static const between = GoogleAnalyticsConnectorOperator._('BETWEEN');
@@ -2851,6 +2895,7 @@ class GoogleAnalyticsConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class InforNexusConnectorOperator {
   static const projection = InforNexusConnectorOperator._('PROJECTION');
   static const between = InforNexusConnectorOperator._('BETWEEN');
@@ -2909,6 +2954,7 @@ class InforNexusConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class MarketoConnectorOperator {
   static const projection = MarketoConnectorOperator._('PROJECTION');
   static const lessThan = MarketoConnectorOperator._('LESS_THAN');
@@ -2968,6 +3014,7 @@ class MarketoConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class S3ConnectorOperator {
   static const projection = S3ConnectorOperator._('PROJECTION');
   static const lessThan = S3ConnectorOperator._('LESS_THAN');
@@ -3035,6 +3082,7 @@ class S3ConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SalesforceConnectorOperator {
   static const projection = SalesforceConnectorOperator._('PROJECTION');
   static const lessThan = SalesforceConnectorOperator._('LESS_THAN');
@@ -3107,6 +3155,7 @@ class SalesforceConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceNowConnectorOperator {
   static const projection = ServiceNowConnectorOperator._('PROJECTION');
   static const contains = ServiceNowConnectorOperator._('CONTAINS');
@@ -3179,6 +3228,7 @@ class ServiceNowConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SingularConnectorOperator {
   static const projection = SingularConnectorOperator._('PROJECTION');
   static const equalTo = SingularConnectorOperator._('EQUAL_TO');
@@ -3235,6 +3285,7 @@ class SingularConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SlackConnectorOperator {
   static const projection = SlackConnectorOperator._('PROJECTION');
   static const lessThan = SlackConnectorOperator._('LESS_THAN');
@@ -3300,6 +3351,7 @@ class SlackConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class TrendmicroConnectorOperator {
   static const projection = TrendmicroConnectorOperator._('PROJECTION');
   static const equalTo = TrendmicroConnectorOperator._('EQUAL_TO');
@@ -3356,6 +3408,7 @@ class TrendmicroConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class VeevaConnectorOperator {
   static const projection = VeevaConnectorOperator._('PROJECTION');
   static const lessThan = VeevaConnectorOperator._('LESS_THAN');
@@ -3425,6 +3478,7 @@ class VeevaConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ZendeskConnectorOperator {
   static const projection = ZendeskConnectorOperator._('PROJECTION');
   static const greaterThan = ZendeskConnectorOperator._('GREATER_THAN');
@@ -3480,6 +3534,7 @@ class ZendeskConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SAPODataConnectorOperator {
   static const projection = SAPODataConnectorOperator._('PROJECTION');
   static const lessThan = SAPODataConnectorOperator._('LESS_THAN');
@@ -3552,6 +3607,7 @@ class SAPODataConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class Operator {
   static const projection = Operator._('PROJECTION');
   static const lessThan = Operator._('LESS_THAN');
@@ -3616,6 +3672,7 @@ class Operator {
   String toString() => value;
 }
 
+/// @nodoc
 class PardotConnectorOperator {
   static const projection = PardotConnectorOperator._('PROJECTION');
   static const equalTo = PardotConnectorOperator._('EQUAL_TO');
@@ -3671,6 +3728,8 @@ class PardotConnectorOperator {
 
 /// Contains information about the configuration of destination connectors
 /// present in the flow.
+///
+/// @nodoc
 class DestinationFlowConfig {
   /// The type of connector, such as Salesforce, Amplitude, and so on.
   final ConnectorType connectorType;
@@ -3720,6 +3779,7 @@ class DestinationFlowConfig {
   }
 }
 
+/// @nodoc
 class ConnectorType {
   static const salesforce = ConnectorType._('Salesforce');
   static const singular = ConnectorType._('Singular');
@@ -3793,6 +3853,8 @@ class ConnectorType {
 
 /// This stores the information that is required to query a particular
 /// connector.
+///
+/// @nodoc
 class DestinationConnectorProperties {
   /// The properties that are required to query the custom Connector.
   final CustomConnectorDestinationProperties? customConnector;
@@ -3939,6 +4001,8 @@ class DestinationConnectorProperties {
 
 /// The properties that are applied when Amazon Redshift is being used as a
 /// destination.
+///
+/// @nodoc
 class RedshiftDestinationProperties {
   /// The intermediate bucket that Amazon AppFlow uses when moving data into
   /// Amazon Redshift.
@@ -3994,6 +4058,8 @@ class RedshiftDestinationProperties {
 }
 
 /// The properties that are applied when Amazon S3 is used as a destination.
+///
+/// @nodoc
 class S3DestinationProperties {
   /// The Amazon S3 bucket name in which Amazon AppFlow places the transferred
   /// data.
@@ -4036,6 +4102,8 @@ class S3DestinationProperties {
 
 /// The properties that are applied when Salesforce is being used as a
 /// destination.
+///
+/// @nodoc
 class SalesforceDestinationProperties {
   /// The object specified in the Salesforce flow destination.
   final String object;
@@ -4141,6 +4209,8 @@ class SalesforceDestinationProperties {
 
 /// The properties that are applied when Snowflake is being used as a
 /// destination.
+///
+/// @nodoc
 class SnowflakeDestinationProperties {
   /// The intermediate bucket that Amazon AppFlow uses when moving data into
   /// Snowflake.
@@ -4197,6 +4267,8 @@ class SnowflakeDestinationProperties {
 
 /// The properties that are applied when Amazon EventBridge is being used as a
 /// destination.
+///
+/// @nodoc
 class EventBridgeDestinationProperties {
   /// The object specified in the Amazon EventBridge flow destination.
   final String object;
@@ -4230,6 +4302,8 @@ class EventBridgeDestinationProperties {
 
 /// The properties that are applied when Amazon Lookout for Metrics is used as a
 /// destination.
+///
+/// @nodoc
 class LookoutMetricsDestinationProperties {
   LookoutMetricsDestinationProperties();
 
@@ -4243,6 +4317,8 @@ class LookoutMetricsDestinationProperties {
 }
 
 /// The properties that are applied when Upsolver is used as a destination.
+///
+/// @nodoc
 class UpsolverDestinationProperties {
   /// The Upsolver Amazon S3 bucket name in which Amazon AppFlow places the
   /// transferred data.
@@ -4286,6 +4362,8 @@ class UpsolverDestinationProperties {
 
 /// The properties that are applied when Amazon Honeycode is used as a
 /// destination.
+///
+/// @nodoc
 class HoneycodeDestinationProperties {
   /// The object specified in the Amazon Honeycode flow destination.
   final String object;
@@ -4319,6 +4397,8 @@ class HoneycodeDestinationProperties {
 
 /// The properties that are applied when Connect Customer Customer Profiles is
 /// used as a destination.
+///
+/// @nodoc
 class CustomerProfilesDestinationProperties {
   /// The unique name of the Connect Customer Customer Profiles domain.
   final String domainName;
@@ -4351,6 +4431,8 @@ class CustomerProfilesDestinationProperties {
 }
 
 /// The properties that are applied when Zendesk is used as a destination.
+///
+/// @nodoc
 class ZendeskDestinationProperties {
   /// The object specified in the Zendesk flow destination.
   final String object;
@@ -4399,6 +4481,8 @@ class ZendeskDestinationProperties {
 
 /// The properties that Amazon AppFlow applies when you use Marketo as a flow
 /// destination.
+///
+/// @nodoc
 class MarketoDestinationProperties {
   /// The object specified in the Marketo flow destination.
   final String object;
@@ -4432,6 +4516,8 @@ class MarketoDestinationProperties {
 
 /// The properties that are applied when the custom connector is being used as a
 /// destination.
+///
+/// @nodoc
 class CustomConnectorDestinationProperties {
   /// The entity specified in the custom connector as a destination in the flow.
   final String entityName;
@@ -4498,6 +4584,8 @@ class CustomConnectorDestinationProperties {
 }
 
 /// The properties that are applied when using SAPOData as a flow destination
+///
+/// @nodoc
 class SAPODataDestinationProperties {
   /// The object path specified in the SAPOData flow destination.
   final String objectPath;
@@ -4565,6 +4653,8 @@ class SAPODataDestinationProperties {
 ///
 /// For example, this setting would determine where to write the response from
 /// the destination connector upon a successful insert operation.
+///
+/// @nodoc
 class SuccessResponseHandlingConfig {
   /// The name of the Amazon S3 bucket.
   final String? bucketName;
@@ -4600,6 +4690,8 @@ class SuccessResponseHandlingConfig {
 /// insert every record regardless of the initial failure.
 /// <code>ErrorHandlingConfig</code> is a part of the destination connector
 /// details.
+///
+/// @nodoc
 class ErrorHandlingConfig {
   /// Specifies the name of the Amazon S3 bucket.
   final String? bucketName;
@@ -4640,6 +4732,8 @@ class ErrorHandlingConfig {
 
 /// The possible write operations in the destination connector. When this value
 /// is not provided, this defaults to the <code>INSERT</code> operation.
+///
+/// @nodoc
 class WriteOperationType {
   static const insert = WriteOperationType._('INSERT');
   static const upsert = WriteOperationType._('UPSERT');
@@ -4669,6 +4763,8 @@ class WriteOperationType {
 
 /// The configuration that determines how Amazon AppFlow formats the flow output
 /// data when Upsolver is used as the destination.
+///
+/// @nodoc
 class UpsolverS3OutputFormatConfig {
   final PrefixConfig prefixConfig;
   final AggregationConfig? aggregationConfig;
@@ -4708,6 +4804,7 @@ class UpsolverS3OutputFormatConfig {
   }
 }
 
+/// @nodoc
 class FileType {
   static const csv = FileType._('CSV');
   static const json = FileType._('JSON');
@@ -4734,6 +4831,8 @@ class FileType {
 
 /// Specifies elements that Amazon AppFlow includes in the file and folder names
 /// in the flow destination.
+///
+/// @nodoc
 class PrefixConfig {
   /// Specifies whether the destination file path includes either or both of the
   /// following elements:
@@ -4798,6 +4897,8 @@ class PrefixConfig {
 
 /// The aggregation settings that you can use to customize the output format of
 /// your flow data.
+///
+/// @nodoc
 class AggregationConfig {
   /// Specifies whether Amazon AppFlow aggregates the flow records into a single
   /// file, or leave them unaggregated.
@@ -4833,6 +4934,7 @@ class AggregationConfig {
   }
 }
 
+/// @nodoc
 class AggregationType {
   static const none = AggregationType._('None');
   static const singleFile = AggregationType._('SingleFile');
@@ -4857,6 +4959,7 @@ class AggregationType {
   String toString() => value;
 }
 
+/// @nodoc
 class PrefixType {
   static const filename = PrefixType._('FILENAME');
   static const path = PrefixType._('PATH');
@@ -4881,6 +4984,7 @@ class PrefixType {
   String toString() => value;
 }
 
+/// @nodoc
 class PrefixFormat {
   static const year = PrefixFormat._('YEAR');
   static const month = PrefixFormat._('MONTH');
@@ -4907,6 +5011,7 @@ class PrefixFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class PathPrefix {
   static const executionId = PathPrefix._('EXECUTION_ID');
   static const schemaVersion = PathPrefix._('SCHEMA_VERSION');
@@ -4930,6 +5035,7 @@ class PathPrefix {
   String toString() => value;
 }
 
+/// @nodoc
 class SalesforceDataTransferApi {
   static const automatic = SalesforceDataTransferApi._('AUTOMATIC');
   static const bulkv2 = SalesforceDataTransferApi._('BULKV2');
@@ -4958,6 +5064,8 @@ class SalesforceDataTransferApi {
 
 /// The configuration that determines how Amazon AppFlow should format the flow
 /// output data when Amazon S3 is used as the destination.
+///
+/// @nodoc
 class S3OutputFormatConfig {
   final AggregationConfig? aggregationConfig;
 
@@ -5025,6 +5133,8 @@ class S3OutputFormatConfig {
 }
 
 /// Specifies the information that is required to query a particular connector.
+///
+/// @nodoc
 class SourceConnectorProperties {
   /// Specifies the information that is required for querying Amplitude.
   final AmplitudeSourceProperties? amplitude;
@@ -5207,6 +5317,8 @@ class SourceConnectorProperties {
 
 /// Specifies the configuration used when importing incremental records from the
 /// source.
+///
+/// @nodoc
 class IncrementalPullConfig {
   /// A field that specifies the date time or timestamp field as the criteria to
   /// use when importing incremental records from the source.
@@ -5232,6 +5344,8 @@ class IncrementalPullConfig {
 }
 
 /// The properties that are applied when Amplitude is being used as a source.
+///
+/// @nodoc
 class AmplitudeSourceProperties {
   /// The object specified in the Amplitude flow source.
   final String object;
@@ -5255,6 +5369,8 @@ class AmplitudeSourceProperties {
 }
 
 /// The properties that are applied when Datadog is being used as a source.
+///
+/// @nodoc
 class DatadogSourceProperties {
   /// The object specified in the Datadog flow source.
   final String object;
@@ -5278,6 +5394,8 @@ class DatadogSourceProperties {
 }
 
 /// The properties that are applied when Dynatrace is being used as a source.
+///
+/// @nodoc
 class DynatraceSourceProperties {
   /// The object specified in the Dynatrace flow source.
   final String object;
@@ -5302,6 +5420,8 @@ class DynatraceSourceProperties {
 
 /// The properties that are applied when Google Analytics is being used as a
 /// source.
+///
+/// @nodoc
 class GoogleAnalyticsSourceProperties {
   /// The object specified in the Google Analytics flow source.
   final String object;
@@ -5325,6 +5445,8 @@ class GoogleAnalyticsSourceProperties {
 }
 
 /// The properties that are applied when Infor Nexus is being used as a source.
+///
+/// @nodoc
 class InforNexusSourceProperties {
   /// The object specified in the Infor Nexus flow source.
   final String object;
@@ -5348,6 +5470,8 @@ class InforNexusSourceProperties {
 }
 
 /// The properties that are applied when Marketo is being used as a source.
+///
+/// @nodoc
 class MarketoSourceProperties {
   /// The object specified in the Marketo flow source.
   final String object;
@@ -5372,6 +5496,8 @@ class MarketoSourceProperties {
 
 /// The properties that are applied when Amazon S3 is being used as the flow
 /// source.
+///
+/// @nodoc
 class S3SourceProperties {
   /// The Amazon S3 bucket name where the source files are stored.
   final String bucketName;
@@ -5412,6 +5538,8 @@ class S3SourceProperties {
 }
 
 /// The properties that are applied when Salesforce is being used as a source.
+///
+/// @nodoc
 class SalesforceSourceProperties {
   /// The object specified in the Salesforce flow source.
   final String object;
@@ -5495,6 +5623,8 @@ class SalesforceSourceProperties {
 }
 
 /// The properties that are applied when ServiceNow is being used as a source.
+///
+/// @nodoc
 class ServiceNowSourceProperties {
   /// The object specified in the ServiceNow flow source.
   final String object;
@@ -5518,6 +5648,8 @@ class ServiceNowSourceProperties {
 }
 
 /// The properties that are applied when Singular is being used as a source.
+///
+/// @nodoc
 class SingularSourceProperties {
   /// The object specified in the Singular flow source.
   final String object;
@@ -5541,6 +5673,8 @@ class SingularSourceProperties {
 }
 
 /// The properties that are applied when Slack is being used as a source.
+///
+/// @nodoc
 class SlackSourceProperties {
   /// The object specified in the Slack flow source.
   final String object;
@@ -5564,6 +5698,8 @@ class SlackSourceProperties {
 }
 
 /// The properties that are applied when using Trend Micro as a flow source.
+///
+/// @nodoc
 class TrendmicroSourceProperties {
   /// The object specified in the Trend Micro flow source.
   final String object;
@@ -5587,6 +5723,8 @@ class TrendmicroSourceProperties {
 }
 
 /// The properties that are applied when using Veeva as a flow source.
+///
+/// @nodoc
 class VeevaSourceProperties {
   /// The object specified in the Veeva flow source.
   final String object;
@@ -5639,6 +5777,8 @@ class VeevaSourceProperties {
 }
 
 /// The properties that are applied when using Zendesk as a flow source.
+///
+/// @nodoc
 class ZendeskSourceProperties {
   /// The object specified in the Zendesk flow source.
   final String object;
@@ -5662,6 +5802,8 @@ class ZendeskSourceProperties {
 }
 
 /// The properties that are applied when using SAPOData as a flow source.
+///
+/// @nodoc
 class SAPODataSourceProperties {
   /// The object path specified in the SAPOData flow source.
   final String? objectPath;
@@ -5708,6 +5850,8 @@ class SAPODataSourceProperties {
 
 /// The properties that are applied when the custom connector is being used as a
 /// source.
+///
+/// @nodoc
 class CustomConnectorSourceProperties {
   /// The entity specified in the custom connector as a source in the flow.
   final String entityName;
@@ -5751,6 +5895,8 @@ class CustomConnectorSourceProperties {
 
 /// The properties that are applied when Salesforce Pardot is being used as a
 /// source.
+///
+/// @nodoc
 class PardotSourceProperties {
   /// The object specified in the Salesforce Pardot flow source.
   final String object;
@@ -5775,6 +5921,8 @@ class PardotSourceProperties {
 
 /// The API of the connector application that Amazon AppFlow uses to transfer
 /// your data.
+///
+/// @nodoc
 class DataTransferApi {
   /// The name of the connector application API.
   final String? name;
@@ -5814,6 +5962,7 @@ class DataTransferApi {
   }
 }
 
+/// @nodoc
 class DataTransferApiType {
   static const sync = DataTransferApiType._('SYNC');
   static const async = DataTransferApiType._('ASYNC');
@@ -5844,6 +5993,8 @@ class DataTransferApiType {
 /// from your SAP instance. A concurrent process is query that retrieves a batch
 /// of records as part of a flow run. Amazon AppFlow can run multiple concurrent
 /// processes in parallel to transfer data faster.
+///
+/// @nodoc
 class SAPODataParallelismConfig {
   /// The maximum number of processes that Amazon AppFlow runs at the same time
   /// when it retrieves your data from your SAP application.
@@ -5871,6 +6022,8 @@ class SAPODataParallelismConfig {
 /// records from your SAP instance. A concurrent process is query that retrieves
 /// a batch of records as part of a flow run. Amazon AppFlow can run multiple
 /// concurrent processes in parallel to transfer data faster.
+///
+/// @nodoc
 class SAPODataPaginationConfig {
   /// The maximum number of records that Amazon AppFlow receives in each page of
   /// the response from your SAP application. For transfers of OData records, the
@@ -5898,6 +6051,8 @@ class SAPODataPaginationConfig {
 
 /// When you use Amazon S3 as the source, the configuration format that you
 /// provide the flow input data.
+///
+/// @nodoc
 class S3InputFormatConfig {
   /// The file type that Amazon AppFlow gets from your Amazon S3 bucket.
   final S3InputFileType? s3InputFileType;
@@ -5921,6 +6076,7 @@ class S3InputFormatConfig {
   }
 }
 
+/// @nodoc
 class S3InputFileType {
   static const csv = S3InputFileType._('CSV');
   static const json = S3InputFileType._('JSON');
@@ -5945,6 +6101,7 @@ class S3InputFileType {
   String toString() => value;
 }
 
+/// @nodoc
 class TriggerType {
   static const scheduled = TriggerType._('Scheduled');
   static const event = TriggerType._('Event');
@@ -5972,6 +6129,8 @@ class TriggerType {
 /// Specifies the configuration details that control the trigger for a flow.
 /// Currently, these settings only apply to the <code>Scheduled</code> trigger
 /// type.
+///
+/// @nodoc
 class TriggerProperties {
   /// Specifies the configuration details of a schedule-triggered flow as defined
   /// by the user.
@@ -6001,6 +6160,8 @@ class TriggerProperties {
 /// Specifies the configuration details of a schedule-triggered flow as defined
 /// by the user. Currently, these settings only apply to the
 /// <code>Scheduled</code> trigger type.
+///
+/// @nodoc
 class ScheduledTriggerProperties {
   /// The scheduling expression that determines the rate at which the schedule
   /// will run, for example <code>rate(5minutes)</code>.
@@ -6095,6 +6256,7 @@ class ScheduledTriggerProperties {
   }
 }
 
+/// @nodoc
 class DataPullMode {
   static const incremental = DataPullMode._('Incremental');
   static const complete = DataPullMode._('Complete');
@@ -6120,6 +6282,8 @@ class DataPullMode {
 
 /// Contains information about the configuration of the connector being
 /// registered.
+///
+/// @nodoc
 class ConnectorProvisioningConfig {
   /// Contains information about the configuration of the lambda which is being
   /// registered as the connector.
@@ -6148,6 +6312,8 @@ class ConnectorProvisioningConfig {
 
 /// Contains information about the configuration of the lambda which is being
 /// registered as the connector.
+///
+/// @nodoc
 class LambdaConnectorProvisioningConfig {
   /// Lambda ARN of the connector being registered.
   final String lambdaArn;
@@ -6171,6 +6337,7 @@ class LambdaConnectorProvisioningConfig {
   }
 }
 
+/// @nodoc
 class ConnectionMode {
   static const public = ConnectionMode._('Public');
   static const private = ConnectionMode._('Private');
@@ -6197,6 +6364,8 @@ class ConnectionMode {
 
 /// Defines the connector-specific configuration and credentials for the
 /// connector profile.
+///
+/// @nodoc
 class ConnectorProfileConfig {
   /// The connector-specific properties of the profile configuration.
   final ConnectorProfileProperties connectorProfileProperties;
@@ -6221,6 +6390,8 @@ class ConnectorProfileConfig {
 }
 
 /// The connector-specific profile properties required by each connector.
+///
+/// @nodoc
 class ConnectorProfileProperties {
   /// The connector-specific properties required by Amplitude.
   final AmplitudeConnectorProfileProperties? amplitude;
@@ -6425,6 +6596,8 @@ class ConnectorProfileProperties {
 }
 
 /// The connector-specific credentials required by a connector.
+///
+/// @nodoc
 class ConnectorProfileCredentials {
   /// The connector-specific credentials required when using Amplitude.
   final AmplitudeConnectorProfileCredentials? amplitude;
@@ -6546,6 +6719,8 @@ class ConnectorProfileCredentials {
 }
 
 /// The connector-specific credentials required when using Amplitude.
+///
+/// @nodoc
 class AmplitudeConnectorProfileCredentials {
   /// A unique alphanumeric identifier used to authenticate a user, developer, or
   /// calling program to your API.
@@ -6570,6 +6745,8 @@ class AmplitudeConnectorProfileCredentials {
 }
 
 /// The connector-specific credentials required by Datadog.
+///
+/// @nodoc
 class DatadogConnectorProfileCredentials {
   /// A unique alphanumeric identifier used to authenticate a user, developer, or
   /// calling program to your API.
@@ -6597,6 +6774,8 @@ class DatadogConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required by Dynatrace.
+///
+/// @nodoc
 class DynatraceConnectorProfileCredentials {
   /// The API tokens used by Dynatrace API to authenticate various API calls.
   final String apiToken;
@@ -6614,6 +6793,8 @@ class DynatraceConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required by Google Analytics.
+///
+/// @nodoc
 class GoogleAnalyticsConnectorProfileCredentials {
   /// The identifier for the desired client.
   final String clientId;
@@ -6658,6 +6839,8 @@ class GoogleAnalyticsConnectorProfileCredentials {
 }
 
 /// The connector-specific credentials required when using Amazon Honeycode.
+///
+/// @nodoc
 class HoneycodeConnectorProfileCredentials {
   /// The credentials used to access protected Amazon Honeycode resources.
   final String? accessToken;
@@ -6685,6 +6868,8 @@ class HoneycodeConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required by Infor Nexus.
+///
+/// @nodoc
 class InforNexusConnectorProfileCredentials {
   /// The Access Key portion of the credentials.
   final String accessKeyId;
@@ -6720,6 +6905,8 @@ class InforNexusConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required by Marketo.
+///
+/// @nodoc
 class MarketoConnectorProfileCredentials {
   /// The identifier for the desired client.
   final String clientId;
@@ -6758,6 +6945,8 @@ class MarketoConnectorProfileCredentials {
 
 /// The connector-specific profile credentials required when using Amazon
 /// Redshift.
+///
+/// @nodoc
 class RedshiftConnectorProfileCredentials {
   /// The password that corresponds to the user name.
   final String? password;
@@ -6781,6 +6970,8 @@ class RedshiftConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using Salesforce.
+///
+/// @nodoc
 class SalesforceConnectorProfileCredentials {
   /// The credentials used to access protected Salesforce resources.
   final String? accessToken;
@@ -6850,6 +7041,8 @@ class SalesforceConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using ServiceNow.
+///
+/// @nodoc
 class ServiceNowConnectorProfileCredentials {
   /// The OAuth 2.0 credentials required to authenticate the user.
   final OAuth2Credentials? oAuth2Credentials;
@@ -6879,6 +7072,8 @@ class ServiceNowConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using Singular.
+///
+/// @nodoc
 class SingularConnectorProfileCredentials {
   /// A unique alphanumeric identifier used to authenticate a user, developer, or
   /// calling program to your API.
@@ -6897,6 +7092,8 @@ class SingularConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using Slack.
+///
+/// @nodoc
 class SlackConnectorProfileCredentials {
   /// The identifier for the client.
   final String clientId;
@@ -6934,6 +7131,8 @@ class SlackConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using Snowflake.
+///
+/// @nodoc
 class SnowflakeConnectorProfileCredentials {
   /// The password that corresponds to the user name.
   final String password;
@@ -6957,6 +7156,8 @@ class SnowflakeConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using Trend Micro.
+///
+/// @nodoc
 class TrendmicroConnectorProfileCredentials {
   /// The Secret Access Key portion of the credentials.
   final String apiSecretKey;
@@ -6974,6 +7175,8 @@ class TrendmicroConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using Veeva.
+///
+/// @nodoc
 class VeevaConnectorProfileCredentials {
   /// The password that corresponds to the user name.
   final String password;
@@ -6997,6 +7200,8 @@ class VeevaConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using Zendesk.
+///
+/// @nodoc
 class ZendeskConnectorProfileCredentials {
   /// The identifier for the desired client.
   final String clientId;
@@ -7034,6 +7239,8 @@ class ZendeskConnectorProfileCredentials {
 }
 
 /// The connector-specific profile credentials required when using SAPOData.
+///
+/// @nodoc
 class SAPODataConnectorProfileCredentials {
   /// The SAPOData basic authentication credentials.
   final BasicAuthCredentials? basicAuthCredentials;
@@ -7059,6 +7266,8 @@ class SAPODataConnectorProfileCredentials {
 
 /// The connector-specific profile credentials that are required when using the
 /// custom connector.
+///
+/// @nodoc
 class CustomConnectorProfileCredentials {
   /// The authentication type that the custom connector uses for authenticating
   /// while creating a connector profile.
@@ -7103,6 +7312,8 @@ class CustomConnectorProfileCredentials {
 
 /// The connector-specific profile credentials required when using Salesforce
 /// Pardot.
+///
+/// @nodoc
 class PardotConnectorProfileCredentials {
   /// The credentials used to access protected Salesforce Pardot resources.
   final String? accessToken;
@@ -7139,6 +7350,8 @@ class PardotConnectorProfileCredentials {
 
 /// Used by select connectors for which the OAuth workflow is supported, such as
 /// Salesforce, Google Analytics, Marketo, Zendesk, and Slack.
+///
+/// @nodoc
 class ConnectorOAuthRequest {
   /// The code provided by the connector when it has been authenticated via the
   /// connected app.
@@ -7163,6 +7376,7 @@ class ConnectorOAuthRequest {
   }
 }
 
+/// @nodoc
 class AuthenticationType {
   static const oauth2 = AuthenticationType._('OAUTH2');
   static const apikey = AuthenticationType._('APIKEY');
@@ -7191,6 +7405,8 @@ class AuthenticationType {
 }
 
 /// The basic auth credentials required for basic authentication.
+///
+/// @nodoc
 class BasicAuthCredentials {
   /// The password to use to connect to a resource.
   final String password;
@@ -7214,6 +7430,8 @@ class BasicAuthCredentials {
 }
 
 /// The OAuth 2.0 credentials required for OAuth 2.0 authentication.
+///
+/// @nodoc
 class OAuth2Credentials {
   /// The access token used to access the connector on your behalf.
   final String? accessToken;
@@ -7254,6 +7472,8 @@ class OAuth2Credentials {
 }
 
 /// The API key credentials required for API key authentication.
+///
+/// @nodoc
 class ApiKeyCredentials {
   /// The API key required for API key authentication.
   final String apiKey;
@@ -7277,6 +7497,8 @@ class ApiKeyCredentials {
 }
 
 /// The custom credentials required for custom authentication.
+///
+/// @nodoc
 class CustomAuthCredentials {
   /// The custom authentication type that the connector uses.
   final String customAuthenticationType;
@@ -7300,6 +7522,8 @@ class CustomAuthCredentials {
 }
 
 /// The OAuth credentials required for OAuth type authentication.
+///
+/// @nodoc
 class OAuthCredentials {
   /// The identifier for the desired client.
   final String clientId;
@@ -7342,6 +7566,7 @@ class OAuthCredentials {
   }
 }
 
+/// @nodoc
 class OAuth2GrantType {
   static const clientCredentials = OAuth2GrantType._('CLIENT_CREDENTIALS');
   static const authorizationCode = OAuth2GrantType._('AUTHORIZATION_CODE');
@@ -7368,6 +7593,8 @@ class OAuth2GrantType {
 }
 
 /// The connector-specific profile properties required when using Amplitude.
+///
+/// @nodoc
 class AmplitudeConnectorProfileProperties {
   AmplitudeConnectorProfileProperties();
 
@@ -7381,6 +7608,8 @@ class AmplitudeConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required by Datadog.
+///
+/// @nodoc
 class DatadogConnectorProfileProperties {
   /// The location of the Datadog resource.
   final String instanceUrl;
@@ -7405,6 +7634,8 @@ class DatadogConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required by Dynatrace.
+///
+/// @nodoc
 class DynatraceConnectorProfileProperties {
   /// The location of the Dynatrace resource.
   final String instanceUrl;
@@ -7429,6 +7660,8 @@ class DynatraceConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required by Google Analytics.
+///
+/// @nodoc
 class GoogleAnalyticsConnectorProfileProperties {
   GoogleAnalyticsConnectorProfileProperties();
 
@@ -7443,6 +7676,8 @@ class GoogleAnalyticsConnectorProfileProperties {
 }
 
 /// The connector-specific properties required when using Amazon Honeycode.
+///
+/// @nodoc
 class HoneycodeConnectorProfileProperties {
   HoneycodeConnectorProfileProperties();
 
@@ -7456,6 +7691,8 @@ class HoneycodeConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required by Infor Nexus.
+///
+/// @nodoc
 class InforNexusConnectorProfileProperties {
   /// The location of the Infor Nexus resource.
   final String instanceUrl;
@@ -7480,6 +7717,8 @@ class InforNexusConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using Marketo.
+///
+/// @nodoc
 class MarketoConnectorProfileProperties {
   /// The location of the Marketo resource.
   final String instanceUrl;
@@ -7504,6 +7743,8 @@ class MarketoConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties when using Amazon Redshift.
+///
+/// @nodoc
 class RedshiftConnectorProfileProperties {
   /// A name for the associated Amazon S3 bucket.
   final String bucketName;
@@ -7595,6 +7836,8 @@ class RedshiftConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using Salesforce.
+///
+/// @nodoc
 class SalesforceConnectorProfileProperties {
   /// The location of the Salesforce resource.
   final String? instanceUrl;
@@ -7683,6 +7926,8 @@ class SalesforceConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using ServiceNow.
+///
+/// @nodoc
 class ServiceNowConnectorProfileProperties {
   /// The location of the ServiceNow resource.
   final String instanceUrl;
@@ -7707,6 +7952,8 @@ class ServiceNowConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using Singular.
+///
+/// @nodoc
 class SingularConnectorProfileProperties {
   SingularConnectorProfileProperties();
 
@@ -7720,6 +7967,8 @@ class SingularConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using Slack.
+///
+/// @nodoc
 class SlackConnectorProfileProperties {
   /// The location of the Slack resource.
   final String instanceUrl;
@@ -7743,6 +7992,8 @@ class SlackConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using Snowflake.
+///
+/// @nodoc
 class SnowflakeConnectorProfileProperties {
   /// The name of the Amazon S3 bucket associated with Snowflake.
   final String bucketName;
@@ -7814,6 +8065,8 @@ class SnowflakeConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using Trend Micro.
+///
+/// @nodoc
 class TrendmicroConnectorProfileProperties {
   TrendmicroConnectorProfileProperties();
 
@@ -7828,6 +8081,8 @@ class TrendmicroConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using Veeva.
+///
+/// @nodoc
 class VeevaConnectorProfileProperties {
   /// The location of the Veeva resource.
   final String instanceUrl;
@@ -7851,6 +8106,8 @@ class VeevaConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using Zendesk.
+///
+/// @nodoc
 class ZendeskConnectorProfileProperties {
   /// The location of the Zendesk resource.
   final String instanceUrl;
@@ -7875,6 +8132,8 @@ class ZendeskConnectorProfileProperties {
 }
 
 /// The connector-specific profile properties required when using SAPOData.
+///
+/// @nodoc
 class SAPODataConnectorProfileProperties {
   /// The location of the SAPOData resource.
   final String applicationHostUrl;
@@ -7963,6 +8222,8 @@ class SAPODataConnectorProfileProperties {
 }
 
 /// The profile properties required by the custom connector.
+///
+/// @nodoc
 class CustomConnectorProfileProperties {
   final OAuth2Properties? oAuth2Properties;
 
@@ -7998,6 +8259,8 @@ class CustomConnectorProfileProperties {
 
 /// The connector-specific profile properties required when using Salesforce
 /// Pardot.
+///
+/// @nodoc
 class PardotConnectorProfileProperties {
   /// The business unit id of Salesforce Pardot instance.
   final String? businessUnitId;
@@ -8037,6 +8300,8 @@ class PardotConnectorProfileProperties {
 }
 
 /// The OAuth 2.0 properties required for OAuth 2.0 authentication.
+///
+/// @nodoc
 class OAuth2Properties {
   /// The OAuth 2.0 grant type used by connector for OAuth 2.0 authentication.
   final OAuth2GrantType oAuth2GrantType;
@@ -8080,6 +8345,8 @@ class OAuth2Properties {
 }
 
 /// The OAuth properties required for OAuth type authentication.
+///
+/// @nodoc
 class OAuthProperties {
   /// The authorization code url required to redirect to SAP Login Page to fetch
   /// authorization code for OAuth type authentication.
@@ -8122,6 +8389,8 @@ class OAuthProperties {
 }
 
 /// The type of provisioning that the connector supports, such as Lambda.
+///
+/// @nodoc
 class ConnectorProvisioningType {
   static const lambda = ConnectorProvisioningType._('LAMBDA');
 
@@ -8148,6 +8417,8 @@ class ConnectorProvisioningType {
 
 /// The properties of the flow, such as its source, destination, trigger type,
 /// and so on.
+///
+/// @nodoc
 class FlowDefinition {
   /// Specifies when the flow was created.
   final DateTime? createdAt;
@@ -8287,6 +8558,8 @@ class FlowDefinition {
 
 /// Describes the details of the flow run, including the timestamp, status, and
 /// message.
+///
+/// @nodoc
 class ExecutionDetails {
   /// Describes the details of the most recent flow run.
   final String? mostRecentExecutionMessage;
@@ -8328,6 +8601,7 @@ class ExecutionDetails {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const inProgress = ExecutionStatus._('InProgress');
   static const successful = ExecutionStatus._('Successful');
@@ -8362,6 +8636,8 @@ class ExecutionStatus {
 }
 
 /// Information about the registered connector.
+///
+/// @nodoc
 class ConnectorDetail {
   /// The application type of the connector.
   final String? applicationType;
@@ -8479,6 +8755,7 @@ class ConnectorDetail {
   }
 }
 
+/// @nodoc
 class SupportedDataTransferType {
   static const record = SupportedDataTransferType._('RECORD');
   static const file = SupportedDataTransferType._('FILE');
@@ -8507,6 +8784,8 @@ class SupportedDataTransferType {
 /// The high-level entity that can be queried in Amazon AppFlow. For example, a
 /// Salesforce entity might be an <i>Account</i> or <i>Opportunity</i>, whereas
 /// a ServiceNow entity might be an <i>Incident</i>.
+///
+/// @nodoc
 class ConnectorEntity {
   /// The name of the connector entity.
   final String name;
@@ -8549,6 +8828,8 @@ class ConnectorEntity {
 }
 
 /// Specifies information about the past flow run instances for a given flow.
+///
+/// @nodoc
 class ExecutionRecord {
   /// The timestamp that indicates the last new or updated record to be
   /// transferred in the flow run.
@@ -8636,6 +8917,8 @@ class ExecutionRecord {
 }
 
 /// Specifies the end result of the flow run.
+///
+/// @nodoc
 class ExecutionResult {
   /// The total number of bytes processed by the flow run.
   final int? bytesProcessed;
@@ -8700,6 +8983,8 @@ class ExecutionResult {
 
 /// Describes the metadata catalog, metadata table, and data partitions that
 /// Amazon AppFlow used for the associated flow run.
+///
+/// @nodoc
 class MetadataCatalogDetail {
   /// The type of metadata catalog that Amazon AppFlow used for the associated
   /// flow run. This parameter returns the following value:
@@ -8765,6 +9050,7 @@ class MetadataCatalogDetail {
   }
 }
 
+/// @nodoc
 class CatalogType {
   static const glue = CatalogType._('GLUE');
 
@@ -8795,6 +9081,8 @@ class CatalogType {
 /// This operation provides the status of that registration attempt. The
 /// operation also indicates how many related resources Amazon AppFlow created
 /// or updated.
+///
+/// @nodoc
 class RegistrationOutput {
   /// Explains the status of the registration attempt from Amazon AppFlow. If the
   /// attempt fails, the message explains why.
@@ -8835,6 +9123,8 @@ class RegistrationOutput {
 
 /// Provides details in the event of a failed flow, including the failure count
 /// and the related error messages.
+///
+/// @nodoc
 class ErrorInfo {
   /// Specifies the error message that appears if a flow fails.
   final String? executionMessage;
@@ -8865,6 +9155,8 @@ class ErrorInfo {
 }
 
 /// The configuration settings related to a given connector.
+///
+/// @nodoc
 class ConnectorConfiguration {
   /// The authentication config required for the connector.
   final AuthenticationConfig? authenticationConfig;
@@ -9155,6 +9447,8 @@ class ConnectorConfiguration {
 /// A structure to specify connector-specific metadata such as
 /// <code>oAuthScopes</code>, <code>supportedRegions</code>,
 /// <code>privateLinkServiceUrl</code>, and so on.
+///
+/// @nodoc
 class ConnectorMetadata {
   /// The connector metadata specific to Amplitude.
   final AmplitudeMetadata? amplitude;
@@ -9379,6 +9673,8 @@ class ConnectorMetadata {
 
 /// Contains information about the authentication config that the connector
 /// supports.
+///
+/// @nodoc
 class AuthenticationConfig {
   /// Contains information required for custom authentication.
   final List<CustomAuthConfig>? customAuthConfigs;
@@ -9445,6 +9741,7 @@ class AuthenticationConfig {
   }
 }
 
+/// @nodoc
 class Operators {
   static const projection = Operators._('PROJECTION');
   static const lessThan = Operators._('LESS_THAN');
@@ -9511,6 +9808,8 @@ class Operators {
 
 /// Contains information about the connector runtime settings that are required
 /// for flow execution.
+///
+/// @nodoc
 class ConnectorRuntimeSetting {
   /// Contains default values for the connector runtime setting that are supplied
   /// by the connector.
@@ -9582,6 +9881,8 @@ class ConnectorRuntimeSetting {
 }
 
 /// Contains the default values required for OAuth 2.0 authentication.
+///
+/// @nodoc
 class OAuth2Defaults {
   /// Auth code URLs that can be used for OAuth 2.0 authentication.
   final List<String>? authCodeUrls;
@@ -9651,6 +9952,8 @@ class OAuth2Defaults {
 }
 
 /// Configuration information required for custom authentication.
+///
+/// @nodoc
 class CustomAuthConfig {
   /// Information about authentication parameters required for authentication.
   final List<AuthParameter>? authParameters;
@@ -9685,6 +9988,8 @@ class CustomAuthConfig {
 }
 
 /// Information about required authentication parameters.
+///
+/// @nodoc
 class AuthParameter {
   /// Contains default values for this authentication parameter that are supplied
   /// by the connector.
@@ -9748,6 +10053,8 @@ class AuthParameter {
 }
 
 /// Custom parameter required for OAuth 2.0 authentication.
+///
+/// @nodoc
 class OAuth2CustomParameter {
   /// Contains default values for this authentication parameter that are supplied
   /// by the connector.
@@ -9818,6 +10125,7 @@ class OAuth2CustomParameter {
   }
 }
 
+/// @nodoc
 class OAuth2CustomPropType {
   static const tokenUrl = OAuth2CustomPropType._('TOKEN_URL');
   static const authUrl = OAuth2CustomPropType._('AUTH_URL');
@@ -9844,6 +10152,8 @@ class OAuth2CustomPropType {
 }
 
 /// The connector metadata specific to Amplitude.
+///
+/// @nodoc
 class AmplitudeMetadata {
   AmplitudeMetadata();
 
@@ -9857,6 +10167,8 @@ class AmplitudeMetadata {
 }
 
 /// The connector metadata specific to Datadog.
+///
+/// @nodoc
 class DatadogMetadata {
   DatadogMetadata();
 
@@ -9870,6 +10182,8 @@ class DatadogMetadata {
 }
 
 /// The connector metadata specific to Dynatrace.
+///
+/// @nodoc
 class DynatraceMetadata {
   DynatraceMetadata();
 
@@ -9883,6 +10197,8 @@ class DynatraceMetadata {
 }
 
 /// The connector metadata specific to Google Analytics.
+///
+/// @nodoc
 class GoogleAnalyticsMetadata {
   /// The desired authorization scope for the Google Analytics account.
   final List<String>? oAuthScopes;
@@ -9909,6 +10225,8 @@ class GoogleAnalyticsMetadata {
 }
 
 /// The connector metadata specific to Infor Nexus.
+///
+/// @nodoc
 class InforNexusMetadata {
   InforNexusMetadata();
 
@@ -9922,6 +10240,8 @@ class InforNexusMetadata {
 }
 
 /// The connector metadata specific to Marketo.
+///
+/// @nodoc
 class MarketoMetadata {
   MarketoMetadata();
 
@@ -9935,6 +10255,8 @@ class MarketoMetadata {
 }
 
 /// The connector metadata specific to Amazon Redshift.
+///
+/// @nodoc
 class RedshiftMetadata {
   RedshiftMetadata();
 
@@ -9948,6 +10270,8 @@ class RedshiftMetadata {
 }
 
 /// The connector metadata specific to Amazon S3.
+///
+/// @nodoc
 class S3Metadata {
   S3Metadata();
 
@@ -9961,6 +10285,8 @@ class S3Metadata {
 }
 
 /// The connector metadata specific to Salesforce.
+///
+/// @nodoc
 class SalesforceMetadata {
   /// The Salesforce APIs that you can have Amazon AppFlow use when your flows
   /// transfers data to or from Salesforce.
@@ -10027,6 +10353,8 @@ class SalesforceMetadata {
 }
 
 /// The connector metadata specific to ServiceNow.
+///
+/// @nodoc
 class ServiceNowMetadata {
   ServiceNowMetadata();
 
@@ -10040,6 +10368,8 @@ class ServiceNowMetadata {
 }
 
 /// The connector metadata specific to Singular.
+///
+/// @nodoc
 class SingularMetadata {
   SingularMetadata();
 
@@ -10053,6 +10383,8 @@ class SingularMetadata {
 }
 
 /// The connector metadata specific to Slack.
+///
+/// @nodoc
 class SlackMetadata {
   /// The desired authorization scope for the Slack account.
   final List<String>? oAuthScopes;
@@ -10079,6 +10411,8 @@ class SlackMetadata {
 }
 
 /// The connector metadata specific to Snowflake.
+///
+/// @nodoc
 class SnowflakeMetadata {
   /// Specifies the supported Amazon Web Services Regions when using Snowflake.
   final List<String>? supportedRegions;
@@ -10105,6 +10439,8 @@ class SnowflakeMetadata {
 }
 
 /// The connector metadata specific to Trend Micro.
+///
+/// @nodoc
 class TrendmicroMetadata {
   TrendmicroMetadata();
 
@@ -10118,6 +10454,8 @@ class TrendmicroMetadata {
 }
 
 /// The connector metadata specific to Veeva.
+///
+/// @nodoc
 class VeevaMetadata {
   VeevaMetadata();
 
@@ -10131,6 +10469,8 @@ class VeevaMetadata {
 }
 
 /// The connector metadata specific to Zendesk.
+///
+/// @nodoc
 class ZendeskMetadata {
   /// The desired authorization scope for the Zendesk account.
   final List<String>? oAuthScopes;
@@ -10157,6 +10497,8 @@ class ZendeskMetadata {
 }
 
 /// The connector metadata specific to Amazon EventBridge.
+///
+/// @nodoc
 class EventBridgeMetadata {
   EventBridgeMetadata();
 
@@ -10170,6 +10512,8 @@ class EventBridgeMetadata {
 }
 
 /// The connector metadata specific to Upsolver.
+///
+/// @nodoc
 class UpsolverMetadata {
   UpsolverMetadata();
 
@@ -10183,6 +10527,8 @@ class UpsolverMetadata {
 }
 
 /// The connector metadata specific to Connect Customer Customer Profiles.
+///
+/// @nodoc
 class CustomerProfilesMetadata {
   CustomerProfilesMetadata();
 
@@ -10196,6 +10542,8 @@ class CustomerProfilesMetadata {
 }
 
 /// The connector metadata specific to Amazon Honeycode.
+///
+/// @nodoc
 class HoneycodeMetadata {
   /// The desired authorization scope for the Amazon Honeycode account.
   final List<String>? oAuthScopes;
@@ -10222,6 +10570,8 @@ class HoneycodeMetadata {
 }
 
 /// The connector metadata specific to SAPOData.
+///
+/// @nodoc
 class SAPODataMetadata {
   SAPODataMetadata();
 
@@ -10235,6 +10585,8 @@ class SAPODataMetadata {
 }
 
 /// The connector metadata specific to Salesforce Pardot.
+///
+/// @nodoc
 class PardotMetadata {
   PardotMetadata();
 
@@ -10247,6 +10599,7 @@ class PardotMetadata {
   }
 }
 
+/// @nodoc
 class ScheduleFrequencyType {
   static const byminute = ScheduleFrequencyType._('BYMINUTE');
   static const hourly = ScheduleFrequencyType._('HOURLY');
@@ -10282,6 +10635,8 @@ class ScheduleFrequencyType {
 /// are explicitly specified at the top level. The rest of the
 /// connector-specific properties are available via the
 /// <code>connectorProfileProperties</code> field.
+///
+/// @nodoc
 class ConnectorProfile {
   /// Indicates the connection mode and if it is public or private.
   final ConnectionMode? connectionMode;
@@ -10386,6 +10741,8 @@ class ConnectorProfile {
 }
 
 /// Specifies the private connection provisioning state.
+///
+/// @nodoc
 class PrivateConnectionProvisioningState {
   /// Specifies the private connection provisioning failure cause.
   final PrivateConnectionProvisioningFailureCause? failureCause;
@@ -10425,6 +10782,7 @@ class PrivateConnectionProvisioningState {
   }
 }
 
+/// @nodoc
 class PrivateConnectionProvisioningStatus {
   static const failed = PrivateConnectionProvisioningStatus._('FAILED');
   static const pending = PrivateConnectionProvisioningStatus._('PENDING');
@@ -10451,6 +10809,7 @@ class PrivateConnectionProvisioningStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class PrivateConnectionProvisioningFailureCause {
   static const connectorAuthentication =
       PrivateConnectionProvisioningFailureCause._('CONNECTOR_AUTHENTICATION');
@@ -10494,6 +10853,8 @@ class PrivateConnectionProvisioningFailureCause {
 /// Describes the data model of a connector field. For example, for an
 /// <i>account</i> entity, the fields would be <i>account name</i>, <i>account
 /// ID</i>, and so on.
+///
+/// @nodoc
 class ConnectorEntityField {
   /// The unique identifier of the connector field.
   final String identifier;
@@ -10606,6 +10967,8 @@ class ConnectorEntityField {
 /// Contains details regarding all the supported <code>FieldTypes</code> and
 /// their corresponding <code>filterOperators</code> and
 /// <code>supportedValues</code>.
+///
+/// @nodoc
 class SupportedFieldTypeDetails {
   /// The initial supported version for <code>fieldType</code>. If this is later
   /// changed to a different version, v2 will be introduced.
@@ -10632,6 +10995,8 @@ class SupportedFieldTypeDetails {
 
 /// The properties that can be applied to a field when the connector is being
 /// used as a source.
+///
+/// @nodoc
 class SourceFieldProperties {
   /// Indicates if the field can be queried.
   final bool? isQueryable;
@@ -10674,6 +11039,8 @@ class SourceFieldProperties {
 
 /// The properties that can be applied to a field when connector is being used
 /// as a destination.
+///
+/// @nodoc
 class DestinationFieldProperties {
   /// Specifies if the destination field can be created by the current user.
   final bool? isCreatable;
@@ -10744,6 +11111,8 @@ class DestinationFieldProperties {
 
 /// Contains details regarding the supported field type and the operators that
 /// can be applied for filtering.
+///
+/// @nodoc
 class FieldTypeDetails {
   /// The type of field, such as string, integer, date, and so on.
   final String fieldType;
@@ -10821,6 +11190,8 @@ class FieldTypeDetails {
 }
 
 /// The range of values that the property supports.
+///
+/// @nodoc
 class Range {
   /// Maximum value supported by the field.
   final double? maximum;
@@ -10850,16 +11221,19 @@ class Range {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ConnectorAuthenticationException extends _s.GenericAwsException {
   ConnectorAuthenticationException({String? type, String? message})
       : super(
@@ -10868,21 +11242,25 @@ class ConnectorAuthenticationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConnectorServerException extends _s.GenericAwsException {
   ConnectorServerException({String? type, String? message})
       : super(type: type, code: 'ConnectorServerException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -10891,11 +11269,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(
@@ -10904,6 +11284,7 @@ class UnsupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

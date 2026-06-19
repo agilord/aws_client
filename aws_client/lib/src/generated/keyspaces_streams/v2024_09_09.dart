@@ -321,6 +321,7 @@ class KeyspacesStreams {
   }
 }
 
+/// @nodoc
 class GetRecordsOutput {
   /// An array of change data records retrieved from the specified shard. Each
   /// record represents a single data modification (insert, update, or delete) to
@@ -370,6 +371,7 @@ class GetRecordsOutput {
   }
 }
 
+/// @nodoc
 class GetShardIteratorOutput {
   /// The unique identifier for the shard iterator. This value is used in the
   /// <code>GetRecords</code> operation to retrieve data records from the
@@ -395,6 +397,7 @@ class GetShardIteratorOutput {
   }
 }
 
+/// @nodoc
 class GetStreamOutput {
   /// The date and time when the request to create this stream was issued. The
   /// value is represented in ISO 8601 format.
@@ -511,6 +514,7 @@ class GetStreamOutput {
   }
 }
 
+/// @nodoc
 class ListStreamsOutput {
   /// A pagination token that can be used in a subsequent <code>ListStreams</code>
   /// request. This token is returned if the response contains more streams than
@@ -550,6 +554,8 @@ class ListStreamsOutput {
 
 /// Represents a change data capture stream for an Amazon Keyspaces table, which
 /// enables tracking and processing of data changes.
+///
+/// @nodoc
 class Stream {
   /// The name of the keyspace containing the table associated with this stream.
   final String keyspaceName;
@@ -593,6 +599,7 @@ class Stream {
   }
 }
 
+/// @nodoc
 class StreamStatus {
   static const enabling = StreamStatus._('ENABLING');
   static const enabled = StreamStatus._('ENABLED');
@@ -618,6 +625,7 @@ class StreamStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StreamViewType {
   static const newImage = StreamViewType._('NEW_IMAGE');
   static const oldImage = StreamViewType._('OLD_IMAGE');
@@ -646,6 +654,8 @@ class StreamViewType {
 
 /// Represents a uniquely identified group of change records within a change
 /// data capture stream for Amazon Keyspaces.
+///
+/// @nodoc
 class Shard {
   /// The identifiers of parent shards that this shard evolved from, if this shard
   /// was created through resharding.
@@ -692,6 +702,8 @@ class Shard {
 
 /// Defines a range of sequence numbers within a change data capture stream's
 /// shard for Amazon Keyspaces.
+///
+/// @nodoc
 class SequenceNumberRange {
   /// The ending sequence number of the range, which may be null for open-ended
   /// ranges.
@@ -726,6 +738,8 @@ class SequenceNumberRange {
 
 /// A filter used to limit the shards returned by a <code>GetStream</code>
 /// operation.
+///
+/// @nodoc
 class ShardFilter {
   /// The identifier of a specific shard used to filter results based on the
   /// specified filter type.
@@ -750,6 +764,7 @@ class ShardFilter {
   }
 }
 
+/// @nodoc
 class ShardFilterType {
   static const childShards = ShardFilterType._('CHILD_SHARDS');
 
@@ -773,6 +788,7 @@ class ShardFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class ShardIteratorType {
   static const trimHorizon = ShardIteratorType._('TRIM_HORIZON');
   static const latest = ShardIteratorType._('LATEST');
@@ -806,6 +822,8 @@ class ShardIteratorType {
 }
 
 /// Provides information about the current iterator.
+///
+/// @nodoc
 class IteratorDescription {
   /// Indicates the current iterator's position within the shard. The possible
   /// values are:
@@ -843,6 +861,7 @@ class IteratorDescription {
   }
 }
 
+/// @nodoc
 class IteratorPosition {
   static const atTip = IteratorPosition._('AT_TIP');
   static const behindTip = IteratorPosition._('BEHIND_TIP');
@@ -869,6 +888,8 @@ class IteratorPosition {
 
 /// Represents a change data capture record for a row in an Amazon Keyspaces
 /// table, containing both the new and old states of the row.
+///
+/// @nodoc
 class Record {
   /// The clustering key columns and their values for the affected row, which
   /// determine the order of rows within a partition.
@@ -951,6 +972,7 @@ class Record {
   }
 }
 
+/// @nodoc
 class OriginType {
   static const user = OriginType._('USER');
   static const replication = OriginType._('REPLICATION');
@@ -977,6 +999,8 @@ class OriginType {
 
 /// Represents a row in an Amazon Keyspaces table, containing regular column
 /// values, static column values, and row-level metadata.
+///
+/// @nodoc
 class KeyspacesRow {
   /// Metadata that applies to the entire row, such as timestamps and TTL
   /// information.
@@ -1023,6 +1047,8 @@ class KeyspacesRow {
 
 /// Contains metadata information associated with Amazon Keyspaces cells and
 /// rows.
+///
+/// @nodoc
 class KeyspacesMetadata {
   /// The time at which the associated data will expire, based on the time-to-live
   /// (TTL) setting.
@@ -1055,6 +1081,8 @@ class KeyspacesMetadata {
 
 /// Represents a cell in an Amazon Keyspaces table, containing both the value
 /// and metadata about the cell.
+///
+/// @nodoc
 class KeyspacesCell {
   /// Metadata associated with this cell, such as time-to-live (TTL) expiration
   /// time and write timestamp.
@@ -1092,6 +1120,8 @@ class KeyspacesCell {
 
 /// Represents the value of a cell in an Amazon Keyspaces table, supporting
 /// various data types with type-specific fields.
+///
+/// @nodoc
 class KeyspacesCellValue {
   /// A value of ASCII text type, containing US-ASCII characters.
   final String? asciiT;
@@ -1310,6 +1340,8 @@ class KeyspacesCellValue {
 
 /// Represents a key-value pair within a map data type in Amazon Keyspaces,
 /// including the associated metadata.
+///
+/// @nodoc
 class KeyspacesCellMapDefinition {
   /// The key of this map entry in the Amazon Keyspaces cell.
   final KeyspacesCellValue? key;
@@ -1353,26 +1385,31 @@ class KeyspacesCellMapDefinition {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

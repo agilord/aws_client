@@ -491,6 +491,8 @@ class MarketplaceMetering {
 /// Contains the <code>UsageRecords</code> processed by
 /// <code>BatchMeterUsage</code> and any records that have failed due to
 /// transient error.
+///
+/// @nodoc
 class BatchMeterUsageResult {
   /// Contains all <code>UsageRecords</code> processed by
   /// <code>BatchMeterUsage</code>. These records were either honored by Amazon
@@ -533,6 +535,7 @@ class BatchMeterUsageResult {
   }
 }
 
+/// @nodoc
 class MeterUsageResult {
   /// Metering record id.
   final String? meteringRecordId;
@@ -555,6 +558,7 @@ class MeterUsageResult {
   }
 }
 
+/// @nodoc
 class RegisterUsageResult {
   /// (Optional) Only included when public key version has expired
   final DateTime? publicKeyRotationTimestamp;
@@ -591,6 +595,8 @@ class RegisterUsageResult {
 /// <code>CustomerIdentifier</code> along with the
 /// <code>CustomerAWSAccountId</code>, <code>ProductCode</code>, and
 /// <code>LicenseArn</code>.
+///
+/// @nodoc
 class ResolveCustomerResult {
   /// The <code>CustomerAWSAccountId</code> provides the Amazon Web Services
   /// account ID associated with the <code>CustomerIdentifier</code> for the
@@ -653,6 +659,8 @@ class ResolveCustomerResult {
 ///
 /// Each <code>UsageAllocation</code> indicates the usage quantity for a
 /// specific set of tags.
+///
+/// @nodoc
 class UsageAllocation {
   /// The total quantity allocated to this bucket of usage.
   final int allocatedUsageQuantity;
@@ -688,6 +696,8 @@ class UsageAllocation {
 
 /// Metadata assigned to an allocation. Each tag is made up of a
 /// <code>key</code> and a <code>value</code>.
+///
+/// @nodoc
 class Tag {
   /// One part of a key-value pair that makes up a <code>tag</code>. A
   /// <code>key</code> is a label that acts like a category for the specific tag
@@ -726,6 +736,8 @@ class Tag {
 ///
 /// Multiple requests with the same <code>UsageRecords</code> as input will be
 /// de-duplicated to prevent double charges.
+///
+/// @nodoc
 class UsageRecord {
   /// During the process of registering a product on Amazon Web Services
   /// Marketplace, dimensions are specified. These represent different units of
@@ -822,6 +834,8 @@ class UsageRecord {
 
 /// A <code>UsageRecordResult</code> indicates the status of a given
 /// <code>UsageRecord</code> processed by <code>BatchMeterUsage</code>.
+///
+/// @nodoc
 class UsageRecordResult {
   /// The <code>MeteringRecordId</code> is a unique identifier for this metering
   /// event.
@@ -896,6 +910,7 @@ class UsageRecordResult {
   }
 }
 
+/// @nodoc
 class UsageRecordResultStatus {
   static const success = UsageRecordResultStatus._('Success');
   static const customerNotSubscribed =
@@ -923,33 +938,39 @@ class UsageRecordResultStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomerNotEntitledException extends _s.GenericAwsException {
   CustomerNotEntitledException({String? type, String? message})
       : super(
             type: type, code: 'CustomerNotEntitledException', message: message);
 }
 
+/// @nodoc
 class DisabledApiException extends _s.GenericAwsException {
   DisabledApiException({String? type, String? message})
       : super(type: type, code: 'DisabledApiException', message: message);
 }
 
+/// @nodoc
 class DuplicateRequestException extends _s.GenericAwsException {
   DuplicateRequestException({String? type, String? message})
       : super(type: type, code: 'DuplicateRequestException', message: message);
 }
 
+/// @nodoc
 class ExpiredTokenException extends _s.GenericAwsException {
   ExpiredTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredTokenException', message: message);
 }
 
+/// @nodoc
 class IdempotencyConflictException extends _s.GenericAwsException {
   IdempotencyConflictException({String? type, String? message})
       : super(
             type: type, code: 'IdempotencyConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -958,6 +979,7 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCustomerIdentifierException extends _s.GenericAwsException {
   InvalidCustomerIdentifierException({String? type, String? message})
       : super(
@@ -966,6 +988,7 @@ class InvalidCustomerIdentifierException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidEndpointRegionException extends _s.GenericAwsException {
   InvalidEndpointRegionException({String? type, String? message})
       : super(
@@ -974,17 +997,20 @@ class InvalidEndpointRegionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLicenseException extends _s.GenericAwsException {
   InvalidLicenseException({String? type, String? message})
       : super(type: type, code: 'InvalidLicenseException', message: message);
 }
 
+/// @nodoc
 class InvalidProductCodeException extends _s.GenericAwsException {
   InvalidProductCodeException({String? type, String? message})
       : super(
             type: type, code: 'InvalidProductCodeException', message: message);
 }
 
+/// @nodoc
 class InvalidPublicKeyVersionException extends _s.GenericAwsException {
   InvalidPublicKeyVersionException({String? type, String? message})
       : super(
@@ -993,21 +1019,25 @@ class InvalidPublicKeyVersionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRegionException extends _s.GenericAwsException {
   InvalidRegionException({String? type, String? message})
       : super(type: type, code: 'InvalidRegionException', message: message);
 }
 
+/// @nodoc
 class InvalidTagException extends _s.GenericAwsException {
   InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
+/// @nodoc
 class InvalidTokenException extends _s.GenericAwsException {
   InvalidTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidUsageAllocationsException extends _s.GenericAwsException {
   InvalidUsageAllocationsException({String? type, String? message})
       : super(
@@ -1016,6 +1046,7 @@ class InvalidUsageAllocationsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidUsageDimensionException extends _s.GenericAwsException {
   InvalidUsageDimensionException({String? type, String? message})
       : super(
@@ -1024,6 +1055,7 @@ class InvalidUsageDimensionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PlatformNotSupportedException extends _s.GenericAwsException {
   PlatformNotSupportedException({String? type, String? message})
       : super(
@@ -1032,11 +1064,13 @@ class PlatformNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TimestampOutOfBoundsException extends _s.GenericAwsException {
   TimestampOutOfBoundsException({String? type, String? message})
       : super(

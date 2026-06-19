@@ -1229,6 +1229,7 @@ class MigrationHubOrchestrator {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags added to a resource.
   final Map<String, String>? tags;
@@ -1252,6 +1253,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1264,6 +1266,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1276,6 +1279,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateMigrationWorkflowResponse {
   /// The configuration ID of the application configured in Application Discovery
   /// Service.
@@ -1378,6 +1382,7 @@ class CreateMigrationWorkflowResponse {
   }
 }
 
+/// @nodoc
 class GetMigrationWorkflowResponse {
   /// The configuration ID of the application configured in Application Discovery
   /// Service.
@@ -1546,6 +1551,7 @@ class GetMigrationWorkflowResponse {
   }
 }
 
+/// @nodoc
 class UpdateMigrationWorkflowResponse {
   /// The ID of the application configured in Application Discovery Service.
   final String? adsApplicationConfigurationId;
@@ -1655,6 +1661,7 @@ class UpdateMigrationWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DeleteMigrationWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the migration workflow.
   final String? arn;
@@ -1692,6 +1699,7 @@ class DeleteMigrationWorkflowResponse {
   }
 }
 
+/// @nodoc
 class ListMigrationWorkflowsResponse {
   /// The summary of the migration workflow.
   final List<MigrationWorkflowSummary> migrationWorkflowSummary;
@@ -1726,6 +1734,7 @@ class ListMigrationWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class StartMigrationWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the migration workflow.
   final String? arn;
@@ -1778,6 +1787,7 @@ class StartMigrationWorkflowResponse {
   }
 }
 
+/// @nodoc
 class StopMigrationWorkflowResponse {
   /// The Amazon Resource Name (ARN) of the migration workflow.
   final String? arn;
@@ -1830,6 +1840,7 @@ class StopMigrationWorkflowResponse {
   }
 }
 
+/// @nodoc
 class CreateTemplateResponse {
   /// The tags added to the migration workflow template.
   final Map<String, String>? tags;
@@ -1872,6 +1883,7 @@ class CreateTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetMigrationWorkflowTemplateResponse {
   /// The time at which the template was last created.
   final DateTime? creationTime;
@@ -2007,6 +2019,7 @@ class GetMigrationWorkflowTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateTemplateResponse {
   /// The tags added to the migration workflow template.
   final Map<String, String>? tags;
@@ -2049,6 +2062,7 @@ class UpdateTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteTemplateResponse {
   DeleteTemplateResponse();
 
@@ -2061,6 +2075,7 @@ class DeleteTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListMigrationWorkflowTemplatesResponse {
   /// The summary of the template.
   final List<TemplateSummary> templateSummary;
@@ -2094,6 +2109,7 @@ class ListMigrationWorkflowTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListPluginsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -2126,6 +2142,7 @@ class ListPluginsResponse {
   }
 }
 
+/// @nodoc
 class GetTemplateStepResponse {
   /// The time at which the step was created.
   final String? creationTime;
@@ -2230,6 +2247,7 @@ class GetTemplateStepResponse {
   }
 }
 
+/// @nodoc
 class ListTemplateStepsResponse {
   /// The pagination token.
   final String? nextToken;
@@ -2263,6 +2281,7 @@ class ListTemplateStepsResponse {
   }
 }
 
+/// @nodoc
 class GetTemplateStepGroupResponse {
   /// The time at which the step group was created.
   final DateTime? creationTime;
@@ -2356,6 +2375,7 @@ class GetTemplateStepGroupResponse {
   }
 }
 
+/// @nodoc
 class ListTemplateStepGroupsResponse {
   /// The summary of the step group in the template.
   final List<TemplateStepGroupSummary> templateStepGroupSummary;
@@ -2390,6 +2410,7 @@ class ListTemplateStepGroupsResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowStepResponse {
   /// The ID of the step.
   final String? id;
@@ -2433,6 +2454,7 @@ class CreateWorkflowStepResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowStepResponse {
   /// The time at which the step was created.
   final DateTime? creationTime;
@@ -2618,6 +2640,7 @@ class GetWorkflowStepResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkflowStepResponse {
   /// The ID of the step.
   final String? id;
@@ -2661,6 +2684,7 @@ class UpdateWorkflowStepResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkflowStepResponse {
   DeleteWorkflowStepResponse();
 
@@ -2673,6 +2697,7 @@ class DeleteWorkflowStepResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowStepsResponse {
   /// The summary of steps in a migration workflow.
   final List<WorkflowStepSummary> workflowStepsSummary;
@@ -2706,6 +2731,7 @@ class ListWorkflowStepsResponse {
   }
 }
 
+/// @nodoc
 class RetryWorkflowStepResponse {
   /// The ID of the step.
   final String? id;
@@ -2749,6 +2775,7 @@ class RetryWorkflowStepResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowStepGroupResponse {
   /// The time at which the step group is created.
   final DateTime? creationTime;
@@ -2827,6 +2854,7 @@ class CreateWorkflowStepGroupResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowStepGroupResponse {
   /// The time at which the step group was created.
   final DateTime? creationTime;
@@ -2934,6 +2962,7 @@ class GetWorkflowStepGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkflowStepGroupResponse {
   /// The description of the step group.
   final String? description;
@@ -3012,6 +3041,7 @@ class UpdateWorkflowStepGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkflowStepGroupResponse {
   DeleteWorkflowStepGroupResponse();
 
@@ -3024,6 +3054,7 @@ class DeleteWorkflowStepGroupResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowStepGroupsResponse {
   /// The summary of step groups in a migration workflow.
   final List<WorkflowStepGroupSummary> workflowStepGroupsSummary;
@@ -3059,6 +3090,8 @@ class ListWorkflowStepGroupsResponse {
 }
 
 /// The summary of a step group in a workflow.
+///
+/// @nodoc
 class WorkflowStepGroupSummary {
   /// The ID of the step group.
   final String? id;
@@ -3119,6 +3152,7 @@ class WorkflowStepGroupSummary {
   }
 }
 
+/// @nodoc
 class Owner {
   static const awsManaged = Owner._('AWS_MANAGED');
   static const custom = Owner._('CUSTOM');
@@ -3142,6 +3176,7 @@ class Owner {
   String toString() => value;
 }
 
+/// @nodoc
 class StepGroupStatus {
   static const awaitingDependencies =
       StepGroupStatus._('AWAITING_DEPENDENCIES');
@@ -3184,6 +3219,8 @@ class StepGroupStatus {
 }
 
 /// List of AWS services utilized in a migration workflow.
+///
+/// @nodoc
 class Tool {
   /// The name of an AWS service.
   final String? name;
@@ -3213,6 +3250,7 @@ class Tool {
   }
 }
 
+/// @nodoc
 class StepStatus {
   static const awaitingDependencies = StepStatus._('AWAITING_DEPENDENCIES');
   static const skipped = StepStatus._('SKIPPED');
@@ -3252,6 +3290,8 @@ class StepStatus {
 }
 
 /// The summary of the step in a migration workflow.
+///
+/// @nodoc
 class WorkflowStepSummary {
   /// The description of the step.
   final String? description;
@@ -3363,6 +3403,7 @@ class WorkflowStepSummary {
   }
 }
 
+/// @nodoc
 class StepActionType {
   static const manual = StepActionType._('MANUAL');
   static const automated = StepActionType._('AUTOMATED');
@@ -3388,6 +3429,8 @@ class StepActionType {
 }
 
 /// The custom script to run tests on source or target environments.
+///
+/// @nodoc
 class WorkflowStepAutomationConfiguration {
   /// The command required to run the script.
   final PlatformCommand? command;
@@ -3448,6 +3491,8 @@ class WorkflowStepAutomationConfiguration {
 }
 
 /// The output of a step.
+///
+/// @nodoc
 class WorkflowStepOutput {
   /// The data type of the output.
   final DataType? dataType;
@@ -3494,6 +3539,7 @@ class WorkflowStepOutput {
   }
 }
 
+/// @nodoc
 class DataType {
   static const string = DataType._('STRING');
   static const integer = DataType._('INTEGER');
@@ -3520,6 +3566,8 @@ class DataType {
 }
 
 /// A structure to hold multiple values of an output.
+///
+/// @nodoc
 class WorkflowStepOutputUnion {
   /// The integer value.
   final int? integerValue;
@@ -3560,6 +3608,8 @@ class WorkflowStepOutputUnion {
 }
 
 /// The script location for a particular operating system.
+///
+/// @nodoc
 class PlatformScriptKey {
   /// The script location for Linux.
   final String? linux;
@@ -3590,6 +3640,8 @@ class PlatformScriptKey {
 }
 
 /// Command to be run on a particular operating system.
+///
+/// @nodoc
 class PlatformCommand {
   /// Command for Linux.
   final String? linux;
@@ -3619,6 +3671,7 @@ class PlatformCommand {
   }
 }
 
+/// @nodoc
 class RunEnvironment {
   static const aws = RunEnvironment._('AWS');
   static const onpremise = RunEnvironment._('ONPREMISE');
@@ -3643,6 +3696,7 @@ class RunEnvironment {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetType {
   static const single = TargetType._('SINGLE');
   static const all = TargetType._('ALL');
@@ -3668,6 +3722,8 @@ class TargetType {
 }
 
 /// The summary of the step group in the template.
+///
+/// @nodoc
 class TemplateStepGroupSummary {
   /// The ID of the step group.
   final String? id;
@@ -3715,6 +3771,8 @@ class TemplateStepGroupSummary {
 }
 
 /// The summary of the step.
+///
+/// @nodoc
 class TemplateStepSummary {
   /// The ID of the step.
   final String? id;
@@ -3799,6 +3857,8 @@ class TemplateStepSummary {
 }
 
 /// The custom script to run tests on source or target environments.
+///
+/// @nodoc
 class StepAutomationConfiguration {
   /// The command to run the script.
   final PlatformCommand? command;
@@ -3858,6 +3918,8 @@ class StepAutomationConfiguration {
 }
 
 /// The output of the step.
+///
+/// @nodoc
 class StepOutput {
   /// The data type of the step output.
   final DataType? dataType;
@@ -3895,6 +3957,8 @@ class StepOutput {
 }
 
 /// The summary of the Migration Hub Orchestrator plugin.
+///
+/// @nodoc
 class PluginSummary {
   /// The name of the host.
   final String? hostname;
@@ -3952,6 +4016,7 @@ class PluginSummary {
   }
 }
 
+/// @nodoc
 class PluginHealth {
   static const healthy = PluginHealth._('HEALTHY');
   static const unhealthy = PluginHealth._('UNHEALTHY');
@@ -3976,6 +4041,8 @@ class PluginHealth {
 }
 
 /// The summary of the template.
+///
+/// @nodoc
 class TemplateSummary {
   /// The Amazon Resource Name (ARN) of the template.
   final String? arn;
@@ -4019,6 +4086,7 @@ class TemplateSummary {
   }
 }
 
+/// @nodoc
 class TemplateStatus {
   static const created = TemplateStatus._('CREATED');
   static const ready = TemplateStatus._('READY');
@@ -4053,6 +4121,8 @@ class TemplateStatus {
 }
 
 /// The input parameters of a template.
+///
+/// @nodoc
 class TemplateInput {
   /// The data type of the template input.
   final DataType? dataType;
@@ -4090,6 +4160,8 @@ class TemplateInput {
 }
 
 /// The migration workflow template used as the source for the new template.
+///
+/// @nodoc
 class TemplateSource {
   /// The ID of the workflow from the source migration workflow template.
   final String? workflowId;
@@ -4106,6 +4178,7 @@ class TemplateSource {
   }
 }
 
+/// @nodoc
 class MigrationWorkflowStatusEnum {
   static const creating = MigrationWorkflowStatusEnum._('CREATING');
   static const notStarted = MigrationWorkflowStatusEnum._('NOT_STARTED');
@@ -4163,6 +4236,8 @@ class MigrationWorkflowStatusEnum {
 }
 
 /// The summary of a migration workflow.
+///
+/// @nodoc
 class MigrationWorkflowSummary {
   /// The name of the application configured in Application Discovery Service.
   final String? adsApplicationConfigurationName;
@@ -4256,6 +4331,8 @@ class MigrationWorkflowSummary {
 /// A map of key value pairs that is generated when you create a migration
 /// workflow. The key value pairs will differ based on your selection of the
 /// template.
+///
+/// @nodoc
 class StepInput {
   /// The value of the integer.
   final int? integerValue;
@@ -4303,31 +4380,37 @@ class StepInput {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

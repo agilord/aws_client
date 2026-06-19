@@ -677,6 +677,7 @@ class Scheduler {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tags associated with the specified resource.
   final List<Tag>? tags;
@@ -702,6 +703,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -714,6 +716,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -726,6 +729,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateScheduleOutput {
   /// The Amazon Resource Name (ARN) of the schedule.
   final String scheduleArn;
@@ -748,6 +752,7 @@ class CreateScheduleOutput {
   }
 }
 
+/// @nodoc
 class GetScheduleOutput {
   /// Indicates the action that EventBridge Scheduler applies to the schedule
   /// after the schedule completes invoking the target.
@@ -921,6 +926,7 @@ class GetScheduleOutput {
   }
 }
 
+/// @nodoc
 class UpdateScheduleOutput {
   /// The Amazon Resource Name (ARN) of the schedule that you updated.
   final String scheduleArn;
@@ -943,6 +949,7 @@ class UpdateScheduleOutput {
   }
 }
 
+/// @nodoc
 class DeleteScheduleOutput {
   DeleteScheduleOutput();
 
@@ -955,6 +962,7 @@ class DeleteScheduleOutput {
   }
 }
 
+/// @nodoc
 class ListSchedulesOutput {
   /// The schedules that match the specified criteria.
   final List<ScheduleSummary> schedules;
@@ -988,6 +996,7 @@ class ListSchedulesOutput {
   }
 }
 
+/// @nodoc
 class CreateScheduleGroupOutput {
   /// The Amazon Resource Name (ARN) of the schedule group.
   final String scheduleGroupArn;
@@ -1010,6 +1019,7 @@ class CreateScheduleGroupOutput {
   }
 }
 
+/// @nodoc
 class GetScheduleGroupOutput {
   /// The Amazon Resource Name (ARN) of the schedule group.
   final String? arn;
@@ -1062,6 +1072,7 @@ class GetScheduleGroupOutput {
   }
 }
 
+/// @nodoc
 class DeleteScheduleGroupOutput {
   DeleteScheduleGroupOutput();
 
@@ -1074,6 +1085,7 @@ class DeleteScheduleGroupOutput {
   }
 }
 
+/// @nodoc
 class ListScheduleGroupsOutput {
   /// The schedule groups that match the specified criteria.
   final List<ScheduleGroupSummary> scheduleGroups;
@@ -1108,6 +1120,8 @@ class ListScheduleGroupsOutput {
 }
 
 /// The details of a schedule group.
+///
+/// @nodoc
 class ScheduleGroupSummary {
   /// The Amazon Resource Name (ARN) of the schedule group.
   final String? arn;
@@ -1160,6 +1174,7 @@ class ScheduleGroupSummary {
   }
 }
 
+/// @nodoc
 class ScheduleGroupState {
   static const active = ScheduleGroupState._('ACTIVE');
   static const deleting = ScheduleGroupState._('DELETING');
@@ -1186,6 +1201,8 @@ class ScheduleGroupState {
 }
 
 /// Tag to associate with a schedule group.
+///
+/// @nodoc
 class Tag {
   /// The key for the tag.
   final String key;
@@ -1216,6 +1233,8 @@ class Tag {
 }
 
 /// The details of a schedule.
+///
+/// @nodoc
 class ScheduleSummary {
   /// The Amazon Resource Name (ARN) of the schedule.
   final String? arn;
@@ -1284,6 +1303,7 @@ class ScheduleSummary {
   }
 }
 
+/// @nodoc
 class ScheduleState {
   static const enabled = ScheduleState._('ENABLED');
   static const disabled = ScheduleState._('DISABLED');
@@ -1309,6 +1329,8 @@ class ScheduleState {
 }
 
 /// The details of a target.
+///
+/// @nodoc
 class TargetSummary {
   /// The Amazon Resource Name (ARN) of the target.
   final String arn;
@@ -1335,6 +1357,8 @@ class TargetSummary {
 /// invoke common API operations, as well as universal targets that you can
 /// customize to invoke over 6,000 API operations across more than 270 services.
 /// You can only specify one templated or universal target for a schedule.
+///
+/// @nodoc
 class Target {
   /// The Amazon Resource Name (ARN) of the target.
   final String arn;
@@ -1471,6 +1495,8 @@ class Target {
 
 /// Allows you to configure a time window during which EventBridge Scheduler
 /// invokes the schedule.
+///
+/// @nodoc
 class FlexibleTimeWindow {
   /// Determines whether the schedule is invoked within a flexible time window.
   final FlexibleTimeWindowMode mode;
@@ -1501,6 +1527,7 @@ class FlexibleTimeWindow {
   }
 }
 
+/// @nodoc
 class ActionAfterCompletion {
   static const none = ActionAfterCompletion._('NONE');
   static const delete = ActionAfterCompletion._('DELETE');
@@ -1526,6 +1553,7 @@ class ActionAfterCompletion {
   String toString() => value;
 }
 
+/// @nodoc
 class FlexibleTimeWindowMode {
   static const off = FlexibleTimeWindowMode._('OFF');
   static const flexible = FlexibleTimeWindowMode._('FLEXIBLE');
@@ -1555,6 +1583,8 @@ class FlexibleTimeWindowMode {
 /// EventBridge Scheduler uses as a dead-letter queue for your schedule. If
 /// specified, EventBridge Scheduler delivers failed events that could not be
 /// successfully delivered to a target to the queue.
+///
+/// @nodoc
 class DeadLetterConfig {
   /// The Amazon Resource Name (ARN) of the SQS queue specified as the destination
   /// for the dead-letter queue.
@@ -1582,6 +1612,8 @@ class DeadLetterConfig {
 /// policy settings, including the maximum age of an event, and the maximum
 /// number of times EventBridge Scheduler will try to deliver the event to a
 /// target.
+///
+/// @nodoc
 class RetryPolicy {
   /// The maximum amount of time, in seconds, to continue to make retry attempts.
   final int? maximumEventAgeInSeconds;
@@ -1619,6 +1651,8 @@ class RetryPolicy {
 /// The templated target type for the Amazon ECS <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RunTask.html">
 /// <code>RunTask</code> </a> API operation.
+///
+/// @nodoc
 class EcsParameters {
   /// The Amazon Resource Name (ARN) of the task definition to use if the event
   /// target is an Amazon ECS task.
@@ -1784,6 +1818,8 @@ class EcsParameters {
 /// The templated target type for the EventBridge <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutEvents.html">
 /// <code>PutEvents</code> </a> API operation.
+///
+/// @nodoc
 class EventBridgeParameters {
   /// A free-form string, with a maximum of 128 characters, used to decide what
   /// fields to expect in the event detail.
@@ -1817,6 +1853,8 @@ class EventBridgeParameters {
 /// The templated target type for the Amazon Kinesis <a
 /// href="kinesis/latest/APIReference/API_PutRecord.html">
 /// <code>PutRecord</code> </a> API operation.
+///
+/// @nodoc
 class KinesisParameters {
   /// Specifies the shard to which EventBridge Scheduler sends the event. For more
   /// information, see <a
@@ -1846,6 +1884,8 @@ class KinesisParameters {
 /// The templated target type for the Amazon SageMaker <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StartPipelineExecution.html">
 /// <code>StartPipelineExecution</code> </a> API operation.
+///
+/// @nodoc
 class SageMakerPipelineParameters {
   /// List of parameter names and values to use when executing the SageMaker Model
   /// Building Pipeline.
@@ -1883,6 +1923,8 @@ class SageMakerPipelineParameters {
 /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
 /// the Amazon SQS message deduplication ID</a> in the <i>Amazon SQS Developer
 /// Guide</i>.
+///
+/// @nodoc
 class SqsParameters {
   /// The FIFO message group ID to use as the target.
   final String? messageGroupId;
@@ -1907,6 +1949,8 @@ class SqsParameters {
 
 /// The name and value pair of a parameter to use to start execution of a
 /// SageMaker Model Building Pipeline.
+///
+/// @nodoc
 class SageMakerPipelineParameter {
   /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
   final String name;
@@ -1937,6 +1981,7 @@ class SageMakerPipelineParameter {
   }
 }
 
+/// @nodoc
 class LaunchType {
   static const ec2 = LaunchType._('EC2');
   static const fargate = LaunchType._('FARGATE');
@@ -1962,6 +2007,8 @@ class LaunchType {
 }
 
 /// Specifies the network configuration for an ECS task.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// Specifies the Amazon VPC subnets and security groups for the task, and
   /// whether a public IP address is to be used. This structure is relevant only
@@ -1990,6 +2037,7 @@ class NetworkConfiguration {
   }
 }
 
+/// @nodoc
 class PropagateTags {
   static const taskDefinition = PropagateTags._('TASK_DEFINITION');
 
@@ -2014,6 +2062,8 @@ class PropagateTags {
 }
 
 /// The task placement strategy for a task or service.
+///
+/// @nodoc
 class PlacementStrategy {
   /// The field to apply the placement strategy against. For the spread placement
   /// strategy, valid values are <code>instanceId</code> (or
@@ -2056,6 +2106,7 @@ class PlacementStrategy {
   }
 }
 
+/// @nodoc
 class PlacementStrategyType {
   static const random = PlacementStrategyType._('random');
   static const spread = PlacementStrategyType._('spread');
@@ -2083,6 +2134,8 @@ class PlacementStrategyType {
 }
 
 /// An object representing a constraint on task placement.
+///
+/// @nodoc
 class PlacementConstraint {
   /// A cluster query language expression to apply to the constraint. You cannot
   /// specify an expression if the constraint type is
@@ -2119,6 +2172,7 @@ class PlacementConstraint {
   }
 }
 
+/// @nodoc
 class PlacementConstraintType {
   static const distinctInstance = PlacementConstraintType._('distinctInstance');
   static const memberOf = PlacementConstraintType._('memberOf');
@@ -2145,6 +2199,8 @@ class PlacementConstraintType {
 }
 
 /// The details of a capacity provider strategy.
+///
+/// @nodoc
 class CapacityProviderStrategyItem {
   /// The short name of the capacity provider.
   final String capacityProvider;
@@ -2190,6 +2246,8 @@ class CapacityProviderStrategyItem {
 /// This structure specifies the VPC subnets and security groups for the task,
 /// and whether a public IP address is to be used. This structure is relevant
 /// only for ECS tasks that use the awsvpc network mode.
+///
+/// @nodoc
 class AwsVpcConfiguration {
   /// Specifies the subnets associated with the task. These subnets must all be in
   /// the same VPC. You can specify as many as 16 subnets.
@@ -2240,6 +2298,7 @@ class AwsVpcConfiguration {
   }
 }
 
+/// @nodoc
 class AssignPublicIp {
   static const enabled = AssignPublicIp._('ENABLED');
   static const disabled = AssignPublicIp._('DISABLED');
@@ -2264,21 +2323,25 @@ class AssignPublicIp {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2287,11 +2350,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

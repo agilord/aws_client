@@ -333,7 +333,7 @@ class Kinesis {
   /// </li>
   /// <li>
   /// Consumer pattern:
-  /// <code>^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+</code>
+  /// <code>^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/\[a-zA-Z0-9_.-\]+\/consumer\/\[a-zA-Z0-9_.-\]+:\[0-9\]+</code>
   /// </li>
   /// </ul>
   ///
@@ -1071,7 +1071,7 @@ class Kinesis {
   /// </li>
   /// <li>
   /// Consumer pattern:
-  /// <code>^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+</code>
+  /// <code>^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/\[a-zA-Z0-9_.-\]+\/consumer\/\[a-zA-Z0-9_.-\]+:\[0-9\]+</code>
   /// </li>
   /// </ul>
   ///
@@ -2155,7 +2155,7 @@ class Kinesis {
   /// </li>
   /// <li>
   /// Consumer pattern:
-  /// <code>^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+</code>
+  /// <code>^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/\[a-zA-Z0-9_.-\]+\/consumer\/\[a-zA-Z0-9_.-\]+:\[0-9\]+</code>
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -3231,6 +3231,8 @@ class Kinesis {
 
 /// The resource is not available for this operation. For successful operation,
 /// the resource must be in the <code>ACTIVE</code> state.
+///
+/// @nodoc
 class ResourceInUseException implements _s.AwsException {
   /// A message that provides information about the error.
   final String? message;
@@ -3255,6 +3257,8 @@ class ResourceInUseException implements _s.AwsException {
 
 /// The requested resource could not be found. The stream might not be specified
 /// correctly.
+///
+/// @nodoc
 class ResourceNotFoundException implements _s.AwsException {
   /// A message that provides information about the error.
   final String? message;
@@ -3277,6 +3281,7 @@ class ResourceNotFoundException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class DescribeAccountSettingsOutput {
   /// The current configuration of the minimum throughput billing commitment for
   /// your Amazon Web Services account.
@@ -3309,6 +3314,7 @@ class DescribeAccountSettingsOutput {
   }
 }
 
+/// @nodoc
 class DescribeLimitsOutput {
   /// Indicates the number of data streams with the on-demand capacity mode.
   final int onDemandStreamCount;
@@ -3353,6 +3359,8 @@ class DescribeLimitsOutput {
 }
 
 /// Represents the output for <code>DescribeStream</code>.
+///
+/// @nodoc
 class DescribeStreamOutput {
   /// The current status of the stream, the stream Amazon Resource Name (ARN), an
   /// array of shard objects that comprise the stream, and whether there are more
@@ -3379,6 +3387,7 @@ class DescribeStreamOutput {
   }
 }
 
+/// @nodoc
 class DescribeStreamConsumerOutput {
   /// An object that represents the details of the consumer.
   final ConsumerDescription consumerDescription;
@@ -3403,6 +3412,7 @@ class DescribeStreamConsumerOutput {
   }
 }
 
+/// @nodoc
 class DescribeStreamSummaryOutput {
   /// A <a>StreamDescriptionSummary</a> containing information about the stream.
   final StreamDescriptionSummary streamDescriptionSummary;
@@ -3429,6 +3439,8 @@ class DescribeStreamSummaryOutput {
 
 /// Represents the output for <a>EnableEnhancedMonitoring</a> and
 /// <a>DisableEnhancedMonitoring</a>.
+///
+/// @nodoc
 class EnhancedMonitoringOutput {
   /// Represents the current state of the metrics that are in the enhanced state
   /// before the operation.
@@ -3485,6 +3497,8 @@ class EnhancedMonitoringOutput {
 }
 
 /// Represents the output for <a>GetRecords</a>.
+///
+/// @nodoc
 class GetRecordsOutput {
   /// The data records retrieved from the shard.
   final List<Record> records;
@@ -3543,6 +3557,8 @@ class GetRecordsOutput {
 
 /// The processing of the request failed because of an unknown error, exception,
 /// or failure.
+///
+/// @nodoc
 class InternalFailureException implements _s.AwsException {
   final String? message;
 
@@ -3566,6 +3582,8 @@ class InternalFailureException implements _s.AwsException {
 
 /// The ciphertext references a key that doesn't exist or that you don't have
 /// access to.
+///
+/// @nodoc
 class KMSAccessDeniedException implements _s.AwsException {
   /// A message that provides information about the error.
   final String? message;
@@ -3590,6 +3608,8 @@ class KMSAccessDeniedException implements _s.AwsException {
 
 /// The request was rejected because the specified customer master key (CMK)
 /// isn't enabled.
+///
+/// @nodoc
 class KMSDisabledException implements _s.AwsException {
   /// A message that provides information about the error.
   final String? message;
@@ -3617,6 +3637,8 @@ class KMSDisabledException implements _s.AwsException {
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
 /// Key State Affects Use of a Customer Master Key</a> in the <i>Amazon Web
 /// Services Key Management Service Developer Guide</i>.
+///
+/// @nodoc
 class KMSInvalidStateException implements _s.AwsException {
   /// A message that provides information about the error.
   final String? message;
@@ -3641,6 +3663,8 @@ class KMSInvalidStateException implements _s.AwsException {
 
 /// The request was rejected because the specified entity or resource can't be
 /// found.
+///
+/// @nodoc
 class KMSNotFoundException implements _s.AwsException {
   /// A message that provides information about the error.
   final String? message;
@@ -3664,6 +3688,8 @@ class KMSNotFoundException implements _s.AwsException {
 }
 
 /// The Amazon Web Services access key ID needs a subscription for the service.
+///
+/// @nodoc
 class KMSOptInRequired implements _s.AwsException {
   /// A message that provides information about the error.
   final String? message;
@@ -3690,6 +3716,8 @@ class KMSOptInRequired implements _s.AwsException {
 /// throttling, see <a
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second">Limits</a>
 /// in the <i>Amazon Web Services Key Management Service Developer Guide</i>.
+///
+/// @nodoc
 class KMSThrottlingException implements _s.AwsException {
   /// A message that provides information about the error.
   final String? message;
@@ -3712,6 +3740,7 @@ class KMSThrottlingException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyOutput {
   /// Details of the resource policy. This is formatted as a JSON string.
   final String policy;
@@ -3735,6 +3764,8 @@ class GetResourcePolicyOutput {
 }
 
 /// Represents the output for <code>GetShardIterator</code>.
+///
+/// @nodoc
 class GetShardIteratorOutput {
   /// The position in the shard from which to start reading data records
   /// sequentially. A shard iterator specifies this position using the sequence
@@ -3759,6 +3790,7 @@ class GetShardIteratorOutput {
   }
 }
 
+/// @nodoc
 class ListShardsOutput {
   /// When the number of shards in the data stream is greater than the default
   /// value for the <code>MaxResults</code> parameter, or if you explicitly
@@ -3808,6 +3840,7 @@ class ListShardsOutput {
   }
 }
 
+/// @nodoc
 class ListStreamConsumersOutput {
   /// An array of JSON objects. Each object represents one registered consumer.
   final List<Consumer>? consumers;
@@ -3857,6 +3890,8 @@ class ListStreamConsumersOutput {
 }
 
 /// Represents the output for <code>ListStreams</code>.
+///
+/// @nodoc
 class ListStreamsOutput {
   /// If set to <code>true</code>, there are more streams available to list.
   final bool hasMoreStreams;
@@ -3907,6 +3942,7 @@ class ListStreamsOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// An array of tags associated with the specified Kinesis resource.
   final List<Tag>? tags;
@@ -3933,6 +3969,8 @@ class ListTagsForResourceOutput {
 }
 
 /// Represents the output for <code>ListTagsForStream</code>.
+///
+/// @nodoc
 class ListTagsForStreamOutput {
   /// If set to <code>true</code>, more tags are available. To request additional
   /// tags, set <code>ExclusiveStartTagKey</code> to the key of the last tag
@@ -3970,6 +4008,8 @@ class ListTagsForStreamOutput {
 }
 
 /// Represents the output for <code>PutRecord</code>.
+///
+/// @nodoc
 class PutRecordOutput {
   /// The sequence number identifier that was assigned to the put data record. The
   /// sequence number for the record is unique across all records in the stream. A
@@ -4022,6 +4062,8 @@ class PutRecordOutput {
 }
 
 /// <code>PutRecords</code> results.
+///
+/// @nodoc
 class PutRecordsOutput {
   /// An array of successfully and unsuccessfully processed record results. A
   /// record that is successfully added to a stream includes
@@ -4078,6 +4120,7 @@ class PutRecordsOutput {
   }
 }
 
+/// @nodoc
 class RegisterStreamConsumerOutput {
   /// An object that represents the details of the consumer you registered. When
   /// you register a consumer, it gets an ARN that is generated by Kinesis Data
@@ -4103,6 +4146,7 @@ class RegisterStreamConsumerOutput {
   }
 }
 
+/// @nodoc
 class SubscribeToShardOutput {
   /// The event stream that your consumer can use to read records from the shard.
   final SubscribeToShardEventStream eventStream;
@@ -4127,6 +4171,7 @@ class SubscribeToShardOutput {
   }
 }
 
+/// @nodoc
 class UpdateAccountSettingsOutput {
   /// The updated configuration of the minimum throughput billing commitment for
   /// your account.
@@ -4159,6 +4204,7 @@ class UpdateAccountSettingsOutput {
   }
 }
 
+/// @nodoc
 class UpdateShardCountOutput {
   /// The current number of shards.
   final int? currentShardCount;
@@ -4202,6 +4248,7 @@ class UpdateShardCountOutput {
   }
 }
 
+/// @nodoc
 class UpdateStreamWarmThroughputOutput {
   /// The ARN of the stream that was updated.
   final String? streamARN;
@@ -4244,6 +4291,8 @@ class UpdateStreamWarmThroughputOutput {
 /// Represents the warm throughput configuration on the stream. This is only
 /// present for On-Demand Kinesis Data Streams in accounts that have
 /// <code>MinimumThroughputBillingCommitment</code> enabled.
+///
+/// @nodoc
 class WarmThroughputObject {
   /// The current warm throughput value on the stream. This is the write
   /// throughput in MiBps that the stream is currently scaled to handle.
@@ -4279,6 +4328,8 @@ class WarmThroughputObject {
 /// Currently, in Kinesis Data Streams, you can choose between an
 /// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
 /// your data streams.
+///
+/// @nodoc
 class StreamModeDetails {
   /// Specifies the capacity mode to which you want to set your data stream.
   /// Currently, in Kinesis Data Streams, you can choose between an
@@ -4304,6 +4355,7 @@ class StreamModeDetails {
   }
 }
 
+/// @nodoc
 class StreamMode {
   static const provisioned = StreamMode._('PROVISIONED');
   static const onDemand = StreamMode._('ON_DEMAND');
@@ -4327,6 +4379,7 @@ class StreamMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ScalingType {
   static const uniformScaling = ScalingType._('UNIFORM_SCALING');
 
@@ -4351,6 +4404,8 @@ class ScalingType {
 
 /// Represents the current status of minimum throughput billing commitment for
 /// an account.
+///
+/// @nodoc
 class MinimumThroughputBillingCommitmentOutput {
   /// The current status of the minimum throughput billing commitment.
   final MinimumThroughputBillingCommitmentOutputStatus status;
@@ -4397,6 +4452,7 @@ class MinimumThroughputBillingCommitmentOutput {
   }
 }
 
+/// @nodoc
 class MinimumThroughputBillingCommitmentOutputStatus {
   static const enabled =
       MinimumThroughputBillingCommitmentOutputStatus._('ENABLED');
@@ -4453,6 +4509,8 @@ class MinimumThroughputBillingCommitmentOutputStatus {
 /// earliest allowed end time.
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class MinimumThroughputBillingCommitmentInput {
   /// The desired status of the minimum throughput billing commitment.
   final MinimumThroughputBillingCommitmentInputStatus status;
@@ -4469,6 +4527,7 @@ class MinimumThroughputBillingCommitmentInput {
   }
 }
 
+/// @nodoc
 class MinimumThroughputBillingCommitmentInputStatus {
   static const enabled =
       MinimumThroughputBillingCommitmentInputStatus._('ENABLED');
@@ -4500,6 +4559,8 @@ class MinimumThroughputBillingCommitmentInputStatus {
 
 /// This is a tagged union for all of the types of events an enhanced fan-out
 /// consumer can receive over HTTP/2 after a call to <a>SubscribeToShard</a>.
+///
+/// @nodoc
 class SubscribeToShardEventStream {
   /// The processing of the request failed because of an unknown error, exception,
   /// or failure.
@@ -4615,6 +4676,8 @@ class SubscribeToShardEventStream {
 
 /// After you call <a>SubscribeToShard</a>, Kinesis Data Streams sends events of
 /// this type over an HTTP/2 connection to your consumer.
+///
+/// @nodoc
 class SubscribeToShardEvent {
   /// Use this as <code>SequenceNumber</code> in the next call to
   /// <a>SubscribeToShard</a>, with <code>StartingPosition</code> set to
@@ -4675,6 +4738,8 @@ class SubscribeToShardEvent {
 
 /// Output parameter of the GetRecords API. The existing child shard of the
 /// current shard.
+///
+/// @nodoc
 class ChildShard {
   final HashKeyRange hashKeyRange;
 
@@ -4717,6 +4782,8 @@ class ChildShard {
 
 /// The range of possible hash key values for the shard, which is a set of
 /// ordered contiguous positive integers.
+///
+/// @nodoc
 class HashKeyRange {
   /// The ending hash key of the hash key range.
   final String endingHashKey;
@@ -4748,6 +4815,8 @@ class HashKeyRange {
 
 /// The unit of data of the Kinesis data stream, which is composed of a sequence
 /// number, a partition key, and a data blob.
+///
+/// @nodoc
 class Record {
   /// The data blob. The data in the blob is both opaque and immutable to Kinesis
   /// Data Streams, which does not inspect, interpret, or change the data in the
@@ -4817,6 +4886,7 @@ class Record {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const none = EncryptionType._('NONE');
   static const kms = EncryptionType._('KMS');
@@ -4842,6 +4912,8 @@ class EncryptionType {
 }
 
 /// The starting position in the data stream from which to start streaming.
+///
+/// @nodoc
 class StartingPosition {
   /// You can set the starting position to one of the following values:
   ///
@@ -4895,6 +4967,7 @@ class StartingPosition {
   }
 }
 
+/// @nodoc
 class ShardIteratorType {
   static const atSequenceNumber = ShardIteratorType._('AT_SEQUENCE_NUMBER');
   static const afterSequenceNumber =
@@ -4931,6 +5004,8 @@ class ShardIteratorType {
 
 /// An object that represents the details of the consumer you registered. This
 /// type of object is returned by <a>RegisterStreamConsumer</a>.
+///
+/// @nodoc
 class Consumer {
   /// When you register a consumer, Kinesis Data Streams generates an ARN for it.
   /// You need this ARN to be able to call <a>SubscribeToShard</a>.
@@ -4985,6 +5060,7 @@ class Consumer {
   }
 }
 
+/// @nodoc
 class ConsumerStatus {
   static const creating = ConsumerStatus._('CREATING');
   static const deleting = ConsumerStatus._('DELETING');
@@ -5015,6 +5091,8 @@ class ConsumerStatus {
 /// <code>SequenceNumber</code> and <code>ShardId</code> in the result. A record
 /// that fails to be added to the stream includes <code>ErrorCode</code> and
 /// <code>ErrorMessage</code> in the result.
+///
+/// @nodoc
 class PutRecordsResultEntry {
   /// The error code for an individual record result. <code>ErrorCodes</code> can
   /// be either <code>ProvisionedThroughputExceededException</code> or
@@ -5065,6 +5143,8 @@ class PutRecordsResultEntry {
 }
 
 /// Represents the output for <code>PutRecords</code>.
+///
+/// @nodoc
 class PutRecordsRequestEntry {
   /// The data blob to put into the record, which is base64-encoded when the blob
   /// is serialized. When the data blob (the payload before base64-encoding) is
@@ -5105,6 +5185,8 @@ class PutRecordsRequestEntry {
 }
 
 /// Metadata assigned to the stream or consumer, consisting of a key-value pair.
+///
+/// @nodoc
 class Tag {
   /// A unique identifier for the tag. Maximum length: 128 characters. Valid
   /// characters: Unicode letters, digits, white space, _ . / = + - % @
@@ -5138,6 +5220,8 @@ class Tag {
 }
 
 /// The summary of a stream.
+///
+/// @nodoc
 class StreamSummary {
   /// The ARN of the stream.
   final String streamARN;
@@ -5192,6 +5276,7 @@ class StreamSummary {
   }
 }
 
+/// @nodoc
 class StreamStatus {
   static const creating = StreamStatus._('CREATING');
   static const deleting = StreamStatus._('DELETING');
@@ -5218,6 +5303,8 @@ class StreamStatus {
 }
 
 /// A uniquely identified group of data records in a Kinesis data stream.
+///
+/// @nodoc
 class Shard {
   /// The range of possible hash key values for the shard, which is a set of
   /// ordered contiguous positive integers.
@@ -5275,6 +5362,8 @@ class Shard {
 }
 
 /// The range of possible sequence numbers for the shard.
+///
+/// @nodoc
 class SequenceNumberRange {
   /// The starting sequence number for the range.
   final String startingSequenceNumber;
@@ -5308,6 +5397,8 @@ class SequenceNumberRange {
 
 /// The request parameter used to filter out the response of the
 /// <code>ListShards</code> API.
+///
+/// @nodoc
 class ShardFilter {
   /// The shard type specified in the <code>ShardFilter</code> parameter. This is
   /// a required property of the <code>ShardFilter</code> parameter.
@@ -5377,6 +5468,7 @@ class ShardFilter {
   }
 }
 
+/// @nodoc
 class ShardFilterType {
   static const afterShardId = ShardFilterType._('AFTER_SHARD_ID');
   static const atTrimHorizon = ShardFilterType._('AT_TRIM_HORIZON');
@@ -5412,6 +5504,7 @@ class ShardFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricsName {
   static const incomingBytes = MetricsName._('IncomingBytes');
   static const incomingRecords = MetricsName._('IncomingRecords');
@@ -5454,6 +5547,8 @@ class MetricsName {
 }
 
 /// Represents the output for <a>DescribeStreamSummary</a>
+///
+/// @nodoc
 class StreamDescriptionSummary {
   /// Represents the current enhanced monitoring settings of the stream.
   final List<EnhancedMetrics> enhancedMonitoring;
@@ -5643,6 +5738,8 @@ class StreamDescriptionSummary {
 }
 
 /// Represents enhanced metrics types.
+///
+/// @nodoc
 class EnhancedMetrics {
   /// List of shard-level metrics.
   ///
@@ -5705,6 +5802,8 @@ class EnhancedMetrics {
 
 /// An object that represents the details of a registered consumer. This type of
 /// object is returned by <a>DescribeStreamConsumer</a>.
+///
+/// @nodoc
 class ConsumerDescription {
   /// When you register a consumer, Kinesis Data Streams generates an ARN for it.
   /// You need this ARN to be able to call <a>SubscribeToShard</a>.
@@ -5767,6 +5866,8 @@ class ConsumerDescription {
 }
 
 /// Represents the output for <a>DescribeStream</a>.
+///
+/// @nodoc
 class StreamDescription {
   /// Represents the current enhanced monitoring settings of the stream.
   final List<EnhancedMetrics> enhancedMonitoring;
@@ -5936,31 +6037,37 @@ class StreamDescription {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ExpiredIteratorException extends _s.GenericAwsException {
   ExpiredIteratorException({String? type, String? message})
       : super(type: type, code: 'ExpiredIteratorException', message: message);
 }
 
+/// @nodoc
 class ExpiredNextTokenException extends _s.GenericAwsException {
   ExpiredNextTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
   ProvisionedThroughputExceededException({String? type, String? message})
       : super(
@@ -5969,6 +6076,7 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

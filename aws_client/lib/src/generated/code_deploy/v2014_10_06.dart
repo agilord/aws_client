@@ -2728,6 +2728,8 @@ class CodeDeploy {
 
 /// Represents the output of a <code>BatchGetApplicationRevisions</code>
 /// operation.
+///
+/// @nodoc
 class BatchGetApplicationRevisionsOutput {
   /// The name of the application that corresponds to the revisions.
   final String? applicationName;
@@ -2769,6 +2771,8 @@ class BatchGetApplicationRevisionsOutput {
 }
 
 /// Represents the output of a <code>BatchGetApplications</code> operation.
+///
+/// @nodoc
 class BatchGetApplicationsOutput {
   /// Information about the applications.
   final List<ApplicationInfo>? applicationsInfo;
@@ -2795,6 +2799,8 @@ class BatchGetApplicationsOutput {
 }
 
 /// Represents the output of a <code>BatchGetDeploymentGroups</code> operation.
+///
+/// @nodoc
 class BatchGetDeploymentGroupsOutput {
   /// Information about the deployment groups.
   final List<DeploymentGroupInfo>? deploymentGroupsInfo;
@@ -2830,6 +2836,8 @@ class BatchGetDeploymentGroupsOutput {
 
 /// Represents the output of a <code>BatchGetDeploymentInstances</code>
 /// operation.
+///
+/// @nodoc
 class BatchGetDeploymentInstancesOutput {
   /// Information about errors that might have occurred during the API call.
   final String? errorMessage;
@@ -2864,6 +2872,8 @@ class BatchGetDeploymentInstancesOutput {
 }
 
 /// Represents the output of a <code>BatchGetDeployments</code> operation.
+///
+/// @nodoc
 class BatchGetDeploymentsOutput {
   /// Information about the deployments.
   final List<DeploymentInfo>? deploymentsInfo;
@@ -2889,6 +2899,7 @@ class BatchGetDeploymentsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetDeploymentTargetsOutput {
   /// A list of target objects for a deployment. Each target object contains
   /// details about the target, such as its status and lifecycle events. The type
@@ -2936,6 +2947,8 @@ class BatchGetDeploymentTargetsOutput {
 
 /// Represents the output of a <code>BatchGetOnPremisesInstances</code>
 /// operation.
+///
+/// @nodoc
 class BatchGetOnPremisesInstancesOutput {
   /// Information about the on-premises instances.
   final List<InstanceInfo>? instanceInfos;
@@ -2963,6 +2976,8 @@ class BatchGetOnPremisesInstancesOutput {
 }
 
 /// Represents the output of a <code>CreateApplication</code> operation.
+///
+/// @nodoc
 class CreateApplicationOutput {
   /// A unique application ID.
   final String? applicationId;
@@ -2986,6 +3001,8 @@ class CreateApplicationOutput {
 }
 
 /// Represents the output of a <code>CreateDeployment</code> operation.
+///
+/// @nodoc
 class CreateDeploymentOutput {
   /// The unique ID of a deployment.
   final String? deploymentId;
@@ -3009,6 +3026,8 @@ class CreateDeploymentOutput {
 }
 
 /// Represents the output of a <code>CreateDeploymentConfig</code> operation.
+///
+/// @nodoc
 class CreateDeploymentConfigOutput {
   /// A unique deployment configuration ID.
   final String? deploymentConfigId;
@@ -3032,6 +3051,8 @@ class CreateDeploymentConfigOutput {
 }
 
 /// Represents the output of a <code>CreateDeploymentGroup</code> operation.
+///
+/// @nodoc
 class CreateDeploymentGroupOutput {
   /// A unique deployment group ID.
   final String? deploymentGroupId;
@@ -3055,6 +3076,8 @@ class CreateDeploymentGroupOutput {
 }
 
 /// Represents the output of a <code>DeleteDeploymentGroup</code> operation.
+///
+/// @nodoc
 class DeleteDeploymentGroupOutput {
   /// If the output contains no data, and the corresponding deployment group
   /// contained at least one Auto Scaling group, CodeDeploy successfully removed
@@ -3086,6 +3109,8 @@ class DeleteDeploymentGroupOutput {
 }
 
 /// Represents the output of a <code>DeleteGitHubAccountToken</code> operation.
+///
+/// @nodoc
 class DeleteGitHubAccountTokenOutput {
   /// The name of the GitHub account connection that was deleted.
   final String? tokenName;
@@ -3108,6 +3133,7 @@ class DeleteGitHubAccountTokenOutput {
   }
 }
 
+/// @nodoc
 class DeleteResourcesByExternalIdOutput {
   DeleteResourcesByExternalIdOutput();
 
@@ -3121,6 +3147,8 @@ class DeleteResourcesByExternalIdOutput {
 }
 
 /// Represents the output of a <code>GetApplication</code> operation.
+///
+/// @nodoc
 class GetApplicationOutput {
   /// Information about the application.
   final ApplicationInfo? application;
@@ -3147,6 +3175,8 @@ class GetApplicationOutput {
 }
 
 /// Represents the output of a <code>GetApplicationRevision</code> operation.
+///
+/// @nodoc
 class GetApplicationRevisionOutput {
   /// The name of the application that corresponds to the revision.
   final String? applicationName;
@@ -3189,6 +3219,8 @@ class GetApplicationRevisionOutput {
 }
 
 /// Represents the output of a <code>GetDeployment</code> operation.
+///
+/// @nodoc
 class GetDeploymentOutput {
   /// Information about the deployment.
   final DeploymentInfo? deploymentInfo;
@@ -3215,6 +3247,8 @@ class GetDeploymentOutput {
 }
 
 /// Represents the output of a <code>GetDeploymentConfig</code> operation.
+///
+/// @nodoc
 class GetDeploymentConfigOutput {
   /// Information about the deployment configuration.
   final DeploymentConfigInfo? deploymentConfigInfo;
@@ -3242,6 +3276,8 @@ class GetDeploymentConfigOutput {
 }
 
 /// Represents the output of a <code>GetDeploymentGroup</code> operation.
+///
+/// @nodoc
 class GetDeploymentGroupOutput {
   /// Information about the deployment group.
   final DeploymentGroupInfo? deploymentGroupInfo;
@@ -3269,6 +3305,8 @@ class GetDeploymentGroupOutput {
 }
 
 /// Represents the output of a <code>GetDeploymentInstance</code> operation.
+///
+/// @nodoc
 class GetDeploymentInstanceOutput {
   /// Information about the instance.
   final InstanceSummary? instanceSummary;
@@ -3294,6 +3332,7 @@ class GetDeploymentInstanceOutput {
   }
 }
 
+/// @nodoc
 class GetDeploymentTargetOutput {
   /// A deployment target that contains information about a deployment such as its
   /// status, lifecycle events, and when it was last updated. It also contains
@@ -3324,6 +3363,8 @@ class GetDeploymentTargetOutput {
 }
 
 /// Represents the output of a <code>GetOnPremisesInstance</code> operation.
+///
+/// @nodoc
 class GetOnPremisesInstanceOutput {
   /// Information about the on-premises instance.
   final InstanceInfo? instanceInfo;
@@ -3349,6 +3390,8 @@ class GetOnPremisesInstanceOutput {
 }
 
 /// Represents the output of a <code>ListApplicationRevisions</code> operation.
+///
+/// @nodoc
 class ListApplicationRevisionsOutput {
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list application revisions call to
@@ -3384,6 +3427,8 @@ class ListApplicationRevisionsOutput {
 }
 
 /// Represents the output of a ListApplications operation.
+///
+/// @nodoc
 class ListApplicationsOutput {
   /// A list of application names.
   final List<String>? applications;
@@ -3419,6 +3464,8 @@ class ListApplicationsOutput {
 }
 
 /// Represents the output of a <code>ListDeploymentConfigs</code> operation.
+///
+/// @nodoc
 class ListDeploymentConfigsOutput {
   /// A list of deployment configurations, including built-in configurations such
   /// as <code>CodeDeployDefault.OneAtATime</code>.
@@ -3456,6 +3503,8 @@ class ListDeploymentConfigsOutput {
 }
 
 /// Represents the output of a <code>ListDeploymentGroups</code> operation.
+///
+/// @nodoc
 class ListDeploymentGroupsOutput {
   /// The application name.
   final String? applicationName;
@@ -3498,6 +3547,8 @@ class ListDeploymentGroupsOutput {
 }
 
 /// Represents the output of a <code>ListDeploymentInstances</code> operation.
+///
+/// @nodoc
 class ListDeploymentInstancesOutput {
   /// A list of instance IDs.
   final List<String>? instancesList;
@@ -3533,6 +3584,8 @@ class ListDeploymentInstancesOutput {
 }
 
 /// Represents the output of a <code>ListDeployments</code> operation.
+///
+/// @nodoc
 class ListDeploymentsOutput {
   /// A list of deployment IDs.
   final List<String>? deployments;
@@ -3567,6 +3620,7 @@ class ListDeploymentsOutput {
   }
 }
 
+/// @nodoc
 class ListDeploymentTargetsOutput {
   /// If a large amount of information is returned, a token identifier is also
   /// returned. It can be used in a subsequent <code>ListDeploymentTargets</code>
@@ -3603,6 +3657,8 @@ class ListDeploymentTargetsOutput {
 
 /// Represents the output of a <code>ListGitHubAccountTokenNames</code>
 /// operation.
+///
+/// @nodoc
 class ListGitHubAccountTokenNamesOutput {
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent
@@ -3640,6 +3696,8 @@ class ListGitHubAccountTokenNamesOutput {
 }
 
 /// Represents the output of the list on-premises instances operation.
+///
+/// @nodoc
 class ListOnPremisesInstancesOutput {
   /// The list of matching on-premises instance names.
   final List<String>? instanceNames;
@@ -3674,6 +3732,7 @@ class ListOnPremisesInstancesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list application revisions call to
@@ -3710,6 +3769,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PutLifecycleEventHookExecutionStatusOutput {
   /// The execution ID of the lifecycle event hook. A hook is specified in the
   /// <code>hooks</code> section of the deployment's AppSpec file.
@@ -3737,6 +3797,8 @@ class PutLifecycleEventHookExecutionStatusOutput {
 }
 
 /// Represents the output of a <code>StopDeployment</code> operation.
+///
+/// @nodoc
 class StopDeploymentOutput {
   /// The status of the stop deployment operation:
   ///
@@ -3775,6 +3837,7 @@ class StopDeploymentOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -3787,6 +3850,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -3800,6 +3864,8 @@ class UntagResourceOutput {
 }
 
 /// Represents the output of an <code>UpdateDeploymentGroup</code> operation.
+///
+/// @nodoc
 class UpdateDeploymentGroupOutput {
   /// If the output contains no data, and the corresponding deployment group
   /// contained at least one Auto Scaling group, CodeDeploy successfully removed
@@ -3831,6 +3897,8 @@ class UpdateDeploymentGroupOutput {
 }
 
 /// Information about an Auto Scaling group.
+///
+/// @nodoc
 class AutoScalingGroup {
   /// The name of the launch hook that CodeDeploy installed into the Auto Scaling
   /// group.
@@ -3880,6 +3948,8 @@ class AutoScalingGroup {
 }
 
 /// Information about alarms associated with a deployment or deployment group.
+///
+/// @nodoc
 class AlarmConfiguration {
   /// A list of alarms configured for the deployment or deployment group. A
   /// maximum of 10 alarms can be added.
@@ -3937,6 +4007,8 @@ class AlarmConfiguration {
 /// Information about a configuration for automatically rolling back to a
 /// previous version of an application revision when a deployment is not
 /// completed successfully.
+///
+/// @nodoc
 class AutoRollbackConfiguration {
   /// Indicates whether a defined automatic rollback configuration is currently
   /// enabled.
@@ -3970,6 +4042,7 @@ class AutoRollbackConfiguration {
   }
 }
 
+/// @nodoc
 class OutdatedInstancesStrategy {
   static const update = OutdatedInstancesStrategy._('UPDATE');
   static const ignore = OutdatedInstancesStrategy._('IGNORE');
@@ -3997,6 +4070,8 @@ class OutdatedInstancesStrategy {
 
 /// Information about the type of deployment, either in-place or blue/green, you
 /// want to run and whether to route deployment traffic behind a load balancer.
+///
+/// @nodoc
 class DeploymentStyle {
   /// Indicates whether to route deployment traffic behind a load balancer.
   final DeploymentOption? deploymentOption;
@@ -4029,6 +4104,8 @@ class DeploymentStyle {
 }
 
 /// Information about blue/green deployment options for a deployment group.
+///
+/// @nodoc
 class BlueGreenDeploymentConfiguration {
   /// Information about the action to take when newly provisioned instances are
   /// ready to receive traffic in a blue/green deployment.
@@ -4093,6 +4170,8 @@ class BlueGreenDeploymentConfiguration {
 /// Application Load Balancer, you can specify the two Classic Load Balancers in
 /// <code>elbInfoList</code>, and the five target groups in
 /// <code>targetGroupInfoList</code>.
+///
+/// @nodoc
 class LoadBalancerInfo {
   /// An array that contains information about the load balancers to use for load
   /// balancing in a deployment. If you're using Classic Load Balancers, specify
@@ -4159,6 +4238,8 @@ class LoadBalancerInfo {
 }
 
 /// Information about groups of Amazon EC2 instance tags.
+///
+/// @nodoc
 class EC2TagSet {
   /// A list that contains other lists of Amazon EC2 instance tag groups. For an
   /// instance to be included in the deployment group, it must be identified by
@@ -4190,6 +4271,8 @@ class EC2TagSet {
 }
 
 /// Information about groups of on-premises instance tags.
+///
+/// @nodoc
 class OnPremisesTagSet {
   /// A list that contains other lists of on-premises instance tag groups. For an
   /// instance to be included in the deployment group, it must be identified by
@@ -4223,6 +4306,8 @@ class OnPremisesTagSet {
 
 /// Contains the service and cluster names used to identify an Amazon ECS
 /// deployment's target.
+///
+/// @nodoc
 class ECSService {
   /// The name of the cluster that the Amazon ECS service is associated with.
   final String? clusterName;
@@ -4254,6 +4339,8 @@ class ECSService {
 
 /// Information about two target groups and how traffic is routed during an
 /// Amazon ECS deployment. An optional test traffic route can be specified.
+///
+/// @nodoc
 class TargetGroupPairInfo {
   /// The path used by a load balancer to route production traffic when an Amazon
   /// ECS deployment is complete.
@@ -4306,6 +4393,8 @@ class TargetGroupPairInfo {
 
 /// Information about a listener. The listener contains the path used to route
 /// traffic that is received from the load balancer to a target group.
+///
+/// @nodoc
 class TrafficRoute {
   /// The Amazon Resource Name (ARN) of one listener. The listener identifies the
   /// route between a target group and a load balancer. This is an array of
@@ -4336,6 +4425,8 @@ class TrafficRoute {
 /// Information about a target group in Elastic Load Balancing to use in a
 /// deployment. Instances are registered as targets in a target group, and
 /// traffic is routed to the target group.
+///
+/// @nodoc
 class TargetGroupInfo {
   /// For blue/green deployments, the name of the target group that instances in
   /// the original environment are deregistered from, and instances in the
@@ -4366,6 +4457,8 @@ class TargetGroupInfo {
 /// Information about a Classic Load Balancer in Elastic Load Balancing to use
 /// in a deployment. Instances are registered directly with a load balancer, and
 /// traffic is routed to the load balancer.
+///
+/// @nodoc
 class ELBInfo {
   /// For blue/green deployments, the name of the Classic Load Balancer that is
   /// used to route traffic from original instances to replacement instances in a
@@ -4397,6 +4490,8 @@ class ELBInfo {
 /// terminated when a blue/green deployment is successful.
 /// <code>BlueInstanceTerminationOption</code> does not apply to Lambda
 /// deployments.
+///
+/// @nodoc
 class BlueInstanceTerminationOption {
   /// The action to take on instances in the original environment after a
   /// successful blue/green deployment.
@@ -4450,6 +4545,8 @@ class BlueInstanceTerminationOption {
 
 /// Information about how traffic is rerouted to instances in a replacement
 /// environment in a blue/green deployment.
+///
+/// @nodoc
 class DeploymentReadyOption {
   /// Information about when to reroute traffic from an original environment to a
   /// replacement environment in a blue/green deployment.
@@ -4499,6 +4596,8 @@ class DeploymentReadyOption {
 
 /// Information about the instances that belong to the replacement environment
 /// in a blue/green deployment.
+///
+/// @nodoc
 class GreenFleetProvisioningOption {
   /// The method used to add instances to a replacement environment.
   ///
@@ -4533,6 +4632,7 @@ class GreenFleetProvisioningOption {
   }
 }
 
+/// @nodoc
 class GreenFleetProvisioningAction {
   static const discoverExisting =
       GreenFleetProvisioningAction._('DISCOVER_EXISTING');
@@ -4560,6 +4660,7 @@ class GreenFleetProvisioningAction {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentReadyAction {
   static const continueDeployment =
       DeploymentReadyAction._('CONTINUE_DEPLOYMENT');
@@ -4586,6 +4687,7 @@ class DeploymentReadyAction {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceAction {
   static const terminate = InstanceAction._('TERMINATE');
   static const keepAlive = InstanceAction._('KEEP_ALIVE');
@@ -4610,6 +4712,7 @@ class InstanceAction {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentType {
   static const inPlace = DeploymentType._('IN_PLACE');
   static const blueGreen = DeploymentType._('BLUE_GREEN');
@@ -4634,6 +4737,7 @@ class DeploymentType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentOption {
   static const withTrafficControl = DeploymentOption._('WITH_TRAFFIC_CONTROL');
   static const withoutTrafficControl =
@@ -4659,6 +4763,7 @@ class DeploymentOption {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoRollbackEvent {
   static const deploymentFailure = AutoRollbackEvent._('DEPLOYMENT_FAILURE');
   static const deploymentStopOnAlarm =
@@ -4691,6 +4796,8 @@ class AutoRollbackEvent {
 }
 
 /// Information about an alarm.
+///
+/// @nodoc
 class Alarm {
   /// The name of the alarm. Maximum length is 255 characters. Each alarm name can
   /// be used only once in a list of alarms.
@@ -4715,6 +4822,8 @@ class Alarm {
 }
 
 /// Information about notification triggers for the deployment group.
+///
+/// @nodoc
 class TriggerConfig {
   /// The event type or types for which notifications are triggered.
   final List<TriggerEventType>? triggerEvents;
@@ -4757,6 +4866,7 @@ class TriggerConfig {
   }
 }
 
+/// @nodoc
 class TriggerEventType {
   static const deploymentStart = TriggerEventType._('DeploymentStart');
   static const deploymentSuccess = TriggerEventType._('DeploymentSuccess');
@@ -4801,6 +4911,8 @@ class TriggerEventType {
 }
 
 /// Information about an on-premises instance tag filter.
+///
+/// @nodoc
 class TagFilter {
   /// The on-premises instance tag filter key.
   final String? key;
@@ -4849,6 +4961,7 @@ class TagFilter {
   }
 }
 
+/// @nodoc
 class TagFilterType {
   static const keyOnly = TagFilterType._('KEY_ONLY');
   static const valueOnly = TagFilterType._('VALUE_ONLY');
@@ -4875,6 +4988,8 @@ class TagFilterType {
 }
 
 /// Information about an EC2 tag filter.
+///
+/// @nodoc
 class EC2TagFilter {
   /// The tag filter key.
   final String? key;
@@ -4923,6 +5038,7 @@ class EC2TagFilter {
   }
 }
 
+/// @nodoc
 class EC2TagFilterType {
   static const keyOnly = EC2TagFilterType._('KEY_ONLY');
   static const valueOnly = EC2TagFilterType._('VALUE_ONLY');
@@ -4949,6 +5065,8 @@ class EC2TagFilterType {
 }
 
 /// Information about a tag.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String? key;
@@ -4978,6 +5096,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class StopStatus {
   static const pending = StopStatus._('Pending');
   static const succeeded = StopStatus._('Succeeded');
@@ -5002,6 +5121,8 @@ class StopStatus {
 }
 
 /// Information about the location of an application revision.
+///
+/// @nodoc
 class RevisionLocation {
   /// The content of an AppSpec file for an Lambda or Amazon ECS deployment. The
   /// content is formatted as JSON or YAML and stored as a RawString.
@@ -5083,6 +5204,7 @@ class RevisionLocation {
   }
 }
 
+/// @nodoc
 class RevisionLocationType {
   static const s3 = RevisionLocationType._('S3');
   static const gitHub = RevisionLocationType._('GitHub');
@@ -5111,6 +5233,8 @@ class RevisionLocationType {
 }
 
 /// Information about the location of application artifacts stored in Amazon S3.
+///
+/// @nodoc
 class S3Location {
   /// The name of the Amazon S3 bucket where the application revision is stored.
   final String? bucket;
@@ -5189,6 +5313,8 @@ class S3Location {
 }
 
 /// Information about the location of application artifacts stored in GitHub.
+///
+/// @nodoc
 class GitHubLocation {
   /// The SHA1 commit ID of the GitHub commit that represents the bundled
   /// artifacts for the application revision.
@@ -5225,6 +5351,8 @@ class GitHubLocation {
 /// A revision for an Lambda deployment that is a YAML-formatted or
 /// JSON-formatted string. For Lambda deployments, the revision is the same as
 /// the AppSpec file.
+///
+/// @nodoc
 class RawString {
   /// The YAML-formatted or JSON-formatted revision string. It includes
   /// information about which Lambda function to update and optional Lambda
@@ -5260,6 +5388,8 @@ class RawString {
 /// or JSON-formatted string. For Lambda and Amazon ECS deployments, the
 /// revision is the same as the AppSpec file. This method replaces the
 /// deprecated <code>RawString</code> data type.
+///
+/// @nodoc
 class AppSpecContent {
   /// The YAML-formatted or JSON-formatted revision string.
   ///
@@ -5302,6 +5432,7 @@ class AppSpecContent {
   }
 }
 
+/// @nodoc
 class BundleType {
   static const tar = BundleType._('tar');
   static const tgz = BundleType._('tgz');
@@ -5328,6 +5459,7 @@ class BundleType {
   String toString() => value;
 }
 
+/// @nodoc
 class LifecycleEventStatus {
   static const pending = LifecycleEventStatus._('Pending');
   static const inProgress = LifecycleEventStatus._('InProgress');
@@ -5364,6 +5496,7 @@ class LifecycleEventStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RegistrationStatus {
   static const registered = RegistrationStatus._('Registered');
   static const deregistered = RegistrationStatus._('Deregistered');
@@ -5389,6 +5522,7 @@ class RegistrationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetFilterName {
   static const targetStatus = TargetFilterName._('TargetStatus');
   static const serverInstanceLabel = TargetFilterName._('ServerInstanceLabel');
@@ -5414,6 +5548,8 @@ class TargetFilterName {
 }
 
 /// Information about a time range.
+///
+/// @nodoc
 class TimeRange {
   /// The end time of the time range.
   /// <note>
@@ -5442,6 +5578,7 @@ class TimeRange {
   }
 }
 
+/// @nodoc
 class DeploymentStatus {
   static const created = DeploymentStatus._('Created');
   static const queued = DeploymentStatus._('Queued');
@@ -5481,6 +5618,7 @@ class DeploymentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceType {
   static const blue = InstanceType._('Blue');
   static const green = InstanceType._('Green');
@@ -5504,6 +5642,7 @@ class InstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceStatus {
   static const pending = InstanceStatus._('Pending');
   static const inProgress = InstanceStatus._('InProgress');
@@ -5541,6 +5680,7 @@ class InstanceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationRevisionSortBy {
   static const registerTime = ApplicationRevisionSortBy._('registerTime');
   static const firstUsedTime = ApplicationRevisionSortBy._('firstUsedTime');
@@ -5567,6 +5707,7 @@ class ApplicationRevisionSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ascending');
   static const descending = SortOrder._('descending');
@@ -5590,6 +5731,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class ListStateFilterAction {
   static const include = ListStateFilterAction._('include');
   static const exclude = ListStateFilterAction._('exclude');
@@ -5617,6 +5759,8 @@ class ListStateFilterAction {
 }
 
 /// Information about an on-premises instance.
+///
+/// @nodoc
 class InstanceInfo {
   /// If the on-premises instance was deregistered, the time at which the
   /// on-premises instance was deregistered.
@@ -5688,6 +5832,8 @@ class InstanceInfo {
 }
 
 /// Information about the deployment target.
+///
+/// @nodoc
 class DeploymentTarget {
   final CloudFormationTarget? cloudFormationTarget;
 
@@ -5754,6 +5900,7 @@ class DeploymentTarget {
   }
 }
 
+/// @nodoc
 class DeploymentTargetType {
   static const instanceTarget = DeploymentTargetType._('InstanceTarget');
   static const lambdaTarget = DeploymentTargetType._('LambdaTarget');
@@ -5789,6 +5936,8 @@ class DeploymentTargetType {
 
 /// A target Amazon EC2 or on-premises instance during a deployment that uses
 /// the EC2/On-premises compute platform.
+///
+/// @nodoc
 class InstanceTarget {
   /// The unique ID of a deployment.
   final String? deploymentId;
@@ -5861,6 +6010,8 @@ class InstanceTarget {
 }
 
 /// Information about the target Lambda function during an Lambda deployment.
+///
+/// @nodoc
 class LambdaTarget {
   /// The unique ID of a deployment.
   final String? deploymentId;
@@ -5936,6 +6087,8 @@ class LambdaTarget {
 }
 
 /// Information about the target of an Amazon ECS deployment.
+///
+/// @nodoc
 class ECSTarget {
   /// The unique ID of a deployment.
   final String? deploymentId;
@@ -6013,6 +6166,8 @@ class ECSTarget {
 /// Information about the target to be updated by an CloudFormation blue/green
 /// deployment. This target type is used for all deployments initiated by a
 /// CloudFormation stack update.
+///
+/// @nodoc
 class CloudFormationTarget {
   /// The unique ID of an CloudFormation blue/green deployment.
   final String? deploymentId;
@@ -6086,6 +6241,7 @@ class CloudFormationTarget {
   }
 }
 
+/// @nodoc
 class TargetStatus {
   static const pending = TargetStatus._('Pending');
   static const inProgress = TargetStatus._('InProgress');
@@ -6123,6 +6279,8 @@ class TargetStatus {
 }
 
 /// Information about a deployment lifecycle event.
+///
+/// @nodoc
 class LifecycleEvent {
   /// Diagnostic information about the deployment lifecycle event.
   final Diagnostics? diagnostics;
@@ -6200,6 +6358,8 @@ class LifecycleEvent {
 
 /// Diagnostic information about executable scripts that are part of a
 /// deployment.
+///
+/// @nodoc
 class Diagnostics {
   /// The associated error code:
   ///
@@ -6269,6 +6429,7 @@ class Diagnostics {
   }
 }
 
+/// @nodoc
 class LifecycleErrorCode {
   static const success = LifecycleErrorCode._('Success');
   static const scriptMissing = LifecycleErrorCode._('ScriptMissing');
@@ -6311,6 +6472,8 @@ class LifecycleErrorCode {
 /// how many tasks are running, and whether the task set serves production
 /// traffic. An CodeDeploy application that uses the Amazon ECS compute platform
 /// deploys a containerized application in an Amazon ECS service as a task set.
+///
+/// @nodoc
 class ECSTaskSet {
   /// The number of tasks in a task set. During a deployment that uses the Amazon
   /// ECS compute type, CodeDeploy instructs Amazon ECS to create a new task set
@@ -6412,6 +6575,7 @@ class ECSTaskSet {
   }
 }
 
+/// @nodoc
 class TargetLabel {
   static const blue = TargetLabel._('Blue');
   static const green = TargetLabel._('Green');
@@ -6436,6 +6600,8 @@ class TargetLabel {
 }
 
 /// Information about a Lambda function specified in a deployment.
+///
+/// @nodoc
 class LambdaFunctionInfo {
   /// The version of a Lambda function that production traffic points to.
   final String? currentVersion;
@@ -6492,6 +6658,8 @@ class LambdaFunctionInfo {
 }
 
 /// Information about an instance in a deployment.
+///
+/// @nodoc
 class InstanceSummary {
   /// The unique ID of a deployment.
   final String? deploymentId;
@@ -6586,6 +6754,8 @@ class InstanceSummary {
 }
 
 /// Information about a deployment group.
+///
+/// @nodoc
 class DeploymentGroupInfo {
   /// A list of alarms associated with the deployment group.
   final AlarmConfiguration? alarmConfiguration;
@@ -6858,6 +7028,8 @@ class DeploymentGroupInfo {
 
 /// Information about the most recent attempted or successful deployment to a
 /// deployment group.
+///
+/// @nodoc
 class LastDeploymentInfo {
   /// A timestamp that indicates when the most recent deployment to the deployment
   /// group started.
@@ -6903,6 +7075,7 @@ class LastDeploymentInfo {
   }
 }
 
+/// @nodoc
 class ComputePlatform {
   static const server = ComputePlatform._('Server');
   static const lambda = ComputePlatform._('Lambda');
@@ -6929,6 +7102,8 @@ class ComputePlatform {
 }
 
 /// Information about a deployment configuration.
+///
+/// @nodoc
 class DeploymentConfigInfo {
   /// The destination platform type for the deployment (<code>Lambda</code>,
   /// <code>Server</code>, or <code>ECS</code>).
@@ -7008,6 +7183,8 @@ class DeploymentConfigInfo {
 }
 
 /// Information about the minimum number of healthy instances.
+///
+/// @nodoc
 class MinimumHealthyHosts {
   /// The minimum healthy instance type:
   ///
@@ -7072,6 +7249,8 @@ class MinimumHealthyHosts {
 /// The configuration that specifies how traffic is shifted from one version of
 /// a Lambda function to another version during an Lambda deployment, or from
 /// one Amazon ECS task set to another during an Amazon ECS deployment.
+///
+/// @nodoc
 class TrafficRoutingConfig {
   /// A configuration that shifts traffic from one version of a Lambda function or
   /// ECS task set to another in two increments. The original and target Lambda
@@ -7135,6 +7314,8 @@ class TrafficRoutingConfig {
 /// For more information about the zonal configuration feature, see <a
 /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config">zonal
 /// configuration</a> in the <i>CodeDeploy User Guide</i>.
+///
+/// @nodoc
 class ZonalConfig {
   /// The period of time, in seconds, that CodeDeploy must wait after completing a
   /// deployment to the <i>first</i> Availability Zone. CodeDeploy will wait this
@@ -7213,6 +7394,8 @@ class ZonalConfig {
 
 /// Information about the minimum number of healthy instances per Availability
 /// Zone.
+///
+/// @nodoc
 class MinimumHealthyHostsPerZone {
   /// The <code>type</code> associated with the
   /// <code>MinimumHealthyHostsPerZone</code> option.
@@ -7245,6 +7428,7 @@ class MinimumHealthyHostsPerZone {
   }
 }
 
+/// @nodoc
 class MinimumHealthyHostsPerZoneType {
   static const hostCount = MinimumHealthyHostsPerZoneType._('HOST_COUNT');
   static const fleetPercent = MinimumHealthyHostsPerZoneType._('FLEET_PERCENT');
@@ -7270,6 +7454,7 @@ class MinimumHealthyHostsPerZoneType {
   String toString() => value;
 }
 
+/// @nodoc
 class TrafficRoutingType {
   static const timeBasedCanary = TrafficRoutingType._('TimeBasedCanary');
   static const timeBasedLinear = TrafficRoutingType._('TimeBasedLinear');
@@ -7300,6 +7485,8 @@ class TrafficRoutingType {
 /// Amazon ECS task set to another in two increments. The original and target
 /// Lambda function versions or ECS task sets are specified in the deployment's
 /// AppSpec file.
+///
+/// @nodoc
 class TimeBasedCanary {
   /// The number of minutes between the first and second traffic shifts of a
   /// <code>TimeBasedCanary</code> deployment.
@@ -7335,6 +7522,8 @@ class TimeBasedCanary {
 /// ECS task set to another in equal increments, with an equal number of minutes
 /// between each increment. The original and target Lambda function versions or
 /// ECS task sets are specified in the deployment's AppSpec file.
+///
+/// @nodoc
 class TimeBasedLinear {
   /// The number of minutes between each incremental traffic shift of a
   /// <code>TimeBasedLinear</code> deployment.
@@ -7366,6 +7555,7 @@ class TimeBasedLinear {
   }
 }
 
+/// @nodoc
 class MinimumHealthyHostsType {
   static const hostCount = MinimumHealthyHostsType._('HOST_COUNT');
   static const fleetPercent = MinimumHealthyHostsType._('FLEET_PERCENT');
@@ -7392,6 +7582,8 @@ class MinimumHealthyHostsType {
 }
 
 /// Information about a deployment.
+///
+/// @nodoc
 class DeploymentInfo {
   /// Provides information about the results of a deployment, such as whether
   /// instances in the original environment in a blue/green deployment were not
@@ -7751,6 +7943,8 @@ class DeploymentInfo {
 }
 
 /// Information about a deployment error.
+///
+/// @nodoc
 class ErrorInformation {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/error-codes.html">Error
@@ -7839,6 +8033,8 @@ class ErrorInformation {
 }
 
 /// Information about the deployment status of the instances in the deployment.
+///
+/// @nodoc
 class DeploymentOverview {
   /// The number of instances in the deployment in a failed state.
   final int? failed;
@@ -7898,6 +8094,7 @@ class DeploymentOverview {
   }
 }
 
+/// @nodoc
 class DeploymentCreator {
   static const user = DeploymentCreator._('user');
   static const autoscaling = DeploymentCreator._('autoscaling');
@@ -7941,6 +8138,8 @@ class DeploymentCreator {
 }
 
 /// Information about a deployment rollback.
+///
+/// @nodoc
 class RollbackInfo {
   /// The ID of the deployment rollback.
   final String? rollbackDeploymentId;
@@ -7985,6 +8184,8 @@ class RollbackInfo {
 
 /// Information about the instances to be used in the replacement environment in
 /// a blue/green deployment.
+///
+/// @nodoc
 class TargetInstances {
   /// The names of one or more Auto Scaling groups to identify a replacement
   /// environment for a blue/green deployment.
@@ -8035,6 +8236,7 @@ class TargetInstances {
   }
 }
 
+/// @nodoc
 class FileExistsBehavior {
   static const disallow = FileExistsBehavior._('DISALLOW');
   static const overwrite = FileExistsBehavior._('OVERWRITE');
@@ -8062,6 +8264,8 @@ class FileExistsBehavior {
 }
 
 /// Information about deployments related to the specified deployment.
+///
+/// @nodoc
 class RelatedDeployments {
   /// The deployment IDs of 'auto-update outdated instances' deployments triggered
   /// by this deployment.
@@ -8103,6 +8307,7 @@ class RelatedDeployments {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const agentIssue = ErrorCode._('AGENT_ISSUE');
   static const alarmActive = ErrorCode._('ALARM_ACTIVE');
@@ -8204,6 +8409,8 @@ class ErrorCode {
 }
 
 /// Information about an application revision.
+///
+/// @nodoc
 class GenericRevisionInfo {
   /// The deployment groups for which this is the current target revision.
   final List<String>? deploymentGroups;
@@ -8261,6 +8468,8 @@ class GenericRevisionInfo {
 }
 
 /// Information about an application.
+///
+/// @nodoc
 class ApplicationInfo {
   /// The application ID.
   final String? applicationId;
@@ -8321,6 +8530,7 @@ class ApplicationInfo {
   }
 }
 
+/// @nodoc
 class DeploymentWaitType {
   static const readyWait = DeploymentWaitType._('READY_WAIT');
   static const terminationWait = DeploymentWaitType._('TERMINATION_WAIT');
@@ -8347,6 +8557,8 @@ class DeploymentWaitType {
 }
 
 /// Information about an application revision.
+///
+/// @nodoc
 class RevisionInfo {
   /// Information about an application revision, including usage details and
   /// associated deployment groups.
@@ -8384,12 +8596,14 @@ class RevisionInfo {
   }
 }
 
+/// @nodoc
 class AlarmsLimitExceededException extends _s.GenericAwsException {
   AlarmsLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'AlarmsLimitExceededException', message: message);
 }
 
+/// @nodoc
 class ApplicationAlreadyExistsException extends _s.GenericAwsException {
   ApplicationAlreadyExistsException({String? type, String? message})
       : super(
@@ -8398,6 +8612,7 @@ class ApplicationAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApplicationDoesNotExistException extends _s.GenericAwsException {
   ApplicationDoesNotExistException({String? type, String? message})
       : super(
@@ -8406,6 +8621,7 @@ class ApplicationDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApplicationLimitExceededException extends _s.GenericAwsException {
   ApplicationLimitExceededException({String? type, String? message})
       : super(
@@ -8414,6 +8630,7 @@ class ApplicationLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ApplicationNameRequiredException extends _s.GenericAwsException {
   ApplicationNameRequiredException({String? type, String? message})
       : super(
@@ -8422,17 +8639,20 @@ class ApplicationNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ArnNotSupportedException extends _s.GenericAwsException {
   ArnNotSupportedException({String? type, String? message})
       : super(type: type, code: 'ArnNotSupportedException', message: message);
 }
 
+/// @nodoc
 class BatchLimitExceededException extends _s.GenericAwsException {
   BatchLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'BatchLimitExceededException', message: message);
 }
 
+/// @nodoc
 class BucketNameFilterRequiredException extends _s.GenericAwsException {
   BucketNameFilterRequiredException({String? type, String? message})
       : super(
@@ -8441,6 +8661,7 @@ class BucketNameFilterRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentAlreadyCompletedException extends _s.GenericAwsException {
   DeploymentAlreadyCompletedException({String? type, String? message})
       : super(
@@ -8449,6 +8670,7 @@ class DeploymentAlreadyCompletedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentConfigAlreadyExistsException extends _s.GenericAwsException {
   DeploymentConfigAlreadyExistsException({String? type, String? message})
       : super(
@@ -8457,6 +8679,7 @@ class DeploymentConfigAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentConfigDoesNotExistException extends _s.GenericAwsException {
   DeploymentConfigDoesNotExistException({String? type, String? message})
       : super(
@@ -8465,6 +8688,7 @@ class DeploymentConfigDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentConfigInUseException extends _s.GenericAwsException {
   DeploymentConfigInUseException({String? type, String? message})
       : super(
@@ -8473,6 +8697,7 @@ class DeploymentConfigInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentConfigLimitExceededException extends _s.GenericAwsException {
   DeploymentConfigLimitExceededException({String? type, String? message})
       : super(
@@ -8481,6 +8706,7 @@ class DeploymentConfigLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentConfigNameRequiredException extends _s.GenericAwsException {
   DeploymentConfigNameRequiredException({String? type, String? message})
       : super(
@@ -8489,6 +8715,7 @@ class DeploymentConfigNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentDoesNotExistException extends _s.GenericAwsException {
   DeploymentDoesNotExistException({String? type, String? message})
       : super(
@@ -8497,6 +8724,7 @@ class DeploymentDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentGroupAlreadyExistsException extends _s.GenericAwsException {
   DeploymentGroupAlreadyExistsException({String? type, String? message})
       : super(
@@ -8505,6 +8733,7 @@ class DeploymentGroupAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentGroupDoesNotExistException extends _s.GenericAwsException {
   DeploymentGroupDoesNotExistException({String? type, String? message})
       : super(
@@ -8513,6 +8742,7 @@ class DeploymentGroupDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentGroupLimitExceededException extends _s.GenericAwsException {
   DeploymentGroupLimitExceededException({String? type, String? message})
       : super(
@@ -8521,6 +8751,7 @@ class DeploymentGroupLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentGroupNameRequiredException extends _s.GenericAwsException {
   DeploymentGroupNameRequiredException({String? type, String? message})
       : super(
@@ -8529,6 +8760,7 @@ class DeploymentGroupNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentIdRequiredException extends _s.GenericAwsException {
   DeploymentIdRequiredException({String? type, String? message})
       : super(
@@ -8537,6 +8769,7 @@ class DeploymentIdRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentIsNotInReadyStateException extends _s.GenericAwsException {
   DeploymentIsNotInReadyStateException({String? type, String? message})
       : super(
@@ -8545,6 +8778,7 @@ class DeploymentIsNotInReadyStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentLimitExceededException extends _s.GenericAwsException {
   DeploymentLimitExceededException({String? type, String? message})
       : super(
@@ -8553,6 +8787,7 @@ class DeploymentLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentNotStartedException extends _s.GenericAwsException {
   DeploymentNotStartedException({String? type, String? message})
       : super(
@@ -8561,6 +8796,7 @@ class DeploymentNotStartedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentTargetDoesNotExistException extends _s.GenericAwsException {
   DeploymentTargetDoesNotExistException({String? type, String? message})
       : super(
@@ -8569,6 +8805,7 @@ class DeploymentTargetDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentTargetIdRequiredException extends _s.GenericAwsException {
   DeploymentTargetIdRequiredException({String? type, String? message})
       : super(
@@ -8577,6 +8814,7 @@ class DeploymentTargetIdRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeploymentTargetListSizeExceededException extends _s.GenericAwsException {
   DeploymentTargetListSizeExceededException({String? type, String? message})
       : super(
@@ -8585,12 +8823,14 @@ class DeploymentTargetListSizeExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DescriptionTooLongException extends _s.GenericAwsException {
   DescriptionTooLongException({String? type, String? message})
       : super(
             type: type, code: 'DescriptionTooLongException', message: message);
 }
 
+/// @nodoc
 class ECSServiceMappingLimitExceededException extends _s.GenericAwsException {
   ECSServiceMappingLimitExceededException({String? type, String? message})
       : super(
@@ -8599,6 +8839,7 @@ class ECSServiceMappingLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GitHubAccountTokenDoesNotExistException extends _s.GenericAwsException {
   GitHubAccountTokenDoesNotExistException({String? type, String? message})
       : super(
@@ -8607,6 +8848,7 @@ class GitHubAccountTokenDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GitHubAccountTokenNameRequiredException extends _s.GenericAwsException {
   GitHubAccountTokenNameRequiredException({String? type, String? message})
       : super(
@@ -8615,11 +8857,13 @@ class GitHubAccountTokenNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IamArnRequiredException extends _s.GenericAwsException {
   IamArnRequiredException({String? type, String? message})
       : super(type: type, code: 'IamArnRequiredException', message: message);
 }
 
+/// @nodoc
 class IamSessionArnAlreadyRegisteredException extends _s.GenericAwsException {
   IamSessionArnAlreadyRegisteredException({String? type, String? message})
       : super(
@@ -8628,6 +8872,7 @@ class IamSessionArnAlreadyRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IamUserArnAlreadyRegisteredException extends _s.GenericAwsException {
   IamUserArnAlreadyRegisteredException({String? type, String? message})
       : super(
@@ -8636,12 +8881,14 @@ class IamUserArnAlreadyRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IamUserArnRequiredException extends _s.GenericAwsException {
   IamUserArnRequiredException({String? type, String? message})
       : super(
             type: type, code: 'IamUserArnRequiredException', message: message);
 }
 
+/// @nodoc
 class InstanceDoesNotExistException extends _s.GenericAwsException {
   InstanceDoesNotExistException({String? type, String? message})
       : super(
@@ -8650,12 +8897,14 @@ class InstanceDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InstanceIdRequiredException extends _s.GenericAwsException {
   InstanceIdRequiredException({String? type, String? message})
       : super(
             type: type, code: 'InstanceIdRequiredException', message: message);
 }
 
+/// @nodoc
 class InstanceLimitExceededException extends _s.GenericAwsException {
   InstanceLimitExceededException({String? type, String? message})
       : super(
@@ -8664,6 +8913,7 @@ class InstanceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InstanceNameAlreadyRegisteredException extends _s.GenericAwsException {
   InstanceNameAlreadyRegisteredException({String? type, String? message})
       : super(
@@ -8672,6 +8922,7 @@ class InstanceNameAlreadyRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InstanceNameRequiredException extends _s.GenericAwsException {
   InstanceNameRequiredException({String? type, String? message})
       : super(
@@ -8680,6 +8931,7 @@ class InstanceNameRequiredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InstanceNotRegisteredException extends _s.GenericAwsException {
   InstanceNotRegisteredException({String? type, String? message})
       : super(
@@ -8688,12 +8940,14 @@ class InstanceNotRegisteredException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidAlarmConfigException extends _s.GenericAwsException {
   InvalidAlarmConfigException({String? type, String? message})
       : super(
             type: type, code: 'InvalidAlarmConfigException', message: message);
 }
 
+/// @nodoc
 class InvalidApplicationNameException extends _s.GenericAwsException {
   InvalidApplicationNameException({String? type, String? message})
       : super(
@@ -8702,11 +8956,13 @@ class InvalidApplicationNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArnException extends _s.GenericAwsException {
   InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
+/// @nodoc
 class InvalidAutoRollbackConfigException extends _s.GenericAwsException {
   InvalidAutoRollbackConfigException({String? type, String? message})
       : super(
@@ -8715,6 +8971,7 @@ class InvalidAutoRollbackConfigException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidAutoScalingGroupException extends _s.GenericAwsException {
   InvalidAutoScalingGroupException({String? type, String? message})
       : super(
@@ -8723,6 +8980,7 @@ class InvalidAutoScalingGroupException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidBlueGreenDeploymentConfigurationException
     extends _s.GenericAwsException {
   InvalidBlueGreenDeploymentConfigurationException(
@@ -8733,6 +8991,7 @@ class InvalidBlueGreenDeploymentConfigurationException
             message: message);
 }
 
+/// @nodoc
 class InvalidBucketNameFilterException extends _s.GenericAwsException {
   InvalidBucketNameFilterException({String? type, String? message})
       : super(
@@ -8741,6 +9000,7 @@ class InvalidBucketNameFilterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidComputePlatformException extends _s.GenericAwsException {
   InvalidComputePlatformException({String? type, String? message})
       : super(
@@ -8749,6 +9009,7 @@ class InvalidComputePlatformException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeployedStateFilterException extends _s.GenericAwsException {
   InvalidDeployedStateFilterException({String? type, String? message})
       : super(
@@ -8757,6 +9018,7 @@ class InvalidDeployedStateFilterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeploymentConfigNameException extends _s.GenericAwsException {
   InvalidDeploymentConfigNameException({String? type, String? message})
       : super(
@@ -8765,6 +9027,7 @@ class InvalidDeploymentConfigNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeploymentGroupNameException extends _s.GenericAwsException {
   InvalidDeploymentGroupNameException({String? type, String? message})
       : super(
@@ -8773,12 +9036,14 @@ class InvalidDeploymentGroupNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeploymentIdException extends _s.GenericAwsException {
   InvalidDeploymentIdException({String? type, String? message})
       : super(
             type: type, code: 'InvalidDeploymentIdException', message: message);
 }
 
+/// @nodoc
 class InvalidDeploymentInstanceTypeException extends _s.GenericAwsException {
   InvalidDeploymentInstanceTypeException({String? type, String? message})
       : super(
@@ -8787,6 +9052,7 @@ class InvalidDeploymentInstanceTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeploymentStatusException extends _s.GenericAwsException {
   InvalidDeploymentStatusException({String? type, String? message})
       : super(
@@ -8795,6 +9061,7 @@ class InvalidDeploymentStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeploymentStyleException extends _s.GenericAwsException {
   InvalidDeploymentStyleException({String? type, String? message})
       : super(
@@ -8803,6 +9070,7 @@ class InvalidDeploymentStyleException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeploymentTargetIdException extends _s.GenericAwsException {
   InvalidDeploymentTargetIdException({String? type, String? message})
       : super(
@@ -8811,6 +9079,7 @@ class InvalidDeploymentTargetIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeploymentWaitTypeException extends _s.GenericAwsException {
   InvalidDeploymentWaitTypeException({String? type, String? message})
       : super(
@@ -8819,6 +9088,7 @@ class InvalidDeploymentWaitTypeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidEC2TagCombinationException extends _s.GenericAwsException {
   InvalidEC2TagCombinationException({String? type, String? message})
       : super(
@@ -8827,21 +9097,25 @@ class InvalidEC2TagCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidEC2TagException extends _s.GenericAwsException {
   InvalidEC2TagException({String? type, String? message})
       : super(type: type, code: 'InvalidEC2TagException', message: message);
 }
 
+/// @nodoc
 class InvalidECSServiceException extends _s.GenericAwsException {
   InvalidECSServiceException({String? type, String? message})
       : super(type: type, code: 'InvalidECSServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidExternalIdException extends _s.GenericAwsException {
   InvalidExternalIdException({String? type, String? message})
       : super(type: type, code: 'InvalidExternalIdException', message: message);
 }
 
+/// @nodoc
 class InvalidFileExistsBehaviorException extends _s.GenericAwsException {
   InvalidFileExistsBehaviorException({String? type, String? message})
       : super(
@@ -8850,6 +9124,7 @@ class InvalidFileExistsBehaviorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidGitHubAccountTokenException extends _s.GenericAwsException {
   InvalidGitHubAccountTokenException({String? type, String? message})
       : super(
@@ -8858,6 +9133,7 @@ class InvalidGitHubAccountTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidGitHubAccountTokenNameException extends _s.GenericAwsException {
   InvalidGitHubAccountTokenNameException({String? type, String? message})
       : super(
@@ -8866,6 +9142,7 @@ class InvalidGitHubAccountTokenNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidIamSessionArnException extends _s.GenericAwsException {
   InvalidIamSessionArnException({String? type, String? message})
       : super(
@@ -8874,11 +9151,13 @@ class InvalidIamSessionArnException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidIamUserArnException extends _s.GenericAwsException {
   InvalidIamUserArnException({String? type, String? message})
       : super(type: type, code: 'InvalidIamUserArnException', message: message);
 }
 
+/// @nodoc
 class InvalidIgnoreApplicationStopFailuresValueException
     extends _s.GenericAwsException {
   InvalidIgnoreApplicationStopFailuresValueException(
@@ -8889,17 +9168,20 @@ class InvalidIgnoreApplicationStopFailuresValueException
             message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidInstanceNameException extends _s.GenericAwsException {
   InvalidInstanceNameException({String? type, String? message})
       : super(
             type: type, code: 'InvalidInstanceNameException', message: message);
 }
 
+/// @nodoc
 class InvalidInstanceStatusException extends _s.GenericAwsException {
   InvalidInstanceStatusException({String? type, String? message})
       : super(
@@ -8908,12 +9190,14 @@ class InvalidInstanceStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidInstanceTypeException extends _s.GenericAwsException {
   InvalidInstanceTypeException({String? type, String? message})
       : super(
             type: type, code: 'InvalidInstanceTypeException', message: message);
 }
 
+/// @nodoc
 class InvalidKeyPrefixFilterException extends _s.GenericAwsException {
   InvalidKeyPrefixFilterException({String? type, String? message})
       : super(
@@ -8922,6 +9206,7 @@ class InvalidKeyPrefixFilterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLifecycleEventHookExecutionIdException
     extends _s.GenericAwsException {
   InvalidLifecycleEventHookExecutionIdException({String? type, String? message})
@@ -8931,6 +9216,7 @@ class InvalidLifecycleEventHookExecutionIdException
             message: message);
 }
 
+/// @nodoc
 class InvalidLifecycleEventHookExecutionStatusException
     extends _s.GenericAwsException {
   InvalidLifecycleEventHookExecutionStatusException(
@@ -8941,6 +9227,7 @@ class InvalidLifecycleEventHookExecutionStatusException
             message: message);
 }
 
+/// @nodoc
 class InvalidLoadBalancerInfoException extends _s.GenericAwsException {
   InvalidLoadBalancerInfoException({String? type, String? message})
       : super(
@@ -8949,6 +9236,7 @@ class InvalidLoadBalancerInfoException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidMinimumHealthyHostValueException extends _s.GenericAwsException {
   InvalidMinimumHealthyHostValueException({String? type, String? message})
       : super(
@@ -8957,11 +9245,13 @@ class InvalidMinimumHealthyHostValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidOnPremisesTagCombinationException extends _s.GenericAwsException {
   InvalidOnPremisesTagCombinationException({String? type, String? message})
       : super(
@@ -8970,11 +9260,13 @@ class InvalidOnPremisesTagCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidOperationException extends _s.GenericAwsException {
   InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
+/// @nodoc
 class InvalidRegistrationStatusException extends _s.GenericAwsException {
   InvalidRegistrationStatusException({String? type, String? message})
       : super(
@@ -8983,41 +9275,49 @@ class InvalidRegistrationStatusException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRevisionException extends _s.GenericAwsException {
   InvalidRevisionException({String? type, String? message})
       : super(type: type, code: 'InvalidRevisionException', message: message);
 }
 
+/// @nodoc
 class InvalidRoleException extends _s.GenericAwsException {
   InvalidRoleException({String? type, String? message})
       : super(type: type, code: 'InvalidRoleException', message: message);
 }
 
+/// @nodoc
 class InvalidSortByException extends _s.GenericAwsException {
   InvalidSortByException({String? type, String? message})
       : super(type: type, code: 'InvalidSortByException', message: message);
 }
 
+/// @nodoc
 class InvalidSortOrderException extends _s.GenericAwsException {
   InvalidSortOrderException({String? type, String? message})
       : super(type: type, code: 'InvalidSortOrderException', message: message);
 }
 
+/// @nodoc
 class InvalidTagException extends _s.GenericAwsException {
   InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
+/// @nodoc
 class InvalidTagFilterException extends _s.GenericAwsException {
   InvalidTagFilterException({String? type, String? message})
       : super(type: type, code: 'InvalidTagFilterException', message: message);
 }
 
+/// @nodoc
 class InvalidTagsToAddException extends _s.GenericAwsException {
   InvalidTagsToAddException({String? type, String? message})
       : super(type: type, code: 'InvalidTagsToAddException', message: message);
 }
 
+/// @nodoc
 class InvalidTargetFilterNameException extends _s.GenericAwsException {
   InvalidTargetFilterNameException({String? type, String? message})
       : super(
@@ -9026,6 +9326,7 @@ class InvalidTargetFilterNameException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTargetGroupPairException extends _s.GenericAwsException {
   InvalidTargetGroupPairException({String? type, String? message})
       : super(
@@ -9034,6 +9335,7 @@ class InvalidTargetGroupPairException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTargetInstancesException extends _s.GenericAwsException {
   InvalidTargetInstancesException({String? type, String? message})
       : super(
@@ -9042,11 +9344,13 @@ class InvalidTargetInstancesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidTimeRangeException extends _s.GenericAwsException {
   InvalidTimeRangeException({String? type, String? message})
       : super(type: type, code: 'InvalidTimeRangeException', message: message);
 }
 
+/// @nodoc
 class InvalidTrafficRoutingConfigurationException
     extends _s.GenericAwsException {
   InvalidTrafficRoutingConfigurationException({String? type, String? message})
@@ -9056,6 +9360,7 @@ class InvalidTrafficRoutingConfigurationException
             message: message);
 }
 
+/// @nodoc
 class InvalidTriggerConfigException extends _s.GenericAwsException {
   InvalidTriggerConfigException({String? type, String? message})
       : super(
@@ -9064,6 +9369,7 @@ class InvalidTriggerConfigException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidUpdateOutdatedInstancesOnlyValueException
     extends _s.GenericAwsException {
   InvalidUpdateOutdatedInstancesOnlyValueException(
@@ -9074,6 +9380,7 @@ class InvalidUpdateOutdatedInstancesOnlyValueException
             message: message);
 }
 
+/// @nodoc
 class InvalidZonalDeploymentConfigurationException
     extends _s.GenericAwsException {
   InvalidZonalDeploymentConfigurationException({String? type, String? message})
@@ -9083,6 +9390,7 @@ class InvalidZonalDeploymentConfigurationException
             message: message);
 }
 
+/// @nodoc
 class LifecycleEventAlreadyCompletedException extends _s.GenericAwsException {
   LifecycleEventAlreadyCompletedException({String? type, String? message})
       : super(
@@ -9091,6 +9399,7 @@ class LifecycleEventAlreadyCompletedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LifecycleHookLimitExceededException extends _s.GenericAwsException {
   LifecycleHookLimitExceededException({String? type, String? message})
       : super(
@@ -9099,6 +9408,7 @@ class LifecycleHookLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MultipleIamArnsProvidedException extends _s.GenericAwsException {
   MultipleIamArnsProvidedException({String? type, String? message})
       : super(
@@ -9107,6 +9417,7 @@ class MultipleIamArnsProvidedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationNotSupportedException extends _s.GenericAwsException {
   OperationNotSupportedException({String? type, String? message})
       : super(
@@ -9115,18 +9426,21 @@ class OperationNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceArnRequiredException extends _s.GenericAwsException {
   ResourceArnRequiredException({String? type, String? message})
       : super(
             type: type, code: 'ResourceArnRequiredException', message: message);
 }
 
+/// @nodoc
 class ResourceValidationException extends _s.GenericAwsException {
   ResourceValidationException({String? type, String? message})
       : super(
             type: type, code: 'ResourceValidationException', message: message);
 }
 
+/// @nodoc
 class RevisionDoesNotExistException extends _s.GenericAwsException {
   RevisionDoesNotExistException({String? type, String? message})
       : super(
@@ -9135,26 +9449,31 @@ class RevisionDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RevisionRequiredException extends _s.GenericAwsException {
   RevisionRequiredException({String? type, String? message})
       : super(type: type, code: 'RevisionRequiredException', message: message);
 }
 
+/// @nodoc
 class RoleRequiredException extends _s.GenericAwsException {
   RoleRequiredException({String? type, String? message})
       : super(type: type, code: 'RoleRequiredException', message: message);
 }
 
+/// @nodoc
 class TagLimitExceededException extends _s.GenericAwsException {
   TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);
 }
 
+/// @nodoc
 class TagRequiredException extends _s.GenericAwsException {
   TagRequiredException({String? type, String? message})
       : super(type: type, code: 'TagRequiredException', message: message);
 }
 
+/// @nodoc
 class TagSetListLimitExceededException extends _s.GenericAwsException {
   TagSetListLimitExceededException({String? type, String? message})
       : super(
@@ -9163,11 +9482,13 @@ class TagSetListLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TriggerTargetsLimitExceededException extends _s.GenericAwsException {
   TriggerTargetsLimitExceededException({String? type, String? message})
       : super(
@@ -9176,6 +9497,7 @@ class TriggerTargetsLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedActionForDeploymentTypeException
     extends _s.GenericAwsException {
   UnsupportedActionForDeploymentTypeException({String? type, String? message})

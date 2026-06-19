@@ -5040,6 +5040,7 @@ class CustomerProfiles {
   }
 }
 
+/// @nodoc
 class AddProfileKeyResponse {
   /// A searchable identifier of a customer profile.
   final String? keyName;
@@ -5070,6 +5071,7 @@ class AddProfileKeyResponse {
   }
 }
 
+/// @nodoc
 class BatchGetCalculatedAttributeForProfileResponse {
   /// List of calculated attribute values retrieved.
   final List<CalculatedAttributeValue>? calculatedAttributeValues;
@@ -5120,6 +5122,7 @@ class BatchGetCalculatedAttributeForProfileResponse {
   }
 }
 
+/// @nodoc
 class BatchGetProfileResponse {
   /// For information about the errors that are common to all actions, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/APIReference/CommonErrors.html">Common
@@ -5157,6 +5160,7 @@ class BatchGetProfileResponse {
   }
 }
 
+/// @nodoc
 class BatchPutProfileObjectResponse {
   /// A list of items that failed to be added to the domain.
   final List<BatchPutProfileObjectErrorItem>? failed;
@@ -5194,6 +5198,7 @@ class BatchPutProfileObjectResponse {
   }
 }
 
+/// @nodoc
 class CreateCalculatedAttributeDefinitionResponse {
   /// Mathematical expression and a list of attribute items specified in that
   /// expression.
@@ -5319,6 +5324,7 @@ class CreateCalculatedAttributeDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateDomainResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -5434,6 +5440,7 @@ class CreateDomainResponse {
   }
 }
 
+/// @nodoc
 class CreateDomainLayoutResponse {
   /// The timestamp of when the layout was created.
   final DateTime createdAt;
@@ -5525,6 +5532,7 @@ class CreateDomainLayoutResponse {
   }
 }
 
+/// @nodoc
 class CreateEventStreamResponse {
   /// A unique identifier for the event stream.
   final String eventStreamArn;
@@ -5555,6 +5563,7 @@ class CreateEventStreamResponse {
   }
 }
 
+/// @nodoc
 class CreateEventTriggerResponse {
   /// The timestamp of when the event trigger was created.
   final DateTime? createdAt;
@@ -5646,6 +5655,7 @@ class CreateEventTriggerResponse {
   }
 }
 
+/// @nodoc
 class CreateIntegrationWorkflowResponse {
   /// A message indicating create request was received.
   final String message;
@@ -5676,6 +5686,7 @@ class CreateIntegrationWorkflowResponse {
   }
 }
 
+/// @nodoc
 class CreateProfileResponse {
   /// The unique identifier of a customer profile.
   final String profileId;
@@ -5698,6 +5709,7 @@ class CreateProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateRecommenderResponse {
   /// The ARN of the recommender
   final String recommenderArn;
@@ -5728,6 +5740,7 @@ class CreateRecommenderResponse {
   }
 }
 
+/// @nodoc
 class CreateRecommenderFilterResponse {
   /// The Amazon Resource Name (ARN) of the recommender filter.
   final String recommenderFilterArn;
@@ -5758,6 +5771,7 @@ class CreateRecommenderFilterResponse {
   }
 }
 
+/// @nodoc
 class CreateRecommenderSchemaResponse {
   /// The timestamp of when the recommender schema was created.
   final DateTime createdAt;
@@ -5825,6 +5839,7 @@ class CreateRecommenderSchemaResponse {
   }
 }
 
+/// @nodoc
 class CreateSegmentDefinitionResponse {
   /// The name of the segment definition.
   final String segmentDefinitionName;
@@ -5884,6 +5899,7 @@ class CreateSegmentDefinitionResponse {
   }
 }
 
+/// @nodoc
 class CreateSegmentEstimateResponse {
   /// The unique name of the domain.
   final String? domainName;
@@ -5921,6 +5937,7 @@ class CreateSegmentEstimateResponse {
   }
 }
 
+/// @nodoc
 class CreateSegmentSnapshotResponse {
   /// The unique identifier of the segment snapshot.
   final String snapshotId;
@@ -5943,6 +5960,7 @@ class CreateSegmentSnapshotResponse {
   }
 }
 
+/// @nodoc
 class CreateUploadJobResponse {
   /// The unique identifier for the created upload job.
   final String jobId;
@@ -5965,6 +5983,7 @@ class CreateUploadJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteCalculatedAttributeDefinitionResponse {
   DeleteCalculatedAttributeDefinitionResponse();
 
@@ -5978,6 +5997,7 @@ class DeleteCalculatedAttributeDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDomainResponse {
   /// A message that indicates the delete request is done.
   final String message;
@@ -6000,6 +6020,7 @@ class DeleteDomainResponse {
   }
 }
 
+/// @nodoc
 class DeleteDomainLayoutResponse {
   /// A message that indicates the delete request is done.
   final String message;
@@ -6022,6 +6043,7 @@ class DeleteDomainLayoutResponse {
   }
 }
 
+/// @nodoc
 class DeleteDomainObjectTypeResponse {
   DeleteDomainObjectTypeResponse();
 
@@ -6034,6 +6056,7 @@ class DeleteDomainObjectTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteEventStreamResponse {
   DeleteEventStreamResponse();
 
@@ -6046,6 +6069,7 @@ class DeleteEventStreamResponse {
   }
 }
 
+/// @nodoc
 class DeleteEventTriggerResponse {
   /// A message that indicates the delete request is done.
   final String message;
@@ -6068,6 +6092,7 @@ class DeleteEventTriggerResponse {
   }
 }
 
+/// @nodoc
 class DeleteIntegrationResponse {
   /// A message that indicates the delete request is done.
   final String message;
@@ -6090,6 +6115,7 @@ class DeleteIntegrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteProfileResponse {
   /// A message that indicates the delete request is done.
   final String? message;
@@ -6112,6 +6138,7 @@ class DeleteProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteProfileKeyResponse {
   /// A message that indicates the delete request is done.
   final String? message;
@@ -6134,6 +6161,7 @@ class DeleteProfileKeyResponse {
   }
 }
 
+/// @nodoc
 class DeleteProfileObjectResponse {
   /// A message that indicates the delete request is done.
   final String? message;
@@ -6156,6 +6184,7 @@ class DeleteProfileObjectResponse {
   }
 }
 
+/// @nodoc
 class DeleteProfileObjectTypeResponse {
   /// A message that indicates the delete request is done.
   final String message;
@@ -6178,6 +6207,7 @@ class DeleteProfileObjectTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteRecommenderResponse {
   DeleteRecommenderResponse();
 
@@ -6190,6 +6220,7 @@ class DeleteRecommenderResponse {
   }
 }
 
+/// @nodoc
 class DeleteRecommenderFilterResponse {
   /// A message that indicates the delete request is done.
   final String message;
@@ -6212,6 +6243,7 @@ class DeleteRecommenderFilterResponse {
   }
 }
 
+/// @nodoc
 class DeleteRecommenderSchemaResponse {
   DeleteRecommenderSchemaResponse();
 
@@ -6224,6 +6256,7 @@ class DeleteRecommenderSchemaResponse {
   }
 }
 
+/// @nodoc
 class DeleteSegmentDefinitionResponse {
   /// A message that indicates the delete request is done.
   final String? message;
@@ -6246,6 +6279,7 @@ class DeleteSegmentDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkflowResponse {
   DeleteWorkflowResponse();
 
@@ -6258,6 +6292,7 @@ class DeleteWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DetectProfileObjectTypeResponse {
   /// Detected <code>ProfileObjectType</code> mappings from given objects. A
   /// maximum of one mapping is supported.
@@ -6286,6 +6321,7 @@ class DetectProfileObjectTypeResponse {
   }
 }
 
+/// @nodoc
 class GetAutoMergingPreviewResponse {
   /// The unique name of the domain.
   final String domainName;
@@ -6335,6 +6371,7 @@ class GetAutoMergingPreviewResponse {
   }
 }
 
+/// @nodoc
 class GetCalculatedAttributeDefinitionResponse {
   /// Mathematical expression and a list of attribute items specified in that
   /// expression.
@@ -6460,6 +6497,7 @@ class GetCalculatedAttributeDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetCalculatedAttributeForProfileResponse {
   /// The unique name of the calculated attribute.
   final String? calculatedAttributeName;
@@ -6515,6 +6553,7 @@ class GetCalculatedAttributeForProfileResponse {
   }
 }
 
+/// @nodoc
 class GetDomainResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -6640,6 +6679,7 @@ class GetDomainResponse {
   }
 }
 
+/// @nodoc
 class GetDomainLayoutResponse {
   /// The timestamp of when the layout was created.
   final DateTime createdAt;
@@ -6730,6 +6770,7 @@ class GetDomainLayoutResponse {
   }
 }
 
+/// @nodoc
 class GetDomainObjectTypeResponse {
   /// The unique name of the domain object type.
   final String objectTypeName;
@@ -6798,6 +6839,7 @@ class GetDomainObjectTypeResponse {
   }
 }
 
+/// @nodoc
 class GetEventStreamResponse {
   /// The timestamp of when the export was created.
   final DateTime createdAt;
@@ -6866,6 +6908,7 @@ class GetEventStreamResponse {
   }
 }
 
+/// @nodoc
 class GetEventTriggerResponse {
   /// The timestamp of when the event trigger was created.
   final DateTime? createdAt;
@@ -6957,6 +7000,7 @@ class GetEventTriggerResponse {
   }
 }
 
+/// @nodoc
 class GetIdentityResolutionJobResponse {
   /// Configuration settings for how to perform the auto-merging of profiles.
   final AutoMerging? autoMerging;
@@ -7093,6 +7137,7 @@ class GetIdentityResolutionJobResponse {
   }
 }
 
+/// @nodoc
 class GetIntegrationResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -7210,6 +7255,7 @@ class GetIntegrationResponse {
   }
 }
 
+/// @nodoc
 class GetMatchesResponse {
   /// The timestamp this version of Match Result generated.
   final DateTime? matchGenerationDate;
@@ -7258,6 +7304,7 @@ class GetMatchesResponse {
   }
 }
 
+/// @nodoc
 class GetObjectTypeAttributeStatisticsResponse {
   /// Time when this statistics was calculated.
   final DateTime calculatedAt;
@@ -7290,6 +7337,7 @@ class GetObjectTypeAttributeStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetProfileHistoryRecordResponse {
   /// The action type of the profile history record.
   final ActionType actionType;
@@ -7365,6 +7413,7 @@ class GetProfileHistoryRecordResponse {
   }
 }
 
+/// @nodoc
 class GetProfileObjectTypeResponse {
   /// The description of the profile object type.
   final String description;
@@ -7509,6 +7558,7 @@ class GetProfileObjectTypeResponse {
   }
 }
 
+/// @nodoc
 class GetProfileObjectTypeTemplateResponse {
   /// Indicates whether a profile should be created when data is received if one
   /// doesn’t exist for an object of this type. The default is <code>FALSE</code>.
@@ -7590,6 +7640,7 @@ class GetProfileObjectTypeTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetProfileRecommendationsResponse {
   /// List of recommendations generated by the recommender.
   final List<Recommendation>? recommendations;
@@ -7616,6 +7667,7 @@ class GetProfileRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class GetRecommenderResponse {
   /// The name of the recommender.
   final String recommenderName;
@@ -7734,6 +7786,7 @@ class GetRecommenderResponse {
   }
 }
 
+/// @nodoc
 class GetRecommenderFilterResponse {
   /// The timestamp of when the recommender filter was created.
   final DateTime createdAt;
@@ -7811,6 +7864,7 @@ class GetRecommenderFilterResponse {
   }
 }
 
+/// @nodoc
 class GetRecommenderSchemaResponse {
   /// The timestamp of when the recommender schema was created.
   final DateTime createdAt;
@@ -7863,6 +7917,7 @@ class GetRecommenderSchemaResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentDefinitionResponse {
   /// The arn of the segment definition.
   final String segmentDefinitionArn;
@@ -7959,6 +8014,7 @@ class GetSegmentDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentEstimateResponse {
   /// The unique name of the domain.
   final String? domainName;
@@ -8016,6 +8072,7 @@ class GetSegmentEstimateResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentMembershipResponse {
   /// An array of maps where each contains a response per profile failed for the
   /// request.
@@ -8069,6 +8126,7 @@ class GetSegmentMembershipResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentSnapshotResponse {
   /// The format in which the segment will be exported.
   final DataFormat dataFormat;
@@ -8139,6 +8197,7 @@ class GetSegmentSnapshotResponse {
   }
 }
 
+/// @nodoc
 class GetSimilarProfilesResponse {
   /// It only has value when the <code>MatchType</code> is
   /// <code>ML_BASED_MATCHING</code>.A number between 0 and 1, where a higher
@@ -8209,6 +8268,7 @@ class GetSimilarProfilesResponse {
   }
 }
 
+/// @nodoc
 class GetUploadJobResponse {
   /// The timestamp when the upload job was completed.
   final DateTime? completedAt;
@@ -8339,6 +8399,7 @@ class GetUploadJobResponse {
   }
 }
 
+/// @nodoc
 class GetUploadJobPathResponse {
   /// The pre-signed S3 URL for uploading the CSV file associated with the upload
   /// job.
@@ -8392,6 +8453,7 @@ class GetUploadJobPathResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowResponse {
   /// Attributes provided for workflow execution.
   final WorkflowAttributes? attributes;
@@ -8470,6 +8532,7 @@ class GetWorkflowResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowStepsResponse {
   /// List containing workflow step details.
   final List<WorkflowStepItem>? items;
@@ -8518,6 +8581,7 @@ class GetWorkflowStepsResponse {
   }
 }
 
+/// @nodoc
 class ListAccountIntegrationsResponse {
   /// The list of ListAccountIntegration instances.
   final List<ListIntegrationItem>? items;
@@ -8550,6 +8614,7 @@ class ListAccountIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class ListCalculatedAttributeDefinitionsResponse {
   /// The list of calculated attribute definitions.
   final List<ListCalculatedAttributeDefinitionItem>? items;
@@ -8585,6 +8650,7 @@ class ListCalculatedAttributeDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListCalculatedAttributesForProfileResponse {
   /// The list of calculated attributes.
   final List<ListCalculatedAttributeForProfileItem>? items;
@@ -8620,6 +8686,7 @@ class ListCalculatedAttributesForProfileResponse {
   }
 }
 
+/// @nodoc
 class ListDomainLayoutsResponse {
   /// Contains summary information about an EventStream.
   final List<LayoutItem>? items;
@@ -8652,6 +8719,7 @@ class ListDomainLayoutsResponse {
   }
 }
 
+/// @nodoc
 class ListDomainObjectTypesResponse {
   /// The list of domain object types.
   final List<DomainObjectTypesListItem>? items;
@@ -8685,6 +8753,7 @@ class ListDomainObjectTypesResponse {
   }
 }
 
+/// @nodoc
 class ListDomainsResponse {
   /// The list of ListDomains instances.
   final List<ListDomainItem>? items;
@@ -8717,6 +8786,7 @@ class ListDomainsResponse {
   }
 }
 
+/// @nodoc
 class ListEventStreamsResponse {
   /// Contains summary information about an EventStream.
   final List<EventStreamSummary>? items;
@@ -8749,6 +8819,7 @@ class ListEventStreamsResponse {
   }
 }
 
+/// @nodoc
 class ListEventTriggersResponse {
   /// The list of Event Triggers.
   final List<EventTriggerSummaryItem>? items;
@@ -8782,6 +8853,7 @@ class ListEventTriggersResponse {
   }
 }
 
+/// @nodoc
 class ListIdentityResolutionJobsResponse {
   /// A list of Identity Resolution Jobs.
   final List<IdentityResolutionJob>? identityResolutionJobsList;
@@ -8817,6 +8889,7 @@ class ListIdentityResolutionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListIntegrationsResponse {
   /// The list of ListIntegrations instances.
   final List<ListIntegrationItem>? items;
@@ -8849,6 +8922,7 @@ class ListIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class ListObjectTypeAttributesResponse {
   /// The items returned as part of the response.
   final List<ListObjectTypeAttributeItem>? items;
@@ -8882,6 +8956,7 @@ class ListObjectTypeAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListObjectTypeAttributeValuesResponse {
   /// A list of unique attribute values sorted on the basis of LastUpdatedAt.
   final List<ListObjectTypeAttributeValuesItem>? items;
@@ -8917,6 +8992,7 @@ class ListObjectTypeAttributeValuesResponse {
   }
 }
 
+/// @nodoc
 class ProfileAttributeValuesResponse {
   /// The attribute name.
   final String? attributeName;
@@ -8962,6 +9038,7 @@ class ProfileAttributeValuesResponse {
   }
 }
 
+/// @nodoc
 class ListProfileHistoryRecordsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -8997,6 +9074,7 @@ class ListProfileHistoryRecordsResponse {
   }
 }
 
+/// @nodoc
 class ListProfileObjectsResponse {
   /// The list of ListProfileObject instances.
   final List<ListProfileObjectsItem>? items;
@@ -9030,6 +9108,7 @@ class ListProfileObjectsResponse {
   }
 }
 
+/// @nodoc
 class ListProfileObjectTypesResponse {
   /// The list of ListProfileObjectTypes instances.
   final List<ListProfileObjectTypeItem>? items;
@@ -9063,6 +9142,7 @@ class ListProfileObjectTypesResponse {
   }
 }
 
+/// @nodoc
 class ListProfileObjectTypeTemplatesResponse {
   /// The list of ListProfileObjectType template instances.
   final List<ListProfileObjectTypeTemplateItem>? items;
@@ -9097,6 +9177,7 @@ class ListProfileObjectTypeTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListRecommenderFiltersResponse {
   /// A token to retrieve the next page of results. Null if there are no more
   /// results to retrieve.
@@ -9131,6 +9212,7 @@ class ListRecommenderFiltersResponse {
   }
 }
 
+/// @nodoc
 class ListRecommenderRecipesResponse {
   /// A token to retrieve the next page of results. Null if there are no more
   /// results to retrieve.
@@ -9164,6 +9246,7 @@ class ListRecommenderRecipesResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendersResponse {
   /// A token to retrieve the next page of results. Null if there are no more
   /// results to retrieve.
@@ -9197,6 +9280,7 @@ class ListRecommendersResponse {
   }
 }
 
+/// @nodoc
 class ListRecommenderSchemasResponse {
   /// A token to retrieve the next page of results. Null if there are no more
   /// results to retrieve.
@@ -9231,6 +9315,7 @@ class ListRecommenderSchemasResponse {
   }
 }
 
+/// @nodoc
 class ListRuleBasedMatchesResponse {
   /// The list of <code>MatchIds</code> for the given domain.
   final List<String>? matchIds;
@@ -9264,6 +9349,7 @@ class ListRuleBasedMatchesResponse {
   }
 }
 
+/// @nodoc
 class ListSegmentDefinitionsResponse {
   /// List of segment definitions.
   final List<SegmentDefinitionItem>? items;
@@ -9296,6 +9382,7 @@ class ListSegmentDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
@@ -9319,6 +9406,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListUploadJobsResponse {
   /// The list of upload jobs for the specified domain.
   final List<UploadJobItem>? items;
@@ -9351,6 +9439,7 @@ class ListUploadJobsResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowsResponse {
   /// List containing workflow details.
   final List<ListWorkflowsItem>? items;
@@ -9384,6 +9473,7 @@ class ListWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class MergeProfilesResponse {
   /// A message that indicates the merge request is complete.
   final String? message;
@@ -9406,6 +9496,7 @@ class MergeProfilesResponse {
   }
 }
 
+/// @nodoc
 class PutDomainObjectTypeResponse {
   /// The timestamp of when the domain object type was created.
   final DateTime? createdAt;
@@ -9474,6 +9565,7 @@ class PutDomainObjectTypeResponse {
   }
 }
 
+/// @nodoc
 class PutIntegrationResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -9591,6 +9683,7 @@ class PutIntegrationResponse {
   }
 }
 
+/// @nodoc
 class PutProfileObjectResponse {
   /// The unique identifier of the profile object generated by the service.
   final String? profileObjectUniqueKey;
@@ -9614,6 +9707,7 @@ class PutProfileObjectResponse {
   }
 }
 
+/// @nodoc
 class PutProfileObjectTypeResponse {
   /// Description of the profile object type.
   final String description;
@@ -9761,6 +9855,7 @@ class PutProfileObjectTypeResponse {
   }
 }
 
+/// @nodoc
 class SearchProfilesResponse {
   /// The list of Profiles matching the search criteria.
   final List<Profile>? items;
@@ -9793,6 +9888,7 @@ class SearchProfilesResponse {
   }
 }
 
+/// @nodoc
 class StartRecommenderResponse {
   StartRecommenderResponse();
 
@@ -9805,6 +9901,7 @@ class StartRecommenderResponse {
   }
 }
 
+/// @nodoc
 class StartUploadJobResponse {
   StartUploadJobResponse();
 
@@ -9817,6 +9914,7 @@ class StartUploadJobResponse {
   }
 }
 
+/// @nodoc
 class StopRecommenderResponse {
   StopRecommenderResponse();
 
@@ -9829,6 +9927,7 @@ class StopRecommenderResponse {
   }
 }
 
+/// @nodoc
 class StopUploadJobResponse {
   StopUploadJobResponse();
 
@@ -9841,6 +9940,7 @@ class StopUploadJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -9853,6 +9953,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -9865,6 +9966,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateCalculatedAttributeDefinitionResponse {
   /// The mathematical expression and a list of attribute items specified in that
   /// expression.
@@ -9981,6 +10083,7 @@ class UpdateCalculatedAttributeDefinitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateDomainResponse {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -10097,6 +10200,7 @@ class UpdateDomainResponse {
   }
 }
 
+/// @nodoc
 class UpdateDomainLayoutResponse {
   /// The timestamp of when the layout was created.
   final DateTime? createdAt;
@@ -10189,6 +10293,7 @@ class UpdateDomainLayoutResponse {
   }
 }
 
+/// @nodoc
 class UpdateEventTriggerResponse {
   /// The timestamp of when the event trigger was created.
   final DateTime? createdAt;
@@ -10280,6 +10385,7 @@ class UpdateEventTriggerResponse {
   }
 }
 
+/// @nodoc
 class UpdateProfileResponse {
   /// The unique identifier of a customer profile.
   final String profileId;
@@ -10302,6 +10408,7 @@ class UpdateProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateRecommenderResponse {
   /// The name of the recommender that was updated.
   final String recommenderName;
@@ -10326,6 +10433,8 @@ class UpdateRecommenderResponse {
 
 /// Configuration settings that define the behavior and parameters of a
 /// recommender.
+///
+/// @nodoc
 class RecommenderConfig {
   /// Configuration settings for how the recommender processes and uses events.
   final EventsConfig? eventsConfig;
@@ -10403,6 +10512,8 @@ class RecommenderConfig {
 }
 
 /// Configuration settings that define how events are processed and tracked.
+///
+/// @nodoc
 class EventsConfig {
   /// A list of event parameters configurations that specify how different event
   /// types should be handled.
@@ -10430,6 +10541,8 @@ class EventsConfig {
 }
 
 /// Configuration settings for inference behavior of the recommender.
+///
+/// @nodoc
 class InferenceConfig {
   /// The minimum provisioned transactions per second (TPS) that the recommender
   /// supports. The default value is 1. A high MinProvisionedTPS will increase
@@ -10455,6 +10568,8 @@ class InferenceConfig {
 }
 
 /// Configuration parameters for events in the personalization system.
+///
+/// @nodoc
 class EventParameters {
   /// The type of event being tracked (e.g., 'click', 'purchase', 'view').
   final String eventType;
@@ -10493,6 +10608,7 @@ class EventParameters {
   }
 }
 
+/// @nodoc
 class PartyType {
   static const individual = PartyType._('INDIVIDUAL');
   static const business = PartyType._('BUSINESS');
@@ -10517,6 +10633,7 @@ class PartyType {
   String toString() => value;
 }
 
+/// @nodoc
 class Gender {
   static const male = Gender._('MALE');
   static const female = Gender._('FEMALE');
@@ -10542,6 +10659,8 @@ class Gender {
 }
 
 /// Updates associated with the address properties of a customer profile.
+///
+/// @nodoc
 class UpdateAddress {
   /// The first line of a customer address.
   final String? address1;
@@ -10612,6 +10731,7 @@ class UpdateAddress {
   }
 }
 
+/// @nodoc
 class ProfileType {
   static const accountProfile = ProfileType._('ACCOUNT_PROFILE');
   static const profile = ProfileType._('PROFILE');
@@ -10636,6 +10756,8 @@ class ProfileType {
 }
 
 /// Object that defines users preferred methods of engagement.
+///
+/// @nodoc
 class EngagementPreferences {
   /// A list of email-related contact preferences
   final List<ContactPreference>? email;
@@ -10672,6 +10794,8 @@ class EngagementPreferences {
 }
 
 /// Object that defines users contact preference.
+///
+/// @nodoc
 class ContactPreference {
   /// The contact type used for engagement. For example: HomePhoneNumber,
   /// PersonalEmailAddress.
@@ -10717,6 +10841,7 @@ class ContactPreference {
   }
 }
 
+/// @nodoc
 class ContactType {
   static const phoneNumber = ContactType._('PhoneNumber');
   static const mobilePhoneNumber = ContactType._('MobilePhoneNumber');
@@ -10756,6 +10881,8 @@ class ContactType {
 /// Defines limits controlling whether an event triggers the destination, based
 /// on ingestion latency and the number of invocations per profile over specific
 /// time periods.
+///
+/// @nodoc
 class EventTriggerLimits {
   /// In milliseconds. Specifies that an event will only trigger the destination
   /// if it is processed within a certain latency period.
@@ -10790,6 +10917,8 @@ class EventTriggerLimits {
 }
 
 /// Defines a limit and the time period during which it is enforced.
+///
+/// @nodoc
 class Period {
   /// The unit of time.
   final PeriodUnit unit;
@@ -10835,6 +10964,7 @@ class Period {
   }
 }
 
+/// @nodoc
 class PeriodUnit {
   static const minutes = PeriodUnit._('MINUTES');
   static const hours = PeriodUnit._('HOURS');
@@ -10863,6 +10993,8 @@ class PeriodUnit {
 
 /// Specifies the circumstances under which the event should trigger the
 /// destination.
+///
+/// @nodoc
 class EventTriggerCondition {
   /// A list of dimensions to be evaluated for the event.
   final List<EventTriggerDimension> eventTriggerDimensions;
@@ -10897,6 +11029,7 @@ class EventTriggerCondition {
   }
 }
 
+/// @nodoc
 class EventTriggerLogicalOperator {
   static const any = EventTriggerLogicalOperator._('ANY');
   static const all = EventTriggerLogicalOperator._('ALL');
@@ -10924,6 +11057,8 @@ class EventTriggerLogicalOperator {
 }
 
 /// A specific event dimension to be assessed.
+///
+/// @nodoc
 class EventTriggerDimension {
   /// A list of object attributes to be evaluated.
   final List<ObjectAttribute> objectAttributes;
@@ -10951,6 +11086,8 @@ class EventTriggerDimension {
 
 /// The criteria that a specific object attribute must meet to trigger the
 /// destination.
+///
+/// @nodoc
 class ObjectAttribute {
   /// The operator used to compare an attribute against a list of values.
   final ComparisonOperator comparisonOperator;
@@ -10998,6 +11135,7 @@ class ObjectAttribute {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const inclusive = ComparisonOperator._('INCLUSIVE');
   static const exclusive = ComparisonOperator._('EXCLUSIVE');
@@ -11053,6 +11191,7 @@ class ComparisonOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class LayoutType {
   static const profileExplorer = LayoutType._('PROFILE_EXPLORER');
 
@@ -11076,6 +11215,8 @@ class LayoutType {
 }
 
 /// The flag that enables the matching process of duplicate profiles.
+///
+/// @nodoc
 class MatchingResponse {
   /// Configuration information about the auto-merging process.
   final AutoMerging? autoMerging;
@@ -11129,6 +11270,8 @@ class MatchingResponse {
 }
 
 /// The response of the Rule-based matching request.
+///
+/// @nodoc
 class RuleBasedMatchingResponse {
   /// Configures information about the <code>AttributeTypesSelector</code> where
   /// the rule-based identity resolution uses to match profiles.
@@ -11245,6 +11388,8 @@ class RuleBasedMatchingResponse {
 }
 
 /// The data store response.
+///
+/// @nodoc
 class DataStoreResponse {
   /// True if data store is enabled for this domain
   final bool? enabled;
@@ -11276,6 +11421,8 @@ class DataStoreResponse {
 
 /// Information indicating if the Calculated Attribute is ready for use by
 /// confirming all historical data has been processed and reflected.
+///
+/// @nodoc
 class Readiness {
   /// Any customer messaging.
   final String? message;
@@ -11305,6 +11452,7 @@ class Readiness {
   }
 }
 
+/// @nodoc
 class RuleBasedMatchingStatus {
   static const pending = RuleBasedMatchingStatus._('PENDING');
   static const inProgress = RuleBasedMatchingStatus._('IN_PROGRESS');
@@ -11377,6 +11525,8 @@ class RuleBasedMatchingStatus {
 /// the value of the <code>Email</code> field of Profile A and the value of the
 /// <code>Email</code> field of Profile B matches, the two profiles are matched
 /// on the Email type.
+///
+/// @nodoc
 class AttributeTypesSelector {
   /// Configures the <code>AttributeMatchingModel</code>, you can either choose
   /// <code>ONE_TO_ONE</code> or <code>MANY_TO_MANY</code>.
@@ -11457,6 +11607,8 @@ class AttributeTypesSelector {
 
 /// How the auto-merging process should resolve conflicts between different
 /// profiles.
+///
+/// @nodoc
 class ConflictResolution {
   /// How the auto-merging process should resolve conflicts between different
   /// profiles.
@@ -11511,6 +11663,8 @@ class ConflictResolution {
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html#customer-profiles-cross-service">Amazon
 /// Connect Customer Profiles cross-service confused deputy prevention</a>.
 /// </note>
+///
+/// @nodoc
 class ExportingConfig {
   /// The S3 location where Identity Resolution Jobs write result files.
   final S3ExportingConfig? s3Exporting;
@@ -11538,6 +11692,8 @@ class ExportingConfig {
 
 /// Configuration information about the S3 bucket where Identity Resolution Jobs
 /// write result files.
+///
+/// @nodoc
 class S3ExportingConfig {
   /// The name of the S3 bucket where Identity Resolution Jobs write result files.
   final String s3BucketName;
@@ -11568,6 +11724,7 @@ class S3ExportingConfig {
   }
 }
 
+/// @nodoc
 class ConflictResolvingModel {
   static const recency = ConflictResolvingModel._('RECENCY');
   static const source = ConflictResolvingModel._('SOURCE');
@@ -11593,6 +11750,7 @@ class ConflictResolvingModel {
   String toString() => value;
 }
 
+/// @nodoc
 class AttributeMatchingModel {
   static const oneToOne = AttributeMatchingModel._('ONE_TO_ONE');
   static const manyToMany = AttributeMatchingModel._('MANY_TO_MANY');
@@ -11675,6 +11833,8 @@ class AttributeMatchingModel {
 /// <code>Attributes</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MatchingRule {
   /// A single rule level of the <code>MatchRules</code>. Configures how the
   /// rule-based matching process should match profiles.
@@ -11703,6 +11863,8 @@ class MatchingRule {
 
 /// The day and time when do you want to start the Identity Resolution Job every
 /// week.
+///
+/// @nodoc
 class JobSchedule {
   /// The day when the Identity Resolution Job should run every week.
   final JobScheduleDayOfTheWeek dayOfTheWeek;
@@ -11734,6 +11896,8 @@ class JobSchedule {
 }
 
 /// Configuration settings for how to perform the auto-merging of profiles.
+///
+/// @nodoc
 class AutoMerging {
   /// The flag that enables the auto-merging of duplicate profiles.
   final bool enabled;
@@ -11796,6 +11960,8 @@ class AutoMerging {
 }
 
 /// The matching criteria to be used during the auto-merging process.
+///
+/// @nodoc
 class Consolidation {
   /// A list of matching criteria.
   final List<List<String>> matchingAttributesList;
@@ -11822,6 +11988,7 @@ class Consolidation {
   }
 }
 
+/// @nodoc
 class JobScheduleDayOfTheWeek {
   static const sunday = JobScheduleDayOfTheWeek._('SUNDAY');
   static const monday = JobScheduleDayOfTheWeek._('MONDAY');
@@ -11861,6 +12028,8 @@ class JobScheduleDayOfTheWeek {
 }
 
 /// The flag that enables the matching process of duplicate profiles.
+///
+/// @nodoc
 class MatchingRequest {
   /// The flag that enables the matching process of duplicate profiles.
   final bool enabled;
@@ -11898,6 +12067,8 @@ class MatchingRequest {
 }
 
 /// The request to enable the rule-based matching.
+///
+/// @nodoc
 class RuleBasedMatchingRequest {
   /// The flag that enables the rule-based matching process of duplicate profiles.
   final bool enabled;
@@ -11954,6 +12125,8 @@ class RuleBasedMatchingRequest {
 }
 
 /// The data store request.
+///
+/// @nodoc
 class DataStoreRequest {
   /// Enabled: Set to true to enabled data store for this domain.
   final bool? enabled;
@@ -11970,6 +12143,7 @@ class DataStoreRequest {
   }
 }
 
+/// @nodoc
 class Statistic {
   static const firstOccurrence = Statistic._('FIRST_OCCURRENCE');
   static const lastOccurrence = Statistic._('LAST_OCCURRENCE');
@@ -12010,6 +12184,8 @@ class Statistic {
 
 /// The conditions including range, object count, and threshold for the
 /// calculated attribute.
+///
+/// @nodoc
 class Conditions {
   /// The number of profile objects used for the calculated attribute.
   final int? objectCount;
@@ -12052,6 +12228,8 @@ class Conditions {
 
 /// Mathematical expression and a list of attribute items specified in that
 /// expression.
+///
+/// @nodoc
 class AttributeDetails {
   /// A list of attribute items specified in the mathematical expression.
   final List<AttributeItem> attributes;
@@ -12086,6 +12264,7 @@ class AttributeDetails {
   }
 }
 
+/// @nodoc
 class ReadinessStatus {
   static const preparing = ReadinessStatus._('PREPARING');
   static const inProgress = ReadinessStatus._('IN_PROGRESS');
@@ -12114,6 +12293,8 @@ class ReadinessStatus {
 
 /// The details of a single attribute item specified in the mathematical
 /// expression.
+///
+/// @nodoc
 class AttributeItem {
   /// The name of an attribute defined in a profile object type.
   final String name;
@@ -12137,6 +12318,8 @@ class AttributeItem {
 }
 
 /// The relative time period over which data is included in the aggregation.
+///
+/// @nodoc
 class Range {
   /// The format the timestamp field in your JSON object is specified. This value
   /// should be one of EPOCHMILLI (for Unix epoch timestamps with
@@ -12204,6 +12387,8 @@ class Range {
 }
 
 /// The threshold for the calculated attribute.
+///
+/// @nodoc
 class Threshold {
   /// The operator of the threshold.
   final Operator operator;
@@ -12233,6 +12418,7 @@ class Threshold {
   }
 }
 
+/// @nodoc
 class Operator {
   static const equalTo = Operator._('EQUAL_TO');
   static const greaterThan = Operator._('GREATER_THAN');
@@ -12258,6 +12444,7 @@ class Operator {
   String toString() => value;
 }
 
+/// @nodoc
 class Unit {
   static const days = Unit._('DAYS');
 
@@ -12284,6 +12471,8 @@ class Unit {
 /// which data is included in the Calculated Attribute. Use positive numbers to
 /// indicate that the endpoint is in the past, and negative numbers to indicate
 /// it is in the future. ValueRange overrides Value.
+///
+/// @nodoc
 class ValueRange {
   /// The end time of when to include objects. Use positive numbers to indicate
   /// that the starting point is in the past, and negative numbers to indicate it
@@ -12318,6 +12507,8 @@ class ValueRange {
 }
 
 /// The standard profile of a customer.
+///
+/// @nodoc
 class Profile {
   /// An account number that you have assigned to the customer.
   final String? accountNumber;
@@ -12575,6 +12766,8 @@ class Profile {
 
 /// A generic address associated with the customer that is not mailing,
 /// shipping, or billing.
+///
+/// @nodoc
 class Address {
   /// The first line of a customer address.
   final String? address1;
@@ -12665,6 +12858,8 @@ class Address {
 /// response to a <a
 /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html">SearchProfiles</a>
 /// request.
+///
+/// @nodoc
 class FoundByKeyValue {
   /// A searchable identifier of a customer profile.
   final String? keyName;
@@ -12695,6 +12890,7 @@ class FoundByKeyValue {
   }
 }
 
+/// @nodoc
 class LogicalOperator {
   static const and = LogicalOperator._('AND');
   static const or = LogicalOperator._('OR');
@@ -12727,6 +12923,8 @@ class LogicalOperator {
 /// parameters to search for profiles using the <a
 /// href="https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html">SearchProfiles</a>
 /// API.
+///
+/// @nodoc
 class AdditionalSearchKey {
   /// A searchable identifier of a customer profile.
   final String keyName;
@@ -12751,6 +12949,8 @@ class AdditionalSearchKey {
 
 /// An object that defines the Key element of a ProfileObject. A Key is a
 /// special element that can be used to search for a customer profile.
+///
+/// @nodoc
 class ObjectTypeKey {
   /// The reference for the key name of the fields map.
   final List<String>? fieldNames;
@@ -12796,6 +12996,7 @@ class ObjectTypeKey {
   }
 }
 
+/// @nodoc
 class StandardIdentifier {
   static const profile = StandardIdentifier._('PROFILE');
   static const asset = StandardIdentifier._('ASSET');
@@ -12862,6 +13063,8 @@ class StandardIdentifier {
 }
 
 /// Represents a field in a ProfileObjectType.
+///
+/// @nodoc
 class ObjectTypeField {
   /// The content type of the field. Used for determining equality when searching.
   final FieldContentType? contentType;
@@ -12903,6 +13106,7 @@ class ObjectTypeField {
   }
 }
 
+/// @nodoc
 class FieldContentType {
   static const string = FieldContentType._('STRING');
   static const number = FieldContentType._('NUMBER');
@@ -12930,6 +13134,7 @@ class FieldContentType {
   String toString() => value;
 }
 
+/// @nodoc
 class Scope {
   static const profile = Scope._('PROFILE');
   static const domain = Scope._('DOMAIN');
@@ -12956,6 +13161,8 @@ class Scope {
 /// The configurations that control how Customer Profiles retrieves data from
 /// the source, Amazon AppFlow. Customer Profiles uses this information to
 /// create an AppFlow flow on behalf of customers.
+///
+/// @nodoc
 class FlowDefinition {
   /// The specified name of the flow. Use underscores (_) or hyphens (-) only.
   /// Spaces are not allowed.
@@ -13008,6 +13215,8 @@ class FlowDefinition {
 
 /// Contains information about the configuration of the source connector used in
 /// the flow.
+///
+/// @nodoc
 class SourceFlowConfig {
   /// The type of connector, such as Salesforce, Marketo, and so on.
   final SourceConnectorType connectorType;
@@ -13050,6 +13259,8 @@ class SourceFlowConfig {
 
 /// The trigger settings that determine how and when Amazon AppFlow runs the
 /// specified flow.
+///
+/// @nodoc
 class TriggerConfig {
   /// Specifies the type of flow trigger. It can be OnDemand, Scheduled, or Event.
   final TriggerType triggerType;
@@ -13073,6 +13284,7 @@ class TriggerConfig {
   }
 }
 
+/// @nodoc
 class TriggerType {
   static const scheduled = TriggerType._('Scheduled');
   static const event = TriggerType._('Event');
@@ -13099,6 +13311,8 @@ class TriggerType {
 
 /// Specifies the configuration details that control the trigger for a flow.
 /// Currently, these settings only apply to the Scheduled trigger type.
+///
+/// @nodoc
 class TriggerProperties {
   /// Specifies the configuration details of a schedule-triggered flow that you
   /// define.
@@ -13118,6 +13332,8 @@ class TriggerProperties {
 
 /// Specifies the configuration details of a scheduled-trigger flow that you
 /// define. Currently, these settings only apply to the scheduled-trigger type.
+///
+/// @nodoc
 class ScheduledTriggerProperties {
   /// The scheduling expression that determines the rate at which the schedule
   /// will run, for example rate (5 minutes).
@@ -13178,6 +13394,7 @@ class ScheduledTriggerProperties {
   }
 }
 
+/// @nodoc
 class DataPullMode {
   static const incremental = DataPullMode._('Incremental');
   static const complete = DataPullMode._('Complete');
@@ -13203,6 +13420,8 @@ class DataPullMode {
 
 /// A class for modeling different type of tasks. Task implementation varies
 /// based on the TaskType.
+///
+/// @nodoc
 class Task {
   /// The source fields to which a particular task is applied.
   final List<String> sourceFields;
@@ -13247,6 +13466,8 @@ class Task {
 }
 
 /// The operation to be performed on the provided source fields.
+///
+/// @nodoc
 class ConnectorOperator {
   /// The operation to be performed on the provided Marketo source fields.
   final MarketoConnectorOperator? marketo;
@@ -13287,6 +13508,7 @@ class ConnectorOperator {
   }
 }
 
+/// @nodoc
 class TaskType {
   static const arithmetic = TaskType._('Arithmetic');
   static const filter = TaskType._('Filter');
@@ -13323,6 +13545,7 @@ class TaskType {
   String toString() => value;
 }
 
+/// @nodoc
 class OperatorPropertiesKeys {
   static const $value = OperatorPropertiesKeys._('VALUE');
   static const $values = OperatorPropertiesKeys._('VALUES');
@@ -13378,6 +13601,7 @@ class OperatorPropertiesKeys {
   String toString() => value;
 }
 
+/// @nodoc
 class MarketoConnectorOperator {
   static const projection = MarketoConnectorOperator._('PROJECTION');
   static const lessThan = MarketoConnectorOperator._('LESS_THAN');
@@ -13437,6 +13661,7 @@ class MarketoConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class S3ConnectorOperator {
   static const projection = S3ConnectorOperator._('PROJECTION');
   static const lessThan = S3ConnectorOperator._('LESS_THAN');
@@ -13504,6 +13729,7 @@ class S3ConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SalesforceConnectorOperator {
   static const projection = SalesforceConnectorOperator._('PROJECTION');
   static const lessThan = SalesforceConnectorOperator._('LESS_THAN');
@@ -13576,6 +13802,7 @@ class SalesforceConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceNowConnectorOperator {
   static const projection = ServiceNowConnectorOperator._('PROJECTION');
   static const contains = ServiceNowConnectorOperator._('CONTAINS');
@@ -13648,6 +13875,7 @@ class ServiceNowConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ZendeskConnectorOperator {
   static const projection = ZendeskConnectorOperator._('PROJECTION');
   static const greaterThan = ZendeskConnectorOperator._('GREATER_THAN');
@@ -13703,6 +13931,7 @@ class ZendeskConnectorOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceConnectorType {
   static const salesforce = SourceConnectorType._('Salesforce');
   static const marketo = SourceConnectorType._('Marketo');
@@ -13733,6 +13962,8 @@ class SourceConnectorType {
 
 /// Specifies the configuration used when importing incremental records from the
 /// source.
+///
+/// @nodoc
 class IncrementalPullConfig {
   /// A field that specifies the date time or timestamp field as the criteria to
   /// use when importing incremental records from the source.
@@ -13754,6 +13985,8 @@ class IncrementalPullConfig {
 /// Specifies the information that is required to query a particular Amazon
 /// AppFlow connector. Customer Profiles supports Salesforce, Zendesk, Marketo,
 /// ServiceNow and Amazon S3.
+///
+/// @nodoc
 class SourceConnectorProperties {
   /// The properties that are applied when Marketo is being used as a source.
   final MarketoSourceProperties? marketo;
@@ -13796,6 +14029,8 @@ class SourceConnectorProperties {
 }
 
 /// The properties that are applied when Marketo is being used as a source.
+///
+/// @nodoc
 class MarketoSourceProperties {
   /// The object specified in the Marketo flow source.
   final String object;
@@ -13814,6 +14049,8 @@ class MarketoSourceProperties {
 
 /// The properties that are applied when Amazon S3 is being used as the flow
 /// source.
+///
+/// @nodoc
 class S3SourceProperties {
   /// The Amazon S3 bucket name where the source files are stored.
   final String bucketName;
@@ -13838,6 +14075,8 @@ class S3SourceProperties {
 }
 
 /// The properties that are applied when Salesforce is being used as a source.
+///
+/// @nodoc
 class SalesforceSourceProperties {
   /// The object specified in the Salesforce flow source.
   final String object;
@@ -13870,6 +14109,8 @@ class SalesforceSourceProperties {
 }
 
 /// The properties that are applied when ServiceNow is being used as a source.
+///
+/// @nodoc
 class ServiceNowSourceProperties {
   /// The object specified in the ServiceNow flow source.
   final String object;
@@ -13887,6 +14128,8 @@ class ServiceNowSourceProperties {
 }
 
 /// The properties that are applied when using Zendesk as a flow source.
+///
+/// @nodoc
 class ZendeskSourceProperties {
   /// The object specified in the Zendesk flow source.
   final String object;
@@ -13904,6 +14147,8 @@ class ZendeskSourceProperties {
 }
 
 /// The standard domain object type.
+///
+/// @nodoc
 class DomainObjectTypeField {
   /// The expression that defines how to extract the field value from the source
   /// object.>
@@ -13951,6 +14196,7 @@ class DomainObjectTypeField {
   }
 }
 
+/// @nodoc
 class ContentType {
   static const string = ContentType._('STRING');
   static const number = ContentType._('NUMBER');
@@ -13974,6 +14220,7 @@ class ContentType {
   String toString() => value;
 }
 
+/// @nodoc
 class FeatureType {
   static const textual = FeatureType._('TEXTUAL');
   static const categorical = FeatureType._('CATEGORICAL');
@@ -13998,6 +14245,8 @@ class FeatureType {
 }
 
 /// A duplicate customer profile that is to be merged into a main profile.
+///
+/// @nodoc
 class FieldSourceProfileIds {
   /// A unique identifier for the account number field to be merged.
   final String? accountNumber;
@@ -14152,6 +14401,8 @@ class FieldSourceProfileIds {
 }
 
 /// A workflow in list of workflows.
+///
+/// @nodoc
 class ListWorkflowsItem {
   /// Creation timestamp for workflow.
   final DateTime createdAt;
@@ -14210,6 +14461,7 @@ class ListWorkflowsItem {
   }
 }
 
+/// @nodoc
 class WorkflowType {
   static const appflowIntegration = WorkflowType._('APPFLOW_INTEGRATION');
 
@@ -14232,6 +14484,7 @@ class WorkflowType {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const notStarted = Status._('NOT_STARTED');
   static const inProgress = Status._('IN_PROGRESS');
@@ -14269,6 +14522,8 @@ class Status {
 }
 
 /// The summary information for an individual upload job.
+///
+/// @nodoc
 class UploadJobItem {
   /// The timestamp when the upload job was completed.
   final DateTime? completedAt;
@@ -14334,6 +14589,7 @@ class UploadJobItem {
   }
 }
 
+/// @nodoc
 class UploadJobStatus {
   static const created = UploadJobStatus._('CREATED');
   static const inProgress = UploadJobStatus._('IN_PROGRESS');
@@ -14369,6 +14625,7 @@ class UploadJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StatusReason {
   static const validationFailure = StatusReason._('VALIDATION_FAILURE');
   static const internalFailure = StatusReason._('INTERNAL_FAILURE');
@@ -14393,6 +14650,8 @@ class StatusReason {
 }
 
 /// Object holding the segment definition fields.
+///
+/// @nodoc
 class SegmentDefinitionItem {
   /// When the segment definition was created.
   final DateTime? createdAt;
@@ -14465,6 +14724,7 @@ class SegmentDefinitionItem {
   }
 }
 
+/// @nodoc
 class SegmentType {
   static const classic = SegmentType._('CLASSIC');
   static const enhanced = SegmentType._('ENHANCED');
@@ -14490,6 +14750,8 @@ class SegmentType {
 
 /// Provides a summary of a recommender schema's configuration and current
 /// state.
+///
+/// @nodoc
 class RecommenderSchemaSummary {
   /// The timestamp when the recommender schema was created.
   final DateTime createdAt;
@@ -14542,6 +14804,7 @@ class RecommenderSchemaSummary {
   }
 }
 
+/// @nodoc
 class RecommenderSchemaStatus {
   static const active = RecommenderSchemaStatus._('ACTIVE');
   static const deleting = RecommenderSchemaStatus._('DELETING');
@@ -14569,6 +14832,8 @@ class RecommenderSchemaStatus {
 
 /// Defines a column in a recommender schema, including the target field name
 /// and optional feature and content type settings for training.
+///
+/// @nodoc
 class RecommenderSchemaField {
   /// The name of the target field in the dataset, such as
   /// <code>Location.City</code> or <code>Attributes.MealTime</code>.
@@ -14611,6 +14876,8 @@ class RecommenderSchemaField {
 }
 
 /// Provides a summary of a recommender's configuration and current state.
+///
+/// @nodoc
 class RecommenderSummary {
   /// The timestamp when the recommender was created.
   final DateTime? createdAt;
@@ -14716,6 +14983,7 @@ class RecommenderSummary {
   }
 }
 
+/// @nodoc
 class RecommenderRecipeName {
   static const recommendedForYou =
       RecommenderRecipeName._('recommended-for-you');
@@ -14755,6 +15023,7 @@ class RecommenderRecipeName {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommenderStatus {
   static const pending = RecommenderStatus._('PENDING');
   static const inProgress = RecommenderStatus._('IN_PROGRESS');
@@ -14795,6 +15064,8 @@ class RecommenderStatus {
 }
 
 /// Contains information about an update operation performed on a recommender.
+///
+/// @nodoc
 class RecommenderUpdate {
   /// The timestamp when this recommender update was initiated.
   final DateTime? createdAt;
@@ -14851,6 +15122,8 @@ class RecommenderUpdate {
 }
 
 /// Defines the algorithm and approach used to generate recommendations.
+///
+/// @nodoc
 class RecommenderRecipe {
   /// A description of the recommender recipe's purpose and functionality.
   final String? description;
@@ -14882,6 +15155,8 @@ class RecommenderRecipe {
 
 /// Provides a summary of a recommender filter's configuration and current
 /// state.
+///
+/// @nodoc
 class RecommenderFilterSummary {
   /// The timestamp when the recommender filter was created.
   final DateTime? createdAt;
@@ -14961,6 +15236,7 @@ class RecommenderFilterSummary {
   }
 }
 
+/// @nodoc
 class RecommenderFilterStatus {
   static const active = RecommenderFilterStatus._('ACTIVE');
   static const pending = RecommenderFilterStatus._('PENDING');
@@ -14990,6 +15266,8 @@ class RecommenderFilterStatus {
 }
 
 /// A ProfileObjectTypeTemplate in a list of ProfileObjectTypeTemplates.
+///
+/// @nodoc
 class ListProfileObjectTypeTemplateItem {
   /// The name of the source of the object template.
   final String? sourceName;
@@ -15028,6 +15306,8 @@ class ListProfileObjectTypeTemplateItem {
 }
 
 /// A ProfileObjectType instance.
+///
+/// @nodoc
 class ListProfileObjectTypeItem {
   /// Description of the profile object type.
   final String description;
@@ -15107,6 +15387,8 @@ class ListProfileObjectTypeItem {
 }
 
 /// A ProfileObject in a list of ProfileObjects.
+///
+/// @nodoc
 class ListProfileObjectsItem {
   /// A JSON representation of a ProfileObject that belongs to a profile.
   final String? object;
@@ -15147,6 +15429,8 @@ class ListProfileObjectsItem {
 
 /// The filter applied to <code>ListProfileObjects</code> response to include
 /// profile objects with the specified index values.
+///
+/// @nodoc
 class ObjectFilter {
   /// A searchable identifier of a profile object. The predefined keys you can use
   /// to search for <code>_asset</code> include: <code>_assetId</code>,
@@ -15175,6 +15459,8 @@ class ObjectFilter {
 }
 
 /// Contains profile history record metadata.
+///
+/// @nodoc
 class ProfileHistoryRecord {
   /// The action type of the profile history record.
   final ActionType actionType;
@@ -15242,6 +15528,7 @@ class ProfileHistoryRecord {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const addedProfileKey = ActionType._('ADDED_PROFILE_KEY');
   static const deletedProfileKey = ActionType._('DELETED_PROFILE_KEY');
@@ -15283,6 +15570,8 @@ class ActionType {
 }
 
 /// List containing the values for the given attribute.
+///
+/// @nodoc
 class AttributeValueItem {
   /// An individual value belonging to the given attribute.
   final String? value;
@@ -15307,6 +15596,8 @@ class AttributeValueItem {
 
 /// Represents an item in the list of object type attribute values with its
 /// associated metadata.
+///
+/// @nodoc
 class ListObjectTypeAttributeValuesItem {
   /// The timestamp of when the object type attribute value was most recently
   /// updated.
@@ -15339,6 +15630,8 @@ class ListObjectTypeAttributeValuesItem {
 }
 
 /// Item that contains the attribute and when it was last updated.
+///
+/// @nodoc
 class ListObjectTypeAttributeItem {
   /// Name of the attribute.
   final String attributeName;
@@ -15369,6 +15662,8 @@ class ListObjectTypeAttributeItem {
 }
 
 /// An integration in list of integrations.
+///
+/// @nodoc
 class ListIntegrationItem {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -15484,6 +15779,8 @@ class ListIntegrationItem {
 }
 
 /// Information about the Identity Resolution Job.
+///
+/// @nodoc
 class IdentityResolutionJob {
   /// The unique name of the domain.
   final String? domainName;
@@ -15594,6 +15891,7 @@ class IdentityResolutionJob {
   }
 }
 
+/// @nodoc
 class IdentityResolutionJobStatus {
   static const pending = IdentityResolutionJobStatus._('PENDING');
   static const preprocessing = IdentityResolutionJobStatus._('PREPROCESSING');
@@ -15634,6 +15932,8 @@ class IdentityResolutionJobStatus {
 }
 
 /// Statistics about the Identity Resolution Job.
+///
+/// @nodoc
 class JobStats {
   /// The number of matches found.
   final int? numberOfMatchesFound;
@@ -15673,6 +15973,8 @@ class JobStats {
 }
 
 /// The S3 location where Identity Resolution Jobs write result files.
+///
+/// @nodoc
 class ExportingLocation {
   /// Information about the S3 location where Identity Resolution Jobs write
   /// result files.
@@ -15700,6 +16002,8 @@ class ExportingLocation {
 }
 
 /// The S3 location where Identity Resolution Jobs write result files.
+///
+/// @nodoc
 class S3ExportingLocation {
   /// The name of the S3 bucket name where Identity Resolution Jobs write result
   /// files.
@@ -15732,6 +16036,8 @@ class S3ExportingLocation {
 }
 
 /// The summary of the event trigger.
+///
+/// @nodoc
 class EventTriggerSummaryItem {
   /// The timestamp of when the event trigger was created.
   final DateTime? createdAt;
@@ -15792,6 +16098,8 @@ class EventTriggerSummaryItem {
 }
 
 /// An instance of EventStream in a list of EventStreams.
+///
+/// @nodoc
 class EventStreamSummary {
   /// The unique name of the domain.
   final String domainName;
@@ -15861,6 +16169,7 @@ class EventStreamSummary {
   }
 }
 
+/// @nodoc
 class EventStreamState {
   static const running = EventStreamState._('RUNNING');
   static const stopped = EventStreamState._('STOPPED');
@@ -15886,6 +16195,8 @@ class EventStreamState {
 }
 
 /// Summary information about the Kinesis data stream
+///
+/// @nodoc
 class DestinationSummary {
   /// The status of enabling the Kinesis stream as a destination for export.
   final EventStreamDestinationStatus status;
@@ -15925,6 +16236,7 @@ class DestinationSummary {
   }
 }
 
+/// @nodoc
 class EventStreamDestinationStatus {
   static const healthy = EventStreamDestinationStatus._('HEALTHY');
   static const unhealthy = EventStreamDestinationStatus._('UNHEALTHY');
@@ -15951,6 +16263,8 @@ class EventStreamDestinationStatus {
 }
 
 /// An object in a list that represents a domain.
+///
+/// @nodoc
 class ListDomainItem {
   /// The timestamp of when the domain was created.
   final DateTime createdAt;
@@ -15997,6 +16311,8 @@ class ListDomainItem {
 
 /// Represents an item in the list of domain object types, containing basic
 /// information about a specific object type within a domain.
+///
+/// @nodoc
 class DomainObjectTypesListItem {
   /// The name that identifies the object type within the domain.
   final String objectTypeName;
@@ -16052,6 +16368,8 @@ class DomainObjectTypesListItem {
 
 /// The layout object that contains LayoutDefinitionName, Description,
 /// DisplayName, IsDefault, LayoutType, Tags, CreatedAt, LastUpdatedAt
+///
+/// @nodoc
 class LayoutItem {
   /// The timestamp of when the layout was created.
   final DateTime createdAt;
@@ -16128,6 +16446,8 @@ class LayoutItem {
 }
 
 /// The details of a single calculated attribute for a profile.
+///
+/// @nodoc
 class ListCalculatedAttributeForProfileItem {
   /// The unique name of the calculated attribute.
   final String? calculatedAttributeName;
@@ -16184,6 +16504,8 @@ class ListCalculatedAttributeForProfileItem {
 }
 
 /// The details of a single calculated attribute definition.
+///
+/// @nodoc
 class ListCalculatedAttributeDefinitionItem {
   /// The unique name of the calculated attribute.
   final String? calculatedAttributeName;
@@ -16263,6 +16585,8 @@ class ListCalculatedAttributeDefinitionItem {
 }
 
 /// List containing steps in workflow.
+///
+/// @nodoc
 class WorkflowStepItem {
   /// Workflow step information specific to <code>APPFLOW_INTEGRATION</code>
   /// workflow.
@@ -16290,6 +16614,8 @@ class WorkflowStepItem {
 }
 
 /// Workflow step details for <code>APPFLOW_INTEGRATION</code> workflow.
+///
+/// @nodoc
 class AppflowIntegrationWorkflowStep {
   /// End datetime of records pulled in batch during execution of workflow step
   /// for <code>APPFLOW_INTEGRATION</code> workflow.
@@ -16370,6 +16696,8 @@ class AppflowIntegrationWorkflowStep {
 }
 
 /// Structure to hold workflow attributes.
+///
+/// @nodoc
 class WorkflowAttributes {
   /// Workflow attributes specific to <code>APPFLOW_INTEGRATION</code> workflow.
   final AppflowIntegrationWorkflowAttributes? appflowIntegration;
@@ -16396,6 +16724,8 @@ class WorkflowAttributes {
 }
 
 /// Generic object containing workflow execution metrics.
+///
+/// @nodoc
 class WorkflowMetrics {
   /// Workflow execution metrics for <code>APPFLOW_INTEGRATION</code> workflow.
   final AppflowIntegrationWorkflowMetrics? appflowIntegration;
@@ -16423,6 +16753,8 @@ class WorkflowMetrics {
 
 /// Workflow specific execution metrics for <code>APPFLOW_INTEGRATION</code>
 /// workflow.
+///
+/// @nodoc
 class AppflowIntegrationWorkflowMetrics {
   /// Number of records processed in <code>APPFLOW_INTEGRATION</code> workflow.
   final int recordsProcessed;
@@ -16462,6 +16794,8 @@ class AppflowIntegrationWorkflowMetrics {
 
 /// Structure holding all <code>APPFLOW_INTEGRATION</code> specific workflow
 /// attributes.
+///
+/// @nodoc
 class AppflowIntegrationWorkflowAttributes {
   /// The name of the AppFlow connector profile used for ingestion.
   final String connectorProfileName;
@@ -16504,6 +16838,8 @@ class AppflowIntegrationWorkflowAttributes {
 
 /// The summary of results for an upload job, including the number of updated,
 /// created, and failed records.
+///
+/// @nodoc
 class ResultsSummary {
   /// The number of records that were newly created during the upload job.
   final int? createdRecords;
@@ -16540,6 +16876,7 @@ class ResultsSummary {
   }
 }
 
+/// @nodoc
 class MatchType {
   static const ruleBasedMatching = MatchType._('RULE_BASED_MATCHING');
   static const mlBasedMatching = MatchType._('ML_BASED_MATCHING');
@@ -16563,6 +16900,7 @@ class MatchType {
   String toString() => value;
 }
 
+/// @nodoc
 class SegmentSnapshotStatus {
   static const completed = SegmentSnapshotStatus._('COMPLETED');
   static const inProgress = SegmentSnapshotStatus._('IN_PROGRESS');
@@ -16589,6 +16927,7 @@ class SegmentSnapshotStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DataFormat {
   static const csv = DataFormat._('CSV');
   static const jsonl = DataFormat._('JSONL');
@@ -16614,6 +16953,8 @@ class DataFormat {
 }
 
 /// Object that holds failures for membership.
+///
+/// @nodoc
 class ProfileQueryFailures {
   /// A message describing the failure.
   final String message;
@@ -16651,6 +16992,8 @@ class ProfileQueryFailures {
 }
 
 /// Object that holds the results for membership.
+///
+/// @nodoc
 class ProfileQueryResult {
   /// The profile id the result belongs to.
   final String profileId;
@@ -16688,6 +17031,7 @@ class ProfileQueryResult {
   }
 }
 
+/// @nodoc
 class QueryResult {
   static const present = QueryResult._('PRESENT');
   static const absent = QueryResult._('ABSENT');
@@ -16711,6 +17055,7 @@ class QueryResult {
   String toString() => value;
 }
 
+/// @nodoc
 class EstimateStatus {
   static const running = EstimateStatus._('RUNNING');
   static const succeeded = EstimateStatus._('SUCCEEDED');
@@ -16737,6 +17082,8 @@ class EstimateStatus {
 }
 
 /// Contains all groups of the segment definition.
+///
+/// @nodoc
 class SegmentGroup {
   /// Holds the list of groups within the segment definition.
   final List<Group>? groups;
@@ -16771,6 +17118,8 @@ class SegmentGroup {
 }
 
 /// Defines how segments should be sorted and ordered in the results.
+///
+/// @nodoc
 class SegmentSort {
   /// A list of attributes used to sort the segments and their ordering
   /// preferences.
@@ -16798,6 +17147,8 @@ class SegmentSort {
 }
 
 /// Defines the characteristics and rules for sorting by a specific attribute.
+///
+/// @nodoc
 class SortAttribute {
   /// The name of the attribute to sort by.
   final String name;
@@ -16842,6 +17193,7 @@ class SortAttribute {
   }
 }
 
+/// @nodoc
 class SegmentSortDataType {
   static const string = SegmentSortDataType._('STRING');
   static const number = SegmentSortDataType._('NUMBER');
@@ -16868,6 +17220,7 @@ class SegmentSortDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class SegmentSortOrder {
   static const asc = SegmentSortOrder._('ASC');
   static const desc = SegmentSortOrder._('DESC');
@@ -16892,6 +17245,7 @@ class SegmentSortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class SortAttributeType {
   static const profile = SortAttributeType._('PROFILE');
   static const calculated = SortAttributeType._('CALCULATED');
@@ -16916,6 +17270,7 @@ class SortAttributeType {
   String toString() => value;
 }
 
+/// @nodoc
 class IncludeOptions {
   static const all = IncludeOptions._('ALL');
   static const any = IncludeOptions._('ANY');
@@ -16942,6 +17297,8 @@ class IncludeOptions {
 }
 
 /// Contains dimensions that determine what to segment on.
+///
+/// @nodoc
 class Group {
   /// Defines the attributes to segment on.
   final List<Dimension>? dimensions;
@@ -16993,6 +17350,8 @@ class Group {
 }
 
 /// The source segments to build off of.
+///
+/// @nodoc
 class SourceSegment {
   /// The unique name of the segment definition.
   final String? segmentDefinitionName;
@@ -17017,6 +17376,8 @@ class SourceSegment {
 }
 
 /// Object that holds what profile and calculated attributes to segment on.
+///
+/// @nodoc
 class Dimension {
   /// Object that holds the calculated attributes to segment on.
   final Map<String, CalculatedAttributeDimension>? calculatedAttributes;
@@ -17056,6 +17417,8 @@ class Dimension {
 }
 
 /// The object used to segment on attributes within the customer profile.
+///
+/// @nodoc
 class ProfileAttributes {
   /// A field to describe values to segment on within account number.
   final ProfileDimension? accountNumber;
@@ -17290,6 +17653,8 @@ class ProfileAttributes {
 }
 
 /// Object that segments on Customer Profile's Calculated Attributes.
+///
+/// @nodoc
 class CalculatedAttributeDimension {
   /// The action to segment with.
   final AttributeDimensionType dimensionType;
@@ -17334,6 +17699,7 @@ class CalculatedAttributeDimension {
   }
 }
 
+/// @nodoc
 class AttributeDimensionType {
   static const inclusive = AttributeDimensionType._('INCLUSIVE');
   static const exclusive = AttributeDimensionType._('EXCLUSIVE');
@@ -17391,6 +17757,8 @@ class AttributeDimensionType {
 
 /// An object to override the original condition block of a calculated
 /// attribute.
+///
+/// @nodoc
 class ConditionOverrides {
   /// The relative time period over which data is included in the aggregation for
   /// this override.
@@ -17417,6 +17785,8 @@ class ConditionOverrides {
 }
 
 /// Overrides the original range on a calculated attribute definition.
+///
+/// @nodoc
 class RangeOverride {
   /// The start time of when to include objects.
   final int start;
@@ -17453,6 +17823,7 @@ class RangeOverride {
   }
 }
 
+/// @nodoc
 class RangeUnit {
   static const days = RangeUnit._('DAYS');
 
@@ -17476,6 +17847,8 @@ class RangeUnit {
 }
 
 /// Object to hold the dimensions of a profile's fields to segment on.
+///
+/// @nodoc
 class ProfileDimension {
   /// The action to segment on.
   final StringDimensionType dimensionType;
@@ -17511,6 +17884,8 @@ class ProfileDimension {
 
 /// Object that segments on various Customer profile's fields that are larger
 /// than normal.
+///
+/// @nodoc
 class ExtraLengthValueProfileDimension {
   /// The action to segment with.
   final StringDimensionType dimensionType;
@@ -17545,6 +17920,8 @@ class ExtraLengthValueProfileDimension {
 }
 
 /// Object that segments on various Customer Profile's date fields.
+///
+/// @nodoc
 class DateDimension {
   /// The action to segment with.
   final DateDimensionType dimensionType;
@@ -17579,6 +17956,8 @@ class DateDimension {
 }
 
 /// Object that segments on Customer Profile's address object.
+///
+/// @nodoc
 class AddressDimension {
   /// The city belonging to the address.
   final ProfileDimension? city;
@@ -17650,6 +18029,8 @@ class AddressDimension {
 }
 
 /// Object to hold the dimension of a profile type field to segment on.
+///
+/// @nodoc
 class ProfileTypeDimension {
   /// The action to segment on.
   final ProfileTypeDimensionType dimensionType;
@@ -17683,6 +18064,7 @@ class ProfileTypeDimension {
   }
 }
 
+/// @nodoc
 class ProfileTypeDimensionType {
   static const inclusive = ProfileTypeDimensionType._('INCLUSIVE');
   static const exclusive = ProfileTypeDimensionType._('EXCLUSIVE');
@@ -17709,6 +18091,8 @@ class ProfileTypeDimensionType {
 }
 
 /// Object that segments on various Customer Profile's fields.
+///
+/// @nodoc
 class AttributeDimension {
   /// The action to segment with.
   final AttributeDimensionType dimensionType;
@@ -17742,6 +18126,7 @@ class AttributeDimension {
   }
 }
 
+/// @nodoc
 class DateDimensionType {
   static const before = DateDimensionType._('BEFORE');
   static const after = DateDimensionType._('AFTER');
@@ -17769,6 +18154,7 @@ class DateDimensionType {
   String toString() => value;
 }
 
+/// @nodoc
 class StringDimensionType {
   static const inclusive = StringDimensionType._('INCLUSIVE');
   static const exclusive = StringDimensionType._('EXCLUSIVE');
@@ -17799,6 +18185,8 @@ class StringDimensionType {
 
 /// Contains metrics and performance indicators from the training of a
 /// recommender model.
+///
+/// @nodoc
 class TrainingMetrics {
   /// A collection of performance metrics and statistics from the training
   /// process.
@@ -17831,6 +18219,7 @@ class TrainingMetrics {
   }
 }
 
+/// @nodoc
 class TrainingMetricName {
   static const hit = TrainingMetricName._('hit');
   static const coverage = TrainingMetricName._('coverage');
@@ -17886,6 +18275,8 @@ class TrainingMetricName {
 }
 
 /// Represents a single recommendation generated by the recommender system.
+///
+/// @nodoc
 class Recommendation {
   /// The catalog item being recommended, including its complete details and
   /// attributes.
@@ -17920,6 +18311,8 @@ class Recommendation {
 
 /// Represents an item in the catalog with its complete set of attributes and
 /// metadata.
+///
+/// @nodoc
 class CatalogItem {
   /// Supplementary information about the catalog item beyond the basic
   /// description.
@@ -18031,6 +18424,8 @@ class CatalogItem {
 }
 
 /// Configuration for metadata to include in recommendation responses.
+///
+/// @nodoc
 class MetadataConfig {
   /// A list of metadata column names from your Items dataset to include in the
   /// recommendation response.
@@ -18050,6 +18445,8 @@ class MetadataConfig {
 
 /// Contains information on a promotion. A promotion defines additional business
 /// rules that apply to a configurable subset of recommended items.
+///
+/// @nodoc
 class RecommenderPromotionalFilter {
   /// The name of the recommender filter to use for the promotion.
   final String? name;
@@ -18090,6 +18487,8 @@ class RecommenderPromotionalFilter {
 
 /// A filter that specifies criteria for including or excluding items from
 /// recommendations.
+///
+/// @nodoc
 class RecommenderFilter {
   /// The name of the recommender filter to apply.
   final String? name;
@@ -18117,6 +18516,8 @@ class RecommenderFilter {
 
 /// Statistical measurements for object type attributes including basic
 /// statistics and percentiles.
+///
+/// @nodoc
 class GetObjectTypeAttributeStatisticsStats {
   /// The arithmetic mean of the attribute values.
   final double average;
@@ -18172,6 +18573,8 @@ class GetObjectTypeAttributeStatisticsStats {
 }
 
 /// Contains percentile statistics for object type attributes.
+///
+/// @nodoc
 class GetObjectTypeAttributeStatisticsPercentiles {
   /// The 25th percentile value of the attribute.
   final double p25;
@@ -18224,6 +18627,8 @@ class GetObjectTypeAttributeStatisticsPercentiles {
 }
 
 /// The Match group object.
+///
+/// @nodoc
 class MatchItem {
   /// A number between 0 and 1, where a higher score means higher similarity.
   /// Examining match confidence scores lets you distinguish between groups of
@@ -18271,6 +18676,8 @@ class MatchItem {
 }
 
 /// Details of the destination being used for the EventStream.
+///
+/// @nodoc
 class EventStreamDestinationDetails {
   /// The status of enabling the Kinesis stream as a destination for export.
   final EventStreamDestinationStatus status;
@@ -18319,6 +18726,8 @@ class EventStreamDestinationDetails {
 }
 
 /// Usage-specific statistics about the domain.
+///
+/// @nodoc
 class DomainStats {
   /// The number of profiles that you are currently paying for in the domain. If
   /// you have more than 100 objects associated with a single profile, that
@@ -18367,6 +18776,8 @@ class DomainStats {
 }
 
 /// Defines how to filter the objects coming in for calculated attributes.
+///
+/// @nodoc
 class Filter {
   /// Holds the list of Filter groups within the Filter definition.
   final List<FilterGroup> groups;
@@ -18400,6 +18811,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class Include {
   static const all = Include._('ALL');
   static const any = Include._('ANY');
@@ -18425,6 +18837,8 @@ class Include {
 }
 
 /// Object that holds the dimensions to filter on.
+///
+/// @nodoc
 class FilterGroup {
   /// Object that holds the attributes to filter on.
   final List<FilterDimension> dimensions;
@@ -18457,6 +18871,7 @@ class FilterGroup {
   }
 }
 
+/// @nodoc
 class Type {
   static const all = Type._('ALL');
   static const any = Type._('ANY');
@@ -18482,6 +18897,8 @@ class Type {
 }
 
 /// Contains the map of attribute names to attribute dimensions.
+///
+/// @nodoc
 class FilterDimension {
   /// Is the attribute within the FilterDimension map
   final Map<String, FilterAttributeDimension> attributes;
@@ -18509,6 +18926,8 @@ class FilterDimension {
 
 /// Object that defines how to filter the incoming objects for the calculated
 /// attribute.
+///
+/// @nodoc
 class FilterAttributeDimension {
   /// The action to filter with.
   final FilterDimensionType dimensionType;
@@ -18542,6 +18961,7 @@ class FilterAttributeDimension {
   }
 }
 
+/// @nodoc
 class FilterDimensionType {
   static const inclusive = FilterDimensionType._('INCLUSIVE');
   static const exclusive = FilterDimensionType._('EXCLUSIVE');
@@ -18598,6 +19018,8 @@ class FilterDimensionType {
 }
 
 /// Contains <code>ProfileObjectType</code> mapping information from the model.
+///
+/// @nodoc
 class DetectedProfileObjectType {
   /// A map of the name and the <code>ObjectType</code> field.
   final Map<String, ObjectTypeField>? fields;
@@ -18645,6 +19067,8 @@ class DetectedProfileObjectType {
 }
 
 /// Contains all groups of the segment definition.
+///
+/// @nodoc
 class SegmentGroupStructure {
   /// Holds the list of groups within the segment definition.
   final List<Group>? groups;
@@ -18669,6 +19093,8 @@ class SegmentGroupStructure {
 }
 
 /// Configuration data for integration workflow.
+///
+/// @nodoc
 class IntegrationConfig {
   /// Configuration data for <code>APPFLOW_INTEGRATION</code> workflow type.
   final AppflowIntegration? appflowIntegration;
@@ -18686,6 +19112,8 @@ class IntegrationConfig {
 }
 
 /// Details for workflow of type <code>APPFLOW_INTEGRATION</code>.
+///
+/// @nodoc
 class AppflowIntegration {
   final FlowDefinition flowDefinition;
 
@@ -18710,6 +19138,8 @@ class AppflowIntegration {
 /// Batch defines the boundaries for ingestion for each step in
 /// <code>APPFLOW_INTEGRATION</code> workflow. <code>APPFLOW_INTEGRATION</code>
 /// workflow splits ingestion based on these boundaries.
+///
+/// @nodoc
 class Batch {
   /// End time of batch to split ingestion.
   final DateTime endTime;
@@ -18733,6 +19163,8 @@ class Batch {
 }
 
 /// An item that failed to be added to the domain.
+///
+/// @nodoc
 class BatchPutProfileObjectErrorItem {
   /// The HTTP status code for the error.
   final int code;
@@ -18770,6 +19202,8 @@ class BatchPutProfileObjectErrorItem {
 }
 
 /// An item that was successfully added to the domain.
+///
+/// @nodoc
 class BatchPutProfileObjectResponseItem {
   /// The unique identifier of the item in the batch request.
   final String id;
@@ -18801,6 +19235,8 @@ class BatchPutProfileObjectResponseItem {
 }
 
 /// An item to add to the domain as part of a batch request.
+///
+/// @nodoc
 class BatchPutProfileObjectRequestItem {
   /// A unique identifier for this item in the batch request. Used to correlate
   /// items in the response.
@@ -18825,6 +19261,8 @@ class BatchPutProfileObjectRequestItem {
 }
 
 /// Error object describing why a specific profile failed.
+///
+/// @nodoc
 class BatchGetProfileError {
   /// Status code for why a specific profile failed.
   final String code;
@@ -18862,6 +19300,8 @@ class BatchGetProfileError {
 }
 
 /// The object containing the values of a single calculated attribute value.
+///
+/// @nodoc
 class CalculatedAttributeValue {
   /// The unique name of the calculated attribute.
   final String? calculatedAttributeName;
@@ -18925,6 +19365,8 @@ class CalculatedAttributeValue {
 
 /// Error object describing why a specific profile and calculated attribute
 /// failed.
+///
+/// @nodoc
 class BatchGetCalculatedAttributeForProfileError {
   /// Status code for why a specific profile and calculated attribute failed.
   final String code;
@@ -18962,26 +19404,31 @@ class BatchGetCalculatedAttributeForProfileError {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

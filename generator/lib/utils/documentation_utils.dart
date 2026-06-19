@@ -10,6 +10,8 @@ String dartdocComment(String? text, {int indent = 0}) {
 String _parseAndBuild(String? text, {int indent = 0, String prefix = ''}) {
   if (text == null || text.isEmpty) return '';
   final lines = text
+      .replaceAll('[', r'\[')
+      .replaceAll(']', r'\]')
       .replaceAll('</p>', '\n')
       .replaceAll('<ul>', '\n<ul>')
       .replaceAll('</ul>', '\n</ul>')

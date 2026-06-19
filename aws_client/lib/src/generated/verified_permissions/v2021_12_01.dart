@@ -1123,13 +1123,14 @@ class VerifiedPermissions {
   ///
   /// <ul>
   /// <li>
-  /// Amazon Cognito user pool: <code>Namespace::[Entity type]::[User pool
-  /// ID]|[user principal attribute]</code>, for example
+  /// Amazon Cognito user pool: <code>Namespace::\[Entity type\]::\[User pool
+  /// ID\]|\[user principal attribute\]</code>, for example
   /// <code>MyCorp::User::us-east-1_EXAMPLE|a1b2c3d4-5678-90ab-cdef-EXAMPLE11111</code>.
   /// </li>
   /// <li>
-  /// OpenID Connect (OIDC) provider: <code>Namespace::[Entity
-  /// type]::[entityIdPrefix]|[user principal attribute]</code>, for example
+  /// OpenID Connect (OIDC) provider: <code>Namespace::\[Entity
+  /// type\]::\[entityIdPrefix\]|\[user principal attribute\]</code>, for
+  /// example
   /// <code>MyCorp::User::MyOIDCProvider|a1b2c3d4-5678-90ab-cdef-EXAMPLE22222</code>.
   /// </li>
   /// </ul> </note> <note>
@@ -2598,6 +2599,7 @@ class VerifiedPermissions {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tags associated with the resource.
   final Map<String, String>? tags;
@@ -2621,6 +2623,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -2633,6 +2636,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -2645,6 +2649,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreatePolicyStoreOutput {
   /// The Amazon Resource Name (ARN) of the new policy store.
   final String arn;
@@ -2689,6 +2694,7 @@ class CreatePolicyStoreOutput {
   }
 }
 
+/// @nodoc
 class GetPolicyStoreOutput {
   /// The Amazon Resource Name (ARN) of the policy store.
   final String arn;
@@ -2791,6 +2797,7 @@ class GetPolicyStoreOutput {
   }
 }
 
+/// @nodoc
 class UpdatePolicyStoreOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2837,6 +2844,7 @@ class UpdatePolicyStoreOutput {
   }
 }
 
+/// @nodoc
 class DeletePolicyStoreOutput {
   DeletePolicyStoreOutput();
 
@@ -2849,6 +2857,7 @@ class DeletePolicyStoreOutput {
   }
 }
 
+/// @nodoc
 class ListPolicyStoresOutput {
   /// The list of policy stores in the account.
   final List<PolicyStoreItem> policyStores;
@@ -2886,6 +2895,7 @@ class ListPolicyStoresOutput {
   }
 }
 
+/// @nodoc
 class BatchIsAuthorizedOutput {
   /// A series of <code>Allow</code> or <code>Deny</code> decisions for each
   /// request, and the policies that produced them. These results are returned in
@@ -2914,6 +2924,7 @@ class BatchIsAuthorizedOutput {
   }
 }
 
+/// @nodoc
 class BatchIsAuthorizedWithTokenOutput {
   /// A series of <code>Allow</code> or <code>Deny</code> decisions for each
   /// request, and the policies that produced them. These results are returned in
@@ -2951,6 +2962,7 @@ class BatchIsAuthorizedWithTokenOutput {
   }
 }
 
+/// @nodoc
 class GetSchemaOutput {
   /// The date and time that the schema was originally created.
   final DateTime createdDate;
@@ -3005,6 +3017,7 @@ class GetSchemaOutput {
   }
 }
 
+/// @nodoc
 class IsAuthorizedOutput {
   /// An authorization decision that indicates if the authorization request should
   /// be allowed or denied.
@@ -3055,6 +3068,7 @@ class IsAuthorizedOutput {
   }
 }
 
+/// @nodoc
 class IsAuthorizedWithTokenOutput {
   /// An authorization decision that indicates if the authorization request should
   /// be allowed or denied.
@@ -3115,6 +3129,7 @@ class IsAuthorizedWithTokenOutput {
   }
 }
 
+/// @nodoc
 class PutSchemaOutput {
   /// The date and time that the schema was originally created.
   final DateTime createdDate;
@@ -3162,6 +3177,7 @@ class PutSchemaOutput {
   }
 }
 
+/// @nodoc
 class BatchGetPolicyOutput {
   /// Information about the policies from the request that resulted in an error.
   /// These results are returned in the order they were requested.
@@ -3201,6 +3217,7 @@ class BatchGetPolicyOutput {
   }
 }
 
+/// @nodoc
 class CreateIdentitySourceOutput {
   /// The date and time the identity source was originally created.
   final DateTime createdDate;
@@ -3245,6 +3262,7 @@ class CreateIdentitySourceOutput {
   }
 }
 
+/// @nodoc
 class GetIdentitySourceOutput {
   /// The date and time that the identity source was originally created.
   final DateTime createdDate;
@@ -3317,6 +3335,7 @@ class GetIdentitySourceOutput {
   }
 }
 
+/// @nodoc
 class UpdateIdentitySourceOutput {
   /// The date and time that the updated identity source was originally created.
   final DateTime createdDate;
@@ -3361,6 +3380,7 @@ class UpdateIdentitySourceOutput {
   }
 }
 
+/// @nodoc
 class DeleteIdentitySourceOutput {
   DeleteIdentitySourceOutput();
 
@@ -3373,6 +3393,7 @@ class DeleteIdentitySourceOutput {
   }
 }
 
+/// @nodoc
 class ListIdentitySourcesOutput {
   /// The list of identity sources stored in the specified policy store.
   final List<IdentitySourceItem> identitySources;
@@ -3410,6 +3431,7 @@ class ListIdentitySourcesOutput {
   }
 }
 
+/// @nodoc
 class CreatePolicyOutput {
   /// The date and time the policy was originally created.
   final DateTime createdDate;
@@ -3427,8 +3449,8 @@ class CreatePolicyOutput {
   final PolicyType policyType;
 
   /// The action that a policy permits or forbids. For example, <code>{"actions":
-  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
-  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
+  /// \[{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"},
+  /// {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}\]}</code>.
   final List<ActionIdentifier>? actions;
 
   /// The effect of the decision that a policy returns to an authorization
@@ -3503,6 +3525,7 @@ class CreatePolicyOutput {
   }
 }
 
+/// @nodoc
 class GetPolicyOutput {
   /// The date and time that the policy was originally created.
   final DateTime createdDate;
@@ -3524,8 +3547,8 @@ class GetPolicyOutput {
   final PolicyType policyType;
 
   /// The action that a policy permits or forbids. For example, <code>{"actions":
-  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
-  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
+  /// \[{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"},
+  /// {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}\]}</code>.
   final List<ActionIdentifier>? actions;
 
   /// The effect of the decision that a policy returns to an authorization
@@ -3613,6 +3636,7 @@ class GetPolicyOutput {
   }
 }
 
+/// @nodoc
 class UpdatePolicyOutput {
   /// The date and time that the policy was originally created.
   final DateTime createdDate;
@@ -3630,8 +3654,8 @@ class UpdatePolicyOutput {
   final PolicyType policyType;
 
   /// The action that a policy permits or forbids. For example, <code>{"actions":
-  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
-  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
+  /// \[{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"},
+  /// {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}\]}</code>.
   final List<ActionIdentifier>? actions;
 
   /// The effect of the decision that a policy returns to an authorization
@@ -3705,6 +3729,7 @@ class UpdatePolicyOutput {
   }
 }
 
+/// @nodoc
 class DeletePolicyOutput {
   DeletePolicyOutput();
 
@@ -3717,6 +3742,7 @@ class DeletePolicyOutput {
   }
 }
 
+/// @nodoc
 class ListPoliciesOutput {
   /// Lists all policies that are available in the specified policy store.
   final List<PolicyItem> policies;
@@ -3754,6 +3780,7 @@ class ListPoliciesOutput {
   }
 }
 
+/// @nodoc
 class CreatePolicyTemplateOutput {
   /// The date and time the policy template was originally created.
   final DateTime createdDate;
@@ -3798,6 +3825,7 @@ class CreatePolicyTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetPolicyTemplateOutput {
   /// The date and time that the policy template was originally created.
   final DateTime createdDate;
@@ -3865,6 +3893,7 @@ class GetPolicyTemplateOutput {
   }
 }
 
+/// @nodoc
 class UpdatePolicyTemplateOutput {
   /// The date and time that the policy template was originally created.
   final DateTime createdDate;
@@ -3909,6 +3938,7 @@ class UpdatePolicyTemplateOutput {
   }
 }
 
+/// @nodoc
 class DeletePolicyTemplateOutput {
   DeletePolicyTemplateOutput();
 
@@ -3921,6 +3951,7 @@ class DeletePolicyTemplateOutput {
   }
 }
 
+/// @nodoc
 class ListPolicyTemplatesOutput {
   /// The list of the policy templates in the specified policy store.
   final List<PolicyTemplateItem> policyTemplates;
@@ -3958,6 +3989,7 @@ class ListPolicyTemplatesOutput {
   }
 }
 
+/// @nodoc
 class CreatePolicyStoreAliasOutput {
   /// The Amazon Resource Name (ARN) of the policy store alias.
   final String aliasArn;
@@ -4001,6 +4033,7 @@ class CreatePolicyStoreAliasOutput {
   }
 }
 
+/// @nodoc
 class GetPolicyStoreAliasOutput {
   /// The Amazon Resource Name (ARN) of the policy store alias.
   final String aliasArn;
@@ -4055,6 +4088,7 @@ class GetPolicyStoreAliasOutput {
   }
 }
 
+/// @nodoc
 class DeletePolicyStoreAliasOutput {
   DeletePolicyStoreAliasOutput();
 
@@ -4067,6 +4101,7 @@ class DeletePolicyStoreAliasOutput {
   }
 }
 
+/// @nodoc
 class ListPolicyStoreAliasesOutput {
   /// The list of policy store aliases in the account.
   final List<PolicyStoreAliasItem> policyStoreAliases;
@@ -4109,6 +4144,8 @@ class ListPolicyStoreAliasesOutput {
 /// This data type is used as a response parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStoreAliases.html">ListPolicyStoreAliases</a>
 /// operation.
+///
+/// @nodoc
 class PolicyStoreAliasItem {
   /// The Amazon Resource Name (ARN) of the policy store alias.
   final String aliasArn;
@@ -4163,6 +4200,7 @@ class PolicyStoreAliasItem {
   }
 }
 
+/// @nodoc
 class AliasState {
   static const active = AliasState._('Active');
   static const pendingDeletion = AliasState._('PendingDeletion');
@@ -4187,6 +4225,8 @@ class AliasState {
 }
 
 /// Contains filters for the <code>ListPolicyStoreAliases</code> operation.
+///
+/// @nodoc
 class PolicyStoreAliasFilter {
   /// The ID of the policy store to filter by. Only policy store aliases
   /// associated with this policy store are returned.
@@ -4216,6 +4256,8 @@ class PolicyStoreAliasFilter {
 /// <code>PendingDeletion</code> state.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class DeletionMode {
   static const softDelete = DeletionMode._('SoftDelete');
   static const hardDelete = DeletionMode._('HardDelete');
@@ -4244,6 +4286,8 @@ class DeletionMode {
 /// This data type is used as a response parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyTemplates.html">ListPolicyTemplates</a>
 /// operation.
+///
+/// @nodoc
 class PolicyTemplateItem {
   /// The date and time that the policy template was created.
   final DateTime createdDate;
@@ -4308,6 +4352,8 @@ class PolicyTemplateItem {
 /// This data type is used as a response parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
 /// operation.
+///
+/// @nodoc
 class PolicyItem {
   /// The date and time the policy was created.
   final DateTime createdDate;
@@ -4338,8 +4384,8 @@ class PolicyItem {
   final PolicyType policyType;
 
   /// The action that a policy permits or forbids. For example, <code>{"actions":
-  /// [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID":
-  /// "SharePhoto", "entityType": "PhotoFlash::Action"}]}</code>.
+  /// \[{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"},
+  /// {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}\]}</code>.
   final List<ActionIdentifier>? actions;
 
   /// The effect of the decision that a policy returns to an authorization
@@ -4424,6 +4470,7 @@ class PolicyItem {
   }
 }
 
+/// @nodoc
 class PolicyType {
   static const static = PolicyType._('STATIC');
   static const templateLinked = PolicyType._('TEMPLATE_LINKED');
@@ -4461,6 +4508,8 @@ class PolicyType {
 ///
 /// Example:
 /// <code>{"entityId":"<i>string</i>","entityType":"<i>string</i>"}</code>
+///
+/// @nodoc
 class EntityIdentifier {
   /// The identifier of an entity.
   ///
@@ -4504,6 +4553,8 @@ class EntityIdentifier {
 /// and <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
 /// operations.
+///
+/// @nodoc
 class PolicyDefinitionItem {
   /// Information about a static policy that wasn't created with a policy
   /// template.
@@ -4541,6 +4592,7 @@ class PolicyDefinitionItem {
   }
 }
 
+/// @nodoc
 class PolicyEffect {
   static const permit = PolicyEffect._('Permit');
   static const forbid = PolicyEffect._('Forbid');
@@ -4572,6 +4624,8 @@ class PolicyEffect {
 /// structure as part of a request parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
 /// operation.
+///
+/// @nodoc
 class StaticPolicyDefinitionItem {
   /// A description of the static policy.
   final String? description;
@@ -4596,6 +4650,8 @@ class StaticPolicyDefinitionItem {
 
 /// Contains information about a policy created by instantiating a policy
 /// template.
+///
+/// @nodoc
 class TemplateLinkedPolicyDefinitionItem {
   /// The unique identifier of the policy template used to create this policy.
   final String policyTemplateId;
@@ -4656,6 +4712,8 @@ class TemplateLinkedPolicyDefinitionItem {
 ///
 /// Example: <code>{ "actionId": "&lt;action name&gt;", "actionType": "Action"
 /// }</code>
+///
+/// @nodoc
 class ActionIdentifier {
   /// The ID of an action.
   final String actionId;
@@ -4690,6 +4748,8 @@ class ActionIdentifier {
 /// This data type is used as a response parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
 /// operation.
+///
+/// @nodoc
 class PolicyFilter {
   /// Filters the output to only template-linked policies that were instantiated
   /// from the specified policy template.
@@ -4733,6 +4793,8 @@ class PolicyFilter {
 /// structure that is used as a request parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html">ListPolicies</a>
 /// operation..
+///
+/// @nodoc
 class EntityReference {
   /// The identifier of the entity. It can consist of either an EntityType and
   /// EntityId, a principal, or a resource.
@@ -4763,6 +4825,8 @@ class EntityReference {
 /// This data type is used as a request parameter in the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicy.html">UpdatePolicy</a>
 /// operation.
+///
+/// @nodoc
 class UpdatePolicyDefinition {
   /// Contains details about the updates to be applied to a static policy.
   final UpdateStaticPolicyDefinition? static;
@@ -4780,6 +4844,8 @@ class UpdatePolicyDefinition {
 }
 
 /// Contains information about an update to a static policy.
+///
+/// @nodoc
 class UpdateStaticPolicyDefinition {
   /// Specifies the Cedar policy language text to be added to or replaced on the
   /// static policy.
@@ -4838,6 +4904,8 @@ class UpdateStaticPolicyDefinition {
 /// This data type is used as a response parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicy.html">GetPolicy</a>
 /// operation.
+///
+/// @nodoc
 class PolicyDefinitionDetail {
   /// Information about a static policy that wasn't created with a policy
   /// template.
@@ -4883,6 +4951,8 @@ class PolicyDefinitionDetail {
 /// structure as part of a request parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
 /// operation.
+///
+/// @nodoc
 class StaticPolicyDefinitionDetail {
   /// The content of the static policy written in the Cedar policy language.
   final String statement;
@@ -4914,6 +4984,8 @@ class StaticPolicyDefinitionDetail {
 
 /// Contains information about a policy that was created by instantiating a
 /// policy template.
+///
+/// @nodoc
 class TemplateLinkedPolicyDefinitionDetail {
   /// The unique identifier of the policy template used to create this policy.
   final String policyTemplateId;
@@ -4969,6 +5041,8 @@ class TemplateLinkedPolicyDefinitionDetail {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html">CreatePolicy</a>
 /// operation. This structure must always have either an <code>static</code> or
 /// a <code>templateLinked</code> element.
+///
+/// @nodoc
 class PolicyDefinition {
   /// A structure that describes a static policy. An static policy doesn't use a
   /// template or allow placeholders for entities.
@@ -5002,6 +5076,8 @@ class PolicyDefinition {
 /// This data type is used as a field that is part of the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinitionDetail.html">PolicyDefinitionDetail</a>
 /// type.
+///
+/// @nodoc
 class StaticPolicyDefinition {
   /// The policy content of the static policy, written in the Cedar policy
   /// language.
@@ -5027,6 +5103,8 @@ class StaticPolicyDefinition {
 
 /// Contains information about a policy created by instantiating a policy
 /// template.
+///
+/// @nodoc
 class TemplateLinkedPolicyDefinition {
   /// The unique identifier of the policy template used to create this policy.
   final String policyTemplateId;
@@ -5066,6 +5144,8 @@ class TemplateLinkedPolicyDefinition {
 /// This data type is a response parameter to the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
 /// operation.
+///
+/// @nodoc
 class IdentitySourceItem {
   /// The date and time the identity source was originally created.
   final DateTime createdDate;
@@ -5145,6 +5225,8 @@ class IdentitySourceItem {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
 /// operation. Replaced by <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html">ConfigurationItem</a>.
+///
+/// @nodoc
 class IdentitySourceItemDetails {
   /// The application client IDs associated with the specified Amazon Cognito user
   /// pool that are enabled for this identity source.
@@ -5207,6 +5289,8 @@ class IdentitySourceItemDetails {
 /// This data type is a response parameter to the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>
 /// operation.
+///
+/// @nodoc
 class ConfigurationItem {
   /// Contains configuration details of a Amazon Cognito user pool that Verified
   /// Permissions can use as a source of authenticated identities as entities. It
@@ -5218,7 +5302,7 @@ class ConfigurationItem {
   ///
   /// Example:
   /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
-  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+  /// \["a1b2c3d4e5f6g7h8i9j0kalbmc"\],"groupConfiguration": {"groupEntityType":
   /// "MyCorp::Group"}}}</code>
   final CognitoUserPoolConfigurationItem? cognitoUserPoolConfiguration;
 
@@ -5227,7 +5311,7 @@ class ConfigurationItem {
   /// entities from authenticated identities. It specifies the issuer URL, token
   /// type that you want to use, and policy store entity details.
   ///
-  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":\["https://myapp.example.com","https://myapp2.example.com"\],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
   final OpenIdConnectConfigurationItem? openIdConnectConfiguration;
 
   ConfigurationItem({
@@ -5270,13 +5354,15 @@ class ConfigurationItem {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
 ///
 /// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
-/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+/// \["a1b2c3d4e5f6g7h8i9j0kalbmc"\],"groupConfiguration": {"groupEntityType":
 /// "MyCorp::Group"}}</code>
+///
+/// @nodoc
 class CognitoUserPoolConfigurationItem {
   /// The unique application client IDs that are associated with the specified
   /// Amazon Cognito user pool.
   ///
-  /// Example: <code>"clientIds": ["&amp;ExampleCogClientId;"]</code>
+  /// Example: <code>"clientIds": \["&amp;ExampleCogClientId;"\]</code>
   final List<String> clientIds;
 
   /// The OpenID Connect (OIDC) <code>issuer</code> ID of the Amazon Cognito user
@@ -5344,6 +5430,8 @@ class CognitoUserPoolConfigurationItem {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationItem</a>
 /// structure, which is a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+///
+/// @nodoc
 class OpenIdConnectConfigurationItem {
   /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
   /// discovery endpoint at the path
@@ -5411,6 +5499,8 @@ class OpenIdConnectConfigurationItem {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html">OpenIdConnectConfigurationItem</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySourcea</a>.
+///
+/// @nodoc
 class OpenIdConnectGroupConfigurationItem {
   /// The token claim that you want Verified Permissions to interpret as group
   /// membership. For example, <code>groups</code>.
@@ -5452,6 +5542,8 @@ class OpenIdConnectGroupConfigurationItem {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html">OpenIdConnectConfigurationItem</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+///
+/// @nodoc
 class OpenIdConnectTokenSelectionItem {
   /// The OIDC configuration for processing access tokens. Contains allowed
   /// audience claims, for example <code>https://auth.example.com</code>, and the
@@ -5500,6 +5592,8 @@ class OpenIdConnectTokenSelectionItem {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html">OpenIdConnectTokenSelectionItem</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+///
+/// @nodoc
 class OpenIdConnectAccessTokenConfigurationItem {
   /// The access token <code>aud</code> claim values that you want to accept in
   /// your policy store. For example, <code>https://myapp.example.com,
@@ -5545,6 +5639,8 @@ class OpenIdConnectAccessTokenConfigurationItem {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html">OpenIdConnectTokenSelectionItem</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+///
+/// @nodoc
 class OpenIdConnectIdentityTokenConfigurationItem {
   /// The ID token audience, or client ID, claim values that you want to accept in
   /// your policy store from an OIDC identity provider. For example,
@@ -5588,6 +5684,8 @@ class OpenIdConnectIdentityTokenConfigurationItem {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationDetail.html">CognitoUserPoolConfigurationItem</a>
 /// structure and is a response parameter to <a
 /// href="http://forums.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html">ListIdentitySources</a>.
+///
+/// @nodoc
 class CognitoGroupConfigurationItem {
   /// The name of the schema entity type that's mapped to the user pool group.
   /// Defaults to <code>AWS::CognitoGroup</code>.
@@ -5611,6 +5709,7 @@ class CognitoGroupConfigurationItem {
   }
 }
 
+/// @nodoc
 class OpenIdIssuer {
   static const cognito = OpenIdIssuer._('COGNITO');
 
@@ -5639,6 +5738,8 @@ class OpenIdIssuer {
 /// This data type is a request parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentityStores.html">ListIdentityStores</a>
 /// operation.
+///
+/// @nodoc
 class IdentitySourceFilter {
   /// The Cedar entity type of the principals returned by the identity provider
   /// (IdP) associated with this identity source.
@@ -5659,6 +5760,8 @@ class IdentitySourceFilter {
 
 /// Contains an update to replace the configuration in an existing identity
 /// source.
+///
+/// @nodoc
 class UpdateConfiguration {
   /// Contains configuration details of a Amazon Cognito user pool.
   final UpdateCognitoUserPoolConfiguration? cognitoUserPoolConfiguration;
@@ -5688,6 +5791,8 @@ class UpdateConfiguration {
 
 /// Contains configuration details of a Amazon Cognito user pool for use with an
 /// identity source.
+///
+/// @nodoc
 class UpdateCognitoUserPoolConfiguration {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -5730,6 +5835,8 @@ class UpdateCognitoUserPoolConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateConfiguration.html">UpdateConfiguration</a>
 /// structure, which is a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+///
+/// @nodoc
 class UpdateOpenIdConnectConfiguration {
   /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
   /// discovery endpoint at the path
@@ -5783,6 +5890,8 @@ class UpdateOpenIdConnectConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html">UpdateOpenIdConnectConfiguration</a>
 /// structure, which is a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+///
+/// @nodoc
 class UpdateOpenIdConnectGroupConfiguration {
   /// The token claim that you want Verified Permissions to interpret as group
   /// membership. For example, <code>groups</code>.
@@ -5816,6 +5925,8 @@ class UpdateOpenIdConnectGroupConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html">UpdateOpenIdConnectConfiguration</a>
 /// structure, which is a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+///
+/// @nodoc
 class UpdateOpenIdConnectTokenSelection {
   /// The OIDC configuration for processing access tokens. Contains allowed
   /// audience claims, for example <code>https://auth.example.com</code>, and the
@@ -5851,6 +5962,8 @@ class UpdateOpenIdConnectTokenSelection {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html">UpdateOpenIdConnectTokenSelection</a>
 /// structure, which is a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+///
+/// @nodoc
 class UpdateOpenIdConnectAccessTokenConfiguration {
   /// The access token <code>aud</code> claim values that you want to accept in
   /// your policy store. For example, <code>https://myapp.example.com,
@@ -5885,6 +5998,8 @@ class UpdateOpenIdConnectAccessTokenConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html">UpdateOpenIdConnectTokenSelection</a>
 /// structure, which is a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html">UpdateIdentitySource</a>.
+///
+/// @nodoc
 class UpdateOpenIdConnectIdentityTokenConfiguration {
   /// The ID token audience, or client ID, claim values that you want to accept in
   /// your policy store from an OIDC identity provider. For example,
@@ -5911,6 +6026,8 @@ class UpdateOpenIdConnectIdentityTokenConfiguration {
 }
 
 /// The user group entities from an Amazon Cognito user pool identity source.
+///
+/// @nodoc
 class UpdateCognitoGroupConfiguration {
   /// The name of the schema entity type that's mapped to the user pool group.
   /// Defaults to <code>AWS::CognitoGroup</code>.
@@ -5934,6 +6051,8 @@ class UpdateCognitoGroupConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>
 /// operation. Replaced by <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>.
+///
+/// @nodoc
 class IdentitySourceDetails {
   /// The application client IDs associated with the specified Amazon Cognito user
   /// pool that are enabled for this identity source.
@@ -5998,6 +6117,8 @@ class IdentitySourceDetails {
 /// This data type is a response parameter to the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>
 /// operation.
+///
+/// @nodoc
 class ConfigurationDetail {
   /// Contains configuration details of a Amazon Cognito user pool that Verified
   /// Permissions can use as a source of authenticated identities as entities. It
@@ -6009,7 +6130,7 @@ class ConfigurationDetail {
   ///
   /// Example:
   /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
-  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+  /// \["a1b2c3d4e5f6g7h8i9j0kalbmc"\],"groupConfiguration": {"groupEntityType":
   /// "MyCorp::Group"}}}</code>
   final CognitoUserPoolConfigurationDetail? cognitoUserPoolConfiguration;
 
@@ -6018,7 +6139,7 @@ class ConfigurationDetail {
   /// entities from authenticated identities. It specifies the issuer URL, token
   /// type that you want to use, and policy store entity details.
   ///
-  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":\["https://myapp.example.com","https://myapp2.example.com"\],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
   final OpenIdConnectConfigurationDetail? openIdConnectConfiguration;
 
   ConfigurationDetail({
@@ -6061,13 +6182,15 @@ class ConfigurationDetail {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
 ///
 /// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
-/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+/// \["a1b2c3d4e5f6g7h8i9j0kalbmc"\],"groupConfiguration": {"groupEntityType":
 /// "MyCorp::Group"}}</code>
+///
+/// @nodoc
 class CognitoUserPoolConfigurationDetail {
   /// The unique application client IDs that are associated with the specified
   /// Amazon Cognito user pool.
   ///
-  /// Example: <code>"clientIds": ["&amp;ExampleCogClientId;"]</code>
+  /// Example: <code>"clientIds": \["&amp;ExampleCogClientId;"\]</code>
   final List<String> clientIds;
 
   /// The OpenID Connect (OIDC) <code>issuer</code> ID of the Amazon Cognito user
@@ -6136,6 +6259,8 @@ class CognitoUserPoolConfigurationDetail {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html">ConfigurationDetail</a>
 /// structure, which is a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectConfigurationDetail {
   /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
   /// discovery endpoint at the path
@@ -6203,6 +6328,8 @@ class OpenIdConnectConfigurationDetail {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html">OpenIdConnectConfigurationDetail</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectGroupConfigurationDetail {
   /// The token claim that you want Verified Permissions to interpret as group
   /// membership. For example, <code>groups</code>.
@@ -6244,6 +6371,8 @@ class OpenIdConnectGroupConfigurationDetail {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html">OpenIdConnectConfigurationDetail</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectTokenSelectionDetail {
   /// The OIDC configuration for processing access tokens. Contains allowed
   /// audience claims, for example <code>https://auth.example.com</code>, and the
@@ -6293,6 +6422,8 @@ class OpenIdConnectTokenSelectionDetail {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html">OpenIdConnectTokenSelectionDetail</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectAccessTokenConfigurationDetail {
   /// The access token <code>aud</code> claim values that you want to accept in
   /// your policy store. For example, <code>https://myapp.example.com,
@@ -6338,6 +6469,8 @@ class OpenIdConnectAccessTokenConfigurationDetail {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html">OpenIdConnectTokenSelectionDetail</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectIdentityTokenConfigurationDetail {
   /// The ID token audience, or client ID, claim values that you want to accept in
   /// your policy store from an OIDC identity provider. For example,
@@ -6381,6 +6514,8 @@ class OpenIdConnectIdentityTokenConfigurationDetail {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationItem.html">CognitoUserPoolConfigurationDetail</a>
 /// structure and is a response parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html">GetIdentitySource</a>.
+///
+/// @nodoc
 class CognitoGroupConfigurationDetail {
   /// The name of the schema entity type that's mapped to the user pool group.
   /// Defaults to <code>AWS::CognitoGroup</code>.
@@ -6409,6 +6544,8 @@ class CognitoGroupConfigurationDetail {
 /// This data type is used as a request parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>
 /// operation.
+///
+/// @nodoc
 class Configuration {
   /// Contains configuration details of a Amazon Cognito user pool that Verified
   /// Permissions can use as a source of authenticated identities as entities. It
@@ -6419,7 +6556,7 @@ class Configuration {
   ///
   /// Example:
   /// <code>"configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds":
-  /// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+  /// \["a1b2c3d4e5f6g7h8i9j0kalbmc"\],"groupConfiguration": {"groupEntityType":
   /// "MyCorp::Group"}}}</code>
   final CognitoUserPoolConfiguration? cognitoUserPoolConfiguration;
 
@@ -6428,7 +6565,7 @@ class Configuration {
   /// entities from authenticated identities. It specifies the issuer URL, token
   /// type that you want to use, and policy store entity details.
   ///
-  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
+  /// Example:<code>"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":\["https://myapp.example.com","https://myapp2.example.com"\],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}</code>
   final OpenIdConnectConfiguration? openIdConnectConfiguration;
 
   Configuration({
@@ -6458,8 +6595,10 @@ class Configuration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
 ///
 /// Example:<code>"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds":
-/// ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType":
+/// \["a1b2c3d4e5f6g7h8i9j0kalbmc"\],"groupConfiguration": {"groupEntityType":
 /// "MyCorp::Group"}}</code>
+///
+/// @nodoc
 class CognitoUserPoolConfiguration {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -6473,7 +6612,7 @@ class CognitoUserPoolConfiguration {
   /// The unique application client IDs that are associated with the specified
   /// Amazon Cognito user pool.
   ///
-  /// Example: <code>"ClientIds": ["&amp;ExampleCogClientId;"]</code>
+  /// Example: <code>"ClientIds": \["&amp;ExampleCogClientId;"\]</code>
   final List<String>? clientIds;
 
   /// The type of entity that a policy store maps to groups from an Amazon Cognito
@@ -6507,6 +6646,8 @@ class CognitoUserPoolConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html">Configuration</a>
 /// structure, which is a parameter to <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectConfiguration {
   /// The issuer URL of an OIDC identity provider. This URL must have an OIDC
   /// discovery endpoint at the path
@@ -6560,6 +6701,8 @@ class OpenIdConnectConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html">OpenIdConnectConfiguration</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectGroupConfiguration {
   /// The token claim that you want Verified Permissions to interpret as group
   /// membership. For example, <code>groups</code>.
@@ -6593,6 +6736,8 @@ class OpenIdConnectGroupConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html">OpenIdConnectConfiguration</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectTokenSelection {
   /// The OIDC configuration for processing access tokens. Contains allowed
   /// audience claims, for example <code>https://auth.example.com</code>, and the
@@ -6628,6 +6773,8 @@ class OpenIdConnectTokenSelection {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html">OpenIdConnectTokenSelection</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectAccessTokenConfiguration {
   /// The access token <code>aud</code> claim values that you want to accept in
   /// your policy store. For example, <code>https://myapp.example.com,
@@ -6662,6 +6809,8 @@ class OpenIdConnectAccessTokenConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html">OpenIdConnectTokenSelection</a>
 /// structure, which is a parameter of <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+///
+/// @nodoc
 class OpenIdConnectIdentityTokenConfiguration {
   /// The ID token audience, or client ID, claim values that you want to accept in
   /// your policy store from an OIDC identity provider. For example,
@@ -6694,6 +6843,8 @@ class OpenIdConnectIdentityTokenConfiguration {
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfiguration.html">CognitoUserPoolConfiguration</a>
 /// structure and is a request parameter in <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html">CreateIdentitySource</a>.
+///
+/// @nodoc
 class CognitoGroupConfiguration {
   /// The name of the schema entity type that's mapped to the user pool group.
   /// Defaults to <code>AWS::CognitoGroup</code>.
@@ -6713,6 +6864,8 @@ class CognitoGroupConfiguration {
 
 /// Contains the information about an error resulting from a
 /// <code>BatchGetPolicy</code> API call.
+///
+/// @nodoc
 class BatchGetPolicyErrorItem {
   /// The error code that was returned.
   final BatchGetPolicyErrorCode code;
@@ -6756,6 +6909,7 @@ class BatchGetPolicyErrorItem {
   }
 }
 
+/// @nodoc
 class BatchGetPolicyErrorCode {
   static const policyStoreNotFound =
       BatchGetPolicyErrorCode._('POLICY_STORE_NOT_FOUND');
@@ -6790,6 +6944,8 @@ class BatchGetPolicyErrorCode {
 
 /// Contains information about a policy returned from a
 /// <code>BatchGetPolicy</code> API request.
+///
+/// @nodoc
 class BatchGetPolicyOutputItem {
   /// The date and time the policy was created.
   final DateTime createdDate;
@@ -6870,6 +7026,8 @@ class BatchGetPolicyOutputItem {
 
 /// Information about a policy that you include in a <code>BatchGetPolicy</code>
 /// API request.
+///
+/// @nodoc
 class BatchGetPolicyInputItem {
   /// The identifier of the policy you want information about.
   ///
@@ -6910,6 +7068,8 @@ class BatchGetPolicyInputItem {
 /// mode for the policy store is set to <code>STRICT</code>, then policies that
 /// can't be validated by this schema are rejected by Verified Permissions and
 /// can't be stored in the policy store.
+///
+/// @nodoc
 class SchemaDefinition {
   /// A JSON string representation of the schema supported by applications that
   /// use this policy store. To delete the schema, run <a
@@ -6931,6 +7091,7 @@ class SchemaDefinition {
   }
 }
 
+/// @nodoc
 class Decision {
   static const allow = Decision._('ALLOW');
   static const deny = Decision._('DENY');
@@ -6963,6 +7124,8 @@ class Decision {
 /// and <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
 /// operations.
+///
+/// @nodoc
 class EvaluationErrorItem {
   /// The error description.
   final String errorDescription;
@@ -6997,7 +7160,9 @@ class EvaluationErrorItem {
 /// operations.
 ///
 /// Example:
-/// <code>"determiningPolicies":[{"policyId":"SPEXAMPLEabcdefg111111"}]</code>
+/// <code>"determiningPolicies":\[{"policyId":"SPEXAMPLEabcdefg111111"}\]</code>
+///
+/// @nodoc
 class DeterminingPolicyItem {
   /// The Id of a policy that determined to an authorization decision.
   ///
@@ -7041,6 +7206,8 @@ class DeterminingPolicyItem {
 ///
 /// Example:
 /// <code>"context":{"contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}}</code>
+///
+/// @nodoc
 class ContextDefinition {
   /// A Cedar JSON string representation of the context needed to successfully
   /// evaluate an authorization request.
@@ -7089,12 +7256,14 @@ class ContextDefinition {
 /// and <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
 /// operations.
+///
+/// @nodoc
 class EntitiesDefinition {
   /// A Cedar JSON string representation of the entities needed to successfully
   /// evaluate an authorization request.
   ///
   /// Example: <code>{"cedarJson":
-  /// "[{\"uid\":{\"type\":\"Photo\",\"id\":\"VacationPhoto94.jpg\"},\"attrs\":{\"accessLevel\":\"public\"},\"parents\":[]}]"}</code>
+  /// "\[{\"uid\":{\"type\":\"Photo\",\"id\":\"VacationPhoto94.jpg\"},\"attrs\":{\"accessLevel\":\"public\"},\"parents\":\[\]}\]"}</code>
   final String? cedarJson;
 
   /// An array of entities that are needed to successfully evaluate an
@@ -7130,8 +7299,10 @@ class EntitiesDefinition {
 /// structure.
 ///
 /// <code>{ "identifier": { "entityType": "Photo", "entityId":
-/// "VacationPhoto94.jpg" }, "attributes": {}, "parents": [ { "entityType":
-/// "Album", "entityId": "alice_folder" } ] }</code>
+/// "VacationPhoto94.jpg" }, "attributes": {}, "parents": \[ { "entityType":
+/// "Album", "entityId": "alice_folder" } \] }</code>
+///
+/// @nodoc
 class EntityItem {
   /// The identifier of the entity.
   final EntityIdentifier identifier;
@@ -7187,6 +7358,8 @@ class EntityItem {
 /// and <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorizedWithToken.html">BatchIsAuthorizedWithToken</a>
 /// operations.
+///
+/// @nodoc
 class CedarTagValue {
   /// A Cedar tag value of <a
   /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-bool">Boolean</a>
@@ -7248,7 +7421,7 @@ class CedarTagValue {
   /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-set">Set</a>
   /// type.
   ///
-  /// Example: <code>{"set": [ { "string": "abc" } ] }</code>
+  /// Example: <code>{"set": \[ { "string": "abc" } \] }</code>
   final List<CedarTagValue>? set;
 
   /// A Cedar tag value of <a
@@ -7311,6 +7484,8 @@ class CedarTagValue {
 /// and <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html">IsAuthorizedWithToken</a>
 /// operations.
+///
+/// @nodoc
 class AttributeValue {
   /// An attribute value of <a
   /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-bool">Boolean</a>
@@ -7372,7 +7547,7 @@ class AttributeValue {
   /// href="https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-set">Set</a>
   /// type.
   ///
-  /// Example: <code>{"set": [ {} ] }</code>
+  /// Example: <code>{"set": \[ {} \] }</code>
   final List<AttributeValue>? set;
 
   /// An attribute value of <a
@@ -7445,6 +7620,8 @@ class AttributeValue {
 
 /// The decision, based on policy evaluation, from an individual authorization
 /// request in a <code>BatchIsAuthorizedWithToken</code> API request.
+///
+/// @nodoc
 class BatchIsAuthorizedWithTokenOutputItem {
   /// An authorization decision that indicates if the authorization request should
   /// be allowed or denied.
@@ -7507,6 +7684,8 @@ class BatchIsAuthorizedWithTokenOutputItem {
 
 /// An authorization request that you include in a
 /// <code>BatchIsAuthorizedWithToken</code> API request.
+///
+/// @nodoc
 class BatchIsAuthorizedWithTokenInputItem {
   /// Specifies the requested action to be authorized. For example,
   /// <code>PhotoFlash::ReadPhoto</code>.
@@ -7555,6 +7734,8 @@ class BatchIsAuthorizedWithTokenInputItem {
 
 /// The decision, based on policy evaluation, from an individual authorization
 /// request in a <code>BatchIsAuthorized</code> API request.
+///
+/// @nodoc
 class BatchIsAuthorizedOutputItem {
   /// An authorization decision that indicates if the authorization request should
   /// be allowed or denied.
@@ -7616,6 +7797,8 @@ class BatchIsAuthorizedOutputItem {
 
 /// An authorization request that you include in a
 /// <code>BatchIsAuthorized</code> API request.
+///
+/// @nodoc
 class BatchIsAuthorizedInputItem {
   /// Specifies the requested action to be authorized. For example,
   /// <code>PhotoFlash::ReadPhoto</code>.
@@ -7675,6 +7858,8 @@ class BatchIsAuthorizedInputItem {
 /// This data type is used as a response parameter for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyStores.html">ListPolicyStores</a>
 /// operation.
+///
+/// @nodoc
 class PolicyStoreItem {
   /// The Amazon Resource Name (ARN) of the policy store.
   final String arn;
@@ -7737,6 +7922,8 @@ class PolicyStoreItem {
 /// and <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore.html">UpdatePolicyStore</a>
 /// operations.
+///
+/// @nodoc
 class ValidationSettings {
   /// The validation mode currently configured for this policy store. The valid
   /// values are:
@@ -7780,6 +7967,7 @@ class ValidationSettings {
   }
 }
 
+/// @nodoc
 class DeletionProtection {
   static const enabled = DeletionProtection._('ENABLED');
   static const disabled = DeletionProtection._('DISABLED');
@@ -7805,6 +7993,7 @@ class DeletionProtection {
   String toString() => value;
 }
 
+/// @nodoc
 class ValidationMode {
   static const off = ValidationMode._('OFF');
   static const strict = ValidationMode._('STRICT');
@@ -7835,6 +8024,8 @@ class ValidationMode {
 /// This data type is used as a response parameter field for the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicyStore.html">GetPolicyStore</a>
 /// operation.
+///
+/// @nodoc
 class EncryptionState {
   /// This is the default encryption state. The policy store is encrypted using an
   /// Amazon Web Services owned key.
@@ -7872,6 +8063,7 @@ class EncryptionState {
   }
 }
 
+/// @nodoc
 class CedarVersion {
   static const cedar_2 = CedarVersion._('CEDAR_2');
   static const cedar_4 = CedarVersion._('CEDAR_4');
@@ -7903,6 +8095,8 @@ class CedarVersion {
 /// This data type is used as a field that is part of the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EncryptionState.html">EncryptionState</a>
 /// type.
+///
+/// @nodoc
 class KmsEncryptionState {
   /// User-defined, additional context added to encryption processes.
   final Map<String, String> encryptionContext;
@@ -7943,6 +8137,8 @@ class KmsEncryptionState {
 /// This data type is used as a request parameter in the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicyStore.html">CreatePolicyStore</a>
 /// operation.
+///
+/// @nodoc
 class EncryptionSettings {
   /// This is the default encryption setting. The policy store uses an Amazon Web
   /// Services owned key for encrypting data.
@@ -7977,6 +8173,8 @@ class EncryptionSettings {
 /// This data type is used as a field that is part of the <a
 /// href="https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EncryptionSettings.html">EncryptionSettings</a>
 /// type.
+///
+/// @nodoc
 class KmsEncryptionSettings {
   /// The customer-managed KMS key <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -8005,6 +8203,7 @@ class KmsEncryptionSettings {
   }
 }
 
+/// @nodoc
 class Unit {
   Unit();
 
@@ -8017,31 +8216,37 @@ class Unit {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8050,11 +8255,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

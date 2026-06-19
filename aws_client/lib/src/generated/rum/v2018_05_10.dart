@@ -1144,6 +1144,7 @@ class Rum {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The ARN of the resource that you are viewing.
   final String resourceArn;
@@ -1175,6 +1176,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutRumEventsResponse {
   PutRumEventsResponse();
 
@@ -1187,6 +1189,7 @@ class PutRumEventsResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1199,6 +1202,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1211,6 +1215,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class GetAppMonitorResponse {
   /// A structure containing all the configuration information for the app
   /// monitor.
@@ -1236,6 +1241,7 @@ class GetAppMonitorResponse {
   }
 }
 
+/// @nodoc
 class UpdateAppMonitorResponse {
   UpdateAppMonitorResponse();
 
@@ -1248,6 +1254,7 @@ class UpdateAppMonitorResponse {
   }
 }
 
+/// @nodoc
 class DeleteAppMonitorResponse {
   DeleteAppMonitorResponse();
 
@@ -1260,6 +1267,7 @@ class DeleteAppMonitorResponse {
   }
 }
 
+/// @nodoc
 class ListAppMonitorsResponse {
   /// An array of structures that contain information about the returned app
   /// monitors.
@@ -1295,6 +1303,7 @@ class ListAppMonitorsResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateRumMetricDefinitionsResponse {
   /// An array of error objects, if the operation caused any errors.
   final List<BatchCreateRumMetricDefinitionsError> errors;
@@ -1332,6 +1341,7 @@ class BatchCreateRumMetricDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteRumMetricDefinitionsResponse {
   /// An array of error objects, if the operation caused any errors.
   final List<BatchDeleteRumMetricDefinitionsError> errors;
@@ -1370,6 +1380,7 @@ class BatchDeleteRumMetricDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetRumMetricDefinitionsResponse {
   /// An array of structures that display information about the metrics that are
   /// sent by the specified app monitor to the specified destination.
@@ -1405,6 +1416,7 @@ class BatchGetRumMetricDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class CreateAppMonitorResponse {
   /// The unique ID of the new app monitor.
   final String? id;
@@ -1427,6 +1439,7 @@ class CreateAppMonitorResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   /// The revision ID of the policy that was removed, if it had one.
   final String? policyRevisionId;
@@ -1449,6 +1462,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteRumMetricsDestinationResponse {
   DeleteRumMetricsDestinationResponse();
 
@@ -1461,6 +1475,7 @@ class DeleteRumMetricsDestinationResponse {
   }
 }
 
+/// @nodoc
 class GetAppMonitorDataResponse {
   /// The events that RUM collected that match your request.
   final List<String>? events;
@@ -1492,6 +1507,7 @@ class GetAppMonitorDataResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The JSON policy document that you requested.
   final String? policyDocument;
@@ -1522,6 +1538,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListRumMetricsDestinationsResponse {
   /// The list of CloudWatch RUM extended metrics destinations associated with the
   /// app monitor that you specified.
@@ -1558,6 +1575,7 @@ class ListRumMetricsDestinationsResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The JSON policy document that you specified.
   final String? policyDocument;
@@ -1587,6 +1605,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class PutRumMetricsDestinationResponse {
   PutRumMetricsDestinationResponse();
 
@@ -1599,6 +1618,7 @@ class PutRumMetricsDestinationResponse {
   }
 }
 
+/// @nodoc
 class UpdateRumMetricDefinitionResponse {
   UpdateRumMetricDefinitionResponse();
 
@@ -1611,6 +1631,7 @@ class UpdateRumMetricDefinitionResponse {
   }
 }
 
+/// @nodoc
 class MetricDestination {
   static const cloudWatch = MetricDestination._('CloudWatch');
   static const evidently = MetricDestination._('Evidently');
@@ -1662,85 +1683,85 @@ class MetricDestination {
 /// If <code>Name</code> is <code>PerformanceNavigationDuration</code>, then
 /// <code>ValueKey</code>must be <code>event_details.duration</code> and the
 /// <code>EventPattern</code> must include
-/// <code>{"event_type":["com.amazon.rum.performance_navigation_event"]}</code>
+/// <code>{"event_type":\["com.amazon.rum.performance_navigation_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>PerformanceResourceDuration</code>, then
 /// <code>ValueKey</code>must be <code>event_details.duration</code> and the
 /// <code>EventPattern</code> must include
-/// <code>{"event_type":["com.amazon.rum.performance_resource_event"]}</code>
+/// <code>{"event_type":\["com.amazon.rum.performance_resource_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>NavigationSatisfiedTransaction</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
 /// include <code>{ "event_type":
-/// ["com.amazon.rum.performance_navigation_event"], "event_details": {
-/// "duration": [{ "numeric": ["&gt;",2000] }] } }</code>
+/// \["com.amazon.rum.performance_navigation_event"\], "event_details": {
+/// "duration": \[{ "numeric": \["&gt;",2000\] }\] } }</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>NavigationToleratedTransaction</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
 /// include <code>{ "event_type":
-/// ["com.amazon.rum.performance_navigation_event"], "event_details": {
-/// "duration": [{ "numeric": ["&gt;=",2000,"&lt;"8000] }] } }</code>
+/// \["com.amazon.rum.performance_navigation_event"\], "event_details": {
+/// "duration": \[{ "numeric": \["&gt;=",2000,"&lt;"8000\] }\] } }</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>NavigationFrustratedTransaction</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
 /// include <code>{ "event_type":
-/// ["com.amazon.rum.performance_navigation_event"], "event_details": {
-/// "duration": [{ "numeric": ["&gt;=",8000] }] } }</code>
+/// \["com.amazon.rum.performance_navigation_event"\], "event_details": {
+/// "duration": \[{ "numeric": \["&gt;=",8000\] }\] } }</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>WebVitalsCumulativeLayoutShift</code>, then
 /// <code>ValueKey</code>must be <code>event_details.value</code> and the
 /// <code>EventPattern</code> must include
-/// <code>{"event_type":["com.amazon.rum.cumulative_layout_shift_event"]}</code>
+/// <code>{"event_type":\["com.amazon.rum.cumulative_layout_shift_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>WebVitalsFirstInputDelay</code>, then
 /// <code>ValueKey</code>must be <code>event_details.value</code> and the
 /// <code>EventPattern</code> must include
-/// <code>{"event_type":["com.amazon.rum.first_input_delay_event"]}</code>
+/// <code>{"event_type":\["com.amazon.rum.first_input_delay_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>WebVitalsLargestContentfulPaint</code>, then
 /// <code>ValueKey</code>must be <code>event_details.value</code> and the
 /// <code>EventPattern</code> must include
-/// <code>{"event_type":["com.amazon.rum.largest_contentful_paint_event"]}</code>
+/// <code>{"event_type":\["com.amazon.rum.largest_contentful_paint_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>JsErrorCount</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
-/// include <code>{"event_type":["com.amazon.rum.js_error_event"]}</code>
+/// include <code>{"event_type":\["com.amazon.rum.js_error_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>HttpErrorCount</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
-/// include <code>{"event_type":["com.amazon.rum.http_event"]}</code>
+/// include <code>{"event_type":\["com.amazon.rum.http_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>SessionCount</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
-/// include <code>{"event_type":["com.amazon.rum.session_start_event"]}</code>
+/// include <code>{"event_type":\["com.amazon.rum.session_start_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>PageViewCount</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
-/// include <code>{"event_type":["com.amazon.rum.page_view_event"]}</code>
+/// include <code>{"event_type":\["com.amazon.rum.page_view_event"\]}</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>Http4xxCount</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
 /// include <code>{"event_type":
-/// ["com.amazon.rum.http_event"],"event_details":{"response":{"status":[{"numeric":["&gt;=",400,"&lt;",500]}]}}}
+/// \["com.amazon.rum.http_event"\],"event_details":{"response":{"status":\[{"numeric":\["&gt;=",400,"&lt;",500\]}\]}}}
 /// }</code>
 /// </li>
 /// <li>
 /// If <code>Name</code> is <code>Http5xxCount</code>, then
 /// <code>ValueKey</code>must be null and the <code>EventPattern</code> must
 /// include <code>{"event_type":
-/// ["com.amazon.rum.http_event"],"event_details":{"response":{"status":[{"numeric":["&gt;=",500,"&lt;=",599]}]}}}
+/// \["com.amazon.rum.http_event"\],"event_details":{"response":{"status":\[{"numeric":\["&gt;=",500,"&lt;=",599\]}\]}}}
 /// }</code>
 /// </li>
 /// </ul> </li>
@@ -1835,6 +1856,8 @@ class MetricDestination {
 /// <code>userId</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MetricDefinitionRequest {
   /// The name for the metric that is defined in this structure. For custom
   /// metrics, you can specify any name that you like. For extended metrics, valid
@@ -1918,19 +1941,19 @@ class MetricDefinitionRequest {
   ///
   /// <ul>
   /// <li>
-  /// <code>'{ "event_type": ["com.amazon.rum.js_error_event"], "metadata": {
-  /// "browserName": [ "Chrome", "Safari" ], } }'</code>
+  /// <code>'{ "event_type": \["com.amazon.rum.js_error_event"\], "metadata": {
+  /// "browserName": \[ "Chrome", "Safari" \], } }'</code>
   /// </li>
   /// <li>
-  /// <code>'{ "event_type": ["com.amazon.rum.performance_navigation_event"],
-  /// "metadata": { "browserName": [ "Chrome", "Firefox" ] }, "event_details": {
-  /// "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }'</code>
+  /// <code>'{ "event_type": \["com.amazon.rum.performance_navigation_event"\],
+  /// "metadata": { "browserName": \[ "Chrome", "Firefox" \] }, "event_details": {
+  /// "duration": \[{ "numeric": \[ "&lt;", 2000 \] }\] } }'</code>
   /// </li>
   /// <li>
-  /// <code>'{ "event_type": ["com.amazon.rum.performance_navigation_event"],
-  /// "metadata": { "browserName": [ "Chrome", "Safari" ], "countryCode": [ "US" ]
-  /// }, "event_details": { "duration": [{ "numeric": [ "&gt;=", 2000, "&lt;",
-  /// 8000 ] }] } }'</code>
+  /// <code>'{ "event_type": \["com.amazon.rum.performance_navigation_event"\],
+  /// "metadata": { "browserName": \[ "Chrome", "Safari" \], "countryCode": \[
+  /// "US" \] }, "event_details": { "duration": \[{ "numeric": \[ "&gt;=", 2000,
+  /// "&lt;", 8000 \] }\] } }'</code>
   /// </li>
   /// </ul>
   /// If the metrics destination is <code>CloudWatch</code> and the event also
@@ -2001,6 +2024,8 @@ class MetricDefinitionRequest {
 
 /// A structure that displays information about one destination that CloudWatch
 /// RUM sends extended metrics to.
+///
+/// @nodoc
 class MetricDestinationSummary {
   /// Specifies whether the destination is <code>CloudWatch</code> or
   /// <code>Evidently</code>.
@@ -2044,6 +2069,8 @@ class MetricDestinationSummary {
 
 /// A structure that defines the time range that you want to retrieve results
 /// from.
+///
+/// @nodoc
 class TimeRange {
   /// The beginning of the time range to retrieve performance events from.
   final int after;
@@ -2080,6 +2107,8 @@ class TimeRange {
 /// equal to" filter. For example, specify <code>Invert</code> as the
 /// <code>Name</code> and specify <code>Chrome</code> as the value to return all
 /// events except events from user sessions with the Chrome browser.
+///
+/// @nodoc
 class QueryFilter {
   /// The name of a key to search for. The filter returns only the events that
   /// match the <code>Name</code> and <code>Values</code> that you specify.
@@ -2109,6 +2138,8 @@ class QueryFilter {
 }
 
 /// This structure contains much of the configuration data for the app monitor.
+///
+/// @nodoc
 class AppMonitorConfiguration {
   /// If you set this to <code>true</code>, the RUM web client sets two cookies, a
   /// session cookie and a user cookie. The cookies allow the RUM web client to
@@ -2270,6 +2301,8 @@ class AppMonitorConfiguration {
 
 /// A structure that contains information about custom events for this app
 /// monitor.
+///
+/// @nodoc
 class CustomEvents {
   /// Specifies whether this app monitor allows the web client to define and send
   /// custom events. The default is for custom events to be <code>DISABLED</code>.
@@ -2295,6 +2328,8 @@ class CustomEvents {
 
 /// A structure that contains the configuration for how an app monitor can
 /// deobfuscate stack traces.
+///
+/// @nodoc
 class DeobfuscationConfiguration {
   /// A structure that contains the configuration for how an app monitor can
   /// unminify JavaScript error stack traces using source maps.
@@ -2322,6 +2357,7 @@ class DeobfuscationConfiguration {
   }
 }
 
+/// @nodoc
 class AppMonitorPlatform {
   static const web = AppMonitorPlatform._('Web');
   static const android = AppMonitorPlatform._('Android');
@@ -2350,6 +2386,8 @@ class AppMonitorPlatform {
 
 /// A structure that contains the configuration for how an app monitor can
 /// unminify JavaScript error stack traces using source maps.
+///
+/// @nodoc
 class JavaScriptSourceMaps {
   /// Specifies whether JavaScript error stack traces should be unminified for
   /// this app monitor. The default is for JavaScript error stack trace
@@ -2382,6 +2420,7 @@ class JavaScriptSourceMaps {
   }
 }
 
+/// @nodoc
 class DeobfuscationStatus {
   static const enabled = DeobfuscationStatus._('ENABLED');
   static const disabled = DeobfuscationStatus._('DISABLED');
@@ -2407,6 +2446,7 @@ class DeobfuscationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomEventsStatus {
   static const enabled = CustomEventsStatus._('ENABLED');
   static const disabled = CustomEventsStatus._('DISABLED');
@@ -2432,6 +2472,7 @@ class CustomEventsStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Telemetry {
   static const errors = Telemetry._('errors');
   static const performance = Telemetry._('performance');
@@ -2461,6 +2502,8 @@ class Telemetry {
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html">
 /// Additional metrics that you can send to CloudWatch and CloudWatch
 /// Evidently</a>.
+///
+/// @nodoc
 class MetricDefinition {
   /// The ID of this metric definition.
   final String metricDefinitionId;
@@ -2542,6 +2585,8 @@ class MetricDefinition {
 /// A structure that defines one error caused by a <a
 /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchDeleteRumMetricsDefinitions.html">BatchCreateRumMetricsDefinitions</a>
 /// operation.
+///
+/// @nodoc
 class BatchDeleteRumMetricDefinitionsError {
   /// The error code.
   final String errorCode;
@@ -2582,6 +2627,8 @@ class BatchDeleteRumMetricDefinitionsError {
 /// A structure that defines one error caused by a <a
 /// href="https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricsDefinitions.html">BatchCreateRumMetricsDefinitions</a>
 /// operation.
+///
+/// @nodoc
 class BatchCreateRumMetricDefinitionsError {
   /// The error code.
   final String errorCode;
@@ -2622,6 +2669,8 @@ class BatchCreateRumMetricDefinitionsError {
 }
 
 /// A structure that includes some data about app monitors and their settings.
+///
+/// @nodoc
 class AppMonitorSummary {
   /// The date and time that the app monitor was created.
   final String? created;
@@ -2683,6 +2732,7 @@ class AppMonitorSummary {
   }
 }
 
+/// @nodoc
 class StateEnum {
   static const created = StateEnum._('CREATED');
   static const deleting = StateEnum._('DELETING');
@@ -2710,6 +2760,8 @@ class StateEnum {
 /// A RUM app monitor collects telemetry data from your application and sends
 /// that data to RUM. The data includes performance and reliability information
 /// such as page load time, client-side errors, and user behavior.
+///
+/// @nodoc
 class AppMonitor {
   /// A structure that contains much of the configuration data for the app
   /// monitor.
@@ -2848,6 +2900,8 @@ class AppMonitor {
 
 /// A structure that contains information about whether this app monitor stores
 /// a copy of the telemetry data that RUM collects using CloudWatch Logs.
+///
+/// @nodoc
 class DataStorage {
   /// A structure that contains the information about whether the app monitor
   /// stores copies of the data that RUM collects in CloudWatch Logs. If it does,
@@ -2877,6 +2931,8 @@ class DataStorage {
 /// A structure that contains the information about whether the app monitor
 /// stores copies of the data that RUM collects in CloudWatch Logs. If it does,
 /// this structure also contains the name of the log group.
+///
+/// @nodoc
 class CwLog {
   /// Indicated whether the app monitor stores copies of the data that RUM
   /// collects in CloudWatch Logs.
@@ -2908,6 +2964,8 @@ class CwLog {
 }
 
 /// A structure that contains information about the RUM app monitor.
+///
+/// @nodoc
 class AppMonitorDetails {
   /// The unique ID of the app monitor.
   final String? id;
@@ -2938,6 +2996,8 @@ class AppMonitorDetails {
 
 /// A structure that contains information about the user session that this batch
 /// of events was collected from.
+///
+/// @nodoc
 class UserDetails {
   /// The session ID that the performance events are from.
   final String? sessionId;
@@ -2963,6 +3023,8 @@ class UserDetails {
 
 /// A structure that contains the information for one performance event that RUM
 /// collects from a user session with your application.
+///
+/// @nodoc
 class RumEvent {
   /// A string containing details about the event.
   final Object details;
@@ -3007,21 +3069,25 @@ class RumEvent {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidPolicyRevisionIdException extends _s.GenericAwsException {
   InvalidPolicyRevisionIdException({String? type, String? message})
       : super(
@@ -3030,6 +3096,7 @@ class InvalidPolicyRevisionIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -3038,11 +3105,13 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PolicyNotFoundException extends _s.GenericAwsException {
   PolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'PolicyNotFoundException', message: message);
 }
 
+/// @nodoc
 class PolicySizeLimitExceededException extends _s.GenericAwsException {
   PolicySizeLimitExceededException({String? type, String? message})
       : super(
@@ -3051,11 +3120,13 @@ class PolicySizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3064,11 +3135,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

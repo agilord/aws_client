@@ -2113,6 +2113,8 @@ class Route53Domains {
 
 /// The AcceptDomainTransferFromAnotherAwsAccount response includes the
 /// following element.
+///
+/// @nodoc
 class AcceptDomainTransferFromAnotherAwsAccountResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -2138,6 +2140,7 @@ class AcceptDomainTransferFromAnotherAwsAccountResponse {
   }
 }
 
+/// @nodoc
 class AssociateDelegationSignerToDomainResponse {
   /// The identifier for tracking the progress of the request. To query the
   /// operation status, use <a
@@ -2165,6 +2168,8 @@ class AssociateDelegationSignerToDomainResponse {
 
 /// The <code>CancelDomainTransferToAnotherAwsAccount</code> response includes
 /// the following element.
+///
+/// @nodoc
 class CancelDomainTransferToAnotherAwsAccountResponse {
   /// The identifier that <code>TransferDomainToAnotherAwsAccount</code> returned
   /// to track the progress of the request. Because the transfer request was
@@ -2192,6 +2197,8 @@ class CancelDomainTransferToAnotherAwsAccountResponse {
 }
 
 /// The CheckDomainAvailability response includes the following elements.
+///
+/// @nodoc
 class CheckDomainAvailabilityResponse {
   /// Whether the domain name is available for registering.
   /// <note>
@@ -2247,6 +2254,8 @@ class CheckDomainAvailabilityResponse {
 }
 
 /// The CheckDomainTransferability response includes the following elements.
+///
+/// @nodoc
 class CheckDomainTransferabilityResponse {
   /// Provides an explanation for when a domain can't be transferred.
   final String? message;
@@ -2281,6 +2290,7 @@ class CheckDomainTransferabilityResponse {
   }
 }
 
+/// @nodoc
 class DeleteDomainResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -2305,6 +2315,7 @@ class DeleteDomainResponse {
   }
 }
 
+/// @nodoc
 class DeleteTagsForDomainResponse {
   DeleteTagsForDomainResponse();
 
@@ -2317,6 +2328,7 @@ class DeleteTagsForDomainResponse {
   }
 }
 
+/// @nodoc
 class DisableDomainAutoRenewResponse {
   DisableDomainAutoRenewResponse();
 
@@ -2330,6 +2342,8 @@ class DisableDomainAutoRenewResponse {
 }
 
 /// The DisableDomainTransferLock response includes the following element.
+///
+/// @nodoc
 class DisableDomainTransferLockResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -2355,6 +2369,7 @@ class DisableDomainTransferLockResponse {
   }
 }
 
+/// @nodoc
 class DisassociateDelegationSignerFromDomainResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -2380,6 +2395,7 @@ class DisassociateDelegationSignerFromDomainResponse {
   }
 }
 
+/// @nodoc
 class EnableDomainAutoRenewResponse {
   EnableDomainAutoRenewResponse();
 
@@ -2393,6 +2409,8 @@ class EnableDomainAutoRenewResponse {
 }
 
 /// The EnableDomainTransferLock response includes the following elements.
+///
+/// @nodoc
 class EnableDomainTransferLockResponse {
   /// Identifier for tracking the progress of the request. To use this ID to query
   /// the operation status, use GetOperationDetail.
@@ -2416,6 +2434,7 @@ class EnableDomainTransferLockResponse {
   }
 }
 
+/// @nodoc
 class GetContactReachabilityStatusResponse {
   /// The domain name for which you requested the reachability status.
   final String? domainName;
@@ -2454,6 +2473,8 @@ class GetContactReachabilityStatusResponse {
 }
 
 /// The GetDomainDetail response includes the following elements.
+///
+/// @nodoc
 class GetDomainDetailResponse {
   /// Email address to contact to report incorrect contact information for a
   /// domain, to report that the domain is being used to send spam, to report that
@@ -2697,6 +2718,7 @@ class GetDomainDetailResponse {
   }
 }
 
+/// @nodoc
 class GetDomainSuggestionsResponse {
   /// A list of possible domain names. If you specified <code>true</code> for
   /// <code>OnlyAvailable</code> in the request, the list contains only domains
@@ -2725,6 +2747,8 @@ class GetDomainSuggestionsResponse {
 }
 
 /// The GetOperationDetail response includes the following elements.
+///
+/// @nodoc
 class GetOperationDetailResponse {
   /// The name of a domain.
   final String? domainName;
@@ -2824,6 +2848,8 @@ class GetOperationDetailResponse {
 }
 
 /// The ListDomains response includes the following elements.
+///
+/// @nodoc
 class ListDomainsResponse {
   /// A list of domains.
   final List<DomainSummary>? domains;
@@ -2859,6 +2885,8 @@ class ListDomainsResponse {
 }
 
 /// The ListOperations response includes the following elements.
+///
+/// @nodoc
 class ListOperationsResponse {
   /// If there are more operations than you specified for <code>MaxItems</code> in
   /// the request, submit another request and include the value of
@@ -2893,6 +2921,7 @@ class ListOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListPricesResponse {
   /// If there are more prices than you specified for <code>MaxItems</code> in the
   /// request, submit another request and include the value of
@@ -2932,6 +2961,8 @@ class ListPricesResponse {
 }
 
 /// The ListTagsForDomain response includes the following elements.
+///
+/// @nodoc
 class ListTagsForDomainResponse {
   /// A list of the tags that are associated with the specified domain.
   final List<Tag>? tagList;
@@ -2958,6 +2989,8 @@ class ListTagsForDomainResponse {
 }
 
 /// The RegisterDomain response includes the following element.
+///
+/// @nodoc
 class RegisterDomainResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -2984,6 +3017,8 @@ class RegisterDomainResponse {
 
 /// The RejectDomainTransferFromAnotherAwsAccount response includes the
 /// following element.
+///
+/// @nodoc
 class RejectDomainTransferFromAnotherAwsAccountResponse {
   /// The identifier that <code>TransferDomainToAnotherAwsAccount</code> returned
   /// to track the progress of the request. Because the transfer request was
@@ -3010,6 +3045,7 @@ class RejectDomainTransferFromAnotherAwsAccountResponse {
   }
 }
 
+/// @nodoc
 class RenewDomainResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -3034,6 +3070,7 @@ class RenewDomainResponse {
   }
 }
 
+/// @nodoc
 class ResendContactReachabilityEmailResponse {
   /// The domain name for which you requested a confirmation email.
   final String? domainName;
@@ -3075,6 +3112,8 @@ class ResendContactReachabilityEmailResponse {
 }
 
 /// The RetrieveDomainAuthCode response includes the following element.
+///
+/// @nodoc
 class RetrieveDomainAuthCodeResponse {
   /// The authorization code for the domain.
   final String? authCode;
@@ -3098,6 +3137,8 @@ class RetrieveDomainAuthCodeResponse {
 }
 
 /// The TransferDomain response includes the following element.
+///
+/// @nodoc
 class TransferDomainResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -3124,6 +3165,8 @@ class TransferDomainResponse {
 
 /// The <code>TransferDomainToAnotherAwsAccount</code> response includes the
 /// following elements.
+///
+/// @nodoc
 class TransferDomainToAnotherAwsAccountResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -3162,6 +3205,8 @@ class TransferDomainToAnotherAwsAccountResponse {
 }
 
 /// The UpdateDomainContact response includes the following element.
+///
+/// @nodoc
 class UpdateDomainContactResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -3187,6 +3232,8 @@ class UpdateDomainContactResponse {
 }
 
 /// The UpdateDomainContactPrivacy response includes the following element.
+///
+/// @nodoc
 class UpdateDomainContactPrivacyResponse {
   /// Identifier for tracking the progress of the request. To use this ID to query
   /// the operation status, use GetOperationDetail.
@@ -3212,6 +3259,8 @@ class UpdateDomainContactPrivacyResponse {
 }
 
 /// The UpdateDomainNameservers response includes the following element.
+///
+/// @nodoc
 class UpdateDomainNameserversResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
@@ -3236,6 +3285,7 @@ class UpdateDomainNameserversResponse {
   }
 }
 
+/// @nodoc
 class UpdateTagsForDomainResponse {
   UpdateTagsForDomainResponse();
 
@@ -3249,6 +3299,8 @@ class UpdateTagsForDomainResponse {
 }
 
 /// The ViewBilling response includes the following elements.
+///
+/// @nodoc
 class ViewBillingResponse {
   /// A summary of billing records.
   final List<BillingRecord>? billingRecords;
@@ -3284,6 +3336,8 @@ class ViewBillingResponse {
 }
 
 /// Information for one billing record.
+///
+/// @nodoc
 class BillingRecord {
   /// The date that the operation was billed, in Unix format.
   final DateTime? billDate;
@@ -3342,6 +3396,7 @@ class BillingRecord {
   }
 }
 
+/// @nodoc
 class OperationType {
   static const registerDomain = OperationType._('REGISTER_DOMAIN');
   static const deleteDomain = OperationType._('DELETE_DOMAIN');
@@ -3411,6 +3466,8 @@ class OperationType {
 }
 
 /// Each tag includes the following elements.
+///
+/// @nodoc
 class Tag {
   /// The key (name) of a tag.
   ///
@@ -3449,6 +3506,8 @@ class Tag {
 }
 
 /// Name server includes the following elements.
+///
+/// @nodoc
 class Nameserver {
   /// The fully qualified host name of the name server.
   ///
@@ -3487,6 +3546,8 @@ class Nameserver {
 }
 
 /// ContactDetail includes the following elements.
+///
+/// @nodoc
 class ContactDetail {
   /// First line of the contact's address.
   final String? addressLine1;
@@ -3532,9 +3593,9 @@ class ContactDetail {
 
   /// Fax number of the contact.
   ///
-  /// Constraints: Phone number must be specified in the format "+[country dialing
-  /// code].[number including any area code]". For example, a US phone number
-  /// might appear as <code>"+1.1234567890"</code>.
+  /// Constraints: Phone number must be specified in the format "+\[country
+  /// dialing code\].\[number including any area code\]". For example, a US phone
+  /// number might appear as <code>"+1.1234567890"</code>.
   final String? fax;
 
   /// First name of contact.
@@ -3548,9 +3609,9 @@ class ContactDetail {
 
   /// The phone number of the contact.
   ///
-  /// Constraints: Phone number must be specified in the format "+[country dialing
-  /// code].[number including any area code>]". For example, a US phone number
-  /// might appear as <code>"+1.1234567890"</code>.
+  /// Constraints: Phone number must be specified in the format "+\[country
+  /// dialing code\].\[number including any area code>\]". For example, a US phone
+  /// number might appear as <code>"+1.1234567890"</code>.
   final String? phoneNumber;
 
   /// The state or province of the contact's city.
@@ -3635,6 +3696,8 @@ class ContactDetail {
 }
 
 /// Customer's consent for the owner change request.
+///
+/// @nodoc
 class Consent {
   /// Currency for the <code>MaxPrice</code>.
   final String currency;
@@ -3657,6 +3720,7 @@ class Consent {
   }
 }
 
+/// @nodoc
 class ContactType {
   static const person = ContactType._('PERSON');
   static const company = ContactType._('COMPANY');
@@ -3683,6 +3747,7 @@ class ContactType {
   String toString() => value;
 }
 
+/// @nodoc
 class CountryCode {
   static const ac = CountryCode._('AC');
   static const ad = CountryCode._('AD');
@@ -4208,6 +4273,8 @@ class CountryCode {
 }
 
 /// ExtraParam includes the following elements.
+///
+/// @nodoc
 class ExtraParam {
   /// The name of an additional parameter that is required by a top-level domain.
   /// Here are the top-level domains that require additional parameters and the
@@ -4557,7 +4624,7 @@ class ExtraParam {
   ///
   /// <ul>
   /// <li>
-  /// Specify 1 letter + 8 numbers (CIF [Certificado de Identificación Fiscal])
+  /// Specify 1 letter + 8 numbers (CIF \[Certificado de Identificación Fiscal\])
   /// </li>
   /// <li>
   /// Example: B12345678
@@ -4574,8 +4641,8 @@ class ExtraParam {
   ///
   /// <ul>
   /// <li>
-  /// Specify 8 numbers + 1 letter (DNI [Documento Nacional de Identidad], NIF
-  /// [Número de Identificación Fiscal])
+  /// Specify 8 numbers + 1 letter (DNI \[Documento Nacional de Identidad\], NIF
+  /// \[Número de Identificación Fiscal\])
   /// </li>
   /// <li>
   /// Example: 12345678M
@@ -4587,8 +4654,8 @@ class ExtraParam {
   ///
   /// <ul>
   /// <li>
-  /// Specify 1 letter + 7 numbers + 1 letter ( NIE [Número de Identidad de
-  /// Extranjero])
+  /// Specify 1 letter + 7 numbers + 1 letter ( NIE \[Número de Identidad de
+  /// Extranjero\])
   /// </li>
   /// <li>
   /// Example: Y1234567X
@@ -4943,6 +5010,7 @@ class ExtraParam {
   }
 }
 
+/// @nodoc
 class ExtraParamName {
   static const dunsNumber = ExtraParamName._('DUNS_NUMBER');
   static const brandNumber = ExtraParamName._('BRAND_NUMBER');
@@ -5042,6 +5110,8 @@ class ExtraParamName {
 }
 
 /// Information about the domain price associated with a TLD.
+///
+/// @nodoc
 class DomainPrice {
   /// The price for changing domain ownership.
   final PriceWithCurrency? changeOwnershipPrice;
@@ -5116,6 +5186,8 @@ class DomainPrice {
 }
 
 /// Currency-specific price information.
+///
+/// @nodoc
 class PriceWithCurrency {
   /// The currency specifier.
   final String currency;
@@ -5146,6 +5218,8 @@ class PriceWithCurrency {
 }
 
 /// OperationSummary includes the following elements.
+///
+/// @nodoc
 class OperationSummary {
   /// Name of the domain.
   final String? domainName;
@@ -5247,6 +5321,7 @@ class OperationSummary {
   }
 }
 
+/// @nodoc
 class OperationStatus {
   static const submitted = OperationStatus._('SUBMITTED');
   static const inProgress = OperationStatus._('IN_PROGRESS');
@@ -5274,6 +5349,7 @@ class OperationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StatusFlag {
   static const pendingAcceptance = StatusFlag._('PENDING_ACCEPTANCE');
   static const pendingCustomerAction = StatusFlag._('PENDING_CUSTOMER_ACTION');
@@ -5307,6 +5383,7 @@ class StatusFlag {
   String toString() => value;
 }
 
+/// @nodoc
 class ListOperationsSortAttributeName {
   static const submittedDate =
       ListOperationsSortAttributeName._('SubmittedDate');
@@ -5332,6 +5409,7 @@ class ListOperationsSortAttributeName {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -5356,6 +5434,8 @@ class SortOrder {
 }
 
 /// Summary information about one domain.
+///
+/// @nodoc
 class DomainSummary {
   /// Indicates whether the domain is automatically renewed upon expiration.
   final bool? autoRenew;
@@ -5402,6 +5482,8 @@ class DomainSummary {
 }
 
 /// Information for sorting a list of domains.
+///
+/// @nodoc
 class SortCondition {
   /// Field to be used for sorting the list of domains. It can be either the name
   /// or the expiration for a domain. Note that if <code>filterCondition</code> is
@@ -5430,6 +5512,7 @@ class SortCondition {
   }
 }
 
+/// @nodoc
 class ListDomainsAttributeName {
   static const domainName = ListDomainsAttributeName._('DomainName');
   static const expiry = ListDomainsAttributeName._('Expiry');
@@ -5457,6 +5540,8 @@ class ListDomainsAttributeName {
 
 /// Information for the filtering of a list of domains returned by <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains__ListDomains.html">ListDomains</a>.
+///
+/// @nodoc
 class FilterCondition {
   /// Name of the field which should be used for filtering the list of domains.
   final ListDomainsAttributeName name;
@@ -5498,6 +5583,7 @@ class FilterCondition {
   }
 }
 
+/// @nodoc
 class Operator {
   static const le = Operator._('LE');
   static const ge = Operator._('GE');
@@ -5523,6 +5609,8 @@ class Operator {
 }
 
 /// Information about one suggested domain name.
+///
+/// @nodoc
 class DomainSuggestion {
   /// Whether the domain name is available for registering.
   /// <note>
@@ -5587,6 +5675,8 @@ class DomainSuggestion {
 /// <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html">AssociateDelegationSignerToDomain</a>)
 /// to pass it to the registry to establish the chain of trust.
+///
+/// @nodoc
 class DnssecKey {
   /// The number of the public key’s cryptographic algorithm according to an <a
   /// href="https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xml">IANA</a>
@@ -5676,6 +5766,7 @@ class DnssecKey {
   }
 }
 
+/// @nodoc
 class ReachabilityStatus {
   static const pending = ReachabilityStatus._('PENDING');
   static const done = ReachabilityStatus._('DONE');
@@ -5704,6 +5795,8 @@ class ReachabilityStatus {
 
 /// A complex type that contains information about whether the specified domain
 /// can be transferred to Route 53.
+///
+/// @nodoc
 class DomainTransferability {
   final Transferable? transferable;
 
@@ -5747,6 +5840,8 @@ class DomainTransferability {
 /// </dd> <dt>PREMIUM_DOMAIN</dt> <dd>
 /// Premium domain transfer is not supported.
 /// </dd> </dl>
+///
+/// @nodoc
 class Transferable {
   static const transferable = Transferable._('TRANSFERABLE');
   static const untransferable = Transferable._('UNTRANSFERABLE');
@@ -5782,6 +5877,7 @@ class Transferable {
   String toString() => value;
 }
 
+/// @nodoc
 class DomainAvailability {
   static const available = DomainAvailability._('AVAILABLE');
   static const availableReserved = DomainAvailability._('AVAILABLE_RESERVED');
@@ -5830,6 +5926,8 @@ class DomainAvailability {
 /// Information about a delegation signer (DS) record that was created in the
 /// registry by <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html">AssociateDelegationSignerToDomain</a>.
+///
+/// @nodoc
 class DnssecSigningAttributes {
   /// Algorithm which was used to generate the digest from the public key.
   final int? algorithm;
@@ -5865,41 +5963,49 @@ class DnssecSigningAttributes {
   }
 }
 
+/// @nodoc
 class DnssecLimitExceeded extends _s.GenericAwsException {
   DnssecLimitExceeded({String? type, String? message})
       : super(type: type, code: 'DnssecLimitExceeded', message: message);
 }
 
+/// @nodoc
 class DomainLimitExceeded extends _s.GenericAwsException {
   DomainLimitExceeded({String? type, String? message})
       : super(type: type, code: 'DomainLimitExceeded', message: message);
 }
 
+/// @nodoc
 class DuplicateRequest extends _s.GenericAwsException {
   DuplicateRequest({String? type, String? message})
       : super(type: type, code: 'DuplicateRequest', message: message);
 }
 
+/// @nodoc
 class InvalidInput extends _s.GenericAwsException {
   InvalidInput({String? type, String? message})
       : super(type: type, code: 'InvalidInput', message: message);
 }
 
+/// @nodoc
 class OperationLimitExceeded extends _s.GenericAwsException {
   OperationLimitExceeded({String? type, String? message})
       : super(type: type, code: 'OperationLimitExceeded', message: message);
 }
 
+/// @nodoc
 class TLDInMaintenance extends _s.GenericAwsException {
   TLDInMaintenance({String? type, String? message})
       : super(type: type, code: 'TLDInMaintenance', message: message);
 }
 
+/// @nodoc
 class TLDRulesViolation extends _s.GenericAwsException {
   TLDRulesViolation({String? type, String? message})
       : super(type: type, code: 'TLDRulesViolation', message: message);
 }
 
+/// @nodoc
 class UnsupportedTLD extends _s.GenericAwsException {
   UnsupportedTLD({String? type, String? message})
       : super(type: type, code: 'UnsupportedTLD', message: message);

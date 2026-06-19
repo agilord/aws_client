@@ -4430,6 +4430,7 @@ class Route53 {
   }
 }
 
+/// @nodoc
 class ActivateKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
@@ -4452,6 +4453,8 @@ class ActivateKeySigningKeyResponse {
 
 /// A complex type that contains information about the request to associate a
 /// VPC with a private hosted zone.
+///
+/// @nodoc
 class AssociateVPCWithHostedZoneRequest {
   /// The ID of the private hosted zone that you want to associate an Amazon VPC
   /// with.
@@ -4504,6 +4507,8 @@ class AssociateVPCWithHostedZoneRequest {
 
 /// A complex type that contains the response information for the
 /// <code>AssociateVPCWithHostedZone</code> request.
+///
+/// @nodoc
 class AssociateVPCWithHostedZoneResponse {
   /// A complex type that describes the changes made to your hosted zone.
   final ChangeInfo changeInfo;
@@ -4525,6 +4530,7 @@ class AssociateVPCWithHostedZoneResponse {
   }
 }
 
+/// @nodoc
 class ChangeCidrCollectionRequest {
   /// Information about changes to a CIDR collection.
   final List<CidrCollectionChange> changes;
@@ -4592,6 +4598,7 @@ class ChangeCidrCollectionRequest {
   }
 }
 
+/// @nodoc
 class ChangeCidrCollectionResponse {
   /// The ID that is returned by <code>ChangeCidrCollection</code>. You can use it
   /// as input to <code>GetChange</code> to see if a CIDR collection change has
@@ -4616,6 +4623,8 @@ class ChangeCidrCollectionResponse {
 }
 
 /// A complex type that contains change information for the resource record set.
+///
+/// @nodoc
 class ChangeResourceRecordSetsRequest {
   /// A complex type that contains an optional comment and the
   /// <code>Changes</code> element.
@@ -4656,6 +4665,8 @@ class ChangeResourceRecordSetsRequest {
 }
 
 /// A complex type containing the response for the request.
+///
+/// @nodoc
 class ChangeResourceRecordSetsResponse {
   /// A complex type that contains information about changes made to your hosted
   /// zone.
@@ -4684,6 +4695,8 @@ class ChangeResourceRecordSetsResponse {
 
 /// A complex type that contains information about the tags that you want to
 /// add, edit, or delete.
+///
+/// @nodoc
 class ChangeTagsForResourceRequest {
   /// The ID of the resource for which you want to add, change, or delete tags.
   final String resourceId;
@@ -4754,6 +4767,8 @@ class ChangeTagsForResourceRequest {
 }
 
 /// Empty response for the request.
+///
+/// @nodoc
 class ChangeTagsForResourceResponse {
   ChangeTagsForResourceResponse();
   factory ChangeTagsForResourceResponse.fromXml(
@@ -4767,6 +4782,7 @@ class ChangeTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateCidrCollectionRequest {
   /// A client-specific token that allows requests to be securely retried so that
   /// the intended outcome will only occur once, retries receive a similar
@@ -4809,6 +4825,7 @@ class CreateCidrCollectionRequest {
   }
 }
 
+/// @nodoc
 class CreateCidrCollectionResponse {
   /// A complex type that contains information about the CIDR collection.
   final CidrCollection? collection;
@@ -4831,6 +4848,8 @@ class CreateCidrCollectionResponse {
 }
 
 /// A complex type that contains the health check request information.
+///
+/// @nodoc
 class CreateHealthCheckRequest {
   /// A unique string that identifies the request and that allows you to retry a
   /// failed <code>CreateHealthCheck</code> request without the risk of creating
@@ -4901,6 +4920,8 @@ class CreateHealthCheckRequest {
 }
 
 /// A complex type containing the response information for the new health check.
+///
+/// @nodoc
 class CreateHealthCheckResponse {
   /// A complex type that contains identifying information about the health check.
   final HealthCheck healthCheck;
@@ -4924,6 +4945,8 @@ class CreateHealthCheckResponse {
 
 /// A complex type that contains information about the request to create a
 /// public or private hosted zone.
+///
+/// @nodoc
 class CreateHostedZoneRequest {
   /// A unique string that identifies the request and that allows failed
   /// <code>CreateHostedZone</code> requests to be retried without the risk of
@@ -5032,6 +5055,8 @@ class CreateHostedZoneRequest {
 }
 
 /// A complex type containing the response information for the hosted zone.
+///
+/// @nodoc
 class CreateHostedZoneResponse {
   /// A complex type that contains information about the
   /// <code>CreateHostedZone</code> request.
@@ -5073,6 +5098,7 @@ class CreateHostedZoneResponse {
   }
 }
 
+/// @nodoc
 class CreateKeySigningKeyRequest {
   /// A unique string that identifies the request.
   final String callerReference;
@@ -5178,6 +5204,7 @@ class CreateKeySigningKeyRequest {
   }
 }
 
+/// @nodoc
 class CreateKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
@@ -5204,6 +5231,7 @@ class CreateKeySigningKeyResponse {
   }
 }
 
+/// @nodoc
 class CreateQueryLoggingConfigRequest {
   /// The Amazon Resource Name (ARN) for the log group that you want to Amazon
   /// Route 53 to send query logs to. This is the format of the ARN:
@@ -5254,6 +5282,7 @@ class CreateQueryLoggingConfigRequest {
   }
 }
 
+/// @nodoc
 class CreateQueryLoggingConfigResponse {
   /// The unique URL representing the new query logging configuration.
   final String location;
@@ -5277,6 +5306,7 @@ class CreateQueryLoggingConfigResponse {
   }
 }
 
+/// @nodoc
 class CreateReusableDelegationSetRequest {
   /// A unique string that identifies the request, and that allows you to retry
   /// failed <code>CreateReusableDelegationSet</code> requests without the risk of
@@ -5324,6 +5354,7 @@ class CreateReusableDelegationSetRequest {
   }
 }
 
+/// @nodoc
 class CreateReusableDelegationSetResponse {
   /// A complex type that contains name server information.
   final DelegationSet delegationSet;
@@ -5347,6 +5378,8 @@ class CreateReusableDelegationSetResponse {
 
 /// A complex type that contains information about the traffic policy that you
 /// want to create.
+///
+/// @nodoc
 class CreateTrafficPolicyRequest {
   /// The definition of this traffic policy in JSON format. For more information,
   /// see <a
@@ -5399,6 +5432,8 @@ class CreateTrafficPolicyRequest {
 
 /// A complex type that contains the response information for the
 /// <code>CreateTrafficPolicy</code> request.
+///
+/// @nodoc
 class CreateTrafficPolicyResponse {
   /// A unique URL that represents a new traffic policy.
   final String location;
@@ -5422,6 +5457,8 @@ class CreateTrafficPolicyResponse {
 
 /// A complex type that contains information about the resource record sets that
 /// you want to create based on a specified traffic policy.
+///
+/// @nodoc
 class CreateTrafficPolicyInstanceRequest {
   /// The ID of the hosted zone that you want Amazon Route 53 to create resource
   /// record sets in by using the configuration in a traffic policy.
@@ -5494,6 +5531,8 @@ class CreateTrafficPolicyInstanceRequest {
 
 /// A complex type that contains the response information for the
 /// <code>CreateTrafficPolicyInstance</code> request.
+///
+/// @nodoc
 class CreateTrafficPolicyInstanceResponse {
   /// A unique URL that represents a new traffic policy instance.
   final String location;
@@ -5517,6 +5556,8 @@ class CreateTrafficPolicyInstanceResponse {
 
 /// A complex type that contains information about the traffic policy that you
 /// want to create a new version for.
+///
+/// @nodoc
 class CreateTrafficPolicyVersionRequest {
   /// The definition of this version of the traffic policy, in JSON format. You
   /// specified the JSON in the <code>CreateTrafficPolicyVersion</code> request.
@@ -5568,6 +5609,8 @@ class CreateTrafficPolicyVersionRequest {
 
 /// A complex type that contains the response information for the
 /// <code>CreateTrafficPolicyVersion</code> request.
+///
+/// @nodoc
 class CreateTrafficPolicyVersionResponse {
   /// A unique URL that represents a new traffic policy version.
   final String location;
@@ -5594,6 +5637,8 @@ class CreateTrafficPolicyVersionResponse {
 /// associating a VPC with your private hosted zone. Authorization is only
 /// required when a private hosted zone and a VPC were created by using
 /// different accounts.
+///
+/// @nodoc
 class CreateVPCAssociationAuthorizationRequest {
   /// The ID of the private hosted zone that you want to authorize associating a
   /// VPC with.
@@ -5635,6 +5680,8 @@ class CreateVPCAssociationAuthorizationRequest {
 
 /// A complex type that contains the response information from a
 /// <code>CreateVPCAssociationAuthorization</code> request.
+///
+/// @nodoc
 class CreateVPCAssociationAuthorizationResponse {
   /// The ID of the hosted zone that you authorized associating a VPC with.
   final String hostedZoneId;
@@ -5664,6 +5711,7 @@ class CreateVPCAssociationAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class DeactivateKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
@@ -5684,6 +5732,7 @@ class DeactivateKeySigningKeyResponse {
   }
 }
 
+/// @nodoc
 class DeleteCidrCollectionResponse {
   DeleteCidrCollectionResponse();
   factory DeleteCidrCollectionResponse.fromXml(
@@ -5698,6 +5747,8 @@ class DeleteCidrCollectionResponse {
 }
 
 /// An empty element.
+///
+/// @nodoc
 class DeleteHealthCheckResponse {
   DeleteHealthCheckResponse();
   factory DeleteHealthCheckResponse.fromXml(
@@ -5713,6 +5764,8 @@ class DeleteHealthCheckResponse {
 
 /// A complex type that contains the response to a <code>DeleteHostedZone</code>
 /// request.
+///
+/// @nodoc
 class DeleteHostedZoneResponse {
   /// A complex type that contains the ID, the status, and the date and time of a
   /// request to delete a hosted zone.
@@ -5735,6 +5788,7 @@ class DeleteHostedZoneResponse {
   }
 }
 
+/// @nodoc
 class DeleteKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
@@ -5755,6 +5809,7 @@ class DeleteKeySigningKeyResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueryLoggingConfigResponse {
   DeleteQueryLoggingConfigResponse();
   factory DeleteQueryLoggingConfigResponse.fromXml(
@@ -5769,6 +5824,8 @@ class DeleteQueryLoggingConfigResponse {
 }
 
 /// An empty element.
+///
+/// @nodoc
 class DeleteReusableDelegationSetResponse {
   DeleteReusableDelegationSetResponse();
   factory DeleteReusableDelegationSetResponse.fromXml(
@@ -5783,6 +5840,8 @@ class DeleteReusableDelegationSetResponse {
 }
 
 /// An empty element.
+///
+/// @nodoc
 class DeleteTrafficPolicyResponse {
   DeleteTrafficPolicyResponse();
   factory DeleteTrafficPolicyResponse.fromXml(
@@ -5797,6 +5856,8 @@ class DeleteTrafficPolicyResponse {
 }
 
 /// An empty element.
+///
+/// @nodoc
 class DeleteTrafficPolicyInstanceResponse {
   DeleteTrafficPolicyInstanceResponse();
   factory DeleteTrafficPolicyInstanceResponse.fromXml(
@@ -5814,6 +5875,8 @@ class DeleteTrafficPolicyInstanceResponse {
 /// authorization to associate a VPC that was created by one Amazon Web Services
 /// account with a hosted zone that was created with a different Amazon Web
 /// Services account.
+///
+/// @nodoc
 class DeleteVPCAssociationAuthorizationRequest {
   /// When removing authorization to associate a VPC that was created by one
   /// Amazon Web Services account with a hosted zone that was created with a
@@ -5857,6 +5920,8 @@ class DeleteVPCAssociationAuthorizationRequest {
 }
 
 /// Empty response for the request.
+///
+/// @nodoc
 class DeleteVPCAssociationAuthorizationResponse {
   DeleteVPCAssociationAuthorizationResponse();
   factory DeleteVPCAssociationAuthorizationResponse.fromXml(
@@ -5870,6 +5935,7 @@ class DeleteVPCAssociationAuthorizationResponse {
   }
 }
 
+/// @nodoc
 class DisableHostedZoneDNSSECResponse {
   final ChangeInfo changeInfo;
 
@@ -5892,6 +5958,8 @@ class DisableHostedZoneDNSSECResponse {
 
 /// A complex type that contains information about the VPC that you want to
 /// disassociate from a specified private hosted zone.
+///
+/// @nodoc
 class DisassociateVPCFromHostedZoneRequest {
   /// The ID of the private hosted zone that you want to disassociate a VPC from.
   final String hostedZoneId;
@@ -5940,6 +6008,8 @@ class DisassociateVPCFromHostedZoneRequest {
 
 /// A complex type that contains the response information for the disassociate
 /// request.
+///
+/// @nodoc
 class DisassociateVPCFromHostedZoneResponse {
   /// A complex type that describes the changes made to the specified private
   /// hosted zone.
@@ -5962,6 +6032,7 @@ class DisassociateVPCFromHostedZoneResponse {
   }
 }
 
+/// @nodoc
 class EnableHostedZoneDNSSECResponse {
   final ChangeInfo changeInfo;
 
@@ -5983,6 +6054,8 @@ class EnableHostedZoneDNSSECResponse {
 }
 
 /// A complex type that contains the requested limit.
+///
+/// @nodoc
 class GetAccountLimitResponse {
   /// The current number of entities that you have created of the specified type.
   /// For example, if you specified <code>MAX_HEALTH_CHECKS_BY_OWNER</code> for
@@ -6019,6 +6092,8 @@ class GetAccountLimitResponse {
 }
 
 /// A complex type that contains the <code>ChangeInfo</code> element.
+///
+/// @nodoc
 class GetChangeResponse {
   /// A complex type that contains information about the specified change batch.
   final ChangeInfo changeInfo;
@@ -6041,6 +6116,8 @@ class GetChangeResponse {
 }
 
 /// A complex type that contains the <code>CheckerIpRanges</code> element.
+///
+/// @nodoc
 class GetCheckerIpRangesResponse {
   /// A complex type that contains sorted list of IP ranges in CIDR format for
   /// Amazon Route 53 health checkers.
@@ -6064,6 +6141,7 @@ class GetCheckerIpRangesResponse {
   }
 }
 
+/// @nodoc
 class GetDNSSECResponse {
   /// The key-signing keys (KSKs) in your account.
   final List<KeySigningKey> keySigningKeys;
@@ -6098,6 +6176,8 @@ class GetDNSSECResponse {
 
 /// A complex type that contains the response information for the specified
 /// geolocation code.
+///
+/// @nodoc
 class GetGeoLocationResponse {
   /// A complex type that contains the codes and full continent, country, and
   /// subdivision names for the specified geolocation code.
@@ -6123,6 +6203,8 @@ class GetGeoLocationResponse {
 
 /// A complex type that contains the response to a <code>GetHealthCheck</code>
 /// request.
+///
+/// @nodoc
 class GetHealthCheckResponse {
   /// A complex type that contains information about one health check that is
   /// associated with the current Amazon Web Services account.
@@ -6148,6 +6230,8 @@ class GetHealthCheckResponse {
 
 /// A complex type that contains the response to a
 /// <code>GetHealthCheckCount</code> request.
+///
+/// @nodoc
 class GetHealthCheckCountResponse {
   /// The number of health checks associated with the current Amazon Web Services
   /// account.
@@ -6172,6 +6256,8 @@ class GetHealthCheckCountResponse {
 
 /// A complex type that contains the response to a
 /// <code>GetHealthCheckLastFailureReason</code> request.
+///
+/// @nodoc
 class GetHealthCheckLastFailureReasonResponse {
   /// A list that contains one <code>Observation</code> element for each Amazon
   /// Route 53 health checker that is reporting a last failure reason.
@@ -6200,6 +6286,8 @@ class GetHealthCheckLastFailureReasonResponse {
 
 /// A complex type that contains the response to a <code>GetHealthCheck</code>
 /// request.
+///
+/// @nodoc
 class GetHealthCheckStatusResponse {
   /// A list that contains one <code>HealthCheckObservation</code> element for
   /// each Amazon Route 53 health checker that is reporting a status about the
@@ -6229,6 +6317,8 @@ class GetHealthCheckStatusResponse {
 
 /// A complex type that contain the response to a <code>GetHostedZone</code>
 /// request.
+///
+/// @nodoc
 class GetHostedZoneResponse {
   /// A complex type that contains general information about the specified hosted
   /// zone.
@@ -6272,6 +6362,8 @@ class GetHostedZoneResponse {
 
 /// A complex type that contains the response to a
 /// <code>GetHostedZoneCount</code> request.
+///
+/// @nodoc
 class GetHostedZoneCountResponse {
   /// The total number of public and private hosted zones that are associated with
   /// the current Amazon Web Services account.
@@ -6295,6 +6387,8 @@ class GetHostedZoneCountResponse {
 }
 
 /// A complex type that contains the requested limit.
+///
+/// @nodoc
 class GetHostedZoneLimitResponse {
   /// The current number of entities that you have created of the specified type.
   /// For example, if you specified <code>MAX_RRSETS_BY_ZONE</code> for the value
@@ -6330,6 +6424,7 @@ class GetHostedZoneLimitResponse {
   }
 }
 
+/// @nodoc
 class GetQueryLoggingConfigResponse {
   /// A complex type that contains information about the query logging
   /// configuration that you specified in a <a
@@ -6357,6 +6452,8 @@ class GetQueryLoggingConfigResponse {
 
 /// A complex type that contains the response to the
 /// <code>GetReusableDelegationSet</code> request.
+///
+/// @nodoc
 class GetReusableDelegationSetResponse {
   /// A complex type that contains information about the reusable delegation set.
   final DelegationSet delegationSet;
@@ -6380,6 +6477,8 @@ class GetReusableDelegationSetResponse {
 }
 
 /// A complex type that contains the requested limit.
+///
+/// @nodoc
 class GetReusableDelegationSetLimitResponse {
   /// The current number of hosted zones that you can associate with the specified
   /// reusable delegation set.
@@ -6412,6 +6511,8 @@ class GetReusableDelegationSetLimitResponse {
 }
 
 /// A complex type that contains the response information for the request.
+///
+/// @nodoc
 class GetTrafficPolicyResponse {
   /// A complex type that contains settings for the specified traffic policy.
   final TrafficPolicy trafficPolicy;
@@ -6436,6 +6537,8 @@ class GetTrafficPolicyResponse {
 
 /// A complex type that contains information about the resource record sets that
 /// Amazon Route 53 created based on a specified traffic policy.
+///
+/// @nodoc
 class GetTrafficPolicyInstanceResponse {
   /// A complex type that contains settings for the traffic policy instance.
   final TrafficPolicyInstance trafficPolicyInstance;
@@ -6460,6 +6563,8 @@ class GetTrafficPolicyInstanceResponse {
 
 /// A complex type that contains information about the resource record sets that
 /// Amazon Route 53 created based on a specified traffic policy.
+///
+/// @nodoc
 class GetTrafficPolicyInstanceCountResponse {
   /// The number of traffic policy instances that are associated with the current
   /// Amazon Web Services account.
@@ -6483,6 +6588,7 @@ class GetTrafficPolicyInstanceCountResponse {
   }
 }
 
+/// @nodoc
 class ListCidrBlocksResponse {
   /// A complex type that contains information about the CIDR blocks.
   final List<CidrBlockSummary>? cidrBlocks;
@@ -6515,6 +6621,7 @@ class ListCidrBlocksResponse {
   }
 }
 
+/// @nodoc
 class ListCidrCollectionsResponse {
   /// A complex type with information about the CIDR collection.
   final List<CollectionSummary>? cidrCollections;
@@ -6550,6 +6657,7 @@ class ListCidrCollectionsResponse {
   }
 }
 
+/// @nodoc
 class ListCidrLocationsResponse {
   /// A complex type that contains information about the list of CIDR locations.
   final List<LocationSummary>? cidrLocations;
@@ -6583,6 +6691,8 @@ class ListCidrLocationsResponse {
 }
 
 /// A complex type containing the response information for the request.
+///
+/// @nodoc
 class ListGeoLocationsResponse {
   /// A complex type that contains one <code>GeoLocationDetails</code> element for
   /// each location that Amazon Route 53 supports for geolocation.
@@ -6663,6 +6773,8 @@ class ListGeoLocationsResponse {
 
 /// A complex type that contains the response to a <code>ListHealthChecks</code>
 /// request.
+///
+/// @nodoc
 class ListHealthChecksResponse {
   /// A complex type that contains one <code>HealthCheck</code> element for each
   /// health check that is associated with the current Amazon Web Services
@@ -6728,6 +6840,7 @@ class ListHealthChecksResponse {
   }
 }
 
+/// @nodoc
 class ListHostedZonesResponse {
   /// A complex type that contains general information about the hosted zone.
   final List<HostedZone> hostedZones;
@@ -6796,6 +6909,8 @@ class ListHostedZonesResponse {
 }
 
 /// A complex type that contains the response information for the request.
+///
+/// @nodoc
 class ListHostedZonesByNameResponse {
   /// A complex type that contains general information about the hosted zone.
   final List<HostedZone> hostedZones;
@@ -6889,6 +7004,7 @@ class ListHostedZonesByNameResponse {
   }
 }
 
+/// @nodoc
 class ListHostedZonesByVPCResponse {
   /// A list that contains one <code>HostedZoneSummary</code> element for each
   /// hosted zone that the specified Amazon VPC is associated with. Each
@@ -6933,6 +7049,7 @@ class ListHostedZonesByVPCResponse {
   }
 }
 
+/// @nodoc
 class ListQueryLoggingConfigsResponse {
   /// An array that contains one <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_QueryLoggingConfig.html">QueryLoggingConfig</a>
@@ -6978,6 +7095,8 @@ class ListQueryLoggingConfigsResponse {
 }
 
 /// A complex type that contains list information for the resource record set.
+///
+/// @nodoc
 class ListResourceRecordSetsResponse {
   /// A flag that indicates whether more resource record sets remain to be listed.
   /// If your results were truncated, you can make a follow-up pagination request
@@ -7057,6 +7176,8 @@ class ListResourceRecordSetsResponse {
 
 /// A complex type that contains information about the reusable delegation sets
 /// that are associated with the current Amazon Web Services account.
+///
+/// @nodoc
 class ListReusableDelegationSetsResponse {
   /// A complex type that contains one <code>DelegationSet</code> element for each
   /// reusable delegation set that was created by the current Amazon Web Services
@@ -7124,6 +7245,8 @@ class ListReusableDelegationSetsResponse {
 
 /// A complex type that contains information about the health checks or hosted
 /// zones for which you want to list tags.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A <code>ResourceTagSet</code> containing tags associated with the specified
   /// resource.
@@ -7149,6 +7272,8 @@ class ListTagsForResourceResponse {
 
 /// A complex type that contains information about the health checks or hosted
 /// zones for which you want to list tags.
+///
+/// @nodoc
 class ListTagsForResourcesRequest {
   /// A complex type that contains the ResourceId element for each resource for
   /// which you want to get a list of tags.
@@ -7198,6 +7323,8 @@ class ListTagsForResourcesRequest {
 }
 
 /// A complex type containing tags for the specified resources.
+///
+/// @nodoc
 class ListTagsForResourcesResponse {
   /// A list of <code>ResourceTagSet</code>s containing tags associated with the
   /// specified resources.
@@ -7225,6 +7352,8 @@ class ListTagsForResourcesResponse {
 }
 
 /// A complex type that contains the response information for the request.
+///
+/// @nodoc
 class ListTrafficPoliciesResponse {
   /// A flag that indicates whether there are more traffic policies to be listed.
   /// If the response was truncated, you can get the next group of traffic
@@ -7281,6 +7410,8 @@ class ListTrafficPoliciesResponse {
 }
 
 /// A complex type that contains the response information for the request.
+///
+/// @nodoc
 class ListTrafficPolicyInstancesResponse {
   /// A flag that indicates whether there are more traffic policy instances to be
   /// listed. If the response was truncated, you can get more traffic policy
@@ -7369,6 +7500,8 @@ class ListTrafficPolicyInstancesResponse {
 }
 
 /// A complex type that contains the response information for the request.
+///
+/// @nodoc
 class ListTrafficPolicyInstancesByHostedZoneResponse {
   /// A flag that indicates whether there are more traffic policy instances to be
   /// listed. If the response was truncated, you can get the next group of traffic
@@ -7447,6 +7580,8 @@ class ListTrafficPolicyInstancesByHostedZoneResponse {
 }
 
 /// A complex type that contains the response information for the request.
+///
+/// @nodoc
 class ListTrafficPolicyInstancesByPolicyResponse {
   /// A flag that indicates whether there are more traffic policy instances to be
   /// listed. If the response was truncated, you can get the next group of traffic
@@ -7534,6 +7669,8 @@ class ListTrafficPolicyInstancesByPolicyResponse {
 }
 
 /// A complex type that contains the response information for the request.
+///
+/// @nodoc
 class ListTrafficPolicyVersionsResponse {
   /// A flag that indicates whether there are more traffic policies to be listed.
   /// If the response was truncated, you can get the next group of traffic
@@ -7597,6 +7734,8 @@ class ListTrafficPolicyVersionsResponse {
 }
 
 /// A complex type that contains the response information for the request.
+///
+/// @nodoc
 class ListVPCAssociationAuthorizationsResponse {
   /// The ID of the hosted zone that you can associate the listed VPCs with.
   final String hostedZoneId;
@@ -7643,6 +7782,8 @@ class ListVPCAssociationAuthorizationsResponse {
 
 /// A complex type that contains the response to a <code>TestDNSAnswer</code>
 /// request.
+///
+/// @nodoc
 class TestDNSAnswerResponse {
   /// The Amazon Route 53 name server used to respond to the request.
   final String nameserver;
@@ -7710,6 +7851,8 @@ class TestDNSAnswerResponse {
 
 /// A complex type that contains information about a request to update a health
 /// check.
+///
+/// @nodoc
 class UpdateHealthCheckRequest {
   /// The ID for the health check for which you want detailed information. When
   /// you created the health check, <code>CreateHealthCheck</code> returned the ID
@@ -8207,6 +8350,8 @@ class UpdateHealthCheckRequest {
 
 /// A complex type that contains the response to the
 /// <code>UpdateHealthCheck</code> request.
+///
+/// @nodoc
 class UpdateHealthCheckResponse {
   /// A complex type that contains the response to an
   /// <code>UpdateHealthCheck</code> request.
@@ -8231,6 +8376,8 @@ class UpdateHealthCheckResponse {
 }
 
 /// A request to update the comment for a hosted zone.
+///
+/// @nodoc
 class UpdateHostedZoneCommentRequest {
   /// The ID for the hosted zone that you want to update the comment for.
   final String id;
@@ -8272,6 +8419,8 @@ class UpdateHostedZoneCommentRequest {
 
 /// A complex type that contains the response to the
 /// <code>UpdateHostedZoneComment</code> request.
+///
+/// @nodoc
 class UpdateHostedZoneCommentResponse {
   /// A complex type that contains the response to the
   /// <code>UpdateHostedZoneComment</code> request.
@@ -8294,6 +8443,7 @@ class UpdateHostedZoneCommentResponse {
   }
 }
 
+/// @nodoc
 class UpdateHostedZoneFeaturesRequest {
   /// The ID of the hosted zone for which you want to update features. This is the
   /// unique identifier for your hosted zone.
@@ -8337,6 +8487,7 @@ class UpdateHostedZoneFeaturesRequest {
   }
 }
 
+/// @nodoc
 class UpdateHostedZoneFeaturesResponse {
   UpdateHostedZoneFeaturesResponse();
   factory UpdateHostedZoneFeaturesResponse.fromXml(
@@ -8352,6 +8503,8 @@ class UpdateHostedZoneFeaturesResponse {
 
 /// A complex type that contains information about the traffic policy that you
 /// want to update the comment for.
+///
+/// @nodoc
 class UpdateTrafficPolicyCommentRequest {
   /// The new comment for the specified traffic policy and version.
   final String comment;
@@ -8399,6 +8552,8 @@ class UpdateTrafficPolicyCommentRequest {
 
 /// A complex type that contains the response information for the traffic
 /// policy.
+///
+/// @nodoc
 class UpdateTrafficPolicyCommentResponse {
   /// A complex type that contains settings for the specified traffic policy.
   final TrafficPolicy trafficPolicy;
@@ -8423,6 +8578,8 @@ class UpdateTrafficPolicyCommentResponse {
 
 /// A complex type that contains information about the resource record sets that
 /// you want to update based on a specified traffic policy instance.
+///
+/// @nodoc
 class UpdateTrafficPolicyInstanceRequest {
   /// The ID of the traffic policy instance that you want to update.
   final String id;
@@ -8481,6 +8638,8 @@ class UpdateTrafficPolicyInstanceRequest {
 
 /// A complex type that contains information about the resource record sets that
 /// Amazon Route 53 created based on a specified traffic policy.
+///
+/// @nodoc
 class UpdateTrafficPolicyInstanceResponse {
   /// A complex type that contains settings for the updated traffic policy
   /// instance.
@@ -8505,6 +8664,8 @@ class UpdateTrafficPolicyInstanceResponse {
 }
 
 /// A complex type that contains settings for the new traffic policy instance.
+///
+/// @nodoc
 class TrafficPolicyInstance {
   /// The ID of the hosted zone that Amazon Route 53 created resource record sets
   /// in.
@@ -8606,6 +8767,7 @@ class TrafficPolicyInstance {
   }
 }
 
+/// @nodoc
 class RRType {
   static const soa = RRType._('SOA');
   static const a = RRType._('A');
@@ -8663,6 +8825,8 @@ class RRType {
 }
 
 /// A complex type that contains settings for a traffic policy.
+///
+/// @nodoc
 class TrafficPolicy {
   /// The definition of a traffic policy in JSON format. You specify the JSON
   /// document to use for a new traffic policy in the
@@ -8729,6 +8893,8 @@ class TrafficPolicy {
 }
 
 /// A complex type that contains general information about the hosted zone.
+///
+/// @nodoc
 class HostedZone {
   /// The value that you specified for <code>CallerReference</code> when you
   /// created the hosted zone.
@@ -8813,6 +8979,8 @@ class HostedZone {
 /// A complex type that contains an optional comment about your hosted zone. If
 /// you don't want to specify a comment, omit both the
 /// <code>HostedZoneConfig</code> and <code>Comment</code> elements.
+///
+/// @nodoc
 class HostedZoneConfig {
   /// Any comments that you want to include about the hosted zone.
   final String? comment;
@@ -8863,6 +9031,8 @@ class HostedZoneConfig {
 /// <code>LinkedService</code> is a complex type that describes the service that
 /// created the resource. When a resource is created by another service, you
 /// can't edit or delete it using Amazon Route 53.
+///
+/// @nodoc
 class LinkedService {
   /// If the health check or hosted zone was created by another service, an
   /// optional description that can be provided by the other service. When a
@@ -8898,6 +9068,8 @@ class LinkedService {
 
 /// Represents the features configuration for a hosted zone, including the
 /// status of various features and any associated failure reasons.
+///
+/// @nodoc
 class HostedZoneFeatures {
   /// The current status of accelerated recovery for the hosted zone.
   final AcceleratedRecoveryStatus? acceleratedRecoveryStatus;
@@ -8932,6 +9104,7 @@ class HostedZoneFeatures {
   }
 }
 
+/// @nodoc
 class AcceleratedRecoveryStatus {
   static const enabling = AcceleratedRecoveryStatus._('ENABLING');
   static const enableFailed = AcceleratedRecoveryStatus._('ENABLE_FAILED');
@@ -8976,6 +9149,8 @@ class AcceleratedRecoveryStatus {
 
 /// Contains information about why certain features failed to be enabled or
 /// configured for the hosted zone.
+///
+/// @nodoc
 class HostedZoneFailureReasons {
   /// The reason why accelerated recovery failed to be enabled or disabled for the
   /// hosted zone, if applicable.
@@ -9002,6 +9177,8 @@ class HostedZoneFailureReasons {
 
 /// A complex type that contains information about one health check that is
 /// associated with the current Amazon Web Services account.
+///
+/// @nodoc
 class HealthCheck {
   /// A unique string that you specified when you created the health check.
   final String callerReference;
@@ -9072,6 +9249,8 @@ class HealthCheck {
 }
 
 /// A complex type that contains information about the health check.
+///
+/// @nodoc
 class HealthCheckConfig {
   /// The type of health check that you want to create, which indicates how Amazon
   /// Route 53 determines whether an endpoint is healthy.
@@ -9631,6 +9810,8 @@ class HealthCheckConfig {
 
 /// A complex type that contains information about the CloudWatch alarm that
 /// Amazon Route 53 is monitoring for this health check.
+///
+/// @nodoc
 class CloudWatchAlarmConfiguration {
   /// For the metric that the CloudWatch alarm is associated with, the arithmetic
   /// operation that is used for the comparison.
@@ -9720,6 +9901,7 @@ class CloudWatchAlarmConfiguration {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const greaterThanOrEqualToThreshold =
       ComparisonOperator._('GreaterThanOrEqualToThreshold');
@@ -9755,6 +9937,7 @@ class ComparisonOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class Statistic {
   static const average = Statistic._('Average');
   static const sum = Statistic._('Sum');
@@ -9783,6 +9966,8 @@ class Statistic {
 
 /// For the metric that the CloudWatch alarm is associated with, a complex type
 /// that contains information about one dimension.
+///
+/// @nodoc
 class Dimension {
   /// For the metric that the CloudWatch alarm is associated with, the name of one
   /// dimension.
@@ -9813,6 +9998,7 @@ class Dimension {
   }
 }
 
+/// @nodoc
 class HealthCheckType {
   static const http = HealthCheckType._('HTTP');
   static const https = HealthCheckType._('HTTPS');
@@ -9855,6 +10041,8 @@ class HealthCheckType {
 /// A complex type that identifies the CloudWatch alarm that you want Amazon
 /// Route 53 health checkers to use to determine whether the specified health
 /// check is healthy.
+///
+/// @nodoc
 class AlarmIdentifier {
   /// The name of the CloudWatch alarm that you want Amazon Route 53 health
   /// checkers to use to determine whether this health check is healthy.
@@ -9925,6 +10113,7 @@ class AlarmIdentifier {
   }
 }
 
+/// @nodoc
 class InsufficientDataHealthStatus {
   static const healthy = InsufficientDataHealthStatus._('Healthy');
   static const unhealthy = InsufficientDataHealthStatus._('Unhealthy');
@@ -9952,6 +10141,7 @@ class InsufficientDataHealthStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CloudWatchRegion {
   static const usEast_1 = CloudWatchRegion._('us-east-1');
   static const usEast_2 = CloudWatchRegion._('us-east-2');
@@ -10067,6 +10257,7 @@ class CloudWatchRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class HealthCheckRegion {
   static const usEast_1 = HealthCheckRegion._('us-east-1');
   static const usWest_1 = HealthCheckRegion._('us-west-1');
@@ -10106,6 +10297,7 @@ class HealthCheckRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class ResettableElementName {
   static const fullyQualifiedDomainName =
       ResettableElementName._('FullyQualifiedDomainName');
@@ -10145,6 +10337,8 @@ class ResettableElementName {
 /// If you associate a private hosted zone with an Amazon VPC when you make a <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>
 /// request, the following parameters are also required.
+///
+/// @nodoc
 class VPC {
   final String? vPCId;
 
@@ -10192,6 +10386,7 @@ class VPC {
   }
 }
 
+/// @nodoc
 class VPCRegion {
   static const usEast_1 = VPCRegion._('us-east-1');
   static const usEast_2 = VPCRegion._('us-east-2');
@@ -10309,6 +10504,8 @@ class VPCRegion {
 /// A complex type that contains information about the latest version of one
 /// traffic policy that is associated with the current Amazon Web Services
 /// account.
+///
+/// @nodoc
 class TrafficPolicySummary {
   /// The ID that Amazon Route 53 assigned to the traffic policy when you created
   /// it.
@@ -10362,6 +10559,8 @@ class TrafficPolicySummary {
 }
 
 /// A complex type containing a resource and its associated tags.
+///
+/// @nodoc
 class ResourceTagSet {
   /// The ID for the specified resource.
   final String? resourceId;
@@ -10410,6 +10609,7 @@ class ResourceTagSet {
   }
 }
 
+/// @nodoc
 class TagResourceType {
   static const healthcheck = TagResourceType._('healthcheck');
   static const hostedzone = TagResourceType._('hostedzone');
@@ -10436,6 +10636,8 @@ class TagResourceType {
 
 /// A complex type that contains information about a tag that you want to add or
 /// edit for the specified health check or hosted zone.
+///
+/// @nodoc
 class Tag {
   /// The value of <code>Key</code> depends on the operation that you want to
   /// perform:
@@ -10518,6 +10720,8 @@ class Tag {
 /// A complex type that lists the name servers in a delegation set, as well as
 /// the <code>CallerReference</code> and the <code>ID</code> for the delegation
 /// set.
+///
+/// @nodoc
 class DelegationSet {
   /// A complex type that contains a list of the authoritative name servers for a
   /// hosted zone or for a reusable delegation set.
@@ -10557,6 +10761,8 @@ class DelegationSet {
 }
 
 /// Information about the resource record set to create or delete.
+///
+/// @nodoc
 class ResourceRecordSet {
   /// For <code>ChangeResourceRecordSets</code> requests, the name of the record
   /// that you want to create, update, or delete. For
@@ -10628,10 +10834,10 @@ class ResourceRecordSet {
   /// messages. However, we no longer recommend that you create resource record
   /// sets for which the value of <code>Type</code> is <code>SPF</code>. RFC 7208,
   /// <i>Sender Policy Framework (SPF) for Authorizing Use of Domains in Email,
-  /// Version 1</i>, has been updated to say, "...[I]ts existence and mechanism
-  /// defined in [RFC4408] have led to some interoperability issues. Accordingly,
-  /// its use is no longer appropriate for SPF version 1; implementations are not
-  /// to use it." In RFC 7208, see section 14.1, <a
+  /// Version 1</i>, has been updated to say, "...\[I\]ts existence and mechanism
+  /// defined in \[RFC4408\] have led to some interoperability issues.
+  /// Accordingly, its use is no longer appropriate for SPF version 1;
+  /// implementations are not to use it." In RFC 7208, see section 14.1, <a
   /// href="http://tools.ietf.org/html/rfc7208#section-14.1">The SPF DNS Record
   /// Type</a>.
   /// </note>
@@ -11277,6 +11483,7 @@ class ResourceRecordSet {
   }
 }
 
+/// @nodoc
 class ResourceRecordSetRegion {
   static const usEast_1 = ResourceRecordSetRegion._('us-east-1');
   static const usEast_2 = ResourceRecordSetRegion._('us-east-2');
@@ -11380,6 +11587,8 @@ class ResourceRecordSetRegion {
 }
 
 /// A complex type that contains information about a geographic location.
+///
+/// @nodoc
 class GeoLocation {
   /// The two-letter code for the continent.
   ///
@@ -11480,6 +11689,7 @@ class GeoLocation {
   }
 }
 
+/// @nodoc
 class ResourceRecordSetFailover {
   static const primary = ResourceRecordSetFailover._('PRIMARY');
   static const secondary = ResourceRecordSetFailover._('SECONDARY');
@@ -11520,6 +11730,8 @@ class ResourceRecordSetFailover {
 /// Failover in a Private Hosted Zone</a>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AliasTarget {
   /// <i>Alias resource record sets only:</i> The value that you specify depends
   /// on where you want to route queries:
@@ -11948,6 +12160,8 @@ class AliasTarget {
 /// A <code>LocationName</code> with an asterisk “*” can be used to create a
 /// default CIDR record. <code>CollectionId</code> is still required for default
 /// record.
+///
+/// @nodoc
 class CidrRoutingConfig {
   /// The CIDR collection ID.
   final String collectionId;
@@ -12001,6 +12215,8 @@ class CidrRoutingConfig {
 /// For more information about geoproximity routing, see <a
 /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geoproximity.html">Geoproximity
 /// routing</a> in the <i>Amazon Route 53 Developer Guide</i>.
+///
+/// @nodoc
 class GeoProximityLocation {
   /// The Amazon Web Services Region the resource you are directing DNS traffic
   /// to, is in.
@@ -12099,6 +12315,8 @@ class GeoProximityLocation {
 
 /// A complex type that lists the coordinates for a geoproximity resource
 /// record.
+///
+/// @nodoc
 class Coordinates {
   /// Specifies a coordinate of the north–south position of a geographic point on
   /// the surface of the Earth (-90 - 90).
@@ -12151,6 +12369,8 @@ class Coordinates {
 /// If you're creating an alias resource record set, omit
 /// <code>ResourceRecord</code>.
 /// </note>
+///
+/// @nodoc
 class ResourceRecord {
   /// The current or new DNS record value, not to exceed 4,000 characters. In the
   /// case of a <code>DELETE</code> action, if the current value does not match
@@ -12200,6 +12420,8 @@ class ResourceRecord {
 
 /// A complex type that contains information about a configuration for DNS query
 /// logging.
+///
+/// @nodoc
 class QueryLoggingConfig {
   /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon
   /// Route 53 is publishing logs to.
@@ -12243,6 +12465,8 @@ class QueryLoggingConfig {
 /// specified Amazon VPC is associated with. Each <code>HostedZoneSummary</code>
 /// element contains the hosted zone name and ID, and information about who owns
 /// the hosted zone.
+///
+/// @nodoc
 class HostedZoneSummary {
   /// The Route 53 hosted zone ID of a private hosted zone that the specified VPC
   /// is associated with.
@@ -12285,6 +12509,8 @@ class HostedZoneSummary {
 /// associated with and the owner of the hosted zone. If there is a value for
 /// <code>OwningAccount</code>, there is no value for
 /// <code>OwningService</code>, and vice versa.
+///
+/// @nodoc
 class HostedZoneOwner {
   /// If the hosted zone was created by an Amazon Web Services account, or was
   /// created by an Amazon Web Services service that creates hosted zones using
@@ -12323,6 +12549,7 @@ class HostedZoneOwner {
   }
 }
 
+/// @nodoc
 class HostedZoneType {
   static const privateHostedZone = HostedZoneType._('PrivateHostedZone');
 
@@ -12348,6 +12575,8 @@ class HostedZoneType {
 
 /// A complex type that contains the codes and full continent, country, and
 /// subdivision names for the specified <code>geolocation</code> code.
+///
+/// @nodoc
 class GeoLocationDetails {
   /// The two-letter code for the continent.
   final String? continentCode;
@@ -12412,6 +12641,8 @@ class GeoLocationDetails {
 }
 
 /// A complex type that contains information about the CIDR location.
+///
+/// @nodoc
 class LocationSummary {
   /// A string that specifies a location name.
   final String? locationName;
@@ -12436,6 +12667,8 @@ class LocationSummary {
 /// A complex type that is an entry in an <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CidrCollection.html">CidrCollection</a>
 /// array.
+///
+/// @nodoc
 class CollectionSummary {
   /// The ARN of the collection summary. Can be used to reference the collection
   /// in IAM policy or cross-account.
@@ -12482,6 +12715,8 @@ class CollectionSummary {
 }
 
 /// A complex type that lists the CIDR blocks.
+///
+/// @nodoc
 class CidrBlockSummary {
   /// Value for the CIDR block.
   final String? cidrBlock;
@@ -12512,6 +12747,8 @@ class CidrBlockSummary {
 
 /// A complex type that contains the type of limit that you specified in the
 /// request and the current value for that limit.
+///
+/// @nodoc
 class ReusableDelegationSetLimit {
   /// The limit that you requested:
   /// <code>MAX_ZONES_BY_REUSABLE_DELEGATION_SET</code>, the maximum number of
@@ -12546,6 +12783,7 @@ class ReusableDelegationSetLimit {
   }
 }
 
+/// @nodoc
 class ReusableDelegationSetLimitType {
   static const maxZonesByReusableDelegationSet =
       ReusableDelegationSetLimitType._('MAX_ZONES_BY_REUSABLE_DELEGATION_SET');
@@ -12573,6 +12811,8 @@ class ReusableDelegationSetLimitType {
 
 /// A complex type that contains the type of limit that you specified in the
 /// request and the current value for that limit.
+///
+/// @nodoc
 class HostedZoneLimit {
   /// The limit that you requested. Valid values include the following:
   ///
@@ -12614,6 +12854,7 @@ class HostedZoneLimit {
   }
 }
 
+/// @nodoc
 class HostedZoneLimitType {
   static const maxRrsetsByZone = HostedZoneLimitType._('MAX_RRSETS_BY_ZONE');
   static const maxVpcsAssociatedByZone =
@@ -12642,6 +12883,8 @@ class HostedZoneLimitType {
 
 /// A complex type that contains the last failure reason as reported by one
 /// Amazon Route 53 health checker.
+///
+/// @nodoc
 class HealthCheckObservation {
   /// The IP address of the Amazon Route 53 health checker that provided the
   /// failure reason in <code>StatusReport</code>.
@@ -12685,6 +12928,8 @@ class HealthCheckObservation {
 
 /// A complex type that contains the status that one Amazon Route 53 health
 /// checker reports and the time of the health check.
+///
+/// @nodoc
 class StatusReport {
   /// The date and time that the health checker performed the health check in <a
   /// href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 format</a> and
@@ -12719,6 +12964,8 @@ class StatusReport {
 }
 
 /// A string representing the status of DNSSEC signing.
+///
+/// @nodoc
 class DNSSECStatus {
   /// A string that represents the current hosted zone signing status.
   ///
@@ -12772,6 +13019,8 @@ class DNSSECStatus {
 /// zone signing key (ZSK). The public key is stored in the DNS and is used to
 /// authenticate the ZSK. A KSK is always associated with a hosted zone; it
 /// cannot exist by itself.
+///
+/// @nodoc
 class KeySigningKey {
   /// The date when the key-signing key (KSK) was created.
   final DateTime? createdDate;
@@ -12984,6 +13233,8 @@ class KeySigningKey {
 
 /// A complex type that describes change information about changes made to your
 /// hosted zone.
+///
+/// @nodoc
 class ChangeInfo {
   /// This element contains an ID that you use when performing a <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>
@@ -13035,6 +13286,7 @@ class ChangeInfo {
   }
 }
 
+/// @nodoc
 class ChangeStatus {
   static const pending = ChangeStatus._('PENDING');
   static const insync = ChangeStatus._('INSYNC');
@@ -13060,6 +13312,8 @@ class ChangeStatus {
 
 /// A complex type that contains the type of limit that you specified in the
 /// request and the current value for that limit.
+///
+/// @nodoc
 class AccountLimit {
   /// The limit that you requested. Valid values include the following:
   ///
@@ -13116,6 +13370,7 @@ class AccountLimit {
   }
 }
 
+/// @nodoc
 class AccountLimitType {
   static const maxHealthChecksByOwner =
       AccountLimitType._('MAX_HEALTH_CHECKS_BY_OWNER');
@@ -13155,6 +13410,8 @@ class AccountLimitType {
 }
 
 /// A complex type that identifies a CIDR collection.
+///
+/// @nodoc
 class CidrCollection {
   /// The ARN of the collection. Can be used to reference the collection in IAM
   /// policy or in another Amazon Web Services account.
@@ -13201,6 +13458,8 @@ class CidrCollection {
 }
 
 /// The information for a change request.
+///
+/// @nodoc
 class ChangeBatch {
   /// Information about the changes to make to the record sets.
   final List<Change> changes;
@@ -13243,6 +13502,8 @@ class ChangeBatch {
 }
 
 /// The information for each resource record set that you want to change.
+///
+/// @nodoc
 class Change {
   /// The action to perform:
   ///
@@ -13306,6 +13567,7 @@ class Change {
   }
 }
 
+/// @nodoc
 class ChangeAction {
   static const create = ChangeAction._('CREATE');
   static const delete = ChangeAction._('DELETE');
@@ -13331,6 +13593,8 @@ class ChangeAction {
 }
 
 /// A complex type that contains information about the CIDR collection change.
+///
+/// @nodoc
 class CidrCollectionChange {
   /// CIDR collection change action.
   final CidrCollectionChangeAction action;
@@ -13379,6 +13643,7 @@ class CidrCollectionChange {
   }
 }
 
+/// @nodoc
 class CidrCollectionChangeAction {
   static const put = CidrCollectionChangeAction._('PUT');
   static const deleteIfExists =
@@ -13405,11 +13670,13 @@ class CidrCollectionChangeAction {
   String toString() => value;
 }
 
+/// @nodoc
 class CidrBlockInUseException extends _s.GenericAwsException {
   CidrBlockInUseException({String? type, String? message})
       : super(type: type, code: 'CidrBlockInUseException', message: message);
 }
 
+/// @nodoc
 class CidrCollectionAlreadyExistsException extends _s.GenericAwsException {
   CidrCollectionAlreadyExistsException({String? type, String? message})
       : super(
@@ -13418,12 +13685,14 @@ class CidrCollectionAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CidrCollectionInUseException extends _s.GenericAwsException {
   CidrCollectionInUseException({String? type, String? message})
       : super(
             type: type, code: 'CidrCollectionInUseException', message: message);
 }
 
+/// @nodoc
 class CidrCollectionVersionMismatchException extends _s.GenericAwsException {
   CidrCollectionVersionMismatchException({String? type, String? message})
       : super(
@@ -13432,99 +13701,118 @@ class CidrCollectionVersionMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConcurrentModification extends _s.GenericAwsException {
   ConcurrentModification({String? type, String? message})
       : super(type: type, code: 'ConcurrentModification', message: message);
 }
 
+/// @nodoc
 class ConflictingDomainExists extends _s.GenericAwsException {
   ConflictingDomainExists({String? type, String? message})
       : super(type: type, code: 'ConflictingDomainExists', message: message);
 }
 
+/// @nodoc
 class ConflictingTypes extends _s.GenericAwsException {
   ConflictingTypes({String? type, String? message})
       : super(type: type, code: 'ConflictingTypes', message: message);
 }
 
+/// @nodoc
 class DNSSECNotFound extends _s.GenericAwsException {
   DNSSECNotFound({String? type, String? message})
       : super(type: type, code: 'DNSSECNotFound', message: message);
 }
 
+/// @nodoc
 class DelegationSetAlreadyCreated extends _s.GenericAwsException {
   DelegationSetAlreadyCreated({String? type, String? message})
       : super(
             type: type, code: 'DelegationSetAlreadyCreated', message: message);
 }
 
+/// @nodoc
 class DelegationSetAlreadyReusable extends _s.GenericAwsException {
   DelegationSetAlreadyReusable({String? type, String? message})
       : super(
             type: type, code: 'DelegationSetAlreadyReusable', message: message);
 }
 
+/// @nodoc
 class DelegationSetInUse extends _s.GenericAwsException {
   DelegationSetInUse({String? type, String? message})
       : super(type: type, code: 'DelegationSetInUse', message: message);
 }
 
+/// @nodoc
 class DelegationSetNotAvailable extends _s.GenericAwsException {
   DelegationSetNotAvailable({String? type, String? message})
       : super(type: type, code: 'DelegationSetNotAvailable', message: message);
 }
 
+/// @nodoc
 class DelegationSetNotReusable extends _s.GenericAwsException {
   DelegationSetNotReusable({String? type, String? message})
       : super(type: type, code: 'DelegationSetNotReusable', message: message);
 }
 
+/// @nodoc
 class HealthCheckAlreadyExists extends _s.GenericAwsException {
   HealthCheckAlreadyExists({String? type, String? message})
       : super(type: type, code: 'HealthCheckAlreadyExists', message: message);
 }
 
+/// @nodoc
 class HealthCheckInUse extends _s.GenericAwsException {
   HealthCheckInUse({String? type, String? message})
       : super(type: type, code: 'HealthCheckInUse', message: message);
 }
 
+/// @nodoc
 class HealthCheckVersionMismatch extends _s.GenericAwsException {
   HealthCheckVersionMismatch({String? type, String? message})
       : super(type: type, code: 'HealthCheckVersionMismatch', message: message);
 }
 
+/// @nodoc
 class HostedZoneAlreadyExists extends _s.GenericAwsException {
   HostedZoneAlreadyExists({String? type, String? message})
       : super(type: type, code: 'HostedZoneAlreadyExists', message: message);
 }
 
+/// @nodoc
 class HostedZoneNotEmpty extends _s.GenericAwsException {
   HostedZoneNotEmpty({String? type, String? message})
       : super(type: type, code: 'HostedZoneNotEmpty', message: message);
 }
 
+/// @nodoc
 class HostedZoneNotFound extends _s.GenericAwsException {
   HostedZoneNotFound({String? type, String? message})
       : super(type: type, code: 'HostedZoneNotFound', message: message);
 }
 
+/// @nodoc
 class HostedZoneNotPrivate extends _s.GenericAwsException {
   HostedZoneNotPrivate({String? type, String? message})
       : super(type: type, code: 'HostedZoneNotPrivate', message: message);
 }
 
+/// @nodoc
 class HostedZonePartiallyDelegated extends _s.GenericAwsException {
   HostedZonePartiallyDelegated({String? type, String? message})
       : super(
             type: type, code: 'HostedZonePartiallyDelegated', message: message);
 }
 
+/// @nodoc
 class IncompatibleVersion extends _s.GenericAwsException {
   IncompatibleVersion({String? type, String? message})
       : super(type: type, code: 'IncompatibleVersion', message: message);
 }
 
+/// @nodoc
 class InsufficientCloudWatchLogsResourcePolicy extends _s.GenericAwsException {
   InsufficientCloudWatchLogsResourcePolicy({String? type, String? message})
       : super(
@@ -13533,67 +13821,80 @@ class InsufficientCloudWatchLogsResourcePolicy extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgument extends _s.GenericAwsException {
   InvalidArgument({String? type, String? message})
       : super(type: type, code: 'InvalidArgument', message: message);
 }
 
+/// @nodoc
 class InvalidChangeBatch extends _s.GenericAwsException {
   InvalidChangeBatch({String? type, String? message})
       : super(type: type, code: 'InvalidChangeBatch', message: message);
 }
 
+/// @nodoc
 class InvalidDomainName extends _s.GenericAwsException {
   InvalidDomainName({String? type, String? message})
       : super(type: type, code: 'InvalidDomainName', message: message);
 }
 
+/// @nodoc
 class InvalidInput extends _s.GenericAwsException {
   InvalidInput({String? type, String? message})
       : super(type: type, code: 'InvalidInput', message: message);
 }
 
+/// @nodoc
 class InvalidKMSArn extends _s.GenericAwsException {
   InvalidKMSArn({String? type, String? message})
       : super(type: type, code: 'InvalidKMSArn', message: message);
 }
 
+/// @nodoc
 class InvalidKeySigningKeyName extends _s.GenericAwsException {
   InvalidKeySigningKeyName({String? type, String? message})
       : super(type: type, code: 'InvalidKeySigningKeyName', message: message);
 }
 
+/// @nodoc
 class InvalidKeySigningKeyStatus extends _s.GenericAwsException {
   InvalidKeySigningKeyStatus({String? type, String? message})
       : super(type: type, code: 'InvalidKeySigningKeyStatus', message: message);
 }
 
+/// @nodoc
 class InvalidPaginationToken extends _s.GenericAwsException {
   InvalidPaginationToken({String? type, String? message})
       : super(type: type, code: 'InvalidPaginationToken', message: message);
 }
 
+/// @nodoc
 class InvalidSigningStatus extends _s.GenericAwsException {
   InvalidSigningStatus({String? type, String? message})
       : super(type: type, code: 'InvalidSigningStatus', message: message);
 }
 
+/// @nodoc
 class InvalidTrafficPolicyDocument extends _s.GenericAwsException {
   InvalidTrafficPolicyDocument({String? type, String? message})
       : super(
             type: type, code: 'InvalidTrafficPolicyDocument', message: message);
 }
 
+/// @nodoc
 class InvalidVPCId extends _s.GenericAwsException {
   InvalidVPCId({String? type, String? message})
       : super(type: type, code: 'InvalidVPCId', message: message);
 }
 
+/// @nodoc
 class KeySigningKeyAlreadyExists extends _s.GenericAwsException {
   KeySigningKeyAlreadyExists({String? type, String? message})
       : super(type: type, code: 'KeySigningKeyAlreadyExists', message: message);
 }
 
+/// @nodoc
 class KeySigningKeyInParentDSRecord extends _s.GenericAwsException {
   KeySigningKeyInParentDSRecord({String? type, String? message})
       : super(
@@ -13602,11 +13903,13 @@ class KeySigningKeyInParentDSRecord extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class KeySigningKeyInUse extends _s.GenericAwsException {
   KeySigningKeyInUse({String? type, String? message})
       : super(type: type, code: 'KeySigningKeyInUse', message: message);
 }
 
+/// @nodoc
 class KeySigningKeyWithActiveStatusNotFound extends _s.GenericAwsException {
   KeySigningKeyWithActiveStatusNotFound({String? type, String? message})
       : super(
@@ -13615,21 +13918,25 @@ class KeySigningKeyWithActiveStatusNotFound extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LastVPCAssociation extends _s.GenericAwsException {
   LastVPCAssociation({String? type, String? message})
       : super(type: type, code: 'LastVPCAssociation', message: message);
 }
 
+/// @nodoc
 class LimitsExceeded extends _s.GenericAwsException {
   LimitsExceeded({String? type, String? message})
       : super(type: type, code: 'LimitsExceeded', message: message);
 }
 
+/// @nodoc
 class NoSuchChange extends _s.GenericAwsException {
   NoSuchChange({String? type, String? message})
       : super(type: type, code: 'NoSuchChange', message: message);
 }
 
+/// @nodoc
 class NoSuchCidrCollectionException extends _s.GenericAwsException {
   NoSuchCidrCollectionException({String? type, String? message})
       : super(
@@ -13638,74 +13945,88 @@ class NoSuchCidrCollectionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchCidrLocationException extends _s.GenericAwsException {
   NoSuchCidrLocationException({String? type, String? message})
       : super(
             type: type, code: 'NoSuchCidrLocationException', message: message);
 }
 
+/// @nodoc
 class NoSuchCloudWatchLogsLogGroup extends _s.GenericAwsException {
   NoSuchCloudWatchLogsLogGroup({String? type, String? message})
       : super(
             type: type, code: 'NoSuchCloudWatchLogsLogGroup', message: message);
 }
 
+/// @nodoc
 class NoSuchDelegationSet extends _s.GenericAwsException {
   NoSuchDelegationSet({String? type, String? message})
       : super(type: type, code: 'NoSuchDelegationSet', message: message);
 }
 
+/// @nodoc
 class NoSuchGeoLocation extends _s.GenericAwsException {
   NoSuchGeoLocation({String? type, String? message})
       : super(type: type, code: 'NoSuchGeoLocation', message: message);
 }
 
+/// @nodoc
 class NoSuchHealthCheck extends _s.GenericAwsException {
   NoSuchHealthCheck({String? type, String? message})
       : super(type: type, code: 'NoSuchHealthCheck', message: message);
 }
 
+/// @nodoc
 class NoSuchHostedZone extends _s.GenericAwsException {
   NoSuchHostedZone({String? type, String? message})
       : super(type: type, code: 'NoSuchHostedZone', message: message);
 }
 
+/// @nodoc
 class NoSuchKeySigningKey extends _s.GenericAwsException {
   NoSuchKeySigningKey({String? type, String? message})
       : super(type: type, code: 'NoSuchKeySigningKey', message: message);
 }
 
+/// @nodoc
 class NoSuchQueryLoggingConfig extends _s.GenericAwsException {
   NoSuchQueryLoggingConfig({String? type, String? message})
       : super(type: type, code: 'NoSuchQueryLoggingConfig', message: message);
 }
 
+/// @nodoc
 class NoSuchTrafficPolicy extends _s.GenericAwsException {
   NoSuchTrafficPolicy({String? type, String? message})
       : super(type: type, code: 'NoSuchTrafficPolicy', message: message);
 }
 
+/// @nodoc
 class NoSuchTrafficPolicyInstance extends _s.GenericAwsException {
   NoSuchTrafficPolicyInstance({String? type, String? message})
       : super(
             type: type, code: 'NoSuchTrafficPolicyInstance', message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+/// @nodoc
 class PriorRequestNotComplete extends _s.GenericAwsException {
   PriorRequestNotComplete({String? type, String? message})
       : super(type: type, code: 'PriorRequestNotComplete', message: message);
 }
 
+/// @nodoc
 class PublicZoneVPCAssociation extends _s.GenericAwsException {
   PublicZoneVPCAssociation({String? type, String? message})
       : super(type: type, code: 'PublicZoneVPCAssociation', message: message);
 }
 
+/// @nodoc
 class QueryLoggingConfigAlreadyExists extends _s.GenericAwsException {
   QueryLoggingConfigAlreadyExists({String? type, String? message})
       : super(
@@ -13714,31 +14035,37 @@ class QueryLoggingConfigAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyHealthChecks extends _s.GenericAwsException {
   TooManyHealthChecks({String? type, String? message})
       : super(type: type, code: 'TooManyHealthChecks', message: message);
 }
 
+/// @nodoc
 class TooManyHostedZones extends _s.GenericAwsException {
   TooManyHostedZones({String? type, String? message})
       : super(type: type, code: 'TooManyHostedZones', message: message);
 }
 
+/// @nodoc
 class TooManyKeySigningKeys extends _s.GenericAwsException {
   TooManyKeySigningKeys({String? type, String? message})
       : super(type: type, code: 'TooManyKeySigningKeys', message: message);
 }
 
+/// @nodoc
 class TooManyTrafficPolicies extends _s.GenericAwsException {
   TooManyTrafficPolicies({String? type, String? message})
       : super(type: type, code: 'TooManyTrafficPolicies', message: message);
 }
 
+/// @nodoc
 class TooManyTrafficPolicyInstances extends _s.GenericAwsException {
   TooManyTrafficPolicyInstances({String? type, String? message})
       : super(
@@ -13747,6 +14074,7 @@ class TooManyTrafficPolicyInstances extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyTrafficPolicyVersionsForCurrentPolicy
     extends _s.GenericAwsException {
   TooManyTrafficPolicyVersionsForCurrentPolicy({String? type, String? message})
@@ -13756,6 +14084,7 @@ class TooManyTrafficPolicyVersionsForCurrentPolicy
             message: message);
 }
 
+/// @nodoc
 class TooManyVPCAssociationAuthorizations extends _s.GenericAwsException {
   TooManyVPCAssociationAuthorizations({String? type, String? message})
       : super(
@@ -13764,16 +14093,19 @@ class TooManyVPCAssociationAuthorizations extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TrafficPolicyAlreadyExists extends _s.GenericAwsException {
   TrafficPolicyAlreadyExists({String? type, String? message})
       : super(type: type, code: 'TrafficPolicyAlreadyExists', message: message);
 }
 
+/// @nodoc
 class TrafficPolicyInUse extends _s.GenericAwsException {
   TrafficPolicyInUse({String? type, String? message})
       : super(type: type, code: 'TrafficPolicyInUse', message: message);
 }
 
+/// @nodoc
 class TrafficPolicyInstanceAlreadyExists extends _s.GenericAwsException {
   TrafficPolicyInstanceAlreadyExists({String? type, String? message})
       : super(
@@ -13782,6 +14114,7 @@ class TrafficPolicyInstanceAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class VPCAssociationAuthorizationNotFound extends _s.GenericAwsException {
   VPCAssociationAuthorizationNotFound({String? type, String? message})
       : super(
@@ -13790,6 +14123,7 @@ class VPCAssociationAuthorizationNotFound extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class VPCAssociationNotFound extends _s.GenericAwsException {
   VPCAssociationNotFound({String? type, String? message})
       : super(type: type, code: 'VPCAssociationNotFound', message: message);

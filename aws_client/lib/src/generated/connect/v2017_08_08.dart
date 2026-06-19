@@ -1650,8 +1650,9 @@ class Connect {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [phoneNumber] :
-  /// The phone number you want to claim. Phone numbers are formatted <code>[+]
-  /// [country code] [subscriber number including area code]</code>.
+  /// The phone number you want to claim. Phone numbers are formatted
+  /// <code>\[+\] \[country code\] \[subscriber number including area
+  /// code\]</code>.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -1661,7 +1662,7 @@ class Connect {
   /// retries safe with idempotent APIs</a>.
   ///
   /// Pattern:
-  /// <code>^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$</code>
+  /// <code>^\[a-f0-9\]{8}-\[a-f0-9\]{4}-\[a-f0-9\]{4}-\[a-f0-9\]{4}-\[a-f0-9\]{12}$</code>
   ///
   /// Parameter [instanceId] :
   /// The identifier of the Connect Customer instance that phone numbers are
@@ -4171,7 +4172,7 @@ class Connect {
   /// The user name for the account. For instances not using SAML for identity
   /// management, the user name can include up to 20 characters. If you are
   /// using SAML for identity management, the user name can include up to 64
-  /// characters from [a-zA-Z0-9_-.\@]+.
+  /// characters from \[a-zA-Z0-9_-.\@\]+.
   ///
   /// Username can include @ only if used in an email format. For example:
   ///
@@ -8369,12 +8370,13 @@ class Connect {
   ///
   /// <ul>
   /// <li>
-  /// Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”,
-  /// “CHANNEL”]
+  /// Filter by a list of \[Queues\] and a list of \[Channels\], group by
+  /// \[“QUEUE”, “CHANNEL”\]
   /// </li>
   /// <li>
-  /// Filter by a singleton list of [Queue], a singleton list of [Channel], a
-  /// list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].
+  /// Filter by a singleton list of \[Queue\], a singleton list of \[Channel\],
+  /// a list of \[RoutingStepExpression\], group by
+  /// \[“ROUTING_STEP_EXPRESSION”\].
   /// </li>
   /// </ul> </dd> <dt>OLDEST_CONTACT_AGE</dt> <dd>
   /// Unit: SECONDS
@@ -17161,7 +17163,7 @@ class Connect {
   /// Classification of a channel. This is used in part to uniquely identify
   /// chat.
   ///
-  /// Valid value: <code>["connect:sms", connect:"WhatsApp"]</code>
+  /// Valid value: <code>\["connect:sms", connect:"WhatsApp"\]</code>
   Future<SendChatIntegrationEventResponse> sendChatIntegrationEvent({
     required String destinationId,
     required ChatEvent event,
@@ -17514,10 +17516,10 @@ class Connect {
   /// Content types must always contain <code>text/plain</code>. You can then
   /// put any other supported type in the list. For example, all the following
   /// lists are valid because they contain <code>text/plain</code>:
-  /// <code>[text/plain, text/markdown, application/json]</code>,
-  /// <code>[text/markdown, text/plain]</code>, <code>[text/plain,
+  /// <code>\[text/plain, text/markdown, application/json\]</code>,
+  /// <code>\[text/markdown, text/plain\]</code>, <code>\[text/plain,
   /// application/json,
-  /// application/vnd.amazonaws.connect.message.interactive.response]</code>.
+  /// application/vnd.amazonaws.connect.message.interactive.response\]</code>.
   /// <note>
   /// The type
   /// <code>application/vnd.amazonaws.connect.message.interactive</code> is
@@ -18088,14 +18090,14 @@ class Connect {
   ///
   /// <ul>
   /// <li>
-  /// <code>[text/plain, text/markdown, application/json]</code>
+  /// <code>\[text/plain, text/markdown, application/json\]</code>
   /// </li>
   /// <li>
-  /// <code>[text/markdown, text/plain]</code>
+  /// <code>\[text/markdown, text/plain\]</code>
   /// </li>
   /// <li>
-  /// <code>[text/plain, application/json,
-  /// application/vnd.amazonaws.connect.message.interactive.response]</code>
+  /// <code>\[text/plain, application/json,
+  /// application/vnd.amazonaws.connect.message.interactive.response\]</code>
   /// </li>
   /// </ul>
   Future<StartOutboundChatContactResponse> startOutboundChatContact({
@@ -22878,6 +22880,7 @@ class Connect {
   }
 }
 
+/// @nodoc
 class ActivateEvaluationFormResponse {
   /// The Amazon Resource Name (ARN) for the evaluation form resource.
   final String evaluationFormArn;
@@ -22914,6 +22917,7 @@ class ActivateEvaluationFormResponse {
   }
 }
 
+/// @nodoc
 class AssociateAnalyticsDataSetResponse {
   /// The identifier of the dataset that was associated.
   final String? dataSetId;
@@ -22958,6 +22962,7 @@ class AssociateAnalyticsDataSetResponse {
   }
 }
 
+/// @nodoc
 class AssociateContactWithUserResponse {
   AssociateContactWithUserResponse();
 
@@ -22970,6 +22975,7 @@ class AssociateContactWithUserResponse {
   }
 }
 
+/// @nodoc
 class AssociateDefaultVocabularyResponse {
   AssociateDefaultVocabularyResponse();
 
@@ -22982,6 +22988,7 @@ class AssociateDefaultVocabularyResponse {
   }
 }
 
+/// @nodoc
 class AssociateEmailAddressAliasResponse {
   AssociateEmailAddressAliasResponse();
 
@@ -22994,6 +23001,7 @@ class AssociateEmailAddressAliasResponse {
   }
 }
 
+/// @nodoc
 class AssociateFlowResponse {
   AssociateFlowResponse();
 
@@ -23006,6 +23014,7 @@ class AssociateFlowResponse {
   }
 }
 
+/// @nodoc
 class AssociateInstanceStorageConfigResponse {
   /// The existing association identifier that uniquely identifies the resource
   /// type and storage config for the given instance ID.
@@ -23030,6 +23039,7 @@ class AssociateInstanceStorageConfigResponse {
   }
 }
 
+/// @nodoc
 class AssociateSecurityKeyResponse {
   /// The existing association identifier that uniquely identifies the resource
   /// type and storage config for the given instance ID.
@@ -23053,6 +23063,7 @@ class AssociateSecurityKeyResponse {
   }
 }
 
+/// @nodoc
 class AssociateTrafficDistributionGroupUserResponse {
   AssociateTrafficDistributionGroupUserResponse();
 
@@ -23066,6 +23077,7 @@ class AssociateTrafficDistributionGroupUserResponse {
   }
 }
 
+/// @nodoc
 class AssociateWorkspaceResponse {
   /// A list of resources that failed to be associated with the workspace,
   /// including error details.
@@ -23104,6 +23116,7 @@ class AssociateWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class BatchAssociateAnalyticsDataSetResponse {
   /// Information about associations that are successfully created:
   /// <code>DataSetId</code>, <code>TargetAccountId</code>,
@@ -23144,6 +23157,7 @@ class BatchAssociateAnalyticsDataSetResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateDataTableValueResponse {
   /// A list of values that failed to be created with error messages explaining
   /// the failure reason.
@@ -23184,6 +23198,7 @@ class BatchCreateDataTableValueResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteDataTableValueResponse {
   /// A list of values that failed to be deleted with error messages explaining
   /// the failure reason.
@@ -23224,6 +23239,7 @@ class BatchDeleteDataTableValueResponse {
   }
 }
 
+/// @nodoc
 class BatchDescribeDataTableValueResponse {
   /// A list of values that failed to be retrieved with error messages explaining
   /// the failure reason.
@@ -23264,6 +23280,7 @@ class BatchDescribeDataTableValueResponse {
   }
 }
 
+/// @nodoc
 class BatchDisassociateAnalyticsDataSetResponse {
   /// An array of successfully disassociated dataset identifiers.
   final List<String>? deleted;
@@ -23298,6 +23315,7 @@ class BatchDisassociateAnalyticsDataSetResponse {
   }
 }
 
+/// @nodoc
 class BatchGetAttachedFileMetadataResponse {
   /// List of errors of attached files that could not be retrieved.
   final List<AttachedFileError>? errors;
@@ -23334,6 +23352,7 @@ class BatchGetAttachedFileMetadataResponse {
   }
 }
 
+/// @nodoc
 class BatchGetFlowAssociationResponse {
   /// Information about flow associations.
   final List<FlowAssociationSummary>? flowAssociationSummaryList;
@@ -23361,6 +23380,7 @@ class BatchGetFlowAssociationResponse {
   }
 }
 
+/// @nodoc
 class BatchPutContactResponse {
   /// List of requests for which contact creation failed.
   final List<FailedRequest>? failedRequestList;
@@ -23397,6 +23417,7 @@ class BatchPutContactResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateDataTableValueResponse {
   /// A list of values that failed to be updated with error messages explaining
   /// the failure reason.
@@ -23437,6 +23458,7 @@ class BatchUpdateDataTableValueResponse {
   }
 }
 
+/// @nodoc
 class ClaimPhoneNumberResponse {
   /// The Amazon Resource Name (ARN) of the phone number.
   final String? phoneNumberArn;
@@ -23467,6 +23489,8 @@ class ClaimPhoneNumberResponse {
 }
 
 /// Response from CompleteAttachedFileUpload API
+///
+/// @nodoc
 class CompleteAttachedFileUploadResponse {
   CompleteAttachedFileUploadResponse();
 
@@ -23479,6 +23503,7 @@ class CompleteAttachedFileUploadResponse {
   }
 }
 
+/// @nodoc
 class CreateAgentStatusResponse {
   /// The Amazon Resource Name (ARN) of the agent status.
   final String? agentStatusARN;
@@ -23508,6 +23533,7 @@ class CreateAgentStatusResponse {
   }
 }
 
+/// @nodoc
 class CreateContactResponse {
   /// The Amazon Resource Name (ARN) of the created contact.
   final String? contactArn;
@@ -23537,6 +23563,7 @@ class CreateContactResponse {
   }
 }
 
+/// @nodoc
 class CreateContactFlowResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String? contactFlowArn;
@@ -23573,6 +23600,7 @@ class CreateContactFlowResponse {
   }
 }
 
+/// @nodoc
 class CreateContactFlowModuleResponse {
   /// The Amazon Resource Name (ARN) of the flow module.
   final String? arn;
@@ -23602,6 +23630,7 @@ class CreateContactFlowModuleResponse {
   }
 }
 
+/// @nodoc
 class CreateContactFlowModuleAliasResponse {
   /// The Amazon Resource Name (ARN) of the flow module.
   final String? contactFlowModuleArn;
@@ -23633,6 +23662,7 @@ class CreateContactFlowModuleAliasResponse {
   }
 }
 
+/// @nodoc
 class CreateContactFlowModuleVersionResponse {
   /// The Amazon Resource Name (ARN) of the flow module.
   final String? contactFlowModuleArn;
@@ -23664,6 +23694,7 @@ class CreateContactFlowModuleVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateContactFlowVersionResponse {
   /// The Amazon Resource Name (ARN) of the flow.
   final String? contactFlowArn;
@@ -23693,6 +23724,7 @@ class CreateContactFlowVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateDataTableResponse {
   /// The Amazon Resource Name (ARN) for the created data table. Does not include
   /// the version alias.
@@ -23734,6 +23766,7 @@ class CreateDataTableResponse {
   }
 }
 
+/// @nodoc
 class CreateDataTableAttributeResponse {
   /// The lock version information for the data table and attribute, used for
   /// optimistic locking and versioning.
@@ -23775,6 +23808,7 @@ class CreateDataTableAttributeResponse {
   }
 }
 
+/// @nodoc
 class CreateEmailAddressResponse {
   /// The Amazon Resource Name (ARN) of the email address.
   final String? emailAddressArn;
@@ -23804,6 +23838,7 @@ class CreateEmailAddressResponse {
   }
 }
 
+/// @nodoc
 class CreateEvaluationFormResponse {
   /// The Amazon Resource Name (ARN) for the evaluation form resource.
   final String evaluationFormArn;
@@ -23833,6 +23868,7 @@ class CreateEvaluationFormResponse {
   }
 }
 
+/// @nodoc
 class CreateHoursOfOperationResponse {
   /// The Amazon Resource Name (ARN) for the hours of operation.
   final String? hoursOfOperationArn;
@@ -23863,6 +23899,7 @@ class CreateHoursOfOperationResponse {
   }
 }
 
+/// @nodoc
 class CreateHoursOfOperationOverrideResponse {
   /// The identifier for the hours of operation override.
   final String? hoursOfOperationOverrideId;
@@ -23887,6 +23924,7 @@ class CreateHoursOfOperationOverrideResponse {
   }
 }
 
+/// @nodoc
 class CreateInstanceResponse {
   /// The Amazon Resource Name (ARN) of the instance.
   final String? arn;
@@ -23916,6 +23954,7 @@ class CreateInstanceResponse {
   }
 }
 
+/// @nodoc
 class CreateIntegrationAssociationResponse {
   /// The Amazon Resource Name (ARN) for the association.
   final String? integrationAssociationArn;
@@ -23948,6 +23987,7 @@ class CreateIntegrationAssociationResponse {
   }
 }
 
+/// @nodoc
 class CreateNotificationResponse {
   /// The Amazon Resource Name (ARN) of the created notification.
   final String notificationArn;
@@ -23977,6 +24017,7 @@ class CreateNotificationResponse {
   }
 }
 
+/// @nodoc
 class CreateParticipantResponse {
   /// The token used by the chat participant to call
   /// <code>CreateParticipantConnection</code>. The participant token is valid for
@@ -24013,6 +24054,7 @@ class CreateParticipantResponse {
   }
 }
 
+/// @nodoc
 class CreatePersistentContactAssociationResponse {
   /// The contactId from which a persistent chat session is started. This field is
   /// populated only for persistent chat.
@@ -24038,6 +24080,7 @@ class CreatePersistentContactAssociationResponse {
   }
 }
 
+/// @nodoc
 class CreatePromptResponse {
   /// The Amazon Resource Name (ARN) of the prompt.
   final String? promptARN;
@@ -24067,6 +24110,7 @@ class CreatePromptResponse {
   }
 }
 
+/// @nodoc
 class CreatePushNotificationRegistrationResponse {
   /// The identifier for the registration.
   final String registrationId;
@@ -24090,6 +24134,7 @@ class CreatePushNotificationRegistrationResponse {
   }
 }
 
+/// @nodoc
 class CreateQueueResponse {
   /// The Amazon Resource Name (ARN) of the queue.
   final String? queueArn;
@@ -24119,6 +24164,7 @@ class CreateQueueResponse {
   }
 }
 
+/// @nodoc
 class CreateQuickConnectResponse {
   /// The Amazon Resource Name (ARN) for the quick connect.
   final String? quickConnectARN;
@@ -24148,6 +24194,7 @@ class CreateQuickConnectResponse {
   }
 }
 
+/// @nodoc
 class CreateRoutingProfileResponse {
   /// The Amazon Resource Name (ARN) of the routing profile.
   final String? routingProfileArn;
@@ -24177,6 +24224,7 @@ class CreateRoutingProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateRuleResponse {
   /// The Amazon Resource Name (ARN) of the rule.
   final String ruleArn;
@@ -24206,6 +24254,7 @@ class CreateRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateSecurityProfileResponse {
   /// The Amazon Resource Name (ARN) for the security profile.
   final String? securityProfileArn;
@@ -24235,6 +24284,7 @@ class CreateSecurityProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateTaskTemplateResponse {
   /// The Amazon Resource Name (ARN) for the task template resource.
   final String arn;
@@ -24264,6 +24314,7 @@ class CreateTaskTemplateResponse {
   }
 }
 
+/// @nodoc
 class CreateTestCaseResponse {
   /// The Amazon Resource Name (ARN) of the test.
   final String? testCaseArn;
@@ -24293,6 +24344,7 @@ class CreateTestCaseResponse {
   }
 }
 
+/// @nodoc
 class CreateTrafficDistributionGroupResponse {
   /// The Amazon Resource Name (ARN) of the traffic distribution group.
   final String? arn;
@@ -24324,6 +24376,7 @@ class CreateTrafficDistributionGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateUseCaseResponse {
   /// The Amazon Resource Name (ARN) for the use case.
   final String? useCaseArn;
@@ -24353,6 +24406,7 @@ class CreateUseCaseResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   /// The Amazon Resource Name (ARN) of the user account.
   final String? userArn;
@@ -24382,6 +24436,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class CreateUserHierarchyGroupResponse {
   /// The Amazon Resource Name (ARN) of the hierarchy group.
   final String? hierarchyGroupArn;
@@ -24411,6 +24466,7 @@ class CreateUserHierarchyGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateViewResponse {
   /// A view resource object. Contains metadata and content necessary to render
   /// the view.
@@ -24436,6 +24492,7 @@ class CreateViewResponse {
   }
 }
 
+/// @nodoc
 class CreateViewVersionResponse {
   /// All view data is contained within the View object.
   final View? view;
@@ -24460,6 +24517,7 @@ class CreateViewVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateVocabularyResponse {
   /// The current state of the custom vocabulary.
   final VocabularyState state;
@@ -24496,6 +24554,7 @@ class CreateVocabularyResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkspaceResponse {
   /// The Amazon Resource Name (ARN) of the workspace.
   final String workspaceArn;
@@ -24525,6 +24584,7 @@ class CreateWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkspacePageResponse {
   CreateWorkspacePageResponse();
 
@@ -24537,6 +24597,7 @@ class CreateWorkspacePageResponse {
   }
 }
 
+/// @nodoc
 class DeactivateEvaluationFormResponse {
   /// The Amazon Resource Name (ARN) for the evaluation form resource.
   final String evaluationFormArn;
@@ -24574,6 +24635,8 @@ class DeactivateEvaluationFormResponse {
 }
 
 /// Response from DeleteAttachedFile API
+///
+/// @nodoc
 class DeleteAttachedFileResponse {
   DeleteAttachedFileResponse();
 
@@ -24586,6 +24649,7 @@ class DeleteAttachedFileResponse {
   }
 }
 
+/// @nodoc
 class DeleteContactFlowResponse {
   DeleteContactFlowResponse();
 
@@ -24598,6 +24662,7 @@ class DeleteContactFlowResponse {
   }
 }
 
+/// @nodoc
 class DeleteContactFlowModuleResponse {
   DeleteContactFlowModuleResponse();
 
@@ -24610,6 +24675,7 @@ class DeleteContactFlowModuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteContactFlowModuleAliasResponse {
   DeleteContactFlowModuleAliasResponse();
 
@@ -24623,6 +24689,7 @@ class DeleteContactFlowModuleAliasResponse {
   }
 }
 
+/// @nodoc
 class DeleteContactFlowModuleVersionResponse {
   DeleteContactFlowModuleVersionResponse();
 
@@ -24636,6 +24703,7 @@ class DeleteContactFlowModuleVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteContactFlowVersionResponse {
   DeleteContactFlowVersionResponse();
 
@@ -24648,6 +24716,7 @@ class DeleteContactFlowVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataTableResponse {
   DeleteDataTableResponse();
 
@@ -24660,6 +24729,7 @@ class DeleteDataTableResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataTableAttributeResponse {
   /// The updated lock version of the data table.
   final DataTableLockVersion lockVersion;
@@ -24684,6 +24754,7 @@ class DeleteDataTableAttributeResponse {
   }
 }
 
+/// @nodoc
 class DeleteEmailAddressResponse {
   DeleteEmailAddressResponse();
 
@@ -24697,6 +24768,8 @@ class DeleteEmailAddressResponse {
 }
 
 /// The response from deleting a notification.
+///
+/// @nodoc
 class DeleteNotificationResponse {
   DeleteNotificationResponse();
 
@@ -24709,6 +24782,7 @@ class DeleteNotificationResponse {
   }
 }
 
+/// @nodoc
 class DeletePushNotificationRegistrationResponse {
   DeletePushNotificationRegistrationResponse();
 
@@ -24722,6 +24796,7 @@ class DeletePushNotificationRegistrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteTaskTemplateResponse {
   DeleteTaskTemplateResponse();
 
@@ -24734,6 +24809,7 @@ class DeleteTaskTemplateResponse {
   }
 }
 
+/// @nodoc
 class DeleteTestCaseResponse {
   DeleteTestCaseResponse();
 
@@ -24746,6 +24822,7 @@ class DeleteTestCaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteTrafficDistributionGroupResponse {
   DeleteTrafficDistributionGroupResponse();
 
@@ -24759,6 +24836,7 @@ class DeleteTrafficDistributionGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteViewResponse {
   DeleteViewResponse();
 
@@ -24771,6 +24849,7 @@ class DeleteViewResponse {
   }
 }
 
+/// @nodoc
 class DeleteViewVersionResponse {
   DeleteViewVersionResponse();
 
@@ -24783,6 +24862,7 @@ class DeleteViewVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteVocabularyResponse {
   /// The current state of the custom vocabulary.
   final VocabularyState state;
@@ -24819,6 +24899,7 @@ class DeleteVocabularyResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceResponse {
   DeleteWorkspaceResponse();
 
@@ -24831,6 +24912,7 @@ class DeleteWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkspaceMediaResponse {
   DeleteWorkspaceMediaResponse();
 
@@ -24843,6 +24925,7 @@ class DeleteWorkspaceMediaResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkspacePageResponse {
   DeleteWorkspacePageResponse();
 
@@ -24855,6 +24938,7 @@ class DeleteWorkspacePageResponse {
   }
 }
 
+/// @nodoc
 class DescribeAgentStatusResponse {
   /// The agent status.
   final AgentStatus? agentStatus;
@@ -24879,6 +24963,7 @@ class DescribeAgentStatusResponse {
   }
 }
 
+/// @nodoc
 class DescribeAttachedFilesConfigurationResponse {
   /// Information about the attached files configuration.
   final AttachedFilesConfiguration attachedFilesConfiguration;
@@ -24904,6 +24989,7 @@ class DescribeAttachedFilesConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeAuthenticationProfileResponse {
   /// The authentication profile object being described.
   final AuthenticationProfile? authenticationProfile;
@@ -24931,6 +25017,7 @@ class DescribeAuthenticationProfileResponse {
   }
 }
 
+/// @nodoc
 class DescribeContactResponse {
   /// Information about the contact.
   final Contact? contact;
@@ -24955,6 +25042,7 @@ class DescribeContactResponse {
   }
 }
 
+/// @nodoc
 class DescribeContactEvaluationResponse {
   /// Information about the evaluation form completed for a specific contact.
   final Evaluation evaluation;
@@ -24989,6 +25077,7 @@ class DescribeContactEvaluationResponse {
   }
 }
 
+/// @nodoc
 class DescribeContactFlowResponse {
   /// Information about the flow.
   final ContactFlow? contactFlow;
@@ -25013,6 +25102,7 @@ class DescribeContactFlowResponse {
   }
 }
 
+/// @nodoc
 class DescribeContactFlowModuleResponse {
   /// Information about the flow module.
   final ContactFlowModule? contactFlowModule;
@@ -25039,6 +25129,7 @@ class DescribeContactFlowModuleResponse {
   }
 }
 
+/// @nodoc
 class DescribeContactFlowModuleAliasResponse {
   /// Information about the flow module alias.
   final ContactFlowModuleAliasInfo? contactFlowModuleAlias;
@@ -25066,6 +25157,7 @@ class DescribeContactFlowModuleAliasResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataTableResponse {
   /// The complete data table information including metadata, configuration, and
   /// versioning details.
@@ -25091,6 +25183,7 @@ class DescribeDataTableResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataTableAttributeResponse {
   /// The complete attribute information including configuration, validation
   /// rules, lock version, and metadata.
@@ -25117,6 +25210,7 @@ class DescribeDataTableAttributeResponse {
   }
 }
 
+/// @nodoc
 class DescribeEmailAddressResponse {
   /// A list of alias configurations associated with this email address. Contains
   /// details about email addresses that forward to this primary email address.
@@ -25203,6 +25297,7 @@ class DescribeEmailAddressResponse {
   }
 }
 
+/// @nodoc
 class DescribeEvaluationFormResponse {
   /// Information about the evaluation form.
   final EvaluationForm evaluationForm;
@@ -25227,6 +25322,7 @@ class DescribeEvaluationFormResponse {
   }
 }
 
+/// @nodoc
 class DescribeHoursOfOperationResponse {
   /// The hours of operation.
   final HoursOfOperation? hoursOfOperation;
@@ -25252,6 +25348,7 @@ class DescribeHoursOfOperationResponse {
   }
 }
 
+/// @nodoc
 class DescribeHoursOfOperationOverrideResponse {
   /// Information about the hours of operations override.
   final HoursOfOperationOverride? hoursOfOperationOverride;
@@ -25279,6 +25376,7 @@ class DescribeHoursOfOperationOverrideResponse {
   }
 }
 
+/// @nodoc
 class DescribeInstanceResponse {
   /// The name of the instance.
   final Instance? instance;
@@ -25322,6 +25420,7 @@ class DescribeInstanceResponse {
   }
 }
 
+/// @nodoc
 class DescribeInstanceAttributeResponse {
   /// The type of attribute.
   final Attribute? attribute;
@@ -25347,6 +25446,7 @@ class DescribeInstanceAttributeResponse {
   }
 }
 
+/// @nodoc
 class DescribeInstanceStorageConfigResponse {
   /// A valid storage type.
   final InstanceStorageConfig? storageConfig;
@@ -25373,6 +25473,7 @@ class DescribeInstanceStorageConfigResponse {
   }
 }
 
+/// @nodoc
 class DescribeNotificationResponse {
   /// The complete notification information including content, priority,
   /// recipients, and metadata.
@@ -25398,6 +25499,7 @@ class DescribeNotificationResponse {
   }
 }
 
+/// @nodoc
 class DescribePhoneNumberResponse {
   /// Information about a phone number that's been claimed to your Connect
   /// Customer instance or traffic distribution group.
@@ -25425,6 +25527,7 @@ class DescribePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class DescribePredefinedAttributeResponse {
   /// Information about the predefined attribute.
   final PredefinedAttribute? predefinedAttribute;
@@ -25452,6 +25555,7 @@ class DescribePredefinedAttributeResponse {
   }
 }
 
+/// @nodoc
 class DescribePromptResponse {
   /// Information about the prompt.
   final Prompt? prompt;
@@ -25476,6 +25580,7 @@ class DescribePromptResponse {
   }
 }
 
+/// @nodoc
 class DescribeQueueResponse {
   /// The name of the queue.
   final Queue? queue;
@@ -25500,6 +25605,7 @@ class DescribeQueueResponse {
   }
 }
 
+/// @nodoc
 class DescribeQuickConnectResponse {
   /// Information about the quick connect.
   final QuickConnect? quickConnect;
@@ -25524,6 +25630,7 @@ class DescribeQuickConnectResponse {
   }
 }
 
+/// @nodoc
 class DescribeRoutingProfileResponse {
   /// The routing profile.
   final RoutingProfile? routingProfile;
@@ -25549,6 +25656,7 @@ class DescribeRoutingProfileResponse {
   }
 }
 
+/// @nodoc
 class DescribeRuleResponse {
   /// Information about the rule.
   final Rule rule;
@@ -25572,6 +25680,7 @@ class DescribeRuleResponse {
   }
 }
 
+/// @nodoc
 class DescribeSecurityProfileResponse {
   /// The security profile.
   final SecurityProfile? securityProfile;
@@ -25597,6 +25706,7 @@ class DescribeSecurityProfileResponse {
   }
 }
 
+/// @nodoc
 class DescribeTestCaseResponse {
   /// The test case object containing all test case information.
   final TestCase? testCase;
@@ -25621,6 +25731,7 @@ class DescribeTestCaseResponse {
   }
 }
 
+/// @nodoc
 class DescribeTrafficDistributionGroupResponse {
   /// Information about the traffic distribution group.
   final TrafficDistributionGroup? trafficDistributionGroup;
@@ -25648,6 +25759,7 @@ class DescribeTrafficDistributionGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserResponse {
   /// Information about the user account and configuration settings.
   final User? user;
@@ -25672,6 +25784,7 @@ class DescribeUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserHierarchyGroupResponse {
   /// Information about the hierarchy group.
   final HierarchyGroup? hierarchyGroup;
@@ -25698,6 +25811,7 @@ class DescribeUserHierarchyGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserHierarchyStructureResponse {
   /// Information about the hierarchy structure.
   final HierarchyStructure? hierarchyStructure;
@@ -25724,6 +25838,7 @@ class DescribeUserHierarchyStructureResponse {
   }
 }
 
+/// @nodoc
 class DescribeViewResponse {
   /// All view data is contained within the View object.
   final View? view;
@@ -25748,6 +25863,7 @@ class DescribeViewResponse {
   }
 }
 
+/// @nodoc
 class DescribeVocabularyResponse {
   /// A list of specific words that you want Contact Lens for Connect Customer to
   /// recognize in your audio input. They are generally domain-specific words and
@@ -25774,6 +25890,7 @@ class DescribeVocabularyResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkspaceResponse {
   /// Information about the workspace.
   final Workspace workspace;
@@ -25798,6 +25915,7 @@ class DescribeWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class DisassociateEmailAddressAliasResponse {
   DisassociateEmailAddressAliasResponse();
 
@@ -25811,6 +25929,7 @@ class DisassociateEmailAddressAliasResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFlowResponse {
   DisassociateFlowResponse();
 
@@ -25823,6 +25942,7 @@ class DisassociateFlowResponse {
   }
 }
 
+/// @nodoc
 class DisassociateTrafficDistributionGroupUserResponse {
   DisassociateTrafficDistributionGroupUserResponse();
 
@@ -25836,6 +25956,7 @@ class DisassociateTrafficDistributionGroupUserResponse {
   }
 }
 
+/// @nodoc
 class DisassociateWorkspaceResponse {
   /// A list of resources that failed to be disassociated from the workspace,
   /// including error details.
@@ -25874,6 +25995,7 @@ class DisassociateWorkspaceResponse {
   }
 }
 
+/// @nodoc
 class DismissUserContactResponse {
   DismissUserContactResponse();
 
@@ -25886,6 +26008,7 @@ class DismissUserContactResponse {
   }
 }
 
+/// @nodoc
 class EvaluateDataTableValuesResponse {
   /// A list of evaluated values with their computed results, error information,
   /// and metadata.
@@ -25922,6 +26045,8 @@ class EvaluateDataTableValuesResponse {
 }
 
 /// Response from GetAttachedFile API.
+///
+/// @nodoc
 class GetAttachedFileResponse {
   /// The size of the attached file in bytes.
   final int fileSizeInBytes;
@@ -26029,6 +26154,7 @@ class GetAttachedFileResponse {
   }
 }
 
+/// @nodoc
 class GetContactAttributesResponse {
   /// Information about the attributes.
   final Map<String, String>? attributes;
@@ -26052,6 +26178,7 @@ class GetContactAttributesResponse {
   }
 }
 
+/// @nodoc
 class GetContactMetricsResponse {
   /// The ARN of the contact for which metrics were retrieved.
   final String? arn;
@@ -26096,6 +26223,7 @@ class GetContactMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetCurrentMetricDataResponse {
   /// The total count of the result, regardless of the current page size.
   final int? approximateTotalCount;
@@ -26149,6 +26277,7 @@ class GetCurrentMetricDataResponse {
   }
 }
 
+/// @nodoc
 class GetCurrentUserDataResponse {
   /// The total count of the result, regardless of the current page size.
   final int? approximateTotalCount;
@@ -26190,6 +26319,7 @@ class GetCurrentUserDataResponse {
   }
 }
 
+/// @nodoc
 class GetEffectiveHoursOfOperationsResponse {
   /// Information about the effective hours of operations.
   final List<EffectiveHoursOfOperations>? effectiveHoursOfOperationList;
@@ -26243,6 +26373,7 @@ class GetEffectiveHoursOfOperationsResponse {
   }
 }
 
+/// @nodoc
 class GetFederationTokenResponse {
   /// The credentials to use for federation.
   final Credentials? credentials;
@@ -26288,6 +26419,7 @@ class GetFederationTokenResponse {
   }
 }
 
+/// @nodoc
 class GetFlowAssociationResponse {
   /// The identifier of the flow.
   final String? flowId;
@@ -26325,6 +26457,7 @@ class GetFlowAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetMetricDataResponse {
   /// Information about the historical metrics.
   ///
@@ -26365,6 +26498,7 @@ class GetMetricDataResponse {
   }
 }
 
+/// @nodoc
 class GetMetricDataV2Response {
   /// Information about the metrics requested in the API request If no grouping is
   /// specified, a summary of metric data is returned.
@@ -26399,6 +26533,7 @@ class GetMetricDataV2Response {
   }
 }
 
+/// @nodoc
 class GetPromptFileResponse {
   /// The Amazon Web Services Region where this resource was last modified.
   final String? lastModifiedRegion;
@@ -26437,6 +26572,7 @@ class GetPromptFileResponse {
   }
 }
 
+/// @nodoc
 class GetTaskTemplateResponse {
   /// The Amazon Resource Name (ARN).
   final String arn;
@@ -26570,6 +26706,7 @@ class GetTaskTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetTestCaseExecutionSummaryResponse {
   /// The timestamp when the test case execution ended.
   final DateTime? endTime;
@@ -26618,6 +26755,7 @@ class GetTestCaseExecutionSummaryResponse {
   }
 }
 
+/// @nodoc
 class GetTrafficDistributionResponse {
   /// The distribution of agents between the instance and its replica(s).
   final AgentConfig? agentConfig;
@@ -26679,6 +26817,7 @@ class GetTrafficDistributionResponse {
   }
 }
 
+/// @nodoc
 class ImportPhoneNumberResponse {
   /// The Amazon Resource Name (ARN) of the phone number.
   final String? phoneNumberArn;
@@ -26708,6 +26847,7 @@ class ImportPhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class ImportWorkspaceMediaResponse {
   ImportWorkspaceMediaResponse();
 
@@ -26720,6 +26860,7 @@ class ImportWorkspaceMediaResponse {
   }
 }
 
+/// @nodoc
 class ListAgentStatusResponse {
   /// A summary of agent statuses.
   final List<AgentStatusSummary>? agentStatusSummaryList;
@@ -26754,6 +26895,7 @@ class ListAgentStatusResponse {
   }
 }
 
+/// @nodoc
 class ListAnalyticsDataAssociationsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -26792,6 +26934,7 @@ class ListAnalyticsDataAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListAnalyticsDataLakeDataSetsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -26829,6 +26972,7 @@ class ListAnalyticsDataLakeDataSetsResponse {
   }
 }
 
+/// @nodoc
 class ListApprovedOriginsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -26860,6 +27004,7 @@ class ListApprovedOriginsResponse {
   }
 }
 
+/// @nodoc
 class ListAssociatedContactsResponse {
   /// List of the contact summary for all the contacts in contact tree associated
   /// with unique identifier.
@@ -26895,6 +27040,7 @@ class ListAssociatedContactsResponse {
   }
 }
 
+/// @nodoc
 class ListAttachedFilesConfigurationsResponse {
   /// Information about the attached files configurations.
   final List<AttachedFilesConfigurationSummary>? attachedFilesConfigurations;
@@ -26932,6 +27078,7 @@ class ListAttachedFilesConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListAuthenticationProfilesResponse {
   /// A summary of a given authentication profile.
   final List<AuthenticationProfileSummary>? authenticationProfileSummaryList;
@@ -26970,6 +27117,7 @@ class ListAuthenticationProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListBotsResponse {
   /// The names and Amazon Web Services Regions of the Amazon Lex or Amazon Lex V2
   /// bots associated with the specified instance.
@@ -27004,6 +27152,7 @@ class ListBotsResponse {
   }
 }
 
+/// @nodoc
 class ListChildHoursOfOperationsResponse {
   /// Information about the hours of operation.
   final List<HoursOfOperationsIdentifier>? childHoursOfOperationsSummaryList;
@@ -27057,6 +27206,7 @@ class ListChildHoursOfOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListContactEvaluationsResponse {
   /// Provides details about a list of contact evaluations belonging to an
   /// instance.
@@ -27095,6 +27245,7 @@ class ListContactEvaluationsResponse {
   }
 }
 
+/// @nodoc
 class ListContactFlowModuleAliasesResponse {
   /// Information about the flow module aliases.
   final List<ContactFlowModuleAliasSummary>? contactFlowModuleAliasSummaryList;
@@ -27133,6 +27284,7 @@ class ListContactFlowModuleAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListContactFlowModulesResponse {
   /// Information about the flow module.
   final List<ContactFlowModuleSummary>? contactFlowModulesSummaryList;
@@ -27169,6 +27321,7 @@ class ListContactFlowModulesResponse {
   }
 }
 
+/// @nodoc
 class ListContactFlowModuleVersionsResponse {
   /// Information about the flow module versions.
   final List<ContactFlowModuleVersionSummary>?
@@ -27209,6 +27362,7 @@ class ListContactFlowModuleVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListContactFlowsResponse {
   /// Information about the flows.
   final List<ContactFlowSummary>? contactFlowSummaryList;
@@ -27243,6 +27397,7 @@ class ListContactFlowsResponse {
   }
 }
 
+/// @nodoc
 class ListContactFlowVersionsResponse {
   /// A list of flow version summaries.
   final List<ContactFlowVersionSummary>? contactFlowVersionSummaryList;
@@ -27279,6 +27434,7 @@ class ListContactFlowVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListContactReferencesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -27316,6 +27472,7 @@ class ListContactReferencesResponse {
   }
 }
 
+/// @nodoc
 class ListDataTableAttributesResponse {
   /// A list of data table attributes with their complete configuration and
   /// metadata.
@@ -27350,6 +27507,7 @@ class ListDataTableAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListDataTablePrimaryValuesResponse {
   /// A list of primary value combinations with their record IDs and modification
   /// metadata.
@@ -27385,6 +27543,7 @@ class ListDataTablePrimaryValuesResponse {
   }
 }
 
+/// @nodoc
 class ListDataTablesResponse {
   /// A list of data table summaries containing basic information about each table
   /// including ID, ARN, name, and modification details.
@@ -27420,6 +27579,7 @@ class ListDataTablesResponse {
   }
 }
 
+/// @nodoc
 class ListDataTableValuesResponse {
   /// A list of data table values with their associated metadata, lock versions,
   /// and modification details.
@@ -27454,6 +27614,7 @@ class ListDataTableValuesResponse {
   }
 }
 
+/// @nodoc
 class ListDefaultVocabulariesResponse {
   /// A list of default vocabularies.
   final List<DefaultVocabulary> defaultVocabularyList;
@@ -27488,6 +27649,7 @@ class ListDefaultVocabulariesResponse {
   }
 }
 
+/// @nodoc
 class ListEntitySecurityProfilesResponse {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
@@ -27522,6 +27684,7 @@ class ListEntitySecurityProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListEvaluationFormsResponse {
   /// Provides details about a list of evaluation forms belonging to an instance.
   final List<EvaluationFormSummary> evaluationFormSummaryList;
@@ -27557,6 +27720,7 @@ class ListEvaluationFormsResponse {
   }
 }
 
+/// @nodoc
 class ListEvaluationFormVersionsResponse {
   /// Provides details about a list of evaluation forms belonging to an instance.
   final List<EvaluationFormVersionSummary> evaluationFormVersionSummaryList;
@@ -27594,6 +27758,7 @@ class ListEvaluationFormVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListFlowAssociationsResponse {
   /// Summary of flow associations.
   final List<FlowAssociationSummary>? flowAssociationSummaryList;
@@ -27629,6 +27794,7 @@ class ListFlowAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListHoursOfOperationOverridesResponse {
   /// Information about the hours of operation override.
   final List<HoursOfOperationOverride>? hoursOfOperationOverrideList;
@@ -27681,6 +27847,7 @@ class ListHoursOfOperationOverridesResponse {
   }
 }
 
+/// @nodoc
 class ListHoursOfOperationsResponse {
   /// Information about the hours of operation.
   final List<HoursOfOperationSummary>? hoursOfOperationSummaryList;
@@ -27717,6 +27884,7 @@ class ListHoursOfOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListInstanceAttributesResponse {
   /// The attribute types.
   final List<Attribute>? attributes;
@@ -27750,6 +27918,7 @@ class ListInstanceAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListInstancesResponse {
   /// Information about the instances.
   final List<InstanceSummary>? instanceSummaryList;
@@ -27784,6 +27953,7 @@ class ListInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListInstanceStorageConfigsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -27818,6 +27988,7 @@ class ListInstanceStorageConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListIntegrationAssociationsResponse {
   /// The associations.
   final List<IntegrationAssociationSummary>? integrationAssociationSummaryList;
@@ -27856,6 +28027,7 @@ class ListIntegrationAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListLambdaFunctionsResponse {
   /// The Lambdafunction ARNs associated with the specified instance.
   final List<String>? lambdaFunctions;
@@ -27889,6 +28061,7 @@ class ListLambdaFunctionsResponse {
   }
 }
 
+/// @nodoc
 class ListLexBotsResponse {
   /// The names and Amazon Web Services Regions of the Amazon Lex bots associated
   /// with the specified instance.
@@ -27923,6 +28096,7 @@ class ListLexBotsResponse {
   }
 }
 
+/// @nodoc
 class ListNotificationsResponse {
   /// A list of notification summaries.
   final List<Notification> notificationSummaryList;
@@ -27957,6 +28131,7 @@ class ListNotificationsResponse {
   }
 }
 
+/// @nodoc
 class ListPhoneNumbersResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -27991,6 +28166,7 @@ class ListPhoneNumbersResponse {
   }
 }
 
+/// @nodoc
 class ListPhoneNumbersV2Response {
   /// Information about phone numbers that have been claimed to your Connect
   /// Customer instances or traffic distribution groups.
@@ -28028,6 +28204,7 @@ class ListPhoneNumbersV2Response {
   }
 }
 
+/// @nodoc
 class ListPredefinedAttributesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28064,6 +28241,7 @@ class ListPredefinedAttributesResponse {
   }
 }
 
+/// @nodoc
 class ListPromptsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28097,6 +28275,7 @@ class ListPromptsResponse {
   }
 }
 
+/// @nodoc
 class ListQueueEmailAddressesResponse {
   /// List of email address summary information for all email addresses associated
   /// with the queue. Each item contains the email address identifier, ARN, and
@@ -28148,6 +28327,7 @@ class ListQueueEmailAddressesResponse {
   }
 }
 
+/// @nodoc
 class ListQueueQuickConnectsResponse {
   /// The Amazon Web Services Region where this resource was last modified.
   final String? lastModifiedRegion;
@@ -28197,6 +28377,7 @@ class ListQueueQuickConnectsResponse {
   }
 }
 
+/// @nodoc
 class ListQueuesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28230,6 +28411,7 @@ class ListQueuesResponse {
   }
 }
 
+/// @nodoc
 class ListQuickConnectsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28264,6 +28446,7 @@ class ListQuickConnectsResponse {
   }
 }
 
+/// @nodoc
 class ListRealtimeContactAnalysisSegmentsV2Response {
   /// The channel of the contact.
   /// <important>
@@ -28320,6 +28503,7 @@ class ListRealtimeContactAnalysisSegmentsV2Response {
   }
 }
 
+/// @nodoc
 class ListRoutingProfileManualAssignmentQueuesResponse {
   /// The Amazon Web Services Region where this resource was last modified.
   final String? lastModifiedRegion;
@@ -28378,6 +28562,7 @@ class ListRoutingProfileManualAssignmentQueuesResponse {
   }
 }
 
+/// @nodoc
 class ListRoutingProfileQueuesResponse {
   /// The Amazon Web Services Region where this resource was last modified.
   final String? lastModifiedRegion;
@@ -28432,6 +28617,7 @@ class ListRoutingProfileQueuesResponse {
   }
 }
 
+/// @nodoc
 class ListRoutingProfilesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28466,6 +28652,7 @@ class ListRoutingProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListRulesResponse {
   /// Summary information about a rule.
   final List<RuleSummary> ruleSummaryList;
@@ -28499,6 +28686,7 @@ class ListRulesResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityKeysResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28532,6 +28720,7 @@ class ListSecurityKeysResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityProfileApplicationsResponse {
   /// A list of the third-party application's metadata.
   final List<Application>? applications;
@@ -28581,6 +28770,7 @@ class ListSecurityProfileApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityProfileFlowModulesResponse {
   /// A list of Flow Modules an AI Agent can invoke as a tool.
   final List<FlowModule>? allowedFlowModules;
@@ -28630,6 +28820,7 @@ class ListSecurityProfileFlowModulesResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityProfilePermissionsResponse {
   /// The Amazon Web Services Region where this resource was last modified.
   final String? lastModifiedRegion;
@@ -28682,6 +28873,7 @@ class ListSecurityProfilePermissionsResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityProfilesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28717,6 +28909,7 @@ class ListSecurityProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Information about the tags.
   final Map<String, String>? tags;
@@ -28740,6 +28933,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTaskTemplatesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28776,6 +28970,7 @@ class ListTaskTemplatesResponse {
   }
 }
 
+/// @nodoc
 class ListTestCaseExecutionRecordsResponse {
   /// An array of test case execution record objects.
   final List<ExecutionRecord>? executionRecords;
@@ -28810,6 +29005,7 @@ class ListTestCaseExecutionRecordsResponse {
   }
 }
 
+/// @nodoc
 class ListTestCaseExecutionsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28843,6 +29039,7 @@ class ListTestCaseExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListTestCasesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28877,6 +29074,7 @@ class ListTestCasesResponse {
   }
 }
 
+/// @nodoc
 class ListTrafficDistributionGroupsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28917,6 +29115,7 @@ class ListTrafficDistributionGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListTrafficDistributionGroupUsersResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28957,6 +29156,7 @@ class ListTrafficDistributionGroupUsersResponse {
   }
 }
 
+/// @nodoc
 class ListUseCasesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -28990,6 +29190,7 @@ class ListUseCasesResponse {
   }
 }
 
+/// @nodoc
 class ListUserHierarchyGroupsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -29025,6 +29226,7 @@ class ListUserHierarchyGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListUserNotificationsResponse {
   /// The token for the next set of results. If present, there are more results
   /// available.
@@ -29059,6 +29261,7 @@ class ListUserNotificationsResponse {
   }
 }
 
+/// @nodoc
 class ListUserProficienciesResponse {
   /// The region in which a user's proficiencies were last modified.
   final String? lastModifiedRegion;
@@ -29108,6 +29311,7 @@ class ListUserProficienciesResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -29141,6 +29345,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class ListViewsResponse {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
@@ -29174,6 +29379,7 @@ class ListViewsResponse {
   }
 }
 
+/// @nodoc
 class ListViewVersionsResponse {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
@@ -29208,6 +29414,7 @@ class ListViewVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListWorkspaceMediaResponse {
   /// A list of media assets for the workspace.
   final List<MediaItem>? media;
@@ -29233,6 +29440,7 @@ class ListWorkspaceMediaResponse {
   }
 }
 
+/// @nodoc
 class ListWorkspacePagesResponse {
   /// A list of page configurations in the workspace.
   final List<WorkspacePage> workspacePageList;
@@ -29266,6 +29474,7 @@ class ListWorkspacePagesResponse {
   }
 }
 
+/// @nodoc
 class ListWorkspacesResponse {
   /// A summary list of workspaces.
   final List<WorkspaceSummary> workspaceSummaryList;
@@ -29300,6 +29509,7 @@ class ListWorkspacesResponse {
   }
 }
 
+/// @nodoc
 class MonitorContactResponse {
   /// The ARN of the contact.
   final String? contactArn;
@@ -29329,6 +29539,7 @@ class MonitorContactResponse {
   }
 }
 
+/// @nodoc
 class PauseContactResponse {
   PauseContactResponse();
 
@@ -29341,6 +29552,7 @@ class PauseContactResponse {
   }
 }
 
+/// @nodoc
 class PutUserStatusResponse {
   PutUserStatusResponse();
 
@@ -29353,6 +29565,7 @@ class PutUserStatusResponse {
   }
 }
 
+/// @nodoc
 class ReplicateInstanceResponse {
   /// The Amazon Resource Name (ARN) of the replicated instance.
   final String? arn;
@@ -29384,6 +29597,7 @@ class ReplicateInstanceResponse {
   }
 }
 
+/// @nodoc
 class ResumeContactResponse {
   ResumeContactResponse();
 
@@ -29396,6 +29610,7 @@ class ResumeContactResponse {
   }
 }
 
+/// @nodoc
 class ResumeContactRecordingResponse {
   ResumeContactRecordingResponse();
 
@@ -29408,6 +29623,7 @@ class ResumeContactRecordingResponse {
   }
 }
 
+/// @nodoc
 class SearchAgentStatusesResponse {
   /// The search criteria to be used to return agent statuses.
   final List<AgentStatus>? agentStatuses;
@@ -29449,6 +29665,7 @@ class SearchAgentStatusesResponse {
   }
 }
 
+/// @nodoc
 class SearchAvailablePhoneNumbersResponse {
   /// A list of available phone numbers that you can claim to your Connect
   /// Customer instance or traffic distribution group.
@@ -29486,6 +29703,7 @@ class SearchAvailablePhoneNumbersResponse {
   }
 }
 
+/// @nodoc
 class SearchContactEvaluationsResponse {
   /// The total number of contact evaluations that matched your search query.
   final int? approximateTotalCount;
@@ -29530,6 +29748,7 @@ class SearchContactEvaluationsResponse {
   }
 }
 
+/// @nodoc
 class SearchContactFlowModulesResponse {
   /// The total number of flows which matched your search query.
   final int? approximateTotalCount;
@@ -29571,6 +29790,7 @@ class SearchContactFlowModulesResponse {
   }
 }
 
+/// @nodoc
 class SearchContactFlowsResponse {
   /// The total number of flows which matched your search query.
   final int? approximateTotalCount;
@@ -29612,6 +29832,7 @@ class SearchContactFlowsResponse {
   }
 }
 
+/// @nodoc
 class SearchContactsResponse {
   /// Information about the contacts.
   final List<ContactSearchSummary> contacts;
@@ -29652,6 +29873,7 @@ class SearchContactsResponse {
   }
 }
 
+/// @nodoc
 class SearchDataTablesResponse {
   /// The approximate number of data tables that matched the search criteria.
   final int? approximateTotalCount;
@@ -29695,6 +29917,7 @@ class SearchDataTablesResponse {
   }
 }
 
+/// @nodoc
 class SearchEmailAddressesResponse {
   /// The total number of email addresses which matched your search query.
   final int? approximateTotalCount;
@@ -29736,6 +29959,7 @@ class SearchEmailAddressesResponse {
   }
 }
 
+/// @nodoc
 class SearchEvaluationFormsResponse {
   /// The total number of evaluation forms that matched your search query.
   final int? approximateTotalCount;
@@ -29781,6 +30005,7 @@ class SearchEvaluationFormsResponse {
   }
 }
 
+/// @nodoc
 class SearchHoursOfOperationOverridesResponse {
   /// The total number of hours of operations which matched your search query.
   final int? approximateTotalCount;
@@ -29825,6 +30050,7 @@ class SearchHoursOfOperationOverridesResponse {
   }
 }
 
+/// @nodoc
 class SearchHoursOfOperationsResponse {
   /// The total number of hours of operations which matched your search query.
   final int? approximateTotalCount;
@@ -29866,6 +30092,7 @@ class SearchHoursOfOperationsResponse {
   }
 }
 
+/// @nodoc
 class SearchNotificationsResponse {
   /// The approximate total number of notifications matching the search criteria.
   final int? approximateTotalCount;
@@ -29908,6 +30135,7 @@ class SearchNotificationsResponse {
   }
 }
 
+/// @nodoc
 class SearchPredefinedAttributesResponse {
   /// The approximate number of predefined attributes which matched your search
   /// query.
@@ -29952,6 +30180,7 @@ class SearchPredefinedAttributesResponse {
   }
 }
 
+/// @nodoc
 class SearchPromptsResponse {
   /// The total number of quick connects which matched your search query.
   final int? approximateTotalCount;
@@ -29993,6 +30222,7 @@ class SearchPromptsResponse {
   }
 }
 
+/// @nodoc
 class SearchQueuesResponse {
   /// The total number of queues which matched your search query.
   final int? approximateTotalCount;
@@ -30034,6 +30264,7 @@ class SearchQueuesResponse {
   }
 }
 
+/// @nodoc
 class SearchQuickConnectsResponse {
   /// The total number of quick connects which matched your search query.
   final int? approximateTotalCount;
@@ -30075,6 +30306,7 @@ class SearchQuickConnectsResponse {
   }
 }
 
+/// @nodoc
 class SearchResourceTagsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -30108,6 +30340,7 @@ class SearchResourceTagsResponse {
   }
 }
 
+/// @nodoc
 class SearchRoutingProfilesResponse {
   /// The total number of routing profiles which matched your search query.
   final int? approximateTotalCount;
@@ -30149,6 +30382,7 @@ class SearchRoutingProfilesResponse {
   }
 }
 
+/// @nodoc
 class SearchSecurityProfilesResponse {
   /// The total number of security profiles which matched your search query.
   final int? approximateTotalCount;
@@ -30191,6 +30425,7 @@ class SearchSecurityProfilesResponse {
   }
 }
 
+/// @nodoc
 class SearchTestCasesResponse {
   /// The total number of test cases which matched your search query.
   final int? approximateTotalCount;
@@ -30232,6 +30467,7 @@ class SearchTestCasesResponse {
   }
 }
 
+/// @nodoc
 class SearchUserHierarchyGroupsResponse {
   /// The total number of userHierarchyGroups which matched your search query.
   final int? approximateTotalCount;
@@ -30275,6 +30511,7 @@ class SearchUserHierarchyGroupsResponse {
   }
 }
 
+/// @nodoc
 class SearchUsersResponse {
   /// The total number of users who matched your search query.
   final int? approximateTotalCount;
@@ -30316,6 +30553,7 @@ class SearchUsersResponse {
   }
 }
 
+/// @nodoc
 class SearchViewsResponse {
   /// The approximate total number of views that match the search criteria.
   final int? approximateTotalCount;
@@ -30357,6 +30595,7 @@ class SearchViewsResponse {
   }
 }
 
+/// @nodoc
 class SearchVocabulariesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -30391,6 +30630,7 @@ class SearchVocabulariesResponse {
   }
 }
 
+/// @nodoc
 class SearchWorkspaceAssociationsResponse {
   /// The approximate total number of workspace associations that match the search
   /// criteria.
@@ -30436,6 +30676,7 @@ class SearchWorkspaceAssociationsResponse {
   }
 }
 
+/// @nodoc
 class SearchWorkspacesResponse {
   /// The approximate total number of workspaces that match the search criteria.
   final int? approximateTotalCount;
@@ -30478,6 +30719,7 @@ class SearchWorkspacesResponse {
   }
 }
 
+/// @nodoc
 class SendChatIntegrationEventResponse {
   /// Identifier of chat contact used to handle integration event. This may be
   /// null if the integration event is not valid without an already existing chat
@@ -30510,6 +30752,7 @@ class SendChatIntegrationEventResponse {
   }
 }
 
+/// @nodoc
 class SendOutboundEmailResponse {
   SendOutboundEmailResponse();
 
@@ -30523,6 +30766,8 @@ class SendOutboundEmailResponse {
 }
 
 /// Response from StartAttachedFileUpload API.
+///
+/// @nodoc
 class StartAttachedFileUploadResponse {
   /// Represents the identity that created the file.
   final CreatedByInfo? createdBy;
@@ -30588,6 +30833,7 @@ class StartAttachedFileUploadResponse {
   }
 }
 
+/// @nodoc
 class StartChatContactResponse {
   /// The identifier of this contact within the Connect Customer instance.
   final String? contactId;
@@ -30636,6 +30882,7 @@ class StartChatContactResponse {
   }
 }
 
+/// @nodoc
 class StartContactEvaluationResponse {
   /// The Amazon Resource Name (ARN) for the contact evaluation resource.
   final String evaluationArn;
@@ -30665,6 +30912,7 @@ class StartContactEvaluationResponse {
   }
 }
 
+/// @nodoc
 class StartContactMediaProcessingResponse {
   StartContactMediaProcessingResponse();
 
@@ -30677,6 +30925,7 @@ class StartContactMediaProcessingResponse {
   }
 }
 
+/// @nodoc
 class StartContactRecordingResponse {
   StartContactRecordingResponse();
 
@@ -30689,6 +30938,7 @@ class StartContactRecordingResponse {
   }
 }
 
+/// @nodoc
 class StartContactStreamingResponse {
   /// The identifier of the streaming configuration enabled.
   final String streamingId;
@@ -30711,6 +30961,7 @@ class StartContactStreamingResponse {
   }
 }
 
+/// @nodoc
 class StartEmailContactResponse {
   /// The identifier of this contact within the Connect Customer instance.
   final String? contactId;
@@ -30733,6 +30984,7 @@ class StartEmailContactResponse {
   }
 }
 
+/// @nodoc
 class StartOutboundChatContactResponse {
   /// The identifier of this contact within the Connect Customer instance.
   final String? contactId;
@@ -30755,6 +31007,7 @@ class StartOutboundChatContactResponse {
   }
 }
 
+/// @nodoc
 class StartOutboundEmailContactResponse {
   /// The identifier of the contact in this instance of Connect Customer.
   final String? contactId;
@@ -30778,6 +31031,7 @@ class StartOutboundEmailContactResponse {
   }
 }
 
+/// @nodoc
 class StartOutboundVoiceContactResponse {
   /// The identifier of this contact within the Connect Customer instance.
   final String? contactId;
@@ -30801,6 +31055,7 @@ class StartOutboundVoiceContactResponse {
   }
 }
 
+/// @nodoc
 class StartScreenSharingResponse {
   StartScreenSharingResponse();
 
@@ -30813,6 +31068,7 @@ class StartScreenSharingResponse {
   }
 }
 
+/// @nodoc
 class StartTaskContactResponse {
   /// The identifier of this contact within the Connect Customer instance.
   final String? contactId;
@@ -30835,6 +31091,7 @@ class StartTaskContactResponse {
   }
 }
 
+/// @nodoc
 class StartTestCaseExecutionResponse {
   final TestCaseExecutionStatus? status;
 
@@ -30872,6 +31129,7 @@ class StartTestCaseExecutionResponse {
   }
 }
 
+/// @nodoc
 class StartWebRTCContactResponse {
   /// Information required for the client application (mobile application or
   /// website) to connect to the call.
@@ -30923,6 +31181,7 @@ class StartWebRTCContactResponse {
   }
 }
 
+/// @nodoc
 class StopContactResponse {
   StopContactResponse();
 
@@ -30935,6 +31194,7 @@ class StopContactResponse {
   }
 }
 
+/// @nodoc
 class StopContactMediaProcessingResponse {
   StopContactMediaProcessingResponse();
 
@@ -30947,6 +31207,7 @@ class StopContactMediaProcessingResponse {
   }
 }
 
+/// @nodoc
 class StopContactRecordingResponse {
   StopContactRecordingResponse();
 
@@ -30959,6 +31220,7 @@ class StopContactRecordingResponse {
   }
 }
 
+/// @nodoc
 class StopContactStreamingResponse {
   StopContactStreamingResponse();
 
@@ -30971,6 +31233,7 @@ class StopContactStreamingResponse {
   }
 }
 
+/// @nodoc
 class StopTestCaseExecutionResponse {
   StopTestCaseExecutionResponse();
 
@@ -30983,6 +31246,7 @@ class StopTestCaseExecutionResponse {
   }
 }
 
+/// @nodoc
 class SubmitContactEvaluationResponse {
   /// The Amazon Resource Name (ARN) for the contact evaluation resource.
   final String evaluationArn;
@@ -31012,6 +31276,7 @@ class SubmitContactEvaluationResponse {
   }
 }
 
+/// @nodoc
 class SuspendContactRecordingResponse {
   SuspendContactRecordingResponse();
 
@@ -31024,6 +31289,7 @@ class SuspendContactRecordingResponse {
   }
 }
 
+/// @nodoc
 class TagContactResponse {
   TagContactResponse();
 
@@ -31036,6 +31302,7 @@ class TagContactResponse {
   }
 }
 
+/// @nodoc
 class TransferContactResponse {
   /// The Amazon Resource Name (ARN) of the contact.
   final String? contactArn;
@@ -31065,6 +31332,7 @@ class TransferContactResponse {
   }
 }
 
+/// @nodoc
 class UntagContactResponse {
   UntagContactResponse();
 
@@ -31077,6 +31345,7 @@ class UntagContactResponse {
   }
 }
 
+/// @nodoc
 class UpdateAttachedFilesConfigurationResponse {
   /// The scope of the attachment.
   final AttachmentScope attachmentScope;
@@ -31135,6 +31404,7 @@ class UpdateAttachedFilesConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactResponse {
   UpdateContactResponse();
 
@@ -31147,6 +31417,7 @@ class UpdateContactResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactAttributesResponse {
   UpdateContactAttributesResponse();
 
@@ -31159,6 +31430,7 @@ class UpdateContactAttributesResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactEvaluationResponse {
   /// The Amazon Resource Name (ARN) for the contact evaluation resource.
   final String evaluationArn;
@@ -31188,6 +31460,7 @@ class UpdateContactEvaluationResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactFlowContentResponse {
   UpdateContactFlowContentResponse();
 
@@ -31200,6 +31473,7 @@ class UpdateContactFlowContentResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactFlowMetadataResponse {
   UpdateContactFlowMetadataResponse();
 
@@ -31212,6 +31486,7 @@ class UpdateContactFlowMetadataResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactFlowModuleAliasResponse {
   UpdateContactFlowModuleAliasResponse();
 
@@ -31225,6 +31500,7 @@ class UpdateContactFlowModuleAliasResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactFlowModuleContentResponse {
   UpdateContactFlowModuleContentResponse();
 
@@ -31238,6 +31514,7 @@ class UpdateContactFlowModuleContentResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactFlowModuleMetadataResponse {
   UpdateContactFlowModuleMetadataResponse();
 
@@ -31251,6 +31528,7 @@ class UpdateContactFlowModuleMetadataResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactFlowNameResponse {
   UpdateContactFlowNameResponse();
 
@@ -31263,6 +31541,7 @@ class UpdateContactFlowNameResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactRoutingDataResponse {
   UpdateContactRoutingDataResponse();
 
@@ -31275,6 +31554,7 @@ class UpdateContactRoutingDataResponse {
   }
 }
 
+/// @nodoc
 class UpdateContactScheduleResponse {
   UpdateContactScheduleResponse();
 
@@ -31287,6 +31567,7 @@ class UpdateContactScheduleResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataTableAttributeResponse {
   /// The new lock version for the attribute after the update.
   final DataTableLockVersion lockVersion;
@@ -31318,6 +31599,7 @@ class UpdateDataTableAttributeResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataTableMetadataResponse {
   /// The new lock version for the data table after the update.
   final DataTableLockVersion lockVersion;
@@ -31342,6 +31624,7 @@ class UpdateDataTableMetadataResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataTablePrimaryValuesResponse {
   /// The updated lock version information for the data table and affected
   /// components after the primary values change.
@@ -31368,6 +31651,7 @@ class UpdateDataTablePrimaryValuesResponse {
   }
 }
 
+/// @nodoc
 class UpdateEmailAddressMetadataResponse {
   /// The Amazon Resource Name (ARN) of the email address.
   final String? emailAddressArn;
@@ -31398,6 +31682,7 @@ class UpdateEmailAddressMetadataResponse {
   }
 }
 
+/// @nodoc
 class UpdateEvaluationFormResponse {
   /// The Amazon Resource Name (ARN) for the contact evaluation resource.
   final String evaluationFormArn;
@@ -31435,6 +31720,8 @@ class UpdateEvaluationFormResponse {
 }
 
 /// The response from updating notification content.
+///
+/// @nodoc
 class UpdateNotificationContentResponse {
   UpdateNotificationContentResponse();
 
@@ -31447,6 +31734,7 @@ class UpdateNotificationContentResponse {
   }
 }
 
+/// @nodoc
 class UpdateParticipantAuthenticationResponse {
   UpdateParticipantAuthenticationResponse();
 
@@ -31460,6 +31748,7 @@ class UpdateParticipantAuthenticationResponse {
   }
 }
 
+/// @nodoc
 class UpdateParticipantRoleConfigResponse {
   UpdateParticipantRoleConfigResponse();
 
@@ -31472,6 +31761,7 @@ class UpdateParticipantRoleConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdatePhoneNumberResponse {
   /// The Amazon Resource Name (ARN) of the phone number.
   final String? phoneNumberArn;
@@ -31501,6 +31791,7 @@ class UpdatePhoneNumberResponse {
   }
 }
 
+/// @nodoc
 class UpdatePromptResponse {
   /// The Amazon Resource Name (ARN) of the prompt.
   final String? promptARN;
@@ -31530,6 +31821,7 @@ class UpdatePromptResponse {
   }
 }
 
+/// @nodoc
 class UpdateTaskTemplateResponse {
   /// The Amazon Resource Name (ARN) for the task template resource.
   final String? arn;
@@ -31654,6 +31946,7 @@ class UpdateTaskTemplateResponse {
   }
 }
 
+/// @nodoc
 class UpdateTestCaseResponse {
   UpdateTestCaseResponse();
 
@@ -31666,6 +31959,7 @@ class UpdateTestCaseResponse {
   }
 }
 
+/// @nodoc
 class UpdateTrafficDistributionResponse {
   UpdateTrafficDistributionResponse();
 
@@ -31679,6 +31973,8 @@ class UpdateTrafficDistributionResponse {
 }
 
 /// The response from updating a user's notification status.
+///
+/// @nodoc
 class UpdateUserNotificationStatusResponse {
   UpdateUserNotificationStatusResponse();
 
@@ -31692,6 +31988,7 @@ class UpdateUserNotificationStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdateViewContentResponse {
   /// A view resource object. Contains metadata and content necessary to render
   /// the view.
@@ -31717,6 +32014,7 @@ class UpdateViewContentResponse {
   }
 }
 
+/// @nodoc
 class UpdateViewMetadataResponse {
   UpdateViewMetadataResponse();
 
@@ -31729,6 +32027,7 @@ class UpdateViewMetadataResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceMetadataResponse {
   UpdateWorkspaceMetadataResponse();
 
@@ -31741,6 +32040,7 @@ class UpdateWorkspaceMetadataResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspacePageResponse {
   UpdateWorkspacePageResponse();
 
@@ -31753,6 +32053,7 @@ class UpdateWorkspacePageResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceThemeResponse {
   UpdateWorkspaceThemeResponse();
 
@@ -31765,6 +32066,7 @@ class UpdateWorkspaceThemeResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkspaceVisibilityResponse {
   UpdateWorkspaceVisibilityResponse();
 
@@ -31777,6 +32079,7 @@ class UpdateWorkspaceVisibilityResponse {
   }
 }
 
+/// @nodoc
 class Visibility {
   static const all = Visibility._('ALL');
   static const assigned = Visibility._('ASSIGNED');
@@ -31803,6 +32106,8 @@ class Visibility {
 
 /// Contains theme configuration for a workspace, supporting both light and dark
 /// modes.
+///
+/// @nodoc
 class WorkspaceTheme {
   /// The theme configuration for dark mode.
   final WorkspaceThemeConfig? dark;
@@ -31838,6 +32143,8 @@ class WorkspaceTheme {
 
 /// Contains detailed theme configuration for a workspace, including colors,
 /// images, and typography.
+///
+/// @nodoc
 class WorkspaceThemeConfig {
   /// The image assets used in the workspace theme.
   final WorkspaceThemeImages? images;
@@ -31884,6 +32191,8 @@ class WorkspaceThemeConfig {
 }
 
 /// Contains color palette configuration for different areas of a workspace.
+///
+/// @nodoc
 class WorkspaceThemePalette {
   /// The color configuration for the canvas area.
   final PaletteCanvas? canvas;
@@ -31937,6 +32246,8 @@ class WorkspaceThemePalette {
 }
 
 /// Contains image configuration for a workspace theme.
+///
+/// @nodoc
 class WorkspaceThemeImages {
   /// The logo images used in the workspace.
   final ImagesLogo? logo;
@@ -31962,6 +32273,8 @@ class WorkspaceThemeImages {
 }
 
 /// Contains typography configuration for a workspace theme.
+///
+/// @nodoc
 class WorkspaceThemeTypography {
   /// The font family configuration for text in the workspace.
   final FontFamily? fontFamily;
@@ -31987,6 +32300,8 @@ class WorkspaceThemeTypography {
 }
 
 /// Contains font family configuration for workspace themes.
+///
+/// @nodoc
 class FontFamily {
   /// The default font family to use in the workspace theme.
   final WorkspaceFontFamily? defaultValue;
@@ -32010,6 +32325,7 @@ class FontFamily {
   }
 }
 
+/// @nodoc
 class WorkspaceFontFamily {
   static const arial = WorkspaceFontFamily._('Arial');
   static const courierNew = WorkspaceFontFamily._('Courier New');
@@ -32047,6 +32363,8 @@ class WorkspaceFontFamily {
 }
 
 /// Contains logo image configuration for workspace themes.
+///
+/// @nodoc
 class ImagesLogo {
   /// The default logo image displayed in the workspace.
   final String? defaultValue;
@@ -32077,6 +32395,8 @@ class ImagesLogo {
 }
 
 /// Contains color configuration for header elements in a workspace theme.
+///
+/// @nodoc
 class PaletteHeader {
   /// The background color of the header.
   final String? background;
@@ -32122,6 +32442,8 @@ class PaletteHeader {
 }
 
 /// Contains color configuration for navigation elements in a workspace theme.
+///
+/// @nodoc
 class PaletteNavigation {
   /// The background color of the navigation area.
   final String? background;
@@ -32190,6 +32512,8 @@ class PaletteNavigation {
 }
 
 /// Contains color configuration for canvas elements in a workspace theme.
+///
+/// @nodoc
 class PaletteCanvas {
   /// The background color for active elements.
   final String? activeBackground;
@@ -32228,6 +32552,8 @@ class PaletteCanvas {
 }
 
 /// Contains primary color configuration for a workspace theme.
+///
+/// @nodoc
 class PalettePrimary {
   /// The primary color used for active states.
   final String? active;
@@ -32266,6 +32592,8 @@ class PalettePrimary {
 
 /// A view resource object. Contains metadata and content necessary to render
 /// the view.
+///
+/// @nodoc
 class View {
   /// The Amazon Resource Name (ARN) of the view.
   final String? arn;
@@ -32380,6 +32708,7 @@ class View {
   }
 }
 
+/// @nodoc
 class ViewStatus {
   static const published = ViewStatus._('PUBLISHED');
   static const saved = ViewStatus._('SAVED');
@@ -32403,6 +32732,7 @@ class ViewStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ViewType {
   static const customerManaged = ViewType._('CUSTOMER_MANAGED');
   static const awsManaged = ViewType._('AWS_MANAGED');
@@ -32428,6 +32758,8 @@ class ViewType {
 
 /// View content containing all content necessary to render a view except for
 /// runtime input data.
+///
+/// @nodoc
 class ViewContent {
   /// A list of possible actions from the view.
   final List<String>? actions;
@@ -32469,6 +32801,8 @@ class ViewContent {
 /// View content containing all content necessary to render a view except for
 /// runtime input data and the runtime input schema, which is auto-generated by
 /// this operation.
+///
+/// @nodoc
 class ViewInputContent {
   /// A list of possible actions from the view.
   final List<String>? actions;
@@ -32492,6 +32826,8 @@ class ViewInputContent {
 }
 
 /// Information about proficiency of a user.
+///
+/// @nodoc
 class UserProficiency {
   /// The name of user's proficiency. You must use name of predefined attribute
   /// present in the Connect Customer instance.
@@ -32531,6 +32867,8 @@ class UserProficiency {
 }
 
 /// Contains information about the phone configuration settings for a user.
+///
+/// @nodoc
 class UserPhoneConfig {
   /// The After Call Work (ACW) timeout setting, in seconds. This parameter has a
   /// minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter
@@ -32591,6 +32929,7 @@ class UserPhoneConfig {
   }
 }
 
+/// @nodoc
 class PhoneType {
   static const softPhone = PhoneType._('SOFT_PHONE');
   static const deskPhone = PhoneType._('DESK_PHONE');
@@ -32616,6 +32955,8 @@ class PhoneType {
 
 /// The status of a notification for a specific user. Valid values are READ,
 /// UNREAD, and HIDDEN (removes the notification from the widget).
+///
+/// @nodoc
 class NotificationStatus {
   static const read = NotificationStatus._('READ');
   static const unread = NotificationStatus._('UNREAD');
@@ -32655,6 +32996,8 @@ class NotificationStatus {
 /// using Connect Customer for identity management, the length constraints are
 /// 1-255 for <code>FirstName</code>, and 1-256 for <code>LastName</code>.
 /// </important>
+///
+/// @nodoc
 class UserIdentityInfo {
   /// The email address. If you are using SAML for identity management and include
   /// this parameter, an error is returned.
@@ -32680,7 +33023,7 @@ class UserIdentityInfo {
   /// - to this email address instead of to their primary email address.
   ///
   /// Pattern:
-  /// <code>(?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}</code>
+  /// <code>(?=^.{0,265}$)\[a-zA-Z0-9._%+-\]+@\[a-zA-Z0-9.-\]+\.\[a-zA-Z\]{2,63}</code>
   final String? secondaryEmail;
 
   UserIdentityInfo({
@@ -32718,6 +33061,8 @@ class UserIdentityInfo {
 }
 
 /// Contains information about the level hierarchy to update.
+///
+/// @nodoc
 class HierarchyStructureUpdate {
   /// The update for level five.
   final HierarchyLevelUpdate? levelFive;
@@ -32759,6 +33104,8 @@ class HierarchyStructureUpdate {
 }
 
 /// Contains information about the hierarchy level to update.
+///
+/// @nodoc
 class HierarchyLevelUpdate {
   /// The name of the user hierarchy level. Must not be more than 50 characters.
   final String name;
@@ -32776,6 +33123,8 @@ class HierarchyLevelUpdate {
 }
 
 /// Configuration settings for voice enhancement.
+///
+/// @nodoc
 class VoiceEnhancementConfig {
   /// The channel for this voice enhancement configuration. <b>Only
   /// <code>VOICE</code> is supported for this data type.</b>
@@ -32807,6 +33156,7 @@ class VoiceEnhancementConfig {
   }
 }
 
+/// @nodoc
 class Channel {
   static const voice = Channel._('VOICE');
   static const chat = Channel._('CHAT');
@@ -32832,6 +33182,7 @@ class Channel {
   String toString() => value;
 }
 
+/// @nodoc
 class VoiceEnhancementMode {
   static const voiceIsolation = VoiceEnhancementMode._('VOICE_ISOLATION');
   static const noiseSuppression = VoiceEnhancementMode._('NOISE_SUPPRESSION');
@@ -32859,6 +33210,8 @@ class VoiceEnhancementMode {
 }
 
 /// Configuration settings for persistent connection for a specific channel.
+///
+/// @nodoc
 class PersistentConnectionConfig {
   /// Configuration settings for persistent connection. <b>Only <code>VOICE</code>
   /// is supported for this data type.</b>
@@ -32892,6 +33245,8 @@ class PersistentConnectionConfig {
 }
 
 /// Configuration settings for phone type and phone number.
+///
+/// @nodoc
 class PhoneNumberConfig {
   /// The channel for this phone number configuration. <b>Only <code>VOICE</code>
   /// is supported for this data type.</b>
@@ -32931,6 +33286,8 @@ class PhoneNumberConfig {
 
 /// Configuration settings for after contact work (ACW) timeout for a specific
 /// channel.
+///
+/// @nodoc
 class AfterContactWorkConfigPerChannel {
   /// The ACW timeout settings for this channel.
   final AfterContactWorkConfig afterContactWorkConfig;
@@ -32980,6 +33337,8 @@ class AfterContactWorkConfigPerChannel {
 }
 
 /// Configuration settings for after contact work (ACW) timeout.
+///
+/// @nodoc
 class AfterContactWorkConfig {
   /// The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000
   /// seconds (24 days). Enter 0 for indefinite ACW time.
@@ -33005,6 +33364,8 @@ class AfterContactWorkConfig {
 }
 
 /// Configuration settings for auto-accept for a specific channel.
+///
+/// @nodoc
 class AutoAcceptConfig {
   /// Indicates whether auto-accept is enabled for this channel. When enabled,
   /// available agents are automatically connected to contacts from this channel.
@@ -33047,6 +33408,8 @@ class AutoAcceptConfig {
 }
 
 /// The distribution of traffic between the instance and its replicas.
+///
+/// @nodoc
 class TelephonyConfig {
   /// Information about traffic distributions.
   final List<Distribution> distributions;
@@ -33074,6 +33437,8 @@ class TelephonyConfig {
 
 /// The distribution that determines which Amazon Web Services Regions should be
 /// used to sign in agents in to both the instance and its replica(s).
+///
+/// @nodoc
 class SignInConfig {
   /// Information about traffic distributions.
   final List<SignInDistribution> distributions;
@@ -33100,6 +33465,8 @@ class SignInConfig {
 }
 
 /// The distribution of agents between the instance and its replica(s).
+///
+/// @nodoc
 class AgentConfig {
   /// Information about traffic distributions.
   final List<Distribution> distributions;
@@ -33126,6 +33493,8 @@ class AgentConfig {
 }
 
 /// Information about a traffic distribution.
+///
+/// @nodoc
 class Distribution {
   /// The percentage of the traffic that is distributed, in increments of 10.
   final int percentage;
@@ -33156,6 +33525,8 @@ class Distribution {
 }
 
 /// The distribution of sign in traffic between the instance and its replica(s).
+///
+/// @nodoc
 class SignInDistribution {
   /// Whether sign in distribution is enabled.
   final bool enabled;
@@ -33186,6 +33557,8 @@ class SignInDistribution {
 }
 
 /// Defines the starting point for a test case.
+///
+/// @nodoc
 class TestCaseEntryPoint {
   /// Parameters for chat entry point.
   final ChatEntryPointParameters? chatEntryPointParameters;
@@ -33232,6 +33605,8 @@ class TestCaseEntryPoint {
 }
 
 /// The status of a test case.
+///
+/// @nodoc
 class TestCaseStatus {
   static const published = TestCaseStatus._('PUBLISHED');
   static const saved = TestCaseStatus._('SAVED');
@@ -33256,6 +33631,7 @@ class TestCaseStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TestCaseEntryPointType {
   static const voiceCall = TestCaseEntryPointType._('VOICE_CALL');
   static const chat = TestCaseEntryPointType._('CHAT');
@@ -33282,6 +33658,8 @@ class TestCaseEntryPointType {
 }
 
 /// Parameters for initiating a voice call test.
+///
+/// @nodoc
 class VoiceCallEntryPointParameters {
   /// The destination phone number for the test.
   final String? destinationPhoneNumber;
@@ -33320,6 +33698,8 @@ class VoiceCallEntryPointParameters {
 }
 
 /// Parameters for initiating a chat test.
+///
+/// @nodoc
 class ChatEntryPointParameters {
   /// The flow identifier for the test.
   final String? flowId;
@@ -33343,6 +33723,8 @@ class ChatEntryPointParameters {
 }
 
 /// Describes constraints that apply to the template fields.
+///
+/// @nodoc
 class TaskTemplateConstraints {
   /// Lists the fields that are invisible to agents.
   final List<InvisibleFieldInfo>? invisibleFields;
@@ -33389,6 +33771,8 @@ class TaskTemplateConstraints {
 }
 
 /// Describes default values for fields on a template.
+///
+/// @nodoc
 class TaskTemplateDefaults {
   /// Default value for the field.
   final List<TaskTemplateDefaultFieldValue>? defaultFieldValues;
@@ -33415,6 +33799,7 @@ class TaskTemplateDefaults {
   }
 }
 
+/// @nodoc
 class TaskTemplateStatus {
   static const active = TaskTemplateStatus._('ACTIVE');
   static const inactive = TaskTemplateStatus._('INACTIVE');
@@ -33441,6 +33826,8 @@ class TaskTemplateStatus {
 }
 
 /// Describes a single task template field.
+///
+/// @nodoc
 class TaskTemplateField {
   /// The unique identifier for the field.
   final TaskTemplateFieldIdentifier id;
@@ -33490,6 +33877,8 @@ class TaskTemplateField {
 }
 
 /// The identifier of the task template field.
+///
+/// @nodoc
 class TaskTemplateFieldIdentifier {
   /// The name of the task template field.
   final String? name;
@@ -33512,6 +33901,7 @@ class TaskTemplateFieldIdentifier {
   }
 }
 
+/// @nodoc
 class TaskTemplateFieldType {
   static const name = TaskTemplateFieldType._('NAME');
   static const description = TaskTemplateFieldType._('DESCRIPTION');
@@ -33565,6 +33955,8 @@ class TaskTemplateFieldType {
 }
 
 /// Describes a default field and its corresponding value.
+///
+/// @nodoc
 class TaskTemplateDefaultFieldValue {
   /// Default value for the field.
   final String? defaultValue;
@@ -33598,6 +33990,8 @@ class TaskTemplateDefaultFieldValue {
 }
 
 /// A field that is invisible to an agent.
+///
+/// @nodoc
 class InvisibleFieldInfo {
   /// Identifier of the invisible field.
   final TaskTemplateFieldIdentifier? id;
@@ -33624,6 +34018,8 @@ class InvisibleFieldInfo {
 }
 
 /// Indicates a field that is read-only to an agent.
+///
+/// @nodoc
 class ReadOnlyFieldInfo {
   /// Identifier of the read-only field.
   final TaskTemplateFieldIdentifier? id;
@@ -33650,6 +34046,8 @@ class ReadOnlyFieldInfo {
 }
 
 /// Information about a required field.
+///
+/// @nodoc
 class RequiredFieldInfo {
   /// The unique identifier for the field.
   final TaskTemplateFieldIdentifier? id;
@@ -33677,6 +34075,8 @@ class RequiredFieldInfo {
 
 /// Contains granular access control configuration for security profiles,
 /// including data table access permissions.
+///
+/// @nodoc
 class GranularAccessControlConfiguration {
   /// The access control configuration for data tables.
   final DataTableAccessControlConfiguration?
@@ -33710,6 +34110,8 @@ class GranularAccessControlConfiguration {
 }
 
 /// A data table access control configuration.
+///
+/// @nodoc
 class DataTableAccessControlConfiguration {
   /// The configuration's primary attribute access control configuration.
   final PrimaryAttributeAccessControlConfigurationItem?
@@ -33743,6 +34145,8 @@ class DataTableAccessControlConfiguration {
 }
 
 /// A primary attribute access control configuration item.
+///
+/// @nodoc
 class PrimaryAttributeAccessControlConfigurationItem {
   /// The item's primary attribute values.
   final List<PrimaryAttributeValue>? primaryAttributeValues;
@@ -33771,6 +34175,8 @@ class PrimaryAttributeAccessControlConfigurationItem {
 }
 
 /// A primary attribute value.
+///
+/// @nodoc
 class PrimaryAttributeValue {
   /// The value's access type.
   final AccessType? accessType;
@@ -33808,6 +34214,7 @@ class PrimaryAttributeValue {
   }
 }
 
+/// @nodoc
 class AccessType {
   static const allow = AccessType._('ALLOW');
 
@@ -33831,6 +34238,8 @@ class AccessType {
 }
 
 /// A list of Flow Modules an AI Agent can invoke as a tool
+///
+/// @nodoc
 class FlowModule {
   /// If of Flow Modules invocable as tool
   final String? flowModuleId;
@@ -33860,6 +34269,7 @@ class FlowModule {
   }
 }
 
+/// @nodoc
 class FlowModuleType {
   static const mcp = FlowModuleType._('MCP');
 
@@ -33887,6 +34297,8 @@ class FlowModuleType {
 /// change.
 ///
 /// A third-party application's metadata.
+///
+/// @nodoc
 class Application {
   /// The permissions that the agent is granted on the application. For
   /// third-party applications, only the <code>ACCESS</code> permission is
@@ -33930,6 +34342,7 @@ class Application {
   }
 }
 
+/// @nodoc
 class ApplicationType {
   static const mcp = ApplicationType._('MCP');
   static const thirdPartyApplication =
@@ -33955,6 +34368,7 @@ class ApplicationType {
   String toString() => value;
 }
 
+/// @nodoc
 class RulePublishStatus {
   static const draft = RulePublishStatus._('DRAFT');
   static const published = RulePublishStatus._('PUBLISHED');
@@ -33980,6 +34394,8 @@ class RulePublishStatus {
 }
 
 /// Information about the action to be performed when a rule is triggered.
+///
+/// @nodoc
 class RuleAction {
   /// The type of action that creates a rule.
   final ActionType actionType;
@@ -34133,6 +34549,7 @@ class RuleAction {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const createTask = ActionType._('CREATE_TASK');
   static const assignContactCategory = ActionType._('ASSIGN_CONTACT_CATEGORY');
@@ -34175,6 +34592,8 @@ class ActionType {
 }
 
 /// Information about the task action.
+///
+/// @nodoc
 class TaskActionDefinition {
   /// The identifier of the flow.
   final String contactFlowId;
@@ -34226,6 +34645,8 @@ class TaskActionDefinition {
 }
 
 /// The EventBridge action definition.
+///
+/// @nodoc
 class EventBridgeActionDefinition {
   /// The name.
   final String name;
@@ -34256,6 +34677,8 @@ class EventBridgeActionDefinition {
 /// rule name.
 ///
 /// <code>RuleName</code> is used as <code>ContactCategory</code>.
+///
+/// @nodoc
 class AssignContactCategoryActionDefinition {
   AssignContactCategoryActionDefinition();
 
@@ -34270,6 +34693,8 @@ class AssignContactCategoryActionDefinition {
 }
 
 /// Information about the send notification action.
+///
+/// @nodoc
 class SendNotificationActionDefinition {
   /// Notification content. Supports variable injection. For more information, see
   /// <a
@@ -34341,6 +34766,8 @@ class SendNotificationActionDefinition {
 }
 
 /// The <code>CreateCase</code> action definition.
+///
+/// @nodoc
 class CreateCaseActionDefinition {
   /// An array of objects with <code>Field ID</code> and <code>Value</code> data.
   final List<FieldValue> fields;
@@ -34374,6 +34801,8 @@ class CreateCaseActionDefinition {
 }
 
 /// The <code>UpdateCase</code> action definition.
+///
+/// @nodoc
 class UpdateCaseActionDefinition {
   /// An array of objects with <code>Field ID</code> and Value data.
   final List<FieldValue> fields;
@@ -34400,6 +34829,8 @@ class UpdateCaseActionDefinition {
 }
 
 /// The AssignSla action definition.
+///
+/// @nodoc
 class AssignSlaActionDefinition {
   /// Type of SLA assignment.
   final SlaAssignmentType slaAssignmentType;
@@ -34435,6 +34866,8 @@ class AssignSlaActionDefinition {
 }
 
 /// End associated tasks related to a case.
+///
+/// @nodoc
 class EndAssociatedTasksActionDefinition {
   EndAssociatedTasksActionDefinition();
 
@@ -34448,6 +34881,8 @@ class EndAssociatedTasksActionDefinition {
 }
 
 /// Information about the submit automated evaluation action.
+///
+/// @nodoc
 class SubmitAutoEvaluationActionDefinition {
   /// The identifier of the auto-evaluation enabled form.
   final String evaluationFormId;
@@ -34471,6 +34906,7 @@ class SubmitAutoEvaluationActionDefinition {
   }
 }
 
+/// @nodoc
 class SlaAssignmentType {
   static const cases = SlaAssignmentType._('CASES');
 
@@ -34495,6 +34931,8 @@ class SlaAssignmentType {
 }
 
 /// The SLA configuration for Case SlaAssignmentType.
+///
+/// @nodoc
 class CaseSlaConfiguration {
   /// Name of an SLA.
   final String name;
@@ -34550,6 +34988,7 @@ class CaseSlaConfiguration {
   }
 }
 
+/// @nodoc
 class SlaType {
   static const caseField = SlaType._('CaseField');
 
@@ -34573,6 +35012,8 @@ class SlaType {
 }
 
 /// Object to store union of Field values.
+///
+/// @nodoc
 class FieldValueUnion {
   /// A Boolean number value type.
   final bool? booleanValue;
@@ -34619,6 +35060,8 @@ class FieldValueUnion {
 }
 
 /// An empty value.
+///
+/// @nodoc
 class EmptyFieldValue {
   EmptyFieldValue();
 
@@ -34632,6 +35075,8 @@ class EmptyFieldValue {
 }
 
 /// Object for case field values.
+///
+/// @nodoc
 class FieldValue {
   /// Unique identifier of a field.
   final String id;
@@ -34663,6 +35108,7 @@ class FieldValue {
   }
 }
 
+/// @nodoc
 class NotificationDeliveryType {
   static const email = NotificationDeliveryType._('EMAIL');
 
@@ -34687,6 +35133,7 @@ class NotificationDeliveryType {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationContentType {
   static const plainText = NotificationContentType._('PLAIN_TEXT');
 
@@ -34712,6 +35159,8 @@ class NotificationContentType {
 }
 
 /// The type of notification recipient.
+///
+/// @nodoc
 class NotificationRecipientType {
   /// A list of user IDs. Supports variable injection of
   /// <code>$.ContactLens.ContactEvaluation.Agent.AgentId</code> for
@@ -34749,6 +35198,8 @@ class NotificationRecipientType {
 
 /// Well-formed data on a contact, used by agents to complete a contact request.
 /// You can have up to 4,096 UTF-8 bytes across all references for a contact.
+///
+/// @nodoc
 class Reference {
   /// The type of the reference. <code>DATE</code> must be of type Epoch
   /// timestamp.
@@ -34802,6 +35253,7 @@ class Reference {
   }
 }
 
+/// @nodoc
 class ReferenceType {
   static const url = ReferenceType._('URL');
   static const attachment = ReferenceType._('ATTACHMENT');
@@ -34849,6 +35301,7 @@ class ReferenceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReferenceStatus {
   static const available = ReferenceStatus._('AVAILABLE');
   static const deleted = ReferenceStatus._('DELETED');
@@ -34886,6 +35339,8 @@ class ReferenceStatus {
 
 /// Contains information about the queue and channel for which priority and
 /// delay can be set.
+///
+/// @nodoc
 class RoutingProfileQueueConfig {
   /// The delay, in seconds, a contact should be in the queue before they are
   /// routed to an available agent. For more information, see <a
@@ -34921,6 +35376,8 @@ class RoutingProfileQueueConfig {
 }
 
 /// Contains the channel and queue identifier for a routing profile.
+///
+/// @nodoc
 class RoutingProfileQueueReference {
   /// The channels agents can handle in the Contact Control Panel (CCP) for this
   /// routing profile.
@@ -34946,6 +35403,8 @@ class RoutingProfileQueueReference {
 
 /// Contains information about which channels are supported, and how many
 /// contacts an agent can have on a channel simultaneously.
+///
+/// @nodoc
 class MediaConcurrency {
   /// The channels that agents can handle in the Contact Control Panel (CCP).
   final Channel channel;
@@ -34997,6 +35456,8 @@ class MediaConcurrency {
 
 /// Defines the cross-channel routing behavior that allows an agent working on a
 /// contact in one channel to be offered a contact from a different channel.
+///
+/// @nodoc
 class CrossChannelBehavior {
   /// Specifies the other channels that can be routed to an agent handling their
   /// current channel.
@@ -35021,6 +35482,7 @@ class CrossChannelBehavior {
   }
 }
 
+/// @nodoc
 class BehaviorType {
   static const routeCurrentChannelOnly =
       BehaviorType._('ROUTE_CURRENT_CHANNEL_ONLY');
@@ -35045,6 +35507,7 @@ class BehaviorType {
   String toString() => value;
 }
 
+/// @nodoc
 class AgentAvailabilityTimer {
   static const timeSinceLastActivity =
       AgentAvailabilityTimer._('TIME_SINCE_LAST_ACTIVITY');
@@ -35073,6 +35536,8 @@ class AgentAvailabilityTimer {
 }
 
 /// Contains configuration settings for a quick connect.
+///
+/// @nodoc
 class QuickConnectConfig {
   /// The type of quick connect. In the Connect Customer admin website, when you
   /// create a quick connect, you are prompted to assign one of the following
@@ -35139,6 +35604,7 @@ class QuickConnectConfig {
   }
 }
 
+/// @nodoc
 class QuickConnectType {
   static const user = QuickConnectType._('USER');
   static const queue = QuickConnectType._('QUEUE');
@@ -35167,6 +35633,8 @@ class QuickConnectType {
 
 /// Contains information about the quick connect configuration settings for a
 /// user. The contact flow must be of type Transfer to Agent.
+///
+/// @nodoc
 class UserQuickConnectConfig {
   /// The identifier of the flow.
   final String contactFlowId;
@@ -35198,6 +35666,8 @@ class UserQuickConnectConfig {
 
 /// Contains information about a queue for a quick connect. The flow must be of
 /// type Transfer to Queue.
+///
+/// @nodoc
 class QueueQuickConnectConfig {
   /// The identifier of the flow.
   final String contactFlowId;
@@ -35228,6 +35698,8 @@ class QueueQuickConnectConfig {
 }
 
 /// Contains information about a phone number for a quick connect.
+///
+/// @nodoc
 class PhoneNumberQuickConnectConfig {
   /// The phone number in E.164 format.
   final String phoneNumber;
@@ -35251,6 +35723,8 @@ class PhoneNumberQuickConnectConfig {
 }
 
 /// Configuration for quick connect.
+///
+/// @nodoc
 class FlowQuickConnectConfig {
   /// The contact flow ID for the quick connect configuration.
   final String contactFlowId;
@@ -35273,6 +35747,7 @@ class FlowQuickConnectConfig {
   }
 }
 
+/// @nodoc
 class QueueStatus {
   static const enabled = QueueStatus._('ENABLED');
   static const disabled = QueueStatus._('DISABLED');
@@ -35297,6 +35772,8 @@ class QueueStatus {
 }
 
 /// The outbound email address ID.
+///
+/// @nodoc
 class OutboundEmailConfig {
   /// The identifier of the email address.
   final String? outboundEmailAddressId;
@@ -35321,6 +35798,8 @@ class OutboundEmailConfig {
 }
 
 /// The outbound caller ID name, number, and outbound whisper flow.
+///
+/// @nodoc
 class OutboundCallerConfig {
   /// The caller ID name.
   final String? outboundCallerIdName;
@@ -35360,6 +35839,8 @@ class OutboundCallerConfig {
 }
 
 /// Information about values of a predefined attribute.
+///
+/// @nodoc
 class PredefinedAttributeValues {
   /// Predefined attribute values of type string list.
   final List<String>? stringList;
@@ -35388,6 +35869,8 @@ class PredefinedAttributeValues {
 /// Custom metadata that is associated to predefined attributes to control
 /// behavior in upstream services, such as controlling how a predefined
 /// attribute should be displayed in the Connect Customer admin website.
+///
+/// @nodoc
 class InputPredefinedAttributeConfiguration {
   /// When this parameter is set to true, Connect Customer enforces strict
   /// validation on the specific values, if the values are predefined in
@@ -35411,6 +35894,8 @@ class InputPredefinedAttributeConfiguration {
 }
 
 /// Configuration information for the chat participant role.
+///
+/// @nodoc
 class UpdateParticipantRoleConfigChannelInfo {
   /// Configuration information for the chat participant role.
   final ChatParticipantRoleConfig? chat;
@@ -35428,6 +35913,8 @@ class UpdateParticipantRoleConfigChannelInfo {
 }
 
 /// Configuration information for the chat participant role.
+///
+/// @nodoc
 class ChatParticipantRoleConfig {
   /// A list of participant timers. You can specify any unique combination of role
   /// and timer type. Duplicate entries error out the request with a 400.
@@ -35452,6 +35939,8 @@ class ChatParticipantRoleConfig {
 /// For more information about how chat timeouts work, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html">Set
 /// up chat timeouts for human participants</a>.
+///
+/// @nodoc
 class ParticipantTimerConfiguration {
   /// The role of the participant in the chat conversation.
   final TimerEligibleParticipantRoles participantRole;
@@ -35484,6 +35973,7 @@ class ParticipantTimerConfiguration {
   }
 }
 
+/// @nodoc
 class TimerEligibleParticipantRoles {
   static const customer = TimerEligibleParticipantRoles._('CUSTOMER');
   static const agent = TimerEligibleParticipantRoles._('AGENT');
@@ -35509,6 +35999,7 @@ class TimerEligibleParticipantRoles {
   String toString() => value;
 }
 
+/// @nodoc
 class ParticipantTimerType {
   static const idle = ParticipantTimerType._('IDLE');
   static const disconnectNoncustomer =
@@ -35542,6 +36033,8 @@ class ParticipantTimerType {
 /// For more information about how chat timeouts work, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html">Set
 /// up chat timeouts for human participants</a>.
+///
+/// @nodoc
 class ParticipantTimerValue {
   /// The timer action. Currently only one value is allowed: <code>Unset</code>.
   /// It deletes a timer.
@@ -35568,6 +36061,7 @@ class ParticipantTimerValue {
   }
 }
 
+/// @nodoc
 class ParticipantTimerAction {
   static const unset = ParticipantTimerAction._('Unset');
 
@@ -35594,6 +36088,8 @@ class ParticipantTimerAction {
 
 /// The locale code for localized content. Supported values include en_US,
 /// de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW.
+///
+/// @nodoc
 class LocaleCode {
   static const enUs = LocaleCode._('en_US');
   static const deDe = LocaleCode._('de_DE');
@@ -35638,6 +36134,7 @@ class LocaleCode {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceStorageResourceType {
   static const chatTranscripts =
       InstanceStorageResourceType._('CHAT_TRANSCRIPTS');
@@ -35699,6 +36196,8 @@ class InstanceStorageResourceType {
 }
 
 /// The storage configuration for the instance.
+///
+/// @nodoc
 class InstanceStorageConfig {
   /// A valid storage type.
   final StorageType storageType;
@@ -35772,6 +36271,7 @@ class InstanceStorageConfig {
   }
 }
 
+/// @nodoc
 class StorageType {
   static const s3 = StorageType._('S3');
   static const kinesisVideoStream = StorageType._('KINESIS_VIDEO_STREAM');
@@ -35804,6 +36304,8 @@ class StorageType {
 
 /// Information about the Amazon Simple Storage Service (Amazon S3) storage
 /// type.
+///
+/// @nodoc
 class S3Config {
   /// The S3 bucket name.
   final String bucketName;
@@ -35844,6 +36346,8 @@ class S3Config {
 }
 
 /// Configuration information of a Kinesis video stream.
+///
+/// @nodoc
 class KinesisVideoStreamConfig {
   /// The encryption configuration.
   final EncryptionConfig encryptionConfig;
@@ -35886,6 +36390,8 @@ class KinesisVideoStreamConfig {
 }
 
 /// Configuration information of a Kinesis data stream.
+///
+/// @nodoc
 class KinesisStreamConfig {
   /// The Amazon Resource Name (ARN) of the data stream.
   final String streamArn;
@@ -35909,6 +36415,8 @@ class KinesisStreamConfig {
 }
 
 /// Configuration information of a Kinesis Data Firehose delivery stream.
+///
+/// @nodoc
 class KinesisFirehoseConfig {
   /// The Amazon Resource Name (ARN) of the delivery stream.
   final String firehoseArn;
@@ -35932,6 +36440,8 @@ class KinesisFirehoseConfig {
 }
 
 /// The encryption configuration.
+///
+/// @nodoc
 class EncryptionConfig {
   /// The type of encryption.
   final EncryptionType encryptionType;
@@ -35969,6 +36479,7 @@ class EncryptionConfig {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const kms = EncryptionType._('KMS');
 
@@ -35992,6 +36503,7 @@ class EncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceAttributeType {
   static const inboundCalls = InstanceAttributeType._('INBOUND_CALLS');
   static const outboundCalls = InstanceAttributeType._('OUTBOUND_CALLS');
@@ -36052,6 +36564,8 @@ class InstanceAttributeType {
 /// Defines the recurrence configuration for overrides. This configuration uses
 /// a recurrence pattern to specify when and how frequently an event should
 /// repeat.
+///
+/// @nodoc
 class RecurrenceConfig {
   /// The recurrence pattern that defines how the event repeats. Example:
   /// Frequency, Interval, ByMonth, ByMonthDay, ByWeekdayOccurrence
@@ -36077,6 +36591,7 @@ class RecurrenceConfig {
   }
 }
 
+/// @nodoc
 class OverrideType {
   static const standard = OverrideType._('STANDARD');
   static const open = OverrideType._('OPEN');
@@ -36104,6 +36619,8 @@ class OverrideType {
 /// Specifies the detailed pattern for event recurrence. Use this to define
 /// complex scheduling rules such as "every 2nd Tuesday of the month" or "every
 /// 3 months on the 15th".
+///
+/// @nodoc
 class RecurrencePattern {
   /// Defines how often the pattern repeats. This is the base unit for the
   /// recurrence schedule and works in conjunction with the Interval field to
@@ -36128,8 +36645,8 @@ class RecurrencePattern {
   /// MONTHLY or YEARLY frequency to schedule events on specific date within a
   /// month.
   ///
-  /// Examples: [15] for events on the 15th of each month, [-1] for events on the
-  /// last day of month.
+  /// Examples: \[15\] for events on the 15th of each month, \[-1\] for events on
+  /// the last day of month.
   ///
   /// Note: It does not accept multiple values in the same list. If a specified
   /// day doesn't exist in a particular month (e.g., day 31 in February), the
@@ -36146,7 +36663,7 @@ class RecurrencePattern {
   ///
   /// The weekday itself is specified separately in the HoursOfOperationConfig.
   /// Example: To schedule the recurring event for the 2nd Thursday of April every
-  /// year, set ByWeekdayOccurrence=[2], Day=THURSDAY, ByMonth=[4], Frequency:
+  /// year, set ByWeekdayOccurrence=\[2\], Day=THURSDAY, ByMonth=\[4\], Frequency:
   /// YEARLY and INTERVAL=1.
   final List<int>? byWeekdayOccurrence;
 
@@ -36191,6 +36708,7 @@ class RecurrencePattern {
   }
 }
 
+/// @nodoc
 class RecurrenceFrequency {
   static const weekly = RecurrenceFrequency._('WEEKLY');
   static const monthly = RecurrenceFrequency._('MONTHLY');
@@ -36219,6 +36737,8 @@ class RecurrenceFrequency {
 
 /// Information about the hours of operation override config: day, start time,
 /// and end time.
+///
+/// @nodoc
 class HoursOfOperationOverrideConfig {
   /// The day that the hours of operation override applies to.
   final OverrideDays? day;
@@ -36260,6 +36780,7 @@ class HoursOfOperationOverrideConfig {
   }
 }
 
+/// @nodoc
 class OverrideDays {
   static const sunday = OverrideDays._('SUNDAY');
   static const monday = OverrideDays._('MONDAY');
@@ -36297,6 +36818,8 @@ class OverrideDays {
 }
 
 /// The start time or end time for an hours of operation override.
+///
+/// @nodoc
 class OverrideTimeSlice {
   /// The hours.
   final int hours;
@@ -36327,6 +36850,8 @@ class OverrideTimeSlice {
 }
 
 /// Contains information about the hours of operation.
+///
+/// @nodoc
 class HoursOfOperationConfig {
   /// The day that the hours of operation applies to.
   final HoursOfOperationDays day;
@@ -36367,6 +36892,7 @@ class HoursOfOperationConfig {
   }
 }
 
+/// @nodoc
 class HoursOfOperationDays {
   static const sunday = HoursOfOperationDays._('SUNDAY');
   static const monday = HoursOfOperationDays._('MONDAY');
@@ -36406,6 +36932,8 @@ class HoursOfOperationDays {
 }
 
 /// The start time or end time for an hours of operation.
+///
+/// @nodoc
 class HoursOfOperationTimeSlice {
   /// The hours.
   final int hours;
@@ -36436,6 +36964,8 @@ class HoursOfOperationTimeSlice {
 }
 
 /// Information about scoring strategy for an evaluation form.
+///
+/// @nodoc
 class EvaluationFormScoringStrategy {
   /// The scoring mode of the evaluation form.
   final EvaluationFormScoringMode mode;
@@ -36468,6 +36998,8 @@ class EvaluationFormScoringStrategy {
 }
 
 /// The automatic evaluation configuration of an evaluation form.
+///
+/// @nodoc
 class EvaluationFormAutoEvaluationConfiguration {
   /// When automated evaluation is enabled.
   final bool enabled;
@@ -36492,6 +37024,8 @@ class EvaluationFormAutoEvaluationConfiguration {
 }
 
 /// Configuration settings for evaluation reviews.
+///
+/// @nodoc
 class EvaluationReviewConfiguration {
   /// List of recipients who should be notified when a review is requested.
   final List<EvaluationReviewNotificationRecipient>
@@ -36529,6 +37063,8 @@ class EvaluationReviewConfiguration {
 }
 
 /// Configuration that specifies the target for an evaluation form.
+///
+/// @nodoc
 class EvaluationFormTargetConfiguration {
   /// The contact interaction type for this evaluation form.
   final ContactInteractionType contactInteractionType;
@@ -36554,6 +37090,8 @@ class EvaluationFormTargetConfiguration {
 }
 
 /// Language configuration for an evaluation form.
+///
+/// @nodoc
 class EvaluationFormLanguageConfiguration {
   /// The language for the evaluation form.
   final EvaluationFormLanguageCode? formLanguage;
@@ -36578,6 +37116,7 @@ class EvaluationFormLanguageConfiguration {
   }
 }
 
+/// @nodoc
 class EvaluationFormLanguageCode {
   static const deDe = EvaluationFormLanguageCode._('de-DE');
   static const enUs = EvaluationFormLanguageCode._('en-US');
@@ -36610,6 +37149,7 @@ class EvaluationFormLanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactInteractionType {
   static const agent = ContactInteractionType._('AGENT');
   static const automated = ContactInteractionType._('AUTOMATED');
@@ -36638,6 +37178,8 @@ class ContactInteractionType {
 
 /// Information about a recipient who should be notified when an evaluation
 /// review is requested.
+///
+/// @nodoc
 class EvaluationReviewNotificationRecipient {
   /// The type of notification recipient.
   final EvaluationReviewNotificationRecipientType type;
@@ -36671,6 +37213,7 @@ class EvaluationReviewNotificationRecipient {
   }
 }
 
+/// @nodoc
 class EvaluationReviewNotificationRecipientType {
   static const userId = EvaluationReviewNotificationRecipientType._('USER_ID');
 
@@ -36697,6 +37240,8 @@ class EvaluationReviewNotificationRecipientType {
 }
 
 /// The value information for an evaluation review notification recipient.
+///
+/// @nodoc
 class EvaluationReviewNotificationRecipientValue {
   /// The user identifier for the notification recipient.
   final String? userId;
@@ -36720,6 +37265,7 @@ class EvaluationReviewNotificationRecipientValue {
   }
 }
 
+/// @nodoc
 class EvaluationFormScoringMode {
   static const questionOnly = EvaluationFormScoringMode._('QUESTION_ONLY');
   static const sectionOnly = EvaluationFormScoringMode._('SECTION_ONLY');
@@ -36745,6 +37291,7 @@ class EvaluationFormScoringMode {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluationFormScoringStatus {
   static const enabled = EvaluationFormScoringStatus._('ENABLED');
   static const disabled = EvaluationFormScoringStatus._('DISABLED');
@@ -36772,6 +37319,8 @@ class EvaluationFormScoringStatus {
 
 /// Information about an item from an evaluation form. The item must be either a
 /// section or a question.
+///
+/// @nodoc
 class EvaluationFormItem {
   /// The information of the question.
   final EvaluationFormQuestion? question;
@@ -36810,6 +37359,8 @@ class EvaluationFormItem {
 /// Information about a section from an evaluation form. A section can contain
 /// sections and/or questions. Evaluation forms can only contain sections and
 /// subsections (two level nesting).
+///
+/// @nodoc
 class EvaluationFormSection {
   /// The items of the section.
   final List<EvaluationFormItem> items;
@@ -36865,6 +37416,8 @@ class EvaluationFormSection {
 }
 
 /// Information about a question from an evaluation form.
+///
+/// @nodoc
 class EvaluationFormQuestion {
   /// The type of the question.
   final EvaluationFormQuestionType questionType;
@@ -36947,6 +37500,7 @@ class EvaluationFormQuestion {
   }
 }
 
+/// @nodoc
 class EvaluationFormQuestionType {
   static const text = EvaluationFormQuestionType._('TEXT');
   static const singleselect = EvaluationFormQuestionType._('SINGLESELECT');
@@ -36978,6 +37532,8 @@ class EvaluationFormQuestionType {
 /// Information about properties for a question in an evaluation form. The
 /// question type properties must be either for a numeric question or a single
 /// select question.
+///
+/// @nodoc
 class EvaluationFormQuestionTypeProperties {
   /// Properties for multi-select question types.
   final EvaluationFormMultiSelectQuestionProperties? multiSelect;
@@ -37035,6 +37591,8 @@ class EvaluationFormQuestionTypeProperties {
 }
 
 /// An item enablement configuration.
+///
+/// @nodoc
 class EvaluationFormItemEnablementConfiguration {
   /// An enablement action that if condition is satisfied.
   final EvaluationFormItemEnablementAction action;
@@ -37077,6 +37635,8 @@ class EvaluationFormItemEnablementConfiguration {
 }
 
 /// A condition for item enablement.
+///
+/// @nodoc
 class EvaluationFormItemEnablementCondition {
   /// Operands of the enablement condition.
   final List<EvaluationFormItemEnablementConditionOperand> operands;
@@ -37112,6 +37672,7 @@ class EvaluationFormItemEnablementCondition {
   }
 }
 
+/// @nodoc
 class EvaluationFormItemEnablementAction {
   static const disable = EvaluationFormItemEnablementAction._('DISABLE');
   static const enable = EvaluationFormItemEnablementAction._('ENABLE');
@@ -37137,6 +37698,7 @@ class EvaluationFormItemEnablementAction {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluationFormItemEnablementOperator {
   static const or = EvaluationFormItemEnablementOperator._('OR');
   static const and = EvaluationFormItemEnablementOperator._('AND');
@@ -37163,6 +37725,8 @@ class EvaluationFormItemEnablementOperator {
 }
 
 /// An operand of the enablement condition.
+///
+/// @nodoc
 class EvaluationFormItemEnablementConditionOperand {
   /// A condition for item enablement.
   final EvaluationFormItemEnablementCondition? condition;
@@ -37200,6 +37764,8 @@ class EvaluationFormItemEnablementConditionOperand {
 }
 
 /// An expression that defines a basic building block of conditional enablement.
+///
+/// @nodoc
 class EvaluationFormItemEnablementExpression {
   /// A comparator to be used against list of values.
   final EvaluationFormItemSourceValuesComparator comparator;
@@ -37245,6 +37811,8 @@ class EvaluationFormItemEnablementExpression {
 }
 
 /// An enablement expression source item.
+///
+/// @nodoc
 class EvaluationFormItemEnablementSource {
   /// A type of source item.
   final EvaluationFormItemEnablementSourceType type;
@@ -37276,6 +37844,7 @@ class EvaluationFormItemEnablementSource {
   }
 }
 
+/// @nodoc
 class EvaluationFormItemSourceValuesComparator {
   static const $in = EvaluationFormItemSourceValuesComparator._('IN');
   static const notIn = EvaluationFormItemSourceValuesComparator._('NOT_IN');
@@ -37304,6 +37873,8 @@ class EvaluationFormItemSourceValuesComparator {
 }
 
 /// An enablement expression source value.
+///
+/// @nodoc
 class EvaluationFormItemEnablementSourceValue {
   /// A type of source item value.
   final EvaluationFormItemEnablementSourceValueType type;
@@ -37335,6 +37906,7 @@ class EvaluationFormItemEnablementSourceValue {
   }
 }
 
+/// @nodoc
 class EvaluationFormItemEnablementSourceValueType {
   static const optionRefId =
       EvaluationFormItemEnablementSourceValueType._('OPTION_REF_ID');
@@ -37361,6 +37933,7 @@ class EvaluationFormItemEnablementSourceValueType {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluationFormItemEnablementSourceType {
   static const questionRefId =
       EvaluationFormItemEnablementSourceType._('QUESTION_REF_ID');
@@ -37387,6 +37960,8 @@ class EvaluationFormItemEnablementSourceType {
 }
 
 /// Information about properties for a numeric question in an evaluation form.
+///
+/// @nodoc
 class EvaluationFormNumericQuestionProperties {
   /// The maximum answer value.
   final int maxValue;
@@ -37439,6 +38014,8 @@ class EvaluationFormNumericQuestionProperties {
 }
 
 /// Information about the options in single select questions.
+///
+/// @nodoc
 class EvaluationFormSingleSelectQuestionProperties {
   /// The answer options of the single select question.
   final List<EvaluationFormSingleSelectQuestionOption> options;
@@ -37485,6 +38062,8 @@ class EvaluationFormSingleSelectQuestionProperties {
 }
 
 /// Information about properties for a text question in an evaluation form.
+///
+/// @nodoc
 class EvaluationFormTextQuestionProperties {
   /// The automation properties of the text question.
   final EvaluationFormTextQuestionAutomation? automation;
@@ -37512,6 +38091,8 @@ class EvaluationFormTextQuestionProperties {
 }
 
 /// Properties for a multi-select question in an evaluation form.
+///
+/// @nodoc
 class EvaluationFormMultiSelectQuestionProperties {
   /// Options available for this multi-select question.
   final List<EvaluationFormMultiSelectQuestionOption> options;
@@ -37557,6 +38138,7 @@ class EvaluationFormMultiSelectQuestionProperties {
   }
 }
 
+/// @nodoc
 class EvaluationFormMultiSelectQuestionDisplayMode {
   static const dropdown =
       EvaluationFormMultiSelectQuestionDisplayMode._('DROPDOWN');
@@ -37587,6 +38169,8 @@ class EvaluationFormMultiSelectQuestionDisplayMode {
 }
 
 /// Automation configuration for multi-select questions.
+///
+/// @nodoc
 class EvaluationFormMultiSelectQuestionAutomation {
   final EvaluationFormQuestionAutomationAnswerSource? answerSource;
 
@@ -37636,6 +38220,8 @@ class EvaluationFormMultiSelectQuestionAutomation {
 }
 
 /// A question automation answer.
+///
+/// @nodoc
 class EvaluationFormQuestionAutomationAnswerSource {
   /// The automation answer source type.
   final EvaluationFormQuestionAutomationAnswerSourceType sourceType;
@@ -37660,6 +38246,7 @@ class EvaluationFormQuestionAutomationAnswerSource {
   }
 }
 
+/// @nodoc
 class EvaluationFormQuestionAutomationAnswerSourceType {
   static const contactLensData =
       EvaluationFormQuestionAutomationAnswerSourceType._('CONTACT_LENS_DATA');
@@ -37691,6 +38278,8 @@ class EvaluationFormQuestionAutomationAnswerSourceType {
 }
 
 /// An automation option for a multi-select question.
+///
+/// @nodoc
 class EvaluationFormMultiSelectQuestionAutomationOption {
   /// Rule category configuration for this automation option.
   final MultiSelectQuestionRuleCategoryAutomation? ruleCategory;
@@ -37718,6 +38307,8 @@ class EvaluationFormMultiSelectQuestionAutomationOption {
 }
 
 /// Automation rule for multi-select questions based on rule categories.
+///
+/// @nodoc
 class MultiSelectQuestionRuleCategoryAutomation {
   /// The category name for this automation rule.
   final String category;
@@ -37759,6 +38350,7 @@ class MultiSelectQuestionRuleCategoryAutomation {
   }
 }
 
+/// @nodoc
 class MultiSelectQuestionRuleCategoryAutomationCondition {
   static const present =
       MultiSelectQuestionRuleCategoryAutomationCondition._('PRESENT');
@@ -37790,6 +38382,8 @@ class MultiSelectQuestionRuleCategoryAutomationCondition {
 }
 
 /// An option for a multi-select question in an evaluation form.
+///
+/// @nodoc
 class EvaluationFormMultiSelectQuestionOption {
   /// Reference identifier for this option.
   final String refId;
@@ -37821,6 +38415,8 @@ class EvaluationFormMultiSelectQuestionOption {
 }
 
 /// Information about the automation configuration in text questions.
+///
+/// @nodoc
 class EvaluationFormTextQuestionAutomation {
   /// Automation answer source.
   final EvaluationFormQuestionAutomationAnswerSource? answerSource;
@@ -37847,6 +38443,7 @@ class EvaluationFormTextQuestionAutomation {
   }
 }
 
+/// @nodoc
 class EvaluationFormSingleSelectQuestionDisplayMode {
   static const dropdown =
       EvaluationFormSingleSelectQuestionDisplayMode._('DROPDOWN');
@@ -37879,6 +38476,8 @@ class EvaluationFormSingleSelectQuestionDisplayMode {
 /// Automation options are evaluated in order, and the first matched option is
 /// applied. If no automation option matches, and there is a default option,
 /// then the default option is applied.
+///
+/// @nodoc
 class EvaluationFormSingleSelectQuestionAutomation {
   /// Automation answer source.
   final EvaluationFormQuestionAutomationAnswerSource? answerSource;
@@ -37926,6 +38525,8 @@ class EvaluationFormSingleSelectQuestionAutomation {
 }
 
 /// Information about the automation option of a single select question.
+///
+/// @nodoc
 class EvaluationFormSingleSelectQuestionAutomationOption {
   /// The automation option based on a rule category for the single select
   /// question.
@@ -37955,6 +38556,8 @@ class EvaluationFormSingleSelectQuestionAutomationOption {
 
 /// Information about the automation option based on a rule category for a
 /// single select question.
+///
+/// @nodoc
 class SingleSelectQuestionRuleCategoryAutomation {
   /// The category name, as defined in Rules.
   final String category;
@@ -37997,6 +38600,7 @@ class SingleSelectQuestionRuleCategoryAutomation {
   }
 }
 
+/// @nodoc
 class SingleSelectQuestionRuleCategoryAutomationCondition {
   static const present =
       SingleSelectQuestionRuleCategoryAutomationCondition._('PRESENT');
@@ -38028,6 +38632,8 @@ class SingleSelectQuestionRuleCategoryAutomationCondition {
 }
 
 /// Information about the automation configuration in single select questions.
+///
+/// @nodoc
 class EvaluationFormSingleSelectQuestionOption {
   /// The identifier of the answer option. An identifier must be unique within the
   /// question.
@@ -38086,6 +38692,8 @@ class EvaluationFormSingleSelectQuestionOption {
 }
 
 /// Information about automatic fail configuration for an evaluation form.
+///
+/// @nodoc
 class AutomaticFailConfiguration {
   /// The referenceId of the target section for auto failure.
   final String? targetSection;
@@ -38109,6 +38717,8 @@ class AutomaticFailConfiguration {
 }
 
 /// Information about the automation configuration in numeric questions.
+///
+/// @nodoc
 class EvaluationFormNumericQuestionAutomation {
   /// A source of automation answer for numeric question.
   final EvaluationFormQuestionAutomationAnswerSource? answerSource;
@@ -38167,6 +38777,8 @@ class EvaluationFormNumericQuestionAutomation {
 /// value of 1000.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class NumericQuestionPropertyValueAutomation {
   /// The property label of the automation.
   final NumericQuestionPropertyAutomationLabel label;
@@ -38191,6 +38803,7 @@ class NumericQuestionPropertyValueAutomation {
   }
 }
 
+/// @nodoc
 class NumericQuestionPropertyAutomationLabel {
   static const overallCustomerSentimentScore =
       NumericQuestionPropertyAutomationLabel._(
@@ -38259,6 +38872,8 @@ class NumericQuestionPropertyAutomationLabel {
 }
 
 /// Information about the option range used for scoring in numeric questions.
+///
+/// @nodoc
 class EvaluationFormNumericQuestionOption {
   /// The maximum answer value of the range option.
   final int maxValue;
@@ -38319,6 +38934,8 @@ class EvaluationFormNumericQuestionOption {
 /// hierarchy. Used for optimistic locking to prevent concurrent modification
 /// conflicts. Each component has its own lock version that changes when that
 /// component is modified.
+///
+/// @nodoc
 class DataTableLockVersion {
   /// The lock version for a specific attribute. When the ValueLockLevel is
   /// ATTRIBUTE, this version changes when any value for the attribute changes.
@@ -38373,6 +38990,8 @@ class DataTableLockVersion {
 /// Represents a primary key value used to identify a specific record in a data
 /// table. Primary values are used in combination to create unique record
 /// identifiers when a table has multiple primary attributes.
+///
+/// @nodoc
 class PrimaryValue {
   /// The name of the primary attribute that this value belongs to.
   final String attributeName;
@@ -38404,6 +39023,7 @@ class PrimaryValue {
   }
 }
 
+/// @nodoc
 class DataTableLockLevel {
   static const none = DataTableLockLevel._('NONE');
   static const dataTable = DataTableLockLevel._('DATA_TABLE');
@@ -38432,6 +39052,7 @@ class DataTableLockLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class DataTableAttributeValueType {
   static const text = DataTableAttributeValueType._('TEXT');
   static const number = DataTableAttributeValueType._('NUMBER');
@@ -38464,6 +39085,8 @@ class DataTableAttributeValueType {
 /// Schema Draft 2020-12 with additional Connect-specific validations.
 /// Validation rules ensure data integrity and consistency across the data
 /// table.
+///
+/// @nodoc
 class Validation {
   /// Defines enumeration constraints for attribute values. Can specify a list of
   /// allowed values and whether custom values are permitted beyond the enumerated
@@ -38586,6 +39209,8 @@ class Validation {
 /// Defines enumeration validation for attribute values. Allows specifying a
 /// list of permitted values and whether custom values beyond the enumerated
 /// list are allowed.
+///
+/// @nodoc
 class ValidationEnum {
   /// Boolean that defaults to false. When true, only values specified in the enum
   /// list are allowed. When false, custom values beyond the enumerated list are
@@ -38620,6 +39245,8 @@ class ValidationEnum {
 }
 
 /// An object to define the RoutingCriteria.
+///
+/// @nodoc
 class RoutingCriteriaInput {
   /// When Connect Customer does not find an available agent meeting the
   /// requirements in a step for a given step duration, the routing criteria will
@@ -38642,6 +39269,8 @@ class RoutingCriteriaInput {
 
 /// Step defines the list of agents to be routed or route based on the agent
 /// requirements such as ProficiencyLevel, Name, or Value.
+///
+/// @nodoc
 class RoutingCriteriaInputStep {
   /// An object to specify the expiration of a routing step.
   final RoutingCriteriaInputStepExpiry? expiry;
@@ -38666,6 +39295,8 @@ class RoutingCriteriaInputStep {
 
 /// Specify whether this routing criteria step should apply for only a limited
 /// amount of time, or if it should never expire.
+///
+/// @nodoc
 class RoutingCriteriaInputStepExpiry {
   /// The number of seconds that the contact will be routed only to agents
   /// matching this routing step, if expiry was configured for this routing step.
@@ -38684,6 +39315,8 @@ class RoutingCriteriaInputStepExpiry {
 }
 
 /// A tagged union to specify expression for a routing step.
+///
+/// @nodoc
 class Expression {
   /// List of routing expressions which will be AND-ed together.
   final List<Expression>? andExpression;
@@ -38739,6 +39372,8 @@ class Expression {
 }
 
 /// An object to specify the predefined attribute condition.
+///
+/// @nodoc
 class AttributeCondition {
   /// The operator of the condition.
   final String? comparisonOperator;
@@ -38802,6 +39437,8 @@ class AttributeCondition {
 }
 
 /// An Object to define the minimum and maximum proficiency levels.
+///
+/// @nodoc
 class Range {
   /// The maximum proficiency level of the range.
   final double? maxProficiencyLevel;
@@ -38834,6 +39471,8 @@ class Range {
 }
 
 /// An object to define AgentsCriteria.
+///
+/// @nodoc
 class MatchCriteria {
   /// An object to define agentIds.
   final AgentsCriteria? agentsCriteria;
@@ -38862,6 +39501,8 @@ class MatchCriteria {
 /// Can be used to define a list of preferred agents to target the contact to
 /// within the queue. Note that agents must have the queue in their routing
 /// profile in order to be offered the contact.
+///
+/// @nodoc
 class AgentsCriteria {
   /// An object to specify a list of agents, by user ID.
   final List<String>? agentIds;
@@ -38887,6 +39528,7 @@ class AgentsCriteria {
   }
 }
 
+/// @nodoc
 class ContactFlowModuleState {
   static const active = ContactFlowModuleState._('ACTIVE');
   static const archived = ContactFlowModuleState._('ARCHIVED');
@@ -38912,6 +39554,7 @@ class ContactFlowModuleState {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactFlowState {
   static const active = ContactFlowState._('ACTIVE');
   static const archived = ContactFlowState._('ARCHIVED');
@@ -38937,6 +39580,8 @@ class ContactFlowState {
 }
 
 /// Represents the entity that performed the action on the evaluation.
+///
+/// @nodoc
 class EvaluatorUserUnion {
   /// Represents the Connect Customer ARN of the user.
   final String? connectUserArn;
@@ -38954,6 +39599,8 @@ class EvaluatorUserUnion {
 }
 
 /// Information about notes for a contact evaluation.
+///
+/// @nodoc
 class EvaluationNote {
   /// The note for an item (section or question) in a contact evaluation.
   /// <note>
@@ -38983,6 +39630,8 @@ class EvaluationNote {
 }
 
 /// Information about input answers for a contact evaluation.
+///
+/// @nodoc
 class EvaluationAnswerInput {
   /// The value for an answer in a contact evaluation.
   final EvaluationAnswerData? value;
@@ -39001,6 +39650,8 @@ class EvaluationAnswerInput {
 
 /// Information about answer data for a contact evaluation. Answer data must be
 /// either string, numeric, or not applicable.
+///
+/// @nodoc
 class EvaluationAnswerData {
   /// Date and time value provided as an answer to an evaluation question.
   final String? dateTimeValue;
@@ -39055,6 +39706,8 @@ class EvaluationAnswerData {
 }
 
 /// Information about a queue.
+///
+/// @nodoc
 class QueueInfoInput {
   /// The identifier of the queue.
   final String? id;
@@ -39072,6 +39725,8 @@ class QueueInfoInput {
 }
 
 /// The user details for the contact.
+///
+/// @nodoc
 class UserInfo {
   /// The user identifier for the contact.
   final String? userId;
@@ -39089,6 +39744,8 @@ class UserInfo {
 }
 
 /// Information about the endpoint.
+///
+/// @nodoc
 class Endpoint {
   /// Address of the endpoint.
   final String? address;
@@ -39111,6 +39768,7 @@ class Endpoint {
   }
 }
 
+/// @nodoc
 class EndpointType {
   static const telephoneNumber = EndpointType._('TELEPHONE_NUMBER');
   static const voip = EndpointType._('VOIP');
@@ -39146,6 +39804,8 @@ class EndpointType {
 
 /// A value for a segment attribute. This is structured as a map where the key
 /// is <code>valueString</code> and the value is a string.
+///
+/// @nodoc
 class SegmentAttributeValue {
   /// The value of a segment attribute that has to be a valid ARN. This is only
   /// supported for system-defined attributes, not for user-defined attributes.
@@ -39219,6 +39879,8 @@ class SegmentAttributeValue {
 /// <code>TASK</code> - Attachments for tasks.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AttachmentScope {
   static const email = AttachmentScope._('EMAIL');
   static const chat = AttachmentScope._('CHAT');
@@ -39246,6 +39908,8 @@ class AttachmentScope {
 }
 
 /// The configuration for allowed file extensions.
+///
+/// @nodoc
 class ExtensionConfiguration {
   /// The list of allowed file extensions.
   final List<AllowedExtension> allowedExtensions;
@@ -39272,6 +39936,8 @@ class ExtensionConfiguration {
 }
 
 /// Information about an allowed file extension.
+///
+/// @nodoc
 class AllowedExtension {
   /// The file extension. The extension must be between 1 and 10 characters and
   /// can contain only alphanumeric characters, hyphens, and underscores.
@@ -39295,6 +39961,7 @@ class AllowedExtension {
   }
 }
 
+/// @nodoc
 class AgentStatusState {
   static const enabled = AgentStatusState._('ENABLED');
   static const disabled = AgentStatusState._('DISABLED');
@@ -39319,6 +39986,7 @@ class AgentStatusState {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactRecordingType {
   static const agent = ContactRecordingType._('AGENT');
   static const ivr = ContactRecordingType._('IVR');
@@ -39347,6 +40015,8 @@ class ContactRecordingType {
 
 /// Contains details about why a contact was disconnected. Only Connect Customer
 /// outbound campaigns can provide this field.
+///
+/// @nodoc
 class DisconnectReason {
   /// A code that indicates how the contact was terminated.
   final String? code;
@@ -39364,6 +40034,8 @@ class DisconnectReason {
 }
 
 /// Information required to join the call.
+///
+/// @nodoc
 class ConnectionData {
   /// The attendee information, including attendee ID and join token.
   final Attendee? attendee;
@@ -39398,6 +40070,8 @@ class ConnectionData {
 }
 
 /// The attendee information, including attendee ID and join token.
+///
+/// @nodoc
 class Attendee {
   /// The Amazon Chime SDK attendee ID.
   final String? attendeeId;
@@ -39428,6 +40102,8 @@ class Attendee {
 }
 
 /// A meeting created using the Amazon Chime SDK.
+///
+/// @nodoc
 class Meeting {
   /// The media placement for the meeting.
   final MediaPlacement? mediaPlacement;
@@ -39479,6 +40155,8 @@ class Meeting {
 
 /// A set of endpoints used by clients to connect to the media service group for
 /// an Amazon Chime SDK meeting.
+///
+/// @nodoc
 class MediaPlacement {
   /// The audio fallback URL.
   final String? audioFallbackUrl;
@@ -39530,6 +40208,8 @@ class MediaPlacement {
 }
 
 /// The configuration settings of the features available to a meeting.
+///
+/// @nodoc
 class MeetingFeaturesConfiguration {
   /// The configuration settings for the audio features available to a meeting.
   final AudioFeatures? audio;
@@ -39556,6 +40236,8 @@ class MeetingFeaturesConfiguration {
 
 /// Has audio-specific configurations as the operating parameter for Echo
 /// Reduction.
+///
+/// @nodoc
 class AudioFeatures {
   /// Makes echo reduction available to clients who connect to the meeting.
   final MeetingFeatureStatus? echoReduction;
@@ -39579,6 +40261,7 @@ class AudioFeatures {
   }
 }
 
+/// @nodoc
 class MeetingFeatureStatus {
   static const available = MeetingFeatureStatus._('AVAILABLE');
   static const unavailable = MeetingFeatureStatus._('UNAVAILABLE');
@@ -39605,6 +40288,8 @@ class MeetingFeatureStatus {
 }
 
 /// Information about the capabilities enabled for participants of the contact.
+///
+/// @nodoc
 class AllowedCapabilities {
   /// Information about the agent's video sharing capabilities.
   final ParticipantCapabilities? agent;
@@ -39628,6 +40313,8 @@ class AllowedCapabilities {
 }
 
 /// The customer's details.
+///
+/// @nodoc
 class ParticipantDetails {
   /// Display name of the participant.
   final String displayName;
@@ -39649,6 +40336,8 @@ class ParticipantDetails {
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html">Set
 /// up in-app, web, video calling, and screen sharing capabilities</a> in the
 /// <i>Connect Customer Administrator Guide</i>.
+///
+/// @nodoc
 class ParticipantCapabilities {
   /// The screen sharing capability that is enabled for the participant.
   /// <code>SEND</code> indicates the participant can share their screen.
@@ -39681,6 +40370,7 @@ class ParticipantCapabilities {
   }
 }
 
+/// @nodoc
 class VideoCapability {
   static const send = VideoCapability._('SEND');
 
@@ -39704,6 +40394,7 @@ class VideoCapability {
   String toString() => value;
 }
 
+/// @nodoc
 class ScreenShareCapability {
   static const send = ScreenShareCapability._('SEND');
 
@@ -39729,6 +40420,8 @@ class ScreenShareCapability {
 }
 
 /// The status of a test case execution.
+///
+/// @nodoc
 class TestCaseExecutionStatus {
   static const initiated = TestCaseExecutionStatus._('INITIATED');
   static const passed = TestCaseExecutionStatus._('PASSED');
@@ -39758,6 +40451,8 @@ class TestCaseExecutionStatus {
 }
 
 /// Information about the task attachment files.
+///
+/// @nodoc
 class TaskAttachment {
   /// A case-sensitive name of the attached file being uploaded.
   final String fileName;
@@ -39781,6 +40476,8 @@ class TaskAttachment {
 }
 
 /// Configuration of the answering machine detection.
+///
+/// @nodoc
 class AnswerMachineDetectionConfig {
   /// Wait for the answering machine prompt.
   final bool? awaitAnswerMachinePrompt;
@@ -39807,6 +40504,7 @@ class AnswerMachineDetectionConfig {
   }
 }
 
+/// @nodoc
 class TrafficType {
   static const general = TrafficType._('GENERAL');
   static const campaign = TrafficType._('CAMPAIGN');
@@ -39831,6 +40529,8 @@ class TrafficType {
 }
 
 /// Information about the outbound strategy.
+///
+/// @nodoc
 class OutboundStrategy {
   /// Type of the outbound strategy.
   final OutboundStrategyType type;
@@ -39863,6 +40563,7 @@ class OutboundStrategy {
   }
 }
 
+/// @nodoc
 class OutboundStrategyType {
   static const agentFirst = OutboundStrategyType._('AGENT_FIRST');
 
@@ -39888,6 +40589,8 @@ class OutboundStrategyType {
 }
 
 /// The config of the outbound strategy.
+///
+/// @nodoc
 class OutboundStrategyConfig {
   /// The config of agent first outbound strategy.
   final AgentFirst? agentFirst;
@@ -39913,6 +40616,8 @@ class OutboundStrategyConfig {
 }
 
 /// Information about agent-first outbound strategy configuration.
+///
+/// @nodoc
 class AgentFirst {
   /// Information about preview configuration of agent first outbound strategy
   final Preview? preview;
@@ -39938,6 +40643,8 @@ class AgentFirst {
 }
 
 /// Information about agent-first preview mode outbound strategy configuration.
+///
+/// @nodoc
 class Preview {
   /// The actions the agent can perform after accepting the preview outbound
   /// contact.
@@ -39975,6 +40682,8 @@ class Preview {
 }
 
 /// Countdown timer configuration after the agent accepted the contact.
+///
+/// @nodoc
 class PostAcceptTimeoutConfig {
   /// Duration in seconds for the countdown timer after the agent accepted the
   /// contact.
@@ -39998,6 +40707,7 @@ class PostAcceptTimeoutConfig {
   }
 }
 
+/// @nodoc
 class AllowedUserAction {
   static const call = AllowedUserAction._('CALL');
   static const discard = AllowedUserAction._('DISCARD');
@@ -40023,6 +40733,8 @@ class AllowedUserAction {
 }
 
 /// Contains information about a source or destination email address.
+///
+/// @nodoc
 class EmailAddressInfo {
   /// The email address, including the domain.
   final String emailAddress;
@@ -40046,6 +40758,8 @@ class EmailAddressInfo {
 }
 
 /// Information about the additional recipients of outbound email.
+///
+/// @nodoc
 class OutboundAdditionalRecipients {
   /// Information about the <b>additional</b> CC email address recipients. Email
   /// recipients are limited to 50 total addresses: 1 required recipient in the <a
@@ -40066,6 +40780,8 @@ class OutboundAdditionalRecipients {
 }
 
 /// Information about email body content.
+///
+/// @nodoc
 class OutboundEmailContent {
   /// The message source type, that is, <code>RAW</code> or <code>TEMPLATE</code>.
   final OutboundMessageSourceType messageSourceType;
@@ -40095,6 +40811,7 @@ class OutboundEmailContent {
   }
 }
 
+/// @nodoc
 class OutboundMessageSourceType {
   static const template = OutboundMessageSourceType._('TEMPLATE');
   static const raw = OutboundMessageSourceType._('RAW');
@@ -40121,6 +40838,8 @@ class OutboundMessageSourceType {
 }
 
 /// Information about template message configuration.
+///
+/// @nodoc
 class TemplatedMessageConfig {
   /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs
   /// cannot contain the ARN.
@@ -40152,6 +40871,8 @@ class TemplatedMessageConfig {
 }
 
 /// Information about the raw email body content.
+///
+/// @nodoc
 class OutboundRawMessage {
   /// The email message body.
   final String body;
@@ -40181,6 +40902,8 @@ class OutboundRawMessage {
 }
 
 /// Information about the template attributes.
+///
+/// @nodoc
 class TemplateAttributes {
   /// An object that specifies the custom attributes values to use for variables
   /// in the message template. This object contains different categories of
@@ -40211,6 +40934,8 @@ class TemplateAttributes {
 }
 
 /// A chat message.
+///
+/// @nodoc
 class ChatMessage {
   /// The content of the chat message. Maximum of 16,384 bytes for all content
   /// types (<code>text/plain</code>, <code>text/markdown</code>,
@@ -40245,6 +40970,8 @@ class ChatMessage {
 }
 
 /// Information about email body content.
+///
+/// @nodoc
 class InboundEmailContent {
   /// The message source type, that is, <code>RAW</code>.
   final InboundMessageSourceType messageSourceType;
@@ -40277,6 +41004,8 @@ class InboundEmailContent {
 /// specify up to 49 addresses allocated across <code>ToAddresses</code> and
 /// <code>CcAddresses</code> as needed.
 /// </note>
+///
+/// @nodoc
 class InboundAdditionalRecipients {
   /// The <b>additional</b> recipients information present in cc list. You must
   /// have 1 required recipient (<code>DestinationEmailAddress</code>). You can
@@ -40306,6 +41035,8 @@ class InboundAdditionalRecipients {
 }
 
 /// Information about the email attachment files.
+///
+/// @nodoc
 class EmailAttachment {
   /// A case-sensitive name of the attached file being uploaded.
   final String fileName;
@@ -40328,6 +41059,7 @@ class EmailAttachment {
   }
 }
 
+/// @nodoc
 class InboundMessageSourceType {
   static const raw = InboundMessageSourceType._('RAW');
 
@@ -40353,6 +41085,8 @@ class InboundMessageSourceType {
 }
 
 /// Information about the raw email body content.
+///
+/// @nodoc
 class InboundRawMessage {
   /// The email message body.
   final String body;
@@ -40388,6 +41122,7 @@ class InboundRawMessage {
   }
 }
 
+/// @nodoc
 class EmailHeaderType {
   static const references = EmailHeaderType._('REFERENCES');
   static const messageId = EmailHeaderType._('MESSAGE_ID');
@@ -40422,6 +41157,8 @@ class EmailHeaderType {
 }
 
 /// The streaming configuration, such as the Amazon SNS streaming endpoint.
+///
+/// @nodoc
 class ChatStreamingConfiguration {
   /// The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon
   /// Resource Name (ARN) of the streaming endpoint that is used to publish
@@ -40441,6 +41178,8 @@ class ChatStreamingConfiguration {
 }
 
 /// Contains information about the recording configuration settings.
+///
+/// @nodoc
 class VoiceRecordingConfiguration {
   /// Identifies which IVR track is being recorded.
   ///
@@ -40468,6 +41207,7 @@ class VoiceRecordingConfiguration {
   }
 }
 
+/// @nodoc
 class VoiceRecordingTrack {
   static const fromAgent = VoiceRecordingTrack._('FROM_AGENT');
   static const toAgent = VoiceRecordingTrack._('TO_AGENT');
@@ -40494,6 +41234,7 @@ class VoiceRecordingTrack {
   String toString() => value;
 }
 
+/// @nodoc
 class IvrRecordingTrack {
   static const all = IvrRecordingTrack._('ALL');
 
@@ -40517,6 +41258,7 @@ class IvrRecordingTrack {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactMediaProcessingFailureMode {
   static const deliverUnprocessedMessage =
       ContactMediaProcessingFailureMode._('DELIVER_UNPROCESSED_MESSAGE');
@@ -40548,6 +41290,8 @@ class ContactMediaProcessingFailureMode {
 }
 
 /// Configuration information about automated evaluations.
+///
+/// @nodoc
 class AutoEvaluationConfiguration {
   /// Whether automated evaluations are enabled.
   final bool enabled;
@@ -40565,6 +41309,8 @@ class AutoEvaluationConfiguration {
 }
 
 /// The configuration of the participant.
+///
+/// @nodoc
 class ParticipantConfiguration {
   /// The mode in which responses should be sent to the participant.
   final ResponseMode? responseMode;
@@ -40585,6 +41331,8 @@ class ParticipantConfiguration {
 /// chat, and for example use cases and how to configure for them, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html">Enable
 /// persistent chat</a>.
+///
+/// @nodoc
 class PersistentChat {
   /// The contactId that is used for rehydration depends on the rehydration type.
   /// RehydrationType is required for persistent chat.
@@ -40625,6 +41373,7 @@ class PersistentChat {
   }
 }
 
+/// @nodoc
 class DisconnectOnCustomerExitParticipantType {
   static const agent = DisconnectOnCustomerExitParticipantType._('AGENT');
 
@@ -40649,6 +41398,7 @@ class DisconnectOnCustomerExitParticipantType {
   String toString() => value;
 }
 
+/// @nodoc
 class RehydrationType {
   static const entirePastSession = RehydrationType._('ENTIRE_PAST_SESSION');
   static const fromSegment = RehydrationType._('FROM_SEGMENT');
@@ -40673,6 +41423,7 @@ class RehydrationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResponseMode {
   static const incremental = ResponseMode._('INCREMENTAL');
   static const complete = ResponseMode._('COMPLETE');
@@ -40696,6 +41447,7 @@ class ResponseMode {
   String toString() => value;
 }
 
+/// @nodoc
 class FileStatusType {
   static const approved = FileStatusType._('APPROVED');
   static const rejected = FileStatusType._('REJECTED');
@@ -40723,6 +41475,8 @@ class FileStatusType {
 }
 
 /// Information on the identity that created the file.
+///
+/// @nodoc
 class CreatedByInfo {
   /// STS or IAM ARN representing the identity of API Caller. SDK users cannot
   /// populate this and this value is calculated automatically if
@@ -40757,6 +41511,8 @@ class CreatedByInfo {
 }
 
 /// Fields required when uploading an attached file.
+///
+/// @nodoc
 class UploadUrlMetadata {
   /// A map of headers that should be provided when uploading the attached file.
   final Map<String, String>? headersToInclude;
@@ -40796,6 +41552,7 @@ class UploadUrlMetadata {
   }
 }
 
+/// @nodoc
 class FileUseCaseType {
   static const contactAnalysis = FileUseCaseType._('CONTACT_ANALYSIS');
   static const emailMessage = FileUseCaseType._('EMAIL_MESSAGE');
@@ -40835,6 +41592,8 @@ class FileUseCaseType {
 }
 
 /// Information about the campaign.
+///
+/// @nodoc
 class SourceCampaign {
   /// A unique identifier for a campaign.
   final String? campaignId;
@@ -40871,6 +41630,8 @@ class SourceCampaign {
 /// Disconnecting from a chat
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ChatEvent {
   /// Type of chat integration event.
   final ChatEventType type;
@@ -40932,6 +41693,8 @@ class ChatEvent {
 }
 
 /// Payload of chat properties to apply when starting a new contact.
+///
+/// @nodoc
 class NewSessionDetails {
   /// A custom key-value pair using an attribute map. The attributes are standard
   /// Connect Customer attributes. They can be accessed in flows just like any
@@ -40952,10 +41715,10 @@ class NewSessionDetails {
   ///
   /// Content types must always contain <code> text/plain</code>. You can then put
   /// any other supported type in the list. For example, all the following lists
-  /// are valid because they contain <code>text/plain</code>: <code>[text/plain,
-  /// text/markdown, application/json]</code>, <code> [text/markdown,
-  /// text/plain]</code>, <code>[text/plain, application/json,
-  /// application/vnd.amazonaws.connect.message.interactive.response]</code>.
+  /// are valid because they contain <code>text/plain</code>: <code>\[text/plain,
+  /// text/markdown, application/json\]</code>, <code> \[text/markdown,
+  /// text/plain\]</code>, <code>\[text/plain, application/json,
+  /// application/vnd.amazonaws.connect.message.interactive.response\]</code>.
   final List<String>? supportedMessagingContentTypes;
 
   NewSessionDetails({
@@ -40981,6 +41744,7 @@ class NewSessionDetails {
   }
 }
 
+/// @nodoc
 class ChatEventType {
   static const disconnect = ChatEventType._('DISCONNECT');
   static const message = ChatEventType._('MESSAGE');
@@ -41008,6 +41772,8 @@ class ChatEventType {
 
 /// Contains summary information about a workspace returned from a search
 /// operation.
+///
+/// @nodoc
 class WorkspaceSearchSummary {
   /// The Amazon Resource Name (ARN) of the workspace.
   final String? arn;
@@ -41082,6 +41848,8 @@ class WorkspaceSearchSummary {
 
 /// Defines filters to apply when searching for workspaces, such as tag-based
 /// filters.
+///
+/// @nodoc
 class WorkspaceSearchFilter {
   final ControlPlaneAttributeFilter? attributeFilter;
 
@@ -41098,6 +41866,8 @@ class WorkspaceSearchFilter {
 }
 
 /// Defines the search criteria for filtering workspaces.
+///
+/// @nodoc
 class WorkspaceSearchCriteria {
   /// A list of conditions that must all be satisfied.
   final List<WorkspaceSearchCriteria>? andConditions;
@@ -41126,6 +41896,8 @@ class WorkspaceSearchCriteria {
 }
 
 /// A leaf node condition which can be used to specify a string condition.
+///
+/// @nodoc
 class StringCondition {
   /// The type of comparison to be made when evaluating the string condition.
   final StringComparisonType? comparisonType;
@@ -41154,6 +41926,7 @@ class StringCondition {
   }
 }
 
+/// @nodoc
 class StringComparisonType {
   static const startsWith = StringComparisonType._('STARTS_WITH');
   static const contains = StringComparisonType._('CONTAINS');
@@ -41194,6 +41967,8 @@ class StringComparisonType {
 /// <code>AND</code> operator.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ControlPlaneAttributeFilter {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -41224,6 +41999,8 @@ class ControlPlaneAttributeFilter {
 
 /// A list of conditions which would be applied together with an
 /// <code>AND</code> condition.
+///
+/// @nodoc
 class CommonAttributeAndCondition {
   /// A leaf node condition which can be used to specify a tag condition.
   final List<TagCondition>? tagConditions;
@@ -41242,6 +42019,8 @@ class CommonAttributeAndCondition {
 
 /// A leaf node condition which can be used to specify a tag condition, for
 /// example, <code>HAVE BPO = 123</code>.
+///
+/// @nodoc
 class TagCondition {
   /// The tag key in the tag condition.
   final String? tagKey;
@@ -41266,6 +42045,8 @@ class TagCondition {
 
 /// Contains summary information about a workspace association with a user or
 /// routing profile.
+///
+/// @nodoc
 class WorkspaceAssociationSearchSummary {
   /// The Amazon Resource Name (ARN) of the associated resource.
   final String? resourceArn;
@@ -41327,6 +42108,8 @@ class WorkspaceAssociationSearchSummary {
 
 /// Defines filters to apply when searching for workspace associations, such as
 /// tag-based filters.
+///
+/// @nodoc
 class WorkspaceAssociationSearchFilter {
   final ControlPlaneAttributeFilter? attributeFilter;
 
@@ -41343,6 +42126,8 @@ class WorkspaceAssociationSearchFilter {
 }
 
 /// Defines the search criteria for filtering workspace associations.
+///
+/// @nodoc
 class WorkspaceAssociationSearchCriteria {
   /// A list of conditions that must all be satisfied.
   final List<WorkspaceAssociationSearchCriteria>? andConditions;
@@ -41371,6 +42156,8 @@ class WorkspaceAssociationSearchCriteria {
 }
 
 /// Contains summary information about the custom vocabulary.
+///
+/// @nodoc
 class VocabularySummary {
   /// The Amazon Resource Name (ARN) of the custom vocabulary.
   final String arn;
@@ -41440,6 +42227,7 @@ class VocabularySummary {
   }
 }
 
+/// @nodoc
 class VocabularyLanguageCode {
   static const arAe = VocabularyLanguageCode._('ar-AE');
   static const deCh = VocabularyLanguageCode._('de-CH');
@@ -41530,6 +42318,7 @@ class VocabularyLanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class VocabularyState {
   static const creationInProgress = VocabularyState._('CREATION_IN_PROGRESS');
   static const active = VocabularyState._('ACTIVE');
@@ -41563,6 +42352,8 @@ class VocabularyState {
 
 /// Defines filters to apply when searching for views, such as tag-based
 /// filters.
+///
+/// @nodoc
 class ViewSearchFilter {
   final ControlPlaneAttributeFilter? attributeFilter;
 
@@ -41579,6 +42370,8 @@ class ViewSearchFilter {
 }
 
 /// Defines the search criteria for filtering views.
+///
+/// @nodoc
 class ViewSearchCriteria {
   /// A list of conditions that must all be satisfied.
   final List<ViewSearchCriteria>? andConditions;
@@ -41621,6 +42414,8 @@ class ViewSearchCriteria {
 }
 
 /// Information about the returned users.
+///
+/// @nodoc
 class UserSearchSummary {
   /// The list of after contact work (ACW) timeout configuration settings for each
   /// channel.
@@ -41774,6 +42569,8 @@ class UserSearchSummary {
 }
 
 /// The user's first name and last name.
+///
+/// @nodoc
 class UserIdentityInfoLite {
   /// The user's first name.
   final String? firstName;
@@ -41804,6 +42601,8 @@ class UserIdentityInfoLite {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class UserSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -41853,6 +42652,8 @@ class UserSearchFilter {
 /// queries with character lengths outside of this range will throw invalid
 /// results.
 /// </note>
+///
+/// @nodoc
 class UserSearchCriteria {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -41905,6 +42706,8 @@ class UserSearchCriteria {
 
 /// A leaf node condition which can be used to specify a List condition to
 /// search users with attributes included in Lists like Proficiencies.
+///
+/// @nodoc
 class ListCondition {
   /// A list of Condition objects which would be applied together with an AND
   /// condition.
@@ -41930,6 +42733,8 @@ class ListCondition {
 
 /// A leaf node condition which can be used to specify a hierarchy group
 /// condition.
+///
+/// @nodoc
 class HierarchyGroupCondition {
   /// The type of hierarchy group match.
   final HierarchyGroupMatchType? hierarchyGroupMatchType;
@@ -41953,6 +42758,7 @@ class HierarchyGroupCondition {
   }
 }
 
+/// @nodoc
 class HierarchyGroupMatchType {
   static const exact = HierarchyGroupMatchType._('EXACT');
   static const withChildGroups = HierarchyGroupMatchType._('WITH_CHILD_GROUPS');
@@ -41978,6 +42784,7 @@ class HierarchyGroupMatchType {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetListType {
   static const proficiencies = TargetListType._('PROFICIENCIES');
 
@@ -42003,6 +42810,8 @@ class TargetListType {
 
 /// A leaf node condition which can be used to specify a ProficiencyName,
 /// ProficiencyValue and ProficiencyLimit.
+///
+/// @nodoc
 class Condition {
   /// A leaf node condition which can be used to specify a numeric condition.
   final NumberCondition? numberCondition;
@@ -42034,6 +42843,8 @@ class Condition {
 /// The currently supported value for <code>FieldName</code> is
 /// <code>limit</code>.
 /// </note>
+///
+/// @nodoc
 class NumberCondition {
   /// The type of comparison to be made when evaluating the number condition.
   final NumberComparisonType? comparisonType;
@@ -42068,6 +42879,7 @@ class NumberCondition {
   }
 }
 
+/// @nodoc
 class NumberComparisonType {
   static const greaterOrEqual = NumberComparisonType._('GREATER_OR_EQUAL');
   static const greater = NumberComparisonType._('GREATER');
@@ -42120,6 +42932,8 @@ class NumberComparisonType {
 /// <code>AND</code> operator.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ControlPlaneTagFilter {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -42169,6 +42983,8 @@ class ControlPlaneTagFilter {
 /// Only one field can be populated. Maximum number of allowed Tag conditions is
 /// 25. Maximum number of allowed Hierarchy Group conditions is 20.
 /// </note>
+///
+/// @nodoc
 class ControlPlaneUserAttributeFilter {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -42204,6 +43020,8 @@ class ControlPlaneUserAttributeFilter {
 
 /// A list of conditions which would be applied together with an
 /// <code>AND</code> condition.
+///
+/// @nodoc
 class AttributeAndCondition {
   final HierarchyGroupCondition? hierarchyGroupCondition;
 
@@ -42227,6 +43045,8 @@ class AttributeAndCondition {
 }
 
 /// Contains information about a hierarchy group.
+///
+/// @nodoc
 class HierarchyGroup {
   /// The Amazon Resource Name (ARN) of the hierarchy group.
   final String? arn;
@@ -42305,6 +43125,8 @@ class HierarchyGroup {
 }
 
 /// Contains information about the levels of a hierarchy group.
+///
+/// @nodoc
 class HierarchyPath {
   /// Information about level five.
   final HierarchyGroupSummary? levelFive;
@@ -42371,6 +43193,8 @@ class HierarchyPath {
 }
 
 /// Contains summary information about a hierarchy group.
+///
+/// @nodoc
 class HierarchyGroupSummary {
   /// The Amazon Resource Name (ARN) of the hierarchy group.
   final String? arn;
@@ -42423,6 +43247,8 @@ class HierarchyGroupSummary {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class UserHierarchyGroupSearchFilter {
   /// An object that can be used to specify Tag conditions inside the
   /// SearchFilter. This accepts an OR or AND (List of List) input where:
@@ -42452,6 +43278,8 @@ class UserHierarchyGroupSearchFilter {
 }
 
 /// The search criteria to be used to return userHierarchyGroup.
+///
+/// @nodoc
 class UserHierarchyGroupSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<UserHierarchyGroupSearchCriteria>? andConditions;
@@ -42486,6 +43314,8 @@ class UserHierarchyGroupSearchCriteria {
 }
 
 /// Contains information about a test case.
+///
+/// @nodoc
 class TestCase {
   /// The Amazon Resource Name (ARN) of the test case.
   final String? arn;
@@ -42593,6 +43423,8 @@ class TestCase {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class TestCaseSearchFilter {
   /// An object that can be used to specify Tag conditions inside the
   /// SearchFilter. This accepts an OR of AND (List of List) input where: Top
@@ -42613,6 +43445,8 @@ class TestCaseSearchFilter {
 }
 
 /// The search criteria to be used to return test cases.
+///
+/// @nodoc
 class TestCaseSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<TestCaseSearchCriteria>? andConditions;
@@ -42648,6 +43482,8 @@ class TestCaseSearchCriteria {
 }
 
 /// Information about the returned security profiles.
+///
+/// @nodoc
 class SecurityProfileSearchSummary {
   /// The Amazon Resource Name (ARN) of the security profile.
   final String? arn;
@@ -42715,6 +43551,8 @@ class SecurityProfileSearchSummary {
 /// characters and maximum of 25 characters. Any queries with character lengths
 /// outside of this range will throw invalid results.
 /// </note>
+///
+/// @nodoc
 class SecurityProfileSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<SecurityProfileSearchCriteria>? andConditions;
@@ -42742,6 +43580,8 @@ class SecurityProfileSearchCriteria {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class SecurityProfilesSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -42758,6 +43598,8 @@ class SecurityProfilesSearchFilter {
 }
 
 /// Contains information about a routing profile.
+///
+/// @nodoc
 class RoutingProfile {
   /// Whether agents with this routing profile will have their routing order
   /// calculated based on <i>time since their last inbound contact</i> or
@@ -42923,6 +43765,8 @@ class RoutingProfile {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class RoutingProfileSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -42945,6 +43789,8 @@ class RoutingProfileSearchFilter {
 /// queries with character lengths outside of this range will throw invalid
 /// results.
 /// </note>
+///
+/// @nodoc
 class RoutingProfileSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<RoutingProfileSearchCriteria>? andConditions;
@@ -42979,6 +43825,8 @@ class RoutingProfileSearchCriteria {
 }
 
 /// A tag set contains tag key and tag value.
+///
+/// @nodoc
 class TagSet {
   /// The tag key in the TagSet.
   final String? key;
@@ -43009,6 +43857,8 @@ class TagSet {
 }
 
 /// The search criteria to be used to search tags.
+///
+/// @nodoc
 class ResourceTagsSearchCriteria {
   /// The search criteria to be used to return tags.
   final TagSearchCondition? tagSearchCondition;
@@ -43026,6 +43876,8 @@ class ResourceTagsSearchCriteria {
 }
 
 /// The search criteria to be used to return tags.
+///
+/// @nodoc
 class TagSearchCondition {
   /// The tag key used in the tag search condition.
   final String? tagKey;
@@ -43065,6 +43917,8 @@ class TagSearchCondition {
 }
 
 /// Contains information about a quick connect.
+///
+/// @nodoc
 class QuickConnect {
   /// The description.
   final String? description;
@@ -43143,6 +43997,8 @@ class QuickConnect {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class QuickConnectSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -43159,6 +44015,8 @@ class QuickConnectSearchFilter {
 }
 
 /// The search criteria to be used to return quick connects.
+///
+/// @nodoc
 class QuickConnectSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<QuickConnectSearchCriteria>? andConditions;
@@ -43192,6 +44050,8 @@ class QuickConnectSearchCriteria {
 }
 
 /// Contains information about a queue.
+///
+/// @nodoc
 class Queue {
   /// The description of the queue.
   final String? description;
@@ -43304,6 +44164,8 @@ class Queue {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class QueueSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -43326,6 +44188,8 @@ class QueueSearchFilter {
 /// queries with character lengths outside of this range will throw invalid
 /// results.
 /// </note>
+///
+/// @nodoc
 class QueueSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<QueueSearchCriteria>? andConditions;
@@ -43365,6 +44229,7 @@ class QueueSearchCriteria {
   }
 }
 
+/// @nodoc
 class SearchableQueueType {
   static const standard = SearchableQueueType._('STANDARD');
 
@@ -43390,6 +44255,8 @@ class SearchableQueueType {
 }
 
 /// Information about a prompt.
+///
+/// @nodoc
 class Prompt {
   /// The description of the prompt.
   final String? description;
@@ -43458,6 +44325,8 @@ class Prompt {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class PromptSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -43474,6 +44343,8 @@ class PromptSearchFilter {
 }
 
 /// The search criteria to be used to return prompts.
+///
+/// @nodoc
 class PromptSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<PromptSearchCriteria>? andConditions;
@@ -43507,6 +44378,8 @@ class PromptSearchCriteria {
 }
 
 /// Information about a predefined attribute.
+///
+/// @nodoc
 class PredefinedAttribute {
   /// Custom metadata that is associated to predefined attributes to control
   /// behavior in upstream services, such as controlling how a predefined
@@ -43581,6 +44454,8 @@ class PredefinedAttribute {
 /// Custom metadata that is associated to predefined attributes to control
 /// behavior in upstream services, such as controlling how a predefined
 /// attribute should be displayed in the Connect Customer admin website.
+///
+/// @nodoc
 class PredefinedAttributeConfiguration {
   /// When this parameter is set to true, Connect Customer enforces strict
   /// validation on the specific values, if the values are predefined in
@@ -43619,6 +44494,8 @@ class PredefinedAttributeConfiguration {
 }
 
 /// The search criteria to be used to return predefined attributes.
+///
+/// @nodoc
 class PredefinedAttributeSearchCriteria {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -43648,6 +44525,8 @@ class PredefinedAttributeSearchCriteria {
 }
 
 /// Summary information about a notification returned from a search operation.
+///
+/// @nodoc
 class NotificationSearchSummary {
   /// The Amazon Resource Name (ARN) of the notification.
   final String? arn;
@@ -43752,6 +44631,8 @@ class NotificationSearchSummary {
 /// system-generated notifications during availability or security events),
 /// HIGH, and LOW. High priority notifications are displayed above low priority
 /// notifications in the notification widget.
+///
+/// @nodoc
 class NotificationPriority {
   static const urgent = NotificationPriority._('URGENT');
   static const high = NotificationPriority._('HIGH');
@@ -43779,6 +44660,8 @@ class NotificationPriority {
 }
 
 /// Filters to apply when searching for notifications.
+///
+/// @nodoc
 class NotificationSearchFilter {
   /// Attribute-based filters to apply to the search results.
   final ControlPlaneAttributeFilter? attributeFilter;
@@ -43796,6 +44679,8 @@ class NotificationSearchFilter {
 }
 
 /// The search criteria to be used to return notifications.
+///
+/// @nodoc
 class NotificationSearchCriteria {
   /// A list of conditions that must all be satisfied.
   final List<NotificationSearchCriteria>? andConditions;
@@ -43824,6 +44709,8 @@ class NotificationSearchCriteria {
 }
 
 /// Information about of the hours of operation.
+///
+/// @nodoc
 class HoursOfOperation {
   /// Configuration information for the hours of operation.
   final List<HoursOfOperationConfig>? config;
@@ -43923,6 +44810,8 @@ class HoursOfOperation {
 }
 
 /// Identifier for a hours of operations resource: ARN, ID, Name
+///
+/// @nodoc
 class HoursOfOperationsIdentifier {
   /// Unique identifier of the hours of operation.
   final String id;
@@ -43960,6 +44849,8 @@ class HoursOfOperationsIdentifier {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class HoursOfOperationSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -43976,6 +44867,8 @@ class HoursOfOperationSearchFilter {
 }
 
 /// The search criteria to be used to return hours of operations.
+///
+/// @nodoc
 class HoursOfOperationSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<HoursOfOperationSearchCriteria>? andConditions;
@@ -44010,6 +44903,8 @@ class HoursOfOperationSearchCriteria {
 }
 
 /// Information about the hours of operations override.
+///
+/// @nodoc
 class HoursOfOperationOverride {
   /// Configuration information for the hours of operation override: day, start
   /// time, and end time.
@@ -44108,6 +45003,8 @@ class HoursOfOperationOverride {
 }
 
 /// The search criteria to be used to return hours of operations overrides.
+///
+/// @nodoc
 class HoursOfOperationOverrideSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<HoursOfOperationOverrideSearchCriteria>? andConditions;
@@ -44141,6 +45038,8 @@ class HoursOfOperationOverrideSearchCriteria {
 }
 
 /// An object to specify the hours of operation override date condition.
+///
+/// @nodoc
 class DateCondition {
   /// An object to specify the hours of operation override date condition
   /// <code>comparisonType</code>.
@@ -44170,6 +45069,7 @@ class DateCondition {
   }
 }
 
+/// @nodoc
 class DateComparisonType {
   static const greaterThan = DateComparisonType._('GREATER_THAN');
   static const lessThan = DateComparisonType._('LESS_THAN');
@@ -44207,6 +45107,8 @@ class DateComparisonType {
 }
 
 /// Information about the returned evaluation forms.
+///
+/// @nodoc
 class EvaluationFormSearchSummary {
   /// Who created the evaluation form.
   final String createdBy;
@@ -44351,6 +45253,7 @@ class EvaluationFormSearchSummary {
   }
 }
 
+/// @nodoc
 class EvaluationFormVersionStatus {
   static const draft = EvaluationFormVersionStatus._('DRAFT');
   static const active = EvaluationFormVersionStatus._('ACTIVE');
@@ -44377,6 +45280,8 @@ class EvaluationFormVersionStatus {
 }
 
 /// The search criteria to be used to return evaluation forms.
+///
+/// @nodoc
 class EvaluationFormSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<EvaluationFormSearchCriteria>? andConditions;
@@ -44420,6 +45325,8 @@ class EvaluationFormSearchCriteria {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class EvaluationFormSearchFilter {
   final ControlPlaneAttributeFilter? attributeFilter;
 
@@ -44436,6 +45343,8 @@ class EvaluationFormSearchFilter {
 }
 
 /// A boolean search condition for Search APIs.
+///
+/// @nodoc
 class BooleanCondition {
   /// Boolean property comparison type.
   final BooleanComparisonType? comparisonType;
@@ -44459,6 +45368,8 @@ class BooleanCondition {
 }
 
 /// A datetime search condition for Search APIs.
+///
+/// @nodoc
 class DateTimeCondition {
   /// Datetime property comparison type.
   final DateTimeComparisonType? comparisonType;
@@ -44493,6 +45404,7 @@ class DateTimeCondition {
   }
 }
 
+/// @nodoc
 class DateTimeComparisonType {
   static const greaterThan = DateTimeComparisonType._('GREATER_THAN');
   static const lessThan = DateTimeComparisonType._('LESS_THAN');
@@ -44531,6 +45443,7 @@ class DateTimeComparisonType {
   String toString() => value;
 }
 
+/// @nodoc
 class BooleanComparisonType {
   static const isTrue = BooleanComparisonType._('IS_TRUE');
   static const isFalse = BooleanComparisonType._('IS_FALSE');
@@ -44557,6 +45470,8 @@ class BooleanComparisonType {
 }
 
 /// Contains information about an email address for a contact center.
+///
+/// @nodoc
 class EmailAddressMetadata {
   /// A list of alias configurations for this email address, showing which email
   /// addresses forward to this primary address. Each configuration contains the
@@ -44621,6 +45536,8 @@ class EmailAddressMetadata {
 }
 
 /// Configuration information of an email alias.
+///
+/// @nodoc
 class AliasConfiguration {
   /// The email address ID.
   final String emailAddressId;
@@ -44644,6 +45561,8 @@ class AliasConfiguration {
 }
 
 /// The search criteria to be used to return email addresses.
+///
+/// @nodoc
 class EmailAddressSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<EmailAddressSearchCriteria>? andConditions;
@@ -44671,6 +45590,8 @@ class EmailAddressSearchCriteria {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class EmailAddressSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -44691,6 +45612,8 @@ class EmailAddressSearchFilter {
 /// Customers can reference table values within call flows, applications, views,
 /// and workspaces to pinpoint dynamic configuration that changes their contact
 /// center's behavior in a predetermined and safe way.
+///
+/// @nodoc
 class DataTable {
   /// The Amazon Resource Name (ARN) for the data table. Does not include version
   /// aliases.
@@ -44821,6 +45744,7 @@ class DataTable {
   }
 }
 
+/// @nodoc
 class DataTableStatus {
   static const published = DataTableStatus._('PUBLISHED');
 
@@ -44845,6 +45769,8 @@ class DataTableStatus {
 }
 
 /// A data table search filter.
+///
+/// @nodoc
 class DataTableSearchFilter {
   final ControlPlaneAttributeFilter? attributeFilter;
 
@@ -44861,6 +45787,8 @@ class DataTableSearchFilter {
 }
 
 /// A data table search criteria.
+///
+/// @nodoc
 class DataTableSearchCriteria {
   /// The criteria's and conditions.
   final List<DataTableSearchCriteria>? andConditions;
@@ -44888,6 +45816,8 @@ class DataTableSearchCriteria {
 }
 
 /// Information of returned contact.
+///
+/// @nodoc
 class ContactSearchSummary {
   /// Information about the agent who accepted the contact.
   final ContactSearchSummaryAgentInfo? agentInfo;
@@ -45059,6 +45989,7 @@ class ContactSearchSummary {
   }
 }
 
+/// @nodoc
 class ContactInitiationMethod {
   static const inbound = ContactInitiationMethod._('INBOUND');
   static const outbound = ContactInitiationMethod._('OUTBOUND');
@@ -45109,6 +46040,8 @@ class ContactInitiationMethod {
 }
 
 /// If this contact was queued, this contains information about the queue.
+///
+/// @nodoc
 class ContactSearchSummaryQueueInfo {
   /// The timestamp when the contact was added to the queue.
   final DateTime? enqueueTimestamp;
@@ -45140,6 +46073,8 @@ class ContactSearchSummaryQueueInfo {
 }
 
 /// Information about the agent who accepted the contact.
+///
+/// @nodoc
 class ContactSearchSummaryAgentInfo {
   /// The timestamp when the contact was connected to the agent.
   final DateTime? connectedToAgentTimestamp;
@@ -45173,6 +46108,8 @@ class ContactSearchSummaryAgentInfo {
 }
 
 /// Latest routing criteria on the contact.
+///
+/// @nodoc
 class RoutingCriteria {
   /// The timestamp indicating when the routing criteria is set to active. A
   /// routing criteria is activated when contact is transferred to a queue.
@@ -45223,6 +46160,8 @@ class RoutingCriteria {
 
 /// Information about the global resiliency configuration for the contact,
 /// including traffic distribution details.
+///
+/// @nodoc
 class GlobalResiliencyMetadata {
   /// The current AWS region in which the contact is active. This indicates where
   /// the contact is being processed in real-time.
@@ -45264,6 +46203,8 @@ class GlobalResiliencyMetadata {
 }
 
 /// Information of the AI agent involved in the contact.
+///
+/// @nodoc
 class ContactSearchSummaryAiAgentInfo {
   /// A boolean flag indicating whether the contact initially handled by this AI
   /// agent was escalated to a human agent.
@@ -45303,6 +46244,7 @@ class ContactSearchSummaryAiAgentInfo {
   }
 }
 
+/// @nodoc
 class AiUseCase {
   static const agentAssistance = AiUseCase._('AgentAssistance');
   static const selfService = AiUseCase._('SelfService');
@@ -45327,6 +46269,8 @@ class AiUseCase {
 }
 
 /// Step signifies the criteria to be used for routing to an agent
+///
+/// @nodoc
 class Step {
   /// An object to specify the expiration of a routing step.
   final Expiry? expiry;
@@ -45369,6 +46313,8 @@ class Step {
 }
 
 /// An object to specify the expiration of a routing step.
+///
+/// @nodoc
 class Expiry {
   /// The number of seconds to wait before expiring the routing step.
   final int? durationInSeconds;
@@ -45399,6 +46345,7 @@ class Expiry {
   }
 }
 
+/// @nodoc
 class RoutingCriteriaStepStatus {
   static const active = RoutingCriteriaStepStatus._('ACTIVE');
   static const inactive = RoutingCriteriaStepStatus._('INACTIVE');
@@ -45430,6 +46377,8 @@ class RoutingCriteriaStepStatus {
 /// key-value pair. The key 'valueString' indicates that the attribute type is a
 /// string, and its corresponding value is the actual string value of the
 /// segment attribute.
+///
+/// @nodoc
 class ContactSearchSummarySegmentAttributeValue {
   /// The key and value of a segment attribute.
   final Map<String, SegmentAttributeValue>? valueMap;
@@ -45463,6 +46412,8 @@ class ContactSearchSummarySegmentAttributeValue {
 }
 
 /// A structure of time range that you want to search results.
+///
+/// @nodoc
 class SearchContactsTimeRange {
   /// The end time of the time range.
   final DateTime endTime;
@@ -45492,6 +46443,8 @@ class SearchContactsTimeRange {
 }
 
 /// A structure of search criteria to be used to return contacts.
+///
+/// @nodoc
 class SearchCriteria {
   /// The list of active regions for contacts in ACGR instances.
   final List<String>? activeRegions;
@@ -45602,6 +46555,8 @@ class SearchCriteria {
 }
 
 /// A structure that defines the field name to sort by and a sort order.
+///
+/// @nodoc
 class Sort {
   /// The name of the field on which to sort.
   final SortableFieldName fieldName;
@@ -45624,6 +46579,7 @@ class Sort {
   }
 }
 
+/// @nodoc
 class SortableFieldName {
   static const initiationTimestamp =
       SortableFieldName._('INITIATION_TIMESTAMP');
@@ -45664,6 +46620,7 @@ class SortableFieldName {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -45688,6 +46645,8 @@ class SortOrder {
 }
 
 /// The search criteria based on the contact name
+///
+/// @nodoc
 class NameCriteria {
   /// The match type combining name search criteria using multiple search texts in
   /// a name criteria.
@@ -45715,6 +46674,8 @@ class NameCriteria {
 /// group levels. For more information about agent hierarchies, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html">Set
 /// Up Agent Hierarchies</a> in the <i>Connect Customer Administrator Guide</i>.
+///
+/// @nodoc
 class AgentHierarchyGroups {
   /// The identifiers for level 1 hierarchy groups.
   final List<String>? l1Ids;
@@ -45757,6 +46718,8 @@ class AgentHierarchyGroups {
 
 /// A structure that defines search criteria for contacts using analysis outputs
 /// from Connect Customer Contact Lens.
+///
+/// @nodoc
 class ContactAnalysis {
   /// Search criteria based on transcript analyzed by Connect Customer Contact
   /// Lens.
@@ -45775,6 +46738,8 @@ class ContactAnalysis {
 }
 
 /// Routing criteria of the contact to match on.
+///
+/// @nodoc
 class SearchableRoutingCriteria {
   /// The list of Routing criteria steps of the contact routing.
   final List<SearchableRoutingCriteriaStep>? steps;
@@ -45797,6 +46762,8 @@ class SearchableRoutingCriteria {
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchContactsTimeRange.html">SearchContactsTimeRange</a>
 /// data type.
 /// </note>
+///
+/// @nodoc
 class SearchContactsAdditionalTimeRange {
   /// List of criteria of the time range to additionally filter on.
   final List<SearchContactsAdditionalTimeRangeCriteria> criteria;
@@ -45821,6 +46788,8 @@ class SearchContactsAdditionalTimeRange {
 
 /// A structure that defines search criteria based on user-defined contact
 /// attributes that are configured for contact search.
+///
+/// @nodoc
 class SearchableContactAttributes {
   /// The list of criteria based on user-defined contact attributes that are
   /// configured for contact search.
@@ -45846,6 +46815,8 @@ class SearchableContactAttributes {
 }
 
 /// The search criteria based on searchable segment attributes of a contact
+///
+/// @nodoc
 class SearchableSegmentAttributes {
   /// The list of criteria based on searchable segment attributes.
   final List<SearchableSegmentAttributesCriteria> criteria;
@@ -45870,6 +46841,8 @@ class SearchableSegmentAttributes {
 }
 
 /// AI Agent search criteria definitions.
+///
+/// @nodoc
 class AiAgentsCriteria {
   /// The list of criteria based on AI Agent metadata.
   final List<AiAgentSearchCriteria>? criteria;
@@ -45887,6 +46860,8 @@ class AiAgentsCriteria {
 }
 
 /// The search criteria based on AI Agents metadata.
+///
+/// @nodoc
 class AiAgentSearchCriteria {
   /// A boolean flag indicating whether the contact initially handled by this AI
   /// agent was escalated to a human agent.
@@ -45923,6 +46898,7 @@ class AiAgentSearchCriteria {
   }
 }
 
+/// @nodoc
 class SearchContactsMatchType {
   static const matchAll = SearchContactsMatchType._('MATCH_ALL');
   static const matchAny = SearchContactsMatchType._('MATCH_ANY');
@@ -45952,6 +46928,8 @@ class SearchContactsMatchType {
 
 /// The search criteria based on searchable segment attribute key and values to
 /// search on.
+///
+/// @nodoc
 class SearchableSegmentAttributesCriteria {
   /// The key containing a searchable segment attribute.
   final String key;
@@ -45976,6 +46954,8 @@ class SearchableSegmentAttributesCriteria {
 
 /// The search criteria based on user-defined contact attribute key and values
 /// to search on.
+///
+/// @nodoc
 class SearchableContactAttributesCriteria {
   /// The key containing a searchable user-defined contact attribute.
   final String key;
@@ -45999,6 +46979,8 @@ class SearchableContactAttributesCriteria {
 }
 
 /// The criteria of the time range to additionally filter on.
+///
+/// @nodoc
 class SearchContactsAdditionalTimeRangeCriteria {
   final SearchContactsTimeRange? timeRange;
 
@@ -46022,6 +47004,8 @@ class SearchContactsAdditionalTimeRangeCriteria {
 
 /// The timestamp condition indicating which contact timestamp should be used
 /// and how it should be filtered. It is not an actual timestamp value.
+///
+/// @nodoc
 class SearchContactsTimestampCondition {
   /// Condition of the timestamp on the contact.
   final SearchContactsTimeRangeConditionType conditionType;
@@ -46044,6 +47028,7 @@ class SearchContactsTimestampCondition {
   }
 }
 
+/// @nodoc
 class SearchContactsTimeRangeType {
   static const initiationTimestamp =
       SearchContactsTimeRangeType._('INITIATION_TIMESTAMP');
@@ -46083,6 +47068,7 @@ class SearchContactsTimeRangeType {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchContactsTimeRangeConditionType {
   static const notExists = SearchContactsTimeRangeConditionType._('NOT_EXISTS');
 
@@ -46108,6 +47094,8 @@ class SearchContactsTimeRangeConditionType {
 }
 
 /// Routing criteria of the contact to match on.
+///
+/// @nodoc
 class SearchableRoutingCriteriaStep {
   /// Agent matching the routing step of the routing criteria
   final SearchableAgentCriteriaStep? agentCriteria;
@@ -46125,6 +47113,8 @@ class SearchableRoutingCriteriaStep {
 }
 
 /// The agent criteria to search for preferred agents on the routing criteria.
+///
+/// @nodoc
 class SearchableAgentCriteriaStep {
   /// The identifiers of agents used in preferred agents matching.
   final List<String>? agentIds;
@@ -46150,6 +47140,8 @@ class SearchableAgentCriteriaStep {
 /// A structure that defines search criteria and matching logic to search for
 /// contacts by matching text with transcripts analyzed by Connect Customer
 /// Contact Lens.
+///
+/// @nodoc
 class Transcript {
   /// The list of search criteria based on Contact Lens conversational analytics
   /// transcript.
@@ -46175,6 +47167,8 @@ class Transcript {
 
 /// A structure that defines search criteria base on words or phrases,
 /// participants in the Contact Lens conversational analytics transcript.
+///
+/// @nodoc
 class TranscriptCriteria {
   /// The match type combining search criteria using multiple search texts in a
   /// transcript criteria.
@@ -46204,6 +47198,7 @@ class TranscriptCriteria {
   }
 }
 
+/// @nodoc
 class ParticipantRole {
   static const agent = ParticipantRole._('AGENT');
   static const customer = ParticipantRole._('CUSTOMER');
@@ -46232,6 +47227,8 @@ class ParticipantRole {
 }
 
 /// Contains information about a flow.
+///
+/// @nodoc
 class ContactFlow {
   /// The Amazon Resource Name (ARN) of the flow.
   final String? arn;
@@ -46355,6 +47352,7 @@ class ContactFlow {
   }
 }
 
+/// @nodoc
 class ContactFlowType {
   static const contactFlow = ContactFlowType._('CONTACT_FLOW');
   static const customerQueue = ContactFlowType._('CUSTOMER_QUEUE');
@@ -46398,6 +47396,7 @@ class ContactFlowType {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactFlowStatus {
   static const published = ContactFlowStatus._('PUBLISHED');
   static const saved = ContactFlowStatus._('SAVED');
@@ -46423,6 +47422,8 @@ class ContactFlowStatus {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class ContactFlowSearchFilter {
   /// Flow attribute filter for contact flow search operations.
   final ContactFlowAttributeFilter? flowAttributeFilter;
@@ -46445,6 +47446,8 @@ class ContactFlowSearchFilter {
 }
 
 /// The search criteria to be used to return flows.
+///
+/// @nodoc
 class ContactFlowSearchCriteria {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -46492,6 +47495,8 @@ class ContactFlowSearchCriteria {
 }
 
 /// Filter for contact flow attributes with multiple condition types.
+///
+/// @nodoc
 class ContactFlowAttributeFilter {
   /// A list of conditions which would be applied together with a AND condition.
   final ContactFlowAttributeAndCondition? andCondition;
@@ -46526,6 +47531,8 @@ class ContactFlowAttributeFilter {
 }
 
 /// A list of conditions which would be applied together with an AND condition.
+///
+/// @nodoc
 class ContactFlowAttributeAndCondition {
   /// Contact flow type condition.
   final ContactFlowTypeCondition? contactFlowTypeCondition;
@@ -46550,6 +47557,8 @@ class ContactFlowAttributeAndCondition {
 }
 
 /// The contact flow type condition.
+///
+/// @nodoc
 class ContactFlowTypeCondition {
   /// Contact flow type of the contact flow type condition.
   final ContactFlowType? contactFlowType;
@@ -46567,6 +47576,8 @@ class ContactFlowTypeCondition {
 }
 
 /// Contains information about a flow module.
+///
+/// @nodoc
 class ContactFlowModule {
   /// The Amazon Resource Name (ARN).
   final String? arn;
@@ -46687,6 +47698,7 @@ class ContactFlowModule {
   }
 }
 
+/// @nodoc
 class ContactFlowModuleStatus {
   static const published = ContactFlowModuleStatus._('PUBLISHED');
   static const saved = ContactFlowModuleStatus._('SAVED');
@@ -46713,6 +47725,8 @@ class ContactFlowModuleStatus {
 }
 
 /// The external invocation configuration for the flow module
+///
+/// @nodoc
 class ExternalInvocationConfiguration {
   /// Enable external invocation.
   final bool? enabled;
@@ -46736,6 +47750,8 @@ class ExternalInvocationConfiguration {
 }
 
 /// The search criteria to be used to return flow modules.
+///
+/// @nodoc
 class ContactFlowModuleSearchFilter {
   final ControlPlaneTagFilter? tagFilter;
 
@@ -46752,6 +47768,8 @@ class ContactFlowModuleSearchFilter {
 }
 
 /// The search criteria to be used to return flow modules.
+///
+/// @nodoc
 class ContactFlowModuleSearchCriteria {
   /// A list of conditions which would be applied together with an
   /// <code>AND</code> condition.
@@ -46793,6 +47811,8 @@ class ContactFlowModuleSearchCriteria {
 }
 
 /// Summary of evaluation obtained from the search operation.
+///
+/// @nodoc
 class EvaluationSearchSummary {
   /// The date and time when the evaluation was created, in UTC time.
   final DateTime createdTime;
@@ -46893,6 +47913,8 @@ class EvaluationSearchSummary {
 }
 
 /// Metadata information about an evaluation search.
+///
+/// @nodoc
 class EvaluationSearchMetadata {
   /// The identifier of the contact in this instance of Connect Customer.
   final String contactId;
@@ -47030,6 +48052,7 @@ class EvaluationSearchMetadata {
   }
 }
 
+/// @nodoc
 class EvaluationStatus {
   static const draft = EvaluationStatus._('DRAFT');
   static const submitted = EvaluationStatus._('SUBMITTED');
@@ -47056,6 +48079,7 @@ class EvaluationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EvaluationType {
   static const standard = EvaluationType._('STANDARD');
   static const calibration = EvaluationType._('CALIBRATION');
@@ -47080,6 +48104,7 @@ class EvaluationType {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoEvaluationStatus {
   static const inProgress = AutoEvaluationStatus._('IN_PROGRESS');
   static const failed = AutoEvaluationStatus._('FAILED');
@@ -47106,6 +48131,7 @@ class AutoEvaluationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ContactParticipantRole {
   static const agent = ContactParticipantRole._('AGENT');
   static const system = ContactParticipantRole._('SYSTEM');
@@ -47134,6 +48160,8 @@ class ContactParticipantRole {
 }
 
 /// The search criteria to be used to return evaluations.
+///
+/// @nodoc
 class EvaluationSearchCriteria {
   /// A list of conditions which would be applied together with an AND condition.
   final List<EvaluationSearchCriteria>? andConditions;
@@ -47183,6 +48211,8 @@ class EvaluationSearchCriteria {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class EvaluationSearchFilter {
   final ControlPlaneAttributeFilter? attributeFilter;
 
@@ -47199,6 +48229,8 @@ class EvaluationSearchFilter {
 }
 
 /// A decimal search condition for Search APIs.
+///
+/// @nodoc
 class DecimalCondition {
   /// The type of comparison to be made when evaluating the decimal condition.
   final DecimalComparisonType? comparisonType;
@@ -47233,6 +48265,7 @@ class DecimalCondition {
   }
 }
 
+/// @nodoc
 class DecimalComparisonType {
   static const greaterOrEqual = DecimalComparisonType._('GREATER_OR_EQUAL');
   static const greater = DecimalComparisonType._('GREATER');
@@ -47272,9 +48305,11 @@ class DecimalComparisonType {
 }
 
 /// Information about available phone numbers.
+///
+/// @nodoc
 class AvailableNumberSummary {
-  /// The phone number. Phone numbers are formatted <code>[+] [country code]
-  /// [subscriber number including area code]</code>.
+  /// The phone number. Phone numbers are formatted <code>\[+\] \[country code\]
+  /// \[subscriber number including area code\]</code>.
   final String? phoneNumber;
 
   /// The ISO country code.
@@ -47312,6 +48347,7 @@ class AvailableNumberSummary {
   }
 }
 
+/// @nodoc
 class PhoneNumberCountryCode {
   static const af = PhoneNumberCountryCode._('AF');
   static const al = PhoneNumberCountryCode._('AL');
@@ -47810,6 +48846,7 @@ class PhoneNumberCountryCode {
   String toString() => value;
 }
 
+/// @nodoc
 class PhoneNumberType {
   static const tollFree = PhoneNumberType._('TOLL_FREE');
   static const did = PhoneNumberType._('DID');
@@ -47848,6 +48885,8 @@ class PhoneNumberType {
 }
 
 /// Contains information about an agent status.
+///
+/// @nodoc
 class AgentStatus {
   /// The Amazon Resource Name (ARN) of the agent status.
   final String? agentStatusARN;
@@ -47936,6 +48975,7 @@ class AgentStatus {
   }
 }
 
+/// @nodoc
 class AgentStatusType {
   static const routable = AgentStatusType._('ROUTABLE');
   static const custom = AgentStatusType._('CUSTOM');
@@ -47962,6 +49002,8 @@ class AgentStatusType {
 }
 
 /// Filters to be applied to search results.
+///
+/// @nodoc
 class AgentStatusSearchFilter {
   /// An object that can be used to specify Tag conditions inside the
   /// <code>SearchFilter</code>. This accepts an <code>OR</code> of
@@ -47992,6 +49034,8 @@ class AgentStatusSearchFilter {
 }
 
 /// The search criteria to be used to return agent statuses.
+///
+/// @nodoc
 class AgentStatusSearchCriteria {
   /// A leaf node condition which can be used to specify a string condition.
   /// <note>
@@ -48031,6 +49075,7 @@ class AgentStatusSearchCriteria {
   }
 }
 
+/// @nodoc
 class MonitorCapability {
   static const silentMonitor = MonitorCapability._('SILENT_MONITOR');
   static const barge = MonitorCapability._('BARGE');
@@ -48056,6 +49101,8 @@ class MonitorCapability {
 }
 
 /// Contains summary information about a workspace.
+///
+/// @nodoc
 class WorkspaceSummary {
   /// The Amazon Resource Name (ARN) of the workspace.
   final String? arn;
@@ -48109,6 +49156,8 @@ class WorkspaceSummary {
 
 /// Contains information about a page configuration in a workspace, including
 /// the view assigned to the page.
+///
+/// @nodoc
 class WorkspacePage {
   /// A JSON string containing input parameters passed to the view when the page
   /// is rendered.
@@ -48155,6 +49204,8 @@ class WorkspacePage {
 }
 
 /// Contains information about a media asset used in a workspace.
+///
+/// @nodoc
 class MediaItem {
   /// The source URL or data for the media asset.
   final String? source;
@@ -48185,6 +49236,7 @@ class MediaItem {
   }
 }
 
+/// @nodoc
 class MediaType {
   static const imageLogoLightFavicon = MediaType._('IMAGE_LOGO_LIGHT_FAVICON');
   static const imageLogoDarkFavicon = MediaType._('IMAGE_LOGO_DARK_FAVICON');
@@ -48218,6 +49270,8 @@ class MediaType {
 }
 
 /// A summary of a view version's metadata.
+///
+/// @nodoc
 class ViewVersionSummary {
   /// The Amazon Resource Name (ARN) of the view version.
   final String? arn;
@@ -48283,6 +49337,8 @@ class ViewVersionSummary {
 }
 
 /// A summary of a view's metadata.
+///
+/// @nodoc
 class ViewSummary {
   /// The Amazon Resource Name (ARN) of the view.
   final String? arn;
@@ -48343,6 +49399,8 @@ class ViewSummary {
 }
 
 /// Contains summary information about a user.
+///
+/// @nodoc
 class UserSummary {
   /// The Amazon Resource Name (ARN) of the user account.
   final String? arn;
@@ -48396,6 +49454,8 @@ class UserSummary {
 
 /// Summary information about a notification for a specific user, including the
 /// user's read status.
+///
+/// @nodoc
 class UserNotificationSummary {
   /// The localized content of the notification.
   final Map<LocaleCode, String>? content;
@@ -48483,6 +49543,8 @@ class UserNotificationSummary {
 
 /// The source that created the notification. Possible values include CUSTOMER
 /// (user-created), RULES (rule-generated), and SYSTEM (system-generated).
+///
+/// @nodoc
 class NotificationSource {
   static const customer = NotificationSource._('CUSTOMER');
   static const rules = NotificationSource._('RULES');
@@ -48510,6 +49572,8 @@ class NotificationSource {
 }
 
 /// Contains the use case.
+///
+/// @nodoc
 class UseCase {
   /// The Amazon Resource Name (ARN) for the use case.
   final String? useCaseArn;
@@ -48548,6 +49612,7 @@ class UseCase {
   }
 }
 
+/// @nodoc
 class UseCaseType {
   static const rulesEvaluation = UseCaseType._('RULES_EVALUATION');
   static const connectCampaigns = UseCaseType._('CONNECT_CAMPAIGNS');
@@ -48572,6 +49637,8 @@ class UseCaseType {
 }
 
 /// Summary information about a traffic distribution group user.
+///
+/// @nodoc
 class TrafficDistributionGroupUserSummary {
   /// The identifier for the user. This can be the ID or the ARN of the user.
   final String? userId;
@@ -48596,6 +49663,8 @@ class TrafficDistributionGroupUserSummary {
 }
 
 /// Information about traffic distribution groups.
+///
+/// @nodoc
 class TrafficDistributionGroupSummary {
   /// The Amazon Resource Name (ARN) of the traffic distribution group.
   final String? arn;
@@ -48694,6 +49763,7 @@ class TrafficDistributionGroupSummary {
   }
 }
 
+/// @nodoc
 class TrafficDistributionGroupStatus {
   static const creationInProgress =
       TrafficDistributionGroupStatus._('CREATION_IN_PROGRESS');
@@ -48736,6 +49806,8 @@ class TrafficDistributionGroupStatus {
 }
 
 /// Contains summary information about a test case.
+///
+/// @nodoc
 class TestCaseSummary {
   /// The Amazon Resource Name (ARN) of the test case.
   final String? arn;
@@ -48795,6 +49867,8 @@ class TestCaseSummary {
 }
 
 /// Contains information about a test case execution.
+///
+/// @nodoc
 class TestCaseExecution {
   /// The timestamp when the test case execution ended.
   final DateTime? endTime;
@@ -48857,6 +49931,8 @@ class TestCaseExecution {
 }
 
 /// Contains information about a test case execution record.
+///
+/// @nodoc
 class ExecutionRecord {
   /// The identifier of the execution record.
   final String? observationId;
@@ -48901,6 +49977,7 @@ class ExecutionRecord {
   }
 }
 
+/// @nodoc
 class ExecutionRecordStatus {
   static const passed = ExecutionRecordStatus._('PASSED');
   static const failed = ExecutionRecordStatus._('FAILED');
@@ -48929,6 +50006,8 @@ class ExecutionRecordStatus {
 }
 
 /// Contains summary information about the task template.
+///
+/// @nodoc
 class TaskTemplateMetadata {
   /// The Amazon Resource Name (ARN) of the task template.
   final String? arn;
@@ -48998,6 +50077,8 @@ class TaskTemplateMetadata {
 }
 
 /// Contains information about a security profile.
+///
+/// @nodoc
 class SecurityProfileSummary {
   /// The Amazon Resource Name (ARN) of the security profile.
   final String? arn;
@@ -49050,6 +50131,8 @@ class SecurityProfileSummary {
 }
 
 /// Configuration information of the security key.
+///
+/// @nodoc
 class SecurityKey {
   /// The existing association identifier that uniquely identifies the resource
   /// type and storage config for the given instance ID.
@@ -49089,6 +50172,8 @@ class SecurityKey {
 }
 
 /// A list of <code>ActionTypes</code> associated with a rule.
+///
+/// @nodoc
 class RuleSummary {
   /// A list of ActionTypes associated with a rule.
   final List<ActionSummary> actionSummaries;
@@ -49166,6 +50251,7 @@ class RuleSummary {
   }
 }
 
+/// @nodoc
 class EventSourceName {
   static const onPostCallAnalysisAvailable =
       EventSourceName._('OnPostCallAnalysisAvailable');
@@ -49234,6 +50320,8 @@ class EventSourceName {
 }
 
 /// Information about an action.
+///
+/// @nodoc
 class ActionSummary {
   /// The action type.
   final ActionType actionType;
@@ -49257,6 +50345,8 @@ class ActionSummary {
 }
 
 /// Contains summary information about a routing profile.
+///
+/// @nodoc
 class RoutingProfileSummary {
   /// The Amazon Resource Name (ARN) of the routing profile.
   final String? arn;
@@ -49309,6 +50399,8 @@ class RoutingProfileSummary {
 }
 
 /// Contains summary information about a routing profile queue.
+///
+/// @nodoc
 class RoutingProfileQueueConfigSummary {
   /// The channels this queue supports.
   final Channel channel;
@@ -49374,6 +50466,8 @@ class RoutingProfileQueueConfigSummary {
 
 /// Contains summary information about a routing profile manual assignment
 /// queue.
+///
+/// @nodoc
 class RoutingProfileManualAssignmentQueueConfigSummary {
   /// The channels this queue supports. Valid Values: CHAT | TASK | EMAIL
   /// <important>
@@ -49422,6 +50516,7 @@ class RoutingProfileManualAssignmentQueueConfigSummary {
   }
 }
 
+/// @nodoc
 class RealTimeContactAnalysisSupportedChannel {
   static const voice = RealTimeContactAnalysisSupportedChannel._('VOICE');
   static const chat = RealTimeContactAnalysisSupportedChannel._('CHAT');
@@ -49447,6 +50542,7 @@ class RealTimeContactAnalysisSupportedChannel {
   String toString() => value;
 }
 
+/// @nodoc
 class RealTimeContactAnalysisStatus {
   static const inProgress = RealTimeContactAnalysisStatus._('IN_PROGRESS');
   static const failed = RealTimeContactAnalysisStatus._('FAILED');
@@ -49474,6 +50570,8 @@ class RealTimeContactAnalysisStatus {
 }
 
 /// An analyzed segment for a real-time analysis session.
+///
+/// @nodoc
 class RealtimeContactAnalysisSegment {
   /// The analyzed attachments.
   final RealTimeContactAnalysisSegmentAttachments? attachments;
@@ -49542,6 +50640,8 @@ class RealtimeContactAnalysisSegment {
 }
 
 /// The analyzed transcript segment.
+///
+/// @nodoc
 class RealTimeContactAnalysisSegmentTranscript {
   /// The content of the transcript. Can be redacted.
   final String content;
@@ -49631,6 +50731,8 @@ class RealTimeContactAnalysisSegmentTranscript {
 }
 
 /// The matched category rules.
+///
+/// @nodoc
 class RealTimeContactAnalysisSegmentCategories {
   /// Map between the name of the matched rule and
   /// RealTimeContactAnalysisCategoryDetails.
@@ -49661,6 +50763,8 @@ class RealTimeContactAnalysisSegmentCategories {
 }
 
 /// Segment type containing a list of detected issues.
+///
+/// @nodoc
 class RealTimeContactAnalysisSegmentIssues {
   /// List of the issues detected.
   final List<RealTimeContactAnalysisIssueDetected> issuesDetected;
@@ -49689,6 +50793,8 @@ class RealTimeContactAnalysisSegmentIssues {
 }
 
 /// Segment type describing a contact event.
+///
+/// @nodoc
 class RealTimeContactAnalysisSegmentEvent {
   /// Type of the event. For example,
   /// <code>application/vnd.amazonaws.connect.event.participant.left</code>.
@@ -49753,6 +50859,8 @@ class RealTimeContactAnalysisSegmentEvent {
 }
 
 /// Segment containing list of attachments.
+///
+/// @nodoc
 class RealTimeContactAnalysisSegmentAttachments {
   /// List of objects describing an individual attachment.
   final List<RealTimeContactAnalysisAttachment> attachments;
@@ -49820,6 +50928,8 @@ class RealTimeContactAnalysisSegmentAttachments {
 }
 
 /// Information about the post-contact summary for a real-time contact segment.
+///
+/// @nodoc
 class RealTimeContactAnalysisSegmentPostContactSummary {
   /// Whether the summary was successfully COMPLETED or FAILED to be generated.
   final RealTimeContactAnalysisPostContactSummaryStatus status;
@@ -49885,6 +50995,7 @@ class RealTimeContactAnalysisSegmentPostContactSummary {
   }
 }
 
+/// @nodoc
 class RealTimeContactAnalysisPostContactSummaryStatus {
   static const failed =
       RealTimeContactAnalysisPostContactSummaryStatus._('FAILED');
@@ -49915,6 +51026,7 @@ class RealTimeContactAnalysisPostContactSummaryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RealTimeContactAnalysisPostContactSummaryFailureCode {
   static const quotaExceeded =
       RealTimeContactAnalysisPostContactSummaryFailureCode._('QUOTA_EXCEEDED');
@@ -49962,6 +51074,8 @@ class RealTimeContactAnalysisPostContactSummaryFailureCode {
 
 /// Object describing time with which the segment is associated. It can have
 /// different representations of time. Currently supported: absoluteTime
+///
+/// @nodoc
 class RealTimeContactAnalysisTimeData {
   /// Time represented in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
   /// 2019-11-08T02:41:28.172Z.
@@ -49986,6 +51100,8 @@ class RealTimeContactAnalysisTimeData {
 }
 
 /// Object that describes attached file.
+///
+/// @nodoc
 class RealTimeContactAnalysisAttachment {
   /// A unique identifier for the attachment.
   final String attachmentId;
@@ -50033,6 +51149,7 @@ class RealTimeContactAnalysisAttachment {
   }
 }
 
+/// @nodoc
 class ArtifactStatus {
   static const approved = ArtifactStatus._('APPROVED');
   static const rejected = ArtifactStatus._('REJECTED');
@@ -50060,6 +51177,8 @@ class ArtifactStatus {
 
 /// Potential issues that are detected based on an artificial intelligence
 /// analysis of each turn in the conversation.
+///
+/// @nodoc
 class RealTimeContactAnalysisIssueDetected {
   /// List of the transcript items (segments) that are associated with a given
   /// issue.
@@ -50092,6 +51211,8 @@ class RealTimeContactAnalysisIssueDetected {
 /// intervals that are associated with analysis data. For example, this object
 /// within an issue detected would describe both content that contains
 /// identified issue and intervals where that content is taken from.
+///
+/// @nodoc
 class RealTimeContactAnalysisTranscriptItemWithContent {
   /// Transcript identifier. Matches the identifier from one of the
   /// TranscriptSegments.
@@ -50133,6 +51254,8 @@ class RealTimeContactAnalysisTranscriptItemWithContent {
 }
 
 /// Begin and end offsets for a part of text.
+///
+/// @nodoc
 class RealTimeContactAnalysisCharacterInterval {
   /// The beginning of the character interval.
   final int beginOffsetChar;
@@ -50164,6 +51287,8 @@ class RealTimeContactAnalysisCharacterInterval {
 }
 
 /// Provides information about the category rule that was matched.
+///
+/// @nodoc
 class RealTimeContactAnalysisCategoryDetails {
   /// List of PointOfInterest - objects describing a single match of a rule.
   final List<RealTimeContactAnalysisPointOfInterest> pointsOfInterest;
@@ -50193,6 +51318,8 @@ class RealTimeContactAnalysisCategoryDetails {
 
 /// The section of the contact transcript segment that category rule was
 /// detected.
+///
+/// @nodoc
 class RealTimeContactAnalysisPointOfInterest {
   /// List of the transcript items (segments) that are associated with a given
   /// point of interest.
@@ -50227,6 +51354,8 @@ class RealTimeContactAnalysisPointOfInterest {
 /// <code>RealTimeContactAnalysisPointOfInterest</code> in
 /// <code>Category.MatchedDetails</code> would have character interval
 /// describing part of the text that matched category.
+///
+/// @nodoc
 class RealTimeContactAnalysisTranscriptItemWithCharacterOffsets {
   /// Transcript identifier. Matches the identifier from one of the
   /// TranscriptSegments.
@@ -50262,6 +51391,8 @@ class RealTimeContactAnalysisTranscriptItemWithCharacterOffsets {
 }
 
 /// Object describing redaction applied to the segment.
+///
+/// @nodoc
 class RealTimeContactAnalysisTranscriptItemRedaction {
   /// List of character intervals each describing a part of the text that was
   /// redacted. For <code>OutputType.Raw</code>, part of the original text that
@@ -50292,6 +51423,7 @@ class RealTimeContactAnalysisTranscriptItemRedaction {
   }
 }
 
+/// @nodoc
 class RealTimeContactAnalysisSentimentLabel {
   static const positive = RealTimeContactAnalysisSentimentLabel._('POSITIVE');
   static const negative = RealTimeContactAnalysisSentimentLabel._('NEGATIVE');
@@ -50318,6 +51450,7 @@ class RealTimeContactAnalysisSentimentLabel {
   String toString() => value;
 }
 
+/// @nodoc
 class RealTimeContactAnalysisOutputType {
   static const raw = RealTimeContactAnalysisOutputType._('Raw');
   static const redacted = RealTimeContactAnalysisOutputType._('Redacted');
@@ -50343,6 +51476,7 @@ class RealTimeContactAnalysisOutputType {
   String toString() => value;
 }
 
+/// @nodoc
 class RealTimeContactAnalysisSegmentType {
   static const transcript = RealTimeContactAnalysisSegmentType._('Transcript');
   static const categories = RealTimeContactAnalysisSegmentType._('Categories');
@@ -50382,6 +51516,8 @@ class RealTimeContactAnalysisSegmentType {
 }
 
 /// Contains summary information about a quick connect.
+///
+/// @nodoc
 class QuickConnectSummary {
   /// The Amazon Resource Name (ARN) of the quick connect.
   final String? arn;
@@ -50444,6 +51580,8 @@ class QuickConnectSummary {
 }
 
 /// Contains summary information about a queue.
+///
+/// @nodoc
 class QueueSummary {
   /// The Amazon Resource Name (ARN) of the queue.
   final String? arn;
@@ -50502,6 +51640,7 @@ class QueueSummary {
   }
 }
 
+/// @nodoc
 class QueueType {
   static const standard = QueueType._('STANDARD');
   static const agent = QueueType._('AGENT');
@@ -50528,6 +51667,8 @@ class QueueType {
 /// Summary information about an email address associated with a queue. Contains
 /// the essential details needed to identify and manage the email address
 /// routing configuration.
+///
+/// @nodoc
 class EmailAddressSummary {
   /// The Amazon Resource Name (ARN) of the email address associated with the
   /// queue.
@@ -50569,6 +51710,8 @@ class EmailAddressSummary {
 }
 
 /// Contains information about the prompt.
+///
+/// @nodoc
 class PromptSummary {
   /// The Amazon Resource Name (ARN) of the prompt.
   final String? arn;
@@ -50621,6 +51764,8 @@ class PromptSummary {
 }
 
 /// Summary of a predefined attribute.
+///
+/// @nodoc
 class PredefinedAttributeSummary {
   /// Last modified region.
   final String? lastModifiedRegion;
@@ -50660,6 +51805,8 @@ class PredefinedAttributeSummary {
 
 /// Information about phone numbers that have been claimed to your Connect
 /// Customer instance or traffic distribution group.
+///
+/// @nodoc
 class ListPhoneNumbersSummary {
   /// The identifier of the Connect Customer instance that phone numbers are
   /// claimed to. You can <a
@@ -50667,8 +51814,8 @@ class ListPhoneNumbersSummary {
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
   final String? instanceId;
 
-  /// The phone number. Phone numbers are formatted <code>[+] [country code]
-  /// [subscriber number including area code]</code>.
+  /// The phone number. Phone numbers are formatted <code>\[+\] \[country code\]
+  /// \[subscriber number including area code\]</code>.
   final String? phoneNumber;
 
   /// The Amazon Resource Name (ARN) of the phone number.
@@ -50752,6 +51899,8 @@ class ListPhoneNumbersSummary {
 }
 
 /// Contains summary information about a phone number for a contact center.
+///
+/// @nodoc
 class PhoneNumberSummary {
   /// The Amazon Resource Name (ARN) of the phone number.
   final String? arn;
@@ -50807,6 +51956,8 @@ class PhoneNumberSummary {
 
 /// Contains information about a notification, including its content, priority,
 /// recipients, and metadata.
+///
+/// @nodoc
 class Notification {
   /// The Amazon Resource Name (ARN) of the notification.
   final String arn;
@@ -50906,6 +52057,8 @@ class Notification {
 }
 
 /// Configuration information of an Amazon Lex bot.
+///
+/// @nodoc
 class LexBot {
   /// The Amazon Web Services Region where the Amazon Lex bot was created.
   final String lexRegion;
@@ -50936,6 +52089,8 @@ class LexBot {
 }
 
 /// Contains summary information about the associated AppIntegrations.
+///
+/// @nodoc
 class IntegrationAssociationSummary {
   /// The identifier of the Connect Customer instance. You can <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
@@ -51014,6 +52169,7 @@ class IntegrationAssociationSummary {
   }
 }
 
+/// @nodoc
 class IntegrationType {
   static const event = IntegrationType._('EVENT');
   static const voiceId = IntegrationType._('VOICE_ID');
@@ -51069,6 +52225,7 @@ class IntegrationType {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceType {
   static const salesforce = SourceType._('SALESFORCE');
   static const zendesk = SourceType._('ZENDESK');
@@ -51094,6 +52251,8 @@ class SourceType {
 }
 
 /// Information about the instance.
+///
+/// @nodoc
 class InstanceSummary {
   /// The Amazon Resource Name (ARN) of the instance.
   final String? arn;
@@ -51185,6 +52344,7 @@ class InstanceSummary {
   }
 }
 
+/// @nodoc
 class DirectoryType {
   static const saml = DirectoryType._('SAML');
   static const connectManaged = DirectoryType._('CONNECT_MANAGED');
@@ -51210,6 +52370,7 @@ class DirectoryType {
   String toString() => value;
 }
 
+/// @nodoc
 class InstanceStatus {
   static const creationInProgress = InstanceStatus._('CREATION_IN_PROGRESS');
   static const active = InstanceStatus._('ACTIVE');
@@ -51236,6 +52397,8 @@ class InstanceStatus {
 }
 
 /// A toggle for an individual feature at the instance level.
+///
+/// @nodoc
 class Attribute {
   /// The type of attribute.
   final InstanceAttributeType? attributeType;
@@ -51267,6 +52430,8 @@ class Attribute {
 }
 
 /// Contains summary information about hours of operation for a contact center.
+///
+/// @nodoc
 class HoursOfOperationSummary {
   /// The Amazon Resource Name (ARN) of the hours of operation.
   final String? arn;
@@ -51319,6 +52484,8 @@ class HoursOfOperationSummary {
 }
 
 /// Information about flow associations.
+///
+/// @nodoc
 class FlowAssociationSummary {
   /// The identifier of the flow.
   final String? flowId;
@@ -51356,6 +52523,7 @@ class FlowAssociationSummary {
   }
 }
 
+/// @nodoc
 class ListFlowAssociationResourceType {
   static const whatsappMessagingPhoneNumber =
       ListFlowAssociationResourceType._('WHATSAPP_MESSAGING_PHONE_NUMBER');
@@ -51396,6 +52564,8 @@ class ListFlowAssociationResourceType {
 }
 
 /// Summary information about an evaluation form.
+///
+/// @nodoc
 class EvaluationFormVersionSummary {
   /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
   final String createdBy;
@@ -51478,6 +52648,8 @@ class EvaluationFormVersionSummary {
 }
 
 /// Summary information about an evaluation form.
+///
+/// @nodoc
 class EvaluationFormSummary {
   /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
   final String createdBy;
@@ -51575,6 +52747,8 @@ class EvaluationFormSummary {
 }
 
 /// Security profile items.
+///
+/// @nodoc
 class SecurityProfileItem {
   /// Id of a security profile item.
   final String? id;
@@ -51597,6 +52771,7 @@ class SecurityProfileItem {
   }
 }
 
+/// @nodoc
 class EntityType {
   static const user = EntityType._('USER');
   static const aiAgent = EntityType._('AI_AGENT');
@@ -51621,6 +52796,8 @@ class EntityType {
 }
 
 /// Contains information about a default vocabulary.
+///
+/// @nodoc
 class DefaultVocabulary {
   /// The identifier of the Connect Customer instance. You can <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html">find
@@ -51671,6 +52848,8 @@ class DefaultVocabulary {
 }
 
 /// A data table value summary.
+///
+/// @nodoc
 class DataTableValueSummary {
   /// The summary's attribute name.
   final String attributeName;
@@ -51758,6 +52937,8 @@ class DataTableValueSummary {
 }
 
 /// A primary value response.
+///
+/// @nodoc
 class PrimaryValueResponse {
   /// The value's attribute ID.
   final String? attributeId;
@@ -51795,6 +52976,8 @@ class PrimaryValueResponse {
 }
 
 /// A primary attribute value filter.
+///
+/// @nodoc
 class PrimaryAttributeValueFilter {
   /// The filter's attribute name.
   final String attributeName;
@@ -51818,6 +53001,8 @@ class PrimaryAttributeValueFilter {
 }
 
 /// A data table summary.
+///
+/// @nodoc
 class DataTableSummary {
   /// The summary's ARN.
   final String? arn;
@@ -51870,6 +53055,8 @@ class DataTableSummary {
 }
 
 /// A record primary value.
+///
+/// @nodoc
 class RecordPrimaryValue {
   /// The value's last modified region.
   final String? lastModifiedRegion;
@@ -51921,6 +53108,8 @@ class RecordPrimaryValue {
 /// schema and validation rules for values that can be stored in the table. They
 /// specify the data type, constraints, and whether the attribute is used as a
 /// primary key for record identification.
+///
+/// @nodoc
 class DataTableAttribute {
   /// The human-readable name of the attribute. Must be unique within the data
   /// table and conform to Connect naming standards.
@@ -52041,6 +53230,8 @@ class DataTableAttribute {
 /// Contains summary information about a reference.
 /// <code>ReferenceSummary</code> contains only one non null field between the
 /// URL and attachment based on the reference type.
+///
+/// @nodoc
 class ReferenceSummary {
   /// Information about the reference when the <code>referenceType</code> is
   /// <code>ATTACHMENT</code>. Otherwise, null.
@@ -52157,6 +53348,8 @@ class ReferenceSummary {
 }
 
 /// The URL reference.
+///
+/// @nodoc
 class UrlReference {
   /// Identifier of the URL reference.
   final String? name;
@@ -52188,6 +53381,8 @@ class UrlReference {
 
 /// Information about a reference when the <code>referenceType</code> is
 /// <code>ATTACHMENT</code>. Otherwise, null.
+///
+/// @nodoc
 class AttachmentReference {
   /// The Amazon Resource Name (ARN) of the attachment reference.
   final String? arn;
@@ -52233,6 +53428,8 @@ class AttachmentReference {
 
 /// Information about the reference when the referenceType is
 /// <code>EMAIL_MESSAGE</code>. Otherwise, null.
+///
+/// @nodoc
 class EmailMessageReference {
   /// The Amazon Resource Name (ARN) of the email message reference
   final String? arn;
@@ -52264,6 +53461,8 @@ class EmailMessageReference {
 
 /// Information about a reference when the <code>referenceType</code> is
 /// <code>STRING</code>. Otherwise, null.
+///
+/// @nodoc
 class StringReference {
   /// Identifier of the string reference.
   final String? name;
@@ -52295,6 +53494,8 @@ class StringReference {
 
 /// Information about a reference when the <code>referenceType</code> is
 /// <code>NUMBER</code>. Otherwise, null.
+///
+/// @nodoc
 class NumberReference {
   /// Identifier of the number reference.
   final String? name;
@@ -52326,6 +53527,8 @@ class NumberReference {
 
 /// Information about a reference when the <code>referenceType</code> is
 /// <code>DATE</code>. Otherwise, null.
+///
+/// @nodoc
 class DateReference {
   /// Identifier of the date reference.
   final String? name;
@@ -52357,6 +53560,8 @@ class DateReference {
 
 /// Information about a reference when the <code>referenceType</code> is
 /// <code>EMAIL</code>. Otherwise, null.
+///
+/// @nodoc
 class EmailReference {
   /// Identifier of the email reference.
   final String? name;
@@ -52387,6 +53592,8 @@ class EmailReference {
 }
 
 /// A summary of a flow version's metadata.
+///
+/// @nodoc
 class ContactFlowVersionSummary {
   /// The Amazon Resource Name (ARN) of the view version.
   final String? arn;
@@ -52428,6 +53635,8 @@ class ContactFlowVersionSummary {
 /// You can also create and update flows using the <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html">Connect
 /// Customer Flow language</a>.
+///
+/// @nodoc
 class ContactFlowSummary {
   /// The Amazon Resource Name (ARN) of the flow.
   final String? arn;
@@ -52490,6 +53699,8 @@ class ContactFlowSummary {
 }
 
 /// Contains information about a version.
+///
+/// @nodoc
 class ContactFlowModuleVersionSummary {
   /// The Amazon Resource Name (ARN) of the flow module version.
   final String? arn;
@@ -52527,6 +53738,8 @@ class ContactFlowModuleVersionSummary {
 }
 
 /// Contains summary information about a flow.
+///
+/// @nodoc
 class ContactFlowModuleSummary {
   /// The Amazon Resource Name (ARN) of the flow module.
   final String? arn;
@@ -52571,6 +53784,8 @@ class ContactFlowModuleSummary {
 }
 
 /// Contains information about an alias.
+///
+/// @nodoc
 class ContactFlowModuleAliasSummary {
   /// The description of the alias.
   final String? aliasDescription;
@@ -52630,6 +53845,8 @@ class ContactFlowModuleAliasSummary {
 }
 
 /// Summary information about a contact evaluation.
+///
+/// @nodoc
 class EvaluationSummary {
   /// The timestamp for when the evaluation was created.
   final DateTime createdTime;
@@ -52765,6 +53982,8 @@ class EvaluationSummary {
 }
 
 /// Information about scores of a contact evaluation item (section or question).
+///
+/// @nodoc
 class EvaluationScore {
   /// Weight applied to this evaluation score.
   final double? appliedWeight;
@@ -52810,6 +54029,8 @@ class EvaluationScore {
 }
 
 /// Summary information about an evaluation acknowledgement.
+///
+/// @nodoc
 class EvaluationAcknowledgementSummary {
   /// The agent who acknowledged the evaluation.
   final String? acknowledgedBy;
@@ -52850,6 +54071,8 @@ class EvaluationAcknowledgementSummary {
 }
 
 /// Information about a contact participant in the evaluation.
+///
+/// @nodoc
 class EvaluationContactParticipant {
   /// The identifier for the contact participant.
   final String? contactParticipantId;
@@ -52883,6 +54106,8 @@ class EvaluationContactParticipant {
 }
 
 /// Configuration information of an Amazon Lex or Amazon Lex V2 bot.
+///
+/// @nodoc
 class LexBotConfig {
   final LexBot? lexBot;
 
@@ -52916,6 +54141,8 @@ class LexBotConfig {
 }
 
 /// Configuration information of an Amazon Lex V2 bot.
+///
+/// @nodoc
 class LexV2Bot {
   /// The Amazon Resource Name (ARN) of the Amazon Lex V2 bot.
   final String? aliasArn;
@@ -52938,6 +54165,7 @@ class LexV2Bot {
   }
 }
 
+/// @nodoc
 class LexVersion {
   static const v1 = LexVersion._('V1');
   static const v2 = LexVersion._('V2');
@@ -52965,6 +54193,8 @@ class LexVersion {
 /// change. To request access to this API, contact Amazon Web Services Support.
 ///
 /// A summary of a given authentication profile.
+///
+/// @nodoc
 class AuthenticationProfileSummary {
   /// The Amazon Resource Name (ARN) of the authentication profile summary.
   final String? arn;
@@ -53028,6 +54258,8 @@ class AuthenticationProfileSummary {
 }
 
 /// A summary of the attached files configuration.
+///
+/// @nodoc
 class AttachedFilesConfigurationSummary {
   /// The scope of the attachment. Valid values are <code>EMAIL</code>,
   /// <code>CHAT</code>, <code>CASE</code>, and <code>TASK</code>.
@@ -53079,6 +54311,8 @@ class AttachedFilesConfigurationSummary {
 
 /// Contact summary of a contact in contact tree associated with unique
 /// identifier.
+///
+/// @nodoc
 class AssociatedContactSummary {
   /// How the contact reached your contact center.
   final Channel? channel;
@@ -53166,6 +54400,8 @@ class AssociatedContactSummary {
 
 /// Information about datasets that are available to associate with:
 /// <code>DataSetId</code>, <code>DataSetName</code>.
+///
+/// @nodoc
 class AnalyticsDataSetsResult {
   /// The identifier of the dataset.
   final String? dataSetId;
@@ -53201,6 +54437,8 @@ class AnalyticsDataSetsResult {
 /// Information about associations that are successfully created:
 /// <code>DataSetId</code>, <code>TargetAccountId</code>,
 /// <code>ResourceShareId</code>, <code>ResourceShareArn</code>.
+///
+/// @nodoc
 class AnalyticsDataAssociationResult {
   /// The identifier of the dataset.
   final String? dataSetId;
@@ -53253,6 +54491,8 @@ class AnalyticsDataAssociationResult {
 }
 
 /// Summary information for an agent status.
+///
+/// @nodoc
 class AgentStatusSummary {
   /// The Amazon Resource Name (ARN) for the agent status.
   final String? arn;
@@ -53312,6 +54552,8 @@ class AgentStatusSummary {
 }
 
 /// Contains summary statistics about a test case execution.
+///
+/// @nodoc
 class ObservationSummary {
   /// The number of observations that failed during execution.
   final int? observationsFailed;
@@ -53349,6 +54591,8 @@ class ObservationSummary {
 }
 
 /// Contains information about the metric results.
+///
+/// @nodoc
 class MetricResultV2 {
   /// The set of metrics.
   final List<MetricDataV2>? collections;
@@ -53393,6 +54637,8 @@ class MetricResultV2 {
 }
 
 /// The interval period with the start and end time for the metrics.
+///
+/// @nodoc
 class MetricInterval {
   /// The timestamp, in UNIX Epoch time format. End time is based on the interval
   /// period selected. For example, If <code>IntervalPeriod</code> is selected
@@ -53436,6 +54682,8 @@ class MetricInterval {
 }
 
 /// Contains the name, thresholds, and metric filters.
+///
+/// @nodoc
 class MetricDataV2 {
   /// The metric name or metricId, thresholds, and metric filters of the returned
   /// metric.
@@ -53472,6 +54720,8 @@ class MetricDataV2 {
 /// <important>
 /// Only one of either the Name or MetricId is required.
 /// </important>
+///
+/// @nodoc
 class MetricV2 {
   /// Contains the filters to be used when returning data.
   final List<MetricFilterV2>? metricFilters;
@@ -53526,6 +54776,8 @@ class MetricV2 {
 /// <code>MetricFiltersV2</code> can be used on the following metrics:
 /// <code>AVG_AGENT_CONNECTING_TIME</code>, <code>CONTACTS_CREATED</code>,
 /// <code>CONTACTS_HANDLED</code>, <code>SUM_CONTACTS_DISCONNECTED</code>.
+///
+/// @nodoc
 class MetricFilterV2 {
   /// The key to use for filtering data.
   ///
@@ -53622,6 +54874,8 @@ class MetricFilterV2 {
 }
 
 /// Contains information about the threshold for service level metrics.
+///
+/// @nodoc
 class ThresholdV2 {
   /// The type of comparison. Currently, "less than" (LT), "less than equal"
   /// (LTE), and "greater than" (GT) comparisons are supported.
@@ -53652,6 +54906,7 @@ class ThresholdV2 {
   }
 }
 
+/// @nodoc
 class IntervalPeriod {
   static const fifteenMin = IntervalPeriod._('FIFTEEN_MIN');
   static const thirtyMin = IntervalPeriod._('THIRTY_MIN');
@@ -53681,6 +54936,8 @@ class IntervalPeriod {
 }
 
 /// Information about the interval period to use for returning results.
+///
+/// @nodoc
 class IntervalDetails {
   /// <code>IntervalPeriod</code>: An aggregated grouping applied to request
   /// metrics. Valid <code>IntervalPeriod</code> values are:
@@ -53745,6 +55002,8 @@ class IntervalDetails {
 /// Contains the filter to apply when retrieving metrics with the <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html">GetMetricDataV2</a>
 /// API.
+///
+/// @nodoc
 class FilterV2 {
   /// The key to use for filtering data. For example, <code>QUEUE</code>,
   /// <code>ROUTING_PROFILE, AGENT</code>, <code>CHANNEL</code>,
@@ -53793,6 +55052,8 @@ class FilterV2 {
 ///
 /// When the NOT_EXISTS StringCondition is added to a FilterV2 object,
 /// FilterValues must be null or empty.
+///
+/// @nodoc
 class FilterV2StringCondition {
   /// The string condition.
   final FilterV2StringConditionComparisonOperator? comparison;
@@ -53809,6 +55070,7 @@ class FilterV2StringCondition {
   }
 }
 
+/// @nodoc
 class FilterV2StringConditionComparisonOperator {
   static const notExists =
       FilterV2StringConditionComparisonOperator._('NOT_EXISTS');
@@ -53836,6 +55098,8 @@ class FilterV2StringConditionComparisonOperator {
 }
 
 /// Contains information about the historical metrics retrieved.
+///
+/// @nodoc
 class HistoricalMetricResult {
   /// The set of metrics.
   final List<HistoricalMetricData>? collections;
@@ -53871,6 +55135,8 @@ class HistoricalMetricResult {
 }
 
 /// Contains information about the dimensions for a set of metrics.
+///
+/// @nodoc
 class Dimensions {
   /// Information about the agent status assigned to the user.
   final AgentStatusIdentifier? agentStatus;
@@ -53943,6 +55209,8 @@ class Dimensions {
 }
 
 /// Contains the data for a historical metric.
+///
+/// @nodoc
 class HistoricalMetricData {
   /// Information about the metric.
   final HistoricalMetric? metric;
@@ -53975,6 +55243,8 @@ class HistoricalMetricData {
 }
 
 /// Contains information about a historical metric.
+///
+/// @nodoc
 class HistoricalMetric {
   /// The name of the metric. Following is a list of each supported metric mapped
   /// to the UI name, linked to a detailed description in the <i>Connect Customer
@@ -54228,6 +55498,8 @@ class HistoricalMetric {
 }
 
 /// The historical metric names.
+///
+/// @nodoc
 class HistoricalMetricName {
   static const contactsQueued = HistoricalMetricName._('CONTACTS_QUEUED');
   static const contactsHandled = HistoricalMetricName._('CONTACTS_HANDLED');
@@ -54315,6 +55587,8 @@ class HistoricalMetricName {
 }
 
 /// Contains information about the threshold for service level metrics.
+///
+/// @nodoc
 class Threshold {
   /// The type of comparison. Only "less than" (LT) comparisons are supported.
   final Comparison? comparison;
@@ -54344,6 +55618,7 @@ class Threshold {
   }
 }
 
+/// @nodoc
 class Statistic {
   static const sum = Statistic._('SUM');
   static const max = Statistic._('MAX');
@@ -54368,6 +55643,7 @@ class Statistic {
   String toString() => value;
 }
 
+/// @nodoc
 class Unit {
   static const seconds = Unit._('SECONDS');
   static const count = Unit._('COUNT');
@@ -54392,6 +55668,7 @@ class Unit {
   String toString() => value;
 }
 
+/// @nodoc
 class Comparison {
   static const lt = Comparison._('LT');
 
@@ -54415,6 +55692,8 @@ class Comparison {
 }
 
 /// Contains information about a queue resource for which metrics are returned.
+///
+/// @nodoc
 class QueueReference {
   /// The Amazon Resource Name (ARN) of the queue.
   final String? arn;
@@ -54445,6 +55724,8 @@ class QueueReference {
 }
 
 /// Information about the routing profile assigned to the user.
+///
+/// @nodoc
 class RoutingProfileReference {
   /// The Amazon Resource Name (ARN) of the routing profile.
   final String? arn;
@@ -54475,6 +55756,8 @@ class RoutingProfileReference {
 }
 
 /// Information about the agent status assigned to the user.
+///
+/// @nodoc
 class AgentStatusIdentifier {
   /// The Amazon Resource Name (ARN) of the agent status.
   final String? arn;
@@ -54505,6 +55788,8 @@ class AgentStatusIdentifier {
 }
 
 /// Contains the filter to apply when retrieving metrics.
+///
+/// @nodoc
 class Filters {
   /// A list of up to 50 agent status IDs or ARNs.
   final List<String>? agentStatuses;
@@ -54563,6 +55848,7 @@ class Filters {
   }
 }
 
+/// @nodoc
 class Grouping {
   static const queue = Grouping._('QUEUE');
   static const channel = Grouping._('CHANNEL');
@@ -54599,6 +55885,7 @@ class Grouping {
   String toString() => value;
 }
 
+/// @nodoc
 class FlowAssociationResourceType {
   static const smsPhoneNumber =
       FlowAssociationResourceType._('SMS_PHONE_NUMBER');
@@ -54637,6 +55924,8 @@ class FlowAssociationResourceType {
 }
 
 /// Contains credentials to use for federation.
+///
+/// @nodoc
 class Credentials {
   /// An access token generated for a federated user to access Connect Customer.
   final String? accessToken;
@@ -54685,6 +55974,8 @@ class Credentials {
 
 /// Information about the hours of operation overrides which contribute to
 /// effective hours of operations.
+///
+/// @nodoc
 class EffectiveOverrideHours {
   /// The date that the hours of operation override applies to.
   final String? date;
@@ -54719,6 +56010,8 @@ class EffectiveOverrideHours {
 }
 
 /// Information about hours of operation override
+///
+/// @nodoc
 class OverrideHour {
   final OverrideTimeSlice? end;
 
@@ -54767,6 +56060,7 @@ class OverrideHour {
   }
 }
 
+/// @nodoc
 class OperationalStatus {
   static const open = OperationalStatus._('OPEN');
   static const closed = OperationalStatus._('CLOSED');
@@ -54793,6 +56087,8 @@ class OperationalStatus {
 
 /// Information about the hours of operations with the effective override
 /// applied.
+///
+/// @nodoc
 class EffectiveHoursOfOperations {
   /// The date that the hours of operation or overrides applies to.
   final String? date;
@@ -54828,6 +56124,8 @@ class EffectiveHoursOfOperations {
 
 /// Information about the hours of operations with the effective override
 /// applied.
+///
+/// @nodoc
 class OperationalHour {
   /// The end time that your contact center closes.
   final OverrideTimeSlice? end;
@@ -54862,6 +56160,8 @@ class OperationalHour {
 }
 
 /// Data for a user.
+///
+/// @nodoc
 class UserData {
   /// A map of active slots by channel. The key is a channel name. The value is an
   /// integer: the number of active slots.
@@ -54975,6 +56275,8 @@ class UserData {
 }
 
 /// Information about the user.
+///
+/// @nodoc
 class UserReference {
   /// The Amazon Resource Name (ARN) for the user.
   final String? arn;
@@ -55005,6 +56307,8 @@ class UserReference {
 }
 
 /// Information about the levels in the hierarchy group.
+///
+/// @nodoc
 class HierarchyPathReference {
   /// Information about level five.
   final HierarchyGroupSummaryReference? levelFive;
@@ -55071,6 +56375,8 @@ class HierarchyPathReference {
 }
 
 /// Information about the agent's status.
+///
+/// @nodoc
 class AgentStatusReference {
   /// The Amazon Resource Name (ARN) of the agent's status.
   final String? statusArn;
@@ -55111,6 +56417,8 @@ class AgentStatusReference {
 /// Information about the <a
 /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_Contact.html">contact</a>
 /// associated to the user.
+///
+/// @nodoc
 class AgentContactReference {
   /// The <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html">state
@@ -55190,6 +56498,7 @@ class AgentContactReference {
   }
 }
 
+/// @nodoc
 class ContactState {
   static const incoming = ContactState._('INCOMING');
   static const pending = ContactState._('PENDING');
@@ -55231,6 +56540,8 @@ class ContactState {
 }
 
 /// Information about the hierarchy group.
+///
+/// @nodoc
 class HierarchyGroupSummaryReference {
   /// The Amazon Resource Name (ARN) for the hierarchy group.
   final String? arn;
@@ -55261,6 +56572,8 @@ class HierarchyGroupSummaryReference {
 }
 
 /// A filter for the user data.
+///
+/// @nodoc
 class UserDataFilters {
   /// A list of up to 100 agent IDs or ARNs.
   final List<String>? agents;
@@ -55307,6 +56620,8 @@ class UserDataFilters {
 /// users. It contains a list of <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html">contact
 /// states</a>.
+///
+/// @nodoc
 class ContactFilter {
   /// A list of up to 9 <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html">contact
@@ -55327,6 +56642,8 @@ class ContactFilter {
 }
 
 /// Contains information about a set of real-time metrics.
+///
+/// @nodoc
 class CurrentMetricResult {
   /// The set of metrics.
   final List<CurrentMetricData>? collections;
@@ -55362,6 +56679,8 @@ class CurrentMetricResult {
 }
 
 /// Contains the data for a real-time metric.
+///
+/// @nodoc
 class CurrentMetricData {
   /// Information about the metric.
   final CurrentMetric? metric;
@@ -55400,6 +56719,8 @@ class CurrentMetricData {
 /// <important>
 /// Only one of either the Name or MetricId is required.
 /// </important>
+///
+/// @nodoc
 class CurrentMetric {
   /// Out of the box current metrics or custom metrics can be referenced via this
   /// field. This field is a valid AWS Connect Arn or a UUID.
@@ -55441,6 +56762,8 @@ class CurrentMetric {
 }
 
 /// The current metric names.
+///
+/// @nodoc
 class CurrentMetricName {
   static const agentsOnline = CurrentMetricName._('AGENTS_ONLINE');
   static const agentsAvailable = CurrentMetricName._('AGENTS_AVAILABLE');
@@ -55498,6 +56821,8 @@ class CurrentMetricName {
 /// resources are sorted based on <code>AGENTS_ONLINE</code>,
 /// <code>DESCENDING</code>. The metric collection is sorted based on the input
 /// metrics.
+///
+/// @nodoc
 class CurrentMetricSortCriteria {
   final CurrentMetricName? sortByMetric;
 
@@ -55522,6 +56847,8 @@ class CurrentMetricSortCriteria {
 /// Contains the result of a requested metric for the contact. This object is
 /// returned as part of the GetContactMetrics response and includes both the
 /// metric name and its calculated value.
+///
+/// @nodoc
 class ContactMetricResult {
   /// The name of the metric that was retrieved. This corresponds to the metric
   /// name specified in the request, such as POSITION_IN_QUEUE or
@@ -55556,6 +56883,7 @@ class ContactMetricResult {
   }
 }
 
+/// @nodoc
 class ContactMetricName {
   static const estimatedWaitTime = ContactMetricName._('ESTIMATED_WAIT_TIME');
   static const positionInQueue = ContactMetricName._('POSITION_IN_QUEUE');
@@ -55581,6 +56909,8 @@ class ContactMetricName {
 }
 
 /// Contains the numeric value of a contact metric result.
+///
+/// @nodoc
 class ContactMetricValue {
   /// The numeric value of the metric result. For POSITION_IN_QUEUE, this
   /// represents the contact's current position in the queue (e.g., 3.00 means
@@ -55609,6 +56939,8 @@ class ContactMetricValue {
 /// Contains the details of a metric to be retrieved for a contact. Use this
 /// object to specify which contact level metrics you want to include in your
 /// GetContactMetrics request.
+///
+/// @nodoc
 class ContactMetricInfo {
   /// The name of the metric to retrieve. Supported values are POSITION_IN_QUEUE
   /// (returns the contact's current position in the queue) and
@@ -55628,6 +56960,8 @@ class ContactMetricInfo {
 }
 
 /// Metadata used to download the attached file.
+///
+/// @nodoc
 class DownloadUrlMetadata {
   /// A pre-signed URL that should be used to download the attached file.
   final String? url;
@@ -55659,6 +56993,8 @@ class DownloadUrlMetadata {
 }
 
 /// A data table evaluated value.
+///
+/// @nodoc
 class DataTableEvaluatedValue {
   /// The value's attribute name.
   final String attributeName;
@@ -55728,6 +57064,8 @@ class DataTableEvaluatedValue {
 }
 
 /// A data table value evaluation set.
+///
+/// @nodoc
 class DataTableValueEvaluationSet {
   /// The set's attribute names.
   final List<String> attributeNames;
@@ -55752,6 +57090,8 @@ class DataTableValueEvaluationSet {
 
 /// Contains information about a resource that failed to be associated with a
 /// workspace in a batch operation.
+///
+/// @nodoc
 class FailedBatchAssociationSummary {
   /// The error code indicating why the association failed.
   final String? errorCode;
@@ -55790,6 +57130,8 @@ class FailedBatchAssociationSummary {
 
 /// Contains information about a resource that was successfully associated with
 /// a workspace in a batch operation.
+///
+/// @nodoc
 class SuccessfulBatchAssociationSummary {
   /// The Amazon Resource Name (ARN) of the resource that was successfully
   /// associated.
@@ -55815,6 +57157,8 @@ class SuccessfulBatchAssociationSummary {
 }
 
 /// Information about proficiency to be disassociated from the user.
+///
+/// @nodoc
 class UserProficiencyDisassociate {
   /// The name of user's proficiency.
   final String attributeName;
@@ -55839,6 +57183,8 @@ class UserProficiencyDisassociate {
 
 /// Contains information about a workspace, which defines the user experience by
 /// mapping views to pages.
+///
+/// @nodoc
 class Workspace {
   /// The Amazon Resource Name (ARN) of the workspace.
   final String arn;
@@ -55931,6 +57277,8 @@ class Workspace {
 }
 
 /// Contains information about a custom vocabulary.
+///
+/// @nodoc
 class Vocabulary {
   /// The Amazon Resource Name (ARN) of the custom vocabulary.
   final String arn;
@@ -56023,6 +57371,8 @@ class Vocabulary {
 }
 
 /// Contains information about a hierarchy structure.
+///
+/// @nodoc
 class HierarchyStructure {
   /// Information about level five.
   final HierarchyLevel? levelFive;
@@ -56084,6 +57434,8 @@ class HierarchyStructure {
 }
 
 /// Contains information about a hierarchy level.
+///
+/// @nodoc
 class HierarchyLevel {
   /// The Amazon Resource Name (ARN) of the hierarchy level.
   final String? arn;
@@ -56136,6 +57488,8 @@ class HierarchyLevel {
 }
 
 /// Contains information about a user account for an Connect Customer instance.
+///
+/// @nodoc
 class User {
   /// The list of after contact work (ACW) timeout configuration settings for each
   /// channel.
@@ -56306,6 +57660,8 @@ class User {
 }
 
 /// Information about a traffic distribution group.
+///
+/// @nodoc
 class TrafficDistributionGroup {
   /// The Amazon Resource Name (ARN) of the traffic distribution group.
   final String? arn;
@@ -56431,6 +57787,8 @@ class TrafficDistributionGroup {
 }
 
 /// Contains information about a security profile.
+///
+/// @nodoc
 class SecurityProfile {
   /// The identifier of the hierarchy group that a security profile uses to
   /// restrict access to resources in Connect Customer.
@@ -56573,6 +57931,8 @@ class SecurityProfile {
 }
 
 /// Information about a rule.
+///
+/// @nodoc
 class Rule {
   /// A list of actions to be run when the rule is triggered.
   final List<RuleAction> actions;
@@ -56680,6 +58040,8 @@ class Rule {
 /// <code>OnZendeskTicketStatusUpdate</code> |
 /// <code>OnSalesforceCaseCreate</code> | <code>OnContactEvaluationSubmit</code>
 /// | <code>OnMetricDataUpdate</code>.
+///
+/// @nodoc
 class RuleTriggerEventSource {
   /// The name of the event source.
   final EventSourceName eventSourceName;
@@ -56713,6 +58075,8 @@ class RuleTriggerEventSource {
 
 /// Information about a phone number that has been claimed to your Connect
 /// Customer instance or traffic distribution group.
+///
+/// @nodoc
 class ClaimedPhoneNumberSummary {
   /// The identifier of the Connect Customer instance that phone numbers are
   /// claimed to. You can <a
@@ -56720,8 +58084,8 @@ class ClaimedPhoneNumberSummary {
   /// the instance ID</a> in the Amazon Resource Name (ARN) of the instance.
   final String? instanceId;
 
-  /// The phone number. Phone numbers are formatted <code>[+] [country code]
-  /// [subscriber number including area code]</code>.
+  /// The phone number. Phone numbers are formatted <code>\[+\] \[country code\]
+  /// \[subscriber number including area code\]</code>.
   final String? phoneNumber;
 
   /// The Amazon Resource Name (ARN) of the phone number.
@@ -56895,6 +58259,8 @@ class ClaimedPhoneNumberSummary {
 /// other customers to claim.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PhoneNumberStatus {
   /// The status message.
   final String? message;
@@ -56925,6 +58291,7 @@ class PhoneNumberStatus {
   }
 }
 
+/// @nodoc
 class PhoneNumberWorkflowStatus {
   static const claimed = PhoneNumberWorkflowStatus._('CLAIMED');
   static const inProgress = PhoneNumberWorkflowStatus._('IN_PROGRESS');
@@ -56952,6 +58319,8 @@ class PhoneNumberWorkflowStatus {
 }
 
 /// The Connect Customer instance.
+///
+/// @nodoc
 class Instance {
   /// The Amazon Resource Name (ARN) of the instance.
   final String? arn;
@@ -57071,6 +58440,8 @@ class Instance {
 /// a ReplicateInstance call fails</a> in the <i>Create a replica of your
 /// existing Connect Customer instance</i> topic in the <i>Connect Customer
 /// Administrator Guide</i>.
+///
+/// @nodoc
 class ReplicationConfiguration {
   /// The URL that is used to sign-in to your Connect Customer instance according
   /// to your traffic distribution group configuration. For more information about
@@ -57131,6 +58502,8 @@ class ReplicationConfiguration {
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html">Set
 /// up Connect Customer Global Resiliency</a> in the <i>Connect Customer
 /// Administrator Guide</i>.
+///
+/// @nodoc
 class ReplicationStatusSummary {
   /// The Amazon Web Services Region. This can be either the source or the replica
   /// Region, depending where it appears in the summary list.
@@ -57173,6 +58546,7 @@ class ReplicationStatusSummary {
   }
 }
 
+/// @nodoc
 class InstanceReplicationStatus {
   static const instanceReplicationComplete =
       InstanceReplicationStatus._('INSTANCE_REPLICATION_COMPLETE');
@@ -57216,6 +58590,8 @@ class InstanceReplicationStatus {
 }
 
 /// Relevant details why the instance was not successfully created.
+///
+/// @nodoc
 class InstanceStatusReason {
   /// The message.
   final String? message;
@@ -57239,6 +58615,8 @@ class InstanceStatusReason {
 }
 
 /// Information about the evaluation form.
+///
+/// @nodoc
 class EvaluationForm {
   /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
   final String createdBy;
@@ -57410,6 +58788,8 @@ class EvaluationForm {
 }
 
 /// Contains information about an alias.
+///
+/// @nodoc
 class ContactFlowModuleAliasInfo {
   /// The identifier of the alias.
   final String? aliasId;
@@ -57485,6 +58865,8 @@ class ContactFlowModuleAliasInfo {
 }
 
 /// Information about a contact evaluation.
+///
+/// @nodoc
 class Evaluation {
   /// A map of question identifiers to answer value.
   final Map<String, EvaluationAnswerOutput> answers;
@@ -57591,6 +58973,8 @@ class Evaluation {
 }
 
 /// Information about an evaluation form used in a contact evaluation.
+///
+/// @nodoc
 class EvaluationFormContent {
   /// The Amazon Resource Name (ARN) for the evaluation form resource.
   final String evaluationFormArn;
@@ -57709,6 +59093,8 @@ class EvaluationFormContent {
 }
 
 /// Metadata information about a contact evaluation.
+///
+/// @nodoc
 class EvaluationMetadata {
   /// The identifier of the contact in this instance of Connect Customer.
   final String contactId;
@@ -57810,6 +59196,8 @@ class EvaluationMetadata {
 }
 
 /// Information about output answers for a contact evaluation.
+///
+/// @nodoc
 class EvaluationAnswerOutput {
   /// Automation suggested answers for the questions.
   final List<EvaluationSuggestedAnswer>? suggestedAnswers;
@@ -57857,6 +59245,8 @@ class EvaluationAnswerOutput {
 }
 
 /// The information about the suggested answer for the question.
+///
+/// @nodoc
 class EvaluationSuggestedAnswer {
   /// Type of analysis used to provide suggested answer.
   final EvaluationQuestionAnswerAnalysisType analysisType;
@@ -57915,6 +59305,7 @@ class EvaluationSuggestedAnswer {
   }
 }
 
+/// @nodoc
 class EvaluationSuggestedAnswerStatus {
   static const inProgress = EvaluationSuggestedAnswerStatus._('IN_PROGRESS');
   static const failed = EvaluationSuggestedAnswerStatus._('FAILED');
@@ -57942,6 +59333,8 @@ class EvaluationSuggestedAnswerStatus {
 }
 
 /// Details of the input data used for automated question processing.
+///
+/// @nodoc
 class EvaluationQuestionInputDetails {
   /// Transcript type.
   final EvaluationTranscriptType? transcriptType;
@@ -57965,6 +59358,7 @@ class EvaluationQuestionInputDetails {
   }
 }
 
+/// @nodoc
 class EvaluationQuestionAnswerAnalysisType {
   static const contactLensData =
       EvaluationQuestionAnswerAnalysisType._('CONTACT_LENS_DATA');
@@ -57993,6 +59387,8 @@ class EvaluationQuestionAnswerAnalysisType {
 
 /// Detailed analysis results of the automated answer to the evaluation
 /// question.
+///
+/// @nodoc
 class EvaluationQuestionAnswerAnalysisDetails {
   /// Analysis results from the Contact Lens automation for the question.
   final EvaluationContactLensAnswerAnalysisDetails? contactLens;
@@ -58030,6 +59426,8 @@ class EvaluationQuestionAnswerAnalysisDetails {
 }
 
 /// An analysis for a generative AI answer to the question.
+///
+/// @nodoc
 class EvaluationGenAIAnswerAnalysisDetails {
   /// Generative AI automation answer justification.
   final String? justification;
@@ -58065,6 +59463,8 @@ class EvaluationGenAIAnswerAnalysisDetails {
 }
 
 /// Analysis details providing explanation for Contact Lens automation decision.
+///
+/// @nodoc
 class EvaluationContactLensAnswerAnalysisDetails {
   /// A list of match rule categories.
   final List<EvaluationAutomationRuleCategory>? matchedRuleCategories;
@@ -58094,6 +59494,8 @@ class EvaluationContactLensAnswerAnalysisDetails {
 }
 
 /// The Contact Lens category used by evaluation automation.
+///
+/// @nodoc
 class EvaluationAutomationRuleCategory {
   /// A category label.
   final String category;
@@ -58136,6 +59538,7 @@ class EvaluationAutomationRuleCategory {
   }
 }
 
+/// @nodoc
 class QuestionRuleCategoryAutomationCondition {
   static const present = QuestionRuleCategoryAutomationCondition._('PRESENT');
   static const notPresent =
@@ -58164,6 +59567,8 @@ class QuestionRuleCategoryAutomationCondition {
 
 /// Information about the point of interest in transcript provided to
 /// evaluation.
+///
+/// @nodoc
 class EvaluationTranscriptPointOfInterest {
   /// Offset in milliseconds from the beginning of transcript.
   final EvaluationSuggestedAnswerTranscriptMillisecondOffsets?
@@ -58199,6 +59604,8 @@ class EvaluationTranscriptPointOfInterest {
 }
 
 /// The milliseconds offset for transcript reference in suggested answer.
+///
+/// @nodoc
 class EvaluationSuggestedAnswerTranscriptMillisecondOffsets {
   /// Offset in milliseconds from the beginning of the transcript.
   final int beginOffsetMillis;
@@ -58222,6 +59629,7 @@ class EvaluationSuggestedAnswerTranscriptMillisecondOffsets {
   }
 }
 
+/// @nodoc
 class EvaluationTranscriptType {
   static const raw = EvaluationTranscriptType._('RAW');
   static const redacted = EvaluationTranscriptType._('REDACTED');
@@ -58248,6 +59656,8 @@ class EvaluationTranscriptType {
 }
 
 /// Details about automated evaluations.
+///
+/// @nodoc
 class AutoEvaluationDetails {
   /// Whether automated evaluation is enabled.
   final bool autoEvaluationEnabled;
@@ -58280,6 +59690,8 @@ class AutoEvaluationDetails {
 }
 
 /// Information about the evaluation acknowledgement.
+///
+/// @nodoc
 class EvaluationAcknowledgement {
   /// The agent who acknowledged the evaluation.
   final String acknowledgedBy;
@@ -58320,6 +59732,8 @@ class EvaluationAcknowledgement {
 }
 
 /// Metadata information about an evaluation review.
+///
+/// @nodoc
 class EvaluationReviewMetadata {
   /// Comments provided when requesting the evaluation review.
   final List<EvaluationReviewRequestComment> reviewRequestComments;
@@ -58384,6 +59798,8 @@ class EvaluationReviewMetadata {
 }
 
 /// A comment provided when requesting an evaluation review.
+///
+/// @nodoc
 class EvaluationReviewRequestComment {
   /// The text content of the review request comment.
   final String? comment;
@@ -58421,6 +59837,8 @@ class EvaluationReviewRequestComment {
 }
 
 /// Contains information about a contact.
+///
+/// @nodoc
 class Contact {
   /// List of additional email addresses for an email contact.
   final AdditionalEmailRecipients? additionalEmailRecipients;
@@ -58899,6 +60317,8 @@ class Contact {
 }
 
 /// If this contact was queued, this contains information about the queue.
+///
+/// @nodoc
 class QueueInfo {
   /// The timestamp when the contact was added to the queue.
   final DateTime? enqueueTimestamp;
@@ -58930,6 +60350,8 @@ class QueueInfo {
 }
 
 /// Information about the agent who accepted the contact.
+///
+/// @nodoc
 class AgentInfo {
   /// The timestamp when the contact was accepted by the agent.
   final DateTime? acceptedByAgentTimestamp;
@@ -59080,6 +60502,8 @@ class AgentInfo {
 }
 
 /// Information about Connect Customer Wisdom.
+///
+/// @nodoc
 class WisdomInfo {
   /// The array of AI agents involved in the contact.
   final List<AiAgentInfo>? aiAgents;
@@ -59113,6 +60537,8 @@ class WisdomInfo {
 }
 
 /// Information about the endpoint.
+///
+/// @nodoc
 class EndpointInfo {
   /// Address of the endpoint.
   final String? address;
@@ -59150,6 +60576,8 @@ class EndpointInfo {
 }
 
 /// Information about the Customer on the contact.
+///
+/// @nodoc
 class Customer {
   final ParticipantCapabilities? capabilities;
 
@@ -59184,6 +60612,8 @@ class Customer {
 }
 
 /// Information associated with a campaign.
+///
+/// @nodoc
 class Campaign {
   /// A unique identifier for a campaign.
   final String? campaignId;
@@ -59206,6 +60636,7 @@ class Campaign {
   }
 }
 
+/// @nodoc
 class AnsweringMachineDetectionStatus {
   static const answered = AnsweringMachineDetectionStatus._('ANSWERED');
   static const undetected = AnsweringMachineDetectionStatus._('UNDETECTED');
@@ -59268,6 +60699,8 @@ class AnsweringMachineDetectionStatus {
 }
 
 /// Information about customer’s voice activity.
+///
+/// @nodoc
 class CustomerVoiceActivity {
   /// Timestamp that measures the end of the customer greeting from an outbound
   /// voice call.
@@ -59302,6 +60735,8 @@ class CustomerVoiceActivity {
 }
 
 /// Information about the quality of the participant's media connection.
+///
+/// @nodoc
 class QualityMetrics {
   /// Information about the quality of Agent media connection.
   final AgentQualityMetrics? agent;
@@ -59337,6 +60772,8 @@ class QualityMetrics {
 }
 
 /// Information about how agent, bot, and customer interact in a chat contact.
+///
+/// @nodoc
 class ChatMetrics {
   /// Information about agent interactions in a contact.
   final ParticipantMetrics? agentMetrics;
@@ -59383,6 +60820,8 @@ class ChatMetrics {
 }
 
 /// Information about the call disconnect experience.
+///
+/// @nodoc
 class DisconnectDetails {
   /// Indicates the potential disconnection issues for a call. This field is not
   /// populated if the service does not detect potential issues.
@@ -59408,6 +60847,8 @@ class DisconnectDetails {
 }
 
 /// List of additional email addresses for an email contact.
+///
+/// @nodoc
 class AdditionalEmailRecipients {
   /// List of additional CC email recipients for an email contact.
   final List<EmailRecipient>? ccList;
@@ -59444,6 +60885,8 @@ class AdditionalEmailRecipients {
 }
 
 /// Information about the task template used to create this contact.
+///
+/// @nodoc
 class TaskTemplateInfoV2 {
   /// The Amazon Resource Name (ARN) of the task template used to create this
   /// contact.
@@ -59477,6 +60920,8 @@ class TaskTemplateInfoV2 {
 /// A map of string key/value pairs that contain user-defined attributes which
 /// are lightly typed within the contact. This object is used only for task
 /// contacts.
+///
+/// @nodoc
 class ContactDetails {
   /// Teh description of the contact details.
   final String? description;
@@ -59507,6 +60952,8 @@ class ContactDetails {
 }
 
 /// Entry representing the next contact in a sequence.
+///
+/// @nodoc
 class NextContactEntry {
   /// Metadata for the next contact entry.
   final NextContactMetadata? nextContactMetadata;
@@ -59540,6 +60987,7 @@ class NextContactEntry {
   }
 }
 
+/// @nodoc
 class NextContactType {
   static const quickConnect = NextContactType._('QUICK_CONNECT');
 
@@ -59564,6 +61012,8 @@ class NextContactType {
 }
 
 /// Metadata information for next contact.
+///
+/// @nodoc
 class NextContactMetadata {
   /// Quick connect contact data for the next contact metadata.
   final QuickConnectContactData? quickConnectContactData;
@@ -59591,6 +61041,8 @@ class NextContactMetadata {
 }
 
 /// Contact data associated with quick connect operations.
+///
+/// @nodoc
 class QuickConnectContactData {
   /// The contact ID for quick connect contact data.
   final String? contactId;
@@ -59645,6 +61097,8 @@ class QuickConnectContactData {
 
 /// Information about the contact evaluations where the key is the FormId, which
 /// is a unique identifier for the form.
+///
+/// @nodoc
 class ContactEvaluation {
   /// The date and time when the evaluation was deleted, in UTC time.
   final DateTime? deleteTimestamp;
@@ -59712,6 +61166,7 @@ class ContactEvaluation {
   }
 }
 
+/// @nodoc
 class Status {
   static const complete = Status._('COMPLETE');
   static const inProgress = Status._('IN_PROGRESS');
@@ -59737,6 +61192,8 @@ class Status {
 }
 
 /// Information about a voice recording, chat transcript, or screen recording.
+///
+/// @nodoc
 class RecordingInfo {
   /// If the recording/transcript was deleted, this is the reason entered for the
   /// deletion.
@@ -59863,6 +61320,7 @@ class RecordingInfo {
   }
 }
 
+/// @nodoc
 class MediaStreamType {
   static const audio = MediaStreamType._('AUDIO');
   static const video = MediaStreamType._('VIDEO');
@@ -59887,6 +61345,7 @@ class MediaStreamType {
   String toString() => value;
 }
 
+/// @nodoc
 class ParticipantType {
   static const all = ParticipantType._('ALL');
   static const manager = ParticipantType._('MANAGER');
@@ -59914,6 +61373,7 @@ class ParticipantType {
   String toString() => value;
 }
 
+/// @nodoc
 class RecordingStatus {
   static const available = RecordingStatus._('AVAILABLE');
   static const deleted = RecordingStatus._('DELETED');
@@ -59939,6 +61399,8 @@ class RecordingStatus {
 }
 
 /// Information about the email recipient
+///
+/// @nodoc
 class EmailRecipient {
   /// Address of the email recipient.
   final String? address;
@@ -59969,6 +61431,8 @@ class EmailRecipient {
 }
 
 /// Information about the overall participant interactions at the contact level.
+///
+/// @nodoc
 class ChatContactMetrics {
   /// The time for an agent to respond after obtaining a chat contact.
   final int? agentFirstResponseTimeInMillis;
@@ -60054,6 +61518,8 @@ class ChatContactMetrics {
 }
 
 /// Information about a participant's interactions in a contact.
+///
+/// @nodoc
 class ParticipantMetrics {
   /// A boolean flag indicating whether the chat conversation was abandoned by a
   /// Participant.
@@ -60078,7 +61544,7 @@ class ParticipantMetrics {
   final String? participantId;
 
   /// Information about the conversation participant. Following are the
-  /// participant types: [Agent, Customer, Supervisor].
+  /// participant types: \[Agent, Customer, Supervisor\].
   final ParticipantType? participantType;
 
   /// Total chat response time by Participant.
@@ -60141,6 +61607,8 @@ class ParticipantMetrics {
 }
 
 /// Information about the quality of the Agent's media connection
+///
+/// @nodoc
 class AgentQualityMetrics {
   /// Information about the audio quality of the Agent
   final AudioQualityMetricsInfo? audio;
@@ -60167,6 +61635,8 @@ class AgentQualityMetrics {
 }
 
 /// Information about the quality of the Customer's media connection
+///
+/// @nodoc
 class CustomerQualityMetrics {
   /// Information about the audio quality of the Customer
   final AudioQualityMetricsInfo? audio;
@@ -60193,6 +61663,8 @@ class CustomerQualityMetrics {
 }
 
 /// Contains information for score and potential quality issues for Audio
+///
+/// @nodoc
 class AudioQualityMetricsInfo {
   /// List of potential issues causing degradation of quality on a media
   /// connection. If the service did not detect any potential quality issues the
@@ -60232,6 +61704,8 @@ class AudioQualityMetricsInfo {
 }
 
 /// Information regarding the device.
+///
+/// @nodoc
 class DeviceInfo {
   /// Operating system that the participant used for the call.
   final String? operatingSystem;
@@ -60269,6 +61743,8 @@ class DeviceInfo {
 }
 
 /// Information of the AI agent involved in the contact.
+///
+/// @nodoc
 class AiAgentInfo {
   /// A boolean flag indicating whether the contact initially handled by this AI
   /// agent was escalated to a human agent.
@@ -60309,6 +61785,8 @@ class AiAgentInfo {
 
 /// Information about the agent hierarchy. Hierarchies can be configured with up
 /// to five levels.
+///
+/// @nodoc
 class HierarchyGroups {
   /// The group at level one of the agent hierarchy.
   final AgentHierarchyGroup? level1;
@@ -60370,6 +61848,8 @@ class HierarchyGroups {
 }
 
 /// Information about the state transition of a supervisor.
+///
+/// @nodoc
 class StateTransition {
   /// The state of the transition.
   final ParticipantState? state;
@@ -60408,6 +61888,7 @@ class StateTransition {
   }
 }
 
+/// @nodoc
 class ParticipantState {
   static const initial = ParticipantState._('INITIAL');
   static const connected = ParticipantState._('CONNECTED');
@@ -60435,6 +61916,8 @@ class ParticipantState {
 }
 
 /// Information about an agent hierarchy group.
+///
+/// @nodoc
 class AgentHierarchyGroup {
   /// The Amazon Resource Name (ARN) of the group.
   final String? arn;
@@ -60466,6 +61949,8 @@ class AgentHierarchyGroup {
 /// restrictions and session timeouts. For more information, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html">Set
 /// IP address restrictions or session timeouts</a>.
+///
+/// @nodoc
 class AuthenticationProfile {
   /// A list of IP address range strings that are allowed to access the Connect
   /// Customer instance. For more information about how to configure IP addresses,
@@ -60615,6 +62100,8 @@ class AuthenticationProfile {
 }
 
 /// The configuration for attached files for a specific attachment scope.
+///
+/// @nodoc
 class AttachedFilesConfiguration {
   /// The scope of the attachment. Valid values are <code>EMAIL</code>,
   /// <code>CHAT</code>, <code>CASE</code>, and <code>TASK</code>.
@@ -60675,6 +62162,8 @@ class AttachedFilesConfiguration {
 
 /// Contains information about the queue and channel for manual assignment
 /// behaviour can be enabled.
+///
+/// @nodoc
 class RoutingProfileManualAssignmentQueueConfig {
   final RoutingProfileQueueReference queueReference;
 
@@ -60693,6 +62182,8 @@ class RoutingProfileManualAssignmentQueueConfig {
 /// Configuration object that specifies an email address to be associated with a
 /// queue. This configuration contains the identifier of the email address that
 /// should be linked to the queue for routing email contacts.
+///
+/// @nodoc
 class EmailAddressConfig {
   /// The identifier of the email address that should be associated with the
   /// queue. This email address must already exist in the Connect Customer
@@ -60712,6 +62203,7 @@ class EmailAddressConfig {
   }
 }
 
+/// @nodoc
 class DeviceType {
   static const gcm = DeviceType._('GCM');
   static const apns = DeviceType._('APNS');
@@ -60737,6 +62229,8 @@ class DeviceType {
 }
 
 /// The contact configuration for push notification registration.
+///
+/// @nodoc
 class ContactConfiguration {
   /// The identifier of the contact within the Amazon Connect instance.
   final String contactId;
@@ -60771,6 +62265,8 @@ class ContactConfiguration {
 }
 
 /// The credentials used by the participant.
+///
+/// @nodoc
 class ParticipantTokenCredentials {
   /// The expiration of the token. It's specified in ISO 8601 format:
   /// yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
@@ -60804,6 +62300,8 @@ class ParticipantTokenCredentials {
 }
 
 /// The details to add for the participant.
+///
+/// @nodoc
 class ParticipantDetailsToAdd {
   /// The display name of the participant.
   final String? displayName;
@@ -60834,6 +62332,8 @@ class ParticipantDetailsToAdd {
 /// The priority level that can be set when creating a customer notification.
 /// Valid values are HIGH and LOW. URGENT priority is reserved for
 /// system-generated notifications.
+///
+/// @nodoc
 class ConfigurableNotificationPriority {
   static const high = ConfigurableNotificationPriority._('HIGH');
   static const low = ConfigurableNotificationPriority._('LOW');
@@ -60860,6 +62360,8 @@ class ConfigurableNotificationPriority {
 }
 
 /// Contains configuration for the parent hours of operation.
+///
+/// @nodoc
 class ParentHoursOfOperationConfig {
   /// The identifier for the hours of operation.
   final String? hoursOfOperationId;
@@ -60876,6 +62378,7 @@ class ParentHoursOfOperationConfig {
   }
 }
 
+/// @nodoc
 class InitiateAs {
   static const connectedToUser = InitiateAs._('CONNECTED_TO_USER');
   static const completed = InitiateAs._('COMPLETED');
@@ -60900,6 +62403,8 @@ class InitiateAs {
 }
 
 /// A batch update data table value failure result.
+///
+/// @nodoc
 class BatchUpdateDataTableValueFailureResult {
   /// The result's attribute name.
   final String attributeName;
@@ -60941,6 +62446,8 @@ class BatchUpdateDataTableValueFailureResult {
 }
 
 /// A batch update data table value success result.
+///
+/// @nodoc
 class BatchUpdateDataTableValueSuccessResult {
   /// The result's attribute name.
   final String attributeName;
@@ -60984,6 +62491,8 @@ class BatchUpdateDataTableValueSuccessResult {
 }
 
 /// A data table value.
+///
+/// @nodoc
 class DataTableValue {
   /// The value's attribute name.
   final String attributeName;
@@ -61032,6 +62541,8 @@ class DataTableValue {
 }
 
 /// Request for which contact failed to be generated.
+///
+/// @nodoc
 class FailedRequest {
   /// Reason code for the failure.
   final FailureReasonCode? failureReasonCode;
@@ -61072,6 +62583,7 @@ class FailedRequest {
   }
 }
 
+/// @nodoc
 class FailureReasonCode {
   static const invalidAttributeKey =
       FailureReasonCode._('INVALID_ATTRIBUTE_KEY');
@@ -61125,6 +62637,8 @@ class FailureReasonCode {
 }
 
 /// Request for which contact was successfully created.
+///
+/// @nodoc
 class SuccessfulRequest {
   /// The contactId of the contact that was created successfully.
   final String? contactId;
@@ -61156,6 +62670,8 @@ class SuccessfulRequest {
 }
 
 /// Request object with information to create a contact.
+///
+/// @nodoc
 class ContactDataRequest {
   /// List of attributes to be stored in a contact.
   final Map<String, String>? attributes;
@@ -61212,6 +62728,8 @@ class ContactDataRequest {
 
 /// Error describing a failure to retrieve attached file metadata through
 /// BatchGetAttachedFileMetadata action.
+///
+/// @nodoc
 class AttachedFileError {
   /// Status code describing the failure.
   final String? errorCode;
@@ -61249,6 +62767,8 @@ class AttachedFileError {
 }
 
 /// Information about the attached file.
+///
+/// @nodoc
 class AttachedFile {
   /// The time of Creation of the file resource as an ISO timestamp. It's
   /// specified in ISO 8601 format: <code>yyyy-MM-ddThh:mm:ss.SSSZ</code>. For
@@ -61352,6 +62872,8 @@ class AttachedFile {
 /// change.
 ///
 /// List of errors for dataset association failures.
+///
+/// @nodoc
 class ErrorResult {
   /// The error code.
   final String? errorCode;
@@ -61382,6 +62904,8 @@ class ErrorResult {
 }
 
 /// A batch describe data table value failure result.
+///
+/// @nodoc
 class BatchDescribeDataTableValueFailureResult {
   /// The result's attribute name.
   final String attributeName;
@@ -61423,6 +62947,8 @@ class BatchDescribeDataTableValueFailureResult {
 }
 
 /// A batch describe data table value success result.
+///
+/// @nodoc
 class BatchDescribeDataTableValueSuccessResult {
   /// The result's attribute ID.
   final String attributeId;
@@ -61502,6 +63028,8 @@ class BatchDescribeDataTableValueSuccessResult {
 }
 
 /// A data table value identifier.
+///
+/// @nodoc
 class DataTableValueIdentifier {
   /// The identifier's attribute name.
   final String attributeName;
@@ -61525,6 +63053,8 @@ class DataTableValueIdentifier {
 }
 
 /// A batch delete data table value failure result.
+///
+/// @nodoc
 class BatchDeleteDataTableValueFailureResult {
   /// The result's attribute name.
   final String attributeName;
@@ -61566,6 +63096,8 @@ class BatchDeleteDataTableValueFailureResult {
 }
 
 /// A batch delete data table value success result.
+///
+/// @nodoc
 class BatchDeleteDataTableValueSuccessResult {
   /// The result's attribute name.
   final String attributeName;
@@ -61609,6 +63141,8 @@ class BatchDeleteDataTableValueSuccessResult {
 }
 
 /// A data table delete value identifier.
+///
+/// @nodoc
 class DataTableDeleteValueIdentifier {
   /// The identifier's attribute name.
   final String attributeName;
@@ -61638,6 +63172,8 @@ class DataTableDeleteValueIdentifier {
 }
 
 /// A batch create data table value failure result.
+///
+/// @nodoc
 class BatchCreateDataTableValueFailureResult {
   /// The result's attribute name.
   final String attributeName;
@@ -61679,6 +63215,8 @@ class BatchCreateDataTableValueFailureResult {
 }
 
 /// A batch create data table value success result.
+///
+/// @nodoc
 class BatchCreateDataTableValueSuccessResult {
   /// The result's attribute name.
   final String attributeName;
@@ -61728,11 +63266,13 @@ class BatchCreateDataTableValueSuccessResult {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConditionalOperationFailedException extends _s.GenericAwsException {
   ConditionalOperationFailedException({String? type, String? message})
       : super(
@@ -61741,11 +63281,13 @@ class ConditionalOperationFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ContactFlowNotPublishedException extends _s.GenericAwsException {
   ContactFlowNotPublishedException({String? type, String? message})
       : super(
@@ -61754,11 +63296,13 @@ class ContactFlowNotPublishedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ContactNotFoundException extends _s.GenericAwsException {
   ContactNotFoundException({String? type, String? message})
       : super(type: type, code: 'ContactNotFoundException', message: message);
 }
 
+/// @nodoc
 class DestinationNotAllowedException extends _s.GenericAwsException {
   DestinationNotAllowedException({String? type, String? message})
       : super(
@@ -61767,33 +63311,39 @@ class DestinationNotAllowedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateResourceException extends _s.GenericAwsException {
   DuplicateResourceException({String? type, String? message})
       : super(type: type, code: 'DuplicateResourceException', message: message);
 }
 
+/// @nodoc
 class IdempotencyException extends _s.GenericAwsException {
   IdempotencyException({String? type, String? message})
       : super(type: type, code: 'IdempotencyException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidActiveRegionException extends _s.GenericAwsException {
   InvalidActiveRegionException({String? type, String? message})
       : super(
             type: type, code: 'InvalidActiveRegionException', message: message);
 }
 
+/// @nodoc
 class InvalidContactFlowException extends _s.GenericAwsException {
   InvalidContactFlowException({String? type, String? message})
       : super(
             type: type, code: 'InvalidContactFlowException', message: message);
 }
 
+/// @nodoc
 class InvalidContactFlowModuleException extends _s.GenericAwsException {
   InvalidContactFlowModuleException({String? type, String? message})
       : super(
@@ -61802,26 +63352,31 @@ class InvalidContactFlowModuleException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidTestCaseException extends _s.GenericAwsException {
   InvalidTestCaseException({String? type, String? message})
       : super(type: type, code: 'InvalidTestCaseException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MaximumResultReturnedException extends _s.GenericAwsException {
   MaximumResultReturnedException({String? type, String? message})
       : super(
@@ -61830,6 +63385,7 @@ class MaximumResultReturnedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OutboundContactNotPermittedException extends _s.GenericAwsException {
   OutboundContactNotPermittedException({String? type, String? message})
       : super(
@@ -61838,38 +63394,45 @@ class OutboundContactNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OutputTypeNotFoundException extends _s.GenericAwsException {
   OutputTypeNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'OutputTypeNotFoundException', message: message);
 }
 
+/// @nodoc
 class PropertyValidationException extends _s.GenericAwsException {
   PropertyValidationException({String? type, String? message})
       : super(
             type: type, code: 'PropertyValidationException', message: message);
 }
 
+/// @nodoc
 class ResourceConflictException extends _s.GenericAwsException {
   ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotReadyException extends _s.GenericAwsException {
   ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -61878,16 +63441,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UserNotFoundException extends _s.GenericAwsException {
   UserNotFoundException({String? type, String? message})
       : super(type: type, code: 'UserNotFoundException', message: message);

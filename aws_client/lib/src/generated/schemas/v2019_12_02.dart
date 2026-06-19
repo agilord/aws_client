@@ -1098,6 +1098,7 @@ class Schemas {
   }
 }
 
+/// @nodoc
 class CreateDiscovererResponse {
   /// The Status if the discoverer will discover schemas from events sent from
   /// another account.
@@ -1164,6 +1165,7 @@ class CreateDiscovererResponse {
   }
 }
 
+/// @nodoc
 class CreateRegistryResponse {
   /// The description of the registry.
   final String? description;
@@ -1208,6 +1210,7 @@ class CreateRegistryResponse {
   }
 }
 
+/// @nodoc
 class CreateSchemaResponse {
   /// The description of the schema.
   final String? description;
@@ -1279,6 +1282,7 @@ class CreateSchemaResponse {
   }
 }
 
+/// @nodoc
 class DescribeCodeBindingResponse {
   /// The time and date that the code binding was created.
   final DateTime? creationDate;
@@ -1322,6 +1326,7 @@ class DescribeCodeBindingResponse {
   }
 }
 
+/// @nodoc
 class DescribeDiscovererResponse {
   /// The Status if the discoverer will discover schemas from events sent from
   /// another account.
@@ -1388,6 +1393,7 @@ class DescribeDiscovererResponse {
   }
 }
 
+/// @nodoc
 class DescribeRegistryResponse {
   /// The description of the registry.
   final String? description;
@@ -1432,6 +1438,7 @@ class DescribeRegistryResponse {
   }
 }
 
+/// @nodoc
 class DescribeSchemaResponse {
   /// The source of the schema definition.
   final String? content;
@@ -1512,6 +1519,7 @@ class DescribeSchemaResponse {
   }
 }
 
+/// @nodoc
 class ExportSchemaResponse {
   final String? content;
   final String? schemaArn;
@@ -1553,6 +1561,7 @@ class ExportSchemaResponse {
   }
 }
 
+/// @nodoc
 class GetCodeBindingSourceResponse {
   final Uint8List? body;
 
@@ -1568,6 +1577,7 @@ class GetCodeBindingSourceResponse {
   }
 }
 
+/// @nodoc
 class GetDiscoveredSchemaResponse {
   /// The source of the schema definition.
   final String? content;
@@ -1590,6 +1600,7 @@ class GetDiscoveredSchemaResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The resource-based policy.
   final Object? policy;
@@ -1620,6 +1631,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListDiscoverersResponse {
   /// An array of DiscovererSummary information.
   final List<DiscovererSummary>? discoverers;
@@ -1654,6 +1666,7 @@ class ListDiscoverersResponse {
   }
 }
 
+/// @nodoc
 class ListRegistriesResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
@@ -1688,6 +1701,7 @@ class ListRegistriesResponse {
   }
 }
 
+/// @nodoc
 class ListSchemasResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
@@ -1722,6 +1736,7 @@ class ListSchemasResponse {
   }
 }
 
+/// @nodoc
 class ListSchemaVersionsResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
@@ -1756,6 +1771,7 @@ class ListSchemaVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   final Map<String, String>? tags;
 
@@ -1778,6 +1794,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutCodeBindingResponse {
   /// The time and date that the code binding was created.
   final DateTime? creationDate;
@@ -1821,6 +1838,7 @@ class PutCodeBindingResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// The resource-based policy.
   final Object? policy;
@@ -1851,6 +1869,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class SearchSchemasResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
@@ -1885,6 +1904,7 @@ class SearchSchemasResponse {
   }
 }
 
+/// @nodoc
 class StartDiscovererResponse {
   /// The ID of the discoverer.
   final String? discovererId;
@@ -1914,6 +1934,7 @@ class StartDiscovererResponse {
   }
 }
 
+/// @nodoc
 class StopDiscovererResponse {
   /// The ID of the discoverer.
   final String? discovererId;
@@ -1943,6 +1964,7 @@ class StopDiscovererResponse {
   }
 }
 
+/// @nodoc
 class UpdateDiscovererResponse {
   /// The Status if the discoverer will discover schemas from events sent from
   /// another account.
@@ -2009,6 +2031,7 @@ class UpdateDiscovererResponse {
   }
 }
 
+/// @nodoc
 class UpdateRegistryResponse {
   /// The description of the registry.
   final String? description;
@@ -2053,6 +2076,7 @@ class UpdateRegistryResponse {
   }
 }
 
+/// @nodoc
 class UpdateSchemaResponse {
   /// The description of the schema.
   final String? description;
@@ -2124,6 +2148,7 @@ class UpdateSchemaResponse {
   }
 }
 
+/// @nodoc
 class Type {
   static const openApi3 = Type._('OpenApi3');
   static const jSONSchemaDraft4 = Type._('JSONSchemaDraft4');
@@ -2147,6 +2172,7 @@ class Type {
   String toString() => value;
 }
 
+/// @nodoc
 class DiscovererState {
   static const started = DiscovererState._('STARTED');
   static const stopped = DiscovererState._('STOPPED');
@@ -2171,6 +2197,7 @@ class DiscovererState {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchSchemaSummary {
   /// The name of the registry.
   final String? registryName;
@@ -2218,6 +2245,7 @@ class SearchSchemaSummary {
   }
 }
 
+/// @nodoc
 class SearchSchemaVersionSummary {
   /// The date the schema version was created.
   final DateTime? createdDate;
@@ -2254,6 +2282,7 @@ class SearchSchemaVersionSummary {
   }
 }
 
+/// @nodoc
 class CodeGenerationStatus {
   static const createInProgress = CodeGenerationStatus._('CREATE_IN_PROGRESS');
   static const createComplete = CodeGenerationStatus._('CREATE_COMPLETE');
@@ -2280,6 +2309,7 @@ class CodeGenerationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SchemaVersionSummary {
   /// The ARN of the schema version.
   final String? schemaArn;
@@ -2324,6 +2354,8 @@ class SchemaVersionSummary {
 }
 
 /// A summary of schema details.
+///
+/// @nodoc
 class SchemaSummary {
   /// The date and time that schema was modified.
   final DateTime? lastModified;
@@ -2375,6 +2407,7 @@ class SchemaSummary {
   }
 }
 
+/// @nodoc
 class RegistrySummary {
   /// The ARN of the registry.
   final String? registryArn;
@@ -2412,6 +2445,7 @@ class RegistrySummary {
   }
 }
 
+/// @nodoc
 class DiscovererSummary {
   /// The Status if the discoverer will discover schemas from events sent from
   /// another account.
@@ -2471,54 +2505,64 @@ class DiscovererSummary {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class GoneException extends _s.GenericAwsException {
   GoneException({String? type, String? message})
       : super(type: type, code: 'GoneException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class PreconditionFailedException extends _s.GenericAwsException {
   PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

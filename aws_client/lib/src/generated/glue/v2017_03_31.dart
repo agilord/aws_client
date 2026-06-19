@@ -14165,6 +14165,7 @@ class Glue {
   }
 }
 
+/// @nodoc
 class BatchCreatePartitionResponse {
   /// The errors encountered when trying to create the requested partitions.
   final List<PartitionError>? errors;
@@ -14190,6 +14191,7 @@ class BatchCreatePartitionResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteConnectionResponse {
   /// A map of the names of connections that were not successfully deleted to
   /// error details.
@@ -14225,6 +14227,7 @@ class BatchDeleteConnectionResponse {
   }
 }
 
+/// @nodoc
 class BatchDeletePartitionResponse {
   /// The errors encountered when trying to delete the requested partitions.
   final List<PartitionError>? errors;
@@ -14250,6 +14253,7 @@ class BatchDeletePartitionResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteTableResponse {
   /// A list of errors encountered in attempting to delete the specified tables.
   final List<TableError>? errors;
@@ -14275,6 +14279,7 @@ class BatchDeleteTableResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteTableVersionResponse {
   /// A list of errors encountered while trying to delete the specified table
   /// versions.
@@ -14301,6 +14306,7 @@ class BatchDeleteTableVersionResponse {
   }
 }
 
+/// @nodoc
 class BatchGetBlueprintsResponse {
   /// Returns a list of blueprint as a <code>Blueprints</code> object.
   final List<Blueprint>? blueprints;
@@ -14336,6 +14342,7 @@ class BatchGetBlueprintsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetCrawlersResponse {
   /// A list of crawler definitions.
   final List<Crawler>? crawlers;
@@ -14371,6 +14378,7 @@ class BatchGetCrawlersResponse {
   }
 }
 
+/// @nodoc
 class BatchGetCustomEntityTypesResponse {
   /// A list of <code>CustomEntityType</code> objects representing the custom
   /// patterns that have been created.
@@ -14409,6 +14417,7 @@ class BatchGetCustomEntityTypesResponse {
   }
 }
 
+/// @nodoc
 class BatchGetDataQualityResultResponse {
   /// A list of <code>DataQualityResult</code> objects representing the data
   /// quality results.
@@ -14446,6 +14455,7 @@ class BatchGetDataQualityResultResponse {
   }
 }
 
+/// @nodoc
 class BatchGetDevEndpointsResponse {
   /// A list of <code>DevEndpoint</code> definitions.
   final List<DevEndpoint>? devEndpoints;
@@ -14482,6 +14492,7 @@ class BatchGetDevEndpointsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetJobsResponse {
   /// A list of job definitions.
   final List<Job>? jobs;
@@ -14517,6 +14528,7 @@ class BatchGetJobsResponse {
   }
 }
 
+/// @nodoc
 class BatchGetPartitionResponse {
   /// A list of the requested partitions.
   final List<Partition>? partitions;
@@ -14553,6 +14565,7 @@ class BatchGetPartitionResponse {
   }
 }
 
+/// @nodoc
 class BatchGetTableOptimizerResponse {
   /// A list of errors from the operation.
   final List<BatchGetTableOptimizerError>? failures;
@@ -14589,6 +14602,7 @@ class BatchGetTableOptimizerResponse {
   }
 }
 
+/// @nodoc
 class BatchGetTriggersResponse {
   /// A list of trigger definitions.
   final List<Trigger>? triggers;
@@ -14624,6 +14638,7 @@ class BatchGetTriggersResponse {
   }
 }
 
+/// @nodoc
 class BatchGetWorkflowsResponse {
   /// A list of names of workflows not found.
   final List<String>? missingWorkflows;
@@ -14659,6 +14674,7 @@ class BatchGetWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class BatchPutDataQualityStatisticAnnotationResponse {
   /// A list of <code>AnnotationError</code>'s.
   final List<AnnotationError>? failedInclusionAnnotations;
@@ -14686,6 +14702,7 @@ class BatchPutDataQualityStatisticAnnotationResponse {
   }
 }
 
+/// @nodoc
 class BatchStopJobRunResponse {
   /// A list of the errors that were encountered in trying to stop
   /// <code>JobRuns</code>, including the <code>JobRunId</code> for which each
@@ -14725,6 +14742,7 @@ class BatchStopJobRunResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdatePartitionResponse {
   /// The errors encountered when trying to update the requested partitions. A
   /// list of <code>BatchUpdatePartitionFailureEntry</code> objects.
@@ -14752,6 +14770,7 @@ class BatchUpdatePartitionResponse {
   }
 }
 
+/// @nodoc
 class CancelDataQualityRuleRecommendationRunResponse {
   CancelDataQualityRuleRecommendationRunResponse();
 
@@ -14765,6 +14784,7 @@ class CancelDataQualityRuleRecommendationRunResponse {
   }
 }
 
+/// @nodoc
 class CancelDataQualityRulesetEvaluationRunResponse {
   CancelDataQualityRulesetEvaluationRunResponse();
 
@@ -14778,6 +14798,7 @@ class CancelDataQualityRulesetEvaluationRunResponse {
   }
 }
 
+/// @nodoc
 class CancelMLTaskRunResponse {
   /// The status for this run.
   final TaskStatusType? status;
@@ -14814,6 +14835,7 @@ class CancelMLTaskRunResponse {
   }
 }
 
+/// @nodoc
 class CancelStatementResponse {
   CancelStatementResponse();
 
@@ -14826,6 +14848,7 @@ class CancelStatementResponse {
   }
 }
 
+/// @nodoc
 class CheckSchemaVersionValidityResponse {
   /// A validation failure error message.
   final String? error;
@@ -14856,6 +14879,7 @@ class CheckSchemaVersionValidityResponse {
   }
 }
 
+/// @nodoc
 class CreateBlueprintResponse {
   /// Returns the name of the blueprint that was registered.
   final String? name;
@@ -14878,6 +14902,7 @@ class CreateBlueprintResponse {
   }
 }
 
+/// @nodoc
 class CreateCatalogResponse {
   CreateCatalogResponse();
 
@@ -14890,6 +14915,7 @@ class CreateCatalogResponse {
   }
 }
 
+/// @nodoc
 class CreateClassifierResponse {
   CreateClassifierResponse();
 
@@ -14902,6 +14928,7 @@ class CreateClassifierResponse {
   }
 }
 
+/// @nodoc
 class CreateColumnStatisticsTaskSettingsResponse {
   CreateColumnStatisticsTaskSettingsResponse();
 
@@ -14915,6 +14942,7 @@ class CreateColumnStatisticsTaskSettingsResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectionResponse {
   /// The status of the connection creation request. The request can take some
   /// time for certain authentication types, for example when creating an OAuth
@@ -14941,6 +14969,7 @@ class CreateConnectionResponse {
   }
 }
 
+/// @nodoc
 class CreateCrawlerResponse {
   CreateCrawlerResponse();
 
@@ -14953,6 +14982,7 @@ class CreateCrawlerResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomEntityTypeResponse {
   /// The name of the custom pattern you created.
   final String? name;
@@ -14975,6 +15005,7 @@ class CreateCustomEntityTypeResponse {
   }
 }
 
+/// @nodoc
 class CreateDatabaseResponse {
   CreateDatabaseResponse();
 
@@ -14987,6 +15018,7 @@ class CreateDatabaseResponse {
   }
 }
 
+/// @nodoc
 class CreateDataQualityRulesetResponse {
   /// A unique name for the data quality ruleset.
   final String? name;
@@ -15009,6 +15041,7 @@ class CreateDataQualityRulesetResponse {
   }
 }
 
+/// @nodoc
 class CreateDevEndpointResponse {
   /// The map of arguments used to configure this <code>DevEndpoint</code>.
   ///
@@ -15198,6 +15231,8 @@ class CreateDevEndpointResponse {
 }
 
 /// Response from creating a new Glue Identity Center configuration.
+///
+/// @nodoc
 class CreateGlueIdentityCenterConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the Identity Center application that was
   /// created for the Glue configuration.
@@ -15222,6 +15257,7 @@ class CreateGlueIdentityCenterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateIntegrationResponse {
   /// The time when the integration was created, in UTC.
   final DateTime createTime;
@@ -15367,6 +15403,7 @@ class CreateIntegrationResponse {
   }
 }
 
+/// @nodoc
 class CreateIntegrationResourcePropertyResponse {
   /// The connection ARN of the source, or the database ARN of the target.
   final String resourceArn;
@@ -15421,6 +15458,7 @@ class CreateIntegrationResourcePropertyResponse {
   }
 }
 
+/// @nodoc
 class CreateIntegrationTablePropertiesResponse {
   CreateIntegrationTablePropertiesResponse();
 
@@ -15434,6 +15472,7 @@ class CreateIntegrationTablePropertiesResponse {
   }
 }
 
+/// @nodoc
 class CreateJobResponse {
   /// The unique name that was provided for this job definition.
   final String? name;
@@ -15456,6 +15495,7 @@ class CreateJobResponse {
   }
 }
 
+/// @nodoc
 class CreateMLTransformResponse {
   /// A unique identifier that is generated for the transform.
   final String? transformId;
@@ -15478,6 +15518,7 @@ class CreateMLTransformResponse {
   }
 }
 
+/// @nodoc
 class CreatePartitionResponse {
   CreatePartitionResponse();
 
@@ -15490,6 +15531,7 @@ class CreatePartitionResponse {
   }
 }
 
+/// @nodoc
 class CreatePartitionIndexResponse {
   CreatePartitionIndexResponse();
 
@@ -15502,6 +15544,7 @@ class CreatePartitionIndexResponse {
   }
 }
 
+/// @nodoc
 class CreateRegistryResponse {
   /// A description of the registry.
   final String? description;
@@ -15546,6 +15589,7 @@ class CreateRegistryResponse {
   }
 }
 
+/// @nodoc
 class CreateSchemaResponse {
   /// The schema compatibility mode.
   final Compatibility? compatibility;
@@ -15669,6 +15713,7 @@ class CreateSchemaResponse {
   }
 }
 
+/// @nodoc
 class CreateScriptResponse {
   /// The Python script generated from the DAG.
   final String? pythonScript;
@@ -15698,6 +15743,7 @@ class CreateScriptResponse {
   }
 }
 
+/// @nodoc
 class CreateSecurityConfigurationResponse {
   /// The time at which the new security configuration was created.
   final DateTime? createdTimestamp;
@@ -15729,6 +15775,7 @@ class CreateSecurityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateSessionResponse {
   /// Returns the session object in the response.
   final Session? session;
@@ -15753,6 +15800,7 @@ class CreateSessionResponse {
   }
 }
 
+/// @nodoc
 class CreateTableResponse {
   CreateTableResponse();
 
@@ -15765,6 +15813,7 @@ class CreateTableResponse {
   }
 }
 
+/// @nodoc
 class CreateTableOptimizerResponse {
   CreateTableOptimizerResponse();
 
@@ -15777,6 +15826,7 @@ class CreateTableOptimizerResponse {
   }
 }
 
+/// @nodoc
 class CreateTriggerResponse {
   /// The name of the trigger.
   final String? name;
@@ -15799,6 +15849,7 @@ class CreateTriggerResponse {
   }
 }
 
+/// @nodoc
 class CreateUsageProfileResponse {
   /// The name of the usage profile that was created.
   final String? name;
@@ -15821,6 +15872,7 @@ class CreateUsageProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateUserDefinedFunctionResponse {
   CreateUserDefinedFunctionResponse();
 
@@ -15833,6 +15885,7 @@ class CreateUserDefinedFunctionResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowResponse {
   /// The name of the workflow which was provided as part of the request.
   final String? name;
@@ -15855,6 +15908,7 @@ class CreateWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DeleteBlueprintResponse {
   /// Returns the name of the blueprint that was deleted.
   final String? name;
@@ -15877,6 +15931,7 @@ class DeleteBlueprintResponse {
   }
 }
 
+/// @nodoc
 class DeleteCatalogResponse {
   DeleteCatalogResponse();
 
@@ -15889,6 +15944,7 @@ class DeleteCatalogResponse {
   }
 }
 
+/// @nodoc
 class DeleteClassifierResponse {
   DeleteClassifierResponse();
 
@@ -15901,6 +15957,7 @@ class DeleteClassifierResponse {
   }
 }
 
+/// @nodoc
 class DeleteColumnStatisticsForPartitionResponse {
   DeleteColumnStatisticsForPartitionResponse();
 
@@ -15914,6 +15971,7 @@ class DeleteColumnStatisticsForPartitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteColumnStatisticsForTableResponse {
   DeleteColumnStatisticsForTableResponse();
 
@@ -15927,6 +15985,7 @@ class DeleteColumnStatisticsForTableResponse {
   }
 }
 
+/// @nodoc
 class DeleteColumnStatisticsTaskSettingsResponse {
   DeleteColumnStatisticsTaskSettingsResponse();
 
@@ -15940,6 +15999,7 @@ class DeleteColumnStatisticsTaskSettingsResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectionResponse {
   DeleteConnectionResponse();
 
@@ -15952,6 +16012,7 @@ class DeleteConnectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectionTypeResponse {
   DeleteConnectionTypeResponse();
 
@@ -15964,6 +16025,7 @@ class DeleteConnectionTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteCrawlerResponse {
   DeleteCrawlerResponse();
 
@@ -15976,6 +16038,7 @@ class DeleteCrawlerResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomEntityTypeResponse {
   /// The name of the custom pattern you deleted.
   final String? name;
@@ -15998,6 +16061,7 @@ class DeleteCustomEntityTypeResponse {
   }
 }
 
+/// @nodoc
 class DeleteDatabaseResponse {
   DeleteDatabaseResponse();
 
@@ -16010,6 +16074,7 @@ class DeleteDatabaseResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataQualityRulesetResponse {
   DeleteDataQualityRulesetResponse();
 
@@ -16022,6 +16087,7 @@ class DeleteDataQualityRulesetResponse {
   }
 }
 
+/// @nodoc
 class DeleteDevEndpointResponse {
   DeleteDevEndpointResponse();
 
@@ -16035,6 +16101,8 @@ class DeleteDevEndpointResponse {
 }
 
 /// Response from deleting the Glue Identity Center configuration.
+///
+/// @nodoc
 class DeleteGlueIdentityCenterConfigurationResponse {
   DeleteGlueIdentityCenterConfigurationResponse();
 
@@ -16048,6 +16116,7 @@ class DeleteGlueIdentityCenterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteIntegrationResponse {
   /// The time when the integration was created, in UTC.
   final DateTime createTime;
@@ -16183,6 +16252,7 @@ class DeleteIntegrationResponse {
   }
 }
 
+/// @nodoc
 class DeleteIntegrationResourcePropertyResponse {
   DeleteIntegrationResourcePropertyResponse();
 
@@ -16196,6 +16266,7 @@ class DeleteIntegrationResourcePropertyResponse {
   }
 }
 
+/// @nodoc
 class DeleteIntegrationTablePropertiesResponse {
   DeleteIntegrationTablePropertiesResponse();
 
@@ -16209,6 +16280,7 @@ class DeleteIntegrationTablePropertiesResponse {
   }
 }
 
+/// @nodoc
 class DeleteJobResponse {
   /// The name of the job definition that was deleted.
   final String? jobName;
@@ -16231,6 +16303,7 @@ class DeleteJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteMLTransformResponse {
   /// The unique identifier of the transform that was deleted.
   final String? transformId;
@@ -16253,6 +16326,7 @@ class DeleteMLTransformResponse {
   }
 }
 
+/// @nodoc
 class DeletePartitionResponse {
   DeletePartitionResponse();
 
@@ -16265,6 +16339,7 @@ class DeletePartitionResponse {
   }
 }
 
+/// @nodoc
 class DeletePartitionIndexResponse {
   DeletePartitionIndexResponse();
 
@@ -16277,6 +16352,7 @@ class DeletePartitionIndexResponse {
   }
 }
 
+/// @nodoc
 class DeleteRegistryResponse {
   /// The Amazon Resource Name (ARN) of the registry being deleted.
   final String? registryArn;
@@ -16314,6 +16390,7 @@ class DeleteRegistryResponse {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
 
@@ -16326,6 +16403,7 @@ class DeleteResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteSchemaResponse {
   /// The Amazon Resource Name (ARN) of the schema being deleted.
   final String? schemaArn;
@@ -16362,6 +16440,7 @@ class DeleteSchemaResponse {
   }
 }
 
+/// @nodoc
 class DeleteSchemaVersionsResponse {
   /// A list of <code>SchemaVersionErrorItem</code> objects, each containing an
   /// error and schema version.
@@ -16390,6 +16469,7 @@ class DeleteSchemaVersionsResponse {
   }
 }
 
+/// @nodoc
 class DeleteSecurityConfigurationResponse {
   DeleteSecurityConfigurationResponse();
 
@@ -16402,6 +16482,7 @@ class DeleteSecurityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteSessionResponse {
   /// Returns the ID of the deleted session.
   final String? id;
@@ -16424,6 +16505,7 @@ class DeleteSessionResponse {
   }
 }
 
+/// @nodoc
 class DeleteTableResponse {
   DeleteTableResponse();
 
@@ -16436,6 +16518,7 @@ class DeleteTableResponse {
   }
 }
 
+/// @nodoc
 class DeleteTableOptimizerResponse {
   DeleteTableOptimizerResponse();
 
@@ -16448,6 +16531,7 @@ class DeleteTableOptimizerResponse {
   }
 }
 
+/// @nodoc
 class DeleteTableVersionResponse {
   DeleteTableVersionResponse();
 
@@ -16460,6 +16544,7 @@ class DeleteTableVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteTriggerResponse {
   /// The name of the trigger that was deleted.
   final String? name;
@@ -16482,6 +16567,7 @@ class DeleteTriggerResponse {
   }
 }
 
+/// @nodoc
 class DeleteUsageProfileResponse {
   DeleteUsageProfileResponse();
 
@@ -16494,6 +16580,7 @@ class DeleteUsageProfileResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserDefinedFunctionResponse {
   DeleteUserDefinedFunctionResponse();
 
@@ -16506,6 +16593,7 @@ class DeleteUserDefinedFunctionResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkflowResponse {
   /// Name of the workflow specified in input.
   final String? name;
@@ -16528,6 +16616,7 @@ class DeleteWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectionTypeResponse {
   /// Connection properties specific to the Athena compute environment.
   final Map<String, Property>? athenaConnectionProperties;
@@ -16671,6 +16760,7 @@ class DescribeConnectionTypeResponse {
   }
 }
 
+/// @nodoc
 class DescribeEntityResponse {
   /// Describes the fields for that connector entity. This is the list of
   /// <code>Field</code> objects. <code>Field</code> is very similar to column in
@@ -16706,6 +16796,7 @@ class DescribeEntityResponse {
   }
 }
 
+/// @nodoc
 class DescribeInboundIntegrationsResponse {
   /// A list of inbound integrations.
   final List<InboundIntegration>? inboundIntegrations;
@@ -16741,6 +16832,7 @@ class DescribeInboundIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeIntegrationsResponse {
   /// A list of zero-ETL integrations.
   final List<Integration>? integrations;
@@ -16774,6 +16866,7 @@ class DescribeIntegrationsResponse {
   }
 }
 
+/// @nodoc
 class GetBlueprintResponse {
   /// Returns a <code>Blueprint</code> object.
   final Blueprint? blueprint;
@@ -16798,6 +16891,7 @@ class GetBlueprintResponse {
   }
 }
 
+/// @nodoc
 class GetBlueprintRunResponse {
   /// Returns a <code>BlueprintRun</code> object.
   final BlueprintRun? blueprintRun;
@@ -16822,6 +16916,7 @@ class GetBlueprintRunResponse {
   }
 }
 
+/// @nodoc
 class GetBlueprintRunsResponse {
   /// Returns a list of <code>BlueprintRun</code> objects.
   final List<BlueprintRun>? blueprintRuns;
@@ -16854,6 +16949,7 @@ class GetBlueprintRunsResponse {
   }
 }
 
+/// @nodoc
 class GetCatalogResponse {
   /// A <code>Catalog</code> object. The definition of the specified catalog in
   /// the Glue Data Catalog.
@@ -16879,6 +16975,7 @@ class GetCatalogResponse {
   }
 }
 
+/// @nodoc
 class GetCatalogImportStatusResponse {
   /// The status of the specified catalog migration.
   final CatalogImportStatus? importStatus;
@@ -16904,6 +17001,7 @@ class GetCatalogImportStatusResponse {
   }
 }
 
+/// @nodoc
 class GetCatalogsResponse {
   /// An array of <code>Catalog</code> objects. A list of <code>Catalog</code>
   /// objects from the specified parent catalog.
@@ -16938,6 +17036,7 @@ class GetCatalogsResponse {
   }
 }
 
+/// @nodoc
 class GetClassifierResponse {
   /// The requested classifier.
   final Classifier? classifier;
@@ -16962,6 +17061,7 @@ class GetClassifierResponse {
   }
 }
 
+/// @nodoc
 class GetClassifiersResponse {
   /// The requested list of classifier objects.
   final List<Classifier>? classifiers;
@@ -16994,6 +17094,7 @@ class GetClassifiersResponse {
   }
 }
 
+/// @nodoc
 class GetColumnStatisticsForPartitionResponse {
   /// List of ColumnStatistics that failed to be retrieved.
   final List<ColumnStatistics>? columnStatisticsList;
@@ -17031,6 +17132,7 @@ class GetColumnStatisticsForPartitionResponse {
   }
 }
 
+/// @nodoc
 class GetColumnStatisticsForTableResponse {
   /// List of ColumnStatistics.
   final List<ColumnStatistics>? columnStatisticsList;
@@ -17068,6 +17170,7 @@ class GetColumnStatisticsForTableResponse {
   }
 }
 
+/// @nodoc
 class GetColumnStatisticsTaskRunResponse {
   /// A <code>ColumnStatisticsTaskRun</code> object representing the details of
   /// the column stats run.
@@ -17096,6 +17199,7 @@ class GetColumnStatisticsTaskRunResponse {
   }
 }
 
+/// @nodoc
 class GetColumnStatisticsTaskRunsResponse {
   /// A list of column statistics task runs.
   final List<ColumnStatisticsTaskRun>? columnStatisticsTaskRuns;
@@ -17131,6 +17235,7 @@ class GetColumnStatisticsTaskRunsResponse {
   }
 }
 
+/// @nodoc
 class GetColumnStatisticsTaskSettingsResponse {
   /// A <code>ColumnStatisticsTaskSettings</code> object representing the settings
   /// for the column statistics task.
@@ -17159,6 +17264,7 @@ class GetColumnStatisticsTaskSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetConnectionResponse {
   /// The requested connection definition.
   final Connection? connection;
@@ -17183,6 +17289,7 @@ class GetConnectionResponse {
   }
 }
 
+/// @nodoc
 class GetConnectionsResponse {
   /// A list of requested connection definitions.
   final List<Connection>? connectionList;
@@ -17216,6 +17323,7 @@ class GetConnectionsResponse {
   }
 }
 
+/// @nodoc
 class GetCrawlerResponse {
   /// The metadata for the specified crawler.
   final Crawler? crawler;
@@ -17240,6 +17348,7 @@ class GetCrawlerResponse {
   }
 }
 
+/// @nodoc
 class GetCrawlerMetricsResponse {
   /// A list of metrics for the specified crawler.
   final List<CrawlerMetrics>? crawlerMetricsList;
@@ -17273,6 +17382,7 @@ class GetCrawlerMetricsResponse {
   }
 }
 
+/// @nodoc
 class GetCrawlersResponse {
   /// A list of crawler metadata.
   final List<Crawler>? crawlers;
@@ -17306,6 +17416,7 @@ class GetCrawlersResponse {
   }
 }
 
+/// @nodoc
 class GetCustomEntityTypeResponse {
   /// A list of context words if specified when you created the custom pattern. If
   /// none of these context words are found within the vicinity of the regular
@@ -17348,6 +17459,7 @@ class GetCustomEntityTypeResponse {
   }
 }
 
+/// @nodoc
 class GetDashboardUrlResponse {
   /// The URL for the Spark monitoring dashboard.
   final String url;
@@ -17370,6 +17482,7 @@ class GetDashboardUrlResponse {
   }
 }
 
+/// @nodoc
 class GetDatabaseResponse {
   /// The definition of the specified database in the Data Catalog.
   final Database? database;
@@ -17394,6 +17507,7 @@ class GetDatabaseResponse {
   }
 }
 
+/// @nodoc
 class GetDatabasesResponse {
   /// A list of <code>Database</code> objects from the specified catalog.
   final List<Database> databaseList;
@@ -17427,6 +17541,7 @@ class GetDatabasesResponse {
   }
 }
 
+/// @nodoc
 class GetDataCatalogEncryptionSettingsResponse {
   /// The requested security configuration.
   final DataCatalogEncryptionSettings? dataCatalogEncryptionSettings;
@@ -17455,6 +17570,7 @@ class GetDataCatalogEncryptionSettingsResponse {
   }
 }
 
+/// @nodoc
 class GetDataflowGraphResponse {
   /// A list of the edges in the resulting DAG.
   final List<CodeGenEdge>? dagEdges;
@@ -17490,6 +17606,7 @@ class GetDataflowGraphResponse {
   }
 }
 
+/// @nodoc
 class GetDataQualityModelResponse {
   /// The timestamp when the data quality model training completed.
   final DateTime? completedOn;
@@ -17534,6 +17651,7 @@ class GetDataQualityModelResponse {
   }
 }
 
+/// @nodoc
 class GetDataQualityModelResultResponse {
   /// The timestamp when the data quality model training completed.
   final DateTime? completedOn;
@@ -17568,6 +17686,8 @@ class GetDataQualityModelResultResponse {
 }
 
 /// The response for the data quality result.
+///
+/// @nodoc
 class GetDataQualityResultResponse {
   /// A summary of <code>DataQualityAggregatedMetrics</code> objects showing the
   /// total counts of processed rows and rules, including their pass/fail
@@ -17715,6 +17835,8 @@ class GetDataQualityResultResponse {
 }
 
 /// The response for the Data Quality rule recommendation run.
+///
+/// @nodoc
 class GetDataQualityRuleRecommendationRunResponse {
   /// The date and time when this run was completed.
   final DateTime? completedOn;
@@ -17843,6 +17965,8 @@ class GetDataQualityRuleRecommendationRunResponse {
 }
 
 /// Returns the data quality ruleset response.
+///
+/// @nodoc
 class GetDataQualityRulesetResponse {
   /// A timestamp. The time and date that this data quality ruleset was created.
   final DateTime? createdOn;
@@ -17926,6 +18050,7 @@ class GetDataQualityRulesetResponse {
   }
 }
 
+/// @nodoc
 class GetDataQualityRulesetEvaluationRunResponse {
   /// A map of reference strings to additional data sources you can specify for an
   /// evaluation run.
@@ -18070,6 +18195,7 @@ class GetDataQualityRulesetEvaluationRunResponse {
   }
 }
 
+/// @nodoc
 class GetDevEndpointResponse {
   /// A <code>DevEndpoint</code> definition.
   final DevEndpoint? devEndpoint;
@@ -18094,6 +18220,7 @@ class GetDevEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetDevEndpointsResponse {
   /// A list of <code>DevEndpoint</code> definitions.
   final List<DevEndpoint>? devEndpoints;
@@ -18127,6 +18254,7 @@ class GetDevEndpointsResponse {
   }
 }
 
+/// @nodoc
 class GetEntityRecordsResponse {
   /// A continuation token, present if the current segment is not the last.
   final String? nextToken;
@@ -18157,6 +18285,8 @@ class GetEntityRecordsResponse {
 }
 
 /// Response containing the Glue Identity Center configuration details.
+///
+/// @nodoc
 class GetGlueIdentityCenterConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the Identity Center application associated
   /// with the Glue configuration.
@@ -18208,6 +18338,7 @@ class GetGlueIdentityCenterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetIntegrationResourcePropertyResponse {
   /// The connection ARN of the source, or the database ARN of the target.
   final String? resourceArn;
@@ -18262,6 +18393,7 @@ class GetIntegrationResourcePropertyResponse {
   }
 }
 
+/// @nodoc
 class GetIntegrationTablePropertiesResponse {
   /// The Amazon Resource Name (ARN) of the target table for which to retrieve
   /// integration table properties. Currently, this API only supports retrieving
@@ -18317,6 +18449,7 @@ class GetIntegrationTablePropertiesResponse {
   }
 }
 
+/// @nodoc
 class GetJobResponse {
   /// The requested job definition.
   final Job? job;
@@ -18341,6 +18474,7 @@ class GetJobResponse {
   }
 }
 
+/// @nodoc
 class GetJobBookmarkResponse {
   /// A structure that defines a point that a job can resume processing.
   final JobBookmarkEntry? jobBookmarkEntry;
@@ -18366,6 +18500,7 @@ class GetJobBookmarkResponse {
   }
 }
 
+/// @nodoc
 class GetJobRunResponse {
   /// The requested job-run metadata.
   final JobRun? jobRun;
@@ -18390,6 +18525,7 @@ class GetJobRunResponse {
   }
 }
 
+/// @nodoc
 class GetJobRunsResponse {
   /// A list of job-run metadata objects.
   final List<JobRun>? jobRuns;
@@ -18422,6 +18558,7 @@ class GetJobRunsResponse {
   }
 }
 
+/// @nodoc
 class GetJobsResponse {
   /// A list of job definitions.
   final List<Job>? jobs;
@@ -18454,6 +18591,7 @@ class GetJobsResponse {
   }
 }
 
+/// @nodoc
 class GetMappingResponse {
   /// A list of mappings to the specified targets.
   final List<MappingEntry> mapping;
@@ -18479,6 +18617,7 @@ class GetMappingResponse {
   }
 }
 
+/// @nodoc
 class GetMaterializedViewRefreshTaskRunResponse {
   /// A MaterializedViewRefreshTaskRun object representing the details of the task
   /// run.
@@ -18508,6 +18647,7 @@ class GetMaterializedViewRefreshTaskRunResponse {
   }
 }
 
+/// @nodoc
 class GetMLTaskRunResponse {
   /// The date and time when this task run was completed.
   final DateTime? completedOn;
@@ -18597,6 +18737,7 @@ class GetMLTaskRunResponse {
   }
 }
 
+/// @nodoc
 class GetMLTaskRunsResponse {
   /// A pagination token, if more results are available.
   final String? nextToken;
@@ -18629,6 +18770,7 @@ class GetMLTaskRunsResponse {
   }
 }
 
+/// @nodoc
 class GetMLTransformResponse {
   /// The date and time when the transform was created.
   final DateTime? createdOn;
@@ -18834,6 +18976,7 @@ class GetMLTransformResponse {
   }
 }
 
+/// @nodoc
 class GetMLTransformsResponse {
   /// A list of machine learning transforms.
   final List<MLTransform> transforms;
@@ -18866,6 +19009,7 @@ class GetMLTransformsResponse {
   }
 }
 
+/// @nodoc
 class GetPartitionResponse {
   /// The requested information, in the form of a <code>Partition</code> object.
   final Partition? partition;
@@ -18890,6 +19034,7 @@ class GetPartitionResponse {
   }
 }
 
+/// @nodoc
 class GetPartitionIndexesResponse {
   /// A continuation token, present if the current list segment is not the last.
   final String? nextToken;
@@ -18925,6 +19070,7 @@ class GetPartitionIndexesResponse {
   }
 }
 
+/// @nodoc
 class GetPartitionsResponse {
   /// A continuation token, if the returned list of partitions does not include
   /// the last one.
@@ -18958,6 +19104,7 @@ class GetPartitionsResponse {
   }
 }
 
+/// @nodoc
 class GetPlanResponse {
   /// A Python script to perform the mapping.
   final String? pythonScript;
@@ -18987,6 +19134,7 @@ class GetPlanResponse {
   }
 }
 
+/// @nodoc
 class GetRegistryResponse {
   /// The date and time the registry was created.
   final String? createdTime;
@@ -19044,6 +19192,7 @@ class GetRegistryResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePoliciesResponse {
   /// A list of the individual resource policies and the account-level resource
   /// policy.
@@ -19081,6 +19230,7 @@ class GetResourcePoliciesResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// The date and time at which the policy was created.
   final DateTime? createTime;
@@ -19124,6 +19274,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class GetSchemaResponse {
   /// The compatibility mode of the schema.
   final Compatibility? compatibility;
@@ -19237,6 +19388,7 @@ class GetSchemaResponse {
   }
 }
 
+/// @nodoc
 class GetSchemaByDefinitionResponse {
   /// The date and time the schema was created.
   final String? createdTime;
@@ -19288,6 +19440,7 @@ class GetSchemaByDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetSchemaVersionResponse {
   /// The date and time the schema version was created.
   final String? createdTime;
@@ -19353,6 +19506,7 @@ class GetSchemaVersionResponse {
   }
 }
 
+/// @nodoc
 class GetSchemaVersionsDiffResponse {
   /// The difference between schemas as a string in JsonPatch format.
   final String? diff;
@@ -19375,6 +19529,7 @@ class GetSchemaVersionsDiffResponse {
   }
 }
 
+/// @nodoc
 class GetSecurityConfigurationResponse {
   /// The requested security configuration.
   final SecurityConfiguration? securityConfiguration;
@@ -19401,6 +19556,7 @@ class GetSecurityConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetSecurityConfigurationsResponse {
   /// A continuation token, if there are more security configurations to return.
   final String? nextToken;
@@ -19435,6 +19591,7 @@ class GetSecurityConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// The session object is returned in the response.
   final Session? session;
@@ -19459,6 +19616,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionEndpointResponse {
   /// The Spark Connect endpoint details for the session.
   final SessionEndpoint sparkConnect;
@@ -19483,6 +19641,7 @@ class GetSessionEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetStatementResponse {
   /// Returns the statement.
   final Statement? statement;
@@ -19507,6 +19666,7 @@ class GetStatementResponse {
   }
 }
 
+/// @nodoc
 class GetTableResponse {
   /// The <code>Table</code> object that defines the specified table.
   final Table? table;
@@ -19531,6 +19691,7 @@ class GetTableResponse {
   }
 }
 
+/// @nodoc
 class GetTableOptimizerResponse {
   /// The Catalog ID of the table.
   final String? catalogId;
@@ -19577,6 +19738,7 @@ class GetTableOptimizerResponse {
   }
 }
 
+/// @nodoc
 class GetTablesResponse {
   /// A continuation token, present if the current list segment is not the last.
   final String? nextToken;
@@ -19609,6 +19771,7 @@ class GetTablesResponse {
   }
 }
 
+/// @nodoc
 class GetTableVersionResponse {
   /// The requested table version.
   final TableVersion? tableVersion;
@@ -19633,6 +19796,7 @@ class GetTableVersionResponse {
   }
 }
 
+/// @nodoc
 class GetTableVersionsResponse {
   /// A continuation token, if the list of available versions does not include the
   /// last one.
@@ -19666,6 +19830,7 @@ class GetTableVersionsResponse {
   }
 }
 
+/// @nodoc
 class GetTagsResponse {
   /// The requested tags.
   final Map<String, String>? tags;
@@ -19689,6 +19854,7 @@ class GetTagsResponse {
   }
 }
 
+/// @nodoc
 class GetTriggerResponse {
   /// The requested trigger definition.
   final Trigger? trigger;
@@ -19713,6 +19879,7 @@ class GetTriggerResponse {
   }
 }
 
+/// @nodoc
 class GetTriggersResponse {
   /// A continuation token, if not all the requested triggers have yet been
   /// returned.
@@ -19746,6 +19913,7 @@ class GetTriggersResponse {
   }
 }
 
+/// @nodoc
 class GetUnfilteredPartitionMetadataResponse {
   /// A list of column names that the user has been granted access to.
   final List<String>? authorizedColumns;
@@ -19791,6 +19959,7 @@ class GetUnfilteredPartitionMetadataResponse {
   }
 }
 
+/// @nodoc
 class GetUnfilteredPartitionsMetadataResponse {
   /// A continuation token, if the returned list of partitions does not include
   /// the last one.
@@ -19826,6 +19995,7 @@ class GetUnfilteredPartitionsMetadataResponse {
   }
 }
 
+/// @nodoc
 class GetUnfilteredTableMetadataResponse {
   /// A list of column names that the user has been granted access to.
   final List<String>? authorizedColumns;
@@ -19944,6 +20114,7 @@ class GetUnfilteredTableMetadataResponse {
   }
 }
 
+/// @nodoc
 class GetUsageProfileResponse {
   /// A <code>ProfileConfiguration</code> object specifying the job and session
   /// values for the profile.
@@ -19999,6 +20170,7 @@ class GetUsageProfileResponse {
   }
 }
 
+/// @nodoc
 class GetUserDefinedFunctionResponse {
   /// The requested function definition.
   final UserDefinedFunction? userDefinedFunction;
@@ -20025,6 +20197,7 @@ class GetUserDefinedFunctionResponse {
   }
 }
 
+/// @nodoc
 class GetUserDefinedFunctionsResponse {
   /// A continuation token, if the list of functions returned does not include the
   /// last requested function.
@@ -20059,6 +20232,7 @@ class GetUserDefinedFunctionsResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowResponse {
   /// The resource metadata for the workflow.
   final Workflow? workflow;
@@ -20083,6 +20257,7 @@ class GetWorkflowResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowRunResponse {
   /// The requested workflow run metadata.
   final WorkflowRun? run;
@@ -20107,6 +20282,7 @@ class GetWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowRunPropertiesResponse {
   /// The workflow run properties which were set during the specified run.
   final Map<String, String>? runProperties;
@@ -20130,6 +20306,7 @@ class GetWorkflowRunPropertiesResponse {
   }
 }
 
+/// @nodoc
 class GetWorkflowRunsResponse {
   /// A continuation token, if not all requested workflow runs have been returned.
   final String? nextToken;
@@ -20162,6 +20339,7 @@ class GetWorkflowRunsResponse {
   }
 }
 
+/// @nodoc
 class ImportCatalogToGlueResponse {
   ImportCatalogToGlueResponse();
 
@@ -20174,6 +20352,7 @@ class ImportCatalogToGlueResponse {
   }
 }
 
+/// @nodoc
 class ListBlueprintsResponse {
   /// List of names of blueprints in the account.
   final List<String>? blueprints;
@@ -20206,6 +20385,7 @@ class ListBlueprintsResponse {
   }
 }
 
+/// @nodoc
 class ListColumnStatisticsTaskRunsResponse {
   /// A list of column statistics task run IDs.
   final List<String>? columnStatisticsTaskRunIds;
@@ -20240,6 +20420,7 @@ class ListColumnStatisticsTaskRunsResponse {
   }
 }
 
+/// @nodoc
 class ListConnectionTypesResponse {
   /// A list of <code>ConnectionTypeBrief</code> objects containing brief
   /// information about the supported connection types.
@@ -20273,6 +20454,7 @@ class ListConnectionTypesResponse {
   }
 }
 
+/// @nodoc
 class ListCrawlersResponse {
   /// The names of all crawlers in the account, or the crawlers with the specified
   /// tags.
@@ -20307,6 +20489,7 @@ class ListCrawlersResponse {
   }
 }
 
+/// @nodoc
 class ListCrawlsResponse {
   /// A list of <code>CrawlerHistory</code> objects representing the crawl runs
   /// that meet your criteria.
@@ -20341,6 +20524,7 @@ class ListCrawlsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomEntityTypesResponse {
   /// A list of <code>CustomEntityType</code> objects representing custom
   /// patterns.
@@ -20374,6 +20558,7 @@ class ListCustomEntityTypesResponse {
   }
 }
 
+/// @nodoc
 class ListDataQualityResultsResponse {
   /// A list of <code>DataQualityResultDescription</code> objects.
   final List<DataQualityResultDescription> results;
@@ -20407,6 +20592,7 @@ class ListDataQualityResultsResponse {
   }
 }
 
+/// @nodoc
 class ListDataQualityRuleRecommendationRunsResponse {
   /// A pagination token, if more results are available.
   final String? nextToken;
@@ -20441,6 +20627,7 @@ class ListDataQualityRuleRecommendationRunsResponse {
   }
 }
 
+/// @nodoc
 class ListDataQualityRulesetEvaluationRunsResponse {
   /// A pagination token, if more results are available.
   final String? nextToken;
@@ -20476,6 +20663,7 @@ class ListDataQualityRulesetEvaluationRunsResponse {
   }
 }
 
+/// @nodoc
 class ListDataQualityRulesetsResponse {
   /// A pagination token, if more results are available.
   final String? nextToken;
@@ -20509,6 +20697,7 @@ class ListDataQualityRulesetsResponse {
   }
 }
 
+/// @nodoc
 class ListDataQualityStatisticAnnotationsResponse {
   /// A list of <code>StatisticAnnotation</code> applied to the Statistic
   final List<StatisticAnnotation>? annotations;
@@ -20542,6 +20731,7 @@ class ListDataQualityStatisticAnnotationsResponse {
   }
 }
 
+/// @nodoc
 class ListDataQualityStatisticsResponse {
   /// A pagination token to request the next page of results.
   final String? nextToken;
@@ -20575,6 +20765,7 @@ class ListDataQualityStatisticsResponse {
   }
 }
 
+/// @nodoc
 class ListDevEndpointsResponse {
   /// The names of all the <code>DevEndpoint</code>s in the account, or the
   /// <code>DevEndpoint</code>s with the specified tags.
@@ -20609,6 +20800,7 @@ class ListDevEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListEntitiesResponse {
   /// A list of <code>Entity</code> objects.
   final List<Entity>? entities;
@@ -20641,6 +20833,7 @@ class ListEntitiesResponse {
   }
 }
 
+/// @nodoc
 class ListIntegrationResourcePropertiesResponse {
   /// A list of integration resource property meeting the filter criteria.
   final List<IntegrationResourceProperty>? integrationResourcePropertyList;
@@ -20678,6 +20871,7 @@ class ListIntegrationResourcePropertiesResponse {
   }
 }
 
+/// @nodoc
 class ListJobsResponse {
   /// The names of all jobs in the account, or the jobs with the specified tags.
   final List<String>? jobNames;
@@ -20711,6 +20905,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class ListMaterializedViewRefreshTaskRunsResponse {
   /// The results of the ListMaterializedViewRefreshTaskRuns action.
   final List<MaterializedViewRefreshTaskRun>? materializedViewRefreshTaskRuns;
@@ -20748,6 +20943,7 @@ class ListMaterializedViewRefreshTaskRunsResponse {
   }
 }
 
+/// @nodoc
 class ListMLTransformsResponse {
   /// The identifiers of all the machine learning transforms in the account, or
   /// the machine learning transforms with the specified tags.
@@ -20782,6 +20978,7 @@ class ListMLTransformsResponse {
   }
 }
 
+/// @nodoc
 class ListRegistriesResponse {
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
@@ -20816,6 +21013,7 @@ class ListRegistriesResponse {
   }
 }
 
+/// @nodoc
 class ListSchemasResponse {
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
@@ -20850,6 +21048,7 @@ class ListSchemasResponse {
   }
 }
 
+/// @nodoc
 class ListSchemaVersionsResponse {
   /// A continuation token for paginating the returned list of tokens, returned if
   /// the current segment of the list is not the last.
@@ -20884,6 +21083,7 @@ class ListSchemaVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListSessionsResponse {
   /// Returns the ID of the session.
   final List<String>? ids;
@@ -20923,6 +21123,7 @@ class ListSessionsResponse {
   }
 }
 
+/// @nodoc
 class ListStatementsResponse {
   /// A continuation token, if not all statements have yet been returned.
   final String? nextToken;
@@ -20955,6 +21156,7 @@ class ListStatementsResponse {
   }
 }
 
+/// @nodoc
 class ListTableOptimizerRunsResponse {
   /// The Catalog ID of the table.
   final String? catalogId;
@@ -21009,6 +21211,7 @@ class ListTableOptimizerRunsResponse {
   }
 }
 
+/// @nodoc
 class ListTriggersResponse {
   /// A continuation token, if the returned list does not contain the last metric
   /// available.
@@ -21043,6 +21246,7 @@ class ListTriggersResponse {
   }
 }
 
+/// @nodoc
 class ListUsageProfilesResponse {
   /// A continuation token, present if the current list segment is not the last.
   final String? nextToken;
@@ -21076,6 +21280,7 @@ class ListUsageProfilesResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowsResponse {
   /// A continuation token, if not all workflow names have been returned.
   final String? nextToken;
@@ -21108,6 +21313,7 @@ class ListWorkflowsResponse {
   }
 }
 
+/// @nodoc
 class ModifyIntegrationResponse {
   /// The time when the integration was created, in UTC.
   final DateTime createTime;
@@ -21253,6 +21459,7 @@ class ModifyIntegrationResponse {
   }
 }
 
+/// @nodoc
 class PutDataCatalogEncryptionSettingsResponse {
   PutDataCatalogEncryptionSettingsResponse();
 
@@ -21267,6 +21474,8 @@ class PutDataCatalogEncryptionSettingsResponse {
 }
 
 /// Left blank.
+///
+/// @nodoc
 class PutDataQualityProfileAnnotationResponse {
   PutDataQualityProfileAnnotationResponse();
 
@@ -21280,6 +21489,7 @@ class PutDataQualityProfileAnnotationResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// A hash of the policy that has just been set. This must be included in a
   /// subsequent call that overwrites or updates this policy.
@@ -21303,6 +21513,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class PutSchemaVersionMetadataResponse {
   /// The latest version of the schema.
   final bool? latestVersion;
@@ -21374,6 +21585,7 @@ class PutSchemaVersionMetadataResponse {
   }
 }
 
+/// @nodoc
 class PutWorkflowRunPropertiesResponse {
   PutWorkflowRunPropertiesResponse();
 
@@ -21386,6 +21598,7 @@ class PutWorkflowRunPropertiesResponse {
   }
 }
 
+/// @nodoc
 class QuerySchemaVersionMetadataResponse {
   /// A map of a metadata key and associated values.
   final Map<String, MetadataInfo>? metadataInfoMap;
@@ -21428,6 +21641,8 @@ class QuerySchemaVersionMetadataResponse {
 
 /// Contains the Amazon Resource Name (ARN) of the newly registered connection
 /// type.
+///
+/// @nodoc
 class RegisterConnectionTypeResponse {
   /// The Amazon Resource Name (ARN) of the registered connection type. This
   /// unique identifier can be used to reference the connection type in other Glue
@@ -21452,6 +21667,7 @@ class RegisterConnectionTypeResponse {
   }
 }
 
+/// @nodoc
 class RegisterSchemaVersionResponse {
   /// The unique ID that represents the version of this schema.
   final String? schemaVersionId;
@@ -21489,6 +21705,7 @@ class RegisterSchemaVersionResponse {
   }
 }
 
+/// @nodoc
 class RemoveSchemaVersionMetadataResponse {
   /// The latest version of the schema.
   final bool? latestVersion;
@@ -21561,6 +21778,7 @@ class RemoveSchemaVersionMetadataResponse {
   }
 }
 
+/// @nodoc
 class ResetJobBookmarkResponse {
   /// The reset bookmark entry.
   final JobBookmarkEntry? jobBookmarkEntry;
@@ -21586,6 +21804,7 @@ class ResetJobBookmarkResponse {
   }
 }
 
+/// @nodoc
 class ResumeWorkflowRunResponse {
   /// A list of the node IDs for the nodes that were actually restarted.
   final List<String>? nodeIds;
@@ -21617,6 +21836,7 @@ class ResumeWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class RunStatementResponse {
   /// Returns the Id of the statement that was run.
   final int? id;
@@ -21639,6 +21859,7 @@ class RunStatementResponse {
   }
 }
 
+/// @nodoc
 class SearchTablesResponse {
   /// A continuation token, present if the current list segment is not the last.
   final String? nextToken;
@@ -21673,6 +21894,7 @@ class SearchTablesResponse {
   }
 }
 
+/// @nodoc
 class StartBlueprintRunResponse {
   /// The run ID for this blueprint run.
   final String? runId;
@@ -21695,6 +21917,7 @@ class StartBlueprintRunResponse {
   }
 }
 
+/// @nodoc
 class StartColumnStatisticsTaskRunResponse {
   /// The identifier for the column statistics task run.
   final String? columnStatisticsTaskRunId;
@@ -21719,6 +21942,7 @@ class StartColumnStatisticsTaskRunResponse {
   }
 }
 
+/// @nodoc
 class StartColumnStatisticsTaskRunScheduleResponse {
   StartColumnStatisticsTaskRunScheduleResponse();
 
@@ -21732,6 +21956,7 @@ class StartColumnStatisticsTaskRunScheduleResponse {
   }
 }
 
+/// @nodoc
 class StartCrawlerResponse {
   StartCrawlerResponse();
 
@@ -21744,6 +21969,7 @@ class StartCrawlerResponse {
   }
 }
 
+/// @nodoc
 class StartCrawlerScheduleResponse {
   StartCrawlerScheduleResponse();
 
@@ -21756,6 +21982,7 @@ class StartCrawlerScheduleResponse {
   }
 }
 
+/// @nodoc
 class StartDataQualityRuleRecommendationRunResponse {
   /// The unique run identifier associated with this run.
   final String? runId;
@@ -21779,6 +22006,7 @@ class StartDataQualityRuleRecommendationRunResponse {
   }
 }
 
+/// @nodoc
 class StartDataQualityRulesetEvaluationRunResponse {
   /// The unique run identifier associated with this run.
   final String? runId;
@@ -21802,6 +22030,7 @@ class StartDataQualityRulesetEvaluationRunResponse {
   }
 }
 
+/// @nodoc
 class StartExportLabelsTaskRunResponse {
   /// The unique identifier for the task run.
   final String? taskRunId;
@@ -21824,6 +22053,7 @@ class StartExportLabelsTaskRunResponse {
   }
 }
 
+/// @nodoc
 class StartImportLabelsTaskRunResponse {
   /// The unique identifier for the task run.
   final String? taskRunId;
@@ -21846,6 +22076,7 @@ class StartImportLabelsTaskRunResponse {
   }
 }
 
+/// @nodoc
 class StartJobRunResponse {
   /// The ID assigned to this job run.
   final String? jobRunId;
@@ -21868,6 +22099,7 @@ class StartJobRunResponse {
   }
 }
 
+/// @nodoc
 class StartMaterializedViewRefreshTaskRunResponse {
   /// The identifier for the materialized view refresh task run.
   final String? materializedViewRefreshTaskRunId;
@@ -21894,6 +22126,7 @@ class StartMaterializedViewRefreshTaskRunResponse {
   }
 }
 
+/// @nodoc
 class StartMLEvaluationTaskRunResponse {
   /// The unique identifier associated with this run.
   final String? taskRunId;
@@ -21916,6 +22149,7 @@ class StartMLEvaluationTaskRunResponse {
   }
 }
 
+/// @nodoc
 class StartMLLabelingSetGenerationTaskRunResponse {
   /// The unique run identifier that is associated with this task run.
   final String? taskRunId;
@@ -21939,6 +22173,7 @@ class StartMLLabelingSetGenerationTaskRunResponse {
   }
 }
 
+/// @nodoc
 class StartTriggerResponse {
   /// The name of the trigger that was started.
   final String? name;
@@ -21961,6 +22196,7 @@ class StartTriggerResponse {
   }
 }
 
+/// @nodoc
 class StartWorkflowRunResponse {
   /// An Id for the new run.
   final String? runId;
@@ -21983,6 +22219,7 @@ class StartWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class StopColumnStatisticsTaskRunResponse {
   StopColumnStatisticsTaskRunResponse();
 
@@ -21995,6 +22232,7 @@ class StopColumnStatisticsTaskRunResponse {
   }
 }
 
+/// @nodoc
 class StopColumnStatisticsTaskRunScheduleResponse {
   StopColumnStatisticsTaskRunScheduleResponse();
 
@@ -22008,6 +22246,7 @@ class StopColumnStatisticsTaskRunScheduleResponse {
   }
 }
 
+/// @nodoc
 class StopCrawlerResponse {
   StopCrawlerResponse();
 
@@ -22020,6 +22259,7 @@ class StopCrawlerResponse {
   }
 }
 
+/// @nodoc
 class StopCrawlerScheduleResponse {
   StopCrawlerScheduleResponse();
 
@@ -22032,6 +22272,7 @@ class StopCrawlerScheduleResponse {
   }
 }
 
+/// @nodoc
 class StopMaterializedViewRefreshTaskRunResponse {
   StopMaterializedViewRefreshTaskRunResponse();
 
@@ -22045,6 +22286,7 @@ class StopMaterializedViewRefreshTaskRunResponse {
   }
 }
 
+/// @nodoc
 class StopSessionResponse {
   /// Returns the Id of the stopped session.
   final String? id;
@@ -22067,6 +22309,7 @@ class StopSessionResponse {
   }
 }
 
+/// @nodoc
 class StopTriggerResponse {
   /// The name of the trigger that was stopped.
   final String? name;
@@ -22089,6 +22332,7 @@ class StopTriggerResponse {
   }
 }
 
+/// @nodoc
 class StopWorkflowRunResponse {
   StopWorkflowRunResponse();
 
@@ -22101,6 +22345,7 @@ class StopWorkflowRunResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -22113,6 +22358,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TestConnectionResponse {
   TestConnectionResponse();
 
@@ -22125,6 +22371,7 @@ class TestConnectionResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -22137,6 +22384,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateBlueprintResponse {
   /// Returns the name of the blueprint that was updated.
   final String? name;
@@ -22159,6 +22407,7 @@ class UpdateBlueprintResponse {
   }
 }
 
+/// @nodoc
 class UpdateCatalogResponse {
   UpdateCatalogResponse();
 
@@ -22171,6 +22420,7 @@ class UpdateCatalogResponse {
   }
 }
 
+/// @nodoc
 class UpdateClassifierResponse {
   UpdateClassifierResponse();
 
@@ -22183,6 +22433,7 @@ class UpdateClassifierResponse {
   }
 }
 
+/// @nodoc
 class UpdateColumnStatisticsForPartitionResponse {
   /// Error occurred during updating column statistics data.
   final List<ColumnStatisticsError>? errors;
@@ -22209,6 +22460,7 @@ class UpdateColumnStatisticsForPartitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateColumnStatisticsForTableResponse {
   /// List of ColumnStatisticsErrors.
   final List<ColumnStatisticsError>? errors;
@@ -22235,6 +22487,7 @@ class UpdateColumnStatisticsForTableResponse {
   }
 }
 
+/// @nodoc
 class UpdateColumnStatisticsTaskSettingsResponse {
   UpdateColumnStatisticsTaskSettingsResponse();
 
@@ -22248,6 +22501,7 @@ class UpdateColumnStatisticsTaskSettingsResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectionResponse {
   UpdateConnectionResponse();
 
@@ -22260,6 +22514,7 @@ class UpdateConnectionResponse {
   }
 }
 
+/// @nodoc
 class UpdateCrawlerResponse {
   UpdateCrawlerResponse();
 
@@ -22272,6 +22527,7 @@ class UpdateCrawlerResponse {
   }
 }
 
+/// @nodoc
 class UpdateCrawlerScheduleResponse {
   UpdateCrawlerScheduleResponse();
 
@@ -22284,6 +22540,7 @@ class UpdateCrawlerScheduleResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatabaseResponse {
   UpdateDatabaseResponse();
 
@@ -22296,6 +22553,7 @@ class UpdateDatabaseResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataQualityRulesetResponse {
   /// A description of the ruleset.
   final String? description;
@@ -22333,6 +22591,7 @@ class UpdateDataQualityRulesetResponse {
   }
 }
 
+/// @nodoc
 class UpdateDevEndpointResponse {
   UpdateDevEndpointResponse();
 
@@ -22346,6 +22605,8 @@ class UpdateDevEndpointResponse {
 }
 
 /// Response from updating an existing Glue Identity Center configuration.
+///
+/// @nodoc
 class UpdateGlueIdentityCenterConfigurationResponse {
   UpdateGlueIdentityCenterConfigurationResponse();
 
@@ -22359,6 +22620,7 @@ class UpdateGlueIdentityCenterConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateIntegrationResourcePropertyResponse {
   /// The connection ARN of the source, or the database ARN of the target.
   final String? resourceArn;
@@ -22413,6 +22675,7 @@ class UpdateIntegrationResourcePropertyResponse {
   }
 }
 
+/// @nodoc
 class UpdateIntegrationTablePropertiesResponse {
   UpdateIntegrationTablePropertiesResponse();
 
@@ -22426,6 +22689,7 @@ class UpdateIntegrationTablePropertiesResponse {
   }
 }
 
+/// @nodoc
 class UpdateJobResponse {
   /// Returns the name of the updated job definition.
   final String? jobName;
@@ -22448,6 +22712,7 @@ class UpdateJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateJobFromSourceControlResponse {
   /// The name of the Glue job.
   final String? jobName;
@@ -22471,6 +22736,7 @@ class UpdateJobFromSourceControlResponse {
   }
 }
 
+/// @nodoc
 class UpdateMLTransformResponse {
   /// The unique identifier for the transform that was updated.
   final String? transformId;
@@ -22493,6 +22759,7 @@ class UpdateMLTransformResponse {
   }
 }
 
+/// @nodoc
 class UpdatePartitionResponse {
   UpdatePartitionResponse();
 
@@ -22505,6 +22772,7 @@ class UpdatePartitionResponse {
   }
 }
 
+/// @nodoc
 class UpdateRegistryResponse {
   /// The Amazon Resource name (ARN) of the updated registry.
   final String? registryArn;
@@ -22534,6 +22802,7 @@ class UpdateRegistryResponse {
   }
 }
 
+/// @nodoc
 class UpdateSchemaResponse {
   /// The name of the registry that contains the schema.
   final String? registryName;
@@ -22570,6 +22839,7 @@ class UpdateSchemaResponse {
   }
 }
 
+/// @nodoc
 class UpdateSourceControlFromJobResponse {
   /// The name of the Glue job.
   final String? jobName;
@@ -22593,6 +22863,7 @@ class UpdateSourceControlFromJobResponse {
   }
 }
 
+/// @nodoc
 class UpdateTableResponse {
   UpdateTableResponse();
 
@@ -22605,6 +22876,7 @@ class UpdateTableResponse {
   }
 }
 
+/// @nodoc
 class UpdateTableOptimizerResponse {
   UpdateTableOptimizerResponse();
 
@@ -22617,6 +22889,7 @@ class UpdateTableOptimizerResponse {
   }
 }
 
+/// @nodoc
 class UpdateTriggerResponse {
   /// The resulting trigger definition.
   final Trigger? trigger;
@@ -22641,6 +22914,7 @@ class UpdateTriggerResponse {
   }
 }
 
+/// @nodoc
 class UpdateUsageProfileResponse {
   /// The name of the usage profile that was updated.
   final String? name;
@@ -22663,6 +22937,7 @@ class UpdateUsageProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserDefinedFunctionResponse {
   UpdateUserDefinedFunctionResponse();
 
@@ -22675,6 +22950,7 @@ class UpdateUserDefinedFunctionResponse {
   }
 }
 
+/// @nodoc
 class UpdateWorkflowResponse {
   /// The name of the workflow which was specified in input.
   final String? name;
@@ -22698,6 +22974,8 @@ class UpdateWorkflowResponse {
 }
 
 /// A structure used to create or update a user-defined function.
+///
+/// @nodoc
 class UserDefinedFunctionInput {
   /// The Java class that contains the function code.
   final String? className;
@@ -22744,6 +23022,7 @@ class UserDefinedFunctionInput {
   }
 }
 
+/// @nodoc
 class FunctionType {
   static const regularFunction = FunctionType._('REGULAR_FUNCTION');
   static const aggregateFunction = FunctionType._('AGGREGATE_FUNCTION');
@@ -22768,6 +23047,7 @@ class FunctionType {
   String toString() => value;
 }
 
+/// @nodoc
 class PrincipalType {
   static const user = PrincipalType._('USER');
   static const role = PrincipalType._('ROLE');
@@ -22794,6 +23074,8 @@ class PrincipalType {
 }
 
 /// The URIs for function resources.
+///
+/// @nodoc
 class ResourceUri {
   /// The type of the resource.
   final ResourceType? resourceType;
@@ -22824,6 +23106,7 @@ class ResourceUri {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const jar = ResourceType._('JAR');
   static const file = ResourceType._('FILE');
@@ -22850,6 +23133,8 @@ class ResourceType {
 
 /// Specifies the job and session values that an admin configures in an Glue
 /// usage profile.
+///
+/// @nodoc
 class ProfileConfiguration {
   /// A key-value map of configuration parameters for Glue jobs.
   final Map<String, ConfigurationObject>? jobConfiguration;
@@ -22887,6 +23172,8 @@ class ProfileConfiguration {
 
 /// Specifies the values that an admin sets for each job or session parameter
 /// configured in a Glue usage profile.
+///
+/// @nodoc
 class ConfigurationObject {
   /// A list of allowed values for the parameter.
   final List<String>? allowedValues;
@@ -22934,6 +23221,8 @@ class ConfigurationObject {
 }
 
 /// Information about a specific trigger.
+///
+/// @nodoc
 class Trigger {
   /// The actions initiated by this trigger.
   final List<Action>? actions;
@@ -23032,6 +23321,7 @@ class Trigger {
   }
 }
 
+/// @nodoc
 class TriggerType {
   static const scheduled = TriggerType._('SCHEDULED');
   static const conditional = TriggerType._('CONDITIONAL');
@@ -23057,6 +23347,7 @@ class TriggerType {
   String toString() => value;
 }
 
+/// @nodoc
 class TriggerState {
   static const creating = TriggerState._('CREATING');
   static const created = TriggerState._('CREATED');
@@ -23096,6 +23387,8 @@ class TriggerState {
 }
 
 /// Defines the predicate of the trigger, which determines when it fires.
+///
+/// @nodoc
 class Predicate {
   /// A list of the conditions that determine when the trigger will fire.
   final List<Condition>? conditions;
@@ -23131,6 +23424,8 @@ class Predicate {
 
 /// Batch condition that must be met (specified number of events received or
 /// batch time window expired) before EventBridge event trigger fires.
+///
+/// @nodoc
 class EventBatchingCondition {
   /// Number of events that must be received from Amazon EventBridge before
   /// EventBridge event trigger fires.
@@ -23162,6 +23457,7 @@ class EventBatchingCondition {
   }
 }
 
+/// @nodoc
 class Logical {
   static const and = Logical._('AND');
   static const any = Logical._('ANY');
@@ -23186,6 +23482,8 @@ class Logical {
 }
 
 /// Defines a condition under which a trigger fires.
+///
+/// @nodoc
 class Condition {
   /// The state of the crawler to which this condition applies.
   final CrawlState? crawlState;
@@ -23242,6 +23540,7 @@ class Condition {
   }
 }
 
+/// @nodoc
 class LogicalOperator {
   static const equals = LogicalOperator._('EQUALS');
 
@@ -23265,6 +23564,7 @@ class LogicalOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class JobRunState {
   static const starting = JobRunState._('STARTING');
   static const running = JobRunState._('RUNNING');
@@ -23307,6 +23607,7 @@ class JobRunState {
   String toString() => value;
 }
 
+/// @nodoc
 class CrawlState {
   static const running = CrawlState._('RUNNING');
   static const cancelling = CrawlState._('CANCELLING');
@@ -23342,6 +23643,8 @@ class CrawlState {
 }
 
 /// Defines an action to be initiated by a trigger.
+///
+/// @nodoc
 class Action {
   /// The job arguments used when this trigger fires. For this job run, they
   /// replace the default arguments set in the job definition itself.
@@ -23437,6 +23740,8 @@ class Action {
 }
 
 /// Specifies configuration properties of a notification.
+///
+/// @nodoc
 class NotificationProperty {
   /// After a job run starts, the number of minutes to wait before sending a job
   /// run delay notification.
@@ -23462,6 +23767,8 @@ class NotificationProperty {
 
 /// A structure used to provide information used to update a trigger. This
 /// object updates the previous trigger definition by overwriting it completely.
+///
+/// @nodoc
 class TriggerUpdate {
   /// The actions initiated by this trigger.
   final List<Action>? actions;
@@ -23513,6 +23820,7 @@ class TriggerUpdate {
   }
 }
 
+/// @nodoc
 class TableOptimizerType {
   static const compaction = TableOptimizerType._('compaction');
   static const retention = TableOptimizerType._('retention');
@@ -23542,6 +23850,8 @@ class TableOptimizerType {
 
 /// Contains details on the configuration of a table optimizer. You pass this
 /// configuration when creating or updating a table optimizer.
+///
+/// @nodoc
 class TableOptimizerConfiguration {
   /// The configuration for a compaction optimizer. This configuration defines how
   /// data files in your table will be compacted to improve query performance and
@@ -23628,6 +23938,8 @@ class TableOptimizerConfiguration {
 ///
 /// This configuration is necessary to perform optimization on tables that are
 /// in a customer VPC.
+///
+/// @nodoc
 class TableOptimizerVpcConfiguration {
   /// The name of the Glue connection used for the VPC for the table optimizer.
   final String? glueConnectionName;
@@ -23653,6 +23965,8 @@ class TableOptimizerVpcConfiguration {
 /// The configuration for a compaction optimizer. This configuration defines how
 /// data files in your table will be compacted to improve query performance and
 /// reduce storage costs.
+///
+/// @nodoc
 class CompactionConfiguration {
   /// The configuration for an Iceberg compaction optimizer.
   final IcebergCompactionConfiguration? icebergConfiguration;
@@ -23680,6 +23994,8 @@ class CompactionConfiguration {
 }
 
 /// The configuration for a snapshot retention optimizer.
+///
+/// @nodoc
 class RetentionConfiguration {
   /// The configuration for an Iceberg snapshot retention optimizer.
   final IcebergRetentionConfiguration? icebergConfiguration;
@@ -23707,6 +24023,8 @@ class RetentionConfiguration {
 }
 
 /// The configuration for an orphan file deletion optimizer.
+///
+/// @nodoc
 class OrphanFileDeletionConfiguration {
   /// The configuration for an Iceberg orphan file deletion optimizer.
   final IcebergOrphanFileDeletionConfiguration? icebergConfiguration;
@@ -23734,6 +24052,8 @@ class OrphanFileDeletionConfiguration {
 }
 
 /// The configuration for an Iceberg orphan file deletion optimizer.
+///
+/// @nodoc
 class IcebergOrphanFileDeletionConfiguration {
   /// Specifies a directory in which to look for files (defaults to the table's
   /// location). You may choose a sub-directory rather than the top-level table
@@ -23781,6 +24101,8 @@ class IcebergOrphanFileDeletionConfiguration {
 }
 
 /// The configuration for an Iceberg snapshot retention optimizer.
+///
+/// @nodoc
 class IcebergRetentionConfiguration {
   /// If set to false, snapshots are only deleted from table metadata, and the
   /// underlying data and metadata files are not deleted.
@@ -23838,6 +24160,8 @@ class IcebergRetentionConfiguration {
 /// The configuration for an Iceberg compaction optimizer. This configuration
 /// defines parameters for optimizing the layout of data files in Iceberg
 /// tables.
+///
+/// @nodoc
 class IcebergCompactionConfiguration {
   /// The minimum number of deletes that must be present in a data file to make it
   /// eligible for compaction. This parameter helps optimize compaction by
@@ -23909,6 +24233,7 @@ class IcebergCompactionConfiguration {
   }
 }
 
+/// @nodoc
 class CompactionStrategy {
   static const binpack = CompactionStrategy._('binpack');
   static const sort = CompactionStrategy._('sort');
@@ -23936,6 +24261,8 @@ class CompactionStrategy {
 }
 
 /// A structure used to define a table.
+///
+/// @nodoc
 class TableInput {
   /// The table name. For Hive compatibility, this is folded to lowercase when it
   /// is stored.
@@ -23964,7 +24291,7 @@ class TableInput {
   /// <code>partitionKeys</code>, you must at least set the value of
   /// <code>partitionKeys</code> to an empty list. For example:
   ///
-  /// <code>"PartitionKeys": []</code>
+  /// <code>"PartitionKeys": \[\]</code>
   final List<Column>? partitionKeys;
 
   /// The retention time for this table.
@@ -24057,6 +24384,7 @@ class TableInput {
   }
 }
 
+/// @nodoc
 class ViewUpdateAction {
   static const add = ViewUpdateAction._('ADD');
   static const replace = ViewUpdateAction._('REPLACE');
@@ -24086,6 +24414,8 @@ class ViewUpdateAction {
 /// Input parameters for updating open table format tables in GlueData Catalog,
 /// serving as a wrapper for format-specific update operations such as Apache
 /// Iceberg.
+///
+/// @nodoc
 class UpdateOpenTableFormatInput {
   /// Apache Iceberg-specific update parameters that define the table
   /// modifications to be applied, including schema changes, partition
@@ -24107,6 +24437,8 @@ class UpdateOpenTableFormatInput {
 /// Input parameters specific to updating Apache Iceberg tables in Glue Data
 /// Catalog, containing the update operations to be applied to an existing
 /// Iceberg table.
+///
+/// @nodoc
 class UpdateIcebergInput {
   /// The specific update operations to be applied to the Iceberg table,
   /// containing a list of updates that define the new state of the table
@@ -24127,6 +24459,8 @@ class UpdateIcebergInput {
 
 /// Contains the update operations to be applied to an existing Iceberg table
 /// inGlue Data Catalog, defining the new state of the table metadata.
+///
+/// @nodoc
 class UpdateIcebergTableInput {
   /// The list of table update operations that specify the changes to be made to
   /// the Iceberg table, including schema modifications, partition specifications,
@@ -24148,6 +24482,8 @@ class UpdateIcebergTableInput {
 /// Defines a complete set of updates to be applied to an Iceberg table,
 /// including schema changes, partitioning modifications, sort order
 /// adjustments, location updates, and property changes.
+///
+/// @nodoc
 class IcebergTableUpdate {
   /// The updated S3 location where the Iceberg table data will be stored.
   final String location;
@@ -24218,6 +24554,8 @@ class IcebergTableUpdate {
 
 /// Defines the schema structure for an Iceberg table, including field
 /// definitions, data types, and schema metadata.
+///
+/// @nodoc
 class IcebergSchema {
   /// The list of field definitions that make up the table schema, including field
   /// names, types, and metadata.
@@ -24258,6 +24596,8 @@ class IcebergSchema {
 
 /// Defines the partitioning specification for an Iceberg table, determining how
 /// table data will be organized and partitioned for optimal query performance.
+///
+/// @nodoc
 class IcebergPartitionSpec {
   /// The list of partition fields that define how the table data should be
   /// partitioned, including source fields and their transformations.
@@ -24284,6 +24624,8 @@ class IcebergPartitionSpec {
 
 /// Defines the sort order specification for an Iceberg table, determining how
 /// data should be ordered within partitions to optimize query performance.
+///
+/// @nodoc
 class IcebergSortOrder {
   /// The list of fields and their sort directions that define the ordering
   /// criteria for the Iceberg table data.
@@ -24308,6 +24650,7 @@ class IcebergSortOrder {
   }
 }
 
+/// @nodoc
 class IcebergUpdateAction {
   static const addSchema = IcebergUpdateAction._('add-schema');
   static const setCurrentSchema = IcebergUpdateAction._('set-current-schema');
@@ -24359,6 +24702,8 @@ class IcebergUpdateAction {
 /// Encryption key structure used for Iceberg table encryption. Contains the key
 /// ID, encrypted key metadata, optional reference to the encrypting key, and
 /// additional properties for the table's encryption scheme.
+///
+/// @nodoc
 class IcebergEncryptedKey {
   /// Encrypted key and metadata, base64 encoded. The format of encrypted key
   /// metadata is determined by the table's encryption scheme and can be a wrapped
@@ -24403,6 +24748,8 @@ class IcebergEncryptedKey {
 
 /// Defines a single field within an Iceberg sort order specification, including
 /// the source field, transformation, sort direction, and null value ordering.
+///
+/// @nodoc
 class IcebergSortField {
   /// The sort direction for this field, either ascending or descending.
   final IcebergSortDirection direction;
@@ -24440,6 +24787,7 @@ class IcebergSortField {
   }
 }
 
+/// @nodoc
 class IcebergSortDirection {
   static const asc = IcebergSortDirection._('asc');
   static const desc = IcebergSortDirection._('desc');
@@ -24465,6 +24813,7 @@ class IcebergSortDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class IcebergNullOrder {
   static const nullsFirst = IcebergNullOrder._('nulls-first');
   static const nullsLast = IcebergNullOrder._('nulls-last');
@@ -24492,6 +24841,8 @@ class IcebergNullOrder {
 /// Defines a single partition field within an Iceberg partition specification,
 /// including the source field, transformation function, partition name, and
 /// unique identifier.
+///
+/// @nodoc
 class IcebergPartitionField {
   /// The name of the partition field as it will appear in the partitioned table
   /// structure.
@@ -24530,6 +24881,7 @@ class IcebergPartitionField {
   }
 }
 
+/// @nodoc
 class IcebergStructTypeEnum {
   static const struct = IcebergStructTypeEnum._('struct');
 
@@ -24556,6 +24908,8 @@ class IcebergStructTypeEnum {
 
 /// Defines a single field within an Iceberg table schema, including its
 /// identifier, name, data type, nullability, and documentation.
+///
+/// @nodoc
 class IcebergStructField {
   /// The unique identifier assigned to this field within the Iceberg table
   /// schema, used for schema evolution and field tracking.
@@ -24618,6 +24972,8 @@ class IcebergStructField {
 }
 
 /// Describes the physical storage of table data.
+///
+/// @nodoc
 class StorageDescriptor {
   /// A list of locations that point to the path where a Delta table is located.
   final List<String>? additionalLocations;
@@ -24765,6 +25121,8 @@ class StorageDescriptor {
 }
 
 /// A structure that describes a target table for resource linking.
+///
+/// @nodoc
 class TableIdentifier {
   /// The ID of the Data Catalog in which the table resides.
   final String? catalogId;
@@ -24809,6 +25167,8 @@ class TableIdentifier {
 }
 
 /// A structure containing details for creating or updating an Glue view.
+///
+/// @nodoc
 class ViewDefinitionInput {
   /// The definer of a view in SQL.
   final String? definer;
@@ -24883,6 +25243,7 @@ class ViewDefinitionInput {
   }
 }
 
+/// @nodoc
 class LastRefreshType {
   static const full = LastRefreshType._('FULL');
   static const incremental = LastRefreshType._('INCREMENTAL');
@@ -24909,6 +25270,8 @@ class LastRefreshType {
 
 /// A structure containing details of a representation to update or create a
 /// Lake Formation view.
+///
+/// @nodoc
 class ViewRepresentationInput {
   /// A parameter that specifies the engine type of a specific representation.
   final ViewDialect? dialect;
@@ -24953,6 +25316,7 @@ class ViewRepresentationInput {
   }
 }
 
+/// @nodoc
 class ViewDialect {
   static const redshift = ViewDialect._('REDSHIFT');
   static const athena = ViewDialect._('ATHENA');
@@ -24978,6 +25342,8 @@ class ViewDialect {
 }
 
 /// A column in a <code>Table</code>.
+///
+/// @nodoc
 class Column {
   /// The name of the <code>Column</code>.
   final String name;
@@ -25024,6 +25390,8 @@ class Column {
 
 /// Information about a serialization/deserialization program (SerDe) that
 /// serves as an extractor and loader.
+///
+/// @nodoc
 class SerDeInfo {
   /// Name of the SerDe.
   final String? name;
@@ -25065,6 +25433,8 @@ class SerDeInfo {
 
 /// Specifies skewed values in a table. Skewed values are those that occur with
 /// very high frequency.
+///
+/// @nodoc
 class SkewedInfo {
   /// A list of names of columns that contain skewed values.
   final List<String>? skewedColumnNames;
@@ -25111,6 +25481,8 @@ class SkewedInfo {
 }
 
 /// An object that references a schema stored in the Glue Schema Registry.
+///
+/// @nodoc
 class SchemaReference {
   /// A structure that contains schema identity fields. Either this or the
   /// <code>SchemaVersionId</code> has to be provided.
@@ -25153,6 +25525,8 @@ class SchemaReference {
 }
 
 /// The unique ID of the schema in the Glue schema registry.
+///
+/// @nodoc
 class SchemaId {
   /// The name of the schema registry that contains the schema.
   final String? registryName;
@@ -25192,6 +25566,8 @@ class SchemaId {
 }
 
 /// Specifies the sort order of a sorted column.
+///
+/// @nodoc
 class Order {
   /// The name of the column.
   final String column;
@@ -25222,6 +25598,7 @@ class Order {
   }
 }
 
+/// @nodoc
 class SourceControlProvider {
   static const github = SourceControlProvider._('GITHUB');
   static const gitlab = SourceControlProvider._('GITLAB');
@@ -25249,6 +25626,7 @@ class SourceControlProvider {
   String toString() => value;
 }
 
+/// @nodoc
 class SourceControlAuthStrategy {
   static const personalAccessToken =
       SourceControlAuthStrategy._('PERSONAL_ACCESS_TOKEN');
@@ -25277,6 +25655,8 @@ class SourceControlAuthStrategy {
 }
 
 /// A structure containing the schema version information.
+///
+/// @nodoc
 class SchemaVersionNumber {
   /// The latest version available for the schema.
   final bool? latestVersion;
@@ -25299,6 +25679,7 @@ class SchemaVersionNumber {
   }
 }
 
+/// @nodoc
 class Compatibility {
   static const none = Compatibility._('NONE');
   static const disabled = Compatibility._('DISABLED');
@@ -25340,6 +25721,8 @@ class Compatibility {
 
 /// A wrapper structure that may contain the registry name and Amazon Resource
 /// Name (ARN).
+///
+/// @nodoc
 class RegistryId {
   /// Arn of the registry to be updated. One of <code>RegistryArn</code> or
   /// <code>RegistryName</code> has to be provided.
@@ -25365,6 +25748,8 @@ class RegistryId {
 }
 
 /// The structure used to create and update a partition.
+///
+/// @nodoc
 class PartitionInput {
   /// The last time at which the partition was accessed.
   final DateTime? lastAccessTime;
@@ -25416,6 +25801,8 @@ class PartitionInput {
 
 /// The algorithm-specific parameters that are associated with the machine
 /// learning transform.
+///
+/// @nodoc
 class TransformParameters {
   /// The type of machine learning transform.
   ///
@@ -25454,6 +25841,7 @@ class TransformParameters {
   }
 }
 
+/// @nodoc
 class WorkerType {
   static const standard = WorkerType._('Standard');
   static const g_1x = WorkerType._('G.1X');
@@ -25482,6 +25870,7 @@ class WorkerType {
   String toString() => value;
 }
 
+/// @nodoc
 class TransformType {
   static const findMatches = TransformType._('FIND_MATCHES');
 
@@ -25506,6 +25895,8 @@ class TransformType {
 }
 
 /// The parameters to configure the find matches transform.
+///
+/// @nodoc
 class FindMatchesParameters {
   /// The value that is selected when tuning your transform for a balance between
   /// accuracy and cost. A value of 0.5 means that the system balances accuracy
@@ -25587,6 +25978,8 @@ class FindMatchesParameters {
 
 /// Specifies information used to update an existing job definition. The
 /// previous job definition is completely overwritten by this information.
+///
+/// @nodoc
 class JobUpdate {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
@@ -25879,6 +26272,7 @@ class JobUpdate {
   }
 }
 
+/// @nodoc
 class JobMode {
   static const script = JobMode._('SCRIPT');
   static const visual = JobMode._('VISUAL');
@@ -25904,6 +26298,8 @@ class JobMode {
 }
 
 /// An execution property of a job.
+///
+/// @nodoc
 class ExecutionProperty {
   /// The maximum number of concurrent runs allowed for the job. The default is 1.
   /// An error is returned when this threshold is reached. The maximum value you
@@ -25929,6 +26325,8 @@ class ExecutionProperty {
 }
 
 /// Specifies code that runs when a job is run.
+///
+/// @nodoc
 class JobCommand {
   /// The name of the job command. For an Apache Spark ETL job, this must be
   /// <code>glueetl</code>. For a Python shell job, it must be
@@ -25983,6 +26381,8 @@ class JobCommand {
 }
 
 /// Specifies the connections used by a job.
+///
+/// @nodoc
 class ConnectionsList {
   /// A list of connections used by the job.
   final List<String>? connections;
@@ -26008,6 +26408,7 @@ class ConnectionsList {
   }
 }
 
+/// @nodoc
 class ExecutionClass {
   static const flex = ExecutionClass._('FLEX');
   static const standard = ExecutionClass._('STANDARD');
@@ -26034,6 +26435,8 @@ class ExecutionClass {
 
 /// The details for a source control configuration for a job, allowing
 /// synchronization of job artifacts to or from a remote repository.
+///
+/// @nodoc
 class SourceControlDetails {
   /// The type of authentication, which can be an authentication token stored in
   /// Amazon Web Services Secrets Manager, or a personal access token.
@@ -26110,6 +26513,8 @@ class SourceControlDetails {
 
 /// <code>CodeGenConfigurationNode</code> enumerates all valid Node types. One
 /// and only one of its member variables can be populated.
+///
+/// @nodoc
 class CodeGenConfigurationNode {
   /// Specifies a transform that groups rows by chosen fields and computes the
   /// aggregated value by specified function.
@@ -26981,6 +27386,8 @@ class CodeGenConfigurationNode {
 }
 
 /// Specifies a connector to an Amazon Athena data source.
+///
+/// @nodoc
 class AthenaConnectorSource {
   /// The name of the connection that is associated with the connector.
   final String connectionName;
@@ -27052,6 +27459,8 @@ class AthenaConnectorSource {
 }
 
 /// Specifies a connector to a JDBC data source.
+///
+/// @nodoc
 class JDBCConnectorSource {
   /// The name of the connection that is associated with the connector.
   final String connectionName;
@@ -27133,6 +27542,8 @@ class JDBCConnectorSource {
 }
 
 /// Specifies a connector to an Apache Spark data source.
+///
+/// @nodoc
 class SparkConnectorSource {
   /// The name of the connection that is associated with the connector.
   final String connectionName;
@@ -27197,6 +27608,8 @@ class SparkConnectorSource {
 }
 
 /// Specifies a data store in the Glue Data Catalog.
+///
+/// @nodoc
 class CatalogSource {
   /// The name of the database to read from.
   final String database;
@@ -27252,6 +27665,8 @@ class CatalogSource {
 }
 
 /// Specifies an Amazon Redshift data store.
+///
+/// @nodoc
 class RedshiftSource {
   /// The database to read from.
   final String database;
@@ -27304,6 +27719,8 @@ class RedshiftSource {
 }
 
 /// Specifies an Amazon S3 data store in the Glue Data Catalog.
+///
+/// @nodoc
 class S3CatalogSource {
   /// The database to read from.
   final String database;
@@ -27360,6 +27777,8 @@ class S3CatalogSource {
 }
 
 /// Specifies a command-separated value (CSV) data store stored in Amazon S3.
+///
+/// @nodoc
 class S3CsvSource {
   /// The name of the data store.
   final String name;
@@ -27391,7 +27810,7 @@ class S3CsvSource {
   final String? escaper;
 
   /// A string containing a JSON list of Unix-style glob patterns to exclude. For
-  /// example, "[\"**.pdf\"]" excludes all PDF files.
+  /// example, "\[\"**.pdf\"\]" excludes all PDF files.
   final List<String>? exclusions;
 
   /// Grouping files is turned on by default when the input contains more than
@@ -27554,6 +27973,8 @@ class S3CsvSource {
 }
 
 /// Specifies a JSON data store stored in Amazon S3.
+///
+/// @nodoc
 class S3JsonSource {
   /// The name of the data store.
   final String name;
@@ -27570,7 +27991,7 @@ class S3JsonSource {
   final CompressionType? compressionType;
 
   /// A string containing a JSON list of Unix-style glob patterns to exclude. For
-  /// example, "[\"**.pdf\"]" excludes all PDF files.
+  /// example, "\[\"**.pdf\"\]" excludes all PDF files.
   final List<String>? exclusions;
 
   /// Grouping files is turned on by default when the input contains more than
@@ -27694,6 +28115,8 @@ class S3JsonSource {
 }
 
 /// Specifies an Apache Parquet data store stored in Amazon S3.
+///
+/// @nodoc
 class S3ParquetSource {
   /// The name of the data store.
   final String name;
@@ -27710,7 +28133,7 @@ class S3ParquetSource {
   final ParquetCompressionType? compressionType;
 
   /// A string containing a JSON list of Unix-style glob patterns to exclude. For
-  /// example, "[\"**.pdf\"]" excludes all PDF files.
+  /// example, "\[\"**.pdf\"\]" excludes all PDF files.
   final List<String>? exclusions;
 
   /// Grouping files is turned on by default when the input contains more than
@@ -27816,6 +28239,8 @@ class S3ParquetSource {
 }
 
 /// Specifies a Relational database data source in the Glue Data Catalog.
+///
+/// @nodoc
 class RelationalCatalogSource {
   /// The name of the database to read from.
   final String database;
@@ -27853,6 +28278,8 @@ class RelationalCatalogSource {
 }
 
 /// Specifies a DynamoDB data source in the Glue Data Catalog.
+///
+/// @nodoc
 class DynamoDBCatalogSource {
   /// The name of the database to read from.
   final String database;
@@ -27910,6 +28337,8 @@ class DynamoDBCatalogSource {
 
 /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar
 /// storage.
+///
+/// @nodoc
 class JDBCConnectorTarget {
   /// The name of the connection that is associated with the connector.
   final String connectionName;
@@ -27990,6 +28419,8 @@ class JDBCConnectorTarget {
 }
 
 /// Specifies a target that uses an Apache Spark connector.
+///
+/// @nodoc
 class SparkConnectorTarget {
   /// The name of a connection for an Apache Spark connector.
   final String connectionName;
@@ -28063,6 +28494,8 @@ class SparkConnectorTarget {
 }
 
 /// Specifies a target that uses a Glue Data Catalog table.
+///
+/// @nodoc
 class BasicCatalogTarget {
   /// The database that contains the table you want to use as the target. This
   /// database must already exist in the Data Catalog.
@@ -28123,6 +28556,8 @@ class BasicCatalogTarget {
 }
 
 /// Specifies a target that uses Amazon Redshift.
+///
+/// @nodoc
 class RedshiftTarget {
   /// The name of the database to write to.
   final String database;
@@ -28198,6 +28633,8 @@ class RedshiftTarget {
 
 /// Specifies a data target that writes to Amazon S3 using the Glue Data
 /// Catalog.
+///
+/// @nodoc
 class S3CatalogTarget {
   /// The name of the database to write to.
   final String database;
@@ -28278,6 +28715,8 @@ class S3CatalogTarget {
 
 /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar
 /// storage.
+///
+/// @nodoc
 class S3GlueParquetTarget {
   /// The nodes that are inputs to the data target.
   final List<String> inputs;
@@ -28369,6 +28808,8 @@ class S3GlueParquetTarget {
 }
 
 /// Specifies a data target that writes to Amazon S3.
+///
+/// @nodoc
 class S3DirectTarget {
   /// Specifies the data output format for the target.
   final TargetFormat format;
@@ -28478,6 +28919,8 @@ class S3DirectTarget {
 /// Specifies a transform that maps data property keys in the data source to
 /// data property keys in the data target. You can rename keys, modify the data
 /// types for keys, and choose which keys to drop from the dataset.
+///
+/// @nodoc
 class ApplyMapping {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -28523,6 +28966,8 @@ class ApplyMapping {
 
 /// Specifies a transform that chooses the data property keys that you want to
 /// keep.
+///
+/// @nodoc
 class SelectFields {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -28567,6 +29012,8 @@ class SelectFields {
 
 /// Specifies a transform that chooses the data property keys that you want to
 /// drop.
+///
+/// @nodoc
 class DropFields {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -28610,6 +29057,8 @@ class DropFields {
 }
 
 /// Specifies a transform that renames a single data property key.
+///
+/// @nodoc
 class RenameField {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -28664,6 +29113,8 @@ class RenameField {
 
 /// Specifies a transform that writes samples of the data to an Amazon S3
 /// bucket.
+///
+/// @nodoc
 class Spigot {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -28724,6 +29175,8 @@ class Spigot {
 /// Specifies a transform that joins two datasets into one dataset using a
 /// comparison phrase on the specified data property keys. You can use inner,
 /// outer, left, right, left semi, and left anti joins.
+///
+/// @nodoc
 class Join {
   /// A list of the two columns to be joined.
   final List<JoinColumn> columns;
@@ -28777,6 +29230,8 @@ class Join {
 /// <code>DynamicFrames</code>. The output is a collection of
 /// <code>DynamicFrames</code>: one with selected data property keys, and one
 /// with the remaining data property keys.
+///
+/// @nodoc
 class SplitFields {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -28822,6 +29277,8 @@ class SplitFields {
 /// Specifies a transform that chooses one <code>DynamicFrame</code> from a
 /// collection of <code>DynamicFrames</code>. The output is the selected
 /// <code>DynamicFrame</code>
+///
+/// @nodoc
 class SelectFromCollection {
   /// The index for the DynamicFrame to be selected.
   final int index;
@@ -28865,6 +29322,8 @@ class SelectFromCollection {
 /// values and adds a new field with a value determined by imputation. The input
 /// data set is used to train the machine learning model that determines what
 /// the missing value should be.
+///
+/// @nodoc
 class FillMissingValues {
   /// A JSON path to a variable in the data structure for the dataset that is
   /// imputed.
@@ -28915,6 +29374,8 @@ class FillMissingValues {
 
 /// Specifies a transform that splits a dataset into two, based on a filter
 /// condition.
+///
+/// @nodoc
 class Filter {
   /// Specifies a filter expression.
   final List<FilterExpression> filters;
@@ -28968,6 +29429,8 @@ class Filter {
 
 /// Specifies a transform that uses custom code you provide to perform the data
 /// transformation. The output is a collection of DynamicFrames.
+///
+/// @nodoc
 class CustomCode {
   /// The name defined for the custom code node class.
   final String className;
@@ -29026,6 +29489,8 @@ class CustomCode {
 
 /// Specifies a transform where you enter a SQL query using Spark SQL syntax to
 /// transform the data. The output is a single <code>DynamicFrame</code>.
+///
+/// @nodoc
 class SparkSQL {
   /// The data inputs identified by their node names. You can associate a table
   /// name with each input node to use in the SQL query. The name you choose must
@@ -29095,6 +29560,8 @@ class SparkSQL {
 }
 
 /// Specifies a direct Amazon Kinesis data source.
+///
+/// @nodoc
 class DirectKinesisSource {
   /// The name of the data source.
   final String name;
@@ -29152,6 +29619,8 @@ class DirectKinesisSource {
 }
 
 /// Specifies an Apache Kafka data store.
+///
+/// @nodoc
 class DirectKafkaSource {
   /// The name of the data store.
   final String name;
@@ -29209,6 +29678,8 @@ class DirectKafkaSource {
 }
 
 /// Specifies a Kinesis data source in the Glue Data Catalog.
+///
+/// @nodoc
 class CatalogKinesisSource {
   /// The name of the database to read from.
   final String database;
@@ -29280,6 +29751,8 @@ class CatalogKinesisSource {
 }
 
 /// Specifies an Apache Kafka data store in the Data Catalog.
+///
+/// @nodoc
 class CatalogKafkaSource {
   /// The name of the database to read from.
   final String database;
@@ -29355,6 +29828,8 @@ class CatalogKafkaSource {
 /// but some values such as empty strings, strings that are "null", -1 integers
 /// or other placeholders such as zeros, are not automatically recognized as
 /// nulls.
+///
+/// @nodoc
 class DropNullFields {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -29417,6 +29892,8 @@ class DropNullFields {
 /// <code>DynamicFrame</code> based on the specified primary keys to identify
 /// records. Duplicate records (records with the same primary keys) are not
 /// de-duplicated.
+///
+/// @nodoc
 class Merge {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -29470,6 +29947,8 @@ class Merge {
 
 /// Specifies a transform that combines the rows from two or more datasets into
 /// a single result.
+///
+/// @nodoc
 class Union {
   /// The node ID inputs to the transform.
   final List<String> inputs;
@@ -29516,6 +29995,8 @@ class Union {
 }
 
 /// Specifies a transform that identifies, removes or masks PII data.
+///
+/// @nodoc
 class PIIDetection {
   /// Indicates the types of entities the PIIDetection transform will identify as
   /// PII data.
@@ -29666,6 +30147,8 @@ class PIIDetection {
 
 /// Specifies a transform that groups rows by chosen fields and computes the
 /// aggregated value by specified function.
+///
+/// @nodoc
 class Aggregate {
   /// Specifies the aggregate functions to be performed on specified fields.
   final List<AggregateOperation> aggs;
@@ -29719,6 +30202,8 @@ class Aggregate {
 }
 
 /// Specifies a transform that removes rows of repeating data from a data set.
+///
+/// @nodoc
 class DropDuplicates {
   /// The data inputs identified by their node names.
   final List<String> inputs;
@@ -29763,6 +30248,8 @@ class DropDuplicates {
 
 /// Specifies a data target that writes to Amazon S3 using the Glue Data
 /// Catalog.
+///
+/// @nodoc
 class GovernedCatalogTarget {
   /// The name of the database to write to.
   final String database;
@@ -29830,6 +30317,8 @@ class GovernedCatalogTarget {
 }
 
 /// Specifies the data store in the governed Glue Data Catalog.
+///
+/// @nodoc
 class GovernedCatalogSource {
   /// The database to read from.
   final String database;
@@ -29886,6 +30375,8 @@ class GovernedCatalogSource {
 }
 
 /// Specifies a Microsoft SQL server data source in the Glue Data Catalog.
+///
+/// @nodoc
 class MicrosoftSQLServerCatalogSource {
   /// The name of the database to read from.
   final String database;
@@ -29923,6 +30414,8 @@ class MicrosoftSQLServerCatalogSource {
 }
 
 /// Specifies a MySQL data source in the Glue Data Catalog.
+///
+/// @nodoc
 class MySQLCatalogSource {
   /// The name of the database to read from.
   final String database;
@@ -29960,6 +30453,8 @@ class MySQLCatalogSource {
 }
 
 /// Specifies an Oracle data source in the Glue Data Catalog.
+///
+/// @nodoc
 class OracleSQLCatalogSource {
   /// The name of the database to read from.
   final String database;
@@ -29997,6 +30492,8 @@ class OracleSQLCatalogSource {
 }
 
 /// Specifies a PostgresSQL data source in the Glue Data Catalog.
+///
+/// @nodoc
 class PostgreSQLCatalogSource {
   /// The name of the database to read from.
   final String database;
@@ -30034,6 +30531,8 @@ class PostgreSQLCatalogSource {
 }
 
 /// Specifies a target that uses Microsoft SQL.
+///
+/// @nodoc
 class MicrosoftSQLServerCatalogTarget {
   /// The name of the database to write to.
   final String database;
@@ -30081,6 +30580,8 @@ class MicrosoftSQLServerCatalogTarget {
 }
 
 /// Specifies a target that uses MySQL.
+///
+/// @nodoc
 class MySQLCatalogTarget {
   /// The name of the database to write to.
   final String database;
@@ -30128,6 +30629,8 @@ class MySQLCatalogTarget {
 }
 
 /// Specifies a target that uses Oracle SQL.
+///
+/// @nodoc
 class OracleSQLCatalogTarget {
   /// The name of the database to write to.
   final String database;
@@ -30175,6 +30678,8 @@ class OracleSQLCatalogTarget {
 }
 
 /// Specifies a target that uses Postgres SQL.
+///
+/// @nodoc
 class PostgreSQLCatalogTarget {
   /// The name of the database to write to.
   final String database;
@@ -30223,6 +30728,8 @@ class PostgreSQLCatalogTarget {
 
 /// Specifies a route node that directs data to different output paths based on
 /// defined filtering conditions.
+///
+/// @nodoc
 class Route {
   /// A list of group filters that define the routing conditions and criteria for
   /// directing data to different output paths.
@@ -30267,6 +30774,8 @@ class Route {
 }
 
 /// Specifies the set of parameters needed to perform the dynamic transform.
+///
+/// @nodoc
 class DynamicTransform {
   /// Specifies the name of the function of the dynamic transform.
   final String functionName;
@@ -30350,6 +30859,8 @@ class DynamicTransform {
 }
 
 /// Specifies your data quality evaluation criteria.
+///
+/// @nodoc
 class EvaluateDataQuality {
   /// The inputs of your data quality evaluation.
   final List<String> inputs;
@@ -30420,6 +30931,8 @@ class EvaluateDataQuality {
 
 /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
 /// The Hudi data source must be stored in Amazon S3.
+///
+/// @nodoc
 class S3CatalogHudiSource {
   /// The name of the database to read from.
   final String database;
@@ -30477,6 +30990,8 @@ class S3CatalogHudiSource {
 }
 
 /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
+///
+/// @nodoc
 class CatalogHudiSource {
   /// The name of the database to read from.
   final String database;
@@ -30534,6 +31049,8 @@ class CatalogHudiSource {
 }
 
 /// Specifies a Hudi data source stored in Amazon S3.
+///
+/// @nodoc
 class S3HudiSource {
   /// The name of the Hudi source.
   final String name;
@@ -30598,6 +31115,8 @@ class S3HudiSource {
 
 /// Specifies a target that writes to a Hudi data source in the Glue Data
 /// Catalog.
+///
+/// @nodoc
 class S3HudiCatalogTarget {
   /// Specifies additional connection options for the connector.
   final Map<String, String> additionalOptions;
@@ -30697,6 +31216,8 @@ class S3HudiCatalogTarget {
 }
 
 /// Specifies a target that writes to a Hudi data source in Amazon S3.
+///
+/// @nodoc
 class S3HudiDirectTarget {
   /// Specifies additional connection options for the connector.
   final Map<String, String> additionalOptions;
@@ -30805,6 +31326,8 @@ class S3HudiDirectTarget {
 }
 
 /// Specifies the direct JDBC source connection.
+///
+/// @nodoc
 class DirectJDBCSource {
   /// The connection name of the JDBC source.
   final String connectionName;
@@ -30875,6 +31398,8 @@ class DirectJDBCSource {
 
 /// Specifies a Delta Lake data source that is registered in the Glue Data
 /// Catalog. The data source must be stored in Amazon S3.
+///
+/// @nodoc
 class S3CatalogDeltaSource {
   /// The name of the database to read from.
   final String database;
@@ -30933,6 +31458,8 @@ class S3CatalogDeltaSource {
 
 /// Specifies a Delta Lake data source that is registered in the Glue Data
 /// Catalog.
+///
+/// @nodoc
 class CatalogDeltaSource {
   /// The name of the database to read from.
   final String database;
@@ -30990,6 +31517,8 @@ class CatalogDeltaSource {
 }
 
 /// Specifies a Delta Lake data source stored in Amazon S3.
+///
+/// @nodoc
 class S3DeltaSource {
   /// The name of the Delta Lake source.
   final String name;
@@ -31054,6 +31583,8 @@ class S3DeltaSource {
 
 /// Specifies a target that writes to a Delta Lake data source in the Glue Data
 /// Catalog.
+///
+/// @nodoc
 class S3DeltaCatalogTarget {
   /// The name of the database to write to.
   final String database;
@@ -31151,6 +31682,8 @@ class S3DeltaCatalogTarget {
 }
 
 /// Specifies a target that writes to a Delta Lake data source in Amazon S3.
+///
+/// @nodoc
 class S3DeltaDirectTarget {
   /// Specifies how the data is compressed. This is generally not necessary if the
   /// data has a standard file extension. Possible values are <code>"gzip"</code>
@@ -31257,6 +31790,8 @@ class S3DeltaDirectTarget {
 }
 
 /// Specifies an Amazon Redshift source.
+///
+/// @nodoc
 class AmazonRedshiftSource {
   /// Specifies the data of the Amazon Reshift source node.
   final AmazonRedshiftNodeData? data;
@@ -31290,6 +31825,8 @@ class AmazonRedshiftSource {
 }
 
 /// Specifies an Amazon Redshift target.
+///
+/// @nodoc
 class AmazonRedshiftTarget {
   /// Specifies the data of the Amazon Redshift target node.
   final AmazonRedshiftNodeData? data;
@@ -31331,6 +31868,8 @@ class AmazonRedshiftTarget {
 }
 
 /// Specifies your data quality evaluation criteria.
+///
+/// @nodoc
 class EvaluateDataQualityMultiFrame {
   /// The inputs of your data quality evaluation. The first input in this list is
   /// the primary data source.
@@ -31415,6 +31954,8 @@ class EvaluateDataQualityMultiFrame {
 }
 
 /// A Glue Studio node that uses a Glue DataBrew recipe in Glue jobs.
+///
+/// @nodoc
 class Recipe {
   /// The nodes that are inputs to the recipe node, identified by id.
   final List<String> inputs;
@@ -31468,6 +32009,8 @@ class Recipe {
 }
 
 /// Specifies a Snowflake data source.
+///
+/// @nodoc
 class SnowflakeSource {
   /// Configuration for the Snowflake data source.
   final SnowflakeNodeData data;
@@ -31509,6 +32052,8 @@ class SnowflakeSource {
 }
 
 /// Specifies a Snowflake target.
+///
+/// @nodoc
 class SnowflakeTarget {
   /// Specifies the data of the Snowflake target node.
   final SnowflakeNodeData data;
@@ -31548,6 +32093,8 @@ class SnowflakeTarget {
 }
 
 /// Specifies a source generated with standard connection options.
+///
+/// @nodoc
 class ConnectorDataSource {
   /// The <code>connectionType</code>, as provided to the underlying Glue library.
   /// This node type supports the following connection types:
@@ -31625,6 +32172,8 @@ class ConnectorDataSource {
 }
 
 /// Specifies a target generated with standard connection options.
+///
+/// @nodoc
 class ConnectorDataTarget {
   /// The <code>connectionType</code>, as provided to the underlying Glue library.
   /// This node type supports the following connection types:
@@ -31701,6 +32250,8 @@ class ConnectorDataTarget {
 
 /// Specifies an Apache Iceberg data source that is registered in the Glue Data
 /// Catalog. The Iceberg data source must be stored in Amazon S3.
+///
+/// @nodoc
 class S3CatalogIcebergSource {
   /// The name of the database to read from.
   final String database;
@@ -31759,6 +32310,8 @@ class S3CatalogIcebergSource {
 
 /// Specifies an Apache Iceberg data source that is registered in the Glue Data
 /// Catalog.
+///
+/// @nodoc
 class CatalogIcebergSource {
   /// The name of the database to read from.
   final String database;
@@ -31817,6 +32370,8 @@ class CatalogIcebergSource {
 
 /// Specifies an Apache Iceberg catalog target that writes data to Amazon S3 and
 /// registers the table in the Glue Data Catalog.
+///
+/// @nodoc
 class S3IcebergCatalogTarget {
   /// The name of the database to write to.
   final String database;
@@ -31904,6 +32459,8 @@ class S3IcebergCatalogTarget {
 }
 
 /// Specifies a target that writes to an Iceberg data source in Amazon S3.
+///
+/// @nodoc
 class S3IcebergDirectTarget {
   /// Specifies the compression codec used for Iceberg table files in S3.
   final IcebergTargetCompressionType compression;
@@ -32018,6 +32575,8 @@ class S3IcebergDirectTarget {
 }
 
 /// Specifies an S3 Excel data source.
+///
+/// @nodoc
 class S3ExcelSource {
   /// The name of the S3 Excel data source.
   final String name;
@@ -32138,6 +32697,8 @@ class S3ExcelSource {
 }
 
 /// Specifies a HyperDirect data target that writes to Amazon S3.
+///
+/// @nodoc
 class S3HyperDirectTarget {
   /// Specifies the input source for the HyperDirect target.
   final List<String> inputs;
@@ -32236,6 +32797,8 @@ class S3HyperDirectTarget {
 
 /// Specifies a DynamoDB ELT connector source for extracting data from DynamoDB
 /// tables.
+///
+/// @nodoc
 class DynamoDBELTConnectorSource {
   /// The name of the DynamoDB ELT connector source.
   final String name;
@@ -32281,6 +32844,8 @@ class DynamoDBELTConnectorSource {
 /// Specifies connection options for DynamoDB ELT (Extract, Load, Transform)
 /// operations. This structure contains configuration parameters for connecting
 /// to and extracting data from DynamoDB tables using the ELT connector.
+///
+/// @nodoc
 class DDBELTConnectionOptions {
   /// The Amazon Resource Name (ARN) of the DynamoDB table to extract data from.
   /// This parameter specifies the source table for the ELT operation.
@@ -32366,6 +32931,8 @@ class DDBELTConnectionOptions {
 }
 
 /// Specifies a user-defined schema when a schema cannot be determined by Glue.
+///
+/// @nodoc
 class GlueSchema {
   /// Specifies the column definitions that make up a Glue schema.
   final List<GlueStudioSchemaColumn>? columns;
@@ -32393,6 +32960,8 @@ class GlueSchema {
 }
 
 /// Specifies a single column in a Glue schema definition.
+///
+/// @nodoc
 class GlueStudioSchemaColumn {
   /// The name of the column in the Glue Studio schema.
   final String name;
@@ -32429,6 +32998,7 @@ class GlueStudioSchemaColumn {
   }
 }
 
+/// @nodoc
 class DdbExportType {
   static const ddb = DdbExportType._('ddb');
   static const s3 = DdbExportType._('s3');
@@ -32453,6 +33023,7 @@ class DdbExportType {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetFormat {
   static const json = TargetFormat._('json');
   static const csv = TargetFormat._('csv');
@@ -32495,6 +33066,7 @@ class TargetFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class HyperTargetCompressionType {
   static const uncompressed = HyperTargetCompressionType._('uncompressed');
 
@@ -32520,6 +33092,8 @@ class HyperTargetCompressionType {
 }
 
 /// A policy that specifies update behavior for the crawler.
+///
+/// @nodoc
 class DirectSchemaChangePolicy {
   /// Specifies the database that the schema change policy applies to.
   final String? database;
@@ -32571,6 +33145,8 @@ class DirectSchemaChangePolicy {
 /// Glue jobs. This structure enables automated data quality checks and
 /// monitoring during ETL operations, helping to ensure data integrity and
 /// reliability without manual intervention.
+///
+/// @nodoc
 class AutoDataQuality {
   /// The evaluation context for the automatic data quality checks. This defines
   /// the scope and parameters for the data quality evaluation.
@@ -32602,6 +33178,7 @@ class AutoDataQuality {
   }
 }
 
+/// @nodoc
 class UpdateCatalogBehavior {
   static const updateInDatabase = UpdateCatalogBehavior._('UPDATE_IN_DATABASE');
   static const log = UpdateCatalogBehavior._('LOG');
@@ -32627,6 +33204,7 @@ class UpdateCatalogBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class ParquetCompressionType {
   static const snappy = ParquetCompressionType._('snappy');
   static const lzo = ParquetCompressionType._('lzo');
@@ -32658,6 +33236,8 @@ class ParquetCompressionType {
 }
 
 /// Specifies additional connection options for the Amazon S3 data store.
+///
+/// @nodoc
 class S3DirectSourceAdditionalOptions {
   /// Sets the upper limit for the target number of files that will be processed.
   final int? boundedFiles;
@@ -32702,6 +33282,7 @@ class S3DirectSourceAdditionalOptions {
   }
 }
 
+/// @nodoc
 class IcebergTargetCompressionType {
   static const gzip = IcebergTargetCompressionType._('gzip');
   static const lzo = IcebergTargetCompressionType._('lzo');
@@ -32730,6 +33311,8 @@ class IcebergTargetCompressionType {
 }
 
 /// A policy that specifies update behavior for the crawler.
+///
+/// @nodoc
 class CatalogSchemaChangePolicy {
   /// Whether to use the specified update behavior when the crawler finds a
   /// changed schema.
@@ -32763,6 +33346,8 @@ class CatalogSchemaChangePolicy {
 }
 
 /// Specifies configuration for Snowflake nodes in Glue Studio.
+///
+/// @nodoc
 class SnowflakeNodeData {
   /// Specifies what action to take when writing to a table with preexisting data.
   /// Valid values: <code> append</code>, <code>merge</code>,
@@ -32961,6 +33546,8 @@ class SnowflakeNodeData {
 }
 
 /// Specifies an option value.
+///
+/// @nodoc
 class Option {
   /// Specifies the description of the option.
   final String? description;
@@ -32998,6 +33585,8 @@ class Option {
 }
 
 /// A reference to a Glue DataBrew recipe.
+///
+/// @nodoc
 class RecipeReference {
   /// The ARN of the DataBrew recipe.
   final String recipeArn;
@@ -33028,6 +33617,8 @@ class RecipeReference {
 }
 
 /// A recipe step used in a Glue Studio data preparation recipe node.
+///
+/// @nodoc
 class RecipeStep {
   /// The transformation action of the recipe step.
   final RecipeAction action;
@@ -33063,6 +33654,8 @@ class RecipeStep {
 }
 
 /// Actions defined in the Glue Studio data preparation recipe node.
+///
+/// @nodoc
 class RecipeAction {
   /// The operation of the recipe action.
   final String operation;
@@ -33095,6 +33688,8 @@ class RecipeAction {
 
 /// Condition expression defined in the Glue Studio data preparation recipe
 /// node.
+///
+/// @nodoc
 class ConditionExpression {
   /// The condition of the condition expression.
   final String condition;
@@ -33132,6 +33727,8 @@ class ConditionExpression {
 }
 
 /// Options to configure how your data quality evaluation results are published.
+///
+/// @nodoc
 class DQResultsPublishingOptions {
   /// Enable metrics for your data quality results.
   final bool? cloudWatchMetricsEnabled;
@@ -33179,6 +33776,8 @@ class DQResultsPublishingOptions {
 
 /// Options to configure how your job will stop if your data quality evaluation
 /// fails.
+///
+/// @nodoc
 class DQStopJobOnFailureOptions {
   /// When to stop job if your data quality evaluation fails. Options are
   /// Immediate or AfterDataLoad.
@@ -33204,6 +33803,7 @@ class DQStopJobOnFailureOptions {
   }
 }
 
+/// @nodoc
 class DQStopJobOnFailureTiming {
   static const immediate = DQStopJobOnFailureTiming._('Immediate');
   static const afterDataLoad = DQStopJobOnFailureTiming._('AfterDataLoad');
@@ -33229,6 +33829,7 @@ class DQStopJobOnFailureTiming {
   String toString() => value;
 }
 
+/// @nodoc
 class AdditionalOptionKeys {
   static const performanceTuningCaching =
       AdditionalOptionKeys._('performanceTuning.caching');
@@ -33262,6 +33863,8 @@ class AdditionalOptionKeys {
 }
 
 /// Specifies an Amazon Redshift node.
+///
+/// @nodoc
 class AmazonRedshiftNodeData {
   /// The access type for the Redshift connection. Can be a direct connection or
   /// catalog connections.
@@ -33496,6 +34099,8 @@ class AmazonRedshiftNodeData {
 }
 
 /// Specifies an optional value when connecting to the Redshift cluster.
+///
+/// @nodoc
 class AmazonRedshiftAdvancedOption {
   /// The key for the additional connection option.
   final String? key;
@@ -33525,6 +34130,7 @@ class AmazonRedshiftAdvancedOption {
   }
 }
 
+/// @nodoc
 class DeltaTargetCompressionType {
   static const uncompressed = DeltaTargetCompressionType._('uncompressed');
   static const snappy = DeltaTargetCompressionType._('snappy');
@@ -33550,6 +34156,7 @@ class DeltaTargetCompressionType {
   String toString() => value;
 }
 
+/// @nodoc
 class JDBCConnectionType {
   static const sqlserver = JDBCConnectionType._('sqlserver');
   static const mysql = JDBCConnectionType._('mysql');
@@ -33578,6 +34185,7 @@ class JDBCConnectionType {
   String toString() => value;
 }
 
+/// @nodoc
 class HudiTargetCompressionType {
   static const gzip = HudiTargetCompressionType._('gzip');
   static const lzo = HudiTargetCompressionType._('lzo');
@@ -33605,6 +34213,7 @@ class HudiTargetCompressionType {
   String toString() => value;
 }
 
+/// @nodoc
 class DQTransformOutput {
   static const primaryInput = DQTransformOutput._('PrimaryInput');
   static const evaluationResults = DQTransformOutput._('EvaluationResults');
@@ -33630,6 +34239,8 @@ class DQTransformOutput {
 }
 
 /// Specifies the parameters in the config file of the dynamic transform.
+///
+/// @nodoc
 class TransformConfigParameter {
   /// Specifies the name of the parameter in the config file of the dynamic
   /// transform.
@@ -33700,6 +34311,7 @@ class TransformConfigParameter {
   }
 }
 
+/// @nodoc
 class ParamType {
   static const str = ParamType._('str');
   static const $int = ParamType._('int');
@@ -33730,6 +34342,8 @@ class ParamType {
 
 /// Specifies a group of filters with a logical operator that determines how the
 /// filters are combined to evaluate routing conditions.
+///
+/// @nodoc
 class GroupFilters {
   /// A list of filter expressions that define the conditions for this group.
   final List<FilterExpression> filters;
@@ -33771,6 +34385,7 @@ class GroupFilters {
   }
 }
 
+/// @nodoc
 class FilterLogicalOperator {
   static const and = FilterLogicalOperator._('AND');
   static const or = FilterLogicalOperator._('OR');
@@ -33797,6 +34412,8 @@ class FilterLogicalOperator {
 }
 
 /// Specifies a filter expression.
+///
+/// @nodoc
 class FilterExpression {
   /// The type of operation to perform in the expression.
   final FilterOperation operation;
@@ -33837,6 +34454,7 @@ class FilterExpression {
   }
 }
 
+/// @nodoc
 class FilterOperation {
   static const eq = FilterOperation._('EQ');
   static const lt = FilterOperation._('LT');
@@ -33868,6 +34486,8 @@ class FilterOperation {
 
 /// Represents a single entry in the list of values for a
 /// <code>FilterExpression</code>.
+///
+/// @nodoc
 class FilterValue {
   /// The type of filter value.
   final FilterValueType type;
@@ -33900,6 +34520,7 @@ class FilterValue {
   }
 }
 
+/// @nodoc
 class FilterValueType {
   static const columnextracted = FilterValueType._('COLUMNEXTRACTED');
   static const constant = FilterValueType._('CONSTANT');
@@ -33925,6 +34546,8 @@ class FilterValueType {
 }
 
 /// Specifies additional connection options for the Amazon S3 data store.
+///
+/// @nodoc
 class S3SourceAdditionalOptions {
   /// Sets the upper limit for the target number of files that will be processed.
   final int? boundedFiles;
@@ -33957,6 +34580,8 @@ class S3SourceAdditionalOptions {
 
 /// Specifies the set of parameters needed to perform aggregation in the
 /// aggregate transform.
+///
+/// @nodoc
 class AggregateOperation {
   /// Specifies the aggregation function to apply.
   ///
@@ -33994,6 +34619,7 @@ class AggregateOperation {
   }
 }
 
+/// @nodoc
 class AggFunction {
   static const avg = AggFunction._('avg');
   static const countDistinct = AggFunction._('countDistinct');
@@ -34046,6 +34672,7 @@ class AggFunction {
   String toString() => value;
 }
 
+/// @nodoc
 class PiiType {
   static const rowAudit = PiiType._('RowAudit');
   static const rowHashing = PiiType._('RowHashing');
@@ -34082,6 +34709,7 @@ class PiiType {
   String toString() => value;
 }
 
+/// @nodoc
 class UnionType {
   static const all = UnionType._('ALL');
   static const distinct = UnionType._('DISTINCT');
@@ -34106,6 +34734,8 @@ class UnionType {
 }
 
 /// Represents whether certain values are recognized as null values for removal.
+///
+/// @nodoc
 class NullCheckBoxList {
   /// Specifies that an empty string is considered as a null value.
   final bool? isEmpty;
@@ -34145,6 +34775,8 @@ class NullCheckBoxList {
 
 /// Represents a custom null value such as a zeros or other value being used as
 /// a null placeholder unique to the dataset.
+///
+/// @nodoc
 class NullValueField {
   /// The datatype of the value.
   final Datatype datatype;
@@ -34176,6 +34808,8 @@ class NullValueField {
 }
 
 /// A structure representing the datatype of the value.
+///
+/// @nodoc
 class Datatype {
   /// The datatype of the value.
   final String id;
@@ -34206,6 +34840,8 @@ class Datatype {
 }
 
 /// Additional options for streaming.
+///
+/// @nodoc
 class KafkaStreamingSourceOptions {
   /// When this option is set to 'true', the data output will contain an
   /// additional column named "__src_timestamp" that indicates the time when the
@@ -34247,8 +34883,8 @@ class KafkaStreamingSourceOptions {
 
   /// Whether to include the Kafka headers. When the option is set to "true", the
   /// data output will contain an additional column named
-  /// "glue_streaming_kafka_headers" with type <code>Array[Struct(key: String,
-  /// value: String)]</code>. The default value is "false". This option is
+  /// "glue_streaming_kafka_headers" with type <code>Array\[Struct(key: String,
+  /// value: String)\]</code>. The default value is "false". This option is
   /// available in Glue version 3.0 or later only.
   final bool? includeHeaders;
 
@@ -34398,6 +35034,8 @@ class KafkaStreamingSourceOptions {
 }
 
 /// Specifies options related to data preview for viewing a sample of your data.
+///
+/// @nodoc
 class StreamingDataPreviewOptions {
   /// The polling time in milliseconds.
   final int? pollingTime;
@@ -34428,6 +35066,8 @@ class StreamingDataPreviewOptions {
 }
 
 /// Additional options for the Amazon Kinesis streaming data source.
+///
+/// @nodoc
 class KinesisStreamingSourceOptions {
   /// Adds a time delay between two consecutive getRecords operations. The default
   /// value is <code>"False"</code>. This option is only configurable for Glue
@@ -34649,6 +35289,7 @@ class KinesisStreamingSourceOptions {
   }
 }
 
+/// @nodoc
 class StartingPosition {
   static const latest = StartingPosition._('latest');
   static const trimHorizon = StartingPosition._('trim_horizon');
@@ -34676,6 +35317,8 @@ class StartingPosition {
 }
 
 /// Represents a single entry in the list of values for <code>SqlAliases</code>.
+///
+/// @nodoc
 class SqlAlias {
   /// A temporary name given to a table, or a column in a table.
   final String alias;
@@ -34705,6 +35348,7 @@ class SqlAlias {
   }
 }
 
+/// @nodoc
 class JoinType {
   static const equijoin = JoinType._('equijoin');
   static const left = JoinType._('left');
@@ -34733,6 +35377,8 @@ class JoinType {
 }
 
 /// Specifies a column to be joined.
+///
+/// @nodoc
 class JoinColumn {
   /// The column to be joined.
   final String from;
@@ -34766,6 +35412,8 @@ class JoinColumn {
 }
 
 /// Specifies the mapping of data property keys.
+///
+/// @nodoc
 class Mapping {
   /// Only applicable to nested data structures. If you want to change the parent
   /// structure, but also one of its children, you can fill out this data
@@ -34776,14 +35424,14 @@ class Mapping {
   /// For the children part, suppose you have the structure:
   ///
   /// <code>{ "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType":
-  /// "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey":
-  /// "inner", "ToType": "Double", "Dropped": false, }] }</code>
+  /// "Struct", "Dropped": false, "Chidlren": \[{ "FromPath": "inner", "ToKey":
+  /// "inner", "ToType": "Double", "Dropped": false, }\] }</code>
   ///
   /// You can specify a <code>Mapping</code> that looks like:
   ///
   /// <code>{ "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType":
-  /// "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey":
-  /// "inner", "ToType": "Double", "Dropped": false, }] }</code>
+  /// "Struct", "Dropped": false, "Chidlren": \[{ "FromPath": "inner", "ToKey":
+  /// "inner", "ToType": "Double", "Dropped": false, }\] }</code>
   final List<Mapping>? children;
 
   /// If true, then the column is removed.
@@ -34848,6 +35496,8 @@ class Mapping {
 
 /// The options to configure an upsert operation when writing to a Redshift
 /// target .
+///
+/// @nodoc
 class UpsertRedshiftTargetOptions {
   /// The name of the connection to use to write to Redshift.
   final String? connectionName;
@@ -34888,6 +35538,8 @@ class UpsertRedshiftTargetOptions {
 }
 
 /// Specifies additional options for DynamoDB ELT catalog operations.
+///
+/// @nodoc
 class DDBELTCatalogAdditionalOptions {
   /// Specifies the DynamoDB export configuration for the ELT operation.
   final String? dynamodbExport;
@@ -34919,6 +35571,7 @@ class DDBELTCatalogAdditionalOptions {
   }
 }
 
+/// @nodoc
 class CompressionType {
   static const gzip = CompressionType._('gzip');
   static const bzip2 = CompressionType._('bzip2');
@@ -34943,6 +35596,7 @@ class CompressionType {
   String toString() => value;
 }
 
+/// @nodoc
 class Separator {
   static const comma = Separator._('comma');
   static const ctrla = Separator._('ctrla');
@@ -34969,6 +35623,7 @@ class Separator {
   String toString() => value;
 }
 
+/// @nodoc
 class QuoteChar {
   static const quote = QuoteChar._('quote');
   static const quillemet = QuoteChar._('quillemet');
@@ -34995,6 +35650,8 @@ class QuoteChar {
 }
 
 /// Additional connection options for the connector.
+///
+/// @nodoc
 class JDBCConnectorOptions {
   /// Custom data type mapping that builds a mapping from a JDBC data type to an
   /// Glue data type. For example, the option
@@ -35095,6 +35752,7 @@ class JDBCConnectorOptions {
   }
 }
 
+/// @nodoc
 class JDBCDataType {
   static const array = JDBCDataType._('ARRAY');
   static const bigint = JDBCDataType._('BIGINT');
@@ -35196,6 +35854,7 @@ class JDBCDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class GlueRecordType {
   static const date = GlueRecordType._('DATE');
   static const string = GlueRecordType._('STRING');
@@ -35240,6 +35899,8 @@ class GlueRecordType {
 }
 
 /// Properties used by the source leg to process data from the source.
+///
+/// @nodoc
 class SourceTableConfig {
   /// A list of fields used for column-level filtering. Currently unsupported.
   final List<String>? fields;
@@ -35290,6 +35951,8 @@ class SourceTableConfig {
 }
 
 /// Properties used by the target leg to partition the data on the target.
+///
+/// @nodoc
 class TargetTableConfig {
   /// Determines the file layout on the target.
   final List<IntegrationPartition>? partitionSpec;
@@ -35330,6 +35993,7 @@ class TargetTableConfig {
   }
 }
 
+/// @nodoc
 class UnnestSpec {
   static const toplevel = UnnestSpec._('TOPLEVEL');
   static const full = UnnestSpec._('FULL');
@@ -35355,6 +36019,8 @@ class UnnestSpec {
 }
 
 /// A structure that describes how data is partitioned on the target.
+///
+/// @nodoc
 class IntegrationPartition {
   /// Specifies the timestamp format of the source data. Valid values are:
   ///
@@ -35452,6 +36118,8 @@ class IntegrationPartition {
 }
 
 /// The resource properties associated with the integration source.
+///
+/// @nodoc
 class SourceProcessingProperties {
   /// The IAM role to access the Glue connection.
   final String? roleArn;
@@ -35475,6 +36143,8 @@ class SourceProcessingProperties {
 }
 
 /// The resource properties associated with the integration target.
+///
+/// @nodoc
 class TargetProcessingProperties {
   /// The Glue network connection to configure the Glue job running in the
   /// customer VPC.
@@ -35521,6 +36191,8 @@ class TargetProcessingProperties {
 }
 
 /// Custom libraries to be loaded into a development endpoint.
+///
+/// @nodoc
 class DevEndpointCustomLibraries {
   /// The path to one or more Java <code>.jar</code> files in an S3 bucket that
   /// should be loaded in your <code>DevEndpoint</code>.
@@ -35558,6 +36230,8 @@ class DevEndpointCustomLibraries {
 }
 
 /// The structure used to create or update a database.
+///
+/// @nodoc
 class DatabaseInput {
   /// The name of the database. For Hive compatibility, this is folded to
   /// lowercase when it is stored.
@@ -35618,6 +36292,8 @@ class DatabaseInput {
 }
 
 /// A structure that describes a target database for resource linking.
+///
+/// @nodoc
 class DatabaseIdentifier {
   /// The ID of the Data Catalog in which the database resides.
   final String? catalogId;
@@ -35655,6 +36331,8 @@ class DatabaseIdentifier {
 }
 
 /// A database that points to an entity outside the Glue Data Catalog.
+///
+/// @nodoc
 class FederatedDatabase {
   /// The name of the connection to the external metastore.
   final String? connectionName;
@@ -35693,6 +36371,8 @@ class FederatedDatabase {
 }
 
 /// Permissions granted to a principal.
+///
+/// @nodoc
 class PrincipalPermissions {
   /// The permissions that are granted to the principal.
   final List<Permission>? permissions;
@@ -35730,6 +36410,8 @@ class PrincipalPermissions {
 }
 
 /// The Lake Formation principal.
+///
+/// @nodoc
 class DataLakePrincipal {
   /// An identifier for the Lake Formation principal.
   final String? dataLakePrincipalIdentifier;
@@ -35754,6 +36436,7 @@ class DataLakePrincipal {
   }
 }
 
+/// @nodoc
 class Permission {
   static const all = Permission._('ALL');
   static const select = Permission._('SELECT');
@@ -35795,6 +36478,8 @@ class Permission {
 }
 
 /// Specifies data stores to crawl.
+///
+/// @nodoc
 class CrawlerTargets {
   /// Specifies Glue Data Catalog targets.
   final List<CatalogTarget>? catalogTargets;
@@ -35891,6 +36576,8 @@ class CrawlerTargets {
 }
 
 /// A policy that specifies update and deletion behaviors for the crawler.
+///
+/// @nodoc
 class SchemaChangePolicy {
   /// The deletion behavior when the crawler finds a deleted object.
   final DeleteBehavior? deleteBehavior;
@@ -35927,6 +36614,8 @@ class SchemaChangePolicy {
 /// that were added since the last crawler run. For more information, see <a
 /// href="https://docs.aws.amazon.com/glue/latest/dg/incremental-crawls.html">Incremental
 /// Crawls in Glue</a> in the developer guide.
+///
+/// @nodoc
 class RecrawlPolicy {
   /// Specifies whether to crawl the entire dataset again or to crawl only folders
   /// that were added since the last crawler run.
@@ -35961,6 +36650,8 @@ class RecrawlPolicy {
 }
 
 /// Specifies data lineage configuration settings for the crawler.
+///
+/// @nodoc
 class LineageConfiguration {
   /// Specifies whether data lineage is enabled for the crawler. Valid values are:
   ///
@@ -35995,6 +36686,8 @@ class LineageConfiguration {
 }
 
 /// Specifies Lake Formation configuration settings for the crawler.
+///
+/// @nodoc
 class LakeFormationConfiguration {
   /// Required for cross account crawls. For same account crawls as the target
   /// data, this can be left as null.
@@ -36027,6 +36720,7 @@ class LakeFormationConfiguration {
   }
 }
 
+/// @nodoc
 class CrawlerLineageSettings {
   static const enable = CrawlerLineageSettings._('ENABLE');
   static const disable = CrawlerLineageSettings._('DISABLE');
@@ -36052,6 +36746,7 @@ class CrawlerLineageSettings {
   String toString() => value;
 }
 
+/// @nodoc
 class RecrawlBehavior {
   static const crawlEverything = RecrawlBehavior._('CRAWL_EVERYTHING');
   static const crawlNewFoldersOnly =
@@ -36078,6 +36773,7 @@ class RecrawlBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateBehavior {
   static const log = UpdateBehavior._('LOG');
   static const updateInDatabase = UpdateBehavior._('UPDATE_IN_DATABASE');
@@ -36102,6 +36798,7 @@ class UpdateBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class DeleteBehavior {
   static const log = DeleteBehavior._('LOG');
   static const deleteFromDatabase = DeleteBehavior._('DELETE_FROM_DATABASE');
@@ -36128,6 +36825,8 @@ class DeleteBehavior {
 }
 
 /// Specifies an Apache Hudi data source.
+///
+/// @nodoc
 class HudiTarget {
   /// The name of the connection to use to connect to the Hudi target. If your
   /// Hudi files are stored in buckets that require VPC authorization, you can set
@@ -36189,6 +36888,8 @@ class HudiTarget {
 
 /// Specifies an Apache Iceberg data source where Iceberg tables are stored in
 /// Amazon S3.
+///
+/// @nodoc
 class IcebergTarget {
   /// The name of the connection to use to connect to the Iceberg target.
   final String? connectionName;
@@ -36244,6 +36945,8 @@ class IcebergTarget {
 }
 
 /// Specifies a Delta data store to crawl one or more Delta tables.
+///
+/// @nodoc
 class DeltaTarget {
   /// The name of the connection to use to connect to the Delta table target.
   final String? connectionName;
@@ -36294,6 +36997,8 @@ class DeltaTarget {
 }
 
 /// Specifies an Glue Data Catalog target.
+///
+/// @nodoc
 class CatalogTarget {
   /// The name of the database to be synchronized.
   final String databaseName;
@@ -36352,6 +37057,8 @@ class CatalogTarget {
 }
 
 /// Specifies an Amazon DynamoDB table to crawl.
+///
+/// @nodoc
 class DynamoDBTarget {
   /// The name of the DynamoDB table to crawl.
   final String? path;
@@ -36403,6 +37110,8 @@ class DynamoDBTarget {
 }
 
 /// Specifies an Amazon DocumentDB or MongoDB data store to crawl.
+///
+/// @nodoc
 class MongoDBTarget {
   /// The name of the connection to use to connect to the Amazon DocumentDB or
   /// MongoDB target.
@@ -36447,6 +37156,8 @@ class MongoDBTarget {
 }
 
 /// Specifies a JDBC data store to crawl.
+///
+/// @nodoc
 class JdbcTarget {
   /// The name of the connection to use to connect to the JDBC target.
   final String? connectionName;
@@ -36506,6 +37217,7 @@ class JdbcTarget {
   }
 }
 
+/// @nodoc
 class JdbcMetadataEntry {
   static const comments = JdbcMetadataEntry._('COMMENTS');
   static const rawtypes = JdbcMetadataEntry._('RAWTYPES');
@@ -36531,6 +37243,8 @@ class JdbcMetadataEntry {
 }
 
 /// Specifies a data store in Amazon Simple Storage Service (Amazon S3).
+///
+/// @nodoc
 class S3Target {
   /// The name of a connection which allows a job or crawler to access data in
   /// Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC).
@@ -36600,6 +37314,8 @@ class S3Target {
 }
 
 /// A structure that is used to specify a connection to create or update.
+///
+/// @nodoc
 class ConnectionInput {
   /// These key-value pairs define parameters for the connection.
   final Map<ConnectionPropertyKey, String> connectionProperties;
@@ -36827,6 +37543,7 @@ class ConnectionInput {
   }
 }
 
+/// @nodoc
 class ConnectionType {
   static const jdbc = ConnectionType._('JDBC');
   static const sftp = ConnectionType._('SFTP');
@@ -37042,6 +37759,8 @@ class ConnectionType {
 }
 
 /// The OAuth client app in GetConnection response.
+///
+/// @nodoc
 class PhysicalConnectionRequirements {
   /// The connection's Availability Zone.
   final String? availabilityZone;
@@ -37084,6 +37803,8 @@ class PhysicalConnectionRequirements {
 
 /// A structure containing the authentication configuration in the
 /// CreateConnection request.
+///
+/// @nodoc
 class AuthenticationConfigurationInput {
   /// A structure containing the authentication configuration in the
   /// CreateConnection request.
@@ -37136,6 +37857,7 @@ class AuthenticationConfigurationInput {
   }
 }
 
+/// @nodoc
 class ComputeEnvironment {
   static const spark = ComputeEnvironment._('SPARK');
   static const athena = ComputeEnvironment._('ATHENA');
@@ -37162,6 +37884,7 @@ class ComputeEnvironment {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticationType {
   static const basic = AuthenticationType._('BASIC');
   static const oauth2 = AuthenticationType._('OAUTH2');
@@ -37191,6 +37914,8 @@ class AuthenticationType {
 
 /// A structure containing properties for OAuth2 in the CreateConnection
 /// request.
+///
+/// @nodoc
 class OAuth2PropertiesInput {
   /// The set of properties required for the the OAuth2
   /// <code>AUTHORIZATION_CODE</code> grant type.
@@ -37247,6 +37972,8 @@ class OAuth2PropertiesInput {
 
 /// For supplying basic auth credentials when not providing a
 /// <code>SecretArn</code> value.
+///
+/// @nodoc
 class BasicAuthenticationCredentials {
   /// The password to connect to the data source.
   final String? password;
@@ -37269,6 +37996,7 @@ class BasicAuthenticationCredentials {
   }
 }
 
+/// @nodoc
 class OAuth2GrantType {
   static const authorizationCode = OAuth2GrantType._('AUTHORIZATION_CODE');
   static const clientCredentials = OAuth2GrantType._('CLIENT_CREDENTIALS');
@@ -37295,6 +38023,8 @@ class OAuth2GrantType {
 }
 
 /// The OAuth2 client app used for the connection.
+///
+/// @nodoc
 class OAuth2ClientApplication {
   /// The reference to the SaaS-side client app that is Amazon Web Services
   /// managed.
@@ -37336,6 +38066,8 @@ class OAuth2ClientApplication {
 
 /// The set of properties required for the the OAuth2
 /// <code>AUTHORIZATION_CODE</code> grant type workflow.
+///
+/// @nodoc
 class AuthorizationCodeProperties {
   /// An authorization code to be used in the third leg of the
   /// <code>AUTHORIZATION_CODE</code> grant workflow. This is a single-use code
@@ -37364,6 +38096,8 @@ class AuthorizationCodeProperties {
 }
 
 /// The credentials used when the authentication type is OAuth2 authentication.
+///
+/// @nodoc
 class OAuth2Credentials {
   /// The access token used when the authentication type is OAuth2.
   final String? accessToken;
@@ -37402,6 +38136,7 @@ class OAuth2Credentials {
   }
 }
 
+/// @nodoc
 class ConnectionPropertyKey {
   static const host = ConnectionPropertyKey._('HOST');
   static const port = ConnectionPropertyKey._('PORT');
@@ -37554,6 +38289,8 @@ class ConnectionPropertyKey {
 
 /// Encapsulates a <code>ColumnStatistics</code> object that failed and the
 /// reason for failure.
+///
+/// @nodoc
 class ColumnStatisticsError {
   /// The <code>ColumnStatistics</code> of the column.
   final ColumnStatistics? columnStatistics;
@@ -37589,6 +38326,8 @@ class ColumnStatisticsError {
 }
 
 /// Represents the generated column-level statistics for a table or partition.
+///
+/// @nodoc
 class ColumnStatistics {
   /// The timestamp of when column statistics were generated.
   final DateTime analyzedTime;
@@ -37636,6 +38375,8 @@ class ColumnStatistics {
 }
 
 /// Contains details about an error.
+///
+/// @nodoc
 class ErrorDetail {
   /// The code associated with this error.
   final String? errorCode;
@@ -37667,6 +38408,8 @@ class ErrorDetail {
 
 /// Contains the individual types of column statistics data. Only one data
 /// object should be set and indicated by the <code>Type</code> attribute.
+///
+/// @nodoc
 class ColumnStatisticsData {
   /// The type of column statistics data.
   final ColumnStatisticsType type;
@@ -37768,6 +38511,7 @@ class ColumnStatisticsData {
   }
 }
 
+/// @nodoc
 class ColumnStatisticsType {
   static const boolean = ColumnStatisticsType._('BOOLEAN');
   static const date = ColumnStatisticsType._('DATE');
@@ -37799,6 +38543,8 @@ class ColumnStatisticsType {
 }
 
 /// Defines column statistics supported for Boolean data columns.
+///
+/// @nodoc
 class BooleanColumnStatisticsData {
   /// The number of false values in the column.
   final int numberOfFalses;
@@ -37836,6 +38582,8 @@ class BooleanColumnStatisticsData {
 }
 
 /// Defines column statistics supported for timestamp data columns.
+///
+/// @nodoc
 class DateColumnStatisticsData {
   /// The number of distinct values in a column.
   final int numberOfDistinctValues;
@@ -37882,6 +38630,8 @@ class DateColumnStatisticsData {
 }
 
 /// Defines column statistics supported for fixed-point number data columns.
+///
+/// @nodoc
 class DecimalColumnStatisticsData {
   /// The number of distinct values in a column.
   final int numberOfDistinctValues;
@@ -37930,6 +38680,8 @@ class DecimalColumnStatisticsData {
 }
 
 /// Defines column statistics supported for floating-point number data columns.
+///
+/// @nodoc
 class DoubleColumnStatisticsData {
   /// The number of distinct values in a column.
   final int numberOfDistinctValues;
@@ -37974,6 +38726,8 @@ class DoubleColumnStatisticsData {
 }
 
 /// Defines column statistics supported for integer data columns.
+///
+/// @nodoc
 class LongColumnStatisticsData {
   /// The number of distinct values in a column.
   final int numberOfDistinctValues;
@@ -38018,6 +38772,8 @@ class LongColumnStatisticsData {
 }
 
 /// Defines column statistics supported for character sequence data values.
+///
+/// @nodoc
 class StringColumnStatisticsData {
   /// The average string length in the column.
   final double averageLength;
@@ -38062,6 +38818,8 @@ class StringColumnStatisticsData {
 }
 
 /// Defines column statistics supported for bit sequence data values.
+///
+/// @nodoc
 class BinaryColumnStatisticsData {
   /// The average bit sequence length in the column.
   final double averageLength;
@@ -38099,6 +38857,8 @@ class BinaryColumnStatisticsData {
 }
 
 /// Contains a numeric value in decimal format.
+///
+/// @nodoc
 class DecimalNumber {
   /// The scale that determines where the decimal point falls in the unscaled
   /// value.
@@ -38132,6 +38892,8 @@ class DecimalNumber {
 
 /// Specifies a grok classifier to update when passed to
 /// <code>UpdateClassifier</code>.
+///
+/// @nodoc
 class UpdateGrokClassifierRequest {
   /// The name of the <code>GrokClassifier</code>.
   final String name;
@@ -38168,6 +38930,8 @@ class UpdateGrokClassifierRequest {
 }
 
 /// Specifies an XML classifier to be updated.
+///
+/// @nodoc
 class UpdateXMLClassifierRequest {
   /// The name of the classifier.
   final String name;
@@ -38202,6 +38966,8 @@ class UpdateXMLClassifierRequest {
 }
 
 /// Specifies a JSON classifier to be updated.
+///
+/// @nodoc
 class UpdateJsonClassifierRequest {
   /// The name of the classifier.
   final String name;
@@ -38228,6 +38994,8 @@ class UpdateJsonClassifierRequest {
 }
 
 /// Specifies a custom CSV classifier to be updated.
+///
+/// @nodoc
 class UpdateCsvClassifierRequest {
   /// The name of the classifier.
   final String name;
@@ -38305,6 +39073,7 @@ class UpdateCsvClassifierRequest {
   }
 }
 
+/// @nodoc
 class CsvHeaderOption {
   static const unknown = CsvHeaderOption._('UNKNOWN');
   static const present = CsvHeaderOption._('PRESENT');
@@ -38330,6 +39099,7 @@ class CsvHeaderOption {
   String toString() => value;
 }
 
+/// @nodoc
 class CsvSerdeOption {
   static const openCSVSerDe = CsvSerdeOption._('OpenCSVSerDe');
   static const lazySimpleSerDe = CsvSerdeOption._('LazySimpleSerDe');
@@ -38356,6 +39126,8 @@ class CsvSerdeOption {
 }
 
 /// A structure that describes catalog properties.
+///
+/// @nodoc
 class CatalogInput {
   /// Allows third-party engines to access data in Amazon S3 locations that are
   /// registered with Lake Formation.
@@ -38448,6 +39220,8 @@ class CatalogInput {
 }
 
 /// A catalog that points to an entity outside the Glue Data Catalog.
+///
+/// @nodoc
 class FederatedCatalog {
   /// The name of the connection to an external data source, for example a
   /// Redshift-federated catalog.
@@ -38487,6 +39261,8 @@ class FederatedCatalog {
 }
 
 /// A structure that describes a target catalog for resource linking.
+///
+/// @nodoc
 class TargetRedshiftCatalog {
   /// The Amazon Resource Name (ARN) of the catalog resource.
   final String catalogArn;
@@ -38511,6 +39287,8 @@ class TargetRedshiftCatalog {
 
 /// A structure that specifies data lake access properties and other custom
 /// properties.
+///
+/// @nodoc
 class CatalogProperties {
   /// Additional key-value properties for the catalog, such as column statistics
   /// optimizations.
@@ -38547,6 +39325,7 @@ class CatalogProperties {
   }
 }
 
+/// @nodoc
 class AllowFullTableExternalDataAccessEnum {
   static const $true = AllowFullTableExternalDataAccessEnum._('True');
   static const $false = AllowFullTableExternalDataAccessEnum._('False');
@@ -38572,6 +39351,7 @@ class AllowFullTableExternalDataAccessEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class OverwriteChildResourcePermissionsWithDefaultEnum {
   static const accept =
       OverwriteChildResourcePermissionsWithDefaultEnum._('Accept');
@@ -38604,6 +39384,8 @@ class OverwriteChildResourcePermissionsWithDefaultEnum {
 
 /// Input properties to configure data lake access for your catalog resource in
 /// the Glue Data Catalog.
+///
+/// @nodoc
 class DataLakeAccessProperties {
   /// Specifies a federated catalog type for the native catalog resource. The
   /// currently supported type is <code>aws:redshift</code>.
@@ -38646,6 +39428,8 @@ class DataLakeAccessProperties {
 /// A structure that specifies Iceberg table optimization properties for the
 /// catalog, including configurations for compaction, retention, and orphan file
 /// deletion operations.
+///
+/// @nodoc
 class IcebergOptimizationProperties {
   /// A map of key-value pairs that specify configuration parameters for Iceberg
   /// table compaction operations, which optimize the layout of data files to
@@ -38688,6 +39472,8 @@ class IcebergOptimizationProperties {
 }
 
 /// A structure that is used to specify testing a connection to a service.
+///
+/// @nodoc
 class TestConnectionInput {
   /// The key-value pairs that define parameters for the connection.
   ///
@@ -38743,6 +39529,8 @@ class TestConnectionInput {
 }
 
 /// A data source (an Glue table) for which you want data quality results.
+///
+/// @nodoc
 class DataSource {
   /// An Glue table for Data Quality Operations.
   final DataQualityGlueTable? dataQualityGlueTable;
@@ -38779,6 +39567,8 @@ class DataSource {
 }
 
 /// Additional run options you can specify for an evaluation run.
+///
+/// @nodoc
 class DataQualityEvaluationRunAdditionalRunOptions {
   /// Whether or not to enable CloudWatch metrics.
   final bool? cloudWatchMetricsEnabled;
@@ -38832,6 +39622,7 @@ class DataQualityEvaluationRunAdditionalRunOptions {
   }
 }
 
+/// @nodoc
 class DQCompositeRuleEvaluationMethod {
   static const column = DQCompositeRuleEvaluationMethod._('COLUMN');
   static const row = DQCompositeRuleEvaluationMethod._('ROW');
@@ -38859,6 +39650,8 @@ class DQCompositeRuleEvaluationMethod {
 
 /// The database and table in the Glue Data Catalog that is used for input or
 /// output data.
+///
+/// @nodoc
 class GlueTable {
   /// A database name in the Glue Data Catalog.
   final String databaseName;
@@ -38923,6 +39716,8 @@ class GlueTable {
 
 /// The database and table in the Glue Data Catalog that is used for input or
 /// output data for Data Quality Operations.
+///
+/// @nodoc
 class DataQualityGlueTable {
   /// A database name in the Glue Data Catalog.
   final String databaseName;
@@ -38994,6 +39789,8 @@ class DataQualityGlueTable {
 }
 
 /// Represents a collection of related data organized in columns and rows.
+///
+/// @nodoc
 class Table {
   /// The table name. For Hive compatibility, this must be entirely lowercase.
   final String name;
@@ -39048,7 +39845,7 @@ class Table {
   /// <code>partitionKeys</code>, you must at least set the value of
   /// <code>partitionKeys</code> to an empty list. For example:
   ///
-  /// <code>"PartitionKeys": []</code>
+  /// <code>"PartitionKeys": \[\]</code>
   final List<Column>? partitionKeys;
 
   /// The retention time for this table.
@@ -39234,6 +40031,8 @@ class Table {
 }
 
 /// A table that points to an entity outside the Glue Data Catalog.
+///
+/// @nodoc
 class FederatedTable {
   /// The name of the connection to the external metastore.
   final String? connectionName;
@@ -39279,6 +40078,8 @@ class FederatedTable {
 }
 
 /// A structure containing details for representations.
+///
+/// @nodoc
 class ViewDefinition {
   /// The definer of a view in SQL.
   final String? definer;
@@ -39377,6 +40178,8 @@ class ViewDefinition {
 
 /// A structure containing information about the state of an asynchronous change
 /// to a table.
+///
+/// @nodoc
 class TableStatus {
   /// Indicates which action was called on the table, currently only
   /// <code>CREATE</code> or <code>UPDATE</code>.
@@ -39460,6 +40263,7 @@ class TableStatus {
   }
 }
 
+/// @nodoc
 class ResourceAction {
   static const update = ResourceAction._('UPDATE');
   static const create = ResourceAction._('CREATE');
@@ -39484,6 +40288,7 @@ class ResourceAction {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceState {
   static const queued = ResourceState._('QUEUED');
   static const inProgress = ResourceState._('IN_PROGRESS');
@@ -39512,6 +40317,8 @@ class ResourceState {
 }
 
 /// A structure containing information about an asynchronous change to a table.
+///
+/// @nodoc
 class StatusDetails {
   /// A <code>Table</code> object representing the requested changes.
   final Table? requestedChange;
@@ -39550,6 +40357,8 @@ class StatusDetails {
 /// A structure that contains information for an analytical engine to validate a
 /// view, prior to persisting the view metadata. Used in the case of direct
 /// <code>UpdateTable</code> or <code>CreateTable</code> API calls.
+///
+/// @nodoc
 class ViewValidation {
   /// The dialect of the query engine.
   final ViewDialect? dialect;
@@ -39612,6 +40421,8 @@ class ViewValidation {
 
 /// A structure that contains the dialect of the view, and the query that
 /// defines the view.
+///
+/// @nodoc
 class ViewRepresentation {
   /// The dialect of the query engine.
   final ViewDialect? dialect;
@@ -39687,6 +40498,7 @@ class ViewRepresentation {
   }
 }
 
+/// @nodoc
 class ResourceShareType {
   static const foreign = ResourceShareType._('FOREIGN');
   static const all = ResourceShareType._('ALL');
@@ -39713,6 +40525,8 @@ class ResourceShareType {
 }
 
 /// Specifies a field to sort by and a sort order.
+///
+/// @nodoc
 class SortCriterion {
   /// The name of the field on which to sort.
   final String? fieldName;
@@ -39735,6 +40549,7 @@ class SortCriterion {
   }
 }
 
+/// @nodoc
 class Sort {
   static const asc = Sort._('ASC');
   static const desc = Sort._('DESC');
@@ -39759,6 +40574,8 @@ class Sort {
 }
 
 /// Defines a property predicate.
+///
+/// @nodoc
 class PropertyPredicate {
   /// The comparator used to compare this property to others.
   final Comparator? comparator;
@@ -39787,6 +40604,7 @@ class PropertyPredicate {
   }
 }
 
+/// @nodoc
 class Comparator {
   static const equals = Comparator._('EQUALS');
   static const greaterThan = Comparator._('GREATER_THAN');
@@ -39820,6 +40638,8 @@ class Comparator {
 }
 
 /// Defines a point that a job can resume processing.
+///
+/// @nodoc
 class JobBookmarkEntry {
   /// The attempt ID number.
   final int? attempt;
@@ -39885,6 +40705,8 @@ class JobBookmarkEntry {
 }
 
 /// A structure containing a key value pair for metadata.
+///
+/// @nodoc
 class MetadataKeyValuePair {
   /// A metadata key.
   final String? metadataKey;
@@ -39907,6 +40729,7 @@ class MetadataKeyValuePair {
   }
 }
 
+/// @nodoc
 class SchemaVersionStatus {
   static const available = SchemaVersionStatus._('AVAILABLE');
   static const pending = SchemaVersionStatus._('PENDING');
@@ -39934,6 +40757,7 @@ class SchemaVersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IntegrationType {
   static const rest = IntegrationType._('REST');
 
@@ -39959,6 +40783,8 @@ class IntegrationType {
 
 /// Configuration that defines the base URL and additional request parameters
 /// needed during connection creation.
+///
+/// @nodoc
 class ConnectionPropertiesConfiguration {
   /// Key-value pairs of additional request parameters that may be needed during
   /// connection creation, such as API versions or service-specific configuration
@@ -39987,6 +40813,8 @@ class ConnectionPropertiesConfiguration {
 
 /// Configuration that defines the supported authentication types and required
 /// properties for the connection type.
+///
+/// @nodoc
 class ConnectorAuthenticationConfiguration {
   /// A list of authentication types supported by this connection type, such as
   /// Basic, OAuth2, or Custom authentication methods.
@@ -40020,6 +40848,8 @@ class ConnectorAuthenticationConfiguration {
 
 /// Configuration that defines HTTP request and response handling, validation
 /// endpoints, and entity configurations for REST API interactions.
+///
+/// @nodoc
 class RestConfiguration {
   /// A map of entity configurations that define how to interact with different
   /// data entities available through the REST API, including their schemas and
@@ -40077,6 +40907,8 @@ class RestConfiguration {
 
 /// Configuration that defines how to make requests to endpoints, including
 /// request methods, paths, parameters, and response handling.
+///
+/// @nodoc
 class SourceConfiguration {
   /// Configuration for handling paginated responses from the REST API, supporting
   /// both cursor-based and offset-based pagination strategies.
@@ -40145,6 +40977,8 @@ class SourceConfiguration {
 
 /// Configuration that defines how to interact with a specific data entity
 /// through the REST API, including its access patterns and schema definition.
+///
+/// @nodoc
 class EntityConfiguration {
   /// The schema definition for this entity, including field names, types, and
   /// other metadata that describes the structure of the data.
@@ -40183,6 +41017,8 @@ class EntityConfiguration {
 
 /// Defines a field in an entity schema for REST connector data sources,
 /// specifying the field name and data type.
+///
+/// @nodoc
 class FieldDefinition {
   /// The data type of the field.
   final FieldDataType fieldDataType;
@@ -40213,6 +41049,7 @@ class FieldDefinition {
   }
 }
 
+/// @nodoc
 class FieldDataType {
   static const $int = FieldDataType._('INT');
   static const smallint = FieldDataType._('SMALLINT');
@@ -40272,6 +41109,7 @@ class FieldDataType {
   String toString() => value;
 }
 
+/// @nodoc
 class HTTPMethod {
   static const get = HTTPMethod._('GET');
   static const post = HTTPMethod._('POST');
@@ -40297,6 +41135,8 @@ class HTTPMethod {
 
 /// Configuration that defines how to parse JSON responses from REST API calls,
 /// including paths to result data and error information.
+///
+/// @nodoc
 class ResponseConfiguration {
   /// The JSON path expression that identifies where the actual result data is
   /// located within the API response.
@@ -40330,6 +41170,8 @@ class ResponseConfiguration {
 
 /// Configuration that defines how to handle paginated responses from REST APIs,
 /// supporting different pagination strategies used by various services.
+///
+/// @nodoc
 class PaginationConfiguration {
   /// Configuration for cursor-based pagination, where the API provides a cursor
   /// or token to retrieve the next page of results.
@@ -40371,6 +41213,8 @@ class PaginationConfiguration {
 
 /// Cursor-based pagination configuration that defines how to handle pagination
 /// using cursor tokens or next page identifiers.
+///
+/// @nodoc
 class CursorConfiguration {
   /// The parameter name or JSON path that contains the cursor or token for
   /// retrieving the next page of results.
@@ -40409,6 +41253,8 @@ class CursorConfiguration {
 
 /// Offset-based pagination configuration that defines how to handle pagination
 /// using numeric offsets and limits.
+///
+/// @nodoc
 class OffsetConfiguration {
   /// The parameter name used to specify the maximum number of results to return
   /// per page.
@@ -40446,6 +41292,8 @@ class OffsetConfiguration {
 
 /// Parameter extraction configuration that defines how to extract and map
 /// values from API responses to request parameters.
+///
+/// @nodoc
 class ExtractedParameter {
   /// The default value to use if the parameter cannot be extracted from the
   /// response.
@@ -40496,6 +41344,7 @@ class ExtractedParameter {
   }
 }
 
+/// @nodoc
 class PropertyLocation {
   static const header = PropertyLocation._('HEADER');
   static const body = PropertyLocation._('BODY');
@@ -40524,6 +41373,8 @@ class PropertyLocation {
 
 /// Configuration that defines how to extract values from HTTP response content
 /// or headers for use in subsequent requests or parameter mapping.
+///
+/// @nodoc
 class ResponseExtractionMapping {
   /// A JSON path expression that specifies how to extract a value from the
   /// response body content.
@@ -40556,6 +41407,8 @@ class ResponseExtractionMapping {
 
 /// Defines a property configuration for connection types, default values, and
 /// where the property should be used in requests.
+///
+/// @nodoc
 class ConnectorProperty {
   /// The name of the property.
   final String name;
@@ -40628,6 +41481,7 @@ class ConnectorProperty {
   }
 }
 
+/// @nodoc
 class PropertyType {
   static const userInput = PropertyType._('USER_INPUT');
   static const secret = PropertyType._('SECRET');
@@ -40662,6 +41516,8 @@ class PropertyType {
 
 /// OAuth2 configuration container that defines the authentication properties
 /// and flow-specific configurations for OAuth2-based connections.
+///
+/// @nodoc
 class ConnectorOAuth2Properties {
   /// The OAuth2 grant type to use for authentication, such as CLIENT_CREDENTIALS,
   /// JWT_BEARER, or AUTHORIZATION_CODE.
@@ -40704,6 +41560,8 @@ class ConnectorOAuth2Properties {
 
 /// Basic authentication configuration that defines the username and password
 /// properties for HTTP Basic authentication.
+///
+/// @nodoc
 class BasicAuthenticationProperties {
   /// The password property name to use for Basic authentication credentials.
   final ConnectorProperty? password;
@@ -40728,6 +41586,8 @@ class BasicAuthenticationProperties {
 
 /// Custom authentication configuration that allows for flexible authentication
 /// mechanisms beyond standard Basic and OAuth2 flows.
+///
+/// @nodoc
 class CustomAuthenticationProperties {
   /// A map of custom authentication parameters that define the specific
   /// authentication mechanism and required properties.
@@ -40745,6 +41605,7 @@ class CustomAuthenticationProperties {
   }
 }
 
+/// @nodoc
 class ConnectorOAuth2GrantType {
   static const clientCredentials =
       ConnectorOAuth2GrantType._('CLIENT_CREDENTIALS');
@@ -40775,6 +41636,8 @@ class ConnectorOAuth2GrantType {
 
 /// OAuth2 client credentials configuration that defines the properties needed
 /// for the Client Credentials grant type flow.
+///
+/// @nodoc
 class ClientCredentialsProperties {
   /// The OAuth2 client identifier provided by the authorization server.
   final ConnectorProperty? clientId;
@@ -40832,6 +41695,8 @@ class ClientCredentialsProperties {
 
 /// JWT bearer token configuration that defines the properties needed for the
 /// JWT Bearer grant type flow.
+///
+/// @nodoc
 class JWTBearerProperties {
   /// The content type to use for JWT bearer token requests, such as
   /// application/x-www-form-urlencoded or application/json.
@@ -40877,6 +41742,8 @@ class JWTBearerProperties {
 
 /// OAuth2 authorization code configuration that defines the properties needed
 /// for the Authorization Code grant type flow.
+///
+/// @nodoc
 class ConnectorAuthorizationCodeProperties {
   /// The authorization code received from the authorization server after user
   /// consent.
@@ -40961,6 +41828,7 @@ class ConnectorAuthorizationCodeProperties {
   }
 }
 
+/// @nodoc
 class ContentType {
   static const applicationJson = ContentType._('APPLICATION_JSON');
   static const urlEncoded = ContentType._('URL_ENCODED');
@@ -40985,6 +41853,8 @@ class ContentType {
 }
 
 /// A structure containing metadata information for a schema version.
+///
+/// @nodoc
 class MetadataInfo {
   /// The time at which the entry was created.
   final String? createdTime;
@@ -41028,6 +41898,8 @@ class MetadataInfo {
 
 /// A structure containing other metadata for a schema version belonging to the
 /// same metadata key.
+///
+/// @nodoc
 class OtherMetadataValueListItem {
   /// The time at which the entry was created.
   final String? createdTime;
@@ -41058,6 +41930,7 @@ class OtherMetadataValueListItem {
   }
 }
 
+/// @nodoc
 class ExistCondition {
   static const mustExist = ExistCondition._('MUST_EXIST');
   static const notExist = ExistCondition._('NOT_EXIST');
@@ -41083,6 +41956,7 @@ class ExistCondition {
   String toString() => value;
 }
 
+/// @nodoc
 class EnableHybridValues {
   static const $true = EnableHybridValues._('TRUE');
   static const $false = EnableHybridValues._('FALSE');
@@ -41108,6 +41982,7 @@ class EnableHybridValues {
   String toString() => value;
 }
 
+/// @nodoc
 class InclusionAnnotationValue {
   static const include = InclusionAnnotationValue._('INCLUDE');
   static const exclude = InclusionAnnotationValue._('EXCLUDE');
@@ -41134,6 +42009,8 @@ class InclusionAnnotationValue {
 }
 
 /// Contains configuration information for maintaining Data Catalog security.
+///
+/// @nodoc
 class DataCatalogEncryptionSettings {
   /// When connection password protection is enabled, the Data Catalog uses a
   /// customer-provided key to encrypt the password as part of
@@ -41175,6 +42052,8 @@ class DataCatalogEncryptionSettings {
 }
 
 /// Specifies the encryption-at-rest configuration for the Data Catalog.
+///
+/// @nodoc
 class EncryptionAtRest {
   /// The encryption-at-rest mode for encrypting Data Catalog data.
   final CatalogEncryptionMode catalogEncryptionMode;
@@ -41229,6 +42108,8 @@ class EncryptionAtRest {
 /// restrict access on the password key according to your security requirements.
 /// For example, you might want only administrators to have decrypt permission
 /// on the password key.
+///
+/// @nodoc
 class ConnectionPasswordEncryption {
   /// When the <code>ReturnConnectionPasswordEncrypted</code> flag is set to
   /// "true", passwords remain encrypted in the responses of
@@ -41271,6 +42152,7 @@ class ConnectionPasswordEncryption {
   }
 }
 
+/// @nodoc
 class CatalogEncryptionMode {
   static const disabled = CatalogEncryptionMode._('DISABLED');
   static const sseKms = CatalogEncryptionMode._('SSE-KMS');
@@ -41298,6 +42180,7 @@ class CatalogEncryptionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class IntegrationStatus {
   static const creating = IntegrationStatus._('CREATING');
   static const active = IntegrationStatus._('ACTIVE');
@@ -41336,6 +42219,8 @@ class IntegrationStatus {
 }
 
 /// Properties associated with the integration.
+///
+/// @nodoc
 class IntegrationConfig {
   /// Enables continuous synchronization for on-demand data extractions from SaaS
   /// applications to Amazon Web Services data services like Amazon Redshift and
@@ -41383,6 +42268,8 @@ class IntegrationConfig {
 }
 
 /// An error associated with a zero-ETL integration.
+///
+/// @nodoc
 class IntegrationError {
   /// The code associated with this error.
   final String? errorCode;
@@ -41422,6 +42309,8 @@ class IntegrationError {
 /// Web Services Tags in Glue</a> and <a
 /// href="https://docs.aws.amazon.com/glue/latest/dg/glue-specifying-resource-arns.html">Specifying
 /// Glue Resource ARNs</a> in the developer guide.
+///
+/// @nodoc
 class Tag {
   /// The tag key. The key is required when you create a tag on an object. The key
   /// is case-sensitive, and must not contain the prefix aws.
@@ -41454,6 +42343,8 @@ class Tag {
 }
 
 /// Describes an Glue usage profile.
+///
+/// @nodoc
 class UsageProfileDefinition {
   /// The date and time when the usage profile was created.
   final DateTime? createdOn;
@@ -41499,6 +42390,8 @@ class UsageProfileDefinition {
 }
 
 /// Contains details for a table optimizer run.
+///
+/// @nodoc
 class TableOptimizerRun {
   /// A <code>CompactionMetrics</code> object containing metrics for the optimizer
   /// run.
@@ -41627,6 +42520,7 @@ class TableOptimizerRun {
   }
 }
 
+/// @nodoc
 class TableOptimizerEventType {
   static const starting = TableOptimizerEventType._('starting');
   static const completed = TableOptimizerEventType._('completed');
@@ -41658,6 +42552,8 @@ class TableOptimizerEventType {
 ///
 /// This structure is deprecated. See the individual metric members for
 /// compaction, retention, and orphan file deletion.
+///
+/// @nodoc
 class RunMetrics {
   /// The duration of the job in hours.
   final String? jobDurationInHour;
@@ -41705,6 +42601,8 @@ class RunMetrics {
 }
 
 /// A structure that contains compaction metrics for the optimizer run.
+///
+/// @nodoc
 class CompactionMetrics {
   /// A structure containing the Iceberg compaction metrics for the optimizer run.
   final IcebergCompactionMetrics? icebergMetrics;
@@ -41731,6 +42629,8 @@ class CompactionMetrics {
 }
 
 /// A structure that contains retention metrics for the optimizer run.
+///
+/// @nodoc
 class RetentionMetrics {
   /// A structure containing the Iceberg retention metrics for the optimizer run.
   final IcebergRetentionMetrics? icebergMetrics;
@@ -41758,6 +42658,8 @@ class RetentionMetrics {
 
 /// A structure that contains orphan file deletion metrics for the optimizer
 /// run.
+///
+/// @nodoc
 class OrphanFileDeletionMetrics {
   /// A structure containing the Iceberg orphan file deletion metrics for the
   /// optimizer run.
@@ -41785,6 +42687,8 @@ class OrphanFileDeletionMetrics {
 }
 
 /// Orphan file deletion metrics for Iceberg for the optimizer run.
+///
+/// @nodoc
 class IcebergOrphanFileDeletionMetrics {
   /// The number of DPU hours consumed by the job.
   final double? dpuHours;
@@ -41831,6 +42735,8 @@ class IcebergOrphanFileDeletionMetrics {
 }
 
 /// Snapshot retention metrics for Iceberg for the optimizer run.
+///
+/// @nodoc
 class IcebergRetentionMetrics {
   /// The number of DPU hours consumed by the job.
   final double? dpuHours;
@@ -41895,6 +42801,8 @@ class IcebergRetentionMetrics {
 }
 
 /// Compaction metrics for Iceberg for the optimizer run.
+///
+/// @nodoc
 class IcebergCompactionMetrics {
   /// The number of DPU hours consumed by the job.
   final double? dpuHours;
@@ -41949,6 +42857,8 @@ class IcebergCompactionMetrics {
 }
 
 /// The statement or request for a particular action to occur in a session.
+///
+/// @nodoc
 class Statement {
   /// The execution code of the statement.
   final String? code;
@@ -42015,6 +42925,7 @@ class Statement {
   }
 }
 
+/// @nodoc
 class StatementState {
   static const waiting = StatementState._('WAITING');
   static const running = StatementState._('RUNNING');
@@ -42051,6 +42962,8 @@ class StatementState {
 }
 
 /// The code execution output in JSON format.
+///
+/// @nodoc
 class StatementOutput {
   /// The code execution output.
   final StatementOutputData? data;
@@ -42114,6 +43027,8 @@ class StatementOutput {
 }
 
 /// The code execution output in JSON format.
+///
+/// @nodoc
 class StatementOutputData {
   /// The code execution output in text format.
   final String? textPlain;
@@ -42137,6 +43052,8 @@ class StatementOutputData {
 }
 
 /// The period in which a remote Spark runtime environment is running.
+///
+/// @nodoc
 class Session {
   /// The command object.See SessionCommand.
   final SessionCommand? command;
@@ -42315,6 +43232,7 @@ class Session {
   }
 }
 
+/// @nodoc
 class SessionStatus {
   static const provisioning = SessionStatus._('PROVISIONING');
   static const ready = SessionStatus._('READY');
@@ -42351,6 +43269,8 @@ class SessionStatus {
 }
 
 /// The <code>SessionCommand</code> that runs the job.
+///
+/// @nodoc
 class SessionCommand {
   /// Specifies the name of the SessionCommand. Can be 'glueetl' or
   /// 'gluestreaming'.
@@ -42382,6 +43302,7 @@ class SessionCommand {
   }
 }
 
+/// @nodoc
 class SessionType {
   static const livy = SessionType._('LIVY');
   static const sparkConnect = SessionType._('SPARK_CONNECT');
@@ -42406,6 +43327,8 @@ class SessionType {
 }
 
 /// An object containing the details about a schema version.
+///
+/// @nodoc
 class SchemaVersionListItem {
   /// The date and time the schema version was created.
   final String? createdTime;
@@ -42457,6 +43380,8 @@ class SchemaVersionListItem {
 }
 
 /// An object that contains minimal details for a schema.
+///
+/// @nodoc
 class SchemaListItem {
   /// The date and time that a schema was created.
   final String? createdTime;
@@ -42522,6 +43447,7 @@ class SchemaListItem {
   }
 }
 
+/// @nodoc
 class SchemaStatus {
   static const available = SchemaStatus._('AVAILABLE');
   static const pending = SchemaStatus._('PENDING');
@@ -42547,6 +43473,8 @@ class SchemaStatus {
 }
 
 /// A structure containing the details for a registry.
+///
+/// @nodoc
 class RegistryListItem {
   /// The data the registry was created.
   final String? createdTime;
@@ -42604,6 +43532,7 @@ class RegistryListItem {
   }
 }
 
+/// @nodoc
 class RegistryStatus {
   static const available = RegistryStatus._('AVAILABLE');
   static const deleting = RegistryStatus._('DELETING');
@@ -42629,6 +43558,8 @@ class RegistryStatus {
 }
 
 /// The criteria used to filter the machine learning transforms.
+///
+/// @nodoc
 class TransformFilterCriteria {
   /// The time and date after which the transforms were created.
   final DateTime? createdAfter;
@@ -42712,6 +43643,8 @@ class TransformFilterCriteria {
 
 /// The sorting criteria that are associated with the machine learning
 /// transform.
+///
+/// @nodoc
 class TransformSortCriteria {
   /// The column to be used in the sorting criteria that are associated with the
   /// machine learning transform.
@@ -42736,6 +43669,7 @@ class TransformSortCriteria {
   }
 }
 
+/// @nodoc
 class TransformSortColumnType {
   static const name = TransformSortColumnType._('NAME');
   static const transformType = TransformSortColumnType._('TRANSFORM_TYPE');
@@ -42764,6 +43698,7 @@ class TransformSortColumnType {
   String toString() => value;
 }
 
+/// @nodoc
 class SortDirectionType {
   static const descending = SortDirectionType._('DESCENDING');
   static const ascending = SortDirectionType._('ASCENDING');
@@ -42788,6 +43723,7 @@ class SortDirectionType {
   String toString() => value;
 }
 
+/// @nodoc
 class TransformStatusType {
   static const notReady = TransformStatusType._('NOT_READY');
   static const ready = TransformStatusType._('READY');
@@ -42817,6 +43753,8 @@ class TransformStatusType {
 /// A key-value pair representing a column and data type that this transform can
 /// run against. The <code>Schema</code> parameter of the
 /// <code>MLTransform</code> may contain up to 100 of these structures.
+///
+/// @nodoc
 class SchemaColumn {
   /// The type of data in the column.
   final String? dataType;
@@ -42847,6 +43785,8 @@ class SchemaColumn {
 }
 
 /// The object that shows the details of the materialized view refresh task run.
+///
+/// @nodoc
 class MaterializedViewRefreshTaskRun {
   /// The ID of the Data Catalog where the table resides. If none is supplied, the
   /// account ID is used by default.
@@ -42975,6 +43915,7 @@ class MaterializedViewRefreshTaskRun {
   }
 }
 
+/// @nodoc
 class MaterializedViewRefreshState {
   static const starting = MaterializedViewRefreshState._('STARTING');
   static const running = MaterializedViewRefreshState._('RUNNING');
@@ -43003,6 +43944,7 @@ class MaterializedViewRefreshState {
   String toString() => value;
 }
 
+/// @nodoc
 class MaterializedViewRefreshType {
   static const full = MaterializedViewRefreshType._('FULL');
   static const incremental = MaterializedViewRefreshType._('INCREMENTAL');
@@ -43029,6 +43971,8 @@ class MaterializedViewRefreshType {
 }
 
 /// A structure representing an integration resource property.
+///
+/// @nodoc
 class IntegrationResourceProperty {
   /// The connection ARN of the source, or the database ARN of the target.
   final String resourceArn;
@@ -43083,6 +44027,8 @@ class IntegrationResourceProperty {
 }
 
 /// A filter for integration resource properties.
+///
+/// @nodoc
 class IntegrationResourcePropertyFilter {
   /// The name of the filter. Supported filter keys are <code>SourceArn</code> and
   /// <code>TargetArn</code>.
@@ -43107,6 +44053,8 @@ class IntegrationResourcePropertyFilter {
 }
 
 /// An entity supported by a given <code>ConnectionType</code>.
+///
+/// @nodoc
 class Entity {
   /// The type of entities that are present in the response. This value depends on
   /// the source connection. For example this is <code>SObjects</code> for
@@ -43170,6 +44118,8 @@ class Entity {
 }
 
 /// Summary information about a statistic.
+///
+/// @nodoc
 class StatisticSummary {
   /// The list of columns referenced by the statistic.
   final List<String>? columnsReferenced;
@@ -43282,6 +44232,8 @@ class StatisticSummary {
 }
 
 /// A run identifier.
+///
+/// @nodoc
 class RunIdentifier {
   /// The Job Run ID.
   final String? jobRunId;
@@ -43311,6 +44263,7 @@ class RunIdentifier {
   }
 }
 
+/// @nodoc
 class StatisticEvaluationLevel {
   static const dataset = StatisticEvaluationLevel._('Dataset');
   static const column = StatisticEvaluationLevel._('Column');
@@ -43338,6 +44291,8 @@ class StatisticEvaluationLevel {
 }
 
 /// A timestamped inclusion annotation.
+///
+/// @nodoc
 class TimestampedInclusionAnnotation {
   /// The timestamp when the inclusion annotation was last modified.
   final DateTime? lastModifiedOn;
@@ -43370,6 +44325,8 @@ class TimestampedInclusionAnnotation {
 }
 
 /// A timestamp filter.
+///
+/// @nodoc
 class TimestampFilter {
   /// The timestamp after which statistics should be included in the results.
   final DateTime? recordedAfter;
@@ -43395,6 +44352,8 @@ class TimestampFilter {
 }
 
 /// A Statistic Annotation.
+///
+/// @nodoc
 class StatisticAnnotation {
   /// The inclusion annotation applied to the statistic.
   final TimestampedInclusionAnnotation? inclusionAnnotation;
@@ -43445,6 +44404,8 @@ class StatisticAnnotation {
 
 /// Describes a data quality ruleset returned by
 /// <code>GetDataQualityRuleset</code>.
+///
+/// @nodoc
 class DataQualityRulesetListDetails {
   /// The date and time the data quality ruleset was created.
   final DateTime? createdOn;
@@ -43516,6 +44477,8 @@ class DataQualityRulesetListDetails {
 }
 
 /// An object representing an Glue table.
+///
+/// @nodoc
 class DataQualityTargetTable {
   /// The name of the database where the Glue table exists.
   final String databaseName;
@@ -43553,6 +44516,8 @@ class DataQualityTargetTable {
 }
 
 /// The criteria used to filter data quality rulesets.
+///
+/// @nodoc
 class DataQualityRulesetFilterCriteria {
   /// Filter on rulesets created after this date.
   final DateTime? createdAfter;
@@ -43610,6 +44575,8 @@ class DataQualityRulesetFilterCriteria {
 }
 
 /// Describes the result of a data quality ruleset evaluation run.
+///
+/// @nodoc
 class DataQualityRulesetEvaluationRunDescription {
   /// The data source (an Glue table) associated with the run.
   final DataSource? dataSource;
@@ -43656,6 +44623,7 @@ class DataQualityRulesetEvaluationRunDescription {
   }
 }
 
+/// @nodoc
 class TaskStatusType {
   static const starting = TaskStatusType._('STARTING');
   static const running = TaskStatusType._('RUNNING');
@@ -43694,6 +44662,8 @@ class TaskStatusType {
 }
 
 /// The filter criteria.
+///
+/// @nodoc
 class DataQualityRulesetEvaluationRunFilter {
   /// Filter based on a data source (an Glue table) associated with the run.
   final DataSource dataSource;
@@ -43731,6 +44701,8 @@ class DataQualityRulesetEvaluationRunFilter {
 }
 
 /// Describes the result of a data quality rule recommendation run.
+///
+/// @nodoc
 class DataQualityRuleRecommendationRunDescription {
   /// The data source (Glue table) associated with the recommendation run.
   final DataSource? dataSource;
@@ -43778,6 +44750,8 @@ class DataQualityRuleRecommendationRunDescription {
 }
 
 /// A filter for listing data quality recommendation runs.
+///
+/// @nodoc
 class DataQualityRuleRecommendationRunFilter {
   /// Filter based on a specified data source (Glue table).
   final DataSource dataSource;
@@ -43809,6 +44783,8 @@ class DataQualityRuleRecommendationRunFilter {
 }
 
 /// Describes a data quality result.
+///
+/// @nodoc
 class DataQualityResultDescription {
   /// The table name associated with the data quality result.
   final DataSource? dataSource;
@@ -43862,6 +44838,8 @@ class DataQualityResultDescription {
 }
 
 /// Criteria used to return data quality results.
+///
+/// @nodoc
 class DataQualityResultFilterCriteria {
   /// Filter results by the specified data source. For example, retrieving all
   /// results for an Glue table.
@@ -43907,6 +44885,8 @@ class DataQualityResultFilterCriteria {
 
 /// An object representing a custom pattern for detecting sensitive data across
 /// the columns and rows of your structured data.
+///
+/// @nodoc
 class CustomEntityType {
   /// A name for the custom pattern that allows it to be retrieved or deleted
   /// later. This name must be unique per Amazon Web Services account.
@@ -43953,6 +44933,8 @@ class CustomEntityType {
 }
 
 /// Contains the information for a run of a crawler.
+///
+/// @nodoc
 class CrawlerHistory {
   /// A UUID identifier for each crawl.
   final String? crawlId;
@@ -44039,6 +45021,7 @@ class CrawlerHistory {
   }
 }
 
+/// @nodoc
 class CrawlerHistoryState {
   static const running = CrawlerHistoryState._('RUNNING');
   static const completed = CrawlerHistoryState._('COMPLETED');
@@ -44068,6 +45051,8 @@ class CrawlerHistoryState {
 
 /// A list of fields, comparators and value that you can use to filter the
 /// crawler runs for a specified crawler.
+///
+/// @nodoc
 class CrawlsFilter {
   /// A key used to filter the crawler runs for a specified crawler. Valid values
   /// for each of the field names are:
@@ -44137,6 +45122,7 @@ class CrawlsFilter {
   }
 }
 
+/// @nodoc
 class FieldName {
   static const crawlId = FieldName._('CRAWL_ID');
   static const state = FieldName._('STATE');
@@ -44163,6 +45149,7 @@ class FieldName {
   String toString() => value;
 }
 
+/// @nodoc
 class FilterOperator {
   static const gt = FilterOperator._('GT');
   static const ge = FilterOperator._('GE');
@@ -44193,6 +45180,8 @@ class FilterOperator {
 
 /// Brief information about a supported connection type returned by the
 /// <code>ListConnectionTypes</code> API.
+///
+/// @nodoc
 class ConnectionTypeBrief {
   /// The supported authentication types, data interface types (compute
   /// environments), and data operations of the connector.
@@ -44282,6 +45271,8 @@ class ConnectionTypeBrief {
 
 /// Specifies the supported authentication types returned by the
 /// <code>DescribeConnectionType</code> API.
+///
+/// @nodoc
 class Capabilities {
   /// A list of supported authentication types.
   final List<AuthenticationType> supportedAuthenticationTypes;
@@ -44336,6 +45327,8 @@ class Capabilities {
 /// Represents a variant of a connection type in Glue. Connection type variants
 /// provide specific configurations and behaviors for different implementations
 /// of the same general connection type.
+///
+/// @nodoc
 class ConnectionTypeVariant {
   /// The unique identifier for the connection type variant. This name is used
   /// internally to identify the specific variant of a connection type.
@@ -44383,6 +45376,7 @@ class ConnectionTypeVariant {
   }
 }
 
+/// @nodoc
 class DataOperation {
   static const read = DataOperation._('READ');
   static const write = DataOperation._('WRITE');
@@ -44409,6 +45403,8 @@ class DataOperation {
 
 /// A workflow run is an execution of a workflow providing all the runtime
 /// information.
+///
+/// @nodoc
 class WorkflowRun {
   /// The date and time when the workflow run completed.
   final DateTime? completedOn;
@@ -44516,6 +45512,7 @@ class WorkflowRun {
   }
 }
 
+/// @nodoc
 class WorkflowRunStatus {
   static const running = WorkflowRunStatus._('RUNNING');
   static const completed = WorkflowRunStatus._('COMPLETED');
@@ -44544,6 +45541,8 @@ class WorkflowRunStatus {
 }
 
 /// Workflow run statistics provides statistics about the workflow run.
+///
+/// @nodoc
 class WorkflowRunStatistics {
   /// Indicates the count of job runs in the ERROR state in the workflow run.
   final int? erroredActions;
@@ -44618,6 +45617,8 @@ class WorkflowRunStatistics {
 /// A workflow graph represents the complete workflow containing all the Glue
 /// components present in the workflow and all the directed connections between
 /// them.
+///
+/// @nodoc
 class WorkflowGraph {
   /// A list of all the directed connections between the nodes belonging to the
   /// workflow.
@@ -44659,6 +45660,8 @@ class WorkflowGraph {
 /// events in the batch size arrived, in which case the BatchSize member is
 /// non-zero, or the batch window expired, in which case the BatchWindow member
 /// is non-zero.
+///
+/// @nodoc
 class StartingEventBatchCondition {
   /// Number of events in the batch.
   final int? batchSize;
@@ -44690,6 +45693,8 @@ class StartingEventBatchCondition {
 
 /// An edge represents a directed connection between two Glue components that
 /// are part of the workflow the edge belongs to.
+///
+/// @nodoc
 class Edge {
   /// The unique of the node within the workflow where the edge ends.
   final String? destinationId;
@@ -44721,6 +45726,8 @@ class Edge {
 
 /// A node represents an Glue component (trigger, crawler, or job) on a workflow
 /// graph.
+///
+/// @nodoc
 class Node {
   /// Details of the crawler when the node represents a crawler.
   final CrawlerNodeDetails? crawlerDetails;
@@ -44786,6 +45793,7 @@ class Node {
   }
 }
 
+/// @nodoc
 class NodeType {
   static const crawler = NodeType._('CRAWLER');
   static const job = NodeType._('JOB');
@@ -44811,6 +45819,8 @@ class NodeType {
 }
 
 /// The details of a Trigger node present in the workflow.
+///
+/// @nodoc
 class TriggerNodeDetails {
   /// The information of the trigger represented by the trigger node.
   final Trigger? trigger;
@@ -44836,6 +45846,8 @@ class TriggerNodeDetails {
 }
 
 /// The details of a Job node present in the workflow.
+///
+/// @nodoc
 class JobNodeDetails {
   /// The information for the job runs represented by the job node.
   final List<JobRun>? jobRuns;
@@ -44862,6 +45874,8 @@ class JobNodeDetails {
 }
 
 /// The details of a Crawler node present in the workflow.
+///
+/// @nodoc
 class CrawlerNodeDetails {
   /// A list of crawls represented by the crawl node.
   final List<Crawl>? crawls;
@@ -44888,6 +45902,8 @@ class CrawlerNodeDetails {
 }
 
 /// The details of a crawl in the workflow.
+///
+/// @nodoc
 class Crawl {
   /// The date and time on which the crawl completed.
   final DateTime? completedOn;
@@ -44946,6 +45962,8 @@ class Crawl {
 }
 
 /// Contains information about a job run.
+///
+/// @nodoc
 class JobRun {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
@@ -45387,6 +46405,8 @@ class JobRun {
 
 /// A job run that was used in the predicate of a conditional trigger that
 /// triggered this job run.
+///
+/// @nodoc
 class Predecessor {
   /// The name of the job definition used by the predecessor job run.
   final String? jobName;
@@ -45419,6 +46439,8 @@ class Predecessor {
 /// A workflow is a collection of multiple dependent Glue jobs and crawlers that
 /// are run to complete a complex ETL task. A workflow manages the execution and
 /// monitoring of all its jobs and crawlers.
+///
+/// @nodoc
 class Workflow {
   /// This structure indicates the details of the blueprint that this particular
   /// workflow is created from.
@@ -45516,6 +46538,8 @@ class Workflow {
 }
 
 /// The details of a blueprint.
+///
+/// @nodoc
 class BlueprintDetails {
   /// The name of the blueprint.
   final String? blueprintName;
@@ -45547,6 +46571,8 @@ class BlueprintDetails {
 
 /// Represents the equivalent of a Hive user-defined function (<code>UDF</code>)
 /// definition.
+///
+/// @nodoc
 class UserDefinedFunction {
   /// The ID of the Data Catalog in which the function resides.
   final String? catalogId;
@@ -45630,6 +46656,8 @@ class UserDefinedFunction {
 }
 
 /// A filter that uses both column-level and row-level filtering.
+///
+/// @nodoc
 class ColumnRowFilter {
   /// A string containing the name of the column.
   final String? columnName;
@@ -45661,6 +46689,8 @@ class ColumnRowFilter {
 }
 
 /// A structure containing the Lake Formation audit context.
+///
+/// @nodoc
 class AuditContext {
   /// A string containing the additional audit context information.
   final String? additionalAuditContext;
@@ -45693,6 +46723,8 @@ class AuditContext {
 
 /// A structure specifying the dialect and dialect version used by the query
 /// engine.
+///
+/// @nodoc
 class SupportedDialect {
   /// The dialect of the query engine.
   final ViewDialect? dialect;
@@ -45718,6 +46750,8 @@ class SupportedDialect {
 /// A structure used as a protocol between query engines and Lake Formation or
 /// Glue. Contains both a Lake Formation generated authorization identifier and
 /// information from the request's authorization context.
+///
+/// @nodoc
 class QuerySessionContext {
   /// An opaque string-string map passed by the query engine.
   final Map<String, String>? additionalContext;
@@ -45761,6 +46795,7 @@ class QuerySessionContext {
   }
 }
 
+/// @nodoc
 class PermissionType {
   static const columnPermission = PermissionType._('COLUMN_PERMISSION');
   static const cellFilterPermission =
@@ -45795,6 +46830,8 @@ class PermissionType {
 }
 
 /// A partition that contains unfiltered metadata.
+///
+/// @nodoc
 class UnfilteredPartition {
   /// The list of columns the user has permissions to access.
   final List<String>? authorizedColumns;
@@ -45840,6 +46877,8 @@ class UnfilteredPartition {
 }
 
 /// Represents a slice of table data.
+///
+/// @nodoc
 class Partition {
   /// The ID of the Data Catalog in which the partition resides.
   final String? catalogId;
@@ -45929,6 +46968,8 @@ class Partition {
 
 /// Defines a non-overlapping region of a table's partitions, allowing multiple
 /// requests to be run in parallel.
+///
+/// @nodoc
 class Segment {
   /// The zero-based index number of the segment. For example, if the total number
   /// of segments is 4, <code>SegmentNumber</code> values range from 0 through 3.
@@ -45953,6 +46994,8 @@ class Segment {
 }
 
 /// Specifies a version of a table.
+///
+/// @nodoc
 class TableVersion {
   /// The table in question.
   final Table? table;
@@ -45985,6 +47028,7 @@ class TableVersion {
   }
 }
 
+/// @nodoc
 class TableAttributes {
   static const name = TableAttributes._('NAME');
   static const tableType = TableAttributes._('TABLE_TYPE');
@@ -46010,6 +47054,8 @@ class TableAttributes {
 }
 
 /// Contains details about an optimizer associated with a table.
+///
+/// @nodoc
 class TableOptimizer {
   /// A <code>TableOptimizerConfiguration</code> object that was specified when
   /// creating or updating a table optimizer.
@@ -46078,6 +47124,7 @@ class TableOptimizer {
   }
 }
 
+/// @nodoc
 class ConfigurationSource {
   static const catalog = ConfigurationSource._('catalog');
   static const table = ConfigurationSource._('table');
@@ -46105,6 +47152,8 @@ class ConfigurationSource {
 
 /// Contains the Spark Connect endpoint details for an interactive session,
 /// including the URL and authentication credentials.
+///
+/// @nodoc
 class SessionEndpoint {
   /// The authentication token to include in requests to the Spark Connect
   /// endpoint.
@@ -46144,6 +47193,8 @@ class SessionEndpoint {
 }
 
 /// Specifies a security configuration.
+///
+/// @nodoc
 class SecurityConfiguration {
   /// The time at which this security configuration was created.
   final DateTime? createdTimeStamp;
@@ -46186,6 +47237,8 @@ class SecurityConfiguration {
 }
 
 /// Specifies an encryption configuration.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The encryption configuration for Amazon CloudWatch.
   final CloudWatchEncryption? cloudWatchEncryption;
@@ -46246,6 +47299,8 @@ class EncryptionConfiguration {
 }
 
 /// Specifies how Amazon CloudWatch data should be encrypted.
+///
+/// @nodoc
 class CloudWatchEncryption {
   /// The encryption mode to use for CloudWatch data.
   final CloudWatchEncryptionMode? cloudWatchEncryptionMode;
@@ -46279,6 +47334,8 @@ class CloudWatchEncryption {
 }
 
 /// Specifies how job bookmark data should be encrypted.
+///
+/// @nodoc
 class JobBookmarksEncryption {
   /// The encryption mode to use for job bookmarks data.
   final JobBookmarksEncryptionMode? jobBookmarksEncryptionMode;
@@ -46313,6 +47370,8 @@ class JobBookmarksEncryption {
 }
 
 /// Specifies how Data Quality assets in your account should be encrypted.
+///
+/// @nodoc
 class DataQualityEncryption {
   /// The encryption mode to use for encrypting Data Quality assets. These assets
   /// include data quality rulesets, results, statistics, anomaly detection models
@@ -46350,6 +47409,7 @@ class DataQualityEncryption {
   }
 }
 
+/// @nodoc
 class DataQualityEncryptionMode {
   static const disabled = DataQualityEncryptionMode._('DISABLED');
   static const sseKms = DataQualityEncryptionMode._('SSE-KMS');
@@ -46375,6 +47435,7 @@ class DataQualityEncryptionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class JobBookmarksEncryptionMode {
   static const disabled = JobBookmarksEncryptionMode._('DISABLED');
   static const cseKms = JobBookmarksEncryptionMode._('CSE-KMS');
@@ -46400,6 +47461,7 @@ class JobBookmarksEncryptionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class CloudWatchEncryptionMode {
   static const disabled = CloudWatchEncryptionMode._('DISABLED');
   static const sseKms = CloudWatchEncryptionMode._('SSE-KMS');
@@ -46427,6 +47489,8 @@ class CloudWatchEncryptionMode {
 
 /// Specifies how Amazon Simple Storage Service (Amazon S3) data should be
 /// encrypted.
+///
+/// @nodoc
 class S3Encryption {
   /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the
   /// data.
@@ -46458,6 +47522,7 @@ class S3Encryption {
   }
 }
 
+/// @nodoc
 class S3EncryptionMode {
   static const disabled = S3EncryptionMode._('DISABLED');
   static const sseKms = S3EncryptionMode._('SSE-KMS');
@@ -46483,6 +47548,7 @@ class S3EncryptionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class SchemaDiffType {
   static const syntaxDiff = SchemaDiffType._('SYNTAX_DIFF');
 
@@ -46506,6 +47572,7 @@ class SchemaDiffType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataFormat {
   static const avro = DataFormat._('AVRO');
   static const json = DataFormat._('JSON');
@@ -46531,6 +47598,8 @@ class DataFormat {
 }
 
 /// A structure for returning a resource policy.
+///
+/// @nodoc
 class GluePolicy {
   /// The date and time at which the policy was created.
   final DateTime? createTime;
@@ -46575,6 +47644,8 @@ class GluePolicy {
 }
 
 /// Specifies a table definition in the Glue Data Catalog.
+///
+/// @nodoc
 class CatalogEntry {
   /// The database in which the table metadata resides.
   final String databaseName;
@@ -46598,6 +47669,8 @@ class CatalogEntry {
 }
 
 /// The location of resources.
+///
+/// @nodoc
 class Location {
   /// An Amazon DynamoDB table location.
   final List<CodeGenNodeArg>? dynamoDB;
@@ -46626,6 +47699,7 @@ class Location {
   }
 }
 
+/// @nodoc
 class Language {
   static const python = Language._('PYTHON');
   static const scala = Language._('SCALA');
@@ -46650,6 +47724,8 @@ class Language {
 }
 
 /// An argument or property of a node.
+///
+/// @nodoc
 class CodeGenNodeArg {
   /// The name of the argument or property.
   final String name;
@@ -46687,6 +47763,8 @@ class CodeGenNodeArg {
 }
 
 /// Defines a mapping.
+///
+/// @nodoc
 class MappingEntry {
   /// The source path.
   final String? sourcePath;
@@ -46745,6 +47823,8 @@ class MappingEntry {
 }
 
 /// A descriptor for a partition index in a table.
+///
+/// @nodoc
 class PartitionIndexDescriptor {
   /// The name of the partition index.
   final String indexName;
@@ -46815,6 +47895,7 @@ class PartitionIndexDescriptor {
   }
 }
 
+/// @nodoc
 class PartitionIndexStatus {
   static const creating = PartitionIndexStatus._('CREATING');
   static const active = PartitionIndexStatus._('ACTIVE');
@@ -46869,6 +47950,8 @@ class PartitionIndexStatus {
 /// InternalError: Any error which does not belong to other error codes.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class BackfillError {
   /// The error code for an error that occurred when registering partition indexes
   /// for an existing table.
@@ -46902,6 +47985,7 @@ class BackfillError {
   }
 }
 
+/// @nodoc
 class BackfillErrorCode {
   static const encryptedPartitionError =
       BackfillErrorCode._('ENCRYPTED_PARTITION_ERROR');
@@ -46940,6 +48024,8 @@ class BackfillErrorCode {
 }
 
 /// Contains a list of values defining partitions.
+///
+/// @nodoc
 class PartitionValueList {
   /// The list of values.
   final List<String> values;
@@ -46966,6 +48052,8 @@ class PartitionValueList {
 }
 
 /// A partition key pair consisting of a name and a type.
+///
+/// @nodoc
 class KeySchemaElement {
   /// The name of a partition key.
   final String name;
@@ -46996,6 +48084,8 @@ class KeySchemaElement {
 }
 
 /// A structure for a machine learning transform.
+///
+/// @nodoc
 class MLTransform {
   /// A timestamp. The time and date that this machine learning transform was
   /// created.
@@ -47271,6 +48361,8 @@ class MLTransform {
 
 /// Evaluation metrics provide an estimate of the quality of your machine
 /// learning transform.
+///
+/// @nodoc
 class EvaluationMetrics {
   /// The type of machine learning transform.
   final TransformType transformType;
@@ -47310,6 +48402,8 @@ class EvaluationMetrics {
 ///
 /// Additionally, imported labels and trained transforms can now be encrypted
 /// using a customer provided KMS key.
+///
+/// @nodoc
 class TransformEncryption {
   /// An <code>MLUserDataEncryption</code> object containing the encryption mode
   /// and customer-provided KMS key ID.
@@ -47349,6 +48443,8 @@ class TransformEncryption {
 
 /// The encryption-at-rest settings of the transform that apply to accessing
 /// user data.
+///
+/// @nodoc
 class MLUserDataEncryption {
   /// The encryption mode applied to user data. Valid values are:
   ///
@@ -47389,6 +48485,7 @@ class MLUserDataEncryption {
   }
 }
 
+/// @nodoc
 class MLUserDataEncryptionModeString {
   static const disabled = MLUserDataEncryptionModeString._('DISABLED');
   static const sseKms = MLUserDataEncryptionModeString._('SSE-KMS');
@@ -47419,6 +48516,8 @@ class MLUserDataEncryptionModeString {
 /// some matches and comparing the results to known matches from the same
 /// dataset. The quality metrics are based on a subset of your data, so they are
 /// not precise.
+///
+/// @nodoc
 class FindMatchesMetrics {
   /// The area under the precision/recall curve (AUPRC) is a single number
   /// measuring the overall quality of the transform, that is independent of the
@@ -47517,6 +48616,8 @@ class FindMatchesMetrics {
 /// For more information, see <a
 /// href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion matrix</a>
 /// in Wikipedia.
+///
+/// @nodoc
 class ConfusionMatrix {
   /// The number of matches in the data that the transform didn't find, in the
   /// confusion matrix for your transform.
@@ -47569,6 +48670,8 @@ class ConfusionMatrix {
 ///
 /// Column importance helps you understand how columns contribute to your model,
 /// by identifying which columns in your records are more important than others.
+///
+/// @nodoc
 class ColumnImportance {
   /// The name of a column.
   final String? columnName;
@@ -47600,6 +48703,8 @@ class ColumnImportance {
 
 /// The sampling parameters that are associated with the machine learning
 /// transform.
+///
+/// @nodoc
 class TaskRun {
   /// The last point in time that the requested task run was completed.
   final DateTime? completedOn;
@@ -47691,6 +48796,8 @@ class TaskRun {
 }
 
 /// The configuration properties for the task run.
+///
+/// @nodoc
 class TaskRunProperties {
   /// The configuration properties for an exporting labels task run.
   final ExportLabelsTaskRunProperties? exportLabelsTaskRunProperties;
@@ -47764,6 +48871,7 @@ class TaskRunProperties {
   }
 }
 
+/// @nodoc
 class TaskType {
   static const evaluation = TaskType._('EVALUATION');
   static const labelingSetGeneration = TaskType._('LABELING_SET_GENERATION');
@@ -47797,6 +48905,8 @@ class TaskType {
 }
 
 /// Specifies configuration properties for an importing labels task run.
+///
+/// @nodoc
 class ImportLabelsTaskRunProperties {
   /// The Amazon Simple Storage Service (Amazon S3) path from where you will
   /// import the labels.
@@ -47828,6 +48938,8 @@ class ImportLabelsTaskRunProperties {
 }
 
 /// Specifies configuration properties for an exporting labels task run.
+///
+/// @nodoc
 class ExportLabelsTaskRunProperties {
   /// The Amazon Simple Storage Service (Amazon S3) path where you will export the
   /// labels.
@@ -47852,6 +48964,8 @@ class ExportLabelsTaskRunProperties {
 }
 
 /// Specifies configuration properties for a labeling set generation task run.
+///
+/// @nodoc
 class LabelingSetGenerationTaskRunProperties {
   /// The Amazon Simple Storage Service (Amazon S3) path where you will generate
   /// the labeling set.
@@ -47877,6 +48991,8 @@ class LabelingSetGenerationTaskRunProperties {
 }
 
 /// Specifies configuration properties for a Find Matches task run.
+///
+/// @nodoc
 class FindMatchesTaskRunProperties {
   /// The job ID for the Find Matches task run.
   final String? jobId;
@@ -47915,6 +49031,8 @@ class FindMatchesTaskRunProperties {
 
 /// The criteria that are used to filter the task runs for the machine learning
 /// transform.
+///
+/// @nodoc
 class TaskRunFilterCriteria {
   /// Filter on task runs started after this date.
   final DateTime? startedAfter;
@@ -47953,6 +49071,8 @@ class TaskRunFilterCriteria {
 
 /// The sorting criteria that are used to sort the list of task runs for the
 /// machine learning transform.
+///
+/// @nodoc
 class TaskRunSortCriteria {
   /// The column to be used to sort the list of task runs for the machine learning
   /// transform.
@@ -47977,6 +49097,7 @@ class TaskRunSortCriteria {
   }
 }
 
+/// @nodoc
 class TaskRunSortColumnType {
   static const taskRunType = TaskRunSortColumnType._('TASK_RUN_TYPE');
   static const status = TaskRunSortColumnType._('STATUS');
@@ -48004,6 +49125,8 @@ class TaskRunSortColumnType {
 }
 
 /// Specifies a job definition.
+///
+/// @nodoc
 class Job {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
@@ -48415,6 +49538,8 @@ class Job {
 
 /// A development endpoint where a developer can remotely debug extract,
 /// transform, and load (ETL) scripts.
+///
+/// @nodoc
 class DevEndpoint {
   /// A map of arguments used to configure the <code>DevEndpoint</code>.
   ///
@@ -48710,6 +49835,8 @@ class DevEndpoint {
 
 /// A summary of metrics showing the total counts of processed rows and rules,
 /// including their pass/fail statistics based on row-level results.
+///
+/// @nodoc
 class DataQualityAggregatedMetrics {
   /// The total number of rows that failed one or more data quality rules.
   final double? totalRowsFailed;
@@ -48773,6 +49900,8 @@ class DataQualityAggregatedMetrics {
 
 /// Describes the observation generated after evaluating the rules and
 /// analyzers.
+///
+/// @nodoc
 class DataQualityObservation {
   /// A description of the data quality observation.
   final String? description;
@@ -48809,6 +49938,8 @@ class DataQualityObservation {
 
 /// Describes the metric based observation generated based on evaluated data
 /// quality metrics.
+///
+/// @nodoc
 class MetricBasedObservation {
   /// The name of the data quality metric used for generating the observation.
   final String? metricName;
@@ -48862,6 +49993,8 @@ class MetricBasedObservation {
 
 /// Describes the data quality metric value according to the analysis of
 /// historical data.
+///
+/// @nodoc
 class DataQualityMetricValues {
   /// The actual value of the data quality metric.
   final double? actualValue;
@@ -48909,6 +50042,8 @@ class DataQualityMetricValues {
 }
 
 /// Describes the result of the evaluation of a data quality analyzer.
+///
+/// @nodoc
 class DataQualityAnalyzerResult {
   /// A description of the data quality analyzer.
   final String? description;
@@ -48954,6 +50089,8 @@ class DataQualityAnalyzerResult {
 }
 
 /// Describes the result of the evaluation of a data quality rule.
+///
+/// @nodoc
 class DataQualityRuleResult {
   /// A description of the data quality rule.
   final String? description;
@@ -49030,6 +50167,7 @@ class DataQualityRuleResult {
   }
 }
 
+/// @nodoc
 class DataQualityRuleResultStatus {
   static const pass = DataQualityRuleResultStatus._('PASS');
   static const fail = DataQualityRuleResultStatus._('FAIL');
@@ -49057,6 +50195,8 @@ class DataQualityRuleResultStatus {
 }
 
 /// The statistic model result.
+///
+/// @nodoc
 class StatisticModelResult {
   /// The actual value.
   final double? actualValue;
@@ -49116,6 +50256,7 @@ class StatisticModelResult {
   }
 }
 
+/// @nodoc
 class DataQualityModelStatus {
   static const running = DataQualityModelStatus._('RUNNING');
   static const succeeded = DataQualityModelStatus._('SUCCEEDED');
@@ -49143,6 +50284,8 @@ class DataQualityModelStatus {
 }
 
 /// Represents a directional edge in a directed acyclic graph (DAG).
+///
+/// @nodoc
 class CodeGenEdge {
   /// The ID of the node at which the edge starts.
   final String source;
@@ -49180,6 +50323,8 @@ class CodeGenEdge {
 }
 
 /// Represents a node in a directed acyclic graph (DAG)
+///
+/// @nodoc
 class CodeGenNode {
   /// Properties of the node, in the form of name-value pairs.
   final List<CodeGenNodeArg> args;
@@ -49228,6 +50373,8 @@ class CodeGenNode {
 
 /// The <code>Database</code> object represents a logical grouping of tables
 /// that might reside in a Hive metastore or an RDBMS.
+///
+/// @nodoc
 class Database {
   /// The name of the database. For Hive compatibility, this is folded to
   /// lowercase when it is stored.
@@ -49322,6 +50469,7 @@ class Database {
   }
 }
 
+/// @nodoc
 class DatabaseAttributes {
   static const name = DatabaseAttributes._('NAME');
   static const targetDatabase = DatabaseAttributes._('TARGET_DATABASE');
@@ -49347,6 +50495,7 @@ class DatabaseAttributes {
   String toString() => value;
 }
 
+/// @nodoc
 class GlueResourceType {
   static const job = GlueResourceType._('JOB');
   static const session = GlueResourceType._('SESSION');
@@ -49374,6 +50523,8 @@ class GlueResourceType {
 /// Specifies a crawler program that examines a data source and uses classifiers
 /// to try to determine its schema. If successful, the crawler records metadata
 /// concerning the data source in the Glue Data Catalog.
+///
+/// @nodoc
 class Crawler {
   /// A list of UTF-8 strings that specify the custom classifiers that are
   /// associated with the crawler.
@@ -49566,6 +50717,7 @@ class Crawler {
   }
 }
 
+/// @nodoc
 class CrawlerState {
   static const ready = CrawlerState._('READY');
   static const running = CrawlerState._('RUNNING');
@@ -49592,6 +50744,8 @@ class CrawlerState {
 
 /// A scheduling object using a <code>cron</code> statement to schedule an
 /// event.
+///
+/// @nodoc
 class Schedule {
   /// A <code>cron</code> expression used to specify the schedule (see <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
@@ -49625,6 +50779,8 @@ class Schedule {
 }
 
 /// Status and error information about the most recent crawl.
+///
+/// @nodoc
 class LastCrawlInfo {
   /// If an error occurred, the error information about the last crawl.
   final String? errorMessage;
@@ -49682,6 +50838,7 @@ class LastCrawlInfo {
   }
 }
 
+/// @nodoc
 class LastCrawlStatus {
   static const succeeded = LastCrawlStatus._('SUCCEEDED');
   static const cancelled = LastCrawlStatus._('CANCELLED');
@@ -49707,6 +50864,7 @@ class LastCrawlStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ScheduleState {
   static const scheduled = ScheduleState._('SCHEDULED');
   static const notScheduled = ScheduleState._('NOT_SCHEDULED');
@@ -49733,6 +50891,8 @@ class ScheduleState {
 }
 
 /// Metrics for a specified crawler.
+///
+/// @nodoc
 class CrawlerMetrics {
   /// The name of the crawler.
   final String? crawlerName;
@@ -49807,6 +50967,8 @@ class CrawlerMetrics {
 }
 
 /// Defines a connection to a data source.
+///
+/// @nodoc
 class Connection {
   /// Connection properties specific to the Athena compute environment.
   final Map<String, String>? athenaProperties;
@@ -50204,6 +51366,7 @@ class Connection {
   }
 }
 
+/// @nodoc
 class ConnectionStatus {
   static const ready = ConnectionStatus._('READY');
   static const inProgress = ConnectionStatus._('IN_PROGRESS');
@@ -50230,6 +51393,8 @@ class ConnectionStatus {
 }
 
 /// A structure containing the authentication configuration.
+///
+/// @nodoc
 class AuthenticationConfiguration {
   /// A structure containing the authentication configuration.
   final AuthenticationType? authenticationType;
@@ -50281,6 +51446,8 @@ class AuthenticationConfiguration {
 }
 
 /// A structure containing properties for OAuth2 authentication.
+///
+/// @nodoc
 class OAuth2Properties {
   /// The client application type. For example, AWS_MANAGED or USER_MANAGED.
   final OAuth2ClientApplication? oAuth2ClientApplication;
@@ -50336,6 +51503,8 @@ class OAuth2Properties {
 
 /// Filters the connection definitions that are returned by the
 /// <code>GetConnections</code> API operation.
+///
+/// @nodoc
 class GetConnectionsFilter {
   /// Denotes if the connection was created with schema version 1 or 2.
   final int? connectionSchemaVersion;
@@ -50367,6 +51536,8 @@ class GetConnectionsFilter {
 }
 
 /// The settings for a column statistics task.
+///
+/// @nodoc
 class ColumnStatisticsTaskSettings {
   /// The ID of the Data Catalog in which the database resides.
   final String? catalogID;
@@ -50473,6 +51644,7 @@ class ColumnStatisticsTaskSettings {
   }
 }
 
+/// @nodoc
 class ScheduleType {
   static const cron = ScheduleType._('CRON');
   static const auto = ScheduleType._('AUTO');
@@ -50496,6 +51668,7 @@ class ScheduleType {
   String toString() => value;
 }
 
+/// @nodoc
 class SettingSource {
   static const catalog = SettingSource._('CATALOG');
   static const table = SettingSource._('TABLE');
@@ -50521,6 +51694,8 @@ class SettingSource {
 }
 
 /// A run attempt for a column statistics task run.
+///
+/// @nodoc
 class ExecutionAttempt {
   /// A task run ID for the last column statistics task run.
   final String? columnStatisticsTaskRunId;
@@ -50566,6 +51741,7 @@ class ExecutionAttempt {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const failed = ExecutionStatus._('FAILED');
   static const started = ExecutionStatus._('STARTED');
@@ -50591,6 +51767,8 @@ class ExecutionStatus {
 }
 
 /// The object that shows the details of the column stats run.
+///
+/// @nodoc
 class ColumnStatisticsTaskRun {
   /// The ID of the Data Catalog where the table resides. If none is supplied, the
   /// Amazon Web Services account ID is used by default.
@@ -50753,6 +51931,7 @@ class ColumnStatisticsTaskRun {
   }
 }
 
+/// @nodoc
 class ComputationType {
   static const full = ComputationType._('FULL');
   static const incremental = ComputationType._('INCREMENTAL');
@@ -50777,6 +51956,7 @@ class ComputationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ColumnStatisticsState {
   static const starting = ColumnStatisticsState._('STARTING');
   static const running = ColumnStatisticsState._('RUNNING');
@@ -50806,6 +51986,8 @@ class ColumnStatisticsState {
 }
 
 /// Encapsulates a column name that failed and the reason for failure.
+///
+/// @nodoc
 class ColumnError {
   /// The name of the column that failed.
   final String? columnName;
@@ -50848,6 +52030,8 @@ class ColumnError {
 /// classifier, an <code>XML</code> classifier, a <code>JSON</code> classifier,
 /// or a custom <code>CSV</code> classifier, as specified in one of the fields
 /// in the <code>Classifier</code> object.
+///
+/// @nodoc
 class Classifier {
   /// A classifier for comma-separated values (CSV).
   final CsvClassifier? csvClassifier;
@@ -50904,6 +52088,8 @@ class Classifier {
 }
 
 /// A classifier that uses <code>grok</code> patterns.
+///
+/// @nodoc
 class GrokClassifier {
   /// An identifier of the data format that the classifier matches, such as
   /// Twitter, JSON, Omniture logs, and so on.
@@ -50977,6 +52163,8 @@ class GrokClassifier {
 }
 
 /// A classifier for <code>XML</code> content.
+///
+/// @nodoc
 class XMLClassifier {
   /// An identifier of the data format that the classifier matches.
   final String classification;
@@ -51041,6 +52229,8 @@ class XMLClassifier {
 }
 
 /// A classifier for <code>JSON</code> content.
+///
+/// @nodoc
 class JsonClassifier {
   /// A <code>JsonPath</code> string defining the JSON data for the classifier to
   /// classify. Glue supports a subset of JsonPath, as described in <a
@@ -51096,6 +52286,8 @@ class JsonClassifier {
 }
 
 /// A classifier for custom <code>CSV</code> content.
+///
+/// @nodoc
 class CsvClassifier {
   /// The name of the classifier.
   final String name;
@@ -51220,6 +52412,8 @@ class CsvClassifier {
 /// Data Catalog or a federated source. You can now create a Redshift-federated
 /// catalog or a catalog containing resource links to Redshift databases in
 /// another account or region.
+///
+/// @nodoc
 class Catalog {
   /// The name of the catalog. Cannot be the same as the account ID.
   final String name;
@@ -51366,6 +52560,8 @@ class Catalog {
 
 /// Property attributes that include configuration properties for the catalog
 /// resource.
+///
+/// @nodoc
 class CatalogPropertiesOutput {
   /// Additional key-value properties for the catalog, such as column statistics
   /// optimizations.
@@ -51420,6 +52616,8 @@ class CatalogPropertiesOutput {
 
 /// The output properties of the data lake access configuration for your catalog
 /// resource in the Glue Data Catalog.
+///
+/// @nodoc
 class DataLakeAccessPropertiesOutput {
   /// Specifies a federated catalog type for the native catalog resource. The
   /// currently supported type is <code>aws:redshift</code>.
@@ -51503,6 +52701,8 @@ class DataLakeAccessPropertiesOutput {
 /// A structure that contains the output properties of Iceberg table
 /// optimization configuration for your catalog resource in the Glue Data
 /// Catalog.
+///
+/// @nodoc
 class IcebergOptimizationPropertiesOutput {
   /// A map of key-value pairs that specify configuration parameters for Iceberg
   /// table compaction operations, which optimize the layout of data files to
@@ -51566,6 +52766,8 @@ class IcebergOptimizationPropertiesOutput {
 }
 
 /// A structure containing migration status information.
+///
+/// @nodoc
 class CatalogImportStatus {
   /// <code>True</code> if the migration has completed, or <code>False</code>
   /// otherwise.
@@ -51604,6 +52806,8 @@ class CatalogImportStatus {
 }
 
 /// The details of a blueprint run.
+///
+/// @nodoc
 class BlueprintRun {
   /// The name of the blueprint.
   final String? blueprintName;
@@ -51712,6 +52916,7 @@ class BlueprintRun {
   }
 }
 
+/// @nodoc
 class BlueprintRunState {
   static const running = BlueprintRunState._('RUNNING');
   static const succeeded = BlueprintRunState._('SUCCEEDED');
@@ -51739,6 +52944,8 @@ class BlueprintRunState {
 }
 
 /// The details of a blueprint.
+///
+/// @nodoc
 class Blueprint {
   /// Specifies the path in Amazon S3 where the blueprint is published.
   final String? blueprintLocation;
@@ -51850,6 +53057,7 @@ class Blueprint {
   }
 }
 
+/// @nodoc
 class BlueprintStatus {
   static const creating = BlueprintStatus._('CREATING');
   static const active = BlueprintStatus._('ACTIVE');
@@ -51879,6 +53087,8 @@ class BlueprintStatus {
 /// When there are multiple versions of a blueprint and the latest version has
 /// some errors, this attribute indicates the last successful blueprint
 /// definition that is available with the service.
+///
+/// @nodoc
 class LastActiveDefinition {
   /// Specifies a path in Amazon S3 where the blueprint is published by the Glue
   /// developer.
@@ -51934,6 +53144,8 @@ class LastActiveDefinition {
 }
 
 /// Describes a zero-ETL integration.
+///
+/// @nodoc
 class Integration {
   /// The time that the integration was created, in UTC.
   final DateTime createTime;
@@ -52080,6 +53292,8 @@ class Integration {
 
 /// A filter that can be used when invoking a <code>DescribeIntegrations</code>
 /// request.
+///
+/// @nodoc
 class IntegrationFilter {
   /// The name of the filter.
   final String? name;
@@ -52103,6 +53317,8 @@ class IntegrationFilter {
 }
 
 /// A structure for an integration that writes data into a resource.
+///
+/// @nodoc
 class InboundIntegration {
   /// The time that the integration was created, in UTC.
   final DateTime createTime;
@@ -52199,6 +53415,8 @@ class InboundIntegration {
 
 /// The <code>Field</code> object has information about the different properties
 /// associated with a field in the connector.
+///
+/// @nodoc
 class Field {
   /// Optional map of keys which may be returned.
   final Map<String, String>? customProperties;
@@ -52354,6 +53572,7 @@ class Field {
   }
 }
 
+/// @nodoc
 class FieldFilterOperator {
   static const lessThan = FieldFilterOperator._('LESS_THAN');
   static const greaterThan = FieldFilterOperator._('GREATER_THAN');
@@ -52400,6 +53619,8 @@ class FieldFilterOperator {
 
 /// The authentication configuration for a connection returned by the
 /// <code>DescribeConnectionType</code> API.
+///
+/// @nodoc
 class AuthConfiguration {
   /// The type of authentication for a connection.
   final Property authenticationType;
@@ -52469,6 +53690,8 @@ class AuthConfiguration {
 
 /// An object containing configuration for a compute environment (such as Spark,
 /// Python or Athena) returned by the <code>DescribeConnectionType</code> API.
+///
+/// @nodoc
 class ComputeEnvironmentConfiguration {
   /// The type of compute environment.
   final ComputeEnvironment computeEnvironment;
@@ -52577,6 +53800,8 @@ class ComputeEnvironmentConfiguration {
 }
 
 /// An object that defines a connection type for a compute environment.
+///
+/// @nodoc
 class Property {
   /// A description of the property.
   final String description;
@@ -52670,6 +53895,8 @@ class Property {
 }
 
 /// An object representing a value allowed for a property.
+///
+/// @nodoc
 class AllowedValue {
   /// The value allowed for the property.
   final String value;
@@ -52701,6 +53928,8 @@ class AllowedValue {
 
 /// An object that contains the error details for an operation on a schema
 /// version.
+///
+/// @nodoc
 class SchemaVersionErrorItem {
   /// The details of the error for the schema version.
   final ErrorDetails? errorDetails;
@@ -52733,6 +53962,8 @@ class SchemaVersionErrorItem {
 }
 
 /// An object containing error details.
+///
+/// @nodoc
 class ErrorDetails {
   /// The error code for an error.
   final String? errorCode;
@@ -52763,6 +53994,8 @@ class ErrorDetails {
 }
 
 /// A structure representing an open format table.
+///
+/// @nodoc
 class OpenTableFormatInput {
   /// Specifies an <code>IcebergInput</code> structure that defines an Apache
   /// Iceberg metadata table.
@@ -52782,6 +54015,8 @@ class OpenTableFormatInput {
 
 /// A structure that defines an Apache Iceberg metadata table to create in the
 /// catalog.
+///
+/// @nodoc
 class IcebergInput {
   /// A required metadata operation. Can only be set to <code>CREATE</code>.
   final MetadataOperation metadataOperation;
@@ -52812,6 +54047,7 @@ class IcebergInput {
   }
 }
 
+/// @nodoc
 class MetadataOperation {
   static const create = MetadataOperation._('CREATE');
 
@@ -52837,6 +54073,8 @@ class MetadataOperation {
 
 /// The configuration parameters required to create a new Iceberg table in the
 /// Glue Data Catalog, including table properties and metadata specifications.
+///
+/// @nodoc
 class CreateIcebergTableInput {
   /// The S3 location where the Iceberg table data will be stored.
   final String location;
@@ -52882,6 +54120,8 @@ class CreateIcebergTableInput {
 }
 
 /// A structure for a partition index.
+///
+/// @nodoc
 class PartitionIndex {
   /// The name of the partition index.
   final String indexName;
@@ -52906,6 +54146,8 @@ class PartitionIndex {
 
 /// Specifies a <code>grok</code> classifier for <code>CreateClassifier</code>
 /// to create.
+///
+/// @nodoc
 class CreateGrokClassifierRequest {
   /// An identifier of the data format that the classifier matches, such as
   /// Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
@@ -52942,6 +54184,8 @@ class CreateGrokClassifierRequest {
 }
 
 /// Specifies an XML classifier for <code>CreateClassifier</code> to create.
+///
+/// @nodoc
 class CreateXMLClassifierRequest {
   /// An identifier of the data format that the classifier matches.
   final String classification;
@@ -52976,6 +54220,8 @@ class CreateXMLClassifierRequest {
 }
 
 /// Specifies a JSON classifier for <code>CreateClassifier</code> to create.
+///
+/// @nodoc
 class CreateJsonClassifierRequest {
   /// A <code>JsonPath</code> string defining the JSON data for the classifier to
   /// classify. Glue supports a subset of JsonPath, as described in <a
@@ -53003,6 +54249,8 @@ class CreateJsonClassifierRequest {
 
 /// Specifies a custom CSV classifier for <code>CreateClassifier</code> to
 /// create.
+///
+/// @nodoc
 class CreateCsvClassifierRequest {
   /// The name of the classifier.
   final String name;
@@ -53081,6 +54329,8 @@ class CreateCsvClassifierRequest {
 }
 
 /// Contains information about a batch update partition error.
+///
+/// @nodoc
 class BatchUpdatePartitionFailureEntry {
   /// The details about the batch update partition error.
   final ErrorDetail? errorDetail;
@@ -53117,6 +54367,8 @@ class BatchUpdatePartitionFailureEntry {
 
 /// A structure that contains the values and structure used to update a
 /// partition.
+///
+/// @nodoc
 class BatchUpdatePartitionRequestEntry {
   /// The structure used to update a partition.
   final PartitionInput partitionInput;
@@ -53140,6 +54392,8 @@ class BatchUpdatePartitionRequestEntry {
 }
 
 /// Records an error that occurred when attempting to stop a specified job run.
+///
+/// @nodoc
 class BatchStopJobRunError {
   /// Specifies details about the error that was encountered.
   final ErrorDetail? errorDetail;
@@ -53179,6 +54433,8 @@ class BatchStopJobRunError {
 }
 
 /// Records a successful request to stop a specified <code>JobRun</code>.
+///
+/// @nodoc
 class BatchStopJobRunSuccessfulSubmission {
   /// The name of the job definition used in the job run that was stopped.
   final String? jobName;
@@ -53210,6 +54466,8 @@ class BatchStopJobRunSuccessfulSubmission {
 }
 
 /// A failed annotation.
+///
+/// @nodoc
 class AnnotationError {
   /// The reason why the annotation failed.
   final String? failureReason;
@@ -53247,6 +54505,8 @@ class AnnotationError {
 }
 
 /// An Inclusion Annotation.
+///
+/// @nodoc
 class DatapointInclusionAnnotation {
   /// The inclusion annotation value to apply to the statistic.
   final InclusionAnnotationValue? inclusionAnnotation;
@@ -53278,6 +54538,8 @@ class DatapointInclusionAnnotation {
 
 /// Contains details on one of the errors in the error list returned by the
 /// <code>BatchGetTableOptimizer</code> operation.
+///
+/// @nodoc
 class BatchGetTableOptimizerError {
   /// The Catalog ID of the table.
   final String? catalogId;
@@ -53333,6 +54595,8 @@ class BatchGetTableOptimizerError {
 
 /// Contains details for one of the table optimizers returned by the
 /// <code>BatchGetTableOptimizer</code> operation.
+///
+/// @nodoc
 class BatchTableOptimizer {
   /// The Catalog ID of the table.
   final String? catalogId;
@@ -53382,6 +54646,8 @@ class BatchTableOptimizer {
 
 /// Represents a table optimizer to retrieve in the
 /// <code>BatchGetTableOptimizer</code> operation.
+///
+/// @nodoc
 class BatchGetTableOptimizerEntry {
   /// The Catalog ID of the table.
   final String? catalogId;
@@ -53417,6 +54683,8 @@ class BatchGetTableOptimizerEntry {
 }
 
 /// Describes a data quality result.
+///
+/// @nodoc
 class DataQualityResult {
   /// A summary of <code>DataQualityAggregatedMetrics</code> objects showing the
   /// total counts of processed rows and rules, including their pass/fail
@@ -53564,6 +54832,8 @@ class DataQualityResult {
 }
 
 /// An error record for table-version operations.
+///
+/// @nodoc
 class TableVersionError {
   /// The details about the error.
   final ErrorDetail? errorDetail;
@@ -53604,6 +54874,8 @@ class TableVersionError {
 }
 
 /// An error record for table operations.
+///
+/// @nodoc
 class TableError {
   /// The details about the error.
   final ErrorDetail? errorDetail;
@@ -53637,6 +54909,8 @@ class TableError {
 }
 
 /// Contains information about a partition error.
+///
+/// @nodoc
 class PartitionError {
   /// The details about the partition error.
   final ErrorDetail? errorDetail;
@@ -53671,16 +54945,19 @@ class PartitionError {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class ColumnStatisticsTaskNotRunningException extends _s.GenericAwsException {
   ColumnStatisticsTaskNotRunningException({String? type, String? message})
       : super(
@@ -53689,6 +54966,7 @@ class ColumnStatisticsTaskNotRunningException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ColumnStatisticsTaskRunningException extends _s.GenericAwsException {
   ColumnStatisticsTaskRunningException({String? type, String? message})
       : super(
@@ -53697,6 +54975,7 @@ class ColumnStatisticsTaskRunningException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ColumnStatisticsTaskStoppingException extends _s.GenericAwsException {
   ColumnStatisticsTaskStoppingException({String? type, String? message})
       : super(
@@ -53705,6 +54984,7 @@ class ColumnStatisticsTaskStoppingException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -53713,6 +54993,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConcurrentRunsExceededException extends _s.GenericAwsException {
   ConcurrentRunsExceededException({String? type, String? message})
       : super(
@@ -53721,6 +55002,7 @@ class ConcurrentRunsExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConditionCheckFailureException extends _s.GenericAwsException {
   ConditionCheckFailureException({String? type, String? message})
       : super(
@@ -53729,31 +55011,37 @@ class ConditionCheckFailureException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class CrawlerNotRunningException extends _s.GenericAwsException {
   CrawlerNotRunningException({String? type, String? message})
       : super(type: type, code: 'CrawlerNotRunningException', message: message);
 }
 
+/// @nodoc
 class CrawlerRunningException extends _s.GenericAwsException {
   CrawlerRunningException({String? type, String? message})
       : super(type: type, code: 'CrawlerRunningException', message: message);
 }
 
+/// @nodoc
 class CrawlerStoppingException extends _s.GenericAwsException {
   CrawlerStoppingException({String? type, String? message})
       : super(type: type, code: 'CrawlerStoppingException', message: message);
 }
 
+/// @nodoc
 class EntityNotFoundException extends _s.GenericAwsException {
   EntityNotFoundException({String? type, String? message})
       : super(type: type, code: 'EntityNotFoundException', message: message);
 }
 
+/// @nodoc
 class FederatedResourceAlreadyExistsException extends _s.GenericAwsException {
   FederatedResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -53762,11 +55050,13 @@ class FederatedResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FederationSourceException extends _s.GenericAwsException {
   FederationSourceException({String? type, String? message})
       : super(type: type, code: 'FederationSourceException', message: message);
 }
 
+/// @nodoc
 class FederationSourceRetryableException extends _s.GenericAwsException {
   FederationSourceRetryableException({String? type, String? message})
       : super(
@@ -53775,11 +55065,13 @@ class FederationSourceRetryableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GlueEncryptionException extends _s.GenericAwsException {
   GlueEncryptionException({String? type, String? message})
       : super(type: type, code: 'GlueEncryptionException', message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -53788,6 +55080,7 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IllegalBlueprintStateException extends _s.GenericAwsException {
   IllegalBlueprintStateException({String? type, String? message})
       : super(
@@ -53796,12 +55089,14 @@ class IllegalBlueprintStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IllegalSessionStateException extends _s.GenericAwsException {
   IllegalSessionStateException({String? type, String? message})
       : super(
             type: type, code: 'IllegalSessionStateException', message: message);
 }
 
+/// @nodoc
 class IllegalWorkflowStateException extends _s.GenericAwsException {
   IllegalWorkflowStateException({String? type, String? message})
       : super(
@@ -53810,6 +55105,7 @@ class IllegalWorkflowStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationConflictOperationFault extends _s.GenericAwsException {
   IntegrationConflictOperationFault({String? type, String? message})
       : super(
@@ -53818,11 +55114,13 @@ class IntegrationConflictOperationFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IntegrationNotFoundFault extends _s.GenericAwsException {
   IntegrationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'IntegrationNotFoundFault', message: message);
 }
 
+/// @nodoc
 class IntegrationQuotaExceededFault extends _s.GenericAwsException {
   IntegrationQuotaExceededFault({String? type, String? message})
       : super(
@@ -53831,43 +55129,51 @@ class IntegrationQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class InvalidIntegrationStateFault extends _s.GenericAwsException {
   InvalidIntegrationStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidIntegrationStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidStateException extends _s.GenericAwsException {
   InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
+/// @nodoc
 class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
   KMSKeyNotAccessibleFault({String? type, String? message})
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
+/// @nodoc
 class MLTransformNotReadyException extends _s.GenericAwsException {
   MLTransformNotReadyException({String? type, String? message})
       : super(
             type: type, code: 'MLTransformNotReadyException', message: message);
 }
 
+/// @nodoc
 class MaterializedViewRefreshTaskNotRunningException
     extends _s.GenericAwsException {
   MaterializedViewRefreshTaskNotRunningException(
@@ -53878,6 +55184,7 @@ class MaterializedViewRefreshTaskNotRunningException
             message: message);
 }
 
+/// @nodoc
 class MaterializedViewRefreshTaskRunningException
     extends _s.GenericAwsException {
   MaterializedViewRefreshTaskRunningException({String? type, String? message})
@@ -53887,6 +55194,7 @@ class MaterializedViewRefreshTaskRunningException
             message: message);
 }
 
+/// @nodoc
 class MaterializedViewRefreshTaskStoppingException
     extends _s.GenericAwsException {
   MaterializedViewRefreshTaskStoppingException({String? type, String? message})
@@ -53896,11 +55204,13 @@ class MaterializedViewRefreshTaskStoppingException
             message: message);
 }
 
+/// @nodoc
 class NoScheduleException extends _s.GenericAwsException {
   NoScheduleException({String? type, String? message})
       : super(type: type, code: 'NoScheduleException', message: message);
 }
 
+/// @nodoc
 class OperationNotSupportedException extends _s.GenericAwsException {
   OperationNotSupportedException({String? type, String? message})
       : super(
@@ -53909,11 +55219,13 @@ class OperationNotSupportedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OperationTimeoutException extends _s.GenericAwsException {
   OperationTimeoutException({String? type, String? message})
       : super(type: type, code: 'OperationTimeoutException', message: message);
 }
 
+/// @nodoc
 class PermissionTypeMismatchException extends _s.GenericAwsException {
   PermissionTypeMismatchException({String? type, String? message})
       : super(
@@ -53922,16 +55234,19 @@ class PermissionTypeMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotReadyException extends _s.GenericAwsException {
   ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
+/// @nodoc
 class ResourceNumberLimitExceededException extends _s.GenericAwsException {
   ResourceNumberLimitExceededException({String? type, String? message})
       : super(
@@ -53940,17 +55255,20 @@ class ResourceNumberLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SchedulerNotRunningException extends _s.GenericAwsException {
   SchedulerNotRunningException({String? type, String? message})
       : super(
             type: type, code: 'SchedulerNotRunningException', message: message);
 }
 
+/// @nodoc
 class SchedulerRunningException extends _s.GenericAwsException {
   SchedulerRunningException({String? type, String? message})
       : super(type: type, code: 'SchedulerRunningException', message: message);
 }
 
+/// @nodoc
 class SchedulerTransitioningException extends _s.GenericAwsException {
   SchedulerTransitioningException({String? type, String? message})
       : super(
@@ -53959,26 +55277,31 @@ class SchedulerTransitioningException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SessionBusyException extends _s.GenericAwsException {
   SessionBusyException({String? type, String? message})
       : super(type: type, code: 'SessionBusyException', message: message);
 }
 
+/// @nodoc
 class TargetResourceNotFound extends _s.GenericAwsException {
   TargetResourceNotFound({String? type, String? message})
       : super(type: type, code: 'TargetResourceNotFound', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
+/// @nodoc
 class VersionMismatchException extends _s.GenericAwsException {
   VersionMismatchException({String? type, String? message})
       : super(type: type, code: 'VersionMismatchException', message: message);

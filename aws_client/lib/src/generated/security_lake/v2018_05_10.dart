@@ -1252,6 +1252,7 @@ class SecurityLake {
   }
 }
 
+/// @nodoc
 class CreateDataLakeExceptionSubscriptionResponse {
   CreateDataLakeExceptionSubscriptionResponse();
 
@@ -1265,6 +1266,7 @@ class CreateDataLakeExceptionSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataLakeExceptionSubscriptionResponse {
   DeleteDataLakeExceptionSubscriptionResponse();
 
@@ -1278,6 +1280,7 @@ class DeleteDataLakeExceptionSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class DeregisterDataLakeDelegatedAdministratorResponse {
   DeregisterDataLakeDelegatedAdministratorResponse();
 
@@ -1291,6 +1294,7 @@ class DeregisterDataLakeDelegatedAdministratorResponse {
   }
 }
 
+/// @nodoc
 class GetDataLakeExceptionSubscriptionResponse {
   /// The expiration period and time-to-live (TTL). It is the duration of time
   /// until which the exception message remains.
@@ -1332,6 +1336,7 @@ class GetDataLakeExceptionSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class ListDataLakeExceptionsResponse {
   /// Lists the failures that cannot be retried.
   final List<DataLakeException>? exceptions;
@@ -1369,6 +1374,7 @@ class ListDataLakeExceptionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// An array of objects, one for each tag (key and value) that’s associated with
   /// the Amazon Security Lake resource.
@@ -1395,6 +1401,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterDataLakeDelegatedAdministratorResponse {
   RegisterDataLakeDelegatedAdministratorResponse();
 
@@ -1408,6 +1415,7 @@ class RegisterDataLakeDelegatedAdministratorResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1420,6 +1428,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1432,6 +1441,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataLakeExceptionSubscriptionResponse {
   UpdateDataLakeExceptionSubscriptionResponse();
 
@@ -1445,6 +1455,7 @@ class UpdateDataLakeExceptionSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class CreateAwsLogSourceResponse {
   /// Lists all accounts in which enabling a natively supported Amazon Web
   /// Services service as a Security Lake source failed. The failure occurred as
@@ -1470,6 +1481,7 @@ class CreateAwsLogSourceResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomLogSourceResponse {
   /// The third-party custom source that was created.
   final CustomLogSourceResource? source;
@@ -1495,6 +1507,7 @@ class CreateCustomLogSourceResponse {
   }
 }
 
+/// @nodoc
 class CreateDataLakeResponse {
   /// The created Security Lake configuration object.
   final List<DataLakeResource>? dataLakes;
@@ -1520,6 +1533,7 @@ class CreateDataLakeResponse {
   }
 }
 
+/// @nodoc
 class CreateDataLakeOrganizationConfigurationResponse {
   CreateDataLakeOrganizationConfigurationResponse();
 
@@ -1533,6 +1547,7 @@ class CreateDataLakeOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAwsLogSourceResponse {
   /// Deletion of the Amazon Web Services sources failed as the account is not a
   /// part of the organization.
@@ -1557,6 +1572,7 @@ class DeleteAwsLogSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomLogSourceResponse {
   DeleteCustomLogSourceResponse();
 
@@ -1569,6 +1585,7 @@ class DeleteCustomLogSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataLakeResponse {
   DeleteDataLakeResponse();
 
@@ -1581,6 +1598,7 @@ class DeleteDataLakeResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataLakeOrganizationConfigurationResponse {
   DeleteDataLakeOrganizationConfigurationResponse();
 
@@ -1594,6 +1612,7 @@ class DeleteDataLakeOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetDataLakeOrganizationConfigurationResponse {
   /// The configuration used for new accounts in Security Lake.
   final List<DataLakeAutoEnableNewAccountConfiguration>? autoEnableNewAccount;
@@ -1622,6 +1641,7 @@ class GetDataLakeOrganizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetDataLakeSourcesResponse {
   /// The Amazon Resource Name (ARN) created by you to provide to the subscriber.
   /// For more information about ARNs and how to use them in policies, see the <a
@@ -1669,6 +1689,7 @@ class GetDataLakeSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListDataLakesResponse {
   /// Retrieves the Security Lake configuration object.
   final List<DataLakeResource>? dataLakes;
@@ -1694,6 +1715,7 @@ class ListDataLakesResponse {
   }
 }
 
+/// @nodoc
 class ListLogSourcesResponse {
   /// If nextToken is returned, there are more results available. You can repeat
   /// the call using the returned token to retrieve the next page.
@@ -1728,6 +1750,7 @@ class ListLogSourcesResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataLakeResponse {
   /// The created Security Lake configuration object.
   final List<DataLakeResource>? dataLakes;
@@ -1753,6 +1776,7 @@ class UpdateDataLakeResponse {
   }
 }
 
+/// @nodoc
 class CreateSubscriberResponse {
   /// Retrieve information about the subscriber created using the
   /// <code>CreateSubscriber</code> API.
@@ -1779,6 +1803,7 @@ class CreateSubscriberResponse {
   }
 }
 
+/// @nodoc
 class GetSubscriberResponse {
   /// The subscriber information for the specified subscriber ID.
   final SubscriberResource? subscriber;
@@ -1804,6 +1829,7 @@ class GetSubscriberResponse {
   }
 }
 
+/// @nodoc
 class UpdateSubscriberResponse {
   /// The updated subscriber information.
   final SubscriberResource? subscriber;
@@ -1829,6 +1855,7 @@ class UpdateSubscriberResponse {
   }
 }
 
+/// @nodoc
 class DeleteSubscriberResponse {
   DeleteSubscriberResponse();
 
@@ -1841,6 +1868,7 @@ class DeleteSubscriberResponse {
   }
 }
 
+/// @nodoc
 class ListSubscribersResponse {
   /// If nextToken is returned, there are more results available. You can repeat
   /// the call using the returned token to retrieve the next page.
@@ -1874,6 +1902,7 @@ class ListSubscribersResponse {
   }
 }
 
+/// @nodoc
 class CreateSubscriberNotificationResponse {
   /// The subscriber endpoint to which exception messages are posted.
   final String? subscriberEndpoint;
@@ -1897,6 +1926,7 @@ class CreateSubscriberNotificationResponse {
   }
 }
 
+/// @nodoc
 class DeleteSubscriberNotificationResponse {
   DeleteSubscriberNotificationResponse();
 
@@ -1910,6 +1940,7 @@ class DeleteSubscriberNotificationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSubscriberNotificationResponse {
   /// The subscriber endpoint to which exception messages are posted.
   final String? subscriberEndpoint;
@@ -1936,6 +1967,8 @@ class UpdateSubscriberNotificationResponse {
 /// Specify the configurations you want to use for subscriber notification to
 /// notify the subscriber when new data is written to the data lake for sources
 /// that the subscriber consumes in Security Lake.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// The configurations used for HTTPS subscriber notification.
   final HttpsNotificationConfiguration? httpsNotificationConfiguration;
@@ -1961,6 +1994,8 @@ class NotificationConfiguration {
 }
 
 /// The configurations used for EventBridge subscriber notification.
+///
+/// @nodoc
 class SqsNotificationConfiguration {
   SqsNotificationConfiguration();
 
@@ -1970,6 +2005,8 @@ class SqsNotificationConfiguration {
 }
 
 /// The configurations used for HTTPS subscriber notification.
+///
+/// @nodoc
 class HttpsNotificationConfiguration {
   /// The subscription endpoint in Security Lake. If you prefer notification with
   /// an HTTPs endpoint, populate this field.
@@ -2020,6 +2057,7 @@ class HttpsNotificationConfiguration {
   }
 }
 
+/// @nodoc
 class HttpMethod {
   static const post = HttpMethod._('POST');
   static const put = HttpMethod._('PUT');
@@ -2046,6 +2084,8 @@ class HttpMethod {
 /// Provides details about the Amazon Security Lake account subscription.
 /// Subscribers are notified of new objects for a source as the data is written
 /// to your Amazon S3 bucket for Security Lake.
+///
+/// @nodoc
 class SubscriberResource {
   /// Amazon Security Lake supports log and event collection for natively
   /// supported Amazon Web Services services. For more information, see the <a
@@ -2194,6 +2234,8 @@ class SubscriberResource {
 }
 
 /// The Amazon Web Services identity.
+///
+/// @nodoc
 class AwsIdentity {
   /// The external ID used to establish trust relationship with the Amazon Web
   /// Services identity.
@@ -2224,6 +2266,7 @@ class AwsIdentity {
   }
 }
 
+/// @nodoc
 class SubscriberStatus {
   static const active = SubscriberStatus._('ACTIVE');
   static const deactivated = SubscriberStatus._('DEACTIVATED');
@@ -2250,6 +2293,7 @@ class SubscriberStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessType {
   static const lakeformation = AccessType._('LAKEFORMATION');
   static const s3 = AccessType._('S3');
@@ -2278,6 +2322,8 @@ class AccessType {
 /// see the <a
 /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html">Amazon
 /// Security Lake User Guide</a>.
+///
+/// @nodoc
 class LogSourceResource {
   /// Amazon Security Lake supports log and event collection for natively
   /// supported Amazon Web Services services. For more information, see the <a
@@ -2321,6 +2367,8 @@ class LogSourceResource {
 
 /// Amazon Security Lake can collect logs and events from natively-supported
 /// Amazon Web Services services.
+///
+/// @nodoc
 class AwsLogSourceResource {
   /// The name for a Amazon Web Services source. This must be a Regionally unique
   /// value.
@@ -2355,6 +2403,8 @@ class AwsLogSourceResource {
 
 /// Amazon Security Lake can collect logs and events from third-party custom
 /// sources.
+///
+/// @nodoc
 class CustomLogSourceResource {
   /// The attributes of a third-party custom source.
   final CustomLogSourceAttributes? attributes;
@@ -2407,6 +2457,8 @@ class CustomLogSourceResource {
 }
 
 /// The details of the log provider for a third-party custom source.
+///
+/// @nodoc
 class CustomLogSourceProvider {
   /// The location of the partition in the Amazon S3 bucket for Security Lake.
   final String? location;
@@ -2442,6 +2494,8 @@ class CustomLogSourceProvider {
 }
 
 /// The attributes of a third-party custom source.
+///
+/// @nodoc
 class CustomLogSourceAttributes {
   /// The ARN of the Glue crawler.
   final String? crawlerArn;
@@ -2479,6 +2533,7 @@ class CustomLogSourceAttributes {
   }
 }
 
+/// @nodoc
 class AwsLogSourceName {
   static const route53 = AwsLogSourceName._('ROUTE53');
   static const vpcFlow = AwsLogSourceName._('VPC_FLOW');
@@ -2538,6 +2593,8 @@ class AwsLogSourceName {
 /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/tagging-resources.html">Tagging
 /// Amazon Security Lake resources</a> in the <i>Amazon Security Lake User
 /// Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The name of the tag. This is a general label that acts as a category for a
   /// more specific tag value (<code>value</code>).
@@ -2571,6 +2628,8 @@ class Tag {
 }
 
 /// Provides details of Amazon Security Lake object.
+///
+/// @nodoc
 class DataLakeResource {
   /// The Amazon Resource Name (ARN) created by you to provide to the subscriber.
   /// For more information about ARNs and how to use them in policies, see the <a
@@ -2664,6 +2723,8 @@ class DataLakeResource {
 }
 
 /// Provides encryption details of Amazon Security Lake object.
+///
+/// @nodoc
 class DataLakeEncryptionConfiguration {
   /// The identifier of KMS encryption key used by Amazon Security Lake to encrypt
   /// the Security Lake object.
@@ -2688,6 +2749,8 @@ class DataLakeEncryptionConfiguration {
 }
 
 /// Provides lifecycle details of Amazon Security Lake object.
+///
+/// @nodoc
 class DataLakeLifecycleConfiguration {
   /// Provides data expiration details of Amazon Security Lake object.
   final DataLakeLifecycleExpiration? expiration;
@@ -2726,6 +2789,8 @@ class DataLakeLifecycleConfiguration {
 
 /// Provides replication details for objects stored in the Amazon Security Lake
 /// data lake.
+///
+/// @nodoc
 class DataLakeReplicationConfiguration {
   /// Specifies one or more centralized rollup Regions. The Amazon Web Services
   /// Region specified in the <code>region</code> parameter of the <a
@@ -2771,6 +2836,7 @@ class DataLakeReplicationConfiguration {
   }
 }
 
+/// @nodoc
 class DataLakeStatus {
   static const initialized = DataLakeStatus._('INITIALIZED');
   static const pending = DataLakeStatus._('PENDING');
@@ -2801,6 +2867,8 @@ class DataLakeStatus {
 /// <code>DeleteDataLake</code> API request. This is set to Completed after the
 /// configuration is updated, or removed if deletion of the data lake is
 /// successful.
+///
+/// @nodoc
 class DataLakeUpdateStatus {
   /// The details of the last <code>UpdateDataLake</code>or
   /// <code>DeleteDataLake</code> API request which failed.
@@ -2845,6 +2913,8 @@ class DataLakeUpdateStatus {
 
 /// The details of the last <code>UpdateDataLake</code> or
 /// <code>DeleteDataLake</code> API request which failed.
+///
+/// @nodoc
 class DataLakeUpdateException {
   /// The reason code for the exception of the last <code>UpdateDataLake</code> or
   /// <code>DeleteDataLake</code> API request.
@@ -2877,6 +2947,8 @@ class DataLakeUpdateException {
 }
 
 /// Provide expiration lifecycle details of Amazon Security Lake object.
+///
+/// @nodoc
 class DataLakeLifecycleExpiration {
   /// Number of days before data expires in the Amazon Security Lake object.
   final int? days;
@@ -2900,6 +2972,8 @@ class DataLakeLifecycleExpiration {
 }
 
 /// Provide transition lifecycle details of Amazon Security Lake object.
+///
+/// @nodoc
 class DataLakeLifecycleTransition {
   /// Number of days before data transitions to a different S3 Storage Class in
   /// the Amazon Security Lake object.
@@ -2932,6 +3006,8 @@ class DataLakeLifecycleTransition {
 }
 
 /// Provides details of Amazon Security Lake object.
+///
+/// @nodoc
 class DataLakeConfiguration {
   /// The Amazon Web Services Regions where Security Lake is automatically
   /// enabled.
@@ -2972,6 +3048,8 @@ class DataLakeConfiguration {
 
 /// Amazon Security Lake can collect logs and events from natively-supported
 /// Amazon Web Services services and custom sources.
+///
+/// @nodoc
 class LogSource {
   /// Specify the account from which you want to collect logs.
   final String? account;
@@ -3016,6 +3094,8 @@ class LogSource {
 /// Services services, see the <a
 /// href="https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html">Amazon
 /// Security Lake User Guide</a>.
+///
+/// @nodoc
 class DataLakeSource {
   /// The ID of the Security Lake account for which logs are collected.
   final String? account;
@@ -3072,6 +3152,8 @@ class DataLakeSource {
 }
 
 /// Retrieves the Logs status for the Amazon Security Lake account.
+///
+/// @nodoc
 class DataLakeSourceStatus {
   /// Defines path the stored logs are available which has information on your
   /// systems, applications, and services.
@@ -3103,6 +3185,7 @@ class DataLakeSourceStatus {
   }
 }
 
+/// @nodoc
 class SourceCollectionStatus {
   static const collecting = SourceCollectionStatus._('COLLECTING');
   static const misconfigured = SourceCollectionStatus._('MISCONFIGURED');
@@ -3131,6 +3214,8 @@ class SourceCollectionStatus {
 
 /// Automatically enable new organization accounts as member accounts from an
 /// Amazon Security Lake administrator account.
+///
+/// @nodoc
 class DataLakeAutoEnableNewAccountConfiguration {
   /// The Amazon Web Services Regions where Security Lake is automatically
   /// enabled.
@@ -3168,6 +3253,8 @@ class DataLakeAutoEnableNewAccountConfiguration {
 
 /// To add a natively-supported Amazon Web Services service as a log source, use
 /// these parameters to specify the configuration settings for the log source.
+///
+/// @nodoc
 class AwsLogSourceConfiguration {
   /// Specify the Regions where you want to enable Security Lake.
   final List<String> regions;
@@ -3204,6 +3291,8 @@ class AwsLogSourceConfiguration {
 }
 
 /// The configuration used for the third-party custom source.
+///
+/// @nodoc
 class CustomLogSourceConfiguration {
   /// The configuration used for the Glue Crawler for a third-party custom source.
   final CustomLogSourceCrawlerConfiguration crawlerConfiguration;
@@ -3227,6 +3316,8 @@ class CustomLogSourceConfiguration {
 }
 
 /// The configuration used for the Glue Crawler for a third-party custom source.
+///
+/// @nodoc
 class CustomLogSourceCrawlerConfiguration {
   /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   /// role to be used by the Glue crawler. The recommended IAM policies are:
@@ -3254,6 +3345,8 @@ class CustomLogSourceCrawlerConfiguration {
 }
 
 /// The details for an Amazon Security Lake exception.
+///
+/// @nodoc
 class DataLakeException {
   /// The underlying exception of a Security Lake exception.
   final String? exception;
@@ -3298,31 +3391,37 @@ class DataLakeException {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

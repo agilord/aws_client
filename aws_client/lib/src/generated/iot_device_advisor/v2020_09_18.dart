@@ -534,6 +534,7 @@ class IotDeviceAdvisor {
   }
 }
 
+/// @nodoc
 class CreateSuiteDefinitionResponse {
   /// The timestamp of when the test suite was created.
   final DateTime? createdAt;
@@ -578,6 +579,7 @@ class CreateSuiteDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DeleteSuiteDefinitionResponse {
   DeleteSuiteDefinitionResponse();
 
@@ -590,6 +592,7 @@ class DeleteSuiteDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetEndpointResponse {
   /// The response of an Device Advisor endpoint.
   final String? endpoint;
@@ -612,6 +615,7 @@ class GetEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetSuiteDefinitionResponse {
   /// Date (in Unix epoch time) when the suite definition was created.
   final DateTime? createdAt;
@@ -690,6 +694,7 @@ class GetSuiteDefinitionResponse {
   }
 }
 
+/// @nodoc
 class GetSuiteRunResponse {
   /// Date (in Unix epoch time) when the test suite run ended.
   final DateTime? endTime;
@@ -790,6 +795,7 @@ class GetSuiteRunResponse {
   }
 }
 
+/// @nodoc
 class GetSuiteRunReportResponse {
   /// Download URL of the qualification report.
   final String? qualificationReportDownloadUrl;
@@ -814,6 +820,7 @@ class GetSuiteRunReportResponse {
   }
 }
 
+/// @nodoc
 class ListSuiteDefinitionsResponse {
   /// A token used to get the next set of results.
   final String? nextToken;
@@ -850,6 +857,7 @@ class ListSuiteDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class ListSuiteRunsResponse {
   /// A token to retrieve the next set of results.
   final String? nextToken;
@@ -883,6 +891,7 @@ class ListSuiteRunsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags attached to the IoT Device Advisor resource.
   final Map<String, String>? tags;
@@ -906,6 +915,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartSuiteRunResponse {
   /// Starts a Device Advisor test suite run based on suite create time.
   final DateTime? createdAt;
@@ -949,6 +959,7 @@ class StartSuiteRunResponse {
   }
 }
 
+/// @nodoc
 class StopSuiteRunResponse {
   StopSuiteRunResponse();
 
@@ -961,6 +972,7 @@ class StopSuiteRunResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -973,6 +985,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -985,6 +998,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateSuiteDefinitionResponse {
   /// Timestamp of when the test suite was created.
   final DateTime? createdAt;
@@ -1046,6 +1060,8 @@ class UpdateSuiteDefinitionResponse {
 }
 
 /// Gets the suite definition configuration.
+///
+/// @nodoc
 class SuiteDefinitionConfiguration {
   /// Gets the device permission ARN. This is a required parameter.
   final String devicePermissionRoleArn;
@@ -1125,6 +1141,7 @@ class SuiteDefinitionConfiguration {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const mqttV3_1_1 = Protocol._('MqttV3_1_1');
   static const mqttV5 = Protocol._('MqttV5');
@@ -1157,6 +1174,8 @@ class Protocol {
 
 /// Information of a test device. A thing ARN, certificate ARN or device role
 /// ARN is required.
+///
+/// @nodoc
 class DeviceUnderTest {
   /// Lists device's certificate ARN.
   final String? certificateArn;
@@ -1194,6 +1213,8 @@ class DeviceUnderTest {
 }
 
 /// Gets suite run configuration.
+///
+/// @nodoc
 class SuiteRunConfiguration {
   /// Sets the primary device for the test suite run. This requires a thing ARN or
   /// a certificate ARN.
@@ -1241,6 +1262,8 @@ class SuiteRunConfiguration {
 /// Requires permission to access the <a
 /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">SuiteRunInformation</a>
 /// action.
+///
+/// @nodoc
 class SuiteRunInformation {
   /// Date (in Unix epoch time) when the suite run was created.
   final DateTime? createdAt;
@@ -1328,6 +1351,7 @@ class SuiteRunInformation {
   }
 }
 
+/// @nodoc
 class SuiteRunStatus {
   static const pass = SuiteRunStatus._('PASS');
   static const fail = SuiteRunStatus._('FAIL');
@@ -1370,6 +1394,8 @@ class SuiteRunStatus {
 }
 
 /// Information about the suite definition.
+///
+/// @nodoc
 class SuiteDefinitionInformation {
   /// Date (in Unix epoch time) when the test suite was created.
   final DateTime? createdAt;
@@ -1440,6 +1466,8 @@ class SuiteDefinitionInformation {
 }
 
 /// Show each group result.
+///
+/// @nodoc
 class TestResult {
   /// Show each group of test results.
   final List<GroupResult>? groups;
@@ -1466,6 +1494,8 @@ class TestResult {
 }
 
 /// Show Group Result.
+///
+/// @nodoc
 class GroupResult {
   /// Group result ID.
   final String? groupId;
@@ -1506,6 +1536,8 @@ class GroupResult {
 }
 
 /// Provides the test case run.
+///
+/// @nodoc
 class TestCaseRun {
   /// Provides test case run end time.
   final DateTime? endTime;
@@ -1626,6 +1658,7 @@ class TestCaseRun {
   }
 }
 
+/// @nodoc
 class Status {
   static const pass = Status._('PASS');
   static const fail = Status._('FAIL');
@@ -1667,6 +1700,8 @@ class Status {
 }
 
 /// Provides test case scenario.
+///
+/// @nodoc
 class TestCaseScenario {
   /// Provides test case scenario failure result.
   final String? failure;
@@ -1759,6 +1794,7 @@ class TestCaseScenario {
   }
 }
 
+/// @nodoc
 class TestCaseScenarioType {
   static const advanced = TestCaseScenarioType._('Advanced');
   static const basic = TestCaseScenarioType._('Basic');
@@ -1784,6 +1820,7 @@ class TestCaseScenarioType {
   String toString() => value;
 }
 
+/// @nodoc
 class TestCaseScenarioStatus {
   static const pass = TestCaseScenarioStatus._('PASS');
   static const fail = TestCaseScenarioStatus._('FAIL');
@@ -1827,6 +1864,7 @@ class TestCaseScenarioStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AuthenticationMethod {
   static const x509ClientCertificate =
       AuthenticationMethod._('X509ClientCertificate');
@@ -1853,21 +1891,25 @@ class AuthenticationMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

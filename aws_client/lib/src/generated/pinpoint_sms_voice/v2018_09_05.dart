@@ -295,6 +295,8 @@ class PinpointSmsVoice {
 
 /// An empty object that indicates that the configuration set was successfully
 /// created.
+///
+/// @nodoc
 class CreateConfigurationSetResponse {
   CreateConfigurationSetResponse();
 
@@ -309,6 +311,8 @@ class CreateConfigurationSetResponse {
 
 /// An empty object that indicates that the event destination was created
 /// successfully.
+///
+/// @nodoc
 class CreateConfigurationSetEventDestinationResponse {
   CreateConfigurationSetEventDestinationResponse();
 
@@ -324,6 +328,8 @@ class CreateConfigurationSetEventDestinationResponse {
 
 /// An empty object that indicates that the configuration set was deleted
 /// successfully.
+///
+/// @nodoc
 class DeleteConfigurationSetResponse {
   DeleteConfigurationSetResponse();
 
@@ -338,6 +344,8 @@ class DeleteConfigurationSetResponse {
 
 /// An empty object that indicates that the event destination was deleted
 /// successfully.
+///
+/// @nodoc
 class DeleteConfigurationSetEventDestinationResponse {
   DeleteConfigurationSetEventDestinationResponse();
 
@@ -352,6 +360,8 @@ class DeleteConfigurationSetEventDestinationResponse {
 }
 
 /// An object that contains information about an event destination.
+///
+/// @nodoc
 class GetConfigurationSetEventDestinationsResponse {
   final List<EventDestination>? eventDestinations;
 
@@ -379,6 +389,8 @@ class GetConfigurationSetEventDestinationsResponse {
 
 /// An object that contains information about the configuration sets for your
 /// account in the current region.
+///
+/// @nodoc
 class ListConfigurationSetsResponse {
   /// An object that contains a list of configuration sets for your account in the
   /// current region.
@@ -415,6 +427,8 @@ class ListConfigurationSetsResponse {
 
 /// An object that that contains the Message ID of a Voice message that was sent
 /// successfully.
+///
+/// @nodoc
 class SendVoiceMessageResponse {
   /// A unique identifier for the voice message.
   final String? messageId;
@@ -439,6 +453,8 @@ class SendVoiceMessageResponse {
 
 /// An empty object that indicates that the event destination was updated
 /// successfully.
+///
+/// @nodoc
 class UpdateConfigurationSetEventDestinationResponse {
   UpdateConfigurationSetEventDestinationResponse();
 
@@ -453,6 +469,8 @@ class UpdateConfigurationSetEventDestinationResponse {
 }
 
 /// An object that defines a single event destination.
+///
+/// @nodoc
 class EventDestinationDefinition {
   final CloudWatchLogsDestination? cloudWatchLogsDestination;
 
@@ -493,6 +511,8 @@ class EventDestinationDefinition {
 
 /// An object that contains information about an event destination that sends
 /// data to Amazon CloudWatch Logs.
+///
+/// @nodoc
 class CloudWatchLogsDestination {
   /// The Amazon Resource Name (ARN) of an Amazon Identity and Access Management
   /// (IAM) role that is able to write event data to an Amazon CloudWatch
@@ -527,6 +547,8 @@ class CloudWatchLogsDestination {
 
 /// An object that contains information about an event destination that sends
 /// data to Amazon Kinesis Data Firehose.
+///
+/// @nodoc
 class KinesisFirehoseDestination {
   /// The Amazon Resource Name (ARN) of an IAM role that can write data to an
   /// Amazon Kinesis Data Firehose stream.
@@ -560,6 +582,8 @@ class KinesisFirehoseDestination {
 
 /// An object that contains information about an event destination that sends
 /// data to Amazon SNS.
+///
+/// @nodoc
 class SnsDestination {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
   /// publish events to.
@@ -584,6 +608,8 @@ class SnsDestination {
 }
 
 /// The types of events that are sent to the event destination.
+///
+/// @nodoc
 class EventType {
   static const initiatedCall = EventType._('INITIATED_CALL');
   static const ringing = EventType._('RINGING');
@@ -622,6 +648,8 @@ class EventType {
 
 /// An object that contains a voice message and information about the recipient
 /// that you want to send it to.
+///
+/// @nodoc
 class VoiceMessageContent {
   final CallInstructionsMessageType? callInstructionsMessage;
   final PlainTextMessageType? plainTextMessage;
@@ -648,6 +676,8 @@ class VoiceMessageContent {
 
 /// An object that defines a message that contains text formatted using Amazon
 /// Pinpoint Voice Instructions markup.
+///
+/// @nodoc
 class CallInstructionsMessageType {
   /// The language to use when delivering the message. For a complete list of
   /// supported languages, see the Amazon Polly Developer Guide.
@@ -666,6 +696,8 @@ class CallInstructionsMessageType {
 }
 
 /// An object that defines a message that contains unformatted text.
+///
+/// @nodoc
 class PlainTextMessageType {
   /// The language to use when delivering the message. For a complete list of
   /// supported languages, see the Amazon Polly Developer Guide.
@@ -697,6 +729,8 @@ class PlainTextMessageType {
 }
 
 /// An object that defines a message that contains SSML-formatted text.
+///
+/// @nodoc
 class SSMLMessageType {
   /// The language to use when delivering the message. For a complete list of
   /// supported languages, see the Amazon Polly Developer Guide.
@@ -728,6 +762,8 @@ class SSMLMessageType {
 }
 
 /// An object that defines an event destination.
+///
+/// @nodoc
 class EventDestination {
   final CloudWatchLogsDestination? cloudWatchLogsDestination;
 
@@ -795,16 +831,19 @@ class EventDestination {
   }
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -813,16 +852,19 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

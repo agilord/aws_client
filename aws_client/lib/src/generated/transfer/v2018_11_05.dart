@@ -130,8 +130,8 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
   ///
-  /// <code>[ { "Entry": "/directory1", "Target":
-  /// "/bucket_name/home/mydirectory" } ]</code>
+  /// <code>\[ { "Entry": "/directory1", "Target":
+  /// "/bucket_name/home/mydirectory" } \]</code>
   ///
   /// In most cases, you can use this value instead of the session policy to
   /// lock down your user to the designated home directory
@@ -142,8 +142,8 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example for <code>chroot</code>.
   ///
-  /// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
-  /// ]</code>
+  /// <code>\[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
+  /// \]</code>
   ///
   /// Parameter [homeDirectoryType] :
   /// The type of landing directory (folder) that you want your users' home
@@ -1673,8 +1673,8 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
   ///
-  /// <code>[ { "Entry": "/directory1", "Target":
-  /// "/bucket_name/home/mydirectory" } ]</code>
+  /// <code>\[ { "Entry": "/directory1", "Target":
+  /// "/bucket_name/home/mydirectory" } \]</code>
   ///
   /// In most cases, you can use this value instead of the session policy to
   /// lock down your user to the designated home directory
@@ -1685,8 +1685,8 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example for <code>chroot</code>.
   ///
-  /// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
-  /// ]</code>
+  /// <code>\[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
+  /// \]</code>
   ///
   /// Parameter [homeDirectoryType] :
   /// The type of landing directory (folder) that you want your users' home
@@ -3995,7 +3995,7 @@ class Transfer {
   /// <code>OnUpload</code> object, as in the following example.
   ///
   /// <code>aws transfer update-server --server-id s-01234567890abcdef
-  /// --workflow-details '{"OnUpload":[]}'</code>
+  /// --workflow-details '{"OnUpload":\[\]}'</code>
   Future<UpdateServerResponse> updateServer({
     required String serverId,
     String? certificate,
@@ -4195,8 +4195,8 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
   ///
-  /// <code>[ { "Entry": "/directory1", "Target":
-  /// "/bucket_name/home/mydirectory" } ]</code>
+  /// <code>\[ { "Entry": "/directory1", "Target":
+  /// "/bucket_name/home/mydirectory" } \]</code>
   ///
   /// In most cases, you can use this value instead of the session policy to
   /// lock your user down to the designated home directory
@@ -4207,8 +4207,8 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example for <code>chroot</code>.
   ///
-  /// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
-  /// ]</code>
+  /// <code>\[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
+  /// \]</code>
   ///
   /// Parameter [homeDirectoryType] :
   /// The type of landing directory (folder) that you want your users' home
@@ -4392,7 +4392,7 @@ class Transfer {
   ///
   /// <code> aws transfer update-user --server-id &lt;server-id&gt; --user-name
   /// admin-user --home-directory-type LOGICAL --home-directory-mappings
-  /// "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"</code>
+  /// "\[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}\]"</code>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -4437,8 +4437,8 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
   ///
-  /// <code>[ { "Entry": "/directory1", "Target":
-  /// "/bucket_name/home/mydirectory" } ]</code>
+  /// <code>\[ { "Entry": "/directory1", "Target":
+  /// "/bucket_name/home/mydirectory" } \]</code>
   ///
   /// In most cases, you can use this value instead of the session policy to
   /// lock down your user to the designated home directory
@@ -4448,8 +4448,8 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example for <code>chroot</code>.
   ///
-  /// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
-  /// ]</code>
+  /// <code>\[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
+  /// \]</code>
   ///
   /// Parameter [homeDirectoryType] :
   /// The type of landing directory (folder) that you want your users' home
@@ -5206,6 +5206,7 @@ class Transfer {
   }
 }
 
+/// @nodoc
 class CreateAccessResponse {
   /// The external identifier of the group whose users have access to your Amazon
   /// S3 or Amazon EFS resources over the enabled protocols using Transfer Family.
@@ -5236,6 +5237,7 @@ class CreateAccessResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccessResponse {
   /// The external identifier of the server that the access is attached to.
   final DescribedAccess access;
@@ -5268,6 +5270,7 @@ class DescribeAccessResponse {
   }
 }
 
+/// @nodoc
 class DescribeExecutionResponse {
   /// The structure that contains the details of the workflow' execution.
   final DescribedExecution execution;
@@ -5299,6 +5302,7 @@ class DescribeExecutionResponse {
   }
 }
 
+/// @nodoc
 class DescribeHostKeyResponse {
   /// Returns the details for the specified host key.
   final DescribedHostKey hostKey;
@@ -5323,6 +5327,7 @@ class DescribeHostKeyResponse {
   }
 }
 
+/// @nodoc
 class DescribeSecurityPolicyResponse {
   /// An array containing the properties of the security policy.
   final DescribedSecurityPolicy securityPolicy;
@@ -5347,6 +5352,7 @@ class DescribeSecurityPolicyResponse {
   }
 }
 
+/// @nodoc
 class ImportHostKeyResponse {
   /// Returns the host key identifier for the imported key.
   final String hostKeyId;
@@ -5379,6 +5385,8 @@ class ImportHostKeyResponse {
 /// Identifies the user, the server they belong to, and the identifier of the
 /// SSH public key associated with that user. A user can have more than one key
 /// on each server that they are associated with.
+///
+/// @nodoc
 class ImportSshPublicKeyResponse {
   /// A system-assigned unique identifier for a server.
   final String serverId;
@@ -5415,6 +5423,7 @@ class ImportSshPublicKeyResponse {
   }
 }
 
+/// @nodoc
 class ListAccessesResponse {
   /// Returns the accesses and their properties for the <code>ServerId</code>
   /// value that you specify.
@@ -5459,6 +5468,7 @@ class ListAccessesResponse {
   }
 }
 
+/// @nodoc
 class ListExecutionsResponse {
   /// Returns the details for each execution, in a <code>ListedExecution</code>
   /// array.
@@ -5501,6 +5511,7 @@ class ListExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListFileTransferResultsResponse {
   /// Returns the details for the files transferred in the transfer identified by
   /// the <code>TransferId</code> and <code>ConnectorId</code> specified.
@@ -5558,6 +5569,7 @@ class ListFileTransferResultsResponse {
   }
 }
 
+/// @nodoc
 class ListHostKeysResponse {
   /// Returns an array, where each item contains the details of a host key.
   final List<ListedHostKey> hostKeys;
@@ -5598,6 +5610,7 @@ class ListHostKeysResponse {
   }
 }
 
+/// @nodoc
 class ListSecurityPoliciesResponse {
   /// An array of security policies that were listed.
   final List<String> securityPolicyNames;
@@ -5633,6 +5646,7 @@ class ListSecurityPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The ARN you specified to list the tags of.
   final String? arn;
@@ -5676,6 +5690,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class SendWorkflowStepStateResponse {
   SendWorkflowStepStateResponse();
 
@@ -5688,6 +5703,7 @@ class SendWorkflowStepStateResponse {
   }
 }
 
+/// @nodoc
 class StartDirectoryListingResponse {
   /// Returns a unique identifier for the directory listing call.
   final String listingId;
@@ -5719,6 +5735,7 @@ class StartDirectoryListingResponse {
   }
 }
 
+/// @nodoc
 class StartFileTransferResponse {
   /// Returns the unique identifier for the file transfer.
   final String transferId;
@@ -5741,6 +5758,7 @@ class StartFileTransferResponse {
   }
 }
 
+/// @nodoc
 class StartRemoteDeleteResponse {
   /// Returns a unique identifier for the delete operation.
   final String deleteId;
@@ -5763,6 +5781,7 @@ class StartRemoteDeleteResponse {
   }
 }
 
+/// @nodoc
 class StartRemoteMoveResponse {
   /// Returns a unique identifier for the move/rename operation.
   final String moveId;
@@ -5785,6 +5804,7 @@ class StartRemoteMoveResponse {
   }
 }
 
+/// @nodoc
 class TestConnectionResponse {
   /// Returns the identifier of the connector object that you are testing.
   final String? connectorId;
@@ -5854,6 +5874,7 @@ class TestConnectionResponse {
   }
 }
 
+/// @nodoc
 class TestIdentityProviderResponse {
   /// The HTTP status code that is the response from your API Gateway or your
   /// Lambda function.
@@ -5902,6 +5923,7 @@ class TestIdentityProviderResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccessResponse {
   /// The external identifier of the group whose users have access to your Amazon
   /// S3 or Amazon EFS resources over the enabled protocols using Amazon Web
@@ -5933,6 +5955,7 @@ class UpdateAccessResponse {
   }
 }
 
+/// @nodoc
 class UpdateHostKeyResponse {
   /// Returns the host key identifier for the updated host key.
   final String hostKeyId;
@@ -5963,6 +5986,7 @@ class UpdateHostKeyResponse {
   }
 }
 
+/// @nodoc
 class CreateAgreementResponse {
   /// The unique identifier for the agreement. Use this ID for deleting, or
   /// updating an agreement, as well as in any other API calls that require that
@@ -5987,6 +6011,7 @@ class CreateAgreementResponse {
   }
 }
 
+/// @nodoc
 class DescribeAgreementResponse {
   /// The details for the specified agreement, returned as a
   /// <code>DescribedAgreement</code> object.
@@ -6012,6 +6037,7 @@ class DescribeAgreementResponse {
   }
 }
 
+/// @nodoc
 class UpdateAgreementResponse {
   /// A unique identifier for the agreement. This identifier is returned when you
   /// create an agreement.
@@ -6035,6 +6061,7 @@ class UpdateAgreementResponse {
   }
 }
 
+/// @nodoc
 class ListAgreementsResponse {
   /// Returns an array, where each item contains the details of an agreement.
   final List<ListedAgreement> agreements;
@@ -6068,6 +6095,7 @@ class ListAgreementsResponse {
   }
 }
 
+/// @nodoc
 class ImportCertificateResponse {
   /// An array of identifiers for the imported certificates. You use this
   /// identifier for working with profiles and partner profiles.
@@ -6091,6 +6119,7 @@ class ImportCertificateResponse {
   }
 }
 
+/// @nodoc
 class DescribeCertificateResponse {
   /// The details for the specified certificate, returned as an object.
   final DescribedCertificate certificate;
@@ -6115,6 +6144,7 @@ class DescribeCertificateResponse {
   }
 }
 
+/// @nodoc
 class UpdateCertificateResponse {
   /// Returns the identifier of the certificate object that you are updating.
   final String certificateId;
@@ -6137,6 +6167,7 @@ class UpdateCertificateResponse {
   }
 }
 
+/// @nodoc
 class ListCertificatesResponse {
   /// Returns an array of the certificates that are specified in the
   /// <code>ListCertificates</code> call.
@@ -6170,6 +6201,7 @@ class ListCertificatesResponse {
   }
 }
 
+/// @nodoc
 class CreateConnectorResponse {
   /// The unique identifier for the connector, returned after the API call
   /// succeeds.
@@ -6193,6 +6225,7 @@ class CreateConnectorResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectorResponse {
   /// The structure that contains the details of the connector.
   final DescribedConnector connector;
@@ -6217,6 +6250,7 @@ class DescribeConnectorResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectorResponse {
   /// Returns the identifier of the connector object that you are updating.
   final String connectorId;
@@ -6239,6 +6273,7 @@ class UpdateConnectorResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorsResponse {
   /// Returns an array, where each item contains the details of a connector.
   final List<ListedConnector> connectors;
@@ -6272,6 +6307,7 @@ class ListConnectorsResponse {
   }
 }
 
+/// @nodoc
 class CreateProfileResponse {
   /// The unique identifier for the AS2 profile, returned after the API call
   /// succeeds.
@@ -6295,6 +6331,7 @@ class CreateProfileResponse {
   }
 }
 
+/// @nodoc
 class DescribeProfileResponse {
   /// The details of the specified profile, returned as an object.
   final DescribedProfile profile;
@@ -6319,6 +6356,7 @@ class DescribeProfileResponse {
   }
 }
 
+/// @nodoc
 class UpdateProfileResponse {
   /// Returns the identifier for the profile that's being updated.
   final String profileId;
@@ -6341,6 +6379,7 @@ class UpdateProfileResponse {
   }
 }
 
+/// @nodoc
 class ListProfilesResponse {
   /// Returns an array, where each item contains the details of a profile.
   final List<ListedProfile> profiles;
@@ -6374,6 +6413,7 @@ class ListProfilesResponse {
   }
 }
 
+/// @nodoc
 class CreateServerResponse {
   /// The service-assigned identifier of the server that is created.
   final String serverId;
@@ -6396,6 +6436,7 @@ class CreateServerResponse {
   }
 }
 
+/// @nodoc
 class DescribeServerResponse {
   /// An array containing the properties of a server with the
   /// <code>ServerID</code> you specified.
@@ -6421,6 +6462,7 @@ class DescribeServerResponse {
   }
 }
 
+/// @nodoc
 class UpdateServerResponse {
   /// A system-assigned unique identifier for a server that the Transfer Family
   /// user is assigned to.
@@ -6444,6 +6486,7 @@ class UpdateServerResponse {
   }
 }
 
+/// @nodoc
 class ListServersResponse {
   /// An array of servers that were listed.
   final List<ListedServer> servers;
@@ -6479,6 +6522,7 @@ class ListServersResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   /// The identifier of the server that the user is attached to.
   final String serverId;
@@ -6508,6 +6552,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeUserResponse {
   /// A system-assigned unique identifier for a server that has this user
   /// assigned.
@@ -6542,6 +6587,8 @@ class DescribeUserResponse {
 
 /// <code>UpdateUserResponse</code> returns the user name and identifier for the
 /// request to update a user's properties.
+///
+/// @nodoc
 class UpdateUserResponse {
   /// A system-assigned unique identifier for a Transfer Family server instance
   /// that the account is assigned to.
@@ -6573,6 +6620,7 @@ class UpdateUserResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// A system-assigned unique identifier for a server that the users are assigned
   /// to.
@@ -6617,6 +6665,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class DescribeWebAppCustomizationResponse {
   /// Returns a structure that contains the details of the web app customizations.
   final DescribedWebAppCustomization webAppCustomization;
@@ -6642,6 +6691,7 @@ class DescribeWebAppCustomizationResponse {
   }
 }
 
+/// @nodoc
 class UpdateWebAppCustomizationResponse {
   /// Returns the unique identifier for the web app being updated.
   final String webAppId;
@@ -6665,6 +6715,7 @@ class UpdateWebAppCustomizationResponse {
   }
 }
 
+/// @nodoc
 class CreateWebAppResponse {
   /// Returns a unique identifier for the web app.
   final String webAppId;
@@ -6687,6 +6738,7 @@ class CreateWebAppResponse {
   }
 }
 
+/// @nodoc
 class DescribeWebAppResponse {
   /// Returns a structure that contains the details of the web app.
   final DescribedWebApp webApp;
@@ -6711,6 +6763,7 @@ class DescribeWebAppResponse {
   }
 }
 
+/// @nodoc
 class UpdateWebAppResponse {
   /// Returns the unique identifier for the web app being updated.
   final String webAppId;
@@ -6733,6 +6786,7 @@ class UpdateWebAppResponse {
   }
 }
 
+/// @nodoc
 class ListWebAppsResponse {
   /// Returns, for each listed web app, a structure that contains details for the
   /// web app.
@@ -6767,6 +6821,7 @@ class ListWebAppsResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkflowResponse {
   /// A unique identifier for the workflow.
   final String workflowId;
@@ -6789,6 +6844,7 @@ class CreateWorkflowResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkflowResponse {
   /// The structure that contains the details of the workflow.
   final DescribedWorkflow workflow;
@@ -6813,6 +6869,7 @@ class DescribeWorkflowResponse {
   }
 }
 
+/// @nodoc
 class ListWorkflowsResponse {
   /// Returns the <code>Arn</code>, <code>WorkflowId</code>, and
   /// <code>Description</code> for each workflow.
@@ -6850,6 +6907,8 @@ class ListWorkflowsResponse {
 
 /// Contains the identifier, text description, and Amazon Resource Name (ARN)
 /// for the workflow.
+///
+/// @nodoc
 class ListedWorkflow {
   /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
   final String? arn;
@@ -6887,6 +6946,8 @@ class ListedWorkflow {
 }
 
 /// Describes the properties of the specified workflow
+///
+/// @nodoc
 class DescribedWorkflow {
   /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
   final String arn;
@@ -6961,6 +7022,8 @@ class DescribedWorkflow {
 /// value. For example, to group servers for accounting purposes, you might
 /// create a tag called <code>Group</code> and assign the values
 /// <code>Research</code> and <code>Accounting</code> to that group.
+///
+/// @nodoc
 class Tag {
   /// The name assigned to the tag that you create.
   final String key;
@@ -6991,6 +7054,8 @@ class Tag {
 }
 
 /// The basic building block of a workflow.
+///
+/// @nodoc
 class WorkflowStep {
   /// Details for a step that performs a file copy.
   ///
@@ -7125,6 +7190,7 @@ class WorkflowStep {
   }
 }
 
+/// @nodoc
 class WorkflowStepType {
   static const copy = WorkflowStepType._('COPY');
   static const custom = WorkflowStepType._('CUSTOM');
@@ -7153,6 +7219,8 @@ class WorkflowStepType {
 }
 
 /// Each step type has its own <code>StepDetails</code> structure.
+///
+/// @nodoc
 class CopyStepDetails {
   /// Specifies the location for the file being copied. Use
   /// <code>${Transfer:UserName}</code> or <code>${Transfer:UploadDate}</code> in
@@ -7251,6 +7319,8 @@ class CopyStepDetails {
 }
 
 /// Each step type has its own <code>StepDetails</code> structure.
+///
+/// @nodoc
 class CustomStepDetails {
   /// The name of the step, used as an identifier.
   final String? name;
@@ -7308,6 +7378,8 @@ class CustomStepDetails {
 }
 
 /// The name of the step, used to identify the delete step.
+///
+/// @nodoc
 class DeleteStepDetails {
   /// The name of the step, used as an identifier.
   final String? name;
@@ -7354,6 +7426,8 @@ class DeleteStepDetails {
 ///
 /// The key/value pairs used to tag a file during the execution of a workflow
 /// step.
+///
+/// @nodoc
 class TagStepDetails {
   /// The name of the step, used as an identifier.
   final String? name;
@@ -7407,6 +7481,8 @@ class TagStepDetails {
 }
 
 /// Each step type has its own <code>StepDetails</code> structure.
+///
+/// @nodoc
 class DecryptStepDetails {
   /// Specifies the location for the file being decrypted. Use
   /// <code>${Transfer:UserName}</code> or <code>${Transfer:UploadDate}</code> in
@@ -7509,6 +7585,7 @@ class DecryptStepDetails {
   }
 }
 
+/// @nodoc
 class EncryptionType {
   static const pgp = EncryptionType._('PGP');
 
@@ -7532,6 +7609,7 @@ class EncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class OverwriteExisting {
   static const $true = OverwriteExisting._('TRUE');
   static const $false = OverwriteExisting._('FALSE');
@@ -7557,6 +7635,8 @@ class OverwriteExisting {
 }
 
 /// Specifies the location for the file that's being processed.
+///
+/// @nodoc
 class InputFileLocation {
   /// Specifies the details for the Amazon Elastic File System (Amazon EFS) file
   /// that's being decrypted.
@@ -7611,6 +7691,8 @@ class InputFileLocation {
 /// is <code>shared-files/today</code>, each uploaded file is copied to the
 /// <code>shared-files</code> folder and named <code>today</code>: each upload
 /// overwrites the previous version of the <i>bob</i> file.
+///
+/// @nodoc
 class S3InputFileLocation {
   /// Specifies the S3 bucket for the customer input file.
   final String? bucket;
@@ -7646,6 +7728,8 @@ class S3InputFileLocation {
 /// Systems (Amazon EFS) for storage.
 ///
 ///
+///
+/// @nodoc
 class EfsFileLocation {
   /// The identifier of the file system, assigned by Amazon EFS.
   final String? fileSystemId;
@@ -7677,6 +7761,8 @@ class EfsFileLocation {
 
 /// Specifies the key-value pair that are assigned to a file during the
 /// execution of a Tagging step.
+///
+/// @nodoc
 class S3Tag {
   /// The name assigned to the tag that you create.
   final String key;
@@ -7707,6 +7793,8 @@ class S3Tag {
 }
 
 /// a structure that contains details for the web app.
+///
+/// @nodoc
 class ListedWebApp {
   /// The Amazon Resource Name (ARN) for the web app.
   final String arn;
@@ -7764,6 +7852,7 @@ class ListedWebApp {
   }
 }
 
+/// @nodoc
 class WebAppEndpointType {
   static const public = WebAppEndpointType._('PUBLIC');
   static const vpc = WebAppEndpointType._('VPC');
@@ -7791,6 +7880,8 @@ class WebAppEndpointType {
 
 /// A union that contains the <code>UpdateWebAppIdentityCenterConfig</code>
 /// object.
+///
+/// @nodoc
 class UpdateWebAppIdentityProviderDetails {
   /// A structure that describes the values to use for the IAM Identity Center
   /// settings when you update a web app.
@@ -7811,6 +7902,8 @@ class UpdateWebAppIdentityProviderDetails {
 
 /// Contains an integer value that represents the value for number of concurrent
 /// connections or the user sessions on your web app.
+///
+/// @nodoc
 class WebAppUnits {
   /// An integer that represents the number of units for your desired number of
   /// concurrent connections, or the number of user sessions on your web app at
@@ -7841,6 +7934,8 @@ class WebAppUnits {
 
 /// Contains the endpoint configuration details for updating a web app,
 /// including VPC settings for endpoints hosted within a VPC.
+///
+/// @nodoc
 class UpdateWebAppEndpointDetails {
   /// The VPC configuration details for updating a web app endpoint hosted within
   /// a VPC. This includes the subnet IDs for endpoint deployment.
@@ -7860,6 +7955,8 @@ class UpdateWebAppEndpointDetails {
 
 /// Contains the VPC configuration settings for updating a web app endpoint,
 /// including the subnet IDs where the endpoint should be deployed.
+///
+/// @nodoc
 class UpdateWebAppVpcConfig {
   /// The IP address type for the web app's VPC endpoint. This determines whether
   /// the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6.
@@ -7884,6 +7981,7 @@ class UpdateWebAppVpcConfig {
   }
 }
 
+/// @nodoc
 class WebAppVpcEndpointIpAddressType {
   static const ipv4 = WebAppVpcEndpointIpAddressType._('IPV4');
   static const dualstack = WebAppVpcEndpointIpAddressType._('DUALSTACK');
@@ -7911,6 +8009,8 @@ class WebAppVpcEndpointIpAddressType {
 
 /// A structure that describes the values to use for the IAM Identity Center
 /// settings when you update a web app.
+///
+/// @nodoc
 class UpdateWebAppIdentityCenterConfig {
   /// The IAM role used to access IAM Identity Center.
   final String? role;
@@ -7929,6 +8029,8 @@ class UpdateWebAppIdentityCenterConfig {
 
 /// A structure that describes the parameters for the web app, as identified by
 /// the <code>WebAppId</code>.
+///
+/// @nodoc
 class DescribedWebApp {
   /// The Amazon Resource Name (ARN) of the web app.
   final String arn;
@@ -8051,6 +8153,8 @@ class DescribedWebApp {
 
 /// Returns a structure that contains the identity provider details for your web
 /// app.
+///
+/// @nodoc
 class DescribedWebAppIdentityProviderDetails {
   /// Returns a structure for your identity provider details. This structure
   /// contains the instance ARN and role being used for the web app.
@@ -8079,6 +8183,7 @@ class DescribedWebAppIdentityProviderDetails {
   }
 }
 
+/// @nodoc
 class WebAppEndpointPolicy {
   static const fips = WebAppEndpointPolicy._('FIPS');
   static const standard = WebAppEndpointPolicy._('STANDARD');
@@ -8106,6 +8211,8 @@ class WebAppEndpointPolicy {
 
 /// Contains the endpoint configuration details for a web app, including VPC
 /// configuration when the endpoint is hosted within a VPC.
+///
+/// @nodoc
 class DescribedWebAppEndpointDetails {
   /// The VPC configuration details when the web app endpoint is hosted within a
   /// VPC. This includes the VPC ID, subnet IDs, and VPC endpoint ID.
@@ -8135,6 +8242,8 @@ class DescribedWebAppEndpointDetails {
 /// Contains the VPC configuration details for a web app endpoint, including the
 /// VPC identifier, subnet IDs, and VPC endpoint ID used for hosting the
 /// endpoint.
+///
+/// @nodoc
 class DescribedWebAppVpcConfig {
   /// The list of subnet IDs within the VPC where the web app endpoint is
   /// deployed. These subnets must be in the same VPC and provide network
@@ -8178,6 +8287,8 @@ class DescribedWebAppVpcConfig {
 
 /// A structure that contains the details of the IAM Identity Center used for
 /// your web app. Returned during a call to <code>DescribeWebApp</code>.
+///
+/// @nodoc
 class DescribedIdentityCenterConfig {
   /// The Amazon Resource Name (ARN) for the IAM Identity Center application: this
   /// value is set automatically when you create your web app.
@@ -8217,6 +8328,8 @@ class DescribedIdentityCenterConfig {
 }
 
 /// A union that contains the <code>IdentityCenterConfig</code> object.
+///
+/// @nodoc
 class WebAppIdentityProviderDetails {
   /// A structure that describes the values to use for the IAM Identity Center
   /// settings when you create a web app.
@@ -8237,6 +8350,8 @@ class WebAppIdentityProviderDetails {
 
 /// Contains the endpoint configuration for a web app, including VPC settings
 /// when the endpoint is hosted within a VPC.
+///
+/// @nodoc
 class WebAppEndpointDetails {
   /// The VPC configuration for hosting the web app endpoint within a VPC.
   final WebAppVpcConfig? vpc;
@@ -8255,6 +8370,8 @@ class WebAppEndpointDetails {
 
 /// Contains the VPC configuration settings for hosting a web app endpoint,
 /// including the VPC ID, subnet IDs, and security group IDs for access control.
+///
+/// @nodoc
 class WebAppVpcConfig {
   /// The IP address type for the web app's VPC endpoint. This determines whether
   /// the endpoint is accessible over IPv4 only, or over both IPv4 and IPv6.
@@ -8296,6 +8413,8 @@ class WebAppVpcConfig {
 
 /// A structure that describes the values to use for the IAM Identity Center
 /// settings when you create or update a web app.
+///
+/// @nodoc
 class IdentityCenterConfig {
   /// The Amazon Resource Name (ARN) for the IAM Identity Center used for the web
   /// app.
@@ -8321,6 +8440,8 @@ class IdentityCenterConfig {
 
 /// A structure that contains the customization fields for the web app. You can
 /// provide a title, logo, and icon to customize the appearance of your web app.
+///
+/// @nodoc
 class DescribedWebAppCustomization {
   /// Returns the Amazon Resource Name (ARN) for the web app.
   final String arn;
@@ -8372,6 +8493,8 @@ class DescribedWebAppCustomization {
 }
 
 /// Returns properties of the user that you specify.
+///
+/// @nodoc
 class ListedUser {
   /// Provides the unique Amazon Resource Name (ARN) for the user that you want to
   /// learn about.
@@ -8471,6 +8594,7 @@ class ListedUser {
   }
 }
 
+/// @nodoc
 class HomeDirectoryType {
   static const path = HomeDirectoryType._('PATH');
   static const logical = HomeDirectoryType._('LOGICAL');
@@ -8501,6 +8625,8 @@ class HomeDirectoryType {
 /// Amazon EFS file systems. The POSIX permissions that are set on files and
 /// directories in your file system determine the level of access your users get
 /// when transferring files into and out of your Amazon EFS file systems.
+///
+/// @nodoc
 class PosixProfile {
   /// The POSIX group ID used for all EFS operations by this user.
   final int gid;
@@ -8546,7 +8672,10 @@ class PosixProfile {
 /// The following is an <code>Entry</code> and <code>Target</code> pair example
 /// for <code>chroot</code>.
 ///
-/// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]</code>
+/// <code>\[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
+/// \]</code>
+///
+/// @nodoc
 class HomeDirectoryMapEntry {
   /// Represents an entry for <code>HomeDirectoryMappings</code>.
   final String entry;
@@ -8592,6 +8721,7 @@ class HomeDirectoryMapEntry {
   }
 }
 
+/// @nodoc
 class MapType {
   static const file = MapType._('FILE');
   static const directory = MapType._('DIRECTORY');
@@ -8616,6 +8746,8 @@ class MapType {
 }
 
 /// Describes the properties of a user that was specified.
+///
+/// @nodoc
 class DescribedUser {
   /// Specifies the unique Amazon Resource Name (ARN) for the user that was
   /// requested to be described.
@@ -8697,7 +8829,7 @@ class DescribedUser {
   /// <note>
   /// To delete the public key body, set its value to zero keys, as shown here:
   ///
-  /// <code>SshPublicKeys: []</code>
+  /// <code>SshPublicKeys: \[\]</code>
   /// </note>
   final List<SshPublicKey>? sshPublicKeys;
 
@@ -8784,6 +8916,8 @@ class DescribedUser {
 /// information returned includes the date the key was imported, the public key
 /// contents, and the public key ID. A user can store more than one SSH public
 /// key associated with their user name on a specific server.
+///
+/// @nodoc
 class SshPublicKey {
   /// Specifies the date that the public key was added to the Transfer Family
   /// user.
@@ -8827,6 +8961,8 @@ class SshPublicKey {
 
 /// Returns properties of a file transfer protocol-enabled server that was
 /// specified.
+///
+/// @nodoc
 class ListedServer {
   /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
   final String arn;
@@ -8936,6 +9072,7 @@ class ListedServer {
   }
 }
 
+/// @nodoc
 class Domain {
   static const s3 = Domain._('S3');
   static const efs = Domain._('EFS');
@@ -8978,6 +9115,8 @@ class Domain {
 /// your identity provider. If you choose this value, you must specify the ARN
 /// for the Lambda function in the <code>Function</code> parameter for the
 /// <code>IdentityProviderDetails</code> data type.
+///
+/// @nodoc
 class IdentityProviderType {
   static const serviceManaged = IdentityProviderType._('SERVICE_MANAGED');
   static const apiGateway = IdentityProviderType._('API_GATEWAY');
@@ -9011,6 +9150,7 @@ class IdentityProviderType {
   String toString() => value;
 }
 
+/// @nodoc
 class EndpointType {
   static const public = EndpointType._('PUBLIC');
   static const vpc = EndpointType._('VPC');
@@ -9048,6 +9188,8 @@ class EndpointType {
 /// perform file operations. Under normal conditions, it can take a couple of
 /// minutes for the server to be completely operational. Both
 /// <code>START_FAILED</code> and <code>STOP_FAILED</code> are error conditions.
+///
+/// @nodoc
 class State {
   static const offline = State._('OFFLINE');
   static const online = State._('ONLINE');
@@ -9083,6 +9225,8 @@ class State {
 }
 
 /// The protocol settings that are configured for your server.
+///
+/// @nodoc
 class ProtocolDetails {
   /// Indicates the transport method for the AS2 messages. Currently, only HTTP is
   /// supported.
@@ -9256,6 +9400,8 @@ class ProtocolDetails {
 /// the client's public IP address. This is not possible with
 /// <code>EndpointType</code> set to <code>VPC_ENDPOINT</code>.
 /// </note>
+///
+/// @nodoc
 class EndpointDetails {
   /// A list of address allocation IDs that are required to attach an Elastic IP
   /// address to your server's endpoint.
@@ -9404,6 +9550,8 @@ class EndpointDetails {
 /// Returns information related to the type of user authentication that is in
 /// use for a file transfer protocol-enabled server's users. A server can have
 /// only one method of authentication.
+///
+/// @nodoc
 class IdentityProviderDetails {
   /// The identifier of the Directory Service directory that you want to use as
   /// your identity provider.
@@ -9481,6 +9629,8 @@ class IdentityProviderDetails {
 
 /// Container for the <code>WorkflowDetail</code> data type. It is used by
 /// actions that trigger a workflow to begin execution.
+///
+/// @nodoc
 class WorkflowDetails {
   /// A trigger that starts a workflow if a file is only partially uploaded. You
   /// can attach a workflow to a server that executes whenever there is a partial
@@ -9501,7 +9651,7 @@ class WorkflowDetails {
   /// <code>OnUpload</code> object, as in the following example.
   ///
   /// <code>aws transfer update-server --server-id s-01234567890abcdef
-  /// --workflow-details '{"OnUpload":[]}'</code>
+  /// --workflow-details '{"OnUpload":\[\]}'</code>
   /// <note>
   /// <code>OnUpload</code> can contain a maximum of one
   /// <code>WorkflowDetail</code> object.
@@ -9537,6 +9687,8 @@ class WorkflowDetails {
 }
 
 /// The Amazon S3 storage options that are configured for your server.
+///
+/// @nodoc
 class S3StorageOptions {
   /// Specifies whether or not performance for your Amazon S3 directories is
   /// optimized.
@@ -9576,6 +9728,7 @@ class S3StorageOptions {
   }
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('IPV4');
   static const dualstack = IpAddressType._('DUALSTACK');
@@ -9602,6 +9755,8 @@ class IpAddressType {
 
 /// Indicates whether optimization to directory listing on S3 servers is used.
 /// Disabled by default for compatibility.
+///
+/// @nodoc
 class DirectoryListingOptimization {
   static const enabled = DirectoryListingOptimization._('ENABLED');
   static const disabled = DirectoryListingOptimization._('DISABLED');
@@ -9634,6 +9789,8 @@ class DirectoryListingOptimization {
 /// <code>WorkflowDetails</code> can also contain a workflow ID (and execution
 /// role) for a workflow to execute on partial upload. A partial upload occurs
 /// when the server session disconnects while the file is still being uploaded.
+///
+/// @nodoc
 class WorkflowDetail {
   /// Includes the necessary permissions for S3, EFS, and Lambda operations that
   /// Transfer can assume, so that all workflow steps can operate on the required
@@ -9665,6 +9822,7 @@ class WorkflowDetail {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const sftp = Protocol._('SFTP');
   static const ftp = Protocol._('FTP');
@@ -9690,6 +9848,7 @@ class Protocol {
   String toString() => value;
 }
 
+/// @nodoc
 class SftpAuthenticationMethods {
   static const password = SftpAuthenticationMethods._('PASSWORD');
   static const publicKey = SftpAuthenticationMethods._('PUBLIC_KEY');
@@ -9724,6 +9883,7 @@ class SftpAuthenticationMethods {
   String toString() => value;
 }
 
+/// @nodoc
 class TlsSessionResumptionMode {
   static const disabled = TlsSessionResumptionMode._('DISABLED');
   static const enabled = TlsSessionResumptionMode._('ENABLED');
@@ -9750,6 +9910,7 @@ class TlsSessionResumptionMode {
   String toString() => value;
 }
 
+/// @nodoc
 class SetStatOption {
   static const $default = SetStatOption._('DEFAULT');
   static const enableNoOp = SetStatOption._('ENABLE_NO_OP');
@@ -9774,6 +9935,7 @@ class SetStatOption {
   String toString() => value;
 }
 
+/// @nodoc
 class As2Transport {
   static const http = As2Transport._('HTTP');
 
@@ -9798,6 +9960,8 @@ class As2Transport {
 
 /// Describes the properties of a file transfer protocol-enabled server that was
 /// specified.
+///
+/// @nodoc
 class DescribedServer {
   /// Specifies the unique Amazon Resource Name (ARN) of the server.
   final String arn;
@@ -10221,6 +10385,8 @@ class DescribedServer {
 }
 
 /// Returns the properties of the profile that was specified.
+///
+/// @nodoc
 class ListedProfile {
   /// The Amazon Resource Name (ARN) of the specified profile.
   final String? arn;
@@ -10273,6 +10439,7 @@ class ListedProfile {
   }
 }
 
+/// @nodoc
 class ProfileType {
   static const local = ProfileType._('LOCAL');
   static const partner = ProfileType._('PARTNER');
@@ -10297,6 +10464,8 @@ class ProfileType {
 }
 
 /// The details for a local or partner AS2 profile.
+///
+/// @nodoc
 class DescribedProfile {
   /// The unique Amazon Resource Name (ARN) for the profile.
   final String arn;
@@ -10371,6 +10540,8 @@ class DescribedProfile {
 }
 
 /// Returns details of the connector that is specified.
+///
+/// @nodoc
 class ListedConnector {
   /// The Amazon Resource Name (ARN) of the specified connector.
   final String? arn;
@@ -10414,6 +10585,8 @@ class ListedConnector {
 /// Contains the details for an AS2 connector object. The connector object is
 /// used for AS2 outbound processes, to connect the Transfer Family customer
 /// with the trading partner.
+///
+/// @nodoc
 class As2ConnectorConfig {
   /// Configuration settings for asynchronous Message Disposition Notification
   /// (MDN) responses. This allows you to configure where asynchronous MDN
@@ -10595,6 +10768,8 @@ class As2ConnectorConfig {
 
 /// Contains the details for an SFTP connector object. The connector object is
 /// used for transferring files to and from a partner's SFTP server.
+///
+/// @nodoc
 class SftpConnectorConfig {
   /// Specify the number of concurrent connections that your connector creates to
   /// the remote server. The default value is <code>1</code>. The maximum values
@@ -10711,6 +10886,8 @@ class SftpConnectorConfig {
 /// Structure for updating the egress configuration of an existing connector.
 /// Allows modification of how traffic is routed from the connector to the SFTP
 /// server, including VPC_LATTICE settings.
+///
+/// @nodoc
 class UpdateConnectorEgressConfig {
   /// VPC_LATTICE configuration updates for the connector. Use this to modify the
   /// Resource Configuration ARN or port number for VPC-based connectivity.
@@ -10728,6 +10905,7 @@ class UpdateConnectorEgressConfig {
   }
 }
 
+/// @nodoc
 class ConnectorsIpAddressType {
   static const ipv4 = ConnectorsIpAddressType._('IPV4');
   static const dualstack = ConnectorsIpAddressType._('DUALSTACK');
@@ -10756,6 +10934,8 @@ class ConnectorsIpAddressType {
 /// VPC_LATTICE egress configuration updates for modifying how the connector
 /// routes traffic through customer VPCs. Changes to these settings may require
 /// connector restart to take effect.
+///
+/// @nodoc
 class UpdateConnectorVpcLatticeEgressConfig {
   /// Updated port number for SFTP connections through VPC_LATTICE. Change this if
   /// the target SFTP server port has been modified or if connecting to a
@@ -10783,6 +10963,7 @@ class UpdateConnectorVpcLatticeEgressConfig {
   }
 }
 
+/// @nodoc
 class CompressionEnum {
   static const zlib = CompressionEnum._('ZLIB');
   static const disabled = CompressionEnum._('DISABLED');
@@ -10807,6 +10988,7 @@ class CompressionEnum {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionAlg {
   static const aes128Cbc = EncryptionAlg._('AES128_CBC');
   static const aes192Cbc = EncryptionAlg._('AES192_CBC');
@@ -10834,6 +11016,7 @@ class EncryptionAlg {
   String toString() => value;
 }
 
+/// @nodoc
 class SigningAlg {
   static const sha256 = SigningAlg._('SHA256');
   static const sha384 = SigningAlg._('SHA384');
@@ -10860,6 +11043,7 @@ class SigningAlg {
   String toString() => value;
 }
 
+/// @nodoc
 class MdnSigningAlg {
   static const sha256 = MdnSigningAlg._('SHA256');
   static const sha384 = MdnSigningAlg._('SHA384');
@@ -10888,6 +11072,7 @@ class MdnSigningAlg {
   String toString() => value;
 }
 
+/// @nodoc
 class MdnResponse {
   static const sync = MdnResponse._('SYNC');
   static const none = MdnResponse._('NONE');
@@ -10912,6 +11097,7 @@ class MdnResponse {
   String toString() => value;
 }
 
+/// @nodoc
 class PreserveContentType {
   static const enabled = PreserveContentType._('ENABLED');
   static const disabled = PreserveContentType._('DISABLED');
@@ -10941,6 +11127,8 @@ class PreserveContentType {
 /// Notification (MDN) responses in AS2 connectors. This configuration specifies
 /// where asynchronous MDN responses should be sent and which servers should
 /// handle them.
+///
+/// @nodoc
 class As2AsyncMdnConnectorConfig {
   /// A list of server identifiers that can handle asynchronous MDN responses. You
   /// can specify between 1 and 10 server IDs.
@@ -10976,6 +11164,8 @@ class As2AsyncMdnConnectorConfig {
 
 /// Describes the parameters for the connector, as identified by the
 /// <code>ConnectorId</code>.
+///
+/// @nodoc
 class DescribedConnector {
   /// The unique Amazon Resource Name (ARN) for the connector.
   final String arn;
@@ -11171,6 +11361,8 @@ class DescribedConnector {
 /// Response structure containing the current egress configuration details for
 /// the connector. Shows how traffic is currently routed from the connector to
 /// the SFTP server.
+///
+/// @nodoc
 class DescribedConnectorEgressConfig {
   /// VPC_LATTICE configuration details in the response, showing the current
   /// Resource Configuration ARN and port settings for VPC-based connectivity.
@@ -11197,6 +11389,7 @@ class DescribedConnectorEgressConfig {
   }
 }
 
+/// @nodoc
 class ConnectorEgressType {
   static const serviceManaged = ConnectorEgressType._('SERVICE_MANAGED');
   static const vpcLattice = ConnectorEgressType._('VPC_LATTICE');
@@ -11222,6 +11415,7 @@ class ConnectorEgressType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectorStatus {
   static const active = ConnectorStatus._('ACTIVE');
   static const errored = ConnectorStatus._('ERRORED');
@@ -11250,6 +11444,8 @@ class ConnectorStatus {
 /// VPC_LATTICE egress configuration details in the response, containing the
 /// Resource Configuration ARN and port number currently configured for the
 /// connector.
+///
+/// @nodoc
 class DescribedConnectorVpcLatticeEgressConfig {
   /// ARN of the VPC_LATTICE Resource Configuration currently used by the
   /// connector. This Resource Configuration defines the network path to the SFTP
@@ -11288,6 +11484,8 @@ class DescribedConnectorVpcLatticeEgressConfig {
 /// Configuration structure that defines how traffic is routed from the
 /// connector to the SFTP server. Contains VPC Lattice settings when using
 /// VPC_LATTICE egress type for private connectivity through customer VPCs.
+///
+/// @nodoc
 class ConnectorEgressConfig {
   /// VPC_LATTICE configuration for routing connector traffic through customer
   /// VPCs. Enables private connectivity to SFTP servers without requiring public
@@ -11309,6 +11507,8 @@ class ConnectorEgressConfig {
 /// VPC_LATTICE egress configuration that specifies the Resource Configuration
 /// ARN and port for connecting to SFTP servers through customer VPCs. Requires
 /// a valid Resource Configuration with appropriate network access.
+///
+/// @nodoc
 class ConnectorVpcLatticeEgressConfig {
   /// ARN of the VPC_LATTICE Resource Configuration that defines the target SFTP
   /// server location. Must point to a valid Resource Configuration in the
@@ -11336,6 +11536,8 @@ class ConnectorVpcLatticeEgressConfig {
 }
 
 /// Describes the properties of a certificate.
+///
+/// @nodoc
 class ListedCertificate {
   /// An optional date that specifies when the certificate becomes active. If you
   /// do not specify a value, <code>ActiveDate</code> takes the same value as
@@ -11432,6 +11634,7 @@ class ListedCertificate {
   }
 }
 
+/// @nodoc
 class CertificateUsageType {
   static const signing = CertificateUsageType._('SIGNING');
   static const encryption = CertificateUsageType._('ENCRYPTION');
@@ -11458,6 +11661,7 @@ class CertificateUsageType {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateStatusType {
   static const active = CertificateStatusType._('ACTIVE');
   static const pendingRotation = CertificateStatusType._('PENDING_ROTATION');
@@ -11484,6 +11688,7 @@ class CertificateStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateType {
   static const certificate = CertificateType._('CERTIFICATE');
   static const certificateWithPrivateKey =
@@ -11510,6 +11715,8 @@ class CertificateType {
 }
 
 /// Describes the properties of a certificate.
+///
+/// @nodoc
 class DescribedCertificate {
   /// The unique Amazon Resource Name (ARN) for the certificate.
   final String arn;
@@ -11662,6 +11869,8 @@ class DescribedCertificate {
 }
 
 /// Describes the properties of an agreement.
+///
+/// @nodoc
 class ListedAgreement {
   /// A unique identifier for the agreement. This identifier is returned when you
   /// create an agreement.
@@ -11728,6 +11937,7 @@ class ListedAgreement {
   }
 }
 
+/// @nodoc
 class AgreementStatusType {
   static const active = AgreementStatusType._('ACTIVE');
   static const inactive = AgreementStatusType._('INACTIVE');
@@ -11753,6 +11963,7 @@ class AgreementStatusType {
   String toString() => value;
 }
 
+/// @nodoc
 class PreserveFilenameType {
   static const enabled = PreserveFilenameType._('ENABLED');
   static const disabled = PreserveFilenameType._('DISABLED');
@@ -11778,6 +11989,7 @@ class PreserveFilenameType {
   String toString() => value;
 }
 
+/// @nodoc
 class EnforceMessageSigningType {
   static const enabled = EnforceMessageSigningType._('ENABLED');
   static const disabled = EnforceMessageSigningType._('DISABLED');
@@ -11805,6 +12017,8 @@ class EnforceMessageSigningType {
 
 /// Contains Amazon S3 locations for storing specific types of AS2 message
 /// files.
+///
+/// @nodoc
 class CustomDirectoriesType {
   /// Specifies a location to store failed AS2 message files.
   final String failedFilesDirectory;
@@ -11857,6 +12071,8 @@ class CustomDirectoriesType {
 }
 
 /// Describes the properties of an agreement.
+///
+/// @nodoc
 class DescribedAgreement {
   /// The unique Amazon Resource Name (ARN) for the agreement.
   final String arn;
@@ -12054,6 +12270,8 @@ class DescribedAgreement {
 }
 
 /// Contains the details for an SFTP connector connection.
+///
+/// @nodoc
 class SftpConnectorConnectionDetails {
   /// The SSH public key of the remote SFTP server. This is returned during the
   /// initial connection attempt when you call <code>TestConnection</code>. It
@@ -12081,6 +12299,8 @@ class SftpConnectorConnectionDetails {
 
 /// Represents a custom HTTP header that can be included in AS2 messages. Each
 /// header consists of a key-value pair.
+///
+/// @nodoc
 class CustomHttpHeader {
   /// The name of the custom HTTP header.
   final String? key;
@@ -12103,6 +12323,7 @@ class CustomHttpHeader {
   }
 }
 
+/// @nodoc
 class CustomStepStatus {
   static const success = CustomStepStatus._('SUCCESS');
   static const failure = CustomStepStatus._('FAILURE');
@@ -12128,6 +12349,8 @@ class CustomStepStatus {
 }
 
 /// Returns properties of the host key that's specified.
+///
+/// @nodoc
 class ListedHostKey {
   /// The unique Amazon Resource Name (ARN) of the host key.
   final String arn;
@@ -12210,6 +12433,8 @@ class ListedHostKey {
 
 /// A structure that contains the details for files transferred using an SFTP
 /// connector, during a single transfer.
+///
+/// @nodoc
 class ConnectorFileTransferResult {
   /// The filename and path to where the file was sent to or retrieved from.
   final String filePath;
@@ -12256,6 +12481,7 @@ class ConnectorFileTransferResult {
   }
 }
 
+/// @nodoc
 class TransferTableStatus {
   static const queued = TransferTableStatus._('QUEUED');
   static const inProgress = TransferTableStatus._('IN_PROGRESS');
@@ -12284,6 +12510,8 @@ class TransferTableStatus {
 }
 
 /// Returns properties of the execution that is specified.
+///
+/// @nodoc
 class ListedExecution {
   /// A unique identifier for the execution of a workflow.
   final String? executionId;
@@ -12339,6 +12567,8 @@ class ListedExecution {
 }
 
 /// Specifies the Amazon S3 or EFS file details to be used in the step.
+///
+/// @nodoc
 class FileLocation {
   /// Specifies the Amazon EFS identifier and the path for the file being used.
   final EfsFileLocation? efsFileLocation;
@@ -12377,6 +12607,8 @@ class FileLocation {
 
 /// A container object for the session details that are associated with a
 /// workflow.
+///
+/// @nodoc
 class ServiceMetadata {
   /// The Server ID (<code>ServerId</code>), Session ID (<code>SessionId</code>)
   /// and user (<code>UserName</code>) make up the <code>UserDetails</code>.
@@ -12402,6 +12634,7 @@ class ServiceMetadata {
   }
 }
 
+/// @nodoc
 class ExecutionStatus {
   static const inProgress = ExecutionStatus._('IN_PROGRESS');
   static const completed = ExecutionStatus._('COMPLETED');
@@ -12429,6 +12662,8 @@ class ExecutionStatus {
 }
 
 /// Specifies the user name, server ID, and session ID for a workflow.
+///
+/// @nodoc
 class UserDetails {
   /// The system-assigned unique identifier for a Transfer server instance.
   final String serverId;
@@ -12469,6 +12704,8 @@ class UserDetails {
 
 /// Specifies the details for the file location for the file that's being used
 /// in the workflow. Only applicable if you are using S3 storage.
+///
+/// @nodoc
 class S3FileLocation {
   /// Specifies the S3 bucket that contains the file being used.
   final String? bucket;
@@ -12515,6 +12752,8 @@ class S3FileLocation {
 }
 
 /// Lists the properties for one or more specified associated accesses.
+///
+/// @nodoc
 class ListedAccess {
   /// A unique identifier that is required to identify specific groups within your
   /// directory. The users of the group that you associate have access to your
@@ -12610,6 +12849,8 @@ class ListedAccess {
 /// with security policies for servers</a> or <a
 /// href="https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html">Working
 /// with security policies for SFTP connectors</a>.
+///
+/// @nodoc
 class DescribedSecurityPolicy {
   /// The text name of the specified security policy.
   final String securityPolicyName;
@@ -12722,6 +12963,7 @@ class DescribedSecurityPolicy {
   }
 }
 
+/// @nodoc
 class SecurityPolicyResourceType {
   static const server = SecurityPolicyResourceType._('SERVER');
   static const connector = SecurityPolicyResourceType._('CONNECTOR');
@@ -12747,6 +12989,7 @@ class SecurityPolicyResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class SecurityPolicyProtocol {
   static const sftp = SecurityPolicyProtocol._('SFTP');
   static const ftps = SecurityPolicyProtocol._('FTPS');
@@ -12773,6 +13016,8 @@ class SecurityPolicyProtocol {
 }
 
 /// The details for a server host key.
+///
+/// @nodoc
 class DescribedHostKey {
   /// The unique Amazon Resource Name (ARN) for the host key.
   final String arn;
@@ -12863,6 +13108,8 @@ class DescribedHostKey {
 }
 
 /// The details for an execution object.
+///
+/// @nodoc
 class DescribedExecution {
   /// A unique identifier for the execution of a workflow.
   final String? executionId;
@@ -12954,6 +13201,8 @@ class DescribedExecution {
 }
 
 /// Consists of the logging role and the log group name.
+///
+/// @nodoc
 class LoggingConfiguration {
   /// The name of the CloudWatch logging group for the Transfer Family server to
   /// which this workflow belongs.
@@ -12989,6 +13238,8 @@ class LoggingConfiguration {
 
 /// Specifies the steps in the workflow, as well as the steps to execute in case
 /// of any errors during workflow execution.
+///
+/// @nodoc
 class ExecutionResults {
   /// Specifies the steps (actions) to take if errors are encountered during
   /// execution of the workflow.
@@ -13027,6 +13278,8 @@ class ExecutionResults {
 
 /// Specifies the following details for the step: error (if any), outputs (if
 /// any), and the step type.
+///
+/// @nodoc
 class ExecutionStepResult {
   /// Specifies the details for an error, if it occurred during execution of the
   /// specified workflow step.
@@ -13089,6 +13342,8 @@ class ExecutionStepResult {
 
 /// Specifies the error message and type, for an error that occurs during the
 /// execution of the workflow.
+///
+/// @nodoc
 class ExecutionError {
   /// Specifies the descriptive message that corresponds to the
   /// <code>ErrorType</code>.
@@ -13158,6 +13413,7 @@ class ExecutionError {
   }
 }
 
+/// @nodoc
 class ExecutionErrorType {
   static const permissionDenied = ExecutionErrorType._('PERMISSION_DENIED');
   static const customStepFailed = ExecutionErrorType._('CUSTOM_STEP_FAILED');
@@ -13200,6 +13456,8 @@ class ExecutionErrorType {
 }
 
 /// Describes the properties of the access that was specified.
+///
+/// @nodoc
 class DescribedAccess {
   /// A unique identifier that is required to identify specific groups within your
   /// directory. The users of the group that you associate have access to your
@@ -13333,47 +13591,56 @@ class DescribedAccess {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceError extends _s.GenericAwsException {
   InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class ResourceExistsException extends _s.GenericAwsException {
   ResourceExistsException({String? type, String? message})
       : super(type: type, code: 'ResourceExistsException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

@@ -187,7 +187,7 @@ class FSx {
   /// partition is a grouping of Regions. Amazon Web Services currently has
   /// three partitions: <code>aws</code> (Standard Regions), <code>aws-cn</code>
   /// (China Regions), and <code>aws-us-gov</code> (Amazon Web Services GovCloud
-  /// [US] Regions).
+  /// \[US\] Regions).
   ///
   /// You can also use backup copies to clone your file dataset to another
   /// Region or within the same Region.
@@ -3834,6 +3834,8 @@ class FSx {
 /// monitor the status of the aliases Amazon FSx is associating with the file
 /// system. It can take up to 2.5 minutes for the alias status to change from
 /// <code>CREATING</code> to <code>AVAILABLE</code>.
+///
+/// @nodoc
 class AssociateFileSystemAliasesResponse {
   /// An array of the DNS aliases that Amazon FSx is associating with the file
   /// system.
@@ -3861,6 +3863,7 @@ class AssociateFileSystemAliasesResponse {
   }
 }
 
+/// @nodoc
 class CancelDataRepositoryTaskResponse {
   /// The lifecycle status of the data repository task, as follows:
   ///
@@ -3916,6 +3919,7 @@ class CancelDataRepositoryTaskResponse {
   }
 }
 
+/// @nodoc
 class CopyBackupResponse {
   final Backup? backup;
 
@@ -3939,6 +3943,7 @@ class CopyBackupResponse {
   }
 }
 
+/// @nodoc
 class CopySnapshotAndUpdateVolumeResponse {
   /// A list of administrative actions for the file system that are in process or
   /// waiting to be processed. Administrative actions describe changes to the
@@ -3983,6 +3988,7 @@ class CopySnapshotAndUpdateVolumeResponse {
   }
 }
 
+/// @nodoc
 class CreateAndAttachS3AccessPointResponse {
   /// Describes the configuration of the S3 access point created.
   final S3AccessPointAttachment? s3AccessPointAttachment;
@@ -4011,6 +4017,8 @@ class CreateAndAttachS3AccessPointResponse {
 }
 
 /// The response object for the <code>CreateBackup</code> operation.
+///
+/// @nodoc
 class CreateBackupResponse {
   /// A description of the backup.
   final Backup? backup;
@@ -4035,6 +4043,7 @@ class CreateBackupResponse {
   }
 }
 
+/// @nodoc
 class CreateDataRepositoryAssociationResponse {
   /// The response object returned after the data repository association is
   /// created.
@@ -4062,6 +4071,7 @@ class CreateDataRepositoryAssociationResponse {
   }
 }
 
+/// @nodoc
 class CreateDataRepositoryTaskResponse {
   /// The description of the data repository task that you just created.
   final DataRepositoryTask? dataRepositoryTask;
@@ -4087,6 +4097,7 @@ class CreateDataRepositoryTaskResponse {
   }
 }
 
+/// @nodoc
 class CreateFileCacheResponse {
   /// A description of the cache that was created.
   final FileCacheCreating? fileCache;
@@ -4113,6 +4124,8 @@ class CreateFileCacheResponse {
 }
 
 /// The response object returned after the file system is created.
+///
+/// @nodoc
 class CreateFileSystemResponse {
   /// The configuration of the file system that was created.
   final FileSystem? fileSystem;
@@ -4139,6 +4152,8 @@ class CreateFileSystemResponse {
 
 /// The response object for the <code>CreateFileSystemFromBackup</code>
 /// operation.
+///
+/// @nodoc
 class CreateFileSystemFromBackupResponse {
   /// A description of the file system.
   final FileSystem? fileSystem;
@@ -4164,6 +4179,7 @@ class CreateFileSystemFromBackupResponse {
   }
 }
 
+/// @nodoc
 class CreateSnapshotResponse {
   /// A description of the snapshot.
   final Snapshot? snapshot;
@@ -4188,6 +4204,7 @@ class CreateSnapshotResponse {
   }
 }
 
+/// @nodoc
 class CreateStorageVirtualMachineResponse {
   /// Returned after a successful <code>CreateStorageVirtualMachine</code>
   /// operation; describes the SVM just created.
@@ -4216,6 +4233,7 @@ class CreateStorageVirtualMachineResponse {
   }
 }
 
+/// @nodoc
 class CreateVolumeResponse {
   /// Returned after a successful <code>CreateVolume</code> API operation,
   /// describing the volume just created.
@@ -4241,6 +4259,7 @@ class CreateVolumeResponse {
   }
 }
 
+/// @nodoc
 class CreateVolumeFromBackupResponse {
   /// Returned after a successful <code>CreateVolumeFromBackup</code> API
   /// operation, describing the volume just created.
@@ -4267,6 +4286,8 @@ class CreateVolumeFromBackupResponse {
 }
 
 /// The response object for the <code>DeleteBackup</code> operation.
+///
+/// @nodoc
 class DeleteBackupResponse {
   /// The ID of the backup that was deleted.
   final String? backupId;
@@ -4298,6 +4319,7 @@ class DeleteBackupResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataRepositoryAssociationResponse {
   /// The ID of the data repository association being deleted.
   final String? associationId;
@@ -4339,6 +4361,7 @@ class DeleteDataRepositoryAssociationResponse {
   }
 }
 
+/// @nodoc
 class DeleteFileCacheResponse {
   /// The ID of the cache that's being deleted.
   final String? fileCacheId;
@@ -4372,6 +4395,8 @@ class DeleteFileCacheResponse {
 }
 
 /// The response object for the <code>DeleteFileSystem</code> operation.
+///
+/// @nodoc
 class DeleteFileSystemResponse {
   /// The ID of the file system that's being deleted.
   final String? fileSystemId;
@@ -4431,6 +4456,7 @@ class DeleteFileSystemResponse {
   }
 }
 
+/// @nodoc
 class DeleteSnapshotResponse {
   /// The lifecycle status of the snapshot. If the <code>DeleteSnapshot</code>
   /// operation is successful, this status is <code>DELETING</code>.
@@ -4462,6 +4488,7 @@ class DeleteSnapshotResponse {
   }
 }
 
+/// @nodoc
 class DeleteStorageVirtualMachineResponse {
   /// Describes the lifecycle state of the SVM being deleted.
   final StorageVirtualMachineLifecycle? lifecycle;
@@ -4494,6 +4521,7 @@ class DeleteStorageVirtualMachineResponse {
   }
 }
 
+/// @nodoc
 class DeleteVolumeResponse {
   /// The lifecycle state of the volume being deleted. If the
   /// <code>DeleteVolume</code> operation is successful, this value is
@@ -4538,6 +4566,8 @@ class DeleteVolumeResponse {
 }
 
 /// Response object for the <code>DescribeBackups</code> operation.
+///
+/// @nodoc
 class DescribeBackupsResponse {
   /// An array of backups.
   final List<Backup>? backups;
@@ -4572,6 +4602,7 @@ class DescribeBackupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataRepositoryAssociationsResponse {
   /// An array of one or more data repository association descriptions.
   final List<DataRepositoryAssociation>? associations;
@@ -4604,6 +4635,7 @@ class DescribeDataRepositoryAssociationsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataRepositoryTasksResponse {
   /// The collection of data repository task descriptions returned.
   final List<DataRepositoryTask>? dataRepositoryTasks;
@@ -4636,6 +4668,7 @@ class DescribeDataRepositoryTasksResponse {
   }
 }
 
+/// @nodoc
 class DescribeFileCachesResponse {
   /// The response object for the <code>DescribeFileCaches</code> operation.
   final List<FileCache>? fileCaches;
@@ -4667,6 +4700,8 @@ class DescribeFileCachesResponse {
 }
 
 /// The response object for <code>DescribeFileSystemAliases</code> operation.
+///
+/// @nodoc
 class DescribeFileSystemAliasesResponse {
   /// An array of one or more DNS aliases currently associated with the specified
   /// file system.
@@ -4704,6 +4739,8 @@ class DescribeFileSystemAliasesResponse {
 }
 
 /// The response object for <code>DescribeFileSystems</code> operation.
+///
+/// @nodoc
 class DescribeFileSystemsResponse {
   /// An array of file system descriptions.
   final List<FileSystem>? fileSystems;
@@ -4738,6 +4775,7 @@ class DescribeFileSystemsResponse {
   }
 }
 
+/// @nodoc
 class DescribeS3AccessPointAttachmentsResponse {
   final String? nextToken;
 
@@ -4773,6 +4811,7 @@ class DescribeS3AccessPointAttachmentsResponse {
   }
 }
 
+/// @nodoc
 class DescribeSharedVpcConfigurationResponse {
   /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ
   /// file systems in shared subnets.
@@ -4801,6 +4840,7 @@ class DescribeSharedVpcConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeSnapshotsResponse {
   final String? nextToken;
 
@@ -4832,6 +4872,7 @@ class DescribeSnapshotsResponse {
   }
 }
 
+/// @nodoc
 class DescribeStorageVirtualMachinesResponse {
   final String? nextToken;
 
@@ -4866,6 +4907,7 @@ class DescribeStorageVirtualMachinesResponse {
   }
 }
 
+/// @nodoc
 class DescribeVolumesResponse {
   final String? nextToken;
 
@@ -4898,6 +4940,7 @@ class DescribeVolumesResponse {
   }
 }
 
+/// @nodoc
 class DetachAndDeleteS3AccessPointResponse {
   /// The lifecycle status of the S3 access point attachment.
   final S3AccessPointAttachmentLifecycle? lifecycle;
@@ -4933,6 +4976,8 @@ class DetachAndDeleteS3AccessPointResponse {
 /// attempting to disassociate from the file system. Use the API operation to
 /// monitor the status of the aliases Amazon FSx is removing from the file
 /// system.
+///
+/// @nodoc
 class DisassociateFileSystemAliasesResponse {
   /// An array of one or more DNS aliases that Amazon FSx is attempting to
   /// disassociate from the file system.
@@ -4961,6 +5006,8 @@ class DisassociateFileSystemAliasesResponse {
 }
 
 /// The response object for <code>ListTagsForResource</code> operation.
+///
+/// @nodoc
 class ListTagsForResourceResponse {
   /// This is present if there are more tags than returned in the response
   /// (String). You can use the <code>NextToken</code> value in the later request
@@ -4995,6 +5042,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ReleaseFileSystemNfsV3LocksResponse {
   final FileSystem? fileSystem;
 
@@ -5019,6 +5067,7 @@ class ReleaseFileSystemNfsV3LocksResponse {
   }
 }
 
+/// @nodoc
 class RestoreVolumeFromSnapshotResponse {
   /// A list of administrative actions for the file system that are in process or
   /// waiting to be processed. Administrative actions describe changes to the
@@ -5063,6 +5112,7 @@ class RestoreVolumeFromSnapshotResponse {
   }
 }
 
+/// @nodoc
 class StartMisconfiguredStateRecoveryResponse {
   final FileSystem? fileSystem;
 
@@ -5088,6 +5138,8 @@ class StartMisconfiguredStateRecoveryResponse {
 }
 
 /// The response object for the <code>TagResource</code> operation.
+///
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5101,6 +5153,8 @@ class TagResourceResponse {
 }
 
 /// The response object for <code>UntagResource</code> action.
+///
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5113,6 +5167,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataRepositoryAssociationResponse {
   /// The response object returned after the data repository association is
   /// updated.
@@ -5140,6 +5195,7 @@ class UpdateDataRepositoryAssociationResponse {
   }
 }
 
+/// @nodoc
 class UpdateFileCacheResponse {
   /// A description of the cache that was updated.
   final FileCache? fileCache;
@@ -5165,6 +5221,8 @@ class UpdateFileCacheResponse {
 }
 
 /// The response object for the <code>UpdateFileSystem</code> operation.
+///
+/// @nodoc
 class UpdateFileSystemResponse {
   /// A description of the file system that was updated.
   final FileSystem? fileSystem;
@@ -5189,6 +5247,7 @@ class UpdateFileSystemResponse {
   }
 }
 
+/// @nodoc
 class UpdateSharedVpcConfigurationResponse {
   /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ
   /// file systems in shared subnets.
@@ -5217,6 +5276,7 @@ class UpdateSharedVpcConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSnapshotResponse {
   /// Returned after a successful <code>UpdateSnapshot</code> operation,
   /// describing the snapshot that you updated.
@@ -5242,6 +5302,7 @@ class UpdateSnapshotResponse {
   }
 }
 
+/// @nodoc
 class UpdateStorageVirtualMachineResponse {
   final StorageVirtualMachine? storageVirtualMachine;
 
@@ -5268,6 +5329,7 @@ class UpdateStorageVirtualMachineResponse {
   }
 }
 
+/// @nodoc
 class UpdateVolumeResponse {
   /// A description of the volume just updated. Returned after a successful
   /// <code>UpdateVolume</code> API operation.
@@ -5294,6 +5356,8 @@ class UpdateVolumeResponse {
 }
 
 /// Describes an Amazon FSx volume.
+///
+/// @nodoc
 class Volume {
   /// A list of administrative actions for the volume that are in process or
   /// waiting to be processed. Administrative actions describe changes to the
@@ -5430,6 +5494,7 @@ class Volume {
   }
 }
 
+/// @nodoc
 class VolumeLifecycle {
   static const creating = VolumeLifecycle._('CREATING');
   static const created = VolumeLifecycle._('CREATED');
@@ -5468,6 +5533,8 @@ class VolumeLifecycle {
 }
 
 /// The configuration of an Amazon FSx for NetApp ONTAP volume.
+///
+/// @nodoc
 class OntapVolumeConfiguration {
   /// This structure specifies configuration options for a volume’s storage
   /// aggregate or aggregates.
@@ -5695,6 +5762,7 @@ class OntapVolumeConfiguration {
   }
 }
 
+/// @nodoc
 class VolumeType {
   static const ontap = VolumeType._('ONTAP');
   static const openzfs = VolumeType._('OPENZFS');
@@ -5719,6 +5787,8 @@ class VolumeType {
 }
 
 /// Describes why a resource lifecycle state changed.
+///
+/// @nodoc
 class LifecycleTransitionReason {
   final String? message;
 
@@ -5741,6 +5811,8 @@ class LifecycleTransitionReason {
 }
 
 /// The configuration of an Amazon FSx for OpenZFS volume.
+///
+/// @nodoc
 class OpenZFSVolumeConfiguration {
   /// Specifies the strategy used when copying data from the snapshot to the new
   /// volume.
@@ -5963,6 +6035,7 @@ class OpenZFSVolumeConfiguration {
   }
 }
 
+/// @nodoc
 class OpenZFSDataCompressionType {
   static const none = OpenZFSDataCompressionType._('NONE');
   static const zstd = OpenZFSDataCompressionType._('ZSTD');
@@ -5991,6 +6064,8 @@ class OpenZFSDataCompressionType {
 
 /// The snapshot configuration used when creating an Amazon FSx for OpenZFS
 /// volume from a snapshot.
+///
+/// @nodoc
 class OpenZFSOriginSnapshotConfiguration {
   /// The strategy used when copying data from the snapshot to the new volume.
   ///
@@ -6038,6 +6113,7 @@ class OpenZFSOriginSnapshotConfiguration {
   }
 }
 
+/// @nodoc
 class OpenZFSCopyStrategy {
   static const clone = OpenZFSCopyStrategy._('CLONE');
   static const fullCopy = OpenZFSCopyStrategy._('FULL_COPY');
@@ -6068,6 +6144,8 @@ class OpenZFSCopyStrategy {
 /// use on an FSx for OpenZFS volume. For more information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties">Volume
 /// properties</a> in the FSx for OpenZFS User Guide.
+///
+/// @nodoc
 class OpenZFSUserOrGroupQuota {
   /// The ID of the user or group that the quota applies to.
   final int id;
@@ -6104,6 +6182,7 @@ class OpenZFSUserOrGroupQuota {
   }
 }
 
+/// @nodoc
 class OpenZFSQuotaType {
   static const user = OpenZFSQuotaType._('USER');
   static const group = OpenZFSQuotaType._('GROUP');
@@ -6130,6 +6209,8 @@ class OpenZFSQuotaType {
 
 /// The Network File System (NFS) configurations for mounting an Amazon FSx for
 /// OpenZFS file system.
+///
+/// @nodoc
 class OpenZFSNfsExport {
   /// A list of configuration objects that contain the client and options for
   /// mounting the OpenZFS file system.
@@ -6160,6 +6241,8 @@ class OpenZFSNfsExport {
 
 /// Specifies who can mount an OpenZFS file system and the options available
 /// while mounting the file system.
+///
+/// @nodoc
 class OpenZFSClientConfiguration {
   /// A value that specifies who can mount the file system. You can provide a
   /// wildcard character (<code>*</code>), an IP address (<code>0.0.0.0</code>),
@@ -6214,6 +6297,8 @@ class OpenZFSClientConfiguration {
 
 /// Describes a specific Amazon FSx administrative action for the current
 /// Windows, Lustre, OpenZFS, or ONTAP file system or volume.
+///
+/// @nodoc
 class AdministrativeAction {
   final AdministrativeActionType? administrativeActionType;
   final AdministrativeActionFailureDetails? failureDetails;
@@ -6490,6 +6575,8 @@ class AdministrativeAction {
 /// or CLI (<code>copy-snapshot-and-update-volume</code>).
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AdministrativeActionType {
   static const fileSystemUpdate =
       AdministrativeActionType._('FILE_SYSTEM_UPDATE');
@@ -6556,6 +6643,7 @@ class AdministrativeActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const failed = Status._('FAILED');
   static const inProgress = Status._('IN_PROGRESS');
@@ -6595,6 +6683,8 @@ class Status {
 }
 
 /// A description of a specific Amazon FSx file system.
+///
+/// @nodoc
 class FileSystem {
   /// A list of administrative actions for the file system that are in process or
   /// waiting to be processed. Administrative actions describe changes to the
@@ -6897,6 +6987,8 @@ class FileSystem {
 }
 
 /// Provides information about a failed administrative action.
+///
+/// @nodoc
 class AdministrativeActionFailureDetails {
   /// Error message providing details about the failed administrative action.
   final String? message;
@@ -6921,6 +7013,8 @@ class AdministrativeActionFailureDetails {
 }
 
 /// A snapshot of an Amazon FSx for OpenZFS volume.
+///
+/// @nodoc
 class Snapshot {
   /// A list of administrative actions for the file system that are in process or
   /// waiting to be processed. Administrative actions describe changes to the
@@ -7021,6 +7115,7 @@ class Snapshot {
   }
 }
 
+/// @nodoc
 class SnapshotLifecycle {
   static const pending = SnapshotLifecycle._('PENDING');
   static const creating = SnapshotLifecycle._('CREATING');
@@ -7048,6 +7143,8 @@ class SnapshotLifecycle {
 }
 
 /// The type of Amazon FSx file system.
+///
+/// @nodoc
 class FileSystemType {
   static const windows = FileSystemType._('WINDOWS');
   static const lustre = FileSystemType._('LUSTRE');
@@ -7075,6 +7172,8 @@ class FileSystemType {
 }
 
 /// The lifecycle status of the file system.
+///
+/// @nodoc
 class FileSystemLifecycle {
   static const available = FileSystemLifecycle._('AVAILABLE');
   static const creating = FileSystemLifecycle._('CREATING');
@@ -7115,6 +7214,8 @@ class FileSystemLifecycle {
 }
 
 /// A structure providing details of any failures that occurred.
+///
+/// @nodoc
 class FileSystemFailureDetails {
   /// A message describing any failures that occurred.
   final String? message;
@@ -7138,6 +7239,8 @@ class FileSystemFailureDetails {
 }
 
 /// Specifies the file system's storage type.
+///
+/// @nodoc
 class StorageType {
   static const ssd = StorageType._('SSD');
   static const hdd = StorageType._('HDD');
@@ -7163,6 +7266,8 @@ class StorageType {
 }
 
 /// The configuration for this Microsoft Windows file system.
+///
+/// @nodoc
 class WindowsFileSystemConfiguration {
   /// The ID for an existing Amazon Web Services Managed Microsoft Active
   /// Directory instance that the file system is joined to.
@@ -7408,6 +7513,8 @@ class WindowsFileSystemConfiguration {
 }
 
 /// The configuration for the Amazon FSx for Lustre file system.
+///
+/// @nodoc
 class LustreFileSystemConfiguration {
   final int? automaticBackupRetentionDays;
 
@@ -7638,6 +7745,8 @@ class LustreFileSystemConfiguration {
 }
 
 /// Configuration for the FSx for NetApp ONTAP file system.
+///
+/// @nodoc
 class OntapFileSystemConfiguration {
   final int? automaticBackupRetentionDays;
   final String? dailyAutomaticBackupStartTime;
@@ -7865,6 +7974,8 @@ class OntapFileSystemConfiguration {
 }
 
 /// The configuration for the Amazon FSx for OpenZFS file system.
+///
+/// @nodoc
 class OpenZFSFileSystemConfiguration {
   final int? automaticBackupRetentionDays;
 
@@ -8037,6 +8148,7 @@ class OpenZFSFileSystemConfiguration {
   }
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('IPV4');
   static const dual = NetworkType._('DUAL');
@@ -8060,6 +8172,7 @@ class NetworkType {
   String toString() => value;
 }
 
+/// @nodoc
 class OpenZFSDeploymentType {
   static const singleAz_1 = OpenZFSDeploymentType._('SINGLE_AZ_1');
   static const singleAz_2 = OpenZFSDeploymentType._('SINGLE_AZ_2');
@@ -8101,6 +8214,8 @@ class OpenZFSDeploymentType {
 /// storage. The configuration consists of the total number of provisioned SSD
 /// IOPS and how it is was provisioned, or the mode (by the customer or by
 /// Amazon FSx).
+///
+/// @nodoc
 class DiskIopsConfiguration {
   /// The total number of SSD IOPS provisioned for the file system.
   ///
@@ -8144,6 +8259,8 @@ class DiskIopsConfiguration {
 
 /// The configuration for the optional provisioned SSD read cache on Amazon FSx
 /// for OpenZFS file systems that use the Intelligent-Tiering storage class.
+///
+/// @nodoc
 class OpenZFSReadCacheConfiguration {
   /// Required if <code>SizingMode</code> is set to <code>USER_PROVISIONED</code>.
   /// Specifies the size of the file system's SSD read cache, in gibibytes (GiB).
@@ -8190,6 +8307,7 @@ class OpenZFSReadCacheConfiguration {
   }
 }
 
+/// @nodoc
 class OpenZFSReadCacheSizingMode {
   static const noCache = OpenZFSReadCacheSizingMode._('NO_CACHE');
   static const userProvisioned =
@@ -8222,6 +8340,7 @@ class OpenZFSReadCacheSizingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class DiskIopsConfigurationMode {
   static const automatic = DiskIopsConfigurationMode._('AUTOMATIC');
   static const userProvisioned =
@@ -8248,6 +8367,7 @@ class DiskIopsConfigurationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class OntapDeploymentType {
   static const multiAz_1 = OntapDeploymentType._('MULTI_AZ_1');
   static const singleAz_1 = OntapDeploymentType._('SINGLE_AZ_1');
@@ -8278,6 +8398,8 @@ class OntapDeploymentType {
 /// An Amazon FSx for NetApp ONTAP file system has the following endpoints that
 /// are used to access data or to manage the file system using the NetApp ONTAP
 /// CLI, REST API, or NetApp SnapMirror.
+///
+/// @nodoc
 class FileSystemEndpoints {
   /// An endpoint for managing your file system by setting up NetApp SnapMirror
   /// with other ONTAP systems.
@@ -8319,6 +8441,8 @@ class FileSystemEndpoints {
 /// to access data or to manage the file system using the NetApp ONTAP CLI, REST
 /// API, or NetApp SnapMirror. They are the <code>Management</code> and
 /// <code>Intercluster</code> endpoints.
+///
+/// @nodoc
 class FileSystemEndpoint {
   final String? dNSName;
 
@@ -8365,6 +8489,8 @@ class FileSystemEndpoint {
 ///
 /// This data type is not supported on file systems with a data repository
 /// association. For file systems with a data repository association, see .
+///
+/// @nodoc
 class DataRepositoryConfiguration {
   /// Describes the file system's linked S3 data repository's
   /// <code>AutoImportPolicy</code>. The AutoImportPolicy configures how Amazon
@@ -8495,6 +8621,7 @@ class DataRepositoryConfiguration {
   }
 }
 
+/// @nodoc
 class LustreDeploymentType {
   static const scratch_1 = LustreDeploymentType._('SCRATCH_1');
   static const scratch_2 = LustreDeploymentType._('SCRATCH_2');
@@ -8522,6 +8649,7 @@ class LustreDeploymentType {
   String toString() => value;
 }
 
+/// @nodoc
 class DriveCacheType {
   static const none = DriveCacheType._('NONE');
   static const read = DriveCacheType._('READ');
@@ -8546,6 +8674,7 @@ class DriveCacheType {
   String toString() => value;
 }
 
+/// @nodoc
 class DataCompressionType {
   static const none = DataCompressionType._('NONE');
   static const lz4 = DataCompressionType._('LZ4');
@@ -8574,6 +8703,8 @@ class DataCompressionType {
 /// The configuration for Lustre logging used to write the enabled logging
 /// events for your Amazon FSx for Lustre file system or Amazon File Cache
 /// resource to Amazon CloudWatch Logs.
+///
+/// @nodoc
 class LustreLogConfiguration {
   /// The data repository events that are logged by Amazon FSx.
   ///
@@ -8635,6 +8766,8 @@ class LustreLogConfiguration {
 /// You can also use the <code>NoSquashNids</code> parameter to provide an array
 /// of clients who are not affected by the root squash setting. These clients
 /// will access the file system as root, with unrestricted privileges.
+///
+/// @nodoc
 class LustreRootSquashConfiguration {
   /// When root squash is enabled, you can optionally specify an array of NIDs of
   /// clients for which root squash does not apply. A client NID is a Lustre
@@ -8649,7 +8782,7 @@ class LustreRootSquashConfiguration {
   /// </li>
   /// <li>
   /// An address range is described using a dash to separate the range (for
-  /// example, <code>10.0.[2-10].[1-255]@tcp</code>).
+  /// example, <code>10.0.\[2-10\].\[1-255\]@tcp</code>).
   /// </li>
   /// </ul>
   final List<String>? noSquashNids;
@@ -8702,6 +8835,8 @@ class LustreRootSquashConfiguration {
 /// file system using a <code>PERSISTENT_2</code> deployment type. The
 /// configuration enables the file system to support increasing metadata
 /// performance.
+///
+/// @nodoc
 class FileSystemLustreMetadataConfiguration {
   /// The metadata configuration mode for provisioning Metadata IOPS for the file
   /// system.
@@ -8760,6 +8895,8 @@ class FileSystemLustreMetadataConfiguration {
 
 /// The configuration for the optional provisioned SSD read cache on Amazon FSx
 /// for Lustre file systems that use the Intelligent-Tiering storage class.
+///
+/// @nodoc
 class LustreReadCacheConfiguration {
   /// Required if <code>SizingMode</code> is set to <code>USER_PROVISIONED</code>.
   /// Specifies the size of the file system's SSD read cache, in gibibytes (GiB).
@@ -8811,6 +8948,7 @@ class LustreReadCacheConfiguration {
   }
 }
 
+/// @nodoc
 class LustreReadCacheSizingMode {
   static const noCache = LustreReadCacheSizingMode._('NO_CACHE');
   static const userProvisioned =
@@ -8843,6 +8981,7 @@ class LustreReadCacheSizingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class MetadataConfigurationMode {
   static const automatic = MetadataConfigurationMode._('AUTOMATIC');
   static const userProvisioned =
@@ -8869,6 +9008,7 @@ class MetadataConfigurationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class LustreAccessAuditLogLevel {
   static const disabled = LustreAccessAuditLogLevel._('DISABLED');
   static const warnOnly = LustreAccessAuditLogLevel._('WARN_ONLY');
@@ -8896,6 +9036,7 @@ class LustreAccessAuditLogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class DataRepositoryLifecycle {
   static const creating = DataRepositoryLifecycle._('CREATING');
   static const available = DataRepositoryLifecycle._('AVAILABLE');
@@ -8932,6 +9073,7 @@ class DataRepositoryLifecycle {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoImportPolicyType {
   static const none = AutoImportPolicyType._('NONE');
   static const $new = AutoImportPolicyType._('NEW');
@@ -8963,6 +9105,8 @@ class AutoImportPolicyType {
 /// Provides detailed information about the data repository if its
 /// <code>Lifecycle</code> is set to <code>MISCONFIGURED</code> or
 /// <code>FAILED</code>.
+///
+/// @nodoc
 class DataRepositoryFailureDetails {
   final String? message;
 
@@ -8987,6 +9131,8 @@ class DataRepositoryFailureDetails {
 /// The configuration of the self-managed Microsoft Active Directory (AD)
 /// directory to which the Windows File Server or ONTAP storage virtual machine
 /// (SVM) instance is joined.
+///
+/// @nodoc
 class SelfManagedActiveDirectoryAttributes {
   /// A list of up to three IP addresses of DNS servers or domain controllers in
   /// the self-managed AD directory.
@@ -9061,6 +9207,7 @@ class SelfManagedActiveDirectoryAttributes {
   }
 }
 
+/// @nodoc
 class WindowsDeploymentType {
   static const multiAz_1 = WindowsDeploymentType._('MULTI_AZ_1');
   static const singleAz_1 = WindowsDeploymentType._('SINGLE_AZ_1');
@@ -9092,6 +9239,8 @@ class WindowsDeploymentType {
 /// Windows File Server file system. For more information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/file-access-auditing.html">
 /// File access auditing</a>.
+///
+/// @nodoc
 class WindowsAuditLogConfiguration {
   /// Sets which attempt type is logged by Amazon FSx for file and folder
   /// accesses.
@@ -9183,6 +9332,8 @@ class WindowsAuditLogConfiguration {
 /// Windows File Server uses for the file system. When FSRM is enabled, you can
 /// manage and monitor storage quotas, file screening, storage reports, and file
 /// classification.
+///
+/// @nodoc
 class WindowsFsrmConfiguration {
   /// Specifies whether FSRM is enabled or disabled on the file system. When
   /// <code>TRUE</code>, the FSRM service is enabled and monitor file operations
@@ -9227,6 +9378,7 @@ class WindowsFsrmConfiguration {
   }
 }
 
+/// @nodoc
 class WindowsAccessAuditLogLevel {
   static const disabled = WindowsAccessAuditLogLevel._('DISABLED');
   static const successOnly = WindowsAccessAuditLogLevel._('SUCCESS_ONLY');
@@ -9261,6 +9413,8 @@ class WindowsAccessAuditLogLevel {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html">DNS
 /// aliases</a> in the <i>FSx for Windows File Server User Guide</i>.
+///
+/// @nodoc
 class Alias {
   /// Describes the state of the DNS alias.
   ///
@@ -9333,6 +9487,7 @@ class Alias {
   }
 }
 
+/// @nodoc
 class AliasLifecycle {
   static const available = AliasLifecycle._('AVAILABLE');
   static const creating = AliasLifecycle._('CREATING');
@@ -9367,6 +9522,8 @@ class AliasLifecycle {
 }
 
 /// An enumeration specifying the currently ongoing maintenance operation.
+///
+/// @nodoc
 class FileSystemMaintenanceOperation {
   static const patching = FileSystemMaintenanceOperation._('PATCHING');
   static const backingUp = FileSystemMaintenanceOperation._('BACKING_UP');
@@ -9393,6 +9550,8 @@ class FileSystemMaintenanceOperation {
 }
 
 /// Specifies a key-value pair for a resource tag.
+///
+/// @nodoc
 class Tag {
   /// A value that specifies the <code>TagKey</code>, the name of the tag. Tag
   /// keys must be unique for the resource to which they are attached.
@@ -9426,6 +9585,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class FlexCacheEndpointType {
   static const none = FlexCacheEndpointType._('NONE');
   static const origin = FlexCacheEndpointType._('ORIGIN');
@@ -9452,6 +9612,7 @@ class FlexCacheEndpointType {
   String toString() => value;
 }
 
+/// @nodoc
 class SecurityStyle {
   static const unix = SecurityStyle._('UNIX');
   static const ntfs = SecurityStyle._('NTFS');
@@ -9508,6 +9669,8 @@ class SecurityStyle {
 /// preventing it from being moved to the capacity pool tier.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class TieringPolicy {
   /// Specifies the number of days that user data in a volume must remain inactive
   /// before it is considered "cold" and moved to the capacity pool. Used with the
@@ -9561,6 +9724,7 @@ class TieringPolicy {
   }
 }
 
+/// @nodoc
 class OntapVolumeType {
   static const rw = OntapVolumeType._('RW');
   static const dp = OntapVolumeType._('DP');
@@ -9587,6 +9751,8 @@ class OntapVolumeType {
 }
 
 /// Specifies the SnapLock configuration for an FSx for ONTAP SnapLock volume.
+///
+/// @nodoc
 class SnaplockConfiguration {
   /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock
   /// volume. The default value is <code>false</code>. If you set
@@ -9700,6 +9866,7 @@ class SnaplockConfiguration {
   }
 }
 
+/// @nodoc
 class VolumeStyle {
   static const flexvol = VolumeStyle._('FLEXVOL');
   static const flexgroup = VolumeStyle._('FLEXGROUP');
@@ -9725,6 +9892,8 @@ class VolumeStyle {
 
 /// Used to specify configuration options for a volume’s storage aggregate or
 /// aggregates.
+///
+/// @nodoc
 class AggregateConfiguration {
   /// The list of aggregates that this volume resides on. Aggregates are storage
   /// pools which make up your primary storage tier. Each high-availability (HA)
@@ -9786,6 +9955,8 @@ class AggregateConfiguration {
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/worm-state.html#worm-state-autocommit">Autocommit</a>.
+///
+/// @nodoc
 class AutocommitPeriod {
   /// Defines the type of time for the autocommit period of a file in an FSx for
   /// ONTAP SnapLock volume. Setting this value to <code>NONE</code> disables
@@ -9836,6 +10007,7 @@ class AutocommitPeriod {
   }
 }
 
+/// @nodoc
 class PrivilegedDelete {
   static const disabled = PrivilegedDelete._('DISABLED');
   static const enabled = PrivilegedDelete._('ENABLED');
@@ -9866,6 +10038,8 @@ class PrivilegedDelete {
 /// settings. For more information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-retention.html">Working
 /// with the retention period in SnapLock</a>.
+///
+/// @nodoc
 class SnaplockRetentionPeriod {
   /// The retention period assigned to a write once, read many (WORM) file by
   /// default if an explicit retention period is not set for an FSx for ONTAP
@@ -9914,6 +10088,7 @@ class SnaplockRetentionPeriod {
   }
 }
 
+/// @nodoc
 class SnaplockType {
   static const compliance = SnaplockType._('COMPLIANCE');
   static const enterprise = SnaplockType._('ENTERPRISE');
@@ -9944,6 +10119,8 @@ class SnaplockType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-retention.html">Working
 /// with the retention period in SnapLock</a>.
+///
+/// @nodoc
 class RetentionPeriod {
   /// Defines the type of time for the retention period of an FSx for ONTAP
   /// SnapLock volume. Set it to one of the valid types. If you set it to
@@ -10001,6 +10178,7 @@ class RetentionPeriod {
   }
 }
 
+/// @nodoc
 class RetentionPeriodType {
   static const seconds = RetentionPeriodType._('SECONDS');
   static const minutes = RetentionPeriodType._('MINUTES');
@@ -10041,6 +10219,7 @@ class RetentionPeriodType {
   String toString() => value;
 }
 
+/// @nodoc
 class AutocommitPeriodType {
   static const minutes = AutocommitPeriodType._('MINUTES');
   static const hours = AutocommitPeriodType._('HOURS');
@@ -10070,6 +10249,7 @@ class AutocommitPeriodType {
   String toString() => value;
 }
 
+/// @nodoc
 class TieringPolicyName {
   static const snapshotOnly = TieringPolicyName._('SNAPSHOT_ONLY');
   static const auto = TieringPolicyName._('AUTO');
@@ -10098,6 +10278,8 @@ class TieringPolicyName {
 
 /// Used to specify changes to the ONTAP configuration for the volume you are
 /// updating.
+///
+/// @nodoc
 class UpdateOntapVolumeConfiguration {
   /// A boolean flag indicating whether tags for the volume should be copied to
   /// backups. This value defaults to false. If it's set to true, all tags for the
@@ -10202,6 +10384,8 @@ class UpdateOntapVolumeConfiguration {
 
 /// Used to specify changes to the OpenZFS configuration for the volume that you
 /// are updating.
+///
+/// @nodoc
 class UpdateOpenZFSVolumeConfiguration {
   /// Specifies the method used to compress the data on the volume. The
   /// compression type is <code>NONE</code> by default.
@@ -10291,6 +10475,8 @@ class UpdateOpenZFSVolumeConfiguration {
 }
 
 /// Updates the SnapLock configuration for an existing FSx for ONTAP volume.
+///
+/// @nodoc
 class UpdateSnaplockConfiguration {
   /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock
   /// volume. The default value is <code>false</code>. If you set
@@ -10358,6 +10544,8 @@ class UpdateSnaplockConfiguration {
 
 /// Describes the Amazon FSx for NetApp ONTAP storage virtual machine (SVM)
 /// configuration.
+///
+/// @nodoc
 class StorageVirtualMachine {
   /// Describes the Microsoft Active Directory configuration to which the SVM is
   /// joined, if applicable.
@@ -10503,6 +10691,8 @@ class StorageVirtualMachine {
 /// Describes the Microsoft Active Directory (AD) directory configuration to
 /// which the FSx for ONTAP storage virtual machine (SVM) is joined. Note that
 /// account credentials are not returned in the response payload.
+///
+/// @nodoc
 class SvmActiveDirectoryConfiguration {
   /// The NetBIOS name of the AD computer object to which the SVM is joined.
   final String? netBiosName;
@@ -10542,6 +10732,8 @@ class SvmActiveDirectoryConfiguration {
 /// An Amazon FSx for NetApp ONTAP storage virtual machine (SVM) has the
 /// following endpoints that are used to access data or to manage the SVM using
 /// the NetApp ONTAP CLI, REST API, or NetApp CloudManager.
+///
+/// @nodoc
 class SvmEndpoints {
   /// An endpoint for connecting using the Internet Small Computer Systems
   /// Interface (iSCSI) protocol.
@@ -10595,6 +10787,7 @@ class SvmEndpoints {
   }
 }
 
+/// @nodoc
 class StorageVirtualMachineLifecycle {
   static const created = StorageVirtualMachineLifecycle._('CREATED');
   static const creating = StorageVirtualMachineLifecycle._('CREATING');
@@ -10632,6 +10825,7 @@ class StorageVirtualMachineLifecycle {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageVirtualMachineSubtype {
   static const $default = StorageVirtualMachineSubtype._('DEFAULT');
   static const dpDestination = StorageVirtualMachineSubtype._('DP_DESTINATION');
@@ -10660,6 +10854,7 @@ class StorageVirtualMachineSubtype {
   String toString() => value;
 }
 
+/// @nodoc
 class StorageVirtualMachineRootVolumeSecurityStyle {
   static const unix = StorageVirtualMachineRootVolumeSecurityStyle._('UNIX');
   static const ntfs = StorageVirtualMachineRootVolumeSecurityStyle._('NTFS');
@@ -10693,6 +10888,8 @@ class StorageVirtualMachineRootVolumeSecurityStyle {
 /// ONTAP CLI, REST API, or NetApp CloudManager. They are the
 /// <code>Iscsi</code>, <code>Management</code>, <code>Nfs</code>, and
 /// <code>Smb</code> endpoints.
+///
+/// @nodoc
 class SvmEndpoint {
   final String? dNSName;
 
@@ -10737,6 +10934,8 @@ class SvmEndpoint {
 /// Specifies updates to an FSx for ONTAP storage virtual machine's (SVM)
 /// Microsoft Active Directory (AD) configuration. Note that account credentials
 /// are not returned in the response payload.
+///
+/// @nodoc
 class UpdateSvmActiveDirectoryConfiguration {
   /// Specifies an updated NetBIOS name of the AD computer object
   /// <code>NetBiosName</code> to which an SVM is joined.
@@ -10765,6 +10964,8 @@ class UpdateSvmActiveDirectoryConfiguration {
 /// Specifies changes you are making to the self-managed Microsoft Active
 /// Directory configuration to which an FSx for Windows File Server file system
 /// or an FSx for ONTAP SVM is joined.
+///
+/// @nodoc
 class SelfManagedActiveDirectoryConfigurationUpdates {
   /// A list of up to three DNS server or domain controller IP addresses in your
   /// self-managed Active Directory domain.
@@ -10841,6 +11042,8 @@ class SelfManagedActiveDirectoryConfigurationUpdates {
 /// Updates the configuration for an existing Amazon FSx for Windows File Server
 /// file system. Amazon FSx only overwrites existing properties with non-null
 /// values provided in the request.
+///
+/// @nodoc
 class UpdateFileSystemWindowsConfiguration {
   /// The configuration that Amazon FSx for Windows File Server uses to audit and
   /// log user accesses of files, folders, and file shares on the Amazon FSx for
@@ -10934,6 +11137,8 @@ class UpdateFileSystemWindowsConfiguration {
 
 /// The configuration object for Amazon FSx for Lustre file systems used in the
 /// <code>UpdateFileSystem</code> operation.
+///
+/// @nodoc
 class UpdateFileSystemLustreConfiguration {
   /// (Optional) When you create your file system, your existing S3 objects appear
   /// as file and directory listings. Use this property to choose how Amazon FSx
@@ -11098,6 +11303,8 @@ class UpdateFileSystemLustreConfiguration {
 }
 
 /// The configuration updates for an Amazon FSx for NetApp ONTAP file system.
+///
+/// @nodoc
 class UpdateFileSystemOntapConfiguration {
   /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route
   /// tables to associate (add) with your Amazon FSx for NetApp ONTAP file system.
@@ -11265,6 +11472,8 @@ class UpdateFileSystemOntapConfiguration {
 }
 
 /// The configuration updates for an Amazon FSx for OpenZFS file system.
+///
+/// @nodoc
 class UpdateFileSystemOpenZFSConfiguration {
   /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route
   /// tables to associate (add) with your Amazon FSx for OpenZFS file system.
@@ -11383,6 +11592,8 @@ class UpdateFileSystemOpenZFSConfiguration {
 ///
 /// Lustre logging writes the enabled logging events for your file system or
 /// cache to Amazon CloudWatch Logs.
+///
+/// @nodoc
 class LustreLogCreateConfiguration {
   /// Sets which data repository events are logged by Amazon FSx.
   ///
@@ -11455,6 +11666,8 @@ class LustreLogCreateConfiguration {
 /// your file system's metadata configuration mode. For more information, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html">Managing
 /// metadata performance</a> in the <i>Amazon FSx for Lustre User Guide</i>.
+///
+/// @nodoc
 class UpdateFileSystemLustreMetadataConfiguration {
   /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to
   /// provision for your file system.
@@ -11522,6 +11735,8 @@ class UpdateFileSystemLustreMetadataConfiguration {
 
 /// The Windows file access auditing configuration used when creating or
 /// updating an Amazon FSx for Windows File Server file system.
+///
+/// @nodoc
 class WindowsAuditLogCreateConfiguration {
   /// Sets which attempt type is logged by Amazon FSx for file and folder
   /// accesses.
@@ -11623,6 +11838,8 @@ class WindowsAuditLogCreateConfiguration {
 
 /// A description of a specific Amazon File Cache resource, which is a response
 /// object from the <code>DescribeFileCaches</code> operation.
+///
+/// @nodoc
 class FileCache {
   final DateTime? creationTime;
 
@@ -11789,6 +12006,7 @@ class FileCache {
   }
 }
 
+/// @nodoc
 class FileCacheType {
   static const lustre = FileCacheType._('LUSTRE');
 
@@ -11812,6 +12030,7 @@ class FileCacheType {
   String toString() => value;
 }
 
+/// @nodoc
 class FileCacheLifecycle {
   static const available = FileCacheLifecycle._('AVAILABLE');
   static const creating = FileCacheLifecycle._('CREATING');
@@ -11841,6 +12060,8 @@ class FileCacheLifecycle {
 }
 
 /// A structure providing details of any failures that occurred.
+///
+/// @nodoc
 class FileCacheFailureDetails {
   /// A message describing any failures that occurred.
   final String? message;
@@ -11864,6 +12085,8 @@ class FileCacheFailureDetails {
 }
 
 /// The configuration for the Amazon File Cache resource.
+///
+/// @nodoc
 class FileCacheLustreConfiguration {
   /// The deployment type of the Amazon File Cache resource, which must be
   /// <code>CACHE_1</code>.
@@ -11936,6 +12159,7 @@ class FileCacheLustreConfiguration {
   }
 }
 
+/// @nodoc
 class FileCacheLustreDeploymentType {
   static const cache_1 = FileCacheLustreDeploymentType._('CACHE_1');
 
@@ -11963,6 +12187,8 @@ class FileCacheLustreDeploymentType {
 /// The configuration for a Lustre MDT (Metadata Target) storage volume. The
 /// metadata on Amazon File Cache is managed by a Lustre Metadata Server (MDS)
 /// while the actual metadata is persisted on an MDT.
+///
+/// @nodoc
 class FileCacheLustreMetadataConfiguration {
   /// The storage capacity of the Lustre MDT (Metadata Target) storage volume in
   /// gibibytes (GiB). The only supported value is <code>2400</code> GiB.
@@ -11988,6 +12214,8 @@ class FileCacheLustreMetadataConfiguration {
 }
 
 /// The configuration update for an Amazon File Cache resource.
+///
+/// @nodoc
 class UpdateFileCacheLustreConfiguration {
   final String? weeklyMaintenanceStartTime;
 
@@ -12024,6 +12252,8 @@ class UpdateFileCacheLustreConfiguration {
 /// Data repository associations are supported on Amazon File Cache resources
 /// and all FSx for Lustre 2.12 and 2.15 file systems, excluding
 /// Intelligent-Tiering and <code>scratch_1</code> file systems.
+///
+/// @nodoc
 class DataRepositoryAssociation {
   /// The system-generated, unique ID of the data repository association.
   final String? associationId;
@@ -12295,6 +12525,8 @@ class DataRepositoryAssociation {
 /// <code>S3DataRepositoryConfiguration</code> because they don't support
 /// automatic import or automatic export.
 /// </note>
+///
+/// @nodoc
 class S3DataRepositoryConfiguration {
   /// Specifies the type of updated objects (new, changed, deleted) that will be
   /// automatically exported from your file system to the linked S3 bucket.
@@ -12334,6 +12566,8 @@ class S3DataRepositoryConfiguration {
 
 /// The configuration for a data repository association that links an Amazon
 /// File Cache resource to an NFS data repository.
+///
+/// @nodoc
 class NFSDataRepositoryConfiguration {
   /// The version of the NFS (Network File System) protocol of the NFS data
   /// repository. Currently, the only supported value is <code>NFS3</code>, which
@@ -12379,6 +12613,7 @@ class NFSDataRepositoryConfiguration {
   }
 }
 
+/// @nodoc
 class NfsVersion {
   static const nfs3 = NfsVersion._('NFS3');
 
@@ -12410,6 +12645,8 @@ class NfsVersion {
 ///
 /// The <code>AutoExportPolicy</code> is only supported on Amazon FSx for Lustre
 /// file systems with a data repository association.
+///
+/// @nodoc
 class AutoExportPolicy {
   /// The <code>AutoExportPolicy</code> can have the following event values:
   ///
@@ -12452,6 +12689,7 @@ class AutoExportPolicy {
   }
 }
 
+/// @nodoc
 class EventType {
   static const $new = EventType._('NEW');
   static const changed = EventType._('CHANGED');
@@ -12483,6 +12721,8 @@ class EventType {
 ///
 /// The <code>AutoImportPolicy</code> is only supported on Amazon FSx for Lustre
 /// file systems with a data repository association.
+///
+/// @nodoc
 class AutoImportPolicy {
   /// The <code>AutoImportPolicy</code> can have the following event values:
   ///
@@ -12526,6 +12766,7 @@ class AutoImportPolicy {
   }
 }
 
+/// @nodoc
 class RestoreOpenZFSVolumeOption {
   static const deleteIntermediateSnapshots =
       RestoreOpenZFSVolumeOption._('DELETE_INTERMEDIATE_SNAPSHOTS');
@@ -12553,6 +12794,7 @@ class RestoreOpenZFSVolumeOption {
   String toString() => value;
 }
 
+/// @nodoc
 class S3AccessPointAttachmentLifecycle {
   static const available = S3AccessPointAttachmentLifecycle._('AVAILABLE');
   static const creating = S3AccessPointAttachmentLifecycle._('CREATING');
@@ -12593,6 +12835,8 @@ class S3AccessPointAttachmentLifecycle {
 /// A filter used to restrict the results of describe calls for Amazon FSx for
 /// NetApp ONTAP or Amazon FSx for OpenZFS volumes. You can use multiple filters
 /// to return results that meet all applied filter requirements.
+///
+/// @nodoc
 class VolumeFilter {
   /// The name for this filter.
   final VolumeFilterName? name;
@@ -12616,6 +12860,7 @@ class VolumeFilter {
   }
 }
 
+/// @nodoc
 class VolumeFilterName {
   static const fileSystemId = VolumeFilterName._('file-system-id');
   static const storageVirtualMachineId =
@@ -12644,6 +12889,8 @@ class VolumeFilterName {
 /// A filter used to restrict the results of describe calls for Amazon FSx for
 /// NetApp ONTAP storage virtual machines (SVMs). You can use multiple filters
 /// to return results that meet all applied filter requirements.
+///
+/// @nodoc
 class StorageVirtualMachineFilter {
   /// The name for this filter.
   final StorageVirtualMachineFilterName? name;
@@ -12667,6 +12914,7 @@ class StorageVirtualMachineFilter {
   }
 }
 
+/// @nodoc
 class StorageVirtualMachineFilterName {
   static const fileSystemId =
       StorageVirtualMachineFilterName._('file-system-id');
@@ -12695,6 +12943,8 @@ class StorageVirtualMachineFilterName {
 /// A filter used to restrict the results of <code>DescribeSnapshots</code>
 /// calls. You can use multiple filters to return results that meet all applied
 /// filter requirements.
+///
+/// @nodoc
 class SnapshotFilter {
   /// The name of the filter to use. You can filter by the
   /// <code>file-system-id</code> or by <code>volume-id</code>.
@@ -12719,6 +12969,7 @@ class SnapshotFilter {
   }
 }
 
+/// @nodoc
 class SnapshotFilterName {
   static const fileSystemId = SnapshotFilterName._('file-system-id');
   static const volumeId = SnapshotFilterName._('volume-id');
@@ -12745,6 +12996,8 @@ class SnapshotFilterName {
 }
 
 /// An S3 access point attached to an Amazon FSx volume.
+///
+/// @nodoc
 class S3AccessPointAttachment {
   final DateTime? creationTime;
 
@@ -12851,6 +13104,7 @@ class S3AccessPointAttachment {
   }
 }
 
+/// @nodoc
 class S3AccessPointAttachmentType {
   static const openzfs = S3AccessPointAttachmentType._('OPENZFS');
   static const ontap = S3AccessPointAttachmentType._('ONTAP');
@@ -12878,6 +13132,8 @@ class S3AccessPointAttachmentType {
 
 /// Describes the FSx for OpenZFS attachment configuration of an S3 access point
 /// attachment.
+///
+/// @nodoc
 class S3AccessPointOpenZFSConfiguration {
   /// The file system identity used to authorize file access requests made using
   /// the S3 access point.
@@ -12915,6 +13171,8 @@ class S3AccessPointOpenZFSConfiguration {
 
 /// Describes the FSx for ONTAP attachment configuration of an S3 access point
 /// attachment.
+///
+/// @nodoc
 class S3AccessPointOntapConfiguration {
   /// The file system identity used to authorize file access requests made using
   /// the S3 access point.
@@ -12950,6 +13208,8 @@ class S3AccessPointOntapConfiguration {
 
 /// Describes the S3 access point configuration of the S3 access point
 /// attachment.
+///
+/// @nodoc
 class S3AccessPoint {
   /// The S3 access point's alias.
   final String? alias;
@@ -12991,6 +13251,8 @@ class S3AccessPoint {
 
 /// If included, Amazon S3 restricts access to this access point to requests
 /// from the specified virtual private cloud (VPC).
+///
+/// @nodoc
 class S3AccessPointVpcConfiguration {
   /// Specifies the virtual private cloud (VPC) for the S3 access point VPC
   /// configuration, if one exists.
@@ -13017,6 +13279,8 @@ class S3AccessPointVpcConfiguration {
 /// Specifies the file system user identity that will be used for authorizing
 /// all file access requests that are made using the S3 access point. The
 /// identity can be either a UNIX user or a Windows user.
+///
+/// @nodoc
 class OntapFileSystemIdentity {
   /// Specifies the FSx for ONTAP user identity type. Valid values are
   /// <code>UNIX</code> and <code>WINDOWS</code>.
@@ -13060,6 +13324,7 @@ class OntapFileSystemIdentity {
   }
 }
 
+/// @nodoc
 class OntapFileSystemUserType {
   static const unix = OntapFileSystemUserType._('UNIX');
   static const windows = OntapFileSystemUserType._('WINDOWS');
@@ -13087,6 +13352,8 @@ class OntapFileSystemUserType {
 
 /// The FSx for ONTAP UNIX file system user that is used for authorizing all
 /// file access requests that are made using the S3 access point.
+///
+/// @nodoc
 class OntapUnixFileSystemUser {
   /// The name of the UNIX user. The name can be up to 256 characters long.
   final String name;
@@ -13111,6 +13378,8 @@ class OntapUnixFileSystemUser {
 
 /// The FSx for ONTAP Windows file system user that is used for authorizing all
 /// file access requests that are made using the S3 access point.
+///
+/// @nodoc
 class OntapWindowsFileSystemUser {
   /// The name of the Windows user. The name can be up to 256 characters long and
   /// supports Active Directory users.
@@ -13136,6 +13405,8 @@ class OntapWindowsFileSystemUser {
 
 /// Specifies the file system user identity that will be used for authorizing
 /// all file access requests that are made using the S3 access point.
+///
+/// @nodoc
 class OpenZFSFileSystemIdentity {
   /// Specifies the FSx for OpenZFS user identity type, accepts only
   /// <code>POSIX</code>.
@@ -13170,6 +13441,7 @@ class OpenZFSFileSystemIdentity {
   }
 }
 
+/// @nodoc
 class OpenZFSFileSystemUserType {
   static const posix = OpenZFSFileSystemUserType._('POSIX');
 
@@ -13196,6 +13468,8 @@ class OpenZFSFileSystemUserType {
 
 /// The FSx for OpenZFS file system user that is used for authorizing all file
 /// access requests that are made using the S3 access point.
+///
+/// @nodoc
 class OpenZFSPosixFileSystemUser {
   /// The GID of the file system user.
   final int gid;
@@ -13237,6 +13511,8 @@ class OpenZFSPosixFileSystemUser {
 
 /// A set of Name and Values pairs used to view a select set of S3 access point
 /// attachments.
+///
+/// @nodoc
 class S3AccessPointAttachmentsFilter {
   /// The name of the filter.
   final S3AccessPointAttachmentsFilterName? name;
@@ -13259,6 +13535,7 @@ class S3AccessPointAttachmentsFilter {
   }
 }
 
+/// @nodoc
 class S3AccessPointAttachmentsFilterName {
   static const fileSystemId =
       S3AccessPointAttachmentsFilterName._('file-system-id');
@@ -13306,6 +13583,8 @@ class S3AccessPointAttachmentsFilterName {
 /// To learn more about data repository tasks, see <a
 /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html">Data
 /// Repository Tasks</a>.
+///
+/// @nodoc
 class DataRepositoryTask {
   final DateTime creationTime;
 
@@ -13505,6 +13784,7 @@ class DataRepositoryTask {
   }
 }
 
+/// @nodoc
 class DataRepositoryTaskLifecycle {
   static const pending = DataRepositoryTaskLifecycle._('PENDING');
   static const executing = DataRepositoryTaskLifecycle._('EXECUTING');
@@ -13541,6 +13821,7 @@ class DataRepositoryTaskLifecycle {
   String toString() => value;
 }
 
+/// @nodoc
 class DataRepositoryTaskType {
   static const exportToRepository =
       DataRepositoryTaskType._('EXPORT_TO_REPOSITORY');
@@ -13578,6 +13859,8 @@ class DataRepositoryTaskType {
 
 /// Provides information about why a data repository task failed. Only populated
 /// when the task <code>Lifecycle</code> is set to <code>FAILED</code>.
+///
+/// @nodoc
 class DataRepositoryTaskFailureDetails {
   final String? message;
 
@@ -13602,6 +13885,8 @@ class DataRepositoryTaskFailureDetails {
 /// Provides the task status showing a running total of the total number of
 /// files to be processed, the number successfully processed, and the number of
 /// files the task failed to process.
+///
+/// @nodoc
 class DataRepositoryTaskStatus {
   /// A running total of the number of files that the task failed to process.
   final int? failedCount;
@@ -13665,6 +13950,8 @@ class DataRepositoryTaskStatus {
 /// repository in Amazon S3, using the path specified in the report
 /// <code>Path</code> parameter. You can specify whether or not a report gets
 /// generated for a task using the <code>Enabled</code> parameter.
+///
+/// @nodoc
 class CompletionReport {
   /// Set <code>Enabled</code> to <code>True</code> to generate a
   /// <code>CompletionReport</code> when the task completes. If set to
@@ -13748,6 +14035,8 @@ class CompletionReport {
 /// must also be specified with the <code>Paths</code> parameter of the
 /// operation in order for the file to be released.
 /// </note>
+///
+/// @nodoc
 class ReleaseConfiguration {
   /// Defines the point-in-time since an exported file was last accessed, in order
   /// for that file to be eligible for release. Only files that were last accessed
@@ -13780,6 +14069,8 @@ class ReleaseConfiguration {
 /// eligible for release. Only files that have been exported to S3 and that were
 /// last accessed or modified before this point-in-time are eligible to be
 /// released from the Amazon FSx for Lustre file system.
+///
+/// @nodoc
 class DurationSinceLastAccess {
   /// The unit of time used by the <code>Value</code> parameter to determine if a
   /// file can be released, based on when it was last accessed. <code>DAYS</code>
@@ -13821,6 +14112,7 @@ class DurationSinceLastAccess {
   }
 }
 
+/// @nodoc
 class Unit {
   static const days = Unit._('DAYS');
 
@@ -13843,6 +14135,7 @@ class Unit {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportFormat {
   static const reportCsv_20191124 = ReportFormat._('REPORT_CSV_20191124');
 
@@ -13865,6 +14158,7 @@ class ReportFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportScope {
   static const failedFilesOnly = ReportScope._('FAILED_FILES_ONLY');
 
@@ -13892,6 +14186,8 @@ class ReportScope {
 /// returned in the response by one or more file system IDs, task lifecycles,
 /// and by task type. A filter object consists of a filter <code>Name</code>,
 /// and one or more <code>Values</code> for the filter.
+///
+/// @nodoc
 class DataRepositoryTaskFilter {
   /// Name of the task property to use in filtering the tasks returned in the
   /// response.
@@ -13928,6 +14224,7 @@ class DataRepositoryTaskFilter {
   }
 }
 
+/// @nodoc
 class DataRepositoryTaskFilterName {
   static const fileSystemId = DataRepositoryTaskFilterName._('file-system-id');
   static const taskLifecycle = DataRepositoryTaskFilterName._('task-lifecycle');
@@ -13964,6 +14261,8 @@ class DataRepositoryTaskFilterName {
 /// A filter used to restrict the results of describe calls. You can use
 /// multiple filters to return results that meet all applied filter
 /// requirements.
+///
+/// @nodoc
 class Filter {
   /// The name for this filter.
   final FilterName? name;
@@ -13988,6 +14287,8 @@ class Filter {
 }
 
 /// The name for a filter.
+///
+/// @nodoc
 class FilterName {
   static const fileSystemId = FilterName._('file-system-id');
   static const backupType = FilterName._('backup-type');
@@ -14027,6 +14328,8 @@ class FilterName {
 /// A backup of an Amazon FSx for Windows File Server, Amazon FSx for Lustre
 /// file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS
 /// file system.
+///
+/// @nodoc
 class Backup {
   /// The ID of the backup.
   final String backupId;
@@ -14230,6 +14533,8 @@ class Backup {
 /// <code>FAILED</code> - Amazon FSx couldn't finish the backup.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class BackupLifecycle {
   static const available = BackupLifecycle._('AVAILABLE');
   static const creating = BackupLifecycle._('CREATING');
@@ -14269,6 +14574,8 @@ class BackupLifecycle {
 
 /// If backup creation fails, this structure contains the details of that
 /// failure.
+///
+/// @nodoc
 class BackupFailureDetails {
   /// A message describing the backup-creation failure.
   final String? message;
@@ -14292,6 +14599,8 @@ class BackupFailureDetails {
 }
 
 /// The type of the backup.
+///
+/// @nodoc
 class BackupType {
   static const automatic = BackupType._('AUTOMATIC');
   static const userInitiated = BackupType._('USER_INITIATED');
@@ -14318,6 +14627,8 @@ class BackupType {
 
 /// The Microsoft Active Directory attributes of the Amazon FSx for Windows File
 /// Server file system.
+///
+/// @nodoc
 class ActiveDirectoryBackupAttributes {
   /// The ID of the Amazon Web Services Managed Microsoft Active Directory
   /// instance to which the file system is joined.
@@ -14354,6 +14665,7 @@ class ActiveDirectoryBackupAttributes {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const fileSystem = ResourceType._('FILE_SYSTEM');
   static const volume = ResourceType._('VOLUME');
@@ -14379,6 +14691,8 @@ class ResourceType {
 
 /// The response object for the Amazon FSx for NetApp ONTAP volume being deleted
 /// in the <code>DeleteVolume</code> operation.
+///
+/// @nodoc
 class DeleteVolumeOntapResponse {
   final String? finalBackupId;
   final List<Tag>? finalBackupTags;
@@ -14411,6 +14725,8 @@ class DeleteVolumeOntapResponse {
 /// Use to specify skipping a final backup, adding tags to a final backup, or
 /// bypassing the retention period of an FSx for ONTAP SnapLock Enterprise
 /// volume when deleting an FSx for ONTAP volume.
+///
+/// @nodoc
 class DeleteVolumeOntapConfiguration {
   /// Setting this to <code>true</code> allows a SnapLock administrator to delete
   /// an FSx for ONTAP SnapLock Enterprise volume with unexpired write once, read
@@ -14450,6 +14766,8 @@ class DeleteVolumeOntapConfiguration {
 }
 
 /// A value that specifies whether to delete all child volumes and snapshots.
+///
+/// @nodoc
 class DeleteVolumeOpenZFSConfiguration {
   /// To delete the volume's child volumes, snapshots, and clones, use the string
   /// <code>DELETE_CHILD_VOLUMES_AND_SNAPSHOTS</code>.
@@ -14467,6 +14785,7 @@ class DeleteVolumeOpenZFSConfiguration {
   }
 }
 
+/// @nodoc
 class DeleteOpenZFSVolumeOption {
   static const deleteChildVolumesAndSnapshots =
       DeleteOpenZFSVolumeOption._('DELETE_CHILD_VOLUMES_AND_SNAPSHOTS');
@@ -14494,6 +14813,8 @@ class DeleteOpenZFSVolumeOption {
 
 /// The response object for the Microsoft Windows file system used in the
 /// <code>DeleteFileSystem</code> operation.
+///
+/// @nodoc
 class DeleteFileSystemWindowsResponse {
   /// The ID of the final backup for this file system.
   final String? finalBackupId;
@@ -14528,6 +14849,8 @@ class DeleteFileSystemWindowsResponse {
 
 /// The response object for the Amazon FSx for Lustre file system being deleted
 /// in the <code>DeleteFileSystem</code> operation.
+///
+/// @nodoc
 class DeleteFileSystemLustreResponse {
   /// The ID of the final backup for this file system.
   final String? finalBackupId;
@@ -14562,6 +14885,8 @@ class DeleteFileSystemLustreResponse {
 
 /// The response object for the Amazon FSx for OpenZFS file system that's being
 /// deleted in the <code>DeleteFileSystem</code> operation.
+///
+/// @nodoc
 class DeleteFileSystemOpenZFSResponse {
   final String? finalBackupId;
   final List<Tag>? finalBackupTags;
@@ -14593,6 +14918,8 @@ class DeleteFileSystemOpenZFSResponse {
 
 /// The configuration object for the Microsoft Windows file system used in the
 /// <code>DeleteFileSystem</code> operation.
+///
+/// @nodoc
 class DeleteFileSystemWindowsConfiguration {
   /// A set of tags for your final backup.
   final List<Tag>? finalBackupTags;
@@ -14620,6 +14947,8 @@ class DeleteFileSystemWindowsConfiguration {
 
 /// The configuration object for the Amazon FSx for Lustre file system being
 /// deleted in the <code>DeleteFileSystem</code> operation.
+///
+/// @nodoc
 class DeleteFileSystemLustreConfiguration {
   /// Use if <code>SkipFinalBackup</code> is set to <code>false</code>, and you
   /// want to apply an array of tags to the final backup. If you have set the file
@@ -14656,6 +14985,8 @@ class DeleteFileSystemLustreConfiguration {
 
 /// The configuration object for the Amazon FSx for OpenZFS file system used in
 /// the <code>DeleteFileSystem</code> operation.
+///
+/// @nodoc
 class DeleteFileSystemOpenZFSConfiguration {
   /// A list of tags to apply to the file system's final backup.
   final List<Tag>? finalBackupTags;
@@ -14691,6 +15022,7 @@ class DeleteFileSystemOpenZFSConfiguration {
   }
 }
 
+/// @nodoc
 class DeleteFileSystemOpenZFSOption {
   static const deleteChildVolumesAndSnapshots =
       DeleteFileSystemOpenZFSOption._('DELETE_CHILD_VOLUMES_AND_SNAPSHOTS');
@@ -14717,6 +15049,8 @@ class DeleteFileSystemOpenZFSOption {
 }
 
 /// Specifies the configuration of the ONTAP volume that you are creating.
+///
+/// @nodoc
 class CreateOntapVolumeConfiguration {
   /// Specifies the ONTAP SVM in which to create the volume.
   final String storageVirtualMachineId;
@@ -14892,6 +15226,7 @@ class CreateOntapVolumeConfiguration {
   }
 }
 
+/// @nodoc
 class InputOntapVolumeType {
   static const rw = InputOntapVolumeType._('RW');
   static const dp = InputOntapVolumeType._('DP');
@@ -14919,6 +15254,8 @@ class InputOntapVolumeType {
 
 /// Defines the SnapLock configuration when creating an FSx for ONTAP SnapLock
 /// volume.
+///
+/// @nodoc
 class CreateSnaplockConfiguration {
   /// Specifies the retention mode of an FSx for ONTAP SnapLock volume. After it
   /// is set, it can't be changed. You can choose one of the following retention
@@ -15015,6 +15352,8 @@ class CreateSnaplockConfiguration {
 
 /// Used to specify the configuration options for an FSx for ONTAP volume's
 /// storage aggregate or aggregates.
+///
+/// @nodoc
 class CreateAggregateConfiguration {
   /// Used to specify the names of aggregates on which the volume will be created.
   final List<String>? aggregates;
@@ -15043,6 +15382,8 @@ class CreateAggregateConfiguration {
 
 /// Specifies the configuration of the Amazon FSx for OpenZFS volume that you
 /// are creating.
+///
+/// @nodoc
 class CreateOpenZFSVolumeConfiguration {
   /// The ID of the volume to use as the parent volume of the volume that you are
   /// creating.
@@ -15181,6 +15522,8 @@ class CreateOpenZFSVolumeConfiguration {
 
 /// The snapshot configuration to use when creating an Amazon FSx for OpenZFS
 /// volume from a snapshot.
+///
+/// @nodoc
 class CreateOpenZFSOriginSnapshotConfiguration {
   /// Specifies the strategy used when copying data from the snapshot to the new
   /// volume.
@@ -15226,6 +15569,8 @@ class CreateOpenZFSOriginSnapshotConfiguration {
 /// The configuration that Amazon FSx uses to join the ONTAP storage virtual
 /// machine (SVM) to your self-managed (including on-premises) Microsoft Active
 /// Directory directory.
+///
+/// @nodoc
 class CreateSvmActiveDirectoryConfiguration {
   /// The NetBIOS name of the Active Directory computer object that will be
   /// created for your SVM.
@@ -15260,6 +15605,8 @@ class CreateSvmActiveDirectoryConfiguration {
 /// Directory</a> or <a
 /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html">Managing
 /// FSx for ONTAP SVMs</a>.
+///
+/// @nodoc
 class SelfManagedActiveDirectoryConfiguration {
   /// A list of up to three IP addresses of DNS servers or domain controllers in
   /// the self-managed AD directory.
@@ -15367,6 +15714,8 @@ class SelfManagedActiveDirectoryConfiguration {
 /// The configuration object for the Microsoft Windows file system used in
 /// <code>CreateFileSystem</code> and <code>CreateFileSystemFromBackup</code>
 /// operations.
+///
+/// @nodoc
 class CreateFileSystemWindowsConfiguration {
   /// Sets the throughput capacity of an Amazon FSx file system, measured in
   /// megabytes per second (MB/s), in 2 to the <i>n</i>th increments, between 2^3
@@ -15562,6 +15911,8 @@ class CreateFileSystemWindowsConfiguration {
 /// <code>ImportPath</code>
 /// </li>
 /// </ul> </note>
+///
+/// @nodoc
 class CreateFileSystemLustreConfiguration {
   /// (Optional) When you create your file system, your existing S3 objects appear
   /// as file and directory listings. Use this parameter to choose how Amazon FSx
@@ -15712,8 +16063,8 @@ class CreateFileSystemLustreConfiguration {
   /// which new and changed data is to be exported from your Amazon FSx for Lustre
   /// file system. If an <code>ExportPath</code> value is not provided, Amazon FSx
   /// sets a default export path,
-  /// <code>s3://import-bucket/FSxLustre[creation-timestamp]</code>. The timestamp
-  /// is in UTC format, for example
+  /// <code>s3://import-bucket/FSxLustre\[creation-timestamp\]</code>. The
+  /// timestamp is in UTC format, for example
   /// <code>s3://import-bucket/FSxLustre20181105T222312Z</code>.
   ///
   /// The Amazon S3 export bucket must be the same as the import bucket specified
@@ -15721,9 +16072,9 @@ class CreateFileSystemLustreConfiguration {
   /// <code>s3://import-bucket</code>, you get a 1:1 mapping of file system
   /// objects to S3 bucket objects. This mapping means that the input data in S3
   /// is overwritten on export. If you provide a custom prefix in the export path,
-  /// such as <code>s3://import-bucket/[custom-optional-prefix]</code>, Amazon FSx
-  /// exports the contents of your file system to that export prefix in the Amazon
-  /// S3 bucket.
+  /// such as <code>s3://import-bucket/\[custom-optional-prefix\]</code>, Amazon
+  /// FSx exports the contents of your file system to that export prefix in the
+  /// Amazon S3 bucket.
   /// <note>
   /// This parameter is not supported for file systems with a data repository
   /// association.
@@ -15882,6 +16233,8 @@ class CreateFileSystemLustreConfiguration {
 
 /// The Amazon FSx for OpenZFS configuration properties for the file system that
 /// you are creating.
+///
+/// @nodoc
 class CreateFileSystemOpenZFSConfiguration {
   /// Specifies the file system deployment type. Valid values are the following:
   ///
@@ -16057,6 +16410,8 @@ class CreateFileSystemOpenZFSConfiguration {
 }
 
 /// The configuration of an Amazon FSx for OpenZFS root volume.
+///
+/// @nodoc
 class OpenZFSCreateRootVolumeConfiguration {
   /// A Boolean value indicating whether tags for the volume should be copied to
   /// snapshots of the volume. This value defaults to <code>false</code>. If it's
@@ -16149,6 +16504,8 @@ class OpenZFSCreateRootVolumeConfiguration {
 /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html#metadata-configuration">Lustre
 /// metadata performance configuration</a> in the <i>Amazon FSx for Lustre User
 /// Guide</i>.
+///
+/// @nodoc
 class CreateFileSystemLustreMetadataConfiguration {
   /// The metadata configuration mode for provisioning Metadata IOPS for an FSx
   /// for Lustre file system using a <code>PERSISTENT_2</code> deployment type.
@@ -16205,6 +16562,8 @@ class CreateFileSystemLustreMetadataConfiguration {
 
 /// The ONTAP configuration properties of the FSx for ONTAP file system that you
 /// are creating.
+///
+/// @nodoc
 class CreateFileSystemOntapConfiguration {
   /// Specifies the FSx for ONTAP file system deployment type to use in creating
   /// the file system.
@@ -16433,6 +16792,8 @@ class CreateFileSystemOntapConfiguration {
 
 /// The response object for the Amazon File Cache resource being created in the
 /// <code>CreateFileCache</code> operation.
+///
+/// @nodoc
 class FileCacheCreating {
   /// A boolean flag indicating whether tags for the cache should be copied to
   /// data repository associations.
@@ -16620,6 +16981,8 @@ class FileCacheCreating {
 }
 
 /// The Amazon File Cache configuration for the cache that you are creating.
+///
+/// @nodoc
 class CreateFileCacheLustreConfiguration {
   /// Specifies the cache deployment type, which must be <code>CACHE_1</code>.
   final FileCacheLustreDeploymentType deploymentType;
@@ -16661,6 +17024,8 @@ class CreateFileCacheLustreConfiguration {
 /// repository that supports the NFSv3 protocol.
 ///
 /// The DRA does not support automatic import or automatic export.
+///
+/// @nodoc
 class FileCacheDataRepositoryAssociation {
   /// The path to the S3 or NFS data repository that links to the cache. You must
   /// provide one of the following paths:
@@ -16751,6 +17116,8 @@ class FileCacheDataRepositoryAssociation {
 
 /// The configuration for an NFS data repository association (DRA) created
 /// during the creation of the Amazon File Cache resource.
+///
+/// @nodoc
 class FileCacheNFSConfiguration {
   /// The version of the NFS (Network File System) protocol of the NFS data
   /// repository. The only supported value is <code>NFS3</code>, which indicates
@@ -16780,6 +17147,8 @@ class FileCacheNFSConfiguration {
 
 /// Specifies the FSx for OpenZFS volume that the S3 access point will be
 /// attached to, and the file system user identity.
+///
+/// @nodoc
 class CreateAndAttachS3AccessPointOpenZFSConfiguration {
   /// Specifies the file system user identity to use for authorizing file read and
   /// write requests that are made using this S3 access point.
@@ -16806,6 +17175,8 @@ class CreateAndAttachS3AccessPointOpenZFSConfiguration {
 
 /// Specifies the FSx for ONTAP volume that the S3 access point will be attached
 /// to, and the file system user identity.
+///
+/// @nodoc
 class CreateAndAttachS3AccessPointOntapConfiguration {
   /// Specifies the file system user identity to use for authorizing file read and
   /// write requests that are made using this S3 access point.
@@ -16832,6 +17203,8 @@ class CreateAndAttachS3AccessPointOntapConfiguration {
 
 /// Used to create an S3 access point that accepts requests only from a virtual
 /// private cloud (VPC) to restrict data access to a private network.
+///
+/// @nodoc
 class CreateAndAttachS3AccessPointS3Configuration {
   /// Specifies an access policy to associate with the S3 access point
   /// configuration. For more information, see <a
@@ -16859,6 +17232,7 @@ class CreateAndAttachS3AccessPointS3Configuration {
   }
 }
 
+/// @nodoc
 class UpdateOpenZFSVolumeOption {
   static const deleteIntermediateSnapshots =
       UpdateOpenZFSVolumeOption._('DELETE_INTERMEDIATE_SNAPSHOTS');
@@ -16892,42 +17266,50 @@ class UpdateOpenZFSVolumeOption {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessPointAlreadyOwnedByYou extends _s.GenericAwsException {
   AccessPointAlreadyOwnedByYou({String? type, String? message})
       : super(
             type: type, code: 'AccessPointAlreadyOwnedByYou', message: message);
 }
 
+/// @nodoc
 class ActiveDirectoryError extends _s.GenericAwsException {
   ActiveDirectoryError({String? type, String? message})
       : super(type: type, code: 'ActiveDirectoryError', message: message);
 }
 
+/// @nodoc
 class BackupBeingCopied extends _s.GenericAwsException {
   BackupBeingCopied({String? type, String? message})
       : super(type: type, code: 'BackupBeingCopied', message: message);
 }
 
+/// @nodoc
 class BackupInProgress extends _s.GenericAwsException {
   BackupInProgress({String? type, String? message})
       : super(type: type, code: 'BackupInProgress', message: message);
 }
 
+/// @nodoc
 class BackupNotFound extends _s.GenericAwsException {
   BackupNotFound({String? type, String? message})
       : super(type: type, code: 'BackupNotFound', message: message);
 }
 
+/// @nodoc
 class BackupRestoring extends _s.GenericAwsException {
   BackupRestoring({String? type, String? message})
       : super(type: type, code: 'BackupRestoring', message: message);
 }
 
+/// @nodoc
 class BadRequest extends _s.GenericAwsException {
   BadRequest({String? type, String? message})
       : super(type: type, code: 'BadRequest', message: message);
 }
 
+/// @nodoc
 class DataRepositoryAssociationNotFound extends _s.GenericAwsException {
   DataRepositoryAssociationNotFound({String? type, String? message})
       : super(
@@ -16936,78 +17318,93 @@ class DataRepositoryAssociationNotFound extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DataRepositoryTaskEnded extends _s.GenericAwsException {
   DataRepositoryTaskEnded({String? type, String? message})
       : super(type: type, code: 'DataRepositoryTaskEnded', message: message);
 }
 
+/// @nodoc
 class DataRepositoryTaskExecuting extends _s.GenericAwsException {
   DataRepositoryTaskExecuting({String? type, String? message})
       : super(
             type: type, code: 'DataRepositoryTaskExecuting', message: message);
 }
 
+/// @nodoc
 class DataRepositoryTaskNotFound extends _s.GenericAwsException {
   DataRepositoryTaskNotFound({String? type, String? message})
       : super(type: type, code: 'DataRepositoryTaskNotFound', message: message);
 }
 
+/// @nodoc
 class FileCacheNotFound extends _s.GenericAwsException {
   FileCacheNotFound({String? type, String? message})
       : super(type: type, code: 'FileCacheNotFound', message: message);
 }
 
+/// @nodoc
 class FileSystemNotFound extends _s.GenericAwsException {
   FileSystemNotFound({String? type, String? message})
       : super(type: type, code: 'FileSystemNotFound', message: message);
 }
 
+/// @nodoc
 class IncompatibleParameterError extends _s.GenericAwsException {
   IncompatibleParameterError({String? type, String? message})
       : super(type: type, code: 'IncompatibleParameterError', message: message);
 }
 
+/// @nodoc
 class IncompatibleRegionForMultiAZ extends _s.GenericAwsException {
   IncompatibleRegionForMultiAZ({String? type, String? message})
       : super(
             type: type, code: 'IncompatibleRegionForMultiAZ', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidAccessPoint extends _s.GenericAwsException {
   InvalidAccessPoint({String? type, String? message})
       : super(type: type, code: 'InvalidAccessPoint', message: message);
 }
 
+/// @nodoc
 class InvalidDataRepositoryType extends _s.GenericAwsException {
   InvalidDataRepositoryType({String? type, String? message})
       : super(type: type, code: 'InvalidDataRepositoryType', message: message);
 }
 
+/// @nodoc
 class InvalidDestinationKmsKey extends _s.GenericAwsException {
   InvalidDestinationKmsKey({String? type, String? message})
       : super(type: type, code: 'InvalidDestinationKmsKey', message: message);
 }
 
+/// @nodoc
 class InvalidExportPath extends _s.GenericAwsException {
   InvalidExportPath({String? type, String? message})
       : super(type: type, code: 'InvalidExportPath', message: message);
 }
 
+/// @nodoc
 class InvalidImportPath extends _s.GenericAwsException {
   InvalidImportPath({String? type, String? message})
       : super(type: type, code: 'InvalidImportPath', message: message);
 }
 
+/// @nodoc
 class InvalidNetworkSettings extends _s.GenericAwsException {
   InvalidNetworkSettings({String? type, String? message})
       : super(type: type, code: 'InvalidNetworkSettings', message: message);
 }
 
+/// @nodoc
 class InvalidPerUnitStorageThroughput extends _s.GenericAwsException {
   InvalidPerUnitStorageThroughput({String? type, String? message})
       : super(
@@ -17016,21 +17413,25 @@ class InvalidPerUnitStorageThroughput extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRegion extends _s.GenericAwsException {
   InvalidRegion({String? type, String? message})
       : super(type: type, code: 'InvalidRegion', message: message);
 }
 
+/// @nodoc
 class InvalidRequest extends _s.GenericAwsException {
   InvalidRequest({String? type, String? message})
       : super(type: type, code: 'InvalidRequest', message: message);
 }
 
+/// @nodoc
 class InvalidSourceKmsKey extends _s.GenericAwsException {
   InvalidSourceKmsKey({String? type, String? message})
       : super(type: type, code: 'InvalidSourceKmsKey', message: message);
 }
 
+/// @nodoc
 class MissingFileCacheConfiguration extends _s.GenericAwsException {
   MissingFileCacheConfiguration({String? type, String? message})
       : super(
@@ -17039,6 +17440,7 @@ class MissingFileCacheConfiguration extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MissingFileSystemConfiguration extends _s.GenericAwsException {
   MissingFileSystemConfiguration({String? type, String? message})
       : super(
@@ -17047,16 +17449,19 @@ class MissingFileSystemConfiguration extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MissingVolumeConfiguration extends _s.GenericAwsException {
   MissingVolumeConfiguration({String? type, String? message})
       : super(type: type, code: 'MissingVolumeConfiguration', message: message);
 }
 
+/// @nodoc
 class NotServiceResourceError extends _s.GenericAwsException {
   NotServiceResourceError({String? type, String? message})
       : super(type: type, code: 'NotServiceResourceError', message: message);
 }
 
+/// @nodoc
 class ResourceDoesNotSupportTagging extends _s.GenericAwsException {
   ResourceDoesNotSupportTagging({String? type, String? message})
       : super(
@@ -17065,11 +17470,13 @@ class ResourceDoesNotSupportTagging extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFound extends _s.GenericAwsException {
   ResourceNotFound({String? type, String? message})
       : super(type: type, code: 'ResourceNotFound', message: message);
 }
 
+/// @nodoc
 class S3AccessPointAttachmentNotFound extends _s.GenericAwsException {
   S3AccessPointAttachmentNotFound({String? type, String? message})
       : super(
@@ -17078,21 +17485,25 @@ class S3AccessPointAttachmentNotFound extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceLimitExceeded extends _s.GenericAwsException {
   ServiceLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ServiceLimitExceeded', message: message);
 }
 
+/// @nodoc
 class SnapshotNotFound extends _s.GenericAwsException {
   SnapshotNotFound({String? type, String? message})
       : super(type: type, code: 'SnapshotNotFound', message: message);
 }
 
+/// @nodoc
 class SourceBackupUnavailable extends _s.GenericAwsException {
   SourceBackupUnavailable({String? type, String? message})
       : super(type: type, code: 'SourceBackupUnavailable', message: message);
 }
 
+/// @nodoc
 class StorageVirtualMachineNotFound extends _s.GenericAwsException {
   StorageVirtualMachineNotFound({String? type, String? message})
       : super(
@@ -17101,16 +17512,19 @@ class StorageVirtualMachineNotFound extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyAccessPoints extends _s.GenericAwsException {
   TooManyAccessPoints({String? type, String? message})
       : super(type: type, code: 'TooManyAccessPoints', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperation extends _s.GenericAwsException {
   UnsupportedOperation({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperation', message: message);
 }
 
+/// @nodoc
 class VolumeNotFound extends _s.GenericAwsException {
   VolumeNotFound({String? type, String? message})
       : super(type: type, code: 'VolumeNotFound', message: message);

@@ -1783,6 +1783,7 @@ class ResiliencehubV2 {
   }
 }
 
+/// @nodoc
 class CreateAssertionResponse {
   /// The created assertion.
   final Assertion assertion;
@@ -1807,6 +1808,7 @@ class CreateAssertionResponse {
   }
 }
 
+/// @nodoc
 class CreateInputSourceResponse {
   /// The unique identifier assigned to the created input source.
   final String inputSourceId;
@@ -1834,6 +1836,7 @@ class CreateInputSourceResponse {
   }
 }
 
+/// @nodoc
 class CreatePolicyResponse {
   /// The created resilience policy.
   final Policy policy;
@@ -1857,6 +1860,7 @@ class CreatePolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateReportResponse {
   /// The result of the report generation request.
   final ReportGenerationResult reportGenerationResult;
@@ -1881,6 +1885,7 @@ class CreateReportResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceResponse {
   /// The created service.
   final Service service;
@@ -1904,6 +1909,7 @@ class CreateServiceResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceFunctionResponse {
   /// The created service function.
   final ServiceFunction serviceFunction;
@@ -1928,6 +1934,7 @@ class CreateServiceFunctionResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceFunctionResourcesResponse {
   /// The list of resources that were associated.
   final List<String>? resources;
@@ -1966,6 +1973,7 @@ class CreateServiceFunctionResourcesResponse {
   }
 }
 
+/// @nodoc
 class CreateSystemResponse {
   /// The created system.
   final System system;
@@ -1989,6 +1997,7 @@ class CreateSystemResponse {
   }
 }
 
+/// @nodoc
 class CreateUserJourneyResponse {
   /// The created user journey.
   final UserJourney userJourney;
@@ -2013,6 +2022,7 @@ class CreateUserJourneyResponse {
   }
 }
 
+/// @nodoc
 class DeleteAssertionResponse {
   /// The unique identifier of the deleted assertion.
   final String? assertionId;
@@ -2035,6 +2045,7 @@ class DeleteAssertionResponse {
   }
 }
 
+/// @nodoc
 class DeleteInputSourceResponse {
   /// The identifier of the deleted input source.
   final String inputSourceId;
@@ -2062,6 +2073,7 @@ class DeleteInputSourceResponse {
   }
 }
 
+/// @nodoc
 class DeletePolicyResponse {
   final String policyArn;
 
@@ -2083,6 +2095,7 @@ class DeletePolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceResponse {
   final String serviceArn;
 
@@ -2104,6 +2117,7 @@ class DeleteServiceResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceFunctionResponse {
   /// The identifier of the deleted service function.
   final String? serviceFunctionId;
@@ -2126,6 +2140,7 @@ class DeleteServiceFunctionResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceFunctionResourcesResponse {
   /// The list of resources that were removed.
   final List<String>? resources;
@@ -2164,6 +2179,7 @@ class DeleteServiceFunctionResourcesResponse {
   }
 }
 
+/// @nodoc
 class DeleteSystemResponse {
   final String systemArn;
 
@@ -2185,6 +2201,7 @@ class DeleteSystemResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserJourneyResponse {
   /// The identifier of the deleted user journey.
   final String userJourneyId;
@@ -2207,6 +2224,7 @@ class DeleteUserJourneyResponse {
   }
 }
 
+/// @nodoc
 class GetFailureModeFindingResponse {
   /// The requested finding.
   final Finding? finding;
@@ -2231,6 +2249,7 @@ class GetFailureModeFindingResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyResponse {
   /// The requested resilience policy.
   final Policy policy;
@@ -2254,6 +2273,7 @@ class GetPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetServiceResponse {
   /// The requested service.
   final Service service;
@@ -2277,6 +2297,7 @@ class GetServiceResponse {
   }
 }
 
+/// @nodoc
 class GetSystemResponse {
   /// The requested system.
   final System system;
@@ -2300,6 +2321,7 @@ class GetSystemResponse {
   }
 }
 
+/// @nodoc
 class GetUserJourneyResponse {
   /// The requested user journey.
   final UserJourney userJourney;
@@ -2324,6 +2346,7 @@ class GetUserJourneyResponse {
   }
 }
 
+/// @nodoc
 class ImportAppResponse {
   /// The imported service.
   final Service service;
@@ -2347,6 +2370,7 @@ class ImportAppResponse {
   }
 }
 
+/// @nodoc
 class ImportPolicyResponse {
   /// The imported policy.
   final Policy policy;
@@ -2370,6 +2394,7 @@ class ImportPolicyResponse {
   }
 }
 
+/// @nodoc
 class ListAssertionsResponse {
   /// The list of assertions.
   final List<Assertion> assertions;
@@ -2400,6 +2425,7 @@ class ListAssertionsResponse {
   }
 }
 
+/// @nodoc
 class ListDependenciesResponse {
   /// The list of dependency summaries.
   final List<DependencySummary> dependencySummaries;
@@ -2430,6 +2456,7 @@ class ListDependenciesResponse {
   }
 }
 
+/// @nodoc
 class ListFailureModeAssessmentsResponse {
   /// The list of assessment summaries.
   final List<AssessmentSummary> assessmentSummaries;
@@ -2461,6 +2488,7 @@ class ListFailureModeAssessmentsResponse {
   }
 }
 
+/// @nodoc
 class ListFailureModeFindingsResponse {
   /// The list of finding summaries.
   final List<FindingSummary> findingsSummary;
@@ -2491,6 +2519,7 @@ class ListFailureModeFindingsResponse {
   }
 }
 
+/// @nodoc
 class ListInputSourcesResponse {
   /// The list of input source summaries.
   final List<InputSourceSummary> inputSourceSummaries;
@@ -2522,6 +2551,7 @@ class ListInputSourcesResponse {
   }
 }
 
+/// @nodoc
 class ListPoliciesResponse {
   /// The list of policy summaries.
   final List<PolicySummary> policySummaries;
@@ -2552,6 +2582,7 @@ class ListPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListReportsResponse {
   /// The list of report generation results.
   final List<ReportGenerationResult> reportGenerationResults;
@@ -2584,6 +2615,7 @@ class ListReportsResponse {
   }
 }
 
+/// @nodoc
 class ListResourcesResponse {
   final String? nextToken;
 
@@ -2622,6 +2654,7 @@ class ListResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListServiceEventsResponse {
   /// The list of service events.
   final List<ServiceEvent> events;
@@ -2652,6 +2685,7 @@ class ListServiceEventsResponse {
   }
 }
 
+/// @nodoc
 class ListServiceFunctionsResponse {
   /// The list of service functions.
   final List<ServiceFunction> serviceFunctions;
@@ -2682,6 +2716,7 @@ class ListServiceFunctionsResponse {
   }
 }
 
+/// @nodoc
 class ListServicesResponse {
   /// The list of service summaries.
   final List<ServiceSummary> serviceSummaries;
@@ -2712,6 +2747,7 @@ class ListServicesResponse {
   }
 }
 
+/// @nodoc
 class ListServiceTopologyEdgesResponse {
   final String? nextToken;
 
@@ -2746,6 +2782,7 @@ class ListServiceTopologyEdgesResponse {
   }
 }
 
+/// @nodoc
 class ListSystemEventsResponse {
   /// The list of system events.
   final List<SystemEvent> events;
@@ -2776,6 +2813,7 @@ class ListSystemEventsResponse {
   }
 }
 
+/// @nodoc
 class ListSystemsResponse {
   /// The list of system summaries.
   final List<SystemSummary> systemSummaries;
@@ -2806,6 +2844,7 @@ class ListSystemsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   final Map<String, String>? tags;
 
@@ -2828,6 +2867,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListUserJourneysResponse {
   /// The list of user journey summaries.
   final List<UserJourneySummary> userJourneySummaries;
@@ -2859,6 +2899,7 @@ class ListUserJourneysResponse {
   }
 }
 
+/// @nodoc
 class StartFailureModeAssessmentResponse {
   /// The unique identifier of the started assessment.
   final String? assessmentId;
@@ -2902,6 +2943,7 @@ class StartFailureModeAssessmentResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2914,6 +2956,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2926,6 +2969,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAssertionResponse {
   /// The updated assertion.
   final Assertion assertion;
@@ -2950,6 +2994,7 @@ class UpdateAssertionResponse {
   }
 }
 
+/// @nodoc
 class UpdateDependencyResponse {
   /// The criticality level of the dependency.
   final DependencyCriticality criticality;
@@ -3015,6 +3060,7 @@ class UpdateDependencyResponse {
   }
 }
 
+/// @nodoc
 class UpdateFailureModeFindingResponse {
   /// The updated finding.
   final Finding? finding;
@@ -3039,6 +3085,7 @@ class UpdateFailureModeFindingResponse {
   }
 }
 
+/// @nodoc
 class UpdatePolicyResponse {
   /// The updated policy.
   final Policy policy;
@@ -3062,6 +3109,7 @@ class UpdatePolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceResponse {
   /// The updated service.
   final Service service;
@@ -3085,6 +3133,7 @@ class UpdateServiceResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceFunctionResponse {
   /// The updated service function.
   final ServiceFunction serviceFunction;
@@ -3109,6 +3158,7 @@ class UpdateServiceFunctionResponse {
   }
 }
 
+/// @nodoc
 class UpdateSystemResponse {
   /// The updated system.
   final System system;
@@ -3132,6 +3182,7 @@ class UpdateSystemResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserJourneyResponse {
   /// The updated user journey.
   final UserJourney userJourney;
@@ -3157,6 +3208,8 @@ class UpdateUserJourneyResponse {
 }
 
 /// Represents a user journey that defines a critical path through a system.
+///
+/// @nodoc
 class UserJourney {
   final String name;
 
@@ -3211,6 +3264,8 @@ class UserJourney {
 
 /// Represents a system in Resilience Hub. A system is a logical grouping of
 /// services.
+///
+/// @nodoc
 class System {
   final String name;
   final String systemArn;
@@ -3294,6 +3349,8 @@ class System {
 }
 
 /// Represents a logical component of a service.
+///
+/// @nodoc
 class ServiceFunction {
   /// The criticality level of the service function.
   final ServiceFunctionCriticality criticality;
@@ -3368,6 +3425,7 @@ class ServiceFunction {
   }
 }
 
+/// @nodoc
 class ServiceFunctionCriticality {
   static const primary = ServiceFunctionCriticality._('PRIMARY');
   static const supplemental = ServiceFunctionCriticality._('SUPPLEMENTAL');
@@ -3393,6 +3451,7 @@ class ServiceFunctionCriticality {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceFunctionSource {
   static const aiGenerated = ServiceFunctionSource._('AI_GENERATED');
   static const user = ServiceFunctionSource._('USER');
@@ -3420,6 +3479,8 @@ class ServiceFunctionSource {
 
 /// Represents a service in Resilience Hub. A service is the primary unit of
 /// resilience assessment.
+///
+/// @nodoc
 class Service {
   final String name;
   final String serviceArn;
@@ -3623,6 +3684,8 @@ class Service {
 }
 
 /// Defines the permission model for a service.
+///
+/// @nodoc
 class PermissionModel {
   final String invokerRoleName;
 
@@ -3655,6 +3718,8 @@ class PermissionModel {
 }
 
 /// Configuration for dependency discovery on a service.
+///
+/// @nodoc
 class DependencyDiscoveryConfig {
   /// The current status of dependency discovery.
   final DependencyDiscoveryStatus status;
@@ -3686,6 +3751,8 @@ class DependencyDiscoveryConfig {
 }
 
 /// Contains the effective resilience policy values for a service.
+///
+/// @nodoc
 class EffectivePolicyValues {
   /// The effective availability SLO value for the service.
   final SloSource? availabilitySlo;
@@ -3783,6 +3850,8 @@ class EffectivePolicyValues {
 
 /// Describes the achievability status of a service's resilience targets based
 /// on the most recent assessment.
+///
+/// @nodoc
 class Achievability {
   /// The achievability status of the availability SLO target for the service.
   final AchievabilityStatus? availabilitySlo;
@@ -3826,6 +3895,8 @@ class Achievability {
 }
 
 /// Configuration for automatic report generation on a Service.
+///
+/// @nodoc
 class ServiceReportConfiguration {
   /// Output destinations for generated reports.
   final List<ReportOutputConfiguration> reportOutputs;
@@ -3853,6 +3924,8 @@ class ServiceReportConfiguration {
 }
 
 /// Represents the cost of running a failure mode assessment.
+///
+/// @nodoc
 class AssessmentCost {
   /// The cost amount for the assessment.
   final double? amount;
@@ -3883,6 +3956,8 @@ class AssessmentCost {
 }
 
 /// Contains the status of resource discovery for a service.
+///
+/// @nodoc
 class ResourceDiscoveryStatus {
   /// The error code if resource discovery failed.
   final ResourceDiscoveryErrorCode? errorCode;
@@ -3928,6 +4003,7 @@ class ResourceDiscoveryStatus {
   }
 }
 
+/// @nodoc
 class AssessmentStatus {
   static const notStarted = AssessmentStatus._('NOT_STARTED');
   static const pending = AssessmentStatus._('PENDING');
@@ -3955,6 +4031,7 @@ class AssessmentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceDiscoveryRunStatus {
   static const running = ResourceDiscoveryRunStatus._('RUNNING');
   static const succeeded = ResourceDiscoveryRunStatus._('SUCCEEDED');
@@ -3990,6 +4067,7 @@ class ResourceDiscoveryRunStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceDiscoveryErrorCode {
   static const invalidPermissions =
       ResourceDiscoveryErrorCode._('INVALID_PERMISSIONS');
@@ -4032,6 +4110,7 @@ class ResourceDiscoveryErrorCode {
   String toString() => value;
 }
 
+/// @nodoc
 class CostCurrency {
   static const usd = CostCurrency._('USD');
 
@@ -4055,6 +4134,8 @@ class CostCurrency {
 }
 
 /// Configuration for a report output destination.
+///
+/// @nodoc
 class ReportOutputConfiguration {
   final S3ReportOutputConfiguration? s3;
 
@@ -4080,6 +4161,8 @@ class ReportOutputConfiguration {
 }
 
 /// S3 configuration for report output.
+///
+/// @nodoc
 class S3ReportOutputConfiguration {
   /// Account ID of the bucket owner for cross-account access verification.
   final String bucketOwner;
@@ -4110,6 +4193,7 @@ class S3ReportOutputConfiguration {
   }
 }
 
+/// @nodoc
 class AchievabilityStatus {
   static const achievable = AchievabilityStatus._('ACHIEVABLE');
   static const notAchievable = AchievabilityStatus._('NOT_ACHIEVABLE');
@@ -4136,6 +4220,8 @@ class AchievabilityStatus {
 }
 
 /// Contains the effective availability SLO value and its source.
+///
+/// @nodoc
 class SloSource {
   final String? policyName;
 
@@ -4173,6 +4259,8 @@ class SloSource {
 }
 
 /// Contains an effective RTO or RPO value and its source.
+///
+/// @nodoc
 class TargetSource {
   final String? policyName;
 
@@ -4210,6 +4298,8 @@ class TargetSource {
 }
 
 /// Contains the effective disaster recovery approach value for a service.
+///
+/// @nodoc
 class DisasterRecoverySource {
   final String? policyName;
 
@@ -4246,6 +4336,7 @@ class DisasterRecoverySource {
   }
 }
 
+/// @nodoc
 class PolicyValueSource {
   static const self = PolicyValueSource._('SELF');
   static const crossAccount = PolicyValueSource._('CROSS_ACCOUNT');
@@ -4270,6 +4361,7 @@ class PolicyValueSource {
   String toString() => value;
 }
 
+/// @nodoc
 class DependencyDiscoveryStatus {
   static const enabled = DependencyDiscoveryStatus._('ENABLED');
   static const initializing = DependencyDiscoveryStatus._('INITIALIZING');
@@ -4297,6 +4389,8 @@ class DependencyDiscoveryStatus {
 }
 
 /// Specifies a cross-account IAM role ARN and optional external ID.
+///
+/// @nodoc
 class CrossAccountRole {
   final String crossAccountRoleArn;
 
@@ -4326,6 +4420,8 @@ class CrossAccountRole {
 }
 
 /// Represents a system associated with a service.
+///
+/// @nodoc
 class AssociatedSystem {
   final String systemArn;
   final String? systemName;
@@ -4365,6 +4461,8 @@ class AssociatedSystem {
 
 /// Caller-settable values for dependency discovery. INITIALIZING is
 /// system-managed.
+///
+/// @nodoc
 class DependencyDiscoveryInput {
   static const enabled = DependencyDiscoveryInput._('ENABLED');
   static const disabled = DependencyDiscoveryInput._('DISABLED');
@@ -4392,6 +4490,8 @@ class DependencyDiscoveryInput {
 
 /// Represents a resilience policy that defines availability and disaster
 /// recovery requirements.
+///
+/// @nodoc
 class Policy {
   final String name;
   final String policyArn;
@@ -4497,6 +4597,8 @@ class Policy {
 
 /// Defines the availability service level objective (SLO) for a resilience
 /// policy.
+///
+/// @nodoc
 class AvailabilitySlo {
   /// The target availability percentage, expressed as a value between 0 and 100.
   final double? target;
@@ -4520,6 +4622,8 @@ class AvailabilitySlo {
 }
 
 /// Defines the multi-AZ disaster recovery targets for a resilience policy.
+///
+/// @nodoc
 class MultiAzTargets {
   /// The disaster recovery approach for multi-AZ.
   final MultiAzDisasterRecoveryApproach? disasterRecoveryApproach;
@@ -4559,6 +4663,8 @@ class MultiAzTargets {
 }
 
 /// Defines the multi-Region disaster recovery targets for a resilience policy.
+///
+/// @nodoc
 class MultiRegionTargets {
   /// The disaster recovery approach for multi-Region.
   final MultiRegionDisasterRecoveryApproach? disasterRecoveryApproach;
@@ -4598,6 +4704,8 @@ class MultiRegionTargets {
 }
 
 /// Defines data recovery targets for a resilience policy.
+///
+/// @nodoc
 class DataRecoveryTargets {
   /// The target time between backups, in minutes.
   final int? timeBetweenBackupsInMinutes;
@@ -4621,6 +4729,7 @@ class DataRecoveryTargets {
   }
 }
 
+/// @nodoc
 class MultiRegionDisasterRecoveryApproach {
   static const activeActive =
       MultiRegionDisasterRecoveryApproach._('ACTIVE_ACTIVE');
@@ -4660,6 +4769,7 @@ class MultiRegionDisasterRecoveryApproach {
   String toString() => value;
 }
 
+/// @nodoc
 class MultiAzDisasterRecoveryApproach {
   static const activeActive =
       MultiAzDisasterRecoveryApproach._('ACTIVE_ACTIVE');
@@ -4697,6 +4807,8 @@ class MultiAzDisasterRecoveryApproach {
 }
 
 /// Represents a resilience finding from a failure mode assessment.
+///
+/// @nodoc
 class Finding {
   /// A user-provided comment about the finding.
   final String? comment;
@@ -4832,6 +4944,7 @@ class Finding {
   }
 }
 
+/// @nodoc
 class FailureCategory {
   static const sharedFate = FailureCategory._('SHARED_FATE');
   static const excessiveLoad = FailureCategory._('EXCESSIVE_LOAD');
@@ -4867,6 +4980,7 @@ class FailureCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class FindingStatus {
   static const open = FindingStatus._('OPEN');
   static const resolved = FindingStatus._('RESOLVED');
@@ -4892,6 +5006,7 @@ class FindingStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FindingSeverity {
   static const low = FindingSeverity._('LOW');
   static const medium = FindingSeverity._('MEDIUM');
@@ -4917,6 +5032,7 @@ class FindingSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class PolicyComponent {
   static const availabilitySlo = PolicyComponent._('AVAILABILITY_SLO');
   static const multiAzDisasterRecovery =
@@ -4951,6 +5067,8 @@ class PolicyComponent {
 }
 
 /// A testing recommendation to address a finding.
+///
+/// @nodoc
 class TestingRecommendation {
   /// The list of suggested testing changes.
   final List<String>? suggestedChanges;
@@ -4977,6 +5095,8 @@ class TestingRecommendation {
 }
 
 /// An observability recommendation to address a finding.
+///
+/// @nodoc
 class ObservabilityRecommendation {
   /// The list of suggested observability changes.
   final List<String>? suggestedChanges;
@@ -5003,6 +5123,8 @@ class ObservabilityRecommendation {
 }
 
 /// An infrastructure and code recommendation to address a finding.
+///
+/// @nodoc
 class InfrastructureAndCodeRecommendation {
   /// The list of suggested changes.
   final List<String>? suggestedChanges;
@@ -5029,6 +5151,7 @@ class InfrastructureAndCodeRecommendation {
   }
 }
 
+/// @nodoc
 class DependencyCriticality {
   static const hard = DependencyCriticality._('HARD');
   static const soft = DependencyCriticality._('SOFT');
@@ -5056,6 +5179,8 @@ class DependencyCriticality {
 }
 
 /// Represents a resilience assertion for a service.
+///
+/// @nodoc
 class Assertion {
   /// The unique identifier of the assertion.
   final String assertionId;
@@ -5112,6 +5237,7 @@ class Assertion {
   }
 }
 
+/// @nodoc
 class AssertionSource {
   static const aiGenerated = AssertionSource._('AI_GENERATED');
   static const user = AssertionSource._('USER');
@@ -5137,6 +5263,8 @@ class AssertionSource {
 }
 
 /// Contains summary information about a user journey.
+///
+/// @nodoc
 class UserJourneySummary {
   final String name;
 
@@ -5180,6 +5308,8 @@ class UserJourneySummary {
 }
 
 /// Contains summary information about a system.
+///
+/// @nodoc
 class SystemSummary {
   final String name;
   final String systemId;
@@ -5254,6 +5384,8 @@ class SystemSummary {
 }
 
 /// Represents an event in the system event log.
+///
+/// @nodoc
 class SystemEvent {
   /// The actor that triggered the event.
   final EventActor actor;
@@ -5313,6 +5445,7 @@ class SystemEvent {
   }
 }
 
+/// @nodoc
 class SystemEventType {
   static const systemCreated = SystemEventType._('SYSTEM_CREATED');
   static const systemDeleted = SystemEventType._('SYSTEM_DELETED');
@@ -5362,6 +5495,8 @@ class SystemEventType {
 }
 
 /// Identifies the actor that triggered an event.
+///
+/// @nodoc
 class EventActor {
   /// The principal ID of the actor.
   final String principalId;
@@ -5406,6 +5541,8 @@ class EventActor {
 }
 
 /// Contains the details of a system event.
+///
+/// @nodoc
 class SystemEventDetails {
   /// The description of the event.
   final String description;
@@ -5444,6 +5581,8 @@ class SystemEventDetails {
 }
 
 /// Type-specific metadata for each system event type.
+///
+/// @nodoc
 class SystemEventMetadata {
   /// Metadata for a system created event.
   final SystemCreatedMetadata? systemCreated;
@@ -5557,6 +5696,8 @@ class SystemEventMetadata {
 }
 
 /// Metadata for a system created event.
+///
+/// @nodoc
 class SystemCreatedMetadata {
   SystemCreatedMetadata();
 
@@ -5570,6 +5711,8 @@ class SystemCreatedMetadata {
 }
 
 /// Metadata for a system deleted event.
+///
+/// @nodoc
 class SystemDeletedMetadata {
   SystemDeletedMetadata();
 
@@ -5583,6 +5726,8 @@ class SystemDeletedMetadata {
 }
 
 /// Metadata for a system user journey created event.
+///
+/// @nodoc
 class SystemUserJourneyCreatedMetadata {
   /// The services associated with the created user journey.
   final List<ServiceReference>? associatedServices;
@@ -5616,6 +5761,8 @@ class SystemUserJourneyCreatedMetadata {
 }
 
 /// Metadata for a system user journey updated event.
+///
+/// @nodoc
 class SystemUserJourneyUpdatedMetadata {
   /// The changes made to the user journey.
   final UserJourneyChanges? changes;
@@ -5648,6 +5795,8 @@ class SystemUserJourneyUpdatedMetadata {
 }
 
 /// Metadata for a system user journey deleted event.
+///
+/// @nodoc
 class SystemUserJourneyDeletedMetadata {
   /// The services that were associated at the time of deletion.
   final List<ServiceReference>? associatedServicesAtDeletion;
@@ -5683,6 +5832,8 @@ class SystemUserJourneyDeletedMetadata {
 }
 
 /// Metadata for a system service associated event.
+///
+/// @nodoc
 class SystemServiceAssociatedMetadata {
   final String? serviceArn;
 
@@ -5722,6 +5873,8 @@ class SystemServiceAssociatedMetadata {
 }
 
 /// Metadata for a system service disassociated event.
+///
+/// @nodoc
 class SystemServiceDisassociatedMetadata {
   /// A comment about the disassociation.
   final String? comment;
@@ -5769,6 +5922,8 @@ class SystemServiceDisassociatedMetadata {
 }
 
 /// Metadata for a system policy associated event.
+///
+/// @nodoc
 class SystemPolicyAssociatedMetadata {
   final String? policyArn;
 
@@ -5798,6 +5953,8 @@ class SystemPolicyAssociatedMetadata {
 }
 
 /// Metadata for a system policy disassociated event.
+///
+/// @nodoc
 class SystemPolicyDisassociatedMetadata {
   final String? policyArn;
 
@@ -5828,6 +5985,8 @@ class SystemPolicyDisassociatedMetadata {
 }
 
 /// A reference to a service by ID and name.
+///
+/// @nodoc
 class ServiceReference {
   /// The identifier of the referenced service.
   final String? serviceId;
@@ -5858,6 +6017,8 @@ class ServiceReference {
 }
 
 /// Describes changes made to a user journey.
+///
+/// @nodoc
 class UserJourneyChanges {
   /// Changes to the services associated with the user journey.
   final ServiceReferenceChanges? associatedServices;
@@ -5894,6 +6055,8 @@ class UserJourneyChanges {
 }
 
 /// Describes a change from one string value to another.
+///
+/// @nodoc
 class StringChange {
   /// The new value.
   final String? newValue;
@@ -5924,6 +6087,8 @@ class StringChange {
 }
 
 /// Describes changes to service references.
+///
+/// @nodoc
 class ServiceReferenceChanges {
   /// The list of service references that were added.
   final List<ServiceReference>? added;
@@ -5959,6 +6124,7 @@ class ServiceReferenceChanges {
   }
 }
 
+/// @nodoc
 class ActorType {
   static const user = ActorType._('USER');
   static const system = ActorType._('SYSTEM');
@@ -5983,6 +6149,8 @@ class ActorType {
 }
 
 /// Contains summary information about a service topology edge.
+///
+/// @nodoc
 class ServiceTopologyEdgeSummary {
   /// The identifier of the destination resource.
   final String destinationResourceIdentifier;
@@ -6025,6 +6193,8 @@ class ServiceTopologyEdgeSummary {
 }
 
 /// Contains property information for a service topology edge.
+///
+/// @nodoc
 class EdgePropertySummary {
   /// Human-readable relationship description. Only present for LLM-inferred
   /// edges.
@@ -6056,6 +6226,7 @@ class EdgePropertySummary {
   }
 }
 
+/// @nodoc
 class TopologyType {
   static const containment = TopologyType._('CONTAINMENT');
   static const dataFlow = TopologyType._('DATA_FLOW');
@@ -6082,6 +6253,8 @@ class TopologyType {
 }
 
 /// Contains summary information about a service.
+///
+/// @nodoc
 class ServiceSummary {
   final String name;
   final String serviceArn;
@@ -6211,6 +6384,8 @@ class ServiceSummary {
 }
 
 /// Represents an event in the service event log.
+///
+/// @nodoc
 class ServiceEvent {
   /// The actor that triggered the event.
   final EventActor actor;
@@ -6270,6 +6445,7 @@ class ServiceEvent {
   }
 }
 
+/// @nodoc
 class ServiceEventType {
   static const serviceCreated = ServiceEventType._('SERVICE_CREATED');
   static const serviceDeleted = ServiceEventType._('SERVICE_DELETED');
@@ -6346,6 +6522,8 @@ class ServiceEventType {
 }
 
 /// Contains the details of a service event.
+///
+/// @nodoc
 class ServiceEventDetails {
   /// The description of the event.
   final String description;
@@ -6384,6 +6562,8 @@ class ServiceEventDetails {
 }
 
 /// Type-specific metadata for each service event type.
+///
+/// @nodoc
 class ServiceEventMetadata {
   /// Metadata for an assertion created event.
   final AssertionCreatedMetadata? assertionCreated;
@@ -6610,6 +6790,8 @@ class ServiceEventMetadata {
 }
 
 /// Metadata for a service created event.
+///
+/// @nodoc
 class ServiceCreatedMetadata {
   ServiceCreatedMetadata();
 
@@ -6623,6 +6805,8 @@ class ServiceCreatedMetadata {
 }
 
 /// Metadata for a service deleted event.
+///
+/// @nodoc
 class ServiceDeletedMetadata {
   ServiceDeletedMetadata();
 
@@ -6636,6 +6820,8 @@ class ServiceDeletedMetadata {
 }
 
 /// Metadata for a service system associated event.
+///
+/// @nodoc
 class ServiceSystemAssociatedMetadata {
   final String? systemArn;
 
@@ -6665,6 +6851,8 @@ class ServiceSystemAssociatedMetadata {
 }
 
 /// Metadata for a service system disassociated event.
+///
+/// @nodoc
 class ServiceSystemDisassociatedMetadata {
   final String? systemArn;
 
@@ -6702,6 +6890,8 @@ class ServiceSystemDisassociatedMetadata {
 }
 
 /// Metadata for a service resources associated event.
+///
+/// @nodoc
 class ServiceResourcesAssociatedMetadata {
   /// The number of resources associated.
   final int? resourceCount;
@@ -6736,6 +6926,8 @@ class ServiceResourcesAssociatedMetadata {
 }
 
 /// Metadata for a service resources disassociated event.
+///
+/// @nodoc
 class ServiceResourcesDisassociatedMetadata {
   /// The number of resources disassociated.
   final int? resourceCount;
@@ -6770,6 +6962,8 @@ class ServiceResourcesDisassociatedMetadata {
 }
 
 /// Metadata for a service workflow updated event.
+///
+/// @nodoc
 class ServiceWorkflowUpdatedMetadata {
   /// The identifier of the service function.
   final String? serviceFunctionId;
@@ -6801,6 +6995,8 @@ class ServiceWorkflowUpdatedMetadata {
 }
 
 /// Metadata for a service input sources updated event.
+///
+/// @nodoc
 class ServiceInputSourcesUpdatedMetadata {
   ServiceInputSourcesUpdatedMetadata();
 
@@ -6814,6 +7010,8 @@ class ServiceInputSourcesUpdatedMetadata {
 }
 
 /// Metadata for a service policy associated event.
+///
+/// @nodoc
 class ServicePolicyAssociatedMetadata {
   final String? policyArn;
 
@@ -6843,6 +7041,8 @@ class ServicePolicyAssociatedMetadata {
 }
 
 /// Metadata for a service policy disassociated event.
+///
+/// @nodoc
 class ServicePolicyDisassociatedMetadata {
   final String? policyArn;
 
@@ -6873,6 +7073,8 @@ class ServicePolicyDisassociatedMetadata {
 }
 
 /// Metadata for a service function created event.
+///
+/// @nodoc
 class ServiceFunctionCreatedMetadata {
   /// The identifier of the created service function.
   final String? serviceFunctionId;
@@ -6904,6 +7106,8 @@ class ServiceFunctionCreatedMetadata {
 }
 
 /// Metadata for a service function updated event.
+///
+/// @nodoc
 class ServiceFunctionUpdatedMetadata {
   /// The list of resource ARNs that were added.
   final List<String>? resourcesAdded;
@@ -6955,6 +7159,8 @@ class ServiceFunctionUpdatedMetadata {
 }
 
 /// Metadata for a service function deleted event.
+///
+/// @nodoc
 class ServiceFunctionDeletedMetadata {
   /// The identifier of the deleted service function.
   final String? serviceFunctionId;
@@ -6986,6 +7192,8 @@ class ServiceFunctionDeletedMetadata {
 }
 
 /// Metadata for a service function resources added event.
+///
+/// @nodoc
 class ServiceFunctionResourcesAddedMetadata {
   /// The list of resource ARNs that were added.
   final List<String>? resourcesAdded;
@@ -7028,6 +7236,8 @@ class ServiceFunctionResourcesAddedMetadata {
 }
 
 /// Metadata for a service function resources removed event.
+///
+/// @nodoc
 class ServiceFunctionResourcesRemovedMetadata {
   /// The list of resource ARNs that were removed.
   final List<String>? resourcesRemoved;
@@ -7070,6 +7280,8 @@ class ServiceFunctionResourcesRemovedMetadata {
 }
 
 /// Metadata for a service achievability updated event.
+///
+/// @nodoc
 class ServiceAchievabilityUpdatedMetadata {
   /// The assessment identifier that triggered the update.
   final String? assessmentId;
@@ -7115,6 +7327,8 @@ class ServiceAchievabilityUpdatedMetadata {
 }
 
 /// Metadata for an assertion created event.
+///
+/// @nodoc
 class AssertionCreatedMetadata {
   /// The unique identifier of the created assertion.
   final String? assertionId;
@@ -7145,6 +7359,8 @@ class AssertionCreatedMetadata {
 }
 
 /// Metadata for an assertion updated event.
+///
+/// @nodoc
 class AssertionUpdatedMetadata {
   /// The unique identifier of the updated assertion.
   final String? assertionId;
@@ -7175,6 +7391,8 @@ class AssertionUpdatedMetadata {
 }
 
 /// Metadata for an assertion deleted event.
+///
+/// @nodoc
 class AssertionDeletedMetadata {
   /// The unique identifier of the deleted assertion.
   final String? assertionId;
@@ -7205,6 +7423,8 @@ class AssertionDeletedMetadata {
 }
 
 /// Represents a resource associated with a service.
+///
+/// @nodoc
 class ServiceResource {
   /// The resource details.
   final Resource resource;
@@ -7245,6 +7465,8 @@ class ServiceResource {
 }
 
 /// Identifies an input source by its identifier and type.
+///
+/// @nodoc
 class InputSource {
   /// The identifier of the input source.
   final String identifier;
@@ -7275,6 +7497,8 @@ class InputSource {
 }
 
 /// Represents an AWS resource discovered by Resilience Hub.
+///
+/// @nodoc
 class Resource {
   /// The identifier of the resource.
   final String identifier;
@@ -7318,6 +7542,7 @@ class Resource {
   }
 }
 
+/// @nodoc
 class InputSourceType {
   static const cfnStack = InputSourceType._('CFN_STACK');
   static const tags = InputSourceType._('TAGS');
@@ -7354,6 +7579,8 @@ class InputSourceType {
 }
 
 /// Result of a report generation attempt.
+///
+/// @nodoc
 class ReportGenerationResult {
   /// The type of the generated report.
   final ReportType reportType;
@@ -7414,6 +7641,7 @@ class ReportGenerationResult {
   }
 }
 
+/// @nodoc
 class ReportType {
   static const failureMode = ReportType._('FAILURE_MODE');
 
@@ -7437,6 +7665,8 @@ class ReportType {
 }
 
 /// Status of report generation.
+///
+/// @nodoc
 class ReportGenerationStatus {
   static const pending = ReportGenerationStatus._('PENDING');
   static const succeeded = ReportGenerationStatus._('SUCCEEDED');
@@ -7464,6 +7694,8 @@ class ReportGenerationStatus {
 }
 
 /// Union of possible report outputs.
+///
+/// @nodoc
 class ReportOutput {
   /// Details when report generation failed.
   final FailedReportOutput? failedReportOutput;
@@ -7500,6 +7732,8 @@ class ReportOutput {
 }
 
 /// S3 location where report was written.
+///
+/// @nodoc
 class S3ReportOutput {
   /// The S3 object key for the generated report.
   final String s3ObjectKey;
@@ -7523,6 +7757,8 @@ class S3ReportOutput {
 }
 
 /// Details when report generation failed.
+///
+/// @nodoc
 class FailedReportOutput {
   /// The error code describing why the report generation failed.
   final ReportGenerationErrorCode errorCode;
@@ -7554,6 +7790,8 @@ class FailedReportOutput {
 }
 
 /// Error codes for failed report generation.
+///
+/// @nodoc
 class ReportGenerationErrorCode {
   static const insufficientPermissions =
       ReportGenerationErrorCode._('INSUFFICIENT_PERMISSIONS');
@@ -7587,6 +7825,8 @@ class ReportGenerationErrorCode {
 }
 
 /// Contains summary information about a resilience policy.
+///
+/// @nodoc
 class PolicySummary {
   final String name;
   final String policyArn;
@@ -7675,6 +7915,8 @@ class PolicySummary {
 }
 
 /// Contains summary information about an input source for a service.
+///
+/// @nodoc
 class InputSourceSummary {
   /// The unique identifier of the input source.
   final String inputSourceId;
@@ -7747,6 +7989,8 @@ class InputSourceSummary {
 
 /// Defines an Amazon EKS cluster and its namespaces as an input source for
 /// resource discovery.
+///
+/// @nodoc
 class EksSource {
   final String clusterArn;
 
@@ -7779,6 +8023,8 @@ class EksSource {
 }
 
 /// A tag key-value pair used for resource discovery.
+///
+/// @nodoc
 class ResourceTag {
   final String key;
 
@@ -7811,6 +8057,8 @@ class ResourceTag {
 }
 
 /// Contains summary information about a finding.
+///
+/// @nodoc
 class FindingSummary {
   final String? description;
 
@@ -7889,6 +8137,8 @@ class FindingSummary {
 }
 
 /// Contains summary information about a failure mode assessment.
+///
+/// @nodoc
 class AssessmentSummary {
   /// The unique identifier of the assessment.
   final String assessmentId;
@@ -7996,6 +8246,7 @@ class AssessmentSummary {
   }
 }
 
+/// @nodoc
 class AssessmentStep {
   static const topologyEnhancement = AssessmentStep._('TOPOLOGY_ENHANCEMENT');
   static const serviceFunctionGeneration =
@@ -8026,6 +8277,7 @@ class AssessmentStep {
   String toString() => value;
 }
 
+/// @nodoc
 class AssessmentErrorCode {
   static const invalidPermissions =
       AssessmentErrorCode._('INVALID_PERMISSIONS');
@@ -8063,6 +8315,8 @@ class AssessmentErrorCode {
 }
 
 /// Contains summary information about a discovered dependency.
+///
+/// @nodoc
 class DependencySummary {
   /// The criticality level of the dependency.
   final DependencyCriticality criticality;
@@ -8161,6 +8415,8 @@ class DependencySummary {
 }
 
 /// Defines a time range for dependency query data.
+///
+/// @nodoc
 class QueryRange {
   /// The data points within the query range.
   final List<QueryDataPoint> dataPoints;
@@ -8208,6 +8464,7 @@ class QueryRange {
   }
 }
 
+/// @nodoc
 class QueryGranularity {
   static const hourly = QueryGranularity._('HOURLY');
   static const daily = QueryGranularity._('DAILY');
@@ -8233,6 +8490,8 @@ class QueryGranularity {
 }
 
 /// A data point in a dependency query range.
+///
+/// @nodoc
 class QueryDataPoint {
   /// The number of queries at this data point.
   final int queryCount;
@@ -8263,6 +8522,8 @@ class QueryDataPoint {
 }
 
 /// Resource configuration for an input source. Provide exactly one field.
+///
+/// @nodoc
 class ResourceConfiguration {
   final String? cfnStackArn;
   final String? designFileS3Url;
@@ -8298,26 +8559,31 @@ class ResourceConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -8326,11 +8592,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

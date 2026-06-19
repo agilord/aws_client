@@ -2611,6 +2611,7 @@ class LookoutEquipment {
   }
 }
 
+/// @nodoc
 class CreateDatasetResponse {
   /// The Amazon Resource Name (ARN) of the dataset being created.
   final String? datasetArn;
@@ -2647,6 +2648,7 @@ class CreateDatasetResponse {
   }
 }
 
+/// @nodoc
 class CreateInferenceSchedulerResponse {
   /// The Amazon Resource Name (ARN) of the inference scheduler being created.
   final String? inferenceSchedulerArn;
@@ -2710,6 +2712,7 @@ class CreateInferenceSchedulerResponse {
   }
 }
 
+/// @nodoc
 class CreateLabelResponse {
   /// The ID of the label that you have created.
   final String? labelId;
@@ -2732,6 +2735,7 @@ class CreateLabelResponse {
   }
 }
 
+/// @nodoc
 class CreateLabelGroupResponse {
   /// The Amazon Resource Name (ARN) of the label group that you have created.
   final String? labelGroupArn;
@@ -2763,6 +2767,7 @@ class CreateLabelGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateModelResponse {
   /// The Amazon Resource Name (ARN) of the model being created.
   final String? modelArn;
@@ -2792,6 +2797,7 @@ class CreateModelResponse {
   }
 }
 
+/// @nodoc
 class CreateRetrainingSchedulerResponse {
   /// The ARN of the model that you added the retraining scheduler to.
   final String? modelArn;
@@ -2830,6 +2836,7 @@ class CreateRetrainingSchedulerResponse {
   }
 }
 
+/// @nodoc
 class DescribeDataIngestionJobResponse {
   /// The time at which the data ingestion job was created.
   final DateTime? createdAt;
@@ -2963,6 +2970,7 @@ class DescribeDataIngestionJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetResponse {
   /// Specifies the time the dataset was created in Lookout for Equipment.
   final DateTime? createdAt;
@@ -3102,6 +3110,7 @@ class DescribeDatasetResponse {
   }
 }
 
+/// @nodoc
 class DescribeInferenceSchedulerResponse {
   /// Specifies the time at which the inference scheduler was created.
   final DateTime? createdAt;
@@ -3252,6 +3261,7 @@ class DescribeInferenceSchedulerResponse {
   }
 }
 
+/// @nodoc
 class DescribeLabelResponse {
   /// The time at which the label was created.
   final DateTime? createdAt;
@@ -3343,6 +3353,7 @@ class DescribeLabelResponse {
   }
 }
 
+/// @nodoc
 class DescribeLabelGroupResponse {
   /// The time at which the label group was created.
   final DateTime? createdAt;
@@ -3397,6 +3408,7 @@ class DescribeLabelGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeModelResponse {
   /// Indicates the end time of the inference data that has been accumulated.
   final DateTime? accumulatedInferenceDataEndTime;
@@ -3849,6 +3861,7 @@ class DescribeModelResponse {
   }
 }
 
+/// @nodoc
 class DescribeModelVersionResponse {
   /// Indicates whether the model version was promoted to be the active version
   /// after retraining or if there was an error with or cancellation of the
@@ -4202,6 +4215,7 @@ class DescribeModelVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeResourcePolicyResponse {
   /// The time when the resource policy was created.
   final DateTime? creationTime;
@@ -4247,6 +4261,7 @@ class DescribeResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class DescribeRetrainingSchedulerResponse {
   /// Indicates the time and date at which the retraining scheduler was created.
   final DateTime? createdAt;
@@ -4338,6 +4353,7 @@ class DescribeRetrainingSchedulerResponse {
   }
 }
 
+/// @nodoc
 class ImportDatasetResponse {
   /// The Amazon Resource Name (ARN) of the dataset that was imported.
   final String? datasetArn;
@@ -4381,6 +4397,7 @@ class ImportDatasetResponse {
   }
 }
 
+/// @nodoc
 class ImportModelVersionResponse {
   /// The Amazon Resource Name (ARN) of the model being created.
   final String? modelArn;
@@ -4431,6 +4448,7 @@ class ImportModelVersionResponse {
   }
 }
 
+/// @nodoc
 class ListDataIngestionJobsResponse {
   /// Specifies information about the specific data ingestion job, including
   /// dataset name and status.
@@ -4467,6 +4485,7 @@ class ListDataIngestionJobsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetsResponse {
   /// Provides information about the specified dataset, including creation time,
   /// dataset ARN, and status.
@@ -4501,6 +4520,7 @@ class ListDatasetsResponse {
   }
 }
 
+/// @nodoc
 class ListInferenceEventsResponse {
   /// Provides an array of information about the individual inference events
   /// returned from the <code>ListInferenceEvents</code> operation, including
@@ -4537,6 +4557,7 @@ class ListInferenceEventsResponse {
   }
 }
 
+/// @nodoc
 class ListInferenceExecutionsResponse {
   /// Provides an array of information about the individual inference executions
   /// returned from the <code>ListInferenceExecutions</code> operation, including
@@ -4581,6 +4602,7 @@ class ListInferenceExecutionsResponse {
   }
 }
 
+/// @nodoc
 class ListInferenceSchedulersResponse {
   /// Provides information about the specified inference scheduler, including data
   /// upload frequency, model name and ARN, and status.
@@ -4618,6 +4640,7 @@ class ListInferenceSchedulersResponse {
   }
 }
 
+/// @nodoc
 class ListLabelGroupsResponse {
   /// A summary of the label groups.
   final List<LabelGroupSummary>? labelGroupSummaries;
@@ -4652,6 +4675,7 @@ class ListLabelGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListLabelsResponse {
   /// A summary of the items in the label group.
   /// <note>
@@ -4691,6 +4715,7 @@ class ListLabelsResponse {
   }
 }
 
+/// @nodoc
 class ListModelsResponse {
   /// Provides information on the specified model, including created time, model
   /// and dataset ARNs, and status.
@@ -4725,6 +4750,7 @@ class ListModelsResponse {
   }
 }
 
+/// @nodoc
 class ListModelVersionsResponse {
   /// Provides information on the specified model version, including the created
   /// time, model and dataset ARNs, and status.
@@ -4769,6 +4795,7 @@ class ListModelVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListRetrainingSchedulersResponse {
   /// If the number of results exceeds the maximum, this pagination token is
   /// returned. Use this token in the request to show the next page of retraining
@@ -4807,6 +4834,7 @@ class ListRetrainingSchedulersResponse {
   }
 }
 
+/// @nodoc
 class ListSensorStatisticsResponse {
   /// An opaque pagination token indicating where to continue the listing of
   /// sensor statistics.
@@ -4845,6 +4873,7 @@ class ListSensorStatisticsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Any tags associated with the resource.
   final List<Tag>? tags;
@@ -4870,6 +4899,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResponse {
   /// A unique identifier for a revision of the resource policy.
   final String? policyRevisionId;
@@ -4900,6 +4930,7 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class StartDataIngestionJobResponse {
   /// Indicates the job ID of the data ingestion job.
   final String? jobId;
@@ -4929,6 +4960,7 @@ class StartDataIngestionJobResponse {
   }
 }
 
+/// @nodoc
 class StartInferenceSchedulerResponse {
   /// The Amazon Resource Name (ARN) of the inference scheduler being started.
   final String? inferenceSchedulerArn;
@@ -4984,6 +5016,7 @@ class StartInferenceSchedulerResponse {
   }
 }
 
+/// @nodoc
 class StartRetrainingSchedulerResponse {
   /// The ARN of the model whose retraining scheduler is being started.
   final String? modelArn;
@@ -5021,6 +5054,7 @@ class StartRetrainingSchedulerResponse {
   }
 }
 
+/// @nodoc
 class StopInferenceSchedulerResponse {
   /// The Amazon Resource Name (ARN) of the inference schedule being stopped.
   final String? inferenceSchedulerArn;
@@ -5076,6 +5110,7 @@ class StopInferenceSchedulerResponse {
   }
 }
 
+/// @nodoc
 class StopRetrainingSchedulerResponse {
   /// The ARN of the model whose retraining scheduler is being stopped.
   final String? modelArn;
@@ -5113,6 +5148,7 @@ class StopRetrainingSchedulerResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5125,6 +5161,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5137,6 +5174,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateActiveModelVersionResponse {
   /// The version that is currently active of the machine learning model for which
   /// the active model version was set.
@@ -5204,6 +5242,7 @@ class UpdateActiveModelVersionResponse {
   }
 }
 
+/// @nodoc
 class ModelPromoteMode {
   static const managed = ModelPromoteMode._('MANAGED');
   static const manual = ModelPromoteMode._('MANUAL');
@@ -5230,6 +5269,8 @@ class ModelPromoteMode {
 
 /// Contains the configuration information for the S3 location being used to
 /// hold label data.
+///
+/// @nodoc
 class LabelsInputConfiguration {
   /// The name of the label group to be used for label data.
   final String? labelGroupName;
@@ -5265,6 +5306,8 @@ class LabelsInputConfiguration {
 
 /// Output configuration information for the pointwise model diagnostics for an
 /// Amazon Lookout for Equipment model.
+///
+/// @nodoc
 class ModelDiagnosticsOutputConfiguration {
   /// The Amazon S3 location for the pointwise model diagnostics.
   final ModelDiagnosticsS3OutputConfiguration s3OutputConfiguration;
@@ -5300,6 +5343,8 @@ class ModelDiagnosticsOutputConfiguration {
 
 /// The Amazon S3 location for the pointwise model diagnostics for an Amazon
 /// Lookout for Equipment model.
+///
+/// @nodoc
 class ModelDiagnosticsS3OutputConfiguration {
   /// The name of the Amazon S3 bucket where the pointwise model diagnostics are
   /// located. You must be the owner of the Amazon S3 bucket.
@@ -5345,6 +5390,8 @@ class ModelDiagnosticsS3OutputConfiguration {
 
 /// The location information (prefix and bucket name) for the s3 location being
 /// used for label data.
+///
+/// @nodoc
 class LabelsS3InputConfiguration {
   /// The name of the S3 bucket holding the label data.
   final String bucket;
@@ -5374,6 +5421,7 @@ class LabelsS3InputConfiguration {
   }
 }
 
+/// @nodoc
 class DataUploadFrequency {
   static const pt5m = DataUploadFrequency._('PT5M');
   static const pt10m = DataUploadFrequency._('PT10M');
@@ -5404,6 +5452,8 @@ class DataUploadFrequency {
 
 /// Specifies configuration information for the input data for the inference,
 /// including Amazon S3 location of input data..
+///
+/// @nodoc
 class InferenceInputConfiguration {
   /// Specifies configuration information for the input data for the inference,
   /// including timestamp format and delimiter.
@@ -5457,6 +5507,8 @@ class InferenceInputConfiguration {
 
 /// Specifies configuration information for the output results from for the
 /// inference, including KMS key ID and output S3 location.
+///
+/// @nodoc
 class InferenceOutputConfiguration {
   /// Specifies configuration information for the output results from for the
   /// inference, output S3 location.
@@ -5491,6 +5543,8 @@ class InferenceOutputConfiguration {
 
 /// Specifies configuration information for the output results from the
 /// inference, including output S3 location.
+///
+/// @nodoc
 class InferenceS3OutputConfiguration {
   /// The bucket containing the output results from the inference
   final String bucket;
@@ -5522,6 +5576,8 @@ class InferenceS3OutputConfiguration {
 
 /// Specifies configuration information for the input data for the inference,
 /// including input data S3 location.
+///
+/// @nodoc
 class InferenceS3InputConfiguration {
   /// The bucket containing the input dataset for the inference.
   final String bucket;
@@ -5553,6 +5609,8 @@ class InferenceS3InputConfiguration {
 
 /// Specifies configuration information for the input data for the inference,
 /// including timestamp format and delimiter.
+///
+/// @nodoc
 class InferenceInputNameConfiguration {
   /// Indicates the delimiter character used between items in the data.
   final String? componentTimestampDelimiter;
@@ -5586,6 +5644,8 @@ class InferenceInputNameConfiguration {
 }
 
 /// A tag is a key-value pair that can be added to a resource as metadata.
+///
+/// @nodoc
 class Tag {
   /// The key for the specified tag.
   final String key;
@@ -5615,6 +5675,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class RetrainingSchedulerStatus {
   static const pending = RetrainingSchedulerStatus._('PENDING');
   static const running = RetrainingSchedulerStatus._('RUNNING');
@@ -5642,6 +5703,7 @@ class RetrainingSchedulerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class InferenceSchedulerStatus {
   static const pending = InferenceSchedulerStatus._('PENDING');
   static const running = InferenceSchedulerStatus._('RUNNING');
@@ -5669,6 +5731,7 @@ class InferenceSchedulerStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IngestionJobStatus {
   static const inProgress = IngestionJobStatus._('IN_PROGRESS');
   static const success = IngestionJobStatus._('SUCCESS');
@@ -5698,6 +5761,8 @@ class IngestionJobStatus {
 
 /// Specifies configuration information for the input data for the data
 /// ingestion job, including input data S3 location.
+///
+/// @nodoc
 class IngestionInputConfiguration {
   /// The location information for the S3 bucket used for input data for the data
   /// ingestion.
@@ -5725,6 +5790,8 @@ class IngestionInputConfiguration {
 
 /// Specifies S3 configuration information for the input data for the data
 /// ingestion job.
+///
+/// @nodoc
 class IngestionS3InputConfiguration {
   /// The name of the S3 bucket used for the input data for the data ingestion.
   final String bucket;
@@ -5736,7 +5803,7 @@ class IngestionS3InputConfiguration {
   /// ingestion is being done for the first time.
   ///
   /// Valid Values: {prefix}/{component_name}_* | {prefix}/{component_name}/* |
-  /// {prefix}/{component_name}[DELIMITER]* (Allowed delimiters : space, dot,
+  /// {prefix}/{component_name}\[DELIMITER\]* (Allowed delimiters : space, dot,
   /// underscore, hyphen)
   final String? keyPattern;
 
@@ -5772,6 +5839,8 @@ class IngestionS3InputConfiguration {
 
 /// Summary of ingestion statistics like whether data exists, number of missing
 /// values, number of invalid values and so on related to the particular sensor.
+///
+/// @nodoc
 class SensorStatisticsSummary {
   /// Parameter that describes potential risk about whether data associated with
   /// the sensor is categorical.
@@ -5916,6 +5985,8 @@ class SensorStatisticsSummary {
 }
 
 /// Entity that comprises information of count and percentage.
+///
+/// @nodoc
 class CountPercent {
   /// Indicates the count of occurences of the given statistic.
   final int count;
@@ -5946,6 +6017,8 @@ class CountPercent {
 }
 
 /// Entity that comprises information on categorical values in data.
+///
+/// @nodoc
 class CategoricalValues {
   /// Indicates whether there is a potential data issue related to categorical
   /// values.
@@ -5978,6 +6051,8 @@ class CategoricalValues {
 }
 
 /// Entity that comprises information on operating modes in data.
+///
+/// @nodoc
 class MultipleOperatingModes {
   /// Indicates whether there is a potential data issue related to having multiple
   /// operating modes.
@@ -6004,6 +6079,8 @@ class MultipleOperatingModes {
 
 /// Entity that comprises information on large gaps between consecutive
 /// timestamps in data.
+///
+/// @nodoc
 class LargeTimestampGaps {
   /// Indicates whether there is a potential data issue related to large gaps in
   /// timestamps.
@@ -6045,6 +6122,8 @@ class LargeTimestampGaps {
 }
 
 /// Entity that comprises information on monotonic values in the data.
+///
+/// @nodoc
 class MonotonicValues {
   /// Indicates whether there is a potential data issue related to having
   /// monotonic values.
@@ -6078,6 +6157,7 @@ class MonotonicValues {
   }
 }
 
+/// @nodoc
 class StatisticalIssueStatus {
   static const potentialIssueDetected =
       StatisticalIssueStatus._('POTENTIAL_ISSUE_DETECTED');
@@ -6104,6 +6184,7 @@ class StatisticalIssueStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Monotonicity {
   static const decreasing = Monotonicity._('DECREASING');
   static const increasing = Monotonicity._('INCREASING');
@@ -6130,6 +6211,8 @@ class Monotonicity {
 
 /// Provides information about the specified retraining scheduler, including
 /// model name, status, start date, frequency, and lookback window.
+///
+/// @nodoc
 class RetrainingSchedulerSummary {
   /// The number of past days of data used for retraining.
   final String? lookbackWindow;
@@ -6194,6 +6277,8 @@ class RetrainingSchedulerSummary {
 }
 
 /// Contains information about the specific model version.
+///
+/// @nodoc
 class ModelVersionSummary {
   /// The time when this model version was created.
   final DateTime? createdAt;
@@ -6280,6 +6365,7 @@ class ModelVersionSummary {
   }
 }
 
+/// @nodoc
 class ModelVersionStatus {
   static const inProgress = ModelVersionStatus._('IN_PROGRESS');
   static const success = ModelVersionStatus._('SUCCESS');
@@ -6314,6 +6400,7 @@ class ModelVersionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelVersionSourceType {
   static const training = ModelVersionSourceType._('TRAINING');
   static const retraining = ModelVersionSourceType._('RETRAINING');
@@ -6340,6 +6427,7 @@ class ModelVersionSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ModelQuality {
   static const qualityThresholdMet = ModelQuality._('QUALITY_THRESHOLD_MET');
   static const cannotDetermineQuality =
@@ -6371,6 +6459,8 @@ class ModelQuality {
 
 /// Provides information about the specified machine learning model, including
 /// dataset and model names and ARNs, as well as status.
+///
+/// @nodoc
 class ModelSummary {
   /// The model version that the inference scheduler uses to run an inference
   /// execution.
@@ -6541,6 +6631,7 @@ class ModelSummary {
   }
 }
 
+/// @nodoc
 class ModelStatus {
   static const inProgress = ModelStatus._('IN_PROGRESS');
   static const success = ModelStatus._('SUCCESS');
@@ -6567,6 +6658,8 @@ class ModelStatus {
 }
 
 /// Information about the label.
+///
+/// @nodoc
 class LabelSummary {
   /// The time at which the label was created.
   final DateTime? createdAt;
@@ -6648,6 +6741,7 @@ class LabelSummary {
   }
 }
 
+/// @nodoc
 class LabelRating {
   static const anomaly = LabelRating._('ANOMALY');
   static const noAnomaly = LabelRating._('NO_ANOMALY');
@@ -6673,6 +6767,8 @@ class LabelRating {
 }
 
 /// Contains information about the label group.
+///
+/// @nodoc
 class LabelGroupSummary {
   /// The time at which the label group was created.
   final DateTime? createdAt;
@@ -6718,6 +6814,8 @@ class LabelGroupSummary {
 
 /// Contains information about the specific inference scheduler, including data
 /// delay offset, model name and ARN, status, and so on.
+///
+/// @nodoc
 class InferenceSchedulerSummary {
   /// A period of time (in minutes) by which inference on the data is delayed
   /// after the data starts. For instance, if an offset delay time of five minutes
@@ -6811,6 +6909,7 @@ class InferenceSchedulerSummary {
   }
 }
 
+/// @nodoc
 class LatestInferenceResult {
   static const anomalous = LatestInferenceResult._('ANOMALOUS');
   static const normal = LatestInferenceResult._('NORMAL');
@@ -6839,6 +6938,8 @@ class LatestInferenceResult {
 /// Contains information about the specific inference execution, including input
 /// and output data configuration, inference scheduling information, status, and
 /// so on.
+///
+/// @nodoc
 class InferenceExecutionSummary {
   /// The S3 object that the inference execution results were uploaded to.
   final S3Object? customerResultObject;
@@ -6979,6 +7080,8 @@ class InferenceExecutionSummary {
 }
 
 /// Contains information about an S3 bucket.
+///
+/// @nodoc
 class S3Object {
   /// The name of the specific S3 bucket.
   final String bucket;
@@ -7010,6 +7113,7 @@ class S3Object {
   }
 }
 
+/// @nodoc
 class InferenceExecutionStatus {
   static const inProgress = InferenceExecutionStatus._('IN_PROGRESS');
   static const success = InferenceExecutionStatus._('SUCCESS');
@@ -7038,6 +7142,8 @@ class InferenceExecutionStatus {
 
 /// Contains information about the specific inference event, including start and
 /// end time, diagnostics information, event duration and so on.
+///
+/// @nodoc
 class InferenceEventSummary {
   /// An array which specifies the names and values of all sensors contributing to
   /// an inference event.
@@ -7104,6 +7210,8 @@ class InferenceEventSummary {
 
 /// Contains information about the specific data set, including name, ARN, and
 /// status.
+///
+/// @nodoc
 class DatasetSummary {
   /// The time at which the dataset was created in Amazon Lookout for Equipment.
   final DateTime? createdAt;
@@ -7147,6 +7255,7 @@ class DatasetSummary {
   }
 }
 
+/// @nodoc
 class DatasetStatus {
   static const created = DatasetStatus._('CREATED');
   static const ingestionInProgress = DatasetStatus._('INGESTION_IN_PROGRESS');
@@ -7180,6 +7289,8 @@ class DatasetStatus {
 
 /// Provides information about a specified data ingestion job, including dataset
 /// information, data ingestion configuration, and status.
+///
+/// @nodoc
 class DataIngestionJobSummary {
   /// The Amazon Resource Name (ARN) of the dataset used in the data ingestion
   /// job.
@@ -7236,6 +7347,7 @@ class DataIngestionJobSummary {
   }
 }
 
+/// @nodoc
 class InferenceDataImportStrategy {
   static const noImport = InferenceDataImportStrategy._('NO_IMPORT');
   static const addWhenEmpty = InferenceDataImportStrategy._('ADD_WHEN_EMPTY');
@@ -7272,6 +7384,8 @@ class InferenceDataImportStrategy {
 /// attach the prefix "PT" to the rate you want. The value for a 1 second rate
 /// is therefore <i>PT1S</i>, the value for a 15 minute rate is <i>PT15M</i>,
 /// and the value for a 1 hour rate is <i>PT1H</i>
+///
+/// @nodoc
 class DataPreProcessingConfiguration {
   /// The sampling rate of the data after post processing by Amazon Lookout for
   /// Equipment. For example, if you provide data that has been collected at a 1
@@ -7304,6 +7418,7 @@ class DataPreProcessingConfiguration {
   }
 }
 
+/// @nodoc
 class AutoPromotionResult {
   static const modelPromoted = AutoPromotionResult._('MODEL_PROMOTED');
   static const modelNotPromoted = AutoPromotionResult._('MODEL_NOT_PROMOTED');
@@ -7341,6 +7456,7 @@ class AutoPromotionResult {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetSamplingRate {
   static const pt1s = TargetSamplingRate._('PT1S');
   static const pt5s = TargetSamplingRate._('PT5S');
@@ -7392,6 +7508,8 @@ class TargetSamplingRate {
 /// statistics over different incorrect data like MissingCompleteSensorData,
 /// MissingSensorData, UnsupportedDateFormats, InsufficientSensorData,
 /// DuplicateTimeStamps.
+///
+/// @nodoc
 class DataQualitySummary {
   /// Parameter that gives information about duplicate timestamps in the input
   /// data.
@@ -7460,6 +7578,8 @@ class DataQualitySummary {
 
 /// Gives statistics about how many files have been ingested, and which files
 /// have not been ingested, for a particular ingestion job.
+///
+/// @nodoc
 class IngestedFilesSummary {
   /// Indicates the number of files that were successfully ingested.
   final int ingestedNumberOfFiles;
@@ -7502,6 +7622,8 @@ class IngestedFilesSummary {
 
 /// Entity that comprises aggregated information on sensors having insufficient
 /// data.
+///
+/// @nodoc
 class InsufficientSensorData {
   /// Parameter that describes the total number of sensors that have data
   /// completely missing for it.
@@ -7538,6 +7660,8 @@ class InsufficientSensorData {
 }
 
 /// Entity that comprises aggregated information on sensors having missing data.
+///
+/// @nodoc
 class MissingSensorData {
   /// Indicates the number of sensors that have atleast some data missing.
   final int affectedSensorCount;
@@ -7570,6 +7694,8 @@ class MissingSensorData {
 
 /// Entity that comprises aggregated information on sensors having insufficient
 /// data.
+///
+/// @nodoc
 class InvalidSensorData {
   /// Indicates the number of sensors that have at least some invalid values.
   final int affectedSensorCount;
@@ -7602,6 +7728,8 @@ class InvalidSensorData {
 
 /// Entity that comprises information abount unsupported timestamps in the
 /// dataset.
+///
+/// @nodoc
 class UnsupportedTimestamps {
   /// Indicates the total number of unsupported timestamps across the ingested
   /// data.
@@ -7629,6 +7757,8 @@ class UnsupportedTimestamps {
 
 /// Entity that comprises information abount duplicate timestamps in the
 /// dataset.
+///
+/// @nodoc
 class DuplicateTimestamps {
   /// Indicates the total number of duplicate timestamps.
   final int totalNumberOfDuplicateTimestamps;
@@ -7655,6 +7785,8 @@ class DuplicateTimestamps {
 
 /// Entity that comprises information on sensors that have sensor data
 /// completely missing.
+///
+/// @nodoc
 class MissingCompleteSensorData {
   /// Indicates the number of sensors that have data missing completely.
   final int affectedSensorCount;
@@ -7678,6 +7810,8 @@ class MissingCompleteSensorData {
 }
 
 /// Entity that comprises information on sensors that have shorter date range.
+///
+/// @nodoc
 class SensorsWithShortDateRange {
   /// Indicates the number of sensors that have less than 14 days of data.
   final int affectedSensorCount;
@@ -7701,6 +7835,8 @@ class SensorsWithShortDateRange {
 }
 
 /// Provides information about the data schema used with the given dataset.
+///
+/// @nodoc
 class DatasetSchema {
   /// The data schema used within the given dataset.
   final Object? inlineDataSchema;
@@ -7718,26 +7854,31 @@ class DatasetSchema {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -7746,11 +7887,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

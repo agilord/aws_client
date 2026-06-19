@@ -1921,8 +1921,8 @@ class AppConfig {
   /// The ARN of the resource for which to retrieve tags.
   ///
   /// Parameter [tags] :
-  /// The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The
-  /// tag key can be up to 128 characters and must not start with
+  /// The key-value string map. The valid character set is \[a-zA-Z+-=._:/\].
+  /// The tag key can be up to 128 characters and must not start with
   /// <code>aws:</code>. The tag value can be up to 256 characters.
   Future<void> tagResource({
     required String resourceArn,
@@ -2341,6 +2341,7 @@ class AppConfig {
   }
 }
 
+/// @nodoc
 class Application {
   /// The description of the application.
   final String? description;
@@ -2377,6 +2378,7 @@ class Application {
   }
 }
 
+/// @nodoc
 class ConfigurationProfile {
   /// The application ID.
   final String? applicationId;
@@ -2480,6 +2482,7 @@ class ConfigurationProfile {
   }
 }
 
+/// @nodoc
 class DeploymentStrategy {
   /// Total amount of time the deployment lasted.
   final int? deploymentDurationInMinutes;
@@ -2556,6 +2559,7 @@ class DeploymentStrategy {
   }
 }
 
+/// @nodoc
 class Environment {
   /// The application ID.
   final String? applicationId;
@@ -2618,6 +2622,7 @@ class Environment {
   }
 }
 
+/// @nodoc
 class Extension {
   /// The actions defined in the extension.
   final Map<ActionPoint, List<Action>>? actions;
@@ -2693,6 +2698,7 @@ class Extension {
   }
 }
 
+/// @nodoc
 class ExtensionAssociation {
   /// The system-generated Amazon Resource Name (ARN) for the extension.
   final String? arn;
@@ -2753,6 +2759,7 @@ class ExtensionAssociation {
   }
 }
 
+/// @nodoc
 class HostedConfigurationVersion {
   /// The application ID.
   final String? applicationId;
@@ -2808,6 +2815,7 @@ class HostedConfigurationVersion {
   }
 }
 
+/// @nodoc
 class AccountSettings {
   /// A parameter to configure deletion protection. Deletion protection prevents a
   /// user from deleting a configuration profile or an environment if AppConfig
@@ -2839,6 +2847,7 @@ class AccountSettings {
   }
 }
 
+/// @nodoc
 class Configuration {
   /// The configuration version.
   final String? configurationVersion;
@@ -2874,6 +2883,7 @@ class Configuration {
   }
 }
 
+/// @nodoc
 class Deployment {
   /// The ID of the application that was deployed.
   final String? applicationId;
@@ -3066,6 +3076,7 @@ class Deployment {
   }
 }
 
+/// @nodoc
 class Applications {
   /// The elements from this collection.
   final List<Application>? items;
@@ -3099,6 +3110,7 @@ class Applications {
   }
 }
 
+/// @nodoc
 class ConfigurationProfiles {
   /// The elements from this collection.
   final List<ConfigurationProfileSummary>? items;
@@ -3133,6 +3145,7 @@ class ConfigurationProfiles {
   }
 }
 
+/// @nodoc
 class Deployments {
   /// The elements from this collection.
   final List<DeploymentSummary>? items;
@@ -3166,6 +3179,7 @@ class Deployments {
   }
 }
 
+/// @nodoc
 class DeploymentStrategies {
   /// The elements from this collection.
   final List<DeploymentStrategy>? items;
@@ -3199,6 +3213,7 @@ class DeploymentStrategies {
   }
 }
 
+/// @nodoc
 class Environments {
   /// The elements from this collection.
   final List<Environment>? items;
@@ -3232,6 +3247,7 @@ class Environments {
   }
 }
 
+/// @nodoc
 class ExtensionAssociations {
   /// The list of extension associations. Each item represents an extension
   /// association to an application, environment, or configuration profile.
@@ -3267,6 +3283,7 @@ class ExtensionAssociations {
   }
 }
 
+/// @nodoc
 class Extensions {
   /// The list of available extensions. The list includes Amazon Web Services
   /// authored and user-created extensions.
@@ -3301,6 +3318,7 @@ class Extensions {
   }
 }
 
+/// @nodoc
 class HostedConfigurationVersions {
   /// The elements from this collection.
   final List<HostedConfigurationVersionSummary>? items;
@@ -3335,6 +3353,7 @@ class HostedConfigurationVersions {
   }
 }
 
+/// @nodoc
 class ResourceTags {
   /// Metadata to assign to AppConfig resources. Tags help organize and categorize
   /// your AppConfig resources. Each tag consists of a key and an optional value,
@@ -3366,6 +3385,8 @@ class ResourceTags {
 /// extensions, see <a
 /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Extending
 /// workflows</a> in the <i>AppConfig User Guide</i>.
+///
+/// @nodoc
 class Parameter {
   /// Information about the parameter.
   final String? description;
@@ -3404,6 +3425,7 @@ class Parameter {
   }
 }
 
+/// @nodoc
 class ActionPoint {
   static const preCreateHostedConfigurationVersion =
       ActionPoint._('PRE_CREATE_HOSTED_CONFIGURATION_VERSION');
@@ -3478,6 +3500,8 @@ class ActionPoint {
 /// Resource Name (ARN) for an Identity and Access Management assume role. You
 /// specify the name, URI, and ARN for each <i>action point</i> defined in the
 /// extension.
+///
+/// @nodoc
 class Action {
   /// Information about the action.
   final String? description;
@@ -3527,6 +3551,8 @@ class Action {
 }
 
 /// Amazon CloudWatch alarms to monitor during the deployment process.
+///
+/// @nodoc
 class Monitor {
   /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
   final String alarmArn;
@@ -3557,6 +3583,7 @@ class Monitor {
   }
 }
 
+/// @nodoc
 class GrowthType {
   static const linear = GrowthType._('LINEAR');
   static const exponential = GrowthType._('EXPONENTIAL');
@@ -3588,6 +3615,8 @@ class GrowthType {
 /// data is valid. For more information, see <a
 /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html#appconfig-creating-configuration-and-profile-validators">About
 /// validators</a> in the <i>AppConfig User Guide</i>.
+///
+/// @nodoc
 class Validator {
   /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an
   /// Lambda function.
@@ -3619,6 +3648,7 @@ class Validator {
   }
 }
 
+/// @nodoc
 class ValidatorType {
   static const jsonSchema = ValidatorType._('JSON_SCHEMA');
   static const lambda = ValidatorType._('LAMBDA');
@@ -3653,6 +3683,8 @@ class ValidatorType {
 /// The default interval specified by <code>ProtectionPeriodInMinutes</code> is
 /// 60. <code>DeletionProtectionCheck</code> skips configuration profiles and
 /// environments that were created in the past hour.
+///
+/// @nodoc
 class DeletionProtectionSettings {
   /// A parameter that indicates if deletion protection is enabled or not.
   final bool? enabled;
@@ -3690,6 +3722,8 @@ class DeletionProtectionSettings {
 }
 
 /// Information about the configuration.
+///
+/// @nodoc
 class HostedConfigurationVersionSummary {
   /// The application ID.
   final String? applicationId;
@@ -3762,6 +3796,8 @@ class HostedConfigurationVersionSummary {
 
 /// Information about an extension. Call <code>GetExtension</code> to get more
 /// information about an extension.
+///
+/// @nodoc
 class ExtensionSummary {
   /// The system-generated Amazon Resource Name (ARN) for the extension.
   final String? arn;
@@ -3816,6 +3852,8 @@ class ExtensionSummary {
 /// resource such as an application, environment, or configuration profile. Call
 /// <code>GetExtensionAssociation</code> to get more information about an
 /// association.
+///
+/// @nodoc
 class ExtensionAssociationSummary {
   /// The system-generated Amazon Resource Name (ARN) for the extension.
   final String? extensionArn;
@@ -3857,6 +3895,8 @@ class ExtensionAssociationSummary {
 }
 
 /// Information about the deployment.
+///
+/// @nodoc
 class DeploymentSummary {
   /// Time the deployment completed.
   final DateTime? completedAt;
@@ -3961,6 +4001,7 @@ class DeploymentSummary {
   }
 }
 
+/// @nodoc
 class DeploymentState {
   static const baking = DeploymentState._('BAKING');
   static const validating = DeploymentState._('VALIDATING');
@@ -3999,6 +4040,8 @@ class DeploymentState {
 }
 
 /// A summary of a configuration profile.
+///
+/// @nodoc
 class ConfigurationProfileSummary {
   /// The application ID.
   final String? applicationId;
@@ -4070,6 +4113,8 @@ class ConfigurationProfileSummary {
 }
 
 /// An extension that was invoked during a deployment.
+///
+/// @nodoc
 class AppliedExtension {
   /// The system-generated ID for the association.
   final String? extensionAssociationId;
@@ -4116,6 +4161,8 @@ class AppliedExtension {
 }
 
 /// An object that describes a deployment event.
+///
+/// @nodoc
 class DeploymentEvent {
   /// The list of extensions that were invoked as part of the deployment.
   final List<ActionInvocation>? actionInvocations;
@@ -4189,6 +4236,7 @@ class DeploymentEvent {
   }
 }
 
+/// @nodoc
 class DeploymentEventType {
   static const percentageUpdated = DeploymentEventType._('PERCENTAGE_UPDATED');
   static const rollbackStarted = DeploymentEventType._('ROLLBACK_STARTED');
@@ -4228,6 +4276,7 @@ class DeploymentEventType {
   String toString() => value;
 }
 
+/// @nodoc
 class TriggeredBy {
   static const user = TriggeredBy._('USER');
   static const appconfig = TriggeredBy._('APPCONFIG');
@@ -4254,6 +4303,8 @@ class TriggeredBy {
 }
 
 /// An extension that was invoked as part of a deployment event.
+///
+/// @nodoc
 class ActionInvocation {
   /// The name of the action.
   final String? actionName;
@@ -4324,6 +4375,7 @@ class ActionInvocation {
   }
 }
 
+/// @nodoc
 class DeletionProtectionCheck {
   static const accountDefault = DeletionProtectionCheck._('ACCOUNT_DEFAULT');
   static const apply = DeletionProtectionCheck._('APPLY');
@@ -4350,6 +4402,7 @@ class DeletionProtectionCheck {
   String toString() => value;
 }
 
+/// @nodoc
 class EnvironmentState {
   static const readyForDeployment = EnvironmentState._('READY_FOR_DEPLOYMENT');
   static const deploying = EnvironmentState._('DEPLOYING');
@@ -4383,6 +4436,7 @@ class EnvironmentState {
   String toString() => value;
 }
 
+/// @nodoc
 class ReplicateTo {
   static const none = ReplicateTo._('NONE');
   static const ssmDocument = ReplicateTo._('SSM_DOCUMENT');
@@ -4406,31 +4460,37 @@ class ReplicateTo {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class PayloadTooLargeException extends _s.GenericAwsException {
   PayloadTooLargeException({String? type, String? message})
       : super(type: type, code: 'PayloadTooLargeException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(

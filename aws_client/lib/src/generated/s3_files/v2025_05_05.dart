@@ -767,6 +767,7 @@ class S3Files {
   }
 }
 
+/// @nodoc
 class CreateAccessPointResponse {
   /// The Amazon Resource Name (ARN) of the access point.
   final String accessPointArn;
@@ -860,6 +861,7 @@ class CreateAccessPointResponse {
   }
 }
 
+/// @nodoc
 class CreateFileSystemResponse {
   /// The Amazon Resource Name (ARN) of the S3 bucket associated with the file
   /// system.
@@ -983,6 +985,7 @@ class CreateFileSystemResponse {
   }
 }
 
+/// @nodoc
 class CreateMountTargetResponse {
   /// The ID of the mount target, assigned by S3 Files. This ID is used to
   /// reference the mount target in subsequent API calls.
@@ -1098,6 +1101,7 @@ class CreateMountTargetResponse {
   }
 }
 
+/// @nodoc
 class GetAccessPointResponse {
   /// The ARN of the access point.
   final String accessPointArn;
@@ -1191,6 +1195,7 @@ class GetAccessPointResponse {
   }
 }
 
+/// @nodoc
 class GetFileSystemResponse {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
   final String? bucket;
@@ -1302,6 +1307,7 @@ class GetFileSystemResponse {
   }
 }
 
+/// @nodoc
 class GetFileSystemPolicyResponse {
   /// The ID of the file system.
   final String fileSystemId;
@@ -1331,6 +1337,7 @@ class GetFileSystemPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetMountTargetResponse {
   /// The ID of the mount target.
   final String mountTargetId;
@@ -1433,6 +1440,7 @@ class GetMountTargetResponse {
   }
 }
 
+/// @nodoc
 class GetSynchronizationConfigurationResponse {
   /// An array of expiration data rules that control when cached data expires from
   /// the file system.
@@ -1481,6 +1489,7 @@ class GetSynchronizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListAccessPointsResponse {
   /// An array of access point descriptions.
   final List<ListAccessPointsDescription> accessPoints;
@@ -1515,6 +1524,7 @@ class ListAccessPointsResponse {
   }
 }
 
+/// @nodoc
 class ListFileSystemsResponse {
   /// An array of file system descriptions.
   final List<ListFileSystemsDescription> fileSystems;
@@ -1549,6 +1559,7 @@ class ListFileSystemsResponse {
   }
 }
 
+/// @nodoc
 class ListMountTargetsResponse {
   /// An array of mount target descriptions.
   final List<ListMountTargetsDescription> mountTargets;
@@ -1583,6 +1594,7 @@ class ListMountTargetsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A pagination token to use in a subsequent request if more results are
   /// available.
@@ -1616,6 +1628,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutFileSystemPolicyResponse {
   PutFileSystemPolicyResponse();
 
@@ -1628,6 +1641,7 @@ class PutFileSystemPolicyResponse {
   }
 }
 
+/// @nodoc
 class PutSynchronizationConfigurationResponse {
   PutSynchronizationConfigurationResponse();
 
@@ -1641,6 +1655,7 @@ class PutSynchronizationConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateMountTargetResponse {
   /// The ID of the mount target.
   final String mountTargetId;
@@ -1743,6 +1758,7 @@ class UpdateMountTargetResponse {
   }
 }
 
+/// @nodoc
 class LifeCycleState {
   static const available = LifeCycleState._('available');
   static const creating = LifeCycleState._('creating');
@@ -1779,6 +1795,8 @@ class LifeCycleState {
 }
 
 /// A key-value pair for resource tagging.
+///
+/// @nodoc
 class Tag {
   /// The tag key. The key can't start with <code>aws:</code>.
   final String key;
@@ -1810,6 +1828,8 @@ class Tag {
 
 /// Specifies a rule that controls when cached data expires from the file system
 /// based on last access time.
+///
+/// @nodoc
 class ExpirationDataRule {
   /// The number of days after last access before cached data expires from the
   /// file system.
@@ -1835,6 +1855,8 @@ class ExpirationDataRule {
 
 /// Specifies a rule that controls how data is imported from S3 into the file
 /// system.
+///
+/// @nodoc
 class ImportDataRule {
   /// The S3 key prefix that scopes this import rule. Only objects with keys
   /// beginning with this prefix are subject to the rule.
@@ -1875,6 +1897,7 @@ class ImportDataRule {
   }
 }
 
+/// @nodoc
 class ImportTrigger {
   static const onDirectoryFirstAccess =
       ImportTrigger._('ON_DIRECTORY_FIRST_ACCESS');
@@ -1901,6 +1924,8 @@ class ImportTrigger {
 }
 
 /// Contains information about a mount target returned in list operations.
+///
+/// @nodoc
 class ListMountTargetsDescription {
   /// The ID of the mount target.
   final String mountTargetId;
@@ -1994,6 +2019,8 @@ class ListMountTargetsDescription {
 }
 
 /// Contains information about an S3 File System returned in list operations.
+///
+/// @nodoc
 class ListFileSystemsDescription {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
   final String bucket;
@@ -2074,6 +2101,8 @@ class ListFileSystemsDescription {
 
 /// Contains information about an S3 File System Access Point returned in list
 /// operations.
+///
+/// @nodoc
 class ListAccessPointsDescription {
   /// The Amazon Resource Name (ARN) of the access point.
   final String accessPointArn;
@@ -2152,6 +2181,8 @@ class ListAccessPointsDescription {
 
 /// Specifies the POSIX identity with uid, gid, and secondary group IDs for user
 /// enforcement.
+///
+/// @nodoc
 class PosixUser {
   /// The POSIX group ID.
   final int gid;
@@ -2193,6 +2224,8 @@ class PosixUser {
 
 /// Specifies the root directory path and optional creation permissions for
 /// newly created directories.
+///
+/// @nodoc
 class RootDirectory {
   /// The permissions to set on newly created directories.
   final CreationPermissions? creationPermissions;
@@ -2228,6 +2261,8 @@ class RootDirectory {
 
 /// Specifies the permissions to set on newly created directories within the
 /// file system.
+///
+/// @nodoc
 class CreationPermissions {
   /// The POSIX group ID to assign to newly created directories.
   final int ownerGid;
@@ -2264,6 +2299,7 @@ class CreationPermissions {
   }
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4Only = IpAddressType._('IPV4_ONLY');
   static const ipv6Only = IpAddressType._('IPV6_ONLY');
@@ -2289,21 +2325,25 @@ class IpAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2312,6 +2352,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

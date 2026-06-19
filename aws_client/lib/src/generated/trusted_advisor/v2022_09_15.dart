@@ -607,6 +607,7 @@ class TrustedAdvisor {
   }
 }
 
+/// @nodoc
 class BatchUpdateRecommendationResourceExclusionResponse {
   /// A list of recommendation resource ARNs whose exclusion status failed to
   /// update, if any
@@ -641,6 +642,7 @@ class BatchUpdateRecommendationResourceExclusionResponse {
   }
 }
 
+/// @nodoc
 class GetOrganizationRecommendationResponse {
   /// The Recommendation
   final OrganizationRecommendation? organizationRecommendation;
@@ -668,6 +670,7 @@ class GetOrganizationRecommendationResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationResponse {
   /// The Recommendation
   final Recommendation? recommendation;
@@ -693,6 +696,7 @@ class GetRecommendationResponse {
   }
 }
 
+/// @nodoc
 class ListChecksResponse {
   /// The list of Checks
   final List<CheckSummary> checkSummaries;
@@ -726,6 +730,7 @@ class ListChecksResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationRecommendationAccountsResponse {
   /// The account recommendations lifecycles that are applicable to the
   /// Recommendation
@@ -767,6 +772,7 @@ class ListOrganizationRecommendationAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationRecommendationResourcesResponse {
   /// A list of Recommendation Resources
   final List<OrganizationRecommendationResourceSummary>
@@ -807,6 +813,7 @@ class ListOrganizationRecommendationResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListOrganizationRecommendationsResponse {
   /// The list of Recommendations
   final List<OrganizationRecommendationSummary>
@@ -846,6 +853,7 @@ class ListOrganizationRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationResourcesResponse {
   /// A list of Recommendation Resources
   final List<RecommendationResourceSummary> recommendationResourceSummaries;
@@ -884,6 +892,7 @@ class ListRecommendationResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationsResponse {
   /// The list of Recommendations
   final List<RecommendationSummary> recommendationSummaries;
@@ -918,6 +927,7 @@ class ListRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class UpdateRecommendationLifecycleStage {
   static const pendingResponse =
       UpdateRecommendationLifecycleStage._('pending_response');
@@ -946,6 +956,7 @@ class UpdateRecommendationLifecycleStage {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateRecommendationLifecycleStageReasonCode {
   static const nonCriticalAccount =
       UpdateRecommendationLifecycleStageReasonCode._('non_critical_account');
@@ -993,6 +1004,8 @@ class UpdateRecommendationLifecycleStageReasonCode {
 }
 
 /// Summary of Recommendation for an Account
+///
+/// @nodoc
 class RecommendationSummary {
   /// The ARN of the Recommendation
   final String arn;
@@ -1132,6 +1145,7 @@ class RecommendationSummary {
   }
 }
 
+/// @nodoc
 class RecommendationType {
   static const standard = RecommendationType._('standard');
   static const priority = RecommendationType._('priority');
@@ -1157,6 +1171,7 @@ class RecommendationType {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationStatus {
   static const ok = RecommendationStatus._('ok');
   static const warning = RecommendationStatus._('warning');
@@ -1183,6 +1198,7 @@ class RecommendationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationLifecycleStage {
   static const inProgress = RecommendationLifecycleStage._('in_progress');
   static const pendingResponse =
@@ -1211,6 +1227,7 @@ class RecommendationLifecycleStage {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationSource {
   static const awsConfig = RecommendationSource._('aws_config');
   static const computeOptimizer = RecommendationSource._('compute_optimizer');
@@ -1265,6 +1282,8 @@ class RecommendationSource {
 }
 
 /// Aggregation of Recommendation Resources
+///
+/// @nodoc
 class RecommendationResourcesAggregates {
   /// The number of AWS resources that were flagged to have errors according to
   /// the Trusted Advisor check
@@ -1314,6 +1333,8 @@ class RecommendationResourcesAggregates {
 }
 
 /// Recommendation pillar aggregates
+///
+/// @nodoc
 class RecommendationPillarSpecificAggregates {
   /// Cost optimizing aggregates
   final RecommendationCostOptimizingAggregates? costOptimizing;
@@ -1340,6 +1361,7 @@ class RecommendationPillarSpecificAggregates {
   }
 }
 
+/// @nodoc
 class StatusReason {
   static const noDataOk = StatusReason._('no_data_ok');
 
@@ -1363,6 +1385,8 @@ class StatusReason {
 }
 
 /// Cost optimizing aggregates for a Recommendation
+///
+/// @nodoc
 class RecommendationCostOptimizingAggregates {
   /// The estimated monthly savings
   final double estimatedMonthlySavings;
@@ -1395,6 +1419,7 @@ class RecommendationCostOptimizingAggregates {
   }
 }
 
+/// @nodoc
 class RecommendationPillar {
   static const costOptimizing = RecommendationPillar._('cost_optimizing');
   static const performance = RecommendationPillar._('performance');
@@ -1432,6 +1457,7 @@ class RecommendationPillar {
   String toString() => value;
 }
 
+/// @nodoc
 class RecommendationLanguage {
   static const en = RecommendationLanguage._('en');
   static const ja = RecommendationLanguage._('ja');
@@ -1467,6 +1493,8 @@ class RecommendationLanguage {
 }
 
 /// Summary of a Recommendation Resource
+///
+/// @nodoc
 class RecommendationResourceSummary {
   /// The ARN of the Recommendation Resource
   final String arn;
@@ -1549,6 +1577,7 @@ class RecommendationResourceSummary {
   }
 }
 
+/// @nodoc
 class ResourceStatus {
   static const ok = ResourceStatus._('ok');
   static const warning = ResourceStatus._('warning');
@@ -1574,6 +1603,7 @@ class ResourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ExclusionStatus {
   static const excluded = ExclusionStatus._('excluded');
   static const included = ExclusionStatus._('included');
@@ -1599,6 +1629,8 @@ class ExclusionStatus {
 }
 
 /// Summary of recommendation for accounts within an Organization
+///
+/// @nodoc
 class OrganizationRecommendationSummary {
   /// The ARN of the Recommendation
   final String arn;
@@ -1731,6 +1763,8 @@ class OrganizationRecommendationSummary {
 }
 
 /// Organization Recommendation Resource Summary
+///
+/// @nodoc
 class OrganizationRecommendationResourceSummary {
   /// The ARN of the Recommendation Resource
   final String arn;
@@ -1823,6 +1857,8 @@ class OrganizationRecommendationResourceSummary {
 
 /// Summary of an AccountRecommendationLifecycle for an Organization
 /// Recommendation
+///
+/// @nodoc
 class AccountRecommendationLifecycleSummary {
   /// The AWS account ID
   final String? accountId;
@@ -1906,6 +1942,8 @@ class AccountRecommendationLifecycleSummary {
 }
 
 /// A summary of an AWS Trusted Advisor Check
+///
+/// @nodoc
 class CheckSummary {
   /// The ARN of the AWS Trusted Advisor Check
   final String arn;
@@ -1987,6 +2025,8 @@ class CheckSummary {
 }
 
 /// A Recommendation for an Account
+///
+/// @nodoc
 class Recommendation {
   /// The ARN of the Recommendation
   final String arn;
@@ -2184,6 +2224,8 @@ class Recommendation {
 }
 
 /// A Recommendation for accounts within an Organization
+///
+/// @nodoc
 class OrganizationRecommendation {
   /// The ARN of the Recommendation
   final String arn;
@@ -2373,6 +2415,8 @@ class OrganizationRecommendation {
 
 /// The error entry for Recommendation Resource exclusion. Each entry is a
 /// combination of Recommendation Resource ARN, error code and error message
+///
+/// @nodoc
 class UpdateRecommendationResourceExclusionError {
   /// The ARN of the Recommendation Resource
   final String? arn;
@@ -2413,6 +2457,8 @@ class UpdateRecommendationResourceExclusionError {
 /// The request entry for Recommendation Resource exclusion. Each entry is a
 /// combination of Recommendation Resource ARN and corresponding exclusion
 /// status
+///
+/// @nodoc
 class RecommendationResourceExclusion {
   /// The ARN of the Recommendation Resource
   final String arn;
@@ -2435,31 +2481,37 @@ class RecommendationResourceExclusion {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

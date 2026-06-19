@@ -1628,6 +1628,7 @@ class ApplicationSignals {
   }
 }
 
+/// @nodoc
 class BatchGetServiceLevelObjectiveBudgetReportOutput {
   /// An array of structures, where each structure includes an error indicating
   /// that one of the requests in the array was not valid.
@@ -1675,6 +1676,7 @@ class BatchGetServiceLevelObjectiveBudgetReportOutput {
   }
 }
 
+/// @nodoc
 class BatchUpdateExclusionWindowsOutput {
   /// A list of errors that occurred while processing the request.
   final List<BatchUpdateExclusionWindowsError> errors;
@@ -1712,6 +1714,7 @@ class BatchUpdateExclusionWindowsOutput {
   }
 }
 
+/// @nodoc
 class DeleteGroupingConfigurationOutput {
   DeleteGroupingConfigurationOutput();
 
@@ -1724,6 +1727,7 @@ class DeleteGroupingConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetServiceOutput {
   /// The end time of the data included in the response. In a raw HTTP Query API,
   /// it is formatted as be epoch time in seconds. For example:
@@ -1798,6 +1802,7 @@ class GetServiceOutput {
   }
 }
 
+/// @nodoc
 class ListAuditFindingsOutput {
   /// An array of structures, where each structure contains information about one
   /// audit finding, including the auditor results, severity, and associated
@@ -1851,6 +1856,7 @@ class ListAuditFindingsOutput {
   }
 }
 
+/// @nodoc
 class ListEntityEventsOutput {
   /// An array of structures, where each structure contains information about one
   /// change event that occurred for the specified entity during the requested
@@ -1904,6 +1910,7 @@ class ListEntityEventsOutput {
   }
 }
 
+/// @nodoc
 class ListGroupingAttributeDefinitionsOutput {
   /// An array of structures, where each structure contains information about one
   /// grouping attribute definition, including the grouping name, source keys, and
@@ -1951,6 +1958,7 @@ class ListGroupingAttributeDefinitionsOutput {
   }
 }
 
+/// @nodoc
 class ListServiceDependenciesOutput {
   /// The end of the time period that the returned information applies to. When
   /// used in a raw HTTP Query API, it is formatted as be epoch time in seconds.
@@ -2011,6 +2019,7 @@ class ListServiceDependenciesOutput {
   }
 }
 
+/// @nodoc
 class ListServiceDependentsOutput {
   /// The end of the time period that the returned information applies to. When
   /// used in a raw HTTP Query API, it is formatted as be epoch time in seconds.
@@ -2071,6 +2080,7 @@ class ListServiceDependentsOutput {
   }
 }
 
+/// @nodoc
 class ListServiceLevelObjectiveExclusionWindowsOutput {
   /// A list of exclusion windows configured for the SLO.
   final List<ExclusionWindow> exclusionWindows;
@@ -2105,6 +2115,7 @@ class ListServiceLevelObjectiveExclusionWindowsOutput {
   }
 }
 
+/// @nodoc
 class ListServiceOperationsOutput {
   /// The end of the time period that the returned information applies to. When
   /// used in a raw HTTP Query API, it is formatted as be epoch time in seconds.
@@ -2165,6 +2176,7 @@ class ListServiceOperationsOutput {
   }
 }
 
+/// @nodoc
 class ListServicesOutput {
   /// The end of the time period that the returned information applies to. When
   /// used in a raw HTTP Query API, it is formatted as be epoch time in seconds.
@@ -2225,6 +2237,7 @@ class ListServicesOutput {
   }
 }
 
+/// @nodoc
 class ListServiceStatesOutput {
   /// The end of the time period that the returned information applies to. When
   /// used in a raw HTTP Query API, it is formatted as epoch time in seconds. For
@@ -2278,6 +2291,7 @@ class ListServiceStatesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tag keys and values associated with the resource you specified.
   final List<Tag>? tags;
@@ -2303,6 +2317,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutGroupingConfigurationOutput {
   /// A structure containing the updated grouping configuration, including all
   /// grouping attribute definitions and the timestamp when it was last updated.
@@ -2328,6 +2343,7 @@ class PutGroupingConfigurationOutput {
   }
 }
 
+/// @nodoc
 class StartDiscoveryOutput {
   StartDiscoveryOutput();
 
@@ -2340,6 +2356,7 @@ class StartDiscoveryOutput {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2352,6 +2369,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2364,6 +2382,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceLevelObjectiveOutput {
   /// A structure that contains information about the SLO that you just created.
   final ServiceLevelObjective slo;
@@ -2388,6 +2407,7 @@ class CreateServiceLevelObjectiveOutput {
   }
 }
 
+/// @nodoc
 class GetServiceLevelObjectiveOutput {
   /// A structure containing the information about the SLO.
   final ServiceLevelObjective slo;
@@ -2411,6 +2431,7 @@ class GetServiceLevelObjectiveOutput {
   }
 }
 
+/// @nodoc
 class UpdateServiceLevelObjectiveOutput {
   /// A structure that contains information about the SLO that you just updated.
   final ServiceLevelObjective slo;
@@ -2435,6 +2456,7 @@ class UpdateServiceLevelObjectiveOutput {
   }
 }
 
+/// @nodoc
 class DeleteServiceLevelObjectiveOutput {
   DeleteServiceLevelObjectiveOutput();
 
@@ -2447,6 +2469,7 @@ class DeleteServiceLevelObjectiveOutput {
   }
 }
 
+/// @nodoc
 class ListServiceLevelObjectivesOutput {
   /// Include this value in your next use of this API to get next set of service
   /// level objectives.
@@ -2484,6 +2507,8 @@ class ListServiceLevelObjectivesOutput {
 
 /// A structure that contains information about one service level objective
 /// (SLO) created in Application Signals.
+///
+/// @nodoc
 class ServiceLevelObjectiveSummary {
   /// The ARN of this service level objective.
   final String arn;
@@ -2642,6 +2667,8 @@ class ServiceLevelObjectiveSummary {
 /// dependency. Alternatively, you can exclude <code>OperationName</code> and
 /// the SLO will monitor all of the service's operations that call the
 /// dependency.
+///
+/// @nodoc
 class DependencyConfig {
   /// This is a string-to-string map. It can include the following fields.
   ///
@@ -2700,6 +2727,7 @@ class DependencyConfig {
   }
 }
 
+/// @nodoc
 class EvaluationType {
   static const periodBased = EvaluationType._('PeriodBased');
   static const requestBased = EvaluationType._('RequestBased');
@@ -2724,6 +2752,7 @@ class EvaluationType {
   String toString() => value;
 }
 
+/// @nodoc
 class MetricSourceType {
   static const serviceOperation = MetricSourceType._('ServiceOperation');
   static const cloudWatchMetric = MetricSourceType._('CloudWatchMetric');
@@ -2761,6 +2790,8 @@ class MetricSourceType {
 
 /// Identifies the metric source for SLOs on resources other than Application
 /// Signals services.
+///
+/// @nodoc
 class MetricSource {
   /// Key attributes that identify the metric source.
   final Map<String, String> metricSourceKeyAttributes;
@@ -2799,6 +2830,8 @@ class MetricSource {
 /// This structure contains the configuration for a composite service level
 /// indicator (SLI) that aggregates metrics across multiple operations of a
 /// service for service-level SLOs.
+///
+/// @nodoc
 class CompositeSliConfig {
   /// Specifies how operations are selected for this service-level SLO. Operations
   /// can be selected explicitly by listing them, by specifying a prefix to match
@@ -2839,6 +2872,8 @@ class CompositeSliConfig {
 }
 
 /// Defines how operations are selected for a service-level SLO.
+///
+/// @nodoc
 class SelectionConfig {
   final SelectionType type;
 
@@ -2875,6 +2910,8 @@ class SelectionConfig {
 /// Identifies a single operation to include in a composite SLI for a
 /// service-level SLO. Used as an element of the <code>Components</code> list in
 /// <code>CompositeSliConfig</code>.
+///
+/// @nodoc
 class CompositeSliComponent {
   /// The name of the operation to include in the composite SLI.
   final String? operationName;
@@ -2915,6 +2952,8 @@ class CompositeSliComponent {
 /// operations whose names match the pattern are included.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class SelectionType {
   static const explicit = SelectionType._('EXPLICIT');
   static const prefix = SelectionType._('PREFIX');
@@ -2948,6 +2987,8 @@ class SelectionType {
 /// level indicator (SLI), which is a key performance metric, to calculate how
 /// much underperformance can be tolerated before the goal that you set for the
 /// SLO is not achieved.
+///
+/// @nodoc
 class ServiceLevelObjective {
   /// The ARN of this SLO.
   final String arn;
@@ -3092,6 +3133,8 @@ class ServiceLevelObjective {
 
 /// This structure contains information about the performance metric that a
 /// period-based SLO monitors.
+///
+/// @nodoc
 class ServiceLevelIndicator {
   /// The arithmetic operation used when comparing the specified metric to the
   /// threshold.
@@ -3135,6 +3178,8 @@ class ServiceLevelIndicator {
 
 /// This structure contains information about the performance metric that a
 /// request-based SLO monitors.
+///
+/// @nodoc
 class RequestBasedServiceLevelIndicator {
   /// A structure that contains information about the metric that the SLO
   /// monitors.
@@ -3181,6 +3226,8 @@ class RequestBasedServiceLevelIndicator {
 
 /// This structure contains the attributes that determine the goal of an SLO.
 /// This includes the time period for evaluation and the attainment threshold.
+///
+/// @nodoc
 class Goal {
   /// The threshold that determines if the goal is being met.
   ///
@@ -3248,6 +3295,8 @@ class Goal {
 /// For more information about burn rates, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-burn">Calculate
 /// burn rates</a>.
+///
+/// @nodoc
 class BurnRateConfiguration {
   /// The number of minutes to use as the look-back window.
   final int lookBackWindowMinutes;
@@ -3272,6 +3321,8 @@ class BurnRateConfiguration {
 
 /// The time period used to evaluate the SLO. It can be either a calendar
 /// interval or rolling interval.
+///
+/// @nodoc
 class Interval {
   /// If the interval is a calendar interval, this structure contains the interval
   /// specifications.
@@ -3311,6 +3362,8 @@ class Interval {
 
 /// If the interval for this SLO is a rolling interval, this structure contains
 /// the interval specifications.
+///
+/// @nodoc
 class RollingInterval {
   /// Specifies the duration of each rolling interval. For example, if
   /// <code>Duration</code> is <code>7</code> and <code>DurationUnit</code> is
@@ -3345,6 +3398,8 @@ class RollingInterval {
 
 /// If the interval for this service level objective is a calendar interval,
 /// this structure contains the interval specifications.
+///
+/// @nodoc
 class CalendarInterval {
   /// Specifies the duration of each calendar interval. For example, if
   /// <code>Duration</code> is <code>1</code> and <code>DurationUnit</code> is
@@ -3392,6 +3447,7 @@ class CalendarInterval {
   }
 }
 
+/// @nodoc
 class DurationUnit {
   static const minute = DurationUnit._('MINUTE');
   static const hour = DurationUnit._('HOUR');
@@ -3419,6 +3475,8 @@ class DurationUnit {
 
 /// This structure contains the information about the metric that is used for a
 /// request-based SLO.
+///
+/// @nodoc
 class RequestBasedServiceLevelIndicatorMetric {
   /// This structure defines the metric that is used as the "good request" or "bad
   /// request" value for a request-based SLO. This value observed for the metric
@@ -3547,6 +3605,7 @@ class RequestBasedServiceLevelIndicatorMetric {
   }
 }
 
+/// @nodoc
 class ServiceLevelIndicatorComparisonOperator {
   static const greaterThanOrEqualTo =
       ServiceLevelIndicatorComparisonOperator._('GreaterThanOrEqualTo');
@@ -3582,6 +3641,7 @@ class ServiceLevelIndicatorComparisonOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceLevelIndicatorMetricType {
   static const latency = ServiceLevelIndicatorMetricType._('LATENCY');
   static const availability = ServiceLevelIndicatorMetricType._('AVAILABILITY');
@@ -3612,6 +3672,8 @@ class ServiceLevelIndicatorMetricType {
 /// defined in <code>TotalRequestCountMetric</code> is divided by the number
 /// found for <code>MonitoredRequestCountMetric</code> to determine the
 /// percentage of successful requests that this SLO tracks.
+///
+/// @nodoc
 class MonitoredRequestCountMetricDataQueries {
   /// If you want to count "bad requests" to determine the percentage of
   /// successful requests for this request-based SLO, specify the metric to use as
@@ -3672,6 +3734,8 @@ class MonitoredRequestCountMetricDataQueries {
 ///
 /// Within each <code>MetricDataQuery</code> object, you must specify either
 /// <code>Expression</code> or <code>MetricStat</code> but not both.
+///
+/// @nodoc
 class MetricDataQuery {
   /// A short name used to tie this object to the results in the response. This
   /// <code>Id</code> must be unique within a <code>MetricDataQueries</code>
@@ -3801,6 +3865,8 @@ class MetricDataQuery {
 
 /// This structure defines the metric to be used as the service level indicator,
 /// along with the statistics, period, and unit.
+///
+/// @nodoc
 class MetricStat {
   /// The metric to use as the service level indicator, including the metric name,
   /// namespace, and dimensions.
@@ -3863,6 +3929,8 @@ class MetricStat {
 
 /// This structure defines the metric used for a service level indicator,
 /// including the metric name, namespace, and dimensions
+///
+/// @nodoc
 class Metric {
   /// An array of one or more dimensions to use to define the metric that you want
   /// to use. For more information, see <a
@@ -3905,6 +3973,7 @@ class Metric {
   }
 }
 
+/// @nodoc
 class StandardUnit {
   static const microseconds = StandardUnit._('Microseconds');
   static const milliseconds = StandardUnit._('Milliseconds');
@@ -3989,6 +4058,8 @@ class StandardUnit {
 /// the value for that dimension.
 ///
 /// You can assign up to 30 dimensions to a metric.
+///
+/// @nodoc
 class Dimension {
   /// The name of the dimension. Dimension names must contain only ASCII
   /// characters, must include at least one non-whitespace character, and cannot
@@ -4025,6 +4096,8 @@ class Dimension {
 
 /// This structure contains the information about the metric that is used for a
 /// period-based SLO.
+///
+/// @nodoc
 class ServiceLevelIndicatorMetric {
   /// If this SLO monitors a CloudWatch metric or the result of a CloudWatch
   /// metric math expression, this structure includes the information about that
@@ -4138,6 +4211,8 @@ class ServiceLevelIndicatorMetric {
 
 /// This structure specifies the information about the service and the
 /// performance metric that a period-based SLO is to monitor.
+///
+/// @nodoc
 class ServiceLevelIndicatorConfig {
   /// Use this structure to specify the metric to be used for the SLO.
   final ServiceLevelIndicatorMetricConfig sliMetricConfig;
@@ -4178,6 +4253,8 @@ class ServiceLevelIndicatorConfig {
 
 /// This structure specifies the information about the service and the
 /// performance metric that a request-based SLO is to monitor.
+///
+/// @nodoc
 class RequestBasedServiceLevelIndicatorConfig {
   /// Use this structure to specify the metric to be used for the SLO.
   final RequestBasedServiceLevelIndicatorMetricConfig
@@ -4213,6 +4290,8 @@ class RequestBasedServiceLevelIndicatorConfig {
 
 /// Use this structure to specify the information for the metric that a
 /// period-based SLO will monitor.
+///
+/// @nodoc
 class RequestBasedServiceLevelIndicatorMetricConfig {
   /// The composite SLI configuration for service-level SLOs that monitor multiple
   /// operations of a service.
@@ -4325,6 +4404,8 @@ class RequestBasedServiceLevelIndicatorMetricConfig {
 
 /// Use this structure to specify the information for the metric that a
 /// period-based SLO will monitor.
+///
+/// @nodoc
 class ServiceLevelIndicatorMetricConfig {
   /// The composite SLI configuration for service-level SLOs that monitor multiple
   /// operations of a service.
@@ -4443,6 +4524,8 @@ class ServiceLevelIndicatorMetricConfig {
 
 /// A key-value pair associated with a resource. Tags can help you organize and
 /// categorize your resources.
+///
+/// @nodoc
 class Tag {
   /// A string that you can use to assign a value. The combination of tag keys and
   /// values can help you organize and categorize your resources.
@@ -4476,6 +4559,8 @@ class Tag {
 /// A structure that contains the complete grouping configuration for an
 /// account, including all defined grouping attributes and metadata about when
 /// it was last updated.
+///
+/// @nodoc
 class GroupingConfiguration {
   /// An array of grouping attribute definitions that specify how services should
   /// be grouped based on various attributes and source keys.
@@ -4516,6 +4601,8 @@ class GroupingConfiguration {
 /// A structure that defines how services should be grouped based on specific
 /// attributes. This includes the friendly name for the grouping, the source
 /// keys to derive values from, and an optional default value.
+///
+/// @nodoc
 class GroupingAttributeDefinition {
   /// The friendly name for this grouping attribute, such as
   /// <code>BusinessUnit</code> or <code>Environment</code>. This name is used to
@@ -4529,7 +4616,7 @@ class GroupingAttributeDefinition {
 
   /// An array of source keys used to derive the grouping attribute value from
   /// telemetry data, Amazon Web Services tags, or other sources. For example,
-  /// ["business_unit", "team"] would look for values in those fields.
+  /// \["business_unit", "team"\] would look for values in those fields.
   final List<String>? groupingSourceKeys;
 
   GroupingAttributeDefinition({
@@ -4565,6 +4652,8 @@ class GroupingAttributeDefinition {
 /// A structure that contains information about the current state of a service,
 /// including its latest change events such as deployments and other
 /// state-changing activities.
+///
+/// @nodoc
 class ServiceState {
   /// An array containing the most recent change events for this service, such as
   /// deployments, with information about when they occurred and who initiated
@@ -4615,6 +4704,8 @@ class ServiceState {
 
 /// A structure that contains information about a change event that occurred for
 /// a service, such as a deployment or configuration change.
+///
+/// @nodoc
 class ChangeEvent {
   /// The Amazon Web Services account ID where this change event occurred.
   final String accountId;
@@ -4732,6 +4823,7 @@ class ChangeEvent {
   }
 }
 
+/// @nodoc
 class ChangeEventType {
   static const deployment = ChangeEventType._('DEPLOYMENT');
   static const configuration = ChangeEventType._('CONFIGURATION');
@@ -4759,6 +4851,8 @@ class ChangeEventType {
 /// A structure that defines a filter for narrowing down results based on
 /// specific attribute values. This can be used to filter services by platform,
 /// environment, or other service characteristics.
+///
+/// @nodoc
 class AttributeFilter {
   /// The name of the attribute to filter by, such as <code>Platform</code>,
   /// <code>Environment</code>, or <code>BusinessUnit</code>.
@@ -4796,6 +4890,8 @@ class AttributeFilter {
 
 /// This structure contains information about one of your services that was
 /// discovered by Application Signals
+///
+/// @nodoc
 class ServiceSummary {
   /// This is a string-to-string map that help identify the objects discovered by
   /// Application Signals. It can include the following fields.
@@ -4952,6 +5048,8 @@ class ServiceSummary {
 
 /// A structure that represents a logical grouping of services based on shared
 /// attributes such as business unit, environment, or entry point.
+///
+/// @nodoc
 class ServiceGroup {
   /// A unique identifier for this grouping attribute value, used for filtering
   /// and API operations.
@@ -5001,6 +5099,8 @@ class ServiceGroup {
 
 /// This structure contains information about one CloudWatch metric associated
 /// with this entity discovered by Application Signals.
+///
+/// @nodoc
 class MetricReference {
   /// The name of the metric.
   final String metricName;
@@ -5061,6 +5161,8 @@ class MetricReference {
 /// Application Signals. An operation is a specific function performed by a
 /// service that was discovered by Application Signals, and is often an API that
 /// is called by an upstream dependent.
+///
+/// @nodoc
 class ServiceOperation {
   /// An array of structures that each contain information about one metric
   /// associated with this service operation that was discovered by Application
@@ -5097,6 +5199,8 @@ class ServiceOperation {
 
 /// The core SLO time window exclusion object that includes Window, StartTime,
 /// RecurrenceRule, and Reason.
+///
+/// @nodoc
 class ExclusionWindow {
   /// The SLO time window exclusion .
   final Window window;
@@ -5148,6 +5252,8 @@ class ExclusionWindow {
 }
 
 /// The object that defines the time length of an exclusion window.
+///
+/// @nodoc
 class Window {
   /// The number of time units for the exclusion window length.
   final int duration;
@@ -5180,6 +5286,8 @@ class Window {
 }
 
 /// The recurrence rule for the SLO time window exclusion .
+///
+/// @nodoc
 class RecurrenceRule {
   /// A cron or rate expression that specifies the schedule for the exclusion
   /// window.
@@ -5208,6 +5316,8 @@ class RecurrenceRule {
 /// specified service during the provided time range. Dependents include other
 /// services, CloudWatch Synthetics canaries, and clients that are instrumented
 /// with CloudWatch RUM app monitors.
+///
+/// @nodoc
 class ServiceDependent {
   /// This is a string-to-string map. It can include the following fields.
   ///
@@ -5288,6 +5398,8 @@ class ServiceDependent {
 }
 
 /// This structure contains information about one dependency of this service.
+///
+/// @nodoc
 class ServiceDependency {
   /// This is a string-to-string map. It can include the following fields.
   ///
@@ -5368,6 +5480,8 @@ class ServiceDependency {
 /// A structure that contains information about an audit finding, which
 /// represents an automated analysis result about service behavior, performance
 /// issues, or potential problems identified through heuristic algorithms.
+///
+/// @nodoc
 class AuditFinding {
   /// The key attributes that identify the service or entity this audit finding
   /// relates to. This is a string-to-string map that includes fields like Type,
@@ -5446,6 +5560,8 @@ class AuditFinding {
 /// A structure that contains metric data queries and time range information
 /// that provides context for audit findings through relevant performance
 /// metrics.
+///
+/// @nodoc
 class MetricGraph {
   /// The end time for the metric data included in this graph. When used in a raw
   /// HTTP Query API, it is formatted as epoch time in seconds.
@@ -5491,6 +5607,8 @@ class MetricGraph {
 /// A structure that represents the dependency relationships relevant to an
 /// audit finding, containing nodes and edges that show how services and
 /// resources are connected.
+///
+/// @nodoc
 class DependencyGraph {
   /// An array of edges representing the connections and relationships between the
   /// nodes in the dependency graph.
@@ -5530,6 +5648,8 @@ class DependencyGraph {
 
 /// A structure that represents a connection between two nodes in a dependency
 /// graph, showing the relationship and characteristics of the connection.
+///
+/// @nodoc
 class Edge {
   /// The type of connection between the nodes, indicating the nature of the
   /// relationship.
@@ -5575,6 +5695,7 @@ class Edge {
   }
 }
 
+/// @nodoc
 class ConnectionType {
   static const indirect = ConnectionType._('INDIRECT');
   static const direct = ConnectionType._('DIRECT');
@@ -5602,6 +5723,8 @@ class ConnectionType {
 /// A structure that represents a node in a dependency graph, containing
 /// information about a service, resource, or other entity and its
 /// characteristics.
+///
+/// @nodoc
 class Node {
   /// The key attributes that identify this node, including Type, Name, and
   /// Environment information.
@@ -5673,6 +5796,8 @@ class Node {
 /// A structure that contains the result of an automated audit analysis,
 /// including the auditor name, description of findings, additional data, and
 /// severity level.
+///
+/// @nodoc
 class AuditorResult {
   /// The name of the auditor algorithm that generated this result.
   final String? auditor;
@@ -5720,6 +5845,7 @@ class AuditorResult {
   }
 }
 
+/// @nodoc
 class Severity {
   static const critical = Severity._('CRITICAL');
   static const high = Severity._('HIGH');
@@ -5746,6 +5872,7 @@ class Severity {
   String toString() => value;
 }
 
+/// @nodoc
 class DetailLevel {
   static const brief = DetailLevel._('BRIEF');
   static const detailed = DetailLevel._('DETAILED');
@@ -5772,6 +5899,8 @@ class DetailLevel {
 /// A structure that specifies the target entity for audit analysis, such as a
 /// <code>service</code>, <code>SLO</code>, <code>service_operation</code>, or
 /// <code>canary</code>.
+///
+/// @nodoc
 class AuditTarget {
   /// The specific data identifying the audit target entity.
   final AuditTargetEntity data;
@@ -5797,6 +5926,8 @@ class AuditTarget {
 
 /// A union structure that contains the specific entity information for
 /// different types of audit targets.
+///
+/// @nodoc
 class AuditTargetEntity {
   /// Canary entity information when the audit target is a CloudWatch Synthetics
   /// canary.
@@ -5834,6 +5965,8 @@ class AuditTargetEntity {
 }
 
 /// A structure that contains identifying information for a service entity.
+///
+/// @nodoc
 class ServiceEntity {
   /// The Amazon Web Services account ID where the service is located. Provide
   /// this value only for cross-account access.
@@ -5871,6 +6004,8 @@ class ServiceEntity {
 
 /// A structure that contains identifying information for a service level
 /// objective entity.
+///
+/// @nodoc
 class ServiceLevelObjectiveEntity {
   /// The ARN of the service level objective. The SLO must be provided with ARN
   /// for cross-account access.
@@ -5896,6 +6031,8 @@ class ServiceLevelObjectiveEntity {
 
 /// A structure that contains identifying information for a service operation
 /// entity.
+///
+/// @nodoc
 class ServiceOperationEntity {
   /// The type of metric associated with this service operation.
   final String? metricType;
@@ -5926,6 +6063,8 @@ class ServiceOperationEntity {
 
 /// A structure that contains identifying information for a CloudWatch
 /// Synthetics canary entity used in audit targeting.
+///
+/// @nodoc
 class CanaryEntity {
   /// The name of the CloudWatch Synthetics canary.
   final String canaryName;
@@ -5944,6 +6083,8 @@ class CanaryEntity {
 
 /// This structure contains information about one of your services that was
 /// discovered by Application Signals.
+///
+/// @nodoc
 class Service {
   /// This is a string-to-string map. It can include the following fields.
   ///
@@ -6124,6 +6265,8 @@ class Service {
 
 /// An array of structures, where each structure includes an error indicating
 /// that one of the requests in the array was not valid.
+///
+/// @nodoc
 class BatchUpdateExclusionWindowsError {
   /// The error code.
   final String errorCode;
@@ -6163,6 +6306,8 @@ class BatchUpdateExclusionWindowsError {
 /// A structure containing information about one error that occurred during a <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_BatchGetServiceLevelObjectiveBudgetReport.html">BatchGetServiceLevelObjectiveBudgetReport</a>
 /// operation.
+///
+/// @nodoc
 class ServiceLevelObjectiveBudgetReportError {
   /// The ARN of the SLO that this error is related to.
   final String arn;
@@ -6208,6 +6353,8 @@ class ServiceLevelObjectiveBudgetReportError {
 }
 
 /// A structure containing an SLO budget report that you have requested.
+///
+/// @nodoc
 class ServiceLevelObjectiveBudgetReport {
   /// The ARN of the SLO that this report is for.
   final String arn;
@@ -6368,6 +6515,7 @@ class ServiceLevelObjectiveBudgetReport {
   }
 }
 
+/// @nodoc
 class ServiceLevelObjectiveBudgetStatus {
   static const ok = ServiceLevelObjectiveBudgetStatus._('OK');
   static const warning = ServiceLevelObjectiveBudgetStatus._('WARNING');
@@ -6396,21 +6544,25 @@ class ServiceLevelObjectiveBudgetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6419,11 +6571,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

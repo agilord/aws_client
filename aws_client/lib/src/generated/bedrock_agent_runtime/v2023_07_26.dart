@@ -1880,6 +1880,7 @@ class BedrockAgentRuntime {
   }
 }
 
+/// @nodoc
 class GetExecutionFlowSnapshotResponse {
   /// The flow definition used for the flow execution, including the nodes,
   /// connections, and configuration at the time when the execution started.
@@ -1947,6 +1948,8 @@ class GetExecutionFlowSnapshotResponse {
 
 /// The request is denied because of missing access permissions. Check your
 /// permissions and retry your request.
+///
+/// @nodoc
 class AccessDeniedException implements _s.AwsException {
   final String? message;
 
@@ -1969,6 +1972,8 @@ class AccessDeniedException implements _s.AwsException {
 }
 
 /// An internal server error occurred. Retry your request.
+///
+/// @nodoc
 class InternalServerException implements _s.AwsException {
   final String? message;
 
@@ -2001,6 +2006,8 @@ class InternalServerException implements _s.AwsException {
 
 /// The specified resource Amazon Resource Name (ARN) was not found. Check the
 /// Amazon Resource Name (ARN) and try your request again.
+///
+/// @nodoc
 class ResourceNotFoundException implements _s.AwsException {
   final String? message;
 
@@ -2023,6 +2030,8 @@ class ResourceNotFoundException implements _s.AwsException {
 }
 
 /// The number of requests exceeds the limit. Resubmit your request later.
+///
+/// @nodoc
 class ThrottlingException implements _s.AwsException {
   final String? message;
 
@@ -2046,6 +2055,8 @@ class ThrottlingException implements _s.AwsException {
 
 /// Input validation failed. Check your request parameters and retry the
 /// request.
+///
+/// @nodoc
 class ValidationException implements _s.AwsException {
   final String? message;
 
@@ -2067,6 +2078,7 @@ class ValidationException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class GetFlowExecutionResponse {
   /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
   final String executionArn;
@@ -2146,6 +2158,7 @@ class GetFlowExecutionResponse {
   }
 }
 
+/// @nodoc
 class ListFlowExecutionEventsResponse {
   /// A list of events that occurred during the flow execution. Events can include
   /// node inputs and outputs, flow inputs and outputs, condition results, and
@@ -2181,6 +2194,7 @@ class ListFlowExecutionEventsResponse {
   }
 }
 
+/// @nodoc
 class ListFlowExecutionsResponse {
   /// A list of flow execution summaries. Each summary includes the execution ARN,
   /// flow identifier, flow alias identifier, flow version, status, and
@@ -2217,6 +2231,7 @@ class ListFlowExecutionsResponse {
   }
 }
 
+/// @nodoc
 class StartFlowExecutionResponse {
   /// The Amazon Resource Name (ARN) that uniquely identifies the flow execution.
   final String? executionArn;
@@ -2241,6 +2256,8 @@ class StartFlowExecutionResponse {
 
 /// There was an issue with a dependency due to a server issue. Retry your
 /// request.
+///
+/// @nodoc
 class BadGatewayException implements _s.AwsException {
   final String? message;
 
@@ -2272,6 +2289,8 @@ class BadGatewayException implements _s.AwsException {
 
 /// There was a conflict performing an operation. Resolve the conflict and retry
 /// your request.
+///
+/// @nodoc
 class ConflictException implements _s.AwsException {
   final String? message;
 
@@ -2295,6 +2314,8 @@ class ConflictException implements _s.AwsException {
 
 /// There was an issue with a dependency. Check the resource configurations and
 /// retry the request.
+///
+/// @nodoc
 class DependencyFailedException implements _s.AwsException {
   final String? message;
 
@@ -2326,6 +2347,8 @@ class DependencyFailedException implements _s.AwsException {
 
 /// The number of requests exceeds the service quota. Resubmit your request
 /// later.
+///
+/// @nodoc
 class ServiceQuotaExceededException implements _s.AwsException {
   final String? message;
 
@@ -2347,6 +2370,7 @@ class ServiceQuotaExceededException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class StopFlowExecutionResponse {
   /// The updated status of the flow execution after the stop request. This will
   /// typically be ABORTED if the execution was successfully stopped.
@@ -2378,6 +2402,7 @@ class StopFlowExecutionResponse {
   }
 }
 
+/// @nodoc
 class InvokeFlowResponse {
   /// The output of the flow, returned as a stream. If there's an error, the error
   /// is returned.
@@ -2400,6 +2425,7 @@ class InvokeFlowResponse {
   }
 }
 
+/// @nodoc
 class GenerateQueryResponse {
   /// A list of objects, each of which defines a generated query that can
   /// correspond to the natural language queries.
@@ -2426,6 +2452,7 @@ class GenerateQueryResponse {
   }
 }
 
+/// @nodoc
 class InvokeAgentResponse {
   /// The agent's response to the user prompt.
   final ResponseStream completion;
@@ -2463,6 +2490,8 @@ class InvokeAgentResponse {
 /// information about configuring automatic retries, see <a
 /// href="https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html">Retry
 /// behavior</a> in the <i>AWS SDKs and Tools</i> reference guide.
+///
+/// @nodoc
 class ModelNotReadyException implements _s.AwsException {
   final String? message;
 
@@ -2484,6 +2513,7 @@ class ModelNotReadyException implements _s.AwsException {
   }
 }
 
+/// @nodoc
 class InvokeInlineAgentResponse {
   /// The inline agent's response to the user prompt.
   final InlineAgentResponseStream completion;
@@ -2511,6 +2541,7 @@ class InvokeInlineAgentResponse {
   }
 }
 
+/// @nodoc
 class DeleteAgentMemoryResponse {
   DeleteAgentMemoryResponse();
 
@@ -2523,6 +2554,7 @@ class DeleteAgentMemoryResponse {
   }
 }
 
+/// @nodoc
 class GetAgentMemoryResponse {
   /// Contains details of the sessions stored in the memory
   final List<Memory>? memoryContents;
@@ -2557,6 +2589,7 @@ class GetAgentMemoryResponse {
   }
 }
 
+/// @nodoc
 class OptimizePromptResponse {
   /// The prompt after being optimized for the task.
   final OptimizedPromptStream optimizedPrompt;
@@ -2573,6 +2606,7 @@ class OptimizePromptResponse {
   }
 }
 
+/// @nodoc
 class RerankResponse {
   /// An array of objects, each of which contains information about the results of
   /// reranking.
@@ -2608,6 +2642,7 @@ class RerankResponse {
   }
 }
 
+/// @nodoc
 class RetrieveAndGenerateResponse {
   /// Contains the response generated from querying the knowledge base.
   final RetrieveAndGenerateOutput output;
@@ -2663,6 +2698,7 @@ class RetrieveAndGenerateResponse {
   }
 }
 
+/// @nodoc
 class RetrieveAndGenerateStreamResponse {
   /// The session ID.
   final String sessionId;
@@ -2684,6 +2720,7 @@ class RetrieveAndGenerateStreamResponse {
   }
 }
 
+/// @nodoc
 class RetrieveResponse {
   /// A list of results from querying the knowledge base.
   final List<KnowledgeBaseRetrievalResult> retrievalResults;
@@ -2727,6 +2764,7 @@ class RetrieveResponse {
   }
 }
 
+/// @nodoc
 class CreateSessionResponse {
   /// The timestamp for when the session was created.
   final DateTime createdAt;
@@ -2771,6 +2809,7 @@ class CreateSessionResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// The timestamp for when the session was created.
   final DateTime createdAt;
@@ -2840,6 +2879,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class UpdateSessionResponse {
   /// The timestamp for when the session was created.
   final DateTime createdAt;
@@ -2891,6 +2931,7 @@ class UpdateSessionResponse {
   }
 }
 
+/// @nodoc
 class DeleteSessionResponse {
   DeleteSessionResponse();
 
@@ -2903,6 +2944,7 @@ class DeleteSessionResponse {
   }
 }
 
+/// @nodoc
 class ListSessionsResponse {
   /// A list of summaries for each session in your Amazon Web Services account.
   final List<SessionSummary> sessionSummaries;
@@ -2937,6 +2979,7 @@ class ListSessionsResponse {
   }
 }
 
+/// @nodoc
 class EndSessionResponse {
   /// The Amazon Resource Name (ARN) of the session you ended.
   final String sessionArn;
@@ -2974,6 +3017,7 @@ class EndSessionResponse {
   }
 }
 
+/// @nodoc
 class CreateInvocationResponse {
   /// The timestamp for when the invocation was created.
   final DateTime createdAt;
@@ -3010,6 +3054,7 @@ class CreateInvocationResponse {
   }
 }
 
+/// @nodoc
 class ListInvocationsResponse {
   /// A list of invocation summaries associated with the session.
   final List<InvocationSummary> invocationSummaries;
@@ -3044,6 +3089,7 @@ class ListInvocationsResponse {
   }
 }
 
+/// @nodoc
 class PutInvocationStepResponse {
   /// The unique identifier of the invocation step in UUID format.
   final String invocationStepId;
@@ -3066,6 +3112,7 @@ class PutInvocationStepResponse {
   }
 }
 
+/// @nodoc
 class GetInvocationStepResponse {
   /// The complete details of the requested invocation step.
   final InvocationStep invocationStep;
@@ -3090,6 +3137,7 @@ class GetInvocationStepResponse {
   }
 }
 
+/// @nodoc
 class ListInvocationStepsResponse {
   /// A list of summaries for each invocation step associated with a session and
   /// if you specified it, an invocation within the session.
@@ -3126,6 +3174,7 @@ class ListInvocationStepsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The key-value pairs for the tags associated with the resource.
   final Map<String, String>? tags;
@@ -3149,6 +3198,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3161,6 +3211,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -3178,6 +3229,8 @@ class UntagResourceResponse {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html">Store
 /// and retrieve conversation history and context with Amazon Bedrock
 /// sessions</a>.
+///
+/// @nodoc
 class InvocationStepSummary {
   /// A unique identifier for the invocation in UUID format.
   final String invocationId;
@@ -3228,6 +3281,8 @@ class InvocationStepSummary {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html">Store
 /// and retrieve conversation history and context with Amazon Bedrock
 /// sessions</a>.
+///
+/// @nodoc
 class InvocationStep {
   /// The unique identifier (in UUID format) for the invocation that includes the
   /// invocation step.
@@ -3283,6 +3338,8 @@ class InvocationStep {
 }
 
 /// Payload content, such as text and images, for the invocation step.
+///
+/// @nodoc
 class InvocationStepPayload {
   /// The content for the invocation step.
   final List<BedrockSessionContentBlock>? contentBlocks;
@@ -3321,6 +3378,8 @@ class InvocationStepPayload {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html">Store
 /// and retrieve conversation history and context with Amazon Bedrock
 /// sessions</a>.
+///
+/// @nodoc
 class BedrockSessionContentBlock {
   /// The image in the invocation step.
   final ImageBlock? image;
@@ -3353,6 +3412,8 @@ class BedrockSessionContentBlock {
 }
 
 /// Image content for an invocation step.
+///
+/// @nodoc
 class ImageBlock {
   /// The format of the image.
   final ImageFormat format;
@@ -3383,6 +3444,7 @@ class ImageBlock {
   }
 }
 
+/// @nodoc
 class ImageFormat {
   static const png = ImageFormat._('png');
   static const jpeg = ImageFormat._('jpeg');
@@ -3409,6 +3471,8 @@ class ImageFormat {
 }
 
 /// The source for an image.
+///
+/// @nodoc
 class ImageSource {
   /// The raw image bytes for the image. If you use an Amazon Web Services SDK,
   /// you don't need to encode the image bytes in base64.
@@ -3442,6 +3506,8 @@ class ImageSource {
 }
 
 /// Information about the Amazon S3 bucket where the image is stored.
+///
+/// @nodoc
 class S3Location {
   /// The path to the Amazon S3 bucket where the image is stored.
   final String uri;
@@ -3469,6 +3535,8 @@ class S3Location {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html">Store
 /// and retrieve conversation history and context with Amazon Bedrock
 /// sessions</a>.
+///
+/// @nodoc
 class InvocationSummary {
   /// The timestamp for when the invocation was created.
   final DateTime createdAt;
@@ -3505,6 +3573,7 @@ class InvocationSummary {
   }
 }
 
+/// @nodoc
 class SessionStatus {
   static const active = SessionStatus._('ACTIVE');
   static const expired = SessionStatus._('EXPIRED');
@@ -3535,6 +3604,8 @@ class SessionStatus {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html">Store
 /// and retrieve conversation history and context with Amazon Bedrock
 /// sessions</a>.
+///
+/// @nodoc
 class SessionSummary {
   /// The timestamp for when the session was created.
   final DateTime createdAt;
@@ -3586,6 +3657,7 @@ class SessionSummary {
   }
 }
 
+/// @nodoc
 class GuadrailAction {
   static const intervened = GuadrailAction._('INTERVENED');
   static const none = GuadrailAction._('NONE');
@@ -3621,6 +3693,8 @@ class GuadrailAction {
 /// response</a> – in the <code>retrievalResults</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class KnowledgeBaseRetrievalResult {
   /// Contains information about the content of the chunk.
   final RetrievalResultContent content;
@@ -3696,6 +3770,8 @@ class KnowledgeBaseRetrievalResult {
 /// response</a> – in the <code>content</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrievalResultContent {
   /// Audio segment information when the retrieval result contains audio content.
   final AudioSegment? audio;
@@ -3785,6 +3861,8 @@ class RetrievalResultContent {
 /// response</a> – in the <code>location</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrievalResultLocation {
   /// The type of data source location.
   final RetrievalResultLocationType type;
@@ -3890,6 +3968,7 @@ class RetrievalResultLocation {
   }
 }
 
+/// @nodoc
 class RetrievalResultLocationType {
   static const s3 = RetrievalResultLocationType._('S3');
   static const web = RetrievalResultLocationType._('WEB');
@@ -3951,6 +4030,8 @@ class RetrievalResultLocationType {
 /// response</a> – in the <code>s3Location</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrievalResultS3Location {
   /// The S3 URI for the data source location.
   final String? uri;
@@ -3974,6 +4055,8 @@ class RetrievalResultS3Location {
 }
 
 /// The web URL/URLs data source location.
+///
+/// @nodoc
 class RetrievalResultWebLocation {
   /// The web URL/URLs for the data source location.
   final String? url;
@@ -3997,6 +4080,8 @@ class RetrievalResultWebLocation {
 }
 
 /// The Confluence data source location.
+///
+/// @nodoc
 class RetrievalResultConfluenceLocation {
   /// The Confluence host URL for the data source location.
   final String? url;
@@ -4021,6 +4106,8 @@ class RetrievalResultConfluenceLocation {
 }
 
 /// The Salesforce data source location.
+///
+/// @nodoc
 class RetrievalResultSalesforceLocation {
   /// The Salesforce host URL for the data source location.
   final String? url;
@@ -4045,6 +4132,8 @@ class RetrievalResultSalesforceLocation {
 }
 
 /// The SharePoint data source location.
+///
+/// @nodoc
 class RetrievalResultSharePointLocation {
   /// The SharePoint site URL for the data source location.
   final String? url;
@@ -4070,6 +4159,8 @@ class RetrievalResultSharePointLocation {
 
 /// Contains information about the location of a document in a custom data
 /// source.
+///
+/// @nodoc
 class RetrievalResultCustomDocumentLocation {
   /// The ID of the document.
   final String? id;
@@ -4094,6 +4185,8 @@ class RetrievalResultCustomDocumentLocation {
 }
 
 /// The location of a result in Amazon Kendra.
+///
+/// @nodoc
 class RetrievalResultKendraDocumentLocation {
   /// The document's uri.
   final String? uri;
@@ -4118,6 +4211,8 @@ class RetrievalResultKendraDocumentLocation {
 }
 
 /// Contains information about the SQL query used to retrieve the result.
+///
+/// @nodoc
 class RetrievalResultSqlLocation {
   /// The SQL query used to retrieve the result.
   final String? query;
@@ -4140,6 +4235,7 @@ class RetrievalResultSqlLocation {
   }
 }
 
+/// @nodoc
 class RetrievalResultContentType {
   static const text = RetrievalResultContentType._('TEXT');
   static const image = RetrievalResultContentType._('IMAGE');
@@ -4180,6 +4276,8 @@ class RetrievalResultContentType {
 /// response</a> – in the <code>video</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class VideoSegment {
   /// The S3 URI where this specific video segment is stored in the multimodal
   /// storage destination.
@@ -4222,6 +4320,8 @@ class VideoSegment {
 /// response</a> – in the <code>audio</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AudioSegment {
   /// The S3 URI where this specific audio segment is stored in the multimodal
   /// storage destination.
@@ -4253,6 +4353,8 @@ class AudioSegment {
 }
 
 /// Contains information about a column with a cell to return in retrieval.
+///
+/// @nodoc
 class RetrievalResultContentColumn {
   /// The name of the column.
   final String? columnName;
@@ -4290,6 +4392,7 @@ class RetrievalResultContentColumn {
   }
 }
 
+/// @nodoc
 class RetrievalResultContentColumnType {
   static const blob = RetrievalResultContentColumnType._('BLOB');
   static const boolean = RetrievalResultContentColumnType._('BOOLEAN');
@@ -4330,6 +4433,8 @@ class RetrievalResultContentColumnType {
 /// request</a> – in the <code>retrievalQuery</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class KnowledgeBaseQuery {
   /// An image to include in the knowledge base query for multimodal retrieval.
   final InputImage? image;
@@ -4377,6 +4482,8 @@ class KnowledgeBaseQuery {
 /// request</a> – in the <code>retrievalConfiguration</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class KnowledgeBaseRetrievalConfiguration {
   /// Contains details about how the results from the vector search should be
   /// returned. For more information, see <a
@@ -4397,6 +4504,8 @@ class KnowledgeBaseRetrievalConfiguration {
 }
 
 /// The configuration details for the guardrail.
+///
+/// @nodoc
 class GuardrailConfiguration {
   /// The unique identifier for the guardrail.
   final String guardrailId;
@@ -4438,6 +4547,8 @@ class GuardrailConfiguration {
 /// request</a> – in the <code>vectorSearchConfiguration</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class KnowledgeBaseVectorSearchConfiguration {
   /// Specifies the filters to use on the metadata in the knowledge base data
   /// sources before returning results. For more information, see <a
@@ -4495,6 +4606,7 @@ class KnowledgeBaseVectorSearchConfiguration {
   }
 }
 
+/// @nodoc
 class SearchType {
   static const hybrid = SearchType._('HYBRID');
   static const semantic = SearchType._('SEMANTIC');
@@ -4537,6 +4649,8 @@ class SearchType {
 /// request</a> – in the <code>filter</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrievalFilter {
   /// Knowledge base data sources are returned if their metadata attributes
   /// fulfill all the filter conditions inside this list.
@@ -4579,7 +4693,7 @@ class RetrievalFilter {
   /// The following example would return data sources with an <code>animal</code>
   /// attribute that is either <code>cat</code> or <code>dog</code>:
   ///
-  /// <code>"in": { "key": "animal", "value": ["cat", "dog"] }</code>
+  /// <code>"in": { "key": "animal", "value": \["cat", "dog"\] }</code>
   final FilterAttribute? inValue;
 
   /// Knowledge base data sources are returned if they contain a metadata
@@ -4608,7 +4722,7 @@ class RetrievalFilter {
   ///
   /// The following example would return data sources with an <code>animals</code>
   /// attribute that is a list containing a <code>cat</code> member (for example
-  /// <code>["dog", "cat"]</code>).
+  /// <code>\["dog", "cat"\]</code>).
   ///
   /// <code>"listContains": { "key": "animals", "value": "cat" }</code>
   final FilterAttribute? listContains;
@@ -4637,7 +4751,7 @@ class RetrievalFilter {
   /// The following example would return data sources whose <code>animal</code>
   /// attribute is neither <code>cat</code> nor <code>dog</code>.
   ///
-  /// <code>"notIn": { "key": "animal", "value": ["cat", "dog"] }</code>
+  /// <code>"notIn": { "key": "animal", "value": \["cat", "dog"\] }</code>
   final FilterAttribute? notIn;
 
   /// Knowledge base data sources are returned if their metadata attributes
@@ -4672,7 +4786,7 @@ class RetrievalFilter {
   /// A list with a member that contains the <code>value</code> as a substring.
   /// The following example would return data sources with an <code>animals</code>
   /// attribute that is a list containing a member that contains the substring
-  /// <code>at</code> (for example <code>["dog", "cat"]</code>).
+  /// <code>at</code> (for example <code>\["dog", "cat"\]</code>).
   ///
   /// <code>"stringContains": { "key": "animals", "value": "at" }</code>
   /// </li>
@@ -4729,6 +4843,8 @@ class RetrievalFilter {
 }
 
 /// Contains configurations for reranking the retrieved results.
+///
+/// @nodoc
 class VectorSearchRerankingConfiguration {
   /// The type of reranker model.
   final VectorSearchRerankingConfigurationType type;
@@ -4755,6 +4871,8 @@ class VectorSearchRerankingConfiguration {
 
 /// Settings for implicit filtering, where a model generates a metadata filter
 /// based on the prompt.
+///
+/// @nodoc
 class ImplicitFilterConfiguration {
   /// Metadata that can be used in a filter.
   final List<MetadataAttributeSchema> metadataAttributes;
@@ -4778,6 +4896,8 @@ class ImplicitFilterConfiguration {
 }
 
 /// Details about a metadata attribute.
+///
+/// @nodoc
 class MetadataAttributeSchema {
   /// The attribute's description.
   final String description;
@@ -4806,6 +4926,7 @@ class MetadataAttributeSchema {
   }
 }
 
+/// @nodoc
 class AttributeType {
   static const string = AttributeType._('STRING');
   static const number = AttributeType._('NUMBER');
@@ -4832,6 +4953,7 @@ class AttributeType {
   String toString() => value;
 }
 
+/// @nodoc
 class VectorSearchRerankingConfigurationType {
   static const bedrockRerankingModel =
       VectorSearchRerankingConfigurationType._('BEDROCK_RERANKING_MODEL');
@@ -4858,6 +4980,8 @@ class VectorSearchRerankingConfigurationType {
 }
 
 /// Contains configurations for reranking with an Amazon Bedrock reranker model.
+///
+/// @nodoc
 class VectorSearchBedrockRerankingConfiguration {
   /// Contains configurations for the reranker model.
   final VectorSearchBedrockRerankingModelConfiguration modelConfiguration;
@@ -4889,6 +5013,8 @@ class VectorSearchBedrockRerankingConfiguration {
 }
 
 /// Contains configurations for an Amazon Bedrock reranker model.
+///
+/// @nodoc
 class VectorSearchBedrockRerankingModelConfiguration {
   /// The ARN of the reranker model to use.
   final String modelArn;
@@ -4914,6 +5040,8 @@ class VectorSearchBedrockRerankingModelConfiguration {
 }
 
 /// Contains configurations for the metadata to use in reranking.
+///
+/// @nodoc
 class MetadataConfigurationForReranking {
   /// Specifies whether to consider all metadata when reranking, or only the
   /// metadata that you select. If you specify <code>SELECTIVE</code>, include the
@@ -4940,6 +5068,7 @@ class MetadataConfigurationForReranking {
   }
 }
 
+/// @nodoc
 class RerankingMetadataSelectionMode {
   static const selective = RerankingMetadataSelectionMode._('SELECTIVE');
   static const all = RerankingMetadataSelectionMode._('ALL');
@@ -4971,6 +5100,8 @@ class RerankingMetadataSelectionMode {
 /// include the <code>fieldsToInclude</code> field, the reranker uses only the
 /// metadata fields that you specify and ignores all others. You can include
 /// only one of these fields.
+///
+/// @nodoc
 class RerankingMetadataSelectiveModeConfiguration {
   /// An array of objects, each of which specifies a metadata field to exclude
   /// from consideration when reranking.
@@ -4997,6 +5128,8 @@ class RerankingMetadataSelectiveModeConfiguration {
 
 /// Contains information for a metadata field to include in or exclude from
 /// consideration when reranking.
+///
+/// @nodoc
 class FieldForReranking {
   /// The name of a metadata field to include in or exclude from consideration
   /// when reranking.
@@ -5029,6 +5162,8 @@ class FieldForReranking {
 /// request</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FilterAttribute {
   /// The name that the metadata attribute must match.
   final String key;
@@ -5051,6 +5186,7 @@ class FilterAttribute {
   }
 }
 
+/// @nodoc
 class KnowledgeBaseQueryType {
   static const text = KnowledgeBaseQueryType._('TEXT');
   static const image = KnowledgeBaseQueryType._('IMAGE');
@@ -5088,6 +5224,8 @@ class KnowledgeBaseQueryType {
 /// request</a> – in the <code>image</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class InputImage {
   /// The format of the input image. Supported formats include png, gif, jpeg, and
   /// webp.
@@ -5111,6 +5249,7 @@ class InputImage {
   }
 }
 
+/// @nodoc
 class InputImageFormat {
   static const png = InputImageFormat._('png');
   static const jpeg = InputImageFormat._('jpeg');
@@ -5138,6 +5277,8 @@ class InputImageFormat {
 }
 
 /// A retrieve and generate stream response output.
+///
+/// @nodoc
 class RetrieveAndGenerateStreamResponseOutput {
   /// The request is denied because you do not have sufficient permissions to
   /// perform the requested action. For troubleshooting this error, see <a
@@ -5297,6 +5438,8 @@ class RetrieveAndGenerateStreamResponseOutput {
 }
 
 /// A retrieve and generate output event.
+///
+/// @nodoc
 class RetrieveAndGenerateOutputEvent {
   /// A text response.
   final String text;
@@ -5320,6 +5463,8 @@ class RetrieveAndGenerateOutputEvent {
 }
 
 /// A citation event.
+///
+/// @nodoc
 class CitationEvent {
   /// The citation.
   final Citation? citation;
@@ -5367,6 +5512,8 @@ class CitationEvent {
 }
 
 /// A guardrail event.
+///
+/// @nodoc
 class GuardrailEvent {
   /// The guardrail action.
   final GuadrailAction? action;
@@ -5406,6 +5553,8 @@ class GuardrailEvent {
 /// response</a> – in the <code>citations</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Citation {
   /// Contains the generated response and metadata
   final GeneratedResponsePart? generatedResponsePart;
@@ -5460,6 +5609,8 @@ class Citation {
 /// response</a> – in the <code>generatedResponsePart</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GeneratedResponsePart {
   /// Contains metadata about a textual part of the generated response that is
   /// accompanied by a citation.
@@ -5502,6 +5653,8 @@ class GeneratedResponsePart {
 /// response</a> – in the <code>retrievedReferences</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrievedReference {
   /// Contains the cited text from the data source.
   final RetrievalResultContent? content;
@@ -5565,6 +5718,8 @@ class RetrievedReference {
 /// response</a> – in the <code>textResponsePart</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class TextResponsePart {
   /// Contains information about where the text with a citation begins and ends in
   /// the generated output.
@@ -5614,6 +5769,8 @@ class TextResponsePart {
 /// response</a> – in the <code>span</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Span {
   /// Where the text with a citation ends in the generated output.
   final int? end;
@@ -5654,6 +5811,8 @@ class Span {
 /// request</a> – in the <code>input</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrieveAndGenerateInput {
   /// The query made to the knowledge base, in characters.
   final String text;
@@ -5681,6 +5840,8 @@ class RetrieveAndGenerateInput {
 /// request</a> – in the <code>retrieveAndGenerateConfiguration</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrieveAndGenerateConfiguration {
   /// The type of resource that contains your data for retrieving information and
   /// generating responses.
@@ -5731,6 +5892,8 @@ class RetrieveAndGenerateConfiguration {
 /// request</a> – in the <code>sessionConfiguration</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrieveAndGenerateSessionConfiguration {
   /// The ARN of the KMS key encrypting the session.
   final String kmsKeyArn;
@@ -5747,6 +5910,7 @@ class RetrieveAndGenerateSessionConfiguration {
   }
 }
 
+/// @nodoc
 class RetrieveAndGenerateType {
   static const knowledgeBase = RetrieveAndGenerateType._('KNOWLEDGE_BASE');
   static const externalSources = RetrieveAndGenerateType._('EXTERNAL_SOURCES');
@@ -5788,6 +5952,8 @@ class RetrieveAndGenerateType {
 /// request</a> – in the <code>knowledgeBaseConfiguration</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class KnowledgeBaseRetrieveAndGenerateConfiguration {
   /// The unique identifier of the knowledge base that is queried.
   final String knowledgeBaseId;
@@ -5838,6 +6004,8 @@ class KnowledgeBaseRetrieveAndGenerateConfiguration {
 
 /// The configurations of the external source wrapper object in the
 /// <code>retrieveAndGenerate</code> function.
+///
+/// @nodoc
 class ExternalSourcesRetrieveAndGenerateConfiguration {
   /// The model Amazon Resource Name (ARN) for the external source wrapper object
   /// in the <code>retrieveAndGenerate</code> function.
@@ -5871,6 +6039,8 @@ class ExternalSourcesRetrieveAndGenerateConfiguration {
 }
 
 /// Contains the generation configuration of the external source wrapper object.
+///
+/// @nodoc
 class ExternalSourcesGenerationConfiguration {
   /// Additional model parameters and their corresponding values not included in
   /// the textInferenceConfig structure for an external source. Takes in custom
@@ -5931,6 +6101,8 @@ class ExternalSourcesGenerationConfiguration {
 /// request</a> – in the <code>filter</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class PromptTemplate {
   /// The template for the prompt that's sent to the model for response
   /// generation. You can include prompt placeholders, which become replaced
@@ -5968,6 +6140,8 @@ class PromptTemplate {
 
 /// The configuration for inference settings when generating responses using
 /// RetrieveAndGenerate.
+///
+/// @nodoc
 class InferenceConfig {
   /// Configuration settings specific to text generation while generating
   /// responses using RetrieveAndGenerate.
@@ -5987,6 +6161,8 @@ class InferenceConfig {
 }
 
 /// Performance settings for a model.
+///
+/// @nodoc
 class PerformanceConfiguration {
   /// To use a latency-optimized version of the model, set to
   /// <code>optimized</code>.
@@ -6004,6 +6180,7 @@ class PerformanceConfiguration {
   }
 }
 
+/// @nodoc
 class PerformanceConfigLatency {
   static const standard = PerformanceConfigLatency._('standard');
   static const optimized = PerformanceConfigLatency._('optimized');
@@ -6039,6 +6216,8 @@ class PerformanceConfigLatency {
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
 /// parameters for foundation models.</a>
 /// </note>
+///
+/// @nodoc
 class TextInferenceConfig {
   /// The maximum number of tokens to generate in the output text. Do not use the
   /// minimum of 0 or the maximum of 65536. The limit values described here are
@@ -6087,6 +6266,8 @@ class TextInferenceConfig {
 }
 
 /// The unique external source of the content contained in the wrapper object.
+///
+/// @nodoc
 class ExternalSource {
   /// The source type of the external source wrapper object.
   final ExternalSourceType sourceType;
@@ -6115,6 +6296,7 @@ class ExternalSource {
   }
 }
 
+/// @nodoc
 class ExternalSourceType {
   static const s3 = ExternalSourceType._('S3');
   static const byteContent = ExternalSourceType._('BYTE_CONTENT');
@@ -6141,6 +6323,8 @@ class ExternalSourceType {
 }
 
 /// The unique wrapper object of the document from the S3 location.
+///
+/// @nodoc
 class S3ObjectDoc {
   /// The file location of the S3 wrapper object.
   final String uri;
@@ -6158,6 +6342,8 @@ class S3ObjectDoc {
 }
 
 /// This property contains the document to chat with, along with its attributes.
+///
+/// @nodoc
 class ByteContentDoc {
   /// The MIME type of the document contained in the wrapper object.
   final String contentType;
@@ -6198,6 +6384,8 @@ class ByteContentDoc {
 /// request</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GenerationConfiguration {
   /// Additional model parameters and corresponding values not included in the
   /// textInferenceConfig structure for a knowledge base. This allows users to
@@ -6249,6 +6437,8 @@ class GenerationConfiguration {
 
 /// Settings for how the model processes the prompt prior to retrieval and
 /// generation.
+///
+/// @nodoc
 class OrchestrationConfiguration {
   /// Additional model parameters and corresponding values not included in the
   /// textInferenceConfig structure for a knowledge base. This allows users to
@@ -6303,6 +6493,8 @@ class OrchestrationConfiguration {
 
 /// To split up the prompt and retrieve multiple sources, set the transformation
 /// type to <code>QUERY_DECOMPOSITION</code>.
+///
+/// @nodoc
 class QueryTransformationConfiguration {
   /// The type of transformation to apply to the prompt.
   final QueryTransformationType type;
@@ -6319,6 +6511,7 @@ class QueryTransformationConfiguration {
   }
 }
 
+/// @nodoc
 class QueryTransformationType {
   static const queryDecomposition =
       QueryTransformationType._('QUERY_DECOMPOSITION');
@@ -6355,6 +6548,8 @@ class QueryTransformationType {
 /// response</a> – in the <code>output</code> field
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class RetrieveAndGenerateOutput {
   /// The response generated from querying the knowledge base.
   final String text;
@@ -6378,6 +6573,8 @@ class RetrieveAndGenerateOutput {
 }
 
 /// Contains information about a document that was reranked.
+///
+/// @nodoc
 class RerankResult {
   /// The original index of the document from the input sources array.
   final int index;
@@ -6419,6 +6616,8 @@ class RerankResult {
 /// Contains information about a document to rerank. Choose the
 /// <code>type</code> to define and include the field that corresponds to the
 /// type.
+///
+/// @nodoc
 class RerankDocument {
   /// The type of document to rerank.
   final RerankDocumentType type;
@@ -6460,6 +6659,7 @@ class RerankDocument {
   }
 }
 
+/// @nodoc
 class RerankDocumentType {
   static const text = RerankDocumentType._('TEXT');
   static const json = RerankDocumentType._('JSON');
@@ -6486,6 +6686,8 @@ class RerankDocumentType {
 }
 
 /// Contains information about a text document to rerank.
+///
+/// @nodoc
 class RerankTextDocument {
   /// The text of the document.
   final String? text;
@@ -6509,6 +6711,8 @@ class RerankTextDocument {
 }
 
 /// Contains configurations for reranking.
+///
+/// @nodoc
 class RerankingConfiguration {
   /// Contains configurations for an Amazon Bedrock reranker.
   final BedrockRerankingConfiguration bedrockRerankingConfiguration;
@@ -6531,6 +6735,7 @@ class RerankingConfiguration {
   }
 }
 
+/// @nodoc
 class RerankingConfigurationType {
   static const bedrockRerankingModel =
       RerankingConfigurationType._('BEDROCK_RERANKING_MODEL');
@@ -6557,6 +6762,8 @@ class RerankingConfigurationType {
 }
 
 /// Contains configurations for an Amazon Bedrock reranker model.
+///
+/// @nodoc
 class BedrockRerankingConfiguration {
   /// Contains configurations for a reranker model.
   final BedrockRerankingModelConfiguration modelConfiguration;
@@ -6580,6 +6787,8 @@ class BedrockRerankingConfiguration {
 }
 
 /// Contains configurations for a reranker model.
+///
+/// @nodoc
 class BedrockRerankingModelConfiguration {
   /// The ARN of the reranker model.
   final String modelArn;
@@ -6605,6 +6814,8 @@ class BedrockRerankingModelConfiguration {
 }
 
 /// Contains information about a source for reranking.
+///
+/// @nodoc
 class RerankSource {
   /// Contains an inline definition of a source for reranking.
   final RerankDocument inlineDocumentSource;
@@ -6627,6 +6838,7 @@ class RerankSource {
   }
 }
 
+/// @nodoc
 class RerankSourceType {
   static const inline = RerankSourceType._('INLINE');
 
@@ -6651,6 +6863,8 @@ class RerankSourceType {
 }
 
 /// Contains information about a query to submit to the reranker model.
+///
+/// @nodoc
 class RerankQuery {
   /// Contains information about a text query.
   final RerankTextDocument textQuery;
@@ -6673,6 +6887,7 @@ class RerankQuery {
   }
 }
 
+/// @nodoc
 class RerankQueryContentType {
   static const text = RerankQueryContentType._('TEXT');
 
@@ -6698,6 +6913,8 @@ class RerankQueryContentType {
 }
 
 /// The stream containing events in the prompt optimization process.
+///
+/// @nodoc
 class OptimizedPromptStream {
   /// The request is denied because of missing access permissions. Check your
   /// permissions and retry your request.
@@ -6808,6 +7025,8 @@ class OptimizedPromptStream {
 }
 
 /// An event in which the prompt was optimized.
+///
+/// @nodoc
 class OptimizedPromptEvent {
   /// Contains information about the optimized prompt.
   final OptimizedPrompt? optimizedPrompt;
@@ -6834,6 +7053,8 @@ class OptimizedPromptEvent {
 }
 
 /// An event in which the prompt was analyzed in preparation for optimization.
+///
+/// @nodoc
 class AnalyzePromptEvent {
   /// A message describing the analysis of the prompt.
   final String? message;
@@ -6857,6 +7078,8 @@ class AnalyzePromptEvent {
 }
 
 /// Contains information about the optimized prompt.
+///
+/// @nodoc
 class OptimizedPrompt {
   /// Contains information about the text in the prompt that was optimized.
   final TextPrompt? textPrompt;
@@ -6882,6 +7105,8 @@ class OptimizedPrompt {
 }
 
 /// Contains information about the text prompt to optimize.
+///
+/// @nodoc
 class TextPrompt {
   /// The text in the text prompt to optimize.
   final String text;
@@ -6905,6 +7130,8 @@ class TextPrompt {
 }
 
 /// Contains information about the prompt to optimize.
+///
+/// @nodoc
 class InputPrompt {
   /// Contains information about the text prompt to optimize.
   final TextPrompt? textPrompt;
@@ -6922,6 +7149,8 @@ class InputPrompt {
 }
 
 /// Contains sessions summaries.
+///
+/// @nodoc
 class Memory {
   /// Contains summary of a session.
   final MemorySessionSummary? sessionSummary;
@@ -6948,6 +7177,8 @@ class Memory {
 }
 
 /// Contains details of a session summary.
+///
+/// @nodoc
 class MemorySessionSummary {
   /// The unique identifier of the memory where the session summary is stored.
   final String? memoryId;
@@ -7000,6 +7231,7 @@ class MemorySessionSummary {
   }
 }
 
+/// @nodoc
 class MemoryType {
   static const sessionSummary = MemoryType._('SESSION_SUMMARY');
 
@@ -7024,6 +7256,8 @@ class MemoryType {
 
 /// The response from invoking the agent and associated citations and trace
 /// information.
+///
+/// @nodoc
 class InlineAgentResponseStream {
   /// The request is denied because of missing access permissions. Check your
   /// permissions and retry your request.
@@ -7193,6 +7427,8 @@ class InlineAgentResponseStream {
 }
 
 /// Contains a part of an agent response and citations for it.
+///
+/// @nodoc
 class InlineAgentPayloadPart {
   /// Contains citations for a part of an agent response.
   final Attribution? attribution;
@@ -7231,6 +7467,8 @@ class InlineAgentPayloadPart {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement">Trace
 /// enablement</a>.
+///
+/// @nodoc
 class InlineAgentTracePart {
   /// The caller chain for the trace part.
   final List<Caller>? callerChain;
@@ -7297,6 +7535,8 @@ class InlineAgentTracePart {
 /// This data type is used in the <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent
 /// response</a> API operation.
+///
+/// @nodoc
 class InlineAgentReturnControlPayload {
   /// The identifier of the action group invocation.
   final String? invocationId;
@@ -7333,6 +7573,8 @@ class InlineAgentReturnControlPayload {
 
 /// Contains intermediate response for code interpreter if any files have been
 /// generated.
+///
+/// @nodoc
 class InlineAgentFilePart {
   /// Files containing intermediate response for the user.
   final List<OutputFile>? files;
@@ -7359,6 +7601,8 @@ class InlineAgentFilePart {
 }
 
 /// Contains details of the response from code interpreter.
+///
+/// @nodoc
 class OutputFile {
   /// The byte count of files that contains response from code interpreter.
   final Uint8List? bytes;
@@ -7407,6 +7651,8 @@ class OutputFile {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class InvocationInputMember {
   /// Contains information about the API operation that the agent predicts should
   /// be called.
@@ -7457,6 +7703,8 @@ class InvocationInputMember {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ApiInvocationInput {
   /// The action group that the API operation belongs to.
   final String actionGroup;
@@ -7549,6 +7797,8 @@ class ApiInvocationInput {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FunctionInvocationInput {
   /// The action group that the function belongs to.
   final String actionGroup;
@@ -7611,6 +7861,7 @@ class FunctionInvocationInput {
   }
 }
 
+/// @nodoc
 class ActionInvocationType {
   static const result = ActionInvocationType._('RESULT');
   static const userConfirmation = ActionInvocationType._('USER_CONFIRMATION');
@@ -7649,6 +7900,8 @@ class ActionInvocationType {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FunctionParameter {
   /// The name of the parameter.
   final String? name;
@@ -7697,6 +7950,8 @@ class FunctionParameter {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ApiRequestBody {
   /// The content of the request body. The key of the object in this field is a
   /// media type defining the format of the request body.
@@ -7722,6 +7977,8 @@ class ApiRequestBody {
 }
 
 /// Contains the parameters in the request body.
+///
+/// @nodoc
 class PropertyParameters {
   /// A list of parameters in the request body.
   final List<Parameter>? properties;
@@ -7748,6 +8005,8 @@ class PropertyParameters {
 }
 
 /// A parameter for the API request or function.
+///
+/// @nodoc
 class Parameter {
   /// The name of the parameter.
   final String? name;
@@ -7795,6 +8054,8 @@ class Parameter {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ApiParameter {
   /// The name of the parameter.
   final String? name;
@@ -7837,6 +8098,8 @@ class ApiParameter {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement">Trace
 /// enablement</a>.
+///
+/// @nodoc
 class Trace {
   /// Details about the custom orchestration step in which the agent determines
   /// the order in which actions are executed.
@@ -7929,6 +8192,8 @@ class Trace {
 }
 
 /// Details about a caller.
+///
+/// @nodoc
 class Caller {
   /// The caller's agent alias ARN.
   final String? agentAliasArn;
@@ -7952,6 +8217,8 @@ class Caller {
 }
 
 /// The trace details used in the Guardrail.
+///
+/// @nodoc
 class GuardrailTrace {
   /// The trace action details used with the Guardrail.
   final GuardrailAction? action;
@@ -8012,6 +8279,8 @@ class GuardrailTrace {
 
 /// Details about the pre-processing step, in which the agent contextualizes and
 /// categorizes user inputs.
+///
+/// @nodoc
 class PreProcessingTrace {
   /// The input for the pre-processing step.
   ///
@@ -8066,6 +8335,8 @@ class PreProcessingTrace {
 
 /// Details about the orchestration step, in which the agent determines the
 /// order in which actions are executed and which knowledge bases are retrieved.
+///
+/// @nodoc
 class OrchestrationTrace {
   /// Contains information pertaining to the action group or knowledge base that
   /// is being invoked.
@@ -8153,6 +8424,8 @@ class OrchestrationTrace {
 
 /// Details about the post-processing step, in which the agent shapes the
 /// response.
+///
+/// @nodoc
 class PostProcessingTrace {
   /// The input for the post-processing step.
   ///
@@ -8206,6 +8479,8 @@ class PostProcessingTrace {
 }
 
 /// A trace for a routing classifier.
+///
+/// @nodoc
 class RoutingClassifierTrace {
   /// The classifier's invocation input.
   final InvocationInput? invocationInput;
@@ -8263,6 +8538,8 @@ class RoutingClassifierTrace {
 }
 
 /// Contains information about the failure of the interaction.
+///
+/// @nodoc
 class FailureTrace {
   /// The failure code for the trace.
   final int? failureCode;
@@ -8309,6 +8586,8 @@ class FailureTrace {
 }
 
 /// The trace behavior for the custom orchestration.
+///
+/// @nodoc
 class CustomOrchestrationTrace {
   /// The event details used with the custom orchestration.
   final CustomOrchestrationTraceEvent? event;
@@ -8344,6 +8623,8 @@ class CustomOrchestrationTrace {
 /// The event in the custom orchestration sequence. Events are the responses
 /// which the custom orchestration Lambda function sends as response to the
 /// agent.
+///
+/// @nodoc
 class CustomOrchestrationTraceEvent {
   /// The text that prompted the event at this step.
   final String? text;
@@ -8370,6 +8651,8 @@ class CustomOrchestrationTraceEvent {
 /// invocations, such as model invocation, knowledge base invocation, agent
 /// collaborator invocation, guardrail invocation, and code interpreter
 /// Invocation.
+///
+/// @nodoc
 class Metadata {
   /// A unique identifier associated with the downstream invocation. This ID can
   /// be used for tracing, debugging, and identifying specific invocations in
@@ -8439,6 +8722,8 @@ class Metadata {
 }
 
 /// Contains information of the usage of the foundation model.
+///
+/// @nodoc
 class Usage {
   /// Contains information about the input tokens from the foundation model usage.
   final int? inputTokens;
@@ -8471,6 +8756,8 @@ class Usage {
 
 /// Contains information pertaining to the action group or knowledge base that
 /// is being invoked.
+///
+/// @nodoc
 class InvocationInput {
   /// Contains information about the action group to be invoked.
   final ActionGroupInvocationInput? actionGroupInvocationInput;
@@ -8552,6 +8839,8 @@ class InvocationInput {
 
 /// Contains the result or output of an action group or knowledge base, or the
 /// response to the user.
+///
+/// @nodoc
 class Observation {
   /// Contains the JSON-formatted string returned by the API invoked by the action
   /// group.
@@ -8691,6 +8980,8 @@ class Observation {
 /// object that was set when the agent was created or updated.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ModelInvocationInput {
   /// The identifier of a foundation model.
   final String? foundationModel;
@@ -8781,6 +9072,8 @@ class ModelInvocationInput {
 }
 
 /// Invocation output from a routing classifier model.
+///
+/// @nodoc
 class RoutingClassifierModelInvocationOutput {
   /// The invocation's metadata.
   final Metadata? metadata;
@@ -8823,6 +9116,8 @@ class RoutingClassifierModelInvocationOutput {
 }
 
 /// Contains the raw output from the foundation model.
+///
+/// @nodoc
 class RawResponse {
   /// The foundation model's raw output content.
   final String? content;
@@ -8845,6 +9140,7 @@ class RawResponse {
   }
 }
 
+/// @nodoc
 class PromptType {
   static const preProcessing = PromptType._('PRE_PROCESSING');
   static const orchestration = PromptType._('ORCHESTRATION');
@@ -8878,6 +9174,7 @@ class PromptType {
   String toString() => value;
 }
 
+/// @nodoc
 class CreationMode {
   static const $default = CreationMode._('DEFAULT');
   static const overridden = CreationMode._('OVERRIDDEN');
@@ -8908,6 +9205,8 @@ class CreationMode {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
 /// parameters for foundation models</a>.
+///
+/// @nodoc
 class InferenceConfiguration {
   /// The maximum number of tokens allowed in the generated response.
   final int? maximumLength;
@@ -8975,6 +9274,7 @@ class InferenceConfiguration {
   }
 }
 
+/// @nodoc
 class Type {
   static const actionGroup = Type._('ACTION_GROUP');
   static const agentCollaborator = Type._('AGENT_COLLABORATOR');
@@ -9011,6 +9311,8 @@ class Type {
 
 /// Contains the JSON-formatted string returned by the API invoked by the action
 /// group.
+///
+/// @nodoc
 class ActionGroupInvocationOutput {
   /// Contains information about the action group output.
   final Metadata? metadata;
@@ -9043,6 +9345,8 @@ class ActionGroupInvocationOutput {
 }
 
 /// Output from an agent collaborator.
+///
+/// @nodoc
 class AgentCollaboratorInvocationOutput {
   /// The output's agent collaborator alias ARN.
   final String? agentCollaboratorAliasArn;
@@ -9095,6 +9399,8 @@ class AgentCollaboratorInvocationOutput {
 }
 
 /// Contains details about the results from looking up the knowledge base.
+///
+/// @nodoc
 class KnowledgeBaseLookupOutput {
   /// Contains information about the knowledge base output.
   final Metadata? metadata;
@@ -9131,6 +9437,8 @@ class KnowledgeBaseLookupOutput {
 }
 
 /// Contains details about the response to the user.
+///
+/// @nodoc
 class FinalResponse {
   /// Contains information about the invoke agent operation.
   final Metadata? metadata;
@@ -9163,6 +9471,8 @@ class FinalResponse {
 }
 
 /// Contains details about the agent's response to reprompt the input.
+///
+/// @nodoc
 class RepromptResponse {
   /// Specifies what output is prompting the agent to reprompt the input.
   final Source? source;
@@ -9194,6 +9504,8 @@ class RepromptResponse {
 
 /// Contains the JSON-formatted string returned by the API invoked by the code
 /// interpreter.
+///
+/// @nodoc
 class CodeInterpreterInvocationOutput {
   /// Contains the error returned from code execution.
   final String? executionError;
@@ -9247,6 +9559,7 @@ class CodeInterpreterInvocationOutput {
   }
 }
 
+/// @nodoc
 class Source {
   static const actionGroup = Source._('ACTION_GROUP');
   static const knowledgeBase = Source._('KNOWLEDGE_BASE');
@@ -9273,6 +9586,8 @@ class Source {
 
 /// Output from an agent collaborator. The output can be text or an action
 /// invocation result.
+///
+/// @nodoc
 class AgentCollaboratorOutputPayload {
   /// An action invocation result.
   final ReturnControlPayload? returnControlPayload;
@@ -9313,6 +9628,7 @@ class AgentCollaboratorOutputPayload {
   }
 }
 
+/// @nodoc
 class PayloadType {
   static const text = PayloadType._('TEXT');
   static const returnControl = PayloadType._('RETURN_CONTROL');
@@ -9348,6 +9664,8 @@ class PayloadType {
 /// response</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ReturnControlPayload {
   /// The identifier of the action group invocation.
   final String? invocationId;
@@ -9382,6 +9700,7 @@ class ReturnControlPayload {
   }
 }
 
+/// @nodoc
 class InvocationType {
   static const actionGroup = InvocationType._('ACTION_GROUP');
   static const knowledgeBase = InvocationType._('KNOWLEDGE_BASE');
@@ -9422,6 +9741,8 @@ class InvocationType {
 /// in the <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html">Amazon
 /// Bedrock User Guide</a>.
+///
+/// @nodoc
 class ActionGroupInvocationInput {
   /// The name of the action group.
   final String? actionGroupName;
@@ -9504,6 +9825,8 @@ class ActionGroupInvocationInput {
 
 /// Contains details about the knowledge base to look up and the query to be
 /// made.
+///
+/// @nodoc
 class KnowledgeBaseLookupInput {
   /// The unique identifier of the knowledge base to look up.
   final String? knowledgeBaseId;
@@ -9534,6 +9857,8 @@ class KnowledgeBaseLookupInput {
 }
 
 /// Contains information about the code interpreter being invoked.
+///
+/// @nodoc
 class CodeInterpreterInvocationInput {
   /// The code for the code interpreter to use.
   final String? code;
@@ -9565,6 +9890,8 @@ class CodeInterpreterInvocationInput {
 }
 
 /// An agent collaborator invocation input.
+///
+/// @nodoc
 class AgentCollaboratorInvocationInput {
   /// The collaborator's alias ARN.
   final String? agentCollaboratorAliasArn;
@@ -9608,6 +9935,8 @@ class AgentCollaboratorInvocationInput {
 
 /// Input for an agent collaborator. The input can be text or an action
 /// invocation result.
+///
+/// @nodoc
 class AgentCollaboratorInputPayload {
   /// An action invocation result.
   final ReturnControlResults? returnControlResults;
@@ -9649,6 +9978,8 @@ class AgentCollaboratorInputPayload {
 }
 
 /// An action invocation result.
+///
+/// @nodoc
 class ReturnControlResults {
   /// The action's invocation ID.
   final String? invocationId;
@@ -9699,6 +10030,8 @@ class ReturnControlResults {
 /// request</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class InvocationResultMember {
   /// The result from the API response from the action group invocation.
   final ApiResult? apiResult;
@@ -9745,6 +10078,8 @@ class InvocationResultMember {
 /// request</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ApiResult {
   /// The action group that the API operation belongs to.
   final String actionGroup;
@@ -9839,6 +10174,8 @@ class ApiResult {
 /// request</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class FunctionResult {
   /// The action group that the function belongs to.
   final String actionGroup;
@@ -9913,6 +10250,7 @@ class FunctionResult {
   }
 }
 
+/// @nodoc
 class ConfirmationState {
   static const confirm = ConfirmationState._('CONFIRM');
   static const deny = ConfirmationState._('DENY');
@@ -9937,6 +10275,7 @@ class ConfirmationState {
   String toString() => value;
 }
 
+/// @nodoc
 class ResponseState {
   static const failure = ResponseState._('FAILURE');
   static const reprompt = ResponseState._('REPROMPT');
@@ -9972,6 +10311,8 @@ class ResponseState {
 /// request</a>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ContentBody {
   /// The body of the API response.
   final String? body;
@@ -10014,6 +10355,8 @@ class ContentBody {
 /// action. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agent-computer-use.html">Configure
 /// an Amazon Bedrock Agent to complete tasks with computer use tools</a>.
+///
+/// @nodoc
 class ImageInput {
   /// The type of image in the result.
   final ImageInputFormat format;
@@ -10045,6 +10388,7 @@ class ImageInput {
   }
 }
 
+/// @nodoc
 class ImageInputFormat {
   static const png = ImageInputFormat._('png');
   static const jpeg = ImageInputFormat._('jpeg');
@@ -10073,6 +10417,8 @@ class ImageInputFormat {
 
 /// Details about the source of an input image in the result from a function in
 /// the action group invocation.
+///
+/// @nodoc
 class ImageInputSource {
   /// The raw image bytes for the image. If you use an Amazon Web Services SDK,
   /// you don't need to encode the image bytes in base64.
@@ -10097,6 +10443,8 @@ class ImageInputSource {
 }
 
 /// The parameters in the API request body.
+///
+/// @nodoc
 class RequestBody {
   /// The content in the request body.
   final Map<String, List<Parameter>>? content;
@@ -10125,6 +10473,7 @@ class RequestBody {
   }
 }
 
+/// @nodoc
 class ExecutionType {
   static const lambda = ExecutionType._('LAMBDA');
   static const returnControl = ExecutionType._('RETURN_CONTROL');
@@ -10150,6 +10499,8 @@ class ExecutionType {
 }
 
 /// The foundation model output from the post-processing step.
+///
+/// @nodoc
 class PostProcessingModelInvocationOutput {
   /// Contains information about the foundation model output from the
   /// post-processing step.
@@ -10216,6 +10567,8 @@ class PostProcessingModelInvocationOutput {
 
 /// Details about the response from the Lambda parsing of the output from the
 /// post-processing step.
+///
+/// @nodoc
 class PostProcessingParsedResponse {
   /// The text returned by the parser.
   final String? text;
@@ -10242,6 +10595,8 @@ class PostProcessingParsedResponse {
 /// respect to the content in the content block. Reasoning refers to a Chain of
 /// Thought (CoT) that the model generates to enhance the accuracy of its final
 /// response.
+///
+/// @nodoc
 class ReasoningContentBlock {
   /// Contains information about the reasoning that the model used to return the
   /// content in the content block.
@@ -10280,6 +10635,8 @@ class ReasoningContentBlock {
 
 /// Contains information about the reasoning that the model used to return the
 /// content in the content block.
+///
+/// @nodoc
 class ReasoningTextBlock {
   /// Text describing the reasoning that the model used to return the content in
   /// the content block.
@@ -10316,6 +10673,8 @@ class ReasoningTextBlock {
 
 /// Contains the reasoning, based on the input, that the agent uses to justify
 /// carrying out an action group or getting information from a knowledge base.
+///
+/// @nodoc
 class Rationale {
   /// The reasoning or thought process of the agent, based on the input.
   final String? text;
@@ -10346,6 +10705,8 @@ class Rationale {
 }
 
 /// The foundation model output from the orchestration step.
+///
+/// @nodoc
 class OrchestrationModelInvocationOutput {
   /// Contains information about the foundation model output from the
   /// orchestration step.
@@ -10400,6 +10761,8 @@ class OrchestrationModelInvocationOutput {
 }
 
 /// The foundation model output from the pre-processing step.
+///
+/// @nodoc
 class PreProcessingModelInvocationOutput {
   /// Contains information about the foundation model output from the
   /// pre-processing step.
@@ -10466,6 +10829,8 @@ class PreProcessingModelInvocationOutput {
 
 /// Details about the response from the Lambda parsing of the output from the
 /// pre-processing step.
+///
+/// @nodoc
 class PreProcessingParsedResponse {
   /// Whether the user input is valid or not. If <code>false</code>, the agent
   /// doesn't proceed to orchestration.
@@ -10498,6 +10863,7 @@ class PreProcessingParsedResponse {
   }
 }
 
+/// @nodoc
 class GuardrailAction {
   static const intervened = GuardrailAction._('INTERVENED');
   static const none = GuardrailAction._('NONE');
@@ -10523,6 +10889,8 @@ class GuardrailAction {
 }
 
 /// Assessment details of the content analyzed by Guardrails.
+///
+/// @nodoc
 class GuardrailAssessment {
   /// Content policy details of the Guardrail.
   final GuardrailContentPolicyAssessment? contentPolicy;
@@ -10581,6 +10949,8 @@ class GuardrailAssessment {
 }
 
 /// The details of the policy assessment used in the Guardrail.
+///
+/// @nodoc
 class GuardrailTopicPolicyAssessment {
   /// The topic details of the policy assessment used in the Guardrail.
   final List<GuardrailTopic>? topics;
@@ -10607,6 +10977,8 @@ class GuardrailTopicPolicyAssessment {
 }
 
 /// The details of the policy assessment in the Guardrails filter.
+///
+/// @nodoc
 class GuardrailContentPolicyAssessment {
   /// The filter details of the policy assessment used in the Guardrails filter.
   final List<GuardrailContentFilter>? filters;
@@ -10634,6 +11006,8 @@ class GuardrailContentPolicyAssessment {
 }
 
 /// The assessment details for words defined in the Guardrail filter.
+///
+/// @nodoc
 class GuardrailWordPolicyAssessment {
   /// The custom word details for words defined in the Guardrail filter.
   final List<GuardrailCustomWord>? customWords;
@@ -10670,6 +11044,8 @@ class GuardrailWordPolicyAssessment {
 }
 
 /// The details of the sensitive policy assessment used in the Guardrail.
+///
+/// @nodoc
 class GuardrailSensitiveInformationPolicyAssessment {
   /// The details of the PII entities used in the sensitive policy assessment for
   /// the Guardrail.
@@ -10710,6 +11086,8 @@ class GuardrailSensitiveInformationPolicyAssessment {
 }
 
 /// The details for the regex filter used in the Guardrail.
+///
+/// @nodoc
 class GuardrailRegexFilter {
   /// The action details for the regex filter used in the Guardrail.
   final GuardrailSensitiveInformationPolicyAction? action;
@@ -10754,6 +11132,7 @@ class GuardrailRegexFilter {
   }
 }
 
+/// @nodoc
 class GuardrailSensitiveInformationPolicyAction {
   static const blocked = GuardrailSensitiveInformationPolicyAction._('BLOCKED');
   static const anonymized =
@@ -10783,6 +11162,8 @@ class GuardrailSensitiveInformationPolicyAction {
 
 /// The Guardrail filter to identify and remove personally identifiable
 /// information (PII).
+///
+/// @nodoc
 class GuardrailPiiEntityFilter {
   /// The action of the Guardrail filter to identify and remove PII.
   final GuardrailSensitiveInformationPolicyAction? action;
@@ -10820,6 +11201,7 @@ class GuardrailPiiEntityFilter {
   }
 }
 
+/// @nodoc
 class GuardrailPiiEntityType {
   static const address = GuardrailPiiEntityType._('ADDRESS');
   static const age = GuardrailPiiEntityType._('AGE');
@@ -10921,6 +11303,8 @@ class GuardrailPiiEntityType {
 }
 
 /// The managed word details for the filter in the Guardrail.
+///
+/// @nodoc
 class GuardrailManagedWord {
   /// The action details for the managed word filter in the Guardrail.
   final GuardrailWordPolicyAction? action;
@@ -10958,6 +11342,7 @@ class GuardrailManagedWord {
   }
 }
 
+/// @nodoc
 class GuardrailManagedWordType {
   static const profanity = GuardrailManagedWordType._('PROFANITY');
 
@@ -10982,6 +11367,7 @@ class GuardrailManagedWordType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailWordPolicyAction {
   static const blocked = GuardrailWordPolicyAction._('BLOCKED');
 
@@ -11007,6 +11393,8 @@ class GuardrailWordPolicyAction {
 }
 
 /// The custom word details for the filter in the Guardrail.
+///
+/// @nodoc
 class GuardrailCustomWord {
   /// The action details for the custom word filter in the Guardrail.
   final GuardrailWordPolicyAction? action;
@@ -11038,6 +11426,8 @@ class GuardrailCustomWord {
 }
 
 /// Details of the content filter used in the Guardrail.
+///
+/// @nodoc
 class GuardrailContentFilter {
   /// The action placed on the content by the Guardrail filter.
   final GuardrailContentPolicyAction? action;
@@ -11078,6 +11468,7 @@ class GuardrailContentFilter {
   }
 }
 
+/// @nodoc
 class GuardrailContentFilterType {
   static const insults = GuardrailContentFilterType._('INSULTS');
   static const hate = GuardrailContentFilterType._('HATE');
@@ -11114,6 +11505,7 @@ class GuardrailContentFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailContentFilterConfidence {
   static const none = GuardrailContentFilterConfidence._('NONE');
   static const low = GuardrailContentFilterConfidence._('LOW');
@@ -11141,6 +11533,7 @@ class GuardrailContentFilterConfidence {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailContentPolicyAction {
   static const blocked = GuardrailContentPolicyAction._('BLOCKED');
 
@@ -11166,6 +11559,8 @@ class GuardrailContentPolicyAction {
 }
 
 /// The details for a specific topic defined in the Guardrail.
+///
+/// @nodoc
 class GuardrailTopic {
   /// The action details on a specific topic in the Guardrail.
   final GuardrailTopicPolicyAction? action;
@@ -11203,6 +11598,7 @@ class GuardrailTopic {
   }
 }
 
+/// @nodoc
 class GuardrailTopicType {
   static const deny = GuardrailTopicType._('DENY');
 
@@ -11227,6 +11623,7 @@ class GuardrailTopicType {
   String toString() => value;
 }
 
+/// @nodoc
 class GuardrailTopicPolicyAction {
   static const blocked = GuardrailTopicPolicyAction._('BLOCKED');
 
@@ -11252,6 +11649,8 @@ class GuardrailTopicPolicyAction {
 }
 
 /// Contains citations for a part of an agent response.
+///
+/// @nodoc
 class Attribution {
   /// A list of citations and related information for a part of an agent response.
   final List<Citation>? citations;
@@ -11278,6 +11677,8 @@ class Attribution {
 }
 
 /// The configuration details for the guardrail.
+///
+/// @nodoc
 class GuardrailConfigurationWithArn {
   /// The unique identifier for the guardrail.
   final String guardrailIdentifier;
@@ -11304,6 +11705,8 @@ class GuardrailConfigurationWithArn {
 /// sequence. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html">Advanced
 /// prompts</a>.
+///
+/// @nodoc
 class PromptOverrideConfiguration {
   /// Contains configurations to override a prompt template in one part of an
   /// agent sequence. For more information, see <a
@@ -11335,6 +11738,7 @@ class PromptOverrideConfiguration {
   }
 }
 
+/// @nodoc
 class AgentCollaboration {
   static const supervisor = AgentCollaboration._('SUPERVISOR');
   static const supervisorRouter = AgentCollaboration._('SUPERVISOR_ROUTER');
@@ -11362,6 +11766,8 @@ class AgentCollaboration {
 }
 
 /// Configurations for streaming.
+///
+/// @nodoc
 class StreamingConfigurations {
   /// The guardrail interval to apply as response is generated. By default, the
   /// guardrail interval is set to 50 characters. If a larger interval is
@@ -11407,6 +11813,8 @@ class StreamingConfigurations {
 /// session the service uses to populate the agent prompt. This gives you more
 /// granular control over the contextual history that is used to process the
 /// current request.
+///
+/// @nodoc
 class PromptCreationConfigurations {
   /// If <code>true</code>, the service removes any content between
   /// <code>&lt;thinking&gt;</code> tags from previous conversations in an agent
@@ -11452,6 +11860,8 @@ class PromptCreationConfigurations {
 /// customize your agent's behavior. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control
 /// session context</a>
+///
+/// @nodoc
 class InlineSessionState {
   /// Contains the conversation history that persist across sessions.
   final ConversationHistory? conversationHistory;
@@ -11517,6 +11927,8 @@ class InlineSessionState {
 }
 
 /// Settings for a model called with <a>InvokeInlineAgent</a>.
+///
+/// @nodoc
 class InlineBedrockModelConfigurations {
   /// The latency configuration for the model.
   final PerformanceConfiguration? performanceConfig;
@@ -11533,6 +11945,7 @@ class InlineBedrockModelConfigurations {
   }
 }
 
+/// @nodoc
 class OrchestrationType {
   static const $default = OrchestrationType._('DEFAULT');
   static const customOrchestration =
@@ -11559,6 +11972,8 @@ class OrchestrationType {
 }
 
 /// Contains details of the custom orchestration configured for the agent.
+///
+/// @nodoc
 class CustomOrchestration {
   /// The structure of the executor invoking the actions in custom orchestration.
   final OrchestrationExecutor? executor;
@@ -11576,6 +11991,8 @@ class CustomOrchestration {
 }
 
 /// The structure of the executor invoking the actions in custom orchestration.
+///
+/// @nodoc
 class OrchestrationExecutor {
   /// The Amazon Resource Name (ARN) of the Lambda function containing the
   /// business logic that is carried out upon invoking the action.
@@ -11594,6 +12011,8 @@ class OrchestrationExecutor {
 }
 
 /// List of inline collaborators.
+///
+/// @nodoc
 class Collaborator {
   /// The foundation model used by the inline collaborator agent.
   final String foundationModel;
@@ -11690,6 +12109,8 @@ class Collaborator {
 }
 
 /// A conversation history.
+///
+/// @nodoc
 class ConversationHistory {
   /// The conversation's messages.
   final List<Message>? messages;
@@ -11707,6 +12128,8 @@ class ConversationHistory {
 }
 
 /// Details about a message.
+///
+/// @nodoc
 class Message {
   /// The message's content.
   final List<ContentBlock> content;
@@ -11729,6 +12152,7 @@ class Message {
   }
 }
 
+/// @nodoc
 class ConversationRole {
   static const user = ConversationRole._('user');
   static const assistant = ConversationRole._('assistant');
@@ -11754,6 +12178,8 @@ class ConversationRole {
 }
 
 /// A content block.
+///
+/// @nodoc
 class ContentBlock {
   /// The block's text.
   final String? text;
@@ -11771,6 +12197,8 @@ class ContentBlock {
 }
 
 /// Contains details of the source files.
+///
+/// @nodoc
 class InputFile {
   /// The name of the source file.
   final String name;
@@ -11800,6 +12228,8 @@ class InputFile {
 }
 
 /// The source file of the content contained in the wrapper object.
+///
+/// @nodoc
 class FileSource {
   /// The source type of the files to attach.
   final FileSourceType sourceType;
@@ -11828,6 +12258,7 @@ class FileSource {
   }
 }
 
+/// @nodoc
 class FileUseCase {
   static const codeInterpreter = FileUseCase._('CODE_INTERPRETER');
   static const chat = FileUseCase._('CHAT');
@@ -11851,6 +12282,7 @@ class FileUseCase {
   String toString() => value;
 }
 
+/// @nodoc
 class FileSourceType {
   static const s3 = FileSourceType._('S3');
   static const byteContent = FileSourceType._('BYTE_CONTENT');
@@ -11876,6 +12308,8 @@ class FileSourceType {
 }
 
 /// Contains details of the s3 object where the source file is located.
+///
+/// @nodoc
 class S3ObjectFile {
   /// The uri of the s3 object.
   final String uri;
@@ -11893,6 +12327,8 @@ class S3ObjectFile {
 }
 
 /// The property contains the file to chat with, along with its attributes.
+///
+/// @nodoc
 class ByteContentFile {
   /// The raw bytes of the file to attach. The maximum size of all files that is
   /// attached is 10MB. You can attach a maximum of 5 files.
@@ -11917,6 +12353,8 @@ class ByteContentFile {
 }
 
 /// Settings of an inline collaborator agent.
+///
+/// @nodoc
 class CollaboratorConfiguration {
   /// Instructions that tell the inline collaborator agent what it should do and
   /// how it should interact with users.
@@ -11954,6 +12392,7 @@ class CollaboratorConfiguration {
   }
 }
 
+/// @nodoc
 class RelayConversationHistory {
   static const toCollaborator = RelayConversationHistory._('TO_COLLABORATOR');
   static const disabled = RelayConversationHistory._('DISABLED');
@@ -11983,6 +12422,8 @@ class RelayConversationHistory {
 /// agent sequence. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html">Advanced
 /// prompts</a>.
+///
+/// @nodoc
 class PromptConfiguration {
   /// If the Converse or ConverseStream operations support the model,
   /// <code>additionalModelRequestFields</code> contains additional inference
@@ -12086,6 +12527,7 @@ class PromptConfiguration {
   }
 }
 
+/// @nodoc
 class PromptState {
   static const enabled = PromptState._('ENABLED');
   static const disabled = PromptState._('DISABLED');
@@ -12110,6 +12552,8 @@ class PromptState {
 }
 
 /// Details of the knowledge base associated withe inline agent.
+///
+/// @nodoc
 class KnowledgeBase {
   /// The description of the knowledge base associated with the inline agent.
   final String description;
@@ -12143,6 +12587,8 @@ class KnowledgeBase {
 }
 
 /// Contains details of the inline agent's action group.
+///
+/// @nodoc
 class AgentActionGroup {
   /// The name of the action group.
   final String actionGroupName;
@@ -12254,6 +12700,7 @@ class AgentActionGroup {
   }
 }
 
+/// @nodoc
 class ActionGroupSignature {
   static const amazonUserInput = ActionGroupSignature._('AMAZON.UserInput');
   static const amazonCodeInterpreter =
@@ -12293,6 +12740,8 @@ class ActionGroupSignature {
 /// Contains details about the Lambda function containing the business logic
 /// that is carried out upon invoking the action or the custom control method
 /// for handling the information elicited from the user.
+///
+/// @nodoc
 class ActionGroupExecutor {
   /// To return the action group invocation results directly in the
   /// <code>InvokeInlineAgent</code> response, specify
@@ -12324,6 +12773,8 @@ class ActionGroupExecutor {
 /// group OpenAPI schemas</a>. You can either include the schema directly in the
 /// payload field or you can upload it to an S3 bucket and specify the S3 bucket
 /// location in the s3 field.
+///
+/// @nodoc
 class APISchema {
   /// The JSON or YAML-formatted payload defining the OpenAPI schema for the
   /// action group.
@@ -12350,6 +12801,8 @@ class APISchema {
 
 /// Contains details about the function schema for the action group or the JSON
 /// or YAML-formatted payload defining the schema.
+///
+/// @nodoc
 class FunctionSchema {
   /// A list of functions that each define an action in the action group.
   final List<FunctionDefinition>? functions;
@@ -12368,6 +12821,8 @@ class FunctionSchema {
 
 /// Defines parameters that the agent needs to invoke from the user to complete
 /// the function. Corresponds to an action in an action group.
+///
+/// @nodoc
 class FunctionDefinition {
   /// A name for the function.
   final String name;
@@ -12404,6 +12859,7 @@ class FunctionDefinition {
   }
 }
 
+/// @nodoc
 class RequireConfirmation {
   static const enabled = RequireConfirmation._('ENABLED');
   static const disabled = RequireConfirmation._('DISABLED');
@@ -12430,6 +12886,8 @@ class RequireConfirmation {
 }
 
 /// Contains details about a parameter in a function for an action group.
+///
+/// @nodoc
 class ParameterDetail {
   /// The data type of the parameter.
   final ParameterType type;
@@ -12460,6 +12918,7 @@ class ParameterDetail {
   }
 }
 
+/// @nodoc
 class ParameterType {
   static const string = ParameterType._('string');
   static const number = ParameterType._('number');
@@ -12488,6 +12947,8 @@ class ParameterType {
 }
 
 /// The identifier information for an Amazon S3 bucket.
+///
+/// @nodoc
 class S3Identifier {
   /// The name of the S3 bucket.
   final String? s3BucketName;
@@ -12510,6 +12971,7 @@ class S3Identifier {
   }
 }
 
+/// @nodoc
 class CustomControlMethod {
   static const returnControl = CustomControlMethod._('RETURN_CONTROL');
 
@@ -12536,6 +12998,8 @@ class CustomControlMethod {
 
 /// The response from invoking the agent and associated citations and trace
 /// information.
+///
+/// @nodoc
 class ResponseStream {
   /// The request is denied because of missing access permissions. Check your
   /// permissions and retry your request.
@@ -12719,6 +13183,8 @@ class ResponseStream {
 }
 
 /// Contains a part of an agent response and citations for it.
+///
+/// @nodoc
 class PayloadPart {
   /// Contains citations for a part of an agent response.
   final Attribution? attribution;
@@ -12757,6 +13223,8 @@ class PayloadPart {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement">Trace
 /// enablement</a>.
+///
+/// @nodoc
 class TracePart {
   /// The unique identifier of the alias of the agent.
   final String? agentAliasId;
@@ -12840,6 +13308,8 @@ class TracePart {
 
 /// Contains intermediate response for code interpreter if any files have been
 /// generated.
+///
+/// @nodoc
 class FilePart {
   /// Files containing intermediate response for the user.
   final List<OutputFile>? files;
@@ -12876,6 +13346,8 @@ class FilePart {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control
 /// session context</a>.
+///
+/// @nodoc
 class SessionState {
   /// The state's conversation history.
   final ConversationHistory? conversationHistory;
@@ -12972,6 +13444,8 @@ class SessionState {
 }
 
 /// Settings for a model called with <a>InvokeAgent</a>.
+///
+/// @nodoc
 class BedrockModelConfigurations {
   /// The performance configuration for the model.
   final PerformanceConfiguration? performanceConfig;
@@ -12992,6 +13466,8 @@ class BedrockModelConfigurations {
 /// query. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html#session-state-kb">Knowledge
 /// base retrieval configurations</a>.
+///
+/// @nodoc
 class KnowledgeBaseConfiguration {
   /// The unique identifier for a knowledge base attached to the agent.
   final String knowledgeBaseId;
@@ -13018,6 +13494,8 @@ class KnowledgeBaseConfiguration {
 }
 
 /// Contains information about a query generated for a natural language query.
+///
+/// @nodoc
 class GeneratedQuery {
   /// An SQL query that corresponds to the natural language query.
   final String? sql;
@@ -13047,6 +13525,7 @@ class GeneratedQuery {
   }
 }
 
+/// @nodoc
 class GeneratedQueryType {
   static const redshiftSql = GeneratedQueryType._('REDSHIFT_SQL');
 
@@ -13072,6 +13551,8 @@ class GeneratedQueryType {
 }
 
 /// Contains information about a natural language query to transform into SQL.
+///
+/// @nodoc
 class QueryGenerationInput {
   /// The text of the query.
   final String text;
@@ -13096,6 +13577,8 @@ class QueryGenerationInput {
 
 /// Contains configurations for transforming the natural language query into
 /// SQL.
+///
+/// @nodoc
 class TransformationConfiguration {
   /// The mode of the transformation.
   final QueryTransformationMode mode;
@@ -13119,6 +13602,7 @@ class TransformationConfiguration {
   }
 }
 
+/// @nodoc
 class QueryTransformationMode {
   static const textToSql = QueryTransformationMode._('TEXT_TO_SQL');
 
@@ -13144,6 +13628,8 @@ class QueryTransformationMode {
 }
 
 /// Contains configurations for transforming text to SQL.
+///
+/// @nodoc
 class TextToSqlConfiguration {
   /// The type of resource to use in transformation.
   final TextToSqlConfigurationType type;
@@ -13167,6 +13653,7 @@ class TextToSqlConfiguration {
   }
 }
 
+/// @nodoc
 class TextToSqlConfigurationType {
   static const knowledgeBase = TextToSqlConfigurationType._('KNOWLEDGE_BASE');
 
@@ -13192,6 +13679,8 @@ class TextToSqlConfigurationType {
 }
 
 /// Contains configurations for a knowledge base to use in transformation.
+///
+/// @nodoc
 class TextToSqlKnowledgeBaseConfiguration {
   /// The ARN of the knowledge base
   final String knowledgeBaseArn;
@@ -13208,6 +13697,7 @@ class TextToSqlKnowledgeBaseConfiguration {
   }
 }
 
+/// @nodoc
 class InputQueryType {
   static const text = InputQueryType._('TEXT');
 
@@ -13232,6 +13722,8 @@ class InputQueryType {
 }
 
 /// The output of the flow.
+///
+/// @nodoc
 class FlowResponseStream {
   /// The request is denied because of missing access permissions. Check your
   /// permissions and retry your request.
@@ -13399,6 +13891,8 @@ class FlowResponseStream {
 }
 
 /// Contains information about an output from prompt flow invoction.
+///
+/// @nodoc
 class FlowOutputEvent {
   /// The content in the output.
   final FlowOutputContent content;
@@ -13438,6 +13932,8 @@ class FlowOutputEvent {
 }
 
 /// Contains information about why a flow completed.
+///
+/// @nodoc
 class FlowCompletionEvent {
   /// The reason that the flow completed.
   final FlowCompletionReason completionReason;
@@ -13465,6 +13961,8 @@ class FlowCompletionEvent {
 /// node in the flow. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceEvent {
   /// The trace object containing information about an input or output for a node
   /// in the flow.
@@ -13491,6 +13989,8 @@ class FlowTraceEvent {
 
 /// Response object from the flow multi-turn node requesting additional
 /// information.
+///
+/// @nodoc
 class FlowMultiTurnInputRequestEvent {
   /// The content payload containing the input request details for the multi-turn
   /// interaction.
@@ -13530,6 +14030,7 @@ class FlowMultiTurnInputRequestEvent {
   }
 }
 
+/// @nodoc
 class NodeType {
   static const flowInputNode = NodeType._('FlowInputNode');
   static const flowOutputNode = NodeType._('FlowOutputNode');
@@ -13568,6 +14069,8 @@ class NodeType {
 
 /// The content structure containing input information for multi-turn flow
 /// interactions.
+///
+/// @nodoc
 class FlowMultiTurnInputContent {
   /// The requested additional input to send back to the multi-turn flow node.
   final Document? document;
@@ -13596,6 +14099,8 @@ class FlowMultiTurnInputContent {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTrace {
   /// Contains information about an output from a condition node.
   final FlowTraceConditionNodeResultEvent? conditionNodeResultTrace;
@@ -13667,6 +14172,8 @@ class FlowTrace {
 /// <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceNodeInputEvent {
   /// An array of objects containing information about each field in the input.
   final List<FlowTraceNodeInputField> fields;
@@ -13711,6 +14218,8 @@ class FlowTraceNodeInputEvent {
 /// <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceNodeOutputEvent {
   /// An array of objects containing information about each field in the output.
   final List<FlowTraceNodeOutputField> fields;
@@ -13755,6 +14264,8 @@ class FlowTraceNodeOutputEvent {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceConditionNodeResultEvent {
   /// The name of the condition node.
   final String nodeName;
@@ -13799,6 +14310,8 @@ class FlowTraceConditionNodeResultEvent {
 /// Contains information about an action (operation) called by a node in an
 /// Amazon Bedrock flow. The service generates action events for calls made by
 /// prompt nodes, agent nodes, and Amazon Web Services Lambda nodes.
+///
+/// @nodoc
 class FlowTraceNodeActionEvent {
   /// The name of the node that called the operation.
   final String nodeName;
@@ -13868,6 +14381,8 @@ class FlowTraceNodeActionEvent {
 }
 
 /// Contains information about a dependency trace event in the flow.
+///
+/// @nodoc
 class FlowTraceDependencyEvent {
   /// The name of the node that generated the dependency trace.
   final String nodeName;
@@ -13907,6 +14422,8 @@ class FlowTraceDependencyEvent {
 }
 
 /// Contains trace elements for flow execution tracking.
+///
+/// @nodoc
 class TraceElements {
   /// Agent trace information for the flow execution.
   final List<TracePart>? agentTraces;
@@ -13936,6 +14453,8 @@ class TraceElements {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceCondition {
   /// The name of the condition.
   final String conditionName;
@@ -13962,6 +14481,8 @@ class FlowTraceCondition {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceNodeOutputField {
   /// The content of the node output.
   final FlowTraceNodeOutputContent content;
@@ -14014,6 +14535,8 @@ class FlowTraceNodeOutputField {
 /// Contains the content of the node output. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceNodeOutputContent {
   /// The content of the node output.
   final Document? document;
@@ -14038,6 +14561,7 @@ class FlowTraceNodeOutputContent {
   }
 }
 
+/// @nodoc
 class FlowNodeIODataType {
   static const string = FlowNodeIODataType._('String');
   static const number = FlowNodeIODataType._('Number');
@@ -14067,6 +14591,8 @@ class FlowNodeIODataType {
 }
 
 /// Represents the next node that receives output data from a flow trace.
+///
+/// @nodoc
 class FlowTraceNodeOutputNext {
   /// The name of the input field in the next node that receives the data.
   final String inputFieldName;
@@ -14100,6 +14626,8 @@ class FlowTraceNodeOutputNext {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceNodeInputField {
   /// The content of the node input.
   final FlowTraceNodeInputContent content;
@@ -14170,6 +14698,8 @@ class FlowTraceNodeInputField {
 /// Contains the content of the node input. For more information, see <a
 /// href="https://docs.aws.amazon.com/bedrock/latest/userguide/flows-trace.html">Track
 /// each step in your prompt flow by viewing its trace in Amazon Bedrock</a>.
+///
+/// @nodoc
 class FlowTraceNodeInputContent {
   /// The content of the node input.
   final Document? document;
@@ -14195,6 +14725,8 @@ class FlowTraceNodeInputContent {
 }
 
 /// Represents the source of input data for a flow trace node field.
+///
+/// @nodoc
 class FlowTraceNodeInputSource {
   /// The expression used to extract data from the source.
   final String expression;
@@ -14231,6 +14763,7 @@ class FlowTraceNodeInputSource {
   }
 }
 
+/// @nodoc
 class FlowNodeInputCategory {
   static const loopCondition = FlowNodeInputCategory._('LoopCondition');
   static const returnValueToLoopStart =
@@ -14260,6 +14793,8 @@ class FlowNodeInputCategory {
 
 /// Represents an item in the execution chain for flow trace node input
 /// tracking.
+///
+/// @nodoc
 class FlowTraceNodeInputExecutionChainItem {
   /// The name of the node in the execution chain.
   final String nodeName;
@@ -14297,6 +14832,7 @@ class FlowTraceNodeInputExecutionChainItem {
   }
 }
 
+/// @nodoc
 class FlowControlNodeType {
   static const iterator = FlowControlNodeType._('Iterator');
   static const loop = FlowControlNodeType._('Loop');
@@ -14322,6 +14858,7 @@ class FlowControlNodeType {
   String toString() => value;
 }
 
+/// @nodoc
 class FlowCompletionReason {
   static const success = FlowCompletionReason._('SUCCESS');
   static const inputRequired = FlowCompletionReason._('INPUT_REQUIRED');
@@ -14349,6 +14886,8 @@ class FlowCompletionReason {
 
 /// Contains information about the content in an output from prompt flow
 /// invocation.
+///
+/// @nodoc
 class FlowOutputContent {
   /// The content in the output.
   final Document? document;
@@ -14374,6 +14913,8 @@ class FlowOutputContent {
 }
 
 /// The performance configuration for a model called with <a>InvokeFlow</a>.
+///
+/// @nodoc
 class ModelPerformanceConfiguration {
   /// The latency configuration for the model.
   final PerformanceConfiguration? performanceConfig;
@@ -14392,6 +14933,8 @@ class ModelPerformanceConfiguration {
 
 /// Contains information about an input into the prompt flow and where to send
 /// it.
+///
+/// @nodoc
 class FlowInput {
   /// Contains information about an input into the prompt flow.
   final FlowInputContent content;
@@ -14427,6 +14970,8 @@ class FlowInput {
 }
 
 /// Contains information about an input into the flow.
+///
+/// @nodoc
 class FlowInputContent {
   /// The input to send to the prompt flow input node.
   final Document? document;
@@ -14443,6 +14988,7 @@ class FlowInputContent {
   }
 }
 
+/// @nodoc
 class FlowExecutionStatus {
   static const running = FlowExecutionStatus._('Running');
   static const succeeded = FlowExecutionStatus._('Succeeded');
@@ -14477,6 +15023,8 @@ class FlowExecutionStatus {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowExecutionSummary {
   /// The timestamp when the flow execution was created.
   final DateTime createdAt;
@@ -14552,6 +15100,8 @@ class FlowExecutionSummary {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowExecutionEvent {
   /// Contains information about a condition evaluation result during the flow
   /// execution. This event is generated when a condition node in the flow
@@ -14675,6 +15225,8 @@ class FlowExecutionEvent {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowExecutionInputEvent {
   /// A list of input fields provided to the flow.
   final List<FlowInputField> fields;
@@ -14720,6 +15272,8 @@ class FlowExecutionInputEvent {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowExecutionOutputEvent {
   /// A list of output fields produced by the flow.
   final List<FlowOutputField> fields;
@@ -14765,6 +15319,8 @@ class FlowExecutionOutputEvent {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class NodeInputEvent {
   /// A list of input fields provided to the node.
   final List<NodeInputField> fields;
@@ -14810,6 +15366,8 @@ class NodeInputEvent {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class NodeOutputEvent {
   /// A list of output fields produced by the node.
   final List<NodeOutputField> fields;
@@ -14856,6 +15414,8 @@ class NodeOutputEvent {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class ConditionResultEvent {
   /// The name of the condition node that evaluated the conditions.
   final String nodeName;
@@ -14901,6 +15461,8 @@ class ConditionResultEvent {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class NodeFailureEvent {
   /// The error code that identifies the type of failure that occurred at the
   /// node.
@@ -14951,6 +15513,8 @@ class NodeFailureEvent {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowFailureEvent {
   /// The error code that identifies the type of failure that occurred.
   final FlowErrorCode errorCode;
@@ -14989,6 +15553,8 @@ class FlowFailureEvent {
 
 /// Contains information about an action (operation) called by a node during
 /// execution.
+///
+/// @nodoc
 class NodeActionEvent {
   /// The name of the node that called the operation.
   final String nodeName;
@@ -15059,6 +15625,8 @@ class NodeActionEvent {
 
 /// Contains information about an internal trace of a specific node during
 /// execution.
+///
+/// @nodoc
 class NodeDependencyEvent {
   /// The name of the node that generated the dependency trace.
   final String nodeName;
@@ -15098,6 +15666,8 @@ class NodeDependencyEvent {
 }
 
 /// Contains trace elements for node execution tracking.
+///
+/// @nodoc
 class NodeTraceElements {
   /// Agent trace information for the node execution.
   final List<TracePart>? agentTraces;
@@ -15123,6 +15693,7 @@ class NodeTraceElements {
   }
 }
 
+/// @nodoc
 class FlowErrorCode {
   static const validation = FlowErrorCode._('VALIDATION');
   static const internalServer = FlowErrorCode._('INTERNAL_SERVER');
@@ -15148,6 +15719,7 @@ class FlowErrorCode {
   String toString() => value;
 }
 
+/// @nodoc
 class NodeErrorCode {
   static const validation = NodeErrorCode._('VALIDATION');
   static const dependencyFailed = NodeErrorCode._('DEPENDENCY_FAILED');
@@ -15185,6 +15757,8 @@ class NodeErrorCode {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class SatisfiedCondition {
   /// The name of the condition that was satisfied.
   final String conditionName;
@@ -15212,6 +15786,8 @@ class SatisfiedCondition {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class NodeOutputField {
   /// The content of the output field, which can contain text or structured data.
   final NodeExecutionContent content;
@@ -15266,6 +15842,8 @@ class NodeOutputField {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class NodeExecutionContent {
   /// The document content of the field, which can contain text or structured
   /// data.
@@ -15292,6 +15870,8 @@ class NodeExecutionContent {
 }
 
 /// Represents the next node that receives output data.
+///
+/// @nodoc
 class NodeOutputNext {
   /// The name of the input field in the next node that receives the data.
   final String inputFieldName;
@@ -15322,6 +15902,8 @@ class NodeOutputNext {
 }
 
 /// Represents an input field provided to a node during a flow execution.
+///
+/// @nodoc
 class NodeInputField {
   /// The content of the input field, which can contain text or structured data.
   final NodeExecutionContent content;
@@ -15389,6 +15971,8 @@ class NodeInputField {
 }
 
 /// Represents the source of input data for a node field.
+///
+/// @nodoc
 class NodeInputSource {
   /// The expression used to extract data from the source.
   final String expression;
@@ -15426,6 +16010,8 @@ class NodeInputSource {
 }
 
 /// Represents an item in the execution chain for node input tracking.
+///
+/// @nodoc
 class NodeInputExecutionChainItem {
   /// The name of the node in the execution chain.
   final String nodeName;
@@ -15467,6 +16053,8 @@ class NodeInputExecutionChainItem {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowOutputField {
   /// The content of the output field, which can contain text or structured data.
   final FlowExecutionContent content;
@@ -15503,6 +16091,8 @@ class FlowOutputField {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowExecutionContent {
   /// The document content of the field, which can contain text or structured
   /// data.
@@ -15533,6 +16123,8 @@ class FlowExecutionContent {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowInputField {
   /// The content of the input field, which can contain text or structured data.
   final FlowExecutionContent content;
@@ -15564,6 +16156,7 @@ class FlowInputField {
   }
 }
 
+/// @nodoc
 class FlowExecutionEventType {
   static const node = FlowExecutionEventType._('Node');
   static const flow = FlowExecutionEventType._('Flow');
@@ -15594,6 +16187,8 @@ class FlowExecutionEventType {
 /// Flow executions is in preview release for Amazon Bedrock and is subject to
 /// change.
 /// </note>
+///
+/// @nodoc
 class FlowExecutionError {
   /// The error code for the type of error that occurred.
   final FlowExecutionErrorType? error;
@@ -15630,6 +16225,7 @@ class FlowExecutionError {
   }
 }
 
+/// @nodoc
 class FlowExecutionErrorType {
   static const executionTimedOut =
       FlowExecutionErrorType._('ExecutionTimedOut');
@@ -15655,6 +16251,7 @@ class FlowExecutionErrorType {
   String toString() => value;
 }
 
+/// @nodoc
 class Document {
   Document();
 

@@ -2591,6 +2591,7 @@ class MemoryDB {
   }
 }
 
+/// @nodoc
 class BatchUpdateClusterResponse {
   /// The list of clusters that have been updated.
   final List<Cluster>? processedClusters;
@@ -2627,6 +2628,7 @@ class BatchUpdateClusterResponse {
   }
 }
 
+/// @nodoc
 class CopySnapshotResponse {
   /// Represents a copy of an entire cluster as of the time when the snapshot was
   /// taken.
@@ -2652,6 +2654,7 @@ class CopySnapshotResponse {
   }
 }
 
+/// @nodoc
 class CreateACLResponse {
   /// The newly-created Access Control List.
   final ACL? acl;
@@ -2676,6 +2679,7 @@ class CreateACLResponse {
   }
 }
 
+/// @nodoc
 class CreateClusterResponse {
   /// The newly-created cluster.
   final Cluster? cluster;
@@ -2700,6 +2704,7 @@ class CreateClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateMultiRegionClusterResponse {
   /// Details about the newly created multi-Region cluster.
   final MultiRegionCluster? multiRegionCluster;
@@ -2725,6 +2730,7 @@ class CreateMultiRegionClusterResponse {
   }
 }
 
+/// @nodoc
 class CreateParameterGroupResponse {
   /// The newly-created parameter group.
   final ParameterGroup? parameterGroup;
@@ -2750,6 +2756,7 @@ class CreateParameterGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateSnapshotResponse {
   /// The newly-created snapshot.
   final Snapshot? snapshot;
@@ -2774,6 +2781,7 @@ class CreateSnapshotResponse {
   }
 }
 
+/// @nodoc
 class CreateSubnetGroupResponse {
   /// The newly-created subnet group.
   final SubnetGroup? subnetGroup;
@@ -2798,6 +2806,7 @@ class CreateSubnetGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   /// The newly-created user.
   final User? user;
@@ -2822,6 +2831,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteACLResponse {
   /// The Access Control List object that has been deleted.
   final ACL? acl;
@@ -2846,6 +2856,7 @@ class DeleteACLResponse {
   }
 }
 
+/// @nodoc
 class DeleteClusterResponse {
   /// The cluster object that has been deleted.
   final Cluster? cluster;
@@ -2870,6 +2881,7 @@ class DeleteClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteMultiRegionClusterResponse {
   /// Details about the deleted multi-Region cluster.
   final MultiRegionCluster? multiRegionCluster;
@@ -2895,6 +2907,7 @@ class DeleteMultiRegionClusterResponse {
   }
 }
 
+/// @nodoc
 class DeleteParameterGroupResponse {
   /// The parameter group that has been deleted.
   final ParameterGroup? parameterGroup;
@@ -2920,6 +2933,7 @@ class DeleteParameterGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteSnapshotResponse {
   /// The snapshot object that has been deleted.
   final Snapshot? snapshot;
@@ -2944,6 +2958,7 @@ class DeleteSnapshotResponse {
   }
 }
 
+/// @nodoc
 class DeleteSubnetGroupResponse {
   /// The subnet group object that has been deleted.
   final SubnetGroup? subnetGroup;
@@ -2968,6 +2983,7 @@ class DeleteSubnetGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserResponse {
   /// The user object that has been deleted.
   final User? user;
@@ -2992,6 +3008,7 @@ class DeleteUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeACLsResponse {
   /// The list of ACLs.
   final List<ACL>? aCLs;
@@ -3027,6 +3044,7 @@ class DescribeACLsResponse {
   }
 }
 
+/// @nodoc
 class DescribeClustersResponse {
   /// A list of clusters
   final List<Cluster>? clusters;
@@ -3063,6 +3081,7 @@ class DescribeClustersResponse {
   }
 }
 
+/// @nodoc
 class DescribeEngineVersionsResponse {
   /// A list of engine version details. Each element in the list contains detailed
   /// information about one engine version.
@@ -3100,6 +3119,7 @@ class DescribeEngineVersionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventsResponse {
   /// A list of events. Each element in the list contains detailed information
   /// about one event.
@@ -3137,6 +3157,7 @@ class DescribeEventsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMultiRegionClustersResponse {
   /// A list of multi-Region clusters.
   final List<MultiRegionCluster>? multiRegionClusters;
@@ -3171,6 +3192,7 @@ class DescribeMultiRegionClustersResponse {
   }
 }
 
+/// @nodoc
 class DescribeMultiRegionParameterGroupsResponse {
   /// A list of multi-region parameter groups. Each element in the list contains
   /// detailed information about one parameter group.
@@ -3209,6 +3231,7 @@ class DescribeMultiRegionParameterGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeMultiRegionParametersResponse {
   /// A list of parameters specific to a particular multi-region parameter group.
   /// Each element in the list contains detailed information about one parameter.
@@ -3246,6 +3269,7 @@ class DescribeMultiRegionParametersResponse {
   }
 }
 
+/// @nodoc
 class DescribeParameterGroupsResponse {
   /// An optional argument to pass in case the total number of records exceeds the
   /// value of MaxResults. If nextToken is returned, there are more results
@@ -3283,6 +3307,7 @@ class DescribeParameterGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeParametersResponse {
   /// An optional argument to pass in case the total number of records exceeds the
   /// value of MaxResults. If nextToken is returned, there are more results
@@ -3320,6 +3345,7 @@ class DescribeParametersResponse {
   }
 }
 
+/// @nodoc
 class DescribeReservedNodesResponse {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
@@ -3356,6 +3382,7 @@ class DescribeReservedNodesResponse {
   }
 }
 
+/// @nodoc
 class DescribeReservedNodesOfferingsResponse {
   /// An optional marker returned from a prior request. Use this marker for
   /// pagination of results from this operation. If this parameter is specified,
@@ -3393,6 +3420,7 @@ class DescribeReservedNodesOfferingsResponse {
   }
 }
 
+/// @nodoc
 class DescribeServiceUpdatesResponse {
   /// An optional argument to pass in case the total number of records exceeds the
   /// value of MaxResults. If nextToken is returned, there are more results
@@ -3429,6 +3457,7 @@ class DescribeServiceUpdatesResponse {
   }
 }
 
+/// @nodoc
 class DescribeSnapshotsResponse {
   /// An optional argument to pass in case the total number of records exceeds the
   /// value of MaxResults. If nextToken is returned, there are more results
@@ -3466,6 +3495,7 @@ class DescribeSnapshotsResponse {
   }
 }
 
+/// @nodoc
 class DescribeSubnetGroupsResponse {
   /// An optional argument to pass in case the total number of records exceeds the
   /// value of MaxResults. If nextToken is returned, there are more results
@@ -3503,6 +3533,7 @@ class DescribeSubnetGroupsResponse {
   }
 }
 
+/// @nodoc
 class DescribeUsersResponse {
   /// An optional argument to pass in case the total number of records exceeds the
   /// value of MaxResults. If nextToken is returned, there are more results
@@ -3539,6 +3570,7 @@ class DescribeUsersResponse {
   }
 }
 
+/// @nodoc
 class FailoverShardResponse {
   /// The cluster being failed over.
   final Cluster? cluster;
@@ -3563,6 +3595,7 @@ class FailoverShardResponse {
   }
 }
 
+/// @nodoc
 class ListAllowedMultiRegionClusterUpdatesResponse {
   /// The node types that the cluster can be scaled down to.
   final List<String>? scaleDownNodeTypes;
@@ -3599,6 +3632,7 @@ class ListAllowedMultiRegionClusterUpdatesResponse {
   }
 }
 
+/// @nodoc
 class ListAllowedNodeTypeUpdatesResponse {
   /// A list node types which you can use to scale down your cluster.
   final List<String>? scaleDownNodeTypes;
@@ -3635,6 +3669,7 @@ class ListAllowedNodeTypeUpdatesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsResponse {
   /// A list of tags as key-value pairs.
   final List<Tag>? tagList;
@@ -3660,6 +3695,7 @@ class ListTagsResponse {
   }
 }
 
+/// @nodoc
 class PurchaseReservedNodesOfferingResponse {
   /// Represents the output of a <code>PurchaseReservedNodesOffering</code>
   /// operation.
@@ -3686,6 +3722,7 @@ class PurchaseReservedNodesOfferingResponse {
   }
 }
 
+/// @nodoc
 class ResetParameterGroupResponse {
   /// The parameter group being reset.
   final ParameterGroup? parameterGroup;
@@ -3711,6 +3748,7 @@ class ResetParameterGroupResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   /// A list of tags as key-value pairs.
   final List<Tag>? tagList;
@@ -3736,6 +3774,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   /// The list of tags removed.
   final List<Tag>? tagList;
@@ -3761,6 +3800,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateACLResponse {
   /// The updated Access Control List.
   final ACL? acl;
@@ -3785,6 +3825,7 @@ class UpdateACLResponse {
   }
 }
 
+/// @nodoc
 class UpdateClusterResponse {
   /// The updated cluster.
   final Cluster? cluster;
@@ -3809,6 +3850,7 @@ class UpdateClusterResponse {
   }
 }
 
+/// @nodoc
 class UpdateMultiRegionClusterResponse {
   /// The status of updating the multi-Region cluster.
   final MultiRegionCluster? multiRegionCluster;
@@ -3834,6 +3876,7 @@ class UpdateMultiRegionClusterResponse {
   }
 }
 
+/// @nodoc
 class UpdateParameterGroupResponse {
   /// The updated parameter group
   final ParameterGroup? parameterGroup;
@@ -3859,6 +3902,7 @@ class UpdateParameterGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateSubnetGroupResponse {
   /// The updated subnet group
   final SubnetGroup? subnetGroup;
@@ -3883,6 +3927,7 @@ class UpdateSubnetGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   /// The updated user
   final User? user;
@@ -3911,6 +3956,8 @@ class UpdateUserResponse {
 /// string. You assign the users to Access Control Lists aligned with a specific
 /// role (administrators, human resources) that are then deployed to one or more
 /// MemoryDB clusters.
+///
+/// @nodoc
 class User {
   /// The names of the Access Control Lists to which the user belongs
   final List<String>? aCLNames;
@@ -3984,6 +4031,8 @@ class User {
 
 /// Denotes the user's authentication properties, such as whether it requires a
 /// password to authenticate. Used in output responses.
+///
+/// @nodoc
 class Authentication {
   /// The number of passwords belonging to the user. The maximum is two.
   final int? passwordCount;
@@ -4013,6 +4062,7 @@ class Authentication {
   }
 }
 
+/// @nodoc
 class AuthenticationType {
   static const password = AuthenticationType._('password');
   static const noPassword = AuthenticationType._('no-password');
@@ -4041,6 +4091,8 @@ class AuthenticationType {
 
 /// Denotes the user's authentication properties, such as whether it requires a
 /// password to authenticate. Used in output responses.
+///
+/// @nodoc
 class AuthenticationMode {
   /// The password(s) used for authentication
   final List<String>? passwords;
@@ -4064,6 +4116,7 @@ class AuthenticationMode {
   }
 }
 
+/// @nodoc
 class InputAuthenticationType {
   static const password = InputAuthenticationType._('password');
   static const iam = InputAuthenticationType._('iam');
@@ -4102,6 +4155,8 @@ class InputAuthenticationType {
 /// A subnet group is a collection of subnets (typically private) that you can
 /// designate for your clusters running in an Amazon Virtual Private Cloud (VPC)
 /// environment.
+///
+/// @nodoc
 class SubnetGroup {
   /// The ARN (Amazon Resource Name) of the subnet group.
   final String? arn;
@@ -4169,6 +4224,7 @@ class SubnetGroup {
   }
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('ipv4');
   static const ipv6 = NetworkType._('ipv6');
@@ -4196,6 +4252,8 @@ class NetworkType {
 /// Represents the subnet associated with a cluster. This parameter refers to
 /// subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used with
 /// MemoryDB.
+///
+/// @nodoc
 class Subnet {
   /// The Availability Zone where the subnet resides
   final AvailabilityZone? availabilityZone;
@@ -4244,6 +4302,8 @@ class Subnet {
 
 /// Indicates if the cluster has a Multi-AZ configuration (multiaz) or not
 /// (singleaz).
+///
+/// @nodoc
 class AvailabilityZone {
   /// The name of the Availability Zone.
   final String? name;
@@ -4269,6 +4329,8 @@ class AvailabilityZone {
 /// Represents the output of a CreateParameterGroup operation. A parameter group
 /// represents a combination of specific values for the parameters that are
 /// passed to the engine software during startup.
+///
+/// @nodoc
 class ParameterGroup {
   /// The Amazon Resource Name (ARN) of the parameter group
   final String? arn;
@@ -4314,6 +4376,8 @@ class ParameterGroup {
 }
 
 /// Describes a name-value pair that is used to update the value of a parameter.
+///
+/// @nodoc
 class ParameterNameValue {
   /// The name of the parameter
   final String? parameterName;
@@ -4337,6 +4401,8 @@ class ParameterNameValue {
 }
 
 /// Represents a multi-Region cluster.
+///
+/// @nodoc
 class MultiRegionCluster {
   /// The Amazon Resource Name (ARN) of the multi-Region cluster.
   final String? arn;
@@ -4436,6 +4502,8 @@ class MultiRegionCluster {
 }
 
 /// Represents a Regional cluster
+///
+/// @nodoc
 class RegionalCluster {
   /// The Amazon Resource Name (ARN) the Regional cluster
   final String? arn;
@@ -4480,6 +4548,8 @@ class RegionalCluster {
 }
 
 /// A request to configure the sharding properties of a cluster
+///
+/// @nodoc
 class ShardConfigurationRequest {
   /// The number of shards in the cluster
   final int? shardCount;
@@ -4496,6 +4566,7 @@ class ShardConfigurationRequest {
   }
 }
 
+/// @nodoc
 class UpdateStrategy {
   static const coordinated = UpdateStrategy._('coordinated');
   static const uncoordinated = UpdateStrategy._('uncoordinated');
@@ -4521,6 +4592,8 @@ class UpdateStrategy {
 }
 
 /// Contains all of the attributes of a specific cluster.
+///
+/// @nodoc
 class Cluster {
   /// The name of the Access Control List associated with this cluster.
   final String? aCLName;
@@ -4785,6 +4858,8 @@ class Cluster {
 }
 
 /// A list of updates being applied to the cluster
+///
+/// @nodoc
 class ClusterPendingUpdates {
   /// A list of ACLs associated with the cluster that are being updated
   final ACLsUpdateStatus? aCLs;
@@ -4830,6 +4905,7 @@ class ClusterPendingUpdates {
   }
 }
 
+/// @nodoc
 class AZStatus {
   static const singleaz = AZStatus._('singleaz');
   static const multiaz = AZStatus._('multiaz');
@@ -4855,6 +4931,8 @@ class AZStatus {
 
 /// Represents the information required for client programs to connect to the
 /// cluster and its nodes.
+///
+/// @nodoc
 class Endpoint {
   /// The DNS hostname of the node.
   final String? address;
@@ -4884,6 +4962,7 @@ class Endpoint {
   }
 }
 
+/// @nodoc
 class DataTieringStatus {
   static const $true = DataTieringStatus._('true');
   static const $false = DataTieringStatus._('false');
@@ -4908,6 +4987,7 @@ class DataTieringStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IpDiscovery {
   static const ipv4 = IpDiscovery._('ipv4');
   static const ipv6 = IpDiscovery._('ipv6');
@@ -4932,6 +5012,8 @@ class IpDiscovery {
 }
 
 /// Represents a single security group and its status.
+///
+/// @nodoc
 class SecurityGroupMembership {
   /// The identifier of the security group.
   final String? securityGroupId;
@@ -4966,6 +5048,8 @@ class SecurityGroupMembership {
 /// Represents a collection of nodes in a cluster. One node in the node group is
 /// the read/write primary node. All the other nodes are read-only Replica
 /// nodes.
+///
+/// @nodoc
 class Shard {
   /// The name of the shard
   final String? name;
@@ -5022,6 +5106,8 @@ class Shard {
 
 /// Represents an individual node within a cluster. Each node runs its own
 /// instance of the cluster's protocol-compliant caching software.
+///
+/// @nodoc
 class Node {
   /// The Availability Zone in which the node resides
   final String? availabilityZone;
@@ -5077,6 +5163,8 @@ class Node {
 }
 
 /// The status of the online resharding
+///
+/// @nodoc
 class ReshardingStatus {
   /// The status of the online resharding slot migration
   final SlotMigration? slotMigration;
@@ -5103,6 +5191,8 @@ class ReshardingStatus {
 }
 
 /// The status of the ACL update
+///
+/// @nodoc
 class ACLsUpdateStatus {
   /// A list of ACLs pending to be applied.
   final String? aCLToApply;
@@ -5127,6 +5217,8 @@ class ACLsUpdateStatus {
 
 /// Update action that has yet to be processed for the corresponding apply/stop
 /// request
+///
+/// @nodoc
 class PendingModifiedServiceUpdate {
   /// The unique ID of the service update
   final String? serviceUpdateName;
@@ -5156,6 +5248,7 @@ class PendingModifiedServiceUpdate {
   }
 }
 
+/// @nodoc
 class ServiceUpdateStatus {
   static const available = ServiceUpdateStatus._('available');
   static const inProgress = ServiceUpdateStatus._('in-progress');
@@ -5184,6 +5277,8 @@ class ServiceUpdateStatus {
 }
 
 /// Represents the progress of an online resharding operation.
+///
+/// @nodoc
 class SlotMigration {
   /// The percentage of the slot migration that is complete.
   final double? progressPercentage;
@@ -5207,6 +5302,8 @@ class SlotMigration {
 }
 
 /// A request to configure the number of replicas in a shard
+///
+/// @nodoc
 class ReplicaConfigurationRequest {
   /// The number of replicas to scale up or down to
   final int? replicaCount;
@@ -5226,6 +5323,8 @@ class ReplicaConfigurationRequest {
 /// An Access Control List. You can authenticate users with Access Contol Lists.
 /// ACLs enable you to control cluster access by grouping users. These Access
 /// control lists are designed as a way to organize access to clusters.
+///
+/// @nodoc
 class ACL {
   /// The Amazon Resource Name (ARN) of the ACL
   final String? arn;
@@ -5301,6 +5400,8 @@ class ACL {
 }
 
 /// Returns the updates being applied to the ACL.
+///
+/// @nodoc
 class ACLPendingChanges {
   /// A list of users being added to the ACL
   final List<String>? userNamesToAdd;
@@ -5343,6 +5444,8 @@ class ACLPendingChanges {
 /// permitted. For more information, see <a
 /// href="https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging-resources.html">Tagging
 /// your MemoryDB resources</a>
+///
+/// @nodoc
 class Tag {
   /// The key for the tag. May not be null.
   final String? key;
@@ -5374,6 +5477,8 @@ class Tag {
 
 /// Represents the output of a <code>PurchaseReservedNodesOffering</code>
 /// operation.
+///
+/// @nodoc
 class ReservedNode {
   /// The Amazon Resource Name (ARN) of the reserved node.
   final String? arn;
@@ -5471,6 +5576,8 @@ class ReservedNode {
 }
 
 /// The recurring charge to run this reserved node.
+///
+/// @nodoc
 class RecurringCharge {
   /// The amount of the recurring charge to run this reserved node.
   final double? recurringChargeAmount;
@@ -5503,6 +5610,8 @@ class RecurringCharge {
 }
 
 /// Used to streamline results of a search based on the property being filtered.
+///
+/// @nodoc
 class Filter {
   /// The property being filtered. For example, UserName.
   final String name;
@@ -5527,6 +5636,8 @@ class Filter {
 
 /// Represents a copy of an entire cluster as of the time when the snapshot was
 /// taken.
+///
+/// @nodoc
 class Snapshot {
   /// The ARN (Amazon Resource Name) of the snapshot.
   final String? arn;
@@ -5603,6 +5714,8 @@ class Snapshot {
 }
 
 /// A list of cluster configuration options.
+///
+/// @nodoc
 class ClusterConfiguration {
   /// The description of the cluster configuration
   final String? description;
@@ -5747,6 +5860,8 @@ class ClusterConfiguration {
 }
 
 /// Provides details of a shard in a snapshot
+///
+/// @nodoc
 class ShardDetail {
   /// The configuration details of the shard
   final ShardConfiguration? configuration;
@@ -5796,6 +5911,8 @@ class ShardDetail {
 
 /// Shard configuration options. Each shard configuration has the following:
 /// Slots and ReplicaCount.
+///
+/// @nodoc
 class ShardConfiguration {
   /// The number of read replica nodes in this shard.
   final int? replicaCount;
@@ -5827,6 +5944,8 @@ class ShardConfiguration {
 }
 
 /// An update that you can apply to your MemoryDB clusters.
+///
+/// @nodoc
 class ServiceUpdate {
   /// The date at which the service update will be automatically applied
   final DateTime? autoUpdateStartDate;
@@ -5906,6 +6025,7 @@ class ServiceUpdate {
   }
 }
 
+/// @nodoc
 class ServiceUpdateType {
   static const securityUpdate = ServiceUpdateType._('security-update');
 
@@ -5930,6 +6050,8 @@ class ServiceUpdateType {
 }
 
 /// The offering type of this node.
+///
+/// @nodoc
 class ReservedNodesOffering {
   /// The duration of the reservation in seconds.
   final int? duration;
@@ -5995,6 +6117,8 @@ class ReservedNodesOffering {
 
 /// Describes an individual setting that controls some aspect of MemoryDB
 /// behavior.
+///
+/// @nodoc
 class Parameter {
   /// The valid range of values for the parameter.
   final String? allowedValues;
@@ -6055,6 +6179,8 @@ class Parameter {
 
 /// Describes an individual setting that controls some aspect of MemoryDB
 /// behavior across multiple regions.
+///
+/// @nodoc
 class MultiRegionParameter {
   /// The valid range of values for the parameter.
   final String? allowedValues;
@@ -6124,6 +6250,8 @@ class MultiRegionParameter {
 /// Represents the output of a CreateMultiRegionParameterGroup operation. A
 /// multi-region parameter group represents a collection of parameters that can
 /// be applied to clusters across multiple regions.
+///
+/// @nodoc
 class MultiRegionParameterGroup {
   /// The Amazon Resource Name (ARN) of the multi-region parameter group.
   final String? arn;
@@ -6170,6 +6298,8 @@ class MultiRegionParameterGroup {
 
 /// Represents a single occurrence of something interesting within the system.
 /// Some examples of events are creating a cluster or adding or removing a node.
+///
+/// @nodoc
 class Event {
   /// The date and time when the event occurred.
   final DateTime? date;
@@ -6215,6 +6345,7 @@ class Event {
   }
 }
 
+/// @nodoc
 class SourceType {
   static const node = SourceType._('node');
   static const parameterGroup = SourceType._('parameter-group');
@@ -6243,6 +6374,8 @@ class SourceType {
 }
 
 /// Provides details of the Redis OSS engine version
+///
+/// @nodoc
 class EngineVersionInfo {
   /// The name of the engine for which version information is provided.
   final String? engine;
@@ -6289,6 +6422,8 @@ class EngineVersionInfo {
 }
 
 /// A cluster whose updates have failed
+///
+/// @nodoc
 class UnprocessedCluster {
   /// The name of the cluster
   final String? clusterName;
@@ -6326,6 +6461,8 @@ class UnprocessedCluster {
 }
 
 /// A request to apply a service update
+///
+/// @nodoc
 class ServiceUpdateRequest {
   /// The unique ID of the service update
   final String? serviceUpdateNameToApply;
@@ -6343,21 +6480,25 @@ class ServiceUpdateRequest {
   }
 }
 
+/// @nodoc
 class ACLAlreadyExistsFault extends _s.GenericAwsException {
   ACLAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ACLAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class ACLNotFoundFault extends _s.GenericAwsException {
   ACLNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ACLNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ACLQuotaExceededFault extends _s.GenericAwsException {
   ACLQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'ACLQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class APICallRateForCustomerExceededFault extends _s.GenericAwsException {
   APICallRateForCustomerExceededFault({String? type, String? message})
       : super(
@@ -6366,16 +6507,19 @@ class APICallRateForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ClusterAlreadyExistsFault extends _s.GenericAwsException {
   ClusterAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ClusterAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class ClusterNotFoundFault extends _s.GenericAwsException {
   ClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ClusterNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
   ClusterQuotaForCustomerExceededFault({String? type, String? message})
       : super(
@@ -6384,16 +6528,19 @@ class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DefaultUserRequired extends _s.GenericAwsException {
   DefaultUserRequired({String? type, String? message})
       : super(type: type, code: 'DefaultUserRequired', message: message);
 }
 
+/// @nodoc
 class DuplicateUserNameFault extends _s.GenericAwsException {
   DuplicateUserNameFault({String? type, String? message})
       : super(type: type, code: 'DuplicateUserNameFault', message: message);
 }
 
+/// @nodoc
 class InsufficientClusterCapacityFault extends _s.GenericAwsException {
   InsufficientClusterCapacityFault({String? type, String? message})
       : super(
@@ -6402,32 +6549,38 @@ class InsufficientClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidACLStateFault extends _s.GenericAwsException {
   InvalidACLStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidACLStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidARNFault extends _s.GenericAwsException {
   InvalidARNFault({String? type, String? message})
       : super(type: type, code: 'InvalidARNFault', message: message);
 }
 
+/// @nodoc
 class InvalidClusterStateFault extends _s.GenericAwsException {
   InvalidClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidClusterStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidCredentialsException extends _s.GenericAwsException {
   InvalidCredentialsException({String? type, String? message})
       : super(
             type: type, code: 'InvalidCredentialsException', message: message);
 }
 
+/// @nodoc
 class InvalidKMSKeyFault extends _s.GenericAwsException {
   InvalidKMSKeyFault({String? type, String? message})
       : super(type: type, code: 'InvalidKMSKeyFault', message: message);
 }
 
+/// @nodoc
 class InvalidMultiRegionClusterStateFault extends _s.GenericAwsException {
   InvalidMultiRegionClusterStateFault({String? type, String? message})
       : super(
@@ -6436,11 +6589,13 @@ class InvalidMultiRegionClusterStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidNodeStateFault extends _s.GenericAwsException {
   InvalidNodeStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidNodeStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidParameterCombinationException extends _s.GenericAwsException {
   InvalidParameterCombinationException({String? type, String? message})
       : super(
@@ -6449,6 +6604,7 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterGroupStateFault extends _s.GenericAwsException {
   InvalidParameterGroupStateFault({String? type, String? message})
       : super(
@@ -6457,6 +6613,7 @@ class InvalidParameterGroupStateFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -6465,27 +6622,32 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSnapshotStateFault extends _s.GenericAwsException {
   InvalidSnapshotStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidSnapshotStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidSubnet extends _s.GenericAwsException {
   InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
+/// @nodoc
 class InvalidUserStateFault extends _s.GenericAwsException {
   InvalidUserStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidUserStateFault', message: message);
 }
 
+/// @nodoc
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
+/// @nodoc
 class MultiRegionClusterAlreadyExistsFault extends _s.GenericAwsException {
   MultiRegionClusterAlreadyExistsFault({String? type, String? message})
       : super(
@@ -6494,6 +6656,7 @@ class MultiRegionClusterAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MultiRegionClusterNotFoundFault extends _s.GenericAwsException {
   MultiRegionClusterNotFoundFault({String? type, String? message})
       : super(
@@ -6502,6 +6665,7 @@ class MultiRegionClusterNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MultiRegionParameterGroupNotFoundFault extends _s.GenericAwsException {
   MultiRegionParameterGroupNotFoundFault({String? type, String? message})
       : super(
@@ -6510,11 +6674,13 @@ class MultiRegionParameterGroupNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoOperationFault extends _s.GenericAwsException {
   NoOperationFault({String? type, String? message})
       : super(type: type, code: 'NoOperationFault', message: message);
 }
 
+/// @nodoc
 class NodeQuotaForClusterExceededFault extends _s.GenericAwsException {
   NodeQuotaForClusterExceededFault({String? type, String? message})
       : super(
@@ -6523,6 +6689,7 @@ class NodeQuotaForClusterExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NodeQuotaForCustomerExceededFault extends _s.GenericAwsException {
   NodeQuotaForCustomerExceededFault({String? type, String? message})
       : super(
@@ -6531,6 +6698,7 @@ class NodeQuotaForCustomerExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
   ParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -6539,12 +6707,14 @@ class ParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ParameterGroupNotFoundFault extends _s.GenericAwsException {
   ParameterGroupNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'ParameterGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ParameterGroupQuotaExceededFault extends _s.GenericAwsException {
   ParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -6553,6 +6723,7 @@ class ParameterGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedNodeAlreadyExistsFault extends _s.GenericAwsException {
   ReservedNodeAlreadyExistsFault({String? type, String? message})
       : super(
@@ -6561,11 +6732,13 @@ class ReservedNodeAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedNodeNotFoundFault extends _s.GenericAwsException {
   ReservedNodeNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ReservedNodeNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ReservedNodeQuotaExceededFault extends _s.GenericAwsException {
   ReservedNodeQuotaExceededFault({String? type, String? message})
       : super(
@@ -6574,6 +6747,7 @@ class ReservedNodeQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReservedNodesOfferingNotFoundFault extends _s.GenericAwsException {
   ReservedNodesOfferingNotFoundFault({String? type, String? message})
       : super(
@@ -6582,6 +6756,7 @@ class ReservedNodesOfferingNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceLinkedRoleNotFoundFault extends _s.GenericAwsException {
   ServiceLinkedRoleNotFoundFault({String? type, String? message})
       : super(
@@ -6590,16 +6765,19 @@ class ServiceLinkedRoleNotFoundFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUpdateNotFoundFault extends _s.GenericAwsException {
   ServiceUpdateNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ServiceUpdateNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ShardNotFoundFault extends _s.GenericAwsException {
   ShardNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ShardNotFoundFault', message: message);
 }
 
+/// @nodoc
 class ShardsPerClusterQuotaExceededFault extends _s.GenericAwsException {
   ShardsPerClusterQuotaExceededFault({String? type, String? message})
       : super(
@@ -6608,21 +6786,25 @@ class ShardsPerClusterQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SnapshotAlreadyExistsFault extends _s.GenericAwsException {
   SnapshotAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'SnapshotAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class SnapshotNotFoundFault extends _s.GenericAwsException {
   SnapshotNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SnapshotNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SnapshotQuotaExceededFault extends _s.GenericAwsException {
   SnapshotQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SnapshotQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class SubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
   SubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -6631,16 +6813,19 @@ class SubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubnetGroupInUseFault extends _s.GenericAwsException {
   SubnetGroupInUseFault({String? type, String? message})
       : super(type: type, code: 'SubnetGroupInUseFault', message: message);
 }
 
+/// @nodoc
 class SubnetGroupNotFoundFault extends _s.GenericAwsException {
   SubnetGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubnetGroupNotFoundFault', message: message);
 }
 
+/// @nodoc
 class SubnetGroupQuotaExceededFault extends _s.GenericAwsException {
   SubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
@@ -6649,32 +6834,38 @@ class SubnetGroupQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SubnetInUse extends _s.GenericAwsException {
   SubnetInUse({String? type, String? message})
       : super(type: type, code: 'SubnetInUse', message: message);
 }
 
+/// @nodoc
 class SubnetNotAllowedFault extends _s.GenericAwsException {
   SubnetNotAllowedFault({String? type, String? message})
       : super(type: type, code: 'SubnetNotAllowedFault', message: message);
 }
 
+/// @nodoc
 class SubnetQuotaExceededFault extends _s.GenericAwsException {
   SubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SubnetQuotaExceededFault', message: message);
 }
 
+/// @nodoc
 class TagNotFoundFault extends _s.GenericAwsException {
   TagNotFoundFault({String? type, String? message})
       : super(type: type, code: 'TagNotFoundFault', message: message);
 }
 
+/// @nodoc
 class TagQuotaPerResourceExceeded extends _s.GenericAwsException {
   TagQuotaPerResourceExceeded({String? type, String? message})
       : super(
             type: type, code: 'TagQuotaPerResourceExceeded', message: message);
 }
 
+/// @nodoc
 class TestFailoverNotAvailableFault extends _s.GenericAwsException {
   TestFailoverNotAvailableFault({String? type, String? message})
       : super(
@@ -6683,16 +6874,19 @@ class TestFailoverNotAvailableFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UserAlreadyExistsFault extends _s.GenericAwsException {
   UserAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'UserAlreadyExistsFault', message: message);
 }
 
+/// @nodoc
 class UserNotFoundFault extends _s.GenericAwsException {
   UserNotFoundFault({String? type, String? message})
       : super(type: type, code: 'UserNotFoundFault', message: message);
 }
 
+/// @nodoc
 class UserQuotaExceededFault extends _s.GenericAwsException {
   UserQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'UserQuotaExceededFault', message: message);

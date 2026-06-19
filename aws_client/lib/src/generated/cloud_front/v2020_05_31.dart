@@ -7175,6 +7175,7 @@ class CloudFront {
   }
 }
 
+/// @nodoc
 class AssociateDistributionTenantWebACLRequest {
   /// The ID of the distribution tenant.
   final String id;
@@ -7220,6 +7221,7 @@ class AssociateDistributionTenantWebACLRequest {
   }
 }
 
+/// @nodoc
 class AssociateDistributionTenantWebACLResult {
   /// The current version of the distribution tenant.
   final String? eTag;
@@ -7247,6 +7249,7 @@ class AssociateDistributionTenantWebACLResult {
   }
 }
 
+/// @nodoc
 class AssociateDistributionWebACLRequest {
   /// The ID of the distribution.
   final String id;
@@ -7291,6 +7294,7 @@ class AssociateDistributionWebACLRequest {
   }
 }
 
+/// @nodoc
 class AssociateDistributionWebACLResult {
   /// The current version of the distribution.
   final String? eTag;
@@ -7318,6 +7322,7 @@ class AssociateDistributionWebACLResult {
   }
 }
 
+/// @nodoc
 class CopyDistributionRequest {
   /// A value that uniquely identifies a request to create a resource. This helps
   /// to prevent CloudFront from creating a duplicate resource if you accidentally
@@ -7387,6 +7392,7 @@ class CopyDistributionRequest {
   }
 }
 
+/// @nodoc
 class CopyDistributionResult {
   final Distribution? distribution;
 
@@ -7412,6 +7418,7 @@ class CopyDistributionResult {
   }
 }
 
+/// @nodoc
 class CreateAnycastIpListRequest {
   /// The number of static IP addresses that are allocated to the Anycast static
   /// IP list. Valid values: 21 or 3.
@@ -7491,6 +7498,7 @@ class CreateAnycastIpListRequest {
   }
 }
 
+/// @nodoc
 class CreateAnycastIpListResult {
   /// A response structure that includes the version identifier (ETag) and the
   /// created <a>AnycastIpList</a> structure.
@@ -7514,6 +7522,7 @@ class CreateAnycastIpListResult {
   }
 }
 
+/// @nodoc
 class CreateCachePolicyResult {
   /// A cache policy.
   final CachePolicy? cachePolicy;
@@ -7541,6 +7550,8 @@ class CreateCachePolicyResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class CreateCloudFrontOriginAccessIdentityResult {
   /// The origin access identity's information.
   final CloudFrontOriginAccessIdentity? cloudFrontOriginAccessIdentity;
@@ -7568,6 +7579,7 @@ class CreateCloudFrontOriginAccessIdentityResult {
   }
 }
 
+/// @nodoc
 class CreateConnectionFunctionRequest {
   /// The code for the connection function.
   final Uint8List connectionFunctionCode;
@@ -7620,6 +7632,7 @@ class CreateConnectionFunctionRequest {
   }
 }
 
+/// @nodoc
 class CreateConnectionFunctionResult {
   /// The summary for the connection function.
   final ConnectionFunctionSummary? connectionFunctionSummary;
@@ -7647,6 +7660,7 @@ class CreateConnectionFunctionResult {
   }
 }
 
+/// @nodoc
 class CreateConnectionGroupRequest {
   /// The name of the connection group. Enter a friendly identifier that is unique
   /// within your Amazon Web Services account. This name can't be updated after
@@ -7715,6 +7729,7 @@ class CreateConnectionGroupRequest {
   }
 }
 
+/// @nodoc
 class CreateConnectionGroupResult {
   /// The connection group that you created.
   final ConnectionGroup? connectionGroup;
@@ -7736,6 +7751,7 @@ class CreateConnectionGroupResult {
   }
 }
 
+/// @nodoc
 class CreateContinuousDeploymentPolicyResult {
   /// A continuous deployment policy.
   final ContinuousDeploymentPolicy? continuousDeploymentPolicy;
@@ -7765,6 +7781,8 @@ class CreateContinuousDeploymentPolicyResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class CreateDistributionResult {
   /// The distribution's information.
   final Distribution? distribution;
@@ -7791,6 +7809,7 @@ class CreateDistributionResult {
   }
 }
 
+/// @nodoc
 class CreateDistributionTenantRequest {
   /// The ID of the multi-tenant distribution to use for creating the distribution
   /// tenant.
@@ -7902,6 +7921,7 @@ class CreateDistributionTenantRequest {
   }
 }
 
+/// @nodoc
 class CreateDistributionTenantResult {
   /// The distribution tenant that you created.
   final DistributionTenant? distributionTenant;
@@ -7924,6 +7944,8 @@ class CreateDistributionTenantResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class CreateDistributionWithTagsResult {
   /// The distribution's information.
   final Distribution? distribution;
@@ -7950,6 +7972,7 @@ class CreateDistributionWithTagsResult {
   }
 }
 
+/// @nodoc
 class CreateFieldLevelEncryptionConfigResult {
   /// The current version of the field level encryption configuration. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
@@ -7978,6 +8001,7 @@ class CreateFieldLevelEncryptionConfigResult {
   }
 }
 
+/// @nodoc
 class CreateFieldLevelEncryptionProfileResult {
   /// The current version of the field level encryption profile. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
@@ -8006,6 +8030,7 @@ class CreateFieldLevelEncryptionProfileResult {
   }
 }
 
+/// @nodoc
 class CreateFunctionRequest {
   /// The function code. For more information about writing a CloudFront function,
   /// see <a
@@ -8064,6 +8089,7 @@ class CreateFunctionRequest {
   }
 }
 
+/// @nodoc
 class CreateFunctionResult {
   /// The version identifier for the current version of the CloudFront function.
   final String? eTag;
@@ -8092,6 +8118,8 @@ class CreateFunctionResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class CreateInvalidationResult {
   /// The invalidation's information.
   final Invalidation? invalidation;
@@ -8114,6 +8142,7 @@ class CreateInvalidationResult {
   }
 }
 
+/// @nodoc
 class CreateInvalidationForDistributionTenantResult {
   final Invalidation? invalidation;
 
@@ -8134,6 +8163,7 @@ class CreateInvalidationForDistributionTenantResult {
   }
 }
 
+/// @nodoc
 class CreateKeyGroupResult {
   /// The identifier for this version of the key group.
   final String? eTag;
@@ -8160,6 +8190,7 @@ class CreateKeyGroupResult {
   }
 }
 
+/// @nodoc
 class CreateKeyValueStoreRequest {
   /// The name of the key value store. The minimum length is 1 character and the
   /// maximum length is 64 characters.
@@ -8215,6 +8246,7 @@ class CreateKeyValueStoreRequest {
   }
 }
 
+/// @nodoc
 class CreateKeyValueStoreResult {
   /// The <code>ETag</code> in the resulting key value store.
   final String? eTag;
@@ -8241,6 +8273,7 @@ class CreateKeyValueStoreResult {
   }
 }
 
+/// @nodoc
 class CreateMonitoringSubscriptionResult {
   /// A monitoring subscription. This structure contains information about whether
   /// additional CloudWatch metrics are enabled for a given CloudFront
@@ -8260,6 +8293,7 @@ class CreateMonitoringSubscriptionResult {
   }
 }
 
+/// @nodoc
 class CreateOriginAccessControlResult {
   /// The version identifier for the current version of the origin access control.
   final String? eTag;
@@ -8287,6 +8321,7 @@ class CreateOriginAccessControlResult {
   }
 }
 
+/// @nodoc
 class CreateOriginRequestPolicyResult {
   /// The current version of the origin request policy.
   final String? eTag;
@@ -8314,6 +8349,7 @@ class CreateOriginRequestPolicyResult {
   }
 }
 
+/// @nodoc
 class CreatePublicKeyResult {
   /// The identifier for this version of the public key.
   final String? eTag;
@@ -8340,6 +8376,7 @@ class CreatePublicKeyResult {
   }
 }
 
+/// @nodoc
 class CreateRealtimeLogConfigRequest {
   /// Contains information about the Amazon Kinesis data stream where you are
   /// sending real-time log data.
@@ -8405,6 +8442,7 @@ class CreateRealtimeLogConfigRequest {
   }
 }
 
+/// @nodoc
 class CreateRealtimeLogConfigResult {
   /// A real-time log configuration.
   final RealtimeLogConfig? realtimeLogConfig;
@@ -8428,6 +8466,7 @@ class CreateRealtimeLogConfigResult {
   }
 }
 
+/// @nodoc
 class CreateResponseHeadersPolicyResult {
   /// The version identifier for the current version of the response headers
   /// policy.
@@ -8457,6 +8496,8 @@ class CreateResponseHeadersPolicyResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class CreateStreamingDistributionResult {
   /// The current version of the streaming distribution created.
   final String? eTag;
@@ -8486,6 +8527,8 @@ class CreateStreamingDistributionResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class CreateStreamingDistributionWithTagsResult {
   /// The current version of the distribution created.
   final String? eTag;
@@ -8514,6 +8557,7 @@ class CreateStreamingDistributionWithTagsResult {
   }
 }
 
+/// @nodoc
 class CreateTrustStoreRequest {
   /// The CA certificates bundle source for the trust store.
   final CaCertificatesBundleSource caCertificatesBundleSource;
@@ -8573,6 +8617,7 @@ class CreateTrustStoreRequest {
   }
 }
 
+/// @nodoc
 class CreateTrustStoreResult {
   /// The version identifier for the current version of the trust store.
   final String? eTag;
@@ -8594,6 +8639,7 @@ class CreateTrustStoreResult {
   }
 }
 
+/// @nodoc
 class CreateVpcOriginRequest {
   /// The VPC origin endpoint configuration.
   final VpcOriginEndpointConfig vpcOriginEndpointConfig;
@@ -8631,6 +8677,7 @@ class CreateVpcOriginRequest {
   }
 }
 
+/// @nodoc
 class CreateVpcOriginResult {
   /// The VPC origin ETag.
   final String? eTag;
@@ -8657,6 +8704,7 @@ class CreateVpcOriginResult {
   }
 }
 
+/// @nodoc
 class DeleteMonitoringSubscriptionResult {
   DeleteMonitoringSubscriptionResult();
   factory DeleteMonitoringSubscriptionResult.fromXml(
@@ -8670,6 +8718,7 @@ class DeleteMonitoringSubscriptionResult {
   }
 }
 
+/// @nodoc
 class DeleteRealtimeLogConfigRequest {
   /// The Amazon Resource Name (ARN) of the real-time log configuration to delete.
   final String? arn;
@@ -8709,6 +8758,7 @@ class DeleteRealtimeLogConfigRequest {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyRequest {
   /// The Amazon Resource Name (ARN) of the CloudFront resource for which the
   /// resource policy should be deleted.
@@ -8741,6 +8791,7 @@ class DeleteResourcePolicyRequest {
   }
 }
 
+/// @nodoc
 class DeleteVpcOriginResult {
   /// The VPC origin ETag.
   final String? eTag;
@@ -8762,6 +8813,7 @@ class DeleteVpcOriginResult {
   }
 }
 
+/// @nodoc
 class DescribeConnectionFunctionResult {
   /// The connection function's summary.
   final ConnectionFunctionSummary? connectionFunctionSummary;
@@ -8784,6 +8836,7 @@ class DescribeConnectionFunctionResult {
   }
 }
 
+/// @nodoc
 class DescribeFunctionResult {
   /// The version identifier for the current version of the CloudFront function.
   final String? eTag;
@@ -8805,6 +8858,7 @@ class DescribeFunctionResult {
   }
 }
 
+/// @nodoc
 class DescribeKeyValueStoreResult {
   /// The <code>ETag</code> of the resulting key value store.
   final String? eTag;
@@ -8826,6 +8880,7 @@ class DescribeKeyValueStoreResult {
   }
 }
 
+/// @nodoc
 class DisassociateDistributionTenantWebACLResult {
   /// The current version of the distribution tenant.
   final String? eTag;
@@ -8847,6 +8902,7 @@ class DisassociateDistributionTenantWebACLResult {
   }
 }
 
+/// @nodoc
 class DisassociateDistributionWebACLResult {
   /// The current version of the distribution.
   final String? eTag;
@@ -8868,6 +8924,7 @@ class DisassociateDistributionWebACLResult {
   }
 }
 
+/// @nodoc
 class GetAnycastIpListResult {
   /// The Anycast static IP list details.
   final AnycastIpList? anycastIpList;
@@ -8890,6 +8947,7 @@ class GetAnycastIpListResult {
   }
 }
 
+/// @nodoc
 class GetCachePolicyResult {
   /// The cache policy.
   final CachePolicy? cachePolicy;
@@ -8911,6 +8969,7 @@ class GetCachePolicyResult {
   }
 }
 
+/// @nodoc
 class GetCachePolicyConfigResult {
   /// The cache policy configuration.
   final CachePolicyConfig? cachePolicyConfig;
@@ -8933,6 +8992,8 @@ class GetCachePolicyConfigResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class GetCloudFrontOriginAccessIdentityResult {
   /// The origin access identity's information.
   final CloudFrontOriginAccessIdentity? cloudFrontOriginAccessIdentity;
@@ -8957,6 +9018,8 @@ class GetCloudFrontOriginAccessIdentityResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class GetCloudFrontOriginAccessIdentityConfigResult {
   /// The origin access identity's configuration information.
   final CloudFrontOriginAccessIdentityConfig?
@@ -8983,6 +9046,7 @@ class GetCloudFrontOriginAccessIdentityConfigResult {
   }
 }
 
+/// @nodoc
 class GetConnectionFunctionResult {
   /// The connection function's code.
   final Uint8List? connectionFunctionCode;
@@ -9010,6 +9074,7 @@ class GetConnectionFunctionResult {
   }
 }
 
+/// @nodoc
 class GetConnectionGroupResult {
   /// The connection group that you retrieved.
   final ConnectionGroup? connectionGroup;
@@ -9031,6 +9096,7 @@ class GetConnectionGroupResult {
   }
 }
 
+/// @nodoc
 class GetConnectionGroupByRoutingEndpointResult {
   final ConnectionGroup? connectionGroup;
 
@@ -9051,6 +9117,7 @@ class GetConnectionGroupByRoutingEndpointResult {
   }
 }
 
+/// @nodoc
 class GetContinuousDeploymentPolicyResult {
   /// A continuous deployment policy.
   final ContinuousDeploymentPolicy? continuousDeploymentPolicy;
@@ -9074,6 +9141,7 @@ class GetContinuousDeploymentPolicyResult {
   }
 }
 
+/// @nodoc
 class GetContinuousDeploymentPolicyConfigResult {
   final ContinuousDeploymentPolicyConfig? continuousDeploymentPolicyConfig;
 
@@ -9098,6 +9166,8 @@ class GetContinuousDeploymentPolicyConfigResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class GetDistributionResult {
   /// The distribution's information.
   final Distribution? distribution;
@@ -9121,6 +9191,8 @@ class GetDistributionResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class GetDistributionConfigResult {
   /// The distribution's configuration information.
   final DistributionConfig? distributionConfig;
@@ -9143,6 +9215,7 @@ class GetDistributionConfigResult {
   }
 }
 
+/// @nodoc
 class GetDistributionTenantResult {
   /// The distribution tenant that you retrieved.
   final DistributionTenant? distributionTenant;
@@ -9164,6 +9237,7 @@ class GetDistributionTenantResult {
   }
 }
 
+/// @nodoc
 class GetDistributionTenantByDomainResult {
   final DistributionTenant? distributionTenant;
 
@@ -9184,6 +9258,7 @@ class GetDistributionTenantByDomainResult {
   }
 }
 
+/// @nodoc
 class GetFieldLevelEncryptionResult {
   /// The current version of the field level encryption configuration. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
@@ -9207,6 +9282,7 @@ class GetFieldLevelEncryptionResult {
   }
 }
 
+/// @nodoc
 class GetFieldLevelEncryptionConfigResult {
   /// The current version of the field level encryption configuration. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
@@ -9230,6 +9306,7 @@ class GetFieldLevelEncryptionConfigResult {
   }
 }
 
+/// @nodoc
 class GetFieldLevelEncryptionProfileResult {
   /// The current version of the field level encryption profile. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
@@ -9253,6 +9330,7 @@ class GetFieldLevelEncryptionProfileResult {
   }
 }
 
+/// @nodoc
 class GetFieldLevelEncryptionProfileConfigResult {
   /// The current version of the field-level encryption profile configuration
   /// result. For example: <code>E2QWRUHAPOMQZL</code>.
@@ -9277,6 +9355,7 @@ class GetFieldLevelEncryptionProfileConfigResult {
   }
 }
 
+/// @nodoc
 class GetFunctionResult {
   /// The content type (media type) of the response.
   final String? contentType;
@@ -9304,6 +9383,8 @@ class GetFunctionResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class GetInvalidationResult {
   /// The invalidation's information. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/InvalidationDatatype.html">Invalidation
@@ -9322,6 +9403,7 @@ class GetInvalidationResult {
   }
 }
 
+/// @nodoc
 class GetInvalidationForDistributionTenantResult {
   final Invalidation? invalidation;
 
@@ -9337,6 +9419,7 @@ class GetInvalidationForDistributionTenantResult {
   }
 }
 
+/// @nodoc
 class GetKeyGroupResult {
   /// The identifier for this version of the key group.
   final String? eTag;
@@ -9358,6 +9441,7 @@ class GetKeyGroupResult {
   }
 }
 
+/// @nodoc
 class GetKeyGroupConfigResult {
   /// The identifier for this version of the key group.
   final String? eTag;
@@ -9379,6 +9463,7 @@ class GetKeyGroupConfigResult {
   }
 }
 
+/// @nodoc
 class GetManagedCertificateDetailsResult {
   /// Contains details about the CloudFront managed ACM certificate.
   final ManagedCertificateDetails? managedCertificateDetails;
@@ -9396,6 +9481,7 @@ class GetManagedCertificateDetailsResult {
   }
 }
 
+/// @nodoc
 class GetMonitoringSubscriptionResult {
   /// A monitoring subscription. This structure contains information about whether
   /// additional CloudWatch metrics are enabled for a given CloudFront
@@ -9415,6 +9501,7 @@ class GetMonitoringSubscriptionResult {
   }
 }
 
+/// @nodoc
 class GetOriginAccessControlResult {
   /// The version identifier for the current version of the origin access control.
   final String? eTag;
@@ -9437,6 +9524,7 @@ class GetOriginAccessControlResult {
   }
 }
 
+/// @nodoc
 class GetOriginAccessControlConfigResult {
   /// The version identifier for the current version of the origin access control.
   final String? eTag;
@@ -9459,6 +9547,7 @@ class GetOriginAccessControlConfigResult {
   }
 }
 
+/// @nodoc
 class GetOriginRequestPolicyResult {
   /// The current version of the origin request policy.
   final String? eTag;
@@ -9481,6 +9570,7 @@ class GetOriginRequestPolicyResult {
   }
 }
 
+/// @nodoc
 class GetOriginRequestPolicyConfigResult {
   /// The current version of the origin request policy.
   final String? eTag;
@@ -9503,6 +9593,7 @@ class GetOriginRequestPolicyConfigResult {
   }
 }
 
+/// @nodoc
 class GetPublicKeyResult {
   /// The identifier for this version of the public key.
   final String? eTag;
@@ -9524,6 +9615,7 @@ class GetPublicKeyResult {
   }
 }
 
+/// @nodoc
 class GetPublicKeyConfigResult {
   /// The identifier for this version of the public key configuration.
   final String? eTag;
@@ -9545,6 +9637,7 @@ class GetPublicKeyConfigResult {
   }
 }
 
+/// @nodoc
 class GetRealtimeLogConfigRequest {
   /// The Amazon Resource Name (ARN) of the real-time log configuration to get.
   final String? arn;
@@ -9584,6 +9677,7 @@ class GetRealtimeLogConfigRequest {
   }
 }
 
+/// @nodoc
 class GetRealtimeLogConfigResult {
   /// A real-time log configuration.
   final RealtimeLogConfig? realtimeLogConfig;
@@ -9607,6 +9701,7 @@ class GetRealtimeLogConfigResult {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyRequest {
   /// The Amazon Resource Name (ARN) of the CloudFront resource that is associated
   /// with the resource policy.
@@ -9639,6 +9734,7 @@ class GetResourcePolicyRequest {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResult {
   /// The resource policy in JSON format.
   final String? policyDocument;
@@ -9668,6 +9764,7 @@ class GetResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class GetResponseHeadersPolicyResult {
   /// The version identifier for the current version of the response headers
   /// policy.
@@ -9691,6 +9788,7 @@ class GetResponseHeadersPolicyResult {
   }
 }
 
+/// @nodoc
 class GetResponseHeadersPolicyConfigResult {
   /// The version identifier for the current version of the response headers
   /// policy.
@@ -9715,6 +9813,8 @@ class GetResponseHeadersPolicyConfigResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class GetStreamingDistributionResult {
   /// The current version of the streaming distribution's information. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
@@ -9739,6 +9839,8 @@ class GetStreamingDistributionResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class GetStreamingDistributionConfigResult {
   /// The current version of the configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
@@ -9762,6 +9864,7 @@ class GetStreamingDistributionConfigResult {
   }
 }
 
+/// @nodoc
 class GetTrustStoreResult {
   /// The version identifier for the current version of the trust store.
   final String? eTag;
@@ -9783,6 +9886,7 @@ class GetTrustStoreResult {
   }
 }
 
+/// @nodoc
 class GetVpcOriginResult {
   /// The VPC origin ETag.
   final String? eTag;
@@ -9804,6 +9908,7 @@ class GetVpcOriginResult {
   }
 }
 
+/// @nodoc
 class ListAnycastIpListsResult {
   /// Root level tag for the <code>AnycastIpLists</code> parameters.
   final AnycastIpListCollection? anycastIpLists;
@@ -9820,6 +9925,7 @@ class ListAnycastIpListsResult {
   }
 }
 
+/// @nodoc
 class ListCachePoliciesResult {
   /// A list of cache policies.
   final CachePolicyList? cachePolicyList;
@@ -9837,6 +9943,8 @@ class ListCachePoliciesResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class ListCloudFrontOriginAccessIdentitiesResult {
   /// The <code>CloudFrontOriginAccessIdentityList</code> type.
   final CloudFrontOriginAccessIdentityList? cloudFrontOriginAccessIdentityList;
@@ -9856,6 +9964,7 @@ class ListCloudFrontOriginAccessIdentitiesResult {
   }
 }
 
+/// @nodoc
 class ListConflictingAliasesResult {
   /// A list of conflicting aliases.
   final ConflictingAliasesList? conflictingAliasesList;
@@ -9873,6 +9982,7 @@ class ListConflictingAliasesResult {
   }
 }
 
+/// @nodoc
 class ListConnectionFunctionsRequest {
   /// Use this field when paginating results to indicate where to begin in your
   /// list. The response includes items in the list that occur after the marker.
@@ -9924,6 +10034,7 @@ class ListConnectionFunctionsRequest {
   }
 }
 
+/// @nodoc
 class ListConnectionFunctionsResult {
   /// A list of connection functions.
   final List<ConnectionFunctionSummary>? connectionFunctions;
@@ -9958,6 +10069,7 @@ class ListConnectionFunctionsResult {
   }
 }
 
+/// @nodoc
 class ListConnectionGroupsRequest {
   /// Filter by associated Anycast IP list ID.
   final ConnectionGroupAssociationFilter? associationFilter;
@@ -10006,6 +10118,7 @@ class ListConnectionGroupsRequest {
   }
 }
 
+/// @nodoc
 class ListConnectionGroupsResult {
   /// The list of connection groups that you retrieved.
   final List<ConnectionGroupSummary>? connectionGroups;
@@ -10040,6 +10153,7 @@ class ListConnectionGroupsResult {
   }
 }
 
+/// @nodoc
 class ListContinuousDeploymentPoliciesResult {
   /// A list of continuous deployment policies.
   final ContinuousDeploymentPolicyList? continuousDeploymentPolicyList;
@@ -10058,6 +10172,8 @@ class ListContinuousDeploymentPoliciesResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class ListDistributionsResult {
   /// The <code>DistributionList</code> type.
   final DistributionList? distributionList;
@@ -10074,6 +10190,7 @@ class ListDistributionsResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByAnycastIpListIdResult {
   final DistributionList? distributionList;
 
@@ -10089,6 +10206,7 @@ class ListDistributionsByAnycastIpListIdResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByCachePolicyIdResult {
   /// A list of distribution IDs.
   final DistributionIdList? distributionIdList;
@@ -10105,6 +10223,7 @@ class ListDistributionsByCachePolicyIdResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByConnectionFunctionResult {
   final DistributionList? distributionList;
 
@@ -10120,6 +10239,7 @@ class ListDistributionsByConnectionFunctionResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByConnectionModeResult {
   final DistributionList? distributionList;
 
@@ -10135,6 +10255,7 @@ class ListDistributionsByConnectionModeResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByKeyGroupResult {
   final DistributionIdList? distributionIdList;
 
@@ -10150,6 +10271,7 @@ class ListDistributionsByKeyGroupResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByOriginRequestPolicyIdResult {
   /// A list of distribution IDs.
   final DistributionIdList? distributionIdList;
@@ -10166,6 +10288,7 @@ class ListDistributionsByOriginRequestPolicyIdResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByOwnedResourceResult {
   /// The list of distributions that are using the shared resource.
   final DistributionIdOwnerList? distributionList;
@@ -10182,6 +10305,7 @@ class ListDistributionsByOwnedResourceResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByRealtimeLogConfigRequest {
   /// Use this field when paginating results to indicate where to begin in your
   /// list of distributions. The response includes distributions in the list that
@@ -10247,6 +10371,7 @@ class ListDistributionsByRealtimeLogConfigRequest {
   }
 }
 
+/// @nodoc
 class ListDistributionsByRealtimeLogConfigResult {
   final DistributionList? distributionList;
 
@@ -10262,6 +10387,7 @@ class ListDistributionsByRealtimeLogConfigResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByResponseHeadersPolicyIdResult {
   final DistributionIdList? distributionIdList;
 
@@ -10277,6 +10403,7 @@ class ListDistributionsByResponseHeadersPolicyIdResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByTrustStoreResult {
   final DistributionList? distributionList;
 
@@ -10292,6 +10419,7 @@ class ListDistributionsByTrustStoreResult {
   }
 }
 
+/// @nodoc
 class ListDistributionsByVpcOriginIdResult {
   final DistributionIdList? distributionIdList;
 
@@ -10309,6 +10437,8 @@ class ListDistributionsByVpcOriginIdResult {
 
 /// The response to a request to list the distributions that are associated with
 /// a specified WAF web ACL.
+///
+/// @nodoc
 class ListDistributionsByWebACLIdResult {
   /// The <code>DistributionList</code> type.
   final DistributionList? distributionList;
@@ -10325,6 +10455,7 @@ class ListDistributionsByWebACLIdResult {
   }
 }
 
+/// @nodoc
 class ListDistributionTenantsRequest {
   final DistributionTenantAssociationFilter? associationFilter;
 
@@ -10372,6 +10503,7 @@ class ListDistributionTenantsRequest {
   }
 }
 
+/// @nodoc
 class ListDistributionTenantsResult {
   /// The list of distribution tenants that you retrieved.
   final List<DistributionTenantSummary>? distributionTenantList;
@@ -10408,6 +10540,7 @@ class ListDistributionTenantsResult {
   }
 }
 
+/// @nodoc
 class ListDistributionTenantsByCustomizationRequest {
   /// Filter by the ARN of the associated ACM certificate.
   final String? certificateArn;
@@ -10465,6 +10598,7 @@ class ListDistributionTenantsByCustomizationRequest {
   }
 }
 
+/// @nodoc
 class ListDistributionTenantsByCustomizationResult {
   /// A list of distribution tenants with the specified customization.
   final List<DistributionTenantSummary>? distributionTenantList;
@@ -10502,6 +10636,7 @@ class ListDistributionTenantsByCustomizationResult {
   }
 }
 
+/// @nodoc
 class ListDomainConflictsRequest {
   /// The domain to check for conflicts.
   final String domain;
@@ -10561,6 +10696,7 @@ class ListDomainConflictsRequest {
   }
 }
 
+/// @nodoc
 class ListDomainConflictsResult {
   /// Contains details about the domain conflicts.
   final List<DomainConflict>? domainConflicts;
@@ -10595,6 +10731,7 @@ class ListDomainConflictsResult {
   }
 }
 
+/// @nodoc
 class ListFieldLevelEncryptionConfigsResult {
   /// Returns a list of all field-level encryption configurations that have been
   /// created in CloudFront for this account.
@@ -10613,6 +10750,7 @@ class ListFieldLevelEncryptionConfigsResult {
   }
 }
 
+/// @nodoc
 class ListFieldLevelEncryptionProfilesResult {
   /// Returns a list of the field-level encryption profiles that have been created
   /// in CloudFront for this account.
@@ -10632,6 +10770,7 @@ class ListFieldLevelEncryptionProfilesResult {
   }
 }
 
+/// @nodoc
 class ListFunctionsResult {
   /// A list of CloudFront functions.
   final FunctionList? functionList;
@@ -10649,6 +10788,8 @@ class ListFunctionsResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class ListInvalidationsResult {
   /// Information about invalidation batches.
   final InvalidationList? invalidationList;
@@ -10665,6 +10806,7 @@ class ListInvalidationsResult {
   }
 }
 
+/// @nodoc
 class ListInvalidationsForDistributionTenantResult {
   final InvalidationList? invalidationList;
 
@@ -10680,6 +10822,7 @@ class ListInvalidationsForDistributionTenantResult {
   }
 }
 
+/// @nodoc
 class ListKeyGroupsResult {
   /// A list of key groups.
   final KeyGroupList? keyGroupList;
@@ -10696,6 +10839,7 @@ class ListKeyGroupsResult {
   }
 }
 
+/// @nodoc
 class ListKeyValueStoresResult {
   /// The resulting key value stores list.
   final KeyValueStoreList? keyValueStoreList;
@@ -10712,6 +10856,7 @@ class ListKeyValueStoresResult {
   }
 }
 
+/// @nodoc
 class ListOriginAccessControlsResult {
   /// A list of origin access controls.
   final OriginAccessControlList? originAccessControlList;
@@ -10729,6 +10874,7 @@ class ListOriginAccessControlsResult {
   }
 }
 
+/// @nodoc
 class ListOriginRequestPoliciesResult {
   /// A list of origin request policies.
   final OriginRequestPolicyList? originRequestPolicyList;
@@ -10746,6 +10892,7 @@ class ListOriginRequestPoliciesResult {
   }
 }
 
+/// @nodoc
 class ListPublicKeysResult {
   /// Returns a list of all public keys that have been added to CloudFront for
   /// this account.
@@ -10763,6 +10910,7 @@ class ListPublicKeysResult {
   }
 }
 
+/// @nodoc
 class ListRealtimeLogConfigsResult {
   /// A list of real-time log configurations.
   final RealtimeLogConfigs? realtimeLogConfigs;
@@ -10779,6 +10927,7 @@ class ListRealtimeLogConfigsResult {
   }
 }
 
+/// @nodoc
 class ListResponseHeadersPoliciesResult {
   /// A list of response headers policies.
   final ResponseHeadersPolicyList? responseHeadersPolicyList;
@@ -10797,6 +10946,8 @@ class ListResponseHeadersPoliciesResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class ListStreamingDistributionsResult {
   /// The <code>StreamingDistributionList</code> type.
   final StreamingDistributionList? streamingDistributionList;
@@ -10815,6 +10966,8 @@ class ListStreamingDistributionsResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class ListTagsForResourceResult {
   /// A complex type that contains zero or more <code>Tag</code> elements.
   final Tags tags;
@@ -10831,6 +10984,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class ListTrustStoresRequest {
   /// Use this field when paginating results to indicate where to begin in your
   /// list. The response includes items in the list that occur after the marker.
@@ -10873,6 +11027,7 @@ class ListTrustStoresRequest {
   }
 }
 
+/// @nodoc
 class ListTrustStoresResult {
   /// Indicates the next page of trust stores. To get the next page of the list,
   /// use this value in the <code>Marker</code> field of your request.
@@ -10906,6 +11061,7 @@ class ListTrustStoresResult {
   }
 }
 
+/// @nodoc
 class ListVpcOriginsResult {
   /// List of VPC origins.
   final VpcOriginList? vpcOriginList;
@@ -10922,6 +11078,7 @@ class ListVpcOriginsResult {
   }
 }
 
+/// @nodoc
 class PublishConnectionFunctionResult {
   /// The connection function summary.
   final ConnectionFunctionSummary? connectionFunctionSummary;
@@ -10939,6 +11096,7 @@ class PublishConnectionFunctionResult {
   }
 }
 
+/// @nodoc
 class PublishFunctionResult {
   /// Contains configuration information and metadata about a CloudFront function.
   final FunctionSummary? functionSummary;
@@ -10955,6 +11113,7 @@ class PublishFunctionResult {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyRequest {
   /// The JSON-formatted resource policy to create.
   final String policyDocument;
@@ -10995,6 +11154,7 @@ class PutResourcePolicyRequest {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResult {
   /// The Amazon Resource Name (ARN) of the CloudFront resource for which the
   /// policy was created.
@@ -11017,6 +11177,7 @@ class PutResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class TestConnectionFunctionRequest {
   /// The connection object.
   final Uint8List connectionObject;
@@ -11068,6 +11229,7 @@ class TestConnectionFunctionRequest {
   }
 }
 
+/// @nodoc
 class TestConnectionFunctionResult {
   /// The connection function test result.
   final ConnectionFunctionTestResult? connectionFunctionTestResult;
@@ -11085,6 +11247,7 @@ class TestConnectionFunctionResult {
   }
 }
 
+/// @nodoc
 class TestFunctionRequest {
   /// The event object to test the function with. For more information about the
   /// structure of the event object, see <a
@@ -11141,6 +11304,7 @@ class TestFunctionRequest {
   }
 }
 
+/// @nodoc
 class TestFunctionResult {
   /// An object that represents the result of running the function with the
   /// provided event object.
@@ -11158,6 +11322,7 @@ class TestFunctionResult {
   }
 }
 
+/// @nodoc
 class UpdateAnycastIpListRequest {
   /// The ID of the Anycast static IP list.
   final String id;
@@ -11227,6 +11392,7 @@ class UpdateAnycastIpListRequest {
   }
 }
 
+/// @nodoc
 class UpdateAnycastIpListResult {
   final AnycastIpList? anycastIpList;
 
@@ -11247,6 +11413,7 @@ class UpdateAnycastIpListResult {
   }
 }
 
+/// @nodoc
 class UpdateCachePolicyResult {
   /// A cache policy.
   final CachePolicy? cachePolicy;
@@ -11269,6 +11436,8 @@ class UpdateCachePolicyResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class UpdateCloudFrontOriginAccessIdentityResult {
   /// The origin access identity's information.
   final CloudFrontOriginAccessIdentity? cloudFrontOriginAccessIdentity;
@@ -11292,6 +11461,7 @@ class UpdateCloudFrontOriginAccessIdentityResult {
   }
 }
 
+/// @nodoc
 class UpdateConnectionFunctionRequest {
   /// The connection function code.
   final Uint8List connectionFunctionCode;
@@ -11343,6 +11513,7 @@ class UpdateConnectionFunctionRequest {
   }
 }
 
+/// @nodoc
 class UpdateConnectionFunctionResult {
   /// The connection function summary.
   final ConnectionFunctionSummary? connectionFunctionSummary;
@@ -11365,6 +11536,7 @@ class UpdateConnectionFunctionResult {
   }
 }
 
+/// @nodoc
 class UpdateConnectionGroupRequest {
   /// The ID of the connection group.
   final String id;
@@ -11429,6 +11601,7 @@ class UpdateConnectionGroupRequest {
   }
 }
 
+/// @nodoc
 class UpdateConnectionGroupResult {
   /// The connection group that you updated.
   final ConnectionGroup? connectionGroup;
@@ -11450,6 +11623,7 @@ class UpdateConnectionGroupResult {
   }
 }
 
+/// @nodoc
 class UpdateContinuousDeploymentPolicyResult {
   /// A continuous deployment policy.
   final ContinuousDeploymentPolicy? continuousDeploymentPolicy;
@@ -11474,6 +11648,8 @@ class UpdateContinuousDeploymentPolicyResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class UpdateDistributionResult {
   /// The distribution's information.
   final Distribution? distribution;
@@ -11496,6 +11672,7 @@ class UpdateDistributionResult {
   }
 }
 
+/// @nodoc
 class UpdateDistributionTenantRequest {
   /// The ID of the distribution tenant.
   final String id;
@@ -11607,6 +11784,7 @@ class UpdateDistributionTenantRequest {
   }
 }
 
+/// @nodoc
 class UpdateDistributionTenantResult {
   /// The distribution tenant that you're updating.
   final DistributionTenant? distributionTenant;
@@ -11628,6 +11806,7 @@ class UpdateDistributionTenantResult {
   }
 }
 
+/// @nodoc
 class UpdateDistributionWithStagingConfigResult {
   final Distribution? distribution;
 
@@ -11648,6 +11827,7 @@ class UpdateDistributionWithStagingConfigResult {
   }
 }
 
+/// @nodoc
 class UpdateDomainAssociationRequest {
   /// The domain to update.
   final String domain;
@@ -11696,6 +11876,7 @@ class UpdateDomainAssociationRequest {
   }
 }
 
+/// @nodoc
 class UpdateDomainAssociationResult {
   /// The domain that you're moving.
   final String? domain;
@@ -11724,6 +11905,7 @@ class UpdateDomainAssociationResult {
   }
 }
 
+/// @nodoc
 class UpdateFieldLevelEncryptionConfigResult {
   /// The value of the <code>ETag</code> header that you received when updating
   /// the configuration. For example: <code>E2QWRUHAPOMQZL</code>.
@@ -11747,6 +11929,7 @@ class UpdateFieldLevelEncryptionConfigResult {
   }
 }
 
+/// @nodoc
 class UpdateFieldLevelEncryptionProfileResult {
   /// The result of the field-level encryption profile request.
   final String? eTag;
@@ -11769,6 +11952,7 @@ class UpdateFieldLevelEncryptionProfileResult {
   }
 }
 
+/// @nodoc
 class UpdateFunctionRequest {
   /// The function code. For more information about writing a CloudFront function,
   /// see <a
@@ -11825,6 +12009,7 @@ class UpdateFunctionRequest {
   }
 }
 
+/// @nodoc
 class UpdateFunctionResult {
   /// The version identifier for the current version of the CloudFront function.
   final String? eTag;
@@ -11846,6 +12031,7 @@ class UpdateFunctionResult {
   }
 }
 
+/// @nodoc
 class UpdateKeyGroupResult {
   /// The identifier for this version of the key group.
   final String? eTag;
@@ -11867,6 +12053,7 @@ class UpdateKeyGroupResult {
   }
 }
 
+/// @nodoc
 class UpdateKeyValueStoreRequest {
   /// The comment of the key value store to update.
   final String comment;
@@ -11910,6 +12097,7 @@ class UpdateKeyValueStoreRequest {
   }
 }
 
+/// @nodoc
 class UpdateKeyValueStoreResult {
   /// The <code>ETag</code> of the resulting key value store.
   final String? eTag;
@@ -11931,6 +12119,7 @@ class UpdateKeyValueStoreResult {
   }
 }
 
+/// @nodoc
 class UpdateOriginAccessControlResult {
   /// The new version of the origin access control after it has been updated.
   final String? eTag;
@@ -11953,6 +12142,7 @@ class UpdateOriginAccessControlResult {
   }
 }
 
+/// @nodoc
 class UpdateOriginRequestPolicyResult {
   /// The current version of the origin request policy.
   final String? eTag;
@@ -11975,6 +12165,7 @@ class UpdateOriginRequestPolicyResult {
   }
 }
 
+/// @nodoc
 class UpdatePublicKeyResult {
   /// The identifier of the current version of the public key.
   final String? eTag;
@@ -11996,6 +12187,7 @@ class UpdatePublicKeyResult {
   }
 }
 
+/// @nodoc
 class UpdateRealtimeLogConfigRequest {
   /// The Amazon Resource Name (ARN) for this real-time log configuration.
   final String? arn;
@@ -12073,6 +12265,7 @@ class UpdateRealtimeLogConfigRequest {
   }
 }
 
+/// @nodoc
 class UpdateRealtimeLogConfigResult {
   /// A real-time log configuration.
   final RealtimeLogConfig? realtimeLogConfig;
@@ -12096,6 +12289,7 @@ class UpdateRealtimeLogConfigResult {
   }
 }
 
+/// @nodoc
 class UpdateResponseHeadersPolicyResult {
   /// The current version of the response headers policy.
   final String? eTag;
@@ -12119,6 +12313,8 @@ class UpdateResponseHeadersPolicyResult {
 }
 
 /// The returned result of the corresponding request.
+///
+/// @nodoc
 class UpdateStreamingDistributionResult {
   /// The current version of the configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
@@ -12142,6 +12338,7 @@ class UpdateStreamingDistributionResult {
   }
 }
 
+/// @nodoc
 class UpdateTrustStoreResult {
   /// The version identifier for the current version of the trust store.
   final String? eTag;
@@ -12163,6 +12360,7 @@ class UpdateTrustStoreResult {
   }
 }
 
+/// @nodoc
 class UpdateVpcOriginResult {
   /// The VPC origin ETag.
   final String? eTag;
@@ -12184,6 +12382,7 @@ class UpdateVpcOriginResult {
   }
 }
 
+/// @nodoc
 class VerifyDnsConfigurationRequest {
   /// The identifier of the distribution tenant. You can specify the ARN, ID, or
   /// name of the distribution tenant.
@@ -12224,6 +12423,7 @@ class VerifyDnsConfigurationRequest {
   }
 }
 
+/// @nodoc
 class VerifyDnsConfigurationResult {
   /// The list of domain names, their statuses, and a description of each status.
   final List<DnsConfiguration>? dnsConfigurationList;
@@ -12252,6 +12452,8 @@ class VerifyDnsConfigurationResult {
 }
 
 /// The DNS configuration for your domain names.
+///
+/// @nodoc
 class DnsConfiguration {
   /// The domain name that you're verifying.
   final String domain;
@@ -12306,6 +12508,7 @@ class DnsConfiguration {
   }
 }
 
+/// @nodoc
 class DnsConfigurationStatus {
   static const validConfiguration =
       DnsConfigurationStatus._('valid-configuration');
@@ -12340,6 +12543,8 @@ class DnsConfigurationStatus {
 }
 
 /// An Amazon CloudFront VPC origin.
+///
+/// @nodoc
 class VpcOrigin {
   /// The VPC origin ARN.
   final String arn;
@@ -12405,6 +12610,8 @@ class VpcOrigin {
 }
 
 /// An Amazon CloudFront VPC origin endpoint configuration.
+///
+/// @nodoc
 class VpcOriginEndpointConfig {
   /// The ARN of the CloudFront VPC origin endpoint configuration.
   final String arn;
@@ -12493,6 +12700,7 @@ class VpcOriginEndpointConfig {
   }
 }
 
+/// @nodoc
 class OriginProtocolPolicy {
   static const httpOnly = OriginProtocolPolicy._('http-only');
   static const matchViewer = OriginProtocolPolicy._('match-viewer');
@@ -12521,6 +12729,8 @@ class OriginProtocolPolicy {
 
 /// A complex type that contains information about the SSL/TLS protocols that
 /// CloudFront can use when establishing an HTTPS connection with your origin.
+///
+/// @nodoc
 class OriginSslProtocols {
   /// A list that contains allowed SSL/TLS protocols for this distribution.
   final List<SslProtocol> items;
@@ -12572,6 +12782,7 @@ class OriginSslProtocols {
   }
 }
 
+/// @nodoc
 class SslProtocol {
   static const sSLv3 = SslProtocol._('SSLv3');
   static const tLSv1 = SslProtocol._('TLSv1');
@@ -12598,6 +12809,8 @@ class SslProtocol {
 }
 
 /// A trust store.
+///
+/// @nodoc
 class TrustStore {
   /// The trust store's Amazon Resource Name (ARN).
   final String? arn;
@@ -12677,6 +12890,7 @@ class TrustStore {
   }
 }
 
+/// @nodoc
 class TrustStoreStatus {
   static const pending = TrustStoreStatus._('pending');
   static const active = TrustStoreStatus._('active');
@@ -12703,6 +12917,8 @@ class TrustStoreStatus {
 }
 
 /// A CA certificates bundle source.
+///
+/// @nodoc
 class CaCertificatesBundleSource {
   /// The CA certificates bundle location in Amazon S3.
   final CaCertificatesBundleS3Location? caCertificatesBundleS3Location;
@@ -12737,6 +12953,8 @@ class CaCertificatesBundleSource {
 }
 
 /// The CA certificates bundle location in Amazon S3.
+///
+/// @nodoc
 class CaCertificatesBundleS3Location {
   /// The S3 bucket.
   final String bucket;
@@ -12795,6 +13013,8 @@ class CaCertificatesBundleS3Location {
 /// A streaming distribution tells CloudFront where you want RTMP content to be
 /// delivered from, and the details about how to track and manage content
 /// delivery.
+///
+/// @nodoc
 class StreamingDistribution {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
@@ -12886,6 +13106,8 @@ class StreamingDistribution {
 /// A list of Amazon Web Services accounts and the active CloudFront key pairs
 /// in each account that CloudFront can use to verify the signatures of signed
 /// URLs and signed cookies.
+///
+/// @nodoc
 class ActiveTrustedSigners {
   /// This field is <code>true</code> if any of the Amazon Web Services accounts
   /// in the list are configured as trusted signers. If not, this field is
@@ -12927,6 +13149,8 @@ class ActiveTrustedSigners {
 }
 
 /// The RTMP distribution's configuration information.
+///
+/// @nodoc
 class StreamingDistributionConfig {
   /// A unique value (for example, a date-time stamp) that ensures that the
   /// request can't be replayed.
@@ -13055,6 +13279,8 @@ class StreamingDistributionConfig {
 
 /// A complex type that contains information about the Amazon S3 bucket from
 /// which you want CloudFront to get your media files for distribution.
+///
+/// @nodoc
 class S3Origin {
   /// The DNS name of the Amazon S3 origin.
   final String domainName;
@@ -13121,6 +13347,8 @@ class S3Origin {
 
 /// A complex type that contains information about CNAMEs (alternate domain
 /// names), if any, for this distribution.
+///
+/// @nodoc
 class Aliases {
   /// The number of CNAME aliases, if any, that you want to associate with this
   /// distribution.
@@ -13174,6 +13402,8 @@ class Aliases {
 
 /// A complex type that controls whether access logs are written for this
 /// streaming distribution.
+///
+/// @nodoc
 class StreamingLoggingConfig {
   /// The Amazon S3 bucket to store the access logs in, for example,
   /// <code>amzn-s3-demo-bucket.s3.amazonaws.com</code>.
@@ -13242,6 +13472,8 @@ class StreamingLoggingConfig {
 
 /// A list of Amazon Web Services accounts whose public keys CloudFront can use
 /// to verify the signatures of signed URLs and signed cookies.
+///
+/// @nodoc
 class TrustedSigners {
   /// This field is <code>true</code> if any of the Amazon Web Services accounts
   /// in the list are configured as trusted signers. If not, this field is
@@ -13301,6 +13533,7 @@ class TrustedSigners {
   }
 }
 
+/// @nodoc
 class PriceClass {
   static const priceClass_100 = PriceClass._('PriceClass_100');
   static const priceClass_200 = PriceClass._('PriceClass_200');
@@ -13329,6 +13562,8 @@ class PriceClass {
 /// A list of Amazon Web Services accounts and the active CloudFront key pairs
 /// in each account that CloudFront can use to verify the signatures of signed
 /// URLs and signed cookies.
+///
+/// @nodoc
 class Signer {
   /// An Amazon Web Services account number that contains active CloudFront key
   /// pairs that CloudFront can use to verify the signatures of signed URLs and
@@ -13363,6 +13598,8 @@ class Signer {
 }
 
 /// A list of CloudFront key pair identifiers.
+///
+/// @nodoc
 class KeyPairIds {
   /// The number of key pair identifiers in the list.
   final int quantity;
@@ -13409,6 +13646,8 @@ class KeyPairIds {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/modifying-response-headers.html">Adding
 /// or removing HTTP headers in CloudFront responses</a> in the <i>Amazon
 /// CloudFront Developer Guide</i>.
+///
+/// @nodoc
 class ResponseHeadersPolicy {
   /// The identifier for the response headers policy.
   final String id;
@@ -13449,6 +13688,8 @@ class ResponseHeadersPolicy {
 ///
 /// A response headers policy configuration contains metadata about the response
 /// headers policy, and configurations for sets of HTTP response headers.
+///
+/// @nodoc
 class ResponseHeadersPolicyConfig {
   /// A name to identify the response headers policy.
   ///
@@ -13573,6 +13814,8 @@ class ResponseHeadersPolicyConfig {
 /// For more information about CORS, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">Cross-Origin
 /// Resource Sharing (CORS)</a> in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyCorsConfig {
   /// A Boolean that CloudFront uses as the value for the
   /// <code>Access-Control-Allow-Credentials</code> HTTP response header.
@@ -13723,6 +13966,8 @@ class ResponseHeadersPolicyCorsConfig {
 /// A configuration for a set of security-related HTTP response headers.
 /// CloudFront adds these headers to HTTP responses that it sends for requests
 /// that match a cache behavior associated with this response headers policy.
+///
+/// @nodoc
 class ResponseHeadersPolicySecurityHeadersConfig {
   /// The policy directives and their values that CloudFront includes as values
   /// for the <code>Content-Security-Policy</code> HTTP response header.
@@ -13875,6 +14120,8 @@ class ResponseHeadersPolicySecurityHeadersConfig {
 /// efficiency of your CloudFront configuration. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-response-headers-policies.html#server-timing-header">Server-Timing
 /// header</a> in the <i>Amazon CloudFront Developer Guide</i>.
+///
+/// @nodoc
 class ResponseHeadersPolicyServerTimingHeadersConfig {
   /// A Boolean that determines whether CloudFront adds the
   /// <code>Server-Timing</code> header to HTTP responses that it sends in
@@ -13935,6 +14182,8 @@ class ResponseHeadersPolicyServerTimingHeadersConfig {
 /// A list of HTTP response header names and their values. CloudFront includes
 /// these headers in HTTP responses that it sends for requests that match a
 /// cache behavior that's associated with this response headers policy.
+///
+/// @nodoc
 class ResponseHeadersPolicyCustomHeadersConfig {
   /// The number of HTTP response headers in the list.
   final int quantity;
@@ -13988,6 +14237,8 @@ class ResponseHeadersPolicyCustomHeadersConfig {
 /// A list of HTTP header names that CloudFront removes from HTTP responses to
 /// requests that match the cache behavior that this response headers policy is
 /// attached to.
+///
+/// @nodoc
 class ResponseHeadersPolicyRemoveHeadersConfig {
   /// The number of HTTP header names in the list.
   final int quantity;
@@ -14041,6 +14292,8 @@ class ResponseHeadersPolicyRemoveHeadersConfig {
 /// The name of an HTTP header that CloudFront removes from HTTP responses to
 /// requests that match the cache behavior that this response headers policy is
 /// attached to.
+///
+/// @nodoc
 class ResponseHeadersPolicyRemoveHeader {
   /// The HTTP header name.
   final String header;
@@ -14080,6 +14333,8 @@ class ResponseHeadersPolicyRemoveHeader {
 /// An HTTP response header name and its value. CloudFront includes this header
 /// in HTTP responses that it sends for requests that match a cache behavior
 /// that's associated with this response headers policy.
+///
+/// @nodoc
 class ResponseHeadersPolicyCustomHeader {
   /// The HTTP response header name.
   final String header;
@@ -14142,6 +14397,8 @@ class ResponseHeadersPolicyCustomHeader {
 /// header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyXSSProtection {
   /// A Boolean that determines whether CloudFront overrides the
   /// <code>X-XSS-Protection</code> HTTP response header received from the origin
@@ -14236,6 +14493,8 @@ class ResponseHeadersPolicyXSSProtection {
 /// header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyFrameOptions {
   /// The value of the <code>X-Frame-Options</code> HTTP response header. Valid
   /// values are <code>DENY</code> and <code>SAMEORIGIN</code>.
@@ -14297,6 +14556,8 @@ class ResponseHeadersPolicyFrameOptions {
 /// header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyReferrerPolicy {
   /// A Boolean that determines whether CloudFront overrides the
   /// <code>Referrer-Policy</code> HTTP response header received from the origin
@@ -14384,6 +14645,8 @@ class ResponseHeadersPolicyReferrerPolicy {
 /// response header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy">Content-Security-Policy</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyContentSecurityPolicy {
   /// The policy directives and their values that CloudFront includes as values
   /// for the <code>Content-Security-Policy</code> HTTP response header.
@@ -14442,6 +14705,8 @@ class ResponseHeadersPolicyContentSecurityPolicy {
 /// response header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options">X-Content-Type-Options</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyContentTypeOptions {
   /// A Boolean that determines whether CloudFront overrides the
   /// <code>X-Content-Type-Options</code> HTTP response header received from the
@@ -14488,6 +14753,8 @@ class ResponseHeadersPolicyContentTypeOptions {
 /// response header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">Strict-Transport-Security</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyStrictTransportSecurity {
   /// A number that CloudFront uses as the value for the <code>max-age</code>
   /// directive in the <code>Strict-Transport-Security</code> HTTP response
@@ -14562,6 +14829,7 @@ class ResponseHeadersPolicyStrictTransportSecurity {
   }
 }
 
+/// @nodoc
 class ReferrerPolicyList {
   static const noReferrer = ReferrerPolicyList._('no-referrer');
   static const noReferrerWhenDowngrade =
@@ -14605,6 +14873,7 @@ class ReferrerPolicyList {
   String toString() => value;
 }
 
+/// @nodoc
 class FrameOptionsList {
   static const deny = FrameOptionsList._('DENY');
   static const sameorigin = FrameOptionsList._('SAMEORIGIN');
@@ -14636,6 +14905,8 @@ class FrameOptionsList {
 /// response header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyAccessControlAllowOrigins {
   /// The list of origins (domain names). You can specify <code>*</code> to allow
   /// all origins.
@@ -14692,6 +14963,8 @@ class ResponseHeadersPolicyAccessControlAllowOrigins {
 /// HTTP response header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers">Access-Control-Allow-Headers</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyAccessControlAllowHeaders {
   /// The list of HTTP header names. You can specify <code>*</code> to allow all
   /// headers.
@@ -14748,6 +15021,8 @@ class ResponseHeadersPolicyAccessControlAllowHeaders {
 /// HTTP response header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods">Access-Control-Allow-Methods</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyAccessControlAllowMethods {
   /// The list of HTTP methods. Valid values are:
   ///
@@ -14835,6 +15110,8 @@ class ResponseHeadersPolicyAccessControlAllowMethods {
 /// HTTP response header, see <a
 /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers">Access-Control-Expose-Headers</a>
 /// in the MDN Web Docs.
+///
+/// @nodoc
 class ResponseHeadersPolicyAccessControlExposeHeaders {
   /// The number of HTTP headers in the list.
   final int quantity;
@@ -14886,6 +15163,7 @@ class ResponseHeadersPolicyAccessControlExposeHeaders {
   }
 }
 
+/// @nodoc
 class ResponseHeadersPolicyAccessControlAllowMethodsValues {
   static const get =
       ResponseHeadersPolicyAccessControlAllowMethodsValues._('GET');
@@ -14929,6 +15207,8 @@ class ResponseHeadersPolicyAccessControlAllowMethodsValues {
 }
 
 /// A real-time log configuration.
+///
+/// @nodoc
 class RealtimeLogConfig {
   /// The Amazon Resource Name (ARN) of this real-time log configuration.
   final String arn;
@@ -14996,6 +15276,8 @@ class RealtimeLogConfig {
 
 /// Contains information about the Amazon Kinesis data stream where you're
 /// sending real-time log data in a real-time log configuration.
+///
+/// @nodoc
 class EndPoint {
   /// The type of data stream where you are sending real-time log data. The only
   /// valid value is <code>Kinesis</code>.
@@ -15049,6 +15331,8 @@ class EndPoint {
 
 /// Contains information about the Amazon Kinesis data stream where you are
 /// sending real-time log data.
+///
+/// @nodoc
 class KinesisStreamConfig {
   /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
   /// role that CloudFront can use to send real-time log data to your Kinesis data
@@ -15111,6 +15395,8 @@ class KinesisStreamConfig {
 /// CloudFront supports signed URLs and signed cookies with RSA 2048 or ECDSA
 /// 256 key signatures. Field-level encryption is only compatible with RSA 2048
 /// key signatures.
+///
+/// @nodoc
 class PublicKey {
   /// The date and time when the public key was uploaded.
   final DateTime createdTime;
@@ -15160,6 +15446,8 @@ class PublicKey {
 /// CloudFront supports signed URLs and signed cookies with RSA 2048 or ECDSA
 /// 256 key signatures. Field-level encryption is only compatible with RSA 2048
 /// key signatures.
+///
+/// @nodoc
 class PublicKeyConfig {
   /// A string included in the request to help make sure that the request can't be
   /// replayed.
@@ -15255,6 +15543,8 @@ class PublicKeyConfig {
 /// CloudFront sends a request when it can't find an object in its cache that
 /// matches the request. If you want to send values to the origin and also
 /// include them in the cache key, use <code>CachePolicy</code>.
+///
+/// @nodoc
 class OriginRequestPolicy {
   /// The unique identifier for the origin request policy.
   final String id;
@@ -15317,6 +15607,8 @@ class OriginRequestPolicy {
 /// CloudFront sends a request when it can't find an object in its cache that
 /// matches the request. If you want to send values to the origin and also
 /// include them in the cache key, use <code>CachePolicy</code>.
+///
+/// @nodoc
 class OriginRequestPolicyConfig {
   /// The cookies from viewer requests to include in origin requests.
   final OriginRequestPolicyCookiesConfig cookiesConfig;
@@ -15396,6 +15688,8 @@ class OriginRequestPolicyConfig {
 
 /// An object that determines whether any HTTP headers (and if so, which
 /// headers) are included in requests that CloudFront sends to the origin.
+///
+/// @nodoc
 class OriginRequestPolicyHeadersConfig {
   /// Determines whether any HTTP headers are included in requests that CloudFront
   /// sends to the origin. Valid values are:
@@ -15473,6 +15767,8 @@ class OriginRequestPolicyHeadersConfig {
 
 /// An object that determines whether any cookies in viewer requests (and if so,
 /// which cookies) are included in requests that CloudFront sends to the origin.
+///
+/// @nodoc
 class OriginRequestPolicyCookiesConfig {
   /// Determines whether cookies in viewer requests are included in requests that
   /// CloudFront sends to the origin. Valid values are:
@@ -15545,6 +15841,8 @@ class OriginRequestPolicyCookiesConfig {
 /// An object that determines whether any URL query strings in viewer requests
 /// (and if so, which query strings) are included in requests that CloudFront
 /// sends to the origin.
+///
+/// @nodoc
 class OriginRequestPolicyQueryStringsConfig {
   /// Determines whether any URL query strings in viewer requests are included in
   /// requests that CloudFront sends to the origin. Valid values are:
@@ -15626,6 +15924,7 @@ class OriginRequestPolicyQueryStringsConfig {
   }
 }
 
+/// @nodoc
 class OriginRequestPolicyQueryStringBehavior {
   static const none = OriginRequestPolicyQueryStringBehavior._('none');
   static const whitelist =
@@ -15656,6 +15955,8 @@ class OriginRequestPolicyQueryStringBehavior {
 }
 
 /// Contains a list of query string names.
+///
+/// @nodoc
 class QueryStringNames {
   /// The number of query string names in the <code>Items</code> list.
   final int quantity;
@@ -15705,6 +16006,7 @@ class QueryStringNames {
   }
 }
 
+/// @nodoc
 class OriginRequestPolicyCookieBehavior {
   static const none = OriginRequestPolicyCookieBehavior._('none');
   static const whitelist = OriginRequestPolicyCookieBehavior._('whitelist');
@@ -15733,6 +16035,8 @@ class OriginRequestPolicyCookieBehavior {
 }
 
 /// Contains a list of cookie names.
+///
+/// @nodoc
 class CookieNames {
   /// The number of cookie names in the <code>Items</code> list.
   final int quantity;
@@ -15782,6 +16086,7 @@ class CookieNames {
   }
 }
 
+/// @nodoc
 class OriginRequestPolicyHeaderBehavior {
   static const none = OriginRequestPolicyHeaderBehavior._('none');
   static const whitelist = OriginRequestPolicyHeaderBehavior._('whitelist');
@@ -15818,6 +16123,8 @@ class OriginRequestPolicyHeaderBehavior {
 }
 
 /// Contains a list of HTTP header names.
+///
+/// @nodoc
 class Headers {
   /// The number of header names in the <code>Items</code> list.
   final int quantity;
@@ -15868,6 +16175,8 @@ class Headers {
 }
 
 /// A CloudFront origin access control, including its unique identifier.
+///
+/// @nodoc
 class OriginAccessControl {
   /// The unique identifier of the origin access control.
   final String id;
@@ -15900,6 +16209,8 @@ class OriginAccessControl {
 }
 
 /// A CloudFront origin access control configuration.
+///
+/// @nodoc
 class OriginAccessControlConfig {
   /// A name to identify the origin access control. You can specify up to 64
   /// characters.
@@ -16014,6 +16325,7 @@ class OriginAccessControlConfig {
   }
 }
 
+/// @nodoc
 class OriginAccessControlSigningProtocols {
   static const sigv4 = OriginAccessControlSigningProtocols._('sigv4');
 
@@ -16038,6 +16350,7 @@ class OriginAccessControlSigningProtocols {
   String toString() => value;
 }
 
+/// @nodoc
 class OriginAccessControlSigningBehaviors {
   static const never = OriginAccessControlSigningBehaviors._('never');
   static const always = OriginAccessControlSigningBehaviors._('always');
@@ -16065,6 +16378,7 @@ class OriginAccessControlSigningBehaviors {
   String toString() => value;
 }
 
+/// @nodoc
 class OriginAccessControlOriginTypes {
   static const s3 = OriginAccessControlOriginTypes._('s3');
   static const mediastore = OriginAccessControlOriginTypes._('mediastore');
@@ -16096,6 +16410,8 @@ class OriginAccessControlOriginTypes {
 /// The key value store. Use this to separate data from function code, allowing
 /// you to update data without having to publish a new version of a function.
 /// The key value store holds keys and their corresponding values.
+///
+/// @nodoc
 class KeyValueStore {
   /// The Amazon Resource Name (ARN) of the key value store.
   final String arn;
@@ -16157,6 +16473,8 @@ class KeyValueStore {
 /// A key group contains a list of public keys that you can use with <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">CloudFront
 /// signed URLs and signed cookies</a>.
+///
+/// @nodoc
 class KeyGroup {
   /// The identifier for the key group.
   final String id;
@@ -16198,6 +16516,8 @@ class KeyGroup {
 /// A key group contains a list of public keys that you can use with <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">CloudFront
 /// signed URLs and signed cookies</a>.
+///
+/// @nodoc
 class KeyGroupConfig {
   /// A list of the identifiers of the public keys in the key group.
   final List<String> items;
@@ -16256,6 +16576,8 @@ class KeyGroupConfig {
 }
 
 /// Contains configuration information and metadata about a CloudFront function.
+///
+/// @nodoc
 class FunctionSummary {
   /// Contains configuration information about a CloudFront function.
   final FunctionConfig functionConfig;
@@ -16301,6 +16623,8 @@ class FunctionSummary {
 }
 
 /// Contains configuration information about a CloudFront function.
+///
+/// @nodoc
 class FunctionConfig {
   /// A comment to describe the function.
   final String comment;
@@ -16362,6 +16686,8 @@ class FunctionConfig {
 }
 
 /// Contains metadata about a CloudFront function.
+///
+/// @nodoc
 class FunctionMetadata {
   /// The Amazon Resource Name (ARN) of the function. The ARN uniquely identifies
   /// the function.
@@ -16415,6 +16741,7 @@ class FunctionMetadata {
   }
 }
 
+/// @nodoc
 class FunctionStage {
   static const development = FunctionStage._('DEVELOPMENT');
   static const live = FunctionStage._('LIVE');
@@ -16439,6 +16766,7 @@ class FunctionStage {
   String toString() => value;
 }
 
+/// @nodoc
 class FunctionRuntime {
   static const cloudfrontJs_1_0 = FunctionRuntime._('cloudfront-js-1.0');
   static const cloudfrontJs_2_0 = FunctionRuntime._('cloudfront-js-2.0');
@@ -16464,6 +16792,8 @@ class FunctionRuntime {
 }
 
 /// The key value store associations.
+///
+/// @nodoc
 class KeyValueStoreAssociations {
   /// The quantity of key value store associations.
   final int quantity;
@@ -16515,6 +16845,8 @@ class KeyValueStoreAssociations {
 }
 
 /// The key value store association.
+///
+/// @nodoc
 class KeyValueStoreAssociation {
   /// The Amazon Resource Name (ARN) of the key value store association.
   final String keyValueStoreARN;
@@ -16552,6 +16884,8 @@ class KeyValueStoreAssociation {
 }
 
 /// A complex data type for field-level encryption profiles.
+///
+/// @nodoc
 class FieldLevelEncryptionProfile {
   /// A complex data type that includes the profile name and the encryption
   /// entities for the field-level encryption profile.
@@ -16594,6 +16928,8 @@ class FieldLevelEncryptionProfile {
 }
 
 /// A complex data type of profiles for the field-level encryption.
+///
+/// @nodoc
 class FieldLevelEncryptionProfileConfig {
   /// A unique number that ensures that the request can't be replayed.
   final String callerReference;
@@ -16663,6 +16999,8 @@ class FieldLevelEncryptionProfileConfig {
 
 /// Complex data type for field-level encryption profiles that includes all of
 /// the encryption entities.
+///
+/// @nodoc
 class EncryptionEntities {
   /// Number of field pattern items in a field-level encryption content
   /// type-profile mapping.
@@ -16717,6 +17055,8 @@ class EncryptionEntities {
 
 /// Complex data type for field-level encryption profiles that includes the
 /// encryption key and field pattern specifications.
+///
+/// @nodoc
 class EncryptionEntity {
   /// Field patterns in a field-level encryption content type profile specify the
   /// fields that you want to be encrypted. You can provide the full field name,
@@ -16781,6 +17121,8 @@ class EncryptionEntity {
 
 /// A complex data type that includes the field patterns to match for
 /// field-level encryption.
+///
+/// @nodoc
 class FieldPatterns {
   /// The number of field-level encryption field patterns.
   final int quantity;
@@ -16832,6 +17174,8 @@ class FieldPatterns {
 
 /// A complex data type that includes the profile configurations and other
 /// options specified for field-level encryption.
+///
+/// @nodoc
 class FieldLevelEncryption {
   /// A complex data type that includes the profile configurations specified for
   /// field-level encryption.
@@ -16873,6 +17217,8 @@ class FieldLevelEncryption {
 
 /// A complex data type that includes the profile configurations specified for
 /// field-level encryption.
+///
+/// @nodoc
 class FieldLevelEncryptionConfig {
   /// A unique number that ensures the request can't be replayed.
   final String callerReference;
@@ -16950,6 +17296,8 @@ class FieldLevelEncryptionConfig {
 }
 
 /// Configuration for query argument-profile mapping for field-level encryption.
+///
+/// @nodoc
 class QueryArgProfileConfig {
   /// Flag to set if you want a request to be forwarded to the origin even if the
   /// profile specified by the field-level encryption query argument, fle-profile,
@@ -17006,6 +17354,8 @@ class QueryArgProfileConfig {
 }
 
 /// The configuration for a field-level encryption content type-profile mapping.
+///
+/// @nodoc
 class ContentTypeProfileConfig {
   /// The setting in a field-level encryption content type-profile mapping that
   /// specifies what to do when an unknown content type is provided for the
@@ -17064,6 +17414,8 @@ class ContentTypeProfileConfig {
 }
 
 /// Field-level encryption content type-profile.
+///
+/// @nodoc
 class ContentTypeProfiles {
   /// The number of field-level encryption content type-profile mappings.
   final int quantity;
@@ -17115,6 +17467,8 @@ class ContentTypeProfiles {
 }
 
 /// A field-level encryption content type profile.
+///
+/// @nodoc
 class ContentTypeProfile {
   /// The content type for a field-level encryption content type-profile mapping.
   final String contentType;
@@ -17169,6 +17523,7 @@ class ContentTypeProfile {
   }
 }
 
+/// @nodoc
 class Format {
   static const uRLEncoded = Format._('URLEncoded');
 
@@ -17192,6 +17547,8 @@ class Format {
 }
 
 /// Query argument-profile mapping for field-level encryption.
+///
+/// @nodoc
 class QueryArgProfiles {
   /// Number of profiles for query argument-profile mapping for field-level
   /// encryption.
@@ -17245,6 +17602,8 @@ class QueryArgProfiles {
 }
 
 /// Query argument-profile mapping for field-level encryption.
+///
+/// @nodoc
 class QueryArgProfile {
   /// ID of profile to use for field-level encryption query argument-profile
   /// mapping
@@ -17292,6 +17651,8 @@ class QueryArgProfile {
 }
 
 /// The IDs for the distribution resources.
+///
+/// @nodoc
 class DistributionResourceId {
   /// The ID of the multi-tenant distribution.
   final String? distributionId;
@@ -17336,6 +17697,8 @@ class DistributionResourceId {
 
 /// A distribution tells CloudFront where you want content to be delivered from,
 /// and the details about how to track and manage content delivery.
+///
+/// @nodoc
 class Distribution {
   /// The distribution's Amazon Resource Name (ARN).
   final String arn;
@@ -17454,6 +17817,8 @@ class Distribution {
 
 /// A list of key groups, and the public keys in each key group, that CloudFront
 /// can use to verify the signatures of signed URLs and signed cookies.
+///
+/// @nodoc
 class ActiveTrustedKeyGroups {
   /// This field is <code>true</code> if any of the key groups have public keys
   /// that CloudFront can use to verify the signatures of signed URLs and signed
@@ -17495,6 +17860,8 @@ class ActiveTrustedKeyGroups {
 }
 
 /// A distribution configuration.
+///
+/// @nodoc
 class DistributionConfig {
   /// A unique value (for example, a date-time stamp) that ensures that the
   /// request can't be replayed.
@@ -18017,6 +18384,8 @@ class DistributionConfig {
 /// href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
 /// Signup, Accounts, and Credentials</a> in <i>Getting Started with Amazon Web
 /// Services services in China</i>.
+///
+/// @nodoc
 class AliasICPRecordal {
   /// A domain name associated with a distribution.
   final String? cname;
@@ -18073,6 +18442,7 @@ class AliasICPRecordal {
   }
 }
 
+/// @nodoc
 class ICPRecordalStatus {
   static const approved = ICPRecordalStatus._('APPROVED');
   static const suspended = ICPRecordalStatus._('SUSPENDED');
@@ -18099,6 +18469,8 @@ class ICPRecordalStatus {
 }
 
 /// Contains information about the origins for this distribution.
+///
+/// @nodoc
 class Origins {
   /// A list of origins.
   final List<Origin> items;
@@ -18150,6 +18522,8 @@ class Origins {
 }
 
 /// A complex data type for the origin groups specified for a distribution.
+///
+/// @nodoc
 class OriginGroups {
   /// The number of origin groups.
   final int quantity;
@@ -18208,6 +18582,8 @@ class OriginGroups {
 /// <code>Cache-Control: no-cache</code>, <code>no-store</code>, or
 /// <code>private</code> directives are present in the origin headers.
 /// </important>
+///
+/// @nodoc
 class DefaultCacheBehavior {
   /// The value of <code>ID</code> for the origin that you want CloudFront to
   /// route requests to when they use the default cache behavior.
@@ -18645,6 +19021,8 @@ class DefaultCacheBehavior {
 
 /// A complex type that contains zero or more <code>CacheBehavior</code>
 /// elements.
+///
+/// @nodoc
 class CacheBehaviors {
   /// The number of cache behaviors for this distribution.
   final int quantity;
@@ -18711,6 +19089,8 @@ class CacheBehaviors {
 /// For more information about custom error pages, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
 /// Error Responses</a> in the <i>Amazon CloudFront Developer Guide</i>.
+///
+/// @nodoc
 class CustomErrorResponses {
   /// The number of HTTP status codes for which you want to specify a custom error
   /// page and/or a caching duration. If <code>Quantity</code> is <code>0</code>,
@@ -18778,6 +19158,8 @@ class CustomErrorResponses {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html">Standard
 /// logging (access logs)</a> in the <i>Amazon CloudFront Developer Guide</i>.
 /// </note>
+///
+/// @nodoc
 class LoggingConfig {
   /// The Amazon S3 bucket to store the access logs in, for example,
   /// <code>amzn-s3-demo-bucket.s3.amazonaws.com</code>.
@@ -18930,6 +19312,8 @@ class LoggingConfig {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-alternate-domain-names.html">
 /// Using Alternate Domain Names and HTTPS</a> in the <i>Amazon CloudFront
 /// Developer Guide</i>.
+///
+/// @nodoc
 class ViewerCertificate {
   /// If the distribution uses <code>Aliases</code> (alternate domain names or
   /// CNAMEs) and the SSL/TLS certificate is stored in <a
@@ -19163,6 +19547,8 @@ class ViewerCertificate {
 
 /// A complex type that identifies ways in which you want to restrict
 /// distribution of your content.
+///
+/// @nodoc
 class Restrictions {
   /// A complex type that controls the countries in which your content is
   /// distributed. CloudFront determines the location of your users using
@@ -19202,6 +19588,7 @@ class Restrictions {
   }
 }
 
+/// @nodoc
 class HttpVersion {
   static const http1_1 = HttpVersion._('http1.1');
   static const http2 = HttpVersion._('http2');
@@ -19235,6 +19622,8 @@ class HttpVersion {
 /// CloudFront Developer Guide</i>.
 /// </note>
 /// The configuration for a distribution tenant.
+///
+/// @nodoc
 class TenantConfig {
   /// The parameters that you specify for a distribution tenant.
   final List<ParameterDefinition>? parameterDefinitions;
@@ -19279,6 +19668,7 @@ class TenantConfig {
   }
 }
 
+/// @nodoc
 class ConnectionMode {
   static const direct = ConnectionMode._('direct');
   static const tenantOnly = ConnectionMode._('tenant-only');
@@ -19304,6 +19694,8 @@ class ConnectionMode {
 }
 
 /// A viewer mTLS configuration.
+///
+/// @nodoc
 class ViewerMtlsConfig {
   /// The viewer mTLS mode.
   final ViewerMtlsMode? mode;
@@ -19354,6 +19746,8 @@ class ViewerMtlsConfig {
 }
 
 /// A connection function association.
+///
+/// @nodoc
 class ConnectionFunctionAssociation {
   /// The association's ID.
   final String id;
@@ -19396,6 +19790,8 @@ class ConnectionFunctionAssociation {
 /// specified header from origin responses, parses the comma-separated tag
 /// values, and stores them with the cached object. You can then invalidate
 /// cached objects by tag using the <code>CreateInvalidation</code> API.
+///
+/// @nodoc
 class CacheTagConfig {
   /// The name of the HTTP header that your origin includes in responses.
   /// CloudFront uses this header to extract cache tags. The header value must
@@ -19435,6 +19831,7 @@ class CacheTagConfig {
   }
 }
 
+/// @nodoc
 class ViewerMtlsMode {
   static const required = ViewerMtlsMode._('required');
   static const optional = ViewerMtlsMode._('optional');
@@ -19461,6 +19858,8 @@ class ViewerMtlsMode {
 }
 
 /// A trust store configuration.
+///
+/// @nodoc
 class TrustStoreConfig {
   /// The trust store ID.
   final String trustStoreId;
@@ -19526,6 +19925,8 @@ class TrustStoreConfig {
 /// A list of parameter values to add to the resource. A parameter is specified
 /// as a key-value pair. A valid parameter value must exist for any parameter
 /// that is marked as required in the multi-tenant distribution.
+///
+/// @nodoc
 class ParameterDefinition {
   /// The value that you assigned to the parameter.
   final ParameterDefinitionSchema definition;
@@ -19573,6 +19974,8 @@ class ParameterDefinition {
 }
 
 /// An object that contains information about the parameter definition.
+///
+/// @nodoc
 class ParameterDefinitionSchema {
   /// An object that contains information about the string schema.
   final StringSchemaConfig? stringSchema;
@@ -19612,6 +20015,8 @@ class ParameterDefinitionSchema {
 }
 
 /// The configuration for a string schema.
+///
+/// @nodoc
 class StringSchemaConfig {
   /// Whether the defined parameter is required.
   final bool required;
@@ -19670,6 +20075,8 @@ class StringSchemaConfig {
 /// A complex type that controls the countries in which your content is
 /// distributed. CloudFront determines the location of your users using
 /// <code>MaxMind</code> GeoIP databases.
+///
+/// @nodoc
 class GeoRestriction {
   /// When geo restriction is <code>enabled</code>, this is the number of
   /// countries in your <code>whitelist</code> or <code>blacklist</code>.
@@ -19763,6 +20170,7 @@ class GeoRestriction {
   }
 }
 
+/// @nodoc
 class GeoRestrictionType {
   static const blacklist = GeoRestrictionType._('blacklist');
   static const whitelist = GeoRestrictionType._('whitelist');
@@ -19789,6 +20197,7 @@ class GeoRestrictionType {
   String toString() => value;
 }
 
+/// @nodoc
 class SSLSupportMethod {
   static const sniOnly = SSLSupportMethod._('sni-only');
   static const vip = SSLSupportMethod._('vip');
@@ -19814,6 +20223,7 @@ class SSLSupportMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class MinimumProtocolVersion {
   static const sSLv3 = MinimumProtocolVersion._('SSLv3');
   static const tLSv1 = MinimumProtocolVersion._('TLSv1');
@@ -19856,6 +20266,7 @@ class MinimumProtocolVersion {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateSource {
   static const cloudfront = CertificateSource._('cloudfront');
   static const iam = CertificateSource._('iam');
@@ -19895,6 +20306,8 @@ class CertificateSource {
 /// For more information about custom error pages, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
 /// Error Responses</a> in the <i>Amazon CloudFront Developer Guide</i>.
+///
+/// @nodoc
 class CustomErrorResponse {
   /// The HTTP status code for which you want to specify a custom error page
   /// and/or a caching duration.
@@ -20057,6 +20470,8 @@ class CustomErrorResponse {
 /// For more information about cache behaviors, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior">Cache
 /// Behavior Settings</a> in the <i>Amazon CloudFront Developer Guide</i>.
+///
+/// @nodoc
 class CacheBehavior {
   /// The pattern (for example, <code>images/*.jpg</code>) that specifies which
   /// requests to apply the behavior to. When CloudFront receives a viewer
@@ -20519,6 +20934,8 @@ class CacheBehavior {
 
 /// A list of key groups whose public keys CloudFront can use to verify the
 /// signatures of signed URLs and signed cookies.
+///
+/// @nodoc
 class TrustedKeyGroups {
   /// This field is <code>true</code> if any of the key groups in the list have
   /// public keys that CloudFront can use to verify the signatures of signed URLs
@@ -20579,6 +20996,7 @@ class TrustedKeyGroups {
   }
 }
 
+/// @nodoc
 class ViewerProtocolPolicy {
   static const allowAll = ViewerProtocolPolicy._('allow-all');
   static const httpsOnly = ViewerProtocolPolicy._('https-only');
@@ -20626,6 +21044,8 @@ class ViewerProtocolPolicy {
 /// S3 bucket or to your custom origin so users can't perform operations that
 /// you don't want them to. For example, you might not want users to have
 /// permissions to delete objects from your origin.
+///
+/// @nodoc
 class AllowedMethods {
   /// A complex type that contains the HTTP methods that you want CloudFront to
   /// process and forward to your origin.
@@ -20703,6 +21123,8 @@ class AllowedMethods {
 /// If you don't want to invoke any Lambda@Edge functions for the requests that
 /// match <code>PathPattern</code>, specify <code>0</code> for
 /// <code>Quantity</code> and omit <code>Items</code>.
+///
+/// @nodoc
 class LambdaFunctionAssociations {
   /// The number of Lambda@Edge function associations for this cache behavior.
   final int quantity;
@@ -20758,6 +21180,8 @@ class LambdaFunctionAssociations {
 /// A list of CloudFront functions that are associated with a cache behavior in
 /// a CloudFront distribution. Your functions must be published to the
 /// <code>LIVE</code> stage to associate them with a cache behavior.
+///
+/// @nodoc
 class FunctionAssociations {
   /// The number of CloudFront functions in the list.
   final int quantity;
@@ -20823,6 +21247,8 @@ class FunctionAssociations {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-using-grpc.html">Using
 /// gRPC with CloudFront distributions</a> in the <i>Amazon CloudFront Developer
 /// Guide</i>.
+///
+/// @nodoc
 class GrpcConfig {
   /// Enables your CloudFront distribution to receive gRPC requests and to proxy
   /// them directly to your origins.
@@ -20882,6 +21308,8 @@ class GrpcConfig {
 ///
 /// A complex type that specifies how CloudFront handles query strings, cookies,
 /// and HTTP headers.
+///
+/// @nodoc
 class ForwardedValues {
   /// This field is deprecated. We recommend that you use a cache policy or an
   /// origin request policy instead of this field.
@@ -21057,6 +21485,8 @@ class ForwardedValues {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Cookies.html">Caching
 /// Content Based on Cookies</a> in the <i>Amazon CloudFront Developer
 /// Guide</i>.
+///
+/// @nodoc
 class CookiePreference {
   /// This field is deprecated. We recommend that you use a cache policy or an
   /// origin request policy instead of this field.
@@ -21166,6 +21596,8 @@ class CookiePreference {
 ///
 /// A complex type that contains information about the query string parameters
 /// that you want CloudFront to use for caching for a cache behavior.
+///
+/// @nodoc
 class QueryStringCacheKeys {
   /// The number of <code>whitelisted</code> query string parameters for a cache
   /// behavior.
@@ -21218,6 +21650,7 @@ class QueryStringCacheKeys {
   }
 }
 
+/// @nodoc
 class ItemSelection {
   static const none = ItemSelection._('none');
   static const whitelist = ItemSelection._('whitelist');
@@ -21245,6 +21678,8 @@ class ItemSelection {
 
 /// A CloudFront function that is associated with a cache behavior in a
 /// CloudFront distribution.
+///
+/// @nodoc
 class FunctionAssociation {
   /// The event type of the function, either <code>viewer-request</code> or
   /// <code>viewer-response</code>. You cannot use origin-facing event types
@@ -21295,6 +21730,7 @@ class FunctionAssociation {
   }
 }
 
+/// @nodoc
 class EventType {
   static const viewerRequest = EventType._('viewer-request');
   static const viewerResponse = EventType._('viewer-response');
@@ -21326,6 +21762,8 @@ class EventType {
 }
 
 /// A complex type that contains a Lambda@Edge function association.
+///
+/// @nodoc
 class LambdaFunctionAssociation {
   /// Specifies the event type that triggers a Lambda@Edge function invocation.
   /// You can specify the following values:
@@ -21432,6 +21870,8 @@ class LambdaFunctionAssociation {
 /// If you pick the second choice for your Amazon S3 Origin, you may need to
 /// forward Access-Control-Request-Method, Access-Control-Request-Headers, and
 /// Origin headers for the responses to be cached correctly.
+///
+/// @nodoc
 class CachedMethods {
   /// A complex type that contains the HTTP methods that you want CloudFront to
   /// cache responses to. Valid values for <code>CachedMethods</code> include
@@ -21489,6 +21929,7 @@ class CachedMethods {
   }
 }
 
+/// @nodoc
 class Method {
   static const get = Method._('GET');
   static const head = Method._('HEAD');
@@ -21527,6 +21968,8 @@ class Method {
 /// Optionally, you can choose selection criteria for your origin group to
 /// specify how your origins are selected when your distribution routes viewer
 /// requests.
+///
+/// @nodoc
 class OriginGroup {
   /// A complex type that contains information about the failover criteria for an
   /// origin group.
@@ -21602,6 +22045,8 @@ class OriginGroup {
 /// A complex data type that includes information about the failover criteria
 /// for an origin group, including the status codes for which CloudFront will
 /// failover from the primary origin to the second origin.
+///
+/// @nodoc
 class OriginGroupFailoverCriteria {
   /// The status codes that, when returned from the primary origin, will trigger
   /// CloudFront to failover to the second origin.
@@ -21641,6 +22086,8 @@ class OriginGroupFailoverCriteria {
 }
 
 /// A complex data type for the origins included in an origin group.
+///
+/// @nodoc
 class OriginGroupMembers {
   /// Items (origins) in an origin group.
   final List<OriginGroupMember> items;
@@ -21691,6 +22138,7 @@ class OriginGroupMembers {
   }
 }
 
+/// @nodoc
 class OriginGroupSelectionCriteria {
   static const $default = OriginGroupSelectionCriteria._('default');
   static const mediaQualityBased =
@@ -21718,6 +22166,8 @@ class OriginGroupSelectionCriteria {
 }
 
 /// An origin in an origin group.
+///
+/// @nodoc
 class OriginGroupMember {
   /// The ID for an origin in an origin group.
   final String originId;
@@ -21757,6 +22207,8 @@ class OriginGroupMember {
 /// A complex data type for the status codes that you specify that, when
 /// returned by a primary origin, trigger CloudFront to failover to a second
 /// origin.
+///
+/// @nodoc
 class StatusCodes {
   /// The items (status codes) for an origin group.
   final List<int> items;
@@ -21845,6 +22297,8 @@ class StatusCodes {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html#limits-web-distributions">General
 /// Quotas on Web Distributions</a> in the <i>Amazon CloudFront Developer
 /// Guide</i> (quotas were formerly referred to as limits).
+///
+/// @nodoc
 class Origin {
   /// The domain name for the origin.
   ///
@@ -22063,6 +22517,8 @@ class Origin {
 }
 
 /// A complex type that contains the list of Custom Headers for each origin.
+///
+/// @nodoc
 class CustomHeaders {
   /// The number of custom headers, if any, for this distribution.
   final int quantity;
@@ -22118,6 +22574,8 @@ class CustomHeaders {
 /// A complex type that contains information about the Amazon S3 origin. If the
 /// origin is a custom origin or an S3 bucket that is configured as a website
 /// endpoint, use the <code>CustomOriginConfig</code> element instead.
+///
+/// @nodoc
 class S3OriginConfig {
   /// <note>
   /// If you're using origin access control (OAC) instead of origin access
@@ -22209,6 +22667,8 @@ class S3OriginConfig {
 /// S3 bucket, with one exception. An Amazon S3 bucket that is <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">configured
 /// with static website hosting</a> <i>is</i> a custom origin.
+///
+/// @nodoc
 class CustomOriginConfig {
   /// The HTTP port that CloudFront uses to connect to the origin. Specify the
   /// HTTP port that the origin listens on.
@@ -22365,6 +22825,8 @@ class CustomOriginConfig {
 }
 
 /// An Amazon CloudFront VPC origin configuration.
+///
+/// @nodoc
 class VpcOriginConfig {
   /// The VPC origin ID.
   final String vpcOriginId;
@@ -22453,6 +22915,8 @@ class VpcOriginConfig {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html">Using
 /// Origin Shield</a> in the <i>Amazon CloudFront Developer Guide</i>.
+///
+/// @nodoc
 class OriginShield {
   /// A flag that specifies whether Origin Shield is enabled.
   ///
@@ -22516,6 +22980,7 @@ class OriginShield {
   }
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('ipv4');
   static const ipv6 = IpAddressType._('ipv6');
@@ -22543,6 +23008,8 @@ class IpAddressType {
 
 /// Configures mutual TLS authentication between CloudFront and your origin
 /// server.
+///
+/// @nodoc
 class OriginMtlsConfig {
   /// The Amazon Resource Name (ARN) of the client certificate stored in Amazon
   /// Web Services Certificate Manager (ACM) that CloudFront uses to authenticate
@@ -22584,6 +23051,8 @@ class OriginMtlsConfig {
 
 /// A complex type that contains <code>HeaderName</code> and
 /// <code>HeaderValue</code> elements, if any, for this distribution.
+///
+/// @nodoc
 class OriginCustomHeader {
   /// The name of a header that you want CloudFront to send to your origin. For
   /// more information, see <a
@@ -22636,6 +23105,8 @@ class OriginCustomHeader {
 
 /// A list of identifiers for the public keys that CloudFront can use to verify
 /// the signatures of signed URLs and signed cookies.
+///
+/// @nodoc
 class KGKeyPairIds {
   /// The identifier of the key group that contains the public keys.
   final String? keyGroupId;
@@ -22664,6 +23135,8 @@ class KGKeyPairIds {
 }
 
 /// The distribution tenant.
+///
+/// @nodoc
 class DistributionTenant {
   /// The Amazon Resource Name (ARN) of the distribution tenant.
   final String? arn;
@@ -22781,6 +23254,8 @@ class DistributionTenant {
 }
 
 /// A complex type that contains zero or more <code>Tag</code> elements.
+///
+/// @nodoc
 class Tags {
   /// A complex type that contains <code>Tag</code> elements.
   final List<Tag>? items;
@@ -22826,6 +23301,8 @@ class Tags {
 /// (ARNs) for the ACM certificate and WAF web ACL. These are specific values
 /// that you can override or disable from the multi-tenant distribution that was
 /// used to create the distribution tenant.
+///
+/// @nodoc
 class Customizations {
   /// The Certificate Manager (ACM) certificate.
   final Certificate? certificate;
@@ -22887,6 +23364,8 @@ class Customizations {
 /// A list of parameter values to add to the resource. A parameter is specified
 /// as a key-value pair. A valid parameter value must exist for any parameter
 /// that is marked as required in the multi-tenant distribution.
+///
+/// @nodoc
 class Parameter {
   /// The parameter name.
   final String name;
@@ -22933,6 +23412,8 @@ class Parameter {
 }
 
 /// The WAF web ACL customization specified for the distribution tenant.
+///
+/// @nodoc
 class WebAclCustomization {
   /// The action for the WAF web ACL customization. You can specify
   /// <code>override</code> to specify a separate WAF web ACL for the distribution
@@ -22985,6 +23466,8 @@ class WebAclCustomization {
 }
 
 /// The Certificate Manager (ACM) certificate associated with your distribution.
+///
+/// @nodoc
 class Certificate {
   /// The Amazon Resource Name (ARN) of the ACM certificate.
   final String arn;
@@ -23023,6 +23506,8 @@ class Certificate {
 
 /// The customizations that you specified for the distribution tenant for
 /// geographic restrictions.
+///
+/// @nodoc
 class GeoRestrictionCustomization {
   /// The method that you want to use to restrict distribution of your content by
   /// country:
@@ -23090,6 +23575,7 @@ class GeoRestrictionCustomization {
   }
 }
 
+/// @nodoc
 class CustomizationActionType {
   static const $override = CustomizationActionType._('override');
   static const disable = CustomizationActionType._('disable');
@@ -23117,6 +23603,8 @@ class CustomizationActionType {
 
 /// A complex type that contains <code>Tag</code> key and <code>Tag</code>
 /// value.
+///
+/// @nodoc
 class Tag {
   /// A string that contains <code>Tag</code> key.
   ///
@@ -23171,6 +23659,8 @@ class Tag {
 }
 
 /// The details about the domain result.
+///
+/// @nodoc
 class DomainResult {
   /// The specified domain.
   final String domain;
@@ -23201,6 +23691,7 @@ class DomainResult {
   }
 }
 
+/// @nodoc
 class DomainStatus {
   static const active = DomainStatus._('active');
   static const inactive = DomainStatus._('inactive');
@@ -23226,6 +23717,8 @@ class DomainStatus {
 
 /// An object that represents the request for the Amazon CloudFront managed ACM
 /// certificate.
+///
+/// @nodoc
 class ManagedCertificateRequest {
   /// Specify how the HTTP validation token will be served when requesting the
   /// CloudFront managed ACM certificate.
@@ -23303,6 +23796,7 @@ class ManagedCertificateRequest {
   }
 }
 
+/// @nodoc
 class ValidationTokenHost {
   static const cloudfront = ValidationTokenHost._('cloudfront');
   static const selfHosted = ValidationTokenHost._('self-hosted');
@@ -23328,6 +23822,7 @@ class ValidationTokenHost {
   String toString() => value;
 }
 
+/// @nodoc
 class CertificateTransparencyLoggingPreference {
   static const enabled = CertificateTransparencyLoggingPreference._('enabled');
   static const disabled =
@@ -23355,6 +23850,8 @@ class CertificateTransparencyLoggingPreference {
 }
 
 /// The domain for the specified distribution tenant.
+///
+/// @nodoc
 class DomainItem {
   /// The domain name.
   final String domain;
@@ -23387,6 +23884,8 @@ class DomainItem {
 }
 
 /// A continuous deployment policy.
+///
+/// @nodoc
 class ContinuousDeploymentPolicy {
   final ContinuousDeploymentPolicyConfig continuousDeploymentPolicyConfig;
 
@@ -23425,6 +23924,8 @@ class ContinuousDeploymentPolicy {
 }
 
 /// Contains the configuration for a continuous deployment policy.
+///
+/// @nodoc
 class ContinuousDeploymentPolicyConfig {
   /// A Boolean that indicates whether this continuous deployment policy is
   /// enabled (in effect). When this value is <code>true</code>, this policy is
@@ -23487,6 +23988,8 @@ class ContinuousDeploymentPolicyConfig {
 }
 
 /// The CloudFront domain name of the staging distribution.
+///
+/// @nodoc
 class StagingDistributionDnsNames {
   /// The number of CloudFront domain names in your staging distribution.
   final int quantity;
@@ -23537,6 +24040,8 @@ class StagingDistributionDnsNames {
 }
 
 /// The traffic configuration of your continuous deployment.
+///
+/// @nodoc
 class TrafficConfig {
   /// The type of traffic configuration.
   final ContinuousDeploymentPolicyType type;
@@ -23600,6 +24105,8 @@ class TrafficConfig {
 }
 
 /// Contains the percentage of traffic to send to a staging distribution.
+///
+/// @nodoc
 class ContinuousDeploymentSingleWeightConfig {
   /// The percentage of traffic to send to a staging distribution, expressed as a
   /// decimal number between 0 and 0.15. For example, a value of 0.10 means 10% of
@@ -23653,6 +24160,8 @@ class ContinuousDeploymentSingleWeightConfig {
 /// distribution. If the HTTP request contains a header and value that matches
 /// what you specify here, the request is sent to the staging distribution.
 /// Otherwise the request is sent to the primary distribution.
+///
+/// @nodoc
 class ContinuousDeploymentSingleHeaderConfig {
   /// The request header name that you want CloudFront to send to your staging
   /// distribution. The header must contain the prefix <code>aws-cf-cd-</code>.
@@ -23699,6 +24208,7 @@ class ContinuousDeploymentSingleHeaderConfig {
   }
 }
 
+/// @nodoc
 class ContinuousDeploymentPolicyType {
   static const singleWeight = ContinuousDeploymentPolicyType._('SingleWeight');
   static const singleHeader = ContinuousDeploymentPolicyType._('SingleHeader');
@@ -23729,6 +24239,8 @@ class ContinuousDeploymentPolicyType {
 /// inconsistent experience of sending some of a given user's requests to your
 /// staging distribution, while others are sent to your primary distribution.
 /// Define the session duration using TTL values.
+///
+/// @nodoc
 class SessionStickinessConfig {
   /// The amount of time after which you want sessions to cease if no requests are
   /// received. Allowed values are 300–3600 seconds (5–60 minutes).
@@ -23786,6 +24298,8 @@ class SessionStickinessConfig {
 /// will automatically create a default connection group for you. When you
 /// create a new distribution tenant and don't specify a connection group, the
 /// default one will be associated with your distribution tenant.
+///
+/// @nodoc
 class ConnectionGroup {
   /// The ID of the Anycast static IP list.
   final String? anycastIpListId;
@@ -23886,6 +24400,8 @@ class ConnectionGroup {
 }
 
 /// A connection function summary.
+///
+/// @nodoc
 class ConnectionFunctionSummary {
   /// The connection function Amazon Resource Name (ARN).
   final String connectionFunctionArn;
@@ -23959,6 +24475,8 @@ class ConnectionFunctionSummary {
 }
 
 /// CloudFront origin access identity.
+///
+/// @nodoc
 class CloudFrontOriginAccessIdentity {
   /// The ID for the origin access identity, for example,
   /// <code>E74FTE3AJFJ256A</code>.
@@ -24005,6 +24523,8 @@ class CloudFrontOriginAccessIdentity {
 /// Origin access identity configuration. Send a <code>GET</code> request to the
 /// <code>/<i>CloudFront API version</i>/CloudFront/identity ID/config</code>
 /// resource.
+///
+/// @nodoc
 class CloudFrontOriginAccessIdentityConfig {
   /// A unique value (for example, a date-time stamp) that ensures that the
   /// request can't be replayed.
@@ -24090,6 +24610,8 @@ class CloudFrontOriginAccessIdentityConfig {
 /// that matches the request's cache key. If you want to send values to the
 /// origin but <i>not</i> include them in the cache key, use
 /// <code>OriginRequestPolicy</code>.
+///
+/// @nodoc
 class CachePolicy {
   /// The cache policy configuration.
   final CachePolicyConfig cachePolicyConfig;
@@ -24152,6 +24674,8 @@ class CachePolicy {
 /// that matches the request's cache key. If you want to send values to the
 /// origin but <i>not</i> include them in the cache key, use
 /// <code>OriginRequestPolicy</code>.
+///
+/// @nodoc
 class CachePolicyConfig {
   /// The minimum amount of time, in seconds, that you want objects to stay in the
   /// CloudFront cache before CloudFront sends another request to the origin to
@@ -24285,6 +24809,8 @@ class CachePolicyConfig {
 /// matches the request's cache key. If you want to send values to the origin
 /// but <i>not</i> include them in the cache key, use
 /// <code>OriginRequestPolicy</code>.
+///
+/// @nodoc
 class ParametersInCacheKeyAndForwardedToOrigin {
   /// An object that determines whether any cookies in viewer requests (and if so,
   /// which cookies) are included in the cache key and in requests that CloudFront
@@ -24449,6 +24975,8 @@ class ParametersInCacheKeyAndForwardedToOrigin {
 /// An object that determines whether any HTTP headers (and if so, which
 /// headers) are included in the cache key and in requests that CloudFront sends
 /// to the origin.
+///
+/// @nodoc
 class CachePolicyHeadersConfig {
   /// Determines whether any HTTP headers are included in the cache key and in
   /// requests that CloudFront sends to the origin. Valid values are:
@@ -24512,6 +25040,8 @@ class CachePolicyHeadersConfig {
 /// An object that determines whether any cookies in viewer requests (and if so,
 /// which cookies) are included in the cache key and in requests that CloudFront
 /// sends to the origin.
+///
+/// @nodoc
 class CachePolicyCookiesConfig {
   /// Determines whether any cookies in viewer requests are included in the cache
   /// key and in requests that CloudFront sends to the origin. Valid values are:
@@ -24585,6 +25115,8 @@ class CachePolicyCookiesConfig {
 /// An object that determines whether any URL query strings in viewer requests
 /// (and if so, which query strings) are included in the cache key and in
 /// requests that CloudFront sends to the origin.
+///
+/// @nodoc
 class CachePolicyQueryStringsConfig {
   /// Determines whether any URL query strings in viewer requests are included in
   /// the cache key and in requests that CloudFront sends to the origin. Valid
@@ -24667,6 +25199,7 @@ class CachePolicyQueryStringsConfig {
   }
 }
 
+/// @nodoc
 class CachePolicyQueryStringBehavior {
   static const none = CachePolicyQueryStringBehavior._('none');
   static const whitelist = CachePolicyQueryStringBehavior._('whitelist');
@@ -24694,6 +25227,7 @@ class CachePolicyQueryStringBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class CachePolicyCookieBehavior {
   static const none = CachePolicyCookieBehavior._('none');
   static const whitelist = CachePolicyCookieBehavior._('whitelist');
@@ -24721,6 +25255,7 @@ class CachePolicyCookieBehavior {
   String toString() => value;
 }
 
+/// @nodoc
 class CachePolicyHeaderBehavior {
   static const none = CachePolicyHeaderBehavior._('none');
   static const whitelist = CachePolicyHeaderBehavior._('whitelist');
@@ -24750,6 +25285,8 @@ class CachePolicyHeaderBehavior {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html">Request
 /// Anycast static IPs to use for allowlisting</a> in the <i>Amazon CloudFront
 /// Developer Guide</i>.
+///
+/// @nodoc
 class AnycastIpList {
   /// The static IP addresses that are allocated to the Anycast static IP list.
   final List<String> anycastIps;
@@ -24835,6 +25372,8 @@ class AnycastIpList {
 
 /// The configuration IPAM settings that includes the quantity of CIDR
 /// configurations and the list of IPAM CIDR configurations.
+///
+/// @nodoc
 class IpamConfig {
   /// A list of IPAM CIDR configurations that define the IP address ranges, IPAM
   /// pools, and associated Anycast IP addresses.
@@ -24871,6 +25410,8 @@ class IpamConfig {
 
 /// Configuration for an IPAM CIDR that defines a specific IP address range,
 /// IPAM pool, and associated Anycast IP address.
+///
+/// @nodoc
 class IpamCidrConfig {
   /// The CIDR that specifies the IP address range for this IPAM configuration.
   final String cidr;
@@ -24938,6 +25479,7 @@ class IpamCidrConfig {
   }
 }
 
+/// @nodoc
 class IpamCidrStatus {
   static const provisioned = IpamCidrStatus._('provisioned');
   static const failedProvision = IpamCidrStatus._('failed-provision');
@@ -24986,6 +25528,8 @@ class IpamCidrStatus {
 }
 
 /// A complex type that contains zero or more <code>Tag</code> elements.
+///
+/// @nodoc
 class TagKeys {
   /// A complex type that contains <code>Tag</code> key elements.
   final List<String>? items;
@@ -25021,6 +25565,8 @@ class TagKeys {
 
 /// Contains the result of testing a CloudFront function with
 /// <code>TestFunction</code>.
+///
+/// @nodoc
 class TestResult {
   /// The amount of time that the function took to run as a percentage of the
   /// maximum allowed time. For example, a compute utilization of 35 means that
@@ -25086,6 +25632,8 @@ class TestResult {
 }
 
 /// A connection function test result.
+///
+/// @nodoc
 class ConnectionFunctionTestResult {
   /// The connection function compute utilization.
   final String? computeUtilization;
@@ -25147,6 +25695,8 @@ class ConnectionFunctionTestResult {
 }
 
 /// A list of CloudFront VPC origins.
+///
+/// @nodoc
 class VpcOriginList {
   /// A flag that indicates whether more VPC origins remain to be listed. If your
   /// results were truncated, you can make a follow-up pagination request using
@@ -25210,6 +25760,8 @@ class VpcOriginList {
 }
 
 /// A summary of the CloudFront VPC origin.
+///
+/// @nodoc
 class VpcOriginSummary {
   /// The VPC origin summary ARN.
   final String arn;
@@ -25281,6 +25833,8 @@ class VpcOriginSummary {
 }
 
 /// A trust store summary.
+///
+/// @nodoc
 class TrustStoreSummary {
   /// The trust store's Amazon Resource Name (ARN).
   final String arn;
@@ -25355,6 +25909,8 @@ class TrustStoreSummary {
 }
 
 /// A streaming distribution list.
+///
+/// @nodoc
 class StreamingDistributionList {
   /// A flag that indicates whether more streaming distributions remain to be
   /// listed. If your results were truncated, you can make a follow-up pagination
@@ -25423,6 +25979,8 @@ class StreamingDistributionList {
 }
 
 /// A summary of the information for a CloudFront streaming distribution.
+///
+/// @nodoc
 class StreamingDistributionSummary {
   /// The ARN (Amazon Resource Name) for the streaming distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5</code>,
@@ -25545,6 +26103,8 @@ class StreamingDistributionSummary {
 }
 
 /// A list of response headers policies.
+///
+/// @nodoc
 class ResponseHeadersPolicyList {
   /// The maximum number of response headers policies requested.
   final int maxItems;
@@ -25594,6 +26154,8 @@ class ResponseHeadersPolicyList {
 }
 
 /// Contains a response headers policy.
+///
+/// @nodoc
 class ResponseHeadersPolicySummary {
   /// The response headers policy.
   final ResponseHeadersPolicy responseHeadersPolicy;
@@ -25627,6 +26189,7 @@ class ResponseHeadersPolicySummary {
   }
 }
 
+/// @nodoc
 class ResponseHeadersPolicyType {
   static const managed = ResponseHeadersPolicyType._('managed');
   static const custom = ResponseHeadersPolicyType._('custom');
@@ -25653,6 +26216,8 @@ class ResponseHeadersPolicyType {
 }
 
 /// A list of real-time log configurations.
+///
+/// @nodoc
 class RealtimeLogConfigs {
   /// A flag that indicates whether there are more real-time log configurations
   /// than are contained in this list.
@@ -25714,6 +26279,8 @@ class RealtimeLogConfigs {
 /// URLs and signed cookies</a>, or with <a
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html">field-level
 /// encryption</a>.
+///
+/// @nodoc
 class PublicKeyList {
   /// The maximum number of public keys you want in the response.
   final int maxItems;
@@ -25762,6 +26329,8 @@ class PublicKeyList {
 }
 
 /// Contains information about a public key.
+///
+/// @nodoc
 class PublicKeySummary {
   /// The date and time when the public key was uploaded.
   final DateTime createdTime;
@@ -25813,6 +26382,8 @@ class PublicKeySummary {
 }
 
 /// A list of origin request policies.
+///
+/// @nodoc
 class OriginRequestPolicyList {
   /// The maximum number of origin request policies requested.
   final int maxItems;
@@ -25862,6 +26433,8 @@ class OriginRequestPolicyList {
 }
 
 /// Contains an origin request policy.
+///
+/// @nodoc
 class OriginRequestPolicySummary {
   /// The origin request policy.
   final OriginRequestPolicy originRequestPolicy;
@@ -25895,6 +26468,7 @@ class OriginRequestPolicySummary {
   }
 }
 
+/// @nodoc
 class OriginRequestPolicyType {
   static const managed = OriginRequestPolicyType._('managed');
   static const custom = OriginRequestPolicyType._('custom');
@@ -25921,6 +26495,8 @@ class OriginRequestPolicyType {
 }
 
 /// A list of CloudFront origin access controls.
+///
+/// @nodoc
 class OriginAccessControlList {
   /// If there are more items in the list than are in this response, this value is
   /// <code>true</code>.
@@ -25984,6 +26560,8 @@ class OriginAccessControlList {
 }
 
 /// A CloudFront origin access control.
+///
+/// @nodoc
 class OriginAccessControlSummary {
   /// A description of the origin access control.
   final String description;
@@ -26067,6 +26645,8 @@ class OriginAccessControlSummary {
 }
 
 /// The key value store list.
+///
+/// @nodoc
 class KeyValueStoreList {
   /// The maximum number of items in the key value store list.
   final int maxItems;
@@ -26113,6 +26693,8 @@ class KeyValueStoreList {
 }
 
 /// A list of key groups.
+///
+/// @nodoc
 class KeyGroupList {
   /// The maximum number of key groups requested.
   final int maxItems;
@@ -26162,6 +26744,8 @@ class KeyGroupList {
 }
 
 /// Contains information about a key group.
+///
+/// @nodoc
 class KeyGroupSummary {
   /// A key group.
   final KeyGroup keyGroup;
@@ -26188,6 +26772,8 @@ class KeyGroupSummary {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html">Invalidating
 /// Objects (Web Distributions Only)</a> in the <i>Amazon CloudFront Developer
 /// Guide</i>.
+///
+/// @nodoc
 class InvalidationList {
   /// A flag that indicates whether more invalidation batch requests remain to be
   /// listed. If your results were truncated, you can make a follow-up pagination
@@ -26256,6 +26842,8 @@ class InvalidationList {
 }
 
 /// A summary of an invalidation request.
+///
+/// @nodoc
 class InvalidationSummary {
   /// The time that an invalidation request was created.
   final DateTime createTime;
@@ -26292,6 +26880,8 @@ class InvalidationSummary {
 }
 
 /// A list of CloudFront functions.
+///
+/// @nodoc
 class FunctionList {
   /// The maximum number of functions requested.
   final int maxItems;
@@ -26341,6 +26931,8 @@ class FunctionList {
 }
 
 /// List of field-level encryption profiles.
+///
+/// @nodoc
 class FieldLevelEncryptionProfileList {
   /// The maximum number of field-level encryption profiles you want in the
   /// response body.
@@ -26390,6 +26982,8 @@ class FieldLevelEncryptionProfileList {
 }
 
 /// The field-level encryption profile summary.
+///
+/// @nodoc
 class FieldLevelEncryptionProfileSummary {
   /// A complex data type of encryption entities for the field-level encryption
   /// profile that include the public key ID, provider, and field patterns for
@@ -26444,6 +27038,8 @@ class FieldLevelEncryptionProfileSummary {
 }
 
 /// List of field-level encryption configurations.
+///
+/// @nodoc
 class FieldLevelEncryptionList {
   /// The maximum number of elements you want in the response body.
   final int maxItems;
@@ -26492,6 +27088,8 @@ class FieldLevelEncryptionList {
 }
 
 /// A summary of a field-level encryption item.
+///
+/// @nodoc
 class FieldLevelEncryptionSummary {
   /// The unique ID of a field-level encryption item.
   final String id;
@@ -26551,6 +27149,8 @@ class FieldLevelEncryptionSummary {
 /// Contains information about the domain conflict. Use this information to
 /// determine the affected domain, the related resource, and the affected Amazon
 /// Web Services account.
+///
+/// @nodoc
 class DomainConflict {
   /// The ID of the Amazon Web Services account for the domain conflict.
   final String accountId;
@@ -26595,6 +27195,7 @@ class DomainConflict {
   }
 }
 
+/// @nodoc
 class DistributionResourceType {
   static const distribution = DistributionResourceType._('distribution');
   static const distributionTenant =
@@ -26622,6 +27223,8 @@ class DistributionResourceType {
 }
 
 /// A summary of the information about a distribution tenant.
+///
+/// @nodoc
 class DistributionTenantSummary {
   /// The Amazon Resource Name (ARN) of the distribution tenant.
   final String arn;
@@ -26734,6 +27337,8 @@ class DistributionTenantSummary {
 }
 
 /// Filter by the associated distribution ID or connection group ID.
+///
+/// @nodoc
 class DistributionTenantAssociationFilter {
   /// The ID of the connection group to filter by. You can find distribution
   /// tenants associated with a specific connection group.
@@ -26778,6 +27383,8 @@ class DistributionTenantAssociationFilter {
 }
 
 /// A distribution list.
+///
+/// @nodoc
 class DistributionList {
   /// A flag that indicates whether more distributions remain to be listed. If
   /// your results were truncated, you can make a follow-up pagination request
@@ -26846,6 +27453,8 @@ class DistributionList {
 }
 
 /// A summary of the information about a CloudFront distribution.
+///
+/// @nodoc
 class DistributionSummary {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
@@ -27105,6 +27714,8 @@ class DistributionSummary {
 }
 
 /// A list of distribution IDs.
+///
+/// @nodoc
 class DistributionIdList {
   /// A flag that indicates whether more distribution IDs remain to be listed. If
   /// your results were truncated, you can make a subsequent request using the
@@ -27168,6 +27779,8 @@ class DistributionIdList {
 
 /// The list of distribution IDs and the Amazon Web Services accounts that they
 /// belong to.
+///
+/// @nodoc
 class DistributionIdOwnerList {
   /// A flag that indicates whether more <code>DistributionIdOwner</code> objects
   /// remain to be listed. If your results were truncated, you can make a
@@ -27239,6 +27852,8 @@ class DistributionIdOwnerList {
 
 /// A structure that pairs a CloudFront distribution ID with its owning Amazon
 /// Web Services account ID.
+///
+/// @nodoc
 class DistributionIdOwner {
   /// The ID of the distribution.
   final String distributionId;
@@ -27268,6 +27883,8 @@ class DistributionIdOwner {
 }
 
 /// Contains a list of continuous deployment policies.
+///
+/// @nodoc
 class ContinuousDeploymentPolicyList {
   /// The maximum number of continuous deployment policies that were specified in
   /// your request.
@@ -27318,6 +27935,8 @@ class ContinuousDeploymentPolicyList {
 }
 
 /// A summary of the information about your continuous deployment policies.
+///
+/// @nodoc
 class ContinuousDeploymentPolicySummary {
   /// The continuous deployment policy.
   final ContinuousDeploymentPolicy continuousDeploymentPolicy;
@@ -27341,6 +27960,8 @@ class ContinuousDeploymentPolicySummary {
 }
 
 /// A summary that contains details about your connection groups.
+///
+/// @nodoc
 class ConnectionGroupSummary {
   /// The Amazon Resource Name (ARN) of the connection group.
   final String arn;
@@ -27436,6 +28057,8 @@ class ConnectionGroupSummary {
 
 /// Contains information about what CloudFront resources your connection groups
 /// are associated with.
+///
+/// @nodoc
 class ConnectionGroupAssociationFilter {
   /// The ID of the Anycast static IP list.
   final String? anycastIpListId;
@@ -27474,6 +28097,8 @@ class ConnectionGroupAssociationFilter {
 /// hidden, which allows you to identify the standard distributions and accounts
 /// that you own, but helps to protect the information of ones that you don't
 /// own.
+///
+/// @nodoc
 class ConflictingAliasesList {
   /// Contains the conflicting aliases in the list.
   final List<ConflictingAlias>? items;
@@ -27527,6 +28152,8 @@ class ConflictingAliasesList {
 /// distribution and account IDs are partially hidden, which allows you to
 /// identify the standard distributions and accounts that you own, and helps to
 /// protect the information of ones that you don't own.
+///
+/// @nodoc
 class ConflictingAlias {
   /// The (partially hidden) ID of the Amazon Web Services account that owns the
   /// standard distribution that's associated with the alias.
@@ -27572,6 +28199,8 @@ class ConflictingAlias {
 /// By default, your entire list of origin access identities is returned in one
 /// single page. If the list is long, you can paginate it using the
 /// <code>MaxItems</code> and <code>Marker</code> parameters.
+///
+/// @nodoc
 class CloudFrontOriginAccessIdentityList {
   /// A flag that indicates whether more origin access identities remain to be
   /// listed. If your results were truncated, you can make a follow-up pagination
@@ -27647,6 +28276,8 @@ class CloudFrontOriginAccessIdentityList {
 }
 
 /// Summary of the information about a CloudFront origin access identity.
+///
+/// @nodoc
 class CloudFrontOriginAccessIdentitySummary {
   /// The comment for this origin access identity, as originally specified when
   /// created.
@@ -27687,6 +28318,8 @@ class CloudFrontOriginAccessIdentitySummary {
 }
 
 /// A list of cache policies.
+///
+/// @nodoc
 class CachePolicyList {
   /// The maximum number of cache policies requested.
   final int maxItems;
@@ -27736,6 +28369,8 @@ class CachePolicyList {
 }
 
 /// Contains a cache policy.
+///
+/// @nodoc
 class CachePolicySummary {
   /// The cache policy.
   final CachePolicy cachePolicy;
@@ -27769,6 +28404,7 @@ class CachePolicySummary {
   }
 }
 
+/// @nodoc
 class CachePolicyType {
   static const managed = CachePolicyType._('managed');
   static const custom = CachePolicyType._('custom');
@@ -27794,6 +28430,8 @@ class CachePolicyType {
 }
 
 /// The Anycast static IP list collection.
+///
+/// @nodoc
 class AnycastIpListCollection {
   /// If there are more items in the list collection than are in this response,
   /// this value is <code>true</code>.
@@ -27863,6 +28501,8 @@ class AnycastIpListCollection {
 
 /// An abbreviated version of the <a>AnycastIpList</a> structure. Omits the
 /// allocated static IP addresses (<a>AnycastIpList$AnycastIps</a>).
+///
+/// @nodoc
 class AnycastIpListSummary {
   /// The Amazon Resource Name (ARN) of the Anycast static IP list.
   final String arn;
@@ -27948,6 +28588,8 @@ class AnycastIpListSummary {
 /// A monitoring subscription. This structure contains information about whether
 /// additional CloudWatch metrics are enabled for a given CloudFront
 /// distribution.
+///
+/// @nodoc
 class MonitoringSubscription {
   /// A subscription configuration for additional CloudWatch metrics.
   final RealtimeMetricsSubscriptionConfig? realtimeMetricsSubscriptionConfig;
@@ -27992,6 +28634,8 @@ class MonitoringSubscription {
 }
 
 /// A subscription configuration for additional CloudWatch metrics.
+///
+/// @nodoc
 class RealtimeMetricsSubscriptionConfig {
   /// A flag that indicates whether additional CloudWatch metrics are enabled for
   /// a given CloudFront distribution.
@@ -28035,6 +28679,7 @@ class RealtimeMetricsSubscriptionConfig {
   }
 }
 
+/// @nodoc
 class RealtimeMetricsSubscriptionStatus {
   static const enabled = RealtimeMetricsSubscriptionStatus._('Enabled');
   static const disabled = RealtimeMetricsSubscriptionStatus._('Disabled');
@@ -28061,6 +28706,8 @@ class RealtimeMetricsSubscriptionStatus {
 }
 
 /// Contains details about the CloudFront managed ACM certificate.
+///
+/// @nodoc
 class ManagedCertificateDetails {
   /// The ARN of the CloudFront managed ACM certificate.
   final String? certificateArn;
@@ -28143,6 +28790,7 @@ class ManagedCertificateDetails {
   }
 }
 
+/// @nodoc
 class ManagedCertificateStatus {
   static const pendingValidation =
       ManagedCertificateStatus._('pending-validation');
@@ -28184,6 +28832,8 @@ class ManagedCertificateStatus {
 }
 
 /// Contains details about the validation token.
+///
+/// @nodoc
 class ValidationTokenDetail {
   /// The domain name.
   final String domain;
@@ -28220,6 +28870,8 @@ class ValidationTokenDetail {
 }
 
 /// An invalidation.
+///
+/// @nodoc
 class Invalidation {
   /// The date and time the invalidation request was first made.
   final DateTime createTime;
@@ -28266,6 +28918,8 @@ class Invalidation {
 }
 
 /// An invalidation batch.
+///
+/// @nodoc
 class InvalidationBatch {
   /// A value that you specify to uniquely identify an invalidation request.
   /// CloudFront uses the value to prevent you from accidentally resubmitting an
@@ -28337,6 +28991,8 @@ class InvalidationBatch {
 /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html#invalidation-specifying-objects">Specifying
 /// the Objects to Invalidate</a> in the <i>Amazon CloudFront Developer
 /// Guide</i>.
+///
+/// @nodoc
 class Paths {
   /// The number of invalidation paths specified for the objects that you want to
   /// invalidate.
@@ -28390,6 +29046,8 @@ class Paths {
 
 /// A streaming distribution Configuration and a list of tags to be associated
 /// with the streaming distribution.
+///
+/// @nodoc
 class StreamingDistributionConfigWithTags {
   /// A streaming distribution Configuration.
   final StreamingDistributionConfig streamingDistributionConfig;
@@ -28430,6 +29088,8 @@ class StreamingDistributionConfigWithTags {
 }
 
 /// The import source for the key value store.
+///
+/// @nodoc
 class ImportSource {
   /// The Amazon Resource Name (ARN) of the import source for the key value store.
   final String sourceARN;
@@ -28469,6 +29129,7 @@ class ImportSource {
   }
 }
 
+/// @nodoc
 class ImportSourceType {
   static const s3 = ImportSourceType._('S3');
 
@@ -28494,6 +29155,8 @@ class ImportSourceType {
 
 /// A distribution Configuration and a list of tags to be associated with the
 /// distribution.
+///
+/// @nodoc
 class DistributionConfigWithTags {
   /// A distribution configuration.
   final DistributionConfig distributionConfig;
@@ -28533,31 +29196,37 @@ class DistributionConfigWithTags {
   }
 }
 
+/// @nodoc
 class AccessDenied extends _s.GenericAwsException {
   AccessDenied({String? type, String? message})
       : super(type: type, code: 'AccessDenied', message: message);
 }
 
+/// @nodoc
 class BatchTooLarge extends _s.GenericAwsException {
   BatchTooLarge({String? type, String? message})
       : super(type: type, code: 'BatchTooLarge', message: message);
 }
 
+/// @nodoc
 class CNAMEAlreadyExists extends _s.GenericAwsException {
   CNAMEAlreadyExists({String? type, String? message})
       : super(type: type, code: 'CNAMEAlreadyExists', message: message);
 }
 
+/// @nodoc
 class CachePolicyAlreadyExists extends _s.GenericAwsException {
   CachePolicyAlreadyExists({String? type, String? message})
       : super(type: type, code: 'CachePolicyAlreadyExists', message: message);
 }
 
+/// @nodoc
 class CachePolicyInUse extends _s.GenericAwsException {
   CachePolicyInUse({String? type, String? message})
       : super(type: type, code: 'CachePolicyInUse', message: message);
 }
 
+/// @nodoc
 class CannotChangeImmutablePublicKeyFields extends _s.GenericAwsException {
   CannotChangeImmutablePublicKeyFields({String? type, String? message})
       : super(
@@ -28566,18 +29235,21 @@ class CannotChangeImmutablePublicKeyFields extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CannotDeleteEntityWhileInUse extends _s.GenericAwsException {
   CannotDeleteEntityWhileInUse({String? type, String? message})
       : super(
             type: type, code: 'CannotDeleteEntityWhileInUse', message: message);
 }
 
+/// @nodoc
 class CannotUpdateEntityWhileInUse extends _s.GenericAwsException {
   CannotUpdateEntityWhileInUse({String? type, String? message})
       : super(
             type: type, code: 'CannotUpdateEntityWhileInUse', message: message);
 }
 
+/// @nodoc
 class CloudFrontOriginAccessIdentityAlreadyExists
     extends _s.GenericAwsException {
   CloudFrontOriginAccessIdentityAlreadyExists({String? type, String? message})
@@ -28587,6 +29259,7 @@ class CloudFrontOriginAccessIdentityAlreadyExists
             message: message);
 }
 
+/// @nodoc
 class CloudFrontOriginAccessIdentityInUse extends _s.GenericAwsException {
   CloudFrontOriginAccessIdentityInUse({String? type, String? message})
       : super(
@@ -28595,6 +29268,7 @@ class CloudFrontOriginAccessIdentityInUse extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ContinuousDeploymentPolicyAlreadyExists extends _s.GenericAwsException {
   ContinuousDeploymentPolicyAlreadyExists({String? type, String? message})
       : super(
@@ -28603,6 +29277,7 @@ class ContinuousDeploymentPolicyAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ContinuousDeploymentPolicyInUse extends _s.GenericAwsException {
   ContinuousDeploymentPolicyInUse({String? type, String? message})
       : super(
@@ -28611,36 +29286,43 @@ class ContinuousDeploymentPolicyInUse extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DistributionAlreadyExists extends _s.GenericAwsException {
   DistributionAlreadyExists({String? type, String? message})
       : super(type: type, code: 'DistributionAlreadyExists', message: message);
 }
 
+/// @nodoc
 class DistributionNotDisabled extends _s.GenericAwsException {
   DistributionNotDisabled({String? type, String? message})
       : super(type: type, code: 'DistributionNotDisabled', message: message);
 }
 
+/// @nodoc
 class EntityAlreadyExists extends _s.GenericAwsException {
   EntityAlreadyExists({String? type, String? message})
       : super(type: type, code: 'EntityAlreadyExists', message: message);
 }
 
+/// @nodoc
 class EntityLimitExceeded extends _s.GenericAwsException {
   EntityLimitExceeded({String? type, String? message})
       : super(type: type, code: 'EntityLimitExceeded', message: message);
 }
 
+/// @nodoc
 class EntityNotFound extends _s.GenericAwsException {
   EntityNotFound({String? type, String? message})
       : super(type: type, code: 'EntityNotFound', message: message);
 }
 
+/// @nodoc
 class EntitySizeLimitExceeded extends _s.GenericAwsException {
   EntitySizeLimitExceeded({String? type, String? message})
       : super(type: type, code: 'EntitySizeLimitExceeded', message: message);
 }
 
+/// @nodoc
 class FieldLevelEncryptionConfigAlreadyExists extends _s.GenericAwsException {
   FieldLevelEncryptionConfigAlreadyExists({String? type, String? message})
       : super(
@@ -28649,6 +29331,7 @@ class FieldLevelEncryptionConfigAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FieldLevelEncryptionConfigInUse extends _s.GenericAwsException {
   FieldLevelEncryptionConfigInUse({String? type, String? message})
       : super(
@@ -28657,6 +29340,7 @@ class FieldLevelEncryptionConfigInUse extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FieldLevelEncryptionProfileAlreadyExists extends _s.GenericAwsException {
   FieldLevelEncryptionProfileAlreadyExists({String? type, String? message})
       : super(
@@ -28665,6 +29349,7 @@ class FieldLevelEncryptionProfileAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FieldLevelEncryptionProfileInUse extends _s.GenericAwsException {
   FieldLevelEncryptionProfileInUse({String? type, String? message})
       : super(
@@ -28673,6 +29358,7 @@ class FieldLevelEncryptionProfileInUse extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FieldLevelEncryptionProfileSizeExceeded extends _s.GenericAwsException {
   FieldLevelEncryptionProfileSizeExceeded({String? type, String? message})
       : super(
@@ -28681,26 +29367,31 @@ class FieldLevelEncryptionProfileSizeExceeded extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FunctionAlreadyExists extends _s.GenericAwsException {
   FunctionAlreadyExists({String? type, String? message})
       : super(type: type, code: 'FunctionAlreadyExists', message: message);
 }
 
+/// @nodoc
 class FunctionInUse extends _s.GenericAwsException {
   FunctionInUse({String? type, String? message})
       : super(type: type, code: 'FunctionInUse', message: message);
 }
 
+/// @nodoc
 class FunctionSizeLimitExceeded extends _s.GenericAwsException {
   FunctionSizeLimitExceeded({String? type, String? message})
       : super(type: type, code: 'FunctionSizeLimitExceeded', message: message);
 }
 
+/// @nodoc
 class IllegalDelete extends _s.GenericAwsException {
   IllegalDelete({String? type, String? message})
       : super(type: type, code: 'IllegalDelete', message: message);
 }
 
+/// @nodoc
 class IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
     extends _s.GenericAwsException {
   IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(
@@ -28712,6 +29403,7 @@ class IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
             message: message);
 }
 
+/// @nodoc
 class IllegalOriginAccessConfiguration extends _s.GenericAwsException {
   IllegalOriginAccessConfiguration({String? type, String? message})
       : super(
@@ -28720,31 +29412,37 @@ class IllegalOriginAccessConfiguration extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IllegalUpdate extends _s.GenericAwsException {
   IllegalUpdate({String? type, String? message})
       : super(type: type, code: 'IllegalUpdate', message: message);
 }
 
+/// @nodoc
 class InconsistentQuantities extends _s.GenericAwsException {
   InconsistentQuantities({String? type, String? message})
       : super(type: type, code: 'InconsistentQuantities', message: message);
 }
 
+/// @nodoc
 class InvalidArgument extends _s.GenericAwsException {
   InvalidArgument({String? type, String? message})
       : super(type: type, code: 'InvalidArgument', message: message);
 }
 
+/// @nodoc
 class InvalidAssociation extends _s.GenericAwsException {
   InvalidAssociation({String? type, String? message})
       : super(type: type, code: 'InvalidAssociation', message: message);
 }
 
+/// @nodoc
 class InvalidDefaultRootObject extends _s.GenericAwsException {
   InvalidDefaultRootObject({String? type, String? message})
       : super(type: type, code: 'InvalidDefaultRootObject', message: message);
 }
 
+/// @nodoc
 class InvalidDomainNameForOriginAccessControl extends _s.GenericAwsException {
   InvalidDomainNameForOriginAccessControl({String? type, String? message})
       : super(
@@ -28753,21 +29451,25 @@ class InvalidDomainNameForOriginAccessControl extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidErrorCode extends _s.GenericAwsException {
   InvalidErrorCode({String? type, String? message})
       : super(type: type, code: 'InvalidErrorCode', message: message);
 }
 
+/// @nodoc
 class InvalidForwardCookies extends _s.GenericAwsException {
   InvalidForwardCookies({String? type, String? message})
       : super(type: type, code: 'InvalidForwardCookies', message: message);
 }
 
+/// @nodoc
 class InvalidFunctionAssociation extends _s.GenericAwsException {
   InvalidFunctionAssociation({String? type, String? message})
       : super(type: type, code: 'InvalidFunctionAssociation', message: message);
 }
 
+/// @nodoc
 class InvalidGeoRestrictionParameter extends _s.GenericAwsException {
   InvalidGeoRestrictionParameter({String? type, String? message})
       : super(
@@ -28776,16 +29478,19 @@ class InvalidGeoRestrictionParameter extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidHeadersForS3Origin extends _s.GenericAwsException {
   InvalidHeadersForS3Origin({String? type, String? message})
       : super(type: type, code: 'InvalidHeadersForS3Origin', message: message);
 }
 
+/// @nodoc
 class InvalidIfMatchVersion extends _s.GenericAwsException {
   InvalidIfMatchVersion({String? type, String? message})
       : super(type: type, code: 'InvalidIfMatchVersion', message: message);
 }
 
+/// @nodoc
 class InvalidLambdaFunctionAssociation extends _s.GenericAwsException {
   InvalidLambdaFunctionAssociation({String? type, String? message})
       : super(
@@ -28794,11 +29499,13 @@ class InvalidLambdaFunctionAssociation extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLocationCode extends _s.GenericAwsException {
   InvalidLocationCode({String? type, String? message})
       : super(type: type, code: 'InvalidLocationCode', message: message);
 }
 
+/// @nodoc
 class InvalidMinimumProtocolVersion extends _s.GenericAwsException {
   InvalidMinimumProtocolVersion({String? type, String? message})
       : super(
@@ -28807,22 +29514,26 @@ class InvalidMinimumProtocolVersion extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidOrigin extends _s.GenericAwsException {
   InvalidOrigin({String? type, String? message})
       : super(type: type, code: 'InvalidOrigin', message: message);
 }
 
+/// @nodoc
 class InvalidOriginAccessControl extends _s.GenericAwsException {
   InvalidOriginAccessControl({String? type, String? message})
       : super(type: type, code: 'InvalidOriginAccessControl', message: message);
 }
 
+/// @nodoc
 class InvalidOriginAccessIdentity extends _s.GenericAwsException {
   InvalidOriginAccessIdentity({String? type, String? message})
       : super(
             type: type, code: 'InvalidOriginAccessIdentity', message: message);
 }
 
+/// @nodoc
 class InvalidOriginKeepaliveTimeout extends _s.GenericAwsException {
   InvalidOriginKeepaliveTimeout({String? type, String? message})
       : super(
@@ -28831,67 +29542,80 @@ class InvalidOriginKeepaliveTimeout extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidOriginReadTimeout extends _s.GenericAwsException {
   InvalidOriginReadTimeout({String? type, String? message})
       : super(type: type, code: 'InvalidOriginReadTimeout', message: message);
 }
 
+/// @nodoc
 class InvalidProtocolSettings extends _s.GenericAwsException {
   InvalidProtocolSettings({String? type, String? message})
       : super(type: type, code: 'InvalidProtocolSettings', message: message);
 }
 
+/// @nodoc
 class InvalidQueryStringParameters extends _s.GenericAwsException {
   InvalidQueryStringParameters({String? type, String? message})
       : super(
             type: type, code: 'InvalidQueryStringParameters', message: message);
 }
 
+/// @nodoc
 class InvalidRelativePath extends _s.GenericAwsException {
   InvalidRelativePath({String? type, String? message})
       : super(type: type, code: 'InvalidRelativePath', message: message);
 }
 
+/// @nodoc
 class InvalidRequiredProtocol extends _s.GenericAwsException {
   InvalidRequiredProtocol({String? type, String? message})
       : super(type: type, code: 'InvalidRequiredProtocol', message: message);
 }
 
+/// @nodoc
 class InvalidResponseCode extends _s.GenericAwsException {
   InvalidResponseCode({String? type, String? message})
       : super(type: type, code: 'InvalidResponseCode', message: message);
 }
 
+/// @nodoc
 class InvalidTTLOrder extends _s.GenericAwsException {
   InvalidTTLOrder({String? type, String? message})
       : super(type: type, code: 'InvalidTTLOrder', message: message);
 }
 
+/// @nodoc
 class InvalidTagging extends _s.GenericAwsException {
   InvalidTagging({String? type, String? message})
       : super(type: type, code: 'InvalidTagging', message: message);
 }
 
+/// @nodoc
 class InvalidViewerCertificate extends _s.GenericAwsException {
   InvalidViewerCertificate({String? type, String? message})
       : super(type: type, code: 'InvalidViewerCertificate', message: message);
 }
 
+/// @nodoc
 class InvalidWebACLId extends _s.GenericAwsException {
   InvalidWebACLId({String? type, String? message})
       : super(type: type, code: 'InvalidWebACLId', message: message);
 }
 
+/// @nodoc
 class KeyGroupAlreadyExists extends _s.GenericAwsException {
   KeyGroupAlreadyExists({String? type, String? message})
       : super(type: type, code: 'KeyGroupAlreadyExists', message: message);
 }
 
+/// @nodoc
 class MissingBody extends _s.GenericAwsException {
   MissingBody({String? type, String? message})
       : super(type: type, code: 'MissingBody', message: message);
 }
 
+/// @nodoc
 class MonitoringSubscriptionAlreadyExists extends _s.GenericAwsException {
   MonitoringSubscriptionAlreadyExists({String? type, String? message})
       : super(
@@ -28900,11 +29624,13 @@ class MonitoringSubscriptionAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchCachePolicy extends _s.GenericAwsException {
   NoSuchCachePolicy({String? type, String? message})
       : super(type: type, code: 'NoSuchCachePolicy', message: message);
 }
 
+/// @nodoc
 class NoSuchCloudFrontOriginAccessIdentity extends _s.GenericAwsException {
   NoSuchCloudFrontOriginAccessIdentity({String? type, String? message})
       : super(
@@ -28913,6 +29639,7 @@ class NoSuchCloudFrontOriginAccessIdentity extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchContinuousDeploymentPolicy extends _s.GenericAwsException {
   NoSuchContinuousDeploymentPolicy({String? type, String? message})
       : super(
@@ -28921,11 +29648,13 @@ class NoSuchContinuousDeploymentPolicy extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchDistribution extends _s.GenericAwsException {
   NoSuchDistribution({String? type, String? message})
       : super(type: type, code: 'NoSuchDistribution', message: message);
 }
 
+/// @nodoc
 class NoSuchFieldLevelEncryptionConfig extends _s.GenericAwsException {
   NoSuchFieldLevelEncryptionConfig({String? type, String? message})
       : super(
@@ -28934,6 +29663,7 @@ class NoSuchFieldLevelEncryptionConfig extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchFieldLevelEncryptionProfile extends _s.GenericAwsException {
   NoSuchFieldLevelEncryptionProfile({String? type, String? message})
       : super(
@@ -28942,64 +29672,76 @@ class NoSuchFieldLevelEncryptionProfile extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NoSuchFunctionExists extends _s.GenericAwsException {
   NoSuchFunctionExists({String? type, String? message})
       : super(type: type, code: 'NoSuchFunctionExists', message: message);
 }
 
+/// @nodoc
 class NoSuchInvalidation extends _s.GenericAwsException {
   NoSuchInvalidation({String? type, String? message})
       : super(type: type, code: 'NoSuchInvalidation', message: message);
 }
 
+/// @nodoc
 class NoSuchMonitoringSubscription extends _s.GenericAwsException {
   NoSuchMonitoringSubscription({String? type, String? message})
       : super(
             type: type, code: 'NoSuchMonitoringSubscription', message: message);
 }
 
+/// @nodoc
 class NoSuchOrigin extends _s.GenericAwsException {
   NoSuchOrigin({String? type, String? message})
       : super(type: type, code: 'NoSuchOrigin', message: message);
 }
 
+/// @nodoc
 class NoSuchOriginAccessControl extends _s.GenericAwsException {
   NoSuchOriginAccessControl({String? type, String? message})
       : super(type: type, code: 'NoSuchOriginAccessControl', message: message);
 }
 
+/// @nodoc
 class NoSuchOriginRequestPolicy extends _s.GenericAwsException {
   NoSuchOriginRequestPolicy({String? type, String? message})
       : super(type: type, code: 'NoSuchOriginRequestPolicy', message: message);
 }
 
+/// @nodoc
 class NoSuchPublicKey extends _s.GenericAwsException {
   NoSuchPublicKey({String? type, String? message})
       : super(type: type, code: 'NoSuchPublicKey', message: message);
 }
 
+/// @nodoc
 class NoSuchRealtimeLogConfig extends _s.GenericAwsException {
   NoSuchRealtimeLogConfig({String? type, String? message})
       : super(type: type, code: 'NoSuchRealtimeLogConfig', message: message);
 }
 
+/// @nodoc
 class NoSuchResource extends _s.GenericAwsException {
   NoSuchResource({String? type, String? message})
       : super(type: type, code: 'NoSuchResource', message: message);
 }
 
+/// @nodoc
 class NoSuchResponseHeadersPolicy extends _s.GenericAwsException {
   NoSuchResponseHeadersPolicy({String? type, String? message})
       : super(
             type: type, code: 'NoSuchResponseHeadersPolicy', message: message);
 }
 
+/// @nodoc
 class NoSuchStreamingDistribution extends _s.GenericAwsException {
   NoSuchStreamingDistribution({String? type, String? message})
       : super(
             type: type, code: 'NoSuchStreamingDistribution', message: message);
 }
 
+/// @nodoc
 class OriginAccessControlAlreadyExists extends _s.GenericAwsException {
   OriginAccessControlAlreadyExists({String? type, String? message})
       : super(
@@ -29008,11 +29750,13 @@ class OriginAccessControlAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OriginAccessControlInUse extends _s.GenericAwsException {
   OriginAccessControlInUse({String? type, String? message})
       : super(type: type, code: 'OriginAccessControlInUse', message: message);
 }
 
+/// @nodoc
 class OriginRequestPolicyAlreadyExists extends _s.GenericAwsException {
   OriginRequestPolicyAlreadyExists({String? type, String? message})
       : super(
@@ -29021,31 +29765,37 @@ class OriginRequestPolicyAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OriginRequestPolicyInUse extends _s.GenericAwsException {
   OriginRequestPolicyInUse({String? type, String? message})
       : super(type: type, code: 'OriginRequestPolicyInUse', message: message);
 }
 
+/// @nodoc
 class PreconditionFailed extends _s.GenericAwsException {
   PreconditionFailed({String? type, String? message})
       : super(type: type, code: 'PreconditionFailed', message: message);
 }
 
+/// @nodoc
 class PublicKeyAlreadyExists extends _s.GenericAwsException {
   PublicKeyAlreadyExists({String? type, String? message})
       : super(type: type, code: 'PublicKeyAlreadyExists', message: message);
 }
 
+/// @nodoc
 class PublicKeyInUse extends _s.GenericAwsException {
   PublicKeyInUse({String? type, String? message})
       : super(type: type, code: 'PublicKeyInUse', message: message);
 }
 
+/// @nodoc
 class QueryArgProfileEmpty extends _s.GenericAwsException {
   QueryArgProfileEmpty({String? type, String? message})
       : super(type: type, code: 'QueryArgProfileEmpty', message: message);
 }
 
+/// @nodoc
 class RealtimeLogConfigAlreadyExists extends _s.GenericAwsException {
   RealtimeLogConfigAlreadyExists({String? type, String? message})
       : super(
@@ -29054,11 +29804,13 @@ class RealtimeLogConfigAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RealtimeLogConfigInUse extends _s.GenericAwsException {
   RealtimeLogConfigInUse({String? type, String? message})
       : super(type: type, code: 'RealtimeLogConfigInUse', message: message);
 }
 
+/// @nodoc
 class RealtimeLogConfigOwnerMismatch extends _s.GenericAwsException {
   RealtimeLogConfigOwnerMismatch({String? type, String? message})
       : super(
@@ -29067,16 +29819,19 @@ class RealtimeLogConfigOwnerMismatch extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUse extends _s.GenericAwsException {
   ResourceInUse({String? type, String? message})
       : super(type: type, code: 'ResourceInUse', message: message);
 }
 
+/// @nodoc
 class ResourceNotDisabled extends _s.GenericAwsException {
   ResourceNotDisabled({String? type, String? message})
       : super(type: type, code: 'ResourceNotDisabled', message: message);
 }
 
+/// @nodoc
 class ResponseHeadersPolicyAlreadyExists extends _s.GenericAwsException {
   ResponseHeadersPolicyAlreadyExists({String? type, String? message})
       : super(
@@ -29085,16 +29840,19 @@ class ResponseHeadersPolicyAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResponseHeadersPolicyInUse extends _s.GenericAwsException {
   ResponseHeadersPolicyInUse({String? type, String? message})
       : super(type: type, code: 'ResponseHeadersPolicyInUse', message: message);
 }
 
+/// @nodoc
 class StagingDistributionInUse extends _s.GenericAwsException {
   StagingDistributionInUse({String? type, String? message})
       : super(type: type, code: 'StagingDistributionInUse', message: message);
 }
 
+/// @nodoc
 class StreamingDistributionAlreadyExists extends _s.GenericAwsException {
   StreamingDistributionAlreadyExists({String? type, String? message})
       : super(
@@ -29103,6 +29861,7 @@ class StreamingDistributionAlreadyExists extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class StreamingDistributionNotDisabled extends _s.GenericAwsException {
   StreamingDistributionNotDisabled({String? type, String? message})
       : super(
@@ -29111,11 +29870,13 @@ class StreamingDistributionNotDisabled extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TestFunctionFailed extends _s.GenericAwsException {
   TestFunctionFailed({String? type, String? message})
       : super(type: type, code: 'TestFunctionFailed', message: message);
 }
 
+/// @nodoc
 class TooLongCSPInResponseHeadersPolicy extends _s.GenericAwsException {
   TooLongCSPInResponseHeadersPolicy({String? type, String? message})
       : super(
@@ -29124,21 +29885,25 @@ class TooLongCSPInResponseHeadersPolicy extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyCacheBehaviors extends _s.GenericAwsException {
   TooManyCacheBehaviors({String? type, String? message})
       : super(type: type, code: 'TooManyCacheBehaviors', message: message);
 }
 
+/// @nodoc
 class TooManyCachePolicies extends _s.GenericAwsException {
   TooManyCachePolicies({String? type, String? message})
       : super(type: type, code: 'TooManyCachePolicies', message: message);
 }
 
+/// @nodoc
 class TooManyCertificates extends _s.GenericAwsException {
   TooManyCertificates({String? type, String? message})
       : super(type: type, code: 'TooManyCertificates', message: message);
 }
 
+/// @nodoc
 class TooManyCloudFrontOriginAccessIdentities extends _s.GenericAwsException {
   TooManyCloudFrontOriginAccessIdentities({String? type, String? message})
       : super(
@@ -29147,6 +29912,7 @@ class TooManyCloudFrontOriginAccessIdentities extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyContinuousDeploymentPolicies extends _s.GenericAwsException {
   TooManyContinuousDeploymentPolicies({String? type, String? message})
       : super(
@@ -29155,6 +29921,7 @@ class TooManyContinuousDeploymentPolicies extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyCookieNamesInWhiteList extends _s.GenericAwsException {
   TooManyCookieNamesInWhiteList({String? type, String? message})
       : super(
@@ -29163,12 +29930,14 @@ class TooManyCookieNamesInWhiteList extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyCookiesInCachePolicy extends _s.GenericAwsException {
   TooManyCookiesInCachePolicy({String? type, String? message})
       : super(
             type: type, code: 'TooManyCookiesInCachePolicy', message: message);
 }
 
+/// @nodoc
 class TooManyCookiesInOriginRequestPolicy extends _s.GenericAwsException {
   TooManyCookiesInOriginRequestPolicy({String? type, String? message})
       : super(
@@ -29177,6 +29946,7 @@ class TooManyCookiesInOriginRequestPolicy extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyCustomHeadersInResponseHeadersPolicy
     extends _s.GenericAwsException {
   TooManyCustomHeadersInResponseHeadersPolicy({String? type, String? message})
@@ -29186,16 +29956,19 @@ class TooManyCustomHeadersInResponseHeadersPolicy
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionCNAMEs extends _s.GenericAwsException {
   TooManyDistributionCNAMEs({String? type, String? message})
       : super(type: type, code: 'TooManyDistributionCNAMEs', message: message);
 }
 
+/// @nodoc
 class TooManyDistributions extends _s.GenericAwsException {
   TooManyDistributions({String? type, String? message})
       : super(type: type, code: 'TooManyDistributions', message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsAssociatedToCachePolicy
     extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToCachePolicy({String? type, String? message})
@@ -29205,6 +29978,7 @@ class TooManyDistributionsAssociatedToCachePolicy
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
     extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToFieldLevelEncryptionConfig(
@@ -29215,6 +29989,7 @@ class TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsAssociatedToKeyGroup extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToKeyGroup({String? type, String? message})
       : super(
@@ -29223,6 +29998,7 @@ class TooManyDistributionsAssociatedToKeyGroup extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsAssociatedToOriginAccessControl
     extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToOriginAccessControl(
@@ -29233,6 +30009,7 @@ class TooManyDistributionsAssociatedToOriginAccessControl
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsAssociatedToOriginRequestPolicy
     extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToOriginRequestPolicy(
@@ -29243,6 +30020,7 @@ class TooManyDistributionsAssociatedToOriginRequestPolicy
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsAssociatedToResponseHeadersPolicy
     extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToResponseHeadersPolicy(
@@ -29253,6 +30031,7 @@ class TooManyDistributionsAssociatedToResponseHeadersPolicy
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsWithFunctionAssociations
     extends _s.GenericAwsException {
   TooManyDistributionsWithFunctionAssociations({String? type, String? message})
@@ -29262,6 +30041,7 @@ class TooManyDistributionsWithFunctionAssociations
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsWithLambdaAssociations
     extends _s.GenericAwsException {
   TooManyDistributionsWithLambdaAssociations({String? type, String? message})
@@ -29271,6 +30051,7 @@ class TooManyDistributionsWithLambdaAssociations
             message: message);
 }
 
+/// @nodoc
 class TooManyDistributionsWithSingleFunctionARN extends _s.GenericAwsException {
   TooManyDistributionsWithSingleFunctionARN({String? type, String? message})
       : super(
@@ -29279,6 +30060,7 @@ class TooManyDistributionsWithSingleFunctionARN extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyFieldLevelEncryptionConfigs extends _s.GenericAwsException {
   TooManyFieldLevelEncryptionConfigs({String? type, String? message})
       : super(
@@ -29287,6 +30069,7 @@ class TooManyFieldLevelEncryptionConfigs extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyFieldLevelEncryptionContentTypeProfiles
     extends _s.GenericAwsException {
   TooManyFieldLevelEncryptionContentTypeProfiles(
@@ -29297,6 +30080,7 @@ class TooManyFieldLevelEncryptionContentTypeProfiles
             message: message);
 }
 
+/// @nodoc
 class TooManyFieldLevelEncryptionEncryptionEntities
     extends _s.GenericAwsException {
   TooManyFieldLevelEncryptionEncryptionEntities({String? type, String? message})
@@ -29306,6 +30090,7 @@ class TooManyFieldLevelEncryptionEncryptionEntities
             message: message);
 }
 
+/// @nodoc
 class TooManyFieldLevelEncryptionFieldPatterns extends _s.GenericAwsException {
   TooManyFieldLevelEncryptionFieldPatterns({String? type, String? message})
       : super(
@@ -29314,6 +30099,7 @@ class TooManyFieldLevelEncryptionFieldPatterns extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyFieldLevelEncryptionProfiles extends _s.GenericAwsException {
   TooManyFieldLevelEncryptionProfiles({String? type, String? message})
       : super(
@@ -29322,6 +30108,7 @@ class TooManyFieldLevelEncryptionProfiles extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyFieldLevelEncryptionQueryArgProfiles
     extends _s.GenericAwsException {
   TooManyFieldLevelEncryptionQueryArgProfiles({String? type, String? message})
@@ -29331,23 +30118,27 @@ class TooManyFieldLevelEncryptionQueryArgProfiles
             message: message);
 }
 
+/// @nodoc
 class TooManyFunctionAssociations extends _s.GenericAwsException {
   TooManyFunctionAssociations({String? type, String? message})
       : super(
             type: type, code: 'TooManyFunctionAssociations', message: message);
 }
 
+/// @nodoc
 class TooManyFunctions extends _s.GenericAwsException {
   TooManyFunctions({String? type, String? message})
       : super(type: type, code: 'TooManyFunctions', message: message);
 }
 
+/// @nodoc
 class TooManyHeadersInCachePolicy extends _s.GenericAwsException {
   TooManyHeadersInCachePolicy({String? type, String? message})
       : super(
             type: type, code: 'TooManyHeadersInCachePolicy', message: message);
 }
 
+/// @nodoc
 class TooManyHeadersInForwardedValues extends _s.GenericAwsException {
   TooManyHeadersInForwardedValues({String? type, String? message})
       : super(
@@ -29356,6 +30147,7 @@ class TooManyHeadersInForwardedValues extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyHeadersInOriginRequestPolicy extends _s.GenericAwsException {
   TooManyHeadersInOriginRequestPolicy({String? type, String? message})
       : super(
@@ -29364,6 +30156,7 @@ class TooManyHeadersInOriginRequestPolicy extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyInvalidationsInProgress extends _s.GenericAwsException {
   TooManyInvalidationsInProgress({String? type, String? message})
       : super(
@@ -29372,11 +30165,13 @@ class TooManyInvalidationsInProgress extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyKeyGroups extends _s.GenericAwsException {
   TooManyKeyGroups({String? type, String? message})
       : super(type: type, code: 'TooManyKeyGroups', message: message);
 }
 
+/// @nodoc
 class TooManyKeyGroupsAssociatedToDistribution extends _s.GenericAwsException {
   TooManyKeyGroupsAssociatedToDistribution({String? type, String? message})
       : super(
@@ -29385,6 +30180,7 @@ class TooManyKeyGroupsAssociatedToDistribution extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyLambdaFunctionAssociations extends _s.GenericAwsException {
   TooManyLambdaFunctionAssociations({String? type, String? message})
       : super(
@@ -29393,17 +30189,20 @@ class TooManyLambdaFunctionAssociations extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyOriginAccessControls extends _s.GenericAwsException {
   TooManyOriginAccessControls({String? type, String? message})
       : super(
             type: type, code: 'TooManyOriginAccessControls', message: message);
 }
 
+/// @nodoc
 class TooManyOriginCustomHeaders extends _s.GenericAwsException {
   TooManyOriginCustomHeaders({String? type, String? message})
       : super(type: type, code: 'TooManyOriginCustomHeaders', message: message);
 }
 
+/// @nodoc
 class TooManyOriginGroupsPerDistribution extends _s.GenericAwsException {
   TooManyOriginGroupsPerDistribution({String? type, String? message})
       : super(
@@ -29412,34 +30211,40 @@ class TooManyOriginGroupsPerDistribution extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyOriginRequestPolicies extends _s.GenericAwsException {
   TooManyOriginRequestPolicies({String? type, String? message})
       : super(
             type: type, code: 'TooManyOriginRequestPolicies', message: message);
 }
 
+/// @nodoc
 class TooManyOrigins extends _s.GenericAwsException {
   TooManyOrigins({String? type, String? message})
       : super(type: type, code: 'TooManyOrigins', message: message);
 }
 
+/// @nodoc
 class TooManyPublicKeys extends _s.GenericAwsException {
   TooManyPublicKeys({String? type, String? message})
       : super(type: type, code: 'TooManyPublicKeys', message: message);
 }
 
+/// @nodoc
 class TooManyPublicKeysInKeyGroup extends _s.GenericAwsException {
   TooManyPublicKeysInKeyGroup({String? type, String? message})
       : super(
             type: type, code: 'TooManyPublicKeysInKeyGroup', message: message);
 }
 
+/// @nodoc
 class TooManyQueryStringParameters extends _s.GenericAwsException {
   TooManyQueryStringParameters({String? type, String? message})
       : super(
             type: type, code: 'TooManyQueryStringParameters', message: message);
 }
 
+/// @nodoc
 class TooManyQueryStringsInCachePolicy extends _s.GenericAwsException {
   TooManyQueryStringsInCachePolicy({String? type, String? message})
       : super(
@@ -29448,6 +30253,7 @@ class TooManyQueryStringsInCachePolicy extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyQueryStringsInOriginRequestPolicy extends _s.GenericAwsException {
   TooManyQueryStringsInOriginRequestPolicy({String? type, String? message})
       : super(
@@ -29456,11 +30262,13 @@ class TooManyQueryStringsInOriginRequestPolicy extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyRealtimeLogConfigs extends _s.GenericAwsException {
   TooManyRealtimeLogConfigs({String? type, String? message})
       : super(type: type, code: 'TooManyRealtimeLogConfigs', message: message);
 }
 
+/// @nodoc
 class TooManyRemoveHeadersInResponseHeadersPolicy
     extends _s.GenericAwsException {
   TooManyRemoveHeadersInResponseHeadersPolicy({String? type, String? message})
@@ -29470,6 +30278,7 @@ class TooManyRemoveHeadersInResponseHeadersPolicy
             message: message);
 }
 
+/// @nodoc
 class TooManyResponseHeadersPolicies extends _s.GenericAwsException {
   TooManyResponseHeadersPolicies({String? type, String? message})
       : super(
@@ -29478,6 +30287,7 @@ class TooManyResponseHeadersPolicies extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyStreamingDistributionCNAMEs extends _s.GenericAwsException {
   TooManyStreamingDistributionCNAMEs({String? type, String? message})
       : super(
@@ -29486,6 +30296,7 @@ class TooManyStreamingDistributionCNAMEs extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyStreamingDistributions extends _s.GenericAwsException {
   TooManyStreamingDistributions({String? type, String? message})
       : super(
@@ -29494,22 +30305,26 @@ class TooManyStreamingDistributions extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyTrustedSigners extends _s.GenericAwsException {
   TooManyTrustedSigners({String? type, String? message})
       : super(type: type, code: 'TooManyTrustedSigners', message: message);
 }
 
+/// @nodoc
 class TrustedKeyGroupDoesNotExist extends _s.GenericAwsException {
   TrustedKeyGroupDoesNotExist({String? type, String? message})
       : super(
             type: type, code: 'TrustedKeyGroupDoesNotExist', message: message);
 }
 
+/// @nodoc
 class TrustedSignerDoesNotExist extends _s.GenericAwsException {
   TrustedSignerDoesNotExist({String? type, String? message})
       : super(type: type, code: 'TrustedSignerDoesNotExist', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperation extends _s.GenericAwsException {
   UnsupportedOperation({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperation', message: message);

@@ -1512,6 +1512,7 @@ class RtbFabric {
   }
 }
 
+/// @nodoc
 class ListRequesterGatewaysResponse {
   /// The unique identifier of the gateways.
   final List<String>? gatewayIds;
@@ -1549,6 +1550,7 @@ class ListRequesterGatewaysResponse {
   }
 }
 
+/// @nodoc
 class ListResponderGatewaysResponse {
   /// The unique identifier of the gateways.
   final List<String>? gatewayIds;
@@ -1586,6 +1588,7 @@ class ListResponderGatewaysResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A map of the key-value pairs for the tag or tags assigned to the specified
   /// resource.
@@ -1610,6 +1613,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1622,6 +1626,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1634,6 +1639,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateLinkResponse {
   /// The timestamp of when the link was created.
   final DateTime createdAt;
@@ -1750,6 +1756,7 @@ class CreateLinkResponse {
   }
 }
 
+/// @nodoc
 class GetLinkResponse {
   /// The timestamp of when the link was created.
   final DateTime createdAt;
@@ -1885,6 +1892,7 @@ class GetLinkResponse {
   }
 }
 
+/// @nodoc
 class DeleteLinkResponse {
   /// The unique identifier of the link.
   final String linkId;
@@ -1914,6 +1922,7 @@ class DeleteLinkResponse {
   }
 }
 
+/// @nodoc
 class ListLinksResponse {
   /// Information about created links.
   final List<ListLinksResponseStructure>? links;
@@ -1952,6 +1961,7 @@ class ListLinksResponse {
   }
 }
 
+/// @nodoc
 class AcceptLinkResponse {
   /// The timestamp of when the link was created.
   final DateTime createdAt;
@@ -2061,6 +2071,7 @@ class AcceptLinkResponse {
   }
 }
 
+/// @nodoc
 class RejectLinkResponse {
   /// The timestamp of when the link was created.
   final DateTime createdAt;
@@ -2170,6 +2181,7 @@ class RejectLinkResponse {
   }
 }
 
+/// @nodoc
 class UpdateLinkResponse {
   /// The unique identifier of the link.
   final String linkId;
@@ -2199,6 +2211,7 @@ class UpdateLinkResponse {
   }
 }
 
+/// @nodoc
 class UpdateLinkModuleFlowResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -2235,6 +2248,7 @@ class UpdateLinkModuleFlowResponse {
   }
 }
 
+/// @nodoc
 class CreateLinkRoutingRuleResponse {
   /// The timestamp of when the routing rule was created.
   final DateTime createdAt;
@@ -2271,6 +2285,7 @@ class CreateLinkRoutingRuleResponse {
   }
 }
 
+/// @nodoc
 class GetLinkRoutingRuleResponse {
   /// The conditions for the routing rule.
   final RuleCondition conditions;
@@ -2353,6 +2368,7 @@ class GetLinkRoutingRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateLinkRoutingRuleResponse {
   /// The unique identifier of the routing rule.
   final String ruleId;
@@ -2389,6 +2405,7 @@ class UpdateLinkRoutingRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteLinkRoutingRuleResponse {
   /// The unique identifier of the routing rule.
   final String ruleId;
@@ -2418,6 +2435,7 @@ class DeleteLinkRoutingRuleResponse {
   }
 }
 
+/// @nodoc
 class ListLinkRoutingRulesResponse {
   /// If <code>nextToken</code> is returned, there are more results available. The
   /// value of <code>nextToken</code> is a unique pagination token for each page.
@@ -2456,6 +2474,7 @@ class ListLinkRoutingRulesResponse {
   }
 }
 
+/// @nodoc
 class CreateRequesterGatewayResponse {
   /// The domain name of the requester gateway.
   final String domainName;
@@ -2493,6 +2512,7 @@ class CreateRequesterGatewayResponse {
   }
 }
 
+/// @nodoc
 class GetRequesterGatewayResponse {
   /// The domain name of the requester gateway.
   final String domainName;
@@ -2601,6 +2621,7 @@ class GetRequesterGatewayResponse {
   }
 }
 
+/// @nodoc
 class DeleteRequesterGatewayResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -2631,6 +2652,7 @@ class DeleteRequesterGatewayResponse {
   }
 }
 
+/// @nodoc
 class UpdateRequesterGatewayResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -2661,6 +2683,7 @@ class UpdateRequesterGatewayResponse {
   }
 }
 
+/// @nodoc
 class CreateOutboundExternalLinkResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -2698,6 +2721,7 @@ class CreateOutboundExternalLinkResponse {
   }
 }
 
+/// @nodoc
 class DeleteOutboundExternalLinkResponse {
   /// The unique identifier of the link.
   final String linkId;
@@ -2728,6 +2752,7 @@ class DeleteOutboundExternalLinkResponse {
   }
 }
 
+/// @nodoc
 class GetOutboundExternalLinkResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -2839,6 +2864,7 @@ class GetOutboundExternalLinkResponse {
   }
 }
 
+/// @nodoc
 class CreateResponderGatewayResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -2887,6 +2913,7 @@ class CreateResponderGatewayResponse {
   }
 }
 
+/// @nodoc
 class GetResponderGatewayResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -3074,6 +3101,7 @@ class GetResponderGatewayResponse {
   }
 }
 
+/// @nodoc
 class DeleteResponderGatewayResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -3104,6 +3132,7 @@ class DeleteResponderGatewayResponse {
   }
 }
 
+/// @nodoc
 class AssociateCertificateResponse {
   /// The Amazon Resource Name (ARN) of the ACM certificate.
   final String acmCertificateArn;
@@ -3141,6 +3170,7 @@ class AssociateCertificateResponse {
   }
 }
 
+/// @nodoc
 class DisassociateCertificateResponse {
   /// The Amazon Resource Name (ARN) of the ACM certificate.
   final String acmCertificateArn;
@@ -3178,6 +3208,7 @@ class DisassociateCertificateResponse {
   }
 }
 
+/// @nodoc
 class GetCertificateAssociationResponse {
   /// The Amazon Resource Name (ARN) of the ACM certificate.
   final String acmCertificateArn;
@@ -3231,6 +3262,7 @@ class GetCertificateAssociationResponse {
   }
 }
 
+/// @nodoc
 class ListCertificateAssociationsResponse {
   /// The list of certificate associations for the gateway.
   final List<CertificateAssociationSummary> certificateAssociations;
@@ -3271,6 +3303,7 @@ class ListCertificateAssociationsResponse {
   }
 }
 
+/// @nodoc
 class UpdateResponderGatewayResponse {
   /// The unique identifier of the gateway.
   final String gatewayId;
@@ -3301,6 +3334,7 @@ class UpdateResponderGatewayResponse {
   }
 }
 
+/// @nodoc
 class CreateInboundExternalLinkResponse {
   /// The domain name.
   final String domainName;
@@ -3345,6 +3379,7 @@ class CreateInboundExternalLinkResponse {
   }
 }
 
+/// @nodoc
 class DeleteInboundExternalLinkResponse {
   /// The unique identifier of the link.
   final String linkId;
@@ -3375,6 +3410,7 @@ class DeleteInboundExternalLinkResponse {
   }
 }
 
+/// @nodoc
 class GetInboundExternalLinkResponse {
   /// The domain name.
   final String domainName;
@@ -3488,6 +3524,7 @@ class GetInboundExternalLinkResponse {
   }
 }
 
+/// @nodoc
 class LinkStatus {
   static const pendingCreation = LinkStatus._('PENDING_CREATION');
   static const pendingRequest = LinkStatus._('PENDING_REQUEST');
@@ -3537,6 +3574,8 @@ class LinkStatus {
 }
 
 /// Describes the attributes of a link.
+///
+/// @nodoc
 class LinkAttributes {
   /// The customer-provided unique identifier of the link.
   final String? customerProvidedId;
@@ -3572,6 +3611,8 @@ class LinkAttributes {
 }
 
 /// Describes the settings for a link log.
+///
+/// @nodoc
 class LinkLogSettings {
   /// Describes the configuration of a link application log.
   final LinkApplicationLogConfiguration applicationLogs;
@@ -3597,6 +3638,8 @@ class LinkLogSettings {
 }
 
 /// The connectivity type for a link or gateway.
+///
+/// @nodoc
 class ConnectivityType {
   static const $default = ConnectivityType._('DEFAULT');
   static const publicIngress = ConnectivityType._('PUBLIC_INGRESS');
@@ -3629,6 +3672,8 @@ class ConnectivityType {
 }
 
 /// Describes the configuration of a link application log.
+///
+/// @nodoc
 class LinkApplicationLogConfiguration {
   /// Describes a link application log sample.
   final LinkApplicationLogSampling sampling;
@@ -3654,6 +3699,8 @@ class LinkApplicationLogConfiguration {
 }
 
 /// Describes a link application log sample.
+///
+/// @nodoc
 class LinkApplicationLogSampling {
   /// An error log entry.
   final double errorLog;
@@ -3684,6 +3731,8 @@ class LinkApplicationLogSampling {
 }
 
 /// Describes the masking for HTTP error codes.
+///
+/// @nodoc
 class ResponderErrorMaskingForHttpCode {
   /// The action for the error..
   final ResponderErrorMaskingAction action;
@@ -3733,6 +3782,7 @@ class ResponderErrorMaskingForHttpCode {
   }
 }
 
+/// @nodoc
 class ResponderErrorMaskingAction {
   static const noBid = ResponderErrorMaskingAction._('NO_BID');
   static const passthrough = ResponderErrorMaskingAction._('PASSTHROUGH');
@@ -3758,6 +3808,7 @@ class ResponderErrorMaskingAction {
   String toString() => value;
 }
 
+/// @nodoc
 class ResponderErrorMaskingLoggingType {
   static const none = ResponderErrorMaskingLoggingType._('NONE');
   static const metric = ResponderErrorMaskingLoggingType._('METRIC');
@@ -3785,6 +3836,8 @@ class ResponderErrorMaskingLoggingType {
 }
 
 /// Describes the configuration of a module.
+///
+/// @nodoc
 class ModuleConfiguration {
   /// The name of the module.
   final String name;
@@ -3835,6 +3888,8 @@ class ModuleConfiguration {
 }
 
 /// Describes the parameters of a module.
+///
+/// @nodoc
 class ModuleParameters {
   /// Describes the parameters of a no bid module.
   final NoBidModuleParameters? noBid;
@@ -3881,6 +3936,8 @@ class ModuleParameters {
 }
 
 /// Describes the parameters of a no bid module.
+///
+/// @nodoc
 class NoBidModuleParameters {
   /// The pass through percentage.
   final double? passThroughPercentage;
@@ -3919,6 +3976,8 @@ class NoBidModuleParameters {
 }
 
 /// Describes the parameters of an open RTB attribute module.
+///
+/// @nodoc
 class OpenRtbAttributeModuleParameters {
   /// Describes a bid action.
   final Action action;
@@ -3967,6 +4026,8 @@ class OpenRtbAttributeModuleParameters {
 }
 
 /// Describes the parameters of a rate limit.
+///
+/// @nodoc
 class RateLimiterModuleParameters {
   /// The transactions per second rate limit.
   final double? tps;
@@ -3989,6 +4050,7 @@ class RateLimiterModuleParameters {
   }
 }
 
+/// @nodoc
 class FilterType {
   static const include = FilterType._('INCLUDE');
   static const exclude = FilterType._('EXCLUDE');
@@ -4013,6 +4075,8 @@ class FilterType {
 }
 
 /// Describes a bid action.
+///
+/// @nodoc
 class Action {
   /// Describes the header tag for a bid action.
   final HeaderTagAction? headerTag;
@@ -4047,6 +4111,8 @@ class Action {
 }
 
 /// Describes a no bid action.
+///
+/// @nodoc
 class NoBidAction {
   /// The reason code for the no bid action.
   final int? noBidReasonCode;
@@ -4070,6 +4136,8 @@ class NoBidAction {
 }
 
 /// Describes the header tag for a bid action.
+///
+/// @nodoc
 class HeaderTagAction {
   /// The name of the bid action.
   final String name;
@@ -4100,6 +4168,8 @@ class HeaderTagAction {
 }
 
 /// Describes the configuration of a filter.
+///
+/// @nodoc
 class Filter {
   /// Describes the criteria for a filter.
   final List<FilterCriterion> criteria;
@@ -4126,6 +4196,8 @@ class Filter {
 }
 
 /// Describes the criteria for a filter.
+///
+/// @nodoc
 class FilterCriterion {
   /// The path to filter.
   final String path;
@@ -4158,6 +4230,7 @@ class FilterCriterion {
   }
 }
 
+/// @nodoc
 class ResponderGatewayStatus {
   static const pendingCreation = ResponderGatewayStatus._('PENDING_CREATION');
   static const active = ResponderGatewayStatus._('ACTIVE');
@@ -4201,6 +4274,7 @@ class ResponderGatewayStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Protocol {
   static const http = Protocol._('HTTP');
   static const https = Protocol._('HTTPS');
@@ -4226,6 +4300,8 @@ class Protocol {
 
 /// Listener configuration for the protocols (HTTP, HTTPS, or both) accepted by
 /// the gateway.
+///
+/// @nodoc
 class ListenerConfig {
   /// The protocol for connections from clients to the gateway
   final List<Protocol> protocols;
@@ -4252,6 +4328,8 @@ class ListenerConfig {
 }
 
 /// Describes the configuration of a trust store.
+///
+/// @nodoc
 class TrustStoreConfiguration {
   /// The certificate authority certificate.
   final List<String> certificateAuthorityCertificates;
@@ -4280,6 +4358,8 @@ class TrustStoreConfiguration {
 }
 
 /// Describes the configuration of a managed endpoint.
+///
+/// @nodoc
 class ManagedEndpointConfiguration {
   /// Describes the configuration of an auto scaling group.
   final AutoScalingGroupsConfiguration? autoScalingGroups;
@@ -4317,6 +4397,8 @@ class ManagedEndpointConfiguration {
 }
 
 /// Describes the configuration of an auto scaling group.
+///
+/// @nodoc
 class AutoScalingGroupsConfiguration {
   /// The names of the auto scaling group.
   final List<String> autoScalingGroupNames;
@@ -4362,6 +4444,8 @@ class AutoScalingGroupsConfiguration {
 
 /// Describes the configuration of an Amazon Elastic Kubernetes Service
 /// endpoint.
+///
+/// @nodoc
 class EksEndpointsConfiguration {
   /// The CA certificate chain of the cluster API server.
   final String clusterApiServerCaCertificateChain;
@@ -4426,6 +4510,8 @@ class EksEndpointsConfiguration {
 /// The health check configuration for a managed endpoint. Defines how the
 /// service probes instances in the Auto Scaling group to determine their health
 /// status.
+///
+/// @nodoc
 class HealthCheckConfig {
   /// The destination path for the health check request. Must start with
   /// <code>/</code>.
@@ -4508,6 +4594,8 @@ class HealthCheckConfig {
 }
 
 /// Describes a summary of a certificate association.
+///
+/// @nodoc
 class CertificateAssociationSummary {
   /// The Amazon Resource Name (ARN) of the ACM certificate.
   final String acmCertificateArn;
@@ -4554,6 +4642,8 @@ class CertificateAssociationSummary {
 }
 
 /// The status of a certificate association with a gateway.
+///
+/// @nodoc
 class CertificateAssociationStatus {
   static const pendingAssociation =
       CertificateAssociationStatus._('PENDING_ASSOCIATION');
@@ -4591,6 +4681,8 @@ class CertificateAssociationStatus {
 }
 
 /// The type of gateway.
+///
+/// @nodoc
 class GatewayType {
   static const external = GatewayType._('EXTERNAL');
   static const internal = GatewayType._('INTERNAL');
@@ -4614,6 +4706,7 @@ class GatewayType {
   String toString() => value;
 }
 
+/// @nodoc
 class RequesterGatewayStatus {
   static const pendingCreation = RequesterGatewayStatus._('PENDING_CREATION');
   static const active = RequesterGatewayStatus._('ACTIVE');
@@ -4658,6 +4751,8 @@ class RequesterGatewayStatus {
 }
 
 /// A summary of a link routing rule.
+///
+/// @nodoc
 class LinkRoutingRuleSummary {
   /// The conditions for the routing rule.
   final RuleCondition conditions;
@@ -4719,6 +4814,8 @@ class LinkRoutingRuleSummary {
 
 /// The conditions for a routing rule. All specified fields must match for the
 /// rule to apply (AND logic). At least one condition field must be set.
+///
+/// @nodoc
 class RuleCondition {
   /// The exact host header value to match.
   final String? hostHeader;
@@ -4783,6 +4880,8 @@ class RuleCondition {
 }
 
 /// Status of a routing rule
+///
+/// @nodoc
 class RuleStatus {
   static const creationInProgress = RuleStatus._('CREATION_IN_PROGRESS');
   static const active = RuleStatus._('ACTIVE');
@@ -4818,6 +4917,8 @@ class RuleStatus {
 }
 
 /// A key-value pair for query string matching in a routing rule condition.
+///
+/// @nodoc
 class QueryStringKeyValuePair {
   /// The key of the query string parameter to match. Must contain only RFC 3986
   /// unreserved characters.
@@ -4849,6 +4950,7 @@ class QueryStringKeyValuePair {
   }
 }
 
+/// @nodoc
 class LinkDirection {
   static const response = LinkDirection._('RESPONSE');
   static const request = LinkDirection._('REQUEST');
@@ -4874,6 +4976,8 @@ class LinkDirection {
 }
 
 /// Describes a link.
+///
+/// @nodoc
 class ListLinksResponseStructure {
   /// The timestamp of when the link was created.
   final DateTime createdAt;
@@ -4998,26 +5102,31 @@ class ListLinksResponseStructure {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5026,11 +5135,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

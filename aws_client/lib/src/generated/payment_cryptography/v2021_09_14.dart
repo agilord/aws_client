@@ -2841,6 +2841,7 @@ class PaymentCryptography {
   }
 }
 
+/// @nodoc
 class AssociateMpaTeamOutput {
   /// The details of the MPA team association.
   final MpaTeamAssociation mpaTeamAssociation;
@@ -2865,6 +2866,7 @@ class AssociateMpaTeamOutput {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyOutput {
   DeleteResourcePolicyOutput();
 
@@ -2878,6 +2880,8 @@ class DeleteResourcePolicyOutput {
 }
 
 /// Output from disabling default key replication regions for the account.
+///
+/// @nodoc
 class DisableDefaultKeyReplicationRegionsOutput {
   /// The remaining list of regions where default key replication is still enabled
   /// for the account.
@@ -2909,6 +2913,7 @@ class DisableDefaultKeyReplicationRegionsOutput {
   }
 }
 
+/// @nodoc
 class DisassociateMpaTeamOutput {
   /// The details of the MPA team association.
   final MpaTeamAssociation mpaTeamAssociation;
@@ -2934,6 +2939,8 @@ class DisassociateMpaTeamOutput {
 }
 
 /// Output from enabling default key replication regions for the account.
+///
+/// @nodoc
 class EnableDefaultKeyReplicationRegionsOutput {
   /// The complete list of regions where default key replication is now enabled
   /// for the account.
@@ -2965,6 +2972,7 @@ class EnableDefaultKeyReplicationRegionsOutput {
   }
 }
 
+/// @nodoc
 class ExportKeyOutput {
   /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31
   /// WrappedKeyBlock. or a RSA WrappedKeyCryptogram.
@@ -2990,6 +2998,7 @@ class ExportKeyOutput {
   }
 }
 
+/// @nodoc
 class GetCertificateSigningRequestOutput {
   /// The certificate signing request generated using the key pair associated with
   /// the key identifier.
@@ -3017,6 +3026,8 @@ class GetCertificateSigningRequestOutput {
 
 /// Output containing the account's current default key replication
 /// configuration.
+///
+/// @nodoc
 class GetDefaultKeyReplicationRegionsOutput {
   /// The list of regions where default key replication is currently enabled for
   /// the account.
@@ -3048,6 +3059,7 @@ class GetDefaultKeyReplicationRegionsOutput {
   }
 }
 
+/// @nodoc
 class GetMpaTeamAssociationOutput {
   /// The details of the MPA team association.
   final MpaTeamAssociation mpaTeamAssociation;
@@ -3072,6 +3084,7 @@ class GetMpaTeamAssociationOutput {
   }
 }
 
+/// @nodoc
 class GetParametersForExportOutput {
   /// The export token to initiate key export from Amazon Web Services Payment
   /// Cryptography. The export token expires after 30 days. You can use the same
@@ -3132,6 +3145,7 @@ class GetParametersForExportOutput {
   }
 }
 
+/// @nodoc
 class GetParametersForImportOutput {
   /// The import token to initiate key import into Amazon Web Services Payment
   /// Cryptography. The import token expires after 30 days. You can use the same
@@ -3191,6 +3205,7 @@ class GetParametersForImportOutput {
   }
 }
 
+/// @nodoc
 class GetPublicKeyCertificateOutput {
   /// The public key component of the asymmetric key pair in a certificate PEM
   /// format (base64 encoded). It is signed by the root certificate authority
@@ -3225,6 +3240,7 @@ class GetPublicKeyCertificateOutput {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyOutput {
   /// The resource-based policy attached to the key, in JSON format.
   final String policy;
@@ -3254,6 +3270,7 @@ class GetResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class ImportKeyOutput {
   /// The <code>KeyARN</code> of the key material imported within Amazon Web
   /// Services Payment Cryptography.
@@ -3278,6 +3295,7 @@ class ImportKeyOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tags associated with a <code>ResourceArn</code>. Each tag will
   /// list the key-value pair contained within that tag.
@@ -3312,6 +3330,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyOutput {
   /// The resource-based policy that was attached to the key.
   final String policy;
@@ -3342,6 +3361,7 @@ class PutResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -3354,6 +3374,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -3366,6 +3387,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateAliasOutput {
   /// The alias for the key.
   final Alias alias;
@@ -3389,6 +3411,7 @@ class CreateAliasOutput {
   }
 }
 
+/// @nodoc
 class GetAliasOutput {
   /// The alias of the Amazon Web Services Payment Cryptography key.
   final Alias alias;
@@ -3412,6 +3435,7 @@ class GetAliasOutput {
   }
 }
 
+/// @nodoc
 class UpdateAliasOutput {
   /// The alias name.
   final Alias alias;
@@ -3435,6 +3459,7 @@ class UpdateAliasOutput {
   }
 }
 
+/// @nodoc
 class DeleteAliasOutput {
   DeleteAliasOutput();
 
@@ -3447,6 +3472,7 @@ class DeleteAliasOutput {
   }
 }
 
+/// @nodoc
 class ListAliasesOutput {
   /// The list of aliases. Each alias describes the <code>KeyArn</code> contained
   /// within.
@@ -3481,6 +3507,7 @@ class ListAliasesOutput {
   }
 }
 
+/// @nodoc
 class CreateKeyOutput {
   /// The key material that contains all the key attributes.
   final Key key;
@@ -3504,6 +3531,7 @@ class CreateKeyOutput {
   }
 }
 
+/// @nodoc
 class GetKeyOutput {
   /// Contains the key metadata, including both immutable and mutable attributes
   /// for the key, but does not include actual cryptographic key material.
@@ -3528,6 +3556,7 @@ class GetKeyOutput {
   }
 }
 
+/// @nodoc
 class DeleteKeyOutput {
   /// The <code>KeyARN</code> of the key that is scheduled for deletion.
   final Key key;
@@ -3551,6 +3580,7 @@ class DeleteKeyOutput {
   }
 }
 
+/// @nodoc
 class ListKeysOutput {
   /// The list of keys created within the caller's Amazon Web Services account and
   /// Amazon Web Services Region.
@@ -3586,6 +3616,8 @@ class ListKeysOutput {
 }
 
 /// Output from adding replication regions to a key.
+///
+/// @nodoc
 class AddKeyReplicationRegionsOutput {
   /// The updated key metadata after adding the replication regions.
   ///
@@ -3613,6 +3645,8 @@ class AddKeyReplicationRegionsOutput {
 }
 
 /// Output from removing replication regions from a key.
+///
+/// @nodoc
 class RemoveKeyReplicationRegionsOutput {
   /// The updated key metadata after removing the replication regions.
   ///
@@ -3640,6 +3674,7 @@ class RemoveKeyReplicationRegionsOutput {
   }
 }
 
+/// @nodoc
 class RestoreKeyOutput {
   /// The key material of the restored key. The <code>KeyState</code> will change
   /// to <code>CREATE_COMPLETE</code> and value for
@@ -3665,6 +3700,7 @@ class RestoreKeyOutput {
   }
 }
 
+/// @nodoc
 class StartKeyUsageOutput {
   /// The <code>KeyARN</code> of the Amazon Web Services Payment Cryptography key
   /// activated for use.
@@ -3689,6 +3725,7 @@ class StartKeyUsageOutput {
   }
 }
 
+/// @nodoc
 class StopKeyUsageOutput {
   /// The <code>KeyARN</code> of the key.
   final Key key;
@@ -3713,6 +3750,8 @@ class StopKeyUsageOutput {
 }
 
 /// Metadata about an Amazon Web Services Payment Cryptography key.
+///
+/// @nodoc
 class Key {
   /// The date and time when the key was created.
   final DateTime createTimestamp;
@@ -3926,6 +3965,8 @@ class Key {
 /// The role of the key, the algorithm it supports, and the cryptographic
 /// operations allowed with the key. This data is immutable after the key is
 /// created.
+///
+/// @nodoc
 class KeyAttributes {
   /// The key algorithm to be use during creation of an Amazon Web Services
   /// Payment Cryptography key.
@@ -3982,6 +4023,7 @@ class KeyAttributes {
   }
 }
 
+/// @nodoc
 class KeyCheckValueAlgorithm {
   static const cmac = KeyCheckValueAlgorithm._('CMAC');
   static const ansiX9_24 = KeyCheckValueAlgorithm._('ANSI_X9_24');
@@ -4010,6 +4052,8 @@ class KeyCheckValueAlgorithm {
 }
 
 /// Defines the state of a key
+///
+/// @nodoc
 class KeyState {
   static const createInProgress = KeyState._('CREATE_IN_PROGRESS');
   static const createComplete = KeyState._('CREATE_COMPLETE');
@@ -4041,6 +4085,8 @@ class KeyState {
 }
 
 /// Defines the source of a key
+///
+/// @nodoc
 class KeyOrigin {
   static const external = KeyOrigin._('EXTERNAL');
   static const awsPaymentCryptography = KeyOrigin._('AWS_PAYMENT_CRYPTOGRAPHY');
@@ -4064,6 +4110,7 @@ class KeyOrigin {
   String toString() => value;
 }
 
+/// @nodoc
 class DeriveKeyUsage {
   static const tr31B0BaseDerivationKey =
       DeriveKeyUsage._('TR31_B0_BASE_DERIVATION_KEY');
@@ -4143,6 +4190,8 @@ class DeriveKeyUsage {
 }
 
 /// Defines the replication type of a key
+///
+/// @nodoc
 class MultiRegionKeyType {
   static const primary = MultiRegionKeyType._('PRIMARY');
   static const replica = MultiRegionKeyType._('REPLICA');
@@ -4169,6 +4218,8 @@ class MultiRegionKeyType {
 }
 
 /// The status of an MPA session.
+///
+/// @nodoc
 class MpaStatus {
   /// The date and time when the MPA session was initiated.
   final DateTime initiationDate;
@@ -4212,6 +4263,7 @@ class MpaStatus {
   }
 }
 
+/// @nodoc
 class SessionStatus {
   static const pending = SessionStatus._('PENDING');
   static const approved = SessionStatus._('APPROVED');
@@ -4246,6 +4298,8 @@ class SessionStatus {
 /// This structure contains details about the current state of key replication,
 /// including any status messages and operational information about the
 /// replication process.
+///
+/// @nodoc
 class ReplicationStatusType {
   /// The current status of key replication in this Amazon Web Services Region.
   ///
@@ -4288,6 +4342,8 @@ class ReplicationStatusType {
 }
 
 /// Defines the replication state of a key
+///
+/// @nodoc
 class KeyReplicationState {
   static const inProgress = KeyReplicationState._('IN_PROGRESS');
   static const deleteInProgress = KeyReplicationState._('DELETE_IN_PROGRESS');
@@ -4315,6 +4371,7 @@ class KeyReplicationState {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyUsage {
   static const tr31B0BaseDerivationKey =
       KeyUsage._('TR31_B0_BASE_DERIVATION_KEY');
@@ -4406,6 +4463,7 @@ class KeyUsage {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyClass {
   static const symmetricKey = KeyClass._('SYMMETRIC_KEY');
   static const asymmetricKeyPair = KeyClass._('ASYMMETRIC_KEY_PAIR');
@@ -4436,6 +4494,7 @@ class KeyClass {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyAlgorithm {
   static const tdes_2key = KeyAlgorithm._('TDES_2KEY');
   static const tdes_3key = KeyAlgorithm._('TDES_3KEY');
@@ -4490,6 +4549,8 @@ class KeyAlgorithm {
 
 /// The list of cryptographic operations that you can perform using the key. The
 /// modes of use are deﬁned in section A.5.3 of the TR-31 spec.
+///
+/// @nodoc
 class KeyModesOfUse {
   /// Speciﬁes whether an Amazon Web Services Payment Cryptography key can be used
   /// to decrypt data.
@@ -4579,6 +4640,8 @@ class KeyModesOfUse {
 }
 
 /// Metadata about an Amazon Web Services Payment Cryptography key.
+///
+/// @nodoc
 class KeySummary {
   /// Specifies whether the key is enabled.
   final bool enabled;
@@ -4667,6 +4730,8 @@ class KeySummary {
 }
 
 /// A structure that contains information about a tag.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String key;
@@ -4697,6 +4762,8 @@ class Tag {
 }
 
 /// Contains information about an alias.
+///
+/// @nodoc
 class Alias {
   /// A friendly name that you can use to refer to a key. The value must begin
   /// with <code>alias/</code>.
@@ -4734,6 +4801,8 @@ class Alias {
 /// Parameter information for key material import into Amazon Web Services
 /// Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key
 /// exchange method.
+///
+/// @nodoc
 class ImportKeyMaterial {
   /// Parameter information for key material import using AS2805 key cryptogram
   /// format.
@@ -4796,6 +4865,8 @@ class ImportKeyMaterial {
 }
 
 /// Parameter information for root public key certificate import.
+///
+/// @nodoc
 class RootCertificatePublicKey {
   /// The role of the key, the algorithm it supports, and the cryptographic
   /// operations allowed with the key. This data is immutable after the root
@@ -4821,6 +4892,8 @@ class RootCertificatePublicKey {
 }
 
 /// Parameter information for trusted public key certificate import.
+///
+/// @nodoc
 class TrustedCertificatePublicKey {
   /// The <code>KeyARN</code> of the root public key certificate or certificate
   /// chain that signs the trusted public key certificate import.
@@ -4856,6 +4929,8 @@ class TrustedCertificatePublicKey {
 
 /// Parameter information for key material import using symmetric TR-31 key
 /// exchange method.
+///
+/// @nodoc
 class ImportTr31KeyBlock {
   /// The TR-31 wrapped key block to import.
   final String wrappedKeyBlock;
@@ -4881,6 +4956,8 @@ class ImportTr31KeyBlock {
 
 /// Parameter information for key material import using the asymmetric TR-34 key
 /// exchange method.
+///
+/// @nodoc
 class ImportTr34KeyBlock {
   /// The <code>KeyARN</code> of the certificate chain that signs the signing key
   /// certificate during TR-34 key import.
@@ -4953,6 +5030,8 @@ class ImportTr34KeyBlock {
 
 /// Parameter information for key material import using asymmetric RSA wrap and
 /// unwrap key exchange method.
+///
+/// @nodoc
 class ImportKeyCryptogram {
   /// Specifies whether the key is exportable from the service.
   final bool exportable;
@@ -4996,6 +5075,8 @@ class ImportKeyCryptogram {
 
 /// Key derivation parameter information for key material import using
 /// asymmetric ECDH key exchange method.
+///
+/// @nodoc
 class ImportDiffieHellmanTr31KeyBlock {
   /// The <code>keyARN</code> of the CA that signed the
   /// <code>PublicKeyCertificate</code> for the client's receiving ECC key pair.
@@ -5061,6 +5142,8 @@ class ImportDiffieHellmanTr31KeyBlock {
 
 /// Parameter information for key material import using AS2805 key cryptogram
 /// format.
+///
+/// @nodoc
 class ImportAs2805KeyCryptogram {
   /// The cryptographic usage of the key under import.
   final As2805KeyVariant as2805KeyVariant;
@@ -5104,6 +5187,7 @@ class ImportAs2805KeyCryptogram {
   }
 }
 
+/// @nodoc
 class As2805KeyVariant {
   static const terminalMajorKeyVariant_00 =
       As2805KeyVariant._('TERMINAL_MAJOR_KEY_VARIANT_00');
@@ -5139,6 +5223,7 @@ class As2805KeyVariant {
   String toString() => value;
 }
 
+/// @nodoc
 class SymmetricKeyAlgorithm {
   static const tdes_2key = SymmetricKeyAlgorithm._('TDES_2KEY');
   static const tdes_3key = SymmetricKeyAlgorithm._('TDES_3KEY');
@@ -5181,6 +5266,7 @@ class SymmetricKeyAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyDerivationFunction {
   static const nistSp800 = KeyDerivationFunction._('NIST_SP800');
   static const ansiX963 = KeyDerivationFunction._('ANSI_X963');
@@ -5206,6 +5292,7 @@ class KeyDerivationFunction {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyDerivationHashAlgorithm {
   static const sha_256 = KeyDerivationHashAlgorithm._('SHA_256');
   static const sha_384 = KeyDerivationHashAlgorithm._('SHA_384');
@@ -5233,6 +5320,8 @@ class KeyDerivationHashAlgorithm {
 }
 
 /// The shared information used when deriving a key using ECDH.
+///
+/// @nodoc
 class DiffieHellmanDerivationData {
   /// A string containing information that binds the ECDH derived key to the two
   /// parties involved or to the context of the key.
@@ -5256,6 +5345,7 @@ class DiffieHellmanDerivationData {
   }
 }
 
+/// @nodoc
 class WrappingKeySpec {
   static const rsaOaepSha_256 = WrappingKeySpec._('RSA_OAEP_SHA_256');
   static const rsaOaepSha_512 = WrappingKeySpec._('RSA_OAEP_SHA_512');
@@ -5280,6 +5370,7 @@ class WrappingKeySpec {
   String toString() => value;
 }
 
+/// @nodoc
 class Tr34KeyBlockFormat {
   static const x9Tr34_2012 = Tr34KeyBlockFormat._('X9_TR34_2012');
 
@@ -5304,6 +5395,7 @@ class Tr34KeyBlockFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyMaterialType {
   static const tr34KeyBlock = KeyMaterialType._('TR34_KEY_BLOCK');
   static const tr31KeyBlock = KeyMaterialType._('TR31_KEY_BLOCK');
@@ -5340,6 +5432,8 @@ class KeyMaterialType {
 }
 
 /// The details of an MPA team association with a protected operation.
+///
+/// @nodoc
 class MpaTeamAssociation {
   /// The protected operation associated with the MPA team.
   final MpaOperation action;
@@ -5386,6 +5480,7 @@ class MpaTeamAssociation {
   }
 }
 
+/// @nodoc
 class MpaOperation {
   static const importRootPublicKeyCertificate =
       MpaOperation._('IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE');
@@ -5409,6 +5504,7 @@ class MpaOperation {
   String toString() => value;
 }
 
+/// @nodoc
 class AssociationState {
   static const active = AssociationState._('ACTIVE');
   static const updatePending = AssociationState._('UPDATE_PENDING');
@@ -5435,6 +5531,8 @@ class AssociationState {
 }
 
 /// Defines the Algorithm used to generate the certificate signing request
+///
+/// @nodoc
 class SigningAlgorithmType {
   static const sha224 = SigningAlgorithmType._('SHA224');
   static const sha256 = SigningAlgorithmType._('SHA256');
@@ -5463,6 +5561,8 @@ class SigningAlgorithmType {
 }
 
 /// The metadata used to create the certificate signing request.
+///
+/// @nodoc
 class CertificateSubjectType {
   /// The name you provide to create the certificate signing request.
   final String commonName;
@@ -5516,6 +5616,8 @@ class CertificateSubjectType {
 }
 
 /// Parameter information for generating a WrappedKeyBlock for key exchange.
+///
+/// @nodoc
 class WrappedKey {
   /// Parameter information for generating a wrapped key using TR-31 or TR-34 skey
   /// exchange method.
@@ -5581,6 +5683,7 @@ class WrappedKey {
   }
 }
 
+/// @nodoc
 class WrappedKeyMaterialFormat {
   static const keyCryptogram = WrappedKeyMaterialFormat._('KEY_CRYPTOGRAM');
   static const tr31KeyBlock = WrappedKeyMaterialFormat._('TR31_KEY_BLOCK');
@@ -5610,6 +5713,8 @@ class WrappedKeyMaterialFormat {
 /// Parameter information for key material export from Amazon Web Services
 /// Payment Cryptography using TR-31 or TR-34 or RSA wrap and unwrap key
 /// exchange method.
+///
+/// @nodoc
 class ExportKeyMaterial {
   /// Parameter information for key material export using AS2805 key cryptogram
   /// format.
@@ -5658,6 +5763,8 @@ class ExportKeyMaterial {
 }
 
 /// The attributes for IPEK generation during export.
+///
+/// @nodoc
 class ExportAttributes {
   /// Parameter information for IPEK export.
   final ExportDukptInitialKey? exportDukptInitialKey;
@@ -5693,6 +5800,8 @@ class ExportAttributes {
 }
 
 /// Parameter information for IPEK generation during export.
+///
+/// @nodoc
 class ExportDukptInitialKey {
   /// The KSN for IPEK generation using DUKPT.
   ///
@@ -5715,6 +5824,8 @@ class ExportDukptInitialKey {
 
 /// Parameter information for key material export using symmetric TR-31 key
 /// exchange method.
+///
+/// @nodoc
 class ExportTr31KeyBlock {
   /// The <code>KeyARN</code> of the the wrapping key. This key encrypts or wraps
   /// the key under export for TR-31 key block generation.
@@ -5741,6 +5852,8 @@ class ExportTr31KeyBlock {
 
 /// Parameter information for key material export using the asymmetric TR-34 key
 /// exchange method.
+///
+/// @nodoc
 class ExportTr34KeyBlock {
   /// The <code>KeyARN</code> of the certificate chain that signs the wrapping key
   /// certificate during TR-34 key export.
@@ -5816,6 +5929,8 @@ class ExportTr34KeyBlock {
 
 /// Parameter information for key material export using asymmetric RSA wrap and
 /// unwrap key exchange method.
+///
+/// @nodoc
 class ExportKeyCryptogram {
   /// The <code>KeyARN</code> of the certificate chain that signs the wrapping key
   /// certificate during RSA wrap and unwrap key export.
@@ -5851,6 +5966,8 @@ class ExportKeyCryptogram {
 
 /// Key derivation parameter information for key material export using
 /// asymmetric ECDH key exchange method.
+///
+/// @nodoc
 class ExportDiffieHellmanTr31KeyBlock {
   /// The <code>keyARN</code> of the CA that signed the
   /// <code>PublicKeyCertificate</code> for the client's receiving ECC key pair.
@@ -5914,6 +6031,8 @@ class ExportDiffieHellmanTr31KeyBlock {
 
 /// Parameter information for key material export using AS2805 key cryptogram
 /// format.
+///
+/// @nodoc
 class ExportAs2805KeyCryptogram {
   /// The cryptographic usage of the key under export.
   final As2805KeyVariant as2805KeyVariant;
@@ -5936,6 +6055,8 @@ class ExportAs2805KeyCryptogram {
 
 /// Optional metadata for export associated with the key material. This data is
 /// signed but transmitted in clear text.
+///
+/// @nodoc
 class KeyBlockHeaders {
   /// Specifies subsequent exportability of the key within the key block after it
   /// is received by the receiving party. It can be used to further restrict
@@ -5990,6 +6111,7 @@ class KeyBlockHeaders {
   }
 }
 
+/// @nodoc
 class KeyExportability {
   static const exportable = KeyExportability._('EXPORTABLE');
   static const nonExportable = KeyExportability._('NON_EXPORTABLE');
@@ -6015,31 +6137,37 @@ class KeyExportability {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class PublicPolicyException extends _s.GenericAwsException {
   PublicPolicyException({String? type, String? message})
       : super(type: type, code: 'PublicPolicyException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -6048,17 +6176,20 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

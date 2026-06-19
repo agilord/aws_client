@@ -206,7 +206,7 @@ class ChimeSdkMeetings {
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
   /// attendee to an identity managed by a builder application.
   ///
-  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>\[-_&@+=,(){}\\[\\]\/«».:|'"#a-zA-Z0-9À-ÿ\s\]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure
   /// a value that uses this prefix.
@@ -329,7 +329,7 @@ class ChimeSdkMeetings {
   /// Parameter [externalMeetingId] :
   /// The external meeting ID.
   ///
-  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>\[-_&@+=,(){}\\[\\]\/«».:|'"#a-zA-Z0-9À-ÿ\s\]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure
   /// a value that uses this prefix. Case insensitive.
@@ -502,7 +502,7 @@ class ChimeSdkMeetings {
   /// Parameter [externalMeetingId] :
   /// The external meeting ID.
   ///
-  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>\[-_&@+=,(){}\\[\\]\/«».:|'"#a-zA-Z0-9À-ÿ\s\]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure
   /// a value that uses this prefix. Case insensitive.
@@ -1073,6 +1073,7 @@ class ChimeSdkMeetings {
   }
 }
 
+/// @nodoc
 class BatchCreateAttendeeResponse {
   /// The attendee information, including attendees' IDs and join tokens.
   final List<Attendee>? attendees;
@@ -1109,6 +1110,7 @@ class BatchCreateAttendeeResponse {
   }
 }
 
+/// @nodoc
 class CreateAttendeeResponse {
   /// The attendee information, including attendee ID and join token.
   final Attendee? attendee;
@@ -1133,6 +1135,7 @@ class CreateAttendeeResponse {
   }
 }
 
+/// @nodoc
 class CreateMeetingResponse {
   /// The meeting information, including the meeting ID and
   /// <code>MediaPlacement</code>.
@@ -1158,6 +1161,7 @@ class CreateMeetingResponse {
   }
 }
 
+/// @nodoc
 class CreateMeetingWithAttendeesResponse {
   /// The attendee information, including attendees' IDs and join tokens.
   final List<Attendee>? attendees;
@@ -1205,6 +1209,7 @@ class CreateMeetingWithAttendeesResponse {
   }
 }
 
+/// @nodoc
 class GetAttendeeResponse {
   /// The Amazon Chime SDK attendee information.
   final Attendee? attendee;
@@ -1229,6 +1234,7 @@ class GetAttendeeResponse {
   }
 }
 
+/// @nodoc
 class GetMeetingResponse {
   /// The Amazon Chime SDK meeting information.
   final Meeting? meeting;
@@ -1253,6 +1259,7 @@ class GetMeetingResponse {
   }
 }
 
+/// @nodoc
 class ListAttendeesResponse {
   /// The Amazon Chime SDK attendee information.
   final List<Attendee>? attendees;
@@ -1285,6 +1292,7 @@ class ListAttendeesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags requested for the specified resource.
   final List<Tag>? tags;
@@ -1310,6 +1318,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1322,6 +1331,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1334,6 +1344,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAttendeeCapabilitiesResponse {
   /// The updated attendee data.
   final Attendee? attendee;
@@ -1369,6 +1380,8 @@ class UpdateAttendeeCapabilitiesResponse {
 /// We recommend securely transferring each <code>JoinToken</code> from your
 /// server application to the client so that no other client has access to the
 /// token except for the one authorized to represent the attendee.
+///
+/// @nodoc
 class Attendee {
   /// The Amazon Chime SDK attendee ID.
   final String? attendeeId;
@@ -1433,7 +1446,7 @@ class Attendee {
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
   /// attendee to an identity managed by a builder application.
   ///
-  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>\[-_&@+=,(){}\\[\\]\/«».:|'"#a-zA-Z0-9À-ÿ\s\]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure a
   /// value that uses this prefix. Case insensitive.
@@ -1530,6 +1543,8 @@ class Attendee {
 /// renegotiation between the client and the Amazon Chime back-end server.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AttendeeCapabilities {
   /// The audio capability assigned to an attendee.
   final MediaCapabilities audio;
@@ -1566,6 +1581,7 @@ class AttendeeCapabilities {
   }
 }
 
+/// @nodoc
 class MediaCapabilities {
   static const sendReceive = MediaCapabilities._('SendReceive');
   static const send = MediaCapabilities._('Send');
@@ -1593,6 +1609,8 @@ class MediaCapabilities {
 }
 
 /// A key-value pair that you define.
+///
+/// @nodoc
 class Tag {
   /// The tag's key.
   final String key;
@@ -1625,6 +1643,8 @@ class Tag {
 /// The configuration for the current transcription operation. Must contain
 /// <code>EngineTranscribeSettings</code> or
 /// <code>EngineTranscribeMedicalSettings</code>.
+///
+/// @nodoc
 class TranscriptionConfiguration {
   /// The transcription configuration settings passed to Amazon Transcribe
   /// Medical.
@@ -1660,6 +1680,8 @@ class TranscriptionConfiguration {
 /// <a
 /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html">StartStreamTranscription</a>
 /// API in the <i>Amazon Transcribe Developer Guide</i>.
+///
+/// @nodoc
 class EngineTranscribeSettings {
   /// Labels all personally identifiable information (PII) identified in your
   /// transcript. If you don't include <code>PiiEntityTypes</code>, all PII is
@@ -1902,6 +1924,8 @@ class EngineTranscribeSettings {
 }
 
 /// Settings specific to the Amazon Transcribe Medical engine.
+///
+/// @nodoc
 class EngineTranscribeMedicalSettings {
   /// The language code specified for the Amazon Transcribe Medical engine.
   final TranscribeMedicalLanguageCode languageCode;
@@ -1951,6 +1975,7 @@ class EngineTranscribeMedicalSettings {
   }
 }
 
+/// @nodoc
 class TranscribeMedicalLanguageCode {
   static const enUs = TranscribeMedicalLanguageCode._('en-US');
 
@@ -1975,6 +2000,7 @@ class TranscribeMedicalLanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeMedicalSpecialty {
   static const primarycare = TranscribeMedicalSpecialty._('PRIMARYCARE');
   static const cardiology = TranscribeMedicalSpecialty._('CARDIOLOGY');
@@ -2011,6 +2037,7 @@ class TranscribeMedicalSpecialty {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeMedicalType {
   static const conversation = TranscribeMedicalType._('CONVERSATION');
   static const dictation = TranscribeMedicalType._('DICTATION');
@@ -2036,6 +2063,7 @@ class TranscribeMedicalType {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeMedicalRegion {
   static const usEast_1 = TranscribeMedicalRegion._('us-east-1');
   static const usEast_2 = TranscribeMedicalRegion._('us-east-2');
@@ -2074,6 +2102,7 @@ class TranscribeMedicalRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeMedicalContentIdentificationType {
   static const phi = TranscribeMedicalContentIdentificationType._('PHI');
 
@@ -2099,6 +2128,7 @@ class TranscribeMedicalContentIdentificationType {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeLanguageCode {
   static const enUs = TranscribeLanguageCode._('en-US');
   static const enGb = TranscribeLanguageCode._('en-GB');
@@ -2151,6 +2181,7 @@ class TranscribeLanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeVocabularyFilterMethod {
   static const remove = TranscribeVocabularyFilterMethod._('remove');
   static const mask = TranscribeVocabularyFilterMethod._('mask');
@@ -2177,6 +2208,7 @@ class TranscribeVocabularyFilterMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeRegion {
   static const usEast_2 = TranscribeRegion._('us-east-2');
   static const usEast_1 = TranscribeRegion._('us-east-1');
@@ -2226,6 +2258,7 @@ class TranscribeRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribePartialResultsStability {
   static const low = TranscribePartialResultsStability._('low');
   static const medium = TranscribePartialResultsStability._('medium');
@@ -2252,6 +2285,7 @@ class TranscribePartialResultsStability {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeContentIdentificationType {
   static const pii = TranscribeContentIdentificationType._('PII');
 
@@ -2276,6 +2310,7 @@ class TranscribeContentIdentificationType {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscribeContentRedactionType {
   static const pii = TranscribeContentRedactionType._('PII');
 
@@ -2301,10 +2336,12 @@ class TranscribeContentRedactionType {
 }
 
 /// A meeting created using the Amazon Chime SDK.
+///
+/// @nodoc
 class Meeting {
   /// The external meeting ID.
   ///
-  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>\[-_&@+=,(){}\\[\\]\/«».:|'"#a-zA-Z0-9À-ÿ\s\]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure a
   /// value that uses this prefix. Case insensitive.
@@ -2407,6 +2444,8 @@ class Meeting {
 
 /// A set of endpoints used by clients to connect to the media service group for
 /// an Amazon Chime SDK meeting.
+///
+/// @nodoc
 class MediaPlacement {
   /// The audio fallback URL.
   final String? audioFallbackUrl;
@@ -2495,6 +2534,8 @@ class MediaPlacement {
 }
 
 /// The configuration settings of the features available to a meeting.
+///
+/// @nodoc
 class MeetingFeaturesConfiguration {
   /// The configuration settings for the attendee features available to a meeting.
   final AttendeeFeatures? attendee;
@@ -2548,6 +2589,8 @@ class MeetingFeaturesConfiguration {
 
 /// An optional category of meeting features that contains audio-specific
 /// configurations, such as operating parameters for Amazon Voice Focus.
+///
+/// @nodoc
 class AudioFeatures {
   /// Makes echo reduction available to clients who connect to the meeting.
   final MeetingFeatureStatus? echoReduction;
@@ -2579,6 +2622,8 @@ class AudioFeatures {
 /// <code>AttendeeCapabilities:Video</code> will be rejected with
 /// <code>ValidationError 400</code>.
 /// </note>
+///
+/// @nodoc
 class VideoFeatures {
   /// The maximum video resolution for the meeting. Applies to all attendees.
   /// <note>
@@ -2616,6 +2661,8 @@ class VideoFeatures {
 /// <code>AttendeeCapabilities:Content</code> will be rejected with
 /// <code>ValidationError 400</code>.
 /// </note>
+///
+/// @nodoc
 class ContentFeatures {
   /// The maximum resolution for the meeting content.
   /// <note>
@@ -2652,6 +2699,8 @@ class ContentFeatures {
 /// maximum number of attendees changes from the default of <code>250</code> to
 /// <code>25</code>.
 /// </note>
+///
+/// @nodoc
 class AttendeeFeatures {
   /// The maximum number of attendees allowed into the meeting.
   final int? maxCount;
@@ -2674,6 +2723,7 @@ class AttendeeFeatures {
   }
 }
 
+/// @nodoc
 class ContentResolution {
   static const none = ContentResolution._('None');
   static const fhd = ContentResolution._('FHD');
@@ -2699,6 +2749,7 @@ class ContentResolution {
   String toString() => value;
 }
 
+/// @nodoc
 class VideoResolution {
   static const none = VideoResolution._('None');
   static const hd = VideoResolution._('HD');
@@ -2724,6 +2775,7 @@ class VideoResolution {
   String toString() => value;
 }
 
+/// @nodoc
 class MeetingFeatureStatus {
   static const available = MeetingFeatureStatus._('AVAILABLE');
   static const unavailable = MeetingFeatureStatus._('UNAVAILABLE');
@@ -2752,6 +2804,8 @@ class MeetingFeatureStatus {
 /// The list of errors returned when errors are encountered during the
 /// BatchCreateAttendee and CreateAttendee actions. This includes external user
 /// IDs, error codes, and error messages.
+///
+/// @nodoc
 class CreateAttendeeError {
   /// The error code.
   final String? errorCode;
@@ -2762,7 +2816,7 @@ class CreateAttendeeError {
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
   /// attendee to an identity managed by a builder application.
   ///
-  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>\[-_&@+=,(){}\\[\\]\/«».:|'"#a-zA-Z0-9À-ÿ\s\]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure a
   /// value that uses this prefix. Case insensitive.
@@ -2796,6 +2850,8 @@ class CreateAttendeeError {
 
 /// The configuration for resource targets to receive notifications when meeting
 /// and attendee events occur.
+///
+/// @nodoc
 class NotificationsConfiguration {
   /// The ARN of the Amazon Web Services Lambda function in the notifications
   /// configuration.
@@ -2825,6 +2881,7 @@ class NotificationsConfiguration {
   }
 }
 
+/// @nodoc
 class MediaPlacementNetworkType {
   static const ipv4Only = MediaPlacementNetworkType._('Ipv4Only');
   static const dualStack = MediaPlacementNetworkType._('DualStack');
@@ -2852,11 +2909,13 @@ class MediaPlacementNetworkType {
 
 /// The Amazon Chime SDK attendee fields to create, used with the
 /// BatchCreateAttendee action.
+///
+/// @nodoc
 class CreateAttendeeRequestItem {
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
   /// attendee to an identity managed by a builder application.
   ///
-  /// Pattern: <code>[-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*</code>
+  /// Pattern: <code>\[-_&@+=,(){}\\[\\]\/«».:|'"#a-zA-Z0-9À-ÿ\s\]*</code>
   ///
   /// Values that begin with <code>aws:</code> are reserved. You can't configure a
   /// value that uses this prefix. Case insensitive.
@@ -2881,6 +2940,8 @@ class CreateAttendeeRequestItem {
 }
 
 /// A structure that contains one or more attendee IDs.
+///
+/// @nodoc
 class AttendeeIdItem {
   /// A list of one or more attendee IDs.
   final String attendeeId;
@@ -2897,62 +2958,74 @@ class AttendeeIdItem {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceFailureException extends _s.GenericAwsException {
   ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class UnprocessableEntityException extends _s.GenericAwsException {
   UnprocessableEntityException({String? type, String? message})
       : super(

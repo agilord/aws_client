@@ -899,6 +899,7 @@ class Health {
   }
 }
 
+/// @nodoc
 class DescribeAffectedAccountsForOrganizationResponse {
   /// A JSON set of elements of the affected accounts.
   final List<String>? affectedAccounts;
@@ -965,6 +966,7 @@ class DescribeAffectedAccountsForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DescribeAffectedEntitiesResponse {
   /// The entities that match the filter criteria.
   final List<AffectedEntity>? entities;
@@ -1001,6 +1003,7 @@ class DescribeAffectedEntitiesResponse {
   }
 }
 
+/// @nodoc
 class DescribeAffectedEntitiesForOrganizationResponse {
   /// A JSON set of elements including the <code>awsAccountId</code> and its
   /// <code>entityArn</code>, <code>entityValue</code> and its
@@ -1054,6 +1057,7 @@ class DescribeAffectedEntitiesForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DescribeEntityAggregatesResponse {
   /// The number of entities that are affected by each of the specified events.
   final List<EntityAggregate>? entityAggregates;
@@ -1079,6 +1083,7 @@ class DescribeEntityAggregatesResponse {
   }
 }
 
+/// @nodoc
 class DescribeEntityAggregatesForOrganizationResponse {
   /// The list of entity aggregates for each of the specified accounts that are
   /// affected by each of the specified events.
@@ -1109,6 +1114,7 @@ class DescribeEntityAggregatesForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventAggregatesResponse {
   /// The number of events in each category that meet the optional filter
   /// criteria.
@@ -1146,6 +1152,7 @@ class DescribeEventAggregatesResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventDetailsResponse {
   /// Error messages for any events that could not be retrieved.
   final List<EventDetailsErrorItem>? failedSet;
@@ -1181,6 +1188,7 @@ class DescribeEventDetailsResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventDetailsForOrganizationResponse {
   /// Error messages for any events that could not be retrieved.
   final List<OrganizationEventDetailsErrorItem>? failedSet;
@@ -1219,6 +1227,7 @@ class DescribeEventDetailsForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventsResponse {
   /// The events that match the specified filter criteria.
   final List<Event>? events;
@@ -1255,6 +1264,7 @@ class DescribeEventsResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventsForOrganizationResponse {
   /// The events that match the specified filter criteria.
   final List<OrganizationEvent>? events;
@@ -1292,6 +1302,7 @@ class DescribeEventsForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class DescribeEventTypesResponse {
   /// A list of event types that match the filter criteria. Event types have a
   /// category (<code>issue</code>, <code>accountNotification</code>, or
@@ -1333,6 +1344,7 @@ class DescribeEventTypesResponse {
   }
 }
 
+/// @nodoc
 class DescribeHealthServiceStatusForOrganizationResponse {
   /// Information about the status of enabling or disabling the Health
   /// organizational view feature in your organization.
@@ -1379,6 +1391,8 @@ class DescribeHealthServiceStatusForOrganizationResponse {
 /// href="https://docs.aws.amazon.com/health/latest/ug/cloudwatch-events-health.html">Monitor
 /// for Health events with Amazon CloudWatch Events</a> in the <i>Health User
 /// Guide</i>.
+///
+/// @nodoc
 class EventType {
   /// The actionability classification of the event. Possible values are
   /// <code>ACTION_REQUIRED</code>, <code>ACTION_MAY_BE_REQUIRED</code> and
@@ -1451,6 +1465,7 @@ class EventType {
   }
 }
 
+/// @nodoc
 class EventTypeCategory {
   static const issue = EventTypeCategory._('issue');
   static const accountNotification = EventTypeCategory._('accountNotification');
@@ -1482,6 +1497,7 @@ class EventTypeCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class EventTypeActionability {
   static const actionRequired = EventTypeActionability._('ACTION_REQUIRED');
   static const actionMayBeRequired =
@@ -1509,6 +1525,7 @@ class EventTypeActionability {
   String toString() => value;
 }
 
+/// @nodoc
 class EventTypePersona {
   static const operations = EventTypePersona._('OPERATIONS');
   static const security = EventTypePersona._('SECURITY');
@@ -1537,6 +1554,8 @@ class EventTypePersona {
 /// The values to use to filter results from the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventTypes.html">DescribeEventTypes</a>
 /// operation.
+///
+/// @nodoc
 class EventTypeFilter {
   /// A list of actionability values to filter event types. Possible values are
   /// <code>ACTION_REQUIRED</code>, <code>ACTION_MAY_BE_REQUIRED</code> and
@@ -1589,6 +1608,8 @@ class EventTypeFilter {
 /// Summary information about an event, returned by the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>
 /// operation.
+///
+/// @nodoc
 class OrganizationEvent {
   /// The actionability classification of the event. Possible values are
   /// <code>ACTION_REQUIRED</code>, <code>ACTION_MAY_BE_REQUIRED</code> and
@@ -1742,6 +1763,7 @@ class OrganizationEvent {
   }
 }
 
+/// @nodoc
 class EventScopeCode {
   static const public = EventScopeCode._('PUBLIC');
   static const accountSpecific = EventScopeCode._('ACCOUNT_SPECIFIC');
@@ -1767,6 +1789,7 @@ class EventScopeCode {
   String toString() => value;
 }
 
+/// @nodoc
 class EventStatusCode {
   static const open = EventStatusCode._('open');
   static const closed = EventStatusCode._('closed');
@@ -1792,6 +1815,7 @@ class EventStatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class EventActionability {
   static const actionRequired = EventActionability._('ACTION_REQUIRED');
   static const actionMayBeRequired =
@@ -1819,6 +1843,7 @@ class EventActionability {
   String toString() => value;
 }
 
+/// @nodoc
 class EventPersona {
   static const operations = EventPersona._('OPERATIONS');
   static const security = EventPersona._('SECURITY');
@@ -1846,6 +1871,8 @@ class EventPersona {
 /// The values to filter results from the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>
 /// operation.
+///
+/// @nodoc
 class OrganizationEventFilter {
   /// A list of actionability values to filter events. Use this to filter events
   /// based on whether they require action (<code>ACTION_REQUIRED</code>), may
@@ -1955,6 +1982,8 @@ class OrganizationEventFilter {
 /// <code>from</code>. If <code>from</code> is not set and <code>to</code> is
 /// set: match items where the timestamp value is equal to or before
 /// <code>to</code>.
+///
+/// @nodoc
 class DateTimeRange {
   /// The starting date and time of a time range.
   final DateTime? from;
@@ -1999,6 +2028,8 @@ class DateTimeRange {
 /// You can determine if an event is public or account-specific by using the
 /// <code>eventScopeCode</code> parameter. For more information, see <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html#AWSHealth-Type-Event-eventScopeCode">eventScopeCode</a>.
+///
+/// @nodoc
 class Event {
   /// The actionability classification of the event. Possible values are
   /// <code>ACTION_REQUIRED</code>, <code>ACTION_MAY_BE_REQUIRED</code> and
@@ -2165,6 +2196,8 @@ class Event {
 /// and <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html">DescribeEventAggregates</a>
 /// operations.
+///
+/// @nodoc
 class EventFilter {
   /// A list of actionability values to filter events. Use this to filter events
   /// based on whether they require action (<code>ACTION_REQUIRED</code>), may
@@ -2287,6 +2320,8 @@ class EventFilter {
 /// Error information returned when a <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
 /// operation can't find a specified event.
+///
+/// @nodoc
 class OrganizationEventDetailsErrorItem {
   /// Error information returned when a <a
   /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
@@ -2368,6 +2403,8 @@ class OrganizationEventDetailsErrorItem {
 /// object, and additional metadata about the event. Returned by the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
 /// operation.
+///
+/// @nodoc
 class OrganizationEventDetails {
   /// The 12-digit Amazon Web Services account numbers that contains the affected
   /// entities.
@@ -2418,6 +2455,8 @@ class OrganizationEventDetails {
 /// by the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
 /// operation.
+///
+/// @nodoc
 class EventDescription {
   /// The most recent description of the event.
   final String? latestDescription;
@@ -2445,6 +2484,8 @@ class EventDescription {
 /// and <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
 /// operations.
+///
+/// @nodoc
 class EventAccountFilter {
   /// The unique identifier for the event. The event ARN has the
   /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
@@ -2477,6 +2518,8 @@ class EventAccountFilter {
 /// Error information returned when a <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
 /// operation can't find a specified event.
+///
+/// @nodoc
 class EventDetailsErrorItem {
   /// A message that describes the error.
   final String? errorMessage;
@@ -2526,6 +2569,8 @@ class EventDetailsErrorItem {
 /// object, and additional metadata about the event. Returned by the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
 /// operation.
+///
+/// @nodoc
 class EventDetails {
   /// Summary information about the event.
   final Event? event;
@@ -2571,6 +2616,8 @@ class EventDetails {
 /// The number of events of each issue type. Returned by the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html">DescribeEventAggregates</a>
 /// operation.
+///
+/// @nodoc
 class EventAggregate {
   /// The issue type for the associated count.
   final String? aggregateValue;
@@ -2600,6 +2647,7 @@ class EventAggregate {
   }
 }
 
+/// @nodoc
 class EventAggregateField {
   static const eventTypeCategory = EventAggregateField._('eventTypeCategory');
 
@@ -2627,6 +2675,8 @@ class EventAggregateField {
 /// The aggregate results of entities affected by the specified event in your
 /// organization. The results are aggregated by the entity status codes for the
 /// specified set of accountsIDs.
+///
+/// @nodoc
 class OrganizationEntityAggregate {
   /// A list of entity aggregates for each of the specified accounts in your
   /// organization that are affected by a specific event. If there are no
@@ -2684,6 +2734,8 @@ class OrganizationEntityAggregate {
 
 /// The number of entities in an account that are impacted by a specific event
 /// aggregated by the entity status codes.
+///
+/// @nodoc
 class AccountEntityAggregate {
   /// The 12-digit Amazon Web Services account numbers that contains the affected
   /// entities.
@@ -2724,6 +2776,7 @@ class AccountEntityAggregate {
   }
 }
 
+/// @nodoc
 class EntityStatusCode {
   static const impaired = EntityStatusCode._('IMPAIRED');
   static const unimpaired = EntityStatusCode._('UNIMPAIRED');
@@ -2755,6 +2808,8 @@ class EntityStatusCode {
 /// the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEntityAggregates.html">DescribeEntityAggregates</a>
 /// operation.
+///
+/// @nodoc
 class EntityAggregate {
   /// The number of entities that match the criteria for the specified events.
   final int? count;
@@ -2802,6 +2857,8 @@ class EntityAggregate {
 /// Error information returned when a <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
 /// operation can't find or process a specific entity.
+///
+/// @nodoc
 class OrganizationAffectedEntitiesErrorItem {
   /// The 12-digit Amazon Web Services account numbers that contains the affected
   /// entities.
@@ -2861,6 +2918,8 @@ class OrganizationAffectedEntitiesErrorItem {
 }
 
 /// Information about an entity that is affected by a Health event.
+///
+/// @nodoc
 class AffectedEntity {
   /// The 12-digit Amazon Web Services account number that contains the affected
   /// entity.
@@ -2960,6 +3019,8 @@ class AffectedEntity {
 
 /// A JSON set of elements including the <code>awsAccountId</code>,
 /// <code>eventArn</code> and a set of <code>statusCodes</code>.
+///
+/// @nodoc
 class EntityAccountFilter {
   /// The unique identifier for the event. The event ARN has the
   /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
@@ -2999,6 +3060,8 @@ class EntityAccountFilter {
 /// The values to use to filter results from the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html">DescribeAffectedEntities</a>
 /// operation.
+///
+/// @nodoc
 class EntityFilter {
   /// A list of event ARNs (unique identifiers). For example:
   /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
@@ -3052,6 +3115,7 @@ class EntityFilter {
   }
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -3060,11 +3124,13 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidPaginationToken extends _s.GenericAwsException {
   InvalidPaginationToken({String? type, String? message})
       : super(type: type, code: 'InvalidPaginationToken', message: message);
 }
 
+/// @nodoc
 class UnsupportedLocale extends _s.GenericAwsException {
   UnsupportedLocale({String? type, String? message})
       : super(type: type, code: 'UnsupportedLocale', message: message);

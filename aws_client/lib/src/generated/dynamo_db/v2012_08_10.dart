@@ -5460,9 +5460,9 @@ class DynamoDB {
   /// <li>
   /// If the existing data type is a set and if <code>Value</code> is also a
   /// set, then <code>Value</code> is added to the existing set. For example, if
-  /// the attribute value is the set <code>[1,2]</code>, and the
-  /// <code>ADD</code> action specified <code>[3]</code>, then the final
-  /// attribute value is <code>[1,2,3]</code>. An error occurs if an
+  /// the attribute value is the set <code>\[1,2\]</code>, and the
+  /// <code>ADD</code> action specified <code>\[3\]</code>, then the final
+  /// attribute value is <code>\[1,2,3\]</code>. An error occurs if an
   /// <code>ADD</code> action is specified for a set attribute and the attribute
   /// type specified does not match the existing set type.
   ///
@@ -5478,9 +5478,9 @@ class DynamoDB {
   ///
   /// If a set of values is specified, then those values are subtracted from the
   /// old set. For example, if the attribute value was the set
-  /// <code>[a,b,c]</code> and the <code>DELETE</code> action specifies
-  /// <code>[a,c]</code>, then the final attribute value is <code>[b]</code>.
-  /// Specifying an empty set is an error.
+  /// <code>\[a,b,c\]</code> and the <code>DELETE</code> action specifies
+  /// <code>\[a,c\]</code>, then the final attribute value is
+  /// <code>\[b\]</code>. Specifying an empty set is an error.
   /// <important>
   /// The <code>DELETE</code> action only supports set data types.
   /// </important> </li>
@@ -5956,6 +5956,7 @@ class DynamoDB {
   }
 }
 
+/// @nodoc
 class BatchExecuteStatementOutput {
   /// The capacity units consumed by the entire operation. The values of the list
   /// are ordered according to the ordering of the statements.
@@ -5995,6 +5996,8 @@ class BatchExecuteStatementOutput {
 }
 
 /// Represents the output of a <code>BatchGetItem</code> operation.
+///
+/// @nodoc
 class BatchGetItemOutput {
   /// The read capacity units consumed by the entire <code>BatchGetItem</code>
   /// operation.
@@ -6084,6 +6087,8 @@ class BatchGetItemOutput {
 }
 
 /// Represents the output of a <code>BatchWriteItem</code> operation.
+///
+/// @nodoc
 class BatchWriteItemOutput {
   /// The capacity units consumed by the entire <code>BatchWriteItem</code>
   /// operation.
@@ -6216,6 +6221,7 @@ class BatchWriteItemOutput {
   }
 }
 
+/// @nodoc
 class CreateBackupOutput {
   /// Contains the details of the backup created for the table.
   final BackupDetails? backupDetails;
@@ -6241,6 +6247,7 @@ class CreateBackupOutput {
   }
 }
 
+/// @nodoc
 class CreateGlobalTableOutput {
   /// Contains the details of the global table.
   final GlobalTableDescription? globalTableDescription;
@@ -6268,6 +6275,8 @@ class CreateGlobalTableOutput {
 }
 
 /// Represents the output of a <code>CreateTable</code> operation.
+///
+/// @nodoc
 class CreateTableOutput {
   /// Represents the properties of the table.
   final TableDescription? tableDescription;
@@ -6293,6 +6302,7 @@ class CreateTableOutput {
   }
 }
 
+/// @nodoc
 class DeleteBackupOutput {
   /// Contains the description of the backup created for the table.
   final BackupDescription? backupDescription;
@@ -6319,6 +6329,8 @@ class DeleteBackupOutput {
 }
 
 /// Represents the output of a <code>DeleteItem</code> operation.
+///
+/// @nodoc
 class DeleteItemOutput {
   /// A map of attribute names to <code>AttributeValue</code> objects,
   /// representing the item as it appeared before the <code>DeleteItem</code>
@@ -6398,6 +6410,7 @@ class DeleteItemOutput {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyOutput {
   /// A unique string that represents the revision ID of the policy. If you're
   /// comparing revision IDs, make sure to always use string comparison logic.
@@ -6425,6 +6438,8 @@ class DeleteResourcePolicyOutput {
 }
 
 /// Represents the output of a <code>DeleteTable</code> operation.
+///
+/// @nodoc
 class DeleteTableOutput {
   /// Represents the properties of a table.
   final TableDescription? tableDescription;
@@ -6450,6 +6465,7 @@ class DeleteTableOutput {
   }
 }
 
+/// @nodoc
 class DescribeBackupOutput {
   /// Contains the description of the backup created for the table.
   final BackupDescription? backupDescription;
@@ -6475,6 +6491,7 @@ class DescribeBackupOutput {
   }
 }
 
+/// @nodoc
 class DescribeContinuousBackupsOutput {
   /// Represents the continuous backups and point in time recovery settings on the
   /// table.
@@ -6502,6 +6519,7 @@ class DescribeContinuousBackupsOutput {
   }
 }
 
+/// @nodoc
 class DescribeContributorInsightsOutput {
   /// The mode of CloudWatch Contributor Insights for DynamoDB that determines
   /// which events are emitted. Can be set to track all access and throttled
@@ -6604,6 +6622,7 @@ class DescribeContributorInsightsOutput {
   }
 }
 
+/// @nodoc
 class DescribeEndpointsResponse {
   /// List of endpoints.
   final List<Endpoint> endpoints;
@@ -6629,6 +6648,7 @@ class DescribeEndpointsResponse {
   }
 }
 
+/// @nodoc
 class DescribeExportOutput {
   /// Represents the properties of the export.
   final ExportDescription? exportDescription;
@@ -6654,6 +6674,7 @@ class DescribeExportOutput {
   }
 }
 
+/// @nodoc
 class DescribeGlobalTableOutput {
   /// Contains the details of the global table.
   final GlobalTableDescription? globalTableDescription;
@@ -6680,6 +6701,7 @@ class DescribeGlobalTableOutput {
   }
 }
 
+/// @nodoc
 class DescribeGlobalTableSettingsOutput {
   /// The name of the global table.
   final String? globalTableName;
@@ -6714,6 +6736,7 @@ class DescribeGlobalTableSettingsOutput {
   }
 }
 
+/// @nodoc
 class DescribeImportOutput {
   /// Represents the properties of the table created for the import, and
   /// parameters of the import. The import parameters include import status, how
@@ -6740,6 +6763,7 @@ class DescribeImportOutput {
   }
 }
 
+/// @nodoc
 class DescribeKinesisStreamingDestinationOutput {
   /// The list of replica structures for the table being described.
   final List<KinesisDataStreamDestination>? kinesisDataStreamDestinations;
@@ -6777,6 +6801,8 @@ class DescribeKinesisStreamingDestinationOutput {
 }
 
 /// Represents the output of a <code>DescribeLimits</code> operation.
+///
+/// @nodoc
 class DescribeLimitsOutput {
   /// The maximum total read capacity units that your account allows you to
   /// provision across all of your tables in this Region.
@@ -6832,6 +6858,8 @@ class DescribeLimitsOutput {
 }
 
 /// Represents the output of a <code>DescribeTable</code> operation.
+///
+/// @nodoc
 class DescribeTableOutput {
   /// The properties of the table.
   final TableDescription? table;
@@ -6856,6 +6884,7 @@ class DescribeTableOutput {
   }
 }
 
+/// @nodoc
 class DescribeTableReplicaAutoScalingOutput {
   /// Represents the auto scaling properties of the table.
   final TableAutoScalingDescription? tableAutoScalingDescription;
@@ -6883,6 +6912,7 @@ class DescribeTableReplicaAutoScalingOutput {
   }
 }
 
+/// @nodoc
 class DescribeTimeToLiveOutput {
   ///
   final TimeToLiveDescription? timeToLiveDescription;
@@ -6909,6 +6939,7 @@ class DescribeTimeToLiveOutput {
   }
 }
 
+/// @nodoc
 class KinesisStreamingDestinationOutput {
   /// The current status of the replication.
   final DestinationStatus? destinationStatus;
@@ -6964,6 +6995,7 @@ class KinesisStreamingDestinationOutput {
   }
 }
 
+/// @nodoc
 class ExecuteStatementOutput {
   final ConsumedCapacity? consumedCapacity;
 
@@ -7026,6 +7058,7 @@ class ExecuteStatementOutput {
   }
 }
 
+/// @nodoc
 class ExecuteTransactionOutput {
   /// The capacity units consumed by the entire operation. The values of the list
   /// are ordered according to the ordering of the statements.
@@ -7062,6 +7095,7 @@ class ExecuteTransactionOutput {
   }
 }
 
+/// @nodoc
 class ExportTableToPointInTimeOutput {
   /// Contains a description of the table export.
   final ExportDescription? exportDescription;
@@ -7088,6 +7122,8 @@ class ExportTableToPointInTimeOutput {
 }
 
 /// Represents the output of a <code>GetItem</code> operation.
+///
+/// @nodoc
 class GetItemOutput {
   /// The capacity units consumed by the <code>GetItem</code> operation. The data
   /// returned includes the total provisioned throughput consumed, along with
@@ -7130,6 +7166,7 @@ class GetItemOutput {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyOutput {
   /// The resource-based policy document attached to the resource, which can be a
   /// table or stream, in JSON format.
@@ -7161,6 +7198,7 @@ class GetResourcePolicyOutput {
   }
 }
 
+/// @nodoc
 class ImportTableOutput {
   /// Represents the properties of the table created for the import, and
   /// parameters of the import. The import parameters include import status, how
@@ -7187,6 +7225,7 @@ class ImportTableOutput {
   }
 }
 
+/// @nodoc
 class ListBackupsOutput {
   /// List of <code>BackupSummary</code> objects.
   final List<BackupSummary>? backupSummaries;
@@ -7232,6 +7271,7 @@ class ListBackupsOutput {
   }
 }
 
+/// @nodoc
 class ListContributorInsightsOutput {
   /// A list of ContributorInsightsSummary.
   final List<ContributorInsightsSummary>? contributorInsightsSummaries;
@@ -7267,6 +7307,7 @@ class ListContributorInsightsOutput {
   }
 }
 
+/// @nodoc
 class ListExportsOutput {
   /// A list of <code>ExportSummary</code> objects.
   final List<ExportSummary>? exportSummaries;
@@ -7301,6 +7342,7 @@ class ListExportsOutput {
   }
 }
 
+/// @nodoc
 class ListGlobalTablesOutput {
   /// List of global table names.
   final List<GlobalTable>? globalTables;
@@ -7335,6 +7377,7 @@ class ListGlobalTablesOutput {
   }
 }
 
+/// @nodoc
 class ListImportsOutput {
   /// A list of <code>ImportSummary</code> objects.
   final List<ImportSummary>? importSummaryList;
@@ -7370,6 +7413,8 @@ class ListImportsOutput {
 }
 
 /// Represents the output of a <code>ListTables</code> operation.
+///
+/// @nodoc
 class ListTablesOutput {
   /// The name of the last table in the current page of results. Use this value as
   /// the <code>ExclusiveStartTableName</code> in a new request to obtain the next
@@ -7414,6 +7459,7 @@ class ListTablesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsOfResourceOutput {
   /// If this value is returned, there are additional results to be displayed. To
   /// retrieve them, call ListTagsOfResource again, with NextToken set to this
@@ -7449,6 +7495,8 @@ class ListTagsOfResourceOutput {
 }
 
 /// Represents the output of a <code>PutItem</code> operation.
+///
+/// @nodoc
 class PutItemOutput {
   /// The attribute values as they appeared before the <code>PutItem</code>
   /// operation, but only if <code>ReturnValues</code> is specified as
@@ -7528,6 +7576,7 @@ class PutItemOutput {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyOutput {
   /// A unique string that represents the revision ID of the policy. If you're
   /// comparing revision IDs, make sure to always use string comparison logic.
@@ -7552,6 +7601,8 @@ class PutResourcePolicyOutput {
 }
 
 /// Represents the output of a <code>Query</code> operation.
+///
+/// @nodoc
 class QueryOutput {
   /// The capacity units consumed by the <code>Query</code> operation. The data
   /// returned includes the total provisioned throughput consumed, along with
@@ -7646,6 +7697,7 @@ class QueryOutput {
   }
 }
 
+/// @nodoc
 class RestoreTableFromBackupOutput {
   /// The description of the table created from an existing backup.
   final TableDescription? tableDescription;
@@ -7671,6 +7723,7 @@ class RestoreTableFromBackupOutput {
   }
 }
 
+/// @nodoc
 class RestoreTableToPointInTimeOutput {
   /// Represents the properties of a table.
   final TableDescription? tableDescription;
@@ -7697,6 +7750,8 @@ class RestoreTableToPointInTimeOutput {
 }
 
 /// Represents the output of a <code>Scan</code> operation.
+///
+/// @nodoc
 class ScanOutput {
   /// The capacity units consumed by the <code>Scan</code> operation. The data
   /// returned includes the total provisioned throughput consumed, along with
@@ -7791,6 +7846,7 @@ class ScanOutput {
   }
 }
 
+/// @nodoc
 class TransactGetItemsOutput {
   /// If the <i>ReturnConsumedCapacity</i> value was <code>TOTAL</code>, this is
   /// an array of <code>ConsumedCapacity</code> objects, one for each table
@@ -7840,6 +7896,7 @@ class TransactGetItemsOutput {
   }
 }
 
+/// @nodoc
 class TransactWriteItemsOutput {
   /// The capacity units consumed by the entire <code>TransactWriteItems</code>
   /// operation. The values of the list are ordered according to the ordering of
@@ -7886,6 +7943,7 @@ class TransactWriteItemsOutput {
   }
 }
 
+/// @nodoc
 class UpdateContinuousBackupsOutput {
   /// Represents the continuous backups and point in time recovery settings on the
   /// table.
@@ -7913,6 +7971,7 @@ class UpdateContinuousBackupsOutput {
   }
 }
 
+/// @nodoc
 class UpdateContributorInsightsOutput {
   /// The updated mode of CloudWatch Contributor Insights that determines whether
   /// to monitor all access and throttled events or to track throttled events
@@ -7962,6 +8021,7 @@ class UpdateContributorInsightsOutput {
   }
 }
 
+/// @nodoc
 class UpdateGlobalTableOutput {
   /// Contains the details of the global table.
   final GlobalTableDescription? globalTableDescription;
@@ -7988,6 +8048,7 @@ class UpdateGlobalTableOutput {
   }
 }
 
+/// @nodoc
 class UpdateGlobalTableSettingsOutput {
   /// The name of the global table.
   final String? globalTableName;
@@ -8022,6 +8083,8 @@ class UpdateGlobalTableSettingsOutput {
 }
 
 /// Represents the output of an <code>UpdateItem</code> operation.
+///
+/// @nodoc
 class UpdateItemOutput {
   /// A map of attribute values as they appear before or after the
   /// <code>UpdateItem</code> operation, as determined by the
@@ -8104,6 +8167,7 @@ class UpdateItemOutput {
   }
 }
 
+/// @nodoc
 class UpdateKinesisStreamingDestinationOutput {
   /// The status of the attempt to update the Kinesis streaming destination
   /// output.
@@ -8161,6 +8225,8 @@ class UpdateKinesisStreamingDestinationOutput {
 }
 
 /// Represents the output of an <code>UpdateTable</code> operation.
+///
+/// @nodoc
 class UpdateTableOutput {
   /// Represents the properties of the table.
   final TableDescription? tableDescription;
@@ -8186,6 +8252,7 @@ class UpdateTableOutput {
   }
 }
 
+/// @nodoc
 class UpdateTableReplicaAutoScalingOutput {
   /// Returns information about the auto scaling settings of a table with
   /// replicas.
@@ -8214,6 +8281,7 @@ class UpdateTableReplicaAutoScalingOutput {
   }
 }
 
+/// @nodoc
 class UpdateTimeToLiveOutput {
   /// Represents the output of an <code>UpdateTimeToLive</code> operation.
   final TimeToLiveSpecification? timeToLiveSpecification;
@@ -8242,6 +8310,8 @@ class UpdateTimeToLiveOutput {
 
 /// Represents the settings used to enable or disable Time to Live (TTL) for the
 /// specified table.
+///
+/// @nodoc
 class TimeToLiveSpecification {
   /// The name of the TTL attribute used to store the expiration time for items in
   /// the table.
@@ -8274,6 +8344,8 @@ class TimeToLiveSpecification {
 }
 
 /// Represents the auto scaling configuration for a global table.
+///
+/// @nodoc
 class TableAutoScalingDescription {
   /// Represents replicas of the global table.
   final List<ReplicaAutoScalingDescription>? replicas;
@@ -8330,6 +8402,7 @@ class TableAutoScalingDescription {
   }
 }
 
+/// @nodoc
 class TableStatus {
   static const creating = TableStatus._('CREATING');
   static const updating = TableStatus._('UPDATING');
@@ -8371,6 +8444,8 @@ class TableStatus {
 }
 
 /// Represents the auto scaling settings of the replica.
+///
+/// @nodoc
 class ReplicaAutoScalingDescription {
   /// Replica-specific global secondary index auto scaling settings.
   final List<ReplicaGlobalSecondaryIndexAutoScalingDescription>?
@@ -8460,6 +8535,8 @@ class ReplicaAutoScalingDescription {
 
 /// Represents the auto scaling settings for a global table or global secondary
 /// index.
+///
+/// @nodoc
 class AutoScalingSettingsDescription {
   /// Disabled auto scaling for this global table or global secondary index.
   final bool? autoScalingDisabled;
@@ -8517,6 +8594,7 @@ class AutoScalingSettingsDescription {
   }
 }
 
+/// @nodoc
 class ReplicaStatus {
   static const creating = ReplicaStatus._('CREATING');
   static const creationFailed = ReplicaStatus._('CREATION_FAILED');
@@ -8563,6 +8641,8 @@ class ReplicaStatus {
 }
 
 /// Represents the properties of the scaling policy.
+///
+/// @nodoc
 class AutoScalingPolicyDescription {
   /// The name of the scaling policy.
   final String? policyName;
@@ -8602,6 +8682,8 @@ class AutoScalingPolicyDescription {
 }
 
 /// Represents the properties of a target tracking scaling policy.
+///
+/// @nodoc
 class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
   /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
   /// (Base 10) or 2e-360 to 2e360 (Base 2).
@@ -8664,6 +8746,8 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
 
 /// Represents the auto scaling configuration for a replica global secondary
 /// index.
+///
+/// @nodoc
 class ReplicaGlobalSecondaryIndexAutoScalingDescription {
   /// The name of the global secondary index.
   final String? indexName;
@@ -8739,6 +8823,7 @@ class ReplicaGlobalSecondaryIndexAutoScalingDescription {
   }
 }
 
+/// @nodoc
 class IndexStatus {
   static const creating = IndexStatus._('CREATING');
   static const updating = IndexStatus._('UPDATING');
@@ -8766,6 +8851,8 @@ class IndexStatus {
 
 /// Represents the auto scaling settings to be modified for a global table or
 /// global secondary index.
+///
+/// @nodoc
 class AutoScalingSettingsUpdate {
   /// Disabled auto scaling for this global table or global secondary index.
   final bool? autoScalingDisabled;
@@ -8812,6 +8899,8 @@ class AutoScalingSettingsUpdate {
 }
 
 /// Represents the auto scaling settings of a replica that will be modified.
+///
+/// @nodoc
 class ReplicaAutoScalingUpdate {
   /// The Region where the replica exists.
   final String regionName;
@@ -8849,6 +8938,8 @@ class ReplicaAutoScalingUpdate {
 
 /// Represents the auto scaling settings of a global secondary index for a
 /// replica that will be modified.
+///
+/// @nodoc
 class ReplicaGlobalSecondaryIndexAutoScalingUpdate {
   /// The name of the global secondary index.
   final String? indexName;
@@ -8873,6 +8964,8 @@ class ReplicaGlobalSecondaryIndexAutoScalingUpdate {
 }
 
 /// Represents the auto scaling policy to be modified.
+///
+/// @nodoc
 class AutoScalingPolicyUpdate {
   /// Represents a target tracking scaling policy configuration.
   final AutoScalingTargetTrackingScalingPolicyConfigurationUpdate
@@ -8900,6 +8993,8 @@ class AutoScalingPolicyUpdate {
 
 /// Represents the settings of a target tracking scaling policy that will be
 /// modified.
+///
+/// @nodoc
 class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
   /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
   /// (Base 10) or 2e-360 to 2e360 (Base 2).
@@ -8952,6 +9047,8 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
 
 /// Represents the auto scaling settings of a global secondary index for a
 /// global table that will be modified.
+///
+/// @nodoc
 class GlobalSecondaryIndexAutoScalingUpdate {
   /// The name of the global secondary index.
   final String? indexName;
@@ -8976,6 +9073,8 @@ class GlobalSecondaryIndexAutoScalingUpdate {
 }
 
 /// Represents the properties of a table.
+///
+/// @nodoc
 class TableDescription {
   /// Contains information about the table archive.
   final ArchivalSummary? archivalSummary;
@@ -9553,6 +9652,8 @@ class TableDescription {
 /// Represents the provisioned throughput settings for the table, consisting of
 /// read and write capacity units, along with data about increases and
 /// decreases.
+///
+/// @nodoc
 class ProvisionedThroughputDescription {
   /// The date and time of the last provisioned throughput decrease for this
   /// table.
@@ -9626,6 +9727,8 @@ class ProvisionedThroughputDescription {
 /// You may need to switch to on-demand mode at least once in order to return a
 /// <code>BillingModeSummary</code> response.
 /// </note>
+///
+/// @nodoc
 class BillingModeSummary {
   /// Controls how you are charged for read and write throughput and how you
   /// manage capacity. This setting can be changed later.
@@ -9676,6 +9779,8 @@ class BillingModeSummary {
 }
 
 /// Represents the DynamoDB Streams configuration for a table in DynamoDB.
+///
+/// @nodoc
 class StreamSpecification {
   /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on
   /// the table.
@@ -9728,6 +9833,7 @@ class StreamSpecification {
   }
 }
 
+/// @nodoc
 class GlobalTableSettingsReplicationMode {
   static const enabled = GlobalTableSettingsReplicationMode._('ENABLED');
   static const disabled = GlobalTableSettingsReplicationMode._('DISABLED');
@@ -9756,6 +9862,8 @@ class GlobalTableSettingsReplicationMode {
 }
 
 /// Contains details for the restore.
+///
+/// @nodoc
 class RestoreSummary {
   /// Point in time or source backup time.
   final DateTime restoreDateTime;
@@ -9802,6 +9910,8 @@ class RestoreSummary {
 }
 
 /// The description of the server-side encryption status on the specified table.
+///
+/// @nodoc
 class SSEDescription {
   /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that
   /// the table's KMS key was inaccessible. This attribute will automatically be
@@ -9870,6 +9980,8 @@ class SSEDescription {
 }
 
 /// Contains details of a table archival operation.
+///
+/// @nodoc
 class ArchivalSummary {
   /// The Amazon Resource Name (ARN) of the backup the table was archived to, when
   /// applicable in the archival reason. If you wish to restore this backup to the
@@ -9920,6 +10032,8 @@ class ArchivalSummary {
 }
 
 /// Contains details of the table class.
+///
+/// @nodoc
 class TableClassSummary {
   /// The date and time at which the table class was last updated.
   final DateTime? lastUpdateDateTime;
@@ -9955,6 +10069,8 @@ class TableClassSummary {
 /// table. If you use this parameter, you must specify
 /// <code>MaxReadRequestUnits</code>, <code>MaxWriteRequestUnits</code>, or
 /// both.
+///
+/// @nodoc
 class OnDemandThroughput {
   /// Maximum number of read request units for the specified table.
   ///
@@ -10000,6 +10116,8 @@ class OnDemandThroughput {
 /// units per second) of the table. Warm throughput is applicable for DynamoDB
 /// Standard-IA tables and specifies the minimum provisioned capacity maintained
 /// for immediate data access.
+///
+/// @nodoc
 class TableWarmThroughputDescription {
   /// Represents the base table's warm throughput value in read units per second.
   final int? readUnitsPerSecond;
@@ -10037,6 +10155,7 @@ class TableWarmThroughputDescription {
   }
 }
 
+/// @nodoc
 class MultiRegionConsistency {
   static const eventual = MultiRegionConsistency._('EVENTUAL');
   static const strong = MultiRegionConsistency._('STRONG');
@@ -10062,6 +10181,7 @@ class MultiRegionConsistency {
   String toString() => value;
 }
 
+/// @nodoc
 class TableClass {
   static const standard = TableClass._('STANDARD');
   static const standardInfrequentAccess =
@@ -10086,6 +10206,7 @@ class TableClass {
   String toString() => value;
 }
 
+/// @nodoc
 class SSEStatus {
   static const enabling = SSEStatus._('ENABLING');
   static const enabled = SSEStatus._('ENABLED');
@@ -10112,6 +10233,7 @@ class SSEStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SSEType {
   static const aes256 = SSEType._('AES256');
   static const kms = SSEType._('KMS');
@@ -10136,6 +10258,8 @@ class SSEType {
 }
 
 /// Represents the properties of a witness Region in a MRSC global table.
+///
+/// @nodoc
 class GlobalTableWitnessDescription {
   /// The name of the Amazon Web Services Region that serves as a witness for the
   /// MRSC global table.
@@ -10167,6 +10291,7 @@ class GlobalTableWitnessDescription {
   }
 }
 
+/// @nodoc
 class WitnessStatus {
   static const creating = WitnessStatus._('CREATING');
   static const deleting = WitnessStatus._('DELETING');
@@ -10193,6 +10318,8 @@ class WitnessStatus {
 }
 
 /// Contains the details of the replica.
+///
+/// @nodoc
 class ReplicaDescription {
   /// Replica-specific global secondary index settings.
   final List<ReplicaGlobalSecondaryIndexDescription>? globalSecondaryIndexes;
@@ -10386,6 +10513,8 @@ class ReplicaDescription {
 
 /// Replica-specific provisioned throughput settings. If not specified, uses the
 /// source table's provisioned throughput settings.
+///
+/// @nodoc
 class ProvisionedThroughputOverride {
   /// Replica-specific read capacity units. If not specified, uses the source
   /// table's read capacity settings.
@@ -10412,6 +10541,8 @@ class ProvisionedThroughputOverride {
 /// Overrides the on-demand throughput settings for this replica table. If you
 /// don't specify a value for this parameter, it uses the source table's
 /// on-demand throughput settings.
+///
+/// @nodoc
 class OnDemandThroughputOverride {
   /// Maximum number of read request units for the specified replica table.
   final int? maxReadRequestUnits;
@@ -10436,6 +10567,8 @@ class OnDemandThroughputOverride {
 }
 
 /// Represents the properties of a replica global secondary index.
+///
+/// @nodoc
 class ReplicaGlobalSecondaryIndexDescription {
   /// The name of the global secondary index.
   final String? indexName;
@@ -10495,6 +10628,8 @@ class ReplicaGlobalSecondaryIndexDescription {
 }
 
 /// The description of the warm throughput value on a global secondary index.
+///
+/// @nodoc
 class GlobalSecondaryIndexWarmThroughputDescription {
   /// Represents warm throughput read units per second value for a global
   /// secondary index.
@@ -10537,6 +10672,7 @@ class GlobalSecondaryIndexWarmThroughputDescription {
   }
 }
 
+/// @nodoc
 class StreamViewType {
   static const newImage = StreamViewType._('NEW_IMAGE');
   static const oldImage = StreamViewType._('OLD_IMAGE');
@@ -10564,6 +10700,8 @@ class StreamViewType {
 }
 
 /// Represents the properties of a global secondary index.
+///
+/// @nodoc
 class GlobalSecondaryIndexDescription {
   /// Indicates whether the index is currently backfilling. <i>Backfilling</i> is
   /// the process of reading items from the table and determining whether they can
@@ -10741,6 +10879,8 @@ class GlobalSecondaryIndexDescription {
 /// Represents attributes that are copied (projected) from the table into an
 /// index. These are in addition to the primary key attributes and index key
 /// attributes, which are automatically projected.
+///
+/// @nodoc
 class Projection {
   /// Represents the non-key attribute names which will be projected into the
   /// index.
@@ -10800,6 +10940,7 @@ class Projection {
   }
 }
 
+/// @nodoc
 class ProjectionType {
   static const all = ProjectionType._('ALL');
   static const keysOnly = ProjectionType._('KEYS_ONLY');
@@ -10826,6 +10967,8 @@ class ProjectionType {
 }
 
 /// Represents the properties of a local secondary index.
+///
+/// @nodoc
 class LocalSecondaryIndexDescription {
   /// The Amazon Resource Name (ARN) that uniquely identifies the index.
   final String? indexArn;
@@ -10914,6 +11057,7 @@ class LocalSecondaryIndexDescription {
   }
 }
 
+/// @nodoc
 class BillingMode {
   static const provisioned = BillingMode._('PROVISIONED');
   static const payPerRequest = BillingMode._('PAY_PER_REQUEST');
@@ -10950,6 +11094,8 @@ class BillingMode {
 /// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
 /// nested attribute). The data type must be one of String, Number, or Binary.
 /// The attribute cannot be nested within a List or a Map.
+///
+/// @nodoc
 class KeySchemaElement {
   /// The name of a key attribute.
   final String attributeName;
@@ -10998,6 +11144,7 @@ class KeySchemaElement {
   }
 }
 
+/// @nodoc
 class KeyType {
   static const hash = KeyType._('HASH');
   static const range = KeyType._('RANGE');
@@ -11022,6 +11169,8 @@ class KeyType {
 }
 
 /// Represents an attribute for describing the schema for the table and indexes.
+///
+/// @nodoc
 class AttributeDefinition {
   /// A name for the attribute.
   final String attributeName;
@@ -11064,6 +11213,7 @@ class AttributeDefinition {
   }
 }
 
+/// @nodoc
 class ScalarAttributeType {
   static const s = ScalarAttributeType._('S');
   static const n = ScalarAttributeType._('N');
@@ -11097,6 +11247,8 @@ class ScalarAttributeType {
 /// For current minimum and maximum provisioned throughput values, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
 /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+///
+/// @nodoc
 class ProvisionedThroughput {
   /// The maximum number of strongly consistent reads consumed per second before
   /// DynamoDB returns a <code>ThrottlingException</code>. For more information,
@@ -11142,6 +11294,8 @@ class ProvisionedThroughput {
 }
 
 /// Represents the settings used to enable server-side encryption.
+///
+/// @nodoc
 class SSESpecification {
   /// Indicates whether server-side encryption is done using an Amazon Web
   /// Services managed key or an Amazon Web Services owned key. If enabled (true),
@@ -11196,6 +11350,8 @@ class SSESpecification {
 /// or secondary index can instantaneously support. The settings can be modified
 /// using the <code>UpdateTable</code> operation to meet the throughput
 /// requirements of an upcoming peak event.
+///
+/// @nodoc
 class WarmThroughput {
   /// Represents the number of read operations your base table can instantaneously
   /// support.
@@ -11239,6 +11395,8 @@ class WarmThroughput {
 /// </li>
 /// </ul>
 /// You can configure one witness per MRSC global table.
+///
+/// @nodoc
 class GlobalTableWitnessGroupUpdate {
   /// Specifies a witness Region to be added to a new MRSC global table. The
   /// witness must be added when creating the MRSC global table.
@@ -11268,6 +11426,8 @@ class GlobalTableWitnessGroupUpdate {
 /// Specifies the action to add a new witness Region to a MRSC global table. A
 /// MRSC global table can be configured with either three replicas, or with two
 /// replicas and one witness.
+///
+/// @nodoc
 class CreateGlobalTableWitnessGroupMemberAction {
   /// The Amazon Web Services Region name to be added as a witness Region for the
   /// MRSC global table. The witness must be in a different Region than the
@@ -11305,6 +11465,8 @@ class CreateGlobalTableWitnessGroupMemberAction {
 /// delete both a replica and the witness together. The deletion of both a
 /// witness and replica converts the remaining replica to a single-Region
 /// DynamoDB table.
+///
+/// @nodoc
 class DeleteGlobalTableWitnessGroupMemberAction {
   /// The witness Region name to be removed from the MRSC global table.
   final String regionName;
@@ -11343,6 +11505,8 @@ class DeleteGlobalTableWitnessGroupMemberAction {
 /// automatically remove any associated scalable targets, scaling policies, or
 /// CloudWatch alarms.
 /// </note>
+///
+/// @nodoc
 class ReplicationGroupUpdate {
   /// The parameters required for creating a replica for the table.
   final CreateReplicationGroupMemberAction? create;
@@ -11372,6 +11536,8 @@ class ReplicationGroupUpdate {
 }
 
 /// Represents a replica to be created.
+///
+/// @nodoc
 class CreateReplicationGroupMemberAction {
   /// The Region where the new replica will be created.
   final String regionName;
@@ -11431,6 +11597,8 @@ class CreateReplicationGroupMemberAction {
 }
 
 /// Represents a replica to be modified.
+///
+/// @nodoc
 class UpdateReplicationGroupMemberAction {
   /// The Region where the replica exists.
   final String regionName;
@@ -11487,6 +11655,8 @@ class UpdateReplicationGroupMemberAction {
 }
 
 /// Represents a replica to be deleted.
+///
+/// @nodoc
 class DeleteReplicationGroupMemberAction {
   /// The Region where the replica exists.
   final String regionName;
@@ -11504,6 +11674,8 @@ class DeleteReplicationGroupMemberAction {
 }
 
 /// Represents the properties of a replica global secondary index.
+///
+/// @nodoc
 class ReplicaGlobalSecondaryIndex {
   /// The name of the global secondary index.
   final String indexName;
@@ -11550,6 +11722,8 @@ class ReplicaGlobalSecondaryIndex {
 /// An existing global secondary index to be removed from an existing table.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GlobalSecondaryIndexUpdate {
   /// The parameters required for creating a global secondary index on an existing
   /// table:
@@ -11600,6 +11774,8 @@ class GlobalSecondaryIndexUpdate {
 
 /// Represents the new provisioned throughput settings to be applied to a global
 /// secondary index.
+///
+/// @nodoc
 class UpdateGlobalSecondaryIndexAction {
   /// The name of the global secondary index to be updated.
   final String indexName;
@@ -11645,6 +11821,8 @@ class UpdateGlobalSecondaryIndexAction {
 }
 
 /// Represents a new global secondary index to be added to an existing table.
+///
+/// @nodoc
 class CreateGlobalSecondaryIndexAction {
   /// The name of the global secondary index to be created.
   final String indexName;
@@ -11706,6 +11884,8 @@ class CreateGlobalSecondaryIndexAction {
 }
 
 /// Represents a global secondary index to be deleted from an existing table.
+///
+/// @nodoc
 class DeleteGlobalSecondaryIndexAction {
   /// The name of the global secondary index to be deleted.
   final String indexName;
@@ -11722,6 +11902,7 @@ class DeleteGlobalSecondaryIndexAction {
   }
 }
 
+/// @nodoc
 class DestinationStatus {
   static const enabling = DestinationStatus._('ENABLING');
   static const active = DestinationStatus._('ACTIVE');
@@ -11758,6 +11939,8 @@ class DestinationStatus {
 }
 
 /// Enables updating the configuration for Kinesis Streaming.
+///
+/// @nodoc
 class UpdateKinesisStreamingConfiguration {
   /// Enables updating the precision of Kinesis data stream timestamp.
   final ApproximateCreationDateTimePrecision?
@@ -11787,6 +11970,7 @@ class UpdateKinesisStreamingConfiguration {
   }
 }
 
+/// @nodoc
 class ApproximateCreationDateTimePrecision {
   static const millisecond =
       ApproximateCreationDateTimePrecision._('MILLISECOND');
@@ -11820,6 +12004,8 @@ class ApproximateCreationDateTimePrecision {
 /// only returned if the request asked for it. For more information, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html">Provisioned
 /// capacity mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+///
+/// @nodoc
 class ConsumedCapacity {
   /// The total number of capacity units consumed by the operation.
   final double? capacityUnits;
@@ -11902,6 +12088,8 @@ class ConsumedCapacity {
 /// operation. <code>ItemCollectionMetrics</code> is only returned if the
 /// request asked for it. If the table does not have any local secondary
 /// indexes, this information is not returned in the response.
+///
+/// @nodoc
 class ItemCollectionMetrics {
   /// The partition key value of the item collection. This value is the same as
   /// the partition key value of the item.
@@ -11954,6 +12142,8 @@ class ItemCollectionMetrics {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
 /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+///
+/// @nodoc
 class AttributeValue {
   /// An attribute of type Binary. For example:
   ///
@@ -11967,12 +12157,12 @@ class AttributeValue {
 
   /// An attribute of type Binary Set. For example:
   ///
-  /// <code>"BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]</code>
+  /// <code>"BS": \["U3Vubnk=", "UmFpbnk=", "U25vd3k="\]</code>
   final List<Uint8List>? bs;
 
   /// An attribute of type List. For example:
   ///
-  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]</code>
+  /// <code>"L": \[ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}\]</code>
   final List<AttributeValue>? l;
 
   /// An attribute of type Map. For example:
@@ -11991,7 +12181,7 @@ class AttributeValue {
 
   /// An attribute of type Number Set. For example:
   ///
-  /// <code>"NS": ["42.2", "-19", "7.5", "3.14"]</code>
+  /// <code>"NS": \["42.2", "-19", "7.5", "3.14"\]</code>
   ///
   /// Numbers are sent across the network to DynamoDB as strings, to maximize
   /// compatibility across languages and libraries. However, DynamoDB treats them
@@ -12010,7 +12200,7 @@ class AttributeValue {
 
   /// An attribute of type String Set. For example:
   ///
-  /// <code>"SS": ["Giraffe", "Hippo" ,"Zebra"]</code>
+  /// <code>"SS": \["Giraffe", "Hippo" ,"Zebra"\]</code>
   final List<String>? ss;
 
   AttributeValue({
@@ -12076,6 +12266,8 @@ class AttributeValue {
 
 /// Represents the amount of provisioned throughput capacity consumed on a table
 /// or an index.
+///
+/// @nodoc
 class Capacity {
   /// The total number of capacity units consumed on a table or an index.
   final double? capacityUnits;
@@ -12112,6 +12304,7 @@ class Capacity {
   }
 }
 
+/// @nodoc
 class ConditionalOperator {
   static const and = ConditionalOperator._('AND');
   static const or = ConditionalOperator._('OR');
@@ -12137,6 +12330,7 @@ class ConditionalOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class ReturnValue {
   static const none = ReturnValue._('NONE');
   static const allOld = ReturnValue._('ALL_OLD');
@@ -12187,6 +12381,8 @@ class ReturnValue {
 /// the response.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ReturnConsumedCapacity {
   static const indexes = ReturnConsumedCapacity._('INDEXES');
   static const total = ReturnConsumedCapacity._('TOTAL');
@@ -12213,6 +12409,7 @@ class ReturnConsumedCapacity {
   String toString() => value;
 }
 
+/// @nodoc
 class ReturnItemCollectionMetrics {
   static const size = ReturnItemCollectionMetrics._('SIZE');
   static const none = ReturnItemCollectionMetrics._('NONE');
@@ -12238,6 +12435,7 @@ class ReturnItemCollectionMetrics {
   String toString() => value;
 }
 
+/// @nodoc
 class ReturnValuesOnConditionCheckFailure {
   static const allOld = ReturnValuesOnConditionCheckFailure._('ALL_OLD');
   static const none = ReturnValuesOnConditionCheckFailure._('NONE');
@@ -12289,6 +12487,8 @@ class ReturnValuesOnConditionCheckFailure {
 /// <code>AttributeValueList</code> and <code>ComparisonOperator</code>. Note
 /// that if you use both sets of parameters at once, DynamoDB will return a
 /// <code>ValidationException</code> exception.
+///
+/// @nodoc
 class ExpectedAttributeValue {
   /// One or more values to evaluate against the supplied attribute. The number of
   /// values in the list depends on the <code>ComparisonOperator</code> being
@@ -12332,7 +12532,7 @@ class ExpectedAttributeValue {
   /// <code>AttributeValue</code> element of a different type than the one
   /// provided in the request, the value does not match. For example,
   /// <code>{"S":"6"}</code> does not equal <code>{"N":"6"}</code>. Also,
-  /// <code>{"N":"6"}</code> does not equal <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"N":"6"}</code> does not equal <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -12346,7 +12546,7 @@ class ExpectedAttributeValue {
   /// <code>AttributeValue</code> of a different type than the one provided in the
   /// request, the value does not match. For example, <code>{"S":"6"}</code> does
   /// not equal <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not
-  /// equal <code>{"NS":["6", "2", "1"]}</code>.
+  /// equal <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -12359,7 +12559,7 @@ class ExpectedAttributeValue {
   /// different type than the one provided in the request, the value does not
   /// match. For example, <code>{"S":"6"}</code> does not equal
   /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -12372,7 +12572,7 @@ class ExpectedAttributeValue {
   /// different type than the one provided in the request, the value does not
   /// match. For example, <code>{"S":"6"}</code> does not equal
   /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -12385,7 +12585,7 @@ class ExpectedAttributeValue {
   /// different type than the one provided in the request, the value does not
   /// match. For example, <code>{"S":"6"}</code> does not equal
   /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -12398,7 +12598,7 @@ class ExpectedAttributeValue {
   /// different type than the one provided in the request, the value does not
   /// match. For example, <code>{"S":"6"}</code> does not equal
   /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -12487,8 +12687,8 @@ class ExpectedAttributeValue {
   /// If an item contains an <code>AttributeValue</code> element of a different
   /// type than the one provided in the request, the value does not match. For
   /// example, <code>{"S":"6"}</code> does not compare to <code>{"N":"6"}</code>.
-  /// Also, <code>{"N":"6"}</code> does not compare to <code>{"NS":["6", "2",
-  /// "1"]}</code>
+  /// Also, <code>{"N":"6"}</code> does not compare to <code>{"NS":\["6", "2",
+  /// "1"\]}</code>
   /// </li>
   /// </ul>
   final ComparisonOperator? comparisonOperator;
@@ -12564,6 +12764,7 @@ class ExpectedAttributeValue {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const eq = ComparisonOperator._('EQ');
   static const ne = ComparisonOperator._('NE');
@@ -12625,6 +12826,8 @@ class ComparisonOperator {
 /// lengths greater than zero; and set type attributes must not be empty.
 /// Requests with empty values will be rejected with a
 /// <code>ValidationException</code> exception.
+///
+/// @nodoc
 class AttributeValueUpdate {
   /// Specifies how to perform the update. Valid values are <code>PUT</code>
   /// (default), <code>DELETE</code>, and <code>ADD</code>. The behavior depends
@@ -12644,9 +12847,9 @@ class AttributeValueUpdate {
   ///
   /// If a <i>set</i> of values is specified, then those values are subtracted
   /// from the old set. For example, if the attribute value was the set
-  /// <code>[a,b,c]</code> and the <code>DELETE</code> action specified
-  /// <code>[a,c]</code>, then the final attribute value would be
-  /// <code>[b]</code>. Specifying an empty set is an error.
+  /// <code>\[a,b,c\]</code> and the <code>DELETE</code> action specified
+  /// <code>\[a,c\]</code>, then the final attribute value would be
+  /// <code>\[b\]</code>. Specifying an empty set is an error.
   /// </li>
   /// <li>
   /// <code>ADD</code> - If the attribute does not already exist, then the
@@ -12680,9 +12883,9 @@ class AttributeValueUpdate {
   /// If the existing data type is a set, and if the <code>Value</code> is also a
   /// set, then the <code>Value</code> is added to the existing set. (This is a
   /// <i>set</i> operation, not mathematical addition.) For example, if the
-  /// attribute value was the set <code>[1,2]</code>, and the <code>ADD</code>
-  /// action specified <code>[3]</code>, then the final attribute value would be
-  /// <code>[1,2,3]</code>. An error occurs if an Add action is specified for a
+  /// attribute value was the set <code>\[1,2\]</code>, and the <code>ADD</code>
+  /// action specified <code>\[3\]</code>, then the final attribute value would be
+  /// <code>\[1,2,3\]</code>. An error occurs if an Add action is specified for a
   /// set attribute and the attribute type specified does not match the existing
   /// set type.
   ///
@@ -12738,6 +12941,7 @@ class AttributeValueUpdate {
   }
 }
 
+/// @nodoc
 class AttributeAction {
   static const add = AttributeAction._('ADD');
   static const put = AttributeAction._('PUT');
@@ -12764,6 +12968,8 @@ class AttributeAction {
 }
 
 /// Represents the properties of a replica.
+///
+/// @nodoc
 class ReplicaSettingsDescription {
   /// The Region name of the replica.
   final String regionName;
@@ -12910,6 +13116,8 @@ class ReplicaSettingsDescription {
 }
 
 /// Represents the properties of a global secondary index.
+///
+/// @nodoc
 class ReplicaGlobalSecondaryIndexSettingsDescription {
   /// The name of the global secondary index. The name must be unique among all
   /// other indexes on this table.
@@ -13013,6 +13221,8 @@ class ReplicaGlobalSecondaryIndexSettingsDescription {
 
 /// Represents the settings for a global table in a Region that will be
 /// modified.
+///
+/// @nodoc
 class ReplicaSettingsUpdate {
   /// The Region of the replica to be added.
   final String regionName;
@@ -13075,6 +13285,8 @@ class ReplicaSettingsUpdate {
 
 /// Represents the settings of a global secondary index for a global table that
 /// will be modified.
+///
+/// @nodoc
 class ReplicaGlobalSecondaryIndexSettingsUpdate {
   /// The name of the global secondary index. The name must be unique among all
   /// other indexes on this table.
@@ -13113,6 +13325,8 @@ class ReplicaGlobalSecondaryIndexSettingsUpdate {
 
 /// Represents the settings of a global secondary index for a global table that
 /// will be modified.
+///
+/// @nodoc
 class GlobalTableGlobalSecondaryIndexSettingsUpdate {
   /// The name of the global secondary index. The name must be unique among all
   /// other indexes on this table.
@@ -13150,6 +13364,8 @@ class GlobalTableGlobalSecondaryIndexSettingsUpdate {
 }
 
 /// Contains details about the global table.
+///
+/// @nodoc
 class GlobalTableDescription {
   /// The creation time of the global table.
   final DateTime? creationDateTime;
@@ -13221,6 +13437,7 @@ class GlobalTableDescription {
   }
 }
 
+/// @nodoc
 class GlobalTableStatus {
   static const creating = GlobalTableStatus._('CREATING');
   static const active = GlobalTableStatus._('ACTIVE');
@@ -13260,6 +13477,8 @@ class GlobalTableStatus {
 /// An existing replica to be removed from an existing global table.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ReplicaUpdate {
   /// The parameters required for creating a replica on an existing global table.
   final CreateReplicaAction? create;
@@ -13283,6 +13502,8 @@ class ReplicaUpdate {
 }
 
 /// Represents a replica to be added.
+///
+/// @nodoc
 class CreateReplicaAction {
   /// The Region of the replica to be added.
   final String regionName;
@@ -13300,6 +13521,8 @@ class CreateReplicaAction {
 }
 
 /// Represents a replica to be removed.
+///
+/// @nodoc
 class DeleteReplicaAction {
   /// The Region of the replica to be removed.
   final String regionName;
@@ -13316,6 +13539,7 @@ class DeleteReplicaAction {
   }
 }
 
+/// @nodoc
 class ContributorInsightsStatus {
   static const enabling = ContributorInsightsStatus._('ENABLING');
   static const enabled = ContributorInsightsStatus._('ENABLED');
@@ -13344,6 +13568,7 @@ class ContributorInsightsStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ContributorInsightsMode {
   static const accessedAndThrottledKeys =
       ContributorInsightsMode._('ACCESSED_AND_THROTTLED_KEYS');
@@ -13370,6 +13595,7 @@ class ContributorInsightsMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ContributorInsightsAction {
   static const enable = ContributorInsightsAction._('ENABLE');
   static const disable = ContributorInsightsAction._('DISABLE');
@@ -13397,6 +13623,8 @@ class ContributorInsightsAction {
 
 /// Represents the continuous backups and point in time recovery settings on the
 /// table.
+///
+/// @nodoc
 class ContinuousBackupsDescription {
   /// <code>ContinuousBackupsStatus</code> can be one of the following states:
   /// ENABLED, DISABLED
@@ -13433,6 +13661,7 @@ class ContinuousBackupsDescription {
   }
 }
 
+/// @nodoc
 class ContinuousBackupsStatus {
   static const enabled = ContinuousBackupsStatus._('ENABLED');
   static const disabled = ContinuousBackupsStatus._('DISABLED');
@@ -13459,6 +13688,8 @@ class ContinuousBackupsStatus {
 }
 
 /// The description of the point in time settings applied to the table.
+///
+/// @nodoc
 class PointInTimeRecoveryDescription {
   /// Specifies the earliest point in time you can restore your table to. You can
   /// restore your table to any point in time during the last 35 days.
@@ -13524,6 +13755,7 @@ class PointInTimeRecoveryDescription {
   }
 }
 
+/// @nodoc
 class PointInTimeRecoveryStatus {
   static const enabled = PointInTimeRecoveryStatus._('ENABLED');
   static const disabled = PointInTimeRecoveryStatus._('DISABLED');
@@ -13550,6 +13782,8 @@ class PointInTimeRecoveryStatus {
 }
 
 /// Represents the settings used to enable point in time recovery.
+///
+/// @nodoc
 class PointInTimeRecoverySpecification {
   /// Indicates whether point in time recovery is enabled (true) or disabled
   /// (false) on the table.
@@ -13579,6 +13813,8 @@ class PointInTimeRecoverySpecification {
 
 /// A list of requests that can perform update, put, delete, or check operations
 /// on multiple items in one or more tables atomically.
+///
+/// @nodoc
 class TransactWriteItem {
   /// A request to perform a check item operation.
   final ConditionCheck? conditionCheck;
@@ -13615,6 +13851,8 @@ class TransactWriteItem {
 
 /// Represents a request to perform a check that an item exists or to check the
 /// condition of specific attributes of the item.
+///
+/// @nodoc
 class ConditionCheck {
   /// A condition that must be satisfied in order for a conditional update to
   /// succeed. For more information, see <a
@@ -13682,6 +13920,8 @@ class ConditionCheck {
 }
 
 /// Represents a request to perform a <code>PutItem</code> operation.
+///
+/// @nodoc
 class Put {
   /// A map of attribute name to attribute values, representing the primary key of
   /// the item to be written by <code>PutItem</code>. All of the table's primary
@@ -13746,6 +13986,8 @@ class Put {
 }
 
 /// Represents a request to perform a <code>DeleteItem</code> operation.
+///
+/// @nodoc
 class Delete {
   /// The primary key of the item to be deleted. Each element consists of an
   /// attribute name and a value for that attribute.
@@ -13806,6 +14048,8 @@ class Delete {
 }
 
 /// Represents a request to perform an <code>UpdateItem</code> operation.
+///
+/// @nodoc
 class Update {
   /// The primary key of the item to be updated. Each element consists of an
   /// attribute name and a value for that attribute.
@@ -13873,6 +14117,8 @@ class Update {
 }
 
 /// Details for the requested item.
+///
+/// @nodoc
 class ItemResponse {
   /// Map of attribute data consisting of the data type and attribute value.
   final Map<String, AttributeValue>? item;
@@ -13897,6 +14143,8 @@ class ItemResponse {
 }
 
 /// Specifies an item to be retrieved as part of the transaction.
+///
+/// @nodoc
 class TransactGetItem {
   /// Contains the primary key that identifies the item to get, together with the
   /// name of the table that contains the item, and optionally the specific
@@ -13917,6 +14165,8 @@ class TransactGetItem {
 
 /// Specifies an item and related attribute values to retrieve in a
 /// <code>TransactGetItem</code> object.
+///
+/// @nodoc
 class Get {
   /// A map of attribute names to <code>AttributeValue</code> objects that
   /// specifies the primary key of the item to retrieve.
@@ -13972,6 +14222,8 @@ class Get {
 /// For an overview on tagging DynamoDB resources, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
 /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag. Tag keys are case sensitive. Each DynamoDB table can
   /// only have up to one tag with the same key. If you try to add an existing tag
@@ -14003,6 +14255,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class Select {
   static const allAttributes = Select._('ALL_ATTRIBUTES');
   static const allProjectedAttributes = Select._('ALL_PROJECTED_ATTRIBUTES');
@@ -14054,6 +14307,8 @@ class Select {
 /// the desired values.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Condition {
   /// A comparator for evaluating attributes. For example, equals, greater than,
   /// less than, etc.
@@ -14076,7 +14331,7 @@ class Condition {
   /// <code>AttributeValue</code> element of a different type than the one
   /// provided in the request, the value does not match. For example,
   /// <code>{"S":"6"}</code> does not equal <code>{"N":"6"}</code>. Also,
-  /// <code>{"N":"6"}</code> does not equal <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"N":"6"}</code> does not equal <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -14090,7 +14345,7 @@ class Condition {
   /// <code>AttributeValue</code> of a different type than the one provided in the
   /// request, the value does not match. For example, <code>{"S":"6"}</code> does
   /// not equal <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not
-  /// equal <code>{"NS":["6", "2", "1"]}</code>.
+  /// equal <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -14103,7 +14358,7 @@ class Condition {
   /// different type than the one provided in the request, the value does not
   /// match. For example, <code>{"S":"6"}</code> does not equal
   /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -14116,7 +14371,7 @@ class Condition {
   /// different type than the one provided in the request, the value does not
   /// match. For example, <code>{"S":"6"}</code> does not equal
   /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -14129,7 +14384,7 @@ class Condition {
   /// different type than the one provided in the request, the value does not
   /// match. For example, <code>{"S":"6"}</code> does not equal
   /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -14142,7 +14397,7 @@ class Condition {
   /// different type than the one provided in the request, the value does not
   /// match. For example, <code>{"S":"6"}</code> does not equal
   /// <code>{"N":"6"}</code>. Also, <code>{"N":"6"}</code> does not compare to
-  /// <code>{"NS":["6", "2", "1"]}</code>.
+  /// <code>{"NS":\["6", "2", "1"\]}</code>.
   ///
   ///
   /// </li>
@@ -14231,8 +14486,8 @@ class Condition {
   /// If an item contains an <code>AttributeValue</code> element of a different
   /// type than the one provided in the request, the value does not match. For
   /// example, <code>{"S":"6"}</code> does not compare to <code>{"N":"6"}</code>.
-  /// Also, <code>{"N":"6"}</code> does not compare to <code>{"NS":["6", "2",
-  /// "1"]}</code>
+  /// Also, <code>{"N":"6"}</code> does not compare to <code>{"NS":\["6", "2",
+  /// "1"\]}</code>
   /// </li>
   /// </ul>
   /// For usage examples of <code>AttributeValueList</code> and
@@ -14273,6 +14528,8 @@ class Condition {
 }
 
 /// Represents the properties of a local secondary index.
+///
+/// @nodoc
 class LocalSecondaryIndex {
   /// The name of the local secondary index. The name must be unique among all
   /// other indexes on this table.
@@ -14325,6 +14582,8 @@ class LocalSecondaryIndex {
 }
 
 /// Represents the properties of a global secondary index.
+///
+/// @nodoc
 class GlobalSecondaryIndex {
   /// The name of the global secondary index. The name must be unique among all
   /// other indexes on this table.
@@ -14434,6 +14693,8 @@ class GlobalSecondaryIndex {
 }
 
 /// Summary information about the source file for the import.
+///
+/// @nodoc
 class ImportSummary {
   /// The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with
   /// this import task.
@@ -14516,6 +14777,7 @@ class ImportSummary {
   }
 }
 
+/// @nodoc
 class ImportStatus {
   static const inProgress = ImportStatus._('IN_PROGRESS');
   static const completed = ImportStatus._('COMPLETED');
@@ -14543,6 +14805,8 @@ class ImportStatus {
 }
 
 /// The S3 bucket that is being imported from.
+///
+/// @nodoc
 class S3BucketSource {
   /// The S3 bucket that is being imported from.
   final String s3Bucket;
@@ -14580,6 +14844,7 @@ class S3BucketSource {
   }
 }
 
+/// @nodoc
 class InputFormat {
   static const dynamodbJson = InputFormat._('DYNAMODB_JSON');
   static const ion = InputFormat._('ION');
@@ -14605,6 +14870,8 @@ class InputFormat {
 }
 
 /// Represents the properties of a global table.
+///
+/// @nodoc
 class GlobalTable {
   /// The global table name.
   final String? globalTableName;
@@ -14638,6 +14905,8 @@ class GlobalTable {
 }
 
 /// Represents the properties of a replica.
+///
+/// @nodoc
 class Replica {
   /// The Region where the replica needs to be created.
   final String? regionName;
@@ -14661,6 +14930,8 @@ class Replica {
 }
 
 /// Summary information about an export task.
+///
+/// @nodoc
 class ExportSummary {
   /// The Amazon Resource Name (ARN) of the export.
   final String? exportArn;
@@ -14700,6 +14971,7 @@ class ExportSummary {
   }
 }
 
+/// @nodoc
 class ExportStatus {
   static const inProgress = ExportStatus._('IN_PROGRESS');
   static const completed = ExportStatus._('COMPLETED');
@@ -14724,6 +14996,7 @@ class ExportStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportType {
   static const fullExport = ExportType._('FULL_EXPORT');
   static const incrementalExport = ExportType._('INCREMENTAL_EXPORT');
@@ -14748,6 +15021,8 @@ class ExportType {
 }
 
 /// Represents a Contributor Insights summary entry.
+///
+/// @nodoc
 class ContributorInsightsSummary {
   /// Indicates the current mode of CloudWatch Contributor Insights, specifying
   /// whether it tracks all access and throttled events or throttled events only
@@ -14799,6 +15074,8 @@ class ContributorInsightsSummary {
 }
 
 /// Contains details for the backup.
+///
+/// @nodoc
 class BackupSummary {
   /// ARN associated with the backup.
   final String? backupArn;
@@ -14907,6 +15184,7 @@ class BackupSummary {
   }
 }
 
+/// @nodoc
 class BackupStatus {
   static const creating = BackupStatus._('CREATING');
   static const deleted = BackupStatus._('DELETED');
@@ -14931,6 +15209,7 @@ class BackupStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class BackupType {
   static const user = BackupType._('USER');
   static const system = BackupType._('SYSTEM');
@@ -14955,6 +15234,7 @@ class BackupType {
   String toString() => value;
 }
 
+/// @nodoc
 class BackupTypeFilter {
   static const user = BackupTypeFilter._('USER');
   static const system = BackupTypeFilter._('SYSTEM');
@@ -14982,6 +15262,8 @@ class BackupTypeFilter {
 }
 
 /// Represents the properties of the table being imported into.
+///
+/// @nodoc
 class ImportTableDescription {
   /// The client token that was provided for the import task. Reusing the client
   /// token on retry makes a call to <code>ImportTable</code> idempotent.
@@ -15157,6 +15439,8 @@ class ImportTableDescription {
 
 /// The format options for the data that was imported into the target table.
 /// There is one value, CsvOption.
+///
+/// @nodoc
 class InputFormatOptions {
   /// The options for imported source files in CSV format. The values are
   /// Delimiter and HeaderList.
@@ -15182,6 +15466,7 @@ class InputFormatOptions {
   }
 }
 
+/// @nodoc
 class InputCompressionType {
   static const gzip = InputCompressionType._('GZIP');
   static const zstd = InputCompressionType._('ZSTD');
@@ -15209,6 +15494,8 @@ class InputCompressionType {
 }
 
 /// The parameters for the table created as part of the import operation.
+///
+/// @nodoc
 class TableCreationParameters {
   /// The attributes of the table created as part of the import operation.
   final List<AttributeDefinition> attributeDefinitions;
@@ -15300,6 +15587,8 @@ class TableCreationParameters {
 }
 
 /// Processing options for the CSV file being imported.
+///
+/// @nodoc
 class CsvOptions {
   /// The delimiter used for separating items in the CSV file being imported.
   final String? delimiter;
@@ -15336,6 +15625,8 @@ class CsvOptions {
 }
 
 /// Represents the properties of the exported table.
+///
+/// @nodoc
 class ExportDescription {
   /// The billable size of the table export.
   final int? billedSizeBytes;
@@ -15524,6 +15815,7 @@ class ExportDescription {
   }
 }
 
+/// @nodoc
 class S3SseAlgorithm {
   static const aes256 = S3SseAlgorithm._('AES256');
   static const kms = S3SseAlgorithm._('KMS');
@@ -15548,6 +15840,7 @@ class S3SseAlgorithm {
   String toString() => value;
 }
 
+/// @nodoc
 class ExportFormat {
   static const dynamodbJson = ExportFormat._('DYNAMODB_JSON');
   static const ion = ExportFormat._('ION');
@@ -15572,6 +15865,8 @@ class ExportFormat {
 }
 
 /// Optional object containing the parameters specific to an incremental export.
+///
+/// @nodoc
 class IncrementalExportSpecification {
   /// Time in the past which provides the inclusive start range for the export
   /// table's data, counted in seconds from the start of the Unix epoch. The
@@ -15620,6 +15915,7 @@ class IncrementalExportSpecification {
   }
 }
 
+/// @nodoc
 class ExportViewType {
   static const newImage = ExportViewType._('NEW_IMAGE');
   static const newAndOldImages = ExportViewType._('NEW_AND_OLD_IMAGES');
@@ -15645,6 +15941,8 @@ class ExportViewType {
 }
 
 /// Represents a PartiQL statement that uses parameters.
+///
+/// @nodoc
 class ParameterizedStatement {
   /// A PartiQL statement that uses parameters.
   final String statement;
@@ -15683,6 +15981,8 @@ class ParameterizedStatement {
 }
 
 /// Enables setting the configuration for Kinesis Streaming.
+///
+/// @nodoc
 class EnableKinesisStreamingConfiguration {
   /// Toggle for the precision of Kinesis data stream timestamp. The values are
   /// either <code>MILLISECOND</code> or <code>MICROSECOND</code>.
@@ -15714,6 +16014,8 @@ class EnableKinesisStreamingConfiguration {
 }
 
 /// The description of the Time to Live (TTL) status on the specified table.
+///
+/// @nodoc
 class TimeToLiveDescription {
   /// The name of the TTL attribute for items in the table.
   final String? attributeName;
@@ -15744,6 +16046,7 @@ class TimeToLiveDescription {
   }
 }
 
+/// @nodoc
 class TimeToLiveStatus {
   static const enabling = TimeToLiveStatus._('ENABLING');
   static const disabling = TimeToLiveStatus._('DISABLING');
@@ -15771,6 +16074,8 @@ class TimeToLiveStatus {
 }
 
 /// Describes a Kinesis data stream destination.
+///
+/// @nodoc
 class KinesisDataStreamDestination {
   /// The precision of the Kinesis data stream timestamp. The values are either
   /// <code>MILLISECOND</code> or <code>MICROSECOND</code>.
@@ -15826,6 +16131,8 @@ class KinesisDataStreamDestination {
 }
 
 /// An endpoint information details.
+///
+/// @nodoc
 class Endpoint {
   /// IP address of the endpoint.
   final String address;
@@ -15856,6 +16163,8 @@ class Endpoint {
 }
 
 /// Represents a failure a contributor insights operation.
+///
+/// @nodoc
 class FailureException {
   /// Description of the failure.
   final String? exceptionDescription;
@@ -15887,6 +16196,8 @@ class FailureException {
 }
 
 /// Contains the description of the backup created for the table.
+///
+/// @nodoc
 class BackupDescription {
   /// Contains the details of the backup created for the table.
   final BackupDetails? backupDetails;
@@ -15935,6 +16246,8 @@ class BackupDescription {
 }
 
 /// Contains the details of the backup created for the table.
+///
+/// @nodoc
 class BackupDetails {
   /// ARN associated with the backup.
   final String backupArn;
@@ -16025,6 +16338,8 @@ class BackupDetails {
 }
 
 /// Contains the details of the table when the backup was created.
+///
+/// @nodoc
 class SourceTableDetails {
   /// Schema of the table.
   final List<KeySchemaElement> keySchema;
@@ -16134,6 +16449,8 @@ class SourceTableDetails {
 
 /// Contains the details of the features enabled on the table when the backup
 /// was created. For example, LSIs, GSIs, streams, TTL.
+///
+/// @nodoc
 class SourceTableFeatureDetails {
   /// Represents the GSI properties for the table when the backup was created. It
   /// includes the IndexName, KeySchema, Projection, and ProvisionedThroughput for
@@ -16211,6 +16528,8 @@ class SourceTableFeatureDetails {
 
 /// Represents the properties of a global secondary index for the table when the
 /// backup was created.
+///
+/// @nodoc
 class GlobalSecondaryIndexInfo {
   /// The name of the global secondary index.
   final String? indexName;
@@ -16296,6 +16615,8 @@ class GlobalSecondaryIndexInfo {
 
 /// Represents the properties of a local secondary index for the table when the
 /// backup was created.
+///
+/// @nodoc
 class LocalSecondaryIndexInfo {
   /// Represents the name of the local secondary index.
   final String? indexName;
@@ -16364,6 +16685,8 @@ class LocalSecondaryIndexInfo {
 /// both, in a single <code>WriteRequest</code>. If you do need to perform both
 /// of these operations, you need to provide two separate
 /// <code>WriteRequest</code> objects.
+///
+/// @nodoc
 class WriteRequest {
   /// A request to perform a <code>DeleteItem</code> operation.
   final DeleteRequest? deleteRequest;
@@ -16399,6 +16722,8 @@ class WriteRequest {
 }
 
 /// Represents a request to perform a <code>PutItem</code> operation on an item.
+///
+/// @nodoc
 class PutRequest {
   /// A map of attribute name to attribute values, representing the primary key of
   /// an item to be processed by <code>PutItem</code>. All of the table's primary
@@ -16431,6 +16756,8 @@ class PutRequest {
 
 /// Represents a request to perform a <code>DeleteItem</code> operation on an
 /// item.
+///
+/// @nodoc
 class DeleteRequest {
   /// A map of attribute name to attribute values, representing the primary key of
   /// the item to delete. All of the table's primary key attributes must be
@@ -16464,6 +16791,8 @@ class DeleteRequest {
 /// example, with a simple primary key, you only need to provide the partition
 /// key. For a composite primary key, you must provide <i>both</i> the partition
 /// key and the sort key.
+///
+/// @nodoc
 class KeysAndAttributes {
   /// The primary key attribute values that define the items and the attributes
   /// associated with the items.
@@ -16593,6 +16922,8 @@ class KeysAndAttributes {
 }
 
 /// A PartiQL batch statement response..
+///
+/// @nodoc
 class BatchStatementResponse {
   /// The error associated with a failed PartiQL batch statement.
   final BatchStatementError? error;
@@ -16633,6 +16964,8 @@ class BatchStatementResponse {
 }
 
 /// An error associated with a statement in a PartiQL batch that was run.
+///
+/// @nodoc
 class BatchStatementError {
   /// The error code associated with the failed PartiQL batch statement.
   final BatchStatementErrorCodeEnum? code;
@@ -16672,6 +17005,7 @@ class BatchStatementError {
   }
 }
 
+/// @nodoc
 class BatchStatementErrorCodeEnum {
   static const conditionalCheckFailed =
       BatchStatementErrorCodeEnum._('ConditionalCheckFailed');
@@ -16728,6 +17062,8 @@ class BatchStatementErrorCodeEnum {
 }
 
 /// A PartiQL batch statement request.
+///
+/// @nodoc
 class BatchStatementRequest {
   /// A valid PartiQL statement.
   final String statement;
@@ -16771,16 +17107,19 @@ class BatchStatementRequest {
   }
 }
 
+/// @nodoc
 class BackupInUseException extends _s.GenericAwsException {
   BackupInUseException({String? type, String? message})
       : super(type: type, code: 'BackupInUseException', message: message);
 }
 
+/// @nodoc
 class BackupNotFoundException extends _s.GenericAwsException {
   BackupNotFoundException({String? type, String? message})
       : super(type: type, code: 'BackupNotFoundException', message: message);
 }
 
+/// @nodoc
 class ConditionalCheckFailedException extends _s.GenericAwsException {
   ConditionalCheckFailedException({String? type, String? message})
       : super(
@@ -16789,6 +17128,7 @@ class ConditionalCheckFailedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ContinuousBackupsUnavailableException extends _s.GenericAwsException {
   ContinuousBackupsUnavailableException({String? type, String? message})
       : super(
@@ -16797,21 +17137,25 @@ class ContinuousBackupsUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateItemException extends _s.GenericAwsException {
   DuplicateItemException({String? type, String? message})
       : super(type: type, code: 'DuplicateItemException', message: message);
 }
 
+/// @nodoc
 class ExportConflictException extends _s.GenericAwsException {
   ExportConflictException({String? type, String? message})
       : super(type: type, code: 'ExportConflictException', message: message);
 }
 
+/// @nodoc
 class ExportNotFoundException extends _s.GenericAwsException {
   ExportNotFoundException({String? type, String? message})
       : super(type: type, code: 'ExportNotFoundException', message: message);
 }
 
+/// @nodoc
 class GlobalTableAlreadyExistsException extends _s.GenericAwsException {
   GlobalTableAlreadyExistsException({String? type, String? message})
       : super(
@@ -16820,12 +17164,14 @@ class GlobalTableAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GlobalTableNotFoundException extends _s.GenericAwsException {
   GlobalTableNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'GlobalTableNotFoundException', message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -16834,42 +17180,50 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ImportConflictException extends _s.GenericAwsException {
   ImportConflictException({String? type, String? message})
       : super(type: type, code: 'ImportConflictException', message: message);
 }
 
+/// @nodoc
 class ImportNotFoundException extends _s.GenericAwsException {
   ImportNotFoundException({String? type, String? message})
       : super(type: type, code: 'ImportNotFoundException', message: message);
 }
 
+/// @nodoc
 class IndexNotFoundException extends _s.GenericAwsException {
   IndexNotFoundException({String? type, String? message})
       : super(type: type, code: 'IndexNotFoundException', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidEndpointException extends _s.GenericAwsException {
   InvalidEndpointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndpointException', message: message);
 }
 
+/// @nodoc
 class InvalidExportTimeException extends _s.GenericAwsException {
   InvalidExportTimeException({String? type, String? message})
       : super(type: type, code: 'InvalidExportTimeException', message: message);
 }
 
+/// @nodoc
 class InvalidRestoreTimeException extends _s.GenericAwsException {
   InvalidRestoreTimeException({String? type, String? message})
       : super(
             type: type, code: 'InvalidRestoreTimeException', message: message);
 }
 
+/// @nodoc
 class ItemCollectionSizeLimitExceededException extends _s.GenericAwsException {
   ItemCollectionSizeLimitExceededException({String? type, String? message})
       : super(
@@ -16878,11 +17232,13 @@ class ItemCollectionSizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class PointInTimeRecoveryUnavailableException extends _s.GenericAwsException {
   PointInTimeRecoveryUnavailableException({String? type, String? message})
       : super(
@@ -16891,11 +17247,13 @@ class PointInTimeRecoveryUnavailableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PolicyNotFoundException extends _s.GenericAwsException {
   PolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'PolicyNotFoundException', message: message);
 }
 
+/// @nodoc
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
   ProvisionedThroughputExceededException({String? type, String? message})
       : super(
@@ -16904,6 +17262,7 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReplicaAlreadyExistsException extends _s.GenericAwsException {
   ReplicaAlreadyExistsException({String? type, String? message})
       : super(
@@ -16912,11 +17271,13 @@ class ReplicaAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ReplicaNotFoundException extends _s.GenericAwsException {
   ReplicaNotFoundException({String? type, String? message})
       : super(type: type, code: 'ReplicaNotFoundException', message: message);
 }
 
+/// @nodoc
 class ReplicatedWriteConflictException extends _s.GenericAwsException {
   ReplicatedWriteConflictException({String? type, String? message})
       : super(
@@ -16925,54 +17286,64 @@ class ReplicatedWriteConflictException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RequestLimitExceeded extends _s.GenericAwsException {
   RequestLimitExceeded({String? type, String? message})
       : super(type: type, code: 'RequestLimitExceeded', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TableAlreadyExistsException extends _s.GenericAwsException {
   TableAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'TableAlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class TableInUseException extends _s.GenericAwsException {
   TableInUseException({String? type, String? message})
       : super(type: type, code: 'TableInUseException', message: message);
 }
 
+/// @nodoc
 class TableNotFoundException extends _s.GenericAwsException {
   TableNotFoundException({String? type, String? message})
       : super(type: type, code: 'TableNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TransactionCanceledException extends _s.GenericAwsException {
   TransactionCanceledException({String? type, String? message})
       : super(
             type: type, code: 'TransactionCanceledException', message: message);
 }
 
+/// @nodoc
 class TransactionConflictException extends _s.GenericAwsException {
   TransactionConflictException({String? type, String? message})
       : super(
             type: type, code: 'TransactionConflictException', message: message);
 }
 
+/// @nodoc
 class TransactionInProgressException extends _s.GenericAwsException {
   TransactionInProgressException({String? type, String? message})
       : super(

@@ -471,6 +471,7 @@ class CostOptimizationHub {
   }
 }
 
+/// @nodoc
 class GetPreferencesResponse {
   /// Retrieves the status of the "member account discount visibility" preference.
   final MemberAccountDiscountVisibility? memberAccountDiscountVisibility;
@@ -520,6 +521,7 @@ class GetPreferencesResponse {
   }
 }
 
+/// @nodoc
 class GetRecommendationResponse {
   /// The account to which the recommendation applies.
   final String? accountId;
@@ -734,6 +736,7 @@ class GetRecommendationResponse {
   }
 }
 
+/// @nodoc
 class ListEfficiencyMetricsResponse {
   /// A list of cost efficiency metrics grouped by the specified dimension. Each
   /// group contains time-series data points with cost efficiency, potential
@@ -773,6 +776,7 @@ class ListEfficiencyMetricsResponse {
   }
 }
 
+/// @nodoc
 class ListEnrollmentStatusesResponse {
   /// The enrollment status of all member accounts in the organization if the
   /// account is the management account or delegated administrator.
@@ -816,6 +820,7 @@ class ListEnrollmentStatusesResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationsResponse {
   /// List of all savings recommendations.
   final List<Recommendation>? items;
@@ -848,6 +853,7 @@ class ListRecommendationsResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendationSummariesResponse {
   /// The currency code used for the recommendation.
   final String? currencyCode;
@@ -915,6 +921,7 @@ class ListRecommendationSummariesResponse {
   }
 }
 
+/// @nodoc
 class UpdateEnrollmentStatusResponse {
   /// The enrollment status of the account.
   final String? status;
@@ -937,6 +944,7 @@ class UpdateEnrollmentStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdatePreferencesResponse {
   /// Shows the status of the "member account discount visibility" preference.
   final MemberAccountDiscountVisibility? memberAccountDiscountVisibility;
@@ -986,6 +994,7 @@ class UpdatePreferencesResponse {
   }
 }
 
+/// @nodoc
 class SavingsEstimationMode {
   static const beforeDiscounts = SavingsEstimationMode._('BeforeDiscounts');
   static const afterDiscounts = SavingsEstimationMode._('AfterDiscounts');
@@ -1011,6 +1020,7 @@ class SavingsEstimationMode {
   String toString() => value;
 }
 
+/// @nodoc
 class MemberAccountDiscountVisibility {
   static const all = MemberAccountDiscountVisibility._('All');
   static const none = MemberAccountDiscountVisibility._('None');
@@ -1039,6 +1049,8 @@ class MemberAccountDiscountVisibility {
 /// The preferred configuration for Reserved Instances and Savings Plans
 /// commitment-based discounts, consisting of a payment option and a commitment
 /// duration.
+///
+/// @nodoc
 class PreferredCommitment {
   /// The preferred upfront payment structure for commitments. If the value is
   /// null, it will default to <code>AllUpfront</code> (highest savings) where
@@ -1072,6 +1084,7 @@ class PreferredCommitment {
   }
 }
 
+/// @nodoc
 class Term {
   static const oneYear = Term._('OneYear');
   static const threeYears = Term._('ThreeYears');
@@ -1095,6 +1108,7 @@ class Term {
   String toString() => value;
 }
 
+/// @nodoc
 class PaymentOption {
   static const allUpfront = PaymentOption._('AllUpfront');
   static const partialUpfront = PaymentOption._('PartialUpfront');
@@ -1120,6 +1134,7 @@ class PaymentOption {
   String toString() => value;
 }
 
+/// @nodoc
 class EnrollmentStatus {
   static const active = EnrollmentStatus._('Active');
   static const inactive = EnrollmentStatus._('Inactive');
@@ -1146,6 +1161,8 @@ class EnrollmentStatus {
 
 /// The results or descriptions for the additional metrics, based on whether the
 /// metrics were or were not requested.
+///
+/// @nodoc
 class SummaryMetricsResult {
   /// The savings percentage based on your Amazon Web Services spend over the past
   /// 30 days.
@@ -1175,6 +1192,8 @@ class SummaryMetricsResult {
 
 /// The summary of rightsizing recommendations, including de-duped savings from
 /// all types of recommendations.
+///
+/// @nodoc
 class RecommendationSummary {
   /// The estimated total savings resulting from modifications, on a monthly
   /// basis.
@@ -1216,6 +1235,8 @@ class RecommendationSummary {
 
 /// Describes a filter that returns a more specific list of recommendations.
 /// Filters recommendations by different dimensions.
+///
+/// @nodoc
 class Filter {
   /// The account to which the recommendation applies.
   final List<String>? accountIds;
@@ -1296,6 +1317,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class SummaryMetrics {
   static const savingsPercentage = SummaryMetrics._('SavingsPercentage');
 
@@ -1320,6 +1342,8 @@ class SummaryMetrics {
 }
 
 /// The tag structure that contains a tag key and value.
+///
+/// @nodoc
 class Tag {
   /// The key that's associated with the tag.
   final String? key;
@@ -1349,6 +1373,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class ActionType {
   static const rightsize = ActionType._('Rightsize');
   static const stop = ActionType._('Stop');
@@ -1388,6 +1413,7 @@ class ActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const ec2Instance = ResourceType._('Ec2Instance');
   static const lambdaFunction = ResourceType._('LambdaFunction');
@@ -1455,6 +1481,7 @@ class ResourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class ImplementationEffort {
   static const veryLow = ImplementationEffort._('VeryLow');
   static const low = ImplementationEffort._('Low');
@@ -1484,6 +1511,8 @@ class ImplementationEffort {
 }
 
 /// Describes a recommendation.
+///
+/// @nodoc
 class Recommendation {
   /// The account to which the recommendation applies.
   final String? accountId;
@@ -1664,6 +1693,7 @@ class Recommendation {
   }
 }
 
+/// @nodoc
 class Source {
   static const computeOptimizer = Source._('ComputeOptimizer');
   static const costExplorer = Source._('CostExplorer');
@@ -1688,6 +1718,8 @@ class Source {
 }
 
 /// Defines how rows will be sorted in the response.
+///
+/// @nodoc
 class OrderBy {
   /// Sorts by dimension values.
   final String? dimension;
@@ -1710,6 +1742,7 @@ class OrderBy {
   }
 }
 
+/// @nodoc
 class Order {
   static const asc = Order._('Asc');
   static const desc = Order._('Desc');
@@ -1735,6 +1768,8 @@ class Order {
 
 /// Describes the enrollment status of an organization's member accounts in Cost
 /// Optimization Hub.
+///
+/// @nodoc
 class AccountEnrollmentStatus {
   /// The Amazon Web Services account ID.
   final String? accountId;
@@ -1783,6 +1818,8 @@ class AccountEnrollmentStatus {
 /// Contains cost efficiency metrics for a specific group over time. The group
 /// is defined by the grouping dimension specified in the request, such as
 /// account ID, Amazon Web Services Region.
+///
+/// @nodoc
 class EfficiencyMetricsByGroup {
   /// The value of the grouping dimension for this set of metrics. For example, if
   /// grouped by account ID, this field contains the account ID. If no grouping is
@@ -1834,6 +1871,8 @@ class EfficiencyMetricsByGroup {
 
 /// Contains efficiency metrics for a specific point in time, including an
 /// efficiency score, potential savings, optimizable spend, and timestamp.
+///
+/// @nodoc
 class MetricsByTime {
   /// The estimated savings amount for this time period, representing the
   /// potential cost reduction achieved through optimization recommendations.
@@ -1882,6 +1921,8 @@ class MetricsByTime {
 }
 
 /// The time granularity for aggregating the cost efficiency metrics.
+///
+/// @nodoc
 class GranularityType {
   static const daily = GranularityType._('Daily');
   static const monthly = GranularityType._('Monthly');
@@ -1908,6 +1949,8 @@ class GranularityType {
 
 /// Specifies a date range for retrieving efficiency metrics. The start date is
 /// inclusive and the end date is exclusive.
+///
+/// @nodoc
 class TimePeriod {
   /// The end of the time period (exclusive). Specify the date in ISO 8601 format,
   /// such as 2024-12-31.
@@ -1933,6 +1976,8 @@ class TimePeriod {
 }
 
 /// Contains detailed information about the specified resource.
+///
+/// @nodoc
 class ResourceDetails {
   /// The Aurora DB cluster storage recommendation details.
   final AuroraDbClusterStorage? auroraDbClusterStorage;
@@ -2148,6 +2193,8 @@ class ResourceDetails {
 }
 
 /// The Lambda function recommendation details.
+///
+/// @nodoc
 class LambdaFunction {
   /// The Lambda function configuration used for recommendations.
   final LambdaFunctionConfiguration? configuration;
@@ -2184,6 +2231,8 @@ class LambdaFunction {
 }
 
 /// The ECS service recommendation details.
+///
+/// @nodoc
 class EcsService {
   /// The ECS service configuration used for recommendations.
   final EcsServiceConfiguration? configuration;
@@ -2221,6 +2270,8 @@ class EcsService {
 
 /// Describes the EC2 instance configuration of the current and recommended
 /// resource configuration for a recommendation.
+///
+/// @nodoc
 class Ec2Instance {
   /// The EC2 instance configuration used for recommendations.
   final Ec2InstanceConfiguration? configuration;
@@ -2258,6 +2309,8 @@ class Ec2Instance {
 
 /// Describes the Amazon Elastic Block Store volume configuration of the current
 /// and recommended resource configuration for a recommendation.
+///
+/// @nodoc
 class EbsVolume {
   /// The Amazon Elastic Block Store volume configuration used for
   /// recommendations.
@@ -2295,6 +2348,8 @@ class EbsVolume {
 }
 
 /// The EC2 Auto Scaling group recommendation details.
+///
+/// @nodoc
 class Ec2AutoScalingGroup {
   /// The EC2 Auto Scaling group configuration used for recommendations.
   final Ec2AutoScalingGroupConfiguration? configuration;
@@ -2331,6 +2386,8 @@ class Ec2AutoScalingGroup {
 }
 
 /// The EC2 reserved instances recommendation details.
+///
+/// @nodoc
 class Ec2ReservedInstances {
   /// The EC2 reserved instances configuration used for recommendations.
   final Ec2ReservedInstancesConfiguration? configuration;
@@ -2367,6 +2424,8 @@ class Ec2ReservedInstances {
 }
 
 /// The RDS reserved instances recommendation details.
+///
+/// @nodoc
 class RdsReservedInstances {
   /// The RDS reserved instances configuration used for recommendations.
   final RdsReservedInstancesConfiguration? configuration;
@@ -2403,6 +2462,8 @@ class RdsReservedInstances {
 }
 
 /// The ElastiCache reserved instances recommendation details.
+///
+/// @nodoc
 class ElastiCacheReservedInstances {
   /// The ElastiCache reserved instances configuration used for recommendations.
   final ElastiCacheReservedInstancesConfiguration? configuration;
@@ -2439,6 +2500,8 @@ class ElastiCacheReservedInstances {
 }
 
 /// The OpenSearch reserved instances recommendation details.
+///
+/// @nodoc
 class OpenSearchReservedInstances {
   /// The OpenSearch reserved instances configuration used for recommendations.
   final OpenSearchReservedInstancesConfiguration? configuration;
@@ -2475,6 +2538,8 @@ class OpenSearchReservedInstances {
 }
 
 /// The Redshift reserved instances recommendation details.
+///
+/// @nodoc
 class RedshiftReservedInstances {
   /// The Redshift reserved instances configuration used for recommendations.
   final RedshiftReservedInstancesConfiguration? configuration;
@@ -2511,6 +2576,8 @@ class RedshiftReservedInstances {
 }
 
 /// The EC2 instance Savings Plans recommendation details.
+///
+/// @nodoc
 class Ec2InstanceSavingsPlans {
   /// The EC2 instance Savings Plans configuration used for recommendations.
   final Ec2InstanceSavingsPlansConfiguration? configuration;
@@ -2547,6 +2614,8 @@ class Ec2InstanceSavingsPlans {
 }
 
 /// The Compute Savings Plans recommendation details.
+///
+/// @nodoc
 class ComputeSavingsPlans {
   /// Configuration details of the Compute Savings Plans to purchase.
   final ComputeSavingsPlansConfiguration? configuration;
@@ -2583,6 +2652,8 @@ class ComputeSavingsPlans {
 }
 
 /// The SageMaker Savings Plans recommendation details.
+///
+/// @nodoc
 class SageMakerSavingsPlans {
   /// The SageMaker Savings Plans configuration used for recommendations.
   final SageMakerSavingsPlansConfiguration? configuration;
@@ -2619,6 +2690,8 @@ class SageMakerSavingsPlans {
 }
 
 /// Contains the details of an Amazon RDS DB instance.
+///
+/// @nodoc
 class RdsDbInstance {
   /// The Amazon RDS DB instance configuration used for recommendations.
   final RdsDbInstanceConfiguration? configuration;
@@ -2653,6 +2726,8 @@ class RdsDbInstance {
 }
 
 /// Contains the details of an Amazon RDS DB instance storage.
+///
+/// @nodoc
 class RdsDbInstanceStorage {
   /// The Amazon RDS DB instance storage configuration used for recommendations.
   final RdsDbInstanceStorageConfiguration? configuration;
@@ -2687,6 +2762,8 @@ class RdsDbInstanceStorage {
 }
 
 /// Contains the details of an Aurora DB cluster storage.
+///
+/// @nodoc
 class AuroraDbClusterStorage {
   /// The Aurora DB cluster storage configuration used for recommendations.
   final AuroraDbClusterStorageConfiguration? configuration;
@@ -2721,6 +2798,8 @@ class AuroraDbClusterStorage {
 }
 
 /// The DynamoDB reserved capacity recommendation details.
+///
+/// @nodoc
 class DynamoDbReservedCapacity {
   /// The DynamoDB reserved capacity configuration used for recommendations.
   final DynamoDbReservedCapacityConfiguration? configuration;
@@ -2760,6 +2839,8 @@ class DynamoDbReservedCapacity {
 /// and other documentation refer to them as "MemoryDB reserved nodes", as the
 /// terms are used interchangeably.
 /// </note>
+///
+/// @nodoc
 class MemoryDbReservedInstances {
   /// The MemoryDB reserved instances configuration used for recommendations.
   final MemoryDbReservedInstancesConfiguration? configuration;
@@ -2794,6 +2875,8 @@ class MemoryDbReservedInstances {
 }
 
 /// The NAT Gateway recommendation details.
+///
+/// @nodoc
 class NatGateway {
   /// The NAT Gateway configuration used for recommendations.
   final NatGatewayConfiguration? configuration;
@@ -2828,6 +2911,8 @@ class NatGateway {
 }
 
 /// The NAT Gateway configuration used for recommendations.
+///
+/// @nodoc
 class NatGatewayConfiguration {
   /// The number of active connections through the NAT Gateway.
   final int? activeConnectionCount;
@@ -2868,6 +2953,8 @@ class NatGatewayConfiguration {
 }
 
 /// Cost impact of the resource recommendation.
+///
+/// @nodoc
 class ResourceCostCalculation {
   /// Pricing details of the resource recommendation.
   final ResourcePricing? pricing;
@@ -2903,6 +2990,8 @@ class ResourceCostCalculation {
 }
 
 /// Contains pricing information about the specified resource.
+///
+/// @nodoc
 class ResourcePricing {
   /// The savings estimate incorporating all discounts with Amazon Web Services,
   /// such as Reserved Instances and Savings Plans.
@@ -2961,6 +3050,8 @@ class ResourcePricing {
 
 /// Estimated discount details of the current and recommended resource
 /// configuration for a recommendation.
+///
+/// @nodoc
 class EstimatedDiscounts {
   /// Estimated other discounts include all discounts that are not itemized.
   /// Itemized discounts include <code>reservedInstanceDiscount</code> and
@@ -3002,6 +3093,8 @@ class EstimatedDiscounts {
 }
 
 /// Details about the usage.
+///
+/// @nodoc
 class Usage {
   /// The operation value.
   final String? operation;
@@ -3058,6 +3151,8 @@ class Usage {
 /// and other documentation refer to them as "MemoryDB reserved nodes", as the
 /// terms are used interchangeably.
 /// </note>
+///
+/// @nodoc
 class MemoryDbReservedInstancesConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -3173,6 +3268,8 @@ class MemoryDbReservedInstancesConfiguration {
 }
 
 /// Cost impact of the purchase recommendation.
+///
+/// @nodoc
 class ReservedInstancesCostCalculation {
   /// Pricing details of the purchase recommendation.
   final ReservedInstancesPricing? pricing;
@@ -3199,6 +3296,8 @@ class ReservedInstancesCostCalculation {
 }
 
 /// Pricing details for your recommended reserved instance.
+///
+/// @nodoc
 class ReservedInstancesPricing {
   /// The estimated cost of your recurring monthly fees for the recommended
   /// reserved instance across the month.
@@ -3253,6 +3352,8 @@ class ReservedInstancesPricing {
 }
 
 /// The DynamoDB reserved capacity configuration used for recommendations.
+///
+/// @nodoc
 class DynamoDbReservedCapacityConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -3339,6 +3440,8 @@ class DynamoDbReservedCapacityConfiguration {
 }
 
 /// The Aurora DB cluster storage configuration used for recommendations.
+///
+/// @nodoc
 class AuroraDbClusterStorageConfiguration {
   /// The storage type to associate with the Aurora DB cluster.
   final String? storageType;
@@ -3363,6 +3466,8 @@ class AuroraDbClusterStorageConfiguration {
 }
 
 /// The Amazon RDS DB instance storage configuration used for recommendations.
+///
+/// @nodoc
 class RdsDbInstanceStorageConfiguration {
   /// The new amount of storage in GB to allocate for the DB instance.
   final double? allocatedStorageInGb;
@@ -3410,6 +3515,8 @@ class RdsDbInstanceStorageConfiguration {
 }
 
 /// The Amazon RDS DB instance configuration used for recommendations.
+///
+/// @nodoc
 class RdsDbInstanceConfiguration {
   /// Details about the instance configuration.
   final DbInstanceConfiguration? instance;
@@ -3436,6 +3543,8 @@ class RdsDbInstanceConfiguration {
 }
 
 /// The DB instance configuration used for recommendations.
+///
+/// @nodoc
 class DbInstanceConfiguration {
   /// The DB instance class of the DB instance.
   final String? dbInstanceClass;
@@ -3459,6 +3568,8 @@ class DbInstanceConfiguration {
 }
 
 /// The SageMaker Savings Plans configuration used for recommendations.
+///
+/// @nodoc
 class SageMakerSavingsPlansConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -3504,6 +3615,8 @@ class SageMakerSavingsPlansConfiguration {
 }
 
 /// Cost impact of the purchase recommendation.
+///
+/// @nodoc
 class SavingsPlansCostCalculation {
   /// Pricing details of the purchase recommendation.
   final SavingsPlansPricing? pricing;
@@ -3530,6 +3643,8 @@ class SavingsPlansCostCalculation {
 }
 
 /// Pricing information about a Savings Plans.
+///
+/// @nodoc
 class SavingsPlansPricing {
   /// Estimated monthly commitment for the Savings Plans.
   final double? estimatedMonthlyCommitment;
@@ -3580,6 +3695,8 @@ class SavingsPlansPricing {
 }
 
 /// The Compute Savings Plans configuration used for recommendations.
+///
+/// @nodoc
 class ComputeSavingsPlansConfiguration {
   /// The account scope for which you want recommendations. Amazon Web Services
   /// calculates recommendations including the management account and member
@@ -3628,6 +3745,8 @@ class ComputeSavingsPlansConfiguration {
 }
 
 /// The EC2 instance Savings Plans configuration used for recommendations.
+///
+/// @nodoc
 class Ec2InstanceSavingsPlansConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -3687,6 +3806,8 @@ class Ec2InstanceSavingsPlansConfiguration {
 }
 
 /// The Redshift reserved instances configuration used for recommendations.
+///
+/// @nodoc
 class RedshiftReservedInstancesConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -3802,6 +3923,8 @@ class RedshiftReservedInstancesConfiguration {
 }
 
 /// The OpenSearch reserved instances configuration used for recommendations.
+///
+/// @nodoc
 class OpenSearchReservedInstancesConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -3910,6 +4033,8 @@ class OpenSearchReservedInstancesConfiguration {
 }
 
 /// The ElastiCache reserved instances configuration used for recommendations.
+///
+/// @nodoc
 class ElastiCacheReservedInstancesConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -4025,6 +4150,8 @@ class ElastiCacheReservedInstancesConfiguration {
 }
 
 /// The RDS reserved instances configuration used for recommendations.
+///
+/// @nodoc
 class RdsReservedInstancesConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -4170,6 +4297,8 @@ class RdsReservedInstancesConfiguration {
 }
 
 /// The EC2 reserved instances configuration used for recommendations.
+///
+/// @nodoc
 class Ec2ReservedInstancesConfiguration {
   /// The account scope for which you want recommendations.
   final String? accountScope;
@@ -4308,6 +4437,8 @@ class Ec2ReservedInstancesConfiguration {
 }
 
 /// The EC2 Auto Scaling group configuration used for recommendations.
+///
+/// @nodoc
 class Ec2AutoScalingGroupConfiguration {
   /// The strategy used for allocating instances, based on a predefined priority
   /// order or based on the lowest available price.
@@ -4365,6 +4496,8 @@ class Ec2AutoScalingGroupConfiguration {
 }
 
 /// The instance configuration used for recommendations.
+///
+/// @nodoc
 class InstanceConfiguration {
   /// The instance type of the configuration.
   final String? type;
@@ -4387,6 +4520,7 @@ class InstanceConfiguration {
   }
 }
 
+/// @nodoc
 class Ec2AutoScalingGroupType {
   static const singleInstanceType =
       Ec2AutoScalingGroupType._('SingleInstanceType');
@@ -4414,6 +4548,7 @@ class Ec2AutoScalingGroupType {
   String toString() => value;
 }
 
+/// @nodoc
 class AllocationStrategy {
   static const prioritized = AllocationStrategy._('Prioritized');
   static const lowestPrice = AllocationStrategy._('LowestPrice');
@@ -4440,6 +4575,8 @@ class AllocationStrategy {
 }
 
 /// The configuration for the EC2 Auto Scaling group with mixed instance types.
+///
+/// @nodoc
 class MixedInstanceConfiguration {
   /// The instance type of the configuration.
   final String? type;
@@ -4464,6 +4601,8 @@ class MixedInstanceConfiguration {
 
 /// The Amazon Elastic Block Store volume configuration used for
 /// recommendations.
+///
+/// @nodoc
 class EbsVolumeConfiguration {
   /// The Amazon Elastic Block Store attachment state.
   final String? attachmentState;
@@ -4507,6 +4646,8 @@ class EbsVolumeConfiguration {
 }
 
 /// The storage configuration used for recommendations.
+///
+/// @nodoc
 class StorageConfiguration {
   /// The storage volume.
   final double? sizeInGb;
@@ -4538,6 +4679,8 @@ class StorageConfiguration {
 
 /// Describes the Amazon Elastic Block Store performance configuration of the
 /// current and recommended resource configuration for a recommendation.
+///
+/// @nodoc
 class BlockStoragePerformanceConfiguration {
   /// The number of I/O operations per second.
   final double? iops;
@@ -4569,6 +4712,8 @@ class BlockStoragePerformanceConfiguration {
 }
 
 /// The EC2 instance configuration used for recommendations.
+///
+/// @nodoc
 class Ec2InstanceConfiguration {
   /// Details about the instance.
   final InstanceConfiguration? instance;
@@ -4595,6 +4740,8 @@ class Ec2InstanceConfiguration {
 }
 
 /// The ECS service configuration used for recommendations.
+///
+/// @nodoc
 class EcsServiceConfiguration {
   /// Details about the compute configuration.
   final ComputeConfiguration? compute;
@@ -4622,6 +4769,8 @@ class EcsServiceConfiguration {
 
 /// Describes the performance configuration for compute services such as Amazon
 /// EC2, Lambda, and ECS.
+///
+/// @nodoc
 class ComputeConfiguration {
   /// The architecture of the resource.
   final String? architecture;
@@ -4667,6 +4816,8 @@ class ComputeConfiguration {
 }
 
 /// The Lambda function configuration used for recommendations.
+///
+/// @nodoc
 class LambdaFunctionConfiguration {
   /// Details about the compute configuration.
   final ComputeConfiguration? compute;
@@ -4692,26 +4843,31 @@ class LambdaFunctionConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

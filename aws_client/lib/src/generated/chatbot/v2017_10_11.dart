@@ -1494,6 +1494,7 @@ class Chatbot {
   }
 }
 
+/// @nodoc
 class AssociateToConfigurationResult {
   AssociateToConfigurationResult();
 
@@ -1506,6 +1507,7 @@ class AssociateToConfigurationResult {
   }
 }
 
+/// @nodoc
 class CreateChimeWebhookConfigurationResult {
   /// An Amazon Chime webhook configuration.
   final ChimeWebhookConfiguration? webhookConfiguration;
@@ -1533,6 +1535,7 @@ class CreateChimeWebhookConfigurationResult {
   }
 }
 
+/// @nodoc
 class CreateTeamsChannelConfigurationResult {
   /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
   final TeamsChannelConfiguration? channelConfiguration;
@@ -1560,6 +1563,7 @@ class CreateTeamsChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class CreateSlackChannelConfigurationResult {
   /// The configuration for a Slack channel configured with AWS Chatbot.
   final SlackChannelConfiguration? channelConfiguration;
@@ -1587,6 +1591,7 @@ class CreateSlackChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteChimeWebhookConfigurationResult {
   DeleteChimeWebhookConfigurationResult();
 
@@ -1600,6 +1605,7 @@ class DeleteChimeWebhookConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteTeamsChannelConfigurationResult {
   DeleteTeamsChannelConfigurationResult();
 
@@ -1613,6 +1619,7 @@ class DeleteTeamsChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteTeamsConfiguredTeamResult {
   DeleteTeamsConfiguredTeamResult();
 
@@ -1625,6 +1632,7 @@ class DeleteTeamsConfiguredTeamResult {
   }
 }
 
+/// @nodoc
 class DeleteMicrosoftTeamsUserIdentityResult {
   DeleteMicrosoftTeamsUserIdentityResult();
 
@@ -1638,6 +1646,7 @@ class DeleteMicrosoftTeamsUserIdentityResult {
   }
 }
 
+/// @nodoc
 class DeleteSlackChannelConfigurationResult {
   DeleteSlackChannelConfigurationResult();
 
@@ -1651,6 +1660,7 @@ class DeleteSlackChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class DeleteSlackUserIdentityResult {
   DeleteSlackUserIdentityResult();
 
@@ -1663,6 +1673,7 @@ class DeleteSlackUserIdentityResult {
   }
 }
 
+/// @nodoc
 class DeleteSlackWorkspaceAuthorizationResult {
   DeleteSlackWorkspaceAuthorizationResult();
 
@@ -1676,6 +1687,7 @@ class DeleteSlackWorkspaceAuthorizationResult {
   }
 }
 
+/// @nodoc
 class DescribeChimeWebhookConfigurationsResult {
   /// An optional token returned from a prior request. Use this token for
   /// pagination of results from this action. If this parameter is specified, the
@@ -1714,6 +1726,7 @@ class DescribeChimeWebhookConfigurationsResult {
   }
 }
 
+/// @nodoc
 class DescribeSlackChannelConfigurationsResult {
   /// An optional token returned from a prior request. Use this token for
   /// pagination of results from this action. If this parameter is specified, the
@@ -1752,6 +1765,7 @@ class DescribeSlackChannelConfigurationsResult {
   }
 }
 
+/// @nodoc
 class DescribeSlackUserIdentitiesResult {
   /// An optional token returned from a prior request. Use this token for
   /// pagination of results from this action. If this parameter is specified, the
@@ -1789,6 +1803,7 @@ class DescribeSlackUserIdentitiesResult {
   }
 }
 
+/// @nodoc
 class DescribeSlackWorkspacesResult {
   /// An optional token returned from a prior request. Use this token for
   /// pagination of results from this action. If this parameter is specified, the
@@ -1824,6 +1839,7 @@ class DescribeSlackWorkspacesResult {
   }
 }
 
+/// @nodoc
 class DisassociateFromConfigurationResult {
   DisassociateFromConfigurationResult();
 
@@ -1836,6 +1852,7 @@ class DisassociateFromConfigurationResult {
   }
 }
 
+/// @nodoc
 class GetAccountPreferencesResult {
   /// The preferences related to AWS Chatbot usage in the calling AWS account.
   final AccountPreferences? accountPreferences;
@@ -1861,6 +1878,7 @@ class GetAccountPreferencesResult {
   }
 }
 
+/// @nodoc
 class GetTeamsChannelConfigurationResult {
   /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
   final TeamsChannelConfiguration? channelConfiguration;
@@ -1888,6 +1906,7 @@ class GetTeamsChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class ListAssociationsResult {
   /// The resources associated with this channel configuration.
   final List<AssociationListing> associations;
@@ -1923,6 +1942,7 @@ class ListAssociationsResult {
   }
 }
 
+/// @nodoc
 class ListTeamsChannelConfigurationsResult {
   /// An optional token returned from a prior request. Use this token for
   /// pagination of results from this action. If this parameter is specified, the
@@ -1961,6 +1981,7 @@ class ListTeamsChannelConfigurationsResult {
   }
 }
 
+/// @nodoc
 class ListMicrosoftTeamsConfiguredTeamsResult {
   /// A list of teams in Microsoft Teams that are configured with AWS Chatbot.
   final List<ConfiguredTeam>? configuredTeams;
@@ -1997,6 +2018,7 @@ class ListMicrosoftTeamsConfiguredTeamsResult {
   }
 }
 
+/// @nodoc
 class ListMicrosoftTeamsUserIdentitiesResult {
   /// An optional token returned from a prior request. Use this token for
   /// pagination of results from this action. If this parameter is specified, the
@@ -2034,6 +2056,7 @@ class ListMicrosoftTeamsUserIdentitiesResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Key-value pairs that are assigned to a resource, usually for the purpose of
   /// grouping and searching for items. Tags are metadata that you define.
@@ -2060,6 +2083,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2072,6 +2096,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2084,6 +2109,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountPreferencesResult {
   /// Preferences related to AWS Chatbot usage in the calling AWS account.
   final AccountPreferences? accountPreferences;
@@ -2109,6 +2135,7 @@ class UpdateAccountPreferencesResult {
   }
 }
 
+/// @nodoc
 class UpdateChimeWebhookConfigurationResult {
   /// A Amazon Chime webhook configuration.
   final ChimeWebhookConfiguration? webhookConfiguration;
@@ -2136,6 +2163,7 @@ class UpdateChimeWebhookConfigurationResult {
   }
 }
 
+/// @nodoc
 class UpdateTeamsChannelConfigurationResult {
   /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
   final TeamsChannelConfiguration? channelConfiguration;
@@ -2163,6 +2191,7 @@ class UpdateTeamsChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class UpdateSlackChannelConfigurationResult {
   /// The configuration for a Slack channel configured with AWS Chatbot.
   final SlackChannelConfiguration? channelConfiguration;
@@ -2190,6 +2219,7 @@ class UpdateSlackChannelConfigurationResult {
   }
 }
 
+/// @nodoc
 class CreateCustomActionResult {
   /// The fully defined ARN of the custom action.
   final String customActionArn;
@@ -2212,6 +2242,7 @@ class CreateCustomActionResult {
   }
 }
 
+/// @nodoc
 class GetCustomActionResult {
   /// Returns the custom action.
   final CustomAction? customAction;
@@ -2236,6 +2267,7 @@ class GetCustomActionResult {
   }
 }
 
+/// @nodoc
 class UpdateCustomActionResult {
   /// The fully defined ARN of the custom action.
   final String customActionArn;
@@ -2258,6 +2290,7 @@ class UpdateCustomActionResult {
   }
 }
 
+/// @nodoc
 class DeleteCustomActionResult {
   DeleteCustomActionResult();
 
@@ -2270,6 +2303,7 @@ class DeleteCustomActionResult {
   }
 }
 
+/// @nodoc
 class ListCustomActionsResult {
   /// A list of custom actions.
   final List<String> customActions;
@@ -2307,6 +2341,8 @@ class ListCustomActionsResult {
 
 /// The definition of the command to run when invoked as an alias or as an
 /// action button.
+///
+/// @nodoc
 class CustomActionDefinition {
   /// The command string to run which may include variables by prefixing with a
   /// dollar sign ($).
@@ -2331,6 +2367,8 @@ class CustomActionDefinition {
 }
 
 /// Defines when a custom action button should be attached to a notification.
+///
+/// @nodoc
 class CustomActionAttachment {
   /// The text of the button that appears on the notification.
   final String? buttonText;
@@ -2382,6 +2420,8 @@ class CustomActionAttachment {
 
 /// A criteria for when a button should be shown based on values in the
 /// notification
+///
+/// @nodoc
 class CustomActionAttachmentCriteria {
   /// The operation to perform on the named variable.
   final CustomActionAttachmentCriteriaOperator operator;
@@ -2420,6 +2460,7 @@ class CustomActionAttachmentCriteria {
   }
 }
 
+/// @nodoc
 class CustomActionAttachmentCriteriaOperator {
   static const hasValue = CustomActionAttachmentCriteriaOperator._('HAS_VALUE');
   static const equals = CustomActionAttachmentCriteriaOperator._('EQUALS');
@@ -2447,6 +2488,8 @@ class CustomActionAttachmentCriteriaOperator {
 
 /// Represents a parameterized command that can be invoked as an alias or as a
 /// notification button in the chat client.
+///
+/// @nodoc
 class CustomAction {
   /// The fully defined Amazon Resource Name (ARN) of the custom action.
   final String customActionArn;
@@ -2514,6 +2557,8 @@ class CustomAction {
 /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
 /// Tag Restrictions</a> in the <i>AWS Billing and Cost Management User
 /// Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String tagKey;
@@ -2544,6 +2589,8 @@ class Tag {
 }
 
 /// An AWS Chatbot configuration for Slack.
+///
+/// @nodoc
 class SlackChannelConfiguration {
   /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration.
   final String chatConfigurationArn;
@@ -2686,6 +2733,8 @@ class SlackChannelConfiguration {
 }
 
 /// An AWS Chatbot configuration for Microsoft Teams.
+///
+/// @nodoc
 class TeamsChannelConfiguration {
   /// The ID of the Microsoft Teams channel.
   final String channelId;
@@ -2840,6 +2889,8 @@ class TeamsChannelConfiguration {
 }
 
 /// An AWS Chatbot configuration for Amazon Chime.
+///
+/// @nodoc
 class ChimeWebhookConfiguration {
   /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration.
   final String chatConfigurationArn;
@@ -2943,6 +2994,8 @@ class ChimeWebhookConfiguration {
 }
 
 /// Preferences related to AWS Chatbot usage in the calling AWS account.
+///
+/// @nodoc
 class AccountPreferences {
   /// Turns on training data collection.
   ///
@@ -2986,6 +3039,8 @@ class AccountPreferences {
 }
 
 /// Identifes a user level permission for a channel configuration.
+///
+/// @nodoc
 class TeamsUserIdentity {
   /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration
   /// associated with the user identity to delete.
@@ -3065,6 +3120,8 @@ class TeamsUserIdentity {
 }
 
 /// A Microsoft Teams team that is authorized with AWS Chatbot.
+///
+/// @nodoc
 class ConfiguredTeam {
   /// The ID of the Microsoft Teams authorized with AWS Chatbot.
   ///
@@ -3127,6 +3184,8 @@ class ConfiguredTeam {
 }
 
 /// A listing of an association with a channel configuration.
+///
+/// @nodoc
 class AssociationListing {
   /// The Amazon Resource Name (ARN) of the resource (for example, a custom
   /// action).
@@ -3151,6 +3210,8 @@ class AssociationListing {
 }
 
 /// A Slack workspace.
+///
+/// @nodoc
 class SlackWorkspace {
   /// The ID of the Slack workspace authorized with AWS Chatbot.
   final String slackTeamId;
@@ -3199,6 +3260,8 @@ class SlackWorkspace {
 }
 
 /// Identifes a user level permission for a channel configuration.
+///
+/// @nodoc
 class SlackUserIdentity {
   /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration associated
   /// with the user identity to delete.
@@ -3256,11 +3319,13 @@ class SlackUserIdentity {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class CreateChimeWebhookConfigurationException extends _s.GenericAwsException {
   CreateChimeWebhookConfigurationException({String? type, String? message})
       : super(
@@ -3269,6 +3334,7 @@ class CreateChimeWebhookConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CreateSlackChannelConfigurationException extends _s.GenericAwsException {
   CreateSlackChannelConfigurationException({String? type, String? message})
       : super(
@@ -3277,6 +3343,7 @@ class CreateSlackChannelConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CreateTeamsChannelConfigurationException extends _s.GenericAwsException {
   CreateTeamsChannelConfigurationException({String? type, String? message})
       : super(
@@ -3285,6 +3352,7 @@ class CreateTeamsChannelConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteChimeWebhookConfigurationException extends _s.GenericAwsException {
   DeleteChimeWebhookConfigurationException({String? type, String? message})
       : super(
@@ -3293,6 +3361,7 @@ class DeleteChimeWebhookConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteMicrosoftTeamsUserIdentityException extends _s.GenericAwsException {
   DeleteMicrosoftTeamsUserIdentityException({String? type, String? message})
       : super(
@@ -3301,6 +3370,7 @@ class DeleteMicrosoftTeamsUserIdentityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteSlackChannelConfigurationException extends _s.GenericAwsException {
   DeleteSlackChannelConfigurationException({String? type, String? message})
       : super(
@@ -3309,6 +3379,7 @@ class DeleteSlackChannelConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteSlackUserIdentityException extends _s.GenericAwsException {
   DeleteSlackUserIdentityException({String? type, String? message})
       : super(
@@ -3317,6 +3388,7 @@ class DeleteSlackUserIdentityException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteSlackWorkspaceAuthorizationFault extends _s.GenericAwsException {
   DeleteSlackWorkspaceAuthorizationFault({String? type, String? message})
       : super(
@@ -3325,6 +3397,7 @@ class DeleteSlackWorkspaceAuthorizationFault extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteTeamsChannelConfigurationException extends _s.GenericAwsException {
   DeleteTeamsChannelConfigurationException({String? type, String? message})
       : super(
@@ -3333,6 +3406,7 @@ class DeleteTeamsChannelConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DeleteTeamsConfiguredTeamException extends _s.GenericAwsException {
   DeleteTeamsConfiguredTeamException({String? type, String? message})
       : super(
@@ -3341,6 +3415,7 @@ class DeleteTeamsConfiguredTeamException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DescribeChimeWebhookConfigurationsException
     extends _s.GenericAwsException {
   DescribeChimeWebhookConfigurationsException({String? type, String? message})
@@ -3350,6 +3425,7 @@ class DescribeChimeWebhookConfigurationsException
             message: message);
 }
 
+/// @nodoc
 class DescribeSlackChannelConfigurationsException
     extends _s.GenericAwsException {
   DescribeSlackChannelConfigurationsException({String? type, String? message})
@@ -3359,6 +3435,7 @@ class DescribeSlackChannelConfigurationsException
             message: message);
 }
 
+/// @nodoc
 class DescribeSlackUserIdentitiesException extends _s.GenericAwsException {
   DescribeSlackUserIdentitiesException({String? type, String? message})
       : super(
@@ -3367,6 +3444,7 @@ class DescribeSlackUserIdentitiesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DescribeSlackWorkspacesException extends _s.GenericAwsException {
   DescribeSlackWorkspacesException({String? type, String? message})
       : super(
@@ -3375,6 +3453,7 @@ class DescribeSlackWorkspacesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GetAccountPreferencesException extends _s.GenericAwsException {
   GetAccountPreferencesException({String? type, String? message})
       : super(
@@ -3383,6 +3462,7 @@ class GetAccountPreferencesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class GetTeamsChannelConfigurationException extends _s.GenericAwsException {
   GetTeamsChannelConfigurationException({String? type, String? message})
       : super(
@@ -3391,26 +3471,31 @@ class GetTeamsChannelConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServiceError extends _s.GenericAwsException {
   InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ListMicrosoftTeamsConfiguredTeamsException
     extends _s.GenericAwsException {
   ListMicrosoftTeamsConfiguredTeamsException({String? type, String? message})
@@ -3420,6 +3505,7 @@ class ListMicrosoftTeamsConfiguredTeamsException
             message: message);
 }
 
+/// @nodoc
 class ListMicrosoftTeamsUserIdentitiesException extends _s.GenericAwsException {
   ListMicrosoftTeamsUserIdentitiesException({String? type, String? message})
       : super(
@@ -3428,6 +3514,7 @@ class ListMicrosoftTeamsUserIdentitiesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ListTeamsChannelConfigurationsException extends _s.GenericAwsException {
   ListTeamsChannelConfigurationsException({String? type, String? message})
       : super(
@@ -3436,27 +3523,32 @@ class ListTeamsChannelConfigurationsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class UpdateAccountPreferencesException extends _s.GenericAwsException {
   UpdateAccountPreferencesException({String? type, String? message})
       : super(
@@ -3465,6 +3557,7 @@ class UpdateAccountPreferencesException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UpdateChimeWebhookConfigurationException extends _s.GenericAwsException {
   UpdateChimeWebhookConfigurationException({String? type, String? message})
       : super(
@@ -3473,6 +3566,7 @@ class UpdateChimeWebhookConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UpdateSlackChannelConfigurationException extends _s.GenericAwsException {
   UpdateSlackChannelConfigurationException({String? type, String? message})
       : super(
@@ -3481,6 +3575,7 @@ class UpdateSlackChannelConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UpdateTeamsChannelConfigurationException extends _s.GenericAwsException {
   UpdateTeamsChannelConfigurationException({String? type, String? message})
       : super(

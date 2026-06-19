@@ -629,6 +629,7 @@ class CodestarNotifications {
   }
 }
 
+/// @nodoc
 class CreateNotificationRuleResult {
   /// The Amazon Resource Name (ARN) of the notification rule.
   final String? arn;
@@ -651,6 +652,7 @@ class CreateNotificationRuleResult {
   }
 }
 
+/// @nodoc
 class DeleteNotificationRuleResult {
   /// The Amazon Resource Name (ARN) of the deleted notification rule.
   final String? arn;
@@ -673,6 +675,7 @@ class DeleteNotificationRuleResult {
   }
 }
 
+/// @nodoc
 class DeleteTargetResult {
   DeleteTargetResult();
 
@@ -685,6 +688,7 @@ class DeleteTargetResult {
   }
 }
 
+/// @nodoc
 class DescribeNotificationRuleResult {
   /// The Amazon Resource Name (ARN) of the notification rule.
   final String arn;
@@ -796,6 +800,7 @@ class DescribeNotificationRuleResult {
   }
 }
 
+/// @nodoc
 class ListEventTypesResult {
   /// Information about each event, including service name, resource type, event
   /// ID, and event name.
@@ -830,6 +835,7 @@ class ListEventTypesResult {
   }
 }
 
+/// @nodoc
 class ListNotificationRulesResult {
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
@@ -865,6 +871,7 @@ class ListNotificationRulesResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResult {
   /// The tags associated with the notification rule.
   final Map<String, String>? tags;
@@ -888,6 +895,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class ListTargetsResult {
   /// An enumeration token that can be used in a request to return the next batch
   /// of results.
@@ -921,6 +929,7 @@ class ListTargetsResult {
   }
 }
 
+/// @nodoc
 class SubscribeResult {
   /// The Amazon Resource Name (ARN) of the notification rule for which you have
   /// created assocations.
@@ -944,6 +953,7 @@ class SubscribeResult {
   }
 }
 
+/// @nodoc
 class TagResourceResult {
   /// The list of tags associated with the resource.
   final Map<String, String>? tags;
@@ -967,6 +977,7 @@ class TagResourceResult {
   }
 }
 
+/// @nodoc
 class UnsubscribeResult {
   /// The Amazon Resource Name (ARN) of the the notification rule from which you
   /// have removed a subscription.
@@ -990,6 +1001,7 @@ class UnsubscribeResult {
   }
 }
 
+/// @nodoc
 class UntagResourceResult {
   UntagResourceResult();
 
@@ -1002,6 +1014,7 @@ class UntagResourceResult {
   }
 }
 
+/// @nodoc
 class UpdateNotificationRuleResult {
   UpdateNotificationRuleResult();
 
@@ -1014,6 +1027,7 @@ class UpdateNotificationRuleResult {
   }
 }
 
+/// @nodoc
 class NotificationRuleStatus {
   static const enabled = NotificationRuleStatus._('ENABLED');
   static const disabled = NotificationRuleStatus._('DISABLED');
@@ -1039,6 +1053,7 @@ class NotificationRuleStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DetailType {
   static const basic = DetailType._('BASIC');
   static const full = DetailType._('FULL');
@@ -1065,6 +1080,8 @@ class DetailType {
 /// Information about the Amazon Q Developer in chat applications topics or
 /// Amazon Q Developer in chat applications clients associated with a
 /// notification rule.
+///
+/// @nodoc
 class Target {
   /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat
   /// applications topic or Amazon Q Developer in chat applications client.
@@ -1101,6 +1118,8 @@ class Target {
 }
 
 /// Information about the targets specified for a notification rule.
+///
+/// @nodoc
 class TargetSummary {
   /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat
   /// applications topic or Amazon Q Developer in chat applications client.
@@ -1150,6 +1169,7 @@ class TargetSummary {
   }
 }
 
+/// @nodoc
 class TargetStatus {
   static const pending = TargetStatus._('PENDING');
   static const active = TargetStatus._('ACTIVE');
@@ -1182,6 +1202,8 @@ class TargetStatus {
 /// topics as targets, you could specify a ListTargetsFilter Name as
 /// <code>TargetType</code> and a Value of <code>SNS</code>, and a Name of
 /// <code>TARGET_STATUS</code> and a Value of <code>ACTIVE</code>.
+///
+/// @nodoc
 class ListTargetsFilter {
   /// The name of the attribute you want to use to filter the returned targets.
   final ListTargetsFilterName name;
@@ -1206,6 +1228,7 @@ class ListTargetsFilter {
   }
 }
 
+/// @nodoc
 class ListTargetsFilterName {
   static const targetType = ListTargetsFilterName._('TARGET_TYPE');
   static const targetAddress = ListTargetsFilterName._('TARGET_ADDRESS');
@@ -1233,6 +1256,8 @@ class ListTargetsFilterName {
 }
 
 /// Information about a specified notification rule.
+///
+/// @nodoc
 class NotificationRuleSummary {
   /// The Amazon Resource Name (ARN) of the notification rule.
   final String? arn;
@@ -1264,6 +1289,8 @@ class NotificationRuleSummary {
 
 /// Information about a filter to apply to the list of returned notification
 /// rules. You can filter by event type, owner, resource, or target.
+///
+/// @nodoc
 class ListNotificationRulesFilter {
   /// The name of the attribute you want to use to filter the returned
   /// notification rules.
@@ -1290,6 +1317,7 @@ class ListNotificationRulesFilter {
   }
 }
 
+/// @nodoc
 class ListNotificationRulesFilterName {
   static const eventTypeId = ListNotificationRulesFilterName._('EVENT_TYPE_ID');
   static const createdBy = ListNotificationRulesFilterName._('CREATED_BY');
@@ -1319,6 +1347,8 @@ class ListNotificationRulesFilterName {
 }
 
 /// Returns information about an event that has triggered a notification rule.
+///
+/// @nodoc
 class EventTypeSummary {
   /// The system-generated ID of the event. For a complete list of event types and
   /// IDs, see <a
@@ -1367,6 +1397,8 @@ class EventTypeSummary {
 
 /// Information about a filter to apply to the list of returned event types. You
 /// can filter by resource type or service name.
+///
+/// @nodoc
 class ListEventTypesFilter {
   /// The system-generated name of the filter type you want to filter by.
   final ListEventTypesFilterName name;
@@ -1390,6 +1422,7 @@ class ListEventTypesFilter {
   }
 }
 
+/// @nodoc
 class ListEventTypesFilterName {
   static const resourceType = ListEventTypesFilterName._('RESOURCE_TYPE');
   static const serviceName = ListEventTypesFilterName._('SERVICE_NAME');
@@ -1415,11 +1448,13 @@ class ListEventTypesFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -1428,21 +1463,25 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConfigurationException extends _s.GenericAwsException {
   ConfigurationException({String? type, String? message})
       : super(type: type, code: 'ConfigurationException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -1451,11 +1490,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1641,6 +1641,7 @@ class BcmPricingCalculator {
   }
 }
 
+/// @nodoc
 class GetPreferencesResponse {
   /// The preferred rate types for the management account.
   final List<RateType>? managementAccountRateTypeSelections;
@@ -1698,6 +1699,7 @@ class GetPreferencesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags associated with the specified resource.
   final Map<String, String>? tags;
@@ -1721,6 +1723,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1733,6 +1736,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1745,6 +1749,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdatePreferencesResponse {
   /// The updated preferred rate types for the management account.
   final List<RateType>? managementAccountRateTypeSelections;
@@ -1802,6 +1807,7 @@ class UpdatePreferencesResponse {
   }
 }
 
+/// @nodoc
 class CreateBillEstimateResponse {
   /// The unique identifier of your newly created Bill estimate.
   final String id;
@@ -1925,6 +1931,7 @@ class CreateBillEstimateResponse {
   }
 }
 
+/// @nodoc
 class GetBillEstimateResponse {
   /// The unique identifier of the retrieved bill estimate.
   final String id;
@@ -2035,6 +2042,7 @@ class GetBillEstimateResponse {
   }
 }
 
+/// @nodoc
 class UpdateBillEstimateResponse {
   /// The unique identifier of the updated bill estimate.
   final String id;
@@ -2145,6 +2153,7 @@ class UpdateBillEstimateResponse {
   }
 }
 
+/// @nodoc
 class DeleteBillEstimateResponse {
   DeleteBillEstimateResponse();
 
@@ -2157,6 +2166,7 @@ class DeleteBillEstimateResponse {
   }
 }
 
+/// @nodoc
 class ListBillEstimatesResponse {
   /// The list of bill estimates for the account.
   final List<BillEstimateSummary>? items;
@@ -2189,6 +2199,7 @@ class ListBillEstimatesResponse {
   }
 }
 
+/// @nodoc
 class ListBillEstimateCommitmentsResponse {
   /// The list of commitments associated with the bill estimate.
   final List<BillEstimateCommitmentSummary>? items;
@@ -2223,6 +2234,7 @@ class ListBillEstimateCommitmentsResponse {
   }
 }
 
+/// @nodoc
 class ListBillEstimateInputCommitmentModificationsResponse {
   /// The list of input commitment modifications associated with the bill
   /// estimate.
@@ -2258,6 +2270,7 @@ class ListBillEstimateInputCommitmentModificationsResponse {
   }
 }
 
+/// @nodoc
 class ListBillEstimateInputUsageModificationsResponse {
   /// The list of input usage modifications associated with the bill estimate.
   final List<BillEstimateInputUsageModificationSummary>? items;
@@ -2292,6 +2305,7 @@ class ListBillEstimateInputUsageModificationsResponse {
   }
 }
 
+/// @nodoc
 class ListBillEstimateLineItemsResponse {
   /// The list of line items associated with the bill estimate.
   final List<BillEstimateLineItemSummary>? items;
@@ -2326,6 +2340,7 @@ class ListBillEstimateLineItemsResponse {
   }
 }
 
+/// @nodoc
 class CreateBillScenarioResponse {
   /// The unique identifier for the created bill scenario.
   final String id;
@@ -2414,6 +2429,7 @@ class CreateBillScenarioResponse {
   }
 }
 
+/// @nodoc
 class GetBillScenarioResponse {
   /// The unique identifier of the retrieved bill scenario.
   final String id;
@@ -2502,6 +2518,7 @@ class GetBillScenarioResponse {
   }
 }
 
+/// @nodoc
 class UpdateBillScenarioResponse {
   /// The unique identifier of the updated bill scenario.
   final String id;
@@ -2590,6 +2607,7 @@ class UpdateBillScenarioResponse {
   }
 }
 
+/// @nodoc
 class DeleteBillScenarioResponse {
   DeleteBillScenarioResponse();
 
@@ -2602,6 +2620,7 @@ class DeleteBillScenarioResponse {
   }
 }
 
+/// @nodoc
 class ListBillScenariosResponse {
   /// The list of bill scenarios for the account.
   final List<BillScenarioSummary>? items;
@@ -2634,6 +2653,7 @@ class ListBillScenariosResponse {
   }
 }
 
+/// @nodoc
 class ListBillScenarioCommitmentModificationsResponse {
   /// The list of commitment modifications associated with the bill scenario.
   final List<BillScenarioCommitmentModificationItem>? items;
@@ -2668,6 +2688,7 @@ class ListBillScenarioCommitmentModificationsResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateBillScenarioCommitmentModificationResponse {
   /// Returns the list of errors reason and the commitment item keys that cannot
   /// be created in the Bill Scenario.
@@ -2710,6 +2731,7 @@ class BatchCreateBillScenarioCommitmentModificationResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteBillScenarioCommitmentModificationResponse {
   /// Returns the list of errors reason and the commitment item keys that cannot
   /// be deleted from the Bill Scenario.
@@ -2739,6 +2761,7 @@ class BatchDeleteBillScenarioCommitmentModificationResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateBillScenarioCommitmentModificationResponse {
   /// Returns the list of error reasons and commitment line item IDs that could
   /// not be updated for the Bill Scenario.
@@ -2780,6 +2803,7 @@ class BatchUpdateBillScenarioCommitmentModificationResponse {
   }
 }
 
+/// @nodoc
 class ListBillScenarioUsageModificationsResponse {
   /// The list of usage modifications associated with the bill scenario.
   final List<BillScenarioUsageModificationItem>? items;
@@ -2814,6 +2838,7 @@ class ListBillScenarioUsageModificationsResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateBillScenarioUsageModificationResponse {
   /// Returns the list of errors reason and the usage item keys that cannot be
   /// created in the Bill Scenario.
@@ -2854,6 +2879,7 @@ class BatchCreateBillScenarioUsageModificationResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteBillScenarioUsageModificationResponse {
   /// Returns the list of errors reason and the usage item keys that cannot be
   /// deleted from the Bill Scenario.
@@ -2882,6 +2908,7 @@ class BatchDeleteBillScenarioUsageModificationResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateBillScenarioUsageModificationResponse {
   /// Returns the list of error reasons and usage line item IDs that could not be
   /// updated for the Bill Scenario.
@@ -2923,6 +2950,8 @@ class BatchUpdateBillScenarioUsageModificationResponse {
 }
 
 /// Mixin for common fields returned by CRUD APIs
+///
+/// @nodoc
 class CreateWorkloadEstimateResponse {
   /// The unique identifier for the created workload estimate.
   final String id;
@@ -3013,6 +3042,8 @@ class CreateWorkloadEstimateResponse {
 }
 
 /// Mixin for common fields returned by CRUD APIs
+///
+/// @nodoc
 class GetWorkloadEstimateResponse {
   /// The unique identifier of the retrieved workload estimate.
   final String id;
@@ -3103,6 +3134,8 @@ class GetWorkloadEstimateResponse {
 }
 
 /// Mixin for common fields returned by CRUD APIs
+///
+/// @nodoc
 class UpdateWorkloadEstimateResponse {
   /// The unique identifier of the updated workload estimate.
   final String id;
@@ -3192,6 +3225,7 @@ class UpdateWorkloadEstimateResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkloadEstimateResponse {
   DeleteWorkloadEstimateResponse();
 
@@ -3204,6 +3238,7 @@ class DeleteWorkloadEstimateResponse {
   }
 }
 
+/// @nodoc
 class ListWorkloadEstimatesResponse {
   /// The list of workload estimates for the account.
   final List<WorkloadEstimateSummary>? items;
@@ -3237,6 +3272,7 @@ class ListWorkloadEstimatesResponse {
   }
 }
 
+/// @nodoc
 class ListWorkloadEstimateUsageResponse {
   /// The list of usage items associated with the workload estimate.
   final List<WorkloadEstimateUsageItem>? items;
@@ -3271,6 +3307,7 @@ class ListWorkloadEstimateUsageResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateWorkloadEstimateUsageResponse {
   /// Returns the list of errors reason and the usage item keys that cannot be
   /// created in the Workload estimate.
@@ -3311,6 +3348,7 @@ class BatchCreateWorkloadEstimateUsageResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteWorkloadEstimateUsageResponse {
   /// Returns the list of errors reason and the usage item keys that cannot be
   /// deleted from the Workload estimate.
@@ -3339,6 +3377,7 @@ class BatchDeleteWorkloadEstimateUsageResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateWorkloadEstimateUsageResponse {
   /// Returns the list of error reasons and usage line item IDs that could not be
   /// updated for the Workload estimate.
@@ -3381,6 +3420,8 @@ class BatchUpdateWorkloadEstimateUsageResponse {
 
 /// Represents an error that occurred when updating usage in a workload
 /// estimate.
+///
+/// @nodoc
 class BatchUpdateWorkloadEstimateUsageError {
   /// The code associated with the error.
   final WorkloadEstimateUpdateUsageErrorCode? errorCode;
@@ -3419,6 +3460,7 @@ class BatchUpdateWorkloadEstimateUsageError {
   }
 }
 
+/// @nodoc
 class WorkloadEstimateUpdateUsageErrorCode {
   static const badRequest =
       WorkloadEstimateUpdateUsageErrorCode._('BAD_REQUEST');
@@ -3449,6 +3491,8 @@ class WorkloadEstimateUpdateUsageErrorCode {
 }
 
 /// Represents a usage item in a workload estimate.
+///
+/// @nodoc
 class WorkloadEstimateUsageItem {
   /// The specific operation associated with this usage item.
   final String operation;
@@ -3556,6 +3600,8 @@ class WorkloadEstimateUsageItem {
 }
 
 /// Represents a usage quantity for a workload estimate.
+///
+/// @nodoc
 class WorkloadEstimateUsageQuantity {
   /// The numeric value of the usage quantity.
   final double? amount;
@@ -3585,6 +3631,7 @@ class WorkloadEstimateUsageQuantity {
   }
 }
 
+/// @nodoc
 class CurrencyCode {
   static const usd = CurrencyCode._('USD');
 
@@ -3607,6 +3654,7 @@ class CurrencyCode {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkloadEstimateCostStatus {
   static const valid = WorkloadEstimateCostStatus._('VALID');
   static const invalid = WorkloadEstimateCostStatus._('INVALID');
@@ -3634,6 +3682,8 @@ class WorkloadEstimateCostStatus {
 }
 
 /// Represents historical usage data for a specific entity.
+///
+/// @nodoc
 class HistoricalUsageEntity {
   /// The time interval for the historical usage data.
   final BillInterval billInterval;
@@ -3703,6 +3753,8 @@ class HistoricalUsageEntity {
 }
 
 /// Represents a time interval for a bill or estimate.
+///
+/// @nodoc
 class BillInterval {
   /// The end date and time of the interval.
   final DateTime? end;
@@ -3733,6 +3785,8 @@ class BillInterval {
 }
 
 /// Represents a complex filtering expression for cost and usage data.
+///
+/// @nodoc
 class Expression {
   /// A list of expressions to be combined with AND logic.
   final List<Expression>? and;
@@ -3807,6 +3861,8 @@ class Expression {
 }
 
 /// Represents a filter used within an expression.
+///
+/// @nodoc
 class ExpressionFilter {
   /// The key or attribute to filter on.
   final String? key;
@@ -3848,6 +3904,8 @@ class ExpressionFilter {
 }
 
 /// Represents an entry in a batch operation to update workload estimate usage.
+///
+/// @nodoc
 class BatchUpdateWorkloadEstimateUsageEntry {
   /// The unique identifier of the usage estimate to update.
   final String id;
@@ -3878,6 +3936,8 @@ class BatchUpdateWorkloadEstimateUsageEntry {
 
 /// Represents an error that occurred when deleting usage in a workload
 /// estimate.
+///
+/// @nodoc
 class BatchDeleteWorkloadEstimateUsageError {
   /// The code associated with the error.
   final WorkloadEstimateUpdateUsageErrorCode? errorCode;
@@ -3918,6 +3978,8 @@ class BatchDeleteWorkloadEstimateUsageError {
 
 /// Represents an error that occurred during a batch create operation for
 /// workload estimate usage.
+///
+/// @nodoc
 class BatchCreateWorkloadEstimateUsageError {
   /// The error code associated with the failed operation.
   final BatchCreateWorkloadEstimateUsageCode? errorCode;
@@ -3956,6 +4018,7 @@ class BatchCreateWorkloadEstimateUsageError {
   }
 }
 
+/// @nodoc
 class BatchCreateWorkloadEstimateUsageCode {
   static const badRequest =
       BatchCreateWorkloadEstimateUsageCode._('BAD_REQUEST');
@@ -3987,6 +4050,8 @@ class BatchCreateWorkloadEstimateUsageCode {
 
 /// Represents a successfully created item in a batch operation for workload
 /// estimate usage.
+///
+/// @nodoc
 class BatchCreateWorkloadEstimateUsageItem {
   /// The specific operation associated with this usage estimate.
   final String operation;
@@ -4103,6 +4168,8 @@ class BatchCreateWorkloadEstimateUsageItem {
 }
 
 /// Represents an entry in a batch operation to create workload estimate usage.
+///
+/// @nodoc
 class BatchCreateWorkloadEstimateUsageEntry {
   /// The estimated usage amount.
   final double amount;
@@ -4162,6 +4229,8 @@ class BatchCreateWorkloadEstimateUsageEntry {
 }
 
 /// Represents a filter for listing usage data.
+///
+/// @nodoc
 class ListUsageFilter {
   /// The name of the filter attribute.
   final ListUsageFilterName name;
@@ -4190,6 +4259,7 @@ class ListUsageFilter {
   }
 }
 
+/// @nodoc
 class ListUsageFilterName {
   static const usageAccountId = ListUsageFilterName._('USAGE_ACCOUNT_ID');
   static const serviceCode = ListUsageFilterName._('SERVICE_CODE');
@@ -4241,6 +4311,7 @@ class ListUsageFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class MatchOption {
   static const equals = MatchOption._('EQUALS');
   static const startsWith = MatchOption._('STARTS_WITH');
@@ -4266,6 +4337,8 @@ class MatchOption {
 }
 
 /// Provides a summary of a workload estimate.
+///
+/// @nodoc
 class WorkloadEstimateSummary {
   /// The unique identifier of the workload estimate.
   final String id;
@@ -4355,6 +4428,7 @@ class WorkloadEstimateSummary {
   }
 }
 
+/// @nodoc
 class WorkloadEstimateRateType {
   static const beforeDiscounts = WorkloadEstimateRateType._('BEFORE_DISCOUNTS');
   static const afterDiscounts = WorkloadEstimateRateType._('AFTER_DISCOUNTS');
@@ -4386,6 +4460,7 @@ class WorkloadEstimateRateType {
   String toString() => value;
 }
 
+/// @nodoc
 class WorkloadEstimateStatus {
   static const updating = WorkloadEstimateStatus._('UPDATING');
   static const valid = WorkloadEstimateStatus._('VALID');
@@ -4414,6 +4489,8 @@ class WorkloadEstimateStatus {
 }
 
 /// Represents a time-based filter.
+///
+/// @nodoc
 class FilterTimestamp {
   /// Include results after this timestamp.
   final DateTime? afterTimestamp;
@@ -4439,6 +4516,8 @@ class FilterTimestamp {
 }
 
 /// Represents a filter for listing workload estimates.
+///
+/// @nodoc
 class ListWorkloadEstimatesFilter {
   /// The name of the filter attribute.
   final ListWorkloadEstimatesFilterName name;
@@ -4467,6 +4546,7 @@ class ListWorkloadEstimatesFilter {
   }
 }
 
+/// @nodoc
 class ListWorkloadEstimatesFilterName {
   static const status = ListWorkloadEstimatesFilterName._('STATUS');
   static const name = ListWorkloadEstimatesFilterName._('NAME');
@@ -4493,6 +4573,8 @@ class ListWorkloadEstimatesFilterName {
 }
 
 /// Represents an error that occurred when updating usage in a Bill Scenario.
+///
+/// @nodoc
 class BatchUpdateBillScenarioUsageModificationError {
   /// The code associated with the error.
   final BatchUpdateBillScenarioUsageModificationErrorCode? errorCode;
@@ -4531,6 +4613,7 @@ class BatchUpdateBillScenarioUsageModificationError {
   }
 }
 
+/// @nodoc
 class BatchUpdateBillScenarioUsageModificationErrorCode {
   static const badRequest =
       BatchUpdateBillScenarioUsageModificationErrorCode._('BAD_REQUEST');
@@ -4567,6 +4650,8 @@ class BatchUpdateBillScenarioUsageModificationErrorCode {
 }
 
 /// Represents a usage modification item in a bill scenario.
+///
+/// @nodoc
 class BillScenarioUsageModificationItem {
   /// The specific operation associated with this usage modification.
   final String operation;
@@ -4661,6 +4746,8 @@ class BillScenarioUsageModificationItem {
 }
 
 /// Represents a usage quantity with associated unit and time period.
+///
+/// @nodoc
 class UsageQuantity {
   /// The numeric value of the usage quantity.
   final double? amount;
@@ -4699,6 +4786,8 @@ class UsageQuantity {
 
 /// Represents an entry in a batch operation to update bill scenario usage
 /// modifications.
+///
+/// @nodoc
 class BatchUpdateBillScenarioUsageModificationEntry {
   /// The unique identifier of the usage modification to update.
   final String id;
@@ -4728,6 +4817,8 @@ class BatchUpdateBillScenarioUsageModificationEntry {
 }
 
 /// Represents a usage amount for a specific time period.
+///
+/// @nodoc
 class UsageAmount {
   /// The usage amount for the period.
   final double amount;
@@ -4751,6 +4842,8 @@ class UsageAmount {
 }
 
 /// Represents an error that occurred when deleting usage in a Bill Scenario.
+///
+/// @nodoc
 class BatchDeleteBillScenarioUsageModificationError {
   /// The code associated with the error.
   final BatchDeleteBillScenarioUsageModificationErrorCode? errorCode;
@@ -4789,6 +4882,7 @@ class BatchDeleteBillScenarioUsageModificationError {
   }
 }
 
+/// @nodoc
 class BatchDeleteBillScenarioUsageModificationErrorCode {
   static const badRequest =
       BatchDeleteBillScenarioUsageModificationErrorCode._('BAD_REQUEST');
@@ -4824,6 +4918,8 @@ class BatchDeleteBillScenarioUsageModificationErrorCode {
 
 /// Represents an error that occurred during a batch create operation for bill
 /// scenario usage modifications.
+///
+/// @nodoc
 class BatchCreateBillScenarioUsageModificationError {
   /// The error code associated with the failed operation.
   final BatchCreateBillScenarioUsageModificationErrorCode? errorCode;
@@ -4862,6 +4958,7 @@ class BatchCreateBillScenarioUsageModificationError {
   }
 }
 
+/// @nodoc
 class BatchCreateBillScenarioUsageModificationErrorCode {
   static const badRequest =
       BatchCreateBillScenarioUsageModificationErrorCode._('BAD_REQUEST');
@@ -4899,6 +4996,8 @@ class BatchCreateBillScenarioUsageModificationErrorCode {
 
 /// Represents a successfully created item in a batch operation for bill
 /// scenario usage modifications.
+///
+/// @nodoc
 class BatchCreateBillScenarioUsageModificationItem {
   /// The specific operation associated with this usage modification.
   final String operation;
@@ -5002,6 +5101,8 @@ class BatchCreateBillScenarioUsageModificationItem {
 
 /// Represents an entry in a batch operation to create bill scenario usage
 /// modifications.
+///
+/// @nodoc
 class BatchCreateBillScenarioUsageModificationEntry {
   /// A unique identifier for this entry in the batch operation. This can be any
   /// valid string. This key is useful to identify errors associated with any
@@ -5076,6 +5177,8 @@ class BatchCreateBillScenarioUsageModificationEntry {
 
 /// Represents an error that occurred when updating a commitment in a Bill
 /// Scenario.
+///
+/// @nodoc
 class BatchUpdateBillScenarioCommitmentModificationError {
   /// The code associated with the error.
   final BatchUpdateBillScenarioCommitmentModificationErrorCode? errorCode;
@@ -5114,6 +5217,7 @@ class BatchUpdateBillScenarioCommitmentModificationError {
   }
 }
 
+/// @nodoc
 class BatchUpdateBillScenarioCommitmentModificationErrorCode {
   static const badRequest =
       BatchUpdateBillScenarioCommitmentModificationErrorCode._('BAD_REQUEST');
@@ -5150,6 +5254,8 @@ class BatchUpdateBillScenarioCommitmentModificationErrorCode {
 }
 
 /// Represents a commitment modification item in a bill scenario.
+///
+/// @nodoc
 class BillScenarioCommitmentModificationItem {
   /// The specific commitment action taken in this modification.
   final BillScenarioCommitmentModificationAction? commitmentAction;
@@ -5199,6 +5305,8 @@ class BillScenarioCommitmentModificationItem {
 }
 
 /// Represents an action to modify commitments in a bill scenario.
+///
+/// @nodoc
 class BillScenarioCommitmentModificationAction {
   /// Action to add a Reserved Instance to the scenario.
   final AddReservedInstanceAction? addReservedInstanceAction;
@@ -5260,6 +5368,8 @@ class BillScenarioCommitmentModificationAction {
 }
 
 /// Represents an action to add a Reserved Instance to a bill scenario.
+///
+/// @nodoc
 class AddReservedInstanceAction {
   /// The number of instances to add for this Reserved Instance offering.
   final int? instanceCount;
@@ -5295,6 +5405,8 @@ class AddReservedInstanceAction {
 }
 
 /// Represents an action to add a Savings Plan to a bill scenario.
+///
+/// @nodoc
 class AddSavingsPlanAction {
   /// The hourly commitment, in the same currency of the
   /// <code>savingsPlanOfferingId</code>. This is a value between 0.001 and 1
@@ -5332,6 +5444,8 @@ class AddSavingsPlanAction {
 /// Represents an action to remove a Reserved Instance from a bill scenario.
 ///
 /// This is the ID of an existing Reserved Instance in your account.
+///
+/// @nodoc
 class NegateReservedInstanceAction {
   /// The ID of the Reserved Instance to remove.
   final String? reservedInstancesId;
@@ -5358,6 +5472,8 @@ class NegateReservedInstanceAction {
 /// Represents an action to remove a Savings Plan from a bill scenario.
 ///
 /// This is the ID of an existing Savings Plan in your account.
+///
+/// @nodoc
 class NegateSavingsPlanAction {
   /// The ID of the Savings Plan to remove.
   final String? savingsPlanId;
@@ -5382,6 +5498,8 @@ class NegateSavingsPlanAction {
 
 /// Represents an entry in a batch operation to update bill scenario commitment
 /// modifications.
+///
+/// @nodoc
 class BatchUpdateBillScenarioCommitmentModificationEntry {
   /// The unique identifier of the commitment modification to update.
   final String id;
@@ -5406,6 +5524,8 @@ class BatchUpdateBillScenarioCommitmentModificationEntry {
 
 /// Represents an error that occurred when deleting a commitment in a Bill
 /// Scenario.
+///
+/// @nodoc
 class BatchDeleteBillScenarioCommitmentModificationError {
   /// The code associated with the error.
   final BatchDeleteBillScenarioCommitmentModificationErrorCode? errorCode;
@@ -5444,6 +5564,7 @@ class BatchDeleteBillScenarioCommitmentModificationError {
   }
 }
 
+/// @nodoc
 class BatchDeleteBillScenarioCommitmentModificationErrorCode {
   static const badRequest =
       BatchDeleteBillScenarioCommitmentModificationErrorCode._('BAD_REQUEST');
@@ -5479,6 +5600,8 @@ class BatchDeleteBillScenarioCommitmentModificationErrorCode {
 
 /// Represents an error that occurred during a batch create operation for bill
 /// scenario commitment modifications.
+///
+/// @nodoc
 class BatchCreateBillScenarioCommitmentModificationError {
   /// The error code associated with the failed operation.
   final BatchCreateBillScenarioCommitmentModificationErrorCode? errorCode;
@@ -5517,6 +5640,7 @@ class BatchCreateBillScenarioCommitmentModificationError {
   }
 }
 
+/// @nodoc
 class BatchCreateBillScenarioCommitmentModificationErrorCode {
   static const conflict =
       BatchCreateBillScenarioCommitmentModificationErrorCode._('CONFLICT');
@@ -5553,6 +5677,8 @@ class BatchCreateBillScenarioCommitmentModificationErrorCode {
 
 /// Represents a successfully created item in a batch operation for bill
 /// scenario commitment modifications.
+///
+/// @nodoc
 class BatchCreateBillScenarioCommitmentModificationItem {
   /// The specific commitment action that was taken.
   final BillScenarioCommitmentModificationAction? commitmentAction;
@@ -5612,6 +5738,8 @@ class BatchCreateBillScenarioCommitmentModificationItem {
 
 /// Represents an entry object in the batch operation to create bill scenario
 /// commitment modifications.
+///
+/// @nodoc
 class BatchCreateBillScenarioCommitmentModificationEntry {
   /// The specific commitment action to be taken (e.g., adding a Reserved Instance
   /// or Savings Plan).
@@ -5651,6 +5779,8 @@ class BatchCreateBillScenarioCommitmentModificationEntry {
 }
 
 /// Provides a summary of a bill scenario.
+///
+/// @nodoc
 class BillScenarioSummary {
   /// The unique identifier of the bill scenario.
   final String id;
@@ -5739,6 +5869,7 @@ class BillScenarioSummary {
   }
 }
 
+/// @nodoc
 class BillScenarioStatus {
   static const ready = BillScenarioStatus._('READY');
   static const locked = BillScenarioStatus._('LOCKED');
@@ -5766,6 +5897,7 @@ class BillScenarioStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class GroupSharingPreferenceEnum {
   static const open = GroupSharingPreferenceEnum._('OPEN');
   static const prioritized = GroupSharingPreferenceEnum._('PRIORITIZED');
@@ -5793,6 +5925,8 @@ class GroupSharingPreferenceEnum {
 }
 
 /// Represents a filter for listing bill scenarios.
+///
+/// @nodoc
 class ListBillScenariosFilter {
   /// The name of the filter attribute.
   final ListBillScenariosFilterName name;
@@ -5821,6 +5955,7 @@ class ListBillScenariosFilter {
   }
 }
 
+/// @nodoc
 class ListBillScenariosFilterName {
   static const status = ListBillScenariosFilterName._('STATUS');
   static const name = ListBillScenariosFilterName._('NAME');
@@ -5851,6 +5986,8 @@ class ListBillScenariosFilterName {
 }
 
 /// Provides a summary of a line item in a bill estimate.
+///
+/// @nodoc
 class BillEstimateLineItemSummary {
   /// The specific operation associated with this line item.
   final String operation;
@@ -5989,6 +6126,8 @@ class BillEstimateLineItemSummary {
 }
 
 /// Represents the result of a usage quantity calculation.
+///
+/// @nodoc
 class UsageQuantityResult {
   /// The numeric value of the usage quantity result.
   final double? amount;
@@ -6019,6 +6158,8 @@ class UsageQuantityResult {
 }
 
 /// Represents a monetary amount with associated currency.
+///
+/// @nodoc
 class CostAmount {
   /// The numeric value of the cost.
   final double? amount;
@@ -6049,6 +6190,8 @@ class CostAmount {
 }
 
 /// Represents a filter for listing bill estimate line items.
+///
+/// @nodoc
 class ListBillEstimateLineItemsFilter {
   /// The name of the filter attribute.
   final ListBillEstimateLineItemsFilterName name;
@@ -6077,6 +6220,7 @@ class ListBillEstimateLineItemsFilter {
   }
 }
 
+/// @nodoc
 class ListBillEstimateLineItemsFilterName {
   static const usageAccountId =
       ListBillEstimateLineItemsFilterName._('USAGE_ACCOUNT_ID');
@@ -6117,6 +6261,8 @@ class ListBillEstimateLineItemsFilterName {
 }
 
 /// Summarizes an input usage modification for a bill estimate.
+///
+/// @nodoc
 class BillEstimateInputUsageModificationSummary {
   /// The specific operation associated with this usage modification.
   final String operation;
@@ -6211,6 +6357,8 @@ class BillEstimateInputUsageModificationSummary {
 }
 
 /// Summarizes an input commitment modification for a bill estimate.
+///
+/// @nodoc
 class BillEstimateInputCommitmentModificationSummary {
   /// The specific commitment action taken in this modification.
   final BillScenarioCommitmentModificationAction? commitmentAction;
@@ -6260,6 +6408,8 @@ class BillEstimateInputCommitmentModificationSummary {
 }
 
 /// Provides a summary of commitment-related information for a bill estimate.
+///
+/// @nodoc
 class BillEstimateCommitmentSummary {
   /// The unique identifier of the commitment.
   final String? id;
@@ -6345,6 +6495,7 @@ class BillEstimateCommitmentSummary {
   }
 }
 
+/// @nodoc
 class PurchaseAgreementType {
   static const savingsPlans = PurchaseAgreementType._('SAVINGS_PLANS');
   static const reservedInstance = PurchaseAgreementType._('RESERVED_INSTANCE');
@@ -6371,6 +6522,8 @@ class PurchaseAgreementType {
 }
 
 /// Provides a summary of a bill estimate.
+///
+/// @nodoc
 class BillEstimateSummary {
   /// The unique identifier of the bill estimate.
   final String id;
@@ -6430,6 +6583,7 @@ class BillEstimateSummary {
   }
 }
 
+/// @nodoc
 class BillEstimateStatus {
   static const inProgress = BillEstimateStatus._('IN_PROGRESS');
   static const complete = BillEstimateStatus._('COMPLETE');
@@ -6457,6 +6611,8 @@ class BillEstimateStatus {
 }
 
 /// Represents a filter for listing bill estimates.
+///
+/// @nodoc
 class ListBillEstimatesFilter {
   /// The name of the filter attribute.
   final ListBillEstimatesFilterName name;
@@ -6485,6 +6641,7 @@ class ListBillEstimatesFilter {
   }
 }
 
+/// @nodoc
 class ListBillEstimatesFilterName {
   static const status = ListBillEstimatesFilterName._('STATUS');
   static const name = ListBillEstimatesFilterName._('NAME');
@@ -6511,6 +6668,8 @@ class ListBillEstimatesFilterName {
 }
 
 /// Provides a summary of cost-related information for a bill estimate.
+///
+/// @nodoc
 class BillEstimateCostSummary {
   /// A breakdown of cost differences by Amazon Web Services service.
   final Map<String, CostDifference>? serviceCostDifferences;
@@ -6549,6 +6708,8 @@ class BillEstimateCostSummary {
 }
 
 /// Represents the difference between historical and estimated costs.
+///
+/// @nodoc
 class CostDifference {
   /// The estimated cost amount.
   final CostAmount? estimatedCost;
@@ -6582,6 +6743,7 @@ class CostDifference {
   }
 }
 
+/// @nodoc
 class RateType {
   static const beforeDiscounts = RateType._('BEFORE_DISCOUNTS');
   static const afterDiscounts = RateType._('AFTER_DISCOUNTS');
@@ -6611,21 +6773,25 @@ class RateType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DataUnavailableException extends _s.GenericAwsException {
   DataUnavailableException({String? type, String? message})
       : super(type: type, code: 'DataUnavailableException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(

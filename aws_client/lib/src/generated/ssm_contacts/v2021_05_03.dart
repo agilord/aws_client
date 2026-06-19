@@ -1902,6 +1902,7 @@ class SsmContacts {
   }
 }
 
+/// @nodoc
 class AcceptPageResult {
   AcceptPageResult();
 
@@ -1914,6 +1915,7 @@ class AcceptPageResult {
   }
 }
 
+/// @nodoc
 class ActivateContactChannelResult {
   ActivateContactChannelResult();
 
@@ -1926,6 +1928,7 @@ class ActivateContactChannelResult {
   }
 }
 
+/// @nodoc
 class CreateContactResult {
   /// The Amazon Resource Name (ARN) of the created contact or escalation plan.
   final String contactArn;
@@ -1948,6 +1951,7 @@ class CreateContactResult {
   }
 }
 
+/// @nodoc
 class CreateContactChannelResult {
   /// The Amazon Resource Name (ARN) of the contact channel.
   final String contactChannelArn;
@@ -1970,6 +1974,7 @@ class CreateContactChannelResult {
   }
 }
 
+/// @nodoc
 class CreateRotationResult {
   /// The Amazon Resource Name (ARN) of the created rotation.
   final String rotationArn;
@@ -1992,6 +1997,7 @@ class CreateRotationResult {
   }
 }
 
+/// @nodoc
 class CreateRotationOverrideResult {
   /// The Amazon Resource Name (ARN) of the created rotation override.
   final String rotationOverrideId;
@@ -2014,6 +2020,7 @@ class CreateRotationOverrideResult {
   }
 }
 
+/// @nodoc
 class DeactivateContactChannelResult {
   DeactivateContactChannelResult();
 
@@ -2026,6 +2033,7 @@ class DeactivateContactChannelResult {
   }
 }
 
+/// @nodoc
 class DeleteContactResult {
   DeleteContactResult();
 
@@ -2038,6 +2046,7 @@ class DeleteContactResult {
   }
 }
 
+/// @nodoc
 class DeleteContactChannelResult {
   DeleteContactChannelResult();
 
@@ -2050,6 +2059,7 @@ class DeleteContactChannelResult {
   }
 }
 
+/// @nodoc
 class DeleteRotationResult {
   DeleteRotationResult();
 
@@ -2062,6 +2072,7 @@ class DeleteRotationResult {
   }
 }
 
+/// @nodoc
 class DeleteRotationOverrideResult {
   DeleteRotationOverrideResult();
 
@@ -2074,6 +2085,7 @@ class DeleteRotationOverrideResult {
   }
 }
 
+/// @nodoc
 class DescribeEngagementResult {
   /// The ARN of the escalation plan or contacts involved in the engagement.
   final String contactArn;
@@ -2163,6 +2175,7 @@ class DescribeEngagementResult {
   }
 }
 
+/// @nodoc
 class DescribePageResult {
   /// The ARN of the contact that was engaged.
   final String contactArn;
@@ -2267,6 +2280,7 @@ class DescribePageResult {
   }
 }
 
+/// @nodoc
 class GetContactResult {
   /// The alias of the contact or escalation plan. The alias is unique and
   /// identifiable.
@@ -2320,6 +2334,7 @@ class GetContactResult {
   }
 }
 
+/// @nodoc
 class GetContactChannelResult {
   /// The ARN of the contact that the channel belongs to.
   final String contactArn;
@@ -2382,6 +2397,7 @@ class GetContactChannelResult {
   }
 }
 
+/// @nodoc
 class GetContactPolicyResult {
   /// The ARN of the contact or escalation plan.
   final String? contactArn;
@@ -2412,6 +2428,7 @@ class GetContactPolicyResult {
   }
 }
 
+/// @nodoc
 class GetRotationResult {
   /// The Amazon Resource Names (ARNs) of the contacts assigned to the on-call
   /// rotation team.
@@ -2477,6 +2494,7 @@ class GetRotationResult {
   }
 }
 
+/// @nodoc
 class GetRotationOverrideResult {
   /// The date and time when the override was created.
   final DateTime? createTime;
@@ -2538,6 +2556,7 @@ class GetRotationOverrideResult {
   }
 }
 
+/// @nodoc
 class ListContactChannelsResult {
   /// A list of contact channels related to the specified contact.
   final List<ContactChannel> contactChannels;
@@ -2570,6 +2589,7 @@ class ListContactChannelsResult {
   }
 }
 
+/// @nodoc
 class ListContactsResult {
   /// A list of the contacts and escalation plans in your Incident Manager
   /// account.
@@ -2603,6 +2623,7 @@ class ListContactsResult {
   }
 }
 
+/// @nodoc
 class ListEngagementsResult {
   /// A list of each engagement that occurred during the specified time range of
   /// an incident.
@@ -2636,6 +2657,7 @@ class ListEngagementsResult {
   }
 }
 
+/// @nodoc
 class ListPageReceiptsResult {
   /// The pagination token to continue to the next page of results.
   final String? nextToken;
@@ -2668,6 +2690,7 @@ class ListPageReceiptsResult {
   }
 }
 
+/// @nodoc
 class ListPageResolutionsResult {
   /// Information about the resolution for an engagement.
   final List<ResolutionContact> pageResolutions;
@@ -2701,6 +2724,7 @@ class ListPageResolutionsResult {
   }
 }
 
+/// @nodoc
 class ListPagesByContactResult {
   /// The list of engagements to a contact's contact channel.
   final List<Page> pages;
@@ -2733,6 +2757,7 @@ class ListPagesByContactResult {
   }
 }
 
+/// @nodoc
 class ListPagesByEngagementResult {
   /// The list of engagements to contact channels.
   final List<Page> pages;
@@ -2765,6 +2790,7 @@ class ListPagesByEngagementResult {
   }
 }
 
+/// @nodoc
 class ListPreviewRotationShiftsResult {
   /// The token for the next set of items to return. This token is used to get the
   /// next set of results.
@@ -2798,6 +2824,7 @@ class ListPreviewRotationShiftsResult {
   }
 }
 
+/// @nodoc
 class ListRotationOverridesResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -2831,6 +2858,7 @@ class ListRotationOverridesResult {
   }
 }
 
+/// @nodoc
 class ListRotationsResult {
   /// Information about rotations that meet the filter criteria.
   final List<Rotation> rotations;
@@ -2864,6 +2892,7 @@ class ListRotationsResult {
   }
 }
 
+/// @nodoc
 class ListRotationShiftsResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
@@ -2897,6 +2926,7 @@ class ListRotationShiftsResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResult {
   /// The tags related to the contact or escalation plan.
   final List<Tag>? tags;
@@ -2922,6 +2952,7 @@ class ListTagsForResourceResult {
   }
 }
 
+/// @nodoc
 class PutContactPolicyResult {
   PutContactPolicyResult();
 
@@ -2934,6 +2965,7 @@ class PutContactPolicyResult {
   }
 }
 
+/// @nodoc
 class SendActivationCodeResult {
   SendActivationCodeResult();
 
@@ -2946,6 +2978,7 @@ class SendActivationCodeResult {
   }
 }
 
+/// @nodoc
 class StartEngagementResult {
   /// The ARN of the engagement.
   final String engagementArn;
@@ -2968,6 +3001,7 @@ class StartEngagementResult {
   }
 }
 
+/// @nodoc
 class StopEngagementResult {
   StopEngagementResult();
 
@@ -2980,6 +3014,7 @@ class StopEngagementResult {
   }
 }
 
+/// @nodoc
 class TagResourceResult {
   TagResourceResult();
 
@@ -2992,6 +3027,7 @@ class TagResourceResult {
   }
 }
 
+/// @nodoc
 class UntagResourceResult {
   UntagResourceResult();
 
@@ -3004,6 +3040,7 @@ class UntagResourceResult {
   }
 }
 
+/// @nodoc
 class UpdateContactResult {
   UpdateContactResult();
 
@@ -3016,6 +3053,7 @@ class UpdateContactResult {
   }
 }
 
+/// @nodoc
 class UpdateContactChannelResult {
   UpdateContactChannelResult();
 
@@ -3028,6 +3066,7 @@ class UpdateContactChannelResult {
   }
 }
 
+/// @nodoc
 class UpdateRotationResult {
   UpdateRotationResult();
 
@@ -3042,6 +3081,8 @@ class UpdateRotationResult {
 
 /// Information about when an on-call rotation is in effect and how long the
 /// rotation period lasts.
+///
+/// @nodoc
 class RecurrenceSettings {
   /// The number of contacts, or shift team members designated to be on call
   /// concurrently during a shift. For example, in an on-call schedule that
@@ -3119,6 +3160,7 @@ class RecurrenceSettings {
   }
 }
 
+/// @nodoc
 class DayOfWeek {
   static const mon = DayOfWeek._('MON');
   static const tue = DayOfWeek._('TUE');
@@ -3148,6 +3190,8 @@ class DayOfWeek {
 }
 
 /// Information about when an on-call shift begins and ends.
+///
+/// @nodoc
 class CoverageTime {
   /// Information about when the on-call rotation shift ends.
   final HandOffTime? end;
@@ -3182,6 +3226,8 @@ class CoverageTime {
 }
 
 /// Details about when an on-call rotation shift begins or ends.
+///
+/// @nodoc
 class HandOffTime {
   /// The hour when an on-call rotation shift begins or ends.
   final int hourOfDay;
@@ -3212,6 +3258,8 @@ class HandOffTime {
 }
 
 /// Information about rotations that recur weekly.
+///
+/// @nodoc
 class WeeklySetting {
   /// The day of the week when weekly recurring on-call shift rotations begins.
   final DayOfWeek dayOfWeek;
@@ -3244,6 +3292,8 @@ class WeeklySetting {
 }
 
 /// Information about on-call rotations that recur monthly.
+///
+/// @nodoc
 class MonthlySetting {
   /// The day of the month when monthly recurring on-call rotations begin.
   final int dayOfMonth;
@@ -3277,6 +3327,8 @@ class MonthlySetting {
 
 /// The details that Incident Manager uses when trying to engage the contact
 /// channel.
+///
+/// @nodoc
 class ContactChannelAddress {
   /// The format is dependent on the type of the contact channel. The following
   /// are the expected formats:
@@ -3314,6 +3366,8 @@ class ContactChannelAddress {
 
 /// Information about the stages and on-call rotation teams associated with an
 /// escalation plan or engagement plan.
+///
+/// @nodoc
 class Plan {
   /// The Amazon Resource Names (ARNs) of the on-call rotations associated with
   /// the plan.
@@ -3353,6 +3407,8 @@ class Plan {
 
 /// A set amount of time that an escalation plan or engagement plan engages the
 /// specified contacts or contact methods.
+///
+/// @nodoc
 class Stage {
   /// The time to wait until beginning the next stage. The duration can only be
   /// set to 0 if a target is specified.
@@ -3388,6 +3444,8 @@ class Stage {
 }
 
 /// The contact or contact channel that's being engaged.
+///
+/// @nodoc
 class Target {
   /// Information about the contact channel that Incident Manager engages.
   final ChannelTargetInfo? channelTargetInfo;
@@ -3425,6 +3483,8 @@ class Target {
 
 /// Information about the contact channel that Incident Manager uses to engage
 /// the contact.
+///
+/// @nodoc
 class ChannelTargetInfo {
   /// The Amazon Resource Name (ARN) of the contact channel.
   final String contactChannelId;
@@ -3457,6 +3517,8 @@ class ChannelTargetInfo {
 }
 
 /// The contact that Incident Manager is engaging during an incident.
+///
+/// @nodoc
 class ContactTargetInfo {
   /// A Boolean value determining if the contact's acknowledgement stops the
   /// progress of stages in the plan.
@@ -3488,6 +3550,8 @@ class ContactTargetInfo {
 }
 
 /// A container of a key-value name pair.
+///
+/// @nodoc
 class Tag {
   /// Name of the object key.
   final String? key;
@@ -3518,6 +3582,8 @@ class Tag {
 }
 
 /// Information about a shift that belongs to an on-call rotation.
+///
+/// @nodoc
 class RotationShift {
   /// The time a shift rotation ends.
   final DateTime endTime;
@@ -3574,6 +3640,7 @@ class RotationShift {
   }
 }
 
+/// @nodoc
 class ShiftType {
   static const regular = ShiftType._('REGULAR');
   static const overridden = ShiftType._('OVERRIDDEN');
@@ -3598,6 +3665,8 @@ class ShiftType {
 }
 
 /// Information about overrides to an on-call rotation shift.
+///
+/// @nodoc
 class ShiftDetails {
   /// The Amazon Resources Names (ARNs) of the contacts who were replaced in a
   /// shift when an override was created. If the override is deleted, these
@@ -3627,6 +3696,8 @@ class ShiftDetails {
 }
 
 /// Information about a rotation in an on-call schedule.
+///
+/// @nodoc
 class Rotation {
   /// The name of the rotation.
   final String name;
@@ -3695,6 +3766,8 @@ class Rotation {
 }
 
 /// Information about an override specified for an on-call rotation.
+///
+/// @nodoc
 class RotationOverride {
   /// The time a rotation override was created.
   final DateTime createTime;
@@ -3750,6 +3823,8 @@ class RotationOverride {
 }
 
 /// Information about contacts and times that an on-call override replaces.
+///
+/// @nodoc
 class PreviewOverride {
   /// Information about the time a rotation override would end.
   final DateTime? endTime;
@@ -3779,6 +3854,8 @@ class PreviewOverride {
 }
 
 /// Incident Manager engaging a contact's contact channel.
+///
+/// @nodoc
 class Page {
   /// The ARN of the contact that Incident Manager is engaging.
   final String contactArn;
@@ -3858,6 +3935,8 @@ class Page {
 /// The <code>ResolutionContact</code> structure describes the information for
 /// each node or step in that process. It contains information about different
 /// contact types, such as the escalation, rotation, and personal contacts.
+///
+/// @nodoc
 class ResolutionContact {
   /// The Amazon Resource Name (ARN) of a contact in the engagement resolution
   /// process.
@@ -3895,6 +3974,7 @@ class ResolutionContact {
   }
 }
 
+/// @nodoc
 class ContactType {
   static const personal = ContactType._('PERSONAL');
   static const escalation = ContactType._('ESCALATION');
@@ -3920,6 +4000,8 @@ class ContactType {
 }
 
 /// Records events during an engagement.
+///
+/// @nodoc
 class Receipt {
   /// The time receipt was <code>SENT</code>, <code>DELIVERED</code>, or
   /// <code>READ</code>.
@@ -3967,6 +4049,7 @@ class Receipt {
   }
 }
 
+/// @nodoc
 class ReceiptType {
   static const delivered = ReceiptType._('DELIVERED');
   static const error = ReceiptType._('ERROR');
@@ -3995,6 +4078,8 @@ class ReceiptType {
 
 /// Incident Manager reaching out to a contact or escalation plan to engage
 /// contact during an incident.
+///
+/// @nodoc
 class Engagement {
   /// The ARN of the escalation plan or contact that Incident Manager is engaging.
   final String contactArn;
@@ -4053,6 +4138,8 @@ class Engagement {
 }
 
 /// A range of between two set times
+///
+/// @nodoc
 class TimeRange {
   /// The end of the time range.
   final DateTime? endTime;
@@ -4077,6 +4164,8 @@ class TimeRange {
 
 /// A personal contact or escalation plan that Incident Manager engages during
 /// an incident.
+///
+/// @nodoc
 class Contact {
   /// The unique and identifiable alias of the contact or escalation plan.
   final String alias;
@@ -4133,6 +4222,8 @@ class Contact {
 }
 
 /// The method that Incident Manager uses to engage a contact.
+///
+/// @nodoc
 class ContactChannel {
   /// A Boolean value describing if the contact channel has been activated or not.
   /// If the contact channel isn't activated, Incident Manager can't engage the
@@ -4209,6 +4300,7 @@ class ContactChannel {
   }
 }
 
+/// @nodoc
 class ChannelType {
   static const sms = ChannelType._('SMS');
   static const voice = ChannelType._('VOICE');
@@ -4233,6 +4325,7 @@ class ChannelType {
   String toString() => value;
 }
 
+/// @nodoc
 class ActivationStatus {
   static const activated = ActivationStatus._('ACTIVATED');
   static const notActivated = ActivationStatus._('NOT_ACTIVATED');
@@ -4257,6 +4350,7 @@ class ActivationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceptType {
   static const delivered = AcceptType._('DELIVERED');
   static const read = AcceptType._('READ');
@@ -4280,6 +4374,7 @@ class AcceptType {
   String toString() => value;
 }
 
+/// @nodoc
 class AcceptCodeValidation {
   static const ignore = AcceptCodeValidation._('IGNORE');
   static const enforce = AcceptCodeValidation._('ENFORCE');
@@ -4305,31 +4400,37 @@ class AcceptCodeValidation {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class DataEncryptionException extends _s.GenericAwsException {
   DataEncryptionException({String? type, String? message})
       : super(type: type, code: 'DataEncryptionException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4338,11 +4439,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

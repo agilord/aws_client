@@ -3372,6 +3372,7 @@ class LicenseManager {
   }
 }
 
+/// @nodoc
 class AcceptGrantResponse {
   /// Grant ARN.
   final String? grantArn;
@@ -3408,6 +3409,7 @@ class AcceptGrantResponse {
   }
 }
 
+/// @nodoc
 class CheckInLicenseResponse {
   CheckInLicenseResponse();
 
@@ -3420,6 +3422,7 @@ class CheckInLicenseResponse {
   }
 }
 
+/// @nodoc
 class CheckoutBorrowLicenseResponse {
   /// Information about constraints.
   final List<Metadata>? checkoutMetadata;
@@ -3499,6 +3502,7 @@ class CheckoutBorrowLicenseResponse {
   }
 }
 
+/// @nodoc
 class CheckoutLicenseResponse {
   /// Checkout type.
   final CheckoutType? checkoutType;
@@ -3576,6 +3580,7 @@ class CheckoutLicenseResponse {
   }
 }
 
+/// @nodoc
 class CreateGrantResponse {
   /// Grant ARN.
   final String? grantArn;
@@ -3612,6 +3617,7 @@ class CreateGrantResponse {
   }
 }
 
+/// @nodoc
 class CreateGrantVersionResponse {
   /// Grant ARN.
   final String? grantArn;
@@ -3648,6 +3654,7 @@ class CreateGrantVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateLicenseResponse {
   /// Amazon Resource Name (ARN) of the license.
   final String? licenseArn;
@@ -3684,6 +3691,7 @@ class CreateLicenseResponse {
   }
 }
 
+/// @nodoc
 class CreateLicenseAssetGroupResponse {
   /// Amazon Resource Name (ARN) of the license asset group.
   final String licenseAssetGroupArn;
@@ -3713,6 +3721,7 @@ class CreateLicenseAssetGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateLicenseAssetRulesetResponse {
   /// Amazon Resource Name (ARN) of the license asset ruleset.
   final String licenseAssetRulesetArn;
@@ -3736,6 +3745,7 @@ class CreateLicenseAssetRulesetResponse {
   }
 }
 
+/// @nodoc
 class CreateLicenseConfigurationResponse {
   /// Amazon Resource Name (ARN) of the license configuration.
   final String? licenseConfigurationArn;
@@ -3760,6 +3770,7 @@ class CreateLicenseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateLicenseConversionTaskForResourceResponse {
   /// The ID of the created license type conversion task.
   final String? licenseConversionTaskId;
@@ -3784,6 +3795,7 @@ class CreateLicenseConversionTaskForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateLicenseManagerReportGeneratorResponse {
   /// The Amazon Resource Name (ARN) of the new report generator.
   final String? licenseManagerReportGeneratorArn;
@@ -3810,6 +3822,7 @@ class CreateLicenseManagerReportGeneratorResponse {
   }
 }
 
+/// @nodoc
 class CreateLicenseVersionResponse {
   /// License ARN.
   final String? licenseArn;
@@ -3846,6 +3859,7 @@ class CreateLicenseVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateTokenResponse {
   /// Refresh token, encoded as a JWT token.
   final String? token;
@@ -3882,6 +3896,7 @@ class CreateTokenResponse {
   }
 }
 
+/// @nodoc
 class DeleteGrantResponse {
   /// Grant ARN.
   final String? grantArn;
@@ -3918,6 +3933,7 @@ class DeleteGrantResponse {
   }
 }
 
+/// @nodoc
 class DeleteLicenseResponse {
   /// Date when the license is deleted.
   final String? deletionDate;
@@ -3948,6 +3964,7 @@ class DeleteLicenseResponse {
   }
 }
 
+/// @nodoc
 class DeleteLicenseAssetGroupResponse {
   /// License asset group status.
   final LicenseAssetGroupStatus status;
@@ -3971,6 +3988,7 @@ class DeleteLicenseAssetGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteLicenseAssetRulesetResponse {
   DeleteLicenseAssetRulesetResponse();
 
@@ -3983,6 +4001,7 @@ class DeleteLicenseAssetRulesetResponse {
   }
 }
 
+/// @nodoc
 class DeleteLicenseConfigurationResponse {
   DeleteLicenseConfigurationResponse();
 
@@ -3995,6 +4014,7 @@ class DeleteLicenseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteLicenseManagerReportGeneratorResponse {
   DeleteLicenseManagerReportGeneratorResponse();
 
@@ -4008,6 +4028,7 @@ class DeleteLicenseManagerReportGeneratorResponse {
   }
 }
 
+/// @nodoc
 class DeleteTokenResponse {
   DeleteTokenResponse();
 
@@ -4020,6 +4041,7 @@ class DeleteTokenResponse {
   }
 }
 
+/// @nodoc
 class ExtendLicenseConsumptionResponse {
   /// Date and time at which the license consumption expires.
   final String? expiration;
@@ -4050,6 +4072,7 @@ class ExtendLicenseConsumptionResponse {
   }
 }
 
+/// @nodoc
 class GetAccessTokenResponse {
   /// Temporary access token.
   final String? accessToken;
@@ -4072,6 +4095,7 @@ class GetAccessTokenResponse {
   }
 }
 
+/// @nodoc
 class GetGrantResponse {
   /// Grant details.
   final Grant? grant;
@@ -4096,6 +4120,7 @@ class GetGrantResponse {
   }
 }
 
+/// @nodoc
 class GetLicenseResponse {
   /// License details.
   final License? license;
@@ -4120,6 +4145,7 @@ class GetLicenseResponse {
   }
 }
 
+/// @nodoc
 class GetLicenseAssetGroupResponse {
   /// License asset group.
   final LicenseAssetGroup licenseAssetGroup;
@@ -4144,6 +4170,7 @@ class GetLicenseAssetGroupResponse {
   }
 }
 
+/// @nodoc
 class GetLicenseAssetRulesetResponse {
   /// License asset ruleset.
   final LicenseAssetRuleset licenseAssetRuleset;
@@ -4168,6 +4195,7 @@ class GetLicenseAssetRulesetResponse {
   }
 }
 
+/// @nodoc
 class GetLicenseConfigurationResponse {
   /// Automated discovery information.
   final AutomatedDiscoveryInformation? automatedDiscoveryInformation;
@@ -4340,6 +4368,7 @@ class GetLicenseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetLicenseConversionTaskResponse {
   /// Information about the license type converted to.
   final LicenseConversionContext? destinationLicenseContext;
@@ -4430,6 +4459,7 @@ class GetLicenseConversionTaskResponse {
   }
 }
 
+/// @nodoc
 class GetLicenseManagerReportGeneratorResponse {
   /// A report generator that creates periodic reports about your license
   /// configurations.
@@ -4457,6 +4487,7 @@ class GetLicenseManagerReportGeneratorResponse {
   }
 }
 
+/// @nodoc
 class GetLicenseUsageResponse {
   /// License usage details.
   final LicenseUsage? licenseUsage;
@@ -4481,6 +4512,7 @@ class GetLicenseUsageResponse {
   }
 }
 
+/// @nodoc
 class GetServiceSettingsResponse {
   /// Cross region discovery home region.
   final String? crossRegionDiscoveryHomeRegion;
@@ -4574,6 +4606,7 @@ class GetServiceSettingsResponse {
   }
 }
 
+/// @nodoc
 class ListAssetsForLicenseAssetGroupResponse {
   /// Assets.
   final List<Asset>? assets;
@@ -4607,6 +4640,7 @@ class ListAssetsForLicenseAssetGroupResponse {
   }
 }
 
+/// @nodoc
 class ListAssociationsForLicenseConfigurationResponse {
   /// Information about the associations for the license configuration.
   final List<LicenseConfigurationAssociation>? licenseConfigurationAssociations;
@@ -4644,6 +4678,7 @@ class ListAssociationsForLicenseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListDistributedGrantsResponse {
   /// Distributed grant details.
   final List<Grant>? grants;
@@ -4676,6 +4711,7 @@ class ListDistributedGrantsResponse {
   }
 }
 
+/// @nodoc
 class ListFailuresForLicenseConfigurationOperationsResponse {
   /// License configuration operations that failed.
   final List<LicenseOperationFailure>? licenseOperationFailureList;
@@ -4712,6 +4748,7 @@ class ListFailuresForLicenseConfigurationOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseAssetGroupsResponse {
   /// License asset groups.
   final List<LicenseAssetGroup>? licenseAssetGroups;
@@ -4744,6 +4781,7 @@ class ListLicenseAssetGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseAssetRulesetsResponse {
   /// License asset rulesets.
   final List<LicenseAssetRuleset>? licenseAssetRulesets;
@@ -4777,6 +4815,7 @@ class ListLicenseAssetRulesetsResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseConfigurationsResponse {
   /// Information about the license configurations.
   final List<LicenseConfiguration>? licenseConfigurations;
@@ -4811,6 +4850,7 @@ class ListLicenseConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseConfigurationsForOrganizationResponse {
   /// License configurations.
   final List<LicenseConfiguration>? licenseConfigurations;
@@ -4845,6 +4885,7 @@ class ListLicenseConfigurationsForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseConversionTasksResponse {
   /// Information about the license configuration tasks for your account.
   final List<LicenseConversionTask>? licenseConversionTasks;
@@ -4879,6 +4920,7 @@ class ListLicenseConversionTasksResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseManagerReportGeneratorsResponse {
   /// Token for the next set of results.
   final String? nextToken;
@@ -4913,6 +4955,7 @@ class ListLicenseManagerReportGeneratorsResponse {
   }
 }
 
+/// @nodoc
 class ListLicensesResponse {
   /// License details.
   final List<License>? licenses;
@@ -4945,6 +4988,7 @@ class ListLicensesResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseSpecificationsForResourceResponse {
   /// License configurations associated with a resource.
   final List<LicenseSpecification>? licenseSpecifications;
@@ -4979,6 +5023,7 @@ class ListLicenseSpecificationsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListLicenseVersionsResponse {
   /// License details.
   final List<License>? licenses;
@@ -5011,6 +5056,7 @@ class ListLicenseVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListReceivedGrantsResponse {
   /// Received grant details.
   final List<Grant>? grants;
@@ -5043,6 +5089,7 @@ class ListReceivedGrantsResponse {
   }
 }
 
+/// @nodoc
 class ListReceivedGrantsForOrganizationResponse {
   /// Lists the grants the organization has received.
   final List<Grant>? grants;
@@ -5076,6 +5123,7 @@ class ListReceivedGrantsForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class ListReceivedLicensesResponse {
   /// Received license details.
   final List<GrantedLicense>? licenses;
@@ -5108,6 +5156,7 @@ class ListReceivedLicensesResponse {
   }
 }
 
+/// @nodoc
 class ListReceivedLicensesForOrganizationResponse {
   /// Lists the licenses the organization has received.
   final List<GrantedLicense>? licenses;
@@ -5141,6 +5190,7 @@ class ListReceivedLicensesForOrganizationResponse {
   }
 }
 
+/// @nodoc
 class ListResourceInventoryResponse {
   /// Token for the next set of results.
   final String? nextToken;
@@ -5174,6 +5224,7 @@ class ListResourceInventoryResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Information about the tags.
   final List<Tag>? tags;
@@ -5199,6 +5250,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListTokensResponse {
   /// Token for the next set of results.
   final String? nextToken;
@@ -5231,6 +5283,7 @@ class ListTokensResponse {
   }
 }
 
+/// @nodoc
 class ListUsageForLicenseConfigurationResponse {
   /// Information about the license configurations.
   final List<LicenseConfigurationUsage>? licenseConfigurationUsageList;
@@ -5267,6 +5320,7 @@ class ListUsageForLicenseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class RejectGrantResponse {
   /// Grant ARN.
   final String? grantArn;
@@ -5303,6 +5357,7 @@ class RejectGrantResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5315,6 +5370,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5327,6 +5383,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateLicenseAssetGroupResponse {
   /// Amazon Resource Name (ARN) of the license asset group.
   final String licenseAssetGroupArn;
@@ -5356,6 +5413,7 @@ class UpdateLicenseAssetGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateLicenseAssetRulesetResponse {
   /// Amazon Resource Name (ARN) of the license asset ruleset.
   final String licenseAssetRulesetArn;
@@ -5379,6 +5437,7 @@ class UpdateLicenseAssetRulesetResponse {
   }
 }
 
+/// @nodoc
 class UpdateLicenseConfigurationResponse {
   UpdateLicenseConfigurationResponse();
 
@@ -5391,6 +5450,7 @@ class UpdateLicenseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateLicenseManagerReportGeneratorResponse {
   UpdateLicenseManagerReportGeneratorResponse();
 
@@ -5404,6 +5464,7 @@ class UpdateLicenseManagerReportGeneratorResponse {
   }
 }
 
+/// @nodoc
 class UpdateLicenseSpecificationsForResourceResponse {
   UpdateLicenseSpecificationsForResourceResponse();
 
@@ -5417,6 +5478,7 @@ class UpdateLicenseSpecificationsForResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceSettingsResponse {
   UpdateServiceSettingsResponse();
 
@@ -5430,6 +5492,8 @@ class UpdateServiceSettingsResponse {
 }
 
 /// Configuration information for Organizations.
+///
+/// @nodoc
 class OrganizationConfiguration {
   /// Enables Organizations integration.
   final bool enableIntegration;
@@ -5453,6 +5517,8 @@ class OrganizationConfiguration {
 }
 
 /// Details for associating a license configuration with a resource.
+///
+/// @nodoc
 class LicenseSpecification {
   /// Amazon Resource Name (ARN) of the license configuration.
   final String licenseConfigurationArn;
@@ -5485,6 +5551,8 @@ class LicenseSpecification {
 }
 
 /// Details of the license configuration that this generator reports on.
+///
+/// @nodoc
 class ReportContext {
   /// Amazon Resource Names (ARNs) of the license asset groups to include in the
   /// report.
@@ -5541,6 +5609,8 @@ class ReportContext {
 }
 
 /// Details about how frequently reports are generated.
+///
+/// @nodoc
 class ReportFrequency {
   /// Time period between each report. The period can be daily, weekly, or
   /// monthly.
@@ -5572,6 +5642,7 @@ class ReportFrequency {
   }
 }
 
+/// @nodoc
 class ReportFrequencyType {
   static const day = ReportFrequencyType._('DAY');
   static const week = ReportFrequencyType._('WEEK');
@@ -5599,6 +5670,7 @@ class ReportFrequencyType {
   String toString() => value;
 }
 
+/// @nodoc
 class ReportType {
   static const licenseConfigurationSummaryReport =
       ReportType._('LicenseConfigurationSummaryReport');
@@ -5630,6 +5702,7 @@ class ReportType {
   String toString() => value;
 }
 
+/// @nodoc
 class LicenseConfigurationStatus {
   static const available = LicenseConfigurationStatus._('AVAILABLE');
   static const disabled = LicenseConfigurationStatus._('DISABLED');
@@ -5656,6 +5729,8 @@ class LicenseConfigurationStatus {
 }
 
 /// Describes product information for a license configuration.
+///
+/// @nodoc
 class ProductInformation {
   /// A Product information filter consists of a
   /// <code>ProductInformationFilterComparator</code> which is a logical operator,
@@ -5763,6 +5838,8 @@ class ProductInformation {
 }
 
 /// Describes product information filters.
+///
+/// @nodoc
 class ProductInformationFilter {
   /// Logical operator.
   final String productInformationFilterComparator;
@@ -5808,6 +5885,8 @@ class ProductInformationFilter {
 }
 
 /// License asset rule.
+///
+/// @nodoc
 class LicenseAssetRule {
   /// Rule statement.
   final RuleStatement ruleStatement;
@@ -5833,6 +5912,8 @@ class LicenseAssetRule {
 }
 
 /// Rule statement.
+///
+/// @nodoc
 class RuleStatement {
   /// Instance rule statement.
   final InstanceRuleStatement? instanceRuleStatement;
@@ -5885,6 +5966,8 @@ class RuleStatement {
 }
 
 /// License configuration rule statement.
+///
+/// @nodoc
 class LicenseConfigurationRuleStatement {
   /// AND rule statement.
   final AndRuleStatement? andRuleStatement;
@@ -5933,6 +6016,8 @@ class LicenseConfigurationRuleStatement {
 }
 
 /// License rule statement.
+///
+/// @nodoc
 class LicenseRuleStatement {
   /// AND rule statement.
   final AndRuleStatement? andRuleStatement;
@@ -5980,6 +6065,8 @@ class LicenseRuleStatement {
 }
 
 /// Instance rule statement.
+///
+/// @nodoc
 class InstanceRuleStatement {
   /// AND rule statement.
   final AndRuleStatement? andRuleStatement;
@@ -6038,6 +6125,8 @@ class InstanceRuleStatement {
 }
 
 /// AND rule statement.
+///
+/// @nodoc
 class AndRuleStatement {
   /// Matching rule statements.
   final List<MatchingRuleStatement>? matchingRuleStatements;
@@ -6076,6 +6165,8 @@ class AndRuleStatement {
 }
 
 /// OR rule statement.
+///
+/// @nodoc
 class OrRuleStatement {
   /// Matching rule statements.
   final List<MatchingRuleStatement>? matchingRuleStatements;
@@ -6114,6 +6205,8 @@ class OrRuleStatement {
 }
 
 /// Matching rule statement.
+///
+/// @nodoc
 class MatchingRuleStatement {
   /// Constraint.
   final String constraint;
@@ -6240,6 +6333,8 @@ class MatchingRuleStatement {
 }
 
 /// Rule statement that uses a script to evaluate license asset conditions.
+///
+/// @nodoc
 class ScriptRuleStatement {
   /// Key name to match against in the script rule evaluation.
   final String keyToMatch;
@@ -6282,6 +6377,8 @@ class ScriptRuleStatement {
 /// <code>DELETED</code>
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class LicenseAssetGroupStatus {
   static const active = LicenseAssetGroupStatus._('ACTIVE');
   static const disabled = LicenseAssetGroupStatus._('DISABLED');
@@ -6309,6 +6406,8 @@ class LicenseAssetGroupStatus {
 }
 
 /// License asset group property.
+///
+/// @nodoc
 class LicenseAssetGroupProperty {
   /// Property key.
   final String key;
@@ -6339,6 +6438,8 @@ class LicenseAssetGroupProperty {
 }
 
 /// License asset group configuration.
+///
+/// @nodoc
 class LicenseAssetGroupConfiguration {
   /// License Asset Group Configuration Usage dimension.
   final String? usageDimension;
@@ -6365,6 +6466,8 @@ class LicenseAssetGroupConfiguration {
 /// support in License Manager, see the <a
 /// href="https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html">TagResource</a>
 /// operation.
+///
+/// @nodoc
 class Tag {
   /// The tag key.
   final String? key;
@@ -6394,6 +6497,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class GrantStatus {
   static const pendingWorkflow = GrantStatus._('PENDING_WORKFLOW');
   static const pendingAccept = GrantStatus._('PENDING_ACCEPT');
@@ -6436,6 +6540,8 @@ class GrantStatus {
 
 /// Details about the usage of a resource associated with a license
 /// configuration.
+///
+/// @nodoc
 class LicenseConfigurationUsage {
   /// Time when the license configuration was initially associated with the
   /// resource.
@@ -6496,6 +6602,7 @@ class LicenseConfigurationUsage {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const ec2Instance = ResourceType._('EC2_INSTANCE');
   static const ec2Host = ResourceType._('EC2_HOST');
@@ -6532,6 +6639,8 @@ class ResourceType {
 /// A filter name and value pair that is used to return more specific results
 /// from a describe operation. Filters can be used to match a set of resources
 /// by specific criteria, such as tags, attributes, or IDs.
+///
+/// @nodoc
 class Filter {
   /// Name of the filter. Filter names are case-sensitive.
   final String? name;
@@ -6556,6 +6665,8 @@ class Filter {
 }
 
 /// Describes a token.
+///
+/// @nodoc
 class TokenData {
   /// Token expiration time, in ISO8601-UTC format.
   final String? expirationTime;
@@ -6628,6 +6739,8 @@ class TokenData {
 }
 
 /// Details about a resource.
+///
+/// @nodoc
 class ResourceInventory {
   /// Amazon Machine Image (AMI) ID associated with the resource.
   final String? amiId;
@@ -6735,6 +6848,8 @@ class ResourceInventory {
 }
 
 /// An inventory filter.
+///
+/// @nodoc
 class InventoryFilter {
   /// Condition of the filter.
   final InventoryFilterCondition condition;
@@ -6763,6 +6878,7 @@ class InventoryFilter {
   }
 }
 
+/// @nodoc
 class InventoryFilterCondition {
   static const equals = InventoryFilterCondition._('EQUALS');
   static const notEquals = InventoryFilterCondition._('NOT_EQUALS');
@@ -6791,6 +6907,8 @@ class InventoryFilterCondition {
 }
 
 /// Describes a license that is granted to a grantee.
+///
+/// @nodoc
 class GrantedLicense {
   /// Granted license beneficiary.
   final String? beneficiary;
@@ -6930,6 +7048,8 @@ class GrantedLicense {
 }
 
 /// Details associated with the issuer of a license.
+///
+/// @nodoc
 class IssuerDetails {
   /// Issuer key fingerprint.
   final String? keyFingerprint;
@@ -6968,6 +7088,7 @@ class IssuerDetails {
   }
 }
 
+/// @nodoc
 class LicenseStatus {
   static const available = LicenseStatus._('AVAILABLE');
   static const pendingAvailable = LicenseStatus._('PENDING_AVAILABLE');
@@ -7006,6 +7127,8 @@ class LicenseStatus {
 }
 
 /// Describes a time range, in ISO8601-UTC format.
+///
+/// @nodoc
 class DatetimeRange {
   /// Start of the time range.
   final String begin;
@@ -7036,6 +7159,8 @@ class DatetimeRange {
 }
 
 /// Details about a consumption configuration.
+///
+/// @nodoc
 class ConsumptionConfiguration {
   /// Details about a borrow configuration.
   final BorrowConfiguration? borrowConfiguration;
@@ -7081,6 +7206,8 @@ class ConsumptionConfiguration {
 }
 
 /// Metadata associated with received licenses and grants.
+///
+/// @nodoc
 class ReceivedMetadata {
   /// Allowed operations.
   final List<AllowedOperation>? allowedOperations;
@@ -7123,6 +7250,7 @@ class ReceivedMetadata {
   }
 }
 
+/// @nodoc
 class ReceivedStatus {
   static const pendingWorkflow = ReceivedStatus._('PENDING_WORKFLOW');
   static const pendingAccept = ReceivedStatus._('PENDING_ACCEPT');
@@ -7162,6 +7290,7 @@ class ReceivedStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AllowedOperation {
   static const createGrant = AllowedOperation._('CreateGrant');
   static const checkoutLicense = AllowedOperation._('CheckoutLicense');
@@ -7203,6 +7332,8 @@ class AllowedOperation {
 }
 
 /// Describes key/value pairs.
+///
+/// @nodoc
 class Metadata {
   /// The key name.
   final String? name;
@@ -7232,6 +7363,7 @@ class Metadata {
   }
 }
 
+/// @nodoc
 class RenewType {
   static const none = RenewType._('None');
   static const weekly = RenewType._('Weekly');
@@ -7257,6 +7389,8 @@ class RenewType {
 }
 
 /// Details about a provisional configuration.
+///
+/// @nodoc
 class ProvisionalConfiguration {
   /// Maximum time for the provisional configuration, in minutes.
   final int maxTimeToLiveInMinutes;
@@ -7280,6 +7414,8 @@ class ProvisionalConfiguration {
 }
 
 /// Details about a borrow configuration.
+///
+/// @nodoc
 class BorrowConfiguration {
   /// Indicates whether early check-ins are allowed.
   final bool allowEarlyCheckIn;
@@ -7310,6 +7446,8 @@ class BorrowConfiguration {
 }
 
 /// Describes a resource entitled for use with a license.
+///
+/// @nodoc
 class Entitlement {
   /// Entitlement name.
   final String name;
@@ -7367,6 +7505,7 @@ class Entitlement {
   }
 }
 
+/// @nodoc
 class EntitlementUnit {
   static const count = EntitlementUnit._('Count');
   static const none = EntitlementUnit._('None');
@@ -7445,6 +7584,8 @@ class EntitlementUnit {
 }
 
 /// Describes a grant.
+///
+/// @nodoc
 class Grant {
   /// Amazon Resource Name (ARN) of the grant.
   final String grantArn;
@@ -7547,6 +7688,8 @@ class Grant {
 /// as activation override behavior. For more information, see <a
 /// href="https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html">Granted
 /// licenses in License Manager</a> in the <i>License Manager User Guide</i>.
+///
+/// @nodoc
 class Options {
   /// An activation option for your grant that determines the behavior of
   /// activating a grant. Activation options can only be used with granted
@@ -7600,6 +7743,7 @@ class Options {
   }
 }
 
+/// @nodoc
 class ActivationOverrideBehavior {
   static const distributedGrantsOnly =
       ActivationOverrideBehavior._('DISTRIBUTED_GRANTS_ONLY');
@@ -7628,6 +7772,8 @@ class ActivationOverrideBehavior {
 }
 
 /// Software license that is managed in License Manager.
+///
+/// @nodoc
 class License {
   /// License beneficiary.
   final String? beneficiary;
@@ -7757,6 +7903,8 @@ class License {
 }
 
 /// Describe the details of a report generator.
+///
+/// @nodoc
 class ReportGenerator {
   /// Time the report was created.
   final String? createTime;
@@ -7886,6 +8034,8 @@ class ReportGenerator {
 }
 
 /// Details of the S3 bucket that report generator reports are published to.
+///
+/// @nodoc
 class S3Location {
   /// Name of the S3 bucket reports are published to.
   final String? bucket;
@@ -7916,6 +8066,8 @@ class S3Location {
 }
 
 /// Information about a license type conversion task.
+///
+/// @nodoc
 class LicenseConversionTask {
   /// Information about the license type this conversion task converted to.
   final LicenseConversionContext? destinationLicenseContext;
@@ -8007,6 +8159,8 @@ class LicenseConversionTask {
 }
 
 /// Information about a license type conversion task.
+///
+/// @nodoc
 class LicenseConversionContext {
   /// Product codes referred to in the license conversion process.
   final List<ProductCodeListItem>? productCodes;
@@ -8043,6 +8197,7 @@ class LicenseConversionContext {
   }
 }
 
+/// @nodoc
 class LicenseConversionTaskStatus {
   static const inProgress = LicenseConversionTaskStatus._('IN_PROGRESS');
   static const succeeded = LicenseConversionTaskStatus._('SUCCEEDED');
@@ -8070,6 +8225,8 @@ class LicenseConversionTaskStatus {
 }
 
 /// A list item that contains a product code.
+///
+/// @nodoc
 class ProductCodeListItem {
   /// The product code ID
   final String productCodeId;
@@ -8100,6 +8257,7 @@ class ProductCodeListItem {
   }
 }
 
+/// @nodoc
 class ProductCodeType {
   static const marketplace = ProductCodeType._('marketplace');
 
@@ -8129,6 +8287,8 @@ class ProductCodeType {
 /// vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host,
 /// or all of these), host affinity (how long a VM must be associated with a
 /// host), and the number of licenses purchased and used.
+///
+/// @nodoc
 class LicenseConfiguration {
   /// Automated discovery information.
   final AutomatedDiscoveryInformation? automatedDiscoveryInformation;
@@ -8291,6 +8451,7 @@ class LicenseConfiguration {
   }
 }
 
+/// @nodoc
 class LicenseCountingType {
   static const vcpu = LicenseCountingType._('vCPU');
   static const instance = LicenseCountingType._('Instance');
@@ -8319,6 +8480,8 @@ class LicenseCountingType {
 }
 
 /// Describes automated discovery.
+///
+/// @nodoc
 class AutomatedDiscoveryInformation {
   /// Time that automated discovery last ran.
   final DateTime? lastRunTime;
@@ -8342,6 +8505,8 @@ class AutomatedDiscoveryInformation {
 }
 
 /// Summary information about a managed resource.
+///
+/// @nodoc
 class ManagedResourceSummary {
   /// Number of resources associated with licenses.
   final int? associationCount;
@@ -8373,6 +8538,8 @@ class ManagedResourceSummary {
 }
 
 /// Details about license consumption.
+///
+/// @nodoc
 class ConsumedLicenseSummary {
   /// Number of licenses consumed by the resource.
   final int? consumedLicenses;
@@ -8404,6 +8571,8 @@ class ConsumedLicenseSummary {
 }
 
 /// License asset ruleset.
+///
+/// @nodoc
 class LicenseAssetRuleset {
   /// Amazon Resource Name (ARN) of the license asset ruleset.
   final String licenseAssetRulesetArn;
@@ -8451,6 +8620,8 @@ class LicenseAssetRuleset {
 }
 
 /// License asset group.
+///
+/// @nodoc
 class LicenseAssetGroup {
   /// ARNs of associated license asset rulesets.
   final List<String> associatedLicenseAssetRulesetARNs;
@@ -8559,6 +8730,8 @@ class LicenseAssetGroup {
 }
 
 /// Describes the failure of a license operation.
+///
+/// @nodoc
 class LicenseOperationFailure {
   /// Error message.
   final String? errorMessage;
@@ -8636,6 +8809,8 @@ class LicenseOperationFailure {
 }
 
 /// Describes an association with a license configuration.
+///
+/// @nodoc
 class LicenseConfigurationAssociation {
   /// Scope of AMI associations. The possible value is <code>cross-account</code>.
   final String? amiAssociationScope;
@@ -8691,6 +8866,8 @@ class LicenseConfigurationAssociation {
 }
 
 /// Asset.
+///
+/// @nodoc
 class Asset {
   /// Amazon Resource Name (ARN) of the asset.
   final String? assetArn;
@@ -8724,6 +8901,8 @@ class Asset {
 }
 
 /// Overall service status information for License Manager.
+///
+/// @nodoc
 class ServiceStatus {
   /// Status of cross-account discovery service.
   final CrossAccountDiscoveryServiceStatus? crossAccountDiscovery;
@@ -8762,6 +8941,8 @@ class ServiceStatus {
 }
 
 /// Status information for cross-account discovery service.
+///
+/// @nodoc
 class CrossAccountDiscoveryServiceStatus {
   /// Status message for cross-account discovery service.
   final String? message;
@@ -8786,6 +8967,8 @@ class CrossAccountDiscoveryServiceStatus {
 }
 
 /// Status information for cross-region discovery.
+///
+/// @nodoc
 class CrossRegionDiscoveryStatus {
   /// Map of region status messages for cross-region discovery.
   final Map<String, RegionStatus>? message;
@@ -8810,6 +8993,8 @@ class CrossRegionDiscoveryStatus {
 }
 
 /// Status information for a specific region.
+///
+/// @nodoc
 class RegionStatus {
   /// Status value for the region.
   final String? status;
@@ -8833,6 +9018,8 @@ class RegionStatus {
 }
 
 /// Describes the entitlement usage associated with a license.
+///
+/// @nodoc
 class LicenseUsage {
   /// License entitlement usages.
   final List<EntitlementUsage>? entitlementUsages;
@@ -8859,6 +9046,8 @@ class LicenseUsage {
 }
 
 /// Usage associated with an entitlement resource.
+///
+/// @nodoc
 class EntitlementUsage {
   /// Resource usage consumed.
   final String consumedValue;
@@ -8902,6 +9091,7 @@ class EntitlementUsage {
   }
 }
 
+/// @nodoc
 class EntitlementDataUnit {
   static const count = EntitlementDataUnit._('Count');
   static const none = EntitlementDataUnit._('None');
@@ -8980,6 +9170,7 @@ class EntitlementDataUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class LicenseDeletionStatus {
   static const pendingDelete = LicenseDeletionStatus._('PENDING_DELETE');
   static const deleted = LicenseDeletionStatus._('DELETED');
@@ -9005,6 +9196,7 @@ class LicenseDeletionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TokenType {
   static const refreshToken = TokenType._('REFRESH_TOKEN');
 
@@ -9028,6 +9220,8 @@ class TokenType {
 }
 
 /// Details about the issuer of a license.
+///
+/// @nodoc
 class Issuer {
   /// Issuer name.
   final String name;
@@ -9052,6 +9246,7 @@ class Issuer {
   }
 }
 
+/// @nodoc
 class CheckoutType {
   static const provisional = CheckoutType._('PROVISIONAL');
   static const perpetual = CheckoutType._('PERPETUAL');
@@ -9076,6 +9271,8 @@ class CheckoutType {
 }
 
 /// Data associated with an entitlement resource.
+///
+/// @nodoc
 class EntitlementData {
   /// Entitlement data name.
   final String name;
@@ -9112,6 +9309,7 @@ class EntitlementData {
   }
 }
 
+/// @nodoc
 class DigitalSignatureMethod {
   static const jwtPs384 = DigitalSignatureMethod._('JWT_PS384');
 
@@ -9136,21 +9334,25 @@ class DigitalSignatureMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AuthorizationException extends _s.GenericAwsException {
   AuthorizationException({String? type, String? message})
       : super(type: type, code: 'AuthorizationException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class EntitlementNotAllowedException extends _s.GenericAwsException {
   EntitlementNotAllowedException({String? type, String? message})
       : super(
@@ -9159,17 +9361,20 @@ class EntitlementNotAllowedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FailedDependencyException extends _s.GenericAwsException {
   FailedDependencyException({String? type, String? message})
       : super(type: type, code: 'FailedDependencyException', message: message);
 }
 
+/// @nodoc
 class FilterLimitExceededException extends _s.GenericAwsException {
   FilterLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'FilterLimitExceededException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -9178,6 +9383,7 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidResourceStateException extends _s.GenericAwsException {
   InvalidResourceStateException({String? type, String? message})
       : super(
@@ -9186,11 +9392,13 @@ class InvalidResourceStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LicenseUsageException extends _s.GenericAwsException {
   LicenseUsageException({String? type, String? message})
       : super(type: type, code: 'LicenseUsageException', message: message);
 }
 
+/// @nodoc
 class NoEntitlementsAllowedException extends _s.GenericAwsException {
   NoEntitlementsAllowedException({String? type, String? message})
       : super(
@@ -9199,16 +9407,19 @@ class NoEntitlementsAllowedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RateLimitExceededException extends _s.GenericAwsException {
   RateLimitExceededException({String? type, String? message})
       : super(type: type, code: 'RateLimitExceededException', message: message);
 }
 
+/// @nodoc
 class RedirectException extends _s.GenericAwsException {
   RedirectException({String? type, String? message})
       : super(type: type, code: 'RedirectException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -9217,16 +9428,19 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServerInternalException extends _s.GenericAwsException {
   ServerInternalException({String? type, String? message})
       : super(type: type, code: 'ServerInternalException', message: message);
 }
 
+/// @nodoc
 class UnsupportedDigitalSignatureMethodException
     extends _s.GenericAwsException {
   UnsupportedDigitalSignatureMethodException({String? type, String? message})
@@ -9236,6 +9450,7 @@ class UnsupportedDigitalSignatureMethodException
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

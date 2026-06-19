@@ -235,6 +235,8 @@ class PersonalizeEvents {
 /// <code>PutUsers</code> API. For more information see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html">Importing
 /// users individually</a>.
+///
+/// @nodoc
 class User {
   /// The ID associated with the user.
   final String userId;
@@ -270,6 +272,8 @@ class User {
 /// <code>PutItems</code> API. For more information see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html">Importing
 /// items individually</a>.
+///
+/// @nodoc
 class Item {
   /// The ID associated with the item.
   final String itemId;
@@ -302,6 +306,8 @@ class Item {
 
 /// Represents item interaction event information sent using the
 /// <code>PutEvents</code> API.
+///
+/// @nodoc
 class Event {
   /// The type of event, such as click or download. This property corresponds to
   /// the <code>EVENT_TYPE</code> field of your Item interactions dataset's schema
@@ -323,8 +329,8 @@ class Event {
   final double? eventValue;
 
   /// A list of item IDs that represents the sequence of items you have shown the
-  /// user. For example, <code>["itemId1", "itemId2", "itemId3"]</code>. Provide a
-  /// list of items to manually record impressions data for an event. For more
+  /// user. For example, <code>\["itemId1", "itemId2", "itemId3"\]</code>. Provide
+  /// a list of items to manually record impressions data for an event. For more
   /// information on recording impressions data, see <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html#putevents-including-impressions-data">Recording
   /// impressions data</a>.
@@ -433,6 +439,8 @@ class Event {
 /// For more information about metric attributions, see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
 /// impact of recommendations</a>.
+///
+/// @nodoc
 class MetricAttribution {
   /// The source of the event, such as a third party.
   final String eventAttributionSource;
@@ -453,6 +461,8 @@ class MetricAttribution {
 /// <code>PutActions</code> API. For more information see <a
 /// href="https://docs.aws.amazon.com/personalize/latest/dg/importing-actions.html">Importing
 /// actions individually</a>.
+///
+/// @nodoc
 class Action {
   /// The ID associated with the action.
   final String actionId;
@@ -485,6 +495,8 @@ class Action {
 
 /// Represents an action interaction event sent using the
 /// <code>PutActionInteractions</code> API.
+///
+/// @nodoc
 class ActionInteraction {
   /// The ID of the action the user interacted with. This corresponds to the
   /// <code>ACTION_ID</code> field of the Action interaction schema.
@@ -514,10 +526,10 @@ class ActionInteraction {
   final String? eventId;
 
   /// A list of action IDs that represents the sequence of actions you have shown
-  /// the user. For example, <code>["actionId1", "actionId2", "actionId3"]</code>.
-  /// Amazon Personalize doesn't use impressions data from action interaction
-  /// events. Instead, record multiple events for each action and use the
-  /// <code>Viewed</code> event type.
+  /// the user. For example, <code>\["actionId1", "actionId2",
+  /// "actionId3"\]</code>. Amazon Personalize doesn't use impressions data from
+  /// action interaction events. Instead, record multiple events for each action
+  /// and use the <code>Viewed</code> event type.
   final List<String>? impression;
 
   /// A string map of event-specific data that you might choose to record. For
@@ -602,16 +614,19 @@ class ActionInteraction {
   }
 }
 
+/// @nodoc
 class InvalidInputException extends _s.GenericAwsException {
   InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);

@@ -92,6 +92,7 @@ class InspectorScan {
   }
 }
 
+/// @nodoc
 class ScanSbomResponse {
   /// The vulnerability report for the scanned SBOM.
   final Object? sbom;
@@ -114,6 +115,7 @@ class ScanSbomResponse {
   }
 }
 
+/// @nodoc
 class OutputFormat {
   static const cycloneDx_1_5 = OutputFormat._('CYCLONE_DX_1_5');
   static const inspector = OutputFormat._('INSPECTOR');
@@ -138,21 +140,25 @@ class OutputFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

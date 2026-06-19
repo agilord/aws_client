@@ -980,6 +980,7 @@ class ArcZonalShift {
   }
 }
 
+/// @nodoc
 class ListAutoshiftsResponse {
   /// The items in the response list.
   final List<AutoshiftSummary>? items;
@@ -1016,6 +1017,7 @@ class ListAutoshiftsResponse {
   }
 }
 
+/// @nodoc
 class GetAutoshiftObserverNotificationStatusResponse {
   /// The status of autoshift observer notification. If the status is
   /// <code>ENABLED</code>, ARC includes all autoshift events when you use the
@@ -1044,6 +1046,7 @@ class GetAutoshiftObserverNotificationStatusResponse {
   }
 }
 
+/// @nodoc
 class UpdateAutoshiftObserverNotificationStatusResponse {
   /// The status for autoshift observer notification.
   final AutoshiftObserverNotificationStatus status;
@@ -1068,6 +1071,7 @@ class UpdateAutoshiftObserverNotificationStatusResponse {
   }
 }
 
+/// @nodoc
 class GetManagedResourceResponse {
   /// A collection of key-value pairs that indicate whether resources are active
   /// in Availability Zones or not. The key name is the Availability Zone where
@@ -1153,6 +1157,7 @@ class GetManagedResourceResponse {
   }
 }
 
+/// @nodoc
 class ListManagedResourcesResponse {
   /// The items in the response list.
   final List<ManagedResourceSummary> items;
@@ -1190,6 +1195,7 @@ class ListManagedResourcesResponse {
   }
 }
 
+/// @nodoc
 class UpdateZonalAutoshiftConfigurationResponse {
   /// The identifier for the resource that you updated the zonal autoshift
   /// configuration for. The identifier is the Amazon Resource Name (ARN) for the
@@ -1223,6 +1229,7 @@ class UpdateZonalAutoshiftConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdatePracticeRunConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the resource that you updated the practice
   /// run for.
@@ -1272,6 +1279,7 @@ class UpdatePracticeRunConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeletePracticeRunConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the resource that you deleted the practice
   /// run for.
@@ -1311,6 +1319,7 @@ class DeletePracticeRunConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreatePracticeRunConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the resource that you configured the
   /// practice run for.
@@ -1369,6 +1378,7 @@ class CreatePracticeRunConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CancelPracticeRunResponse {
   /// The Availability Zone (for example, <code>use1-az1</code>) that traffic was
   /// moved away from for a resource that you specified for the practice run.
@@ -1449,6 +1459,7 @@ class CancelPracticeRunResponse {
   }
 }
 
+/// @nodoc
 class ZonalShift {
   /// The Availability Zone (for example, <code>use1-az1</code>) that traffic is
   /// moved away from for a resource when you start a zonal shift. Until the zonal
@@ -1570,6 +1581,7 @@ class ZonalShift {
   }
 }
 
+/// @nodoc
 class ListZonalShiftsResponse {
   /// The items in the response list.
   final List<ZonalShiftSummary>? items;
@@ -1606,6 +1618,7 @@ class ListZonalShiftsResponse {
   }
 }
 
+/// @nodoc
 class StartPracticeRunResponse {
   /// The Availability Zone (for example, <code>use1-az1</code>) that traffic is
   /// shifted away from for the resource that you specify for the practice run.
@@ -1681,6 +1694,7 @@ class StartPracticeRunResponse {
   }
 }
 
+/// @nodoc
 class ZonalShiftStatus {
   static const active = ZonalShiftStatus._('ACTIVE');
   static const expired = ZonalShiftStatus._('EXPIRED');
@@ -1714,6 +1728,8 @@ class ZonalShiftStatus {
 /// the zonal autoshift practice run zonal shifts that ARC starts weekly, on
 /// your behalf. A zonal shift that a customer starts can be active for up to
 /// three days (72 hours). A practice run zonal shift has a 30 minute duration.
+///
+/// @nodoc
 class ZonalShiftSummary {
   /// The Availability Zone (for example, <code>use1-az1</code>) that traffic is
   /// moved away from for a resource when you start a zonal shift. Until the zonal
@@ -1883,6 +1899,7 @@ class ZonalShiftSummary {
   }
 }
 
+/// @nodoc
 class ShiftType {
   static const zonalShift = ShiftType._('ZONAL_SHIFT');
   static const practiceRun = ShiftType._('PRACTICE_RUN');
@@ -1913,6 +1930,7 @@ class ShiftType {
   String toString() => value;
 }
 
+/// @nodoc
 class PracticeRunOutcome {
   static const failed = PracticeRunOutcome._('FAILED');
   static const interrupted = PracticeRunOutcome._('INTERRUPTED');
@@ -1948,6 +1966,7 @@ class PracticeRunOutcome {
   String toString() => value;
 }
 
+/// @nodoc
 class ZonalAutoshiftStatus {
   static const enabled = ZonalAutoshiftStatus._('ENABLED');
   static const disabled = ZonalAutoshiftStatus._('DISABLED');
@@ -1987,6 +2006,8 @@ class ZonalAutoshiftStatus {
 /// practice run configuration, you must disable zonal autoshift for the
 /// resource. A practice run configuration is required when zonal autoshift is
 /// enabled.
+///
+/// @nodoc
 class PracticeRunConfiguration {
   /// <i>Outcome alarms</i> for practice runs are alarms that you specify that end
   /// a practice run when one or more of the alarms is in an <code>ALARM</code>
@@ -2091,6 +2112,8 @@ class PracticeRunConfiguration {
 /// href="https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html">
 /// Considerations when you configure zonal autoshift</a> in the Amazon
 /// Application Recovery Controller Developer Guide.
+///
+/// @nodoc
 class ControlCondition {
   /// The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you
   /// specify as a control condition for a practice run.
@@ -2123,6 +2146,7 @@ class ControlCondition {
   }
 }
 
+/// @nodoc
 class ControlConditionType {
   static const cloudwatch = ControlConditionType._('CLOUDWATCH');
 
@@ -2159,6 +2183,8 @@ class ControlConditionType {
 /// Elastic Kubernetes Service, Network Load Balancers, and Application Load
 /// Balancer.
 /// </note>
+///
+/// @nodoc
 class ManagedResourceSummary {
   /// The Availability Zones that a resource is deployed in.
   final List<String> availabilityZones;
@@ -2263,6 +2289,8 @@ class ManagedResourceSummary {
 /// href="https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html">How
 /// zonal autoshift and practice runs work</a> in the Amazon Application
 /// Recovery Controller Developer Guide.
+///
+/// @nodoc
 class AutoshiftInResource {
   /// The <code>appliedStatus</code> field specifies which application traffic
   /// shift is in effect for a resource when there is more than one active traffic
@@ -2324,6 +2352,7 @@ class AutoshiftInResource {
   }
 }
 
+/// @nodoc
 class AutoshiftAppliedStatus {
   static const applied = AutoshiftAppliedStatus._('APPLIED');
   static const notApplied = AutoshiftAppliedStatus._('NOT_APPLIED');
@@ -2351,6 +2380,8 @@ class AutoshiftAppliedStatus {
 
 /// A complex structure that lists the zonal shifts for a managed resource and
 /// their statuses for the resource.
+///
+/// @nodoc
 class ZonalShiftInResource {
   /// The <code>appliedStatus</code> field specifies which application traffic
   /// shift is in effect for a resource when there is more than one active traffic
@@ -2524,6 +2555,7 @@ class ZonalShiftInResource {
   }
 }
 
+/// @nodoc
 class AppliedStatus {
   static const applied = AppliedStatus._('APPLIED');
   static const notApplied = AppliedStatus._('NOT_APPLIED');
@@ -2548,6 +2580,7 @@ class AppliedStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoshiftObserverNotificationStatus {
   static const enabled = AutoshiftObserverNotificationStatus._('ENABLED');
   static const disabled = AutoshiftObserverNotificationStatus._('DISABLED');
@@ -2586,6 +2619,8 @@ class AutoshiftObserverNotificationStatus {
 /// directed to the other Availability Zones in the Region.
 ///
 /// You can stop an autoshift for a resource by disabling zonal autoshift.
+///
+/// @nodoc
 class AutoshiftSummary {
   /// The Availability Zone (for example, <code>use1-az1</code>) that traffic is
   /// shifted away from for a resource when Amazon Web Services starts an
@@ -2636,6 +2671,7 @@ class AutoshiftSummary {
   }
 }
 
+/// @nodoc
 class AutoshiftExecutionStatus {
   static const active = AutoshiftExecutionStatus._('ACTIVE');
   static const completed = AutoshiftExecutionStatus._('COMPLETED');
@@ -2661,31 +2697,37 @@ class AutoshiftExecutionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

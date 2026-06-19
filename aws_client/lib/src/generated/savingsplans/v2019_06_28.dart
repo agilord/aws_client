@@ -518,6 +518,7 @@ class Savingsplans {
   }
 }
 
+/// @nodoc
 class CreateSavingsPlanResponse {
   /// The ID of the Savings Plan.
   final String? savingsPlanId;
@@ -540,6 +541,7 @@ class CreateSavingsPlanResponse {
   }
 }
 
+/// @nodoc
 class DeleteQueuedSavingsPlanResponse {
   DeleteQueuedSavingsPlanResponse();
 
@@ -552,6 +554,7 @@ class DeleteQueuedSavingsPlanResponse {
   }
 }
 
+/// @nodoc
 class DescribeSavingsPlanRatesResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -592,6 +595,7 @@ class DescribeSavingsPlanRatesResponse {
   }
 }
 
+/// @nodoc
 class DescribeSavingsPlansResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -625,6 +629,7 @@ class DescribeSavingsPlansResponse {
   }
 }
 
+/// @nodoc
 class DescribeSavingsPlansOfferingRatesResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -660,6 +665,7 @@ class DescribeSavingsPlansOfferingRatesResponse {
   }
 }
 
+/// @nodoc
 class DescribeSavingsPlansOfferingsResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -694,6 +700,7 @@ class DescribeSavingsPlansOfferingsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Information about the tags.
   final Map<String, String>? tags;
@@ -717,6 +724,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ReturnSavingsPlanResponse {
   /// The ID of the Savings Plan.
   final String? savingsPlanId;
@@ -739,6 +747,7 @@ class ReturnSavingsPlanResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -751,6 +760,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -764,6 +774,8 @@ class UntagResourceResponse {
 }
 
 /// Information about a Savings Plan offering.
+///
+/// @nodoc
 class SavingsPlanOffering {
   /// The currency.
   final CurrencyCode? currency;
@@ -866,6 +878,7 @@ class SavingsPlanOffering {
   }
 }
 
+/// @nodoc
 class SavingsPlanType {
   static const compute = SavingsPlanType._('Compute');
   static const eC2Instance = SavingsPlanType._('EC2Instance');
@@ -892,6 +905,7 @@ class SavingsPlanType {
   String toString() => value;
 }
 
+/// @nodoc
 class SavingsPlanPaymentOption {
   static const allUpfront = SavingsPlanPaymentOption._('All Upfront');
   static const partialUpfront = SavingsPlanPaymentOption._('Partial Upfront');
@@ -918,6 +932,7 @@ class SavingsPlanPaymentOption {
   String toString() => value;
 }
 
+/// @nodoc
 class CurrencyCode {
   static const cny = CurrencyCode._('CNY');
   static const usd = CurrencyCode._('USD');
@@ -943,6 +958,8 @@ class CurrencyCode {
 }
 
 /// Information about a Savings Plan offering property.
+///
+/// @nodoc
 class SavingsPlanOfferingProperty {
   /// The property name.
   final SavingsPlanOfferingPropertyKey? name;
@@ -973,6 +990,7 @@ class SavingsPlanOfferingProperty {
   }
 }
 
+/// @nodoc
 class SavingsPlanOfferingPropertyKey {
   static const region = SavingsPlanOfferingPropertyKey._('region');
   static const instanceFamily =
@@ -999,6 +1017,7 @@ class SavingsPlanOfferingPropertyKey {
   String toString() => value;
 }
 
+/// @nodoc
 class SavingsPlanProductType {
   static const ec2 = SavingsPlanProductType._('EC2');
   static const fargate = SavingsPlanProductType._('Fargate');
@@ -1052,6 +1071,8 @@ class SavingsPlanProductType {
 }
 
 /// Information about a Savings Plan offering filter.
+///
+/// @nodoc
 class SavingsPlanOfferingFilterElement {
   /// The filter name.
   final SavingsPlanOfferingFilterAttribute? name;
@@ -1074,6 +1095,7 @@ class SavingsPlanOfferingFilterElement {
   }
 }
 
+/// @nodoc
 class SavingsPlanOfferingFilterAttribute {
   static const region = SavingsPlanOfferingFilterAttribute._('region');
   static const instanceFamily =
@@ -1101,6 +1123,8 @@ class SavingsPlanOfferingFilterAttribute {
 }
 
 /// Information about a Savings Plan offering rate.
+///
+/// @nodoc
 class SavingsPlanOfferingRate {
   /// The specific Amazon Web Services operation for the line item in the billing
   /// report.
@@ -1184,6 +1208,8 @@ class SavingsPlanOfferingRate {
 }
 
 /// Information about a Savings Plan offering.
+///
+/// @nodoc
 class ParentSavingsPlanOffering {
   /// The currency.
   final CurrencyCode? currency;
@@ -1242,6 +1268,7 @@ class ParentSavingsPlanOffering {
   }
 }
 
+/// @nodoc
 class SavingsPlanRateUnit {
   static const hrs = SavingsPlanRateUnit._('Hrs');
   static const lambdaGbSecond = SavingsPlanRateUnit._('Lambda-GB-Second');
@@ -1305,6 +1332,7 @@ class SavingsPlanRateUnit {
   String toString() => value;
 }
 
+/// @nodoc
 class SavingsPlanRateServiceCode {
   static const amazonEC2 = SavingsPlanRateServiceCode._('AmazonEC2');
   static const amazonECS = SavingsPlanRateServiceCode._('AmazonECS');
@@ -1364,6 +1392,8 @@ class SavingsPlanRateServiceCode {
 }
 
 /// Information about a Savings Plan offering rate property.
+///
+/// @nodoc
 class SavingsPlanOfferingRateProperty {
   /// The property name.
   final String? name;
@@ -1394,6 +1424,8 @@ class SavingsPlanOfferingRateProperty {
 }
 
 /// Information about a Savings Plan offering rate filter.
+///
+/// @nodoc
 class SavingsPlanOfferingRateFilterElement {
   /// The filter name.
   final SavingsPlanRateFilterAttribute? name;
@@ -1416,6 +1448,7 @@ class SavingsPlanOfferingRateFilterElement {
   }
 }
 
+/// @nodoc
 class SavingsPlanRateFilterAttribute {
   static const region = SavingsPlanRateFilterAttribute._('region');
   static const instanceFamily =
@@ -1455,6 +1488,8 @@ class SavingsPlanRateFilterAttribute {
 }
 
 /// Information about a Savings Plan.
+///
+/// @nodoc
 class SavingsPlan {
   /// The hourly commitment amount in the specified currency.
   final String? commitment;
@@ -1615,6 +1650,7 @@ class SavingsPlan {
   }
 }
 
+/// @nodoc
 class SavingsPlanState {
   static const paymentPending = SavingsPlanState._('payment-pending');
   static const paymentFailed = SavingsPlanState._('payment-failed');
@@ -1655,6 +1691,8 @@ class SavingsPlanState {
 }
 
 /// Information about a Savings Plan filter.
+///
+/// @nodoc
 class SavingsPlanFilter {
   /// The filter name.
   final SavingsPlansFilterName? name;
@@ -1677,6 +1715,7 @@ class SavingsPlanFilter {
   }
 }
 
+/// @nodoc
 class SavingsPlansFilterName {
   static const region = SavingsPlansFilterName._('region');
   static const ec2InstanceFamily =
@@ -1723,6 +1762,8 @@ class SavingsPlansFilterName {
 }
 
 /// Information about a Savings Plan rate.
+///
+/// @nodoc
 class SavingsPlanRate {
   /// The currency.
   final CurrencyCode? currency;
@@ -1802,6 +1843,8 @@ class SavingsPlanRate {
 }
 
 /// Information about a Savings Plan rate property.
+///
+/// @nodoc
 class SavingsPlanRateProperty {
   /// The property name.
   final SavingsPlanRatePropertyKey? name;
@@ -1832,6 +1875,7 @@ class SavingsPlanRateProperty {
   }
 }
 
+/// @nodoc
 class SavingsPlanRatePropertyKey {
   static const region = SavingsPlanRatePropertyKey._('region');
   static const instanceType = SavingsPlanRatePropertyKey._('instanceType');
@@ -1868,6 +1912,8 @@ class SavingsPlanRatePropertyKey {
 }
 
 /// Information about a Savings Plan rate filter.
+///
+/// @nodoc
 class SavingsPlanRateFilter {
   /// The filter name.
   final SavingsPlanRateFilterName? name;
@@ -1890,6 +1936,7 @@ class SavingsPlanRateFilter {
   }
 }
 
+/// @nodoc
 class SavingsPlanRateFilterName {
   static const region = SavingsPlanRateFilterName._('region');
   static const instanceType = SavingsPlanRateFilterName._('instanceType');
@@ -1931,16 +1978,19 @@ class SavingsPlanRateFilterName {
   String toString() => value;
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1949,6 +1999,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

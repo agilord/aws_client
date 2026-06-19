@@ -3737,6 +3737,7 @@ class CleanRooms {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// A map of objects specifying each key name and value.
   final Map<String, String> tags;
@@ -3761,6 +3762,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -3773,6 +3775,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -3785,6 +3788,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateAnalysisTemplateOutput {
   /// The analysis template.
   final AnalysisTemplate analysisTemplate;
@@ -3809,6 +3813,7 @@ class CreateAnalysisTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetAnalysisTemplateOutput {
   /// The analysis template.
   final AnalysisTemplate analysisTemplate;
@@ -3833,6 +3838,7 @@ class GetAnalysisTemplateOutput {
   }
 }
 
+/// @nodoc
 class UpdateAnalysisTemplateOutput {
   /// The analysis template.
   final AnalysisTemplate analysisTemplate;
@@ -3857,6 +3863,7 @@ class UpdateAnalysisTemplateOutput {
   }
 }
 
+/// @nodoc
 class DeleteAnalysisTemplateOutput {
   DeleteAnalysisTemplateOutput();
 
@@ -3869,6 +3876,7 @@ class DeleteAnalysisTemplateOutput {
   }
 }
 
+/// @nodoc
 class ListAnalysisTemplatesOutput {
   /// Lists analysis template metadata.
   final List<AnalysisTemplateSummary> analysisTemplateSummaries;
@@ -3903,6 +3911,7 @@ class ListAnalysisTemplatesOutput {
   }
 }
 
+/// @nodoc
 class CreateCollaborationOutput {
   /// The collaboration.
   final Collaboration collaboration;
@@ -3927,6 +3936,7 @@ class CreateCollaborationOutput {
   }
 }
 
+/// @nodoc
 class GetCollaborationOutput {
   /// The entire collaboration for this identifier.
   final Collaboration collaboration;
@@ -3951,6 +3961,7 @@ class GetCollaborationOutput {
   }
 }
 
+/// @nodoc
 class UpdateCollaborationOutput {
   /// The entire collaboration that has been updated.
   final Collaboration collaboration;
@@ -3975,6 +3986,7 @@ class UpdateCollaborationOutput {
   }
 }
 
+/// @nodoc
 class DeleteCollaborationOutput {
   DeleteCollaborationOutput();
 
@@ -3987,6 +3999,7 @@ class DeleteCollaborationOutput {
   }
 }
 
+/// @nodoc
 class ListCollaborationsOutput {
   /// The list of collaborations.
   final List<CollaborationSummary> collaborationList;
@@ -4019,6 +4032,7 @@ class ListCollaborationsOutput {
   }
 }
 
+/// @nodoc
 class BatchGetCollaborationAnalysisTemplateOutput {
   /// The retrieved list of analysis templates within a collaboration.
   final List<CollaborationAnalysisTemplate> collaborationAnalysisTemplates;
@@ -4061,6 +4075,7 @@ class BatchGetCollaborationAnalysisTemplateOutput {
   }
 }
 
+/// @nodoc
 class BatchGetSchemaOutput {
   /// Error reasons for schemas that could not be retrieved. One error is returned
   /// for every schema that could not be retrieved.
@@ -4097,6 +4112,7 @@ class BatchGetSchemaOutput {
   }
 }
 
+/// @nodoc
 class BatchGetSchemaAnalysisRuleOutput {
   /// The retrieved list of analysis rules.
   final List<AnalysisRule> analysisRules;
@@ -4134,6 +4150,7 @@ class BatchGetSchemaAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class CreateCollaborationChangeRequestOutput {
   final CollaborationChangeRequest collaborationChangeRequest;
 
@@ -4158,6 +4175,7 @@ class CreateCollaborationChangeRequestOutput {
   }
 }
 
+/// @nodoc
 class DeleteMemberOutput {
   DeleteMemberOutput();
 
@@ -4170,6 +4188,7 @@ class DeleteMemberOutput {
   }
 }
 
+/// @nodoc
 class GetCollaborationAnalysisTemplateOutput {
   /// The analysis template within a collaboration.
   final CollaborationAnalysisTemplate collaborationAnalysisTemplate;
@@ -4195,6 +4214,7 @@ class GetCollaborationAnalysisTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetCollaborationChangeRequestOutput {
   /// The collaboration change request that was requested.
   final CollaborationChangeRequest collaborationChangeRequest;
@@ -4220,6 +4240,7 @@ class GetCollaborationChangeRequestOutput {
   }
 }
 
+/// @nodoc
 class GetCollaborationConfiguredAudienceModelAssociationOutput {
   /// The metadata of the configured audience model association.
   final CollaborationConfiguredAudienceModelAssociation
@@ -4250,6 +4271,7 @@ class GetCollaborationConfiguredAudienceModelAssociationOutput {
   }
 }
 
+/// @nodoc
 class GetCollaborationIdNamespaceAssociationOutput {
   /// The ID namespace association that you requested.
   final CollaborationIdNamespaceAssociation collaborationIdNamespaceAssociation;
@@ -4279,6 +4301,7 @@ class GetCollaborationIdNamespaceAssociationOutput {
   }
 }
 
+/// @nodoc
 class GetCollaborationPrivacyBudgetTemplateOutput {
   /// Returns the details of the privacy budget template that you requested.
   final CollaborationPrivacyBudgetTemplate collaborationPrivacyBudgetTemplate;
@@ -4307,6 +4330,7 @@ class GetCollaborationPrivacyBudgetTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetSchemaOutput {
   /// The entire schema object.
   final Schema schema;
@@ -4330,6 +4354,7 @@ class GetSchemaOutput {
   }
 }
 
+/// @nodoc
 class GetSchemaAnalysisRuleOutput {
   /// A specification about how data from the configured table can be used.
   final AnalysisRule analysisRule;
@@ -4354,6 +4379,7 @@ class GetSchemaAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class ListCollaborationAnalysisTemplatesOutput {
   /// The metadata of the analysis template within a collaboration.
   final List<CollaborationAnalysisTemplateSummary>
@@ -4393,6 +4419,7 @@ class ListCollaborationAnalysisTemplatesOutput {
   }
 }
 
+/// @nodoc
 class ListCollaborationChangeRequestsOutput {
   /// The list of collaboration change request summaries.
   final List<CollaborationChangeRequestSummary>
@@ -4431,6 +4458,7 @@ class ListCollaborationChangeRequestsOutput {
   }
 }
 
+/// @nodoc
 class ListCollaborationConfiguredAudienceModelAssociationsOutput {
   /// The metadata of the configured audience model association within a
   /// collaboration.
@@ -4472,6 +4500,7 @@ class ListCollaborationConfiguredAudienceModelAssociationsOutput {
   }
 }
 
+/// @nodoc
 class ListCollaborationIdNamespaceAssociationsOutput {
   /// The summary information of the collaboration ID namespace associations that
   /// you requested.
@@ -4512,6 +4541,7 @@ class ListCollaborationIdNamespaceAssociationsOutput {
   }
 }
 
+/// @nodoc
 class ListCollaborationPrivacyBudgetsOutput {
   /// Summaries of the collaboration privacy budgets.
   final List<CollaborationPrivacyBudgetSummary>
@@ -4550,6 +4580,7 @@ class ListCollaborationPrivacyBudgetsOutput {
   }
 }
 
+/// @nodoc
 class ListCollaborationPrivacyBudgetTemplatesOutput {
   /// An array that summarizes the collaboration privacy budget templates. The
   /// summary includes collaboration information, creation information, the
@@ -4591,6 +4622,7 @@ class ListCollaborationPrivacyBudgetTemplatesOutput {
   }
 }
 
+/// @nodoc
 class ListMembersOutput {
   /// The list of members returned by the ListMembers operation.
   final List<MemberSummary> memberSummaries;
@@ -4623,6 +4655,7 @@ class ListMembersOutput {
   }
 }
 
+/// @nodoc
 class ListSchemasOutput {
   /// The retrieved list of schemas.
   final List<SchemaSummary> schemaSummaries;
@@ -4655,6 +4688,7 @@ class ListSchemasOutput {
   }
 }
 
+/// @nodoc
 class UpdateCollaborationChangeRequestOutput {
   final CollaborationChangeRequest collaborationChangeRequest;
 
@@ -4679,6 +4713,7 @@ class UpdateCollaborationChangeRequestOutput {
   }
 }
 
+/// @nodoc
 class CreateConfiguredAudienceModelAssociationOutput {
   /// Information about the configured audience model association.
   final ConfiguredAudienceModelAssociation configuredAudienceModelAssociation;
@@ -4707,6 +4742,7 @@ class CreateConfiguredAudienceModelAssociationOutput {
   }
 }
 
+/// @nodoc
 class GetConfiguredAudienceModelAssociationOutput {
   /// Information about the configured audience model association that you
   /// requested.
@@ -4736,6 +4772,7 @@ class GetConfiguredAudienceModelAssociationOutput {
   }
 }
 
+/// @nodoc
 class UpdateConfiguredAudienceModelAssociationOutput {
   /// Details about the configured audience model association that you updated.
   final ConfiguredAudienceModelAssociation configuredAudienceModelAssociation;
@@ -4764,6 +4801,7 @@ class UpdateConfiguredAudienceModelAssociationOutput {
   }
 }
 
+/// @nodoc
 class DeleteConfiguredAudienceModelAssociationOutput {
   DeleteConfiguredAudienceModelAssociationOutput();
 
@@ -4777,6 +4815,7 @@ class DeleteConfiguredAudienceModelAssociationOutput {
   }
 }
 
+/// @nodoc
 class ListConfiguredAudienceModelAssociationsOutput {
   /// Summaries of the configured audience model associations that you requested.
   final List<ConfiguredAudienceModelAssociationSummary>
@@ -4816,6 +4855,7 @@ class ListConfiguredAudienceModelAssociationsOutput {
   }
 }
 
+/// @nodoc
 class CreateConfiguredTableAssociationOutput {
   /// The configured table association.
   final ConfiguredTableAssociation configuredTableAssociation;
@@ -4841,6 +4881,7 @@ class CreateConfiguredTableAssociationOutput {
   }
 }
 
+/// @nodoc
 class GetConfiguredTableAssociationOutput {
   /// The entire configured table association object.
   final ConfiguredTableAssociation configuredTableAssociation;
@@ -4866,6 +4907,7 @@ class GetConfiguredTableAssociationOutput {
   }
 }
 
+/// @nodoc
 class UpdateConfiguredTableAssociationOutput {
   /// The entire updated configured table association.
   final ConfiguredTableAssociation configuredTableAssociation;
@@ -4891,6 +4933,7 @@ class UpdateConfiguredTableAssociationOutput {
   }
 }
 
+/// @nodoc
 class DeleteConfiguredTableAssociationOutput {
   DeleteConfiguredTableAssociationOutput();
 
@@ -4904,6 +4947,7 @@ class DeleteConfiguredTableAssociationOutput {
   }
 }
 
+/// @nodoc
 class ListConfiguredTableAssociationsOutput {
   /// The retrieved list of configured table associations.
   final List<ConfiguredTableAssociationSummary>
@@ -4942,6 +4986,7 @@ class ListConfiguredTableAssociationsOutput {
   }
 }
 
+/// @nodoc
 class CreateConfiguredTableAssociationAnalysisRuleOutput {
   /// The analysis rule for the conﬁgured table association. In the console, the
   /// <code>ConfiguredTableAssociationAnalysisRule</code> is referred to as the
@@ -4969,6 +5014,7 @@ class CreateConfiguredTableAssociationAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class DeleteConfiguredTableAssociationAnalysisRuleOutput {
   DeleteConfiguredTableAssociationAnalysisRuleOutput();
 
@@ -4982,6 +5028,7 @@ class DeleteConfiguredTableAssociationAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class GetConfiguredTableAssociationAnalysisRuleOutput {
   /// The analysis rule for the conﬁgured table association. In the console, the
   /// <code>ConfiguredTableAssociationAnalysisRule</code> is referred to as the
@@ -5009,6 +5056,7 @@ class GetConfiguredTableAssociationAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class UpdateConfiguredTableAssociationAnalysisRuleOutput {
   /// The updated analysis rule for the conﬁgured table association. In the
   /// console, the <code>ConfiguredTableAssociationAnalysisRule</code> is referred
@@ -5036,6 +5084,7 @@ class UpdateConfiguredTableAssociationAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class CreateConfiguredTableOutput {
   /// The created configured table.
   final ConfiguredTable configuredTable;
@@ -5060,6 +5109,7 @@ class CreateConfiguredTableOutput {
   }
 }
 
+/// @nodoc
 class GetConfiguredTableOutput {
   /// The retrieved configured table.
   final ConfiguredTable configuredTable;
@@ -5084,6 +5134,7 @@ class GetConfiguredTableOutput {
   }
 }
 
+/// @nodoc
 class UpdateConfiguredTableOutput {
   /// The updated configured table.
   final ConfiguredTable configuredTable;
@@ -5109,6 +5160,8 @@ class UpdateConfiguredTableOutput {
 }
 
 /// The empty output for a successful deletion.
+///
+/// @nodoc
 class DeleteConfiguredTableOutput {
   DeleteConfiguredTableOutput();
 
@@ -5121,6 +5174,7 @@ class DeleteConfiguredTableOutput {
   }
 }
 
+/// @nodoc
 class ListConfiguredTablesOutput {
   /// The configured tables listed by the request.
   final List<ConfiguredTableSummary> configuredTableSummaries;
@@ -5155,6 +5209,7 @@ class ListConfiguredTablesOutput {
   }
 }
 
+/// @nodoc
 class CreateConfiguredTableAnalysisRuleOutput {
   /// The analysis rule that was created for the configured table.
   final ConfiguredTableAnalysisRule analysisRule;
@@ -5181,6 +5236,8 @@ class CreateConfiguredTableAnalysisRuleOutput {
 }
 
 /// An empty response that indicates a successful delete.
+///
+/// @nodoc
 class DeleteConfiguredTableAnalysisRuleOutput {
   DeleteConfiguredTableAnalysisRuleOutput();
 
@@ -5194,6 +5251,7 @@ class DeleteConfiguredTableAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class GetConfiguredTableAnalysisRuleOutput {
   /// The entire analysis rule output.
   final ConfiguredTableAnalysisRule analysisRule;
@@ -5219,6 +5277,7 @@ class GetConfiguredTableAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class UpdateConfiguredTableAnalysisRuleOutput {
   /// The entire updated analysis rule.
   final ConfiguredTableAnalysisRule analysisRule;
@@ -5244,6 +5303,7 @@ class UpdateConfiguredTableAnalysisRuleOutput {
   }
 }
 
+/// @nodoc
 class CreateIdMappingTableOutput {
   /// The ID mapping table that was created.
   final IdMappingTable idMappingTable;
@@ -5268,6 +5328,7 @@ class CreateIdMappingTableOutput {
   }
 }
 
+/// @nodoc
 class GetIdMappingTableOutput {
   /// The ID mapping table that you requested.
   final IdMappingTable idMappingTable;
@@ -5292,6 +5353,7 @@ class GetIdMappingTableOutput {
   }
 }
 
+/// @nodoc
 class UpdateIdMappingTableOutput {
   /// The updated ID mapping table.
   final IdMappingTable idMappingTable;
@@ -5316,6 +5378,7 @@ class UpdateIdMappingTableOutput {
   }
 }
 
+/// @nodoc
 class DeleteIdMappingTableOutput {
   DeleteIdMappingTableOutput();
 
@@ -5328,6 +5391,7 @@ class DeleteIdMappingTableOutput {
   }
 }
 
+/// @nodoc
 class ListIdMappingTablesOutput {
   /// The summary information of the ID mapping tables that you requested.
   final List<IdMappingTableSummary> idMappingTableSummaries;
@@ -5361,6 +5425,7 @@ class ListIdMappingTablesOutput {
   }
 }
 
+/// @nodoc
 class PopulateIdMappingTableOutput {
   /// The unique identifier of the mapping job that will populate the ID mapping
   /// table.
@@ -5384,6 +5449,7 @@ class PopulateIdMappingTableOutput {
   }
 }
 
+/// @nodoc
 class CreateIdNamespaceAssociationOutput {
   /// The ID namespace association that was created.
   final IdNamespaceAssociation idNamespaceAssociation;
@@ -5409,6 +5475,7 @@ class CreateIdNamespaceAssociationOutput {
   }
 }
 
+/// @nodoc
 class GetIdNamespaceAssociationOutput {
   /// The ID namespace association that you requested.
   final IdNamespaceAssociation idNamespaceAssociation;
@@ -5433,6 +5500,7 @@ class GetIdNamespaceAssociationOutput {
   }
 }
 
+/// @nodoc
 class UpdateIdNamespaceAssociationOutput {
   /// The updated ID namespace association.
   final IdNamespaceAssociation idNamespaceAssociation;
@@ -5458,6 +5526,7 @@ class UpdateIdNamespaceAssociationOutput {
   }
 }
 
+/// @nodoc
 class DeleteIdNamespaceAssociationOutput {
   DeleteIdNamespaceAssociationOutput();
 
@@ -5470,6 +5539,7 @@ class DeleteIdNamespaceAssociationOutput {
   }
 }
 
+/// @nodoc
 class ListIdNamespaceAssociationsOutput {
   /// The summary information of the ID namespace associations that you requested.
   final List<IdNamespaceAssociationSummary> idNamespaceAssociationSummaries;
@@ -5507,6 +5577,7 @@ class ListIdNamespaceAssociationsOutput {
   }
 }
 
+/// @nodoc
 class CreateMembershipOutput {
   /// The membership that was created.
   final Membership membership;
@@ -5531,6 +5602,7 @@ class CreateMembershipOutput {
   }
 }
 
+/// @nodoc
 class GetMembershipOutput {
   /// The membership retrieved for the provided identifier.
   final Membership membership;
@@ -5555,6 +5627,7 @@ class GetMembershipOutput {
   }
 }
 
+/// @nodoc
 class UpdateMembershipOutput {
   final Membership membership;
 
@@ -5578,6 +5651,7 @@ class UpdateMembershipOutput {
   }
 }
 
+/// @nodoc
 class DeleteMembershipOutput {
   DeleteMembershipOutput();
 
@@ -5590,6 +5664,7 @@ class DeleteMembershipOutput {
   }
 }
 
+/// @nodoc
 class ListMembershipsOutput {
   /// The list of memberships returned from the ListMemberships operation.
   final List<MembershipSummary> membershipSummaries;
@@ -5622,6 +5697,7 @@ class ListMembershipsOutput {
   }
 }
 
+/// @nodoc
 class GetProtectedJobOutput {
   /// The protected job metadata.
   final ProtectedJob protectedJob;
@@ -5646,6 +5722,7 @@ class GetProtectedJobOutput {
   }
 }
 
+/// @nodoc
 class GetProtectedQueryOutput {
   /// The query processing metadata.
   final ProtectedQuery protectedQuery;
@@ -5670,6 +5747,7 @@ class GetProtectedQueryOutput {
   }
 }
 
+/// @nodoc
 class ListPrivacyBudgetsOutput {
   /// An array that summarizes the privacy budgets. The summary includes
   /// collaboration information, membership information, privacy budget template
@@ -5705,6 +5783,7 @@ class ListPrivacyBudgetsOutput {
   }
 }
 
+/// @nodoc
 class ListProtectedJobsOutput {
   /// A list of protected job summaries.
   final List<ProtectedJobSummary> protectedJobs;
@@ -5737,6 +5816,7 @@ class ListProtectedJobsOutput {
   }
 }
 
+/// @nodoc
 class ListProtectedQueriesOutput {
   /// A list of protected queries.
   final List<ProtectedQuerySummary> protectedQueries;
@@ -5769,6 +5849,7 @@ class ListProtectedQueriesOutput {
   }
 }
 
+/// @nodoc
 class PreviewPrivacyImpactOutput {
   /// An estimate of the number of aggregation functions that the member who can
   /// query can run given the epsilon and noise parameters. This does not change
@@ -5795,6 +5876,7 @@ class PreviewPrivacyImpactOutput {
   }
 }
 
+/// @nodoc
 class StartProtectedJobOutput {
   /// The protected job.
   final ProtectedJob protectedJob;
@@ -5819,6 +5901,7 @@ class StartProtectedJobOutput {
   }
 }
 
+/// @nodoc
 class StartProtectedQueryOutput {
   /// The protected query.
   final ProtectedQuery protectedQuery;
@@ -5843,6 +5926,7 @@ class StartProtectedQueryOutput {
   }
 }
 
+/// @nodoc
 class UpdateProtectedJobOutput {
   /// The protected job output.
   final ProtectedJob protectedJob;
@@ -5867,6 +5951,7 @@ class UpdateProtectedJobOutput {
   }
 }
 
+/// @nodoc
 class UpdateProtectedQueryOutput {
   /// The protected query output.
   final ProtectedQuery protectedQuery;
@@ -5891,6 +5976,7 @@ class UpdateProtectedQueryOutput {
   }
 }
 
+/// @nodoc
 class CreatePrivacyBudgetTemplateOutput {
   /// A summary of the elements in the privacy budget template.
   final PrivacyBudgetTemplate privacyBudgetTemplate;
@@ -5916,6 +6002,7 @@ class CreatePrivacyBudgetTemplateOutput {
   }
 }
 
+/// @nodoc
 class GetPrivacyBudgetTemplateOutput {
   /// Returns the details of the privacy budget template that you requested.
   final PrivacyBudgetTemplate privacyBudgetTemplate;
@@ -5940,6 +6027,7 @@ class GetPrivacyBudgetTemplateOutput {
   }
 }
 
+/// @nodoc
 class UpdatePrivacyBudgetTemplateOutput {
   /// Summary of the privacy budget template.
   final PrivacyBudgetTemplate privacyBudgetTemplate;
@@ -5965,6 +6053,7 @@ class UpdatePrivacyBudgetTemplateOutput {
   }
 }
 
+/// @nodoc
 class DeletePrivacyBudgetTemplateOutput {
   DeletePrivacyBudgetTemplateOutput();
 
@@ -5977,6 +6066,7 @@ class DeletePrivacyBudgetTemplateOutput {
   }
 }
 
+/// @nodoc
 class ListPrivacyBudgetTemplatesOutput {
   /// An array that summarizes the privacy budget templates. The summary includes
   /// collaboration information, creation information, and privacy budget type.
@@ -6015,6 +6105,8 @@ class ListPrivacyBudgetTemplatesOutput {
 
 /// A summary of the privacy budget template. The summary includes membership
 /// information, collaboration information, and creation information.
+///
+/// @nodoc
 class PrivacyBudgetTemplateSummary {
   /// The ARN of the privacy budget template.
   final String arn;
@@ -6096,6 +6188,7 @@ class PrivacyBudgetTemplateSummary {
   }
 }
 
+/// @nodoc
 class PrivacyBudgetType {
   static const differentialPrivacy =
       PrivacyBudgetType._('DIFFERENTIAL_PRIVACY');
@@ -6122,6 +6215,8 @@ class PrivacyBudgetType {
 }
 
 /// An object that defines the privacy budget template.
+///
+/// @nodoc
 class PrivacyBudgetTemplate {
   /// The ARN of the privacy budget template.
   final String arn;
@@ -6228,6 +6323,7 @@ class PrivacyBudgetTemplate {
   }
 }
 
+/// @nodoc
 class PrivacyBudgetTemplateAutoRefresh {
   static const calendarMonth =
       PrivacyBudgetTemplateAutoRefresh._('CALENDAR_MONTH');
@@ -6256,6 +6352,8 @@ class PrivacyBudgetTemplateAutoRefresh {
 
 /// The epsilon and noise parameters that were used in the privacy budget
 /// template.
+///
+/// @nodoc
 class PrivacyBudgetTemplateParametersOutput {
   /// Access budget configuration returned from the privacy budget template,
   /// containing the configured access budget settings.
@@ -6296,6 +6394,8 @@ class PrivacyBudgetTemplateParametersOutput {
 
 /// The epsilon and noise parameter values that were used for the differential
 /// privacy template.
+///
+/// @nodoc
 class DifferentialPrivacyTemplateParametersOutput {
   /// The epsilon value that you specified.
   final int epsilon;
@@ -6330,6 +6430,8 @@ class DifferentialPrivacyTemplateParametersOutput {
 
 /// Output parameters for privacy budget templates with access budgets support,
 /// containing the configured budget information.
+///
+/// @nodoc
 class AccessBudgetsPrivacyTemplateParametersOutput {
   /// An array of budget parameters returned from the access budget configuration.
   final List<BudgetParameter> budgetParameters;
@@ -6366,6 +6468,8 @@ class AccessBudgetsPrivacyTemplateParametersOutput {
 
 /// Individual budget parameter configuration that defines specific budget
 /// allocation settings for access budgets.
+///
+/// @nodoc
 class BudgetParameter {
   /// The budget allocation amount for this specific parameter.
   final int budget;
@@ -6404,6 +6508,7 @@ class BudgetParameter {
   }
 }
 
+/// @nodoc
 class AccessBudgetType {
   static const calendarDay = AccessBudgetType._('CALENDAR_DAY');
   static const calendarMonth = AccessBudgetType._('CALENDAR_MONTH');
@@ -6430,6 +6535,7 @@ class AccessBudgetType {
   String toString() => value;
 }
 
+/// @nodoc
 class AutoRefreshMode {
   static const enabled = AutoRefreshMode._('ENABLED');
   static const disabled = AutoRefreshMode._('DISABLED');
@@ -6456,6 +6562,8 @@ class AutoRefreshMode {
 
 /// The epsilon and noise parameters that you want to update in the privacy
 /// budget template.
+///
+/// @nodoc
 class PrivacyBudgetTemplateUpdateParameters {
   /// The new access budget configuration that completely replaces the existing
   /// access budget settings in the privacy budget template.
@@ -6483,6 +6591,8 @@ class PrivacyBudgetTemplateUpdateParameters {
 
 /// The epsilon and noise parameter values that you want to update in the
 /// differential privacy template.
+///
+/// @nodoc
 class DifferentialPrivacyTemplateUpdateParameters {
   /// The updated epsilon value that you want to use.
   final int? epsilon;
@@ -6509,6 +6619,8 @@ class DifferentialPrivacyTemplateUpdateParameters {
 
 /// Update parameters for privacy budget templates with access budgets
 /// functionality, allowing modification of existing budget configurations.
+///
+/// @nodoc
 class AccessBudgetsPrivacyTemplateUpdateParameters {
   /// Updated array of budget parameters for the access budget configuration.
   final List<BudgetParameter> budgetParameters;
@@ -6527,6 +6639,8 @@ class AccessBudgetsPrivacyTemplateUpdateParameters {
 
 /// The epsilon and noise parameters that you want to use for the privacy budget
 /// template.
+///
+/// @nodoc
 class PrivacyBudgetTemplateParametersInput {
   /// Access budget configuration for the privacy budget template input, enabling
   /// integration with access budget functionality.
@@ -6553,6 +6667,8 @@ class PrivacyBudgetTemplateParametersInput {
 
 /// The epsilon and noise parameter values that you want to use for the
 /// differential privacy template.
+///
+/// @nodoc
 class DifferentialPrivacyTemplateParametersInput {
   /// The epsilon value that you want to use.
   final int epsilon;
@@ -6579,6 +6695,8 @@ class DifferentialPrivacyTemplateParametersInput {
 
 /// Input parameters for privacy budget templates that support access budgets
 /// functionality, enabling enhanced budget management capabilities.
+///
+/// @nodoc
 class AccessBudgetsPrivacyTemplateParametersInput {
   /// An array of budget parameters that define the access budget configuration
   /// for the privacy template.
@@ -6604,6 +6722,8 @@ class AccessBudgetsPrivacyTemplateParametersInput {
 }
 
 /// The parameters for an Clean Rooms protected query.
+///
+/// @nodoc
 class ProtectedQuery {
   /// The time at which the protected query was created.
   final DateTime createTime;
@@ -6737,6 +6857,8 @@ class ProtectedQuery {
 }
 
 /// The parameters for the SQL type Protected Query.
+///
+/// @nodoc
 class ProtectedQuerySQLParameters {
   /// The Amazon Resource Name (ARN) associated with the analysis template within
   /// a collaboration.
@@ -6776,6 +6898,7 @@ class ProtectedQuerySQLParameters {
   }
 }
 
+/// @nodoc
 class ProtectedQueryStatus {
   static const submitted = ProtectedQueryStatus._('SUBMITTED');
   static const started = ProtectedQueryStatus._('STARTED');
@@ -6815,6 +6938,8 @@ class ProtectedQueryStatus {
 }
 
 /// Contains configurations for protected query results.
+///
+/// @nodoc
 class ProtectedQueryResultConfiguration {
   /// Configuration for protected query results.
   final ProtectedQueryOutputConfiguration outputConfiguration;
@@ -6841,6 +6966,8 @@ class ProtectedQueryResultConfiguration {
 }
 
 /// Contains statistics about the execution of the protected query.
+///
+/// @nodoc
 class ProtectedQueryStatistics {
   /// The billed resource utilization.
   final BilledResourceUtilization? billedResourceUtilization;
@@ -6877,6 +7004,8 @@ class ProtectedQueryStatistics {
 }
 
 /// Details about the query results.
+///
+/// @nodoc
 class ProtectedQueryResult {
   /// The output of the protected query.
   final ProtectedQueryOutput output;
@@ -6902,6 +7031,8 @@ class ProtectedQueryResult {
 }
 
 /// Details of errors thrown by the protected query.
+///
+/// @nodoc
 class ProtectedQueryError {
   /// An error code for the error.
   final String code;
@@ -6932,6 +7063,8 @@ class ProtectedQueryError {
 }
 
 /// An array that contains the sensitivity parameters.
+///
+/// @nodoc
 class DifferentialPrivacyParameters {
   /// Provides the sensitivity parameters that you can use to better understand
   /// the total amount of noise in query results.
@@ -6962,6 +7095,8 @@ class DifferentialPrivacyParameters {
 
 /// The configuration of the compute resources for an analysis with the Spark
 /// analytics engine.
+///
+/// @nodoc
 class ComputeConfiguration {
   /// The worker configuration for the compute environment.
   final WorkerComputeConfiguration? worker;
@@ -6989,6 +7124,8 @@ class ComputeConfiguration {
 
 /// The configuration of the compute resources for workers running an analysis
 /// with the Clean Rooms SQL analytics engine.
+///
+/// @nodoc
 class WorkerComputeConfiguration {
   /// The number of workers.
   ///
@@ -7034,6 +7171,7 @@ class WorkerComputeConfiguration {
   }
 }
 
+/// @nodoc
 class WorkerComputeType {
   static const cr_1x = WorkerComputeType._('CR.1X');
   static const cr_4x = WorkerComputeType._('CR.4X');
@@ -7062,6 +7200,8 @@ class WorkerComputeType {
 /// for workers in Clean Rooms. These properties enable customization of the
 /// underlying compute environment to optimize performance for your specific
 /// workloads.
+///
+/// @nodoc
 class WorkerComputeConfigurationProperties {
   /// The Spark configuration properties for SQL and PySpark workloads. This map
   /// contains key-value pairs that configure Apache Spark settings to optimize
@@ -7092,6 +7232,8 @@ class WorkerComputeConfigurationProperties {
 }
 
 /// Provides the sensitivity parameters.
+///
+/// @nodoc
 class DifferentialPrivacySensitivityParameters {
   /// The aggregation expression that was run.
   final String aggregationExpression;
@@ -7144,6 +7286,7 @@ class DifferentialPrivacySensitivityParameters {
   }
 }
 
+/// @nodoc
 class DifferentialPrivacyAggregationType {
   static const avg = DifferentialPrivacyAggregationType._('AVG');
   static const count = DifferentialPrivacyAggregationType._('COUNT');
@@ -7174,6 +7317,8 @@ class DifferentialPrivacyAggregationType {
 }
 
 /// Contains details about the protected query output.
+///
+/// @nodoc
 class ProtectedQueryOutput {
   /// Contains output information for protected queries that use a
   /// <code>distribute</code> output type. This output type lets you send query
@@ -7228,6 +7373,8 @@ class ProtectedQueryOutput {
 }
 
 /// Contains output information for protected queries with an S3 output type.
+///
+/// @nodoc
 class ProtectedQueryS3Output {
   /// The S3 location of the result.
   final String location;
@@ -7256,6 +7403,8 @@ class ProtectedQueryS3Output {
 /// This output type allows query results to be distributed to multiple
 /// receivers, including S3 and collaboration members. It is only available for
 /// queries using the Spark analytics engine.
+///
+/// @nodoc
 class ProtectedQueryDistributeOutput {
   /// Contains the output results for each member location specified in the
   /// distribute output configuration. Each entry provides details about the
@@ -7292,6 +7441,8 @@ class ProtectedQueryDistributeOutput {
 }
 
 /// Details about the member who received the query result.
+///
+/// @nodoc
 class ProtectedQuerySingleMemberOutput {
   /// The Amazon Web Services account ID of the member in the collaboration who
   /// can receive results for the query.
@@ -7317,6 +7468,8 @@ class ProtectedQuerySingleMemberOutput {
 
 /// Information related to the utilization of resources that have been billed or
 /// charged for in a given context, such as a protected query.
+///
+/// @nodoc
 class BilledResourceUtilization {
   /// The number of Clean Rooms Processing Unit (CRPU) hours that have been
   /// billed.
@@ -7341,6 +7494,8 @@ class BilledResourceUtilization {
 }
 
 /// Contains configuration details for protected query output.
+///
+/// @nodoc
 class ProtectedQueryOutputConfiguration {
   /// Required configuration for a protected query with a <code>distribute</code>
   /// output type.
@@ -7391,6 +7546,8 @@ class ProtectedQueryOutputConfiguration {
 }
 
 /// Contains the configuration to write the query results to S3.
+///
+/// @nodoc
 class ProtectedQueryS3OutputConfiguration {
   /// The S3 bucket to unload the protected query results.
   final String bucket;
@@ -7439,6 +7596,8 @@ class ProtectedQueryS3OutputConfiguration {
 }
 
 /// Contains configuration details for the protected query member output.
+///
+/// @nodoc
 class ProtectedQueryMemberOutputConfiguration {
   /// The unique identifier for the account.
   final String accountId;
@@ -7464,6 +7623,8 @@ class ProtectedQueryMemberOutputConfiguration {
 
 /// Specifies the configuration for distributing protected query results to
 /// multiple receivers, including S3 and collaboration members.
+///
+/// @nodoc
 class ProtectedQueryDistributeOutputConfiguration {
   /// A list of locations where you want to distribute the protected query
   /// results. Each location must specify either an S3 destination or a
@@ -7505,6 +7666,8 @@ class ProtectedQueryDistributeOutputConfiguration {
 /// Specifies where you'll distribute the results of your protected query. You
 /// must configure either an S3 destination or a collaboration member
 /// destination.
+///
+/// @nodoc
 class ProtectedQueryDistributeOutputConfigurationLocation {
   final ProtectedQueryMemberOutputConfiguration? member;
   final ProtectedQueryS3OutputConfiguration? s3;
@@ -7539,6 +7702,8 @@ class ProtectedQueryDistributeOutputConfigurationLocation {
 }
 
 /// File format of the returned data.
+///
+/// @nodoc
 class ResultFormat {
   static const csv = ResultFormat._('CSV');
   static const parquet = ResultFormat._('PARQUET');
@@ -7562,6 +7727,7 @@ class ResultFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class TargetProtectedQueryStatus {
   static const cancelled = TargetProtectedQueryStatus._('CANCELLED');
 
@@ -7587,6 +7753,8 @@ class TargetProtectedQueryStatus {
 }
 
 /// The parameters for an Clean Rooms protected job.
+///
+/// @nodoc
 class ProtectedJob {
   /// The creation time of the protected job.
   final DateTime createTime;
@@ -7706,6 +7874,8 @@ class ProtectedJob {
 }
 
 /// The parameters for the protected job.
+///
+/// @nodoc
 class ProtectedJobParameters {
   /// The ARN of the analysis template.
   final String analysisTemplateArn;
@@ -7737,6 +7907,7 @@ class ProtectedJobParameters {
   }
 }
 
+/// @nodoc
 class ProtectedJobStatus {
   static const submitted = ProtectedJobStatus._('SUBMITTED');
   static const started = ProtectedJobStatus._('STARTED');
@@ -7774,6 +7945,8 @@ class ProtectedJobStatus {
 }
 
 /// The output configuration for a protected job result.
+///
+/// @nodoc
 class ProtectedJobResultConfigurationOutput {
   /// The output configuration.
   final ProtectedJobOutputConfigurationOutput outputConfiguration;
@@ -7800,6 +7973,8 @@ class ProtectedJobResultConfigurationOutput {
 }
 
 /// Contains statistics about the execution of the protected job.
+///
+/// @nodoc
 class ProtectedJobStatistics {
   /// The billed resource utilization for the protected job.
   final BilledJobResourceUtilization? billedResourceUtilization;
@@ -7836,6 +8011,8 @@ class ProtectedJobStatistics {
 }
 
 /// Details about the job results.
+///
+/// @nodoc
 class ProtectedJobResult {
   /// The output of the protected job.
   final ProtectedJobOutput output;
@@ -7861,6 +8038,8 @@ class ProtectedJobResult {
 }
 
 /// The protected job error.
+///
+/// @nodoc
 class ProtectedJobError {
   /// The error code for the protected job.
   final String code;
@@ -7891,6 +8070,8 @@ class ProtectedJobError {
 }
 
 /// The configuration of the compute resources for a PySpark job.
+///
+/// @nodoc
 class ProtectedJobComputeConfiguration {
   /// The worker configuration for the compute environment.
   final ProtectedJobWorkerComputeConfiguration? worker;
@@ -7917,6 +8098,8 @@ class ProtectedJobComputeConfiguration {
 }
 
 /// The configuration of the compute resources for a PySpark job.
+///
+/// @nodoc
 class ProtectedJobWorkerComputeConfiguration {
   /// The number of workers for a PySpark job.
   final int number;
@@ -7960,6 +8143,7 @@ class ProtectedJobWorkerComputeConfiguration {
   }
 }
 
+/// @nodoc
 class ProtectedJobWorkerComputeType {
   static const cr_1x = ProtectedJobWorkerComputeType._('CR.1X');
   static const cr_4x = ProtectedJobWorkerComputeType._('CR.4X');
@@ -7986,6 +8170,8 @@ class ProtectedJobWorkerComputeType {
 }
 
 /// Contains details about the protected job output.
+///
+/// @nodoc
 class ProtectedJobOutput {
   /// The list of member Amazon Web Services account(s) that received the results
   /// of the job.
@@ -8023,6 +8209,8 @@ class ProtectedJobOutput {
 }
 
 /// Contains output information for protected jobs with an S3 output type.
+///
+/// @nodoc
 class ProtectedJobS3Output {
   /// The S3 location for the protected job output.
   final String location;
@@ -8046,6 +8234,8 @@ class ProtectedJobS3Output {
 }
 
 /// Details about the member who received the job result.
+///
+/// @nodoc
 class ProtectedJobSingleMemberOutput {
   /// The Amazon Web Services account ID of the member in the collaboration who
   /// can receive results from analyses.
@@ -8071,6 +8261,8 @@ class ProtectedJobSingleMemberOutput {
 
 /// Information related to the utilization of resources that have been billed or
 /// charged for in a given context, such as a protected job.
+///
+/// @nodoc
 class BilledJobResourceUtilization {
   /// The number of Clean Rooms Processing Unit (CRPU) hours that have been
   /// billed.
@@ -8095,6 +8287,8 @@ class BilledJobResourceUtilization {
 }
 
 /// The protected job output configuration output.
+///
+/// @nodoc
 class ProtectedJobOutputConfigurationOutput {
   /// The member output configuration for a protected job.
   final ProtectedJobMemberOutputConfigurationOutput? member;
@@ -8132,6 +8326,8 @@ class ProtectedJobOutputConfigurationOutput {
 }
 
 /// The output configuration for a protected job's S3 output.
+///
+/// @nodoc
 class ProtectedJobS3OutputConfigurationOutput {
   /// The S3 bucket for job output.
   final String bucket;
@@ -8163,6 +8359,8 @@ class ProtectedJobS3OutputConfigurationOutput {
 }
 
 /// The protected job member output configuration output.
+///
+/// @nodoc
 class ProtectedJobMemberOutputConfigurationOutput {
   /// The account ID.
   final String accountId;
@@ -8186,6 +8384,7 @@ class ProtectedJobMemberOutputConfigurationOutput {
   }
 }
 
+/// @nodoc
 class TargetProtectedJobStatus {
   static const cancelled = TargetProtectedJobStatus._('CANCELLED');
 
@@ -8210,6 +8409,7 @@ class TargetProtectedJobStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtectedQueryType {
   static const sql = ProtectedQueryType._('SQL');
 
@@ -8234,6 +8434,7 @@ class ProtectedQueryType {
   String toString() => value;
 }
 
+/// @nodoc
 class ProtectedJobType {
   static const pyspark = ProtectedJobType._('PYSPARK');
 
@@ -8258,6 +8459,8 @@ class ProtectedJobType {
 }
 
 /// The protected job result configuration input.
+///
+/// @nodoc
 class ProtectedJobResultConfigurationInput {
   /// The output configuration for a protected job result.
   final ProtectedJobOutputConfigurationInput outputConfiguration;
@@ -8275,6 +8478,8 @@ class ProtectedJobResultConfigurationInput {
 }
 
 /// The protected job output configuration input.
+///
+/// @nodoc
 class ProtectedJobOutputConfigurationInput {
   /// The member of the protected job output configuration input.
   final ProtectedJobMemberOutputConfigurationInput? member;
@@ -8292,6 +8497,8 @@ class ProtectedJobOutputConfigurationInput {
 }
 
 /// The protected job member output configuration input.
+///
+/// @nodoc
 class ProtectedJobMemberOutputConfigurationInput {
   /// The account ID.
   final String accountId;
@@ -8310,6 +8517,8 @@ class ProtectedJobMemberOutputConfigurationInput {
 
 /// Provides an estimate of the number of aggregation functions that the member
 /// who can query can run given the epsilon and noise parameters.
+///
+/// @nodoc
 class PrivacyImpact {
   /// An object that lists the number and type of aggregation functions you can
   /// perform.
@@ -8339,6 +8548,8 @@ class PrivacyImpact {
 
 /// Information about the number of aggregation functions that the member who
 /// can query can run given the epsilon and noise parameters.
+///
+/// @nodoc
 class DifferentialPrivacyPrivacyImpact {
   /// The number of aggregation functions that you can perform.
   final List<DifferentialPrivacyPreviewAggregation> aggregations;
@@ -8367,6 +8578,8 @@ class DifferentialPrivacyPrivacyImpact {
 
 /// Provides an estimate of the number of aggregation functions that the member
 /// who can query can run given the epsilon and noise parameters.
+///
+/// @nodoc
 class DifferentialPrivacyPreviewAggregation {
   /// The maximum number of aggregations that the member who can query can run
   /// given the epsilon and noise parameters.
@@ -8402,6 +8615,8 @@ class DifferentialPrivacyPreviewAggregation {
 /// Specifies the updated epsilon and noise parameters to preview. The preview
 /// allows you to see how the maximum number of each type of aggregation
 /// function would change with the new parameters.
+///
+/// @nodoc
 class PreviewPrivacyImpactParametersInput {
   /// An array that specifies the epsilon and noise parameters.
   final DifferentialPrivacyPreviewParametersInput? differentialPrivacy;
@@ -8420,6 +8635,8 @@ class PreviewPrivacyImpactParametersInput {
 }
 
 /// The epsilon and noise parameters that you want to preview.
+///
+/// @nodoc
 class DifferentialPrivacyPreviewParametersInput {
   /// The epsilon value that you want to preview.
   final int epsilon;
@@ -8445,6 +8662,8 @@ class DifferentialPrivacyPreviewParametersInput {
 }
 
 /// The protected query summary for the objects listed by the request.
+///
+/// @nodoc
 class ProtectedQuerySummary {
   /// The time the protected query was created.
   final DateTime createTime;
@@ -8516,6 +8735,8 @@ class ProtectedQuerySummary {
 }
 
 /// The receiver configuration for a protected query.
+///
+/// @nodoc
 class ReceiverConfiguration {
   /// The type of analysis for the protected query. The results of the query can
   /// be analyzed directly (<code>DIRECT_ANALYSIS</code>) or used as input into
@@ -8553,6 +8774,7 @@ class ReceiverConfiguration {
   }
 }
 
+/// @nodoc
 class AnalysisType {
   static const directAnalysis = AnalysisType._('DIRECT_ANALYSIS');
   static const additionalAnalysis = AnalysisType._('ADDITIONAL_ANALYSIS');
@@ -8577,6 +8799,8 @@ class AnalysisType {
 }
 
 /// The configuration details.
+///
+/// @nodoc
 class ConfigurationDetails {
   /// The direct analysis configuration details.
   final DirectAnalysisConfigurationDetails? directAnalysisConfigurationDetails;
@@ -8608,6 +8832,8 @@ class ConfigurationDetails {
 }
 
 /// The direct analysis configuration details.
+///
+/// @nodoc
 class DirectAnalysisConfigurationDetails {
   /// The account IDs for the member who received the results of a protected
   /// query.
@@ -8636,6 +8862,8 @@ class DirectAnalysisConfigurationDetails {
 }
 
 /// The protected job summary for the objects listed by the request.
+///
+/// @nodoc
 class ProtectedJobSummary {
   /// The time the protected job was created.
   final DateTime createTime;
@@ -8707,6 +8935,8 @@ class ProtectedJobSummary {
 }
 
 /// The protected job receiver configuration.
+///
+/// @nodoc
 class ProtectedJobReceiverConfiguration {
   /// The analysis type for the protected job receiver configuration.
   final ProtectedJobAnalysisType analysisType;
@@ -8742,6 +8972,7 @@ class ProtectedJobReceiverConfiguration {
   }
 }
 
+/// @nodoc
 class ProtectedJobAnalysisType {
   static const directAnalysis = ProtectedJobAnalysisType._('DIRECT_ANALYSIS');
 
@@ -8767,6 +8998,8 @@ class ProtectedJobAnalysisType {
 }
 
 /// The protected job configuration details.
+///
+/// @nodoc
 class ProtectedJobConfigurationDetails {
   /// The details needed to configure the direct analysis.
   final ProtectedJobDirectAnalysisConfigurationDetails?
@@ -8799,6 +9032,8 @@ class ProtectedJobConfigurationDetails {
 }
 
 /// The protected job direct analysis configuration details.
+///
+/// @nodoc
 class ProtectedJobDirectAnalysisConfigurationDetails {
   /// The receiver account IDs.
   final List<String>? receiverAccountIds;
@@ -8828,6 +9063,8 @@ class ProtectedJobDirectAnalysisConfigurationDetails {
 /// An array that summaries the specified privacy budget. This summary includes
 /// collaboration information, creation information, membership information, and
 /// privacy budget information.
+///
+/// @nodoc
 class PrivacyBudgetSummary {
   /// The provided privacy budget.
   final PrivacyBudget budget;
@@ -8928,6 +9165,8 @@ class PrivacyBudgetSummary {
 
 /// The epsilon parameter value and number of each aggregation function that you
 /// can perform.
+///
+/// @nodoc
 class PrivacyBudget {
   /// Access budget information associated with this privacy budget.
   final AccessBudget? accessBudget;
@@ -8966,6 +9205,8 @@ class PrivacyBudget {
 
 /// Specifies the configured epsilon value and the utility in terms of total
 /// aggregations, as well as the remaining aggregations available.
+///
+/// @nodoc
 class DifferentialPrivacyPrivacyBudget {
   /// This information includes the configured epsilon value and the utility in
   /// terms of total aggregations, as well as the remaining aggregations.
@@ -9006,6 +9247,8 @@ class DifferentialPrivacyPrivacyBudget {
 /// Contains the resource ARN, remaining budget information, and up to two
 /// budget configurations (period-based and lifetime). By default, table usage
 /// is unlimited unless a budget is configured.
+///
+/// @nodoc
 class AccessBudget {
   /// The total remaining budget across all budget parameters, showing the lower
   /// value between the per-period budget and lifetime budget for this access
@@ -9050,6 +9293,8 @@ class AccessBudget {
 
 /// Detailed information about an access budget including time bounds, budget
 /// allocation, and configuration settings.
+///
+/// @nodoc
 class AccessBudgetDetails {
   /// The total budget allocation amount for this access budget.
   final int budget;
@@ -9132,6 +9377,8 @@ class AccessBudgetDetails {
 
 /// Information about the total number of aggregations, as well as the remaining
 /// aggregations.
+///
+/// @nodoc
 class DifferentialPrivacyPrivacyBudgetAggregation {
   /// The maximum number of aggregation functions that you can perform with the
   /// given privacy budget.
@@ -9173,6 +9420,8 @@ class DifferentialPrivacyPrivacyBudgetAggregation {
 }
 
 /// The membership object listed by the request.
+///
+/// @nodoc
 class MembershipSummary {
   /// The unique ARN for the membership.
   final String arn;
@@ -9291,6 +9540,7 @@ class MembershipSummary {
   }
 }
 
+/// @nodoc
 class MembershipStatus {
   static const active = MembershipStatus._('ACTIVE');
   static const removed = MembershipStatus._('REMOVED');
@@ -9318,6 +9568,8 @@ class MembershipStatus {
 }
 
 /// The ML member abilities for a collaboration member.
+///
+/// @nodoc
 class MLMemberAbilities {
   /// The custom ML member abilities for a collaboration member.
   final List<CustomMLMemberAbility> customMLMemberAbilities;
@@ -9347,6 +9599,8 @@ class MLMemberAbilities {
 
 /// An object representing the payment responsibilities accepted by the
 /// collaboration member.
+///
+/// @nodoc
 class MembershipPaymentConfiguration {
   /// The payment responsibilities accepted by the collaboration member for query
   /// compute costs.
@@ -9396,6 +9650,8 @@ class MembershipPaymentConfiguration {
 
 /// An object representing the payment responsibilities accepted by the
 /// collaboration member for query compute costs.
+///
+/// @nodoc
 class MembershipQueryComputePaymentConfig {
   /// Indicates whether the collaboration member has accepted to pay for query
   /// compute costs (<code>TRUE</code>) or has not accepted to pay for query
@@ -9439,6 +9695,8 @@ class MembershipQueryComputePaymentConfig {
 
 /// An object representing the collaboration member's machine learning payment
 /// responsibilities set by the collaboration creator.
+///
+/// @nodoc
 class MembershipMLPaymentConfig {
   /// The payment responsibilities accepted by the member for model inference.
   final MembershipModelInferencePaymentConfig? modelInference;
@@ -9488,6 +9746,8 @@ class MembershipMLPaymentConfig {
 
 /// An object representing the payment responsibilities accepted by the
 /// collaboration member for query and job compute costs.
+///
+/// @nodoc
 class MembershipJobComputePaymentConfig {
   /// Indicates whether the collaboration member has accepted to pay for job
   /// compute costs (<code>TRUE</code>) or has not accepted to pay for query and
@@ -9530,6 +9790,8 @@ class MembershipJobComputePaymentConfig {
 
 /// An object representing the collaboration member's model training payment
 /// responsibilities set by the collaboration creator.
+///
+/// @nodoc
 class MembershipModelTrainingPaymentConfig {
   /// Indicates whether the collaboration member has accepted to pay for model
   /// training costs (<code>TRUE</code>) or has not accepted to pay for model
@@ -9573,6 +9835,8 @@ class MembershipModelTrainingPaymentConfig {
 
 /// An object representing the collaboration member's model inference payment
 /// responsibilities set by the collaboration creator.
+///
+/// @nodoc
 class MembershipModelInferencePaymentConfig {
   /// Indicates whether the collaboration member has accepted to pay for model
   /// inference costs (<code>TRUE</code>) or has not accepted to pay for model
@@ -9615,6 +9879,8 @@ class MembershipModelInferencePaymentConfig {
 }
 
 /// Configuration for payment for synthetic data generation in a membership.
+///
+/// @nodoc
 class MembershipSyntheticDataGenerationPaymentConfig {
   /// Indicates if this membership is responsible for paying for synthetic data
   /// generation.
@@ -9639,6 +9905,7 @@ class MembershipSyntheticDataGenerationPaymentConfig {
   }
 }
 
+/// @nodoc
 class CustomMLMemberAbility {
   static const canReceiveModelOutput =
       CustomMLMemberAbility._('CAN_RECEIVE_MODEL_OUTPUT');
@@ -9666,6 +9933,7 @@ class CustomMLMemberAbility {
   String toString() => value;
 }
 
+/// @nodoc
 class MemberAbility {
   static const canQuery = MemberAbility._('CAN_QUERY');
   static const canReceiveResults = MemberAbility._('CAN_RECEIVE_RESULTS');
@@ -9692,6 +9960,8 @@ class MemberAbility {
 }
 
 /// The membership object.
+///
+/// @nodoc
 class Membership {
   /// The unique ARN for the membership.
   final String arn;
@@ -9873,6 +10143,7 @@ class Membership {
   }
 }
 
+/// @nodoc
 class MembershipQueryLogStatus {
   static const enabled = MembershipQueryLogStatus._('ENABLED');
   static const disabled = MembershipQueryLogStatus._('DISABLED');
@@ -9898,6 +10169,7 @@ class MembershipQueryLogStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class MembershipJobLogStatus {
   static const enabled = MembershipJobLogStatus._('ENABLED');
   static const disabled = MembershipJobLogStatus._('DISABLED');
@@ -9924,6 +10196,8 @@ class MembershipJobLogStatus {
 }
 
 /// Contains configurations for protected query results.
+///
+/// @nodoc
 class MembershipProtectedQueryResultConfiguration {
   /// Configuration for protected query results.
   final MembershipProtectedQueryOutputConfiguration outputConfiguration;
@@ -9959,6 +10233,8 @@ class MembershipProtectedQueryResultConfiguration {
 }
 
 /// Contains configurations for protected job results.
+///
+/// @nodoc
 class MembershipProtectedJobResultConfiguration {
   /// The output configuration for a protected job result.
   final MembershipProtectedJobOutputConfiguration outputConfiguration;
@@ -9994,6 +10270,8 @@ class MembershipProtectedJobResultConfiguration {
 }
 
 /// Contains configurations for protected job results.
+///
+/// @nodoc
 class MembershipProtectedJobOutputConfiguration {
   /// Contains the configuration to write the job results to S3.
   final ProtectedJobS3OutputConfigurationInput? s3;
@@ -10021,6 +10299,8 @@ class MembershipProtectedJobOutputConfiguration {
 }
 
 /// Contains input information for protected jobs with an S3 output type.
+///
+/// @nodoc
 class ProtectedJobS3OutputConfigurationInput {
   /// The S3 bucket for job output.
   final String bucket;
@@ -10052,6 +10332,8 @@ class ProtectedJobS3OutputConfigurationInput {
 }
 
 /// Contains configurations for protected query results.
+///
+/// @nodoc
 class MembershipProtectedQueryOutputConfiguration {
   final ProtectedQueryS3OutputConfiguration? s3;
 
@@ -10079,6 +10361,8 @@ class MembershipProtectedQueryOutputConfiguration {
 
 /// An object representing the payment responsibilities to update for the
 /// membership.
+///
+/// @nodoc
 class UpdateMembershipPaymentConfiguration {
   final MembershipJobComputePaymentConfig? jobCompute;
   final MembershipMLPaymentConfig? machineLearning;
@@ -10103,6 +10387,8 @@ class UpdateMembershipPaymentConfiguration {
 }
 
 /// Detailed information about the ID namespace association.
+///
+/// @nodoc
 class IdNamespaceAssociationSummary {
   /// The Amazon Resource Name (ARN) of this ID namespace association.
   final String arn;
@@ -10215,6 +10501,8 @@ class IdNamespaceAssociationSummary {
 
 /// Provides the information for the ID namespace association input reference
 /// configuration.
+///
+/// @nodoc
 class IdNamespaceAssociationInputReferenceConfig {
   /// The Amazon Resource Name (ARN) of the Entity Resolution resource that is
   /// being associated to the collaboration. Valid resource ARNs are from the ID
@@ -10254,6 +10542,8 @@ class IdNamespaceAssociationInputReferenceConfig {
 
 /// Detailed information about the ID namespace association input reference
 /// properties.
+///
+/// @nodoc
 class IdNamespaceAssociationInputReferencePropertiesSummary {
   /// The ID namespace type for this ID namespace association.
   final IdNamespaceType idNamespaceType;
@@ -10278,6 +10568,7 @@ class IdNamespaceAssociationInputReferencePropertiesSummary {
   }
 }
 
+/// @nodoc
 class IdNamespaceType {
   static const source = IdNamespaceType._('SOURCE');
   static const target = IdNamespaceType._('TARGET');
@@ -10303,6 +10594,8 @@ class IdNamespaceType {
 }
 
 /// Provides information to create the ID namespace association.
+///
+/// @nodoc
 class IdNamespaceAssociation {
   /// The Amazon Resource Name (ARN) of the ID namespace association.
   final String arn;
@@ -10423,6 +10716,8 @@ class IdNamespaceAssociation {
 
 /// Provides the information for the ID namespace association input reference
 /// properties.
+///
+/// @nodoc
 class IdNamespaceAssociationInputReferenceProperties {
   /// Defines how ID mapping workflows are supported for this ID namespace
   /// association.
@@ -10460,6 +10755,8 @@ class IdNamespaceAssociationInputReferenceProperties {
 }
 
 /// The configuration settings for the ID mapping table.
+///
+/// @nodoc
 class IdMappingConfig {
   /// An indicator as to whether you can use your column as a dimension column in
   /// the ID mapping table (<code>TRUE</code>) or not (<code>FALSE</code>).
@@ -10486,6 +10783,7 @@ class IdMappingConfig {
   }
 }
 
+/// @nodoc
 class JobType {
   static const batch = JobType._('BATCH');
   static const incremental = JobType._('INCREMENTAL');
@@ -10511,6 +10809,8 @@ class JobType {
 }
 
 /// Detailed information about the ID mapping table.
+///
+/// @nodoc
 class IdMappingTableSummary {
   /// The Amazon Resource Name (ARN) of this ID mapping table.
   final String arn;
@@ -10609,6 +10909,8 @@ class IdMappingTableSummary {
 }
 
 /// Provides the input reference configuration for the ID mapping table.
+///
+/// @nodoc
 class IdMappingTableInputReferenceConfig {
   /// The Amazon Resource Name (ARN) of the referenced resource in Entity
   /// Resolution. Valid values are ID mapping workflow ARNs.
@@ -10646,6 +10948,8 @@ class IdMappingTableInputReferenceConfig {
 }
 
 /// Describes information about the ID mapping table.
+///
+/// @nodoc
 class IdMappingTable {
   /// The Amazon Resource Name (ARN) of the ID mapping table.
   final String arn;
@@ -10760,6 +11064,8 @@ class IdMappingTable {
 }
 
 /// The input reference properties for the ID mapping table.
+///
+/// @nodoc
 class IdMappingTableInputReferenceProperties {
   /// The input source of the ID mapping table.
   final List<IdMappingTableInputSource> idMappingTableInputSource;
@@ -10789,6 +11095,8 @@ class IdMappingTableInputReferenceProperties {
 }
 
 /// The input source of the ID mapping table.
+///
+/// @nodoc
 class IdMappingTableInputSource {
   /// The unique identifier of the ID namespace association.
   final String idNamespaceAssociationId;
@@ -10821,6 +11129,8 @@ class IdMappingTableInputSource {
 
 /// A configured table analysis rule, which limits how data for this table can
 /// be used.
+///
+/// @nodoc
 class ConfiguredTableAnalysisRule {
   /// The unique ARN for the configured table.
   final String configuredTableArn;
@@ -10882,6 +11192,8 @@ class ConfiguredTableAnalysisRule {
 }
 
 /// Controls on the query specifications that can be run on a configured table.
+///
+/// @nodoc
 class ConfiguredTableAnalysisRulePolicy {
   /// Controls on the query specifications that can be run on a configured table.
   final ConfiguredTableAnalysisRulePolicyV1? v1;
@@ -10908,6 +11220,7 @@ class ConfiguredTableAnalysisRulePolicy {
   }
 }
 
+/// @nodoc
 class ConfiguredTableAnalysisRuleType {
   static const aggregation = ConfiguredTableAnalysisRuleType._('AGGREGATION');
   static const list = ConfiguredTableAnalysisRuleType._('LIST');
@@ -10935,6 +11248,8 @@ class ConfiguredTableAnalysisRuleType {
 }
 
 /// Controls on the query specifications that can be run on a configured table.
+///
+/// @nodoc
 class ConfiguredTableAnalysisRulePolicyV1 {
   /// Analysis rule type that enables only aggregation queries on a configured
   /// table.
@@ -10979,6 +11294,8 @@ class ConfiguredTableAnalysisRulePolicyV1 {
 }
 
 /// A type of analysis rule that enables row-level analysis.
+///
+/// @nodoc
 class AnalysisRuleList {
   /// Columns that can be used to join a configured table with the table of the
   /// member who can query and other members' configured tables.
@@ -11040,6 +11357,8 @@ class AnalysisRuleList {
 
 /// A type of analysis rule that enables query structure and specified queries
 /// that produce aggregate statistics.
+///
+/// @nodoc
 class AnalysisRuleAggregation {
   /// The columns that query runners are allowed to use in aggregation queries.
   final List<AggregateColumn> aggregateColumns;
@@ -11147,6 +11466,8 @@ class AnalysisRuleAggregation {
 
 /// A type of analysis rule that enables the table owner to approve custom SQL
 /// queries on their configured tables. It supports differential privacy.
+///
+/// @nodoc
 class AnalysisRuleCustom {
   /// The ARN of the analysis templates that are allowed by the custom analysis
   /// rule.
@@ -11218,6 +11539,7 @@ class AnalysisRuleCustom {
   }
 }
 
+/// @nodoc
 class AdditionalAnalyses {
   static const allowed = AdditionalAnalyses._('ALLOWED');
   static const required = AdditionalAnalyses._('REQUIRED');
@@ -11245,6 +11567,8 @@ class AdditionalAnalyses {
 }
 
 /// Specifies the unique identifier for your users.
+///
+/// @nodoc
 class DifferentialPrivacyConfiguration {
   /// The name of the column (such as user_id) that contains the unique identifier
   /// of your users whose privacy you want to protect. If you want to turn on
@@ -11277,6 +11601,8 @@ class DifferentialPrivacyConfiguration {
 
 /// Specifies the name of the column that contains the unique identifier of your
 /// users, whose privacy you want to protect.
+///
+/// @nodoc
 class DifferentialPrivacyColumn {
   /// The name of the column, such as user_id, that contains the unique identifier
   /// of your users, whose privacy you want to protect. If you want to turn on
@@ -11303,6 +11629,7 @@ class DifferentialPrivacyColumn {
   }
 }
 
+/// @nodoc
 class JoinRequiredOption {
   static const queryRunner = JoinRequiredOption._('QUERY_RUNNER');
 
@@ -11329,6 +11656,8 @@ class JoinRequiredOption {
 
 /// Constraint on query output removing output rows that do not meet a minimum
 /// number of distinct values of a specified column.
+///
+/// @nodoc
 class AggregationConstraint {
   /// Column in aggregation constraint for which there must be a minimum number of
   /// distinct values in an output row for it to be in the query output.
@@ -11369,6 +11698,7 @@ class AggregationConstraint {
   }
 }
 
+/// @nodoc
 class AggregationType {
   static const countDistinct = AggregationType._('COUNT_DISTINCT');
 
@@ -11392,6 +11722,7 @@ class AggregationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ScalarFunctions {
   static const abs = ScalarFunctions._('ABS');
   static const cast = ScalarFunctions._('CAST');
@@ -11463,6 +11794,7 @@ class ScalarFunctions {
   String toString() => value;
 }
 
+/// @nodoc
 class JoinOperator {
   static const or = JoinOperator._('OR');
   static const and = JoinOperator._('AND');
@@ -11487,6 +11819,8 @@ class JoinOperator {
 }
 
 /// Column in configured table that can be used in aggregate function in query.
+///
+/// @nodoc
 class AggregateColumn {
   /// Column names in configured table of aggregate columns.
   final List<String> columnNames;
@@ -11520,6 +11854,7 @@ class AggregateColumn {
   }
 }
 
+/// @nodoc
 class AggregateFunctionName {
   static const sum = AggregateFunctionName._('SUM');
   static const sumDistinct = AggregateFunctionName._('SUM_DISTINCT');
@@ -11549,6 +11884,8 @@ class AggregateFunctionName {
 }
 
 /// The configured table summary for the objects listed by the request.
+///
+/// @nodoc
 class ConfiguredTableSummary {
   /// The analysis method for the configured tables.
   ///
@@ -11638,6 +11975,7 @@ class ConfiguredTableSummary {
   }
 }
 
+/// @nodoc
 class AnalysisMethod {
   static const directQuery = AnalysisMethod._('DIRECT_QUERY');
   static const directJob = AnalysisMethod._('DIRECT_JOB');
@@ -11663,6 +12001,7 @@ class AnalysisMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class SelectedAnalysisMethod {
   static const directQuery = SelectedAnalysisMethod._('DIRECT_QUERY');
   static const directJob = SelectedAnalysisMethod._('DIRECT_JOB');
@@ -11689,6 +12028,8 @@ class SelectedAnalysisMethod {
 }
 
 /// A table that has been configured for use in a collaboration.
+///
+/// @nodoc
 class ConfiguredTable {
   /// The columns within the underlying Glue table that can be used within
   /// collaborations.
@@ -11807,6 +12148,8 @@ class ConfiguredTable {
 }
 
 /// A pointer to the dataset that underlies this table.
+///
+/// @nodoc
 class TableReference {
   /// If present, a reference to the Athena table referred to by this table
   /// reference.
@@ -11855,6 +12198,8 @@ class TableReference {
 }
 
 /// A reference to a table within an Glue data catalog.
+///
+/// @nodoc
 class GlueTableReference {
   /// The name of the database the Glue table belongs to.
   final String databaseName;
@@ -11894,6 +12239,8 @@ class GlueTableReference {
 }
 
 /// A reference to a table within Snowflake.
+///
+/// @nodoc
 class SnowflakeTableReference {
   /// The account identifier for the Snowflake table reference.
   final String accountIdentifier;
@@ -11954,6 +12301,8 @@ class SnowflakeTableReference {
 }
 
 /// A reference to a table within Athena.
+///
+/// @nodoc
 class AthenaTableReference {
   /// The database name.
   final String databaseName;
@@ -12013,6 +12362,7 @@ class AthenaTableReference {
   }
 }
 
+/// @nodoc
 class CommercialRegion {
   static const usWest_1 = CommercialRegion._('us-west-1');
   static const usWest_2 = CommercialRegion._('us-west-2');
@@ -12103,6 +12453,8 @@ class CommercialRegion {
 }
 
 /// The schema of a Snowflake table.
+///
+/// @nodoc
 class SnowflakeTableSchema {
   /// The schema of a Snowflake table.
   final List<SnowflakeTableSchemaV1>? v1;
@@ -12130,6 +12482,8 @@ class SnowflakeTableSchema {
 }
 
 /// The Snowflake table schema.
+///
+/// @nodoc
 class SnowflakeTableSchemaV1 {
   /// The column name.
   final String columnName;
@@ -12172,6 +12526,8 @@ class SnowflakeTableSchemaV1 {
 /// collaboration. In the console, the
 /// <code>ConfiguredTableAssociationAnalysisRule</code> is referred to as the
 /// <i>collaboration analysis rule</i>.
+///
+/// @nodoc
 class ConfiguredTableAssociationAnalysisRule {
   /// The Amazon Resource Name (ARN) of the configured table association.
   final String configuredTableAssociationArn;
@@ -12245,6 +12601,8 @@ class ConfiguredTableAssociationAnalysisRule {
 
 /// Controls on the query specifications that can be run on an associated
 /// configured table.
+///
+/// @nodoc
 class ConfiguredTableAssociationAnalysisRulePolicy {
   /// The policy for the configured table association analysis rule.
   final ConfiguredTableAssociationAnalysisRulePolicyV1? v1;
@@ -12271,6 +12629,7 @@ class ConfiguredTableAssociationAnalysisRulePolicy {
   }
 }
 
+/// @nodoc
 class ConfiguredTableAssociationAnalysisRuleType {
   static const aggregation =
       ConfiguredTableAssociationAnalysisRuleType._('AGGREGATION');
@@ -12301,6 +12660,8 @@ class ConfiguredTableAssociationAnalysisRuleType {
 
 /// Controls on the query specifications that can be run on an associated
 /// configured table.
+///
+/// @nodoc
 class ConfiguredTableAssociationAnalysisRulePolicyV1 {
   /// Analysis rule type that enables only aggregation queries on a configured
   /// table.
@@ -12351,6 +12712,8 @@ class ConfiguredTableAssociationAnalysisRulePolicyV1 {
 
 /// The configured table association analysis rule applied to a configured table
 /// with the list analysis rule.
+///
+/// @nodoc
 class ConfiguredTableAssociationAnalysisRuleList {
   /// The list of resources or wildcards (ARNs) that are allowed to perform
   /// additional analysis on query output.
@@ -12393,6 +12756,8 @@ class ConfiguredTableAssociationAnalysisRuleList {
 
 /// The configured table association analysis rule applied to a configured table
 /// with the aggregation analysis rule.
+///
+/// @nodoc
 class ConfiguredTableAssociationAnalysisRuleAggregation {
   /// The list of resources or wildcards (ARNs) that are allowed to perform
   /// additional analysis on query output.
@@ -12439,6 +12804,8 @@ class ConfiguredTableAssociationAnalysisRuleAggregation {
 
 /// The configured table association analysis rule applied to a configured table
 /// with the custom analysis rule.
+///
+/// @nodoc
 class ConfiguredTableAssociationAnalysisRuleCustom {
   /// The list of resources or wildcards (ARNs) that are allowed to perform
   /// additional analysis on query output.
@@ -12481,6 +12848,8 @@ class ConfiguredTableAssociationAnalysisRuleCustom {
 
 /// The configured table association summary for the objects listed by the
 /// request.
+///
+/// @nodoc
 class ConfiguredTableAssociationSummary {
   /// The unique ARN for the configured table association.
   final String arn;
@@ -12571,6 +12940,8 @@ class ConfiguredTableAssociationSummary {
 }
 
 /// A configured table association links a configured table to a collaboration.
+///
+/// @nodoc
 class ConfiguredTableAssociation {
   /// The unique ARN for the configured table association.
   final String arn;
@@ -12681,6 +13052,8 @@ class ConfiguredTableAssociation {
 }
 
 /// A summary of the configured audience model association.
+///
+/// @nodoc
 class ConfiguredAudienceModelAssociationSummary {
   /// The Amazon Resource Name (ARN) of the configured audience model association.
   final String arn;
@@ -12782,6 +13155,8 @@ class ConfiguredAudienceModelAssociationSummary {
 }
 
 /// Details about the configured audience model association.
+///
+/// @nodoc
 class ConfiguredAudienceModelAssociation {
   /// The Amazon Resource Name (ARN) of the configured audience model association.
   final String arn;
@@ -12896,6 +13271,8 @@ class ConfiguredAudienceModelAssociation {
 
 /// Represents a request to modify a collaboration. Change requests enable
 /// structured modifications to collaborations after they have been created.
+///
+/// @nodoc
 class CollaborationChangeRequest {
   /// The list of changes specified in this change request.
   final List<Change> changes;
@@ -12976,6 +13353,7 @@ class CollaborationChangeRequest {
   }
 }
 
+/// @nodoc
 class ChangeRequestStatus {
   static const pending = ChangeRequestStatus._('PENDING');
   static const approved = ChangeRequestStatus._('APPROVED');
@@ -13006,6 +13384,8 @@ class ChangeRequestStatus {
 
 /// Contains detailed information about the approval state of a given member in
 /// the collaboration for a given collaboration change request.
+///
+/// @nodoc
 class ApprovalStatusDetails {
   /// The approval status of a member's vote on the change request. Valid values
   /// are PENDING (if they haven't voted), APPROVED, or DENIED.
@@ -13029,6 +13409,7 @@ class ApprovalStatusDetails {
   }
 }
 
+/// @nodoc
 class ApprovalStatus {
   static const approved = ApprovalStatus._('APPROVED');
   static const denied = ApprovalStatus._('DENIED');
@@ -13056,6 +13437,8 @@ class ApprovalStatus {
 
 /// Represents a single change within a collaboration change request, containing
 /// the change identifier and specification.
+///
+/// @nodoc
 class Change {
   /// The specification details for this change.
   final ChangeSpecification specification;
@@ -13098,6 +13481,7 @@ class Change {
   }
 }
 
+/// @nodoc
 class ChangeSpecificationType {
   static const member = ChangeSpecificationType._('MEMBER');
   static const collaboration = ChangeSpecificationType._('COLLABORATION');
@@ -13125,6 +13509,8 @@ class ChangeSpecificationType {
 
 /// A union that contains the specification details for different types of
 /// changes.
+///
+/// @nodoc
 class ChangeSpecification {
   /// The collaboration configuration changes being requested. Currently, this
   /// only supports modifying which change types are auto-approved for the
@@ -13162,6 +13548,7 @@ class ChangeSpecification {
   }
 }
 
+/// @nodoc
 class ChangeType {
   static const addMember = ChangeType._('ADD_MEMBER');
   static const grantReceiveResultsAbility =
@@ -13213,6 +13600,8 @@ class ChangeType {
 
 /// Specifies changes to collaboration membership, including adding new members
 /// with their abilities and display names.
+///
+/// @nodoc
 class MemberChangeSpecification {
   /// The Amazon Web Services account ID of the member to add to the
   /// collaboration.
@@ -13224,12 +13613,12 @@ class MemberChangeSpecification {
   /// The following values are currently not supported: <code>CAN_QUERY</code> and
   /// <code>CAN_RUN_JOB</code>.
   ///
-  /// Set the value of <code>memberAbilities</code> to <code>[]</code> to allow a
-  /// member to contribute data.
+  /// Set the value of <code>memberAbilities</code> to <code>\[\]</code> to allow
+  /// a member to contribute data.
   ///
   /// Set the value of <code>memberAbilities</code> to
-  /// <code>[CAN_RECEIVE_RESULTS]</code> to allow a member to contribute data and
-  /// receive results.
+  /// <code>\[CAN_RECEIVE_RESULTS\]</code> to allow a member to contribute data
+  /// and receive results.
   /// </note>
   final List<MemberAbility> memberAbilities;
 
@@ -13286,6 +13675,8 @@ class MemberChangeSpecification {
 
 /// Defines the specific changes being requested for a collaboration, including
 /// configuration modifications and approval requirements.
+///
+/// @nodoc
 class CollaborationChangeSpecification {
   /// Defines requested updates to properties of the collaboration. Currently,
   /// this only supports modifying which change types are auto-approved for the
@@ -13315,6 +13706,7 @@ class CollaborationChangeSpecification {
   }
 }
 
+/// @nodoc
 class AutoApprovedChangeType {
   static const addMember = AutoApprovedChangeType._('ADD_MEMBER');
   static const grantReceiveResultsAbility =
@@ -13349,6 +13741,8 @@ class AutoApprovedChangeType {
 
 /// An object representing the collaboration member's payment responsibilities
 /// set by the collaboration creator.
+///
+/// @nodoc
 class PaymentConfiguration {
   /// The collaboration member's payment responsibilities set by the collaboration
   /// creator for query compute costs.
@@ -13397,6 +13791,8 @@ class PaymentConfiguration {
 
 /// An object representing the collaboration member's payment responsibilities
 /// set by the collaboration creator for query compute costs.
+///
+/// @nodoc
 class QueryComputePaymentConfig {
   /// Indicates whether the collaboration creator has configured the collaboration
   /// member to pay for query compute costs (<code>TRUE</code>) or has not
@@ -13433,6 +13829,8 @@ class QueryComputePaymentConfig {
 
 /// An object representing the collaboration member's machine learning payment
 /// responsibilities set by the collaboration creator.
+///
+/// @nodoc
 class MLPaymentConfig {
   /// The payment responsibilities accepted by the member for model inference.
   final ModelInferencePaymentConfig? modelInference;
@@ -13481,6 +13879,8 @@ class MLPaymentConfig {
 
 /// An object representing the collaboration member's payment responsibilities
 /// set by the collaboration creator for query and job compute costs.
+///
+/// @nodoc
 class JobComputePaymentConfig {
   /// Indicates whether the collaboration creator has configured the collaboration
   /// member to pay for query and job compute costs (<code>TRUE</code>) or has not
@@ -13515,6 +13915,8 @@ class JobComputePaymentConfig {
 
 /// An object representing the collaboration member's model training payment
 /// responsibilities set by the collaboration creator.
+///
+/// @nodoc
 class ModelTrainingPaymentConfig {
   /// Indicates whether the collaboration creator has configured the collaboration
   /// member to pay for model training costs (<code>TRUE</code>) or has not
@@ -13551,6 +13953,8 @@ class ModelTrainingPaymentConfig {
 
 /// An object representing the collaboration member's model inference payment
 /// responsibilities set by the collaboration creator.
+///
+/// @nodoc
 class ModelInferencePaymentConfig {
   /// Indicates whether the collaboration creator has configured the collaboration
   /// member to pay for model inference costs (<code>TRUE</code>) or has not
@@ -13586,6 +13990,8 @@ class ModelInferencePaymentConfig {
 }
 
 /// Payment configuration for synthetic data generation.
+///
+/// @nodoc
 class SyntheticDataGenerationPaymentConfig {
   /// Indicates who is responsible for paying for synthetic data generation.
   final bool isResponsible;
@@ -13609,6 +14015,7 @@ class SyntheticDataGenerationPaymentConfig {
   }
 }
 
+/// @nodoc
 class ChangeRequestAction {
   static const approve = ChangeRequestAction._('APPROVE');
   static const deny = ChangeRequestAction._('DENY');
@@ -13637,6 +14044,8 @@ class ChangeRequestAction {
 }
 
 /// The schema summary for the objects listed by the request.
+///
+/// @nodoc
 class SchemaSummary {
   /// The types of analysis rules that are associated with this schema object.
   final List<AnalysisRuleType> analysisRuleTypes;
@@ -13748,6 +14157,7 @@ class SchemaSummary {
   }
 }
 
+/// @nodoc
 class SchemaType {
   static const table = SchemaType._('TABLE');
   static const idMappingTable = SchemaType._('ID_MAPPING_TABLE');
@@ -13771,6 +14181,7 @@ class SchemaType {
   String toString() => value;
 }
 
+/// @nodoc
 class AnalysisRuleType {
   static const aggregation = AnalysisRuleType._('AGGREGATION');
   static const list = AnalysisRuleType._('LIST');
@@ -13798,6 +14209,8 @@ class AnalysisRuleType {
 }
 
 /// The member object listed by the request.
+///
+/// @nodoc
 class MemberSummary {
   /// The abilities granted to the collaboration member.
   final List<MemberAbility> abilities;
@@ -13893,6 +14306,7 @@ class MemberSummary {
   }
 }
 
+/// @nodoc
 class MemberStatus {
   static const invited = MemberStatus._('INVITED');
   static const active = MemberStatus._('ACTIVE');
@@ -13921,6 +14335,8 @@ class MemberStatus {
 /// A summary of the collaboration's privacy budget template. This summary
 /// includes information about who created the privacy budget template and what
 /// collaborations it belongs to.
+///
+/// @nodoc
 class CollaborationPrivacyBudgetTemplateSummary {
   /// The ARN of the collaboration privacy budget template.
   final String arn;
@@ -14001,6 +14417,8 @@ class CollaborationPrivacyBudgetTemplateSummary {
 /// A summary of the collaboration privacy budgets. This summary includes the
 /// collaboration information, creation information, epsilon provided, and
 /// utility in terms of aggregations.
+///
+/// @nodoc
 class CollaborationPrivacyBudgetSummary {
   /// The includes epsilon provided and utility in terms of aggregations.
   final PrivacyBudget budget;
@@ -14094,6 +14512,8 @@ class CollaborationPrivacyBudgetSummary {
 
 /// Provides summary information about the collaboration ID namespace
 /// association.
+///
+/// @nodoc
 class CollaborationIdNamespaceAssociationSummary {
   /// The Amazon Resource Name (ARN) of the collaboration ID namespace
   /// association.
@@ -14201,6 +14621,8 @@ class CollaborationIdNamespaceAssociationSummary {
 }
 
 /// A summary of the configured audience model association in the collaboration.
+///
+/// @nodoc
 class CollaborationConfiguredAudienceModelAssociationSummary {
   /// The Amazon Resource Name (ARN) of the configured audience model association.
   final String arn;
@@ -14284,6 +14706,8 @@ class CollaborationConfiguredAudienceModelAssociationSummary {
 }
 
 /// Summary information about a collaboration change request.
+///
+/// @nodoc
 class CollaborationChangeRequestSummary {
   /// Summary of the changes in this change request.
   final List<Change> changes;
@@ -14363,6 +14787,8 @@ class CollaborationChangeRequestSummary {
 }
 
 /// The metadata of the analysis template within a collaboration.
+///
+/// @nodoc
 class CollaborationAnalysisTemplateSummary {
   /// The Amazon Resource Name (ARN) of the analysis template.
   final String arn;
@@ -14456,6 +14882,8 @@ class CollaborationAnalysisTemplateSummary {
 
 /// A specification about how data from the configured table can be used in a
 /// query.
+///
+/// @nodoc
 class AnalysisRule {
   /// The unique ID for the associated collaboration.
   final String collaborationId;
@@ -14535,6 +14963,8 @@ class AnalysisRule {
 }
 
 /// Controls on the query specifications that can be run on configured table.
+///
+/// @nodoc
 class AnalysisRulePolicy {
   /// Controls on the query specifications that can be run on configured table.
   final AnalysisRulePolicyV1? v1;
@@ -14561,6 +14991,8 @@ class AnalysisRulePolicy {
 
 /// Controls on the analysis specifications that can be run on a configured
 /// table.
+///
+/// @nodoc
 class ConsolidatedPolicy {
   /// The consolidated policy version 1.
   final ConsolidatedPolicyV1? v1;
@@ -14587,6 +15019,8 @@ class ConsolidatedPolicy {
 
 /// Controls on the analysis specifications that can be run on a configured
 /// table.
+///
+/// @nodoc
 class ConsolidatedPolicyV1 {
   /// The aggregation setting for the consolidated policy.
   final ConsolidatedPolicyAggregation? aggregation;
@@ -14634,6 +15068,8 @@ class ConsolidatedPolicyV1 {
 
 /// Controls on the analysis specifications that can be run on a configured
 /// table.
+///
+/// @nodoc
 class ConsolidatedPolicyList {
   /// The columns to join on.
   final List<String> joinColumns;
@@ -14714,6 +15150,8 @@ class ConsolidatedPolicyList {
 
 /// Controls on the analysis specifications that can be run on a configured
 /// table.
+///
+/// @nodoc
 class ConsolidatedPolicyAggregation {
   /// Aggregate columns in consolidated policy aggregation.
   final List<AggregateColumn> aggregateColumns;
@@ -14832,6 +15270,8 @@ class ConsolidatedPolicyAggregation {
 
 /// Controls on the analysis specifications that can be run on a configured
 /// table.
+///
+/// @nodoc
 class ConsolidatedPolicyCustom {
   /// The allowed analyses.
   final List<String> allowedAnalyses;
@@ -14920,6 +15360,8 @@ class ConsolidatedPolicyCustom {
 }
 
 /// Controls on the query specifications that can be run on configured table.
+///
+/// @nodoc
 class AnalysisRulePolicyV1 {
   /// Analysis rule type that enables only aggregation queries on a configured
   /// table.
@@ -14975,6 +15417,8 @@ class AnalysisRulePolicyV1 {
 }
 
 /// Defines details for the analysis rule ID mapping table.
+///
+/// @nodoc
 class AnalysisRuleIdMappingTable {
   /// The columns that query runners are allowed to use in an INNER JOIN
   /// statement.
@@ -15023,6 +15467,8 @@ class AnalysisRuleIdMappingTable {
 }
 
 /// Provides any necessary query constraint information.
+///
+/// @nodoc
 class QueryConstraint {
   /// An array of column names that specifies which columns are required in the
   /// JOIN statement.
@@ -15050,6 +15496,8 @@ class QueryConstraint {
 }
 
 /// Provides the name of the columns that are required to overlap.
+///
+/// @nodoc
 class QueryConstraintRequireOverlap {
   /// The columns that are required to overlap.
   final List<String>? columns;
@@ -15074,6 +15522,8 @@ class QueryConstraintRequireOverlap {
 }
 
 /// A schema is a relation within a collaboration.
+///
+/// @nodoc
 class Schema {
   /// The analysis rule types that are associated with the schema. Currently, only
   /// one entry is present.
@@ -15238,6 +15688,8 @@ class Schema {
 }
 
 /// Information about the schema type properties.
+///
+/// @nodoc
 class SchemaTypeProperties {
   /// The ID mapping table for the schema type properties.
   final IdMappingTableSchemaTypeProperties? idMappingTable;
@@ -15265,6 +15717,8 @@ class SchemaTypeProperties {
 
 /// Additional properties that are specific to the type of the associated
 /// schema.
+///
+/// @nodoc
 class IdMappingTableSchemaTypeProperties {
   /// Defines which ID namespace associations are used to create the ID mapping
   /// table.
@@ -15299,6 +15753,8 @@ class IdMappingTableSchemaTypeProperties {
 /// A status of <code>READY</code> means that based on the schema analysis rule,
 /// queries of the given analysis rule type are properly configured to run
 /// queries on this schema.
+///
+/// @nodoc
 class SchemaStatusDetail {
   /// The type of analysis that can be performed on the schema.
   ///
@@ -15362,6 +15818,7 @@ class SchemaStatusDetail {
   }
 }
 
+/// @nodoc
 class SchemaStatus {
   static const ready = SchemaStatus._('READY');
   static const notReady = SchemaStatus._('NOT_READY');
@@ -15385,6 +15842,7 @@ class SchemaStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SchemaConfiguration {
   static const differentialPrivacy =
       SchemaConfiguration._('DIFFERENTIAL_PRIVACY');
@@ -15411,6 +15869,8 @@ class SchemaConfiguration {
 }
 
 /// A reason why the schema status is set to its current value.
+///
+/// @nodoc
 class SchemaStatusReason {
   /// The schema status reason code.
   final SchemaStatusReasonCode code;
@@ -15440,6 +15900,7 @@ class SchemaStatusReason {
   }
 }
 
+/// @nodoc
 class SchemaStatusReasonCode {
   static const analysisRuleMissing =
       SchemaStatusReasonCode._('ANALYSIS_RULE_MISSING');
@@ -15498,6 +15959,8 @@ class SchemaStatusReasonCode {
 }
 
 /// A column within a schema relation, derived from the underlying table.
+///
+/// @nodoc
 class Column {
   /// The name of the column.
   final String name;
@@ -15529,6 +15992,8 @@ class Column {
 
 /// An array that specifies the information for a collaboration's privacy budget
 /// template.
+///
+/// @nodoc
 class CollaborationPrivacyBudgetTemplate {
   /// The ARN of the collaboration privacy budget template.
   final String arn;
@@ -15632,6 +16097,8 @@ class CollaborationPrivacyBudgetTemplate {
 }
 
 /// Defines details for the collaboration ID namespace association.
+///
+/// @nodoc
 class CollaborationIdNamespaceAssociation {
   /// The Amazon Resource Name (ARN) of the collaboration ID namespace
   /// association.
@@ -15745,6 +16212,8 @@ class CollaborationIdNamespaceAssociation {
 }
 
 /// The configured audience model association within a collaboration.
+///
+/// @nodoc
 class CollaborationConfiguredAudienceModelAssociation {
   /// The Amazon Resource Name (ARN) of the configured audience model association.
   final String arn;
@@ -15836,6 +16305,8 @@ class CollaborationConfiguredAudienceModelAssociation {
 }
 
 /// The analysis template within a collaboration.
+///
+/// @nodoc
 class CollaborationAnalysisTemplate {
   /// The Amazon Resource Name (ARN) of the analysis template.
   final String arn;
@@ -16001,6 +16472,8 @@ class CollaborationAnalysisTemplate {
 }
 
 /// A relation within an analysis.
+///
+/// @nodoc
 class AnalysisSchema {
   /// The tables referenced in the analysis schema.
   final List<String>? referencedTables;
@@ -16026,6 +16499,7 @@ class AnalysisSchema {
   }
 }
 
+/// @nodoc
 class AnalysisFormat {
   static const sql = AnalysisFormat._('SQL');
   static const pyspark_1_0 = AnalysisFormat._('PYSPARK_1_0');
@@ -16051,6 +16525,8 @@ class AnalysisFormat {
 }
 
 /// The structure that defines the body of the analysis template.
+///
+/// @nodoc
 class AnalysisSource {
   /// The artifacts of the analysis source.
   final AnalysisTemplateArtifacts? artifacts;
@@ -16084,6 +16560,8 @@ class AnalysisSource {
 }
 
 /// The analysis source metadata.
+///
+/// @nodoc
 class AnalysisSourceMetadata {
   /// The artifacts of the analysis source metadata.
   final AnalysisTemplateArtifactMetadata? artifacts;
@@ -16113,6 +16591,8 @@ class AnalysisSourceMetadata {
 /// returned by PySpark jobs. This configuration allows you to control the
 /// verbosity of error messages to help with troubleshooting PySpark jobs while
 /// maintaining appropriate security controls.
+///
+/// @nodoc
 class ErrorMessageConfiguration {
   /// The level of detail for error messages returned by the PySpark job. When set
   /// to DETAILED, error messages include more information to help troubleshoot
@@ -16143,6 +16623,8 @@ class ErrorMessageConfiguration {
 /// The parameters that control how synthetic data is generated, including
 /// privacy settings, column classifications, and other configuration options
 /// that affect the data synthesis process.
+///
+/// @nodoc
 class SyntheticDataParameters {
   /// The machine learning-specific parameters for synthetic data generation.
   final MLSyntheticDataParameters? mlSyntheticDataParameters;
@@ -16171,6 +16653,8 @@ class SyntheticDataParameters {
 
 /// Parameters that control the generation of synthetic data for machine
 /// learning, including privacy settings and column classification details.
+///
+/// @nodoc
 class MLSyntheticDataParameters {
   /// Classification details for data columns that specify how each column should
   /// be treated during synthetic data generation.
@@ -16219,6 +16703,8 @@ class MLSyntheticDataParameters {
 /// Contains classification information for data columns, including mappings
 /// that specify how columns should be handled during synthetic data generation
 /// and privacy analysis.
+///
+/// @nodoc
 class ColumnClassificationDetails {
   /// A mapping that defines the classification of data columns for synthetic data
   /// generation and specifies how each column should be handled during the
@@ -16250,6 +16736,8 @@ class ColumnClassificationDetails {
 /// Properties that define how a specific data column should be handled during
 /// synthetic data generation, including its name, type, and role in predictive
 /// modeling.
+///
+/// @nodoc
 class SyntheticDataColumnProperties {
   /// The name of the data column as it appears in the dataset.
   final String columnName;
@@ -16290,6 +16778,7 @@ class SyntheticDataColumnProperties {
   }
 }
 
+/// @nodoc
 class SyntheticDataColumnType {
   static const categorical = SyntheticDataColumnType._('CATEGORICAL');
   static const numerical = SyntheticDataColumnType._('NUMERICAL');
@@ -16315,6 +16804,7 @@ class SyntheticDataColumnType {
   String toString() => value;
 }
 
+/// @nodoc
 class ErrorMessageType {
   static const detailed = ErrorMessageType._('DETAILED');
 
@@ -16349,6 +16839,8 @@ class ErrorMessageType {
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/clean-rooms/latest/userguide/analysis-rules-custom.html#custom-diff-privacy">https://docs.aws.amazon.com/clean-rooms/latest/userguide/analysis-rules-custom.html#custom-diff-privacy</a>.
+///
+/// @nodoc
 class AnalysisTemplateValidationStatusDetail {
   /// The status of the validation.
   final AnalysisTemplateValidationStatus status;
@@ -16392,6 +16884,7 @@ class AnalysisTemplateValidationStatusDetail {
   }
 }
 
+/// @nodoc
 class AnalysisTemplateValidationType {
   static const differentialPrivacy =
       AnalysisTemplateValidationType._('DIFFERENTIAL_PRIVACY');
@@ -16417,6 +16910,7 @@ class AnalysisTemplateValidationType {
   String toString() => value;
 }
 
+/// @nodoc
 class AnalysisTemplateValidationStatus {
   static const valid = AnalysisTemplateValidationStatus._('VALID');
   static const invalid = AnalysisTemplateValidationStatus._('INVALID');
@@ -16445,6 +16939,8 @@ class AnalysisTemplateValidationStatus {
 }
 
 /// The reasons for the validation results.
+///
+/// @nodoc
 class AnalysisTemplateValidationStatusReason {
   /// The validation message.
   final String message;
@@ -16470,6 +16966,8 @@ class AnalysisTemplateValidationStatusReason {
 
 /// Optional. The member who can query can provide this placeholder for a
 /// literal data value in an analysis template.
+///
+/// @nodoc
 class AnalysisParameter {
   /// The name of the parameter. The name must use only alphanumeric or underscore
   /// (_) characters.
@@ -16508,6 +17006,7 @@ class AnalysisParameter {
   }
 }
 
+/// @nodoc
 class ParameterType {
   static const smallint = ParameterType._('SMALLINT');
   static const integer = ParameterType._('INTEGER');
@@ -16588,6 +17087,8 @@ class ParameterType {
 }
 
 /// The analysis template artifact metadata.
+///
+/// @nodoc
 class AnalysisTemplateArtifactMetadata {
   /// The hash of the entry point for the analysis template artifact metadata.
   final Hash entryPointHash;
@@ -16624,6 +17125,8 @@ class AnalysisTemplateArtifactMetadata {
 }
 
 /// Hash
+///
+/// @nodoc
 class Hash {
   /// The SHA-256 hash value.
   final String? sha256;
@@ -16647,6 +17150,8 @@ class Hash {
 }
 
 /// The analysis template artifacts.
+///
+/// @nodoc
 class AnalysisTemplateArtifacts {
   /// The entry point for the analysis template artifacts.
   final AnalysisTemplateArtifact entryPoint;
@@ -16691,6 +17196,8 @@ class AnalysisTemplateArtifacts {
 }
 
 /// The analysis template artifact.
+///
+/// @nodoc
 class AnalysisTemplateArtifact {
   /// The artifact location.
   final S3Location location;
@@ -16716,6 +17223,8 @@ class AnalysisTemplateArtifact {
 }
 
 /// The S3 location.
+///
+/// @nodoc
 class S3Location {
   /// The bucket name.
   final String bucket;
@@ -16746,6 +17255,8 @@ class S3Location {
 }
 
 /// Specifies a change to apply to a collaboration.
+///
+/// @nodoc
 class ChangeInput {
   /// The specification details for the change. The structure depends on the
   /// specification type.
@@ -16771,6 +17282,8 @@ class ChangeInput {
 }
 
 /// An error that describes why a schema could not be fetched.
+///
+/// @nodoc
 class BatchGetSchemaAnalysisRuleError {
   /// An error code for the error.
   final String code;
@@ -16817,6 +17330,8 @@ class BatchGetSchemaAnalysisRuleError {
 /// Defines the information that's necessary to retrieve an analysis rule
 /// schema. Schema analysis rules are uniquely identiﬁed by a combination of the
 /// schema name and the analysis rule type for a given collaboration.
+///
+/// @nodoc
 class SchemaAnalysisRuleRequest {
   /// The name of the analysis rule schema that you are requesting.
   final String name;
@@ -16840,6 +17355,8 @@ class SchemaAnalysisRuleRequest {
 }
 
 /// An error describing why a schema could not be fetched.
+///
+/// @nodoc
 class BatchGetSchemaError {
   /// An error code for the error.
   final String code;
@@ -16878,6 +17395,8 @@ class BatchGetSchemaError {
 
 /// Details of errors thrown by the call to retrieve multiple analysis templates
 /// within a collaboration by their identifiers.
+///
+/// @nodoc
 class BatchGetCollaborationAnalysisTemplateError {
   /// The Amazon Resource Name (ARN) of the analysis template.
   final String arn;
@@ -16916,6 +17435,8 @@ class BatchGetCollaborationAnalysisTemplateError {
 }
 
 /// The metadata of the collaboration.
+///
+/// @nodoc
 class CollaborationSummary {
   /// The ARN of the collaboration.
   final String arn;
@@ -17016,6 +17537,7 @@ class CollaborationSummary {
   }
 }
 
+/// @nodoc
 class AnalyticsEngine {
   static const spark = AnalyticsEngine._('SPARK');
   static const cleanRoomsSql = AnalyticsEngine._('CLEAN_ROOMS_SQL');
@@ -17040,6 +17562,7 @@ class AnalyticsEngine {
   String toString() => value;
 }
 
+/// @nodoc
 class FilterableMemberStatus {
   static const invited = FilterableMemberStatus._('INVITED');
   static const active = FilterableMemberStatus._('ACTIVE');
@@ -17067,6 +17590,8 @@ class FilterableMemberStatus {
 
 /// The multi-party data share environment. The collaboration contains metadata
 /// about its purpose and participants.
+///
+/// @nodoc
 class Collaboration {
   /// The unique ARN for the collaboration.
   final String arn;
@@ -17250,6 +17775,8 @@ class Collaboration {
 }
 
 /// The settings for client-side encryption for cryptographic computing.
+///
+/// @nodoc
 class DataEncryptionMetadata {
   /// Indicates whether encrypted tables can contain cleartext data
   /// (<code>TRUE</code>) or are to cryptographically process every column
@@ -17303,6 +17830,7 @@ class DataEncryptionMetadata {
   }
 }
 
+/// @nodoc
 class CollaborationQueryLogStatus {
   static const enabled = CollaborationQueryLogStatus._('ENABLED');
   static const disabled = CollaborationQueryLogStatus._('DISABLED');
@@ -17328,6 +17856,7 @@ class CollaborationQueryLogStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class CollaborationJobLogStatus {
   static const enabled = CollaborationJobLogStatus._('ENABLED');
   static const disabled = CollaborationJobLogStatus._('DISABLED');
@@ -17353,6 +17882,7 @@ class CollaborationJobLogStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SupportedS3Region {
   static const usWest_1 = SupportedS3Region._('us-west-1');
   static const usWest_2 = SupportedS3Region._('us-west-2');
@@ -17443,6 +17973,8 @@ class SupportedS3Region {
 }
 
 /// Basic metadata used to construct a new member.
+///
+/// @nodoc
 class MemberSpecification {
   /// The identifier used to reference members of the collaboration. Currently
   /// only supports Amazon Web Services account ID.
@@ -17490,6 +18022,8 @@ class MemberSpecification {
 }
 
 /// The metadata of the analysis template.
+///
+/// @nodoc
 class AnalysisTemplateSummary {
   /// The Amazon Resource Name (ARN) of the analysis template.
   final String arn;
@@ -17585,6 +18119,8 @@ class AnalysisTemplateSummary {
 }
 
 /// The analysis template.
+///
+/// @nodoc
 class AnalysisTemplate {
   /// The Amazon Resource Name (ARN) of the analysis template.
   final String arn;
@@ -17754,6 +18290,7 @@ class AnalysisTemplate {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -17766,26 +18303,31 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -17794,11 +18336,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

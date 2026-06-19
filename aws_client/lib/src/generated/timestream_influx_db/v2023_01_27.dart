@@ -1152,6 +1152,7 @@ class TimestreamInfluxDB {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags used to categorize and track resources.
   final Map<String, String>? tags;
@@ -1175,6 +1176,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateDbClusterOutput {
   /// A service-generated unique identifier.
   final String? dbClusterId;
@@ -1205,6 +1207,7 @@ class CreateDbClusterOutput {
   }
 }
 
+/// @nodoc
 class GetDbClusterOutput {
   /// The Amazon Resource Name (ARN) of the DB cluster.
   final String arn;
@@ -1426,6 +1429,7 @@ class GetDbClusterOutput {
   }
 }
 
+/// @nodoc
 class UpdateDbClusterOutput {
   /// The status of the DB cluster.
   final ClusterStatus? dbClusterStatus;
@@ -1449,6 +1453,7 @@ class UpdateDbClusterOutput {
   }
 }
 
+/// @nodoc
 class DeleteDbClusterOutput {
   /// The status of the DB cluster.
   final ClusterStatus? dbClusterStatus;
@@ -1472,6 +1477,7 @@ class DeleteDbClusterOutput {
   }
 }
 
+/// @nodoc
 class ListDbClustersOutput {
   /// A list of Timestream for InfluxDB cluster summaries.
   final List<DbClusterSummary> items;
@@ -1505,6 +1511,7 @@ class ListDbClustersOutput {
   }
 }
 
+/// @nodoc
 class ListDbInstancesForClusterOutput {
   /// A list of Timestream for InfluxDB instance summaries belonging to the
   /// cluster.
@@ -1540,6 +1547,7 @@ class ListDbInstancesForClusterOutput {
   }
 }
 
+/// @nodoc
 class RebootDbClusterOutput {
   /// The status of the DB Cluster.
   final ClusterStatus? dbClusterStatus;
@@ -1563,6 +1571,7 @@ class RebootDbClusterOutput {
   }
 }
 
+/// @nodoc
 class CreateDbInstanceOutput {
   /// The Amazon Resource Name (ARN) of the DB instance.
   final String arn;
@@ -1795,6 +1804,7 @@ class CreateDbInstanceOutput {
   }
 }
 
+/// @nodoc
 class GetDbInstanceOutput {
   /// The Amazon Resource Name (ARN) of the DB instance.
   final String arn;
@@ -2026,6 +2036,7 @@ class GetDbInstanceOutput {
   }
 }
 
+/// @nodoc
 class UpdateDbInstanceOutput {
   /// The Amazon Resource Name (ARN) of the DB instance.
   final String arn;
@@ -2257,6 +2268,7 @@ class UpdateDbInstanceOutput {
   }
 }
 
+/// @nodoc
 class DeleteDbInstanceOutput {
   /// The Amazon Resource Name (ARN) of the DB instance.
   final String arn;
@@ -2488,6 +2500,7 @@ class DeleteDbInstanceOutput {
   }
 }
 
+/// @nodoc
 class ListDbInstancesOutput {
   /// A list of Timestream for InfluxDB DB instance summaries.
   final List<DbInstanceSummary> items;
@@ -2521,6 +2534,7 @@ class ListDbInstancesOutput {
   }
 }
 
+/// @nodoc
 class RebootDbInstanceOutput {
   /// The Amazon Resource Name (ARN) of the DB instance.
   final String arn;
@@ -2752,6 +2766,7 @@ class RebootDbInstanceOutput {
   }
 }
 
+/// @nodoc
 class CreateDbParameterGroupOutput {
   /// The Amazon Resource Name (ARM) of the DB parameter group.
   final String arn;
@@ -2806,6 +2821,7 @@ class CreateDbParameterGroupOutput {
   }
 }
 
+/// @nodoc
 class GetDbParameterGroupOutput {
   /// The Amazon Resource Name (ARN) of the DB parameter group.
   final String arn;
@@ -2860,6 +2876,7 @@ class GetDbParameterGroupOutput {
   }
 }
 
+/// @nodoc
 class ListDbParameterGroupsOutput {
   /// A list of Timestream for InfluxDB DB parameter group summaries.
   final List<DbParameterGroupSummary> items;
@@ -2895,6 +2912,8 @@ class ListDbParameterGroupsOutput {
 }
 
 /// Contains a summary of a DB parameter group.
+///
+/// @nodoc
 class DbParameterGroupSummary {
   /// The Amazon Resource Name (ARN) of the DB parameter group.
   final String arn;
@@ -2939,6 +2958,8 @@ class DbParameterGroupSummary {
 }
 
 /// The parameters that comprise the parameter group.
+///
+/// @nodoc
 class Parameters {
   /// All the customer-modifiable InfluxDB v2 parameters in Timestream for
   /// InfluxDB.
@@ -2990,6 +3011,8 @@ class Parameters {
 
 /// All the customer-modifiable InfluxDB v2 parameters in Timestream for
 /// InfluxDB.
+///
+/// @nodoc
 class InfluxDBv2Parameters {
   /// Include option to show detailed logs for Flux queries.
   ///
@@ -3416,6 +3439,8 @@ class InfluxDBv2Parameters {
 
 /// All the customer-modifiable InfluxDB v3 Core parameters in Timestream for
 /// InfluxDB.
+///
+/// @nodoc
 class InfluxDBv3CoreParameters {
   /// Provides custom configuration to DataFusion as a comma-separated list of
   /// key:value pairs.
@@ -3883,6 +3908,8 @@ class InfluxDBv3CoreParameters {
 
 /// All the customer-modifiable InfluxDB v3 Enterprise parameters in Timestream
 /// for InfluxDB.
+///
+/// @nodoc
 class InfluxDBv3EnterpriseParameters {
   /// Specifies if the compactor instance should be a standalone instance or not.
   final bool dedicatedCompactor;
@@ -4499,6 +4526,7 @@ class InfluxDBv3EnterpriseParameters {
   }
 }
 
+/// @nodoc
 class LogFormats {
   static const full = LogFormats._('full');
 
@@ -4521,6 +4549,7 @@ class LogFormats {
   String toString() => value;
 }
 
+/// @nodoc
 class DataFusionRuntimeType {
   static const multiThread = DataFusionRuntimeType._('multi-thread');
   static const multiThreadAlt = DataFusionRuntimeType._('multi-thread-alt');
@@ -4547,6 +4576,8 @@ class DataFusionRuntimeType {
 }
 
 /// Duration for InfluxDB parameters in Timestream for InfluxDB.
+///
+/// @nodoc
 class Duration {
   /// The type of duration for InfluxDB parameters.
   final DurationType durationType;
@@ -4578,6 +4609,8 @@ class Duration {
 }
 
 /// Percent or Absolute Long for InfluxDB parameters
+///
+/// @nodoc
 class PercentOrAbsoluteLong {
   /// Absolute long for InfluxDB parameters.
   final int? absolute;
@@ -4607,6 +4640,7 @@ class PercentOrAbsoluteLong {
   }
 }
 
+/// @nodoc
 class DurationType {
   static const hours = DurationType._('hours');
   static const minutes = DurationType._('minutes');
@@ -4633,6 +4667,7 @@ class DurationType {
   String toString() => value;
 }
 
+/// @nodoc
 class LogLevel {
   static const debug = LogLevel._('debug');
   static const info = LogLevel._('info');
@@ -4657,6 +4692,7 @@ class LogLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class TracingType {
   static const log = TracingType._('log');
   static const jaeger = TracingType._('jaeger');
@@ -4681,6 +4717,7 @@ class TracingType {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const creating = Status._('CREATING');
   static const available = Status._('AVAILABLE');
@@ -4727,6 +4764,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('IPV4');
   static const dual = NetworkType._('DUAL');
@@ -4750,6 +4788,7 @@ class NetworkType {
   String toString() => value;
 }
 
+/// @nodoc
 class DbInstanceType {
   static const dbInfluxMedium = DbInstanceType._('db.influx.medium');
   static const dbInfluxLarge = DbInstanceType._('db.influx.large');
@@ -4791,6 +4830,7 @@ class DbInstanceType {
   String toString() => value;
 }
 
+/// @nodoc
 class DbStorageType {
   static const influxIOIncludedT1 = DbStorageType._('InfluxIOIncludedT1');
   static const influxIOIncludedT2 = DbStorageType._('InfluxIOIncludedT2');
@@ -4820,6 +4860,7 @@ class DbStorageType {
   String toString() => value;
 }
 
+/// @nodoc
 class DeploymentType {
   static const singleAz = DeploymentType._('SINGLE_AZ');
   static const withMultiazStandby = DeploymentType._('WITH_MULTIAZ_STANDBY');
@@ -4846,6 +4887,8 @@ class DeploymentType {
 
 /// Configuration for sending InfluxDB engine logs to send to specified S3
 /// bucket.
+///
+/// @nodoc
 class LogDeliveryConfiguration {
   /// Configuration for S3 bucket log delivery.
   final S3Configuration s3Configuration;
@@ -4870,6 +4913,7 @@ class LogDeliveryConfiguration {
   }
 }
 
+/// @nodoc
 class InstanceMode {
   static const primary = InstanceMode._('PRIMARY');
   static const standby = InstanceMode._('STANDBY');
@@ -4908,6 +4952,8 @@ class InstanceMode {
 
 /// Specifies the maintenance schedule for a DB instance or cluster, defining
 /// when maintenance operations such as patching can be performed.
+///
+/// @nodoc
 class MaintenanceSchedule {
   /// The preferred maintenance window in the format ddd:HH:MM-ddd:HH:MM (UTC).
   /// Day must be one of: Mon, Tue, Wed, Thu, Fri, Sat, Sun. For example,
@@ -4943,6 +4989,8 @@ class MaintenanceSchedule {
 }
 
 /// Configuration for S3 bucket log delivery.
+///
+/// @nodoc
 class S3Configuration {
   /// The name of the S3 bucket to deliver logs to.
   final String bucketName;
@@ -4973,6 +5021,8 @@ class S3Configuration {
 }
 
 /// Contains a summary of a DB instance.
+///
+/// @nodoc
 class DbInstanceSummary {
   /// The Amazon Resource Name (ARN) of the DB instance.
   final String arn;
@@ -5072,6 +5122,7 @@ class DbInstanceSummary {
   }
 }
 
+/// @nodoc
 class ClusterStatus {
   static const creating = ClusterStatus._('CREATING');
   static const updating = ClusterStatus._('UPDATING');
@@ -5118,6 +5169,8 @@ class ClusterStatus {
 }
 
 /// Contains a summary of a DB instance belonging to a DB cluster.
+///
+/// @nodoc
 class DbInstanceForClusterSummary {
   /// The Amazon Resource Name (ARN) of the DB instance.
   final String arn;
@@ -5237,6 +5290,8 @@ class DbInstanceForClusterSummary {
 }
 
 /// Describes a summary of a Timestream for InfluxDB cluster.
+///
+/// @nodoc
 class DbClusterSummary {
   /// The Amazon Resource Name (ARN) of the DB cluster.
   final String arn;
@@ -5351,6 +5406,7 @@ class DbClusterSummary {
   }
 }
 
+/// @nodoc
 class ClusterDeploymentType {
   static const multiNodeReadReplicas =
       ClusterDeploymentType._('MULTI_NODE_READ_REPLICAS');
@@ -5376,6 +5432,7 @@ class ClusterDeploymentType {
   String toString() => value;
 }
 
+/// @nodoc
 class EngineType {
   static const influxdbV2 = EngineType._('INFLUXDB_V2');
   static const influxdbV3Core = EngineType._('INFLUXDB_V3_CORE');
@@ -5400,6 +5457,7 @@ class EngineType {
   String toString() => value;
 }
 
+/// @nodoc
 class FailoverMode {
   static const automatic = FailoverMode._('AUTOMATIC');
   static const noFailover = FailoverMode._('NO_FAILOVER');
@@ -5424,6 +5482,8 @@ class FailoverMode {
 }
 
 /// Configuration for node modes in the DbCluster.
+///
+/// @nodoc
 class ClusterConfiguration {
   /// Indicates if the compactor instance is a standalone instance or not.
   final bool? dedicatedCompactor;
@@ -5461,26 +5521,31 @@ class ClusterConfiguration {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5489,11 +5554,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1250,6 +1250,7 @@ class Panorama {
   }
 }
 
+/// @nodoc
 class CreateApplicationInstanceResponse {
   /// The application instance's ID.
   final String applicationInstanceId;
@@ -1273,6 +1274,7 @@ class CreateApplicationInstanceResponse {
   }
 }
 
+/// @nodoc
 class CreateJobForDevicesResponse {
   /// A list of jobs.
   final List<Job> jobs;
@@ -1298,6 +1300,7 @@ class CreateJobForDevicesResponse {
   }
 }
 
+/// @nodoc
 class CreateNodeFromTemplateJobResponse {
   /// The job's ID.
   final String jobId;
@@ -1321,6 +1324,7 @@ class CreateNodeFromTemplateJobResponse {
   }
 }
 
+/// @nodoc
 class CreatePackageResponse {
   /// The package's storage location.
   final StorageLocation storageLocation;
@@ -1359,6 +1363,7 @@ class CreatePackageResponse {
   }
 }
 
+/// @nodoc
 class CreatePackageImportJobResponse {
   /// The job's ID.
   final String jobId;
@@ -1381,6 +1386,7 @@ class CreatePackageImportJobResponse {
   }
 }
 
+/// @nodoc
 class DeleteDeviceResponse {
   /// The device's ID.
   final String? deviceId;
@@ -1403,6 +1409,7 @@ class DeleteDeviceResponse {
   }
 }
 
+/// @nodoc
 class DeletePackageResponse {
   DeletePackageResponse();
 
@@ -1415,6 +1422,7 @@ class DeletePackageResponse {
   }
 }
 
+/// @nodoc
 class DeregisterPackageVersionResponse {
   DeregisterPackageVersionResponse();
 
@@ -1427,6 +1435,7 @@ class DeregisterPackageVersionResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationInstanceResponse {
   /// The application instance's ID.
   final String? applicationInstanceId;
@@ -1565,6 +1574,7 @@ class DescribeApplicationInstanceResponse {
   }
 }
 
+/// @nodoc
 class DescribeApplicationInstanceDetailsResponse {
   /// The application instance's ID.
   final String? applicationInstanceId;
@@ -1649,6 +1659,7 @@ class DescribeApplicationInstanceDetailsResponse {
   }
 }
 
+/// @nodoc
 class DescribeDeviceResponse {
   /// Beta software releases available for the device.
   final List<AlternateSoftwareMetadata>? alternateSoftwares;
@@ -1830,6 +1841,7 @@ class DescribeDeviceResponse {
   }
 }
 
+/// @nodoc
 class DescribeDeviceJobResponse {
   /// When the job was created.
   final DateTime? createdTime;
@@ -1908,6 +1920,7 @@ class DescribeDeviceJobResponse {
   }
 }
 
+/// @nodoc
 class DescribeNodeResponse {
   /// The node's category.
   final NodeCategory category;
@@ -2024,6 +2037,7 @@ class DescribeNodeResponse {
   }
 }
 
+/// @nodoc
 class DescribeNodeFromTemplateJobResponse {
   /// When the job was created.
   final DateTime createdTime;
@@ -2133,6 +2147,7 @@ class DescribeNodeFromTemplateJobResponse {
   }
 }
 
+/// @nodoc
 class DescribePackageResponse {
   /// The package's ARN.
   final String arn;
@@ -2216,6 +2231,7 @@ class DescribePackageResponse {
   }
 }
 
+/// @nodoc
 class DescribePackageImportJobResponse {
   /// When the job was created.
   final DateTime createdTime;
@@ -2320,6 +2336,7 @@ class DescribePackageImportJobResponse {
   }
 }
 
+/// @nodoc
 class DescribePackageVersionResponse {
   /// Whether the version is the latest available.
   final bool isLatestPatch;
@@ -2407,6 +2424,7 @@ class DescribePackageVersionResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationInstanceDependenciesResponse {
   /// A pagination token that's included if more results are available.
   final String? nextToken;
@@ -2440,6 +2458,7 @@ class ListApplicationInstanceDependenciesResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationInstanceNodeInstancesResponse {
   /// A pagination token that's included if more results are available.
   final String? nextToken;
@@ -2473,6 +2492,7 @@ class ListApplicationInstanceNodeInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationInstancesResponse {
   /// A list of application instances.
   final List<ApplicationInstance>? applicationInstances;
@@ -2506,6 +2526,7 @@ class ListApplicationInstancesResponse {
   }
 }
 
+/// @nodoc
 class ListDevicesResponse {
   /// A list of devices.
   final List<Device> devices;
@@ -2538,6 +2559,7 @@ class ListDevicesResponse {
   }
 }
 
+/// @nodoc
 class ListDevicesJobsResponse {
   /// A list of jobs.
   final List<DeviceJob>? deviceJobs;
@@ -2570,6 +2592,7 @@ class ListDevicesJobsResponse {
   }
 }
 
+/// @nodoc
 class ListNodeFromTemplateJobsResponse {
   /// A list of jobs.
   final List<NodeFromTemplateJob> nodeFromTemplateJobs;
@@ -2603,6 +2626,7 @@ class ListNodeFromTemplateJobsResponse {
   }
 }
 
+/// @nodoc
 class ListNodesResponse {
   /// A pagination token that's included if more results are available.
   final String? nextToken;
@@ -2635,6 +2659,7 @@ class ListNodesResponse {
   }
 }
 
+/// @nodoc
 class ListPackageImportJobsResponse {
   /// A list of package import jobs.
   final List<PackageImportJob> packageImportJobs;
@@ -2667,6 +2692,7 @@ class ListPackageImportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListPackagesResponse {
   /// A pagination token that's included if more results are available.
   final String? nextToken;
@@ -2699,6 +2725,7 @@ class ListPackagesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags.
   final Map<String, String>? tags;
@@ -2722,6 +2749,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ProvisionDeviceResponse {
   /// The device's ARN.
   final String arn;
@@ -2772,6 +2800,7 @@ class ProvisionDeviceResponse {
   }
 }
 
+/// @nodoc
 class RegisterPackageVersionResponse {
   RegisterPackageVersionResponse();
 
@@ -2784,6 +2813,7 @@ class RegisterPackageVersionResponse {
   }
 }
 
+/// @nodoc
 class RemoveApplicationInstanceResponse {
   RemoveApplicationInstanceResponse();
 
@@ -2796,6 +2826,7 @@ class RemoveApplicationInstanceResponse {
   }
 }
 
+/// @nodoc
 class SignalApplicationInstanceNodeInstancesResponse {
   /// An application instance ID.
   final String applicationInstanceId;
@@ -2819,6 +2850,7 @@ class SignalApplicationInstanceNodeInstancesResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2831,6 +2863,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2843,6 +2876,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDeviceMetadataResponse {
   /// The device's ID.
   final String? deviceId;
@@ -2866,6 +2900,8 @@ class UpdateDeviceMetadataResponse {
 }
 
 /// A signal to a camera node to start or stop processing video.
+///
+/// @nodoc
 class NodeSignal {
   /// The camera node's name, from the application manifest.
   final String nodeInstanceId;
@@ -2888,6 +2924,7 @@ class NodeSignal {
   }
 }
 
+/// @nodoc
 class NodeSignalValue {
   static const pause = NodeSignalValue._('PAUSE');
   static const resume = NodeSignalValue._('RESUME');
@@ -2912,6 +2949,7 @@ class NodeSignalValue {
   String toString() => value;
 }
 
+/// @nodoc
 class DeviceStatus {
   static const awaitingProvisioning = DeviceStatus._('AWAITING_PROVISIONING');
   static const pending = DeviceStatus._('PENDING');
@@ -2947,6 +2985,8 @@ class DeviceStatus {
 }
 
 /// The network configuration for a device.
+///
+/// @nodoc
 class NetworkPayload {
   /// Settings for Ethernet port 0.
   final EthernetPayload? ethernet0;
@@ -2990,6 +3030,8 @@ class NetworkPayload {
 }
 
 /// A device's network configuration.
+///
+/// @nodoc
 class EthernetPayload {
   /// How the device gets an IP address.
   final ConnectionType connectionType;
@@ -3026,6 +3068,8 @@ class EthernetPayload {
 
 /// Network time protocol (NTP) server settings. Use this option to connect to
 /// local NTP servers instead of <code>pool.ntp.org</code>.
+///
+/// @nodoc
 class NtpPayload {
   /// NTP servers to use, in order of preference.
   final List<String> ntpServers;
@@ -3051,6 +3095,7 @@ class NtpPayload {
   }
 }
 
+/// @nodoc
 class ConnectionType {
   static const staticIp = ConnectionType._('STATIC_IP');
   static const dhcp = ConnectionType._('DHCP');
@@ -3076,6 +3121,8 @@ class ConnectionType {
 }
 
 /// A static IP configuration.
+///
+/// @nodoc
 class StaticIpConnectionInfo {
   /// The connection's default gateway.
   final String defaultGateway;
@@ -3123,6 +3170,8 @@ class StaticIpConnectionInfo {
 }
 
 /// A package summary.
+///
+/// @nodoc
 class PackageListItem {
   /// The package's ARN.
   final String? arn;
@@ -3175,6 +3224,8 @@ class PackageListItem {
 }
 
 /// A job to import a package version.
+///
+/// @nodoc
 class PackageImportJob {
   /// When the job was created.
   final DateTime? createdTime;
@@ -3235,6 +3286,7 @@ class PackageImportJob {
   }
 }
 
+/// @nodoc
 class PackageImportJobType {
   static const nodePackageVersion =
       PackageImportJobType._('NODE_PACKAGE_VERSION');
@@ -3262,6 +3314,7 @@ class PackageImportJobType {
   String toString() => value;
 }
 
+/// @nodoc
 class PackageImportJobStatus {
   static const pending = PackageImportJobStatus._('PENDING');
   static const succeeded = PackageImportJobStatus._('SUCCEEDED');
@@ -3290,6 +3343,8 @@ class PackageImportJobStatus {
 
 /// An application node that represents a camera stream, a model, code, or
 /// output.
+///
+/// @nodoc
 class Node {
   /// The node's category.
   final NodeCategory category;
@@ -3382,6 +3437,7 @@ class Node {
   }
 }
 
+/// @nodoc
 class NodeCategory {
   static const businessLogic = NodeCategory._('BUSINESS_LOGIC');
   static const mlModel = NodeCategory._('ML_MODEL');
@@ -3408,6 +3464,8 @@ class NodeCategory {
 }
 
 /// A job to create a camera stream node.
+///
+/// @nodoc
 class NodeFromTemplateJob {
   /// When the job was created.
   final DateTime? createdTime;
@@ -3467,6 +3525,7 @@ class NodeFromTemplateJob {
   }
 }
 
+/// @nodoc
 class TemplateType {
   static const rtspCameraStream = TemplateType._('RTSP_CAMERA_STREAM');
 
@@ -3489,6 +3548,7 @@ class TemplateType {
   String toString() => value;
 }
 
+/// @nodoc
 class NodeFromTemplateJobStatus {
   static const pending = NodeFromTemplateJobStatus._('PENDING');
   static const succeeded = NodeFromTemplateJobStatus._('SUCCEEDED');
@@ -3516,6 +3576,8 @@ class NodeFromTemplateJobStatus {
 }
 
 /// A job that runs on a device.
+///
+/// @nodoc
 class DeviceJob {
   /// When the job was created.
   final DateTime? createdTime;
@@ -3566,6 +3628,7 @@ class DeviceJob {
   }
 }
 
+/// @nodoc
 class JobType {
   static const ota = JobType._('OTA');
   static const reboot = JobType._('REBOOT');
@@ -3590,6 +3653,8 @@ class JobType {
 }
 
 /// A device.
+///
+/// @nodoc
 class Device {
   /// The device's maker.
   final DeviceBrand? brand;
@@ -3708,6 +3773,7 @@ class Device {
   }
 }
 
+/// @nodoc
 class DeviceBrand {
   static const awsPanorama = DeviceBrand._('AWS_PANORAMA');
   static const lenovo = DeviceBrand._('LENOVO');
@@ -3731,6 +3797,7 @@ class DeviceBrand {
   String toString() => value;
 }
 
+/// @nodoc
 class DeviceType {
   static const panoramaApplianceDeveloperKit =
       DeviceType._('PANORAMA_APPLIANCE_DEVELOPER_KIT');
@@ -3756,6 +3823,8 @@ class DeviceType {
 }
 
 /// Returns information about the latest device job.
+///
+/// @nodoc
 class LatestDeviceJob {
   /// The target version of the device software.
   final String? imageVersion;
@@ -3792,6 +3861,7 @@ class LatestDeviceJob {
   }
 }
 
+/// @nodoc
 class DeviceAggregatedStatus {
   static const error = DeviceAggregatedStatus._('ERROR');
   static const awaitingProvisioning =
@@ -3837,6 +3907,7 @@ class DeviceAggregatedStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class UpdateProgress {
   static const pending = UpdateProgress._('PENDING');
   static const inProgress = UpdateProgress._('IN_PROGRESS');
@@ -3874,6 +3945,7 @@ class UpdateProgress {
   String toString() => value;
 }
 
+/// @nodoc
 class ListDevicesSortBy {
   static const deviceId = ListDevicesSortBy._('DEVICE_ID');
   static const createdTime = ListDevicesSortBy._('CREATED_TIME');
@@ -3901,6 +3973,7 @@ class ListDevicesSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -3925,6 +3998,8 @@ class SortOrder {
 }
 
 /// An application instance on a device.
+///
+/// @nodoc
 class ApplicationInstance {
   /// The application instance's ID.
   final String? applicationInstanceId;
@@ -4038,6 +4113,7 @@ class ApplicationInstance {
   }
 }
 
+/// @nodoc
 class ApplicationInstanceStatus {
   static const deploymentPending =
       ApplicationInstanceStatus._('DEPLOYMENT_PENDING');
@@ -4093,6 +4169,7 @@ class ApplicationInstanceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ApplicationInstanceHealthStatus {
   static const running = ApplicationInstanceHealthStatus._('RUNNING');
   static const error = ApplicationInstanceHealthStatus._('ERROR');
@@ -4121,6 +4198,8 @@ class ApplicationInstanceHealthStatus {
 }
 
 /// An application instance's state.
+///
+/// @nodoc
 class ReportedRuntimeContextState {
   /// The application's desired state.
   final DesiredState desiredState;
@@ -4167,6 +4246,7 @@ class ReportedRuntimeContextState {
   }
 }
 
+/// @nodoc
 class DesiredState {
   static const running = DesiredState._('RUNNING');
   static const stopped = DesiredState._('STOPPED');
@@ -4191,6 +4271,7 @@ class DesiredState {
   String toString() => value;
 }
 
+/// @nodoc
 class DeviceReportedStatus {
   static const stopping = DeviceReportedStatus._('STOPPING');
   static const stopped = DeviceReportedStatus._('STOPPED');
@@ -4239,6 +4320,7 @@ class DeviceReportedStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class StatusFilter {
   static const deploymentSucceeded = StatusFilter._('DEPLOYMENT_SUCCEEDED');
   static const deploymentError = StatusFilter._('DEPLOYMENT_ERROR');
@@ -4276,6 +4358,8 @@ class StatusFilter {
 }
 
 /// A node instance.
+///
+/// @nodoc
 class NodeInstance {
   /// The instance's current status.
   final NodeInstanceStatus currentStatus;
@@ -4342,6 +4426,7 @@ class NodeInstance {
   }
 }
 
+/// @nodoc
 class NodeInstanceStatus {
   static const running = NodeInstanceStatus._('RUNNING');
   static const error = NodeInstanceStatus._('ERROR');
@@ -4370,6 +4455,8 @@ class NodeInstanceStatus {
 }
 
 /// A package object.
+///
+/// @nodoc
 class PackageObject {
   /// The object's name.
   final String name;
@@ -4406,6 +4493,7 @@ class PackageObject {
   }
 }
 
+/// @nodoc
 class PackageVersionStatus {
   static const registerPending = PackageVersionStatus._('REGISTER_PENDING');
   static const registerCompleted = PackageVersionStatus._('REGISTER_COMPLETED');
@@ -4434,6 +4522,8 @@ class PackageVersionStatus {
 }
 
 /// A configuration for a package import job.
+///
+/// @nodoc
 class PackageImportJobInputConfig {
   /// The package version's input configuration.
   final PackageVersionInputConfig? packageVersionInputConfig;
@@ -4461,6 +4551,8 @@ class PackageImportJobInputConfig {
 }
 
 /// An output configuration for a package import job.
+///
+/// @nodoc
 class PackageImportJobOutputConfig {
   /// The package version's output configuration.
   final PackageVersionOutputConfig? packageVersionOutputConfig;
@@ -4488,6 +4580,8 @@ class PackageImportJobOutputConfig {
 }
 
 /// Results of a package import job.
+///
+/// @nodoc
 class PackageImportJobOutput {
   /// The package's output location.
   final OutPutS3Location outputS3Location;
@@ -4534,6 +4628,8 @@ class PackageImportJobOutput {
 }
 
 /// Tags for a job.
+///
+/// @nodoc
 class JobResourceTags {
   /// The job's type.
   final JobResourceType resourceType;
@@ -4566,6 +4662,7 @@ class JobResourceTags {
   }
 }
 
+/// @nodoc
 class JobResourceType {
   static const package = JobResourceType._('PACKAGE');
 
@@ -4590,6 +4687,8 @@ class JobResourceType {
 }
 
 /// The location of an output object in Amazon S3.
+///
+/// @nodoc
 class OutPutS3Location {
   /// The object's bucket.
   final String bucketName;
@@ -4620,6 +4719,8 @@ class OutPutS3Location {
 }
 
 /// A package version output configuration.
+///
+/// @nodoc
 class PackageVersionOutputConfig {
   /// The output's package name.
   final String packageName;
@@ -4657,6 +4758,8 @@ class PackageVersionOutputConfig {
 }
 
 /// A package version input configuration.
+///
+/// @nodoc
 class PackageVersionInputConfig {
   /// A location in Amazon S3.
   final S3Location s3Location;
@@ -4682,6 +4785,8 @@ class PackageVersionInputConfig {
 }
 
 /// A location in Amazon S3.
+///
+/// @nodoc
 class S3Location {
   /// A bucket name.
   final String bucketName;
@@ -4719,6 +4824,8 @@ class S3Location {
 }
 
 /// A storage location.
+///
+/// @nodoc
 class StorageLocation {
   /// The location's binary prefix.
   final String binaryPrefixLocation;
@@ -4771,6 +4878,8 @@ class StorageLocation {
 }
 
 /// A node interface.
+///
+/// @nodoc
 class NodeInterface {
   /// The node interface's inputs.
   final List<NodeInputPort> inputs;
@@ -4807,6 +4916,8 @@ class NodeInterface {
 }
 
 /// A node output port.
+///
+/// @nodoc
 class NodeOutputPort {
   /// The output port's description.
   final String? description;
@@ -4843,6 +4954,7 @@ class NodeOutputPort {
   }
 }
 
+/// @nodoc
 class PortType {
   static const boolean = PortType._('BOOLEAN');
   static const string = PortType._('STRING');
@@ -4870,6 +4982,8 @@ class PortType {
 }
 
 /// A node input port.
+///
+/// @nodoc
 class NodeInputPort {
   /// The input port's default value.
   final String? defaultValue;
@@ -4920,6 +5034,7 @@ class NodeInputPort {
   }
 }
 
+/// @nodoc
 class DeviceConnectionStatus {
   static const online = DeviceConnectionStatus._('ONLINE');
   static const offline = DeviceConnectionStatus._('OFFLINE');
@@ -4956,6 +5071,8 @@ class DeviceConnectionStatus {
 }
 
 /// The network status of a device.
+///
+/// @nodoc
 class NetworkStatus {
   /// The status of Ethernet port 0.
   final EthernetStatus? ethernet0Status;
@@ -5009,6 +5126,8 @@ class NetworkStatus {
 }
 
 /// Details about a beta appliance software update.
+///
+/// @nodoc
 class AlternateSoftwareMetadata {
   /// The appliance software version.
   final String? version;
@@ -5032,6 +5151,8 @@ class AlternateSoftwareMetadata {
 }
 
 /// A device's Ethernet status.
+///
+/// @nodoc
 class EthernetStatus {
   /// The device's connection status.
   final NetworkConnectionStatus? connectionStatus;
@@ -5070,6 +5191,8 @@ class EthernetStatus {
 }
 
 /// Details about an NTP server connection.
+///
+/// @nodoc
 class NtpStatus {
   /// The connection's status.
   final NetworkConnectionStatus? connectionStatus;
@@ -5107,6 +5230,7 @@ class NtpStatus {
   }
 }
 
+/// @nodoc
 class NetworkConnectionStatus {
   static const connected = NetworkConnectionStatus._('CONNECTED');
   static const notConnected = NetworkConnectionStatus._('NOT_CONNECTED');
@@ -5138,6 +5262,8 @@ class NetworkConnectionStatus {
 /// representation of the application manifest (<code>graph.json</code>). This
 /// file is located in the <code>graphs</code> folder in your application
 /// source.
+///
+/// @nodoc
 class ManifestPayload {
   /// The application manifest.
   final String? payloadData;
@@ -5163,6 +5289,8 @@ class ManifestPayload {
 /// Parameter overrides for an application instance. This is a JSON document
 /// that has a single key (<code>PayloadData</code>) where the value is an
 /// escaped string representation of the overrides document.
+///
+/// @nodoc
 class ManifestOverridesPayload {
   /// The overrides document.
   final String? payloadData;
@@ -5186,6 +5314,8 @@ class ManifestOverridesPayload {
 }
 
 /// A job for a device.
+///
+/// @nodoc
 class Job {
   /// The target device's ID.
   final String? deviceId;
@@ -5216,6 +5346,8 @@ class Job {
 }
 
 /// A job's configuration.
+///
+/// @nodoc
 class DeviceJobConfig {
   /// A configuration for an over-the-air (OTA) upgrade. Required for OTA jobs.
   final OTAJobConfig? oTAJobConfig;
@@ -5233,6 +5365,8 @@ class DeviceJobConfig {
 }
 
 /// An over-the-air update (OTA) job configuration.
+///
+/// @nodoc
 class OTAJobConfig {
   /// The target version of the device software.
   final String imageVersion;
@@ -5256,26 +5390,31 @@ class OTAJobConfig {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5284,6 +5423,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

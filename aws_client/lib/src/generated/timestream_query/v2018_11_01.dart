@@ -911,6 +911,7 @@ class TimestreamQuery {
   }
 }
 
+/// @nodoc
 class CancelQueryResponse {
   /// A <code>CancellationMessage</code> is returned when a
   /// <code>CancelQuery</code> request for the query specified by
@@ -936,6 +937,7 @@ class CancelQueryResponse {
   }
 }
 
+/// @nodoc
 class CreateScheduledQueryResponse {
   /// ARN for the created scheduled query.
   final String arn;
@@ -958,6 +960,7 @@ class CreateScheduledQueryResponse {
   }
 }
 
+/// @nodoc
 class DescribeAccountSettingsResponse {
   /// The maximum number of <a
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/tcu.html">Timestream
@@ -1011,6 +1014,7 @@ class DescribeAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class DescribeEndpointsResponse {
   /// An <code>Endpoints</code> object is returned when a
   /// <code>DescribeEndpoints</code> request is made.
@@ -1037,6 +1041,7 @@ class DescribeEndpointsResponse {
   }
 }
 
+/// @nodoc
 class DescribeScheduledQueryResponse {
   /// The scheduled query.
   final ScheduledQueryDescription scheduledQuery;
@@ -1061,6 +1066,7 @@ class DescribeScheduledQueryResponse {
   }
 }
 
+/// @nodoc
 class ListScheduledQueriesResponse {
   /// A list of scheduled queries.
   final List<ScheduledQuery> scheduledQueries;
@@ -1094,6 +1100,7 @@ class ListScheduledQueriesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags currently associated with the Timestream resource.
   final List<Tag> tags;
@@ -1127,6 +1134,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PrepareQueryResponse {
   /// A list of SELECT clause columns of the submitted query string.
   final List<SelectColumn> columns;
@@ -1169,6 +1177,7 @@ class PrepareQueryResponse {
   }
 }
 
+/// @nodoc
 class QueryResponse {
   /// The column data types of the returned result set.
   final List<ColumnInfo> columnInfo;
@@ -1241,6 +1250,7 @@ class QueryResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1253,6 +1263,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1265,6 +1276,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAccountSettingsResponse {
   /// The configured maximum number of compute units the service will use at any
   /// point in time to serve your queries.
@@ -1307,6 +1319,7 @@ class UpdateAccountSettingsResponse {
   }
 }
 
+/// @nodoc
 class ScheduledQueryState {
   static const enabled = ScheduledQueryState._('ENABLED');
   static const disabled = ScheduledQueryState._('DISABLED');
@@ -1332,6 +1345,7 @@ class ScheduledQueryState {
   String toString() => value;
 }
 
+/// @nodoc
 class QueryPricingModel {
   static const bytesScanned = QueryPricingModel._('BYTES_SCANNED');
   static const computeUnits = QueryPricingModel._('COMPUTE_UNITS');
@@ -1358,6 +1372,8 @@ class QueryPricingModel {
 
 /// The response to a request to retrieve or update the compute capacity
 /// settings for querying data.
+///
+/// @nodoc
 class QueryComputeResponse {
   /// The mode in which Timestream Compute Units (TCUs) are allocated and utilized
   /// within an account. Note that in the Asia Pacific (Mumbai) region, the API
@@ -1395,6 +1411,7 @@ class QueryComputeResponse {
   }
 }
 
+/// @nodoc
 class ComputeMode {
   static const onDemand = ComputeMode._('ON_DEMAND');
   static const provisioned = ComputeMode._('PROVISIONED');
@@ -1420,6 +1437,8 @@ class ComputeMode {
 
 /// The response to a request to update the provisioned capacity settings for
 /// querying data.
+///
+/// @nodoc
 class ProvisionedCapacityResponse {
   /// The number of Timestream Compute Units (TCUs) provisioned in the account.
   /// This field is only visible when the compute mode is
@@ -1467,6 +1486,8 @@ class ProvisionedCapacityResponse {
 }
 
 /// Configuration settings for notifications related to account settings.
+///
+/// @nodoc
 class AccountSettingsNotificationConfiguration {
   /// An Amazon Resource Name (ARN) that grants Timestream permission to publish
   /// notifications. This field is only visible if SNS Topic is provided when
@@ -1502,6 +1523,8 @@ class AccountSettingsNotificationConfiguration {
 
 /// Configuration object that contains the most recent account settings update,
 /// visible only if settings have been updated previously.
+///
+/// @nodoc
 class LastUpdate {
   /// The status of the last update. Can be either <code>PENDING</code>,
   /// <code>FAILED</code>, or <code>SUCCEEDED</code>.
@@ -1541,6 +1564,7 @@ class LastUpdate {
   }
 }
 
+/// @nodoc
 class LastUpdateStatus {
   static const pending = LastUpdateStatus._('PENDING');
   static const failed = LastUpdateStatus._('FAILED');
@@ -1567,6 +1591,8 @@ class LastUpdateStatus {
 }
 
 /// Details on SNS that are required to send the notification.
+///
+/// @nodoc
 class SnsConfiguration {
   /// SNS topic ARN that the scheduled query status notifications will be sent to.
   final String topicArn;
@@ -1591,6 +1617,8 @@ class SnsConfiguration {
 
 /// A request to retrieve or update the compute capacity settings for querying
 /// data.
+///
+/// @nodoc
 class QueryComputeRequest {
   /// The mode in which Timestream Compute Units (TCUs) are allocated and utilized
   /// within an account. Note that in the Asia Pacific (Mumbai) region, the API
@@ -1618,6 +1646,8 @@ class QueryComputeRequest {
 }
 
 /// A request to update the provisioned capacity settings for querying data.
+///
+/// @nodoc
 class ProvisionedCapacityRequest {
   /// The target compute capacity for querying data, specified in Timestream
   /// Compute Units (TCUs).
@@ -1647,6 +1677,8 @@ class ProvisionedCapacityRequest {
 /// tag consists of a key and an optional value, both of which you define. Tags
 /// enable you to categorize databases and/or tables, for example, by purpose,
 /// owner, or environment.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag. Tag keys are case sensitive.
   final String key;
@@ -1678,6 +1710,8 @@ class Tag {
 
 /// Information about the status of the query, including progress and bytes
 /// scanned.
+///
+/// @nodoc
 class QueryStatus {
   /// The amount of data scanned by the query in bytes that you will be charged
   /// for. This is a cumulative sum and represents the total amount of data that
@@ -1724,6 +1758,8 @@ class QueryStatus {
 
 /// Provides various insights and metrics related to the query that you
 /// executed.
+///
+/// @nodoc
 class QueryInsightsResponse {
   /// Indicates the size of query result set in bytes. You can use this data to
   /// validate if the result set has changed as part of the query tuning exercise.
@@ -1842,6 +1878,8 @@ class QueryInsightsResponse {
 /// clauses, such as <code>LIKE</code>.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class QuerySpatialCoverage {
   /// Provides insights into the spatial coverage of the executed query and the
   /// table with the most inefficient spatial pruning.
@@ -1884,6 +1922,8 @@ class QuerySpatialCoverage {
 
 /// Provides insights into the temporal range of the query, including the table
 /// with the largest (max) time range.
+///
+/// @nodoc
 class QueryTemporalRange {
   /// Encapsulates the following properties that provide insights into the most
   /// sub-optimal performing table on the temporal axis:
@@ -1922,6 +1962,8 @@ class QueryTemporalRange {
 
 /// Provides insights into the table with the most sub-optimal temporal pruning
 /// scanned by your query.
+///
+/// @nodoc
 class QueryTemporalRangeMax {
   /// The Amazon Resource Name (ARN) of the table which is queried with the
   /// largest time range.
@@ -1954,6 +1996,8 @@ class QueryTemporalRangeMax {
 
 /// Provides insights into the table with the most sub-optimal spatial range
 /// scanned by your query.
+///
+/// @nodoc
 class QuerySpatialCoverageMax {
   /// The partition key used for partitioning, which can be a default
   /// <code>measure_name</code> or a <a
@@ -1999,6 +2043,8 @@ class QuerySpatialCoverageMax {
 
 /// Contains the metadata for query results such as the column names, data
 /// types, and other attributes.
+///
+/// @nodoc
 class ColumnInfo {
   /// The data type of the result set column. The data type can be a scalar or
   /// complex. Scalar data types are integers, strings, doubles, Booleans, and
@@ -2036,6 +2082,8 @@ class ColumnInfo {
 /// be scalar or complex. The supported scalar data types are integers, Boolean,
 /// string, double, timestamp, date, time, and intervals. The supported complex
 /// data types are arrays, rows, and timeseries.
+///
+/// @nodoc
 class Type {
   /// Indicates if the column is an array.
   final ColumnInfo? arrayColumnInfo;
@@ -2093,6 +2141,7 @@ class Type {
   }
 }
 
+/// @nodoc
 class ScalarType {
   static const varchar = ScalarType._('VARCHAR');
   static const boolean = ScalarType._('BOOLEAN');
@@ -2138,6 +2187,8 @@ class ScalarType {
 }
 
 /// Represents a single row in the query results.
+///
+/// @nodoc
 class Row {
   /// List of data points in a single row of the result set.
   final List<Datum> data;
@@ -2164,6 +2215,8 @@ class Row {
 }
 
 /// Datum represents a single data point in a query result.
+///
+/// @nodoc
 class Datum {
   /// Indicates if the data point is an array.
   final List<Datum>? arrayValue;
@@ -2228,6 +2281,8 @@ class Datum {
 /// sorted in ascending order of time. A TimeSeriesDataPoint is a single data
 /// point in the time series. It represents a tuple of (time, measure value) in
 /// a time series.
+///
+/// @nodoc
 class TimeSeriesDataPoint {
   /// The timestamp when the measure value was collected.
   final String time;
@@ -2302,6 +2357,8 @@ class TimeSeriesDataPoint {
 /// with <code>QueryInsights</code> enabled is 1 query per second (QPS). If you
 /// exceed this query rate, it might result in throttling.
 /// </note>
+///
+/// @nodoc
 class QueryInsights {
   /// Provides the following modes to enable <code>QueryInsights</code>:
   ///
@@ -2330,6 +2387,7 @@ class QueryInsights {
   }
 }
 
+/// @nodoc
 class QueryInsightsMode {
   static const enabledWithRateControl =
       QueryInsightsMode._('ENABLED_WITH_RATE_CONTROL');
@@ -2356,6 +2414,8 @@ class QueryInsightsMode {
 }
 
 /// Mapping for named parameters.
+///
+/// @nodoc
 class ParameterMapping {
   /// Parameter name.
   final String name;
@@ -2385,6 +2445,8 @@ class ParameterMapping {
 }
 
 /// Details of the column that is returned by the query.
+///
+/// @nodoc
 class SelectColumn {
   /// True, if the column name was aliased by the query. False otherwise.
   final bool? aliased;
@@ -2436,6 +2498,8 @@ class SelectColumn {
 }
 
 /// Scheduled Query
+///
+/// @nodoc
 class ScheduledQuery {
   /// The Amazon Resource Name.
   final String arn;
@@ -2526,6 +2590,8 @@ class ScheduledQuery {
 }
 
 /// Configuration required for error reporting.
+///
+/// @nodoc
 class ErrorReportConfiguration {
   /// The S3 configuration for the error reports.
   final S3Configuration s3Configuration;
@@ -2552,6 +2618,8 @@ class ErrorReportConfiguration {
 
 /// Destination details to write data for a target data source. Current
 /// supported data source is Timestream.
+///
+/// @nodoc
 class TargetDestination {
   /// Query result destination details for Timestream data source.
   final TimestreamDestination? timestreamDestination;
@@ -2578,6 +2646,7 @@ class TargetDestination {
   }
 }
 
+/// @nodoc
 class ScheduledQueryRunStatus {
   static const autoTriggerSuccess =
       ScheduledQueryRunStatus._('AUTO_TRIGGER_SUCCESS');
@@ -2615,6 +2684,8 @@ class ScheduledQueryRunStatus {
 }
 
 /// Destination for scheduled query.
+///
+/// @nodoc
 class TimestreamDestination {
   /// Timestream database name.
   final String? databaseName;
@@ -2645,6 +2716,8 @@ class TimestreamDestination {
 }
 
 /// Details on S3 location for error reports that result from running a query.
+///
+/// @nodoc
 class S3Configuration {
   /// Name of the S3 bucket under which error reports will be created.
   final String bucketName;
@@ -2684,6 +2757,7 @@ class S3Configuration {
   }
 }
 
+/// @nodoc
 class S3EncryptionOption {
   static const sseS3 = S3EncryptionOption._('SSE_S3');
   static const sseKms = S3EncryptionOption._('SSE_KMS');
@@ -2711,6 +2785,8 @@ class S3EncryptionOption {
 
 /// Encapsulates settings for enabling <code>QueryInsights</code> on an
 /// <code>ExecuteScheduledQueryRequest</code>.
+///
+/// @nodoc
 class ScheduledQueryInsights {
   /// Provides the following modes to enable <code>ScheduledQueryInsights</code>:
   ///
@@ -2739,6 +2815,7 @@ class ScheduledQueryInsights {
   }
 }
 
+/// @nodoc
 class ScheduledQueryInsightsMode {
   static const enabledWithRateControl =
       ScheduledQueryInsightsMode._('ENABLED_WITH_RATE_CONTROL');
@@ -2766,6 +2843,8 @@ class ScheduledQueryInsightsMode {
 }
 
 /// Structure that describes scheduled query.
+///
+/// @nodoc
 class ScheduledQueryDescription {
   /// Scheduled query ARN.
   final String arn;
@@ -2911,6 +2990,8 @@ class ScheduledQueryDescription {
 }
 
 /// Configuration of the schedule of the query.
+///
+/// @nodoc
 class ScheduleConfiguration {
   /// An expression that denotes when to trigger the scheduled query run. This can
   /// be a cron expression or a rate expression.
@@ -2937,6 +3018,8 @@ class ScheduleConfiguration {
 /// Notification configuration for a scheduled query. A notification is sent by
 /// Timestream when a scheduled query is created, its state is updated or when
 /// it is deleted.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// Details about the Amazon Simple Notification Service (SNS) configuration.
   /// This field is visible only when SNS Topic is provided when updating the
@@ -2964,6 +3047,8 @@ class NotificationConfiguration {
 }
 
 /// Configuration used for writing the output of a query.
+///
+/// @nodoc
 class TargetConfiguration {
   /// Configuration needed to write data into the Timestream database and table.
   final TimestreamConfiguration timestreamConfiguration;
@@ -2989,6 +3074,8 @@ class TargetConfiguration {
 }
 
 /// Run summary for the scheduled query
+///
+/// @nodoc
 class ScheduledQueryRunSummary {
   /// S3 location for error report.
   final ErrorReportLocation? errorReportLocation;
@@ -3071,6 +3158,8 @@ class ScheduledQueryRunSummary {
 }
 
 /// Statistics for a single scheduled query run.
+///
+/// @nodoc
 class ExecutionStats {
   /// Bytes metered for a single scheduled query run.
   final int? bytesMetered;
@@ -3134,6 +3223,8 @@ class ExecutionStats {
 
 /// Provides various insights and metrics related to the
 /// <code>ExecuteScheduledQueryRequest</code> that was executed.
+///
+/// @nodoc
 class ScheduledQueryInsightsResponse {
   /// Indicates the size of query result set in bytes. You can use this data to
   /// validate if the result set has changed as part of the query tuning exercise.
@@ -3213,6 +3304,8 @@ class ScheduledQueryInsightsResponse {
 
 /// This contains the location of the error report for a single scheduled query
 /// call.
+///
+/// @nodoc
 class ErrorReportLocation {
   /// The S3 location where error reports are written.
   final S3ReportLocation? s3ReportLocation;
@@ -3239,6 +3332,8 @@ class ErrorReportLocation {
 }
 
 /// S3 report location for the scheduled query run.
+///
+/// @nodoc
 class S3ReportLocation {
   /// S3 bucket name.
   final String? bucketName;
@@ -3271,6 +3366,8 @@ class S3ReportLocation {
 /// Configuration to write data into Timestream database and table. This
 /// configuration allows the user to map the query result select columns into
 /// the destination table columns.
+///
+/// @nodoc
 class TimestreamConfiguration {
   /// Name of Timestream database to which the query result will be written.
   final String databaseName;
@@ -3353,6 +3450,8 @@ class TimestreamConfiguration {
 /// Only one of MixedMeasureMappings or MultiMeasureMappings is to be provided.
 /// MultiMeasureMappings can be used to ingest data as multi measures in the
 /// derived table.
+///
+/// @nodoc
 class MultiMeasureMappings {
   /// Required. Attribute mappings to be used for mapping query results to ingest
   /// data for multi-measure attributes.
@@ -3394,6 +3493,8 @@ class MultiMeasureMappings {
 
 /// MixedMeasureMappings are mappings that can be used to ingest data into a
 /// mixture of narrow and multi measures in the derived table.
+///
+/// @nodoc
 class MixedMeasureMapping {
   /// Type of the value that is to be read from sourceColumn. If the mapping is
   /// for MULTI, use MeasureValueType.MULTI.
@@ -3456,6 +3557,7 @@ class MixedMeasureMapping {
   }
 }
 
+/// @nodoc
 class MeasureValueType {
   static const bigint = MeasureValueType._('BIGINT');
   static const boolean = MeasureValueType._('BOOLEAN');
@@ -3484,6 +3586,8 @@ class MeasureValueType {
 }
 
 /// Attribute mapping for MULTI value measures.
+///
+/// @nodoc
 class MultiMeasureAttributeMapping {
   /// Type of the attribute to be read from the source column.
   final ScalarMeasureValueType measureValueType;
@@ -3525,6 +3629,7 @@ class MultiMeasureAttributeMapping {
   }
 }
 
+/// @nodoc
 class ScalarMeasureValueType {
   static const bigint = ScalarMeasureValueType._('BIGINT');
   static const boolean = ScalarMeasureValueType._('BOOLEAN');
@@ -3555,6 +3660,8 @@ class ScalarMeasureValueType {
 
 /// This type is used to map column(s) from the query result to a dimension in
 /// the destination table.
+///
+/// @nodoc
 class DimensionMapping {
   /// Type for the dimension.
   final DimensionValueType dimensionValueType;
@@ -3585,6 +3692,7 @@ class DimensionMapping {
   }
 }
 
+/// @nodoc
 class DimensionValueType {
   static const varchar = DimensionValueType._('VARCHAR');
 
@@ -3611,6 +3719,8 @@ class DimensionValueType {
 
 /// Represents an available endpoint against which to make API calls against, as
 /// well as the TTL for that endpoint.
+///
+/// @nodoc
 class Endpoint {
   /// An endpoint address.
   final String address;
@@ -3640,36 +3750,43 @@ class Endpoint {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidEndpointException extends _s.GenericAwsException {
   InvalidEndpointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndpointException', message: message);
 }
 
+/// @nodoc
 class QueryExecutionException extends _s.GenericAwsException {
   QueryExecutionException({String? type, String? message})
       : super(type: type, code: 'QueryExecutionException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3678,11 +3795,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

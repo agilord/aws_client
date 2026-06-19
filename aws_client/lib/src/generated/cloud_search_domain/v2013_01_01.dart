@@ -181,7 +181,7 @@ class CloudSearchDomain {
   /// option to calculate and return facet counts by decade.
   ///
   /// <code>
-  /// {"year":{"buckets":["[1970,1979]","[1980,1989]","[1990,1999]","[2000,2009]","[2010,}"]}}
+  /// {"year":{"buckets":\["\[1970,1979\]","\[1980,1989\]","\[1990,1999\]","\[2000,2009\]","\[2010,}"\]}}
   /// </code>
   ///
   /// To sort facets by facet count, use the <code>count</code> option. For
@@ -298,7 +298,7 @@ class CloudSearchDomain {
   /// a field weight, append a caret (<code>^</code>) symbol and the weight to
   /// the field name. For example, to boost the importance of the
   /// <code>title</code> field over the <code>description</code> field you could
-  /// specify: <code>"fields":["title^5","description"]</code>. Valid values:
+  /// specify: <code>"fields":\["title^5","description"\]</code>. Valid values:
   /// The name of any configured field and an optional numeric value greater
   /// than zero. Default: All <code>text</code> and <code>text-array</code>
   /// fields. Valid for: <code>simple</code>, <code>structured</code>,
@@ -321,8 +321,8 @@ class CloudSearchDomain {
   /// parser from tokenizing on whitespace, which can be useful for Vietnamese.
   /// (It prevents Vietnamese words from being split incorrectly.) For example,
   /// you could disable all operators other than the phrase operator to support
-  /// just simple term and phrase queries: <code>"operators":["and","not","or",
-  /// "prefix"]</code>. Valid values: <code>and</code>, <code>escape</code>,
+  /// just simple term and phrase queries: <code>"operators":\["and","not","or",
+  /// "prefix"\]</code>. Valid values: <code>and</code>, <code>escape</code>,
   /// <code>fuzzy</code>, <code>near</code>, <code>not</code>, <code>or</code>,
   /// <code>phrase</code>, <code>precedence</code>, <code>prefix</code>,
   /// <code>whitespace</code>. Default: All operators and special characters are
@@ -336,8 +336,8 @@ class CloudSearchDomain {
   /// specify a field weight, append a caret (<code>^</code>) symbol and the
   /// weight to the field name. For example, to boost phrase matches in the
   /// <code>title</code> field over the <code>abstract</code> field, you could
-  /// specify: <code>"phraseFields":["title^3", "plot"]</code> Valid values: The
-  /// name of any <code>text</code> or <code>text-array</code> field and an
+  /// specify: <code>"phraseFields":\["title^3", "plot"\]</code> Valid values:
+  /// The name of any <code>text</code> or <code>text-array</code> field and an
   /// optional numeric value greater than zero. Default: No fields. If you don't
   /// specify any fields with <code>phraseFields</code>, proximity scoring is
   /// disabled even if <code>phraseSlop</code> is specified. Valid for:
@@ -611,6 +611,8 @@ class CloudSearchDomain {
 /// The result of a <code>Search</code> request. Contains the documents that
 /// match the specified search criteria and any requested fields, highlights,
 /// and facet information.
+///
+/// @nodoc
 class SearchResponse {
   /// The requested facet information.
   final Map<String, BucketInfo>? facets;
@@ -661,6 +663,8 @@ class SearchResponse {
 }
 
 /// Contains the response to a <code>Suggest</code> request.
+///
+/// @nodoc
 class SuggestResponse {
   /// The status of a <code>SuggestRequest</code>. Contains the resource ID
   /// (<code>rid</code>) and how long it took to process the request
@@ -697,6 +701,8 @@ class SuggestResponse {
 }
 
 /// Contains the response to an <code>UploadDocuments</code> request.
+///
+/// @nodoc
 class UploadDocumentsResponse {
   /// The number of documents that were added to the search domain.
   final int? adds;
@@ -747,6 +753,8 @@ class UploadDocumentsResponse {
 
 /// A warning returned by the document service when an issue is discovered while
 /// processing an upload request.
+///
+/// @nodoc
 class DocumentServiceWarning {
   /// The description for a warning returned by the document service.
   final String? message;
@@ -769,6 +777,7 @@ class DocumentServiceWarning {
   }
 }
 
+/// @nodoc
 class ContentType {
   static const applicationJson = ContentType._('application/json');
   static const applicationXml = ContentType._('application/xml');
@@ -794,6 +803,8 @@ class ContentType {
 
 /// Contains the resource id (<code>rid</code>) and the time it took to process
 /// the request (<code>timems</code>).
+///
+/// @nodoc
 class SuggestStatus {
   /// The encrypted resource ID for the request.
   final String? rid;
@@ -825,6 +836,8 @@ class SuggestStatus {
 
 /// Container for the suggestion information returned in a
 /// <code>SuggestResponse</code>.
+///
+/// @nodoc
 class SuggestModel {
   /// The number of documents that were found to match the query string.
   final int? found;
@@ -866,6 +879,8 @@ class SuggestModel {
 
 /// An autocomplete suggestion that matches the query string specified in a
 /// <code>SuggestRequest</code>.
+///
+/// @nodoc
 class SuggestionMatch {
   /// The document ID of the suggested document.
   final String? id;
@@ -905,6 +920,8 @@ class SuggestionMatch {
 
 /// Contains the resource id (<code>rid</code>) and the time it took to process
 /// the request (<code>timems</code>).
+///
+/// @nodoc
 class SearchStatus {
   /// The encrypted resource ID for the request.
   final String? rid;
@@ -935,6 +952,8 @@ class SearchStatus {
 }
 
 /// The collection of documents that match the search request.
+///
+/// @nodoc
 class Hits {
   /// A cursor that can be used to retrieve the next set of matching documents
   /// when you want to page through a large result set.
@@ -983,6 +1002,8 @@ class Hits {
 }
 
 /// The statistics for a field calculated in the request.
+///
+/// @nodoc
 class FieldStats {
   /// The number of documents that contain a value in the specified field in the
   /// result set.
@@ -1083,6 +1104,8 @@ class FieldStats {
 }
 
 /// A container for the calculated facet values and counts.
+///
+/// @nodoc
 class BucketInfo {
   /// A list of the calculated facet values and counts.
   final List<Bucket>? buckets;
@@ -1109,6 +1132,8 @@ class BucketInfo {
 }
 
 /// A container for facet information.
+///
+/// @nodoc
 class Bucket {
   /// The number of hits that contain the facet value in the specified facet
   /// field.
@@ -1140,6 +1165,8 @@ class Bucket {
 }
 
 /// Information about a document that matches the search request.
+///
+/// @nodoc
 class Hit {
   /// The expressions returned from a document that matches the search request.
   final Map<String, String>? exprs;
@@ -1186,6 +1213,7 @@ class Hit {
   }
 }
 
+/// @nodoc
 class QueryParser {
   static const simple = QueryParser._('simple');
   static const structured = QueryParser._('structured');
@@ -1211,11 +1239,13 @@ class QueryParser {
   String toString() => value;
 }
 
+/// @nodoc
 class DocumentServiceException extends _s.GenericAwsException {
   DocumentServiceException({String? type, String? message})
       : super(type: type, code: 'DocumentServiceException', message: message);
 }
 
+/// @nodoc
 class SearchException extends _s.GenericAwsException {
   SearchException({String? type, String? message})
       : super(type: type, code: 'SearchException', message: message);

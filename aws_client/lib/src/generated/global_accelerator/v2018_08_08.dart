@@ -424,8 +424,8 @@ class GlobalAccelerator {
   /// on. For a command line operation, for example, you might use a statement
   /// like the following:
   ///
-  /// <code> "Resources": [{"Cidr": "169.254.60.0/24"},{"Cidr":
-  /// "169.254.59.0/24"}]</code>
+  /// <code> "Resources": \[{"Cidr": "169.254.60.0/24"},{"Cidr":
+  /// "169.254.59.0/24"}\]</code>
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html">
@@ -3084,6 +3084,7 @@ class GlobalAccelerator {
   }
 }
 
+/// @nodoc
 class AddCustomRoutingEndpointsResponse {
   /// The endpoint objects added to the custom routing accelerator.
   final List<CustomRoutingEndpointDescription>? endpointDescriptions;
@@ -3120,6 +3121,7 @@ class AddCustomRoutingEndpointsResponse {
   }
 }
 
+/// @nodoc
 class AddEndpointsResponse {
   /// The list of endpoint objects.
   final List<EndpointDescription>? endpointDescriptions;
@@ -3153,6 +3155,7 @@ class AddEndpointsResponse {
   }
 }
 
+/// @nodoc
 class AdvertiseByoipCidrResponse {
   /// Information about the address range.
   final ByoipCidr? byoipCidr;
@@ -3177,6 +3180,7 @@ class AdvertiseByoipCidrResponse {
   }
 }
 
+/// @nodoc
 class CreateAcceleratorResponse {
   /// The accelerator that is created by specifying a listener and the supported
   /// IP address types.
@@ -3202,6 +3206,7 @@ class CreateAcceleratorResponse {
   }
 }
 
+/// @nodoc
 class CreateCrossAccountAttachmentResponse {
   /// Information about the cross-account attachment.
   final Attachment? crossAccountAttachment;
@@ -3229,6 +3234,7 @@ class CreateCrossAccountAttachmentResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomRoutingAcceleratorResponse {
   /// The accelerator that is created.
   final CustomRoutingAccelerator? accelerator;
@@ -3255,6 +3261,7 @@ class CreateCustomRoutingAcceleratorResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomRoutingEndpointGroupResponse {
   /// The information about the endpoint group created for a custom routing
   /// accelerator.
@@ -3282,6 +3289,7 @@ class CreateCustomRoutingEndpointGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomRoutingListenerResponse {
   /// The listener that you've created for a custom routing accelerator.
   final CustomRoutingListener? listener;
@@ -3308,6 +3316,7 @@ class CreateCustomRoutingListenerResponse {
   }
 }
 
+/// @nodoc
 class CreateEndpointGroupResponse {
   /// The information about the endpoint group that was created.
   final EndpointGroup? endpointGroup;
@@ -3333,6 +3342,7 @@ class CreateEndpointGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateListenerResponse {
   /// The listener that you've created.
   final Listener? listener;
@@ -3357,6 +3367,7 @@ class CreateListenerResponse {
   }
 }
 
+/// @nodoc
 class DeprovisionByoipCidrResponse {
   /// Information about the address range.
   final ByoipCidr? byoipCidr;
@@ -3381,6 +3392,7 @@ class DeprovisionByoipCidrResponse {
   }
 }
 
+/// @nodoc
 class DescribeAcceleratorResponse {
   /// The description of the accelerator.
   final Accelerator? accelerator;
@@ -3405,6 +3417,7 @@ class DescribeAcceleratorResponse {
   }
 }
 
+/// @nodoc
 class DescribeAcceleratorAttributesResponse {
   /// The attributes of the accelerator.
   final AcceleratorAttributes? acceleratorAttributes;
@@ -3432,6 +3445,7 @@ class DescribeAcceleratorAttributesResponse {
   }
 }
 
+/// @nodoc
 class DescribeCrossAccountAttachmentResponse {
   /// Information about the cross-account attachment.
   final Attachment? crossAccountAttachment;
@@ -3459,6 +3473,7 @@ class DescribeCrossAccountAttachmentResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomRoutingAcceleratorResponse {
   /// The description of the custom routing accelerator.
   final CustomRoutingAccelerator? accelerator;
@@ -3485,6 +3500,7 @@ class DescribeCustomRoutingAcceleratorResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomRoutingAcceleratorAttributesResponse {
   /// The attributes of the custom routing accelerator.
   final CustomRoutingAcceleratorAttributes? acceleratorAttributes;
@@ -3512,6 +3528,7 @@ class DescribeCustomRoutingAcceleratorAttributesResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomRoutingEndpointGroupResponse {
   /// The description of an endpoint group for a custom routing accelerator.
   final CustomRoutingEndpointGroup? endpointGroup;
@@ -3538,6 +3555,7 @@ class DescribeCustomRoutingEndpointGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomRoutingListenerResponse {
   /// The description of a listener for a custom routing accelerator.
   final CustomRoutingListener? listener;
@@ -3564,6 +3582,7 @@ class DescribeCustomRoutingListenerResponse {
   }
 }
 
+/// @nodoc
 class DescribeEndpointGroupResponse {
   /// The description of an endpoint group.
   final EndpointGroup? endpointGroup;
@@ -3589,6 +3608,7 @@ class DescribeEndpointGroupResponse {
   }
 }
 
+/// @nodoc
 class DescribeListenerResponse {
   /// The description of a listener.
   final Listener? listener;
@@ -3613,6 +3633,7 @@ class DescribeListenerResponse {
   }
 }
 
+/// @nodoc
 class ListAcceleratorsResponse {
   /// The list of accelerators for a customer account.
   final List<Accelerator>? accelerators;
@@ -3646,6 +3667,7 @@ class ListAcceleratorsResponse {
   }
 }
 
+/// @nodoc
 class ListByoipCidrsResponse {
   /// Information about your address ranges.
   final List<ByoipCidr>? byoipCidrs;
@@ -3678,6 +3700,7 @@ class ListByoipCidrsResponse {
   }
 }
 
+/// @nodoc
 class ListCrossAccountAttachmentsResponse {
   /// Information about the cross-account attachments.
   final List<Attachment>? crossAccountAttachments;
@@ -3713,6 +3736,7 @@ class ListCrossAccountAttachmentsResponse {
   }
 }
 
+/// @nodoc
 class ListCrossAccountResourceAccountsResponse {
   /// The account IDs of principals (resource owners) in a cross-account
   /// attachment who can work with resources listed in the same attachment.
@@ -3741,6 +3765,7 @@ class ListCrossAccountResourceAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListCrossAccountResourcesResponse {
   /// The cross-account resources used with an accelerator.
   final List<CrossAccountResource>? crossAccountResources;
@@ -3776,6 +3801,7 @@ class ListCrossAccountResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListCustomRoutingAcceleratorsResponse {
   /// The list of custom routing accelerators for a customer account.
   final List<CustomRoutingAccelerator>? accelerators;
@@ -3811,6 +3837,7 @@ class ListCustomRoutingAcceleratorsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomRoutingEndpointGroupsResponse {
   /// The list of the endpoint groups associated with a listener for a custom
   /// routing accelerator.
@@ -3847,6 +3874,7 @@ class ListCustomRoutingEndpointGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomRoutingListenersResponse {
   /// The list of listeners for a custom routing accelerator.
   final List<CustomRoutingListener>? listeners;
@@ -3881,6 +3909,7 @@ class ListCustomRoutingListenersResponse {
   }
 }
 
+/// @nodoc
 class ListCustomRoutingPortMappingsResponse {
   /// The token for the next set of results. You receive this token from a
   /// previous call.
@@ -3915,6 +3944,7 @@ class ListCustomRoutingPortMappingsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomRoutingPortMappingsByDestinationResponse {
   /// The port mappings for the endpoint IP address that you specified in the
   /// request.
@@ -3952,6 +3982,7 @@ class ListCustomRoutingPortMappingsByDestinationResponse {
   }
 }
 
+/// @nodoc
 class ListEndpointGroupsResponse {
   /// The list of the endpoint groups associated with a listener.
   final List<EndpointGroup>? endpointGroups;
@@ -3985,6 +4016,7 @@ class ListEndpointGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListListenersResponse {
   /// The list of listeners for an accelerator.
   final List<Listener>? listeners;
@@ -4018,6 +4050,7 @@ class ListListenersResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Root level tag for the Tags parameters.
   final List<Tag>? tags;
@@ -4043,6 +4076,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ProvisionByoipCidrResponse {
   /// Information about the address range.
   final ByoipCidr? byoipCidr;
@@ -4067,6 +4101,7 @@ class ProvisionByoipCidrResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -4079,6 +4114,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -4091,6 +4127,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAcceleratorResponse {
   /// Information about the updated accelerator.
   final Accelerator? accelerator;
@@ -4115,6 +4152,7 @@ class UpdateAcceleratorResponse {
   }
 }
 
+/// @nodoc
 class UpdateAcceleratorAttributesResponse {
   /// Updated attributes for the accelerator.
   final AcceleratorAttributes? acceleratorAttributes;
@@ -4142,6 +4180,7 @@ class UpdateAcceleratorAttributesResponse {
   }
 }
 
+/// @nodoc
 class UpdateCrossAccountAttachmentResponse {
   /// Information about the updated cross-account attachment.
   final Attachment? crossAccountAttachment;
@@ -4169,6 +4208,7 @@ class UpdateCrossAccountAttachmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateCustomRoutingAcceleratorResponse {
   /// Information about the updated custom routing accelerator.
   final CustomRoutingAccelerator? accelerator;
@@ -4195,6 +4235,7 @@ class UpdateCustomRoutingAcceleratorResponse {
   }
 }
 
+/// @nodoc
 class UpdateCustomRoutingAcceleratorAttributesResponse {
   /// Updated custom routing accelerator.
   final CustomRoutingAcceleratorAttributes? acceleratorAttributes;
@@ -4222,6 +4263,7 @@ class UpdateCustomRoutingAcceleratorAttributesResponse {
   }
 }
 
+/// @nodoc
 class UpdateCustomRoutingListenerResponse {
   /// Information for the updated listener for a custom routing accelerator.
   final CustomRoutingListener? listener;
@@ -4248,6 +4290,7 @@ class UpdateCustomRoutingListenerResponse {
   }
 }
 
+/// @nodoc
 class UpdateEndpointGroupResponse {
   /// The information about the endpoint group that was updated.
   final EndpointGroup? endpointGroup;
@@ -4273,6 +4316,7 @@ class UpdateEndpointGroupResponse {
   }
 }
 
+/// @nodoc
 class UpdateListenerResponse {
   /// Information for the updated listener.
   final Listener? listener;
@@ -4297,6 +4341,7 @@ class UpdateListenerResponse {
   }
 }
 
+/// @nodoc
 class WithdrawByoipCidrResponse {
   /// Information about the BYOIP address pool.
   final ByoipCidr? byoipCidr;
@@ -4383,6 +4428,8 @@ class WithdrawByoipCidrResponse {
 /// a second time, contact Amazon Web Services support.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class ByoipCidr {
   /// The address range, in CIDR notation.
   ///
@@ -4427,6 +4474,7 @@ class ByoipCidr {
   }
 }
 
+/// @nodoc
 class ByoipCidrState {
   static const pendingProvisioning = ByoipCidrState._('PENDING_PROVISIONING');
   static const ready = ByoipCidrState._('READY');
@@ -4477,6 +4525,8 @@ class ByoipCidrState {
 /// <code>Timestamp</code> value for changes that you make in the status of an
 /// IP address range that you bring to Global Accelerator through bring your own
 /// IP address (BYOIP).
+///
+/// @nodoc
 class ByoipCidrEvent {
   /// A string that contains an <code>Event</code> message describing changes that
   /// you make in the status of an IP address range that you bring to Global
@@ -4510,6 +4560,8 @@ class ByoipCidrEvent {
 }
 
 /// A complex type for a listener.
+///
+/// @nodoc
 class Listener {
   /// Client affinity lets you direct all requests from a user to the same
   /// endpoint, if you have stateful applications, regardless of the port and
@@ -4577,6 +4629,7 @@ class Listener {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const tcp = Protocol._('TCP');
   static const udp = Protocol._('UDP');
@@ -4600,6 +4653,7 @@ class Protocol {
   String toString() => value;
 }
 
+/// @nodoc
 class ClientAffinity {
   static const none = ClientAffinity._('NONE');
   static const sourceIp = ClientAffinity._('SOURCE_IP');
@@ -4625,6 +4679,8 @@ class ClientAffinity {
 }
 
 /// A complex type for a range of ports for a listener.
+///
+/// @nodoc
 class PortRange {
   /// The first port in the range of ports, inclusive.
   final int? fromPort;
@@ -4656,6 +4712,8 @@ class PortRange {
 
 /// A complex type for the endpoint group. An Amazon Web Services Region can
 /// have only one endpoint group for a specific listener.
+///
+/// @nodoc
 class EndpointGroup {
   /// The list of endpoint objects.
   final List<EndpointDescription>? endpointDescriptions;
@@ -4775,6 +4833,7 @@ class EndpointGroup {
   }
 }
 
+/// @nodoc
 class HealthCheckProtocol {
   static const tcp = HealthCheckProtocol._('TCP');
   static const http = HealthCheckProtocol._('HTTP');
@@ -4811,6 +4870,8 @@ class HealthCheckProtocol {
 /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html">
 /// Overriding listener ports</a> in the <i>Global Accelerator Developer
 /// Guide</i>.
+///
+/// @nodoc
 class PortOverride {
   /// The endpoint port that you want a listener port to be mapped to. This is the
   /// port on the endpoint, such as the Application Load Balancer or Amazon EC2
@@ -4845,6 +4906,8 @@ class PortOverride {
 
 /// A complex type for an endpoint. Each endpoint group can include one or more
 /// endpoints, such as load balancers.
+///
+/// @nodoc
 class EndpointDescription {
   /// Indicates whether client IP address preservation is enabled for an endpoint.
   /// The value is true or false. The default value is true for Application Load
@@ -4928,6 +4991,7 @@ class EndpointDescription {
   }
 }
 
+/// @nodoc
 class HealthState {
   static const initial = HealthState._('INITIAL');
   static const healthy = HealthState._('HEALTHY');
@@ -4954,6 +5018,8 @@ class HealthState {
 
 /// A complex type for endpoints. A resource must be valid and active when you
 /// add it as an endpoint.
+///
+/// @nodoc
 class EndpointConfiguration {
   /// The Amazon Resource Name (ARN) of the cross-account attachment that
   /// specifies the endpoints (resources) that can be added to accelerators and
@@ -5023,6 +5089,8 @@ class EndpointConfiguration {
 }
 
 /// A complex type for a listener for a custom routing accelerator.
+///
+/// @nodoc
 class CustomRoutingListener {
   /// The Amazon Resource Name (ARN) of the listener.
   final String? listenerArn;
@@ -5060,6 +5128,8 @@ class CustomRoutingListener {
 }
 
 /// Attributes of a custom routing accelerator.
+///
+/// @nodoc
 class CustomRoutingAcceleratorAttributes {
   /// Indicates whether flow logs are enabled. The default value is false. If the
   /// value is true, <code>FlowLogsS3Bucket</code> and
@@ -5115,6 +5185,8 @@ class CustomRoutingAcceleratorAttributes {
 }
 
 /// Attributes of a custom routing accelerator.
+///
+/// @nodoc
 class CustomRoutingAccelerator {
   /// The Amazon Resource Name (ARN) of the custom routing accelerator.
   final String? acceleratorArn;
@@ -5222,6 +5294,7 @@ class CustomRoutingAccelerator {
   }
 }
 
+/// @nodoc
 class IpAddressType {
   static const ipv4 = IpAddressType._('IPV4');
   static const dualStack = IpAddressType._('DUAL_STACK');
@@ -5246,6 +5319,7 @@ class IpAddressType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomRoutingAcceleratorStatus {
   static const deployed = CustomRoutingAcceleratorStatus._('DEPLOYED');
   static const inProgress = CustomRoutingAcceleratorStatus._('IN_PROGRESS');
@@ -5272,6 +5346,8 @@ class CustomRoutingAcceleratorStatus {
 }
 
 /// A complex type for the set of IP addresses for an accelerator.
+///
+/// @nodoc
 class IpSet {
   /// The types of IP addresses included in this IP set.
   final IpAddressFamily? ipAddressFamily;
@@ -5313,6 +5389,7 @@ class IpSet {
   }
 }
 
+/// @nodoc
 class IpAddressFamily {
   static const iPv4 = IpAddressFamily._('IPv4');
   static const iPv6 = IpAddressFamily._('IPv6');
@@ -5340,6 +5417,8 @@ class IpAddressFamily {
 /// A cross-account attachment in Global Accelerator. A cross-account attachment
 /// specifies the <i>principals</i> who have permission to work with
 /// <i>resources</i> in your account, which you also list in the attachment.
+///
+/// @nodoc
 class Attachment {
   /// The Amazon Resource Name (ARN) of the cross-account attachment.
   final String? attachmentArn;
@@ -5407,6 +5486,8 @@ class Attachment {
 /// A resource is one of the following: the ARN for an Amazon Web Services
 /// resource that is supported by Global Accelerator to be added as an endpoint,
 /// or a CIDR range that specifies a bring your own IP (BYOIP) address pool.
+///
+/// @nodoc
 class Resource {
   /// An IP address range, in CIDR format, that is specified as resource. The
   /// address must be provisioned and advertised in Global Accelerator by
@@ -5456,6 +5537,8 @@ class Resource {
 }
 
 /// Attributes of an accelerator.
+///
+/// @nodoc
 class AcceleratorAttributes {
   /// Indicates whether flow logs are enabled. The default value is false. If the
   /// value is true, <code>FlowLogsS3Bucket</code> and
@@ -5510,6 +5593,8 @@ class AcceleratorAttributes {
 /// An accelerator is a complex type that includes one or more listeners that
 /// process inbound connections and then direct traffic to one or more endpoint
 /// groups, each of which includes endpoints, such as load balancers.
+///
+/// @nodoc
 class Accelerator {
   /// The Amazon Resource Name (ARN) of the accelerator.
   final String? acceleratorArn;
@@ -5649,6 +5734,7 @@ class Accelerator {
   }
 }
 
+/// @nodoc
 class AcceleratorStatus {
   static const deployed = AcceleratorStatus._('DEPLOYED');
   static const inProgress = AcceleratorStatus._('IN_PROGRESS');
@@ -5678,6 +5764,8 @@ class AcceleratorStatus {
 /// Accelerator. Messages stored here provide progress or error information when
 /// you update an accelerator from IPv4 to dual-stack, or from dual-stack to
 /// IPv4. Global Accelerator stores a maximum of ten event messages.
+///
+/// @nodoc
 class AcceleratorEvent {
   /// A string that contains an <code>Event</code> message describing changes or
   /// errors when you update an accelerator in Global Accelerator from IPv4 to
@@ -5712,6 +5800,8 @@ class AcceleratorEvent {
 
 /// A complex type that contains a <code>Tag</code> key and <code>Tag</code>
 /// value.
+///
+/// @nodoc
 class Tag {
   /// A string that contains a <code>Tag</code> key.
   final String key;
@@ -5743,6 +5833,8 @@ class Tag {
 
 /// A complex type for an endpoint. Specifies information about the endpoint to
 /// remove from the endpoint group.
+///
+/// @nodoc
 class EndpointIdentifier {
   /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
   /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
@@ -5785,6 +5877,8 @@ class EndpointIdentifier {
 /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
 /// your own IP addresses (BYOIP)</a> in the <i>Global Accelerator Developer
 /// Guide</i>.
+///
+/// @nodoc
 class CidrAuthorizationContext {
   /// The plain-text authorization message for the prefix and account.
   final String message;
@@ -5808,6 +5902,8 @@ class CidrAuthorizationContext {
 }
 
 /// The port mappings for a specified endpoint IP address (destination).
+///
+/// @nodoc
 class DestinationPortMapping {
   /// The Amazon Resource Name (ARN) of the custom routing accelerator that you
   /// have port mappings for.
@@ -5898,6 +5994,8 @@ class DestinationPortMapping {
 }
 
 /// An IP address/port combination.
+///
+/// @nodoc
 class SocketAddress {
   /// The IP address for the socket address.
   final String? ipAddress;
@@ -5927,6 +6025,7 @@ class SocketAddress {
   }
 }
 
+/// @nodoc
 class CustomRoutingDestinationTrafficState {
   static const allow = CustomRoutingDestinationTrafficState._('ALLOW');
   static const deny = CustomRoutingDestinationTrafficState._('DENY');
@@ -5957,6 +6056,8 @@ class CustomRoutingDestinationTrafficState {
 /// port mapping protocol in Global Accelerator that statically associates port
 /// ranges with VPC subnets, which allows Global Accelerator to route to
 /// specific instances and ports within one or more subnets.
+///
+/// @nodoc
 class PortMapping {
   /// The accelerator port.
   final int? acceleratorPort;
@@ -6027,6 +6128,7 @@ class PortMapping {
   }
 }
 
+/// @nodoc
 class CustomRoutingProtocol {
   static const tcp = CustomRoutingProtocol._('TCP');
   static const udp = CustomRoutingProtocol._('UDP');
@@ -6055,6 +6157,8 @@ class CustomRoutingProtocol {
 /// A complex type for the endpoint group for a custom routing accelerator. An
 /// Amazon Web Services Region can have only one endpoint group for a specific
 /// listener.
+///
+/// @nodoc
 class CustomRoutingEndpointGroup {
   /// For a custom routing accelerator, describes the port range and protocol for
   /// all endpoints (virtual private cloud subnets) in an endpoint group to accept
@@ -6115,6 +6219,8 @@ class CustomRoutingEndpointGroup {
 /// A complex type for an endpoint for a custom routing accelerator. Each
 /// endpoint group can include one or more endpoints, which are virtual private
 /// cloud (VPC) subnets.
+///
+/// @nodoc
 class CustomRoutingEndpointDescription {
   /// An ID for the endpoint. For custom routing accelerators, this is the virtual
   /// private cloud (VPC) subnet ID.
@@ -6141,6 +6247,8 @@ class CustomRoutingEndpointDescription {
 /// For a custom routing accelerator, describes the port range and protocol for
 /// all endpoints (virtual private cloud subnets) in an endpoint group to accept
 /// client traffic on.
+///
+/// @nodoc
 class CustomRoutingDestinationDescription {
   /// The first port, inclusive, in the range of ports for the endpoint group that
   /// is associated with a custom routing accelerator.
@@ -6194,6 +6302,8 @@ class CustomRoutingDestinationDescription {
 /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html">
 /// Working with cross-account attachments and resources in Global
 /// Accelerator</a> in the <i> Global Accelerator Developer Guide</i>.
+///
+/// @nodoc
 class CrossAccountResource {
   /// The Amazon Resource Name (ARN) of the cross-account attachment that
   /// specifies the resources (endpoints or CIDR range) that can be added to
@@ -6243,6 +6353,8 @@ class CrossAccountResource {
 /// For a custom routing accelerator, sets the port range and protocol for all
 /// endpoints (virtual private cloud subnets) in an endpoint group to accept
 /// client traffic on.
+///
+/// @nodoc
 class CustomRoutingDestinationConfiguration {
   /// The first port, inclusive, in the range of ports for the endpoint group that
   /// is associated with a custom routing accelerator.
@@ -6276,6 +6388,8 @@ class CustomRoutingDestinationConfiguration {
 
 /// The list of endpoint objects. For custom routing, this is a list of virtual
 /// private cloud (VPC) subnet IDs.
+///
+/// @nodoc
 class CustomRoutingEndpointConfiguration {
   /// The Amazon Resource Name (ARN) of the cross-account attachment that
   /// specifies the endpoints (resources) that can be added to accelerators and
@@ -6301,6 +6415,7 @@ class CustomRoutingEndpointConfiguration {
   }
 }
 
+/// @nodoc
 class AcceleratorNotDisabledException extends _s.GenericAwsException {
   AcceleratorNotDisabledException({String? type, String? message})
       : super(
@@ -6309,17 +6424,20 @@ class AcceleratorNotDisabledException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AcceleratorNotFoundException extends _s.GenericAwsException {
   AcceleratorNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'AcceleratorNotFoundException', message: message);
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class AssociatedEndpointGroupFoundException extends _s.GenericAwsException {
   AssociatedEndpointGroupFoundException({String? type, String? message})
       : super(
@@ -6328,6 +6446,7 @@ class AssociatedEndpointGroupFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AssociatedListenerFoundException extends _s.GenericAwsException {
   AssociatedListenerFoundException({String? type, String? message})
       : super(
@@ -6336,22 +6455,26 @@ class AssociatedListenerFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AttachmentNotFoundException extends _s.GenericAwsException {
   AttachmentNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'AttachmentNotFoundException', message: message);
 }
 
+/// @nodoc
 class ByoipCidrNotFoundException extends _s.GenericAwsException {
   ByoipCidrNotFoundException({String? type, String? message})
       : super(type: type, code: 'ByoipCidrNotFoundException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class EndpointAlreadyExistsException extends _s.GenericAwsException {
   EndpointAlreadyExistsException({String? type, String? message})
       : super(
@@ -6360,6 +6483,7 @@ class EndpointAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EndpointGroupAlreadyExistsException extends _s.GenericAwsException {
   EndpointGroupAlreadyExistsException({String? type, String? message})
       : super(
@@ -6368,6 +6492,7 @@ class EndpointGroupAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EndpointGroupNotFoundException extends _s.GenericAwsException {
   EndpointGroupNotFoundException({String? type, String? message})
       : super(
@@ -6376,17 +6501,20 @@ class EndpointGroupNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EndpointNotFoundException extends _s.GenericAwsException {
   EndpointNotFoundException({String? type, String? message})
       : super(type: type, code: 'EndpointNotFoundException', message: message);
 }
 
+/// @nodoc
 class IncorrectCidrStateException extends _s.GenericAwsException {
   IncorrectCidrStateException({String? type, String? message})
       : super(
             type: type, code: 'IncorrectCidrStateException', message: message);
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -6395,31 +6523,37 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidPortRangeException extends _s.GenericAwsException {
   InvalidPortRangeException({String? type, String? message})
       : super(type: type, code: 'InvalidPortRangeException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ListenerNotFoundException extends _s.GenericAwsException {
   ListenerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ListenerNotFoundException', message: message);
 }
 
+/// @nodoc
 class TransactionInProgressException extends _s.GenericAwsException {
   TransactionInProgressException({String? type, String? message})
       : super(

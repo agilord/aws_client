@@ -309,6 +309,8 @@ class DynamoDBStreams {
 }
 
 /// Represents the output of a <code>DescribeStream</code> operation.
+///
+/// @nodoc
 class DescribeStreamOutput {
   /// A complete description of the stream, including its creation date and time,
   /// the DynamoDB table associated with the stream, the shard IDs within the
@@ -338,6 +340,8 @@ class DescribeStreamOutput {
 }
 
 /// Represents the output of a <code>GetRecords</code> operation.
+///
+/// @nodoc
 class GetRecordsOutput {
   /// The next position in the shard from which to start sequentially reading
   /// stream records. If set to <code>null</code>, the shard has been closed and
@@ -374,6 +378,8 @@ class GetRecordsOutput {
 }
 
 /// Represents the output of a <code>GetShardIterator</code> operation.
+///
+/// @nodoc
 class GetShardIteratorOutput {
   /// The position in the shard from which to start reading stream records
   /// sequentially. A shard iterator specifies this position using the sequence
@@ -399,6 +405,8 @@ class GetShardIteratorOutput {
 }
 
 /// Represents the output of a <code>ListStreams</code> operation.
+///
+/// @nodoc
 class ListStreamsOutput {
   /// The stream ARN of the item where the operation stopped, inclusive of the
   /// previous result set. Use this value to start a new operation, excluding this
@@ -444,6 +452,8 @@ class ListStreamsOutput {
 }
 
 /// Represents all of the data describing a particular stream.
+///
+/// @nodoc
 class Stream {
   /// The Amazon Resource Name (ARN) for the stream.
   final String? streamArn;
@@ -497,6 +507,7 @@ class Stream {
   }
 }
 
+/// @nodoc
 class ShardIteratorType {
   static const trimHorizon = ShardIteratorType._('TRIM_HORIZON');
   static const latest = ShardIteratorType._('LATEST');
@@ -530,6 +541,8 @@ class ShardIteratorType {
 }
 
 /// A description of a unique event within a stream.
+///
+/// @nodoc
 class Record {
   /// The region in which the <code>GetRecords</code> request was received.
   final String? awsRegion;
@@ -576,12 +589,12 @@ class Record {
   ///
   /// <ul>
   /// <li>
-  /// Records[].userIdentity.type
+  /// Records\[\].userIdentity.type
   ///
   /// "Service"
   /// </li>
   /// <li>
-  /// Records[].userIdentity.principalId
+  /// Records\[\].userIdentity.principalId
   ///
   /// "dynamodb.amazonaws.com"
   /// </li>
@@ -634,6 +647,7 @@ class Record {
   }
 }
 
+/// @nodoc
 class OperationType {
   static const insert = OperationType._('INSERT');
   static const modify = OperationType._('MODIFY');
@@ -661,6 +675,8 @@ class OperationType {
 
 /// A description of a single data modification that was performed on an item in
 /// a DynamoDB table.
+///
+/// @nodoc
 class StreamRecord {
   /// The approximate date and time when the stream record was created, in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
@@ -754,6 +770,8 @@ class StreamRecord {
 }
 
 /// Contains details about the type of identity that made the request.
+///
+/// @nodoc
 class Identity {
   /// A unique identifier for the entity that made the call. For Time To Live, the
   /// principalId is "dynamodb.amazonaws.com".
@@ -784,6 +802,7 @@ class Identity {
   }
 }
 
+/// @nodoc
 class StreamViewType {
   static const newImage = StreamViewType._('NEW_IMAGE');
   static const oldImage = StreamViewType._('OLD_IMAGE');
@@ -818,6 +837,8 @@ class StreamViewType {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
 /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+///
+/// @nodoc
 class AttributeValue {
   /// An attribute of type Binary. For example:
   ///
@@ -831,12 +852,12 @@ class AttributeValue {
 
   /// An attribute of type Binary Set. For example:
   ///
-  /// <code>"BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]</code>
+  /// <code>"BS": \["U3Vubnk=", "UmFpbnk=", "U25vd3k="\]</code>
   final List<Uint8List>? bs;
 
   /// An attribute of type List. For example:
   ///
-  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]</code>
+  /// <code>"L": \[ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}\]</code>
   final List<AttributeValue>? l;
 
   /// An attribute of type Map. For example:
@@ -855,7 +876,7 @@ class AttributeValue {
 
   /// An attribute of type Number Set. For example:
   ///
-  /// <code>"NS": ["42.2", "-19", "7.5", "3.14"]</code>
+  /// <code>"NS": \["42.2", "-19", "7.5", "3.14"\]</code>
   ///
   /// Numbers are sent across the network to DynamoDB as strings, to maximize
   /// compatibility across languages and libraries. However, DynamoDB treats them
@@ -874,7 +895,7 @@ class AttributeValue {
 
   /// An attribute of type String Set. For example:
   ///
-  /// <code>"SS": ["Giraffe", "Hippo" ,"Zebra"]</code>
+  /// <code>"SS": \["Giraffe", "Hippo" ,"Zebra"\]</code>
   final List<String>? ss;
 
   AttributeValue({
@@ -939,6 +960,8 @@ class AttributeValue {
 }
 
 /// Represents all of the data describing a particular stream.
+///
+/// @nodoc
 class StreamDescription {
   /// The date and time when the request to create this stream was issued.
   final DateTime? creationRequestDateTime;
@@ -1092,6 +1115,7 @@ class StreamDescription {
   }
 }
 
+/// @nodoc
 class StreamStatus {
   static const enabling = StreamStatus._('ENABLING');
   static const enabled = StreamStatus._('ENABLED');
@@ -1118,6 +1142,8 @@ class StreamStatus {
 }
 
 /// A uniquely identified group of stream records within a stream.
+///
+/// @nodoc
 class Shard {
   /// The shard ID of the current shard's parent.
   final String? parentShardId;
@@ -1160,6 +1186,8 @@ class Shard {
 
 /// The beginning and ending sequence numbers for the stream records contained
 /// within a shard.
+///
+/// @nodoc
 class SequenceNumberRange {
   /// The last sequence number for the stream records contained within a shard.
   /// String contains numeric characters only.
@@ -1206,6 +1234,8 @@ class SequenceNumberRange {
 /// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
 /// nested attribute). The data type must be one of String, Number, or Binary.
 /// The attribute cannot be nested within a List or a Map.
+///
+/// @nodoc
 class KeySchemaElement {
   /// The name of a key attribute.
   final String attributeName;
@@ -1254,6 +1284,7 @@ class KeySchemaElement {
   }
 }
 
+/// @nodoc
 class KeyType {
   static const hash = KeyType._('HASH');
   static const range = KeyType._('RANGE');
@@ -1279,6 +1310,8 @@ class KeyType {
 
 /// This optional field contains the filter definition for the
 /// <code>DescribeStream</code> API.
+///
+/// @nodoc
 class ShardFilter {
   /// Contains the <code>shardId</code> of the parent shard for which you are
   /// requesting child shards.
@@ -1306,6 +1339,7 @@ class ShardFilter {
   }
 }
 
+/// @nodoc
 class ShardFilterType {
   static const childShards = ShardFilterType._('CHILD_SHARDS');
 
@@ -1329,26 +1363,31 @@ class ShardFilterType {
   String toString() => value;
 }
 
+/// @nodoc
 class ExpiredIteratorException extends _s.GenericAwsException {
   ExpiredIteratorException({String? type, String? message})
       : super(type: type, code: 'ExpiredIteratorException', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TrimmedDataAccessException extends _s.GenericAwsException {
   TrimmedDataAccessException({String? type, String? message})
       : super(type: type, code: 'TrimmedDataAccessException', message: message);

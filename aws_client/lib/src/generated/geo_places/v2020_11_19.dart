@@ -118,8 +118,8 @@ class GeoPlaces {
   /// Parameter [biasPosition] :
   /// The position in longitude and latitude that the results should be close
   /// to. Typically, place results returned are ranked higher the closer they
-  /// are to this position. Stored in <code>[lng, lat]</code> and in the WGS 84
-  /// format.
+  /// are to this position. Stored in <code>\[lng, lat\]</code> and in the WGS
+  /// 84 format.
   /// <note>
   /// The fields <code>BiasPosition</code>, <code>FilterBoundingBox</code>, and
   /// <code>FilterCircle</code> are mutually exclusive.
@@ -283,8 +283,8 @@ class GeoPlaces {
   /// Parameter [biasPosition] :
   /// The position, in longitude and latitude, that the results should be close
   /// to. Typically, place results returned are ranked higher the closer they
-  /// are to this position. Stored in <code>[lng, lat]</code> and in the WGS 84
-  /// format.
+  /// are to this position. Stored in <code>\[lng, lat\]</code> and in the WGS
+  /// 84 format.
   ///
   /// Parameter [filter] :
   /// A structure which contains a set of inclusion/exclusion properties that
@@ -544,9 +544,9 @@ class GeoPlaces {
   /// May throw [ValidationException].
   ///
   /// Parameter [queryPosition] :
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude] for which you are querying nearby results for. Results closer to
-  /// the position will be ranked higher then results further away from the
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\] for which you are querying nearby results for. Results closer
+  /// to the position will be ranked higher then results further away from the
   /// position
   ///
   /// Parameter [additionalFeatures] :
@@ -688,9 +688,9 @@ class GeoPlaces {
   /// May throw [ValidationException].
   ///
   /// Parameter [queryPosition] :
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude] for which you are querying nearby results for. Results closer to
-  /// the position will be ranked higher then results further away from the
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\] for which you are querying nearby results for. Results closer
+  /// to the position will be ranked higher then results further away from the
   /// position
   ///
   /// Parameter [additionalFeatures] :
@@ -826,8 +826,8 @@ class GeoPlaces {
   /// Parameter [biasPosition] :
   /// The position, in longitude and latitude, that the results should be close
   /// to. Typically, place results returned are ranked higher the closer they
-  /// are to this position. Stored in <code>[lng, lat]</code> and in the WGS 84
-  /// format.
+  /// are to this position. Stored in <code>\[lng, lat\]</code> and in the WGS
+  /// 84 format.
   /// <note>
   /// Exactly one of the following fields must be set:
   /// <code>BiasPosition</code>, <code>Filter.BoundingBox</code>, or
@@ -990,8 +990,8 @@ class GeoPlaces {
   /// Parameter [biasPosition] :
   /// The position, in longitude and latitude, that the results should be close
   /// to. Typically, place results returned are ranked higher the closer they
-  /// are to this position. Stored in <code>[lng, lat]</code> and in the WGS 84
-  /// format.
+  /// are to this position. Stored in <code>\[lng, lat\]</code> and in the WGS
+  /// 84 format.
   /// <note>
   /// The fields <code>BiasPosition</code>, <code>FilterBoundingBox</code>, and
   /// <code>FilterCircle</code> are mutually exclusive.
@@ -1091,6 +1091,7 @@ class GeoPlaces {
   }
 }
 
+/// @nodoc
 class AutocompleteResponse {
   /// The pricing bucket for which the query is charged at.
   ///
@@ -1116,6 +1117,7 @@ class AutocompleteResponse {
   }
 }
 
+/// @nodoc
 class GeocodeResponse {
   /// The pricing bucket for which the query is charged at, or the maximum pricing
   /// bucket when the query is charged per item within the query.
@@ -1142,6 +1144,7 @@ class GeocodeResponse {
   }
 }
 
+/// @nodoc
 class GetPlaceResponse {
   /// The <code>PlaceId</code> of the place you wish to receive the information
   /// for.
@@ -1162,7 +1165,7 @@ class GetPlaceResponse {
   final String title;
 
   /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude]. Not available in <code>ap-southeast-1</code> and
+  /// \[longitude, latitude\]. Not available in <code>ap-southeast-1</code> and
   /// <code>ap-southeast-5</code> regions for <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
   /// customers.
@@ -1215,8 +1218,8 @@ class GetPlaceResponse {
   /// individual result covers.
   ///
   /// The bounding box formed is defined as a set of four coordinates:
-  /// <code>[{westward lng}, {southern lat}, {eastward lng}, {northern
-  /// lat}]</code>
+  /// <code>\[{westward lng}, {southern lat}, {eastward lng}, {northern
+  /// lat}\]</code>
   final List<double>? mapView;
 
   /// List of opening hours objects. Not available in <code>ap-southeast-1</code>
@@ -1241,8 +1244,8 @@ class GetPlaceResponse {
   /// customers.
   final String? politicalView;
 
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   /// Contains details about the postal code of the place/result. Not available in
@@ -1338,6 +1341,7 @@ class GetPlaceResponse {
   }
 }
 
+/// @nodoc
 class ReverseGeocodeResponse {
   /// The pricing bucket for which the query is charged at.
   ///
@@ -1363,6 +1367,7 @@ class ReverseGeocodeResponse {
   }
 }
 
+/// @nodoc
 class SearchNearbyResponse {
   /// The pricing bucket for which the query is charged at.
   ///
@@ -1395,6 +1400,7 @@ class SearchNearbyResponse {
   }
 }
 
+/// @nodoc
 class SearchTextResponse {
   /// The pricing bucket for which the query is charged at.
   ///
@@ -1427,6 +1433,7 @@ class SearchTextResponse {
   }
 }
 
+/// @nodoc
 class SuggestResponse {
   /// The pricing bucket for which the query is charged at.
   ///
@@ -1465,6 +1472,8 @@ class SuggestResponse {
 /// Suggestions for refining individual query terms. Suggestions are returned as
 /// objects which note the term, suggested replacement, and its index in the
 /// query.
+///
+/// @nodoc
 class QueryRefinement {
   /// End index of the parsed query.
   final int endIndex;
@@ -1509,6 +1518,8 @@ class QueryRefinement {
 }
 
 /// The resulting item from the suggested query.
+///
+/// @nodoc
 class SuggestResultItem {
   /// The result type. Place results represent the final result for a point of
   /// interest, Query results represent a follow up query which can be completed
@@ -1569,6 +1580,7 @@ class SuggestResultItem {
   }
 }
 
+/// @nodoc
 class SuggestResultItemType {
   static const place = SuggestResultItemType._('Place');
   static const query = SuggestResultItemType._('Query');
@@ -1595,9 +1607,11 @@ class SuggestResultItemType {
 }
 
 /// The suggested place results.
+///
+/// @nodoc
 class SuggestPlaceResult {
   /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude]. Not available in <code>ap-southeast-1</code> and
+  /// \[longitude, latitude\]. Not available in <code>ap-southeast-1</code> and
   /// <code>ap-southeast-5</code> regions for <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
   /// customers.
@@ -1635,8 +1649,8 @@ class SuggestPlaceResult {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? mapView;
 
   /// How the various components of the result's address are pronounced in various
@@ -1662,8 +1676,8 @@ class SuggestPlaceResult {
   /// customers.
   final String? politicalView;
 
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   /// The time zone in which the place is located.
@@ -1765,6 +1779,8 @@ class SuggestPlaceResult {
 }
 
 /// The suggested query results.
+///
+/// @nodoc
 class SuggestQueryResult {
   /// QueryId can be used to complete a follow up query through the SearchText
   /// API. The QueryId retains context from the original Suggest request such as
@@ -1813,6 +1829,8 @@ class SuggestQueryResult {
 
 /// Describes how the parts of the textQuery matched the input query by
 /// returning the sections of the response which matched to textQuery terms.
+///
+/// @nodoc
 class SuggestHighlights {
   /// The place's address.
   final SuggestAddressHighlights? address;
@@ -1851,6 +1869,8 @@ class SuggestHighlights {
 
 /// Describes how the parts of the textQuery matched the input query by
 /// returning the sections of the response which matched to textQuery terms.
+///
+/// @nodoc
 class SuggestAddressHighlights {
   /// Indicates the starting and ending indexes of the places in the result which
   /// were identified to match the textQuery. This result is useful for providing
@@ -1881,6 +1901,8 @@ class SuggestAddressHighlights {
 
 /// Indicates the starting and ending index of the text query that match the
 /// found title.
+///
+/// @nodoc
 class Highlight {
   /// End index of the highlight.
   final int? endIndex;
@@ -1917,6 +1939,7 @@ class Highlight {
   }
 }
 
+/// @nodoc
 class QueryType {
   static const category = QueryType._('Category');
   static const businessChain = QueryType._('BusinessChain');
@@ -1940,6 +1963,7 @@ class QueryType {
   String toString() => value;
 }
 
+/// @nodoc
 class PlaceType {
   static const country = PlaceType._('Country');
   static const region = PlaceType._('Region');
@@ -1996,6 +2020,8 @@ class PlaceType {
 }
 
 /// The place address.
+///
+/// @nodoc
 class Address {
   /// The number that identifies an address within a street.
   final String? addressNumber;
@@ -2025,7 +2051,7 @@ class Address {
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
   /// customers.
   ///
-  /// Example: <code>["Friedrichstraße","Unter den Linden"]</code>
+  /// Example: <code>\["Friedrichstraße","Unter den Linden"\]</code>
   final List<String>? intersection;
 
   /// Assembled address value built out of the address components, according to
@@ -2184,6 +2210,8 @@ class Address {
 }
 
 /// The time zone in which the place is located.
+///
+/// @nodoc
 class TimeZone {
   /// The time zone name.
   final String name;
@@ -2221,6 +2249,8 @@ class TimeZone {
 }
 
 /// The phoneme details.
+///
+/// @nodoc
 class PhonemeDetails {
   /// How to pronounce the address.
   final AddressComponentPhonemes? address;
@@ -2258,6 +2288,8 @@ class PhonemeDetails {
 }
 
 /// How to pronounce the various components of the address or place.
+///
+/// @nodoc
 class AddressComponentPhonemes {
   /// How to pronounce the name of the block.
   final List<PhonemeTranscription>? block;
@@ -2370,6 +2402,8 @@ class AddressComponentPhonemes {
 }
 
 /// How to pronounce the various components of the address or place.
+///
+/// @nodoc
 class PhonemeTranscription {
   /// A list of <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP
   /// 47</a> compliant language codes for the results to be rendered in. If there
@@ -2412,6 +2446,8 @@ class PhonemeTranscription {
 /// Indicates if the access location is restricted. Index correlates to that of
 /// an access point and indicates if access through this point has some form of
 /// restriction.
+///
+/// @nodoc
 class AccessRestriction {
   /// Categories of results that results must belong too.
   final List<Category>? categories;
@@ -2446,9 +2482,11 @@ class AccessRestriction {
 
 /// Position of the access point represented by longitude and latitude for a
 /// vehicle.
+///
+/// @nodoc
 class AccessPoint {
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   AccessPoint({
@@ -2474,6 +2512,8 @@ class AccessPoint {
 
 /// A businesschain is a chain of businesses that belong to the same brand. For
 /// example <code>7-11</code>.
+///
+/// @nodoc
 class BusinessChain {
   /// The Business Chain Id.
   final String? id;
@@ -2504,6 +2544,8 @@ class BusinessChain {
 }
 
 /// List of <code>Food</code> types offered by this result.
+///
+/// @nodoc
 class FoodType {
   /// Localized name of the food type.
   final String localizedName;
@@ -2543,6 +2585,8 @@ class FoodType {
 }
 
 /// Category of the <code>Place</code> returned.
+///
+/// @nodoc
 class Category {
   /// The category ID.
   final String id;
@@ -2589,6 +2633,8 @@ class Category {
 
 /// The alpha-2 or alpha-3 character code for the country that the results will
 /// be present in.
+///
+/// @nodoc
 class Country {
   /// Country, represented by its alpha 2-character code.
   final String? code2;
@@ -2628,6 +2674,8 @@ class Country {
 /// The region or state results should be to be present in.
 ///
 /// Example: <code>North Rhine-Westphalia</code>.
+///
+/// @nodoc
 class Region {
   /// Abbreviated code for a the state, province or region of the country. Not
   /// available in <code>ap-southeast-1</code> and <code>ap-southeast-5</code>
@@ -2666,6 +2714,8 @@ class Region {
 }
 
 /// The sub-region.
+///
+/// @nodoc
 class SubRegion {
   /// Abbreviated code for the county or sub-region. Not available in
   /// <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a
@@ -2700,6 +2750,8 @@ class SubRegion {
 
 /// Components that correspond to secondary identifiers on an address. The only
 /// component type supported currently is Unit.
+///
+/// @nodoc
 class SecondaryAddressComponent {
   /// Number that uniquely identifies a secondary address.
   final String number;
@@ -2732,6 +2784,8 @@ class SecondaryAddressComponent {
 }
 
 /// Components of a street.
+///
+/// @nodoc
 class StreetComponents {
   /// Base name part of the street name.
   ///
@@ -2818,6 +2872,7 @@ class StreetComponents {
   }
 }
 
+/// @nodoc
 class TypePlacement {
   static const beforeBaseName = TypePlacement._('BeforeBaseName');
   static const afterBaseName = TypePlacement._('AfterBaseName');
@@ -2844,12 +2899,14 @@ class TypePlacement {
 
 /// SuggestFilter structure which contains a set of inclusion/exclusion
 /// properties that results must possess in order to be returned as a result.
+///
+/// @nodoc
 class SuggestFilter {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? boundingBox;
   final FilterCircle? circle;
 
@@ -2875,6 +2932,7 @@ class SuggestFilter {
   }
 }
 
+/// @nodoc
 class SuggestIntendedUse {
   static const singleUse = SuggestIntendedUse._('SingleUse');
 
@@ -2899,6 +2957,7 @@ class SuggestIntendedUse {
   String toString() => value;
 }
 
+/// @nodoc
 class SuggestAdditionalFeature {
   static const core = SuggestAdditionalFeature._('Core');
   static const timeZone = SuggestAdditionalFeature._('TimeZone');
@@ -2927,9 +2986,11 @@ class SuggestAdditionalFeature {
 }
 
 /// The <code>Circle</code> that all results must be in.
+///
+/// @nodoc
 class FilterCircle {
-  /// The center position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The center position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double> center;
 
   /// The radius, in meters, of the <code>FilterCircle</code>. For <a
@@ -2954,6 +3015,8 @@ class FilterCircle {
 }
 
 /// The text search result.
+///
+/// @nodoc
 class SearchTextResultItem {
   /// The <code>PlaceId</code> of the place you wish to receive the information
   /// for.
@@ -2966,7 +3029,7 @@ class SearchTextResultItem {
   final String title;
 
   /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   final List<AccessPoint>? accessPoints;
 
   /// Indicates known access restrictions on a vehicle access point. The index
@@ -2998,8 +3061,8 @@ class SearchTextResultItem {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? mapView;
 
   /// List of opening hours objects.
@@ -3015,8 +3078,8 @@ class SearchTextResultItem {
   /// country.
   final String? politicalView;
 
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   /// The time zone in which the place is located.
@@ -3140,6 +3203,8 @@ class SearchTextResultItem {
 }
 
 /// A list of potential contact methods for the result/place.
+///
+/// @nodoc
 class Contacts {
   /// List of emails for contacts of the result.
   final List<ContactDetails>? emails;
@@ -3196,6 +3261,8 @@ class Contacts {
 }
 
 /// List of opening hours objects.
+///
+/// @nodoc
 class OpeningHours {
   /// Categories of results that results must belong too.
   final List<Category>? categories;
@@ -3250,6 +3317,8 @@ class OpeningHours {
 }
 
 /// Components of the opening hours object.
+///
+/// @nodoc
 class OpeningHoursComponents {
   /// String which represents the duration of the opening period, such as
   /// <code>"PT12H00M"</code>.
@@ -3290,6 +3359,8 @@ class OpeningHoursComponents {
 }
 
 /// Details related to contacts.
+///
+/// @nodoc
 class ContactDetails {
   /// Categories of results that results must belong too.
   final List<Category>? categories;
@@ -3331,12 +3402,14 @@ class ContactDetails {
 
 /// SearchText structure which contains a set of inclusion/exclusion properties
 /// that results must possess in order to be returned as a result.
+///
+/// @nodoc
 class SearchTextFilter {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? boundingBox;
   final FilterCircle? circle;
 
@@ -3362,6 +3435,7 @@ class SearchTextFilter {
   }
 }
 
+/// @nodoc
 class SearchTextIntendedUse {
   static const singleUse = SearchTextIntendedUse._('SingleUse');
   static const storage = SearchTextIntendedUse._('Storage');
@@ -3387,6 +3461,7 @@ class SearchTextIntendedUse {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchTextAdditionalFeature {
   static const timeZone = SearchTextAdditionalFeature._('TimeZone');
   static const phonemes = SearchTextAdditionalFeature._('Phonemes');
@@ -3415,6 +3490,8 @@ class SearchTextAdditionalFeature {
 }
 
 /// The search results of nearby places.
+///
+/// @nodoc
 class SearchNearbyResultItem {
   /// The <code>PlaceId</code> of the place you wish to receive the information
   /// for.
@@ -3427,7 +3504,7 @@ class SearchNearbyResultItem {
   final String title;
 
   /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   final List<AccessPoint>? accessPoints;
 
   /// Indicates known access restrictions on a vehicle access point. The index
@@ -3459,8 +3536,8 @@ class SearchNearbyResultItem {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? mapView;
 
   /// List of opening hours objects.
@@ -3476,8 +3553,8 @@ class SearchNearbyResultItem {
   /// country.
   final String? politicalView;
 
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   /// The time zone in which the place is located.
@@ -3602,12 +3679,14 @@ class SearchNearbyResultItem {
 
 /// SearchNearby structure which contains a set of inclusion/exclusion
 /// properties that results must possess in order to be returned as a result.
+///
+/// @nodoc
 class SearchNearbyFilter {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? boundingBox;
 
   /// The Business Chains associated with the place.
@@ -3667,6 +3746,7 @@ class SearchNearbyFilter {
   }
 }
 
+/// @nodoc
 class SearchNearbyIntendedUse {
   static const singleUse = SearchNearbyIntendedUse._('SingleUse');
   static const storage = SearchNearbyIntendedUse._('Storage');
@@ -3692,6 +3772,7 @@ class SearchNearbyIntendedUse {
   String toString() => value;
 }
 
+/// @nodoc
 class SearchNearbyAdditionalFeature {
   static const timeZone = SearchNearbyAdditionalFeature._('TimeZone');
   static const phonemes = SearchNearbyAdditionalFeature._('Phonemes');
@@ -3720,6 +3801,8 @@ class SearchNearbyAdditionalFeature {
 }
 
 /// The returned location from the <code>Reverse Geocode</code> action.
+///
+/// @nodoc
 class ReverseGeocodeResultItem {
   /// The <code>PlaceId</code> of the place you wish to receive the information
   /// for.
@@ -3733,7 +3816,7 @@ class ReverseGeocodeResultItem {
   final String title;
 
   /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude]. Not available in <code>ap-southeast-1</code> and
+  /// \[longitude, latitude\]. Not available in <code>ap-southeast-1</code> and
   /// <code>ap-southeast-5</code> regions for <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
   /// customers.
@@ -3770,8 +3853,8 @@ class ReverseGeocodeResultItem {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? mapView;
 
   /// The alpha-2 or alpha-3 character code for the political view of a country.
@@ -3783,8 +3866,8 @@ class ReverseGeocodeResultItem {
   /// customers.
   final String? politicalView;
 
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   /// Contains details about the postal code of the place/result. Not available in
@@ -3895,6 +3978,8 @@ class ReverseGeocodeResultItem {
 }
 
 /// All Intersections that are near the provided address.
+///
+/// @nodoc
 class Intersection {
   /// The <code>PlaceId</code> of the place result.
   final String placeId;
@@ -3904,7 +3989,7 @@ class Intersection {
   final String title;
 
   /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   final List<AccessPoint>? accessPoints;
   final Address? address;
 
@@ -3915,12 +4000,12 @@ class Intersection {
   /// individual result covers.
   ///
   /// The bounding box formed is defined as a set of four coordinates:
-  /// <code>[{westward lng}, {southern lat}, {eastward lng}, {northern
-  /// lat}]</code>
+  /// <code>\[{westward lng}, {southern lat}, {eastward lng}, {northern
+  /// lat}\]</code>
   final List<double>? mapView;
 
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   /// The distance from the routing position of the nearby address to the street
@@ -3983,6 +4068,8 @@ class Intersection {
 }
 
 /// Contains details about the postal code of the place or result.
+///
+/// @nodoc
 class PostalCodeDetails {
   /// The postal authority or entity. This could be a governmental authority, a
   /// regulatory authority, or a designated postal operator.
@@ -4043,6 +4130,7 @@ class PostalCodeDetails {
   }
 }
 
+/// @nodoc
 class PostalAuthority {
   static const usps = PostalAuthority._('Usps');
 
@@ -4066,6 +4154,7 @@ class PostalAuthority {
   String toString() => value;
 }
 
+/// @nodoc
 class PostalCodeType {
   static const uspsZip = PostalCodeType._('UspsZip');
   static const uspsZipPlus4 = PostalCodeType._('UspsZipPlus4');
@@ -4091,6 +4180,8 @@ class PostalCodeType {
 }
 
 /// The USPS zip code.
+///
+/// @nodoc
 class UspsZip {
   /// The ZIP Classification Code, or in other words what type of postal code is
   /// it.
@@ -4117,6 +4208,8 @@ class UspsZip {
 }
 
 /// The USPS zip+4 code.
+///
+/// @nodoc
 class UspsZipPlus4 {
   /// The USPS ZIP+4 Record Type Code.
   final RecordTypeCode? recordTypeCode;
@@ -4140,6 +4233,7 @@ class UspsZipPlus4 {
   }
 }
 
+/// @nodoc
 class RecordTypeCode {
   static const firm = RecordTypeCode._('Firm');
   static const general = RecordTypeCode._('General');
@@ -4168,6 +4262,7 @@ class RecordTypeCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ZipClassificationCode {
   static const military = ZipClassificationCode._('Military');
   static const postOfficeBoxes = ZipClassificationCode._('PostOfficeBoxes');
@@ -4195,6 +4290,8 @@ class ZipClassificationCode {
 }
 
 /// The included place types.
+///
+/// @nodoc
 class ReverseGeocodeFilter {
   /// The included place types. For <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
@@ -4216,6 +4313,7 @@ class ReverseGeocodeFilter {
   }
 }
 
+/// @nodoc
 class ReverseGeocodeIntendedUse {
   static const singleUse = ReverseGeocodeIntendedUse._('SingleUse');
   static const storage = ReverseGeocodeIntendedUse._('Storage');
@@ -4241,6 +4339,7 @@ class ReverseGeocodeIntendedUse {
   String toString() => value;
 }
 
+/// @nodoc
 class ReverseGeocodeAdditionalFeature {
   static const timeZone = ReverseGeocodeAdditionalFeature._('TimeZone');
   static const access = ReverseGeocodeAdditionalFeature._('Access');
@@ -4268,6 +4367,7 @@ class ReverseGeocodeAdditionalFeature {
   String toString() => value;
 }
 
+/// @nodoc
 class ReverseGeocodeFilterPlaceType {
   static const locality = ReverseGeocodeFilterPlaceType._('Locality');
   static const intersection = ReverseGeocodeFilterPlaceType._('Intersection');
@@ -4304,6 +4404,8 @@ class ReverseGeocodeFilterPlaceType {
 }
 
 /// Place that is related to the result item.
+///
+/// @nodoc
 class RelatedPlace {
   /// The <code>PlaceId</code> of the place result.
   final String placeId;
@@ -4316,12 +4418,12 @@ class RelatedPlace {
   final String title;
 
   /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   final List<AccessPoint>? accessPoints;
   final Address? address;
 
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   RelatedPlace({
@@ -4370,6 +4472,7 @@ class RelatedPlace {
   }
 }
 
+/// @nodoc
 class GetPlaceIntendedUse {
   static const singleUse = GetPlaceIntendedUse._('SingleUse');
   static const storage = GetPlaceIntendedUse._('Storage');
@@ -4395,6 +4498,7 @@ class GetPlaceIntendedUse {
   String toString() => value;
 }
 
+/// @nodoc
 class GetPlaceAdditionalFeature {
   static const timeZone = GetPlaceAdditionalFeature._('TimeZone');
   static const phonemes = GetPlaceAdditionalFeature._('Phonemes');
@@ -4431,6 +4535,8 @@ class GetPlaceAdditionalFeature {
 }
 
 /// The Geocoded result.
+///
+/// @nodoc
 class GeocodeResultItem {
   /// The <code>PlaceId</code> of the place result.
   final String placeId;
@@ -4443,7 +4549,7 @@ class GeocodeResultItem {
   final String title;
 
   /// Position of the access point in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   final List<AccessPoint>? accessPoints;
 
   /// The place's address.
@@ -4470,8 +4576,8 @@ class GeocodeResultItem {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? mapView;
 
   /// Indicates how well the entire input matches the returned. It is equal to 1
@@ -4487,8 +4593,8 @@ class GeocodeResultItem {
   /// country.
   final String? politicalView;
 
-  /// The position in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// The position in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   final List<double>? position;
 
   /// Contains details about the postal code of the place/result.
@@ -4632,6 +4738,8 @@ class GeocodeResultItem {
 }
 
 /// Details related to the match score.
+///
+/// @nodoc
 class MatchScoreDetails {
   /// Indicates how well the component input matches the returned. It is equal to
   /// 1 if all input tokens are recognized and matched.
@@ -4667,6 +4775,8 @@ class MatchScoreDetails {
 }
 
 /// Parsed components in the provided QueryText.
+///
+/// @nodoc
 class GeocodeParsedQuery {
   /// The place address.
   final GeocodeParsedQueryAddressComponents? address;
@@ -4704,6 +4814,8 @@ class GeocodeParsedQuery {
 }
 
 /// Parsed address components in the provided QueryText.
+///
+/// @nodoc
 class GeocodeParsedQueryAddressComponents {
   /// The number that identifies an address within a street.
   final List<ParsedQueryComponent>? addressNumber;
@@ -4872,6 +4984,8 @@ class GeocodeParsedQueryAddressComponents {
 }
 
 /// Information about a secondary address component parsed from the query text.
+///
+/// @nodoc
 class ParsedQuerySecondaryAddressComponent {
   /// Secondary address designator provided in the query.
   final String designator;
@@ -4924,6 +5038,8 @@ class ParsedQuerySecondaryAddressComponent {
 }
 
 /// Parsed components in the provided QueryText.
+///
+/// @nodoc
 class ParsedQueryComponent {
   /// End index of the parsed query component.
   final int? endIndex;
@@ -4970,6 +5086,8 @@ class ParsedQueryComponent {
 /// Indicates how well the returned title and address components matches the
 /// input TextQuery. For each component a score is provied with 1 indicating all
 /// tokens were matched and 0 indicating no tokens were matched.
+///
+/// @nodoc
 class ComponentMatchScores {
   /// The place's address.
   final AddressComponentMatchScores? address;
@@ -5005,6 +5123,8 @@ class ComponentMatchScores {
 
 /// Indicates how well the entire input matches the returned. It is equal to 1
 /// if all input tokens are recognized and matched.
+///
+/// @nodoc
 class AddressComponentMatchScores {
   /// The house number or address results should have.
   final double? addressNumber;
@@ -5026,7 +5146,7 @@ class AddressComponentMatchScores {
 
   /// Name of the streets in the intersection.
   ///
-  /// Example: <code>["Friedrichstraße","Unter den Linden"]</code>
+  /// Example: <code>\["Friedrichstraße","Unter den Linden"\]</code>
   final List<double>? intersection;
 
   /// The city or locality results should be present in.
@@ -5139,6 +5259,8 @@ class AddressComponentMatchScores {
 }
 
 /// Match score for a secondary address component in the result.
+///
+/// @nodoc
 class SecondaryAddressComponentMatchScore {
   /// Match score for the secondary address number.
   final double? number;
@@ -5164,6 +5286,8 @@ class SecondaryAddressComponentMatchScore {
 
 /// A structured free text query allows you to search for places by the name or
 /// text representation of specific properties of the place.
+///
+/// @nodoc
 class GeocodeQueryComponents {
   /// The house number or address results should have.
   final String? addressNumber;
@@ -5231,6 +5355,8 @@ class GeocodeQueryComponents {
 
 /// Geocode structure which contains a set of inclusion/exclusion properties
 /// that results must possess in order to be returned as a result.
+///
+/// @nodoc
 class GeocodeFilter {
   /// A list of countries that all results must be in. Countries are represented
   /// by either their alpha-2 or alpha-3 character codes.
@@ -5255,6 +5381,7 @@ class GeocodeFilter {
   }
 }
 
+/// @nodoc
 class GeocodeIntendedUse {
   static const singleUse = GeocodeIntendedUse._('SingleUse');
   static const storage = GeocodeIntendedUse._('Storage');
@@ -5280,6 +5407,7 @@ class GeocodeIntendedUse {
   String toString() => value;
 }
 
+/// @nodoc
 class GeocodeAdditionalFeature {
   static const timeZone = GeocodeAdditionalFeature._('TimeZone');
   static const access = GeocodeAdditionalFeature._('Access');
@@ -5308,6 +5436,7 @@ class GeocodeAdditionalFeature {
   String toString() => value;
 }
 
+/// @nodoc
 class GeocodeFilterPlaceType {
   static const locality = GeocodeFilterPlaceType._('Locality');
   static const postalCode = GeocodeFilterPlaceType._('PostalCode');
@@ -5346,6 +5475,8 @@ class GeocodeFilterPlaceType {
 }
 
 /// A result matching the input query text.
+///
+/// @nodoc
 class AutocompleteResultItem {
   /// The PlaceId of the place associated with this result. This can be used to
   /// look up additional details about the result via GetPlace.
@@ -5434,6 +5565,8 @@ class AutocompleteResultItem {
 
 /// Describes how the parts of the response element matched the input query by
 /// returning the sections of the response which matched to input query terms.
+///
+/// @nodoc
 class AutocompleteHighlights {
   /// Describes how part of the result address match the input query.
   final AutocompleteAddressHighlights? address;
@@ -5471,6 +5604,8 @@ class AutocompleteHighlights {
 
 /// Describes how the parts of the response element matched the input query by
 /// returning the sections of the response which matched to input query terms.
+///
+/// @nodoc
 class AutocompleteAddressHighlights {
   /// The house number or address results should have.
   final List<Highlight>? addressNumber;
@@ -5491,7 +5626,7 @@ class AutocompleteAddressHighlights {
   final List<Highlight>? district;
 
   /// Name of the streets in the intersection. For example: e.g.
-  /// ["Friedrichstraße","Unter den Linden"]
+  /// \["Friedrichstraße","Unter den Linden"\]
   final List<List<Highlight>>? intersection;
 
   /// Indicates the starting and ending indexes for result items where they are
@@ -5645,6 +5780,8 @@ class AutocompleteAddressHighlights {
 
 /// Indicates the starting and ending index of the country in the text query
 /// that match the found title.
+///
+/// @nodoc
 class CountryHighlights {
   /// Indicates the starting and ending index of the country code in the text
   /// query that match the found title.
@@ -5684,6 +5821,8 @@ class CountryHighlights {
 
 /// Indicates the starting and ending index of the region in the text query that
 /// match the found title.
+///
+/// @nodoc
 class RegionHighlights {
   /// Indicates the starting and ending index of the region in the text query that
   /// match the found title.
@@ -5723,6 +5862,8 @@ class RegionHighlights {
 
 /// Indicates the starting and ending index of the sub-region in the text query
 /// that match the found title.
+///
+/// @nodoc
 class SubRegionHighlights {
   /// Indicates the starting and ending index of the sub-region in the text query
   /// that match the found title.
@@ -5762,12 +5903,14 @@ class SubRegionHighlights {
 
 /// Autocomplete structure which contains a set of inclusion/exclusion
 /// properties that results must possess in order to be returned as a result.
+///
+/// @nodoc
 class AutocompleteFilter {
   /// The bounding box enclosing the geometric shape (area or line) that an
   /// individual result covers.
   ///
-  /// The bounding box formed is defined as a set 4 coordinates: <code>[{westward
-  /// lng}, {southern lat}, {eastward lng}, {northern lat}]</code>
+  /// The bounding box formed is defined as a set 4 coordinates: <code>\[{westward
+  /// lng}, {southern lat}, {eastward lng}, {northern lat}\]</code>
   final List<double>? boundingBox;
   final FilterCircle? circle;
 
@@ -5800,6 +5943,7 @@ class AutocompleteFilter {
   }
 }
 
+/// @nodoc
 class PostalCodeMode {
   static const mergeAllSpannedLocalities =
       PostalCodeMode._('MergeAllSpannedLocalities');
@@ -5826,6 +5970,7 @@ class PostalCodeMode {
   String toString() => value;
 }
 
+/// @nodoc
 class AutocompleteIntendedUse {
   static const singleUse = AutocompleteIntendedUse._('SingleUse');
 
@@ -5850,6 +5995,7 @@ class AutocompleteIntendedUse {
   String toString() => value;
 }
 
+/// @nodoc
 class AutocompleteAdditionalFeature {
   static const core = AutocompleteAdditionalFeature._('Core');
 
@@ -5874,6 +6020,7 @@ class AutocompleteAdditionalFeature {
   String toString() => value;
 }
 
+/// @nodoc
 class AutocompleteFilterPlaceType {
   static const locality = AutocompleteFilterPlaceType._('Locality');
   static const postalCode = AutocompleteFilterPlaceType._('PostalCode');
@@ -5899,21 +6046,25 @@ class AutocompleteFilterPlaceType {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

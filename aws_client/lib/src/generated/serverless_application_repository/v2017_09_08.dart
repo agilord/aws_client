@@ -98,7 +98,7 @@ class ServerlessApplicationRepository {
   ///
   /// Minimum length=1. Maximum length=127.
   ///
-  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  /// Pattern "^\[a-z0-9\]((\[a-z0-9\]|-(?!-))*\[a-z0-9\])?$";
   ///
   /// Parameter [description] :
   /// The description of the application.
@@ -110,7 +110,7 @@ class ServerlessApplicationRepository {
   ///
   /// Minimum length=1. Maximum length=140
   ///
-  /// Pattern: "[a-zA-Z0-9\\-]+";
+  /// Pattern: "\[a-zA-Z0-9\\-\]+";
   ///
   /// Parameter [homePageUrl] :
   /// A URL with more information about the application, for example the
@@ -121,7 +121,7 @@ class ServerlessApplicationRepository {
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
-  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  /// Pattern: "^\[a-zA-Z0-9+\\-_:\\/@\]+$";
   ///
   /// Parameter [licenseBody] :
   /// A local text file that contains the license of the app that matches the
@@ -406,7 +406,7 @@ class ServerlessApplicationRepository {
   /// The UUID returned by CreateCloudFormationTemplate.
   ///
   /// Pattern:
-  /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+  /// \[0-9a-fA-F\]{8}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{12}
   Future<CreateCloudFormationChangeSetResponse> createCloudFormationChangeSet({
     required String applicationId,
     required String stackName,
@@ -568,7 +568,7 @@ class ServerlessApplicationRepository {
   /// The UUID returned by CreateCloudFormationTemplate.
   ///
   /// Pattern:
-  /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+  /// \[0-9a-fA-F\]{8}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{12}
   Future<GetCloudFormationTemplateResponse> getCloudFormationTemplate({
     required String applicationId,
     required String templateId,
@@ -787,7 +787,7 @@ class ServerlessApplicationRepository {
   ///
   /// Minimum length=1. Maximum length=127.
   ///
-  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  /// Pattern "^\[a-z0-9\]((\[a-z0-9\]|-(?!-))*\[a-z0-9\])?$";
   ///
   /// Parameter [description] :
   /// The description of the application.
@@ -803,7 +803,7 @@ class ServerlessApplicationRepository {
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
-  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  /// Pattern: "^\[a-zA-Z0-9+\\-_:\\/@\]+$";
   ///
   /// Parameter [readmeBody] :
   /// A text readme file in Markdown language that contains a more detailed
@@ -843,6 +843,7 @@ class ServerlessApplicationRepository {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationId;
@@ -851,7 +852,7 @@ class CreateApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=127.
   ///
-  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  /// Pattern "^\[a-z0-9\]((\[a-z0-9\]|-(?!-))*\[a-z0-9\])?$";
   final String? author;
 
   /// The date and time this resource was created.
@@ -876,7 +877,7 @@ class CreateApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
-  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  /// Pattern: "^\[a-zA-Z0-9+\\-_:\\/@\]+$";
   final List<String>? labels;
 
   /// A link to a license file of the app that matches the spdxLicenseID value of
@@ -889,7 +890,7 @@ class CreateApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=140
   ///
-  /// Pattern: "[a-zA-Z0-9\\-]+";
+  /// Pattern: "\[a-zA-Z0-9\\-\]+";
   final String? name;
 
   /// A link to the readme file in Markdown language that contains a more detailed
@@ -977,6 +978,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationVersionResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationId;
@@ -1114,6 +1116,7 @@ class CreateApplicationVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateCloudFormationChangeSetResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationId;
@@ -1122,7 +1125,7 @@ class CreateCloudFormationChangeSetResponse {
   ///
   /// Length constraints: Minimum length of 1.
   ///
-  /// Pattern: ARN:[-a-zA-Z0-9:/]*
+  /// Pattern: ARN:\[-a-zA-Z0-9:/\]*
   final String? changeSetId;
 
   /// The semantic version of the application:
@@ -1164,6 +1167,7 @@ class CreateCloudFormationChangeSetResponse {
   }
 }
 
+/// @nodoc
 class CreateCloudFormationTemplateResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationId;
@@ -1188,7 +1192,7 @@ class CreateCloudFormationTemplateResponse {
   /// The UUID returned by CreateCloudFormationTemplate.
   ///
   /// Pattern:
-  /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+  /// \[0-9a-fA-F\]{8}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{12}
   final String? templateId;
 
   /// A link to the template that can be used to deploy the application using AWS
@@ -1238,6 +1242,7 @@ class CreateCloudFormationTemplateResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationId;
@@ -1246,7 +1251,7 @@ class GetApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=127.
   ///
-  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  /// Pattern "^\[a-z0-9\]((\[a-z0-9\]|-(?!-))*\[a-z0-9\])?$";
   final String? author;
 
   /// The date and time this resource was created.
@@ -1271,7 +1276,7 @@ class GetApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
-  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  /// Pattern: "^\[a-zA-Z0-9+\\-_:\\/@\]+$";
   final List<String>? labels;
 
   /// A link to a license file of the app that matches the spdxLicenseID value of
@@ -1284,7 +1289,7 @@ class GetApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=140
   ///
-  /// Pattern: "[a-zA-Z0-9\\-]+";
+  /// Pattern: "\[a-zA-Z0-9\\-\]+";
   final String? name;
 
   /// A link to the readme file in Markdown language that contains a more detailed
@@ -1372,6 +1377,7 @@ class GetApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationPolicyResponse {
   /// An array of policy statements applied to the application.
   final List<ApplicationPolicyStatement>? statements;
@@ -1398,6 +1404,7 @@ class GetApplicationPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetCloudFormationTemplateResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationId;
@@ -1422,7 +1429,7 @@ class GetCloudFormationTemplateResponse {
   /// The UUID returned by CreateCloudFormationTemplate.
   ///
   /// Pattern:
-  /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+  /// \[0-9a-fA-F\]{8}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{4}\-\[0-9a-fA-F\]{12}
   final String? templateId;
 
   /// A link to the template that can be used to deploy the application using AWS
@@ -1472,6 +1479,7 @@ class GetCloudFormationTemplateResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationDependenciesResponse {
   /// An array of application summaries nested in the application.
   final List<ApplicationDependencySummary>? dependencies;
@@ -1506,6 +1514,7 @@ class ListApplicationDependenciesResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// An array of application summaries.
   final List<ApplicationSummary>? applications;
@@ -1538,6 +1547,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationVersionsResponse {
   /// The token to request the next page of results.
   final String? nextToken;
@@ -1570,6 +1580,7 @@ class ListApplicationVersionsResponse {
   }
 }
 
+/// @nodoc
 class PutApplicationPolicyResponse {
   /// An array of policy statements applied to the application.
   final List<ApplicationPolicyStatement>? statements;
@@ -1596,6 +1607,7 @@ class PutApplicationPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationId;
@@ -1604,7 +1616,7 @@ class UpdateApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=127.
   ///
-  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  /// Pattern "^\[a-z0-9\]((\[a-z0-9\]|-(?!-))*\[a-z0-9\])?$";
   final String? author;
 
   /// The date and time this resource was created.
@@ -1629,7 +1641,7 @@ class UpdateApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
-  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  /// Pattern: "^\[a-zA-Z0-9+\\-_:\\/@\]+$";
   final List<String>? labels;
 
   /// A link to a license file of the app that matches the spdxLicenseID value of
@@ -1642,7 +1654,7 @@ class UpdateApplicationResponse {
   ///
   /// Minimum length=1. Maximum length=140
   ///
-  /// Pattern: "[a-zA-Z0-9\\-]+";
+  /// Pattern: "\[a-zA-Z0-9\\-\]+";
   final String? name;
 
   /// A link to the readme file in Markdown language that contains a more detailed
@@ -1731,6 +1743,8 @@ class UpdateApplicationResponse {
 }
 
 /// Application version details.
+///
+/// @nodoc
 class Version {
   /// The application Amazon Resource Name (ARN).
   final String applicationId;
@@ -1868,6 +1882,8 @@ class Version {
 }
 
 /// Values that must be specified in order to deploy some applications.
+///
+/// @nodoc
 class Capability {
   static const capabilityIam = Capability._('CAPABILITY_IAM');
   static const capabilityNamedIam = Capability._('CAPABILITY_NAMED_IAM');
@@ -1900,6 +1916,8 @@ class Capability {
 }
 
 /// Parameters supported by the application.
+///
+/// @nodoc
 class ParameterDefinition {
   /// The name of the parameter.
   final String name;
@@ -1915,10 +1933,10 @@ class ParameterDefinition {
 
   /// A string that explains a constraint when the constraint is violated. For
   /// example, without a constraint description, a parameter that has an allowed
-  /// pattern of [A-Za-z0-9]+ displays the following error message when the user
+  /// pattern of \[A-Za-z0-9\]+ displays the following error message when the user
   /// specifies an invalid value:
   ///
-  /// Malformed input-Parameter MyParameter must match pattern [A-Za-z0-9]+
+  /// Malformed input-Parameter MyParameter must match pattern \[A-Za-z0-9\]+
   ///
   /// By adding a constraint description, such as "must contain only uppercase and
   /// lowercase letters and numbers," you can display the following customized
@@ -1979,14 +1997,14 @@ class ParameterDefinition {
   /// strings.
   ///
   /// For example, users might specify "80,20", and then Ref results in
-  /// ["80","20"].
+  /// \["80","20"\].
   ///
   /// CommaDelimitedList: An array of literal strings that are separated by
   /// commas. The total number of strings should be one more than the total number
   /// of commas. Also, each member string is space-trimmed.
   ///
   /// For example, users might specify "test,dev,prod", and then Ref results in
-  /// ["test","dev","prod"].
+  /// \["test","dev","prod"\].
   final String? type;
 
   ParameterDefinition({
@@ -2064,6 +2082,8 @@ class ParameterDefinition {
 }
 
 /// Policy statement applied to the application.
+///
+/// @nodoc
 class ApplicationPolicyStatement {
   /// For the list of actions supported for this operation, see <a
   /// href="https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
@@ -2121,6 +2141,8 @@ class ApplicationPolicyStatement {
 }
 
 /// An application version summary.
+///
+/// @nodoc
 class VersionSummary {
   /// The application Amazon Resource Name (ARN).
   final String applicationId;
@@ -2168,6 +2190,8 @@ class VersionSummary {
 }
 
 /// Summary of details about the application.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The application Amazon Resource Name (ARN).
   final String applicationId;
@@ -2176,7 +2200,7 @@ class ApplicationSummary {
   ///
   /// Minimum length=1. Maximum length=127.
   ///
-  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  /// Pattern "^\[a-z0-9\]((\[a-z0-9\]|-(?!-))*\[a-z0-9\])?$";
   final String author;
 
   /// The description of the application.
@@ -2188,7 +2212,7 @@ class ApplicationSummary {
   ///
   /// Minimum length=1. Maximum length=140
   ///
-  /// Pattern: "[a-zA-Z0-9\\-]+";
+  /// Pattern: "\[a-zA-Z0-9\\-\]+";
   final String name;
 
   /// The date and time this resource was created.
@@ -2202,7 +2226,7 @@ class ApplicationSummary {
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
-  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  /// Pattern: "^\[a-zA-Z0-9+\\-_:\\/@\]+$";
   final List<String>? labels;
 
   /// A valid identifier from <a
@@ -2257,6 +2281,8 @@ class ApplicationSummary {
 }
 
 /// A nested application summary.
+///
+/// @nodoc
 class ApplicationDependencySummary {
   /// The Amazon Resource Name (ARN) of the nested application.
   final String applicationId;
@@ -2286,6 +2312,7 @@ class ApplicationDependencySummary {
   }
 }
 
+/// @nodoc
 class Status {
   static const preparing = Status._('PREPARING');
   static const active = Status._('ACTIVE');
@@ -2313,6 +2340,8 @@ class Status {
 /// This property corresponds to the <i>AWS CloudFormation <a
 /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
 /// </i> Data Type.
+///
+/// @nodoc
 class RollbackConfiguration {
   /// This property corresponds to the content of the same name for the <i>AWS
   /// CloudFormation <a
@@ -2345,6 +2374,8 @@ class RollbackConfiguration {
 /// This property corresponds to the <i>AWS CloudFormation <a
 /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">Tag</a>
 /// </i> Data Type.
+///
+/// @nodoc
 class Tag {
   /// This property corresponds to the content of the same name for the <i>AWS
   /// CloudFormation <a
@@ -2376,6 +2407,8 @@ class Tag {
 /// This property corresponds to the <i>AWS CloudFormation <a
 /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
 /// </i> Data Type.
+///
+/// @nodoc
 class RollbackTrigger {
   /// This property corresponds to the content of the same name for the <i>AWS
   /// CloudFormation <a
@@ -2405,6 +2438,8 @@ class RollbackTrigger {
 }
 
 /// Parameter value of the application.
+///
+/// @nodoc
 class ParameterValue {
   /// The key associated with the parameter. If you don't specify a key and value
   /// for a particular parameter, AWS CloudFormation uses the default value that
@@ -2429,32 +2464,38 @@ class ParameterValue {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

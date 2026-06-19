@@ -4272,6 +4272,7 @@ class QBusiness {
   }
 }
 
+/// @nodoc
 class AssociatePermissionResponse {
   /// The JSON representation of the added permission statement.
   final String? statement;
@@ -4294,6 +4295,7 @@ class AssociatePermissionResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteDocumentResponse {
   /// A list of documents that couldn't be removed from the Amazon Q Business
   /// index. Each entry contains an error message that indicates why the document
@@ -4321,6 +4323,7 @@ class BatchDeleteDocumentResponse {
   }
 }
 
+/// @nodoc
 class BatchPutDocumentResponse {
   /// A list of documents that were not added to the Amazon Q Business index
   /// because the document failed a validation check. Each document contains an
@@ -4349,6 +4352,7 @@ class BatchPutDocumentResponse {
   }
 }
 
+/// @nodoc
 class CancelSubscriptionResponse {
   /// The type of your current Amazon Q Business subscription.
   final SubscriptionDetails? currentSubscription;
@@ -4393,6 +4397,7 @@ class CancelSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class ChatOutput {
   /// The streaming output for the <code>Chat</code> API.
   final ChatOutputStream? outputStream;
@@ -4409,6 +4414,7 @@ class ChatOutput {
   }
 }
 
+/// @nodoc
 class ChatSyncOutput {
   /// A request from Amazon Q Business to the end user for information Amazon Q
   /// Business needs to successfully complete a requested plugin action.
@@ -4496,6 +4502,7 @@ class ChatSyncOutput {
   }
 }
 
+/// @nodoc
 class CheckDocumentAccessResponse {
   /// The Access Control List (ACL) associated with the document. Includes
   /// allowlist and denylist conditions that determine user access.
@@ -4552,6 +4559,7 @@ class CheckDocumentAccessResponse {
   }
 }
 
+/// @nodoc
 class CreateAnonymousWebExperienceUrlResponse {
   /// The unique URL for accessing the web experience.
   /// <important>
@@ -4579,6 +4587,7 @@ class CreateAnonymousWebExperienceUrlResponse {
   }
 }
 
+/// @nodoc
 class CreateChatResponseConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the newly created chat response
   /// configuration, which uniquely identifies the resource across all Amazon Web
@@ -4614,6 +4623,7 @@ class CreateChatResponseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateSubscriptionResponse {
   /// The type of your current Amazon Q Business subscription.
   final SubscriptionDetails? currentSubscription;
@@ -4665,6 +4675,7 @@ class CreateSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   CreateUserResponse();
 
@@ -4677,6 +4688,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteAttachmentResponse {
   DeleteAttachmentResponse();
 
@@ -4689,6 +4701,7 @@ class DeleteAttachmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteChatControlsConfigurationResponse {
   DeleteChatControlsConfigurationResponse();
 
@@ -4702,6 +4715,7 @@ class DeleteChatControlsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteChatResponseConfigurationResponse {
   DeleteChatResponseConfigurationResponse();
 
@@ -4715,6 +4729,7 @@ class DeleteChatResponseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteConversationResponse {
   DeleteConversationResponse();
 
@@ -4727,6 +4742,7 @@ class DeleteConversationResponse {
   }
 }
 
+/// @nodoc
 class DeleteGroupResponse {
   DeleteGroupResponse();
 
@@ -4739,6 +4755,7 @@ class DeleteGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserResponse {
   DeleteUserResponse();
 
@@ -4751,6 +4768,7 @@ class DeleteUserResponse {
   }
 }
 
+/// @nodoc
 class DisassociatePermissionResponse {
   DisassociatePermissionResponse();
 
@@ -4763,6 +4781,7 @@ class DisassociatePermissionResponse {
   }
 }
 
+/// @nodoc
 class GetChatControlsConfigurationResponse {
   /// The phrases blocked from chat by your chat control configuration.
   final BlockedPhrasesConfiguration? blockedPhrases;
@@ -4866,6 +4885,7 @@ class GetChatControlsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetChatResponseConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the retrieved chat response configuration,
   /// which uniquely identifies the resource across all Amazon Web Services
@@ -4941,6 +4961,7 @@ class GetChatResponseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetDocumentContentResponse {
   /// The MIME type of the document content. When outputFormat is RAW, this
   /// corresponds to the original document's MIME type (e.g., application/pdf,
@@ -4977,6 +4998,7 @@ class GetDocumentContentResponse {
   }
 }
 
+/// @nodoc
 class GetGroupResponse {
   /// The current status of the group.
   final GroupStatusDetail? status;
@@ -5011,6 +5033,7 @@ class GetGroupResponse {
   }
 }
 
+/// @nodoc
 class GetMediaResponse {
   /// The base64-encoded bytes of the media object.
   final Uint8List? mediaBytes;
@@ -5040,6 +5063,7 @@ class GetMediaResponse {
   }
 }
 
+/// @nodoc
 class GetPolicyResponse {
   /// The JSON representation of the permission policy.
   final String? policy;
@@ -5062,6 +5086,7 @@ class GetPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetUserResponse {
   /// A list of user aliases attached to a user.
   final List<UserAlias>? userAliases;
@@ -5087,6 +5112,7 @@ class GetUserResponse {
   }
 }
 
+/// @nodoc
 class ListAttachmentsResponse {
   /// An array of information on one or more attachments.
   final List<Attachment>? attachments;
@@ -5120,6 +5146,7 @@ class ListAttachmentsResponse {
   }
 }
 
+/// @nodoc
 class ListChatResponseConfigurationsResponse {
   /// A list of chat response configuration summaries, each containing key
   /// information about an available configuration in the specified application.
@@ -5158,6 +5185,7 @@ class ListChatResponseConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListConversationsResponse {
   /// An array of summary information on the configuration of one or more Amazon Q
   /// Business web experiences.
@@ -5192,6 +5220,7 @@ class ListConversationsResponse {
   }
 }
 
+/// @nodoc
 class ListDataSourceSyncJobsResponse {
   /// A history of synchronization jobs for the data source connector.
   final List<DataSourceSyncJob>? history;
@@ -5225,6 +5254,7 @@ class ListDataSourceSyncJobsResponse {
   }
 }
 
+/// @nodoc
 class ListDocumentsResponse {
   /// A list of document details.
   final List<DocumentDetails>? documentDetailList;
@@ -5260,6 +5290,7 @@ class ListDocumentsResponse {
   }
 }
 
+/// @nodoc
 class ListGroupsResponse {
   /// Summary information for list of groups that are mapped to users.
   final List<GroupSummary>? items;
@@ -5294,6 +5325,7 @@ class ListGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListMessagesResponse {
   /// An array of information on one or more messages.
   final List<Message>? messages;
@@ -5327,6 +5359,7 @@ class ListMessagesResponse {
   }
 }
 
+/// @nodoc
 class ListPluginActionsResponse {
   /// An array of information on one or more plugin actions.
   final List<ActionSummary>? items;
@@ -5360,6 +5393,7 @@ class ListPluginActionsResponse {
   }
 }
 
+/// @nodoc
 class ListPluginTypeActionsResponse {
   /// An array of information on one or more plugins.
   final List<ActionSummary>? items;
@@ -5393,6 +5427,7 @@ class ListPluginTypeActionsResponse {
   }
 }
 
+/// @nodoc
 class ListPluginTypeMetadataResponse {
   /// An array of information on plugin metadata.
   final List<PluginTypeMetadataSummary>? items;
@@ -5427,6 +5462,7 @@ class ListPluginTypeMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListSubscriptionsResponse {
   /// If the response is truncated, Amazon Q Business returns this token. You can
   /// use this token in a subsequent request to retrieve the next set of
@@ -5462,6 +5498,7 @@ class ListSubscriptionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of tags associated with the Amazon Q Business application or data
   /// source.
@@ -5488,6 +5525,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutGroupResponse {
   PutGroupResponse();
 
@@ -5500,6 +5538,7 @@ class PutGroupResponse {
   }
 }
 
+/// @nodoc
 class SearchRelevantContentResponse {
   /// The token to use to retrieve the next set of results, if there are any.
   final String? nextToken;
@@ -5532,6 +5571,7 @@ class SearchRelevantContentResponse {
   }
 }
 
+/// @nodoc
 class StartDataSourceSyncJobResponse {
   /// The identifier for a particular synchronization job.
   final String? executionId;
@@ -5554,6 +5594,7 @@ class StartDataSourceSyncJobResponse {
   }
 }
 
+/// @nodoc
 class StopDataSourceSyncJobResponse {
   StopDataSourceSyncJobResponse();
 
@@ -5566,6 +5607,7 @@ class StopDataSourceSyncJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -5578,6 +5620,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5590,6 +5633,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateChatControlsConfigurationResponse {
   UpdateChatControlsConfigurationResponse();
 
@@ -5603,6 +5647,7 @@ class UpdateChatControlsConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateChatResponseConfigurationResponse {
   UpdateChatResponseConfigurationResponse();
 
@@ -5616,6 +5661,7 @@ class UpdateChatResponseConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateSubscriptionResponse {
   /// The type of your current Amazon Q Business subscription.
   final SubscriptionDetails? currentSubscription;
@@ -5660,6 +5706,7 @@ class UpdateSubscriptionResponse {
   }
 }
 
+/// @nodoc
 class UpdateUserResponse {
   /// The user aliases that have been to be added to a user id.
   final List<UserAlias>? userAliasesAdded;
@@ -5705,6 +5752,7 @@ class UpdateUserResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// The Amazon Resource Name (ARN) of the Amazon Q Business application.
   final String? applicationArn;
@@ -5734,6 +5782,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// The Amazon Resource Name (ARN) of the Amazon Q Business application.
   final String? applicationArn;
@@ -5927,6 +5976,7 @@ class GetApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   UpdateApplicationResponse();
 
@@ -5939,6 +5989,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -5951,6 +6002,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// An array of summary information on the configuration of one or more Amazon Q
   /// Business applications.
@@ -5986,6 +6038,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class CreateDataAccessorResponse {
   /// The Amazon Resource Name (ARN) of the created data accessor.
   final String dataAccessorArn;
@@ -6023,6 +6076,7 @@ class CreateDataAccessorResponse {
   }
 }
 
+/// @nodoc
 class GetDataAccessorResponse {
   /// The list of action configurations specifying the allowed actions and any
   /// associated filters.
@@ -6122,6 +6176,7 @@ class GetDataAccessorResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataAccessorResponse {
   UpdateDataAccessorResponse();
 
@@ -6134,6 +6189,7 @@ class UpdateDataAccessorResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataAccessorResponse {
   DeleteDataAccessorResponse();
 
@@ -6146,6 +6202,7 @@ class DeleteDataAccessorResponse {
   }
 }
 
+/// @nodoc
 class ListDataAccessorsResponse {
   /// The list of data accessors.
   final List<DataAccessor>? dataAccessors;
@@ -6178,6 +6235,7 @@ class ListDataAccessorsResponse {
   }
 }
 
+/// @nodoc
 class CreateIndexResponse {
   /// The Amazon Resource Name (ARN) of an Amazon Q Business index.
   final String? indexArn;
@@ -6207,6 +6265,7 @@ class CreateIndexResponse {
   }
 }
 
+/// @nodoc
 class GetIndexResponse {
   /// The identifier of the Amazon Q Business application associated with the
   /// index.
@@ -6338,6 +6397,7 @@ class GetIndexResponse {
   }
 }
 
+/// @nodoc
 class UpdateIndexResponse {
   UpdateIndexResponse();
 
@@ -6350,6 +6410,7 @@ class UpdateIndexResponse {
   }
 }
 
+/// @nodoc
 class DeleteIndexResponse {
   DeleteIndexResponse();
 
@@ -6362,6 +6423,7 @@ class DeleteIndexResponse {
   }
 }
 
+/// @nodoc
 class ListIndicesResponse {
   /// An array of information on the items in one or more indexes.
   final List<Index>? indices;
@@ -6395,6 +6457,7 @@ class ListIndicesResponse {
   }
 }
 
+/// @nodoc
 class CreateDataSourceResponse {
   /// The Amazon Resource Name (ARN) of a data source in an Amazon Q Business
   /// application.
@@ -6425,6 +6488,7 @@ class CreateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class GetDataSourceResponse {
   /// The identifier of the Amazon Q Business application.
   final String? applicationId;
@@ -6581,6 +6645,7 @@ class GetDataSourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDataSourceResponse {
   UpdateDataSourceResponse();
 
@@ -6593,6 +6658,7 @@ class UpdateDataSourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteDataSourceResponse {
   DeleteDataSourceResponse();
 
@@ -6605,6 +6671,7 @@ class DeleteDataSourceResponse {
   }
 }
 
+/// @nodoc
 class ListDataSourcesResponse {
   /// An array of summary information for one or more data source connector.
   final List<DataSource>? dataSources;
@@ -6639,6 +6706,7 @@ class ListDataSourcesResponse {
   }
 }
 
+/// @nodoc
 class CreatePluginResponse {
   /// The current status of a plugin. A plugin is modified asynchronously.
   final PluginBuildStatus? buildStatus;
@@ -6676,6 +6744,7 @@ class CreatePluginResponse {
   }
 }
 
+/// @nodoc
 class GetPluginResponse {
   /// The identifier of the application which contains the plugin.
   final String? applicationId;
@@ -6782,6 +6851,7 @@ class GetPluginResponse {
   }
 }
 
+/// @nodoc
 class UpdatePluginResponse {
   UpdatePluginResponse();
 
@@ -6794,6 +6864,7 @@ class UpdatePluginResponse {
   }
 }
 
+/// @nodoc
 class DeletePluginResponse {
   DeletePluginResponse();
 
@@ -6806,6 +6877,7 @@ class DeletePluginResponse {
   }
 }
 
+/// @nodoc
 class ListPluginsResponse {
   /// If the <code>maxResults</code> response was incomplete because there is more
   /// data to retrieve, Amazon Q Business returns a pagination token in the
@@ -6841,6 +6913,7 @@ class ListPluginsResponse {
   }
 }
 
+/// @nodoc
 class CreateRetrieverResponse {
   /// The Amazon Resource Name (ARN) of an IAM role associated with a retriever.
   final String? retrieverArn;
@@ -6870,6 +6943,7 @@ class CreateRetrieverResponse {
   }
 }
 
+/// @nodoc
 class GetRetrieverResponse {
   /// The identifier of the Amazon Q Business application using the retriever.
   final String? applicationId;
@@ -6958,6 +7032,7 @@ class GetRetrieverResponse {
   }
 }
 
+/// @nodoc
 class UpdateRetrieverResponse {
   UpdateRetrieverResponse();
 
@@ -6970,6 +7045,7 @@ class UpdateRetrieverResponse {
   }
 }
 
+/// @nodoc
 class DeleteRetrieverResponse {
   DeleteRetrieverResponse();
 
@@ -6982,6 +7058,7 @@ class DeleteRetrieverResponse {
   }
 }
 
+/// @nodoc
 class ListRetrieversResponse {
   /// If the response is truncated, Amazon Q Business returns this token, which
   /// you can use in a later request to list the next set of retrievers.
@@ -7015,6 +7092,7 @@ class ListRetrieversResponse {
   }
 }
 
+/// @nodoc
 class CreateWebExperienceResponse {
   /// The Amazon Resource Name (ARN) of an Amazon Q Business web experience.
   final String? webExperienceArn;
@@ -7044,6 +7122,7 @@ class CreateWebExperienceResponse {
   }
 }
 
+/// @nodoc
 class GetWebExperienceResponse {
   /// The identifier of the Amazon Q Business application linked to the web
   /// experience.
@@ -7226,6 +7305,7 @@ class GetWebExperienceResponse {
   }
 }
 
+/// @nodoc
 class UpdateWebExperienceResponse {
   UpdateWebExperienceResponse();
 
@@ -7238,6 +7318,7 @@ class UpdateWebExperienceResponse {
   }
 }
 
+/// @nodoc
 class DeleteWebExperienceResponse {
   DeleteWebExperienceResponse();
 
@@ -7250,6 +7331,7 @@ class DeleteWebExperienceResponse {
   }
 }
 
+/// @nodoc
 class ListWebExperiencesResponse {
   /// If the response is truncated, Amazon Q Business returns this token, which
   /// you can use in a later request to list the next set of messages.
@@ -7285,6 +7367,8 @@ class ListWebExperiencesResponse {
 }
 
 /// Provides information for an Amazon Q Business web experience.
+///
+/// @nodoc
 class WebExperience {
   /// The Unix timestamp when the Amazon Q Business application was last updated.
   final DateTime? createdAt;
@@ -7336,6 +7420,7 @@ class WebExperience {
   }
 }
 
+/// @nodoc
 class WebExperienceStatus {
   static const creating = WebExperienceStatus._('CREATING');
   static const active = WebExperienceStatus._('ACTIVE');
@@ -7366,6 +7451,8 @@ class WebExperienceStatus {
 
 /// Provides the authorization configuration information needed to deploy a
 /// Amazon Q Business web experience to end users.
+///
+/// @nodoc
 class WebExperienceAuthConfiguration {
   final SamlConfiguration? samlConfiguration;
 
@@ -7390,6 +7477,7 @@ class WebExperienceAuthConfiguration {
   }
 }
 
+/// @nodoc
 class WebExperienceSamplePromptsControlMode {
   static const enabled = WebExperienceSamplePromptsControlMode._('ENABLED');
   static const disabled = WebExperienceSamplePromptsControlMode._('DISABLED');
@@ -7417,6 +7505,8 @@ class WebExperienceSamplePromptsControlMode {
 
 /// Provides information about the identity provider (IdP) used to authenticate
 /// end users of an Amazon Q Business web experience.
+///
+/// @nodoc
 class IdentityProviderConfiguration {
   final OpenIDConnectProviderConfiguration? openIDConnectConfiguration;
   final SamlProviderConfiguration? samlConfiguration;
@@ -7452,6 +7542,8 @@ class IdentityProviderConfiguration {
 
 /// The container for browser extension configuration for an Amazon Q Business
 /// web experience.
+///
+/// @nodoc
 class BrowserExtensionConfiguration {
   /// Specify the browser extensions allowed for your Amazon Q web experience.
   ///
@@ -7496,6 +7588,8 @@ class BrowserExtensionConfiguration {
 /// Contains the configuration information to customize the logo, font, and
 /// color of an Amazon Q Business web experience with individual files for each
 /// property or a CSS file for them all.
+///
+/// @nodoc
 class CustomizationConfiguration {
   /// Provides the URL where the custom CSS file is hosted for an Amazon Q web
   /// experience.
@@ -7543,6 +7637,7 @@ class CustomizationConfiguration {
   }
 }
 
+/// @nodoc
 class BrowserExtension {
   static const firefox = BrowserExtension._('FIREFOX');
   static const chrome = BrowserExtension._('CHROME');
@@ -7569,6 +7664,8 @@ class BrowserExtension {
 
 /// Information about the SAML 2.0-compliant identity provider (IdP) used to
 /// authenticate end users of an Amazon Q Business web experience.
+///
+/// @nodoc
 class SamlProviderConfiguration {
   /// The URL where Amazon Q Business end users will be redirected for
   /// authentication.
@@ -7594,6 +7691,8 @@ class SamlProviderConfiguration {
 
 /// Information about the OIDC-compliant identity provider (IdP) used to
 /// authenticate end users of an Amazon Q Business web experience.
+///
+/// @nodoc
 class OpenIDConnectProviderConfiguration {
   /// The Amazon Resource Name (ARN) of a Secrets Manager secret containing the
   /// OIDC client secret.
@@ -7629,6 +7728,8 @@ class OpenIDConnectProviderConfiguration {
 /// Provides the SAML 2.0 compliant identity provider (IdP) configuration
 /// information Amazon Q Business needs to deploy a Amazon Q Business web
 /// experience.
+///
+/// @nodoc
 class SamlConfiguration {
   /// The metadata XML that your IdP generated.
   final String metadataXML;
@@ -7676,6 +7777,8 @@ class SamlConfiguration {
 }
 
 /// Provides information about a Amazon Q Business request error.
+///
+/// @nodoc
 class ErrorDetail {
   /// The code associated with the Amazon Q Business request error.
   final ErrorCode? errorCode;
@@ -7705,6 +7808,7 @@ class ErrorDetail {
   }
 }
 
+/// @nodoc
 class ErrorCode {
   static const internalError = ErrorCode._('InternalError');
   static const invalidRequest = ErrorCode._('InvalidRequest');
@@ -7738,6 +7842,8 @@ class ErrorCode {
 /// A list of key/value pairs that identify an index, FAQ, or data source. Tag
 /// keys and values can consist of Unicode letters, digits, white space, and any
 /// of the following symbols: _ . : / = + - @.
+///
+/// @nodoc
 class Tag {
   /// The key for the tag. Keys are not case sensitive and must be unique for the
   /// Amazon Q Business application or data source.
@@ -7771,6 +7877,8 @@ class Tag {
 
 /// Summary information for the retriever used for your Amazon Q Business
 /// application.
+///
+/// @nodoc
 class Retriever {
   /// The identifier of the Amazon Q Business application using the retriever.
   final String? applicationId;
@@ -7821,6 +7929,7 @@ class Retriever {
   }
 }
 
+/// @nodoc
 class RetrieverType {
   static const nativeIndex = RetrieverType._('NATIVE_INDEX');
   static const kendraIndex = RetrieverType._('KENDRA_INDEX');
@@ -7845,6 +7954,7 @@ class RetrieverType {
   String toString() => value;
 }
 
+/// @nodoc
 class RetrieverStatus {
   static const creating = RetrieverStatus._('CREATING');
   static const active = RetrieverStatus._('ACTIVE');
@@ -7872,6 +7982,8 @@ class RetrieverStatus {
 
 /// Provides information on how the retriever used for your Amazon Q Business
 /// application is configured.
+///
+/// @nodoc
 class RetrieverConfiguration {
   /// Provides information on how the Amazon Kendra index used as a retriever for
   /// your Amazon Q Business application is configured.
@@ -7912,6 +8024,8 @@ class RetrieverConfiguration {
 }
 
 /// Configuration information for an Amazon Q Business index.
+///
+/// @nodoc
 class NativeIndexConfiguration {
   /// The identifier for the Amazon Q Business index.
   final String indexId;
@@ -7982,6 +8096,8 @@ class NativeIndexConfiguration {
 }
 
 /// Stores an Amazon Kendra index as a retriever.
+///
+/// @nodoc
 class KendraIndexConfiguration {
   /// The identifier of the Amazon Kendra index.
   final String indexId;
@@ -8027,6 +8143,8 @@ class KendraIndexConfiguration {
 /// Business, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html">Boosting
 /// using document attributes</a>.
+///
+/// @nodoc
 class DocumentAttributeBoostingConfiguration {
   /// Provides information on boosting <code>DATE</code> type document attributes.
   ///
@@ -8118,6 +8236,8 @@ class DocumentAttributeBoostingConfiguration {
 /// Business, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html">Boosting
 /// using document attributes</a>.
+///
+/// @nodoc
 class NumberAttributeBoostingConfiguration {
   /// Specifies the priority of boosted document attributes in relation to other
   /// boosted attributes. This parameter determines how strongly the attribute
@@ -8172,6 +8292,8 @@ class NumberAttributeBoostingConfiguration {
 /// Business, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html">Boosting
 /// using document attributes</a>.
+///
+/// @nodoc
 class StringAttributeBoostingConfiguration {
   /// Specifies the priority tier ranking of boosting applied to document
   /// attributes. For version 2, this parameter indicates the relative ranking
@@ -8223,6 +8345,8 @@ class StringAttributeBoostingConfiguration {
 /// Business, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html">Boosting
 /// using document attributes</a>.
+///
+/// @nodoc
 class DateAttributeBoostingConfiguration {
   /// Specifies the priority tier ranking of boosting applied to document
   /// attributes. For version 2, this parameter indicates the relative ranking
@@ -8285,6 +8409,8 @@ class DateAttributeBoostingConfiguration {
 /// Business, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html">Boosting
 /// using document attributes</a>.
+///
+/// @nodoc
 class StringListAttributeBoostingConfiguration {
   /// Specifies the priority of boosted document attributes in relation to other
   /// boosted attributes. This parameter determines how strongly the attribute
@@ -8313,6 +8439,7 @@ class StringListAttributeBoostingConfiguration {
   }
 }
 
+/// @nodoc
 class DocumentAttributeBoostingLevel {
   static const none = DocumentAttributeBoostingLevel._('NONE');
   static const low = DocumentAttributeBoostingLevel._('LOW');
@@ -8343,6 +8470,7 @@ class DocumentAttributeBoostingLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class StringAttributeValueBoostingLevel {
   static const low = StringAttributeValueBoostingLevel._('LOW');
   static const medium = StringAttributeValueBoostingLevel._('MEDIUM');
@@ -8385,6 +8513,7 @@ class StringAttributeValueBoostingLevel {
   String toString() => value;
 }
 
+/// @nodoc
 class NumberAttributeBoostingType {
   static const prioritizeLargerValues =
       NumberAttributeBoostingType._('PRIORITIZE_LARGER_VALUES');
@@ -8413,6 +8542,8 @@ class NumberAttributeBoostingType {
 }
 
 /// Information about an Amazon Q Business plugin and its configuration.
+///
+/// @nodoc
 class Plugin {
   /// The status of the plugin.
   final PluginBuildStatus? buildStatus;
@@ -8485,6 +8616,7 @@ class Plugin {
   }
 }
 
+/// @nodoc
 class PluginType {
   static const serviceNow = PluginType._('SERVICE_NOW');
   static const salesforce = PluginType._('SALESFORCE');
@@ -8541,6 +8673,7 @@ class PluginType {
   String toString() => value;
 }
 
+/// @nodoc
 class PluginState {
   static const enabled = PluginState._('ENABLED');
   static const disabled = PluginState._('DISABLED');
@@ -8564,6 +8697,7 @@ class PluginState {
   String toString() => value;
 }
 
+/// @nodoc
 class PluginBuildStatus {
   static const ready = PluginBuildStatus._('READY');
   static const createInProgress = PluginBuildStatus._('CREATE_IN_PROGRESS');
@@ -8602,6 +8736,8 @@ class PluginBuildStatus {
 }
 
 /// Configuration information required to create a custom plugin.
+///
+/// @nodoc
 class CustomPluginConfiguration {
   /// The type of OpenAPI schema to use.
   final APISchemaType apiSchemaType;
@@ -8644,6 +8780,8 @@ class CustomPluginConfiguration {
 }
 
 /// Authentication configuration information for an Amazon Q Business plugin.
+///
+/// @nodoc
 class PluginAuthConfiguration {
   /// Information about the basic authentication credentials used to configure a
   /// plugin.
@@ -8713,6 +8851,8 @@ class PluginAuthConfiguration {
 
 /// Information about the basic authentication credentials used to configure a
 /// plugin.
+///
+/// @nodoc
 class BasicAuthConfiguration {
   /// The ARN of an IAM role used by Amazon Q Business to access the basic
   /// authentication credentials stored in a Secrets Manager secret.
@@ -8746,6 +8886,8 @@ class BasicAuthConfiguration {
 
 /// Information about the OAuth 2.0 authentication credential/token used to
 /// configure a plugin.
+///
+/// @nodoc
 class OAuth2ClientCredentialConfiguration {
   /// The ARN of an IAM role used by Amazon Q Business to access the OAuth 2.0
   /// authentication credentials stored in a Secrets Manager secret.
@@ -8796,6 +8938,8 @@ class OAuth2ClientCredentialConfiguration {
 
 /// Information about invoking a custom plugin without any authentication or
 /// authorization requirement.
+///
+/// @nodoc
 class NoAuthConfiguration {
   NoAuthConfiguration();
 
@@ -8810,6 +8954,8 @@ class NoAuthConfiguration {
 
 /// Information about the IAM Identity Center Application used to configure
 /// authentication for a plugin.
+///
+/// @nodoc
 class IdcAuthConfiguration {
   /// The Amazon Resource Name (ARN) of the IAM Identity Center Application used
   /// to configure authentication.
@@ -8841,6 +8987,7 @@ class IdcAuthConfiguration {
   }
 }
 
+/// @nodoc
 class APISchemaType {
   static const openApiV3 = APISchemaType._('OPEN_API_V3');
 
@@ -8870,6 +9017,8 @@ class APISchemaType {
 /// plugin OpenAPI schemas</a>. You can either include the schema directly in
 /// the payload field or you can upload it to an S3 bucket and specify the S3
 /// bucket location in the <code>s3</code> field.
+///
+/// @nodoc
 class APISchema {
   /// The JSON or YAML-formatted payload defining the OpenAPI schema for a custom
   /// plugin.
@@ -8905,6 +9054,8 @@ class APISchema {
 
 /// Information required for Amazon Q Business to find a specific file in an
 /// Amazon S3 bucket.
+///
+/// @nodoc
 class S3 {
   /// The name of the S3 bucket that contains the file.
   final String bucket;
@@ -8935,6 +9086,8 @@ class S3 {
 }
 
 /// A data source in an Amazon Q Business application.
+///
+/// @nodoc
 class DataSource {
   /// The Unix timestamp when the Amazon Q Business data source was created.
   final DateTime? createdAt;
@@ -8992,6 +9145,7 @@ class DataSource {
   }
 }
 
+/// @nodoc
 class DataSourceStatus {
   static const pendingCreation = DataSourceStatus._('PENDING_CREATION');
   static const creating = DataSourceStatus._('CREATING');
@@ -9029,6 +9183,8 @@ class DataSourceStatus {
 
 /// Provides configuration information needed to connect to an Amazon VPC
 /// (Virtual Private Cloud).
+///
+/// @nodoc
 class DataSourceVpcConfiguration {
   /// A list of identifiers of security groups within your Amazon VPC. The
   /// security groups should enable Amazon Q Business to connect to the data
@@ -9074,6 +9230,8 @@ class DataSourceVpcConfiguration {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html">Custom
 /// document enrichment</a>.
+///
+/// @nodoc
 class DocumentEnrichmentConfiguration {
   /// Configuration information to alter document attributes or metadata fields
   /// and content when ingesting documents into Amazon Q Business.
@@ -9125,6 +9283,8 @@ class DocumentEnrichmentConfiguration {
 }
 
 /// The configuration for extracting information from media in documents.
+///
+/// @nodoc
 class MediaExtractionConfiguration {
   /// Configuration settings for extracting and processing audio content from
   /// media files.
@@ -9182,6 +9342,8 @@ class MediaExtractionConfiguration {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html">Extracting
 /// semantic meaning from images and visuals</a>.
+///
+/// @nodoc
 class ImageExtractionConfiguration {
   /// Specify whether to extract semantic meaning from images and visuals from
   /// documents.
@@ -9207,6 +9369,8 @@ class ImageExtractionConfiguration {
 }
 
 /// Configuration settings for audio content extraction and processing.
+///
+/// @nodoc
 class AudioExtractionConfiguration {
   /// The status of audio extraction (ENABLED or DISABLED) for processing audio
   /// content from files.
@@ -9232,6 +9396,8 @@ class AudioExtractionConfiguration {
 }
 
 /// Configuration settings for video content extraction and processing.
+///
+/// @nodoc
 class VideoExtractionConfiguration {
   /// The status of video extraction (ENABLED or DISABLED) for processing video
   /// content from files.
@@ -9256,6 +9422,7 @@ class VideoExtractionConfiguration {
   }
 }
 
+/// @nodoc
 class VideoExtractionStatus {
   static const enabled = VideoExtractionStatus._('ENABLED');
   static const disabled = VideoExtractionStatus._('DISABLED');
@@ -9281,6 +9448,7 @@ class VideoExtractionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AudioExtractionStatus {
   static const enabled = AudioExtractionStatus._('ENABLED');
   static const disabled = AudioExtractionStatus._('DISABLED');
@@ -9306,6 +9474,7 @@ class AudioExtractionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageExtractionStatus {
   static const enabled = ImageExtractionStatus._('ENABLED');
   static const disabled = ImageExtractionStatus._('DISABLED');
@@ -9349,6 +9518,8 @@ class ImageExtractionStatus {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html">Custom
 /// document enrichment</a>.
+///
+/// @nodoc
 class HookConfiguration {
   /// The condition used for when a Lambda function should be invoked.
   ///
@@ -9425,6 +9596,8 @@ class HookConfiguration {
 /// a document metadata field using <code>DocumentAttributeTarget</code>. Amazon
 /// Q Business then will map your newly created metadata field to your index
 /// field.
+///
+/// @nodoc
 class DocumentAttributeCondition {
   /// The identifier of the document attribute used for the condition.
   ///
@@ -9475,6 +9648,7 @@ class DocumentAttributeCondition {
   }
 }
 
+/// @nodoc
 class DocumentEnrichmentConditionOperator {
   static const greaterThan =
       DocumentEnrichmentConditionOperator._('GREATER_THAN');
@@ -9528,6 +9702,8 @@ class DocumentEnrichmentConditionOperator {
 
 /// The value of a document attribute. You can only provide one value for a
 /// document attribute.
+///
+/// @nodoc
 class DocumentAttributeValue {
   /// A date expressed as an ISO 8601 string.
   ///
@@ -9591,6 +9767,8 @@ class DocumentAttributeValue {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html">Custom
 /// document enrichment</a>.
+///
+/// @nodoc
 class InlineDocumentEnrichmentConfiguration {
   final DocumentAttributeCondition? condition;
 
@@ -9654,6 +9832,8 @@ class InlineDocumentEnrichmentConfiguration {
 /// You can also use this with <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeCondition.html">
 /// <code>DocumentAttributeCondition</code> </a>.
+///
+/// @nodoc
 class DocumentAttributeTarget {
   /// The identifier of the target document attribute or metadata field. For
   /// example, 'Department' could be an identifier for the target attribute or
@@ -9698,6 +9878,7 @@ class DocumentAttributeTarget {
   }
 }
 
+/// @nodoc
 class DocumentContentOperator {
   static const delete = DocumentContentOperator._('DELETE');
 
@@ -9722,6 +9903,7 @@ class DocumentContentOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class AttributeValueOperator {
   static const delete = AttributeValueOperator._('DELETE');
 
@@ -9747,6 +9929,8 @@ class AttributeValueOperator {
 }
 
 /// Summary information for your Amazon Q Business index.
+///
+/// @nodoc
 class Index {
   /// The Unix timestamp when the index was created.
   final DateTime? createdAt;
@@ -9798,6 +9982,7 @@ class Index {
   }
 }
 
+/// @nodoc
 class IndexStatus {
   static const creating = IndexStatus._('CREATING');
   static const active = IndexStatus._('ACTIVE');
@@ -9825,6 +10010,8 @@ class IndexStatus {
 }
 
 /// Provides information about index capacity configuration.
+///
+/// @nodoc
 class IndexCapacityConfiguration {
   /// The number of storage units configured for an Amazon Q Business index.
   final int? units;
@@ -9854,6 +10041,8 @@ class IndexCapacityConfiguration {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/doc-attributes.html">Understanding
 /// document attributes</a>.
+///
+/// @nodoc
 class DocumentAttributeConfiguration {
   /// The name of the document attribute.
   final String? name;
@@ -9891,6 +10080,7 @@ class DocumentAttributeConfiguration {
   }
 }
 
+/// @nodoc
 class AttributeType {
   static const string = AttributeType._('STRING');
   static const stringList = AttributeType._('STRING_LIST');
@@ -9917,6 +10107,7 @@ class AttributeType {
   String toString() => value;
 }
 
+/// @nodoc
 class Status {
   static const enabled = Status._('ENABLED');
   static const disabled = Status._('DISABLED');
@@ -9940,6 +10131,7 @@ class Status {
   String toString() => value;
 }
 
+/// @nodoc
 class IndexType {
   static const enterprise = IndexType._('ENTERPRISE');
   static const starter = IndexType._('STARTER');
@@ -9964,6 +10156,8 @@ class IndexType {
 }
 
 /// Provides information about the number of documents in an index.
+///
+/// @nodoc
 class IndexStatistics {
   /// The number of documents indexed.
   final TextDocumentStatistics? textDocumentStatistics;
@@ -9991,6 +10185,8 @@ class IndexStatistics {
 }
 
 /// Provides information about text documents in an index.
+///
+/// @nodoc
 class TextDocumentStatistics {
   /// The total size, in bytes, of the indexed documents.
   final int? indexedTextBytes;
@@ -10022,6 +10218,8 @@ class TextDocumentStatistics {
 }
 
 /// Provides summary information about a data accessor.
+///
+/// @nodoc
 class DataAccessor {
   /// The authentication configuration details for the data accessor. This
   /// specifies how the ISV authenticates when accessing data through this data
@@ -10104,6 +10302,8 @@ class DataAccessor {
 /// Contains the authentication configuration details for a data accessor. This
 /// structure defines how the ISV authenticates when accessing data through the
 /// data accessor.
+///
+/// @nodoc
 class DataAccessorAuthenticationDetail {
   /// The type of authentication to use for the data accessor. This determines how
   /// the ISV authenticates when accessing data. You can use one of two
@@ -10166,6 +10366,8 @@ class DataAccessorAuthenticationDetail {
 }
 
 /// The type of authentication mechanism used by the data accessor.
+///
+/// @nodoc
 class DataAccessorAuthenticationType {
   static const awsIamIdcTti =
       DataAccessorAuthenticationType._('AWS_IAM_IDC_TTI');
@@ -10195,6 +10397,8 @@ class DataAccessorAuthenticationType {
 
 /// A union type that contains the specific authentication configuration based
 /// on the authentication type selected.
+///
+/// @nodoc
 class DataAccessorAuthenticationConfiguration {
   /// Configuration for IAM Identity Center Trusted Token Issuer (TTI)
   /// authentication used when the authentication type is
@@ -10231,6 +10435,8 @@ class DataAccessorAuthenticationConfiguration {
 
 /// Configuration details for IAM Identity Center Trusted Token Issuer (TTI)
 /// authentication.
+///
+/// @nodoc
 class DataAccessorIdcTrustedTokenIssuerConfiguration {
   /// The Amazon Resource Name (ARN) of the IAM Identity Center Trusted Token
   /// Issuer that will be used for authentication.
@@ -10257,6 +10463,8 @@ class DataAccessorIdcTrustedTokenIssuerConfiguration {
 }
 
 /// Specifies an allowed action and its associated filter configuration.
+///
+/// @nodoc
 class ActionConfiguration {
   /// The Amazon Q Business action that is allowed.
   final String action;
@@ -10291,6 +10499,8 @@ class ActionConfiguration {
 }
 
 /// Specifies filters to apply to an allowed action.
+///
+/// @nodoc
 class ActionFilterConfiguration {
   final AttributeFilter documentAttributeFilter;
 
@@ -10316,6 +10526,8 @@ class ActionFilterConfiguration {
 
 /// Enables filtering of responses based on document attributes or metadata
 /// fields.
+///
+/// @nodoc
 class AttributeFilter {
   /// Performs a logical <code>AND</code> operation on all supplied filters.
   final List<AttributeFilter>? andAllFilters;
@@ -10455,6 +10667,8 @@ class AttributeFilter {
 }
 
 /// A document attribute or metadata field.
+///
+/// @nodoc
 class DocumentAttribute {
   /// The identifier for the attribute.
   final String name;
@@ -10487,6 +10701,8 @@ class DocumentAttribute {
 }
 
 /// Summary information for an Amazon Q Business application.
+///
+/// @nodoc
 class Application {
   /// The identifier for the Amazon Q Business application.
   final String? applicationId;
@@ -10558,6 +10774,7 @@ class Application {
   }
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const creating = ApplicationStatus._('CREATING');
   static const active = ApplicationStatus._('ACTIVE');
@@ -10585,6 +10802,7 @@ class ApplicationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IdentityType {
   static const awsIamIdpSaml = IdentityType._('AWS_IAM_IDP_SAML');
   static const awsIamIdpOidc = IdentityType._('AWS_IAM_IDP_OIDC');
@@ -10621,6 +10839,8 @@ class IdentityType {
 /// that uses Quick Suite as the identity provider. For more information, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/create-quicksight-integrated-application.html">Creating
 /// an Amazon Quick Suite integrated application</a>.
+///
+/// @nodoc
 class QuickSightConfiguration {
   /// The Amazon Quick Suite namespace that is used as the identity provider. For
   /// more information about Quick Suite namespaces, see <a
@@ -10647,6 +10867,8 @@ class QuickSightConfiguration {
 }
 
 /// Configuration information for the file upload during chat feature.
+///
+/// @nodoc
 class AttachmentsConfiguration {
   /// Status information about whether file upload functionality is activated or
   /// deactivated for your end user.
@@ -10665,6 +10887,8 @@ class AttachmentsConfiguration {
 }
 
 /// Configuration information about Amazon Q Apps.
+///
+/// @nodoc
 class QAppsConfiguration {
   /// Status information about whether end users can create and use Amazon Q Apps
   /// in the web experience.
@@ -10693,6 +10917,8 @@ class QAppsConfiguration {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html">Personalizing
 /// chat responses</a>.
+///
+/// @nodoc
 class PersonalizationConfiguration {
   /// An option to allow Amazon Q Business to customize chat responses using user
   /// specific metadata—specifically, location and job information—in your IAM
@@ -10720,6 +10946,8 @@ class PersonalizationConfiguration {
 
 /// Subscription configuration information for an Amazon Q Business application
 /// using IAM identity federation for user management.
+///
+/// @nodoc
 class AutoSubscriptionConfiguration {
   /// Describes whether automatic subscriptions are enabled for an Amazon Q
   /// Business application using IAM identity federation for user management.
@@ -10756,6 +10984,7 @@ class AutoSubscriptionConfiguration {
   }
 }
 
+/// @nodoc
 class AutoSubscriptionStatus {
   static const enabled = AutoSubscriptionStatus._('ENABLED');
   static const disabled = AutoSubscriptionStatus._('DISABLED');
@@ -10781,6 +11010,7 @@ class AutoSubscriptionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SubscriptionType {
   static const qLite = SubscriptionType._('Q_LITE');
   static const qBusiness = SubscriptionType._('Q_BUSINESS');
@@ -10805,6 +11035,7 @@ class SubscriptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class PersonalizationControlMode {
   static const enabled = PersonalizationControlMode._('ENABLED');
   static const disabled = PersonalizationControlMode._('DISABLED');
@@ -10830,6 +11061,7 @@ class PersonalizationControlMode {
   String toString() => value;
 }
 
+/// @nodoc
 class QAppsControlMode {
   static const enabled = QAppsControlMode._('ENABLED');
   static const disabled = QAppsControlMode._('DISABLED');
@@ -10854,6 +11086,7 @@ class QAppsControlMode {
   String toString() => value;
 }
 
+/// @nodoc
 class AttachmentsControlMode {
   static const enabled = AttachmentsControlMode._('ENABLED');
   static const disabled = AttachmentsControlMode._('DISABLED');
@@ -10881,6 +11114,8 @@ class AttachmentsControlMode {
 
 /// Provides the identifier of the KMS key used to encrypt data indexed by
 /// Amazon Q Business. Amazon Q Business doesn't support asymmetric keys.
+///
+/// @nodoc
 class EncryptionConfiguration {
   /// The identifier of the KMS key. Amazon Q Business doesn't support asymmetric
   /// keys.
@@ -10906,6 +11141,8 @@ class EncryptionConfiguration {
 
 /// Configuration information about the file upload during chat feature for your
 /// application.
+///
+/// @nodoc
 class AppliedAttachmentsConfiguration {
   /// Information about whether file upload during chat functionality is activated
   /// for your application.
@@ -10932,6 +11169,8 @@ class AppliedAttachmentsConfiguration {
 }
 
 /// Aliases attached to a user id within an Amazon Q Business application.
+///
+/// @nodoc
 class UserAlias {
   /// The identifier of the user id associated with the user aliases.
   final String userId;
@@ -10969,6 +11208,8 @@ class UserAlias {
 }
 
 /// The details of an Amazon Q Business subscription.
+///
+/// @nodoc
 class SubscriptionDetails {
   /// The type of an Amazon Q Business subscription.
   final SubscriptionType? type;
@@ -10991,6 +11232,7 @@ class SubscriptionDetails {
   }
 }
 
+/// @nodoc
 class ResponseConfigurationType {
   static const all = ResponseConfigurationType._('ALL');
 
@@ -11018,6 +11260,8 @@ class ResponseConfigurationType {
 /// Configuration settings to define how Amazon Q Business generates and formats
 /// responses to user queries. This includes customization options for response
 /// style, tone, length, and other characteristics.
+///
+/// @nodoc
 class ResponseConfiguration {
   /// A collection of instructions that guide how Amazon Q Business generates
   /// responses, including parameters for response length, target audience,
@@ -11050,6 +11294,8 @@ class ResponseConfiguration {
 /// format responses to user queries. This collection includes parameters for
 /// controlling response characteristics such as length, audience targeting,
 /// perspective, style, identity, tone, and custom instructions.
+///
+/// @nodoc
 class InstructionCollection {
   /// Allows administrators to provide specific, custom instructions that guide
   /// how Amazon Q Business should respond in particular scenarios or to certain
@@ -11138,6 +11384,7 @@ class InstructionCollection {
   }
 }
 
+/// @nodoc
 class ResponseScope {
   static const enterpriseContentOnly =
       ResponseScope._('ENTERPRISE_CONTENT_ONLY');
@@ -11172,6 +11419,8 @@ class ResponseScope {
 /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/supported-languages.html">Supported
 /// languages</a>.
 /// </note>
+///
+/// @nodoc
 class OrchestrationConfiguration {
   /// Status information about whether chat orchestration is activated or
   /// deactivated for your Amazon Q Business application.
@@ -11191,6 +11440,8 @@ class OrchestrationConfiguration {
 
 /// Updates a blocked phrases configuration in your Amazon Q Business
 /// application.
+///
+/// @nodoc
 class BlockedPhrasesConfigurationUpdate {
   /// Creates or updates a blocked phrases configuration in your Amazon Q Business
   /// application.
@@ -11233,6 +11484,8 @@ class BlockedPhrasesConfigurationUpdate {
 /// controls and guardrails</a> and <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope">Conversation
 /// settings</a>.
+///
+/// @nodoc
 class CreatorModeConfiguration {
   /// Status information about whether <code>CREATOR_MODE</code> has been enabled
   /// or disabled. The default status is <code>DISABLED</code>.
@@ -11258,6 +11511,8 @@ class CreatorModeConfiguration {
 /// The hallucination reduction feature won't work if chat orchestration
 /// controls are enabled for your application.
 /// </note>
+///
+/// @nodoc
 class HallucinationReductionConfiguration {
   /// Controls whether hallucination reduction has been enabled or disabled for
   /// your application. The default status is <code>DISABLED</code>.
@@ -11285,6 +11540,7 @@ class HallucinationReductionConfiguration {
   }
 }
 
+/// @nodoc
 class HallucinationReductionControl {
   static const enabled = HallucinationReductionControl._('ENABLED');
   static const disabled = HallucinationReductionControl._('DISABLED');
@@ -11310,6 +11566,7 @@ class HallucinationReductionControl {
   String toString() => value;
 }
 
+/// @nodoc
 class CreatorModeControl {
   static const enabled = CreatorModeControl._('ENABLED');
   static const disabled = CreatorModeControl._('DISABLED');
@@ -11336,6 +11593,8 @@ class CreatorModeControl {
 }
 
 /// The topic specific controls configured for an Amazon Q Business application.
+///
+/// @nodoc
 class TopicConfiguration {
   /// A name for your topic control configuration.
   final String name;
@@ -11390,6 +11649,8 @@ class TopicConfiguration {
 
 /// Guardrail rules for an Amazon Q Business application. Amazon Q Business
 /// supports only one rule at a time.
+///
+/// @nodoc
 class Rule {
   /// The type of rule.
   final RuleType ruleType;
@@ -11446,6 +11707,8 @@ class Rule {
 
 /// Provides information about users and group names associated with a topic
 /// control rule.
+///
+/// @nodoc
 class UsersAndGroups {
   /// The user group names associated with a topic control rule.
   final List<String>? userGroups;
@@ -11479,6 +11742,7 @@ class UsersAndGroups {
   }
 }
 
+/// @nodoc
 class RuleType {
   static const contentBlockerRule = RuleType._('CONTENT_BLOCKER_RULE');
   static const contentRetrievalRule = RuleType._('CONTENT_RETRIEVAL_RULE');
@@ -11503,6 +11767,8 @@ class RuleType {
 }
 
 /// Provides configuration information about a rule.
+///
+/// @nodoc
 class RuleConfiguration {
   /// A rule for configuring how Amazon Q Business responds when it encounters a a
   /// blocked topic.
@@ -11542,6 +11808,8 @@ class RuleConfiguration {
 /// blocked topic. You can configure a custom message to inform your end users
 /// that they have asked about a restricted topic and suggest any next steps
 /// they should take.
+///
+/// @nodoc
 class ContentBlockerRule {
   /// The configured custom message displayed to an end user informing them that
   /// they've used a blocked phrase during chat.
@@ -11568,6 +11836,8 @@ class ContentBlockerRule {
 
 /// Rules for retrieving content from data sources connected to a Amazon Q
 /// Business application for a specific topic control configuration.
+///
+/// @nodoc
 class ContentRetrievalRule {
   /// Specifies data sources in a Amazon Q Business application to use for content
   /// generation.
@@ -11597,6 +11867,8 @@ class ContentRetrievalRule {
 
 /// The identifier of the data source Amazon Q Business will generate responses
 /// from.
+///
+/// @nodoc
 class EligibleDataSource {
   /// The identifier of the data source.
   final String? dataSourceId;
@@ -11626,6 +11898,7 @@ class EligibleDataSource {
   }
 }
 
+/// @nodoc
 class OrchestrationControl {
   static const enabled = OrchestrationControl._('ENABLED');
   static const disabled = OrchestrationControl._('DISABLED');
@@ -11652,6 +11925,8 @@ class OrchestrationControl {
 }
 
 /// Represents a piece of content that is relevant to a search query.
+///
+/// @nodoc
 class RelevantContent {
   /// The actual content of the relevant item.
   final String? content;
@@ -11716,6 +11991,8 @@ class RelevantContent {
 }
 
 /// Provides information about the relevance score of content.
+///
+/// @nodoc
 class ScoreAttributes {
   /// The confidence level of the relevance score.
   final ScoreConfidence? scoreConfidence;
@@ -11739,6 +12016,7 @@ class ScoreAttributes {
   }
 }
 
+/// @nodoc
 class ScoreConfidence {
   static const veryHigh = ScoreConfidence._('VERY_HIGH');
   static const high = ScoreConfidence._('HIGH');
@@ -11767,6 +12045,8 @@ class ScoreConfidence {
 }
 
 /// Specifies the source of content to search in.
+///
+/// @nodoc
 class ContentSource {
   /// The retriever to use as the content source.
   final RetrieverContentSource? retriever;
@@ -11784,6 +12064,8 @@ class ContentSource {
 }
 
 /// Specifies a retriever as the content source for a search.
+///
+/// @nodoc
 class RetrieverContentSource {
   /// The unique identifier of the retriever to use as the content source.
   final String retrieverId;
@@ -11800,6 +12082,7 @@ class RetrieverContentSource {
   }
 }
 
+/// @nodoc
 class MembershipType {
   static const $index = MembershipType._('INDEX');
   static const datasource = MembershipType._('DATASOURCE');
@@ -11826,6 +12109,8 @@ class MembershipType {
 
 /// A list of users or sub groups that belong to a group. This is for generating
 /// Amazon Q Business chat results only from document a user has access to.
+///
+/// @nodoc
 class GroupMembers {
   /// A list of sub groups that belong to a group. For example, the sub groups
   /// "Research", "Engineering", and "Sales and Marketing" all belong to the group
@@ -11857,6 +12142,8 @@ class GroupMembers {
 }
 
 /// The users that belong to a group.
+///
+/// @nodoc
 class MemberUser {
   /// The identifier of the user you want to map to a group.
   final String userId;
@@ -11880,6 +12167,8 @@ class MemberUser {
 }
 
 /// The sub groups that belong to a group.
+///
+/// @nodoc
 class MemberGroup {
   /// The name of the sub group.
   final String groupName;
@@ -11903,6 +12192,8 @@ class MemberGroup {
 }
 
 /// End user feedback on an AI-generated web experience chat message usefulness.
+///
+/// @nodoc
 class MessageUsefulnessFeedback {
   /// The timestamp for when the feedback was submitted.
   final DateTime submittedAt;
@@ -11938,6 +12229,7 @@ class MessageUsefulnessFeedback {
   }
 }
 
+/// @nodoc
 class MessageUsefulness {
   static const useful = MessageUsefulness._('USEFUL');
   static const notUseful = MessageUsefulness._('NOT_USEFUL');
@@ -11962,6 +12254,7 @@ class MessageUsefulness {
   String toString() => value;
 }
 
+/// @nodoc
 class MessageUsefulnessReason {
   static const notFactuallyCorrect =
       MessageUsefulnessReason._('NOT_FACTUALLY_CORRECT');
@@ -12024,6 +12317,8 @@ class MessageUsefulnessReason {
 /// user. For more information on subscriptions and pricing tiers, see <a
 /// href="https://aws.amazon.com/q/business/pricing/">Amazon Q Business
 /// pricing</a>.
+///
+/// @nodoc
 class Subscription {
   /// The type of your current Amazon Q Business subscription.
   final SubscriptionDetails? currentSubscription;
@@ -12089,6 +12384,8 @@ class Subscription {
 
 /// A user or group in the IAM Identity Center instance connected to the Amazon
 /// Q Business application.
+///
+/// @nodoc
 class SubscriptionPrincipal {
   /// The identifier of a group in the IAM Identity Center instance connected to
   /// the Amazon Q Business application.
@@ -12121,6 +12418,8 @@ class SubscriptionPrincipal {
 }
 
 /// Summary metadata information for a Amazon Q Business plugin.
+///
+/// @nodoc
 class PluginTypeMetadataSummary {
   /// The category of the plugin type.
   final PluginTypeCategory? category;
@@ -12159,6 +12458,7 @@ class PluginTypeMetadataSummary {
   }
 }
 
+/// @nodoc
 class PluginTypeCategory {
   static const customerRelationshipManagementCrm =
       PluginTypeCategory._('Customer relationship management (CRM)');
@@ -12196,6 +12496,8 @@ class PluginTypeCategory {
 }
 
 /// Summary information for an Amazon Q Business plugin action.
+///
+/// @nodoc
 class ActionSummary {
   /// The identifier of an Amazon Q Business plugin action.
   final String? actionIdentifier;
@@ -12252,6 +12554,8 @@ class ActionSummary {
 }
 
 /// A message in an Amazon Q Business web experience.
+///
+/// @nodoc
 class Message {
   final ActionExecution? actionExecution;
   final ActionReview? actionReview;
@@ -12333,6 +12637,7 @@ class Message {
   }
 }
 
+/// @nodoc
 class MessageType {
   static const user = MessageType._('USER');
   static const system = MessageType._('SYSTEM');
@@ -12360,6 +12665,8 @@ class MessageType {
 /// perform a plugin action during a non-streaming chat conversation. It
 /// contains information about the selected action with a list of possible user
 /// input fields, some pre-populated by Amazon Q Business.
+///
+/// @nodoc
 class ActionReview {
   /// Field values that an end user needs to provide to Amazon Q Business for
   /// Amazon Q Business to perform the requested plugin action.
@@ -12410,6 +12717,8 @@ class ActionReview {
 
 /// Performs an Amazon Q Business plugin action during a non-streaming chat
 /// conversation.
+///
+/// @nodoc
 class ActionExecution {
   /// A mapping of field names to the field values in input that an end user
   /// provides to Amazon Q Business requests to perform their plugin action.
@@ -12453,6 +12762,8 @@ class ActionExecution {
 }
 
 /// A user input field in an plugin action execution payload.
+///
+/// @nodoc
 class ActionExecutionPayloadField {
   /// The content of a user input field in an plugin action execution payload.
   final Object value;
@@ -12476,6 +12787,8 @@ class ActionExecutionPayloadField {
 }
 
 /// A user input field in an plugin action review payload.
+///
+/// @nodoc
 class ActionReviewPayloadField {
   /// The expected data format for the action review input field value. For
   /// example, in PTO request, <code>from</code> and <code>to</code> would be of
@@ -12567,6 +12880,7 @@ class ActionReviewPayloadField {
   }
 }
 
+/// @nodoc
 class ActionPayloadFieldType {
   static const string = ActionPayloadFieldType._('STRING');
   static const number = ActionPayloadFieldType._('NUMBER');
@@ -12597,6 +12911,8 @@ class ActionPayloadFieldType {
 /// Information about the field values that an end user can use to provide to
 /// Amazon Q Business for Amazon Q Business to perform the requested plugin
 /// action.
+///
+/// @nodoc
 class ActionReviewPayloadFieldAllowedValue {
   /// The name of the field.
   final Object? displayValue;
@@ -12628,6 +12944,8 @@ class ActionReviewPayloadFieldAllowedValue {
 }
 
 /// The documents used to generate an Amazon Q Business web experience response.
+///
+/// @nodoc
 class SourceAttribution {
   /// The number attached to a citation in an Amazon Q Business generated
   /// response.
@@ -12726,6 +13044,8 @@ class SourceAttribution {
 
 /// Provides information about a text extract in a chat response that can be
 /// attributed to a source document.
+///
+/// @nodoc
 class TextSegment {
   /// The zero-based location in the response string where the source attribution
   /// starts.
@@ -12797,6 +13117,8 @@ class TextSegment {
 
 /// Contains the relevant text excerpt from a source that was used to generate a
 /// citation text segment in an Amazon Q Business chat response.
+///
+/// @nodoc
 class SnippetExcerpt {
   /// The relevant text excerpt from a source that was used to generate a citation
   /// text segment in an Amazon Q chat response.
@@ -12822,6 +13144,8 @@ class SnippetExcerpt {
 
 /// Container for details about different types of media sources (image, audio,
 /// or video).
+///
+/// @nodoc
 class SourceDetails {
   /// Details specific to audio content within the source.
   final AudioSourceDetails? audioSourceDetails;
@@ -12868,6 +13192,8 @@ class SourceDetails {
 }
 
 /// Details about an image source, including its identifier and format.
+///
+/// @nodoc
 class ImageSourceDetails {
   /// Unique identifier for the image file.
   final String? mediaId;
@@ -12899,6 +13225,8 @@ class ImageSourceDetails {
 
 /// Details about an audio source, including its identifier, format, and time
 /// information.
+///
+/// @nodoc
 class AudioSourceDetails {
   /// The type of audio extraction performed on the content.
   final AudioExtractionType? audioExtractionType;
@@ -12955,6 +13283,8 @@ class AudioSourceDetails {
 
 /// Details about a video source, including its identifier, format, and time
 /// information.
+///
+/// @nodoc
 class VideoSourceDetails {
   /// The ending timestamp in milliseconds for the relevant video segment.
   final int? endTimeMilliseconds;
@@ -13009,6 +13339,7 @@ class VideoSourceDetails {
   }
 }
 
+/// @nodoc
 class VideoExtractionType {
   static const transcript = VideoExtractionType._('TRANSCRIPT');
   static const summary = VideoExtractionType._('SUMMARY');
@@ -13034,6 +13365,7 @@ class VideoExtractionType {
   String toString() => value;
 }
 
+/// @nodoc
 class AudioExtractionType {
   static const transcript = AudioExtractionType._('TRANSCRIPT');
   static const summary = AudioExtractionType._('SUMMARY');
@@ -13060,6 +13392,8 @@ class AudioExtractionType {
 }
 
 /// The details of a file uploaded during chat.
+///
+/// @nodoc
 class AttachmentOutput {
   /// The unique identifier of the Amazon Q Business attachment.
   final String? attachmentId;
@@ -13112,6 +13446,7 @@ class AttachmentOutput {
   }
 }
 
+/// @nodoc
 class AttachmentStatus {
   static const failed = AttachmentStatus._('FAILED');
   static const success = AttachmentStatus._('SUCCESS');
@@ -13137,6 +13472,8 @@ class AttachmentStatus {
 }
 
 /// Summary information for groups.
+///
+/// @nodoc
 class GroupSummary {
   /// The name of the group the summary information is for.
   final String? groupName;
@@ -13160,6 +13497,8 @@ class GroupSummary {
 }
 
 /// The details of a document within an Amazon Q Business index.
+///
+/// @nodoc
 class DocumentDetails {
   /// The timestamp for when the document was created.
   final DateTime? createdAt;
@@ -13212,6 +13551,7 @@ class DocumentDetails {
   }
 }
 
+/// @nodoc
 class DocumentStatus {
   static const received = DocumentStatus._('RECEIVED');
   static const processing = DocumentStatus._('PROCESSING');
@@ -13254,6 +13594,8 @@ class DocumentStatus {
 
 /// Provides information about an Amazon Q Business data source connector
 /// synchronization job.
+///
+/// @nodoc
 class DataSourceSyncJob {
   /// If the reason that the synchronization failed is due to an error with the
   /// underlying data source, this field contains a code that identifies the
@@ -13334,6 +13676,7 @@ class DataSourceSyncJob {
   }
 }
 
+/// @nodoc
 class DataSourceSyncJobStatus {
   static const failed = DataSourceSyncJobStatus._('FAILED');
   static const succeeded = DataSourceSyncJobStatus._('SUCCEEDED');
@@ -13374,6 +13717,8 @@ class DataSourceSyncJobStatus {
 
 /// Maps a batch delete document request to a specific Amazon Q Business data
 /// source connector sync job.
+///
+/// @nodoc
 class DataSourceSyncJobMetrics {
   /// The current count of documents added from the data source during the data
   /// source sync.
@@ -13430,6 +13775,8 @@ class DataSourceSyncJobMetrics {
 }
 
 /// A conversation in an Amazon Q Business application.
+///
+/// @nodoc
 class Conversation {
   /// The identifier of the Amazon Q Business conversation.
   final String? conversationId;
@@ -13470,6 +13817,8 @@ class Conversation {
 /// formats responses to user queries in chat interactions. This configuration
 /// allows administrators to customize response characteristics to meet specific
 /// organizational needs and communication standards.
+///
+/// @nodoc
 class ChatResponseConfiguration {
   /// The Amazon Resource Name (ARN) of the chat response configuration, which
   /// uniquely identifies the resource across all Amazon Web Services services and
@@ -13550,6 +13899,7 @@ class ChatResponseConfiguration {
   }
 }
 
+/// @nodoc
 class ChatResponseConfigurationStatus {
   static const creating = ChatResponseConfigurationStatus._('CREATING');
   static const updating = ChatResponseConfigurationStatus._('UPDATING');
@@ -13578,6 +13928,8 @@ class ChatResponseConfigurationStatus {
 }
 
 /// An attachment in an Amazon Q Business conversation.
+///
+/// @nodoc
 class Attachment {
   /// The identifier of the Amazon Q Business attachment.
   final String? attachmentId;
@@ -13671,6 +14023,8 @@ class Attachment {
 }
 
 /// The source reference for an existing attachment.
+///
+/// @nodoc
 class CopyFromSource {
   /// A reference to an attachment in an existing conversation.
   final ConversationSource? conversation;
@@ -13697,6 +14051,8 @@ class CopyFromSource {
 }
 
 /// The source reference for an existing attachment in an existing conversation.
+///
+/// @nodoc
 class ConversationSource {
   /// The unique identifier of the Amazon Q Business attachment.
   final String attachmentId;
@@ -13727,6 +14083,8 @@ class ConversationSource {
 }
 
 /// Provides the details of a group's status.
+///
+/// @nodoc
 class GroupStatusDetail {
   /// The details of an error associated a group status.
   final ErrorDetail? errorDetail;
@@ -13766,6 +14124,7 @@ class GroupStatusDetail {
   }
 }
 
+/// @nodoc
 class GroupStatus {
   static const failed = GroupStatus._('FAILED');
   static const succeeded = GroupStatus._('SUCCEEDED');
@@ -13792,6 +14151,7 @@ class GroupStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class OutputFormat {
   static const raw = OutputFormat._('RAW');
   static const extracted = OutputFormat._('EXTRACTED');
@@ -13818,6 +14178,8 @@ class OutputFormat {
 /// Detailed information about a chat response configuration, including
 /// comprehensive settings and parameters that define how Amazon Q Business
 /// generates and formats responses.
+///
+/// @nodoc
 class ChatResponseConfigurationDetail {
   final ErrorDetail? error;
 
@@ -13894,6 +14256,8 @@ class ChatResponseConfigurationDetail {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/guardrails-global-controls.html#guardrails-global-orchestration">Chat
 /// orchestration settings</a>.
+///
+/// @nodoc
 class AppliedOrchestrationConfiguration {
   /// Information about whether chat orchestration is enabled or disabled for an
   /// Amazon Q Business application.
@@ -13921,6 +14285,8 @@ class AppliedOrchestrationConfiguration {
 
 /// Provides information about the phrases blocked from chat by your chat
 /// control configuration.
+///
+/// @nodoc
 class BlockedPhrasesConfiguration {
   /// A list of phrases blocked from a Amazon Q Business web experience chat.
   /// <note>
@@ -13968,6 +14334,8 @@ class BlockedPhrasesConfiguration {
 /// controls and guardrails</a> and <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope">Conversation
 /// settings</a>.
+///
+/// @nodoc
 class AppliedCreatorModeConfiguration {
   /// Information about whether creator mode is enabled or disabled for an Amazon
   /// Q Business application.
@@ -13994,6 +14362,8 @@ class AppliedCreatorModeConfiguration {
 
 /// Represents the Access Control List (ACL) for a document, containing both
 /// allowlist and denylist conditions.
+///
+/// @nodoc
 class DocumentAcl {
   /// The allowlist conditions for the document. Users or groups matching these
   /// conditions are granted access to the document.
@@ -14034,6 +14404,8 @@ class DocumentAcl {
 
 /// Represents membership rules in the document's ACL, defining how users or
 /// groups are associated with access permissions.
+///
+/// @nodoc
 class DocumentAclMembership {
   /// An array of conditions that define the membership rules. Each condition
   /// specifies criteria for users or groups to be included in this membership.
@@ -14069,6 +14441,7 @@ class DocumentAclMembership {
   }
 }
 
+/// @nodoc
 class MemberRelation {
   static const and = MemberRelation._('AND');
   static const or = MemberRelation._('OR');
@@ -14095,6 +14468,8 @@ class MemberRelation {
 
 /// Represents a condition in the document's ACL, specifying access rules for
 /// users and groups.
+///
+/// @nodoc
 class DocumentAclCondition {
   /// An array of group identifiers that this condition applies to. Groups listed
   /// here are subject to the access rule defined by this condition.
@@ -14143,6 +14518,8 @@ class DocumentAclCondition {
 
 /// Represents a group in the document's ACL, used to define access permissions
 /// for multiple users collectively.
+///
+/// @nodoc
 class DocumentAclGroup {
   /// The name of the group in the document's ACL. This is used to identify the
   /// group when applying access rules.
@@ -14176,6 +14553,8 @@ class DocumentAclGroup {
 
 /// Represents a user in the document's ACL, used to define access permissions
 /// for individual users.
+///
+/// @nodoc
 class DocumentAclUser {
   /// The unique identifier of the user in the document's ACL. This is used to
   /// identify the user when applying access rules.
@@ -14208,6 +14587,8 @@ class DocumentAclUser {
 }
 
 /// Represents an associated user in the access control system.
+///
+/// @nodoc
 class AssociatedUser {
   /// The unique identifier of the associated user. This is used to identify the
   /// user in access control decisions.
@@ -14241,6 +14622,8 @@ class AssociatedUser {
 
 /// Represents a group associated with a given user in the access control
 /// system.
+///
+/// @nodoc
 class AssociatedGroup {
   /// The name of the group associated with the user. This is used to identify the
   /// group in access control decisions.
@@ -14274,6 +14657,8 @@ class AssociatedGroup {
 
 /// A request made by Amazon Q Business to a third paty authentication server to
 /// authenticate a custom plugin user.
+///
+/// @nodoc
 class AuthChallengeRequest {
   /// The URL sent by Amazon Q Business to the third party authentication server
   /// to authenticate a custom plugin user through an OAuth protocol.
@@ -14299,6 +14684,8 @@ class AuthChallengeRequest {
 
 /// Contains details of the authentication information received from a third
 /// party authentication server in response to an authentication challenge.
+///
+/// @nodoc
 class AuthChallengeResponse {
   /// The mapping of key-value pairs in an authentication challenge response.
   final Map<String, String> responseMap;
@@ -14315,6 +14702,7 @@ class AuthChallengeResponse {
   }
 }
 
+/// @nodoc
 class ChatMode {
   static const retrievalMode = ChatMode._('RETRIEVAL_MODE');
   static const creatorMode = ChatMode._('CREATOR_MODE');
@@ -14346,6 +14734,8 @@ class ChatMode {
 /// controls and guardrails</a> and <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope">Conversation
 /// settings</a>.
+///
+/// @nodoc
 class ChatModeConfiguration {
   /// Configuration information required to invoke chat in
   /// <code>PLUGIN_MODE</code>.
@@ -14374,6 +14764,8 @@ class ChatModeConfiguration {
 /// and <a
 /// href="https://docs.aws.amazon.com/amazonq/latest/business-use-dg/using-web-experience.html#chat-source-scope">Conversation
 /// settings</a>.
+///
+/// @nodoc
 class PluginConfiguration {
   /// The identifier of the plugin you want to use.
   final String pluginId;
@@ -14392,6 +14784,8 @@ class PluginConfiguration {
 
 /// This is either a file directly uploaded into a web experience chat or a
 /// reference to an existing attachment that is part of a web experience chat.
+///
+/// @nodoc
 class AttachmentInput {
   /// A reference to an existing attachment.
   final CopyFromSource? copyFrom;
@@ -14421,6 +14815,8 @@ class AttachmentInput {
 }
 
 /// The streaming output for the <code>Chat</code> API.
+///
+/// @nodoc
 class ChatOutputStream {
   /// A request from Amazon Q Business to the end user for information Amazon Q
   /// Business needs to successfully complete a requested plugin action.
@@ -14493,6 +14889,8 @@ class ChatOutputStream {
 
 /// An output event for an AI-generated response in an Amazon Q Business web
 /// experience.
+///
+/// @nodoc
 class TextOutputEvent {
   /// The identifier of the conversation with which the text output event is
   /// associated.
@@ -14561,6 +14959,8 @@ class TextOutputEvent {
 
 /// A metadata event for a AI-generated text output message in a Amazon Q
 /// Business conversation, containing associated metadata generated.
+///
+/// @nodoc
 class MetadataEvent {
   /// The identifier of the conversation with which the generated metadata is
   /// associated.
@@ -14621,6 +15021,8 @@ class MetadataEvent {
 /// perform a plugin action during a streaming chat conversation. It contains
 /// information about the selected action with a list of possible user input
 /// fields, some pre-populated by Amazon Q Business.
+///
+/// @nodoc
 class ActionReviewEvent {
   /// The identifier of the conversation with which the action review event is
   /// associated.
@@ -14694,6 +15096,8 @@ class ActionReviewEvent {
 }
 
 /// A failed file upload during web experience chat.
+///
+/// @nodoc
 class FailedAttachmentEvent {
   final AttachmentOutput? attachment;
 
@@ -14741,6 +15145,8 @@ class FailedAttachmentEvent {
 
 /// An authentication verification event activated by an end user request to use
 /// a custom plugin.
+///
+/// @nodoc
 class AuthChallengeRequestEvent {
   /// The URL sent by Amazon Q Business to a third party authentication server in
   /// response to an authentication verification event activated by an end user
@@ -14765,6 +15171,7 @@ class AuthChallengeRequestEvent {
   }
 }
 
+/// @nodoc
 class SystemMessageType {
   static const response = SystemMessageType._('RESPONSE');
   static const groundedResponse = SystemMessageType._('GROUNDED_RESPONSE');
@@ -14790,6 +15197,8 @@ class SystemMessageType {
 }
 
 /// The streaming input for the <code>Chat</code> API.
+///
+/// @nodoc
 class ChatInputStream {
   /// A request from an end user to perform an Amazon Q Business plugin action.
   final ActionExecutionEvent? actionExecutionEvent;
@@ -14843,6 +15252,8 @@ class ChatInputStream {
 
 /// A configuration event activated by an end user request to select a specific
 /// chat mode.
+///
+/// @nodoc
 class ConfigurationEvent {
   final AttributeFilter? attributeFilter;
 
@@ -14896,6 +15307,8 @@ class ConfigurationEvent {
 
 /// An input event for a end user message in an Amazon Q Business web
 /// experience.
+///
+/// @nodoc
 class TextInputEvent {
   /// A user message in a text message input event.
   final String userMessage;
@@ -14914,6 +15327,8 @@ class TextInputEvent {
 
 /// A file input event activated by a end user request to upload files into
 /// their web experience chat.
+///
+/// @nodoc
 class AttachmentInputEvent {
   final AttachmentInput? attachment;
 
@@ -14931,6 +15346,8 @@ class AttachmentInputEvent {
 
 /// A request from an end user signalling an intent to perform an Amazon Q
 /// Business plugin action during a streaming chat.
+///
+/// @nodoc
 class ActionExecutionEvent {
   /// A mapping of field names to the field values in input that an end user
   /// provides to Amazon Q Business requests to perform their plugin action.
@@ -14962,6 +15379,8 @@ class ActionExecutionEvent {
 }
 
 /// The end of the streaming input for the <code>Chat</code> API.
+///
+/// @nodoc
 class EndOfInputEvent {
   EndOfInputEvent();
 
@@ -14972,6 +15391,8 @@ class EndOfInputEvent {
 
 /// An authentication verification event response by a third party
 /// authentication server to Amazon Q Business.
+///
+/// @nodoc
 class AuthChallengeResponseEvent {
   /// The mapping of key-value pairs in an authentication challenge response.
   final Map<String, String> responseMap;
@@ -14991,6 +15412,8 @@ class AuthChallengeResponseEvent {
 /// A list of documents that could not be removed from an Amazon Q Business
 /// index. Each entry contains an error message that indicates why the document
 /// couldn't be removed from the index.
+///
+/// @nodoc
 class FailedDocument {
   /// The identifier of the Amazon Q Business data source connector that contains
   /// the failed document.
@@ -15032,6 +15455,8 @@ class FailedDocument {
 }
 
 /// A document in an Amazon Q Business application.
+///
+/// @nodoc
 class Document {
   /// The identifier of the document.
   final String id;
@@ -15109,6 +15534,8 @@ class Document {
 /// href="https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/doc-types.html">Supported
 /// document formats in Amazon Q Business</a>.
 /// </note>
+///
+/// @nodoc
 class DocumentContent {
   /// The contents of the document. Documents passed to the <code>blob</code>
   /// parameter must be base64 encoded. Your code might not need to encode the
@@ -15135,6 +15562,7 @@ class DocumentContent {
   }
 }
 
+/// @nodoc
 class ContentType {
   static const pdf = ContentType._('PDF');
   static const html = ContentType._('HTML');
@@ -15182,6 +15610,8 @@ class ContentType {
 }
 
 /// Used to configure access permissions for a document.
+///
+/// @nodoc
 class AccessConfiguration {
   /// A list of <code>AccessControlList</code> objects.
   final List<AccessControl> accessControls;
@@ -15208,6 +15638,8 @@ class AccessConfiguration {
 /// A list of principals. Each principal can be either a <code>USER</code> or a
 /// <code>GROUP</code> and can be designated document access permissions of
 /// either <code>ALLOW</code> or <code>DENY</code>.
+///
+/// @nodoc
 class AccessControl {
   /// Contains a list of principals, where a principal can be either a
   /// <code>USER</code> or a <code>GROUP</code>. Each principal can be have the
@@ -15234,6 +15666,8 @@ class AccessControl {
 
 /// Provides user and group information used for filtering documents to use for
 /// generating Amazon Q Business conversation responses.
+///
+/// @nodoc
 class Principal {
   /// The group associated with the principal.
   final PrincipalGroup? group;
@@ -15257,6 +15691,8 @@ class Principal {
 }
 
 /// Provides information about a user associated with a principal.
+///
+/// @nodoc
 class PrincipalUser {
   /// Provides information about whether to allow or deny access to the principal.
   final ReadAccessType access;
@@ -15286,6 +15722,8 @@ class PrincipalUser {
 }
 
 /// Provides information about a group associated with the principal.
+///
+/// @nodoc
 class PrincipalGroup {
   /// Provides information about whether to allow or deny access to the principal.
   final ReadAccessType access;
@@ -15314,6 +15752,7 @@ class PrincipalGroup {
   }
 }
 
+/// @nodoc
 class ReadAccessType {
   static const allow = ReadAccessType._('ALLOW');
   static const deny = ReadAccessType._('DENY');
@@ -15339,6 +15778,8 @@ class ReadAccessType {
 }
 
 /// A document deleted from an Amazon Q Business data source connector.
+///
+/// @nodoc
 class DeleteDocument {
   /// The identifier of the deleted document.
   final String documentId;
@@ -15358,6 +15799,8 @@ class DeleteDocument {
 /// Defines a condition that restricts when a permission is effective.
 /// Conditions allow you to control access based on specific attributes of the
 /// request.
+///
+/// @nodoc
 class PermissionCondition {
   /// The key for the condition. This identifies the attribute that the condition
   /// applies to.
@@ -15388,6 +15831,7 @@ class PermissionCondition {
   }
 }
 
+/// @nodoc
 class PermissionConditionOperator {
   static const stringEquals = PermissionConditionOperator._('StringEquals');
 
@@ -15412,41 +15856,49 @@ class PermissionConditionOperator {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ExternalResourceException extends _s.GenericAwsException {
   ExternalResourceException({String? type, String? message})
       : super(type: type, code: 'ExternalResourceException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class LicenseNotFoundException extends _s.GenericAwsException {
   LicenseNotFoundException({String? type, String? message})
       : super(type: type, code: 'LicenseNotFoundException', message: message);
 }
 
+/// @nodoc
 class MediaTooLargeException extends _s.GenericAwsException {
   MediaTooLargeException({String? type, String? message})
       : super(type: type, code: 'MediaTooLargeException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -15455,11 +15907,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

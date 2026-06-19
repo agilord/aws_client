@@ -1593,6 +1593,7 @@ class XRay {
   }
 }
 
+/// @nodoc
 class BatchGetTracesResult {
   /// Pagination token.
   final String? nextToken;
@@ -1636,6 +1637,7 @@ class BatchGetTracesResult {
   }
 }
 
+/// @nodoc
 class CancelTraceRetrievalResult {
   CancelTraceRetrievalResult();
 
@@ -1648,6 +1650,7 @@ class CancelTraceRetrievalResult {
   }
 }
 
+/// @nodoc
 class CreateGroupResult {
   /// The group that was created. Contains the name of the group that was created,
   /// the Amazon Resource Name (ARN) of the group that was generated based on the
@@ -1675,6 +1678,7 @@ class CreateGroupResult {
   }
 }
 
+/// @nodoc
 class CreateSamplingRuleResult {
   /// The saved rule definition and metadata.
   final SamplingRuleRecord? samplingRuleRecord;
@@ -1700,6 +1704,7 @@ class CreateSamplingRuleResult {
   }
 }
 
+/// @nodoc
 class DeleteGroupResult {
   DeleteGroupResult();
 
@@ -1712,6 +1717,7 @@ class DeleteGroupResult {
   }
 }
 
+/// @nodoc
 class DeleteResourcePolicyResult {
   DeleteResourcePolicyResult();
 
@@ -1724,6 +1730,7 @@ class DeleteResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class DeleteSamplingRuleResult {
   /// The deleted rule definition and metadata.
   final SamplingRuleRecord? samplingRuleRecord;
@@ -1749,6 +1756,7 @@ class DeleteSamplingRuleResult {
   }
 }
 
+/// @nodoc
 class GetEncryptionConfigResult {
   /// The encryption configuration document.
   final EncryptionConfig? encryptionConfig;
@@ -1774,6 +1782,7 @@ class GetEncryptionConfigResult {
   }
 }
 
+/// @nodoc
 class GetGroupResult {
   /// The group that was requested. Contains the name of the group, the ARN of the
   /// group, the filter expression, and the insight configuration assigned to the
@@ -1800,6 +1809,7 @@ class GetGroupResult {
   }
 }
 
+/// @nodoc
 class GetGroupsResult {
   /// The collection of all active groups.
   final List<GroupSummary>? groups;
@@ -1832,6 +1842,7 @@ class GetGroupsResult {
   }
 }
 
+/// @nodoc
 class GetIndexingRulesResult {
   /// Retrieves all indexing rules.
   final List<IndexingRule>? indexingRules;
@@ -1865,6 +1876,7 @@ class GetIndexingRulesResult {
   }
 }
 
+/// @nodoc
 class GetInsightResult {
   /// The summary information of an insight.
   final Insight? insight;
@@ -1889,6 +1901,7 @@ class GetInsightResult {
   }
 }
 
+/// @nodoc
 class GetInsightEventsResult {
   /// A detailed description of the event. This includes the time of the event,
   /// client and root cause impact statistics, and the top anomalous service at
@@ -1923,6 +1936,7 @@ class GetInsightEventsResult {
   }
 }
 
+/// @nodoc
 class GetInsightImpactGraphResult {
   /// The provided end time.
   final DateTime? endTime;
@@ -1993,6 +2007,7 @@ class GetInsightImpactGraphResult {
   }
 }
 
+/// @nodoc
 class GetInsightSummariesResult {
   /// The summary of each insight within the group matching the provided filters.
   /// The summary contains the InsightID, start and end time, the root cause
@@ -2028,6 +2043,7 @@ class GetInsightSummariesResult {
   }
 }
 
+/// @nodoc
 class GetRetrievedTracesGraphResult {
   /// Specify the pagination token returned by a previous request to retrieve the
   /// next page of indexes.
@@ -2069,6 +2085,7 @@ class GetRetrievedTracesGraphResult {
   }
 }
 
+/// @nodoc
 class GetSamplingRulesResult {
   /// Pagination token.
   final String? nextToken;
@@ -2102,6 +2119,7 @@ class GetSamplingRulesResult {
   }
 }
 
+/// @nodoc
 class GetSamplingStatisticSummariesResult {
   /// Pagination token.
   final String? nextToken;
@@ -2138,6 +2156,7 @@ class GetSamplingStatisticSummariesResult {
   }
 }
 
+/// @nodoc
 class GetSamplingTargetsResult {
   /// The last time a user changed the sampling rule configuration. If the
   /// sampling rule configuration changed since the service last retrieved it, the
@@ -2203,6 +2222,7 @@ class GetSamplingTargetsResult {
   }
 }
 
+/// @nodoc
 class GetServiceGraphResult {
   /// A flag indicating whether the group's filter expression has been consistent,
   /// or if the returned service graph may show traces from an older version of
@@ -2260,6 +2280,7 @@ class GetServiceGraphResult {
   }
 }
 
+/// @nodoc
 class GetTimeSeriesServiceStatisticsResult {
   /// A flag indicating whether or not a group's filter expression has been
   /// consistent, or if a returned aggregation might show statistics from an older
@@ -2306,6 +2327,7 @@ class GetTimeSeriesServiceStatisticsResult {
   }
 }
 
+/// @nodoc
 class GetTraceGraphResult {
   /// Pagination token.
   final String? nextToken;
@@ -2338,6 +2360,7 @@ class GetTraceGraphResult {
   }
 }
 
+/// @nodoc
 class GetTraceSegmentDestinationResult {
   /// Retrieves the current destination.
   final TraceSegmentDestination? destination;
@@ -2369,6 +2392,7 @@ class GetTraceSegmentDestinationResult {
   }
 }
 
+/// @nodoc
 class GetTraceSummariesResult {
   /// The start time of this page of results.
   final DateTime? approximateTime;
@@ -2421,6 +2445,7 @@ class GetTraceSummariesResult {
   }
 }
 
+/// @nodoc
 class ListResourcePoliciesResult {
   /// Pagination token. Not currently supported.
   final String? nextToken;
@@ -2453,6 +2478,7 @@ class ListResourcePoliciesResult {
   }
 }
 
+/// @nodoc
 class ListRetrievedTracesResult {
   /// Specify the pagination token returned by a previous request to retrieve the
   /// next page of indexes.
@@ -2502,6 +2528,7 @@ class ListRetrievedTracesResult {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A pagination token. If multiple pages of results are returned, use the
   /// <code>NextToken</code> value returned with the current page of results to
@@ -2537,6 +2564,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutEncryptionConfigResult {
   /// The new encryption configuration.
   final EncryptionConfig? encryptionConfig;
@@ -2562,6 +2590,7 @@ class PutEncryptionConfigResult {
   }
 }
 
+/// @nodoc
 class PutResourcePolicyResult {
   /// The resource policy document, as provided in the
   /// <code>PutResourcePolicyRequest</code>.
@@ -2588,6 +2617,7 @@ class PutResourcePolicyResult {
   }
 }
 
+/// @nodoc
 class PutTelemetryRecordsResult {
   PutTelemetryRecordsResult();
 
@@ -2600,6 +2630,7 @@ class PutTelemetryRecordsResult {
   }
 }
 
+/// @nodoc
 class PutTraceSegmentsResult {
   /// Segments that failed processing.
   final List<UnprocessedTraceSegment>? unprocessedTraceSegments;
@@ -2627,6 +2658,7 @@ class PutTraceSegmentsResult {
   }
 }
 
+/// @nodoc
 class StartTraceRetrievalResult {
   /// Retrieval token.
   final String? retrievalToken;
@@ -2649,6 +2681,7 @@ class StartTraceRetrievalResult {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2661,6 +2694,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2673,6 +2707,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateGroupResult {
   /// The group that was updated. Contains the name of the group that was updated,
   /// the ARN of the group that was updated, the updated filter expression, and
@@ -2699,6 +2734,7 @@ class UpdateGroupResult {
   }
 }
 
+/// @nodoc
 class UpdateIndexingRuleResult {
   /// Updated indexing rule.
   final IndexingRule? indexingRule;
@@ -2723,6 +2759,7 @@ class UpdateIndexingRuleResult {
   }
 }
 
+/// @nodoc
 class UpdateSamplingRuleResult {
   /// The updated rule definition and metadata.
   final SamplingRuleRecord? samplingRuleRecord;
@@ -2748,6 +2785,7 @@ class UpdateSamplingRuleResult {
   }
 }
 
+/// @nodoc
 class UpdateTraceSegmentDestinationResult {
   /// The destination of the trace segments.
   final TraceSegmentDestination? destination;
@@ -2780,6 +2818,7 @@ class UpdateTraceSegmentDestinationResult {
   }
 }
 
+/// @nodoc
 class TraceSegmentDestination {
   static const xRay = TraceSegmentDestination._('XRay');
   static const cloudWatchLogs = TraceSegmentDestination._('CloudWatchLogs');
@@ -2805,6 +2844,7 @@ class TraceSegmentDestination {
   String toString() => value;
 }
 
+/// @nodoc
 class TraceSegmentDestinationStatus {
   static const pending = TraceSegmentDestinationStatus._('PENDING');
   static const active = TraceSegmentDestinationStatus._('ACTIVE');
@@ -2833,6 +2873,8 @@ class TraceSegmentDestinationStatus {
 /// A <a
 /// href="https://docs.aws.amazon.com/xray/latest/api/API_SamplingRule.html">SamplingRule</a>
 /// and its metadata.
+///
+/// @nodoc
 class SamplingRuleRecord {
   /// When the rule was created.
   final DateTime? createdAt;
@@ -2874,6 +2916,8 @@ class SamplingRuleRecord {
 /// A sampling rule that services use to decide whether to instrument a request.
 /// Rule fields can match properties of the service, or properties of a request.
 /// The service can ignore rules that don't match its properties.
+///
+/// @nodoc
 class SamplingRule {
   /// The percentage of matching requests to instrument, after the reservoir is
   /// exhausted.
@@ -3003,6 +3047,8 @@ class SamplingRule {
 
 /// Enable temporary sampling rate increases when you detect anomalies to
 /// improve visibility.
+///
+/// @nodoc
 class SamplingRateBoost {
   /// Sets the time window (in minutes) in which only one sampling rate boost can
   /// be triggered. After a boost occurs, no further boosts are allowed until the
@@ -3036,6 +3082,8 @@ class SamplingRateBoost {
 }
 
 /// A document specifying changes to a sampling rule's configuration.
+///
+/// @nodoc
 class SamplingRuleUpdate {
   /// Matches attributes derived from the request.
   final Map<String, String>? attributes;
@@ -3136,6 +3184,8 @@ class SamplingRuleUpdate {
 
 /// Rule used to determine the server-side sampling rate for spans ingested
 /// through the CloudWatchLogs destination and indexed by X-Ray.
+///
+/// @nodoc
 class IndexingRule {
   /// Displays when the rule was last modified, in Unix time seconds.
   final DateTime? modifiedAt;
@@ -3175,6 +3225,8 @@ class IndexingRule {
 }
 
 /// The indexing rule configuration.
+///
+/// @nodoc
 class IndexingRuleValue {
   /// Indexing rule configuration that is used to probabilistically sample
   /// traceIds.
@@ -3202,6 +3254,8 @@ class IndexingRuleValue {
 }
 
 /// The indexing rule configuration for probabilistic sampling.
+///
+/// @nodoc
 class ProbabilisticRuleValue {
   /// Configured sampling percentage of traceIds. Note that sampling can be
   /// subject to limits to ensure completeness of data.
@@ -3235,6 +3289,8 @@ class ProbabilisticRuleValue {
 }
 
 /// Update to an indexing rule.
+///
+/// @nodoc
 class IndexingRuleValueUpdate {
   /// Indexing rule configuration that is used to probabilistically sample
   /// traceIds.
@@ -3253,6 +3309,8 @@ class IndexingRuleValueUpdate {
 }
 
 /// Update to the indexing rule configuration for probabilistic sampling.
+///
+/// @nodoc
 class ProbabilisticRuleValueUpdate {
   /// Configured sampling percentage of traceIds. Note that sampling can be
   /// subject to limits to ensure completeness of data.
@@ -3271,6 +3329,8 @@ class ProbabilisticRuleValueUpdate {
 }
 
 /// Details and metadata for a group.
+///
+/// @nodoc
 class Group {
   /// The filter expression defining the parameters to include traces.
   final String? filterExpression;
@@ -3331,6 +3391,8 @@ class Group {
 }
 
 /// The structure containing configurations related to insights.
+///
+/// @nodoc
 class InsightsConfiguration {
   /// Set the InsightsEnabled value to true to enable insights or false to disable
   /// insights.
@@ -3385,6 +3447,8 @@ class InsightsConfiguration {
 /// Web Services use. You cannot edit or delete system tags.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class Tag {
   /// A tag key, such as <code>Stage</code> or <code>Name</code>. A tag key cannot
   /// be empty. The key can be a maximum of 128 characters, and can contain only
@@ -3421,6 +3485,8 @@ class Tag {
 }
 
 /// Information about a segment that failed processing.
+///
+/// @nodoc
 class UnprocessedTraceSegment {
   /// The error that caused processing to fail.
   final String? errorCode;
@@ -3458,6 +3524,8 @@ class UnprocessedTraceSegment {
 }
 
 ///
+///
+/// @nodoc
 class TelemetryRecord {
   ///
   final DateTime timestamp;
@@ -3509,6 +3577,8 @@ class TelemetryRecord {
 }
 
 ///
+///
+/// @nodoc
 class BackendConnectionErrors {
   ///
   final int? connectionRefusedCount;
@@ -3559,6 +3629,8 @@ class BackendConnectionErrors {
 /// A resource policy grants one or more Amazon Web Services services and
 /// accounts permissions to access X-Ray. Each resource policy is associated
 /// with a specific Amazon Web Services account.
+///
+/// @nodoc
 class ResourcePolicy {
   /// When the policy was last updated, in Unix time seconds.
   final DateTime? lastUpdatedTime;
@@ -3605,6 +3677,8 @@ class ResourcePolicy {
 }
 
 /// A configuration document that specifies encryption configuration settings.
+///
+/// @nodoc
 class EncryptionConfig {
   /// The ID of the KMS key used for encryption, if applicable.
   final String? keyId;
@@ -3643,6 +3717,7 @@ class EncryptionConfig {
   }
 }
 
+/// @nodoc
 class EncryptionStatus {
   static const updating = EncryptionStatus._('UPDATING');
   static const active = EncryptionStatus._('ACTIVE');
@@ -3667,6 +3742,7 @@ class EncryptionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionType {
   static const none = EncryptionType._('NONE');
   static const kms = EncryptionType._('KMS');
@@ -3691,6 +3767,7 @@ class EncryptionType {
   String toString() => value;
 }
 
+/// @nodoc
 class RetrievalStatus {
   static const scheduled = RetrievalStatus._('SCHEDULED');
   static const running = RetrievalStatus._('RUNNING');
@@ -3726,6 +3803,7 @@ class RetrievalStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TraceFormatType {
   static const xray = TraceFormatType._('XRAY');
   static const otel = TraceFormatType._('OTEL');
@@ -3751,6 +3829,8 @@ class TraceFormatType {
 }
 
 /// Retrieved collection of spans with matching trace IDs.
+///
+/// @nodoc
 class RetrievedTrace {
   /// The length of time in seconds between the start time of the root span and
   /// the end time of the last span that completed.
@@ -3793,6 +3873,8 @@ class RetrievedTrace {
 
 /// A span from a trace that has been ingested by the X-Ray service. A span
 /// represents a unit of work or an operation performed by a service.
+///
+/// @nodoc
 class Span {
   /// The span document.
   final String? document;
@@ -3823,6 +3905,8 @@ class Span {
 }
 
 /// Metadata generated from the segment documents in a trace.
+///
+/// @nodoc
 class TraceSummary {
   /// Annotations from the trace's segment documents.
   final Map<String, List<ValueWithServiceIds>>? annotations;
@@ -4036,6 +4120,8 @@ class TraceSummary {
 }
 
 /// Information about an HTTP request.
+///
+/// @nodoc
 class Http {
   /// The IP address of the requestor.
   final String? clientIp;
@@ -4087,6 +4173,8 @@ class Http {
 }
 
 ///
+///
+/// @nodoc
 class ServiceId {
   ///
   final String? accountId;
@@ -4132,6 +4220,8 @@ class ServiceId {
 }
 
 /// The root cause information for a response time warning.
+///
+/// @nodoc
 class ResponseTimeRootCause {
   /// A flag that denotes that the root cause impacts the trace client.
   final bool? clientImpacting;
@@ -4167,6 +4257,8 @@ class ResponseTimeRootCause {
 }
 
 /// A collection of fields identifying the service in a response time warning.
+///
+/// @nodoc
 class ResponseTimeRootCauseService {
   /// The account ID associated to the service.
   final String? accountId;
@@ -4231,6 +4323,8 @@ class ResponseTimeRootCauseService {
 
 /// A collection of segments and corresponding subsegments associated to a
 /// response time warning.
+///
+/// @nodoc
 class ResponseTimeRootCauseEntity {
   /// The type and messages of the exceptions.
   final double? coverage;
@@ -4268,6 +4362,8 @@ class ResponseTimeRootCauseEntity {
 }
 
 /// The root cause of a trace summary error.
+///
+/// @nodoc
 class ErrorRootCause {
   /// A flag that denotes that the root cause impacts the trace client.
   final bool? clientImpacting;
@@ -4302,6 +4398,8 @@ class ErrorRootCause {
 }
 
 /// A collection of fields identifying the services in a trace summary error.
+///
+/// @nodoc
 class ErrorRootCauseService {
   /// The account ID associated to the service.
   final String? accountId;
@@ -4365,6 +4463,8 @@ class ErrorRootCauseService {
 
 /// A collection of segments and corresponding subsegments associated to a trace
 /// summary error.
+///
+/// @nodoc
 class ErrorRootCauseEntity {
   /// The types and messages of the exceptions.
   final List<RootCauseException>? exceptions;
@@ -4405,6 +4505,8 @@ class ErrorRootCauseEntity {
 }
 
 /// The exception associated with a root cause.
+///
+/// @nodoc
 class RootCauseException {
   /// The message of the exception.
   final String? message;
@@ -4435,6 +4537,8 @@ class RootCauseException {
 }
 
 /// The root cause information for a trace summary fault.
+///
+/// @nodoc
 class FaultRootCause {
   /// A flag that denotes that the root cause impacts the trace client.
   final bool? clientImpacting;
@@ -4469,6 +4573,8 @@ class FaultRootCause {
 }
 
 /// A collection of fields identifying the services in a trace summary fault.
+///
+/// @nodoc
 class FaultRootCauseService {
   /// The account ID associated to the service.
   final String? accountId;
@@ -4532,6 +4638,8 @@ class FaultRootCauseService {
 
 /// A collection of segments and corresponding subsegments associated to a trace
 /// summary fault error.
+///
+/// @nodoc
 class FaultRootCauseEntity {
   /// The types and messages of the exceptions.
   final List<RootCauseException>? exceptions;
@@ -4572,6 +4680,8 @@ class FaultRootCauseEntity {
 }
 
 /// A list of Availability Zones corresponding to the segments in a trace.
+///
+/// @nodoc
 class AvailabilityZoneDetail {
   /// The name of a corresponding Availability Zone.
   final String? name;
@@ -4595,6 +4705,8 @@ class AvailabilityZoneDetail {
 }
 
 /// A list of EC2 instance IDs corresponding to the segments in a trace.
+///
+/// @nodoc
 class InstanceIdDetail {
   /// The ID of a corresponding EC2 instance.
   final String? id;
@@ -4618,6 +4730,8 @@ class InstanceIdDetail {
 }
 
 /// A list of resources ARNs corresponding to the segments in a trace.
+///
+/// @nodoc
 class ResourceARNDetail {
   /// The ARN of a corresponding resource.
   final String? arn;
@@ -4641,6 +4755,8 @@ class ResourceARNDetail {
 }
 
 /// Information about a user recorded in segment documents.
+///
+/// @nodoc
 class TraceUser {
   /// Services that the user's request hit.
   final List<ServiceId>? serviceIds;
@@ -4674,6 +4790,8 @@ class TraceUser {
 }
 
 /// Information about a segment annotation.
+///
+/// @nodoc
 class ValueWithServiceIds {
   /// Values of the annotation.
   final AnnotationValue? annotationValue;
@@ -4711,6 +4829,8 @@ class ValueWithServiceIds {
 
 /// Value of a segment annotation. Has one of three value types: Number,
 /// Boolean, or String.
+///
+/// @nodoc
 class AnnotationValue {
   /// Value for a Boolean annotation.
   final bool? booleanValue;
@@ -4747,6 +4867,7 @@ class AnnotationValue {
   }
 }
 
+/// @nodoc
 class TimeRangeType {
   static const traceId = TimeRangeType._('TraceId');
   static const event = TimeRangeType._('Event');
@@ -4773,6 +4894,8 @@ class TimeRangeType {
 }
 
 /// The name and value of a sampling rule to apply to a trace summary.
+///
+/// @nodoc
 class SamplingStrategy {
   /// The name of a sampling rule.
   final SamplingStrategyName? name;
@@ -4795,6 +4918,7 @@ class SamplingStrategy {
   }
 }
 
+/// @nodoc
 class SamplingStrategyName {
   static const partialScan = SamplingStrategyName._('PartialScan');
   static const fixedRate = SamplingStrategyName._('FixedRate');
@@ -4823,6 +4947,8 @@ class SamplingStrategyName {
 /// Information about an application that processed requests, users that made
 /// requests, or downstream services, resources, and applications that an
 /// application used.
+///
+/// @nodoc
 class Service {
   /// Identifier of the Amazon Web Services account in which the service runs.
   final String? accountId;
@@ -4965,6 +5091,8 @@ class Service {
 }
 
 /// Response statistics for a service.
+///
+/// @nodoc
 class ServiceStatistics {
   /// Information about requests that failed with a 4xx Client Error status code.
   final ErrorStatistics? errorStatistics;
@@ -5024,6 +5152,8 @@ class ServiceStatistics {
 /// An entry in a histogram for a statistic. A histogram maps the range of
 /// observed values on the X axis, and the prevalence of each value on the Y
 /// axis.
+///
+/// @nodoc
 class HistogramEntry {
   /// The prevalence of the entry.
   final int? count;
@@ -5054,6 +5184,8 @@ class HistogramEntry {
 }
 
 /// Information about requests that failed with a 4xx Client Error status code.
+///
+/// @nodoc
 class ErrorStatistics {
   /// The number of requests that failed with untracked 4xx Client Error status
   /// codes.
@@ -5093,6 +5225,8 @@ class ErrorStatistics {
 }
 
 /// Information about requests that failed with a 5xx Server Error status code.
+///
+/// @nodoc
 class FaultStatistics {
   /// The number of requests that failed with untracked 5xx Server Error status
   /// codes.
@@ -5128,6 +5262,8 @@ class FaultStatistics {
 /// synchronous connection, such as typical call between client and service, or
 /// an asynchronous link, such as a Lambda function which retrieves an event
 /// from an SNS queue.
+///
+/// @nodoc
 class Edge {
   /// Aliases for the edge.
   final List<Alias>? aliases;
@@ -5217,6 +5353,8 @@ class Edge {
 }
 
 /// Response statistics for an edge.
+///
+/// @nodoc
 class EdgeStatistics {
   /// Information about requests that failed with a 4xx Client Error status code.
   final ErrorStatistics? errorStatistics;
@@ -5274,6 +5412,8 @@ class EdgeStatistics {
 }
 
 /// An alias for an edge.
+///
+/// @nodoc
 class Alias {
   /// The canonical name of the alias.
   final String? name;
@@ -5312,6 +5452,8 @@ class Alias {
 }
 
 /// A list of TimeSeriesStatistic structures.
+///
+/// @nodoc
 class TimeSeriesServiceStatistics {
   final EdgeStatistics? edgeSummaryStatistics;
 
@@ -5377,6 +5519,8 @@ class TimeSeriesServiceStatistics {
 
 /// The predicted high and low fault count. This is used to determine if a
 /// service has become anomalous and if an insight should be created.
+///
+/// @nodoc
 class ForecastStatistics {
   /// The upper limit of fault counts for a service.
   final int? faultCountHigh;
@@ -5409,6 +5553,8 @@ class ForecastStatistics {
 /// Sampling statistics from a call to <a
 /// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>
 /// that X-Ray could not process.
+///
+/// @nodoc
 class UnprocessedStatistics {
   /// The error code.
   final String? errorCode;
@@ -5449,6 +5595,8 @@ class UnprocessedStatistics {
 /// sampling target for a rule, X-Ray calculates a new reservoir for each
 /// service based on the recent sampling results of all services that called <a
 /// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>.
+///
+/// @nodoc
 class SamplingTargetDocument {
   /// The percentage of matching requests to instrument, after the reservoir is
   /// exhausted.
@@ -5516,6 +5664,8 @@ class SamplingTargetDocument {
 /// service based on the recent sampling boost stats of all services that called
 /// <a
 /// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>.
+///
+/// @nodoc
 class SamplingBoost {
   /// The calculated sampling boost rate for this service
   final double boostRate;
@@ -5549,6 +5699,8 @@ class SamplingBoost {
 /// last 10 seconds unless the service has been assigned a longer reporting
 /// interval after a previous call to <a
 /// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>.
+///
+/// @nodoc
 class SamplingBoostStatisticsDocument {
   /// The number of requests with anomaly.
   final int anomalyCount;
@@ -5600,6 +5752,8 @@ class SamplingBoostStatisticsDocument {
 /// the last 10 seconds unless the service has been assigned a longer reporting
 /// interval after a previous call to <a
 /// href="https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html">GetSamplingTargets</a>.
+///
+/// @nodoc
 class SamplingStatisticsDocument {
   /// A unique identifier for the service in hexadecimal.
   final String clientID;
@@ -5648,6 +5802,8 @@ class SamplingStatisticsDocument {
 
 /// Aggregated request sampling data for a sampling rule across all services for
 /// a 10-second window.
+///
+/// @nodoc
 class SamplingStatisticSummary {
   /// The number of requests recorded with borrowed reservoir quota.
   final int? borrowCount;
@@ -5701,6 +5857,8 @@ class SamplingStatisticSummary {
 /// Retrieved information about an application that processed requests, users
 /// that made requests, or downstream services, resources, and applications that
 /// an application used.
+///
+/// @nodoc
 class RetrievedService {
   /// Relation between two 2 services.
   final List<GraphLink>? links;
@@ -5734,6 +5892,8 @@ class RetrievedService {
 }
 
 /// The relation between two services.
+///
+/// @nodoc
 class GraphLink {
   /// Destination traces of a link relationship.
   final List<String>? destinationTraceIds;
@@ -5775,6 +5935,8 @@ class GraphLink {
 }
 
 /// Information that describes an insight.
+///
+/// @nodoc
 class InsightSummary {
   /// Categories The categories that label and describe the type of insight.
   final List<InsightCategory>? categories;
@@ -5907,6 +6069,7 @@ class InsightSummary {
   }
 }
 
+/// @nodoc
 class InsightState {
   static const active = InsightState._('ACTIVE');
   static const closed = InsightState._('CLOSED');
@@ -5931,6 +6094,8 @@ class InsightState {
 }
 
 /// Statistics that describe how the incident has impacted a service.
+///
+/// @nodoc
 class RequestImpactStatistics {
   /// The number of requests that have resulted in a fault,
   final int? faultCount;
@@ -5968,6 +6133,8 @@ class RequestImpactStatistics {
 }
 
 /// The service within the service graph that has anomalously high fault rates.
+///
+/// @nodoc
 class AnomalousService {
   final ServiceId? serviceId;
 
@@ -5991,6 +6158,7 @@ class AnomalousService {
   }
 }
 
+/// @nodoc
 class InsightCategory {
   static const fault = InsightCategory._('FAULT');
 
@@ -6017,6 +6185,8 @@ class InsightCategory {
 /// Information about an application that processed requests, users that made
 /// requests, or downstream services, resources, and applications that an
 /// application used.
+///
+/// @nodoc
 class InsightImpactGraphService {
   /// Identifier of the Amazon Web Services account in which the service runs.
   final String? accountId;
@@ -6101,6 +6271,8 @@ class InsightImpactGraphService {
 }
 
 /// The connection between two service in an insight impact graph.
+///
+/// @nodoc
 class InsightImpactGraphEdge {
   /// Identifier of the edge. Unique within a service map.
   final int? referenceId;
@@ -6126,6 +6298,8 @@ class InsightImpactGraphEdge {
 /// X-Ray reevaluates insights periodically until they are resolved, and records
 /// each intermediate state in an event. You can review incident events in the
 /// Impact Timeline on the Inspect page in the X-Ray console.
+///
+/// @nodoc
 class InsightEvent {
   /// The impact statistics of the client side service. This includes the number
   /// of requests to the client service and whether the requests were faults or
@@ -6198,6 +6372,8 @@ class InsightEvent {
 
 /// When fault rates go outside of the expected range, X-Ray creates an insight.
 /// Insights tracks emergent issues within your applications.
+///
+/// @nodoc
 class Insight {
   /// The categories that label and describe the type of insight.
   final List<InsightCategory>? categories;
@@ -6323,6 +6499,8 @@ class Insight {
 }
 
 /// Details for a group without metadata.
+///
+/// @nodoc
 class GroupSummary {
   /// The filter expression defining the parameters to include traces.
   final String? filterExpression;
@@ -6383,6 +6561,8 @@ class GroupSummary {
 }
 
 /// A collection of segment documents with matching trace IDs.
+///
+/// @nodoc
 class Trace {
   /// The length of time in seconds between the start time of the earliest segment
   /// that started and the end time of the last segment that completed.
@@ -6445,6 +6625,8 @@ class Trace {
 /// href="https://docs.aws.amazon.com/xray/latest/devguide/aws-xray-interface-api.html#xray-api-segmentdocuments">Amazon
 /// Web Services X-Ray segment documents</a> in the <i>Amazon Web Services X-Ray
 /// Developer Guide</i>.
+///
+/// @nodoc
 class Segment {
   /// The segment document.
   final String? document;
@@ -6474,6 +6656,7 @@ class Segment {
   }
 }
 
+/// @nodoc
 class InvalidPolicyRevisionIdException extends _s.GenericAwsException {
   InvalidPolicyRevisionIdException({String? type, String? message})
       : super(
@@ -6482,16 +6665,19 @@ class InvalidPolicyRevisionIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class LockoutPreventionException extends _s.GenericAwsException {
   LockoutPreventionException({String? type, String? message})
       : super(type: type, code: 'LockoutPreventionException', message: message);
 }
 
+/// @nodoc
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -6500,6 +6686,7 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PolicyCountLimitExceededException extends _s.GenericAwsException {
   PolicyCountLimitExceededException({String? type, String? message})
       : super(
@@ -6508,6 +6695,7 @@ class PolicyCountLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class PolicySizeLimitExceededException extends _s.GenericAwsException {
   PolicySizeLimitExceededException({String? type, String? message})
       : super(
@@ -6516,21 +6704,25 @@ class PolicySizeLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class RuleLimitExceededException extends _s.GenericAwsException {
   RuleLimitExceededException({String? type, String? message})
       : super(type: type, code: 'RuleLimitExceededException', message: message);
 }
 
+/// @nodoc
 class ThrottledException extends _s.GenericAwsException {
   ThrottledException({String? type, String? message})
       : super(type: type, code: 'ThrottledException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);

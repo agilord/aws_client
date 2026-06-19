@@ -1301,6 +1301,7 @@ class ComputeOptimizerAutomation {
   }
 }
 
+/// @nodoc
 class AssociateAccountsResponse {
   /// The IDs of the member accounts that were successfully associated.
   final List<String>? accountIds;
@@ -1334,6 +1335,7 @@ class AssociateAccountsResponse {
   }
 }
 
+/// @nodoc
 class CreateAutomationRuleResponse {
   /// The timestamp when the automation rule was created.
   final DateTime? createdTimestamp;
@@ -1472,6 +1474,7 @@ class CreateAutomationRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteAutomationRuleResponse {
   DeleteAutomationRuleResponse();
 
@@ -1484,6 +1487,7 @@ class DeleteAutomationRuleResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAccountsResponse {
   /// The IDs of the member accounts that were successfully disassociated.
   final List<String>? accountIds;
@@ -1517,6 +1521,7 @@ class DisassociateAccountsResponse {
   }
 }
 
+/// @nodoc
 class GetAutomationEventResponse {
   /// The Amazon Web Services account ID associated with the automation event.
   final String? accountId;
@@ -1645,6 +1650,7 @@ class GetAutomationEventResponse {
   }
 }
 
+/// @nodoc
 class GetAutomationRuleResponse {
   /// The 12-digit Amazon Web Services account ID that owns this automation rule.
   final String? accountId;
@@ -1785,6 +1791,7 @@ class GetAutomationRuleResponse {
   }
 }
 
+/// @nodoc
 class GetEnrollmentConfigurationResponse {
   /// The current enrollment status.
   final EnrollmentStatus status;
@@ -1833,6 +1840,7 @@ class GetEnrollmentConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListAccountsResponse {
   /// The list of accounts in your organization enrolled in Compute Optimizer
   final List<AccountInfo> accounts;
@@ -1865,6 +1873,7 @@ class ListAccountsResponse {
   }
 }
 
+/// @nodoc
 class ListAutomationEventsResponse {
   /// The list of automation events that match the specified criteria.
   final List<AutomationEvent>? automationEvents;
@@ -1897,6 +1906,7 @@ class ListAutomationEventsResponse {
   }
 }
 
+/// @nodoc
 class ListAutomationEventStepsResponse {
   /// The list of steps for the specified automation event.
   final List<AutomationEventStep>? automationEventSteps;
@@ -1931,6 +1941,7 @@ class ListAutomationEventStepsResponse {
   }
 }
 
+/// @nodoc
 class ListAutomationEventSummariesResponse {
   /// The list of automation event summaries that match the specified criteria.
   final List<AutomationEventSummary>? automationEventSummaries;
@@ -1967,6 +1978,7 @@ class ListAutomationEventSummariesResponse {
   }
 }
 
+/// @nodoc
 class ListAutomationRulePreviewResponse {
   /// A token used for pagination. If present, indicates there are more results
   /// available and can be used in subsequent requests.
@@ -2001,6 +2013,7 @@ class ListAutomationRulePreviewResponse {
   }
 }
 
+/// @nodoc
 class ListAutomationRulePreviewSummariesResponse {
   /// A token used for pagination. If present, indicates there are more results
   /// available and can be used in subsequent requests.
@@ -2037,6 +2050,7 @@ class ListAutomationRulePreviewSummariesResponse {
   }
 }
 
+/// @nodoc
 class ListAutomationRulesResponse {
   /// The list of automation rules that match the specified criteria.
   final List<AutomationRule>? automationRules;
@@ -2070,6 +2084,7 @@ class ListAutomationRulesResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendedActionsResponse {
   /// A token used for pagination. If present, indicates there are more results
   /// available and can be used in subsequent requests.
@@ -2103,6 +2118,7 @@ class ListRecommendedActionsResponse {
   }
 }
 
+/// @nodoc
 class ListRecommendedActionSummariesResponse {
   /// A token used for pagination. If present, indicates there are more results
   /// available and can be used in subsequent requests.
@@ -2139,6 +2155,7 @@ class ListRecommendedActionSummariesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags associated with the specified resource.
   final List<Tag>? tags;
@@ -2164,6 +2181,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RollbackAutomationEventResponse {
   /// The ID of the automation event being rolled back.
   final String? eventId;
@@ -2194,6 +2212,7 @@ class RollbackAutomationEventResponse {
   }
 }
 
+/// @nodoc
 class StartAutomationEventResponse {
   /// The ID of the automation event.
   final String? eventId;
@@ -2232,6 +2251,7 @@ class StartAutomationEventResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2244,6 +2264,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2256,6 +2277,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAutomationRuleResponse {
   /// The timestamp when the automation rule was originally created.
   final DateTime? createdTimestamp;
@@ -2375,6 +2397,7 @@ class UpdateAutomationRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateEnrollmentConfigurationResponse {
   /// The timestamp when the enrollment configuration was last updated.
   final DateTime lastUpdatedTimestamp;
@@ -2413,6 +2436,7 @@ class UpdateEnrollmentConfigurationResponse {
   }
 }
 
+/// @nodoc
 class EnrollmentStatus {
   static const active = EnrollmentStatus._('Active');
   static const inactive = EnrollmentStatus._('Inactive');
@@ -2439,6 +2463,7 @@ class EnrollmentStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleType {
   static const organizationRule = RuleType._('OrganizationRule');
   static const accountRule = RuleType._('AccountRule');
@@ -2463,6 +2488,8 @@ class RuleType {
 }
 
 /// Configuration settings for organization-wide automation rules.
+///
+/// @nodoc
 class OrganizationConfiguration {
   /// List of specific Amazon Web Services account IDs where the organization rule
   /// should be applied.
@@ -2503,6 +2530,8 @@ class OrganizationConfiguration {
 /// criteria, Compute Optimizer implements the action at the scheduled run time.
 /// You can specify up to 20 conditions per filter criteria and 20 values per
 /// condition.
+///
+/// @nodoc
 class Criteria {
   /// Filter criteria for EBS volume sizes in gibibytes (GiB).
   final List<IntegerCriteriaCondition>? ebsVolumeSizeInGib;
@@ -2616,6 +2645,8 @@ class Criteria {
 
 /// Configuration for scheduling when automation rules should execute, including
 /// timing and execution windows.
+///
+/// @nodoc
 class Schedule {
   /// The time window in minutes during which the automation rule can start
   /// implementing recommended actions.
@@ -2664,6 +2695,7 @@ class Schedule {
   }
 }
 
+/// @nodoc
 class RuleStatus {
   static const active = RuleStatus._('Active');
   static const inactive = RuleStatus._('Inactive');
@@ -2689,6 +2721,8 @@ class RuleStatus {
 
 /// Criteria condition for filtering resources based on their tags, including
 /// comparison operators and values.
+///
+/// @nodoc
 class ResourceTagsCriteriaCondition {
   /// The comparison operator used to evaluate the tag criteria, such as equals,
   /// not equals, or contains.
@@ -2728,6 +2762,7 @@ class ResourceTagsCriteriaCondition {
   }
 }
 
+/// @nodoc
 class ComparisonOperator {
   static const stringEquals = ComparisonOperator._('StringEquals');
   static const stringNotEquals = ComparisonOperator._('StringNotEquals');
@@ -2782,6 +2817,8 @@ class ComparisonOperator {
 
 /// Defines a condition for filtering based on double/floating-point numeric
 /// values with comparison operators.
+///
+/// @nodoc
 class DoubleCriteriaCondition {
   /// The comparison operator to use, such as equals, greater than, less than,
   /// etc.
@@ -2817,6 +2854,8 @@ class DoubleCriteriaCondition {
 
 /// Defines a condition for filtering based on integer values with comparison
 /// operators.
+///
+/// @nodoc
 class IntegerCriteriaCondition {
   /// The comparison operator to use, such as equals, greater than, less than,
   /// etc.
@@ -2851,6 +2890,8 @@ class IntegerCriteriaCondition {
 
 /// Criteria condition for filtering based on string values, including
 /// comparison operators and target values.
+///
+/// @nodoc
 class StringCriteriaCondition {
   /// The comparison operator used to evaluate the string criteria, such as
   /// equals, not equals, or contains.
@@ -2885,6 +2926,8 @@ class StringCriteriaCondition {
 }
 
 /// Recommended action type enumeration
+///
+/// @nodoc
 class RecommendedActionType {
   static const snapshotAndDeleteUnattachedEbsVolume =
       RecommendedActionType._('SnapshotAndDeleteUnattachedEbsVolume');
@@ -2915,6 +2958,7 @@ class RecommendedActionType {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleApplyOrder {
   static const beforeAccountRules = RuleApplyOrder._('BeforeAccountRules');
   static const afterAccountRules = RuleApplyOrder._('AfterAccountRules');
@@ -2941,6 +2985,8 @@ class RuleApplyOrder {
 
 /// A key-value pair used to categorize and organize Amazon Web Services
 /// resources and automation rules.
+///
+/// @nodoc
 class Tag {
   /// The tag key, which can be up to 128 characters long.
   final String key;
@@ -2970,6 +3016,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class EventStatus {
   static const ready = EventStatus._('Ready');
   static const inProgress = EventStatus._('InProgress');
@@ -3012,6 +3059,8 @@ class EventStatus {
 
 /// Summary information about recommended actions, grouped by specific criteria
 /// with totals and counts.
+///
+/// @nodoc
 class RecommendedActionSummary {
   /// The grouping key used to categorize the recommended actions in this summary.
   final String key;
@@ -3046,6 +3095,8 @@ class RecommendedActionSummary {
 
 /// Aggregate totals for a group of recommended actions, including count and
 /// estimated monthly savings.
+///
+/// @nodoc
 class RecommendedActionTotal {
   final EstimatedMonthlySavings estimatedMonthlySavings;
 
@@ -3077,6 +3128,8 @@ class RecommendedActionTotal {
 }
 
 /// Contains information about estimated monthly cost savings.
+///
+/// @nodoc
 class EstimatedMonthlySavings {
   /// The estimated monthly savings after applying any discounts.
   final double afterDiscountSavings;
@@ -3121,6 +3174,7 @@ class EstimatedMonthlySavings {
   }
 }
 
+/// @nodoc
 class SavingsEstimationMode {
   static const beforeDiscount = SavingsEstimationMode._('BeforeDiscount');
   static const afterDiscount = SavingsEstimationMode._('AfterDiscount');
@@ -3148,6 +3202,8 @@ class SavingsEstimationMode {
 
 /// A filter used to narrow down recommended action results based on specific
 /// criteria.
+///
+/// @nodoc
 class RecommendedActionFilter {
   /// The name of the filter field to apply.
   final RecommendedActionFilterName name;
@@ -3171,6 +3227,7 @@ class RecommendedActionFilter {
   }
 }
 
+/// @nodoc
 class RecommendedActionFilterName {
   static const resourceType = RecommendedActionFilterName._('ResourceType');
   static const recommendedActionType =
@@ -3220,6 +3277,8 @@ class RecommendedActionFilterName {
 
 /// Contains information about a recommended action that can be applied to
 /// optimize an Amazon Web Services resource.
+///
+/// @nodoc
 class RecommendedAction {
   /// The Amazon Web Services account ID that owns the resource.
   final String? accountId;
@@ -3358,6 +3417,7 @@ class RecommendedAction {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const ebsVolume = ResourceType._('EbsVolume');
 
@@ -3382,6 +3442,8 @@ class ResourceType {
 
 /// Detailed configuration information for a specific Amazon Web Services
 /// resource, with type-specific details.
+///
+/// @nodoc
 class ResourceDetails {
   /// Detailed configuration information specific to EBS volumes, including volume
   /// type, size, IOPS, and throughput settings.
@@ -3409,6 +3471,8 @@ class ResourceDetails {
 
 /// Represents an Amazon EBS volume with its configuration and snapshot usage
 /// information.
+///
+/// @nodoc
 class EbsVolume {
   /// The configuration details of the EBS volume, including type, size, IOPS, and
   /// throughput.
@@ -3436,6 +3500,8 @@ class EbsVolume {
 }
 
 /// Configuration details for an Amazon EBS volume.
+///
+/// @nodoc
 class EbsVolumeConfiguration {
   /// The number of I/O operations per second (IOPS) provisioned for the volume.
   final int? iops;
@@ -3482,6 +3548,8 @@ class EbsVolumeConfiguration {
 
 /// Represents a complete automation rule configuration including criteria,
 /// schedule, and execution settings.
+///
+/// @nodoc
 class AutomationRule {
   /// The 12-digit Amazon Web Services account ID that owns this automation rule.
   final String? accountId;
@@ -3614,6 +3682,8 @@ class AutomationRule {
 }
 
 /// A filter used to narrow down results based on specific criteria.
+///
+/// @nodoc
 class Filter {
   /// The name of the filter field to apply.
   final AutomationRuleFilterName name;
@@ -3636,6 +3706,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class AutomationRuleFilterName {
   static const name = AutomationRuleFilterName._('Name');
   static const recommendedActionType =
@@ -3675,6 +3746,8 @@ class AutomationRuleFilterName {
 }
 
 /// Contains a summary of preview results for an automation rule.
+///
+/// @nodoc
 class PreviewResultSummary {
   /// The key identifier for this preview result summary.
   final String key;
@@ -3706,6 +3779,8 @@ class PreviewResultSummary {
 
 /// Aggregate totals for automation rule preview results, including count and
 /// estimated savings.
+///
+/// @nodoc
 class RulePreviewTotal {
   final EstimatedMonthlySavings estimatedMonthlySavings;
 
@@ -3739,6 +3814,8 @@ class RulePreviewTotal {
 
 /// Defines the scope for organization-level rules when previewing matching
 /// actions.
+///
+/// @nodoc
 class OrganizationScope {
   /// List of Amazon Web Services account IDs to include in the organization
   /// scope.
@@ -3758,6 +3835,8 @@ class OrganizationScope {
 
 /// Contains the results of previewing an automation rule against available
 /// recommendations.
+///
+/// @nodoc
 class PreviewResult {
   /// The Amazon Web Services account ID associated with the resource.
   final String? accountId;
@@ -3897,6 +3976,8 @@ class PreviewResult {
 }
 
 /// A summary of automation events grouped by specified dimensions.
+///
+/// @nodoc
 class AutomationEventSummary {
   /// The dimensions used to group this summary, such as event status.
   final List<SummaryDimension>? dimensions;
@@ -3951,6 +4032,8 @@ class AutomationEventSummary {
 
 /// Defines a time range with inclusive start time and exclusive end time for
 /// filtering and analysis.
+///
+/// @nodoc
 class TimePeriod {
   /// The end time of the period, exclusive. Events before this time are included.
   final DateTime? endTimeExclusive;
@@ -3985,6 +4068,8 @@ class TimePeriod {
 
 /// Aggregate totals for automation events, including counts and estimated
 /// savings.
+///
+/// @nodoc
 class SummaryTotals {
   /// The total number of automation events in this summary group.
   final int? automationEventCount;
@@ -4019,6 +4104,8 @@ class SummaryTotals {
 
 /// A key-value pair used to categorize and group summary data for analysis and
 /// reporting.
+///
+/// @nodoc
 class SummaryDimension {
   /// The dimension key used for categorizing summary data.
   final SummaryDimensionKey key;
@@ -4048,6 +4135,7 @@ class SummaryDimension {
   }
 }
 
+/// @nodoc
 class SummaryDimensionKey {
   static const eventStatus = SummaryDimensionKey._('EventStatus');
 
@@ -4073,6 +4161,8 @@ class SummaryDimensionKey {
 }
 
 /// A filter to apply when listing automation events.
+///
+/// @nodoc
 class AutomationEventFilter {
   /// The name of the filter to apply.
   final AutomationEventFilterName name;
@@ -4095,6 +4185,7 @@ class AutomationEventFilter {
   }
 }
 
+/// @nodoc
 class AutomationEventFilterName {
   static const accountId = AutomationEventFilterName._('AccountId');
   static const resourceType = AutomationEventFilterName._('ResourceType');
@@ -4123,6 +4214,8 @@ class AutomationEventFilterName {
 }
 
 /// Contains information about a step in an automation event.
+///
+/// @nodoc
 class AutomationEventStep {
   /// The timestamp when this automation event step completed execution.
   final DateTime? completedTimestamp;
@@ -4198,6 +4291,7 @@ class AutomationEventStep {
   }
 }
 
+/// @nodoc
 class StepType {
   static const createEbsSnapshot = StepType._('CreateEbsSnapshot');
   static const deleteEbsVolume = StepType._('DeleteEbsVolume');
@@ -4228,6 +4322,7 @@ class StepType {
   String toString() => value;
 }
 
+/// @nodoc
 class StepStatus {
   static const ready = StepStatus._('Ready');
   static const inProgress = StepStatus._('InProgress');
@@ -4254,6 +4349,8 @@ class StepStatus {
 }
 
 /// Contains information about an automation event.
+///
+/// @nodoc
 class AutomationEvent {
   /// The Amazon Web Services account ID associated with the automation event.
   final String? accountId;
@@ -4385,6 +4482,8 @@ class AutomationEvent {
 }
 
 /// Event type enumeration
+///
+/// @nodoc
 class EventType {
   static const snapshotAndDeleteUnattachedEbsVolume =
       EventType._('SnapshotAndDeleteUnattachedEbsVolume');
@@ -4414,6 +4513,8 @@ class EventType {
 
 /// Contains information about an Amazon Web Services account's enrollment and
 /// association status with Compute Optimizer Automation.
+///
+/// @nodoc
 class AccountInfo {
   /// The ID of the Amazon Web Services account.
   final String accountId;
@@ -4468,6 +4569,7 @@ class AccountInfo {
   }
 }
 
+/// @nodoc
 class OrganizationRuleMode {
   static const anyAllowed = OrganizationRuleMode._('AnyAllowed');
   static const noneAllowed = OrganizationRuleMode._('NoneAllowed');
@@ -4493,16 +4595,19 @@ class OrganizationRuleMode {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class IdempotencyTokenInUseException extends _s.GenericAwsException {
   IdempotencyTokenInUseException({String? type, String? message})
       : super(
@@ -4511,6 +4616,7 @@ class IdempotencyTokenInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -4519,11 +4625,13 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterValueException extends _s.GenericAwsException {
   InvalidParameterValueException({String? type, String? message})
       : super(
@@ -4532,6 +4640,7 @@ class InvalidParameterValueException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NotManagementAccountException extends _s.GenericAwsException {
   NotManagementAccountException({String? type, String? message})
       : super(
@@ -4540,16 +4649,19 @@ class NotManagementAccountException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class OptInRequiredException extends _s.GenericAwsException {
   OptInRequiredException({String? type, String? message})
       : super(type: type, code: 'OptInRequiredException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -4558,12 +4670,14 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);

@@ -239,6 +239,7 @@ class SagemakerJobRuntime {
   }
 }
 
+/// @nodoc
 class CompleteRolloutResponse {
   CompleteRolloutResponse();
 
@@ -251,6 +252,7 @@ class CompleteRolloutResponse {
   }
 }
 
+/// @nodoc
 class SampleResponse {
   /// The raw inference response body from the model.
   final Uint8List body;
@@ -272,6 +274,7 @@ class SampleResponse {
   }
 }
 
+/// @nodoc
 class SampleWithResponseStreamResponse {
   /// The streaming response body, delivered as a series of PayloadPart events.
   final Uint8List body;
@@ -293,6 +296,7 @@ class SampleWithResponseStreamResponse {
   }
 }
 
+/// @nodoc
 class UpdateRewardResponse {
   UpdateRewardResponse();
 
@@ -306,6 +310,8 @@ class UpdateRewardResponse {
 }
 
 /// Allowed target statuses for the CompleteTrajectory operation.
+///
+/// @nodoc
 class CompletionStatus {
   static const ready = CompletionStatus._('ready');
   static const failed = CompletionStatus._('failed');
@@ -330,26 +336,31 @@ class CompletionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceError extends _s.GenericAwsException {
   InternalServiceError({String? type, String? message})
       : super(type: type, code: 'InternalServiceError', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -358,11 +369,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

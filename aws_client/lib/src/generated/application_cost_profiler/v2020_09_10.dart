@@ -262,6 +262,7 @@ class ApplicationCostProfiler {
   }
 }
 
+/// @nodoc
 class DeleteReportDefinitionResult {
   /// ID of the report that was deleted.
   final String? reportId;
@@ -284,6 +285,7 @@ class DeleteReportDefinitionResult {
   }
 }
 
+/// @nodoc
 class GetReportDefinitionResult {
   /// Timestamp (milliseconds) when this report definition was created.
   final DateTime createdAt;
@@ -352,6 +354,7 @@ class GetReportDefinitionResult {
   }
 }
 
+/// @nodoc
 class ImportApplicationUsageResult {
   /// ID of the import request.
   final String importId;
@@ -374,6 +377,7 @@ class ImportApplicationUsageResult {
   }
 }
 
+/// @nodoc
 class ListReportDefinitionsResult {
   /// The value of the next token, if it exists. Null if there are no more
   /// results.
@@ -407,6 +411,7 @@ class ListReportDefinitionsResult {
   }
 }
 
+/// @nodoc
 class PutReportDefinitionResult {
   /// ID of the report.
   final String? reportId;
@@ -429,6 +434,7 @@ class PutReportDefinitionResult {
   }
 }
 
+/// @nodoc
 class UpdateReportDefinitionResult {
   /// ID of the report.
   final String? reportId;
@@ -451,6 +457,7 @@ class UpdateReportDefinitionResult {
   }
 }
 
+/// @nodoc
 class ReportFrequency {
   static const monthly = ReportFrequency._('MONTHLY');
   static const daily = ReportFrequency._('DAILY');
@@ -476,6 +483,7 @@ class ReportFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class Format {
   static const csv = Format._('CSV');
   static const parquet = Format._('PARQUET');
@@ -501,6 +509,8 @@ class Format {
 
 /// Represents the Amazon Simple Storage Service (Amazon S3) location where AWS
 /// Application Cost Profiler reports are generated and then written to.
+///
+/// @nodoc
 class S3Location {
   /// Name of the S3 bucket.
   final String bucket;
@@ -531,6 +541,8 @@ class S3Location {
 }
 
 /// The configuration of a report in AWS Application Cost Profiler.
+///
+/// @nodoc
 class ReportDefinition {
   /// Timestamp (milliseconds) when this report definition was created.
   final DateTime? createdAt;
@@ -604,6 +616,8 @@ class ReportDefinition {
 
 /// Represents the Amazon Simple Storage Service (Amazon S3) location where
 /// usage data is read from.
+///
+/// @nodoc
 class SourceS3Location {
   /// Name of the bucket.
   final String bucket;
@@ -636,6 +650,7 @@ class SourceS3Location {
   }
 }
 
+/// @nodoc
 class S3BucketRegion {
   static const apEast_1 = S3BucketRegion._('ap-east-1');
   static const meSouth_1 = S3BucketRegion._('me-south-1');
@@ -662,16 +677,19 @@ class S3BucketRegion {
   String toString() => value;
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -680,11 +698,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

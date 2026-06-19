@@ -945,6 +945,7 @@ class ServiceCatalogAppRegistry {
   }
 }
 
+/// @nodoc
 class AssociateAttributeGroupResponse {
   /// The Amazon resource name (ARN) of the application that was augmented with
   /// attributes.
@@ -976,6 +977,7 @@ class AssociateAttributeGroupResponse {
   }
 }
 
+/// @nodoc
 class AssociateResourceResponse {
   /// The Amazon resource name (ARN) of the application that was augmented with
   /// attributes.
@@ -1016,6 +1018,7 @@ class AssociateResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateApplicationResponse {
   /// Information about the application.
   final Application? application;
@@ -1040,6 +1043,7 @@ class CreateApplicationResponse {
   }
 }
 
+/// @nodoc
 class CreateAttributeGroupResponse {
   /// Information about the attribute group.
   final AttributeGroup? attributeGroup;
@@ -1065,6 +1069,7 @@ class CreateAttributeGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationResponse {
   /// Information about the deleted application.
   final ApplicationSummary? application;
@@ -1090,6 +1095,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteAttributeGroupResponse {
   /// Information about the deleted attribute group.
   final AttributeGroupSummary? attributeGroup;
@@ -1115,6 +1121,7 @@ class DeleteAttributeGroupResponse {
   }
 }
 
+/// @nodoc
 class DisassociateAttributeGroupResponse {
   /// The Amazon resource name (ARN) that specifies the application.
   final String? applicationArn;
@@ -1145,6 +1152,7 @@ class DisassociateAttributeGroupResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResourceResponse {
   /// The Amazon resource name (ARN) that specifies the application.
   final String? applicationArn;
@@ -1174,6 +1182,7 @@ class DisassociateResourceResponse {
   }
 }
 
+/// @nodoc
 class GetApplicationResponse {
   /// A key-value pair that identifies an associated resource.
   final Map<String, String>? applicationTag;
@@ -1271,6 +1280,7 @@ class GetApplicationResponse {
   }
 }
 
+/// @nodoc
 class GetAssociatedResourceResponse {
   /// The result of the application that's tag applied to a resource.
   final ApplicationTagResult? applicationTagResult;
@@ -1316,6 +1326,7 @@ class GetAssociatedResourceResponse {
   }
 }
 
+/// @nodoc
 class GetAttributeGroupResponse {
   /// The Amazon resource name (ARN) that specifies the attribute group across
   /// services.
@@ -1401,6 +1412,7 @@ class GetAttributeGroupResponse {
   }
 }
 
+/// @nodoc
 class GetConfigurationResponse {
   /// Retrieves <code>TagKey</code> configuration from an account.
   final AppRegistryConfiguration? configuration;
@@ -1426,6 +1438,7 @@ class GetConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListApplicationsResponse {
   /// This list of applications.
   final List<ApplicationSummary>? applications;
@@ -1458,6 +1471,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListAssociatedAttributeGroupsResponse {
   /// A list of attribute group IDs.
   final List<String>? attributeGroups;
@@ -1491,6 +1505,7 @@ class ListAssociatedAttributeGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListAssociatedResourcesResponse {
   /// The token to use to get the next page of results after a previous API call.
   final String? nextToken;
@@ -1523,6 +1538,7 @@ class ListAssociatedResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListAttributeGroupsResponse {
   /// This list of attribute groups.
   final List<AttributeGroupSummary>? attributeGroups;
@@ -1555,6 +1571,7 @@ class ListAttributeGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListAttributeGroupsForApplicationResponse {
   /// The details related to a specific attribute group.
   final List<AttributeGroupDetails>? attributeGroupsDetails;
@@ -1589,6 +1606,7 @@ class ListAttributeGroupsForApplicationResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags on the resource.
   final Map<String, String>? tags;
@@ -1612,6 +1630,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class SyncResourceResponse {
   /// The results of the output if an application is associated with an ARN value,
   /// which could be <code>syncStarted</code> or None.
@@ -1649,6 +1668,7 @@ class SyncResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1661,6 +1681,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1673,6 +1694,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   /// The updated information of the application.
   final Application? application;
@@ -1697,6 +1719,7 @@ class UpdateApplicationResponse {
   }
 }
 
+/// @nodoc
 class UpdateAttributeGroupResponse {
   /// The updated information of the attribute group.
   final AttributeGroup? attributeGroup;
@@ -1724,6 +1747,8 @@ class UpdateAttributeGroupResponse {
 
 /// Represents a Amazon Web Services Service Catalog AppRegistry attribute group
 /// that is rich metadata which describes an application and its components.
+///
+/// @nodoc
 class AttributeGroup {
   /// The Amazon resource name (ARN) that specifies the attribute group across
   /// services.
@@ -1797,6 +1822,8 @@ class AttributeGroup {
 /// Represents a Amazon Web Services Service Catalog AppRegistry application
 /// that is the top-level node in a hierarchy of related cloud resource
 /// abstractions.
+///
+/// @nodoc
 class Application {
   /// A key-value pair that identifies an associated resource.
   final Map<String, String>? applicationTag;
@@ -1875,6 +1902,7 @@ class Application {
   }
 }
 
+/// @nodoc
 class SyncAction {
   static const startSync = SyncAction._('START_SYNC');
   static const noAction = SyncAction._('NO_ACTION');
@@ -1898,6 +1926,7 @@ class SyncAction {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceType {
   static const cfnStack = ResourceType._('CFN_STACK');
   static const resourceTagValue = ResourceType._('RESOURCE_TAG_VALUE');
@@ -1922,6 +1951,8 @@ class ResourceType {
 }
 
 /// Includes all of the AppRegistry settings.
+///
+/// @nodoc
 class AppRegistryConfiguration {
   /// Includes the definition of a <code>tagQuery</code>.
   final TagQueryConfiguration? tagQueryConfiguration;
@@ -1950,6 +1981,8 @@ class AppRegistryConfiguration {
 
 /// The definition of <code>tagQuery</code>. Specifies which resources are
 /// associated with an application.
+///
+/// @nodoc
 class TagQueryConfiguration {
   /// Condition in the IAM policy that associates resources to an application.
   final String? tagKey;
@@ -1973,6 +2006,8 @@ class TagQueryConfiguration {
 }
 
 /// The details related to a specific AttributeGroup.
+///
+/// @nodoc
 class AttributeGroupDetails {
   /// The Amazon resource name (ARN) that specifies the attribute group.
   final String? arn;
@@ -2022,6 +2057,8 @@ class AttributeGroupDetails {
 
 /// Summary of a Amazon Web Services Service Catalog AppRegistry attribute
 /// group.
+///
+/// @nodoc
 class AttributeGroupSummary {
   /// The Amazon resource name (ARN) that specifies the attribute group across
   /// services.
@@ -2092,6 +2129,8 @@ class AttributeGroupSummary {
 }
 
 /// The information about the resource.
+///
+/// @nodoc
 class ResourceInfo {
   /// The Amazon resource name (ARN) that specifies the resource across services.
   final String? arn;
@@ -2150,6 +2189,8 @@ class ResourceInfo {
 }
 
 /// The details related to the resource.
+///
+/// @nodoc
 class ResourceDetails {
   /// The value of the tag.
   final String? tagValue;
@@ -2172,6 +2213,7 @@ class ResourceDetails {
   }
 }
 
+/// @nodoc
 class AssociationOption {
   static const applyApplicationTag =
       AssociationOption._('APPLY_APPLICATION_TAG');
@@ -2198,6 +2240,8 @@ class AssociationOption {
 }
 
 /// Summary of a Amazon Web Services Service Catalog AppRegistry application.
+///
+/// @nodoc
 class ApplicationSummary {
   /// The Amazon resource name (ARN) that specifies the application across
   /// services.
@@ -2261,6 +2305,8 @@ class ApplicationSummary {
 }
 
 /// The information about the resource.
+///
+/// @nodoc
 class Resource {
   /// The Amazon resource name (ARN) of the resource.
   final String? arn;
@@ -2309,6 +2355,8 @@ class Resource {
 }
 
 /// The result of the application tag that's applied to a resource.
+///
+/// @nodoc
 class ApplicationTagResult {
   /// The application tag is in the process of being applied to a resource, was
   /// successfully applied to a resource, or failed to apply to a resource.
@@ -2359,6 +2407,7 @@ class ApplicationTagResult {
   }
 }
 
+/// @nodoc
 class ApplicationTagStatus {
   static const inProgress = ApplicationTagStatus._('IN_PROGRESS');
   static const success = ApplicationTagStatus._('SUCCESS');
@@ -2386,6 +2435,8 @@ class ApplicationTagStatus {
 }
 
 /// The resource in a list of resources.
+///
+/// @nodoc
 class ResourcesListItem {
   /// The message returned if the call fails.
   final String? errorMessage;
@@ -2430,6 +2481,8 @@ class ResourcesListItem {
 }
 
 /// The service integration information about the resource.
+///
+/// @nodoc
 class ResourceIntegrations {
   /// The information about the integration of Resource Groups.
   final ResourceGroup? resourceGroup;
@@ -2456,6 +2509,8 @@ class ResourceIntegrations {
 }
 
 /// The information about the resource group integration.
+///
+/// @nodoc
 class ResourceGroup {
   /// The Amazon resource name (ARN) of the resource group.
   final String? arn;
@@ -2509,6 +2564,7 @@ class ResourceGroup {
   }
 }
 
+/// @nodoc
 class ResourceGroupState {
   static const creating = ResourceGroupState._('CREATING');
   static const createComplete = ResourceGroupState._('CREATE_COMPLETE');
@@ -2545,6 +2601,7 @@ class ResourceGroupState {
   String toString() => value;
 }
 
+/// @nodoc
 class ResourceItemStatus {
   static const success = ResourceItemStatus._('SUCCESS');
   static const failed = ResourceItemStatus._('FAILED');
@@ -2573,6 +2630,8 @@ class ResourceItemStatus {
 }
 
 /// The information about the service integration.
+///
+/// @nodoc
 class Integrations {
   final ResourceGroup? applicationTagResourceGroup;
 
@@ -2608,21 +2667,25 @@ class Integrations {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -2631,11 +2694,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -1319,6 +1319,8 @@ class CodeGuruProfiler {
 }
 
 /// The structure representing the GetFindingsReportAccountSummaryResponse.
+///
+/// @nodoc
 class GetFindingsReportAccountSummaryResponse {
   /// The return list of <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html">
@@ -1360,6 +1362,7 @@ class GetFindingsReportAccountSummaryResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The list of tags assigned to the specified resource. This is the list of
   /// tags returned in the response.
@@ -1384,6 +1387,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1396,6 +1400,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1409,6 +1414,8 @@ class UntagResourceResponse {
 }
 
 /// The structure representing the createProfilingGroupResponse.
+///
+/// @nodoc
 class CreateProfilingGroupResponse {
   /// The returned <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
@@ -1429,6 +1436,8 @@ class CreateProfilingGroupResponse {
 }
 
 /// The structure representing the describeProfilingGroupResponse.
+///
+/// @nodoc
 class DescribeProfilingGroupResponse {
   /// The returned <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
@@ -1449,6 +1458,8 @@ class DescribeProfilingGroupResponse {
 }
 
 /// The structure representing the updateProfilingGroupResponse.
+///
+/// @nodoc
 class UpdateProfilingGroupResponse {
   /// A <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html">
@@ -1469,6 +1480,8 @@ class UpdateProfilingGroupResponse {
 }
 
 /// The structure representing the deleteProfilingGroupResponse.
+///
+/// @nodoc
 class DeleteProfilingGroupResponse {
   DeleteProfilingGroupResponse();
 
@@ -1482,6 +1495,8 @@ class DeleteProfilingGroupResponse {
 }
 
 /// The structure representing the listProfilingGroupsResponse.
+///
+/// @nodoc
 class ListProfilingGroupsResponse {
   /// A returned list of profiling group names. A list of the names is returned
   /// only if <code>includeDescription</code> is <code>false</code>, otherwise a
@@ -1540,6 +1555,8 @@ class ListProfilingGroupsResponse {
 }
 
 /// The structure representing the AddNotificationChannelsResponse.
+///
+/// @nodoc
 class AddNotificationChannelsResponse {
   /// The new notification configuration for this profiling group.
   final NotificationConfiguration? notificationConfiguration;
@@ -1567,6 +1584,8 @@ class AddNotificationChannelsResponse {
 }
 
 /// The structure representing the BatchGetFrameMetricDataResponse.
+///
+/// @nodoc
 class BatchGetFrameMetricDataResponse {
   /// The end time of the time period for the returned time series values. This is
   /// specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z
@@ -1667,6 +1686,8 @@ class BatchGetFrameMetricDataResponse {
 }
 
 /// The structure representing the configureAgentResponse.
+///
+/// @nodoc
 class ConfigureAgentResponse {
   /// An <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AgentConfiguration.html">
@@ -1687,6 +1708,8 @@ class ConfigureAgentResponse {
 }
 
 /// The structure representing the GetNotificationConfigurationResponse.
+///
+/// @nodoc
 class GetNotificationConfigurationResponse {
   /// The current notification configuration for this profiling group.
   final NotificationConfiguration notificationConfiguration;
@@ -1713,6 +1736,8 @@ class GetNotificationConfigurationResponse {
 }
 
 /// The structure representing the <code>getPolicyResponse</code>.
+///
+/// @nodoc
 class GetPolicyResponse {
   /// The JSON-formatted resource-based policy attached to the
   /// <code>ProfilingGroup</code>.
@@ -1744,6 +1769,8 @@ class GetPolicyResponse {
 }
 
 /// The structure representing the getProfileResponse.
+///
+/// @nodoc
 class GetProfileResponse {
   /// The content type of the profile in the payload. It is either
   /// <code>application/json</code> or the default
@@ -1773,6 +1800,8 @@ class GetProfileResponse {
 }
 
 /// The structure representing the GetRecommendationsResponse.
+///
+/// @nodoc
 class GetRecommendationsResponse {
   /// The list of anomalies that the analysis has found for this profile.
   final List<Anomaly> anomalies;
@@ -1835,6 +1864,8 @@ class GetRecommendationsResponse {
 }
 
 /// The structure representing the ListFindingsReportsResponse.
+///
+/// @nodoc
 class ListFindingsReportsResponse {
   /// The list of analysis results summaries.
   final List<FindingsReportSummary> findingsReportSummaries;
@@ -1873,6 +1904,8 @@ class ListFindingsReportsResponse {
 }
 
 /// The structure representing the listProfileTimesResponse.
+///
+/// @nodoc
 class ListProfileTimesResponse {
   /// The list of start times of the available profiles for the aggregation period
   /// in the specified time range.
@@ -1911,6 +1944,8 @@ class ListProfileTimesResponse {
 }
 
 /// The structure representing the postAgentProfileResponse.
+///
+/// @nodoc
 class PostAgentProfileResponse {
   PostAgentProfileResponse();
 
@@ -1924,6 +1959,8 @@ class PostAgentProfileResponse {
 }
 
 /// The structure representing the <code>putPermissionResponse</code>.
+///
+/// @nodoc
 class PutPermissionResponse {
   /// The JSON-formatted resource-based policy on the profiling group that
   /// includes the added permissions.
@@ -1957,6 +1994,8 @@ class PutPermissionResponse {
 }
 
 /// The structure representing the RemoveNotificationChannelResponse.
+///
+/// @nodoc
 class RemoveNotificationChannelResponse {
   /// The new notification configuration for this profiling group.
   final NotificationConfiguration? notificationConfiguration;
@@ -1985,6 +2024,8 @@ class RemoveNotificationChannelResponse {
 }
 
 /// The structure representing the <code>removePermissionResponse</code>.
+///
+/// @nodoc
 class RemovePermissionResponse {
   /// The JSON-formatted resource-based policy on the profiling group after the
   /// specified permissions were removed.
@@ -2019,6 +2060,8 @@ class RemovePermissionResponse {
 }
 
 /// The structure representing the SubmitFeedbackResponse.
+///
+/// @nodoc
 class SubmitFeedbackResponse {
   SubmitFeedbackResponse();
 
@@ -2031,6 +2074,7 @@ class SubmitFeedbackResponse {
   }
 }
 
+/// @nodoc
 class FeedbackType {
   static const positive = FeedbackType._('Positive');
   static const negative = FeedbackType._('Negative');
@@ -2054,6 +2098,7 @@ class FeedbackType {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionGroup {
   static const agentPermissions = ActionGroup._('agentPermissions');
 
@@ -2079,6 +2124,8 @@ class ActionGroup {
 /// The configuration for notifications stored for each profiling group. This
 /// includes up to to two channels and a list of event publishers associated
 /// with each channel.
+///
+/// @nodoc
 class NotificationConfiguration {
   /// List of up to two channels to be used for sending notifications for events
   /// detected from the application profile.
@@ -2107,6 +2154,8 @@ class NotificationConfiguration {
 
 /// Notification medium for users to get alerted for events that occur in
 /// application profile. We support SNS topic as a notification channel.
+///
+/// @nodoc
 class Channel {
   /// List of publishers for different type of events that may be detected in an
   /// application from the profile. Anomaly detection is the only event publisher
@@ -2152,6 +2201,7 @@ class Channel {
   }
 }
 
+/// @nodoc
 class EventPublisher {
   static const anomalyDetection = EventPublisher._('AnomalyDetection');
 
@@ -2176,6 +2226,8 @@ class EventPublisher {
 }
 
 /// Contains the start time of a profile.
+///
+/// @nodoc
 class ProfileTime {
   /// The start time of a profile. It is specified using the ISO 8601 format. For
   /// example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020
@@ -2200,6 +2252,7 @@ class ProfileTime {
   }
 }
 
+/// @nodoc
 class AggregationPeriod {
   static const pt5m = AggregationPeriod._('PT5M');
   static const pt1h = AggregationPeriod._('PT1H');
@@ -2225,6 +2278,7 @@ class AggregationPeriod {
   String toString() => value;
 }
 
+/// @nodoc
 class OrderBy {
   static const timestampDescending = OrderBy._('TimestampDescending');
   static const timestampAscending = OrderBy._('TimestampAscending');
@@ -2250,6 +2304,8 @@ class OrderBy {
 
 /// Information about potential recommendations that might be created from the
 /// analysis of profiling data.
+///
+/// @nodoc
 class FindingsReportSummary {
   /// The universally unique identifier (UUID) of the recommendation report.
   final String? id;
@@ -2311,6 +2367,8 @@ class FindingsReportSummary {
 
 /// Details about an anomaly in a specific metric of application profile. The
 /// anomaly is detected using analysis of the metric data over a period of time.
+///
+/// @nodoc
 class Anomaly {
   /// A list of the instances of the detected anomalies during the requested
   /// period.
@@ -2358,6 +2416,8 @@ class Anomaly {
 /// anomaly. The metric what is analyzed to create recommendations. It includes
 /// the name of the frame that was analyzed and the type and thread states used
 /// to derive the metric value for that frame.
+///
+/// @nodoc
 class Metric {
   /// The name of the method that appears as a frame in any stack in a profile.
   final String frameName;
@@ -2402,6 +2462,8 @@ class Metric {
 }
 
 /// The specific duration in which the metric is flagged as anomalous.
+///
+/// @nodoc
 class AnomalyInstance {
   /// The universally unique identifier (UUID) of an instance of an anomaly in a
   /// metric.
@@ -2457,6 +2519,8 @@ class AnomalyInstance {
 /// Feedback that can be submitted for each instance of an anomaly by the user.
 /// Feedback is be used for improvements in generating recommendations for the
 /// application.
+///
+/// @nodoc
 class UserFeedback {
   /// Optional <code>Positive</code> or <code>Negative</code> feedback submitted
   /// by the user about whether the recommendation is useful or not.
@@ -2480,6 +2544,7 @@ class UserFeedback {
   }
 }
 
+/// @nodoc
 class MetricType {
   static const aggregatedRelativeTotalTime =
       MetricType._('AggregatedRelativeTotalTime');
@@ -2504,6 +2569,8 @@ class MetricType {
 }
 
 /// A potential improvement that was found from analyzing the profiling data.
+///
+/// @nodoc
 class Recommendation {
   /// How many different places in the profile graph triggered a match.
   final int allMatchesCount;
@@ -2571,6 +2638,8 @@ class Recommendation {
 }
 
 /// A set of rules used to make a recommendation during an analysis.
+///
+/// @nodoc
 class Pattern {
   /// A list of the different counters used to determine if there is a match.
   final List<String>? countersToAggregate;
@@ -2648,6 +2717,8 @@ class Pattern {
 }
 
 /// The part of a profile that contains a recommendation found during analysis.
+///
+/// @nodoc
 class Match {
   /// The location in the profiling graph that contains a recommendation found
   /// during analysis.
@@ -2690,6 +2761,8 @@ class Match {
 /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
 /// <code>ConfigureAgent</code> </a> that specifies if an agent profiles or not
 /// and for how long to return profiling data.
+///
+/// @nodoc
 class AgentConfiguration {
   /// How long a profiling agent should send profiling data using <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
@@ -2762,6 +2835,7 @@ class AgentConfiguration {
   }
 }
 
+/// @nodoc
 class AgentParameterField {
   static const samplingIntervalInMilliseconds =
       AgentParameterField._('SamplingIntervalInMilliseconds');
@@ -2800,6 +2874,7 @@ class AgentParameterField {
   String toString() => value;
 }
 
+/// @nodoc
 class MetadataField {
   static const computePlatform = MetadataField._('ComputePlatform');
   static const agentId = MetadataField._('AgentId');
@@ -2845,6 +2920,8 @@ class MetadataField {
 }
 
 /// Information about a frame metric and its values.
+///
+/// @nodoc
 class FrameMetricDatum {
   final FrameMetric frameMetric;
 
@@ -2880,6 +2957,8 @@ class FrameMetricDatum {
 
 /// The frame name, metric type, and thread states. These are used to derive the
 /// value of the metric for the frame.
+///
+/// @nodoc
 class FrameMetric {
   /// Name of the method common across the multiple occurrences of a frame in an
   /// application profile.
@@ -2927,6 +3006,8 @@ class FrameMetric {
 /// A data type that contains a <code>Timestamp</code> object. This is specified
 /// using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents
 /// 1 millisecond past June 1, 2020 1:15:02 PM UTC.
+///
+/// @nodoc
 class TimestampStructure {
   /// A <code>Timestamp</code>. This is specified using the ISO 8601 format. For
   /// example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020
@@ -2952,6 +3033,8 @@ class TimestampStructure {
 }
 
 /// Contains information about a profiling group.
+///
+/// @nodoc
 class ProfilingGroupDescription {
   /// An <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AgentOrchestrationConfig.html">
@@ -3054,6 +3137,8 @@ class ProfilingGroupDescription {
 /// href="https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html">
 /// <code>ConfigureAgent</code> </a> to enable or disable profiling for a
 /// profiling group.
+///
+/// @nodoc
 class AgentOrchestrationConfig {
   /// A <code>Boolean</code> that specifies whether the profiling agent collects
   /// profiling data or not. Set to <code>true</code> to enable profiling.
@@ -3080,6 +3165,8 @@ class AgentOrchestrationConfig {
 /// Profiling status includes information about the last time a profile agent
 /// pinged back, the last time a profile was received, and the aggregation
 /// period and start time for the most recent aggregated profile.
+///
+/// @nodoc
 class ProfilingStatus {
   /// The date and time when the profiling agent most recently pinged back.
   /// Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z
@@ -3132,6 +3219,7 @@ class ProfilingStatus {
   }
 }
 
+/// @nodoc
 class ComputePlatform {
   static const $default = ComputePlatform._('Default');
   static const awsLambda = ComputePlatform._('AWSLambda');
@@ -3160,6 +3248,8 @@ class ComputePlatform {
 /// aggregated profile. An aggregated profile is used to collect posted agent
 /// profiles during an aggregation period. There are three possible aggregation
 /// periods (1 day, 1 hour, or 5 minutes).
+///
+/// @nodoc
 class AggregatedProfileTime {
   /// The aggregation period. This indicates the period during which an
   /// aggregation profile collects posted agent profiles for a profiling group.
@@ -3212,21 +3302,25 @@ class AggregatedProfileTime {
   }
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3235,11 +3329,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

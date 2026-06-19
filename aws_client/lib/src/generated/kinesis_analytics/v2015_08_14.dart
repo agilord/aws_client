@@ -1374,6 +1374,7 @@ class KinesisAnalytics {
   }
 }
 
+/// @nodoc
 class AddApplicationCloudWatchLoggingOptionResponse {
   AddApplicationCloudWatchLoggingOptionResponse();
 
@@ -1388,6 +1389,8 @@ class AddApplicationCloudWatchLoggingOptionResponse {
 }
 
 ///
+///
+/// @nodoc
 class AddApplicationInputResponse {
   AddApplicationInputResponse();
 
@@ -1400,6 +1403,7 @@ class AddApplicationInputResponse {
   }
 }
 
+/// @nodoc
 class AddApplicationInputProcessingConfigurationResponse {
   AddApplicationInputProcessingConfigurationResponse();
 
@@ -1414,6 +1418,8 @@ class AddApplicationInputProcessingConfigurationResponse {
 }
 
 ///
+///
+/// @nodoc
 class AddApplicationOutputResponse {
   AddApplicationOutputResponse();
 
@@ -1427,6 +1433,8 @@ class AddApplicationOutputResponse {
 }
 
 ///
+///
+/// @nodoc
 class AddApplicationReferenceDataSourceResponse {
   AddApplicationReferenceDataSourceResponse();
 
@@ -1441,6 +1449,8 @@ class AddApplicationReferenceDataSourceResponse {
 }
 
 /// TBD
+///
+/// @nodoc
 class CreateApplicationResponse {
   /// In response to your <code>CreateApplication</code> request, Amazon Kinesis
   /// Analytics returns a response with a summary of the application it created,
@@ -1468,6 +1478,8 @@ class CreateApplicationResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
 
@@ -1480,6 +1492,7 @@ class DeleteApplicationResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationCloudWatchLoggingOptionResponse {
   DeleteApplicationCloudWatchLoggingOptionResponse();
 
@@ -1493,6 +1506,7 @@ class DeleteApplicationCloudWatchLoggingOptionResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationInputProcessingConfigurationResponse {
   DeleteApplicationInputProcessingConfigurationResponse();
 
@@ -1507,6 +1521,8 @@ class DeleteApplicationInputProcessingConfigurationResponse {
 }
 
 ///
+///
+/// @nodoc
 class DeleteApplicationOutputResponse {
   DeleteApplicationOutputResponse();
 
@@ -1519,6 +1535,7 @@ class DeleteApplicationOutputResponse {
   }
 }
 
+/// @nodoc
 class DeleteApplicationReferenceDataSourceResponse {
   DeleteApplicationReferenceDataSourceResponse();
 
@@ -1533,6 +1550,8 @@ class DeleteApplicationReferenceDataSourceResponse {
 }
 
 ///
+///
+/// @nodoc
 class DescribeApplicationResponse {
   /// Provides a description of the application, such as the application Amazon
   /// Resource Name (ARN), status, latest version, and input and output
@@ -1560,6 +1579,8 @@ class DescribeApplicationResponse {
 }
 
 ///
+///
+/// @nodoc
 class DiscoverInputSchemaResponse {
   /// Schema inferred from the streaming source. It identifies the format of the
   /// data in the streaming source and how each data element maps to corresponding
@@ -1620,6 +1641,8 @@ class DiscoverInputSchemaResponse {
 }
 
 ///
+///
+/// @nodoc
 class ListApplicationsResponse {
   /// List of <code>ApplicationSummary</code> objects.
   final List<ApplicationSummary> applicationSummaries;
@@ -1653,6 +1676,7 @@ class ListApplicationsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The key-value tags assigned to the application.
   final List<Tag>? tags;
@@ -1679,6 +1703,8 @@ class ListTagsForResourceResponse {
 }
 
 ///
+///
+/// @nodoc
 class StartApplicationResponse {
   StartApplicationResponse();
 
@@ -1692,6 +1718,8 @@ class StartApplicationResponse {
 }
 
 ///
+///
+/// @nodoc
 class StopApplicationResponse {
   StopApplicationResponse();
 
@@ -1704,6 +1732,7 @@ class StopApplicationResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1716,6 +1745,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1728,6 +1758,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateApplicationResponse {
   UpdateApplicationResponse();
 
@@ -1742,6 +1773,8 @@ class UpdateApplicationResponse {
 
 /// Describes updates to apply to an existing Amazon Kinesis Analytics
 /// application.
+///
+/// @nodoc
 class ApplicationUpdate {
   /// Describes application code updates.
   final String? applicationCodeUpdate;
@@ -1786,6 +1819,8 @@ class ApplicationUpdate {
 }
 
 /// Describes CloudWatch logging option updates.
+///
+/// @nodoc
 class CloudWatchLoggingOptionUpdate {
   /// ID of the CloudWatch logging option to update
   final String cloudWatchLoggingOptionId;
@@ -1821,6 +1856,8 @@ class CloudWatchLoggingOptionUpdate {
 /// and object key name), the in-application table name that is created, and
 /// updated mapping information that maps the data in the Amazon S3 object to
 /// the in-application reference table that is created.
+///
+/// @nodoc
 class ReferenceDataSourceUpdate {
   /// ID of the reference data source being updated. You can use the <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
@@ -1865,6 +1902,8 @@ class ReferenceDataSourceUpdate {
 /// Describes the S3 bucket name, object key name, and IAM role that Amazon
 /// Kinesis Analytics can assume to read the Amazon S3 object on your behalf and
 /// populate the in-application reference table.
+///
+/// @nodoc
 class S3ReferenceDataSourceUpdate {
   /// Amazon Resource Name (ARN) of the S3 bucket.
   final String? bucketARNUpdate;
@@ -1897,6 +1936,8 @@ class S3ReferenceDataSourceUpdate {
 
 /// Describes the format of the data in the streaming source, and how each data
 /// element maps to corresponding columns created in the in-application stream.
+///
+/// @nodoc
 class SourceSchema {
   /// A list of <code>RecordColumn</code> objects.
   final List<RecordColumn> recordColumns;
@@ -1941,6 +1982,8 @@ class SourceSchema {
 
 /// Describes the record format and relevant mapping information that should be
 /// applied to schematize the records on the stream.
+///
+/// @nodoc
 class RecordFormat {
   /// The type of record format.
   final RecordFormatType recordFormatType;
@@ -1981,6 +2024,8 @@ class RecordFormat {
 /// corresponding column in the in-application stream.
 ///
 /// Also used to describe the format of the reference data source.
+///
+/// @nodoc
 class RecordColumn {
   /// Name of the column created in the in-application input stream or reference
   /// table.
@@ -2022,6 +2067,7 @@ class RecordColumn {
   }
 }
 
+/// @nodoc
 class RecordFormatType {
   static const json = RecordFormatType._('JSON');
   static const csv = RecordFormatType._('CSV');
@@ -2050,6 +2096,8 @@ class RecordFormatType {
 /// application, provides additional mapping information specific to the record
 /// format (such as JSON, CSV, or record fields delimited by some delimiter) on
 /// the streaming source.
+///
+/// @nodoc
 class MappingParameters {
   /// Provides additional mapping information when the record format uses
   /// delimiters (for example, CSV).
@@ -2091,6 +2139,8 @@ class MappingParameters {
 
 /// Provides additional mapping information when JSON is the record format on
 /// the streaming source.
+///
+/// @nodoc
 class JSONMappingParameters {
   /// Path to the top-level parent that contains the records.
   final String recordRowPath;
@@ -2121,6 +2171,8 @@ class JSONMappingParameters {
 /// <code>"name1", "address1"</code>
 ///
 /// <code>"name2", "address2"</code>
+///
+/// @nodoc
 class CSVMappingParameters {
   /// Column delimiter. For example, in a CSV format, a comma (",") is the typical
   /// column delimiter.
@@ -2154,6 +2206,8 @@ class CSVMappingParameters {
 
 /// Describes updates to the output configuration identified by the
 /// <code>OutputId</code>.
+///
+/// @nodoc
 class OutputUpdate {
   /// Identifies the specific output configuration that you want to update.
   final String outputId;
@@ -2212,6 +2266,8 @@ class OutputUpdate {
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
 /// operation, provides information about an Amazon Kinesis stream configured as
 /// the destination.
+///
+/// @nodoc
 class KinesisStreamsOutputUpdate {
   /// Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to
   /// write the output.
@@ -2241,6 +2297,8 @@ class KinesisStreamsOutputUpdate {
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
 /// operation, provides information about an Amazon Kinesis Firehose delivery
 /// stream configured as the destination.
+///
+/// @nodoc
 class KinesisFirehoseOutputUpdate {
   /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to
   /// write to.
@@ -2270,6 +2328,8 @@ class KinesisFirehoseOutputUpdate {
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
 /// operation, provides information about an AWS Lambda function configured as
 /// the destination.
+///
+/// @nodoc
 class LambdaOutputUpdate {
   /// Amazon Resource Name (ARN) of the destination Lambda function.
   /// <note>
@@ -2305,6 +2365,8 @@ class LambdaOutputUpdate {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
 /// Application Output</a>.
+///
+/// @nodoc
 class DestinationSchema {
   /// Specifies the format of the records on the output stream.
   final RecordFormatType recordFormatType;
@@ -2330,6 +2392,8 @@ class DestinationSchema {
 
 /// Describes updates to a specific input configuration (identified by the
 /// <code>InputId</code> of an application).
+///
+/// @nodoc
 class InputUpdate {
   /// Input ID of the application input to be updated.
   final String inputId;
@@ -2396,6 +2460,8 @@ class InputUpdate {
 
 /// Describes updates to an <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html">InputProcessingConfiguration</a>.
+///
+/// @nodoc
 class InputProcessingConfigurationUpdate {
   /// Provides update information for an <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>.
@@ -2415,6 +2481,8 @@ class InputProcessingConfigurationUpdate {
 
 /// When updating application input configuration, provides information about an
 /// Amazon Kinesis stream as the streaming source.
+///
+/// @nodoc
 class KinesisStreamsInputUpdate {
   /// Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
   final String? resourceARNUpdate;
@@ -2441,6 +2509,8 @@ class KinesisStreamsInputUpdate {
 
 /// When updating application input configuration, provides information about an
 /// Amazon Kinesis Firehose delivery stream as the streaming source.
+///
+/// @nodoc
 class KinesisFirehoseInputUpdate {
   /// Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery
   /// stream to read.
@@ -2467,6 +2537,8 @@ class KinesisFirehoseInputUpdate {
 }
 
 /// Describes updates for the application's input schema.
+///
+/// @nodoc
 class InputSchemaUpdate {
   /// A list of <code>RecordColumn</code> objects. Each object describes the
   /// mapping of the streaming source element to the corresponding column in the
@@ -2501,6 +2573,8 @@ class InputSchemaUpdate {
 }
 
 /// Provides updates to the parallelism count.
+///
+/// @nodoc
 class InputParallelismUpdate {
   /// Number of in-application streams to create for the specified streaming
   /// source.
@@ -2521,6 +2595,8 @@ class InputParallelismUpdate {
 /// Represents an update to the <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>
 /// that is used to preprocess the records in the stream.
+///
+/// @nodoc
 class InputLambdaProcessorUpdate {
   /// The Amazon Resource Name (ARN) of the new <a
   /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a> function that is
@@ -2559,6 +2635,8 @@ class InputLambdaProcessorUpdate {
 /// of user-defined application tags is 50. For more information, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html">Using
 /// Tagging</a>.
+///
+/// @nodoc
 class Tag {
   /// The key of the key-value tag.
   final String key;
@@ -2591,6 +2669,8 @@ class Tag {
 /// When you start your application, you provide this configuration, which
 /// identifies the input source and the point in the input source at which you
 /// want the application to start processing records.
+///
+/// @nodoc
 class InputConfiguration {
   /// Input source ID. You can get this ID by calling the <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
@@ -2619,6 +2699,8 @@ class InputConfiguration {
 
 /// Describes the point at which the application reads from the streaming
 /// source.
+///
+/// @nodoc
 class InputStartingPositionConfiguration {
   /// The starting position on the stream.
   ///
@@ -2660,6 +2742,7 @@ class InputStartingPositionConfiguration {
   }
 }
 
+/// @nodoc
 class InputStartingPosition {
   static const now = InputStartingPosition._('NOW');
   static const trimHorizon = InputStartingPosition._('TRIM_HORIZON');
@@ -2695,6 +2778,8 @@ class InputStartingPosition {
 /// </note>
 /// Provides application summary information, including the application Amazon
 /// Resource Name (ARN), name, and status.
+///
+/// @nodoc
 class ApplicationSummary {
   /// ARN of the application.
   final String applicationARN;
@@ -2732,6 +2817,7 @@ class ApplicationSummary {
   }
 }
 
+/// @nodoc
 class ApplicationStatus {
   static const deleting = ApplicationStatus._('DELETING');
   static const starting = ApplicationStatus._('STARTING');
@@ -2771,6 +2857,8 @@ class ApplicationStatus {
 /// Resource Name (ARN) of the S3 bucket, the ARN of the IAM role that is used
 /// to access the bucket, and the name of the Amazon S3 object that contains the
 /// data.
+///
+/// @nodoc
 class S3Configuration {
   /// ARN of the S3 bucket that contains the data.
   final String bucketARN;
@@ -2803,6 +2891,8 @@ class S3Configuration {
 /// in the stream before being processed by your application code. Currently,
 /// the only input processor available is <a
 /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
+///
+/// @nodoc
 class InputProcessingConfiguration {
   /// The <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>
@@ -2826,6 +2916,8 @@ class InputProcessingConfiguration {
 /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a> function that is
 /// used to preprocess records in the stream, and the ARN of the IAM role that
 /// is used to access the AWS Lambda function.
+///
+/// @nodoc
 class InputLambdaProcessor {
   /// The ARN of the <a href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>
   /// function that operates on records in the stream.
@@ -2866,6 +2958,8 @@ class InputLambdaProcessor {
 /// Provides a description of the application, including the application Amazon
 /// Resource Name (ARN), status, latest version, and input and output
 /// configuration.
+///
+/// @nodoc
 class ApplicationDetail {
   /// ARN of the application.
   final String applicationARN;
@@ -3004,6 +3098,8 @@ class ApplicationDetail {
 }
 
 /// Description of the CloudWatch logging option.
+///
+/// @nodoc
 class CloudWatchLoggingOptionDescription {
   /// ARN of the CloudWatch log to receive application messages.
   final String logStreamARN;
@@ -3045,6 +3141,8 @@ class CloudWatchLoggingOptionDescription {
 }
 
 /// Describes the reference data source configured for an application.
+///
+/// @nodoc
 class ReferenceDataSourceDescription {
   /// ID of the reference data source. This is the ID that Amazon Kinesis
   /// Analytics assigns when you add the reference data source to your application
@@ -3106,6 +3204,8 @@ class ReferenceDataSourceDescription {
 }
 
 /// Provides the bucket name and object key name that stores the reference data.
+///
+/// @nodoc
 class S3ReferenceDataSourceDescription {
   /// Amazon Resource Name (ARN) of the S3 bucket.
   final String bucketARN;
@@ -3148,6 +3248,8 @@ class S3ReferenceDataSourceDescription {
 /// in-application stream name and the destination where the stream data is
 /// written. The destination can be an Amazon Kinesis stream or an Amazon
 /// Kinesis Firehose delivery stream.
+///
+/// @nodoc
 class OutputDescription {
   /// Data format used for writing data to the destination.
   final DestinationSchema? destinationSchema;
@@ -3231,6 +3333,8 @@ class OutputDescription {
 
 /// For an application output, describes the Amazon Kinesis stream configured as
 /// its destination.
+///
+/// @nodoc
 class KinesisStreamsOutputDescription {
   /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
   final String? resourceARN;
@@ -3263,6 +3367,8 @@ class KinesisStreamsOutputDescription {
 
 /// For an application output, describes the Amazon Kinesis Firehose delivery
 /// stream configured as its destination.
+///
+/// @nodoc
 class KinesisFirehoseOutputDescription {
   /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
   final String? resourceARN;
@@ -3295,6 +3401,8 @@ class KinesisFirehoseOutputDescription {
 
 /// For an application output, describes the AWS Lambda function configured as
 /// its destination.
+///
+/// @nodoc
 class LambdaOutputDescription {
   /// Amazon Resource Name (ARN) of the destination Lambda function.
   final String? resourceARN;
@@ -3328,6 +3436,8 @@ class LambdaOutputDescription {
 /// Describes the application input configuration. For more information, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
 /// Application Input</a>.
+///
+/// @nodoc
 class InputDescription {
   /// Returns the in-application stream names that are mapped to the stream
   /// source.
@@ -3457,6 +3567,8 @@ class InputDescription {
 /// Provides configuration information about an input processor. Currently, the
 /// only input processor available is <a
 /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
+///
+/// @nodoc
 class InputProcessingConfigurationDescription {
   /// Provides configuration information about the associated <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessorDescription.html">InputLambdaProcessorDescription</a>.
@@ -3490,6 +3602,8 @@ class InputProcessingConfigurationDescription {
 
 /// Describes the Amazon Kinesis stream that is configured as the streaming
 /// source in the application input configuration.
+///
+/// @nodoc
 class KinesisStreamsInputDescription {
   /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
   final String? resourceARN;
@@ -3522,6 +3636,8 @@ class KinesisStreamsInputDescription {
 
 /// Describes the Amazon Kinesis Firehose delivery stream that is configured as
 /// the streaming source in the application input configuration.
+///
+/// @nodoc
 class KinesisFirehoseInputDescription {
   /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
   final String? resourceARN;
@@ -3556,6 +3672,8 @@ class KinesisFirehoseInputDescription {
 /// streaming source. For information about parallelism, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
 /// Application Input</a>.
+///
+/// @nodoc
 class InputParallelism {
   /// Number of in-application streams to create. For more information, see <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/limits.html">Limits</a>.
@@ -3583,6 +3701,8 @@ class InputParallelism {
 /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a> function that is
 /// used to preprocess records in the stream, and the ARN of the IAM role that
 /// is used to access the AWS Lambda expression.
+///
+/// @nodoc
 class InputLambdaProcessorDescription {
   /// The ARN of the <a href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>
   /// function that is used to preprocess the records in the stream.
@@ -3615,6 +3735,8 @@ class InputLambdaProcessorDescription {
 
 /// Provides a description of CloudWatch logging options, including the log
 /// stream Amazon Resource Name (ARN) and the role ARN.
+///
+/// @nodoc
 class CloudWatchLoggingOption {
   /// ARN of the CloudWatch log to receive application messages.
   final String logStreamARN;
@@ -3649,6 +3771,8 @@ class CloudWatchLoggingOption {
 /// For limits on how many destinations an application can write and other
 /// limitations, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/limits.html">Limits</a>.
+///
+/// @nodoc
 class Output {
   /// Describes the data format when records are written to the destination. For
   /// more information, see <a
@@ -3698,6 +3822,8 @@ class Output {
 /// the destination. You provide the stream Amazon Resource Name (ARN) and also
 /// an IAM role ARN that Amazon Kinesis Analytics can use to write to the stream
 /// on your behalf.
+///
+/// @nodoc
 class KinesisStreamsOutput {
   /// ARN of the destination Amazon Kinesis stream to write to.
   final String resourceARN;
@@ -3726,6 +3852,8 @@ class KinesisStreamsOutput {
 /// delivery stream as the destination. You provide the stream Amazon Resource
 /// Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to write to
 /// the stream on your behalf.
+///
+/// @nodoc
 class KinesisFirehoseOutput {
   /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
   final String resourceARN;
@@ -3754,6 +3882,8 @@ class KinesisFirehoseOutput {
 /// the destination. You provide the function Amazon Resource Name (ARN) and
 /// also an IAM role ARN that Amazon Kinesis Analytics can use to write to the
 /// function on your behalf.
+///
+/// @nodoc
 class LambdaOutput {
   /// Amazon Resource Name (ARN) of the destination Lambda function to write to.
   /// <note>
@@ -3790,6 +3920,8 @@ class LambdaOutput {
 /// two. For more information, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
 /// Application Input</a>.
+///
+/// @nodoc
 class Input {
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns in the in-application stream that is
@@ -3871,6 +4003,8 @@ class Input {
 /// Identifies an Amazon Kinesis stream as the streaming source. You provide the
 /// stream's Amazon Resource Name (ARN) and an IAM role ARN that enables Amazon
 /// Kinesis Analytics to access the stream on your behalf.
+///
+/// @nodoc
 class KinesisStreamsInput {
   /// ARN of the input Amazon Kinesis stream to read.
   final String resourceARN;
@@ -3899,6 +4033,8 @@ class KinesisStreamsInput {
 /// source. You provide the delivery stream's Amazon Resource Name (ARN) and an
 /// IAM role ARN that enables Amazon Kinesis Analytics to access the stream on
 /// your behalf.
+///
+/// @nodoc
 class KinesisFirehoseInput {
   /// ARN of the input delivery stream.
   final String resourceARN;
@@ -3927,6 +4063,8 @@ class KinesisFirehoseInput {
 /// bucket name and object key name), the resulting in-application table name
 /// that is created, and the necessary schema to map the data elements in the
 /// Amazon S3 object to the in-application table.
+///
+/// @nodoc
 class ReferenceDataSource {
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns created in the in-application stream.
@@ -3970,6 +4108,8 @@ class ReferenceDataSource {
 /// the data changes, you call the <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
 /// operation to trigger reloading of data into your application.
+///
+/// @nodoc
 class S3ReferenceDataSource {
   /// Amazon Resource Name (ARN) of the S3 bucket.
   final String bucketARN;
@@ -4001,11 +4141,13 @@ class S3ReferenceDataSource {
   }
 }
 
+/// @nodoc
 class CodeValidationException extends _s.GenericAwsException {
   CodeValidationException({String? type, String? message})
       : super(type: type, code: 'CodeValidationException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -4014,6 +4156,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidApplicationConfigurationException extends _s.GenericAwsException {
   InvalidApplicationConfigurationException({String? type, String? message})
       : super(
@@ -4022,26 +4165,31 @@ class InvalidApplicationConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidArgumentException extends _s.GenericAwsException {
   InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceProvisionedThroughputExceededException
     extends _s.GenericAwsException {
   ResourceProvisionedThroughputExceededException(
@@ -4052,17 +4200,20 @@ class ResourceProvisionedThroughputExceededException
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class UnableToDetectSchemaException extends _s.GenericAwsException {
   UnableToDetectSchemaException({String? type, String? message})
       : super(
@@ -4071,6 +4222,7 @@ class UnableToDetectSchemaException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(

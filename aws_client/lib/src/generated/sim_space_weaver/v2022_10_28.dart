@@ -718,6 +718,7 @@ class SimSpaceWeaver {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The list of tags for the resource.
   final Map<String, String>? tags;
@@ -741,6 +742,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -753,6 +755,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -765,6 +768,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class StartSimulationOutput {
   /// The Amazon Resource Name (ARN) of the simulation. For more information about
   /// ARNs, see <a
@@ -807,6 +811,7 @@ class StartSimulationOutput {
   }
 }
 
+/// @nodoc
 class DescribeSimulationOutput {
   /// The Amazon Resource Name (ARN) of the simulation. For more information about
   /// ARNs, see <a
@@ -964,6 +969,7 @@ class DescribeSimulationOutput {
   }
 }
 
+/// @nodoc
 class StopSimulationOutput {
   StopSimulationOutput();
 
@@ -976,6 +982,7 @@ class StopSimulationOutput {
   }
 }
 
+/// @nodoc
 class DeleteSimulationOutput {
   DeleteSimulationOutput();
 
@@ -988,6 +995,7 @@ class DeleteSimulationOutput {
   }
 }
 
+/// @nodoc
 class ListSimulationsOutput {
   /// If SimSpace Weaver returns <code>nextToken</code>, then there are more
   /// results available. The value of <code>nextToken</code> is a unique
@@ -1027,6 +1035,7 @@ class ListSimulationsOutput {
   }
 }
 
+/// @nodoc
 class CreateSnapshotOutput {
   CreateSnapshotOutput();
 
@@ -1039,6 +1048,7 @@ class CreateSnapshotOutput {
   }
 }
 
+/// @nodoc
 class DeleteAppOutput {
   DeleteAppOutput();
 
@@ -1051,6 +1061,7 @@ class DeleteAppOutput {
   }
 }
 
+/// @nodoc
 class DescribeAppOutput {
   /// The description of the app.
   final String? description;
@@ -1128,6 +1139,7 @@ class DescribeAppOutput {
   }
 }
 
+/// @nodoc
 class ListAppsOutput {
   /// The list of apps for the given simulation and domain.
   final List<SimulationAppMetadata>? apps;
@@ -1167,6 +1179,7 @@ class ListAppsOutput {
   }
 }
 
+/// @nodoc
 class StartAppOutput {
   /// The name of the domain of the app.
   final String? domain;
@@ -1203,6 +1216,7 @@ class StartAppOutput {
   }
 }
 
+/// @nodoc
 class StartClockOutput {
   StartClockOutput();
 
@@ -1215,6 +1229,7 @@ class StartClockOutput {
   }
 }
 
+/// @nodoc
 class StopAppOutput {
   StopAppOutput();
 
@@ -1227,6 +1242,7 @@ class StopAppOutput {
   }
 }
 
+/// @nodoc
 class StopClockOutput {
   StopClockOutput();
 
@@ -1241,6 +1257,8 @@ class StopClockOutput {
 
 /// Options that apply when the app starts. These options override default
 /// behavior.
+///
+/// @nodoc
 class LaunchOverrides {
   /// App launch commands and command line parameters that override the launch
   /// command configured in the simulation schema.
@@ -1268,6 +1286,8 @@ class LaunchOverrides {
 }
 
 /// A collection of metadata about the app.
+///
+/// @nodoc
 class SimulationAppMetadata {
   /// The domain of the app. For more information about domains, see <a
   /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains">Key
@@ -1321,6 +1341,7 @@ class SimulationAppMetadata {
   }
 }
 
+/// @nodoc
 class SimulationAppStatus {
   static const starting = SimulationAppStatus._('STARTING');
   static const started = SimulationAppStatus._('STARTED');
@@ -1350,6 +1371,7 @@ class SimulationAppStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SimulationAppTargetStatus {
   static const unknown = SimulationAppTargetStatus._('UNKNOWN');
   static const started = SimulationAppTargetStatus._('STARTED');
@@ -1381,6 +1403,8 @@ class SimulationAppTargetStatus {
 /// <a
 /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_apps">Key
 /// concepts: Apps</a> in the <i>SimSpace Weaver User Guide</i>..
+///
+/// @nodoc
 class SimulationAppEndpointInfo {
   /// The IP address of the app. SimSpace Weaver dynamically assigns this IP
   /// address when the app starts.
@@ -1418,6 +1442,8 @@ class SimulationAppEndpointInfo {
 }
 
 /// A collection of TCP/UDP ports for a custom or service app.
+///
+/// @nodoc
 class SimulationAppPortMapping {
   /// The TCP/UDP port number of the running app. SimSpace Weaver dynamically
   /// assigns this port number when the app starts. SimSpace Weaver maps the
@@ -1456,6 +1482,8 @@ class SimulationAppPortMapping {
 
 /// An Amazon S3 bucket and optional folder (object key prefix) where SimSpace
 /// Weaver creates a file.
+///
+/// @nodoc
 class S3Destination {
   /// The name of an Amazon S3 bucket. For more information about buckets, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
@@ -1486,6 +1514,8 @@ class S3Destination {
 }
 
 /// A collection of data about the simulation.
+///
+/// @nodoc
 class SimulationMetadata {
   /// The Amazon Resource Name (ARN) of the simulation. For more information about
   /// ARNs, see <a
@@ -1543,6 +1573,7 @@ class SimulationMetadata {
   }
 }
 
+/// @nodoc
 class SimulationStatus {
   static const unknown = SimulationStatus._('UNKNOWN');
   static const starting = SimulationStatus._('STARTING');
@@ -1584,6 +1615,7 @@ class SimulationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SimulationTargetStatus {
   static const unknown = SimulationTargetStatus._('UNKNOWN');
   static const started = SimulationTargetStatus._('STARTED');
@@ -1616,6 +1648,8 @@ class SimulationTargetStatus {
 /// For more information about Amazon S3, see the <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">
 /// <i>Amazon Simple Storage Service User Guide</i> </a>.
+///
+/// @nodoc
 class S3Location {
   /// The name of an Amazon S3 bucket. For more information about buckets, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
@@ -1653,6 +1687,8 @@ class S3Location {
 }
 
 /// The logging configuration for a simulation.
+///
+/// @nodoc
 class LoggingConfiguration {
   /// A list of the locations where SimSpace Weaver sends simulation log data.
   final List<LogDestination>? destinations;
@@ -1680,6 +1716,8 @@ class LoggingConfiguration {
 
 /// A collection of additional state information, such as domain and clock
 /// configuration.
+///
+/// @nodoc
 class LiveSimulationState {
   /// A list of simulation clocks.
   /// <note>
@@ -1722,6 +1760,8 @@ class LiveSimulationState {
 }
 
 /// Status information about the simulation clock.
+///
+/// @nodoc
 class SimulationClock {
   /// The current status of the simulation clock.
   final ClockStatus? status;
@@ -1752,6 +1792,7 @@ class SimulationClock {
   }
 }
 
+/// @nodoc
 class ClockStatus {
   static const unknown = ClockStatus._('UNKNOWN');
   static const starting = ClockStatus._('STARTING');
@@ -1778,6 +1819,7 @@ class ClockStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ClockTargetStatus {
   static const unknown = ClockTargetStatus._('UNKNOWN');
   static const started = ClockTargetStatus._('STARTED');
@@ -1809,6 +1851,8 @@ class ClockTargetStatus {
 /// For more information about domains, see <a
 /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains">Key
 /// concepts: Domains</a> in the <i>SimSpace Weaver User Guide</i>.
+///
+/// @nodoc
 class Domain {
   /// The type of lifecycle management for apps in the domain. Indicates whether
   /// apps in this domain are <i>managed</i> (SimSpace Weaver starts and stops the
@@ -1857,6 +1901,7 @@ class Domain {
   }
 }
 
+/// @nodoc
 class LifecycleManagementStrategy {
   static const unknown = LifecycleManagementStrategy._('Unknown');
   static const perWorker = LifecycleManagementStrategy._('PerWorker');
@@ -1886,6 +1931,8 @@ class LifecycleManagementStrategy {
 }
 
 /// The location where SimSpace Weaver sends simulation log data.
+///
+/// @nodoc
 class LogDestination {
   /// An Amazon CloudWatch Logs log group that stores simulation log data. For
   /// more information about log groups, see <a
@@ -1921,6 +1968,8 @@ class LogDestination {
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
 /// with log groups and log streams</a> in the <i>Amazon CloudWatch Logs User
 /// Guide</i>.
+///
+/// @nodoc
 class CloudWatchLogsLogGroup {
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log group for
   /// the simulation. For more information about ARNs, see <a
@@ -1950,26 +1999,31 @@ class CloudWatchLogsLogGroup {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -1978,11 +2032,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -173,8 +173,8 @@ class GeoRoutes {
   /// <code>2020-04-22T17:57:24+02:00</code>
   ///
   /// Parameter [destination] :
-  /// An optional destination point, specified as <code>[longitude,
-  /// latitude]</code> coordinates. When provided, the service calculates areas
+  /// An optional destination point, specified as <code>\[longitude,
+  /// latitude\]</code> coordinates. When provided, the service calculates areas
   /// from which this destination can be reached within the specified
   /// thresholds. This reverses the usual isoline calculation to show areas that
   /// could reach your location, rather than areas you could reach from your
@@ -217,8 +217,8 @@ class GeoRoutes {
   ///
   /// Parameter [origin] :
   /// The starting point for isoline calculations, specified as
-  /// <code>[longitude, latitude]</code> coordinates. For example, this could be
-  /// a store location, service center, or any point from which you want to
+  /// <code>\[longitude, latitude\]</code> coordinates. For example, this could
+  /// be a store location, service center, or any point from which you want to
   /// calculate reachable areas. Either <code>Origin</code> or
   /// <code>Destination</code> must be provided.
   ///
@@ -376,7 +376,7 @@ class GeoRoutes {
   ///
   /// Parameter [destinations] :
   /// List of destinations for the route in World Geodetic System (WGS 84)
-  /// format: [longitude, latitude].
+  /// format: \[longitude, latitude\].
   /// <note>
   /// Route calculations are billed for each origin and destination pair. If you
   /// use a large matrix of origins and destinations, your costs will increase
@@ -421,7 +421,7 @@ class GeoRoutes {
   ///
   /// Parameter [origins] :
   /// List of origins for the route in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   /// <note>
   /// Route calculations are billed for each origin and destination pair. Using
   /// a large amount of Origins in a request can lead you to incur unexpected
@@ -617,11 +617,11 @@ class GeoRoutes {
   ///
   /// Parameter [destination] :
   /// The final position for the route. In the World Geodetic System (WGS 84)
-  /// format: <code>[longitude, latitude]</code>.
+  /// format: <code>\[longitude, latitude\]</code>.
   ///
   /// Parameter [origin] :
   /// The start position for the route in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   ///
   /// Parameter [allow] :
   /// Features that are allowed while calculating a route. Not supported in
@@ -942,7 +942,7 @@ class GeoRoutes {
   ///
   /// Parameter [origin] :
   /// The start position for the route in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   ///
   /// Parameter [avoid] :
   /// Features that are avoided. Avoidance is on a best-case basis. If an
@@ -967,7 +967,7 @@ class GeoRoutes {
   ///
   /// Parameter [destination] :
   /// The final position for the route in the World Geodetic System (WGS 84)
-  /// format: <code>[longitude, latitude]</code>.
+  /// format: <code>\[longitude, latitude\]</code>.
   ///
   /// Parameter [destinationOptions] :
   /// Destination related options.
@@ -1005,7 +1005,7 @@ class GeoRoutes {
   /// Parameter [waypoints] :
   /// List of waypoints between the <code>Origin</code> and
   /// <code>Destination</code>, in World Geodetic System (WGS 84) format:
-  /// [longitude, latitude].
+  /// \[longitude, latitude\].
   ///
   /// The maximum number of waypoints allowed per request:
   ///
@@ -1184,6 +1184,7 @@ class GeoRoutes {
   }
 }
 
+/// @nodoc
 class CalculateIsolinesResponse {
   /// The format of the returned geometries, matching the format specified in the
   /// request. Either <code> FlexiblePolyline</code> for compact encoding or
@@ -1266,6 +1267,7 @@ class CalculateIsolinesResponse {
   }
 }
 
+/// @nodoc
 class CalculateRouteMatrixResponse {
   /// The count of error results in the route matrix. If this number is 0, all
   /// routes were calculated successfully.
@@ -1309,6 +1311,7 @@ class CalculateRouteMatrixResponse {
   }
 }
 
+/// @nodoc
 class CalculateRoutesResponse {
   /// Specifies the format of the geometry returned for each leg of the route.
   final GeometryFormat legGeometryFormat;
@@ -1346,6 +1349,7 @@ class CalculateRoutesResponse {
   }
 }
 
+/// @nodoc
 class OptimizeWaypointsResponse {
   /// Details about the connection from one waypoint to the next, within the
   /// optimized sequence.
@@ -1401,6 +1405,7 @@ class OptimizeWaypointsResponse {
   }
 }
 
+/// @nodoc
 class SnapToRoadsResponse {
   /// Notices are additional information returned that indicate issues that
   /// occurred during route calculation.
@@ -1442,6 +1447,8 @@ class SnapToRoadsResponse {
 }
 
 /// Interpolated geometry for the snapped route that is overlay-able onto a map.
+///
+/// @nodoc
 class RoadSnapSnappedGeometry {
   /// An ordered list of positions used to plot a route on a map.
   /// <note>
@@ -1481,6 +1488,7 @@ class RoadSnapSnappedGeometry {
   }
 }
 
+/// @nodoc
 class GeometryFormat {
   static const flexiblePolyline = GeometryFormat._('FlexiblePolyline');
   static const simple = GeometryFormat._('Simple');
@@ -1506,6 +1514,8 @@ class GeometryFormat {
 }
 
 /// TracePoints snapped onto the road network.
+///
+/// @nodoc
 class RoadSnapSnappedTracePoint {
   /// Confidence value for the correctness of this point match.
   final double confidence;
@@ -1551,6 +1561,8 @@ class RoadSnapSnappedTracePoint {
 
 /// Notices provide information around factors that may have influenced snapping
 /// in a manner atypical to the standard use cases.
+///
+/// @nodoc
 class RoadSnapNotice {
   /// Code corresponding to the issue.
   final RoadSnapNoticeCode code;
@@ -1590,6 +1602,7 @@ class RoadSnapNotice {
   }
 }
 
+/// @nodoc
 class RoadSnapNoticeCode {
   static const tracePointsHeadingIgnored =
       RoadSnapNoticeCode._('TracePointsHeadingIgnored');
@@ -1634,6 +1647,7 @@ class RoadSnapNoticeCode {
   String toString() => value;
 }
 
+/// @nodoc
 class RoadSnapTravelMode {
   static const car = RoadSnapTravelMode._('Car');
   static const pedestrian = RoadSnapTravelMode._('Pedestrian');
@@ -1662,6 +1676,8 @@ class RoadSnapTravelMode {
 }
 
 /// Travel mode related options for the provided travel mode.
+///
+/// @nodoc
 class RoadSnapTravelModeOptions {
   /// Travel mode options when the provided travel mode is <code>Truck</code>.
   final RoadSnapTruckOptions? truck;
@@ -1679,6 +1695,8 @@ class RoadSnapTravelModeOptions {
 }
 
 /// Travel mode options when the provided travel mode is <code>Truck</code>.
+///
+/// @nodoc
 class RoadSnapTruckOptions {
   /// Gross weight of the vehicle including trailers, and goods at capacity.
   ///
@@ -1791,6 +1809,8 @@ class RoadSnapTruckOptions {
 }
 
 /// Trailer options corresponding to the vehicle.
+///
+/// @nodoc
 class RoadSnapTrailerOptions {
   /// Number of trailers attached to the vehicle.
   ///
@@ -1809,6 +1829,7 @@ class RoadSnapTrailerOptions {
   }
 }
 
+/// @nodoc
 class RoadSnapHazardousCargoType {
   static const combustible = RoadSnapHazardousCargoType._('Combustible');
   static const corrosive = RoadSnapHazardousCargoType._('Corrosive');
@@ -1857,8 +1878,10 @@ class RoadSnapHazardousCargoType {
 }
 
 /// TracePoint indices for which the provided notice code corresponds to.
+///
+/// @nodoc
 class RoadSnapTracePoint {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// GPS Heading at the position.
@@ -1894,6 +1917,8 @@ class RoadSnapTracePoint {
 }
 
 /// Time breakdown for the sequence.
+///
+/// @nodoc
 class WaypointOptimizationTimeBreakdown {
   /// Resting phase of the cycle.
   ///
@@ -1948,6 +1973,8 @@ class WaypointOptimizationTimeBreakdown {
 }
 
 /// The optimized waypoint.
+///
+/// @nodoc
 class WaypointOptimizationOptimizedWaypoint {
   /// Estimated time of departure from the origin.
   ///
@@ -1964,7 +1991,7 @@ class WaypointOptimizationOptimizedWaypoint {
   /// The waypoint Id.
   final String id;
 
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Estimated time of arrival at the destination.
@@ -2023,6 +2050,8 @@ class WaypointOptimizationOptimizedWaypoint {
 }
 
 /// The impeding waypoint.
+///
+/// @nodoc
 class WaypointOptimizationImpedingWaypoint {
   /// Failed constraints for an impeding waypoint.
   final List<WaypointOptimizationFailedConstraint> failedConstraints;
@@ -2030,7 +2059,7 @@ class WaypointOptimizationImpedingWaypoint {
   /// The waypoint Id.
   final String id;
 
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   WaypointOptimizationImpedingWaypoint({
@@ -2068,6 +2097,8 @@ class WaypointOptimizationImpedingWaypoint {
 }
 
 /// The failed constraint.
+///
+/// @nodoc
 class WaypointOptimizationFailedConstraint {
   /// The failed constraint.
   final WaypointOptimizationConstraint? constraint;
@@ -2099,6 +2130,7 @@ class WaypointOptimizationFailedConstraint {
   }
 }
 
+/// @nodoc
 class WaypointOptimizationConstraint {
   static const accessHours = WaypointOptimizationConstraint._('AccessHours');
   static const appointmentTime =
@@ -2139,6 +2171,8 @@ class WaypointOptimizationConstraint {
 
 /// This contains information such as distance and duration from one waypoint to
 /// the next waypoint in the sequence.
+///
+/// @nodoc
 class WaypointOptimizationConnection {
   /// Distance of the step.
   final int distance;
@@ -2205,6 +2239,8 @@ class WaypointOptimizationConnection {
 /// may still include restricted areas if no feasible alternative route exists.
 /// If avoidance options are not followed, the response will indicate that the
 /// avoidance criteria were violated.
+///
+/// @nodoc
 class WaypointOptimizationAvoidanceOptions {
   /// Areas to be avoided.
   final List<WaypointOptimizationAvoidanceArea>? areas;
@@ -2266,6 +2302,8 @@ class WaypointOptimizationAvoidanceOptions {
 }
 
 /// Options for WaypointOptimizationClustering.
+///
+/// @nodoc
 class WaypointOptimizationClusteringOptions {
   /// The algorithm to be used. <code>DrivingDistance</code> assigns all the
   /// waypoints that are within driving distance of each other into a single
@@ -2295,6 +2333,8 @@ class WaypointOptimizationClusteringOptions {
 }
 
 /// Destination related options.
+///
+/// @nodoc
 class WaypointOptimizationDestinationOptions {
   /// Access hours corresponding to when a waypoint can be visited.
   final WaypointOptimizationAccessHours? accessHours;
@@ -2345,6 +2385,8 @@ class WaypointOptimizationDestinationOptions {
 }
 
 /// Driver related options.
+///
+/// @nodoc
 class WaypointOptimizationDriverOptions {
   /// Driver work-rest schedules defined by a short and long cycle. A rest needs
   /// to be taken after the short work duration. The short cycle can be repeated
@@ -2383,6 +2425,8 @@ class WaypointOptimizationDriverOptions {
 /// Specifies strict exclusion options for the route calculation. This setting
 /// mandates that the router will avoid any routes that include the specified
 /// options, rather than merely attempting to minimize them.
+///
+/// @nodoc
 class WaypointOptimizationExclusionOptions {
   /// List of countries to be avoided defined by two-letter or three-letter
   /// country codes.
@@ -2400,6 +2444,7 @@ class WaypointOptimizationExclusionOptions {
   }
 }
 
+/// @nodoc
 class WaypointOptimizationSequencingObjective {
   static const fastestRoute =
       WaypointOptimizationSequencingObjective._('FastestRoute');
@@ -2428,6 +2473,8 @@ class WaypointOptimizationSequencingObjective {
 }
 
 /// Origin related options.
+///
+/// @nodoc
 class WaypointOptimizationOriginOptions {
   /// The Origin Id.
   final String? id;
@@ -2445,6 +2492,8 @@ class WaypointOptimizationOriginOptions {
 }
 
 /// Options related to traffic.
+///
+/// @nodoc
 class WaypointOptimizationTrafficOptions {
   /// Determines if traffic should be used or ignored while calculating the route.
   ///
@@ -2463,6 +2512,7 @@ class WaypointOptimizationTrafficOptions {
   }
 }
 
+/// @nodoc
 class WaypointOptimizationTravelMode {
   static const car = WaypointOptimizationTravelMode._('Car');
   static const pedestrian = WaypointOptimizationTravelMode._('Pedestrian');
@@ -2491,6 +2541,8 @@ class WaypointOptimizationTravelMode {
 }
 
 /// Travel mode related options for the provided travel mode.
+///
+/// @nodoc
 class WaypointOptimizationTravelModeOptions {
   /// Travel mode options when the provided travel mode is
   /// <code>Pedestrian</code>.
@@ -2515,8 +2567,10 @@ class WaypointOptimizationTravelModeOptions {
 }
 
 /// Waypoint between the Origin and Destination.
+///
+/// @nodoc
 class WaypointOptimizationWaypoint {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Access hours corresponding to when a waypoint can be visited.
@@ -2577,6 +2631,8 @@ class WaypointOptimizationWaypoint {
 }
 
 /// Access hours corresponding to when a destination can be visited.
+///
+/// @nodoc
 class WaypointOptimizationAccessHours {
   /// Contains the ID of the starting waypoint in this connection.
   final WaypointOptimizationAccessHoursEntry from;
@@ -2600,8 +2656,10 @@ class WaypointOptimizationAccessHours {
 }
 
 /// Options to configure matching the provided position to a side of the street.
+///
+/// @nodoc
 class WaypointOptimizationSideOfStreetOptions {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Strategy that defines when the side of street position should be used.
@@ -2625,6 +2683,7 @@ class WaypointOptimizationSideOfStreetOptions {
   }
 }
 
+/// @nodoc
 class SideOfStreetMatchingStrategy {
   static const anyStreet = SideOfStreetMatchingStrategy._('AnyStreet');
   static const dividedStreetOnly =
@@ -2652,6 +2711,8 @@ class SideOfStreetMatchingStrategy {
 }
 
 /// Hours of entry.
+///
+/// @nodoc
 class WaypointOptimizationAccessHoursEntry {
   /// Day of the week.
   final DayOfWeek dayOfWeek;
@@ -2674,6 +2735,7 @@ class WaypointOptimizationAccessHoursEntry {
   }
 }
 
+/// @nodoc
 class DayOfWeek {
   static const monday = DayOfWeek._('Monday');
   static const tuesday = DayOfWeek._('Tuesday');
@@ -2711,6 +2773,8 @@ class DayOfWeek {
 }
 
 /// Options related to a pedestrian.
+///
+/// @nodoc
 class WaypointOptimizationPedestrianOptions {
   /// Walking speed.
   ///
@@ -2730,6 +2794,8 @@ class WaypointOptimizationPedestrianOptions {
 }
 
 /// Travel mode options when the provided travel mode is <code>Truck</code>.
+///
+/// @nodoc
 class WaypointOptimizationTruckOptions {
   /// Gross weight of the vehicle including trailers, and goods at capacity.
   ///
@@ -2862,6 +2928,8 @@ class WaypointOptimizationTruckOptions {
 }
 
 /// Trailer options corresponding to the vehicle.
+///
+/// @nodoc
 class WaypointOptimizationTrailerOptions {
   /// Number of trailers attached to the vehicle.
   ///
@@ -2880,6 +2948,7 @@ class WaypointOptimizationTrailerOptions {
   }
 }
 
+/// @nodoc
 class WaypointOptimizationTruckType {
   static const straightTruck = WaypointOptimizationTruckType._('StraightTruck');
   static const tractor = WaypointOptimizationTruckType._('Tractor');
@@ -2905,6 +2974,7 @@ class WaypointOptimizationTruckType {
   String toString() => value;
 }
 
+/// @nodoc
 class WaypointOptimizationHazardousCargoType {
   static const combustible =
       WaypointOptimizationHazardousCargoType._('Combustible');
@@ -2958,6 +3028,7 @@ class WaypointOptimizationHazardousCargoType {
   String toString() => value;
 }
 
+/// @nodoc
 class TrafficUsage {
   static const ignoreTrafficData = TrafficUsage._('IgnoreTrafficData');
   static const useTrafficData = TrafficUsage._('UseTrafficData');
@@ -2982,6 +3053,8 @@ class TrafficUsage {
 }
 
 /// Resting phase of the cycle.
+///
+/// @nodoc
 class WaypointOptimizationRestCycles {
   /// Long cycle for a driver work-rest schedule.
   final WaypointOptimizationRestCycleDurations longCycle;
@@ -3006,6 +3079,8 @@ class WaypointOptimizationRestCycles {
 
 /// Pre defined rest profiles for a driver schedule. The only currently
 /// supported profile is EU.
+///
+/// @nodoc
 class WaypointOptimizationRestProfile {
   /// Pre defined rest profiles for a driver schedule. The only currently
   /// supported profile is EU.
@@ -3023,6 +3098,7 @@ class WaypointOptimizationRestProfile {
   }
 }
 
+/// @nodoc
 class WaypointOptimizationServiceTimeTreatment {
   static const rest = WaypointOptimizationServiceTimeTreatment._('Rest');
   static const work = WaypointOptimizationServiceTimeTreatment._('Work');
@@ -3054,6 +3130,8 @@ class WaypointOptimizationServiceTimeTreatment {
 /// should be taken before restarting.
 ///
 /// <b>Unit</b>: <code>seconds</code>
+///
+/// @nodoc
 class WaypointOptimizationRestCycleDurations {
   /// Resting phase of the cycle.
   ///
@@ -3080,6 +3158,7 @@ class WaypointOptimizationRestCycleDurations {
   }
 }
 
+/// @nodoc
 class WaypointOptimizationClusteringAlgorithm {
   static const drivingDistance =
       WaypointOptimizationClusteringAlgorithm._('DrivingDistance');
@@ -3108,6 +3187,8 @@ class WaypointOptimizationClusteringAlgorithm {
 }
 
 /// Driving distance related options.
+///
+/// @nodoc
 class WaypointOptimizationDrivingDistanceOptions {
   /// DrivingDistance assigns all the waypoints that are within driving distance
   /// of each other into a single cluster.
@@ -3126,6 +3207,8 @@ class WaypointOptimizationDrivingDistanceOptions {
 }
 
 /// The area to be avoided.
+///
+/// @nodoc
 class WaypointOptimizationAvoidanceArea {
   /// Geometry of the area to be avoided.
   final WaypointOptimizationAvoidanceAreaGeometry geometry;
@@ -3143,6 +3226,8 @@ class WaypointOptimizationAvoidanceArea {
 }
 
 /// Geometry of the area to be avoided.
+///
+/// @nodoc
 class WaypointOptimizationAvoidanceAreaGeometry {
   /// Geometry defined as a bounding box. The first pair represents the X and Y
   /// coordinates (longitude and latitude,) of the southwest corner of the
@@ -3163,6 +3248,8 @@ class WaypointOptimizationAvoidanceAreaGeometry {
 }
 
 /// The route.
+///
+/// @nodoc
 class Route {
   /// A leg is a section of a route from one waypoint to the next. A leg could be
   /// of type Vehicle, Pedestrian or Ferry. Legs of different types could occur
@@ -3215,6 +3302,8 @@ class Route {
 /// Summarized details for the leg including travel steps only. The Distance for
 /// the travel only portion of the journey is the same as the Distance within
 /// the Overview summary.
+///
+/// @nodoc
 class RouteSummary {
   /// Distance of the route.
   final int? distance;
@@ -3256,6 +3345,8 @@ class RouteSummary {
 }
 
 /// The toll summary for the complete route.
+///
+/// @nodoc
 class RouteTollSummary {
   /// Total toll summary for the complete route. Total is the only summary
   /// available today.
@@ -3283,6 +3374,8 @@ class RouteTollSummary {
 }
 
 /// Summary of the route and toll price.
+///
+/// @nodoc
 class RouteTollPriceSummary {
   /// Currency code corresponding to the price. This is the same as Currency
   /// specified in the request.
@@ -3339,6 +3432,8 @@ class RouteTollPriceSummary {
 }
 
 /// Price range with a minimum and maximum value, if a range.
+///
+/// @nodoc
 class RouteTollPriceValueRange {
   /// Maximum price.
   final double max;
@@ -3370,6 +3465,8 @@ class RouteTollPriceValueRange {
 
 /// Important labels including names and route numbers that differentiate the
 /// current route from the alternatives presented.
+///
+/// @nodoc
 class RouteMajorRoadLabel {
   /// Name of the road (localized).
   final LocalizedString? roadName;
@@ -3404,6 +3501,8 @@ class RouteMajorRoadLabel {
 }
 
 /// The localized string.
+///
+/// @nodoc
 class LocalizedString {
   /// The value of the localized string.
   final String value;
@@ -3436,6 +3535,8 @@ class LocalizedString {
 }
 
 /// The route number.
+///
+/// @nodoc
 class RouteNumber {
   /// The route number.
   final String value;
@@ -3472,6 +3573,7 @@ class RouteNumber {
   }
 }
 
+/// @nodoc
 class RouteDirection {
   static const east = RouteDirection._('East');
   static const north = RouteDirection._('North');
@@ -3503,6 +3605,8 @@ class RouteDirection {
 /// together within a single route. For example, a car employing the use of a
 /// Ferry will contain Vehicle legs corresponding to journey on land, and Ferry
 /// legs corresponding to the journey via Ferry.
+///
+/// @nodoc
 class RouteLeg {
   /// Geometry of the area to be avoided.
   final RouteLegGeometry geometry;
@@ -3635,6 +3739,8 @@ class RouteLeg {
 
 /// FerryLegDetails is populated when the Leg type is Ferry, and provides
 /// additional information that is specific to ferry travel.
+///
+/// @nodoc
 class RouteFerryLegDetails {
   /// Steps of a leg that must be performed after the travel portion of the leg.
   final List<RouteFerryAfterTravelStep> afterTravelSteps;
@@ -3751,6 +3857,8 @@ class RouteFerryLegDetails {
 }
 
 /// The returned Route leg geometry.
+///
+/// @nodoc
 class RouteLegGeometry {
   /// An ordered list of positions used to plot a route on a map.
   /// <note>
@@ -3791,6 +3899,8 @@ class RouteLegGeometry {
 }
 
 /// Details that are specific to a pedestrian leg.
+///
+/// @nodoc
 class RoutePedestrianLegDetails {
   /// Steps of a leg that must be performed after the travel portion of the leg.
   final List<RoutePedestrianAfterTravelStep> afterTravelSteps;
@@ -3897,6 +4007,7 @@ class RoutePedestrianLegDetails {
   }
 }
 
+/// @nodoc
 class RouteLegTravelMode {
   static const car = RouteLegTravelMode._('Car');
   static const ferry = RouteLegTravelMode._('Ferry');
@@ -3961,6 +4072,7 @@ class RouteLegTravelMode {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteLegType {
   static const ferry = RouteLegType._('Ferry');
   static const pedestrian = RouteLegType._('Pedestrian');
@@ -3989,6 +4101,8 @@ class RouteLegType {
 }
 
 /// Steps of a leg that correspond to the travel portion of the leg.
+///
+/// @nodoc
 class RouteVehicleLegDetails {
   /// Steps of a leg that must be performed after the travel portion of the leg.
   final List<RouteVehicleAfterTravelStep> afterTravelSteps;
@@ -4168,6 +4282,8 @@ class RouteVehicleLegDetails {
 
 /// Populated when the Leg type is Rental, and provides additional information
 /// that is specific to rental vehicle travel.
+///
+/// @nodoc
 class RouteRentalLegDetails {
   /// Steps of a leg that must be performed after the travel portion of the leg.
   final List<RouteRentalAfterTravelStep> afterTravelSteps;
@@ -4282,6 +4398,8 @@ class RouteRentalLegDetails {
 
 /// Populated when the Leg type is Taxi, and provides additional information
 /// that is specific to taxi travel.
+///
+/// @nodoc
 class RouteTaxiLegDetails {
   /// Steps of a leg that must be performed after the travel portion of the leg.
   final List<RouteTaxiAfterTravelStep> afterTravelSteps;
@@ -4406,6 +4524,8 @@ class RouteTaxiLegDetails {
 
 /// Populated when the Leg type is Transit, and provides additional information
 /// that is specific to public transit travel.
+///
+/// @nodoc
 class RouteTransitLegDetails {
   /// Steps of a leg that must be performed after the travel portion of the leg.
   final List<RouteTransitAfterTravelStep> afterTravelSteps;
@@ -4589,6 +4709,8 @@ class RouteTransitLegDetails {
 }
 
 /// Details about the transit agency.
+///
+/// @nodoc
 class RouteTransitAgency {
   /// Name of the agency.
   final String name;
@@ -4619,6 +4741,8 @@ class RouteTransitAgency {
 }
 
 /// Details corresponding to the arrival for the leg.
+///
+/// @nodoc
 class RouteTransitArrival {
   /// Place details corresponding to the arrival.
   final RouteTransitPlace place;
@@ -4668,6 +4792,8 @@ class RouteTransitArrival {
 }
 
 /// Details corresponding to the departure for the leg.
+///
+/// @nodoc
 class RouteTransitDeparture {
   /// Place details corresponding to the departure.
   final RouteTransitPlace place;
@@ -4717,6 +4843,8 @@ class RouteTransitDeparture {
 }
 
 /// Summary of the transit leg.
+///
+/// @nodoc
 class RouteTransitSummary {
   /// Summary including duration and distance for the entire leg.
   final RouteTransitOverviewSummary? overview;
@@ -4754,6 +4882,8 @@ class RouteTransitSummary {
 }
 
 /// Transport mode details for the transit leg.
+///
+/// @nodoc
 class RouteTransitTransportModeDetails {
   /// Mode of the transit transport.
   final RouteTransitMode mode;
@@ -4829,6 +4959,8 @@ class RouteTransitTransportModeDetails {
 }
 
 /// A step that must be performed during the travel portion of the leg.
+///
+/// @nodoc
 class RouteTransitTravelStep {
   /// Duration of the step.
   ///
@@ -4884,6 +5016,7 @@ class RouteTransitTravelStep {
   }
 }
 
+/// @nodoc
 class RouteTransitTravelStepType {
   static const depart = RouteTransitTravelStepType._('Depart');
 
@@ -4909,6 +5042,8 @@ class RouteTransitTravelStepType {
 }
 
 /// Details about the availability of accessibility features.
+///
+/// @nodoc
 class RouteAccessibilityAvailabilityDetails {
   /// Wheelchair accessibility status.
   final RouteAccessibilityAvailability? wheelchair;
@@ -4933,6 +5068,7 @@ class RouteAccessibilityAvailabilityDetails {
   }
 }
 
+/// @nodoc
 class RouteTransitMode {
   static const aerialTramway = RouteTransitMode._('AerialTramway');
   static const airplane = RouteTransitMode._('Airplane');
@@ -4988,6 +5124,7 @@ class RouteTransitMode {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteAccessibilityAvailability {
   static const available = RouteAccessibilityAvailability._('Available');
   static const limited = RouteAccessibilityAvailability._('Limited');
@@ -5016,6 +5153,8 @@ class RouteAccessibilityAvailability {
 }
 
 /// Summary including duration and distance for the entire leg.
+///
+/// @nodoc
 class RouteTransitOverviewSummary {
   /// Distance of the entire leg.
   ///
@@ -5051,6 +5190,8 @@ class RouteTransitOverviewSummary {
 
 /// Summary including duration and distance for the travel portion of the leg
 /// only.
+///
+/// @nodoc
 class RouteTransitTravelOnlySummary {
   /// Duration of the travel portion of the transit leg.
   ///
@@ -5076,6 +5217,8 @@ class RouteTransitTravelOnlySummary {
 }
 
 /// Span computed for the requested SpanAdditionalFeatures.
+///
+/// @nodoc
 class RouteTransitSpan {
   /// 3 letter Country code corresponding to the Span.
   final String? country;
@@ -5145,6 +5288,8 @@ class RouteTransitSpan {
 
 /// If the waypoint should be treated as a stop. If yes, the route is split up
 /// into different legs around the stop.
+///
+/// @nodoc
 class RoutePassThroughWaypoint {
   /// Place details corresponding to the pass-through waypoint.
   final RoutePassThroughPlace place;
@@ -5177,8 +5322,10 @@ class RoutePassThroughWaypoint {
 }
 
 /// The place where the waypoint is passed through and not treated as a stop.
+///
+/// @nodoc
 class RoutePassThroughPlace {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Position provided in the request.
@@ -5220,6 +5367,8 @@ class RoutePassThroughPlace {
 }
 
 /// A notice that indicates an issue that occurred during route calculation.
+///
+/// @nodoc
 class RouteTransitNotice {
   /// Code corresponding to the issue.
   final RouteTransitNoticeCode code;
@@ -5251,6 +5400,7 @@ class RouteTransitNotice {
   }
 }
 
+/// @nodoc
 class RouteTransitNoticeCode {
   static const accuratePolylineUnavailable =
       RouteTransitNoticeCode._('AccuratePolylineUnavailable');
@@ -5307,6 +5457,7 @@ class RouteTransitNoticeCode {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteNoticeImpact {
   static const high = RouteNoticeImpact._('High');
   static const low = RouteNoticeImpact._('Low');
@@ -5332,6 +5483,8 @@ class RouteNoticeImpact {
 }
 
 /// Details about the next available departure for the transit service.
+///
+/// @nodoc
 class RouteTransitNextDeparture {
   /// The departure time.
   final String time;
@@ -5388,6 +5541,7 @@ class RouteTransitNextDeparture {
   }
 }
 
+/// @nodoc
 class RouteTransitTripStatus {
   static const added = RouteTransitTripStatus._('Added');
   static const cancelled = RouteTransitTripStatus._('Cancelled');
@@ -5416,6 +5570,8 @@ class RouteTransitTripStatus {
 }
 
 /// An intermediate stop between departure and destination of the transit route.
+///
+/// @nodoc
 class RouteTransitIntermediateStop {
   /// Departure details for the intermediate stop.
   final RouteTransitDeparture departure;
@@ -5478,6 +5634,7 @@ class RouteTransitIntermediateStop {
   }
 }
 
+/// @nodoc
 class RouteTransitIntermediateStopAttribute {
   static const noEntry = RouteTransitIntermediateStopAttribute._('NoEntry');
   static const noExit = RouteTransitIntermediateStopAttribute._('NoExit');
@@ -5504,6 +5661,8 @@ class RouteTransitIntermediateStopAttribute {
 }
 
 /// An incident describes disruptions on the transit route.
+///
+/// @nodoc
 class RouteTransitIncident {
   /// The effect of the incident on the transit service.
   final RouteTransitIncidentEffect effect;
@@ -5563,6 +5722,7 @@ class RouteTransitIncident {
   }
 }
 
+/// @nodoc
 class RouteTransitIncidentEffect {
   static const delayed = RouteTransitIncidentEffect._('Delayed');
   static const detoured = RouteTransitIncidentEffect._('Detoured');
@@ -5605,6 +5765,7 @@ class RouteTransitIncidentEffect {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteTransitIncidentType {
   static const accident = RouteTransitIncidentType._('Accident');
   static const construction = RouteTransitIncidentType._('Construction');
@@ -5654,8 +5815,10 @@ class RouteTransitIncidentType {
 }
 
 /// Place details corresponding to the arrival or departure.
+///
+/// @nodoc
 class RouteTransitPlace {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// The name of the place.
@@ -5721,6 +5884,8 @@ class RouteTransitPlace {
 }
 
 /// Details about the station.
+///
+/// @nodoc
 class RouteStationDetails {
   /// Wheelchair accessibility information for the station.
   final RouteAccessibilityAvailabilityDetails? accessibility;
@@ -5760,6 +5925,7 @@ class RouteStationDetails {
   }
 }
 
+/// @nodoc
 class RouteTransitPlaceType {
   static const station = RouteTransitPlaceType._('Station');
 
@@ -5785,6 +5951,8 @@ class RouteTransitPlaceType {
 }
 
 /// The URL to an external resource.
+///
+/// @nodoc
 class RouteWebLink {
   /// Text describing the URL.
   final String description;
@@ -5829,6 +5997,7 @@ class RouteWebLink {
   }
 }
 
+/// @nodoc
 class RouteWebLinkDeviceType {
   static const android = RouteWebLinkDeviceType._('Android');
   static const ios = RouteWebLinkDeviceType._('Ios');
@@ -5856,6 +6025,8 @@ class RouteWebLinkDeviceType {
 }
 
 /// A step that must be performed before the travel portion of the leg.
+///
+/// @nodoc
 class RouteTransitBeforeTravelStep {
   /// Duration of the step.
   ///
@@ -5895,6 +6066,7 @@ class RouteTransitBeforeTravelStep {
   }
 }
 
+/// @nodoc
 class RouteTransitBeforeTravelStepType {
   static const board = RouteTransitBeforeTravelStepType._('Board');
 
@@ -5920,6 +6092,8 @@ class RouteTransitBeforeTravelStepType {
 }
 
 /// Required attribution to display.
+///
+/// @nodoc
 class RouteAttribution {
   /// The URL to an external resource.
   final RouteWebLink webLink;
@@ -5952,6 +6126,7 @@ class RouteAttribution {
   }
 }
 
+/// @nodoc
 class RouteAttributionType {
   static const disclaimer = RouteAttributionType._('Disclaimer');
   static const tariff = RouteAttributionType._('Tariff');
@@ -5978,6 +6153,8 @@ class RouteAttributionType {
 }
 
 /// A step that must be performed after the travel portion of the leg.
+///
+/// @nodoc
 class RouteTransitAfterTravelStep {
   /// Duration of the step.
   ///
@@ -6017,6 +6194,7 @@ class RouteTransitAfterTravelStep {
   }
 }
 
+/// @nodoc
 class RouteTransitAfterTravelStepType {
   static const deboard = RouteTransitAfterTravelStepType._('Deboard');
 
@@ -6042,6 +6220,8 @@ class RouteTransitAfterTravelStepType {
 }
 
 /// Details about the taxi agency.
+///
+/// @nodoc
 class RouteTaxiAgency {
   /// Name of the agency.
   final String name;
@@ -6072,6 +6252,8 @@ class RouteTaxiAgency {
 }
 
 /// Details corresponding to the arrival for the leg.
+///
+/// @nodoc
 class RouteTaxiArrival {
   /// Place details corresponding to the arrival.
   final RouteTaxiPlace place;
@@ -6103,6 +6285,8 @@ class RouteTaxiArrival {
 }
 
 /// Details corresponding to the departure for the leg.
+///
+/// @nodoc
 class RouteTaxiDeparture {
   /// Place details corresponding to the departure.
   final RouteTaxiPlace place;
@@ -6134,6 +6318,8 @@ class RouteTaxiDeparture {
 }
 
 /// Summary of the taxi leg.
+///
+/// @nodoc
 class RouteTaxiSummary {
   /// Summary including duration and distance for the entire leg.
   final RouteTaxiOverviewSummary? overview;
@@ -6171,6 +6357,8 @@ class RouteTaxiSummary {
 }
 
 /// Transport mode details for the taxi leg.
+///
+/// @nodoc
 class RouteTaxiTransportModeDetails {
   /// Mode of the taxi transport.
   final RouteTaxiMode mode;
@@ -6250,6 +6438,8 @@ class RouteTaxiTransportModeDetails {
 }
 
 /// A step that must be performed during the travel portion of the leg.
+///
+/// @nodoc
 class RouteTaxiTravelStep {
   /// Duration of the step.
   ///
@@ -6381,6 +6571,8 @@ class RouteTaxiTravelStep {
 }
 
 /// Details related to the continue step.
+///
+/// @nodoc
 class RouteContinueStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6407,6 +6599,8 @@ class RouteContinueStepDetails {
 }
 
 /// Details related to the exit step.
+///
+/// @nodoc
 class RouteExitStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6464,6 +6658,8 @@ class RouteExitStepDetails {
 }
 
 /// Details that are specific to a Keep step.
+///
+/// @nodoc
 class RouteKeepStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6514,6 +6710,8 @@ class RouteKeepStepDetails {
 }
 
 /// Details that are specific to a ramp step.
+///
+/// @nodoc
 class RouteRampStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6564,6 +6762,8 @@ class RouteRampStepDetails {
 }
 
 /// Details about the roundabout leg.
+///
+/// @nodoc
 class RouteRoundaboutEnterStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6614,6 +6814,8 @@ class RouteRoundaboutEnterStepDetails {
 }
 
 /// Details about the roundabout step.
+///
+/// @nodoc
 class RouteRoundaboutExitStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6663,6 +6865,8 @@ class RouteRoundaboutExitStepDetails {
 }
 
 /// Details about the step.
+///
+/// @nodoc
 class RouteRoundaboutPassStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6713,6 +6917,8 @@ class RouteRoundaboutPassStepDetails {
 }
 
 /// Details related to the turn step.
+///
+/// @nodoc
 class RouteTurnStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6762,6 +6968,7 @@ class RouteTurnStepDetails {
   }
 }
 
+/// @nodoc
 class RouteTaxiTravelStepType {
   static const arrive = RouteTaxiTravelStepType._('Arrive');
   static const $continue = RouteTaxiTravelStepType._('Continue');
@@ -6809,6 +7016,8 @@ class RouteTaxiTravelStepType {
 }
 
 /// Details related to the U-turn step.
+///
+/// @nodoc
 class RouteUTurnStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -6858,6 +7067,7 @@ class RouteUTurnStepDetails {
   }
 }
 
+/// @nodoc
 class RouteSteeringDirection {
   static const left = RouteSteeringDirection._('Left');
   static const right = RouteSteeringDirection._('Right');
@@ -6884,6 +7094,7 @@ class RouteSteeringDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteTurnIntensity {
   static const sharp = RouteTurnIntensity._('Sharp');
   static const slight = RouteTurnIntensity._('Slight');
@@ -6910,6 +7121,7 @@ class RouteTurnIntensity {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteEngineType {
   static const electric = RouteEngineType._('Electric');
   static const internalCombustion = RouteEngineType._('InternalCombustion');
@@ -6935,6 +7147,7 @@ class RouteEngineType {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteTaxiMode {
   static const all = RouteTaxiMode._('All');
   static const car = RouteTaxiMode._('Car');
@@ -6960,6 +7173,8 @@ class RouteTaxiMode {
 }
 
 /// Summary including duration and distance for the entire leg.
+///
+/// @nodoc
 class RouteTaxiOverviewSummary {
   /// Distance of the entire leg.
   ///
@@ -6995,6 +7210,8 @@ class RouteTaxiOverviewSummary {
 
 /// Summary including duration and distance for the travel portion of the leg
 /// only.
+///
+/// @nodoc
 class RouteTaxiTravelOnlySummary {
   /// Duration of the travel portion of the taxi leg.
   ///
@@ -7020,6 +7237,8 @@ class RouteTaxiTravelOnlySummary {
 }
 
 /// A notice that indicates an issue that occurred during route calculation.
+///
+/// @nodoc
 class RouteTaxiNotice {
   /// Code corresponding to the issue.
   final RouteTaxiNoticeCode code;
@@ -7051,6 +7270,7 @@ class RouteTaxiNotice {
   }
 }
 
+/// @nodoc
 class RouteTaxiNoticeCode {
   static const accuratePolylineUnavailable =
       RouteTaxiNoticeCode._('AccuratePolylineUnavailable');
@@ -7078,8 +7298,10 @@ class RouteTaxiNoticeCode {
 }
 
 /// Place details corresponding to the arrival or departure.
+///
+/// @nodoc
 class RouteTaxiPlace {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Details of the access point.
@@ -7155,6 +7377,8 @@ class RouteTaxiPlace {
 }
 
 /// Details of the access point.
+///
+/// @nodoc
 class RouteAccessPointDetails {
   /// Wheelchair accessibility information for the access point.
   final RouteAccessibilityAvailabilityDetails? accessibility;
@@ -7180,6 +7404,7 @@ class RouteAccessPointDetails {
   }
 }
 
+/// @nodoc
 class RouteTaxiPlaceType {
   static const accessPoint = RouteTaxiPlaceType._('AccessPoint');
   static const station = RouteTaxiPlaceType._('Station');
@@ -7206,6 +7431,8 @@ class RouteTaxiPlaceType {
 }
 
 /// A step that must be performed before the travel portion of the leg.
+///
+/// @nodoc
 class RouteTaxiBeforeTravelStep {
   /// Duration of the step.
   ///
@@ -7245,6 +7472,7 @@ class RouteTaxiBeforeTravelStep {
   }
 }
 
+/// @nodoc
 class RouteTaxiBeforeTravelStepType {
   static const wait = RouteTaxiBeforeTravelStepType._('Wait');
 
@@ -7270,6 +7498,8 @@ class RouteTaxiBeforeTravelStepType {
 }
 
 /// A step that must be performed after the travel portion of the leg.
+///
+/// @nodoc
 class RouteTaxiAfterTravelStep {
   /// Duration of the step.
   ///
@@ -7309,6 +7539,7 @@ class RouteTaxiAfterTravelStep {
   }
 }
 
+/// @nodoc
 class RouteTaxiAfterTravelStepType {
   static const park = RouteTaxiAfterTravelStepType._('Park');
 
@@ -7334,6 +7565,8 @@ class RouteTaxiAfterTravelStepType {
 }
 
 /// Details about the rental agency.
+///
+/// @nodoc
 class RouteRentalAgency {
   /// Name of the agency.
   final String name;
@@ -7364,6 +7597,8 @@ class RouteRentalAgency {
 }
 
 /// Details corresponding to the arrival for the leg.
+///
+/// @nodoc
 class RouteRentalArrival {
   /// Place details corresponding to the arrival.
   final RouteRentalPlace place;
@@ -7396,6 +7631,8 @@ class RouteRentalArrival {
 }
 
 /// Details corresponding to the departure for the leg.
+///
+/// @nodoc
 class RouteRentalDeparture {
   /// Place details corresponding to the departure.
   final RouteRentalPlace place;
@@ -7428,6 +7665,8 @@ class RouteRentalDeparture {
 }
 
 /// Summary of the rental leg.
+///
+/// @nodoc
 class RouteRentalSummary {
   /// Summary including duration and distance for the entire leg.
   final RouteRentalOverviewSummary? overview;
@@ -7465,6 +7704,8 @@ class RouteRentalSummary {
 }
 
 /// Transport mode details for the rental leg.
+///
+/// @nodoc
 class RouteRentalTransportModeDetails {
   /// Mode of the rental transport.
   final RouteRentalMode mode;
@@ -7544,6 +7785,8 @@ class RouteRentalTransportModeDetails {
 }
 
 /// A step that must be performed during the travel portion of the leg.
+///
+/// @nodoc
 class RouteRentalTravelStep {
   /// Duration of the step.
   ///
@@ -7675,6 +7918,7 @@ class RouteRentalTravelStep {
   }
 }
 
+/// @nodoc
 class RouteRentalTravelStepType {
   static const arrive = RouteRentalTravelStepType._('Arrive');
   static const $continue = RouteRentalTravelStepType._('Continue');
@@ -7721,6 +7965,7 @@ class RouteRentalTravelStepType {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteRentalMode {
   static const all = RouteRentalMode._('All');
   static const car = RouteRentalMode._('Car');
@@ -7746,6 +7991,8 @@ class RouteRentalMode {
 }
 
 /// Summary including duration and distance for the entire leg.
+///
+/// @nodoc
 class RouteRentalOverviewSummary {
   /// Distance of the entire leg.
   ///
@@ -7781,6 +8028,8 @@ class RouteRentalOverviewSummary {
 
 /// Summary including duration and distance for the travel portion of the leg
 /// only.
+///
+/// @nodoc
 class RouteRentalTravelOnlySummary {
   /// Duration of the travel portion of the rental leg.
   ///
@@ -7806,8 +8055,10 @@ class RouteRentalTravelOnlySummary {
 }
 
 /// Place details corresponding to the arrival or departure.
+///
+/// @nodoc
 class RouteRentalPlace {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Details of the access point.
@@ -7882,6 +8133,7 @@ class RouteRentalPlace {
   }
 }
 
+/// @nodoc
 class RouteRentalPlaceType {
   static const accessPoint = RouteRentalPlaceType._('AccessPoint');
   static const dockingStation = RouteRentalPlaceType._('DockingStation');
@@ -7910,6 +8162,8 @@ class RouteRentalPlaceType {
 }
 
 /// A step that must be performed before the travel portion of the leg.
+///
+/// @nodoc
 class RouteRentalBeforeTravelStep {
   /// Duration of the step.
   ///
@@ -7949,6 +8203,7 @@ class RouteRentalBeforeTravelStep {
   }
 }
 
+/// @nodoc
 class RouteRentalBeforeTravelStepType {
   static const setup = RouteRentalBeforeTravelStepType._('Setup');
 
@@ -7974,6 +8229,8 @@ class RouteRentalBeforeTravelStepType {
 }
 
 /// A step that must be performed after the travel portion of the leg.
+///
+/// @nodoc
 class RouteRentalAfterTravelStep {
   /// Duration of the step.
   ///
@@ -8013,6 +8270,7 @@ class RouteRentalAfterTravelStep {
   }
 }
 
+/// @nodoc
 class RouteRentalAfterTravelStepType {
   static const park = RouteRentalAfterTravelStepType._('Park');
 
@@ -8038,6 +8296,8 @@ class RouteRentalAfterTravelStepType {
 }
 
 /// Details corresponding to the arrival for a leg.
+///
+/// @nodoc
 class RouteVehicleArrival {
   /// Place details corresponding to the arrival.
   final RouteVehiclePlace place;
@@ -8070,6 +8330,8 @@ class RouteVehicleArrival {
 }
 
 /// Details corresponding to the departure for the leg.
+///
+/// @nodoc
 class RouteVehicleDeparture {
   /// Place details corresponding to the departure.
   final RouteVehiclePlace place;
@@ -8102,6 +8364,8 @@ class RouteVehicleDeparture {
 }
 
 /// Summarized details of the route.
+///
+/// @nodoc
 class RouteVehicleSummary {
   /// Summarized details for the leg including before travel, travel and after
   /// travel steps.
@@ -8140,6 +8404,8 @@ class RouteVehicleSummary {
 }
 
 /// The zone.
+///
+/// @nodoc
 class RouteZone {
   /// The zone category.
   final RouteZoneCategory? category;
@@ -8170,6 +8436,7 @@ class RouteZone {
   }
 }
 
+/// @nodoc
 class RouteZoneCategory {
   static const congestionPricing = RouteZoneCategory._('CongestionPricing');
   static const environmental = RouteZoneCategory._('Environmental');
@@ -8196,6 +8463,8 @@ class RouteZoneCategory {
 }
 
 /// Steps of a leg that correspond to the travel portion of the leg.
+///
+/// @nodoc
 class RouteVehicleTravelStep {
   /// Duration of the step.
   ///
@@ -8407,6 +8676,8 @@ class RouteVehicleTravelStep {
 }
 
 /// Details related to the continue highway step.
+///
+/// @nodoc
 class RouteContinueHighwayStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -8457,6 +8728,8 @@ class RouteContinueHighwayStepDetails {
 }
 
 /// The road on the route.
+///
+/// @nodoc
 class RouteRoad {
   /// Name of the road (localized).
   final List<LocalizedString> roadName;
@@ -8510,6 +8783,8 @@ class RouteRoad {
 }
 
 /// Details related to the enter highway step.
+///
+/// @nodoc
 class RouteEnterHighwayStepDetails {
   /// Name of the intersection, if applicable to the step.
   final List<LocalizedString> intersection;
@@ -8561,6 +8836,8 @@ class RouteEnterHighwayStepDetails {
 
 /// Sign post information of the action, applicable only for TurnByTurn steps.
 /// See RouteSignpost for details of sub-attributes.
+///
+/// @nodoc
 class RouteSignpost {
   /// Labels present on the sign post.
   final List<RouteSignpostLabel> labels;
@@ -8586,6 +8863,7 @@ class RouteSignpost {
   }
 }
 
+/// @nodoc
 class RouteVehicleTravelStepType {
   static const arrive = RouteVehicleTravelStepType._('Arrive');
   static const $continue = RouteVehicleTravelStepType._('Continue');
@@ -8639,6 +8917,8 @@ class RouteVehicleTravelStepType {
 }
 
 /// Labels presented on the sign post.
+///
+/// @nodoc
 class RouteSignpostLabel {
   /// Route number of the road.
   final RouteNumber? routeNumber;
@@ -8672,6 +8952,7 @@ class RouteSignpostLabel {
   }
 }
 
+/// @nodoc
 class RouteRoadType {
   static const highway = RouteRoadType._('Highway');
   static const rural = RouteRoadType._('Rural');
@@ -8698,6 +8979,8 @@ class RouteRoadType {
 }
 
 /// Toll systems are authorities that collect payments for the toll.
+///
+/// @nodoc
 class RouteTollSystem {
   /// The toll system name.
   final String? name;
@@ -8723,6 +9006,8 @@ class RouteTollSystem {
 /// Provides details about toll information along a route, including the payment
 /// sites, applicable toll rates, toll systems, and the country associated with
 /// the toll collection.
+///
+/// @nodoc
 class RouteToll {
   /// Locations or sites where the toll fare is collected.
   final List<RouteTollPaymentSite> paymentSites;
@@ -8776,6 +9061,8 @@ class RouteToll {
 }
 
 /// The toll rate.
+///
+/// @nodoc
 class RouteTollRate {
   /// The Toll rate Id.
   final String id;
@@ -8861,6 +9148,8 @@ class RouteTollRate {
 }
 
 /// The toll price.
+///
+/// @nodoc
 class RouteTollPrice {
   /// Currency code corresponding to the price. This is the same as Currency
   /// specified in the request.
@@ -8926,6 +9215,8 @@ class RouteTollPrice {
 }
 
 /// Details if the toll rate can be a pass that supports multiple trips.
+///
+/// @nodoc
 class RouteTollPass {
   /// If the pass includes the rate for the return leg of the trip.
   final bool? includesReturnTrip;
@@ -8980,6 +9271,8 @@ class RouteTollPass {
 }
 
 /// Transponders for which this toll can be applied.
+///
+/// @nodoc
 class RouteTransponder {
   /// Names of the toll system collecting the toll.
   final String? systemName;
@@ -9002,6 +9295,7 @@ class RouteTransponder {
   }
 }
 
+/// @nodoc
 class RouteTollPaymentMethod {
   static const bankCard = RouteTollPaymentMethod._('BankCard');
   static const cash = RouteTollPaymentMethod._('Cash');
@@ -9043,6 +9337,8 @@ class RouteTollPaymentMethod {
 }
 
 /// Period for which the pass is valid.
+///
+/// @nodoc
 class RouteTollPassValidityPeriod {
   /// Validity period.
   final RouteTollPassValidityPeriodType period;
@@ -9073,6 +9369,7 @@ class RouteTollPassValidityPeriod {
   }
 }
 
+/// @nodoc
 class RouteTollPassValidityPeriodType {
   static const annual = RouteTollPassValidityPeriodType._('Annual');
   static const days = RouteTollPassValidityPeriodType._('Days');
@@ -9103,8 +9400,10 @@ class RouteTollPassValidityPeriodType {
 }
 
 /// Locations or sites where the toll fare is collected.
+///
+/// @nodoc
 class RouteTollPaymentSite {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Name of the payment site.
@@ -9136,6 +9435,8 @@ class RouteTollPaymentSite {
 }
 
 /// Summary including duration and distance for the entire leg.
+///
+/// @nodoc
 class RouteVehicleOverviewSummary {
   /// Distance of the entire leg.
   ///
@@ -9189,6 +9490,8 @@ class RouteVehicleOverviewSummary {
 }
 
 /// Summarized details of the route.
+///
+/// @nodoc
 class RouteVehicleTravelOnlySummary {
   /// Duration of the step.
   ///
@@ -9233,6 +9536,8 @@ class RouteVehicleTravelOnlySummary {
 }
 
 /// Span computed for the requested SpanAdditionalFeatures.
+///
+/// @nodoc
 class RouteVehicleSpan {
   /// Duration of the computed span without traffic congestion.
   ///
@@ -9496,6 +9801,8 @@ class RouteVehicleSpan {
 /// Details about the dynamic speed.
 ///
 /// <b>Unit</b>: <code>kilometers per hour</code>
+///
+/// @nodoc
 class RouteSpanDynamicSpeedDetails {
   /// Estimated speed while traversing the span without traffic congestion.
   ///
@@ -9538,6 +9845,7 @@ class RouteSpanDynamicSpeedDetails {
   }
 }
 
+/// @nodoc
 class RouteSpanGateAttribute {
   static const emergency = RouteSpanGateAttribute._('Emergency');
   static const keyAccess = RouteSpanGateAttribute._('KeyAccess');
@@ -9565,6 +9873,7 @@ class RouteSpanGateAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteSpanRailwayCrossingAttribute {
   static const protected = RouteSpanRailwayCrossingAttribute._('Protected');
   static const unprotected = RouteSpanRailwayCrossingAttribute._('Unprotected');
@@ -9593,6 +9902,8 @@ class RouteSpanRailwayCrossingAttribute {
 /// Details about the speed limit corresponding to the span.
 ///
 /// <b>Unit</b>: <code>kilometers per hour</code>
+///
+/// @nodoc
 class RouteSpanSpeedLimitDetails {
   /// Maximum speed.
   ///
@@ -9624,6 +9935,7 @@ class RouteSpanSpeedLimitDetails {
   }
 }
 
+/// @nodoc
 class RouteSpanTruckAccessAttribute {
   static const allowed = RouteSpanTruckAccessAttribute._('Allowed');
   static const noThroughTraffic =
@@ -9651,6 +9963,7 @@ class RouteSpanTruckAccessAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteSpanScooterAccessAttribute {
   static const allowed = RouteSpanScooterAccessAttribute._('Allowed');
   static const noThroughTraffic =
@@ -9678,6 +9991,7 @@ class RouteSpanScooterAccessAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteSpanRoadAttribute {
   static const bridge = RouteSpanRoadAttribute._('Bridge');
   static const builtUpArea = RouteSpanRoadAttribute._('BuiltUpArea');
@@ -9728,6 +10042,7 @@ class RouteSpanRoadAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteSpanCarAccessAttribute {
   static const allowed = RouteSpanCarAccessAttribute._('Allowed');
   static const noThroughTraffic =
@@ -9757,6 +10072,8 @@ class RouteSpanCarAccessAttribute {
 
 /// Notices are additional information returned that indicate issues that
 /// occurred during route calculation.
+///
+/// @nodoc
 class RouteVehicleNotice {
   /// Code corresponding to the issue.
   final RouteVehicleNoticeCode code;
@@ -9799,6 +10116,7 @@ class RouteVehicleNotice {
   }
 }
 
+/// @nodoc
 class RouteVehicleNoticeCode {
   static const accuratePolylineUnavailable =
       RouteVehicleNoticeCode._('AccuratePolylineUnavailable');
@@ -9904,6 +10222,8 @@ class RouteVehicleNoticeCode {
 }
 
 /// Additional details of the notice.
+///
+/// @nodoc
 class RouteVehicleNoticeDetail {
   /// The notice title.
   final String? title;
@@ -9938,6 +10258,8 @@ class RouteVehicleNoticeDetail {
 }
 
 /// This property contains a summary of violated constraints.
+///
+/// @nodoc
 class RouteViolatedConstraints {
   /// List of Hazardous cargo contained in the vehicle.
   final List<RouteHazardousCargoType> hazardousCargos;
@@ -10180,6 +10502,8 @@ class RouteViolatedConstraints {
 }
 
 /// Notice Detail that is a range.
+///
+/// @nodoc
 class RouteNoticeDetailRange {
   /// Maximum value for the range.
   final int? max;
@@ -10212,6 +10536,8 @@ class RouteNoticeDetailRange {
 /// The weight constraint for the route.
 ///
 /// <b>Unit</b>: <code>kilograms</code>
+///
+/// @nodoc
 class RouteWeightConstraint {
   /// The type of constraint.
   final RouteWeightConstraintType type;
@@ -10249,6 +10575,8 @@ class RouteWeightConstraint {
 /// types.
 ///
 /// <b>Unit</b>: <code>kilograms</code>
+///
+/// @nodoc
 class WeightPerAxleGroup {
   /// Total weight in kilograms for quad (four adjacent) axle configurations.
   ///
@@ -10309,6 +10637,7 @@ class WeightPerAxleGroup {
   }
 }
 
+/// @nodoc
 class RouteTruckType {
   static const lightTruck = RouteTruckType._('LightTruck');
   static const straightTruck = RouteTruckType._('StraightTruck');
@@ -10334,6 +10663,7 @@ class RouteTruckType {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteWeightConstraintType {
   static const current = RouteWeightConstraintType._('Current');
   static const gross = RouteWeightConstraintType._('Gross');
@@ -10360,6 +10690,7 @@ class RouteWeightConstraintType {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteHazardousCargoType {
   static const combustible = RouteHazardousCargoType._('Combustible');
   static const corrosive = RouteHazardousCargoType._('Corrosive');
@@ -10408,6 +10739,8 @@ class RouteHazardousCargoType {
 }
 
 /// Incidents corresponding to this leg of the route.
+///
+/// @nodoc
 class RouteVehicleIncident {
   /// Brief readable description of the incident.
   final String? description;
@@ -10462,6 +10795,7 @@ class RouteVehicleIncident {
   }
 }
 
+/// @nodoc
 class RouteVehicleIncidentSeverity {
   static const critical = RouteVehicleIncidentSeverity._('Critical');
   static const high = RouteVehicleIncidentSeverity._('High');
@@ -10489,6 +10823,7 @@ class RouteVehicleIncidentSeverity {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteVehicleIncidentType {
   static const accident = RouteVehicleIncidentType._('Accident');
   static const congestion = RouteVehicleIncidentType._('Congestion');
@@ -10536,8 +10871,10 @@ class RouteVehicleIncidentType {
 }
 
 /// Place details corresponding to the arrival or departure.
+///
+/// @nodoc
 class RouteVehiclePlace {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Details of the access point.
@@ -10620,6 +10957,7 @@ class RouteVehiclePlace {
   }
 }
 
+/// @nodoc
 class RouteSideOfStreet {
   static const left = RouteSideOfStreet._('Left');
   static const right = RouteSideOfStreet._('Right');
@@ -10644,6 +10982,7 @@ class RouteSideOfStreet {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteVehiclePlaceType {
   static const accessPoint = RouteVehiclePlaceType._('AccessPoint');
   static const dockingStation = RouteVehiclePlaceType._('DockingStation');
@@ -10672,6 +11011,8 @@ class RouteVehiclePlaceType {
 }
 
 /// Steps of a leg that must be performed after the travel portion of the leg.
+///
+/// @nodoc
 class RouteVehicleAfterTravelStep {
   /// Duration of the step.
   ///
@@ -10727,6 +11068,8 @@ class RouteVehicleAfterTravelStep {
 }
 
 /// Details about the EV charge at the current step.
+///
+/// @nodoc
 class RouteChargeStepDetails {
   /// Estimated vehicle battery charge before this step (in kWh).
   final double? arrivalCharge;
@@ -10767,6 +11110,7 @@ class RouteChargeStepDetails {
   }
 }
 
+/// @nodoc
 class RouteVehicleAfterTravelStepType {
   static const park = RouteVehicleAfterTravelStepType._('Park');
 
@@ -10801,6 +11145,8 @@ class RouteVehicleAfterTravelStepType {
 /// <code>2020-04-22T17:57:24Z</code>
 ///
 /// <code>2020-04-22T17:57:24+02:00</code>
+///
+/// @nodoc
 class RoutePedestrianArrival {
   /// Place details corresponding to the arrival.
   final RoutePedestrianPlace place;
@@ -10842,6 +11188,8 @@ class RoutePedestrianArrival {
 /// <code>2020-04-22T17:57:24Z</code>
 ///
 /// <code>2020-04-22T17:57:24+02:00</code>
+///
+/// @nodoc
 class RoutePedestrianDeparture {
   /// Place details corresponding to the departure.
   final RoutePedestrianPlace place;
@@ -10875,6 +11223,8 @@ class RoutePedestrianDeparture {
 
 /// Summarized details for the leg including before travel, travel and after
 /// travel steps.
+///
+/// @nodoc
 class RoutePedestrianSummary {
   /// Summarized details for the leg including before travel, travel and after
   /// travel steps.
@@ -10913,6 +11263,8 @@ class RoutePedestrianSummary {
 }
 
 /// Steps of a leg that must be performed during the travel portion of the leg.
+///
+/// @nodoc
 class RoutePedestrianTravelStep {
   /// Duration of the step.
   ///
@@ -11071,6 +11423,7 @@ class RoutePedestrianTravelStep {
   }
 }
 
+/// @nodoc
 class RoutePedestrianTravelStepType {
   static const arrive = RoutePedestrianTravelStepType._('Arrive');
   static const $continue = RoutePedestrianTravelStepType._('Continue');
@@ -11115,6 +11468,8 @@ class RoutePedestrianTravelStepType {
 }
 
 /// Summary including duration and distance for the entire leg.
+///
+/// @nodoc
 class RoutePedestrianOverviewSummary {
   /// Distance of the entire leg.
   ///
@@ -11149,6 +11504,8 @@ class RoutePedestrianOverviewSummary {
 }
 
 /// Summarized details for the leg including travel steps.
+///
+/// @nodoc
 class RoutePedestrianTravelOnlySummary {
   /// Duration of the step.
   ///
@@ -11174,6 +11531,8 @@ class RoutePedestrianTravelOnlySummary {
 }
 
 /// Span computed for the requested SpanAdditionalFeatures.
+///
+/// @nodoc
 class RoutePedestrianSpan {
   /// Duration of the computed span without traffic congestion.
   ///
@@ -11356,6 +11715,7 @@ class RoutePedestrianSpan {
   }
 }
 
+/// @nodoc
 class RouteSpanPedestrianAccessAttribute {
   static const allowed = RouteSpanPedestrianAccessAttribute._('Allowed');
   static const indoors = RouteSpanPedestrianAccessAttribute._('Indoors');
@@ -11395,6 +11755,8 @@ class RouteSpanPedestrianAccessAttribute {
 
 /// Notices are additional information returned that indicate issues that
 /// occurred during route calculation.
+///
+/// @nodoc
 class RoutePedestrianNotice {
   /// Code corresponding to the issue.
   final RoutePedestrianNoticeCode code;
@@ -11427,6 +11789,7 @@ class RoutePedestrianNotice {
   }
 }
 
+/// @nodoc
 class RoutePedestrianNoticeCode {
   static const accuratePolylineUnavailable =
       RoutePedestrianNoticeCode._('AccuratePolylineUnavailable');
@@ -11469,8 +11832,10 @@ class RoutePedestrianNoticeCode {
 }
 
 /// Place details corresponding to the arrival or departure.
+///
+/// @nodoc
 class RoutePedestrianPlace {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Details of the access point.
@@ -11553,6 +11918,7 @@ class RoutePedestrianPlace {
   }
 }
 
+/// @nodoc
 class RoutePedestrianPlaceType {
   static const accessPoint = RoutePedestrianPlaceType._('AccessPoint');
   static const dockingStation = RoutePedestrianPlaceType._('DockingStation');
@@ -11581,6 +11947,8 @@ class RoutePedestrianPlaceType {
 }
 
 /// Steps of a leg that must be performed after the travel portion of the leg.
+///
+/// @nodoc
 class RoutePedestrianAfterTravelStep {
   /// Duration of the step.
   ///
@@ -11623,6 +11991,7 @@ class RoutePedestrianAfterTravelStep {
   }
 }
 
+/// @nodoc
 class RoutePedestrianAfterTravelStepType {
   static const wait = RoutePedestrianAfterTravelStepType._('Wait');
 
@@ -11648,6 +12017,8 @@ class RoutePedestrianAfterTravelStepType {
 }
 
 /// Details corresponding to the arrival for the leg.
+///
+/// @nodoc
 class RouteFerryArrival {
   /// Place details corresponding to the arrival.
   final RouteFerryPlace place;
@@ -11680,6 +12051,8 @@ class RouteFerryArrival {
 }
 
 /// Details corresponding to the departure for the leg.
+///
+/// @nodoc
 class RouteFerryDeparture {
   /// Place details corresponding to the departure.
   final RouteFerryPlace place;
@@ -11714,6 +12087,8 @@ class RouteFerryDeparture {
 /// Summarized details for the leg including travel steps only. The Distance for
 /// the travel only portion of the journey is the same as the Distance within
 /// the Overview summary.
+///
+/// @nodoc
 class RouteFerrySummary {
   /// Summarized details for the leg including before travel, travel and after
   /// travel steps.
@@ -11752,6 +12127,8 @@ class RouteFerrySummary {
 }
 
 /// Steps of a leg that must be performed during the travel portion of the leg.
+///
+/// @nodoc
 class RouteFerryTravelStep {
   /// Duration of the step.
   ///
@@ -11808,6 +12185,7 @@ class RouteFerryTravelStep {
   }
 }
 
+/// @nodoc
 class RouteFerryTravelStepType {
   static const depart = RouteFerryTravelStepType._('Depart');
   static const $continue = RouteFerryTravelStepType._('Continue');
@@ -11835,6 +12213,8 @@ class RouteFerryTravelStepType {
 }
 
 /// Summary including duration and distance for the entire leg.
+///
+/// @nodoc
 class RouteFerryOverviewSummary {
   /// Distance of the entire leg.
   ///
@@ -11871,6 +12251,8 @@ class RouteFerryOverviewSummary {
 /// Summarized details for the leg including travel steps only. The Distance for
 /// the travel only portion of the journey is the same as the Distance within
 /// the Overview summary.
+///
+/// @nodoc
 class RouteFerryTravelOnlySummary {
   /// Total duration in free flowing traffic, which is the best case or shortest
   /// duration possible to cover the leg.
@@ -11897,6 +12279,8 @@ class RouteFerryTravelOnlySummary {
 }
 
 /// Span computed for the requested SpanAdditionalFeatures.
+///
+/// @nodoc
 class RouteFerrySpan {
   /// 3 letter Country code corresponding to the Span.
   final String? country;
@@ -11966,6 +12350,8 @@ class RouteFerrySpan {
 
 /// Notices are additional information returned that indicate issues that
 /// occurred during route calculation.
+///
+/// @nodoc
 class RouteFerryNotice {
   /// Code corresponding to the issue.
   final RouteFerryNoticeCode code;
@@ -11997,6 +12383,7 @@ class RouteFerryNotice {
   }
 }
 
+/// @nodoc
 class RouteFerryNoticeCode {
   static const accuratePolylineUnavailable =
       RouteFerryNoticeCode._('AccuratePolylineUnavailable');
@@ -12046,8 +12433,10 @@ class RouteFerryNoticeCode {
 }
 
 /// Position provided in the request.
+///
+/// @nodoc
 class RouteFerryPlace {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// The name of the place.
@@ -12096,6 +12485,8 @@ class RouteFerryPlace {
 }
 
 /// Steps of a leg that must be performed before the travel portion of the leg.
+///
+/// @nodoc
 class RouteFerryBeforeTravelStep {
   /// Duration of the step.
   ///
@@ -12138,6 +12529,7 @@ class RouteFerryBeforeTravelStep {
   }
 }
 
+/// @nodoc
 class RouteFerryBeforeTravelStepType {
   static const board = RouteFerryBeforeTravelStepType._('Board');
 
@@ -12163,6 +12555,8 @@ class RouteFerryBeforeTravelStepType {
 }
 
 /// Steps of a leg that must be performed after the travel portion of the leg.
+///
+/// @nodoc
 class RouteFerryAfterTravelStep {
   /// Duration of the step.
   ///
@@ -12205,6 +12599,7 @@ class RouteFerryAfterTravelStep {
   }
 }
 
+/// @nodoc
 class RouteFerryAfterTravelStepType {
   static const deboard = RouteFerryAfterTravelStepType._('Deboard');
 
@@ -12231,6 +12626,8 @@ class RouteFerryAfterTravelStepType {
 
 /// Notices are additional information returned that indicate issues that
 /// occurred during route calculation.
+///
+/// @nodoc
 class RouteResponseNotice {
   /// Code corresponding to the issue.
   final RouteResponseNoticeCode code;
@@ -12262,6 +12659,7 @@ class RouteResponseNotice {
   }
 }
 
+/// @nodoc
 class RouteResponseNoticeCode {
   static const mainLanguageNotFound =
       RouteResponseNoticeCode._('MainLanguageNotFound');
@@ -12304,6 +12702,8 @@ class RouteResponseNoticeCode {
 }
 
 /// Features that are allowed while calculating a route.
+///
+/// @nodoc
 class RouteAllowOptions {
   /// Allow Hot (High Occupancy Toll) lanes while calculating the route.
   ///
@@ -12335,6 +12735,8 @@ class RouteAllowOptions {
 /// avoidance preferences but may still include restricted areas if no feasible
 /// alternative route exists. If avoidance options are not followed, the
 /// response will indicate that the avoidance criteria were violated.
+///
+/// @nodoc
 class RouteAvoidanceOptions {
   /// Areas to be avoided. Not supported in <code>ap-southeast-1</code> and
   /// <code>ap-southeast-5</code> regions for <a
@@ -12454,6 +12856,8 @@ class RouteAvoidanceOptions {
 }
 
 /// Options related to the destination.
+///
+/// @nodoc
 class RouteDestinationOptions {
   /// The distance in meters from the destination point within which certain
   /// routing actions (such as U-turns or left turns across traffic) are
@@ -12507,6 +12911,8 @@ class RouteDestinationOptions {
 }
 
 /// Driver related options.
+///
+/// @nodoc
 class RouteDriverOptions {
   /// Driver work-rest schedule. Stops are added to fulfil the provided rest
   /// schedule.
@@ -12527,6 +12933,8 @@ class RouteDriverOptions {
 /// Specifies strict exclusion options for the route calculation. This setting
 /// mandates that the router will avoid any routes that include the specified
 /// options, rather than merely attempting to minimize them.
+///
+/// @nodoc
 class RouteExclusionOptions {
   /// List of countries to be avoided defined by two-letter or three-letter
   /// country codes.
@@ -12544,6 +12952,7 @@ class RouteExclusionOptions {
   }
 }
 
+/// @nodoc
 class MeasurementSystem {
   static const metric = MeasurementSystem._('Metric');
   static const imperial = MeasurementSystem._('Imperial');
@@ -12568,6 +12977,7 @@ class MeasurementSystem {
   String toString() => value;
 }
 
+/// @nodoc
 class RoutingObjective {
   static const fastestRoute = RoutingObjective._('FastestRoute');
   static const shortestRoute = RoutingObjective._('ShortestRoute');
@@ -12593,6 +13003,8 @@ class RoutingObjective {
 }
 
 /// Origin related options.
+///
+/// @nodoc
 class RouteOriginOptions {
   /// Avoids actions for the provided distance. This is typically to consider for
   /// users in moving vehicles who may not have sufficient time to make an action
@@ -12637,6 +13049,8 @@ class RouteOriginOptions {
 }
 
 /// Options related to Tolls on a route.
+///
+/// @nodoc
 class RouteTollOptions {
   /// Specifies if the user has valid transponder with access to all toll systems.
   /// This impacts toll calculation, and if true the price with transponders is
@@ -12686,6 +13100,8 @@ class RouteTollOptions {
 }
 
 /// Traffic options for the route.
+///
+/// @nodoc
 class RouteTrafficOptions {
   /// Duration for which flow traffic is considered valid. For this period, the
   /// flow traffic is used over historical traffic data. Flow traffic refers to
@@ -12740,6 +13156,7 @@ class RouteTrafficOptions {
   }
 }
 
+/// @nodoc
 class RouteTravelMode {
   static const car = RouteTravelMode._('Car');
   static const pedestrian = RouteTravelMode._('Pedestrian');
@@ -12769,6 +13186,8 @@ class RouteTravelMode {
 }
 
 /// Travel mode related options for the provided travel mode.
+///
+/// @nodoc
 class RouteTravelModeOptions {
   /// Travel mode options when the provided travel mode is <code>Car</code>.
   final RouteCarOptions? car;
@@ -12833,6 +13252,7 @@ class RouteTravelModeOptions {
   }
 }
 
+/// @nodoc
 class RouteTravelStepType {
   static const $default = RouteTravelStepType._('Default');
   static const turnByTurn = RouteTravelStepType._('TurnByTurn');
@@ -12859,8 +13279,10 @@ class RouteTravelStepType {
 }
 
 /// Waypoint between the Origin and Destination.
+///
+/// @nodoc
 class RouteWaypoint {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Avoids actions for the provided distance. This is typically to consider for
@@ -12948,6 +13370,8 @@ class RouteWaypoint {
 }
 
 /// Options related to route matching.
+///
+/// @nodoc
 class RouteMatchingOptions {
   /// Attempts to match the provided position to a road similar to the provided
   /// name.
@@ -12993,8 +13417,10 @@ class RouteMatchingOptions {
 }
 
 /// Options to configure matching the provided position to a side of the street.
+///
+/// @nodoc
 class RouteSideOfStreetOptions {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Strategy that defines when the side of street position should be used.
@@ -13017,6 +13443,7 @@ class RouteSideOfStreetOptions {
   }
 }
 
+/// @nodoc
 class MatchingStrategy {
   static const matchAny = MatchingStrategy._('MatchAny');
   static const matchMostSignificantRoad =
@@ -13047,6 +13474,8 @@ class MatchingStrategy {
 /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
 /// customers, <code>ap-southeast-1</code> and <code>ap-southeast-5</code>
 /// regions support only <code>LicensePlate</code> options.
+///
+/// @nodoc
 class RouteCarOptions {
   /// Engine type of the vehicle. Not supported in <code>ap-southeast-1</code> and
   /// <code>ap-southeast-5</code> regions for <a
@@ -13098,6 +13527,8 @@ class RouteCarOptions {
 /// <code>ap-southeast-1</code> and <code>ap-southeast-5</code> regions for <a
 /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
 /// customers.
+///
+/// @nodoc
 class RoutePedestrianOptions {
   /// Walking speed in Kilometers per hour.
   final double? speed;
@@ -13119,6 +13550,8 @@ class RoutePedestrianOptions {
 /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
 /// customers, <code>ap-southeast-1</code> and <code>ap-southeast-5</code>
 /// regions support only <code>LicensePlate</code> options.
+///
+/// @nodoc
 class RouteScooterOptions {
   /// Engine type of the vehicle. Not supported in <code>ap-southeast-1</code> and
   /// <code>ap-southeast-5</code> regions for <a
@@ -13171,6 +13604,8 @@ class RouteScooterOptions {
 /// regions for <a
 /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
 /// customers.
+///
+/// @nodoc
 class RouteTruckOptions {
   /// Total number of axles of the vehicle.
   final int? axleCount;
@@ -13383,6 +13818,8 @@ class RouteTruckOptions {
 /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
 /// customers.
 /// </note>
+///
+/// @nodoc
 class RouteIntermodalOptions {
   /// Accessibility attributes to consider when calculating the route.
   final List<RouteAccessibilityAttribute>? accessibilityAttributes;
@@ -13444,6 +13881,8 @@ class RouteIntermodalOptions {
 /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
 /// customers.
 /// </note>
+///
+/// @nodoc
 class RouteTransitOptions {
   /// Accessibility attributes to consider when calculating the route.
   final List<RouteAccessibilityAttribute>? accessibilityAttributes;
@@ -13493,6 +13932,8 @@ class RouteTransitOptions {
 }
 
 /// Options for the pedestrian leg of the transit route.
+///
+/// @nodoc
 class RouteTransitPedestrianOptions {
   /// Maximum walking distance allowed.
   ///
@@ -13519,6 +13960,7 @@ class RouteTransitPedestrianOptions {
   }
 }
 
+/// @nodoc
 class RouteAccessibilityAttribute {
   static const wheelchair = RouteAccessibilityAttribute._('Wheelchair');
 
@@ -13544,6 +13986,8 @@ class RouteAccessibilityAttribute {
 }
 
 /// Options for the pedestrian leg of the intermodal route.
+///
+/// @nodoc
 class RouteIntermodalPedestrianOptions {
   /// Maximum walking distance allowed.
   ///
@@ -13571,6 +14015,8 @@ class RouteIntermodalPedestrianOptions {
 }
 
 /// Options for the rental leg of the intermodal route.
+///
+/// @nodoc
 class RouteIntermodalRentalOptions {
   /// Allowed rental transport modes when calculating the route. By default, all
   /// transport modes are allowed. Cannot be used together with
@@ -13625,6 +14071,8 @@ class RouteIntermodalRentalOptions {
 }
 
 /// Options for the taxi leg of the intermodal route.
+///
+/// @nodoc
 class RouteIntermodalTaxiOptions {
   /// Allowed taxi transport modes when calculating the route. By default, all
   /// transport modes are allowed. Cannot be used together with
@@ -13679,6 +14127,8 @@ class RouteIntermodalTaxiOptions {
 }
 
 /// Options for the transit leg of the intermodal route.
+///
+/// @nodoc
 class RouteIntermodalTransitOptions {
   /// Allowed transit transport modes when calculating the route. By default, all
   /// transport modes are allowed. Cannot be used together with
@@ -13733,6 +14183,8 @@ class RouteIntermodalTransitOptions {
 }
 
 /// Options for the vehicle leg of the intermodal route.
+///
+/// @nodoc
 class RouteIntermodalVehicleOptions {
   /// Allowed vehicle transport modes when calculating the route. By default, all
   /// transport modes are allowed. Cannot be used together with
@@ -13786,6 +14238,7 @@ class RouteIntermodalVehicleOptions {
   }
 }
 
+/// @nodoc
 class RouteIntermodalEnabledLegs {
   static const firstLeg = RouteIntermodalEnabledLegs._('FirstLeg');
   static const lastLeg = RouteIntermodalEnabledLegs._('LastLeg');
@@ -13813,6 +14266,7 @@ class RouteIntermodalEnabledLegs {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteVehicleMode {
   static const all = RouteVehicleMode._('All');
   static const car = RouteVehicleMode._('Car');
@@ -13839,6 +14293,8 @@ class RouteVehicleMode {
 
 /// License plate information of the vehicle. Currently, only the last character
 /// is used where license plate based controlled access is enforced.
+///
+/// @nodoc
 class RouteVehicleLicensePlate {
   /// The last character of the License Plate.
   final String? lastCharacter;
@@ -13856,6 +14312,8 @@ class RouteVehicleLicensePlate {
 }
 
 /// Trailer options corresponding to the vehicle.
+///
+/// @nodoc
 class RouteTrailerOptions {
   /// Total number of axles of the vehicle.
   final int? axleCount;
@@ -13884,6 +14342,8 @@ class RouteTrailerOptions {
 ///
 /// <b>Valid values</b>: <code>Euro1, Euro2, Euro3, Euro4, Euro5, Euro6,
 /// EuroEev</code>
+///
+/// @nodoc
 class RouteEmissionType {
   /// Type of the emission.
   ///
@@ -13909,6 +14369,7 @@ class RouteEmissionType {
   }
 }
 
+/// @nodoc
 class RouteTollVehicleCategory {
   static const minibus = RouteTollVehicleCategory._('Minibus');
 
@@ -13933,6 +14394,7 @@ class RouteTollVehicleCategory {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteSpanAdditionalFeature {
   static const bestCaseDuration =
       RouteSpanAdditionalFeature._('BestCaseDuration');
@@ -14010,6 +14472,7 @@ class RouteSpanAdditionalFeature {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteLegAdditionalFeature {
   static const elevation = RouteLegAdditionalFeature._('Elevation');
   static const incidents = RouteLegAdditionalFeature._('Incidents');
@@ -14063,6 +14526,8 @@ class RouteLegAdditionalFeature {
 
 /// Interval of the driver work-rest schedule. Stops are added to fulfil the
 /// provided rest schedule.
+///
+/// @nodoc
 class RouteDriverScheduleInterval {
   /// Maximum allowed driving time before stopping to rest.
   ///
@@ -14093,6 +14558,8 @@ class RouteDriverScheduleInterval {
 /// and <code>ap-southeast-5</code> regions for <a
 /// href="https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html">GrabMaps</a>
 /// customers.
+///
+/// @nodoc
 class RouteAvoidanceZoneCategory {
   /// Zone category to be avoided.
   final RouteZoneCategory category;
@@ -14110,6 +14577,8 @@ class RouteAvoidanceZoneCategory {
 }
 
 /// Areas to be avoided.
+///
+/// @nodoc
 class RouteAvoidanceArea {
   final RouteAvoidanceAreaGeometry geometry;
 
@@ -14133,6 +14602,8 @@ class RouteAvoidanceArea {
 }
 
 /// Geometry of the area to be avoided.
+///
+/// @nodoc
 class RouteAvoidanceAreaGeometry {
   /// Geometry defined as a bounding box. The first pair represents the X and Y
   /// coordinates (longitude and latitude,) of the southwest corner of the
@@ -14184,6 +14655,8 @@ class RouteAvoidanceAreaGeometry {
 
 /// Geometry defined as a corridor - a LineString with a radius that defines the
 /// width of the corridor.
+///
+/// @nodoc
 class Corridor {
   /// An ordered list of positions used to plot a route on a map.
   /// <note>
@@ -14211,6 +14684,8 @@ class Corridor {
 
 /// Geometry defined as an encoded corridor - an encoded polyline with a radius
 /// that defines the width of the corridor.
+///
+/// @nodoc
 class PolylineCorridor {
   /// An ordered list of positions used to plot a route on a map in a lossy
   /// compression format.
@@ -14243,6 +14718,8 @@ class PolylineCorridor {
 
 /// Boundary within which the matrix is to be calculated. All data, origins and
 /// destinations outside the boundary are considered invalid.
+///
+/// @nodoc
 class RouteMatrixBoundary {
   /// Geometry of the area to be avoided.
   final RouteMatrixBoundaryGeometry? geometry;
@@ -14277,6 +14754,8 @@ class RouteMatrixBoundary {
 }
 
 /// Geometry of the routing boundary.
+///
+/// @nodoc
 class RouteMatrixBoundaryGeometry {
   /// <code>AutoCircle</code> requests the route matrix service to define a
   /// <code>Circle</code> boundary that best attempts to include most waypoints
@@ -14312,11 +14791,11 @@ class RouteMatrixBoundaryGeometry {
   /// Geometry defined as a polygon with only one linear ring. A linear ring is a
   /// closed sequence of four or more coordinates. The first and last coordinates
   /// are the same, forming a closed boundary. Each coordinate is a position in
-  /// [longitude, latitude] format.
+  /// \[longitude, latitude\] format.
   ///
   /// The structure is an array of linear rings (only 1 allowed). Each linear ring
   /// is an array of coordinates (minimum 4), and each coordinate is an array of
-  /// two doubles [longitude, latitude].
+  /// two doubles \[longitude, latitude\].
   ///
   /// Maximum distance between any two vertices must be less than or equal to
   /// 400,000 meters.
@@ -14376,6 +14855,8 @@ class RouteMatrixBoundaryGeometry {
 /// <code>AutoCircle</code> is only used in the request to configure a
 /// <code>Circle</code> for the route calculation. The derived
 /// <code>Circle</code> will also be provided in the response.
+///
+/// @nodoc
 class RouteMatrixAutoCircle {
   /// The minimal distance, in meters, between any waypoint and the perimeter of
   /// the circle auto-defined for the boundary. Some margin is usually recommended
@@ -14424,11 +14905,13 @@ class RouteMatrixAutoCircle {
 /// <code>AutoCircle</code> is set in the request, the response routing boundary
 /// will return <code>Circle</code> derived from the <code>AutoCircle</code>
 /// settings.
+///
+/// @nodoc
 class Circle {
-  /// Center of the Circle in World Geodetic System (WGS 84) format: [longitude,
-  /// latitude].
+  /// Center of the Circle in World Geodetic System (WGS 84) format: \[longitude,
+  /// latitude\].
   ///
-  /// Example: <code>[-123.1174, 49.2847]</code> represents the position with
+  /// Example: <code>\[-123.1174, 49.2847\]</code> represents the position with
   /// longitude <code>-123.1174</code> and latitude <code>49.2847</code>.
   final List<double> center;
 
@@ -14468,6 +14951,8 @@ class Circle {
 /// to Destination positions. Each row corresponds to one entry in Origins. Each
 /// entry in the row corresponds to the route from that entry in Origins to an
 /// entry in Destination positions.
+///
+/// @nodoc
 class RouteMatrixEntry {
   /// The total distance of travel for the route.
   final int distance;
@@ -14506,6 +14991,7 @@ class RouteMatrixEntry {
   }
 }
 
+/// @nodoc
 class RouteMatrixErrorCode {
   static const noMatch = RouteMatrixErrorCode._('NoMatch');
   static const noMatchDestination =
@@ -14551,6 +15037,8 @@ class RouteMatrixErrorCode {
 }
 
 /// Allow Options related to the route matrix.
+///
+/// @nodoc
 class RouteMatrixAllowOptions {
   /// Allow Hot (High Occupancy Toll) lanes while calculating the route.
   ///
@@ -14582,6 +15070,8 @@ class RouteMatrixAllowOptions {
 /// avoidance preferences but may still include restricted areas if no feasible
 /// alternative route exists. If avoidance options are not followed, the
 /// response will indicate that the avoidance criteria were violated.
+///
+/// @nodoc
 class RouteMatrixAvoidanceOptions {
   /// Areas to be avoided.
   final List<RouteMatrixAvoidanceArea>? areas;
@@ -14668,6 +15158,8 @@ class RouteMatrixAvoidanceOptions {
 /// Specifies strict exclusion options for the route calculation. This setting
 /// mandates that the router will avoid any routes that include the specified
 /// options, rather than merely attempting to minimize them.
+///
+/// @nodoc
 class RouteMatrixExclusionOptions {
   /// List of countries to be avoided defined by two-letter or three-letter
   /// country codes.
@@ -14686,6 +15178,8 @@ class RouteMatrixExclusionOptions {
 }
 
 /// Traffic related options.
+///
+/// @nodoc
 class RouteMatrixTrafficOptions {
   /// Duration for which flow traffic is considered valid. For this period, the
   /// flow traffic is used over historical traffic data. Flow traffic refers to
@@ -14715,6 +15209,7 @@ class RouteMatrixTrafficOptions {
   }
 }
 
+/// @nodoc
 class RouteMatrixTravelMode {
   static const car = RouteMatrixTravelMode._('Car');
   static const pedestrian = RouteMatrixTravelMode._('Pedestrian');
@@ -14743,6 +15238,8 @@ class RouteMatrixTravelMode {
 }
 
 /// Travel mode related options for the provided travel mode.
+///
+/// @nodoc
 class RouteMatrixTravelModeOptions {
   /// Travel mode options when the provided travel mode is <code>Car</code>.
   final RouteMatrixCarOptions? car;
@@ -14776,6 +15273,8 @@ class RouteMatrixTravelModeOptions {
 }
 
 /// Travel mode options when the provided travel mode is <code>Car</code>.
+///
+/// @nodoc
 class RouteMatrixCarOptions {
   /// The vehicle License Plate.
   final RouteMatrixVehicleLicensePlate? licensePlate;
@@ -14809,6 +15308,8 @@ class RouteMatrixCarOptions {
 }
 
 /// Travel mode options when the provided travel mode is <code>Scooter</code>.
+///
+/// @nodoc
 class RouteMatrixScooterOptions {
   /// The vehicle License Plate.
   final RouteMatrixVehicleLicensePlate? licensePlate;
@@ -14842,6 +15343,8 @@ class RouteMatrixScooterOptions {
 }
 
 /// Travel mode options when the provided travel mode is <code>Truck</code>.
+///
+/// @nodoc
 class RouteMatrixTruckOptions {
   /// Total number of axles of the vehicle.
   final int? axleCount;
@@ -15025,6 +15528,8 @@ class RouteMatrixTruckOptions {
 }
 
 /// The vehicle License Plate.
+///
+/// @nodoc
 class RouteMatrixVehicleLicensePlate {
   /// The last character of the License Plate.
   final String? lastCharacter;
@@ -15042,6 +15547,8 @@ class RouteMatrixVehicleLicensePlate {
 }
 
 /// Trailer options corresponding to the vehicle.
+///
+/// @nodoc
 class RouteMatrixTrailerOptions {
   /// Number of trailers attached to the vehicle.
   ///
@@ -15060,6 +15567,7 @@ class RouteMatrixTrailerOptions {
   }
 }
 
+/// @nodoc
 class RouteMatrixTruckType {
   static const lightTruck = RouteMatrixTruckType._('LightTruck');
   static const straightTruck = RouteMatrixTruckType._('StraightTruck');
@@ -15086,6 +15594,7 @@ class RouteMatrixTruckType {
   String toString() => value;
 }
 
+/// @nodoc
 class RouteMatrixHazardousCargoType {
   static const combustible = RouteMatrixHazardousCargoType._('Combustible');
   static const corrosive = RouteMatrixHazardousCargoType._('Corrosive');
@@ -15135,9 +15644,11 @@ class RouteMatrixHazardousCargoType {
 }
 
 /// The start position for the route in World Geodetic System (WGS 84) format:
-/// [longitude, latitude].
+/// \[longitude, latitude\].
+///
+/// @nodoc
 class RouteMatrixOrigin {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Origin related options. Not supported in <code>ap-southeast-1</code> and
@@ -15162,6 +15673,8 @@ class RouteMatrixOrigin {
 }
 
 /// Origin related options.
+///
+/// @nodoc
 class RouteMatrixOriginOptions {
   /// Avoids actions for the provided distance. This is typically to consider for
   /// users in moving vehicles who may not have sufficient time to make an action
@@ -15200,6 +15713,8 @@ class RouteMatrixOriginOptions {
 }
 
 /// Matching options.
+///
+/// @nodoc
 class RouteMatrixMatchingOptions {
   /// Attempts to match the provided position to a road similar to the provided
   /// name.
@@ -15245,8 +15760,10 @@ class RouteMatrixMatchingOptions {
 }
 
 /// Options to configure matching the provided position to a side of the street.
+///
+/// @nodoc
 class RouteMatrixSideOfStreetOptions {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Strategy that defines when the side of street position should be used.
@@ -15271,8 +15788,10 @@ class RouteMatrixSideOfStreetOptions {
 }
 
 /// The route destination.
+///
+/// @nodoc
 class RouteMatrixDestination {
-  /// Position in World Geodetic System (WGS 84) format: [longitude, latitude].
+  /// Position in World Geodetic System (WGS 84) format: \[longitude, latitude\].
   final List<double> position;
 
   /// Destination related options. Not supported in <code>ap-southeast-1</code>
@@ -15297,6 +15816,8 @@ class RouteMatrixDestination {
 }
 
 /// Options related to the destination.
+///
+/// @nodoc
 class RouteMatrixDestinationOptions {
   /// Avoids actions for the provided distance. This is typically to consider for
   /// users in moving vehicles who may not have sufficient time to make an action
@@ -15335,6 +15856,8 @@ class RouteMatrixDestinationOptions {
 }
 
 /// Zone categories to be avoided.
+///
+/// @nodoc
 class RouteMatrixAvoidanceZoneCategory {
   /// Zone category to be avoided.
   final RouteMatrixZoneCategory? category;
@@ -15351,6 +15874,7 @@ class RouteMatrixAvoidanceZoneCategory {
   }
 }
 
+/// @nodoc
 class RouteMatrixZoneCategory {
   static const congestionPricing =
       RouteMatrixZoneCategory._('CongestionPricing');
@@ -15379,6 +15903,8 @@ class RouteMatrixZoneCategory {
 }
 
 /// Area to be avoided.
+///
+/// @nodoc
 class RouteMatrixAvoidanceArea {
   /// Geometry of the area to be avoided.
   final RouteMatrixAvoidanceAreaGeometry geometry;
@@ -15396,6 +15922,8 @@ class RouteMatrixAvoidanceArea {
 }
 
 /// Geometry of the area to be avoided.
+///
+/// @nodoc
 class RouteMatrixAvoidanceAreaGeometry {
   /// Geometry defined as a bounding box. The first pair represents the X and Y
   /// coordinates (longitude and latitude,) of the southwest corner of the
@@ -15432,6 +15960,8 @@ class RouteMatrixAvoidanceAreaGeometry {
 }
 
 /// Represents a single reachable area calculated for a specific threshold.
+///
+/// @nodoc
 class Isoline {
   /// Lines connecting separate parts of the reachable area that can be reached
   /// within the same threshold. These occur when areas are reachable but not
@@ -15492,10 +16022,12 @@ class Isoline {
 /// either as coordinate pairs (<code>Polygon</code>) or in encoded format
 /// (<code>PolylinePolygon</code>), matching the format specified in the
 /// request.
+///
+/// @nodoc
 class IsolineShapeGeometry {
   /// A series of coordinate rings defining the reachable area when Simple
-  /// geometry format is requested. Each ring is a list of <code>[longitude,
-  /// latitude]</code> coordinate pairs. The first ring defines the outer
+  /// geometry format is requested. Each ring is a list of <code>\[longitude,
+  /// latitude\]</code> coordinate pairs. The first ring defines the outer
   /// boundary; subsequent rings define holes representing unreachable areas.
   /// <note>
   /// Polygon and PolylinePolygon are mutually exclusive properties.
@@ -15547,6 +16079,8 @@ class IsolineShapeGeometry {
 /// Represents a segment of the transportation network that connects separate
 /// parts of a reachable area. These connections show how discontinuous areas
 /// are linked, such as by ferry routes or bridges crossing unroutable terrain.
+///
+/// @nodoc
 class IsolineConnection {
   /// The index of the starting polygon in the isoline's <code>Geometries</code>
   /// list.
@@ -15592,10 +16126,12 @@ class IsolineConnection {
 /// isoline. These connections can be provided in either coordinate pairs
 /// (LineString) or encoded (Polyline) format, matching the format specified in
 /// the request.
+///
+/// @nodoc
 class IsolineConnectionGeometry {
-  /// A series of <code>[longitude, latitude]</code> coordinate pairs defining the
-  /// connection path when <code>Simple</code> geometry format is requested. These
-  /// coordinates can be directly used as the coordinates array in a GeoJSON
+  /// A series of <code>\[longitude, latitude\]</code> coordinate pairs defining
+  /// the connection path when <code>Simple</code> geometry format is requested.
+  /// These coordinates can be directly used as the coordinates array in a GeoJSON
   /// LineString without transformation.
   /// <note>
   /// LineString and Polyline are mutually exclusive properties.
@@ -15641,6 +16177,8 @@ class IsolineConnectionGeometry {
 /// routing. For example, this attribute can be used to allow the use of HOV
 /// (high-occupancy vehicle) or HOT (high-occupancy toll) lanes, even if they
 /// would otherwise not be.
+///
+/// @nodoc
 class IsolineAllowOptions {
   /// When true, allows the use of HOT (high-occupancy toll) lanes, which may
   /// affect travel times and reachable areas.
@@ -15678,6 +16216,8 @@ class IsolineAllowOptions {
 /// characteristics (like dirt roads and highways), and regulated areas (like
 /// congestion zones). They can be combined to match specific routing needs,
 /// such as avoiding both toll roads and ferries.
+///
+/// @nodoc
 class IsolineAvoidanceOptions {
   /// Specifies geographic areas to avoid where possible. Routes may still pass
   /// through these areas if no reasonable alternative exists.
@@ -15789,6 +16329,8 @@ class IsolineAvoidanceOptions {
 /// the road network when calculating reachable areas. This affects which roads
 /// are considered accessible near the destination and how the final approach is
 /// calculated.
+///
+/// @nodoc
 class IsolineDestinationOptions {
   /// The distance in meters from the destination point within which certain
   /// routing actions (such as U-turns or left turns across traffic) are
@@ -15835,6 +16377,8 @@ class IsolineDestinationOptions {
 /// Controls the detail level and smoothness of generated isolines. More
 /// detailed isolines provide better visual representation of reachable areas
 /// but require more processing time and result in larger responses.
+///
+/// @nodoc
 class IsolineGranularityOptions {
   /// The maximum number of points used to define each isoline. Higher values
   /// create smoother, more detailed shapes.
@@ -15861,6 +16405,7 @@ class IsolineGranularityOptions {
   }
 }
 
+/// @nodoc
 class IsolineOptimizationObjective {
   static const accurateCalculation =
       IsolineOptimizationObjective._('AccurateCalculation');
@@ -15897,6 +16442,8 @@ class IsolineOptimizationObjective {
 /// Options that control how the origin point is interpreted when calculating
 /// reachable areas. These options affect which roads are considered accessible
 /// from the starting point and how initial routing decisions are made.
+///
+/// @nodoc
 class IsolineOriginOptions {
   /// The distance in meters from the origin point within which certain routing
   /// actions (such as U-turns or left turns across traffic) are restricted. This
@@ -15945,12 +16492,14 @@ class IsolineOriginOptions {
 /// can provide up to five thresholds for a single type to generate multiple
 /// isolines in a single request. For example, you might request areas reachable
 /// within 5, 10, and 15 minutes, or within 1, 2, and 5 kilometers.
+///
+/// @nodoc
 class IsolineThresholds {
-  /// List of travel distances in meters. For example, [1000, 2000, 5000] would
+  /// List of travel distances in meters. For example, \[1000, 2000, 5000\] would
   /// calculate areas reachable within 1, 2, and 5 kilometers.
   final List<int>? distance;
 
-  /// List of travel times in seconds. For example, [300, 600, 900] would
+  /// List of travel times in seconds. For example, \[300, 600, 900\] would
   /// calculate areas reachable within 5, 10, and 15 minutes.
   final List<int>? time;
 
@@ -15972,6 +16521,8 @@ class IsolineThresholds {
 /// Controls how real-time and historical traffic data is used when calculating
 /// reachable areas. This affects both the size and shape of isolines by
 /// accounting for expected travel speeds based on congestion patterns.
+///
+/// @nodoc
 class IsolineTrafficOptions {
   /// The duration in seconds that real-time congestion data is considered valid
   /// before reverting to historical traffic patterns. This helps balance between
@@ -16007,6 +16558,7 @@ class IsolineTrafficOptions {
   }
 }
 
+/// @nodoc
 class IsolineTravelMode {
   static const car = IsolineTravelMode._('Car');
   static const pedestrian = IsolineTravelMode._('Pedestrian');
@@ -16036,6 +16588,8 @@ class IsolineTravelMode {
 /// Mode-specific routing options that further refine how reachable areas are
 /// calculated. Options are only considered when they match the selected travel
 /// mode.
+///
+/// @nodoc
 class IsolineTravelModeOptions {
   /// Options specific to passenger vehicle routing (<code>Car</code>, such as
   /// vehicle characteristics and license plate restrictions.
@@ -16074,6 +16628,8 @@ class IsolineTravelModeOptions {
 /// Vehicle characteristics and preferences that affect routing for passenger
 /// cars. This includes vehicle type, occupancy, and speed restrictions that may
 /// influence which roads can be used and expected travel times.
+///
+/// @nodoc
 class IsolineCarOptions {
   /// The type of engine powering the vehicle, which may affect route calculation
   /// due to road restrictions or vehicle characteristics.
@@ -16134,6 +16690,8 @@ class IsolineCarOptions {
 /// Vehicle characteristics that affect which roads and paths can be used when
 /// calculating reachable areas for scooters. This includes areas such as bike
 /// lanes, shared paths, and roads where scooters are permitted.
+///
+/// @nodoc
 class IsolineScooterOptions {
   /// The type of engine powering the vehicle, which may affect route calculation
   /// due to road restrictions or vehicle characteristics.
@@ -16196,6 +16754,8 @@ class IsolineScooterOptions {
 /// routes respect physical limitations and legal requirements.
 ///
 /// These apply when the provided travel mode is <code>Truck</code>
+///
+/// @nodoc
 class IsolineTruckOptions {
   /// The total number of axles on the vehicle. Required for certain road
   /// restrictions and weight limit calculations.
@@ -16476,6 +17036,7 @@ class IsolineTruckOptions {
   }
 }
 
+/// @nodoc
 class IsolineEngineType {
   static const electric = IsolineEngineType._('Electric');
   static const internalCombustion = IsolineEngineType._('InternalCombustion');
@@ -16503,6 +17064,8 @@ class IsolineEngineType {
 
 /// License plate information used in regions where road access or routing
 /// restrictions are based on license plate numbers.
+///
+/// @nodoc
 class IsolineVehicleLicensePlate {
   /// The last character of the vehicle's license plate. Used to determine road
   /// access restrictions in regions with license plate-based traffic management
@@ -16522,6 +17085,8 @@ class IsolineVehicleLicensePlate {
 }
 
 /// Additional specifications when the vehicle includes one or more trailers.
+///
+/// @nodoc
 class IsolineTrailerOptions {
   /// The total number of axles across all trailers. Used for weight distribution
   /// calculations and road restrictions.
@@ -16548,6 +17113,7 @@ class IsolineTrailerOptions {
   }
 }
 
+/// @nodoc
 class IsolineTruckType {
   static const lightTruck = IsolineTruckType._('LightTruck');
   static const straightTruck = IsolineTruckType._('StraightTruck');
@@ -16573,6 +17139,7 @@ class IsolineTruckType {
   String toString() => value;
 }
 
+/// @nodoc
 class IsolineHazardousCargoType {
   static const combustible = IsolineHazardousCargoType._('Combustible');
   static const corrosive = IsolineHazardousCargoType._('Corrosive');
@@ -16623,6 +17190,8 @@ class IsolineHazardousCargoType {
 /// Controls how origin and destination points are matched to the road network
 /// when they don't fall exactly on a road. Matching options help ensure
 /// realistic routing by connecting points to appropriate roads.
+///
+/// @nodoc
 class IsolineMatchingOptions {
   /// The expected street name near the point. Helps disambiguate matching when
   /// multiple roads are within range.
@@ -16673,9 +17242,11 @@ class IsolineMatchingOptions {
 /// important when the side of the street matters for accessibility - for
 /// example, when building entrances or parking lot access points can only be
 /// reached from one side of a divided road.
+///
+/// @nodoc
 class IsolineSideOfStreetOptions {
-  /// The <code>[longitude, latitude]</code> coordinates of the point that should
-  /// be matched to a specific side of the street.
+  /// The <code>\[longitude, latitude\]</code> coordinates of the point that
+  /// should be matched to a specific side of the street.
   final List<double> position;
 
   /// Controls whether side-of-street matching is applied to any street
@@ -16706,6 +17277,8 @@ class IsolineSideOfStreetOptions {
 }
 
 /// Types of regulated zones that may affect routing.
+///
+/// @nodoc
 class IsolineAvoidanceZoneCategory {
   /// The type of regulated zone: <code>CongestionPricing</code> for toll zones
   /// based on traffic levels, <code>Environmental</code> for low-emission zones,
@@ -16724,6 +17297,7 @@ class IsolineAvoidanceZoneCategory {
   }
 }
 
+/// @nodoc
 class IsolineZoneCategory {
   static const congestionPricing = IsolineZoneCategory._('CongestionPricing');
   static const environmental = IsolineZoneCategory._('Environmental');
@@ -16753,6 +17327,8 @@ class IsolineZoneCategory {
 /// Defines an area to avoid when calculating routes. Consists of a primary
 /// geometry to avoid, with the ability to specify exception areas within that
 /// geometry where travel is permitted.
+///
+/// @nodoc
 class IsolineAvoidanceArea {
   /// The primary area to avoid, specified using a bounding box, corridor,
   /// polygon, or polyline corridor.
@@ -16781,9 +17357,11 @@ class IsolineAvoidanceArea {
 /// Defines an area to avoid during calculations using one of several supported
 /// geometry types. The service will prefer routes that avoid these areas when
 /// possible.
+///
+/// @nodoc
 class IsolineAvoidanceAreaGeometry {
   /// A rectangular area defined by its southwest and northeast corners:
-  /// <code>[min longitude, min latitude, max longitude, max latitude]</code>.
+  /// <code>\[min longitude, min latitude, max longitude, max latitude\]</code>.
   final List<double>? boundingBox;
 
   /// A buffer zone around a line, defined by a series of coordinates and a radius
@@ -16830,21 +17408,25 @@ class IsolineAvoidanceAreaGeometry {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

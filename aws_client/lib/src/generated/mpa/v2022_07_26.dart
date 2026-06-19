@@ -914,6 +914,7 @@ class Mpa {
   }
 }
 
+/// @nodoc
 class GetPolicyVersionResponse {
   /// A <code>PolicyVersion</code> object. Contains details for the version of the
   /// policy. Policies define the permissions for team resources.
@@ -939,6 +940,7 @@ class GetPolicyVersionResponse {
   }
 }
 
+/// @nodoc
 class GetResourcePolicyResponse {
   /// Document that contains the contents for the policy.
   final String policyDocument;
@@ -989,6 +991,7 @@ class GetResourcePolicyResponse {
   }
 }
 
+/// @nodoc
 class ListPoliciesResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1026,6 +1029,7 @@ class ListPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListPolicyVersionsResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1063,6 +1067,7 @@ class ListPolicyVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListResourcePoliciesResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1101,6 +1106,7 @@ class ListResourcePoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Tags attached to the resource.
   final Map<String, String>? tags;
@@ -1124,6 +1130,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1136,6 +1143,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1148,6 +1156,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateApprovalTeamResponse {
   /// Amazon Resource Name (ARN) for the team that was created.
   final String? arn;
@@ -1192,6 +1201,7 @@ class CreateApprovalTeamResponse {
   }
 }
 
+/// @nodoc
 class GetApprovalTeamResponse {
   /// An <code>ApprovalStrategyResponse</code> object. Contains details for how
   /// the team grants approval.
@@ -1335,6 +1345,7 @@ class GetApprovalTeamResponse {
   }
 }
 
+/// @nodoc
 class UpdateApprovalTeamResponse {
   /// Version ID for the team that was created. When an approval team is updated,
   /// the version ID changes.
@@ -1358,6 +1369,7 @@ class UpdateApprovalTeamResponse {
   }
 }
 
+/// @nodoc
 class DeleteInactiveApprovalTeamVersionResponse {
   DeleteInactiveApprovalTeamVersionResponse();
 
@@ -1371,6 +1383,7 @@ class DeleteInactiveApprovalTeamVersionResponse {
   }
 }
 
+/// @nodoc
 class ListApprovalTeamsResponse {
   /// An array of <code>ListApprovalTeamsResponseApprovalTeam</code> objects.
   /// Contains details for approval teams.
@@ -1409,6 +1422,7 @@ class ListApprovalTeamsResponse {
   }
 }
 
+/// @nodoc
 class StartActiveApprovalTeamDeletionResponse {
   /// Timestamp when the deletion process is scheduled to complete.
   final DateTime? deletionCompletionTime;
@@ -1441,6 +1455,7 @@ class StartActiveApprovalTeamDeletionResponse {
   }
 }
 
+/// @nodoc
 class StartApprovalTeamBaselineResponse {
   /// Amazon Resource Name (ARN) for the session.
   final String? baselineSessionArn;
@@ -1464,6 +1479,7 @@ class StartApprovalTeamBaselineResponse {
   }
 }
 
+/// @nodoc
 class CreateIdentitySourceResponse {
   /// Timestamp when the identity source was created.
   final DateTime? creationTime;
@@ -1503,6 +1519,7 @@ class CreateIdentitySourceResponse {
   }
 }
 
+/// @nodoc
 class GetIdentitySourceResponse {
   /// Timestamp when the identity source was created.
   final DateTime? creationTime;
@@ -1578,6 +1595,7 @@ class GetIdentitySourceResponse {
   }
 }
 
+/// @nodoc
 class ListIdentitySourcesResponse {
   /// A <code>IdentitySources</code>. Contains details for identity sources.
   final List<IdentitySourceForList>? identitySources;
@@ -1614,6 +1632,7 @@ class ListIdentitySourcesResponse {
   }
 }
 
+/// @nodoc
 class GetSessionResponse {
   /// Strategy for executing the protected operation.
   /// <code>AUTO_COMPLETION_UPON_APPROVAL</code> means the operation is
@@ -1831,6 +1850,7 @@ class GetSessionResponse {
   }
 }
 
+/// @nodoc
 class CancelSessionResponse {
   CancelSessionResponse();
 
@@ -1843,6 +1863,7 @@ class CancelSessionResponse {
   }
 }
 
+/// @nodoc
 class ListSessionsResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -1884,6 +1905,8 @@ class ListSessionsResponse {
 /// Contains details for an approval session. For more information, see <a
 /// href="https://docs.aws.amazon.com/mpa/latest/userguide/mpa-health.html">Session</a>
 /// in the <i>Multi-party approval User Guide</i>
+///
+/// @nodoc
 class ListSessionsResponseSession {
   /// Strategy for executing the protected operation.
   /// <code>AUTO_COMPLETION_UPON_APPROVAL</code> means the operation is executed
@@ -2047,6 +2070,7 @@ class ListSessionsResponseSession {
   }
 }
 
+/// @nodoc
 class SessionStatus {
   static const pending = SessionStatus._('PENDING');
   static const cancelled = SessionStatus._('CANCELLED');
@@ -2074,6 +2098,7 @@ class SessionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SessionStatusCode {
   static const rejected = SessionStatusCode._('REJECTED');
   static const expired = SessionStatusCode._('EXPIRED');
@@ -2107,6 +2132,7 @@ class SessionStatusCode {
   String toString() => value;
 }
 
+/// @nodoc
 class ActionCompletionStrategy {
   static const autoCompletionUponApproval =
       ActionCompletionStrategy._('AUTO_COMPLETION_UPON_APPROVAL');
@@ -2140,6 +2166,8 @@ class ActionCompletionStrategy {
 /// perform an MFA challenge to vote
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class AdditionalSecurityRequirement {
   static const approverVerificationRequired =
       AdditionalSecurityRequirement._('APPROVER_VERIFICATION_REQUIRED');
@@ -2167,6 +2195,8 @@ class AdditionalSecurityRequirement {
 
 /// Contains the filter to apply to requests. You can specify up to 10 filters
 /// for a request.
+///
+/// @nodoc
 class Filter {
   /// Name of the filter to use.
   /// <note>
@@ -2248,6 +2278,7 @@ class Filter {
   }
 }
 
+/// @nodoc
 class FilterField {
   static const actionName = FilterField._('ActionName');
   static const approvalTeamName = FilterField._('ApprovalTeamName');
@@ -2282,6 +2313,7 @@ class FilterField {
   String toString() => value;
 }
 
+/// @nodoc
 class Operator {
   static const eq = Operator._('EQ');
   static const ne = Operator._('NE');
@@ -2323,6 +2355,8 @@ class Operator {
 }
 
 /// Contains details for how an approval team grants approval.
+///
+/// @nodoc
 class ApprovalStrategyResponse {
   /// Minimum number of approvals (M) required for a total number of approvers
   /// (N).
@@ -2348,6 +2382,7 @@ class ApprovalStrategyResponse {
   }
 }
 
+/// @nodoc
 class SessionExecutionStatus {
   static const executed = SessionExecutionStatus._('EXECUTED');
   static const failed = SessionExecutionStatus._('FAILED');
@@ -2375,6 +2410,8 @@ class SessionExecutionStatus {
 }
 
 /// Contains details for an approver response in an approval session.
+///
+/// @nodoc
 class GetSessionResponseApproverResponse {
   /// ID for the approver.
   final String? approverId;
@@ -2428,6 +2465,7 @@ class GetSessionResponseApproverResponse {
   }
 }
 
+/// @nodoc
 class SessionResponse {
   static const approved = SessionResponse._('APPROVED');
   static const rejected = SessionResponse._('REJECTED');
@@ -2454,6 +2492,8 @@ class SessionResponse {
 }
 
 /// Strategy for how an approval team grants approval.
+///
+/// @nodoc
 class MofNApprovalStrategy {
   /// Minimum number of approvals (M) required for a total number of approvers
   /// (N).
@@ -2480,6 +2520,8 @@ class MofNApprovalStrategy {
 /// Contains details for an identity source. For more information, see <a
 /// href="https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html">Identity
 /// source</a> in the <i>Multi-party approval User Guide</i>.
+///
+/// @nodoc
 class IdentitySourceForList {
   /// Timestamp when the identity source was created.
   final DateTime? creationTime;
@@ -2555,6 +2597,7 @@ class IdentitySourceForList {
   }
 }
 
+/// @nodoc
 class IdentitySourceType {
   static const iamIdentityCenter = IdentitySourceType._('IAM_IDENTITY_CENTER');
 
@@ -2584,6 +2627,8 @@ class IdentitySourceType {
 /// see <a
 /// href="https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html">Identity
 /// source</a> in the <i>Multi-party approval User Guide</i>.
+///
+/// @nodoc
 class IdentitySourceParametersForList {
   /// IAM Identity Center credentials.
   final IamIdentityCenterForList? iamIdentityCenter;
@@ -2609,6 +2654,7 @@ class IdentitySourceParametersForList {
   }
 }
 
+/// @nodoc
 class IdentitySourceStatus {
   static const creating = IdentitySourceStatus._('CREATING');
   static const active = IdentitySourceStatus._('ACTIVE');
@@ -2636,6 +2682,7 @@ class IdentitySourceStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class IdentitySourceStatusCode {
   static const accessDenied = IdentitySourceStatusCode._('ACCESS_DENIED');
   static const deletionFailed = IdentitySourceStatusCode._('DELETION_FAILED');
@@ -2672,6 +2719,8 @@ class IdentitySourceStatusCode {
 
 /// IAM Identity Center credentials. For more information see, <a
 /// href="http://aws.amazon.com/identity-center/">IAM Identity Center</a> .
+///
+/// @nodoc
 class IamIdentityCenterForList {
   /// URL for the approval portal associated with the IAM Identity Center
   /// instance.
@@ -2715,6 +2764,8 @@ class IamIdentityCenterForList {
 /// see <a
 /// href="https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html">Identity
 /// source</a> in the <i>Multi-party approval User Guide</i>.
+///
+/// @nodoc
 class IdentitySourceParametersForGet {
   /// IAM Identity Center credentials.
   final IamIdentityCenterForGet? iamIdentityCenter;
@@ -2742,6 +2793,8 @@ class IdentitySourceParametersForGet {
 
 /// IAM Identity Center credentials. For more information see, <a
 /// href="http://aws.amazon.com/identity-center/">IAM Identity Center</a> .
+///
+/// @nodoc
 class IamIdentityCenterForGet {
   /// URL for the approval portal associated with the IAM Identity Center
   /// instance.
@@ -2782,6 +2835,8 @@ class IamIdentityCenterForGet {
 
 /// Contains details for the resource that provides identities to the identity
 /// source. For example, an IAM Identity Center instance.
+///
+/// @nodoc
 class IdentitySourceParameters {
   /// IAM Identity Center credentials.
   final IamIdentityCenter? iamIdentityCenter;
@@ -2800,6 +2855,8 @@ class IdentitySourceParameters {
 
 /// IAM Identity Center credentials. For more information see, <a
 /// href="http://aws.amazon.com/identity-center/">IAM Identity Center</a> .
+///
+/// @nodoc
 class IamIdentityCenter {
   /// Amazon Resource Name (ARN) for the IAM Identity Center instance.
   final String instanceArn;
@@ -2824,6 +2881,8 @@ class IamIdentityCenter {
 }
 
 /// Contains details for an approval team
+///
+/// @nodoc
 class ListApprovalTeamsResponseApprovalTeam {
   /// An <code>ApprovalStrategyResponse</code> object. Contains details for how an
   /// approval team grants approval.
@@ -2912,6 +2971,7 @@ class ListApprovalTeamsResponseApprovalTeam {
   }
 }
 
+/// @nodoc
 class ApprovalTeamStatus {
   static const active = ApprovalTeamStatus._('ACTIVE');
   static const inactive = ApprovalTeamStatus._('INACTIVE');
@@ -2939,6 +2999,7 @@ class ApprovalTeamStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ApprovalTeamStatusCode {
   static const validating = ApprovalTeamStatusCode._('VALIDATING');
   static const pendingActivation =
@@ -2997,6 +3058,8 @@ class ApprovalTeamStatusCode {
 }
 
 /// Strategy for how an approval team grants approval.
+///
+/// @nodoc
 class ApprovalStrategy {
   /// Minimum number of approvals (M) required for a total number of approvers
   /// (N).
@@ -3022,6 +3085,8 @@ class ApprovalStrategy {
 /// approvers on the team
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class UpdateAction {
   static const synchronizeMfaDevices =
       UpdateAction._('SYNCHRONIZE_MFA_DEVICES');
@@ -3046,6 +3111,8 @@ class UpdateAction {
 }
 
 /// Contains details for an approver.
+///
+/// @nodoc
 class ApprovalTeamRequestApprover {
   /// ID for the user.
   final String primaryIdentityId;
@@ -3071,6 +3138,8 @@ class ApprovalTeamRequestApprover {
 
 /// Contains details for the pending updates for an approval team, if
 /// applicable.
+///
+/// @nodoc
 class PendingUpdate {
   /// An <code>ApprovalStrategyResponse</code> object. Contains details for how
   /// the team grants approval.
@@ -3166,6 +3235,8 @@ class PendingUpdate {
 
 /// Contains the Amazon Resource Name (ARN) for a policy. Policies define what
 /// operations a team that define the permissions for team resources.
+///
+/// @nodoc
 class PolicyReference {
   /// Amazon Resource Name (ARN) for the policy.
   final String policyArn;
@@ -3189,6 +3260,8 @@ class PolicyReference {
 }
 
 /// Contains details for an approver.
+///
+/// @nodoc
 class GetApprovalTeamResponseApprover {
   /// ID for the approver.
   final String? approverId;
@@ -3280,6 +3353,7 @@ class GetApprovalTeamResponseApprover {
   }
 }
 
+/// @nodoc
 class IdentityStatus {
   static const pending = IdentityStatus._('PENDING');
   static const accepted = IdentityStatus._('ACCEPTED');
@@ -3306,6 +3380,7 @@ class IdentityStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ApproverLastActivity {
   static const voted = ApproverLastActivity._('VOTED');
   static const baselined = ApproverLastActivity._('BASELINED');
@@ -3334,6 +3409,8 @@ class ApproverLastActivity {
 }
 
 /// MFA configuration and sycnronization status for an approver
+///
+/// @nodoc
 class MfaMethod {
   /// Indicates if the approver's MFA device is in-sync with the Identity Source
   final MfaSyncStatus syncStatus;
@@ -3372,6 +3449,8 @@ class MfaMethod {
 /// to their primary email
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MfaType {
   static const emailOtp = MfaType._('EMAIL_OTP');
 
@@ -3406,6 +3485,8 @@ class MfaType {
 /// Identity Source
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class MfaSyncStatus {
   static const inSync = MfaSyncStatus._('IN_SYNC');
   static const outOfSync = MfaSyncStatus._('OUT_OF_SYNC');
@@ -3431,6 +3512,8 @@ class MfaSyncStatus {
 }
 
 /// Contains details about a policy for a resource.
+///
+/// @nodoc
 class ListResourcePoliciesResponseResourcePolicy {
   /// Amazon Resource Name (ARN) for policy.
   final String? policyArn;
@@ -3468,6 +3551,7 @@ class ListResourcePoliciesResponseResourcePolicy {
   }
 }
 
+/// @nodoc
 class PolicyType {
   static const awsManaged = PolicyType._('AWS_MANAGED');
   static const awsRam = PolicyType._('AWS_RAM');
@@ -3493,6 +3577,8 @@ class PolicyType {
 
 /// Contains details for the version of a policy. Policies define what
 /// operations a team that define the permissions for team resources.
+///
+/// @nodoc
 class PolicyVersionSummary {
   /// Amazon Resource Name (ARN) for the team.
   final String arn;
@@ -3575,6 +3661,7 @@ class PolicyVersionSummary {
   }
 }
 
+/// @nodoc
 class PolicyStatus {
   static const attachable = PolicyStatus._('ATTACHABLE');
   static const deprecated = PolicyStatus._('DEPRECATED');
@@ -3600,6 +3687,8 @@ class PolicyStatus {
 
 /// Contains details for a policy. Policies define what operations a team that
 /// define the permissions for team resources.
+///
+/// @nodoc
 class Policy {
   /// Amazon Resource Name (ARN) for the policy.
   final String arn;
@@ -3645,6 +3734,8 @@ class Policy {
 
 /// Contains details for the version of a policy. Policies define what
 /// operations a team that define the permissions for team resources.
+///
+/// @nodoc
 class PolicyVersion {
   /// Amazon Resource Name (ARN) for the team.
   final String arn;
@@ -3734,31 +3825,37 @@ class PolicyVersion {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3767,16 +3864,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class TooManyTagsException extends _s.GenericAwsException {
   TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

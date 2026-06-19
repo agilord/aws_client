@@ -1786,8 +1786,8 @@ class Ses {
   /// recipient email address. The recipient address can be a To: address, a CC:
   /// address, or a BCC: address. If a recipient email address is invalid (that
   /// is, it is not in the format
-  /// <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), the entire message is
-  /// rejected, even if the message contains other recipients that are valid.
+  /// <i>UserName@\[SubDomain.\]Domain.TopLevelDomain</i>), the entire message
+  /// is rejected, even if the message contains other recipients that are valid.
   /// </li>
   /// <li>
   /// The message may not include more than 50 recipients, across the To:, CC:
@@ -2047,8 +2047,8 @@ class Ses {
   /// The message must include at least one recipient email address. The
   /// recipient address can be a To: address, a CC: address, or a BCC: address.
   /// If a recipient email address is invalid (that is, it is not in the format
-  /// <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), the entire message is
-  /// rejected, even if the message contains other recipients that are valid.
+  /// <i>UserName@\[SubDomain.\]Domain.TopLevelDomain</i>), the entire message
+  /// is rejected, even if the message contains other recipients that are valid.
   /// </li>
   /// <li>
   /// The message may not include more than 50 recipients, across the To:, CC:
@@ -2253,8 +2253,8 @@ class Ses {
   /// <li>
   /// If you send a single message to more than one recipient address, and one
   /// of the recipient addresses isn't in a valid format (that is, it's not in
-  /// the format <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), Amazon SES
-  /// rejects the entire message, even if the other addresses are valid.
+  /// the format <i>UserName@\[SubDomain.\]Domain.TopLevelDomain</i>), Amazon
+  /// SES rejects the entire message, even if the other addresses are valid.
   /// </li>
   /// <li>
   /// Each message can include up to 50 recipient addresses across the To:, CC:,
@@ -2553,9 +2553,9 @@ class Ses {
   /// The <code>Destination</code> parameter must include at least one recipient
   /// email address. The recipient address can be a To: address, a CC: address,
   /// or a BCC: address. If a recipient email address is invalid (that is, it is
-  /// not in the format <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>), the
-  /// entire message is rejected, even if the message contains other recipients
-  /// that are valid.
+  /// not in the format <i>UserName@\[SubDomain.\]Domain.TopLevelDomain</i>),
+  /// the entire message is rejected, even if the message contains other
+  /// recipients that are valid.
   /// </li>
   /// </ul> <important>
   /// If your call to the <code>SendTemplatedEmail</code> operation includes all
@@ -3547,6 +3547,8 @@ class Ses {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class CloneReceiptRuleSetResponse {
   CloneReceiptRuleSetResponse();
   factory CloneReceiptRuleSetResponse.fromXml(
@@ -3561,6 +3563,8 @@ class CloneReceiptRuleSetResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class CreateConfigurationSetResponse {
   CreateConfigurationSetResponse();
   factory CreateConfigurationSetResponse.fromXml(
@@ -3575,6 +3579,8 @@ class CreateConfigurationSetResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class CreateConfigurationSetEventDestinationResponse {
   CreateConfigurationSetEventDestinationResponse();
   factory CreateConfigurationSetEventDestinationResponse.fromXml(
@@ -3589,6 +3595,8 @@ class CreateConfigurationSetEventDestinationResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class CreateConfigurationSetTrackingOptionsResponse {
   CreateConfigurationSetTrackingOptionsResponse();
   factory CreateConfigurationSetTrackingOptionsResponse.fromXml(
@@ -3603,6 +3611,8 @@ class CreateConfigurationSetTrackingOptionsResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class CreateReceiptFilterResponse {
   CreateReceiptFilterResponse();
   factory CreateReceiptFilterResponse.fromXml(
@@ -3617,6 +3627,8 @@ class CreateReceiptFilterResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class CreateReceiptRuleResponse {
   CreateReceiptRuleResponse();
   factory CreateReceiptRuleResponse.fromXml(
@@ -3631,6 +3643,8 @@ class CreateReceiptRuleResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class CreateReceiptRuleSetResponse {
   CreateReceiptRuleSetResponse();
   factory CreateReceiptRuleSetResponse.fromXml(
@@ -3644,6 +3658,7 @@ class CreateReceiptRuleSetResponse {
   }
 }
 
+/// @nodoc
 class CreateTemplateResponse {
   CreateTemplateResponse();
   factory CreateTemplateResponse.fromXml(
@@ -3658,6 +3673,8 @@ class CreateTemplateResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class DeleteConfigurationSetResponse {
   DeleteConfigurationSetResponse();
   factory DeleteConfigurationSetResponse.fromXml(
@@ -3672,6 +3689,8 @@ class DeleteConfigurationSetResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class DeleteConfigurationSetEventDestinationResponse {
   DeleteConfigurationSetEventDestinationResponse();
   factory DeleteConfigurationSetEventDestinationResponse.fromXml(
@@ -3686,6 +3705,8 @@ class DeleteConfigurationSetEventDestinationResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class DeleteConfigurationSetTrackingOptionsResponse {
   DeleteConfigurationSetTrackingOptionsResponse();
   factory DeleteConfigurationSetTrackingOptionsResponse.fromXml(
@@ -3700,6 +3721,8 @@ class DeleteConfigurationSetTrackingOptionsResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class DeleteIdentityResponse {
   DeleteIdentityResponse();
   factory DeleteIdentityResponse.fromXml(
@@ -3714,6 +3737,8 @@ class DeleteIdentityResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class DeleteIdentityPolicyResponse {
   DeleteIdentityPolicyResponse();
   factory DeleteIdentityPolicyResponse.fromXml(
@@ -3728,6 +3753,8 @@ class DeleteIdentityPolicyResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class DeleteReceiptFilterResponse {
   DeleteReceiptFilterResponse();
   factory DeleteReceiptFilterResponse.fromXml(
@@ -3742,6 +3769,8 @@ class DeleteReceiptFilterResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class DeleteReceiptRuleResponse {
   DeleteReceiptRuleResponse();
   factory DeleteReceiptRuleResponse.fromXml(
@@ -3756,6 +3785,8 @@ class DeleteReceiptRuleResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class DeleteReceiptRuleSetResponse {
   DeleteReceiptRuleSetResponse();
   factory DeleteReceiptRuleSetResponse.fromXml(
@@ -3769,6 +3800,7 @@ class DeleteReceiptRuleSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteTemplateResponse {
   DeleteTemplateResponse();
   factory DeleteTemplateResponse.fromXml(
@@ -3784,6 +3816,8 @@ class DeleteTemplateResponse {
 
 /// Represents the metadata and receipt rules for the receipt rule set that is
 /// currently active.
+///
+/// @nodoc
 class DescribeActiveReceiptRuleSetResponse {
   /// The metadata for the currently active receipt rule set. The metadata
   /// consists of the rule set name and a timestamp of when the rule set was
@@ -3822,6 +3856,8 @@ class DescribeActiveReceiptRuleSetResponse {
 /// sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class DescribeConfigurationSetResponse {
   /// The configuration set object associated with the specified configuration
   /// set.
@@ -3884,6 +3920,8 @@ class DescribeConfigurationSetResponse {
 }
 
 /// Represents the details of a receipt rule.
+///
+/// @nodoc
 class DescribeReceiptRuleResponse {
   /// A data structure that contains the specified receipt rule's name, actions,
   /// recipients, domains, enabled status, scan status, and Transport Layer
@@ -3908,6 +3946,8 @@ class DescribeReceiptRuleResponse {
 }
 
 /// Represents the details of the specified receipt rule set.
+///
+/// @nodoc
 class DescribeReceiptRuleSetResponse {
   /// The metadata for the receipt rule set, which consists of the rule set name
   /// and the timestamp of when the rule set was created.
@@ -3942,6 +3982,8 @@ class DescribeReceiptRuleSetResponse {
 
 /// Represents a request to return the email sending status for your Amazon SES
 /// account in the current Amazon Web Services Region.
+///
+/// @nodoc
 class GetAccountSendingEnabledResponse {
   /// Describes whether email sending is enabled or disabled for your Amazon SES
   /// account in the current Amazon Web Services Region.
@@ -3965,6 +4007,8 @@ class GetAccountSendingEnabledResponse {
 }
 
 /// The content of the custom verification email template.
+///
+/// @nodoc
 class GetCustomVerificationEmailTemplateResponse {
   /// The URL that the recipient of the verification email is sent to if his or
   /// her address is not successfully verified.
@@ -4032,6 +4076,8 @@ class GetCustomVerificationEmailTemplateResponse {
 /// domain identities, this response also contains the DKIM tokens that are
 /// required for Easy DKIM signing, and whether Amazon SES successfully verified
 /// that these tokens were published.
+///
+/// @nodoc
 class GetIdentityDkimAttributesResponse {
   /// The DKIM attributes for an email address or a domain.
   final Map<String, IdentityDkimAttributes> dkimAttributes;
@@ -4063,6 +4109,8 @@ class GetIdentityDkimAttributesResponse {
 }
 
 /// Represents the custom MAIL FROM attributes for a list of identities.
+///
+/// @nodoc
 class GetIdentityMailFromDomainAttributesResponse {
   /// A map of identities to custom MAIL FROM attributes.
   final Map<String, IdentityMailFromDomainAttributes> mailFromDomainAttributes;
@@ -4095,6 +4143,8 @@ class GetIdentityMailFromDomainAttributesResponse {
 }
 
 /// Represents the notification attributes for a list of identities.
+///
+/// @nodoc
 class GetIdentityNotificationAttributesResponse {
   /// A map of Identity to IdentityNotificationAttributes.
   final Map<String, IdentityNotificationAttributes> notificationAttributes;
@@ -4127,6 +4177,8 @@ class GetIdentityNotificationAttributesResponse {
 }
 
 /// Represents the requested sending authorization policies.
+///
+/// @nodoc
 class GetIdentityPoliciesResponse {
   /// A map of policy names to policies.
   final Map<String, String> policies;
@@ -4158,6 +4210,8 @@ class GetIdentityPoliciesResponse {
 
 /// The Amazon SES verification status of a list of identities. For domain
 /// identities, this response also contains the verification token.
+///
+/// @nodoc
 class GetIdentityVerificationAttributesResponse {
   /// A map of Identities to IdentityVerificationAttributes objects.
   final Map<String, IdentityVerificationAttributes> verificationAttributes;
@@ -4191,6 +4245,8 @@ class GetIdentityVerificationAttributesResponse {
 
 /// Represents your Amazon SES daily sending quota, maximum send rate, and the
 /// number of emails you have sent in the last 24 hours.
+///
+/// @nodoc
 class GetSendQuotaResponse {
   /// The maximum number of emails the user is allowed to send in a 24-hour
   /// interval. A value of -1 signifies an unlimited quota.
@@ -4234,6 +4290,8 @@ class GetSendQuotaResponse {
 
 /// Represents a list of data points. This list contains aggregated data from
 /// the previous two weeks of your sending activity with Amazon SES.
+///
+/// @nodoc
 class GetSendStatisticsResponse {
   /// A list of data points, each of which represents 15 minutes of activity.
   final List<SendDataPoint>? sendDataPoints;
@@ -4256,6 +4314,7 @@ class GetSendStatisticsResponse {
   }
 }
 
+/// @nodoc
 class GetTemplateResponse {
   final Template? template;
 
@@ -4281,6 +4340,8 @@ class GetTemplateResponse {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class ListConfigurationSetsResponse {
   /// A list of configuration sets.
   final List<ConfigurationSet>? configurationSets;
@@ -4316,6 +4377,8 @@ class ListConfigurationSetsResponse {
 }
 
 /// A paginated list of custom verification email templates.
+///
+/// @nodoc
 class ListCustomVerificationEmailTemplatesResponse {
   /// A list of the custom verification email templates that exist in your
   /// account.
@@ -4358,6 +4421,8 @@ class ListCustomVerificationEmailTemplatesResponse {
 
 /// A list of all identities that you have attempted to verify under your Amazon
 /// Web Services account, regardless of verification status.
+///
+/// @nodoc
 class ListIdentitiesResponse {
   /// A list of identities.
   final List<String> identities;
@@ -4388,6 +4453,8 @@ class ListIdentitiesResponse {
 }
 
 /// A list of names of sending authorization policies that apply to an identity.
+///
+/// @nodoc
 class ListIdentityPoliciesResponse {
   /// A list of names of policies that apply to the specified identity.
   final List<String> policyNames;
@@ -4412,6 +4479,8 @@ class ListIdentityPoliciesResponse {
 
 /// A list of IP address filters that exist under your Amazon Web Services
 /// account.
+///
+/// @nodoc
 class ListReceiptFiltersResponse {
   /// A list of IP address filter data structures, which each consist of a name,
   /// an IP address range, and whether to allow or block mail from it.
@@ -4437,6 +4506,8 @@ class ListReceiptFiltersResponse {
 
 /// A list of receipt rule sets that exist under your Amazon Web Services
 /// account.
+///
+/// @nodoc
 class ListReceiptRuleSetsResponse {
   /// A token indicating that there are additional receipt rule sets available to
   /// be listed. Pass this token to successive calls of
@@ -4473,6 +4544,7 @@ class ListReceiptRuleSetsResponse {
   }
 }
 
+/// @nodoc
 class ListTemplatesResponse {
   /// A token indicating that there are additional email templates available to be
   /// listed. Pass this token to a subsequent call to <code>ListTemplates</code>
@@ -4510,6 +4582,8 @@ class ListTemplatesResponse {
 
 /// A list of email addresses that you have verified with Amazon SES under your
 /// Amazon Web Services account.
+///
+/// @nodoc
 class ListVerifiedEmailAddressesResponse {
   /// A list of email addresses that have been verified.
   final List<String>? verifiedEmailAddresses;
@@ -4536,6 +4610,8 @@ class ListVerifiedEmailAddressesResponse {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
+///
+/// @nodoc
 class PutConfigurationSetDeliveryOptionsResponse {
   PutConfigurationSetDeliveryOptionsResponse();
   factory PutConfigurationSetDeliveryOptionsResponse.fromXml(
@@ -4550,6 +4626,8 @@ class PutConfigurationSetDeliveryOptionsResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class PutIdentityPolicyResponse {
   PutIdentityPolicyResponse();
   factory PutIdentityPolicyResponse.fromXml(
@@ -4564,6 +4642,8 @@ class PutIdentityPolicyResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class ReorderReceiptRuleSetResponse {
   ReorderReceiptRuleSetResponse();
   factory ReorderReceiptRuleSetResponse.fromXml(
@@ -4578,6 +4658,8 @@ class ReorderReceiptRuleSetResponse {
 }
 
 /// Represents a unique message ID.
+///
+/// @nodoc
 class SendBounceResponse {
   /// The message ID of the bounce message.
   final String? messageId;
@@ -4599,6 +4681,7 @@ class SendBounceResponse {
   }
 }
 
+/// @nodoc
 class SendBulkTemplatedEmailResponse {
   /// One object per intended recipient. Check each response object and retry any
   /// messages with a failure status. (Note that order of responses will be
@@ -4628,6 +4711,8 @@ class SendBulkTemplatedEmailResponse {
 }
 
 /// The response received when attempting to send the custom verification email.
+///
+/// @nodoc
 class SendCustomVerificationEmailResponse {
   /// The unique message identifier returned from the
   /// <code>SendCustomVerificationEmail</code> operation.
@@ -4651,6 +4736,8 @@ class SendCustomVerificationEmailResponse {
 }
 
 /// Represents a unique message ID.
+///
+/// @nodoc
 class SendEmailResponse {
   /// The unique message identifier returned from the <code>SendEmail</code>
   /// action.
@@ -4674,6 +4761,8 @@ class SendEmailResponse {
 }
 
 /// Represents a unique message ID.
+///
+/// @nodoc
 class SendRawEmailResponse {
   /// The unique message identifier returned from the <code>SendRawEmail</code>
   /// action.
@@ -4696,6 +4785,7 @@ class SendRawEmailResponse {
   }
 }
 
+/// @nodoc
 class SendTemplatedEmailResponse {
   /// The unique message identifier returned from the
   /// <code>SendTemplatedEmail</code> action.
@@ -4719,6 +4809,8 @@ class SendTemplatedEmailResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class SetActiveReceiptRuleSetResponse {
   SetActiveReceiptRuleSetResponse();
   factory SetActiveReceiptRuleSetResponse.fromXml(
@@ -4733,6 +4825,8 @@ class SetActiveReceiptRuleSetResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class SetIdentityDkimEnabledResponse {
   SetIdentityDkimEnabledResponse();
   factory SetIdentityDkimEnabledResponse.fromXml(
@@ -4747,6 +4841,8 @@ class SetIdentityDkimEnabledResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class SetIdentityFeedbackForwardingEnabledResponse {
   SetIdentityFeedbackForwardingEnabledResponse();
   factory SetIdentityFeedbackForwardingEnabledResponse.fromXml(
@@ -4761,6 +4857,8 @@ class SetIdentityFeedbackForwardingEnabledResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class SetIdentityHeadersInNotificationsEnabledResponse {
   SetIdentityHeadersInNotificationsEnabledResponse();
   factory SetIdentityHeadersInNotificationsEnabledResponse.fromXml(
@@ -4775,6 +4873,8 @@ class SetIdentityHeadersInNotificationsEnabledResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class SetIdentityMailFromDomainResponse {
   SetIdentityMailFromDomainResponse();
   factory SetIdentityMailFromDomainResponse.fromXml(
@@ -4789,6 +4889,8 @@ class SetIdentityMailFromDomainResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class SetIdentityNotificationTopicResponse {
   SetIdentityNotificationTopicResponse();
   factory SetIdentityNotificationTopicResponse.fromXml(
@@ -4803,6 +4905,8 @@ class SetIdentityNotificationTopicResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class SetReceiptRulePositionResponse {
   SetReceiptRulePositionResponse();
   factory SetReceiptRulePositionResponse.fromXml(
@@ -4816,6 +4920,7 @@ class SetReceiptRulePositionResponse {
   }
 }
 
+/// @nodoc
 class TestRenderTemplateResponse {
   /// The complete MIME message rendered by applying the data in the TemplateData
   /// parameter to the template specified in the TemplateName parameter.
@@ -4839,6 +4944,8 @@ class TestRenderTemplateResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class UpdateConfigurationSetEventDestinationResponse {
   UpdateConfigurationSetEventDestinationResponse();
   factory UpdateConfigurationSetEventDestinationResponse.fromXml(
@@ -4853,6 +4960,8 @@ class UpdateConfigurationSetEventDestinationResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class UpdateConfigurationSetTrackingOptionsResponse {
   UpdateConfigurationSetTrackingOptionsResponse();
   factory UpdateConfigurationSetTrackingOptionsResponse.fromXml(
@@ -4867,6 +4976,8 @@ class UpdateConfigurationSetTrackingOptionsResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class UpdateReceiptRuleResponse {
   UpdateReceiptRuleResponse();
   factory UpdateReceiptRuleResponse.fromXml(
@@ -4880,6 +4991,7 @@ class UpdateReceiptRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateTemplateResponse {
   UpdateTemplateResponse();
   factory UpdateTemplateResponse.fromXml(
@@ -4895,6 +5007,8 @@ class UpdateTemplateResponse {
 
 /// Returns CNAME records that you must publish to the DNS server of your domain
 /// to set up Easy DKIM with Amazon SES.
+///
+/// @nodoc
 class VerifyDomainDkimResponse {
   /// A set of character strings that represent the domain's identity. If the
   /// identity is an email address, the tokens represent the domain of that
@@ -4933,6 +5047,8 @@ class VerifyDomainDkimResponse {
 
 /// Returns a TXT record that you must publish to the DNS server of your domain
 /// to complete domain verification with Amazon SES.
+///
+/// @nodoc
 class VerifyDomainIdentityResponse {
   /// A TXT record that you must place in the DNS settings of the domain to
   /// complete domain verification with Amazon SES.
@@ -4964,6 +5080,8 @@ class VerifyDomainIdentityResponse {
 }
 
 /// An empty element returned on a successful request.
+///
+/// @nodoc
 class VerifyEmailIdentityResponse {
   VerifyEmailIdentityResponse();
   factory VerifyEmailIdentityResponse.fromXml(
@@ -4979,6 +5097,8 @@ class VerifyEmailIdentityResponse {
 
 /// The content of the email, composed of a subject line and either an HTML part
 /// or a text-only part.
+///
+/// @nodoc
 class Template {
   /// The name of the template. You use this name when you send email using the
   /// <code>SendTemplatedEmail</code> or <code>SendBulkTemplatedEmail</code>
@@ -5049,6 +5169,8 @@ class Template {
 /// For information about setting up receipt rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class ReceiptRule {
   /// The name of the receipt rule. The name must meet the following requirements:
   ///
@@ -5159,6 +5281,7 @@ class ReceiptRule {
   }
 }
 
+/// @nodoc
 class TlsPolicy {
   static const require = TlsPolicy._('Require');
   static const optional = TlsPolicy._('Optional');
@@ -5189,6 +5312,8 @@ class TlsPolicy {
 /// For information about setting up receipt rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class ReceiptAction {
   /// Adds a header to the received email.
   final AddHeaderAction? addHeaderAction;
@@ -5329,6 +5454,8 @@ class ReceiptAction {
 /// <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-s3.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class S3Action {
   /// The name of the Amazon S3 bucket for incoming email.
   final String bucketName;
@@ -5474,6 +5601,8 @@ class S3Action {
 /// email, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-bounce.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class BounceAction {
   /// Human-readable text to include in the bounce message.
   final String message;
@@ -5556,6 +5685,8 @@ class BounceAction {
 /// For information using a receipt rule to call Amazon WorkMail, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-workmail.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class WorkmailAction {
   /// The Amazon Resource Name (ARN) of the Amazon WorkMail organization. Amazon
   /// WorkMail ARNs use the following format:
@@ -5627,6 +5758,8 @@ class WorkmailAction {
 /// rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-lambda.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class LambdaAction {
   /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function.
   /// An example of an Amazon Web Services Lambda function ARN is
@@ -5707,6 +5840,8 @@ class LambdaAction {
 /// For information about setting a stop action in a receipt rule, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-stop.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class StopAction {
   /// The scope of the StopAction. The only acceptable value is
   /// <code>RuleSet</code>.
@@ -5758,6 +5893,8 @@ class StopAction {
 /// For information about adding a header using a receipt rule, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-add-header.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class AddHeaderAction {
   /// The name of the header to add to the incoming message. The name must contain
   /// at least one character, and can contain up to 50 characters. It consists of
@@ -5821,6 +5958,8 @@ class AddHeaderAction {
 /// notification, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-sns.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class SNSAction {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. You can
   /// find the ARN of a topic by using the <a
@@ -5878,6 +6017,8 @@ class SNSAction {
 /// than 40 MB or with more than 10 attachments will be bounced.
 /// </note>
 /// We recommend that you configure this action via Amazon Connect.
+///
+/// @nodoc
 class ConnectAction {
   /// The Amazon Resource Name (ARN) of the IAM role to be used by Amazon Simple
   /// Email Service while starting email contacts to the Amazon Connect instance.
@@ -5924,6 +6065,7 @@ class ConnectAction {
   }
 }
 
+/// @nodoc
 class SNSActionEncoding {
   static const utf_8 = SNSActionEncoding._('UTF-8');
   static const base64 = SNSActionEncoding._('Base64');
@@ -5948,6 +6090,7 @@ class SNSActionEncoding {
   String toString() => value;
 }
 
+/// @nodoc
 class StopScope {
   static const ruleSet = StopScope._('RuleSet');
 
@@ -5970,6 +6113,7 @@ class StopScope {
   String toString() => value;
 }
 
+/// @nodoc
 class InvocationType {
   static const event = InvocationType._('Event');
   static const requestResponse = InvocationType._('RequestResponse');
@@ -6002,6 +6146,8 @@ class InvocationType {
 /// href="https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html">Configuring
 /// Custom Domains to Handle Open and Click Tracking</a> in the <i>Amazon SES
 /// Developer Guide</i>.
+///
+/// @nodoc
 class TrackingOptions {
   /// The custom subdomain that is used to redirect email recipients to the Amazon
   /// SES event tracking domain.
@@ -6046,6 +6192,8 @@ class TrackingOptions {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class EventDestination {
   /// The type of email sending events to publish to the event destination.
   ///
@@ -6199,6 +6347,8 @@ class EventDestination {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class KinesisFirehoseDestination {
   /// The ARN of the Amazon Kinesis Firehose stream that email sending events
   /// should be published to.
@@ -6246,6 +6396,8 @@ class KinesisFirehoseDestination {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class CloudWatchDestination {
   /// A list of dimensions upon which to categorize your emails when you publish
   /// email sending events to Amazon CloudWatch.
@@ -6292,6 +6444,8 @@ class CloudWatchDestination {
 /// about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class SNSDestination {
   /// The ARN of the Amazon SNS topic for email sending events. You can find the
   /// ARN of a topic by using the <a
@@ -6334,6 +6488,8 @@ class SNSDestination {
 /// see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class CloudWatchDimensionConfiguration {
   /// The default value of the dimension that is published to Amazon CloudWatch if
   /// you do not provide the value of the dimension when you send an email. The
@@ -6412,6 +6568,7 @@ class CloudWatchDimensionConfiguration {
   }
 }
 
+/// @nodoc
 class DimensionValueSource {
   static const messageTag = DimensionValueSource._('messageTag');
   static const emailHeader = DimensionValueSource._('emailHeader');
@@ -6438,6 +6595,7 @@ class DimensionValueSource {
   String toString() => value;
 }
 
+/// @nodoc
 class EventType {
   static const send = EventType._('send');
   static const reject = EventType._('reject');
@@ -6476,6 +6634,7 @@ class EventType {
   String toString() => value;
 }
 
+/// @nodoc
 class NotificationType {
   static const bounce = NotificationType._('Bounce');
   static const complaint = NotificationType._('Complaint');
@@ -6501,6 +6660,7 @@ class NotificationType {
   String toString() => value;
 }
 
+/// @nodoc
 class BehaviorOnMXFailure {
   static const useDefaultValue = BehaviorOnMXFailure._('UseDefaultValue');
   static const rejectMessage = BehaviorOnMXFailure._('RejectMessage');
@@ -6542,6 +6702,8 @@ class BehaviorOnMXFailure {
 /// raw email using the Amazon SES API</a>. For more information about Punycode,
 /// see <a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>.
 /// </note>
+///
+/// @nodoc
 class Destination {
   /// The recipients to place on the BCC: line of the message.
   final List<String>? bccAddresses;
@@ -6604,6 +6766,8 @@ class Destination {
 /// the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class MessageTag {
   /// The name of the tag. The name must meet the following requirements:
   ///
@@ -6656,6 +6820,8 @@ class MessageTag {
 }
 
 /// Represents the raw data of the message.
+///
+/// @nodoc
 class RawMessage {
   /// The raw data of the message. This data needs to base64-encoded if you are
   /// accessing Amazon SES directly through the HTTPS interface. If you are
@@ -6699,6 +6865,8 @@ class RawMessage {
 }
 
 /// Represents the message to be sent, composed of a subject and a body.
+///
+/// @nodoc
 class Message {
   /// The message body.
   final Body body;
@@ -6737,6 +6905,8 @@ class Message {
 /// By default, the text must be 7-bit ASCII, due to the constraints of the SMTP
 /// protocol. If the text must contain any other characters, then you must also
 /// specify a character set. Examples include UTF-8, ISO-8859-1, and Shift_JIS.
+///
+/// @nodoc
 class Content {
   /// The textual data of the content.
   final String data;
@@ -6771,6 +6941,8 @@ class Content {
 /// Represents the body of the message. You can specify text, HTML, or both. If
 /// you use both, then the message should display correctly in the widest
 /// variety of email clients.
+///
+/// @nodoc
 class Body {
   /// The content of the message, in HTML format. Use this for email clients that
   /// can process HTML. You can include clickable links, formatted text, and much
@@ -6809,6 +6981,8 @@ class Body {
 
 /// An object that contains the response from the
 /// <code>SendBulkTemplatedEmail</code> operation.
+///
+/// @nodoc
 class BulkEmailDestinationStatus {
   /// A description of an error that prevented a message being sent using the
   /// <code>SendBulkTemplatedEmail</code> operation.
@@ -6912,6 +7086,7 @@ class BulkEmailDestinationStatus {
   }
 }
 
+/// @nodoc
 class BulkEmailStatus {
   static const success = BulkEmailStatus._('Success');
   static const messageRejected = BulkEmailStatus._('MessageRejected');
@@ -6971,6 +7146,8 @@ class BulkEmailStatus {
 
 /// An array that contains one or more Destinations, as well as the tags and
 /// replacement data associated with each of those Destinations.
+///
+/// @nodoc
 class BulkEmailDestination {
   final Destination destination;
 
@@ -7029,11 +7206,13 @@ class BulkEmailDestination {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class MessageDsn {
   /// The reporting MTA that attempted to deliver the message, formatted as
   /// specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
   /// (<code>mta-name-type; mta-name</code>). The default value is <code>dns;
-  /// inbound-smtp.[region].amazonaws.com</code>.
+  /// inbound-smtp.\[region\].amazonaws.com</code>.
   final String reportingMta;
 
   /// When the message was received by the reporting mail transfer agent (MTA), in
@@ -7084,6 +7263,8 @@ class MessageDsn {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class BouncedRecipientInfo {
   /// The email address of the recipient of the bounced email.
   final String recipient;
@@ -7141,6 +7322,7 @@ class BouncedRecipientInfo {
   }
 }
 
+/// @nodoc
 class BounceType {
   static const doesNotExist = BounceType._('DoesNotExist');
   static const messageTooLarge = BounceType._('MessageTooLarge');
@@ -7181,6 +7363,8 @@ class BounceType {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class RecipientDsnFields {
   /// The action performed by the reporting mail transfer agent (MTA) as a result
   /// of its attempt to deliver the message to the recipient address. This is
@@ -7280,6 +7464,7 @@ class RecipientDsnFields {
   }
 }
 
+/// @nodoc
 class DsnAction {
   static const failed = DsnAction._('failed');
   static const delayed = DsnAction._('delayed');
@@ -7312,6 +7497,8 @@ class DsnAction {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class ExtensionField {
   /// The name of the header to add. Must be between 1 and 50 characters,
   /// inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes
@@ -7348,6 +7535,8 @@ class ExtensionField {
 
 /// Specifies whether messages that use the configuration set are required to
 /// use Transport Layer Security (TLS).
+///
+/// @nodoc
 class DeliveryOptions {
   /// Specifies whether messages that use the configuration set are required to
   /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
@@ -7383,6 +7572,8 @@ class DeliveryOptions {
 }
 
 /// Contains information about an email template.
+///
+/// @nodoc
 class TemplateMetadata {
   /// The time and date the template was created.
   final DateTime? createdTimestamp;
@@ -7421,6 +7612,8 @@ class TemplateMetadata {
 /// For information about setting up receipt rule sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class ReceiptRuleSetMetadata {
   /// The date and time the receipt rule set was created.
   final DateTime? createdTimestamp;
@@ -7470,6 +7663,8 @@ class ReceiptRuleSetMetadata {
 /// For information about setting up IP address filters, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class ReceiptFilter {
   /// A structure that provides the IP addresses to block or allow, and whether to
   /// block or allow incoming mail from them.
@@ -7529,6 +7724,8 @@ class ReceiptFilter {
 /// For information about setting up IP address filters, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
 /// SES Developer Guide</a>.
+///
+/// @nodoc
 class ReceiptIpFilter {
   /// A single IP address or a range of IP addresses to block or allow, specified
   /// in Classless Inter-Domain Routing (CIDR) notation. An example of a single
@@ -7573,6 +7770,7 @@ class ReceiptIpFilter {
   }
 }
 
+/// @nodoc
 class ReceiptFilterPolicy {
   static const block = ReceiptFilterPolicy._('Block');
   static const allow = ReceiptFilterPolicy._('Allow');
@@ -7598,6 +7796,7 @@ class ReceiptFilterPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class IdentityType {
   static const emailAddress = IdentityType._('EmailAddress');
   static const domain = IdentityType._('Domain');
@@ -7622,6 +7821,8 @@ class IdentityType {
 }
 
 /// Contains information about a custom verification email template.
+///
+/// @nodoc
 class CustomVerificationEmailTemplate {
   /// The URL that the recipient of the verification email is sent to if his or
   /// her address is not successfully verified.
@@ -7686,6 +7887,8 @@ class CustomVerificationEmailTemplate {
 /// Amazon SES Configuration Sets</a> in the <a
 /// href="https://docs.aws.amazon.com/ses/latest/dg/">Amazon SES Developer
 /// Guide</a>.
+///
+/// @nodoc
 class ConfigurationSet {
   /// The name of the configuration set. The name must meet the following
   /// requirements:
@@ -7727,6 +7930,8 @@ class ConfigurationSet {
 
 /// Represents sending statistics data. Each <code>SendDataPoint</code> contains
 /// statistics for a 15-minute period of sending activity.
+///
+/// @nodoc
 class SendDataPoint {
   /// Number of emails that have bounced.
   final int? bounces;
@@ -7777,6 +7982,8 @@ class SendDataPoint {
 }
 
 /// Represents the verification attributes of a single identity.
+///
+/// @nodoc
 class IdentityVerificationAttributes {
   /// The verification status of the identity: "Pending", "Success", "Failed", or
   /// "TemporaryFailure".
@@ -7809,6 +8016,7 @@ class IdentityVerificationAttributes {
   }
 }
 
+/// @nodoc
 class VerificationStatus {
   static const pending = VerificationStatus._('Pending');
   static const success = VerificationStatus._('Success');
@@ -7847,6 +8055,8 @@ class VerificationStatus {
 /// identity has Amazon Simple Notification Service (Amazon SNS) topics set for
 /// bounce, complaint, and/or delivery notifications, and whether feedback
 /// forwarding is enabled for bounce and complaint notifications.
+///
+/// @nodoc
 class IdentityNotificationAttributes {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
   /// publishes bounce notifications.
@@ -7943,6 +8153,8 @@ class IdentityNotificationAttributes {
 
 /// Represents the custom MAIL FROM domain attributes of a verified identity
 /// (email address or domain).
+///
+/// @nodoc
 class IdentityMailFromDomainAttributes {
   /// The action that Amazon SES takes if it cannot successfully read the required
   /// MX record when you send an email. A value of <code>UseDefaultValue</code>
@@ -7996,6 +8208,7 @@ class IdentityMailFromDomainAttributes {
   }
 }
 
+/// @nodoc
 class CustomMailFromStatus {
   static const pending = CustomMailFromStatus._('Pending');
   static const success = CustomMailFromStatus._('Success');
@@ -8024,6 +8237,8 @@ class CustomMailFromStatus {
 }
 
 /// Represents the DKIM attributes of a verified email address or a domain.
+///
+/// @nodoc
 class IdentityDkimAttributes {
   /// Is true if DKIM signing is enabled for email sent from the identity. It's
   /// false otherwise. The default value is true.
@@ -8078,6 +8293,8 @@ class IdentityDkimAttributes {
 }
 
 /// Contains information about the reputation settings for a configuration set.
+///
+/// @nodoc
 class ReputationOptions {
   /// The date and time at which the reputation metrics for the configuration set
   /// were last reset. Resetting these metrics is known as a <i>fresh start</i>.
@@ -8135,6 +8352,7 @@ class ReputationOptions {
   }
 }
 
+/// @nodoc
 class ConfigurationSetAttribute {
   static const eventDestinations =
       ConfigurationSetAttribute._('eventDestinations');
@@ -8169,6 +8387,7 @@ class ConfigurationSetAttribute {
   String toString() => value;
 }
 
+/// @nodoc
 class AccountSendingPausedException extends _s.GenericAwsException {
   AccountSendingPausedException({String? type, String? message})
       : super(
@@ -8177,16 +8396,19 @@ class AccountSendingPausedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class CannotDeleteException extends _s.GenericAwsException {
   CannotDeleteException({String? type, String? message})
       : super(type: type, code: 'CannotDeleteException', message: message);
 }
 
+/// @nodoc
 class ConfigurationSetAlreadyExistsException extends _s.GenericAwsException {
   ConfigurationSetAlreadyExistsException({String? type, String? message})
       : super(
@@ -8195,6 +8417,7 @@ class ConfigurationSetAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConfigurationSetDoesNotExistException extends _s.GenericAwsException {
   ConfigurationSetDoesNotExistException({String? type, String? message})
       : super(
@@ -8203,6 +8426,7 @@ class ConfigurationSetDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConfigurationSetSendingPausedException extends _s.GenericAwsException {
   ConfigurationSetSendingPausedException({String? type, String? message})
       : super(
@@ -8211,6 +8435,7 @@ class ConfigurationSetSendingPausedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomVerificationEmailInvalidContentException
     extends _s.GenericAwsException {
   CustomVerificationEmailInvalidContentException(
@@ -8221,6 +8446,7 @@ class CustomVerificationEmailInvalidContentException
             message: message);
 }
 
+/// @nodoc
 class CustomVerificationEmailTemplateAlreadyExistsException
     extends _s.GenericAwsException {
   CustomVerificationEmailTemplateAlreadyExistsException(
@@ -8231,6 +8457,7 @@ class CustomVerificationEmailTemplateAlreadyExistsException
             message: message);
 }
 
+/// @nodoc
 class CustomVerificationEmailTemplateDoesNotExistException
     extends _s.GenericAwsException {
   CustomVerificationEmailTemplateDoesNotExistException(
@@ -8241,6 +8468,7 @@ class CustomVerificationEmailTemplateDoesNotExistException
             message: message);
 }
 
+/// @nodoc
 class EventDestinationAlreadyExistsException extends _s.GenericAwsException {
   EventDestinationAlreadyExistsException({String? type, String? message})
       : super(
@@ -8249,6 +8477,7 @@ class EventDestinationAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class EventDestinationDoesNotExistException extends _s.GenericAwsException {
   EventDestinationDoesNotExistException({String? type, String? message})
       : super(
@@ -8257,6 +8486,7 @@ class EventDestinationDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class FromEmailAddressNotVerifiedException extends _s.GenericAwsException {
   FromEmailAddressNotVerifiedException({String? type, String? message})
       : super(
@@ -8265,6 +8495,7 @@ class FromEmailAddressNotVerifiedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidCloudWatchDestinationException extends _s.GenericAwsException {
   InvalidCloudWatchDestinationException({String? type, String? message})
       : super(
@@ -8273,6 +8504,7 @@ class InvalidCloudWatchDestinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidConfigurationSetException extends _s.GenericAwsException {
   InvalidConfigurationSetException({String? type, String? message})
       : super(
@@ -8281,6 +8513,7 @@ class InvalidConfigurationSetException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidDeliveryOptionsException extends _s.GenericAwsException {
   InvalidDeliveryOptionsException({String? type, String? message})
       : super(
@@ -8289,6 +8522,7 @@ class InvalidDeliveryOptionsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidFirehoseDestinationException extends _s.GenericAwsException {
   InvalidFirehoseDestinationException({String? type, String? message})
       : super(
@@ -8297,6 +8531,7 @@ class InvalidFirehoseDestinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLambdaFunctionException extends _s.GenericAwsException {
   InvalidLambdaFunctionException({String? type, String? message})
       : super(
@@ -8305,11 +8540,13 @@ class InvalidLambdaFunctionException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidPolicyException extends _s.GenericAwsException {
   InvalidPolicyException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyException', message: message);
 }
 
+/// @nodoc
 class InvalidRenderingParameterException extends _s.GenericAwsException {
   InvalidRenderingParameterException({String? type, String? message})
       : super(
@@ -8318,6 +8555,7 @@ class InvalidRenderingParameterException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidS3ConfigurationException extends _s.GenericAwsException {
   InvalidS3ConfigurationException({String? type, String? message})
       : super(
@@ -8326,6 +8564,7 @@ class InvalidS3ConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSNSDestinationException extends _s.GenericAwsException {
   InvalidSNSDestinationException({String? type, String? message})
       : super(
@@ -8334,16 +8573,19 @@ class InvalidSNSDestinationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidSnsTopicException extends _s.GenericAwsException {
   InvalidSnsTopicException({String? type, String? message})
       : super(type: type, code: 'InvalidSnsTopicException', message: message);
 }
 
+/// @nodoc
 class InvalidTemplateException extends _s.GenericAwsException {
   InvalidTemplateException({String? type, String? message})
       : super(type: type, code: 'InvalidTemplateException', message: message);
 }
 
+/// @nodoc
 class InvalidTrackingOptionsException extends _s.GenericAwsException {
   InvalidTrackingOptionsException({String? type, String? message})
       : super(
@@ -8352,11 +8594,13 @@ class InvalidTrackingOptionsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
   MailFromDomainNotVerifiedException({String? type, String? message})
       : super(
@@ -8365,11 +8609,13 @@ class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class MessageRejected extends _s.GenericAwsException {
   MessageRejected({String? type, String? message})
       : super(type: type, code: 'MessageRejected', message: message);
 }
 
+/// @nodoc
 class MissingRenderingAttributeException extends _s.GenericAwsException {
   MissingRenderingAttributeException({String? type, String? message})
       : super(
@@ -8378,6 +8624,7 @@ class MissingRenderingAttributeException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ProductionAccessNotGrantedException extends _s.GenericAwsException {
   ProductionAccessNotGrantedException({String? type, String? message})
       : super(
@@ -8386,17 +8633,20 @@ class ProductionAccessNotGrantedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class RuleDoesNotExistException extends _s.GenericAwsException {
   RuleDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'RuleDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class RuleSetDoesNotExistException extends _s.GenericAwsException {
   RuleSetDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'RuleSetDoesNotExistException', message: message);
 }
 
+/// @nodoc
 class TemplateDoesNotExistException extends _s.GenericAwsException {
   TemplateDoesNotExistException({String? type, String? message})
       : super(
@@ -8405,6 +8655,7 @@ class TemplateDoesNotExistException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TrackingOptionsAlreadyExistsException extends _s.GenericAwsException {
   TrackingOptionsAlreadyExistsException({String? type, String? message})
       : super(
@@ -8413,6 +8664,7 @@ class TrackingOptionsAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class TrackingOptionsDoesNotExistException extends _s.GenericAwsException {
   TrackingOptionsDoesNotExistException({String? type, String? message})
       : super(

@@ -4729,6 +4729,7 @@ class Route53Resolver {
   }
 }
 
+/// @nodoc
 class AssociateFirewallRuleGroupResponse {
   /// The association that you just created. The association has an ID that you
   /// can use to identify it in other requests, like update and delete.
@@ -4757,6 +4758,7 @@ class AssociateFirewallRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class AssociateResolverEndpointIpAddressResponse {
   /// The response to an <code>AssociateResolverEndpointIpAddress</code> request.
   final ResolverEndpoint? resolverEndpoint;
@@ -4783,6 +4785,7 @@ class AssociateResolverEndpointIpAddressResponse {
   }
 }
 
+/// @nodoc
 class AssociateResolverQueryLogConfigResponse {
   /// A complex type that contains settings for a specified association between an
   /// Amazon VPC and a query logging configuration.
@@ -4814,6 +4817,7 @@ class AssociateResolverQueryLogConfigResponse {
   }
 }
 
+/// @nodoc
 class AssociateResolverRuleResponse {
   /// Information about the <code>AssociateResolverRule</code> request, including
   /// the status of the request.
@@ -4841,6 +4845,7 @@ class AssociateResolverRuleResponse {
   }
 }
 
+/// @nodoc
 class BatchCreateFirewallRuleResponse {
   /// A list of errors that occurred while creating the firewall rules.
   final List<BatchCreateFirewallRuleError>? createErrors;
@@ -4878,6 +4883,7 @@ class BatchCreateFirewallRuleResponse {
   }
 }
 
+/// @nodoc
 class BatchDeleteFirewallRuleResponse {
   /// A list of errors that occurred while deleting the firewall rules.
   final List<BatchDeleteFirewallRuleError>? deleteErrors;
@@ -4915,6 +4921,7 @@ class BatchDeleteFirewallRuleResponse {
   }
 }
 
+/// @nodoc
 class BatchUpdateFirewallRuleResponse {
   /// A list of errors that occurred while updating the firewall rules.
   final List<BatchUpdateFirewallRuleError>? updateErrors;
@@ -4952,6 +4959,7 @@ class BatchUpdateFirewallRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateFirewallDomainListResponse {
   /// The domain list that you just created.
   final FirewallDomainList? firewallDomainList;
@@ -4977,6 +4985,7 @@ class CreateFirewallDomainListResponse {
   }
 }
 
+/// @nodoc
 class CreateFirewallRuleResponse {
   /// The firewall rule that you just created.
   final FirewallRule? firewallRule;
@@ -5001,6 +5010,7 @@ class CreateFirewallRuleResponse {
   }
 }
 
+/// @nodoc
 class CreateFirewallRuleGroupResponse {
   /// A collection of rules used to filter DNS network traffic.
   final FirewallRuleGroup? firewallRuleGroup;
@@ -5026,6 +5036,7 @@ class CreateFirewallRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class CreateOutpostResolverResponse {
   /// Information about the <code>CreateOutpostResolver</code> request, including
   /// the status of the request.
@@ -5052,6 +5063,7 @@ class CreateOutpostResolverResponse {
   }
 }
 
+/// @nodoc
 class CreateResolverEndpointResponse {
   /// Information about the <code>CreateResolverEndpoint</code> request, including
   /// the status of the request.
@@ -5078,6 +5090,7 @@ class CreateResolverEndpointResponse {
   }
 }
 
+/// @nodoc
 class CreateResolverQueryLogConfigResponse {
   /// Information about the <code>CreateResolverQueryLogConfig</code> request,
   /// including the status of the request.
@@ -5106,6 +5119,7 @@ class CreateResolverQueryLogConfigResponse {
   }
 }
 
+/// @nodoc
 class CreateResolverRuleResponse {
   /// Information about the <code>CreateResolverRule</code> request, including the
   /// status of the request.
@@ -5131,6 +5145,7 @@ class CreateResolverRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteFirewallDomainListResponse {
   /// The domain list that you just deleted.
   final FirewallDomainList? firewallDomainList;
@@ -5156,6 +5171,7 @@ class DeleteFirewallDomainListResponse {
   }
 }
 
+/// @nodoc
 class DeleteFirewallRuleResponse {
   /// The specification for the firewall rule that you just deleted.
   final FirewallRule? firewallRule;
@@ -5180,6 +5196,7 @@ class DeleteFirewallRuleResponse {
   }
 }
 
+/// @nodoc
 class DeleteFirewallRuleGroupResponse {
   /// A collection of rules used to filter DNS network traffic.
   final FirewallRuleGroup? firewallRuleGroup;
@@ -5205,6 +5222,7 @@ class DeleteFirewallRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DeleteOutpostResolverResponse {
   /// Information about the <code>DeleteOutpostResolver</code> request, including
   /// the status of the request.
@@ -5231,6 +5249,7 @@ class DeleteOutpostResolverResponse {
   }
 }
 
+/// @nodoc
 class DeleteResolverEndpointResponse {
   /// Information about the <code>DeleteResolverEndpoint</code> request, including
   /// the status of the request.
@@ -5257,6 +5276,7 @@ class DeleteResolverEndpointResponse {
   }
 }
 
+/// @nodoc
 class DeleteResolverQueryLogConfigResponse {
   /// Information about the query logging configuration that you deleted,
   /// including the status of the request.
@@ -5285,6 +5305,7 @@ class DeleteResolverQueryLogConfigResponse {
   }
 }
 
+/// @nodoc
 class DeleteResolverRuleResponse {
   /// Information about the <code>DeleteResolverRule</code> request, including the
   /// status of the request.
@@ -5310,6 +5331,7 @@ class DeleteResolverRuleResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFirewallRuleGroupResponse {
   /// The firewall rule group association that you just removed.
   final FirewallRuleGroupAssociation? firewallRuleGroupAssociation;
@@ -5337,6 +5359,7 @@ class DisassociateFirewallRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResolverEndpointIpAddressResponse {
   /// The response to an <code>DisassociateResolverEndpointIpAddress</code>
   /// request.
@@ -5364,6 +5387,7 @@ class DisassociateResolverEndpointIpAddressResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResolverQueryLogConfigResponse {
   /// A complex type that contains settings for the association that you deleted
   /// between an Amazon VPC and a query logging configuration.
@@ -5395,6 +5419,7 @@ class DisassociateResolverQueryLogConfigResponse {
   }
 }
 
+/// @nodoc
 class DisassociateResolverRuleResponse {
   /// Information about the <code>DisassociateResolverRule</code> request,
   /// including the status of the request.
@@ -5422,6 +5447,7 @@ class DisassociateResolverRuleResponse {
   }
 }
 
+/// @nodoc
 class GetFirewallConfigResponse {
   /// Configuration of the firewall behavior provided by DNS Firewall for a single
   /// VPC from AmazonVPC.
@@ -5448,6 +5474,7 @@ class GetFirewallConfigResponse {
   }
 }
 
+/// @nodoc
 class GetFirewallDomainListResponse {
   /// The domain list that you requested.
   final FirewallDomainList? firewallDomainList;
@@ -5473,6 +5500,7 @@ class GetFirewallDomainListResponse {
   }
 }
 
+/// @nodoc
 class GetFirewallRuleGroupResponse {
   /// A collection of rules used to filter DNS network traffic.
   final FirewallRuleGroup? firewallRuleGroup;
@@ -5498,6 +5526,7 @@ class GetFirewallRuleGroupResponse {
   }
 }
 
+/// @nodoc
 class GetFirewallRuleGroupAssociationResponse {
   /// The association that you requested.
   final FirewallRuleGroupAssociation? firewallRuleGroupAssociation;
@@ -5525,6 +5554,7 @@ class GetFirewallRuleGroupAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetFirewallRuleGroupPolicyResponse {
   /// The Identity and Access Management (Amazon Web Services IAM) policy for
   /// sharing the specified rule group. You can use the policy to share the rule
@@ -5551,6 +5581,7 @@ class GetFirewallRuleGroupPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetOutpostResolverResponse {
   /// Information about the <code>GetOutpostResolver</code> request, including the
   /// status of the request.
@@ -5577,6 +5608,7 @@ class GetOutpostResolverResponse {
   }
 }
 
+/// @nodoc
 class GetResolverConfigResponse {
   /// Information about the behavior configuration of Route 53 Resolver behavior
   /// for the VPC you specified in the <code>GetResolverConfig</code> request.
@@ -5603,6 +5635,7 @@ class GetResolverConfigResponse {
   }
 }
 
+/// @nodoc
 class GetResolverDnssecConfigResponse {
   /// The information about a configuration for DNSSEC validation.
   final ResolverDnssecConfig? resolverDNSSECConfig;
@@ -5629,6 +5662,7 @@ class GetResolverDnssecConfigResponse {
   }
 }
 
+/// @nodoc
 class GetResolverEndpointResponse {
   /// Information about the Resolver endpoint that you specified in a
   /// <code>GetResolverEndpoint</code> request.
@@ -5655,6 +5689,7 @@ class GetResolverEndpointResponse {
   }
 }
 
+/// @nodoc
 class GetResolverQueryLogConfigResponse {
   /// Information about the Resolver query logging configuration that you
   /// specified in a <code>GetQueryLogConfig</code> request.
@@ -5683,6 +5718,7 @@ class GetResolverQueryLogConfigResponse {
   }
 }
 
+/// @nodoc
 class GetResolverQueryLogConfigAssociationResponse {
   /// Information about the Resolver query logging configuration association that
   /// you specified in a <code>GetQueryLogConfigAssociation</code> request.
@@ -5714,6 +5750,7 @@ class GetResolverQueryLogConfigAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetResolverQueryLogConfigPolicyResponse {
   /// Information about the query logging policy for the query logging
   /// configuration that you specified in a
@@ -5741,6 +5778,7 @@ class GetResolverQueryLogConfigPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetResolverRuleResponse {
   /// Information about the Resolver rule that you specified in a
   /// <code>GetResolverRule</code> request.
@@ -5766,6 +5804,7 @@ class GetResolverRuleResponse {
   }
 }
 
+/// @nodoc
 class GetResolverRuleAssociationResponse {
   /// Information about the Resolver rule association that you specified in a
   /// <code>GetResolverRuleAssociation</code> request.
@@ -5794,6 +5833,7 @@ class GetResolverRuleAssociationResponse {
   }
 }
 
+/// @nodoc
 class GetResolverRulePolicyResponse {
   /// The Resolver rule policy for the rule that you specified in a
   /// <code>GetResolverRulePolicy</code> request.
@@ -5817,6 +5857,7 @@ class GetResolverRulePolicyResponse {
   }
 }
 
+/// @nodoc
 class ImportFirewallDomainsResponse {
   /// The Id of the firewall domain list that DNS Firewall just updated.
   final String? id;
@@ -5861,6 +5902,7 @@ class ImportFirewallDomainsResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallConfigsResponse {
   /// The configurations for the firewall behavior provided by DNS Firewall for
   /// VPCs from Amazon Virtual Private Cloud (Amazon VPC).
@@ -5896,6 +5938,7 @@ class ListFirewallConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallDomainListsResponse {
   /// A list of the domain lists that you have defined.
   ///
@@ -5935,6 +5978,7 @@ class ListFirewallDomainListsResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallDomainsResponse {
   /// A list of the domains in the firewall domain list.
   ///
@@ -5970,6 +6014,7 @@ class ListFirewallDomainsResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallRuleGroupAssociationsResponse {
   /// A list of your firewall rule group associations.
   ///
@@ -6011,6 +6056,7 @@ class ListFirewallRuleGroupAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallRuleGroupsResponse {
   /// A list of your firewall rule groups.
   ///
@@ -6049,6 +6095,7 @@ class ListFirewallRuleGroupsResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallRulesResponse {
   /// A list of the rules that you have defined.
   ///
@@ -6086,6 +6133,7 @@ class ListFirewallRulesResponse {
   }
 }
 
+/// @nodoc
 class ListFirewallRuleTypesResponse {
   /// A list of the available rule type definitions.
   final List<FirewallRuleTypeDefinition>? firewallRuleTypes;
@@ -6121,6 +6169,7 @@ class ListFirewallRuleTypesResponse {
   }
 }
 
+/// @nodoc
 class ListOutpostResolversResponse {
   /// If more than <code>MaxResults</code> Resolvers match the specified criteria,
   /// you can submit another <code>ListOutpostResolver</code> request to get the
@@ -6157,6 +6206,7 @@ class ListOutpostResolversResponse {
   }
 }
 
+/// @nodoc
 class ListResolverConfigsResponse {
   /// If a response includes the last of the Resolver configurations that are
   /// associated with the current Amazon Web Services account,
@@ -6199,6 +6249,7 @@ class ListResolverConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListResolverDnssecConfigsResponse {
   /// If a response includes the last of the DNSSEC configurations that are
   /// associated with the current Amazon Web Services account,
@@ -6246,6 +6297,7 @@ class ListResolverDnssecConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListResolverEndpointIpAddressesResponse {
   /// Information about the IP addresses in your VPC that DNS queries originate
   /// from (for outbound endpoints) or that you forward DNS queries to (for
@@ -6292,6 +6344,7 @@ class ListResolverEndpointIpAddressesResponse {
   }
 }
 
+/// @nodoc
 class ListResolverEndpointsResponse {
   /// The value that you specified for <code>MaxResults</code> in the request.
   final int? maxResults;
@@ -6335,6 +6388,7 @@ class ListResolverEndpointsResponse {
   }
 }
 
+/// @nodoc
 class ListResolverQueryLogConfigAssociationsResponse {
   /// If there are more than <code>MaxResults</code> query logging associations,
   /// you can submit another <code>ListResolverQueryLogConfigAssociations</code>
@@ -6401,6 +6455,7 @@ class ListResolverQueryLogConfigAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListResolverQueryLogConfigsResponse {
   /// If there are more than <code>MaxResults</code> query logging configurations,
   /// you can submit another <code>ListResolverQueryLogConfigs</code> request to
@@ -6463,6 +6518,7 @@ class ListResolverQueryLogConfigsResponse {
   }
 }
 
+/// @nodoc
 class ListResolverRuleAssociationsResponse {
   /// The value that you specified for <code>MaxResults</code> in the request.
   final int? maxResults;
@@ -6510,6 +6566,7 @@ class ListResolverRuleAssociationsResponse {
   }
 }
 
+/// @nodoc
 class ListResolverRulesResponse {
   /// The value that you specified for <code>MaxResults</code> in the request.
   final int? maxResults;
@@ -6553,6 +6610,7 @@ class ListResolverRulesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// If more than <code>MaxResults</code> tags match the specified criteria, you
   /// can submit another <code>ListTagsForResource</code> request to get the next
@@ -6589,6 +6647,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutFirewallRuleGroupPolicyResponse {
   ///
   final bool? returnValue;
@@ -6613,6 +6672,8 @@ class PutFirewallRuleGroupPolicyResponse {
 }
 
 /// The response to a <code>PutResolverQueryLogConfigPolicy</code> request.
+///
+/// @nodoc
 class PutResolverQueryLogConfigPolicyResponse {
   /// Whether the <code>PutResolverQueryLogConfigPolicy</code> request was
   /// successful.
@@ -6638,6 +6699,8 @@ class PutResolverQueryLogConfigPolicyResponse {
 }
 
 /// The response to a <code>PutResolverRulePolicy</code> request.
+///
+/// @nodoc
 class PutResolverRulePolicyResponse {
   /// Whether the <code>PutResolverRulePolicy</code> request was successful.
   final bool? returnValue;
@@ -6660,6 +6723,7 @@ class PutResolverRulePolicyResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6672,6 +6736,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -6684,6 +6749,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallConfigResponse {
   /// Configuration of the firewall behavior provided by DNS Firewall for a single
   /// VPC.
@@ -6710,6 +6776,7 @@ class UpdateFirewallConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallDomainsResponse {
   /// The ID of the firewall domain list that DNS Firewall just updated.
   final String? id;
@@ -6754,6 +6821,7 @@ class UpdateFirewallDomainsResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallRuleResponse {
   /// The firewall rule that you just updated.
   final FirewallRule? firewallRule;
@@ -6778,6 +6846,7 @@ class UpdateFirewallRuleResponse {
   }
 }
 
+/// @nodoc
 class UpdateFirewallRuleGroupAssociationResponse {
   /// The association that you just updated.
   final FirewallRuleGroupAssociation? firewallRuleGroupAssociation;
@@ -6805,6 +6874,7 @@ class UpdateFirewallRuleGroupAssociationResponse {
   }
 }
 
+/// @nodoc
 class UpdateOutpostResolverResponse {
   /// The response to an <code>UpdateOutpostResolver</code> request.
   final OutpostResolver? outpostResolver;
@@ -6830,6 +6900,7 @@ class UpdateOutpostResolverResponse {
   }
 }
 
+/// @nodoc
 class UpdateResolverConfigResponse {
   /// An array that contains settings for the specified Resolver configuration.
   final ResolverConfig? resolverConfig;
@@ -6855,6 +6926,7 @@ class UpdateResolverConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateResolverDnssecConfigResponse {
   /// A complex type that contains settings for the specified DNSSEC
   /// configuration.
@@ -6883,6 +6955,7 @@ class UpdateResolverDnssecConfigResponse {
   }
 }
 
+/// @nodoc
 class UpdateResolverEndpointResponse {
   /// The response to an <code>UpdateResolverEndpoint</code> request.
   final ResolverEndpoint? resolverEndpoint;
@@ -6908,6 +6981,7 @@ class UpdateResolverEndpointResponse {
   }
 }
 
+/// @nodoc
 class UpdateResolverRuleResponse {
   /// The response to an <code>UpdateResolverRule</code> request.
   final ResolverRule? resolverRule;
@@ -6945,6 +7019,8 @@ class UpdateResolverRuleResponse {
 /// or <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverRule.html">UpdateResolverRule</a>
 /// request.
+///
+/// @nodoc
 class ResolverRule {
   /// The ARN (Amazon Resource Name) for the Resolver rule specified by
   /// <code>Id</code>.
@@ -7105,6 +7181,7 @@ class ResolverRule {
   }
 }
 
+/// @nodoc
 class ResolverRuleStatus {
   static const complete = ResolverRuleStatus._('COMPLETE');
   static const deleting = ResolverRuleStatus._('DELETING');
@@ -7132,6 +7209,7 @@ class ResolverRuleStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RuleTypeOption {
   static const forward = RuleTypeOption._('FORWARD');
   static const system = RuleTypeOption._('SYSTEM');
@@ -7158,6 +7236,7 @@ class RuleTypeOption {
   String toString() => value;
 }
 
+/// @nodoc
 class ShareStatus {
   static const notShared = ShareStatus._('NOT_SHARED');
   static const sharedWithMe = ShareStatus._('SHARED_WITH_ME');
@@ -7185,6 +7264,8 @@ class ShareStatus {
 /// In a <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html">CreateResolverRule</a>
 /// request, an array of the IPs that you want to forward DNS queries to.
+///
+/// @nodoc
 class TargetAddress {
   /// One IPv4 address that you want to forward DNS queries to.
   final String? ip;
@@ -7239,6 +7320,7 @@ class TargetAddress {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const doH = Protocol._('DoH');
   static const do53 = Protocol._('Do53');
@@ -7266,6 +7348,8 @@ class Protocol {
 /// In an <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverRule.html">UpdateResolverRule</a>
 /// request, information about the changes that you want to make.
+///
+/// @nodoc
 class ResolverRuleConfig {
   /// The new name for the Resolver rule. The name that you specify appears in the
   /// Resolver dashboard in the Route 53 console.
@@ -7311,6 +7395,8 @@ class ResolverRuleConfig {
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html">UpdateResolverEndpoint</a>
 /// request, a complex type that contains settings for an existing inbound or
 /// outbound Resolver endpoint.
+///
+/// @nodoc
 class ResolverEndpoint {
   /// The ARN (Amazon Resource Name) for the Resolver endpoint.
   final String? arn;
@@ -7612,6 +7698,7 @@ class ResolverEndpoint {
   }
 }
 
+/// @nodoc
 class ResolverEndpointDirection {
   static const inbound = ResolverEndpointDirection._('INBOUND');
   static const outbound = ResolverEndpointDirection._('OUTBOUND');
@@ -7639,6 +7726,7 @@ class ResolverEndpointDirection {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolverEndpointStatus {
   static const creating = ResolverEndpointStatus._('CREATING');
   static const operational = ResolverEndpointStatus._('OPERATIONAL');
@@ -7675,6 +7763,7 @@ class ResolverEndpointStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolverEndpointType {
   static const ipv6 = ResolverEndpointType._('IPV6');
   static const ipv4 = ResolverEndpointType._('IPV4');
@@ -7703,6 +7792,8 @@ class ResolverEndpointType {
 
 /// Provides information about the IP address type in response to <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html">UpdateResolverEndpoint</a>.
+///
+/// @nodoc
 class UpdateIpAddress {
   /// The ID of the IP address, specified by the <code>ResolverEndpointId</code>.
   final String ipId;
@@ -7727,6 +7818,8 @@ class UpdateIpAddress {
 
 /// A complex type that contains information about a configuration for DNSSEC
 /// validation.
+///
+/// @nodoc
 class ResolverDnssecConfig {
   /// The ID for a configuration for DNSSEC validation.
   final String? id;
@@ -7789,6 +7882,7 @@ class ResolverDnssecConfig {
   }
 }
 
+/// @nodoc
 class ResolverDNSSECValidationStatus {
   static const enabling = ResolverDNSSECValidationStatus._('ENABLING');
   static const enabled = ResolverDNSSECValidationStatus._('ENABLED');
@@ -7828,6 +7922,7 @@ class ResolverDNSSECValidationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Validation {
   static const enable = Validation._('ENABLE');
   static const disable = Validation._('DISABLE');
@@ -7855,6 +7950,8 @@ class Validation {
 
 /// A complex type that contains information about a Resolver configuration for
 /// a VPC.
+///
+/// @nodoc
 class ResolverConfig {
   /// The status of whether or not the Resolver will create autodefined rules for
   /// reverse DNS lookups. This is enabled by default. The status can be one of
@@ -7920,6 +8017,7 @@ class ResolverConfig {
   }
 }
 
+/// @nodoc
 class ResolverAutodefinedReverseStatus {
   static const enabling = ResolverAutodefinedReverseStatus._('ENABLING');
   static const enabled = ResolverAutodefinedReverseStatus._('ENABLED');
@@ -7959,6 +8057,7 @@ class ResolverAutodefinedReverseStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class AutodefinedReverseFlag {
   static const enable = AutodefinedReverseFlag._('ENABLE');
   static const disable = AutodefinedReverseFlag._('DISABLE');
@@ -7988,6 +8087,8 @@ class AutodefinedReverseFlag {
 
 /// A complex type that contains settings for an existing Resolver on an
 /// Outpost.
+///
+/// @nodoc
 class OutpostResolver {
   /// The ARN (Amazon Resource Name) for the Resolver on an Outpost.
   final String? arn;
@@ -8086,6 +8187,7 @@ class OutpostResolver {
   }
 }
 
+/// @nodoc
 class OutpostResolverStatus {
   static const creating = OutpostResolverStatus._('CREATING');
   static const operational = OutpostResolverStatus._('OPERATIONAL');
@@ -8126,6 +8228,8 @@ class OutpostResolverStatus {
 
 /// An association between a firewall rule group and a VPC, which enables DNS
 /// filtering for the VPC.
+///
+/// @nodoc
 class FirewallRuleGroupAssociation {
   /// The Amazon Resource Name (ARN) of the firewall rule group association.
   final String? arn;
@@ -8246,6 +8350,7 @@ class FirewallRuleGroupAssociation {
   }
 }
 
+/// @nodoc
 class MutationProtectionStatus {
   static const enabled = MutationProtectionStatus._('ENABLED');
   static const disabled = MutationProtectionStatus._('DISABLED');
@@ -8271,6 +8376,7 @@ class MutationProtectionStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FirewallRuleGroupAssociationStatus {
   static const complete = FirewallRuleGroupAssociationStatus._('COMPLETE');
   static const deleting = FirewallRuleGroupAssociationStatus._('DELETING');
@@ -8298,6 +8404,8 @@ class FirewallRuleGroupAssociationStatus {
 }
 
 /// A single firewall rule in a rule group.
+///
+/// @nodoc
 class FirewallRule {
   /// The action that DNS Firewall should take on a DNS query when it matches one
   /// of the domains in the rule's domain list, or a threat in a DNS Firewall
@@ -8596,6 +8704,7 @@ class FirewallRule {
   }
 }
 
+/// @nodoc
 class Action {
   static const allow = Action._('ALLOW');
   static const block = Action._('BLOCK');
@@ -8620,6 +8729,7 @@ class Action {
   String toString() => value;
 }
 
+/// @nodoc
 class BlockResponse {
   static const nodata = BlockResponse._('NODATA');
   static const nxdomain = BlockResponse._('NXDOMAIN');
@@ -8645,6 +8755,7 @@ class BlockResponse {
   String toString() => value;
 }
 
+/// @nodoc
 class BlockOverrideDnsType {
   static const cname = BlockOverrideDnsType._('CNAME');
 
@@ -8669,6 +8780,7 @@ class BlockOverrideDnsType {
   String toString() => value;
 }
 
+/// @nodoc
 class FirewallDomainRedirectionAction {
   static const inspectRedirectionDomain =
       FirewallDomainRedirectionAction._('INSPECT_REDIRECTION_DOMAIN');
@@ -8696,6 +8808,7 @@ class FirewallDomainRedirectionAction {
   String toString() => value;
 }
 
+/// @nodoc
 class DnsThreatProtection {
   static const dga = DnsThreatProtection._('DGA');
   static const dnsTunneling = DnsThreatProtection._('DNS_TUNNELING');
@@ -8722,6 +8835,7 @@ class DnsThreatProtection {
   String toString() => value;
 }
 
+/// @nodoc
 class ConfidenceThreshold {
   static const low = ConfidenceThreshold._('LOW');
   static const medium = ConfidenceThreshold._('MEDIUM');
@@ -8750,6 +8864,8 @@ class ConfidenceThreshold {
 
 /// The configuration for a rule type in a DNS Firewall rule. This is a union
 /// type — exactly one member should be set.
+///
+/// @nodoc
 class FirewallRuleType {
   /// The configuration for a DNS threat protection rule type, such as DGA or DNS
   /// tunneling detection.
@@ -8805,6 +8921,8 @@ class FirewallRuleType {
 
 /// The configuration for a content category-based filtering rule. This
 /// specifies which content category to use for DNS query evaluation.
+///
+/// @nodoc
 class FirewallAdvancedContentCategoryConfig {
   /// The content category identifier. To retrieve the list of available content
   /// categories, call <a>ListFirewallRuleTypes</a> with <code>RuleType</code> set
@@ -8832,6 +8950,8 @@ class FirewallAdvancedContentCategoryConfig {
 
 /// The configuration for a threat category-based filtering rule. This specifies
 /// which threat category to use for DNS query evaluation.
+///
+/// @nodoc
 class FirewallAdvancedThreatCategoryConfig {
   /// The threat category identifier. To retrieve the list of available threat
   /// categories, call <a>ListFirewallRuleTypes</a> with <code>RuleType</code> set
@@ -8859,6 +8979,8 @@ class FirewallAdvancedThreatCategoryConfig {
 
 /// The configuration for a DNS threat protection rule type within the rule type
 /// framework.
+///
+/// @nodoc
 class DnsThreatProtectionRuleTypeConfig {
   /// The confidence threshold for DNS Firewall Advanced. You must provide this
   /// value when you create or update a DNS Firewall Advanced rule. The confidence
@@ -8924,6 +9046,7 @@ class DnsThreatProtectionRuleTypeConfig {
   }
 }
 
+/// @nodoc
 class FirewallDomainListStatus {
   static const complete = FirewallDomainListStatus._('COMPLETE');
   static const completeImportFailed =
@@ -8959,6 +9082,7 @@ class FirewallDomainListStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class FirewallDomainUpdateOperation {
   static const add = FirewallDomainUpdateOperation._('ADD');
   static const remove = FirewallDomainUpdateOperation._('REMOVE');
@@ -8987,6 +9111,8 @@ class FirewallDomainUpdateOperation {
 
 /// Configuration of the firewall behavior provided by DNS Firewall for a single
 /// VPC from Amazon Virtual Private Cloud (Amazon VPC).
+///
+/// @nodoc
 class FirewallConfig {
   /// Determines how DNS Firewall operates during failures, for example when all
   /// traffic that is sent to DNS Firewall fails to receive a reply.
@@ -9048,6 +9174,7 @@ class FirewallConfig {
   }
 }
 
+/// @nodoc
 class FirewallFailOpenStatus {
   static const enabled = FirewallFailOpenStatus._('ENABLED');
   static const disabled = FirewallFailOpenStatus._('DISABLED');
@@ -9077,6 +9204,8 @@ class FirewallFailOpenStatus {
 
 /// One tag that you want to add to the specified resource. A tag consists of a
 /// <code>Key</code> (a name for the tag) and a <code>Value</code>.
+///
+/// @nodoc
 class Tag {
   /// The name for the tag. For example, if you want to associate Resolver
   /// resources with the account IDs of your customers for billing purposes, the
@@ -9128,6 +9257,8 @@ class Tag {
 /// <code>Name</code> and <code>Values</code>. For example, to list only inbound
 /// Resolver endpoints, specify <code>Direction</code> for <code>Name</code> and
 /// specify <code>INBOUND</code> for <code>Values</code>.
+///
+/// @nodoc
 class Filter {
   /// The name of the parameter that you want to use to filter objects.
   ///
@@ -9395,6 +9526,8 @@ class Filter {
 /// request, provides information about an association between a Resolver rule
 /// and a VPC. The association determines which DNS queries that originate in
 /// the VPC are forwarded to your network.
+///
+/// @nodoc
 class ResolverRuleAssociation {
   /// The ID of the association between a Resolver rule and a VPC. Resolver
   /// assigns this value when you submit an <a
@@ -9463,6 +9596,7 @@ class ResolverRuleAssociation {
   }
 }
 
+/// @nodoc
 class ResolverRuleAssociationStatus {
   static const creating = ResolverRuleAssociationStatus._('CREATING');
   static const complete = ResolverRuleAssociationStatus._('COMPLETE');
@@ -9501,6 +9635,8 @@ class ResolverRuleAssociationStatus {
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigs.html">ListResolverQueryLogConfigs</a>
 /// request, a complex type that contains settings for one query logging
 /// configuration.
+///
+/// @nodoc
 class ResolverQueryLogConfig {
   /// The ARN for the query logging configuration.
   final String? arn;
@@ -9624,6 +9760,7 @@ class ResolverQueryLogConfig {
   }
 }
 
+/// @nodoc
 class ResolverQueryLogConfigStatus {
   static const creating = ResolverQueryLogConfigStatus._('CREATING');
   static const created = ResolverQueryLogConfigStatus._('CREATED');
@@ -9651,6 +9788,7 @@ class ResolverQueryLogConfigStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class SortOrder {
   static const ascending = SortOrder._('ASCENDING');
   static const descending = SortOrder._('DESCENDING');
@@ -9684,6 +9822,8 @@ class SortOrder {
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigAssociations.html">ListResolverQueryLogConfigAssociations</a>,
 /// request, a complex type that contains settings for a specified association
 /// between an Amazon VPC and a query logging configuration.
+///
+/// @nodoc
 class ResolverQueryLogConfigAssociation {
   /// The date and time that the VPC was associated with the query logging
   /// configuration, in Unix time format and Coordinated Universal Time (UTC).
@@ -9790,6 +9930,7 @@ class ResolverQueryLogConfigAssociation {
   }
 }
 
+/// @nodoc
 class ResolverQueryLogConfigAssociationStatus {
   static const creating = ResolverQueryLogConfigAssociationStatus._('CREATING');
   static const active = ResolverQueryLogConfigAssociationStatus._('ACTIVE');
@@ -9819,6 +9960,7 @@ class ResolverQueryLogConfigAssociationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolverQueryLogConfigAssociationError {
   static const none = ResolverQueryLogConfigAssociationError._('NONE');
   static const destinationNotFound =
@@ -9858,6 +10000,8 @@ class ResolverQueryLogConfigAssociationError {
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html">GetResolverEndpoint</a>
 /// request, information about the IP addresses that the Resolver endpoint uses
 /// for DNS queries.
+///
+/// @nodoc
 class IpAddressResponse {
   /// The date and time that the IP address was created, in Unix time format and
   /// Coordinated Universal Time (UTC).
@@ -9932,6 +10076,7 @@ class IpAddressResponse {
   }
 }
 
+/// @nodoc
 class IpAddressStatus {
   static const creating = IpAddressStatus._('CREATING');
   static const failedCreation = IpAddressStatus._('FAILED_CREATION');
@@ -9984,6 +10129,8 @@ class IpAddressStatus {
 
 /// The definition of an available rule type that can be used in DNS Firewall
 /// rules. This is returned by <a>ListFirewallRuleTypes</a>.
+///
+/// @nodoc
 class FirewallRuleTypeDefinition {
   /// A description of the rule type.
   final String? description;
@@ -10035,6 +10182,8 @@ class FirewallRuleTypeDefinition {
 ///
 /// To retrieve full information for a firewall rule group, call
 /// <a>GetFirewallRuleGroup</a> and <a>ListFirewallRules</a>.
+///
+/// @nodoc
 class FirewallRuleGroupMetadata {
   /// The ARN (Amazon Resource Name) of the rule group.
   final String? arn;
@@ -10104,6 +10253,8 @@ class FirewallRuleGroupMetadata {
 ///
 /// To retrieve full information for a firewall domain list, call
 /// <a>GetFirewallDomainList</a> and <a>ListFirewallDomains</a>.
+///
+/// @nodoc
 class FirewallDomainListMetadata {
   /// The Amazon Resource Name (ARN) of the firewall domain list metadata.
   final String? arn;
@@ -10174,6 +10325,7 @@ class FirewallDomainListMetadata {
   }
 }
 
+/// @nodoc
 class DomainListType {
   static const threat = DomainListType._('THREAT');
   static const content = DomainListType._('CONTENT');
@@ -10198,6 +10350,7 @@ class DomainListType {
   String toString() => value;
 }
 
+/// @nodoc
 class FirewallDomainImportOperation {
   static const replace = FirewallDomainImportOperation._('REPLACE');
 
@@ -10226,6 +10379,8 @@ class FirewallDomainImportOperation {
 /// collection of rules that DNS Firewall uses to filter DNS network traffic for
 /// a VPC. To retrieve the rules for the rule group, call
 /// <a>ListFirewallRules</a>.
+///
+/// @nodoc
 class FirewallRuleGroup {
   /// The ARN (Amazon Resource Name) of the rule group.
   final String? arn;
@@ -10328,6 +10483,7 @@ class FirewallRuleGroup {
   }
 }
 
+/// @nodoc
 class FirewallRuleGroupStatus {
   static const complete = FirewallRuleGroupStatus._('COMPLETE');
   static const deleting = FirewallRuleGroupStatus._('DELETING');
@@ -10359,6 +10515,8 @@ class FirewallRuleGroupStatus {
 ///
 /// To retrieve the domains that are defined for this domain list, call
 /// <a>ListFirewallDomains</a>.
+///
+/// @nodoc
 class FirewallDomainList {
   /// The Amazon Resource Name (ARN) of the firewall domain list.
   final String? arn;
@@ -10470,6 +10628,8 @@ class FirewallDomainList {
 /// In an <a
 /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html">UpdateResolverEndpoint</a>
 /// request, information about an IP address to update.
+///
+/// @nodoc
 class IpAddressUpdate {
   /// The new IPv4 address.
   final String? ip;
@@ -10514,6 +10674,8 @@ class IpAddressUpdate {
 /// endpoints) or that you forward DNS queries to (for inbound endpoints).
 /// <code>IpAddressRequest</code> also includes the ID of the subnet that
 /// contains the IP address.
+///
+/// @nodoc
 class IpAddressRequest {
   /// The ID of the subnet that contains the IP address.
   final String subnetId;
@@ -10543,6 +10705,8 @@ class IpAddressRequest {
 }
 
 /// An error that occurred while updating a firewall rule in a batch operation.
+///
+/// @nodoc
 class BatchUpdateFirewallRuleError {
   /// The error code for the failure.
   final String? code;
@@ -10583,6 +10747,8 @@ class BatchUpdateFirewallRuleError {
 }
 
 /// The details for updating a single firewall rule in a batch operation.
+///
+/// @nodoc
 class UpdateFirewallRuleEntry {
   /// The unique identifier of the firewall rule group for the rule.
   final String firewallRuleGroupId;
@@ -10867,6 +11033,8 @@ class UpdateFirewallRuleEntry {
 }
 
 /// An error that occurred while deleting a firewall rule in a batch operation.
+///
+/// @nodoc
 class BatchDeleteFirewallRuleError {
   /// The error code for the failure.
   final String? code;
@@ -10907,6 +11075,8 @@ class BatchDeleteFirewallRuleError {
 }
 
 /// The details for deleting a single firewall rule in a batch operation.
+///
+/// @nodoc
 class DeleteFirewallRuleEntry {
   /// The unique identifier of the firewall rule group for the rule.
   final String firewallRuleGroupId;
@@ -10953,6 +11123,8 @@ class DeleteFirewallRuleEntry {
 }
 
 /// An error that occurred while creating a firewall rule in a batch operation.
+///
+/// @nodoc
 class BatchCreateFirewallRuleError {
   /// The error code for the failure.
   final String? code;
@@ -10993,6 +11165,8 @@ class BatchCreateFirewallRuleError {
 }
 
 /// The details for creating a single firewall rule in a batch operation.
+///
+/// @nodoc
 class CreateFirewallRuleEntry {
   /// The action that DNS Firewall should take on a DNS query when it matches one
   /// of the domains in the rule's domain list, or a threat in a DNS Firewall
@@ -11279,16 +11453,19 @@ class CreateFirewallRuleEntry {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServiceErrorException extends _s.GenericAwsException {
   InternalServiceErrorException({String? type, String? message})
       : super(
@@ -11297,57 +11474,68 @@ class InternalServiceErrorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidPolicyDocument extends _s.GenericAwsException {
   InvalidPolicyDocument({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyDocument', message: message);
 }
 
+/// @nodoc
 class InvalidRequestException extends _s.GenericAwsException {
   InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+/// @nodoc
 class InvalidTagException extends _s.GenericAwsException {
   InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class ResourceExistsException extends _s.GenericAwsException {
   ResourceExistsException({String? type, String? message})
       : super(type: type, code: 'ResourceExistsException', message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceUnavailableException extends _s.GenericAwsException {
   ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -11356,16 +11544,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnknownResourceException extends _s.GenericAwsException {
   UnknownResourceException({String? type, String? message})
       : super(type: type, code: 'UnknownResourceException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

@@ -759,6 +759,7 @@ class KafkaConnect {
   }
 }
 
+/// @nodoc
 class CreateConnectorResponse {
   /// The Amazon Resource Name (ARN) that Amazon assigned to the connector.
   final String? connectorArn;
@@ -796,6 +797,7 @@ class CreateConnectorResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomPluginResponse {
   /// The Amazon Resource Name (ARN) that Amazon assigned to the custom plugin.
   final String? customPluginArn;
@@ -841,6 +843,7 @@ class CreateCustomPluginResponse {
   }
 }
 
+/// @nodoc
 class CreateWorkerConfigurationResponse {
   /// The time that the worker configuration was created.
   final DateTime? creationTime;
@@ -899,6 +902,7 @@ class CreateWorkerConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DeleteConnectorResponse {
   /// The Amazon Resource Name (ARN) of the connector that you requested to
   /// delete.
@@ -930,6 +934,7 @@ class DeleteConnectorResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomPluginResponse {
   /// The Amazon Resource Name (ARN) of the custom plugin that you requested to
   /// delete.
@@ -962,6 +967,7 @@ class DeleteCustomPluginResponse {
   }
 }
 
+/// @nodoc
 class DeleteWorkerConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the worker configuration that you
   /// requested to delete.
@@ -996,6 +1002,7 @@ class DeleteWorkerConfigurationResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectorResponse {
   /// Information about the capacity of the connector, whether it is auto scaled
   /// or provisioned.
@@ -1185,6 +1192,7 @@ class DescribeConnectorResponse {
   }
 }
 
+/// @nodoc
 class DescribeConnectorOperationResponse {
   /// The Amazon Resource Name (ARN) of the connector.
   final String? connectorArn;
@@ -1308,6 +1316,7 @@ class DescribeConnectorOperationResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomPluginResponse {
   /// The time that the custom plugin was created.
   final DateTime? creationTime;
@@ -1381,6 +1390,7 @@ class DescribeCustomPluginResponse {
   }
 }
 
+/// @nodoc
 class DescribeWorkerConfigurationResponse {
   /// The time that the worker configuration was created.
   final DateTime? creationTime;
@@ -1445,6 +1455,7 @@ class DescribeWorkerConfigurationResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorOperationsResponse {
   /// An array of connector operation descriptions.
   final List<ConnectorOperationSummary>? connectorOperations;
@@ -1480,6 +1491,7 @@ class ListConnectorOperationsResponse {
   }
 }
 
+/// @nodoc
 class ListConnectorsResponse {
   /// An array of connector descriptions.
   final List<ConnectorSummary>? connectors;
@@ -1514,6 +1526,7 @@ class ListConnectorsResponse {
   }
 }
 
+/// @nodoc
 class ListCustomPluginsResponse {
   /// An array of custom plugin descriptions.
   final List<CustomPluginSummary>? customPlugins;
@@ -1548,6 +1561,7 @@ class ListCustomPluginsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Lists the tags attached to the specified resource in the corresponding
   /// request.
@@ -1572,6 +1586,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListWorkerConfigurationsResponse {
   /// If the response of a ListWorkerConfigurations operation is truncated, it
   /// will include a NextToken. Send this NextToken in a subsequent request to
@@ -1608,6 +1623,7 @@ class ListWorkerConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1620,6 +1636,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1632,6 +1649,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateConnectorResponse {
   /// The Amazon Resource Name (ARN) of the connector.
   final String? connectorArn;
@@ -1670,6 +1688,7 @@ class UpdateConnectorResponse {
   }
 }
 
+/// @nodoc
 class ConnectorState {
   static const running = ConnectorState._('RUNNING');
   static const creating = ConnectorState._('CREATING');
@@ -1699,6 +1718,8 @@ class ConnectorState {
 
 /// The target capacity for the connector. The capacity can be auto scaled or
 /// provisioned.
+///
+/// @nodoc
 class CapacityUpdate {
   /// The target auto scaling setting.
   final AutoScalingUpdate? autoScaling;
@@ -1723,6 +1744,8 @@ class CapacityUpdate {
 }
 
 /// The updates to the auto scaling parameters for the connector.
+///
+/// @nodoc
 class AutoScalingUpdate {
   /// The target maximum number of workers allocated to the connector.
   final int maxWorkerCount;
@@ -1773,6 +1796,8 @@ class AutoScalingUpdate {
 }
 
 /// An update to a connector's fixed capacity.
+///
+/// @nodoc
 class ProvisionedCapacityUpdate {
   /// The number of microcontroller units (MCUs) allocated to each connector
   /// worker. The valid values are 1,2,4,8.
@@ -1797,6 +1822,8 @@ class ProvisionedCapacityUpdate {
 }
 
 /// An update to the connector's scale-in policy.
+///
+/// @nodoc
 class ScaleInPolicyUpdate {
   /// The target CPU utilization percentage threshold at which you want connector
   /// scale in to be triggered.
@@ -1815,6 +1842,8 @@ class ScaleInPolicyUpdate {
 }
 
 /// An update to the connector's scale-out policy.
+///
+/// @nodoc
 class ScaleOutPolicyUpdate {
   /// The target CPU utilization percentage threshold at which you want connector
   /// scale out to be triggered.
@@ -1833,6 +1862,8 @@ class ScaleOutPolicyUpdate {
 }
 
 /// The summary of a worker configuration.
+///
+/// @nodoc
 class WorkerConfigurationSummary {
   /// The time that a worker configuration was created.
   final DateTime? creationTime;
@@ -1897,6 +1928,8 @@ class WorkerConfigurationSummary {
 }
 
 /// The summary of a worker configuration revision.
+///
+/// @nodoc
 class WorkerConfigurationRevisionSummary {
   /// The time that a worker configuration revision was created.
   final DateTime? creationTime;
@@ -1934,6 +1967,7 @@ class WorkerConfigurationRevisionSummary {
   }
 }
 
+/// @nodoc
 class WorkerConfigurationState {
   static const active = WorkerConfigurationState._('ACTIVE');
   static const deleting = WorkerConfigurationState._('DELETING');
@@ -1960,6 +1994,8 @@ class WorkerConfigurationState {
 }
 
 /// A summary of the custom plugin.
+///
+/// @nodoc
 class CustomPluginSummary {
   /// The time that the custom plugin was created.
   final DateTime? creationTime;
@@ -2022,6 +2058,7 @@ class CustomPluginSummary {
   }
 }
 
+/// @nodoc
 class CustomPluginState {
   static const creating = CustomPluginState._('CREATING');
   static const createFailed = CustomPluginState._('CREATE_FAILED');
@@ -2058,6 +2095,8 @@ class CustomPluginState {
 }
 
 /// Details about the revision of a custom plugin.
+///
+/// @nodoc
 class CustomPluginRevisionSummary {
   /// The format of the plugin file.
   final CustomPluginContentType? contentType;
@@ -2122,6 +2161,7 @@ class CustomPluginRevisionSummary {
   }
 }
 
+/// @nodoc
 class CustomPluginContentType {
   static const jar = CustomPluginContentType._('JAR');
   static const zip = CustomPluginContentType._('ZIP');
@@ -2148,6 +2188,8 @@ class CustomPluginContentType {
 }
 
 /// Details about a custom plugin file.
+///
+/// @nodoc
 class CustomPluginFileDescription {
   /// The hex-encoded MD5 checksum of the custom plugin file. You can use it to
   /// validate the file.
@@ -2180,6 +2222,8 @@ class CustomPluginFileDescription {
 }
 
 /// Information about the location of a custom plugin.
+///
+/// @nodoc
 class CustomPluginLocationDescription {
   /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of
   /// the plugin file stored in Amazon S3.
@@ -2207,6 +2251,8 @@ class CustomPluginLocationDescription {
 }
 
 /// The description of the location of an object in Amazon S3.
+///
+/// @nodoc
 class S3LocationDescription {
   /// The Amazon Resource Name (ARN) of an S3 bucket.
   final String? bucketArn;
@@ -2244,6 +2290,8 @@ class S3LocationDescription {
 }
 
 /// Summary of a connector.
+///
+/// @nodoc
 class ConnectorSummary {
   /// The connector's compute capacity settings.
   final CapacityDescription? capacity;
@@ -2413,6 +2461,8 @@ class ConnectorSummary {
 }
 
 /// A description of the connector's capacity.
+///
+/// @nodoc
 class CapacityDescription {
   /// Describes the connector's auto scaling capacity.
   final AutoScalingDescription? autoScaling;
@@ -2450,6 +2500,8 @@ class CapacityDescription {
 }
 
 /// Details of how to connect to the Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaClusterDescription {
   /// The Apache Kafka cluster to which the connector is connected.
   final ApacheKafkaClusterDescription? apacheKafkaCluster;
@@ -2477,6 +2529,8 @@ class KafkaClusterDescription {
 
 /// The client authentication information used in order to authenticate with the
 /// Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaClusterClientAuthenticationDescription {
   /// The type of client authentication used to connect to the Apache Kafka
   /// cluster. Value NONE means that no client authentication is used.
@@ -2504,6 +2558,8 @@ class KafkaClusterClientAuthenticationDescription {
 }
 
 /// The description of the encryption in transit to the Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaClusterEncryptionInTransitDescription {
   /// The type of encryption in transit to the Apache Kafka cluster.
   final KafkaClusterEncryptionInTransitType? encryptionType;
@@ -2529,6 +2585,8 @@ class KafkaClusterEncryptionInTransitDescription {
 }
 
 /// The description of the log delivery settings.
+///
+/// @nodoc
 class LogDeliveryDescription {
   /// The workers can send worker logs to different destination types. This
   /// configuration specifies the details of these destinations.
@@ -2556,6 +2614,8 @@ class LogDeliveryDescription {
 }
 
 /// The network type of a connector.
+///
+/// @nodoc
 class NetworkType {
   static const ipv4 = NetworkType._('IPV4');
   static const dual = NetworkType._('DUAL');
@@ -2580,6 +2640,8 @@ class NetworkType {
 }
 
 /// The description of the worker configuration.
+///
+/// @nodoc
 class WorkerConfigurationDescription {
   /// The revision of the worker configuration.
   final int? revision;
@@ -2611,6 +2673,8 @@ class WorkerConfigurationDescription {
 }
 
 /// The description of the plugin.
+///
+/// @nodoc
 class PluginDescription {
   /// Details about a custom plugin.
   final CustomPluginDescription? customPlugin;
@@ -2637,6 +2701,8 @@ class PluginDescription {
 }
 
 /// Details about a custom plugin.
+///
+/// @nodoc
 class CustomPluginDescription {
   /// The Amazon Resource Name (ARN) of the custom plugin.
   final String? customPluginArn;
@@ -2668,6 +2734,8 @@ class CustomPluginDescription {
 
 /// Workers can send worker logs to different destination types. This
 /// configuration specifies the details of these destinations.
+///
+/// @nodoc
 class WorkerLogDeliveryDescription {
   /// Details about delivering logs to Amazon CloudWatch Logs.
   final CloudWatchLogsLogDeliveryDescription? cloudWatchLogs;
@@ -2714,6 +2782,8 @@ class WorkerLogDeliveryDescription {
 }
 
 /// A description of the log delivery settings.
+///
+/// @nodoc
 class CloudWatchLogsLogDeliveryDescription {
   /// Whether log delivery to Amazon CloudWatch Logs is enabled.
   final bool? enabled;
@@ -2747,6 +2817,8 @@ class CloudWatchLogsLogDeliveryDescription {
 
 /// A description of the settings for delivering logs to Amazon Kinesis Data
 /// Firehose.
+///
+/// @nodoc
 class FirehoseLogDeliveryDescription {
   /// The name of the Kinesis Data Firehose delivery stream that is the
   /// destination for log delivery.
@@ -2779,6 +2851,8 @@ class FirehoseLogDeliveryDescription {
 }
 
 /// The description of the details about delivering logs to Amazon S3.
+///
+/// @nodoc
 class S3LogDeliveryDescription {
   /// The name of the S3 bucket that is the destination for log delivery.
   final String? bucket;
@@ -2816,6 +2890,7 @@ class S3LogDeliveryDescription {
   }
 }
 
+/// @nodoc
 class KafkaClusterEncryptionInTransitType {
   static const plaintext = KafkaClusterEncryptionInTransitType._('PLAINTEXT');
   static const tls = KafkaClusterEncryptionInTransitType._('TLS');
@@ -2841,6 +2916,7 @@ class KafkaClusterEncryptionInTransitType {
   String toString() => value;
 }
 
+/// @nodoc
 class KafkaClusterClientAuthenticationType {
   static const none = KafkaClusterClientAuthenticationType._('NONE');
   static const iam = KafkaClusterClientAuthenticationType._('IAM');
@@ -2868,6 +2944,8 @@ class KafkaClusterClientAuthenticationType {
 
 /// The description of the Apache Kafka cluster to which the connector is
 /// connected.
+///
+/// @nodoc
 class ApacheKafkaClusterDescription {
   /// The bootstrap servers of the cluster.
   final String? bootstrapServers;
@@ -2901,6 +2979,8 @@ class ApacheKafkaClusterDescription {
 }
 
 /// The description of the VPC in which the connector resides.
+///
+/// @nodoc
 class VpcDescription {
   /// The security groups for the connector.
   final List<String>? securityGroups;
@@ -2935,6 +3015,8 @@ class VpcDescription {
 }
 
 /// Information about the auto scaling parameters for the connector.
+///
+/// @nodoc
 class AutoScalingDescription {
   /// The maximum number of tasks allocated to the connector during autoscaling
   /// operations. Must be at least equal to maxWorkerCount.
@@ -3002,6 +3084,8 @@ class AutoScalingDescription {
 }
 
 /// The description of a connector's provisioned capacity.
+///
+/// @nodoc
 class ProvisionedCapacityDescription {
   /// The number of microcontroller units (MCUs) allocated to each connector
   /// worker. The valid values are 1,2,4,8.
@@ -3033,6 +3117,8 @@ class ProvisionedCapacityDescription {
 }
 
 /// The description of the scale-in policy for the connector.
+///
+/// @nodoc
 class ScaleInPolicyDescription {
   /// Specifies the CPU utilization percentage threshold at which you want
   /// connector scale in to be triggered.
@@ -3058,6 +3144,8 @@ class ScaleInPolicyDescription {
 }
 
 /// The description of the scale-out policy for the connector.
+///
+/// @nodoc
 class ScaleOutPolicyDescription {
   /// The CPU utilization percentage threshold at which you want connector scale
   /// out to be triggered.
@@ -3083,6 +3171,8 @@ class ScaleOutPolicyDescription {
 }
 
 /// Summary of a connector operation.
+///
+/// @nodoc
 class ConnectorOperationSummary {
   /// The Amazon Resource Name (ARN) of the connector operation.
   final String? connectorOperationArn;
@@ -3138,6 +3228,7 @@ class ConnectorOperationSummary {
   }
 }
 
+/// @nodoc
 class ConnectorOperationType {
   static const updateWorkerSetting =
       ConnectorOperationType._('UPDATE_WORKER_SETTING');
@@ -3172,6 +3263,7 @@ class ConnectorOperationType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectorOperationState {
   static const pending = ConnectorOperationState._('PENDING');
   static const updateInProgress =
@@ -3214,6 +3306,8 @@ class ConnectorOperationState {
 }
 
 /// The description of the worker configuration revision.
+///
+/// @nodoc
 class WorkerConfigurationRevisionDescription {
   /// The time that the worker configuration was created.
   final DateTime? creationTime;
@@ -3260,6 +3354,8 @@ class WorkerConfigurationRevisionDescription {
 }
 
 /// Details about the state of a resource.
+///
+/// @nodoc
 class StateDescription {
   /// A code that describes the state of a resource.
   final String? code;
@@ -3290,6 +3386,8 @@ class StateDescription {
 }
 
 /// Details about worker setting of a connector
+///
+/// @nodoc
 class WorkerSetting {
   final CapacityDescription? capacity;
 
@@ -3315,6 +3413,8 @@ class WorkerSetting {
 }
 
 /// Details of a step that is involved in a connector's operation.
+///
+/// @nodoc
 class ConnectorOperationStep {
   /// The step state of the operation.
   final ConnectorOperationStepState? stepState;
@@ -3346,6 +3446,7 @@ class ConnectorOperationStep {
   }
 }
 
+/// @nodoc
 class ConnectorOperationStepType {
   static const initializeUpdate =
       ConnectorOperationStepType._('INITIALIZE_UPDATE');
@@ -3383,6 +3484,7 @@ class ConnectorOperationStepType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectorOperationStepState {
   static const pending = ConnectorOperationStepState._('PENDING');
   static const inProgress = ConnectorOperationStepState._('IN_PROGRESS');
@@ -3412,6 +3514,8 @@ class ConnectorOperationStepState {
 }
 
 /// Information about the location of a custom plugin.
+///
+/// @nodoc
 class CustomPluginLocation {
   /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of
   /// the plugin file stored in Amazon S3.
@@ -3430,6 +3534,8 @@ class CustomPluginLocation {
 }
 
 /// The location of an object in Amazon S3.
+///
+/// @nodoc
 class S3Location {
   /// The Amazon Resource Name (ARN) of an S3 bucket.
   final String bucketArn;
@@ -3460,6 +3566,8 @@ class S3Location {
 
 /// Information about the capacity of the connector, whether it is auto scaled
 /// or provisioned.
+///
+/// @nodoc
 class Capacity {
   /// Information about the auto scaling parameters for the connector.
   final AutoScaling? autoScaling;
@@ -3484,6 +3592,8 @@ class Capacity {
 }
 
 /// The details of the Apache Kafka cluster to which the connector is connected.
+///
+/// @nodoc
 class KafkaCluster {
   /// The Apache Kafka cluster to which the connector is connected.
   final ApacheKafkaCluster apacheKafkaCluster;
@@ -3502,6 +3612,8 @@ class KafkaCluster {
 
 /// The client authentication information used in order to authenticate with the
 /// Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaClusterClientAuthentication {
   /// The type of client authentication used to connect to the Apache Kafka
   /// cluster. Value NONE means that no client authentication is used.
@@ -3520,6 +3632,8 @@ class KafkaClusterClientAuthentication {
 }
 
 /// Details of encryption in transit to the Apache Kafka cluster.
+///
+/// @nodoc
 class KafkaClusterEncryptionInTransit {
   /// The type of encryption in transit to the Apache Kafka cluster.
   final KafkaClusterEncryptionInTransitType encryptionType;
@@ -3537,6 +3651,8 @@ class KafkaClusterEncryptionInTransit {
 }
 
 /// Details about log delivery.
+///
+/// @nodoc
 class LogDelivery {
   /// The workers can send worker logs to different destination types. This
   /// configuration specifies the details of these destinations.
@@ -3556,6 +3672,8 @@ class LogDelivery {
 
 /// The configuration of the workers, which are the processes that run the
 /// connector logic.
+///
+/// @nodoc
 class WorkerConfiguration {
   /// The revision of the worker configuration.
   final int revision;
@@ -3580,6 +3698,8 @@ class WorkerConfiguration {
 
 /// A plugin is an Amazon Web Services resource that contains the code that
 /// defines your connector logic.
+///
+/// @nodoc
 class Plugin {
   /// Details about a custom plugin.
   final CustomPlugin customPlugin;
@@ -3598,6 +3718,8 @@ class Plugin {
 
 /// A plugin is an Amazon Web Services resource that contains the code that
 /// defines a connector's logic.
+///
+/// @nodoc
 class CustomPlugin {
   /// The Amazon Resource Name (ARN) of the custom plugin.
   final String customPluginArn;
@@ -3622,6 +3744,8 @@ class CustomPlugin {
 
 /// Workers can send worker logs to different destination types. This
 /// configuration specifies the details of these destinations.
+///
+/// @nodoc
 class WorkerLogDelivery {
   /// Details about delivering logs to Amazon CloudWatch Logs.
   final CloudWatchLogsLogDelivery? cloudWatchLogs;
@@ -3651,6 +3775,8 @@ class WorkerLogDelivery {
 }
 
 /// The settings for delivering connector logs to Amazon CloudWatch Logs.
+///
+/// @nodoc
 class CloudWatchLogsLogDelivery {
   /// Whether log delivery to Amazon CloudWatch Logs is enabled.
   final bool enabled;
@@ -3675,6 +3801,8 @@ class CloudWatchLogsLogDelivery {
 }
 
 /// The settings for delivering logs to Amazon Kinesis Data Firehose.
+///
+/// @nodoc
 class FirehoseLogDelivery {
   /// Specifies whether connector logs get delivered to Amazon Kinesis Data
   /// Firehose.
@@ -3700,6 +3828,8 @@ class FirehoseLogDelivery {
 }
 
 /// Details about delivering logs to Amazon S3.
+///
+/// @nodoc
 class S3LogDelivery {
   /// Specifies whether connector logs get sent to the specified Amazon S3
   /// destination.
@@ -3730,6 +3860,8 @@ class S3LogDelivery {
 }
 
 /// The details of the Apache Kafka cluster to which the connector is connected.
+///
+/// @nodoc
 class ApacheKafkaCluster {
   /// The bootstrap servers of the cluster.
   final String bootstrapServers;
@@ -3754,6 +3886,8 @@ class ApacheKafkaCluster {
 }
 
 /// Information about the VPC in which the connector resides.
+///
+/// @nodoc
 class Vpc {
   /// The subnets for the connector.
   final List<String> subnets;
@@ -3777,6 +3911,8 @@ class Vpc {
 }
 
 /// Specifies how the connector scales.
+///
+/// @nodoc
 class AutoScaling {
   /// The maximum number of workers allocated to the connector.
   final int maxWorkerCount;
@@ -3827,6 +3963,8 @@ class AutoScaling {
 }
 
 /// Details about a connector's provisioned capacity.
+///
+/// @nodoc
 class ProvisionedCapacity {
   /// The number of microcontroller units (MCUs) allocated to each connector
   /// worker. The valid values are 1,2,4,8.
@@ -3851,6 +3989,8 @@ class ProvisionedCapacity {
 }
 
 /// The scale-in policy for the connector.
+///
+/// @nodoc
 class ScaleInPolicy {
   /// Specifies the CPU utilization percentage threshold at which you want
   /// connector scale in to be triggered.
@@ -3869,6 +4009,8 @@ class ScaleInPolicy {
 }
 
 /// The scale-out policy for the connector.
+///
+/// @nodoc
 class ScaleOutPolicy {
   /// The CPU utilization percentage threshold at which you want connector scale
   /// out to be triggered.
@@ -3886,43 +4028,51 @@ class ScaleOutPolicy {
   }
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);

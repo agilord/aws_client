@@ -2720,6 +2720,7 @@ class Batch {
   }
 }
 
+/// @nodoc
 class CancelJobResponse {
   CancelJobResponse();
 
@@ -2732,6 +2733,7 @@ class CancelJobResponse {
   }
 }
 
+/// @nodoc
 class CreateComputeEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the compute environment.
   final String? computeEnvironmentArn;
@@ -2765,6 +2767,7 @@ class CreateComputeEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class CreateConsumableResourceResponse {
   /// The Amazon Resource Name (ARN) of the consumable resource.
   final String consumableResourceArn;
@@ -2794,6 +2797,7 @@ class CreateConsumableResourceResponse {
   }
 }
 
+/// @nodoc
 class CreateJobQueueResponse {
   /// The Amazon Resource Name (ARN) of the job queue.
   final String jobQueueArn;
@@ -2823,6 +2827,7 @@ class CreateJobQueueResponse {
   }
 }
 
+/// @nodoc
 class CreateQuotaShareResponse {
   /// The Amazon Resource Name (ARN) of the quota share.
   final String? quotaShareArn;
@@ -2852,6 +2857,7 @@ class CreateQuotaShareResponse {
   }
 }
 
+/// @nodoc
 class CreateSchedulingPolicyResponse {
   /// The Amazon Resource Name (ARN) of the scheduling policy. The format is
   /// <code>aws:<i>Partition</i>:batch:<i>Region</i>:<i>Account</i>:scheduling-policy/<i>Name</i>
@@ -2884,6 +2890,7 @@ class CreateSchedulingPolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateServiceEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the service environment.
   final String serviceEnvironmentArn;
@@ -2913,6 +2920,7 @@ class CreateServiceEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteComputeEnvironmentResponse {
   DeleteComputeEnvironmentResponse();
 
@@ -2925,6 +2933,7 @@ class DeleteComputeEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeleteConsumableResourceResponse {
   DeleteConsumableResourceResponse();
 
@@ -2937,6 +2946,7 @@ class DeleteConsumableResourceResponse {
   }
 }
 
+/// @nodoc
 class DeleteJobQueueResponse {
   DeleteJobQueueResponse();
 
@@ -2949,6 +2959,7 @@ class DeleteJobQueueResponse {
   }
 }
 
+/// @nodoc
 class DeleteQuotaShareResponse {
   DeleteQuotaShareResponse();
 
@@ -2961,6 +2972,7 @@ class DeleteQuotaShareResponse {
   }
 }
 
+/// @nodoc
 class DeleteSchedulingPolicyResponse {
   DeleteSchedulingPolicyResponse();
 
@@ -2973,6 +2985,7 @@ class DeleteSchedulingPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteServiceEnvironmentResponse {
   DeleteServiceEnvironmentResponse();
 
@@ -2985,6 +2998,7 @@ class DeleteServiceEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class DeregisterJobDefinitionResponse {
   DeregisterJobDefinitionResponse();
 
@@ -2997,6 +3011,7 @@ class DeregisterJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class DescribeComputeEnvironmentsResponse {
   /// The list of compute environments.
   final List<ComputeEnvironmentDetail>? computeEnvironments;
@@ -3037,6 +3052,7 @@ class DescribeComputeEnvironmentsResponse {
   }
 }
 
+/// @nodoc
 class DescribeConsumableResourceResponse {
   /// The Amazon Resource Name (ARN) of the consumable resource.
   final String consumableResourceArn;
@@ -3125,6 +3141,7 @@ class DescribeConsumableResourceResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobDefinitionsResponse {
   /// The list of job definitions.
   final List<JobDefinition>? jobDefinitions;
@@ -3161,6 +3178,7 @@ class DescribeJobDefinitionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobQueuesResponse {
   /// The list of job queues.
   final List<JobQueueDetail>? jobQueues;
@@ -3197,6 +3215,7 @@ class DescribeJobQueuesResponse {
   }
 }
 
+/// @nodoc
 class DescribeJobsResponse {
   /// The list of jobs.
   final List<JobDetail>? jobs;
@@ -3222,6 +3241,7 @@ class DescribeJobsResponse {
   }
 }
 
+/// @nodoc
 class DescribeQuotaShareResponse {
   /// A list that specifies the quantity and type of compute capacity allocated to
   /// the quota share.
@@ -3315,6 +3335,7 @@ class DescribeQuotaShareResponse {
   }
 }
 
+/// @nodoc
 class DescribeSchedulingPoliciesResponse {
   /// The list of scheduling policies.
   final List<SchedulingPolicyDetail>? schedulingPolicies;
@@ -3342,6 +3363,7 @@ class DescribeSchedulingPoliciesResponse {
   }
 }
 
+/// @nodoc
 class DescribeServiceEnvironmentsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeServiceEnvironments</code> request. When the results of a
@@ -3382,6 +3404,7 @@ class DescribeServiceEnvironmentsResponse {
   }
 }
 
+/// @nodoc
 class DescribeServiceJobResponse {
   /// The job ID for the service job.
   final String jobId;
@@ -3606,6 +3629,7 @@ class DescribeServiceJobResponse {
   }
 }
 
+/// @nodoc
 class GetJobQueueSnapshotResponse {
   /// The list of the first 100 <code>RUNNABLE</code> jobs in each job queue. For
   /// first-in-first-out (FIFO) job queues, jobs are ordered based on their
@@ -3657,6 +3681,7 @@ class GetJobQueueSnapshotResponse {
   }
 }
 
+/// @nodoc
 class ListConsumableResourcesResponse {
   /// A list of consumable resources that match the request.
   final List<ConsumableResourceSummary> consumableResources;
@@ -3694,6 +3719,7 @@ class ListConsumableResourcesResponse {
   }
 }
 
+/// @nodoc
 class ListJobsResponse {
   /// A list of job summaries that match the request.
   final List<JobSummary> jobSummaryList;
@@ -3730,6 +3756,7 @@ class ListJobsResponse {
   }
 }
 
+/// @nodoc
 class ListJobsByConsumableResourceResponse {
   /// The list of jobs that require the specified consumable resources.
   final List<ListJobsByConsumableResourceSummary> jobs;
@@ -3769,6 +3796,7 @@ class ListJobsByConsumableResourceResponse {
   }
 }
 
+/// @nodoc
 class ListQuotaSharesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListQuotaShares</code> request. When the results of a
@@ -3805,6 +3833,7 @@ class ListQuotaSharesResponse {
   }
 }
 
+/// @nodoc
 class ListSchedulingPoliciesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListSchedulingPolicies</code> request. When the results of a
@@ -3842,6 +3871,7 @@ class ListSchedulingPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListServiceJobsResponse {
   /// A list of service job summaries.
   final List<ServiceJobSummary> jobSummaryList;
@@ -3878,6 +3908,7 @@ class ListServiceJobsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags for the resource.
   final Map<String, String>? tags;
@@ -3901,6 +3932,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class RegisterJobDefinitionResponse {
   /// The Amazon Resource Name (ARN) of the job definition.
   final String jobDefinitionArn;
@@ -3937,6 +3969,7 @@ class RegisterJobDefinitionResponse {
   }
 }
 
+/// @nodoc
 class SubmitJobResponse {
   /// The unique identifier for the job.
   final String jobId;
@@ -3973,6 +4006,7 @@ class SubmitJobResponse {
   }
 }
 
+/// @nodoc
 class SubmitServiceJobResponse {
   /// The unique identifier for the service job.
   final String jobId;
@@ -4009,6 +4043,7 @@ class SubmitServiceJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -4021,6 +4056,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class TerminateJobResponse {
   TerminateJobResponse();
 
@@ -4033,6 +4069,7 @@ class TerminateJobResponse {
   }
 }
 
+/// @nodoc
 class TerminateServiceJobResponse {
   TerminateServiceJobResponse();
 
@@ -4045,6 +4082,7 @@ class TerminateServiceJobResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -4057,6 +4095,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateComputeEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the compute environment.
   final String? computeEnvironmentArn;
@@ -4090,6 +4129,7 @@ class UpdateComputeEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateConsumableResourceResponse {
   /// The Amazon Resource Name (ARN) of the consumable resource.
   final String consumableResourceArn;
@@ -4126,6 +4166,7 @@ class UpdateConsumableResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateJobQueueResponse {
   /// The Amazon Resource Name (ARN) of the job queue.
   final String? jobQueueArn;
@@ -4155,6 +4196,7 @@ class UpdateJobQueueResponse {
   }
 }
 
+/// @nodoc
 class UpdateQuotaShareResponse {
   /// The Amazon Resource Name (ARN) of the quota share.
   final String? quotaShareArn;
@@ -4184,6 +4226,7 @@ class UpdateQuotaShareResponse {
   }
 }
 
+/// @nodoc
 class UpdateSchedulingPolicyResponse {
   UpdateSchedulingPolicyResponse();
 
@@ -4196,6 +4239,7 @@ class UpdateSchedulingPolicyResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceEnvironmentResponse {
   /// The Amazon Resource Name (ARN) of the service environment that was updated.
   final String serviceEnvironmentArn;
@@ -4225,6 +4269,7 @@ class UpdateServiceEnvironmentResponse {
   }
 }
 
+/// @nodoc
 class UpdateServiceJobResponse {
   /// The Amazon Resource Name (ARN) for the job.
   final String? jobArn;
@@ -4261,6 +4306,7 @@ class UpdateServiceJobResponse {
   }
 }
 
+/// @nodoc
 class ServiceEnvironmentState {
   static const enabled = ServiceEnvironmentState._('ENABLED');
   static const disabled = ServiceEnvironmentState._('DISABLED');
@@ -4288,6 +4334,8 @@ class ServiceEnvironmentState {
 
 /// Defines the type and maximum quantity of resources that can be allocated to
 /// service jobs in a service environment.
+///
+/// @nodoc
 class CapacityLimit {
   /// The unit of measure for the capacity limit, which defines how
   /// <code>maxCapacity</code> is interpreted. For <code>SAGEMAKER_TRAINING</code>
@@ -4337,6 +4385,8 @@ class CapacityLimit {
 }
 
 /// The quota share scheduling policy details for a job queue.
+///
+/// @nodoc
 class QuotaSharePolicy {
   /// The strategy that determines how idle resources are assigned to quota shares
   /// that are borrowing capacity. Currently, only <code>FIFO</code> is supported.
@@ -4363,6 +4413,8 @@ class QuotaSharePolicy {
 }
 
 /// The fair-share scheduling policy details.
+///
+/// @nodoc
 class FairsharePolicy {
   /// A value used to reserve some of the available maximum vCPU for share
   /// identifiers that aren't already used.
@@ -4433,6 +4485,8 @@ class FairsharePolicy {
 /// Specifies the weights for the share identifiers for the fair-share policy.
 /// Share identifiers that aren't included have a default weight of
 /// <code>1.0</code>.
+///
+/// @nodoc
 class ShareAttributes {
   /// A share identifier or share identifier prefix. If the string ends with an
   /// asterisk (*), this entry specifies the weight factor to use for share
@@ -4479,6 +4533,7 @@ class ShareAttributes {
   }
 }
 
+/// @nodoc
 class QuotaShareIdleResourceAssignmentStrategy {
   static const fifo = QuotaShareIdleResourceAssignmentStrategy._('FIFO');
 
@@ -4505,6 +4560,8 @@ class QuotaShareIdleResourceAssignmentStrategy {
 
 /// Specifies whether a quota share reserves, lends, or both lends and borrows
 /// idle compute capacity.
+///
+/// @nodoc
 class QuotaShareResourceSharingConfiguration {
   /// The resource sharing strategy for the quota share. The <code>RESERVE</code>
   /// strategy allows a quota share to reserve idle capacity for itself.
@@ -4552,6 +4609,8 @@ class QuotaShareResourceSharingConfiguration {
 }
 
 /// Specifies the preemption behavior for jobs in a quota share.
+///
+/// @nodoc
 class QuotaSharePreemptionConfiguration {
   /// Specifies whether jobs within a quota share can be preempted by another,
   /// higher priority job in the same quota share.
@@ -4577,6 +4636,7 @@ class QuotaSharePreemptionConfiguration {
   }
 }
 
+/// @nodoc
 class QuotaShareState {
   static const enabled = QuotaShareState._('ENABLED');
   static const disabled = QuotaShareState._('DISABLED');
@@ -4601,6 +4661,7 @@ class QuotaShareState {
   String toString() => value;
 }
 
+/// @nodoc
 class QuotaShareInSharePreemptionState {
   static const enabled = QuotaShareInSharePreemptionState._('ENABLED');
   static const disabled = QuotaShareInSharePreemptionState._('DISABLED');
@@ -4626,6 +4687,7 @@ class QuotaShareInSharePreemptionState {
   String toString() => value;
 }
 
+/// @nodoc
 class QuotaShareResourceSharingStrategy {
   static const reserve = QuotaShareResourceSharingStrategy._('RESERVE');
   static const lend = QuotaShareResourceSharingStrategy._('LEND');
@@ -4656,6 +4718,8 @@ class QuotaShareResourceSharingStrategy {
 /// Defines the capacity limit for a quota share, or the type and maximum
 /// quantity of a particular resource that can be allocated to jobs in the quota
 /// share without borrowing.
+///
+/// @nodoc
 class QuotaShareCapacityLimit {
   /// The unit of compute capacity for the capacityLimit. For example,
   /// <code>ml.m5.large</code>.
@@ -4688,6 +4752,7 @@ class QuotaShareCapacityLimit {
   }
 }
 
+/// @nodoc
 class JQState {
   static const enabled = JQState._('ENABLED');
   static const disabled = JQState._('DISABLED');
@@ -4713,6 +4778,8 @@ class JQState {
 
 /// Specifies an action that Batch will take after the job has remained at the
 /// head of the queue in the specified state for longer than the specified time.
+///
+/// @nodoc
 class JobStateTimeLimitAction {
   /// The action to take when a job is at the head of the job queue in the
   /// specified state for the specified period of time. For job queues connected
@@ -4767,6 +4834,7 @@ class JobStateTimeLimitAction {
   }
 }
 
+/// @nodoc
 class JobStateTimeLimitActionsState {
   static const runnable = JobStateTimeLimitActionsState._('RUNNABLE');
 
@@ -4791,6 +4859,7 @@ class JobStateTimeLimitActionsState {
   String toString() => value;
 }
 
+/// @nodoc
 class JobStateTimeLimitActionsAction {
   static const cancel = JobStateTimeLimitActionsAction._('CANCEL');
   static const terminate = JobStateTimeLimitActionsAction._('TERMINATE');
@@ -4819,6 +4888,8 @@ class JobStateTimeLimitActionsAction {
 /// Specifies the order of a service environment for a job queue. This
 /// determines the priority order when multiple service environments are
 /// associated with the same job queue.
+///
+/// @nodoc
 class ServiceEnvironmentOrder {
   /// The order of the service environment. Job queues with a higher priority are
   /// evaluated first when associated with the same service environment.
@@ -4863,6 +4934,8 @@ class ServiceEnvironmentOrder {
 /// same architecture. Batch doesn't support mixing compute environment
 /// architecture types in a single job queue.
 /// </note>
+///
+/// @nodoc
 class ComputeEnvironmentOrder {
   /// The Amazon Resource Name (ARN) of the compute environment.
   final String computeEnvironment;
@@ -4895,6 +4968,7 @@ class ComputeEnvironmentOrder {
   }
 }
 
+/// @nodoc
 class CEState {
   static const enabled = CEState._('ENABLED');
   static const disabled = CEState._('DISABLED');
@@ -4922,6 +4996,8 @@ class CEState {
 /// be updated. For more information, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
 /// compute environments</a> in the <i>Batch User Guide</i>.
+///
+/// @nodoc
 class ComputeResourceUpdate {
   /// The allocation strategy to use for the compute resource if there's not
   /// enough instances of the best fitting instance type that can be allocated.
@@ -5393,6 +5469,8 @@ class ComputeResourceUpdate {
 /// environment. For more information about infrastructure updates, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
 /// compute environments</a> in the <i>Batch User Guide</i>.
+///
+/// @nodoc
 class UpdatePolicy {
   /// Specifies the job timeout (in minutes) when the compute environment
   /// infrastructure is updated. The default value is 30. The maximum value is
@@ -5435,6 +5513,7 @@ class UpdatePolicy {
   }
 }
 
+/// @nodoc
 class CRUpdateAllocationStrategy {
   static const bestFitProgressive =
       CRUpdateAllocationStrategy._('BEST_FIT_PROGRESSIVE');
@@ -5480,6 +5559,8 @@ class CRUpdateAllocationStrategy {
 /// <note>
 /// This object isn't applicable to jobs that are running on Fargate resources.
 /// </note>
+///
+/// @nodoc
 class LaunchTemplateSpecification {
   /// The ID of the launch template.
   final String? launchTemplateId;
@@ -5574,6 +5655,7 @@ class LaunchTemplateSpecification {
   }
 }
 
+/// @nodoc
 class CRType {
   static const ec2 = CRType._('EC2');
   static const spot = CRType._('SPOT');
@@ -5600,6 +5682,8 @@ class CRType {
 }
 
 /// An object that represents a scaling policy for a compute environment.
+///
+/// @nodoc
 class ComputeScalingPolicy {
   /// The minimum time (in minutes) that Batch keeps instances running in the
   /// compute environment after their jobs complete. For each instance, the delay
@@ -5658,6 +5742,8 @@ class ComputeScalingPolicy {
 /// <note>
 /// This object isn't applicable to jobs that are running on Fargate resources.
 /// </note>
+///
+/// @nodoc
 class Ec2Configuration {
   /// The image type to match with the instance type to select an AMI. The
   /// supported values are different for <code>ECS</code> and <code>EKS</code>
@@ -5846,6 +5932,7 @@ class Ec2Configuration {
   }
 }
 
+/// @nodoc
 class UserdataType {
   static const eksBootstrapSh = UserdataType._('EKS_BOOTSTRAP_SH');
   static const eksNodeadm = UserdataType._('EKS_NODEADM');
@@ -5889,6 +5976,8 @@ class UserdataType {
 /// parameter, or not include the <code>overrides</code> parameter when
 /// submitting the <code>UpdateComputeEnvironment</code> API operation.
 /// </note>
+///
+/// @nodoc
 class LaunchTemplateSpecificationOverride {
   /// The ID of the launch template.
   ///
@@ -5925,10 +6014,10 @@ class LaunchTemplateSpecificationOverride {
   /// <code>ComputeResource.instanceTypes</code> </a> set.
   /// <code>targetInstanceTypes</code> doesn't need to include all of the
   /// instances from the <code>instanceType</code> set, but at least a subset. For
-  /// example, if <code>ComputeResource.instanceTypes</code> includes <code>[m5,
-  /// g5]</code>, <code>targetInstanceTypes</code> can include
-  /// <code>[m5.2xlarge]</code> and <code>[m5.large]</code> but not
-  /// <code>[c5.large]</code>.
+  /// example, if <code>ComputeResource.instanceTypes</code> includes <code>\[m5,
+  /// g5\]</code>, <code>targetInstanceTypes</code> can include
+  /// <code>\[m5.2xlarge\]</code> and <code>\[m5.large\]</code> but not
+  /// <code>\[c5.large\]</code>.
   /// </li>
   /// <li>
   /// <code>targetInstanceTypes</code> included within the same launch template
@@ -6017,6 +6106,8 @@ class LaunchTemplateSpecificationOverride {
 /// failed service job and under what conditions. For more information, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/service-job-retries.html">Service
 /// job retry strategies</a> in the <i>Batch User Guide</i>.
+///
+/// @nodoc
 class ServiceJobRetryStrategy {
   /// The number of times to move a service job to <code>RUNNABLE</code> status.
   /// You can specify between 1 and 10 attempts.
@@ -6052,6 +6143,7 @@ class ServiceJobRetryStrategy {
   }
 }
 
+/// @nodoc
 class ServiceJobType {
   static const sagemakerTraining = ServiceJobType._('SAGEMAKER_TRAINING');
 
@@ -6076,6 +6168,8 @@ class ServiceJobType {
 }
 
 /// Specifies the service job behavior when preempted.
+///
+/// @nodoc
 class ServiceJobPreemptionConfiguration {
   /// The number of times a service job can be retried after it is preempted. A
   /// job will be terminated when preemption retries have been exhausted. If this
@@ -6107,6 +6201,8 @@ class ServiceJobPreemptionConfiguration {
 }
 
 /// The timeout configuration for service jobs.
+///
+/// @nodoc
 class ServiceJobTimeout {
   /// The maximum duration in seconds that a service job attempt can run. After
   /// this time is reached, Batch terminates the service job attempt.
@@ -6133,6 +6229,8 @@ class ServiceJobTimeout {
 
 /// Specifies conditions for when to exit or retry a service job based on the
 /// exit status or status reason.
+///
+/// @nodoc
 class ServiceJobEvaluateOnExit {
   /// The action to take if the service job exits with the specified condition.
   /// Valid values are <code>RETRY</code> and <code>EXIT</code>.
@@ -6167,6 +6265,7 @@ class ServiceJobEvaluateOnExit {
   }
 }
 
+/// @nodoc
 class ServiceJobRetryAction {
   static const retry = ServiceJobRetryAction._('RETRY');
   static const exit = ServiceJobRetryAction._('EXIT');
@@ -6193,6 +6292,8 @@ class ServiceJobRetryAction {
 }
 
 /// An object that represents an Batch array job.
+///
+/// @nodoc
 class ArrayProperties {
   /// The size of the array job.
   final int? size;
@@ -6214,6 +6315,8 @@ class ArrayProperties {
 /// For information about using Batch overrides when you connect event sources
 /// to targets, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_BatchContainerOverrides.html">BatchContainerOverrides</a>.
+///
+/// @nodoc
 class ContainerOverrides {
   /// The command to send to the container that overrides the default command from
   /// the Docker image or the job definition.
@@ -6315,6 +6418,8 @@ class ContainerOverrides {
 /// resources. Don't provide it for these jobs. Rather, use
 /// <code>containerOverrides</code> instead.
 /// </note>
+///
+/// @nodoc
 class NodeOverrides {
   /// The node property overrides for the job.
   final List<NodePropertyOverride>? nodePropertyOverrides;
@@ -6359,6 +6464,8 @@ class NodeOverrides {
 /// <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html">Automated
 /// job retries</a> in the <i>Batch User Guide</i>.
+///
+/// @nodoc
 class RetryStrategy {
   /// The number of times to move a job to the <code>RUNNABLE</code> status. You
   /// can specify between 1 and 10 attempts. If the value of <code>attempts</code>
@@ -6398,6 +6505,8 @@ class RetryStrategy {
 }
 
 /// An object that represents a job timeout configuration.
+///
+/// @nodoc
 class JobTimeout {
   /// The job timeout time (in seconds) that's measured from the job attempt's
   /// <code>startedAt</code> timestamp. After this time passes, Batch terminates
@@ -6431,6 +6540,8 @@ class JobTimeout {
 }
 
 /// An object that contains overrides for the Kubernetes resources of a job.
+///
+/// @nodoc
 class EksPropertiesOverride {
   /// The overrides for the Kubernetes pod resources of a job.
   final EksPodPropertiesOverride? podProperties;
@@ -6449,6 +6560,8 @@ class EksPropertiesOverride {
 
 /// An object that contains overrides for the Amazon ECS task definition of a
 /// job.
+///
+/// @nodoc
 class EcsPropertiesOverride {
   /// The overrides for the Amazon ECS task definition of a job.
   /// <note>
@@ -6469,6 +6582,8 @@ class EcsPropertiesOverride {
 }
 
 /// Contains a list of consumable resources required by a job.
+///
+/// @nodoc
 class ConsumableResourceProperties {
   /// The list of consumable resources required by a job.
   final List<ConsumableResourceRequirement>? consumableResourceList;
@@ -6497,6 +6612,8 @@ class ConsumableResourceProperties {
 }
 
 /// Information about a consumable resource required to run a job.
+///
+/// @nodoc
 class ConsumableResourceRequirement {
   /// The name or ARN of the consumable resource.
   final String? consumableResource;
@@ -6527,6 +6644,8 @@ class ConsumableResourceRequirement {
 }
 
 /// An object that contains overrides for the task definition of a job.
+///
+/// @nodoc
 class TaskPropertiesOverride {
   /// The overrides for the container definition of a job.
   final List<TaskContainerOverrides>? containers;
@@ -6548,6 +6667,8 @@ class TaskPropertiesOverride {
 /// For information about using Batch overrides when you connect event sources
 /// to targets, see <a
 /// href="https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_BatchContainerOverrides.html">BatchContainerOverrides</a>.
+///
+/// @nodoc
 class TaskContainerOverrides {
   /// The command to send to the container that overrides the default command from
   /// the Docker image or the job definition.
@@ -6600,6 +6721,8 @@ class TaskContainerOverrides {
 /// The type and amount of a resource to assign to a container. The supported
 /// resources include <code>GPU</code>, <code>MEMORY</code>, and
 /// <code>VCPU</code>.
+///
+/// @nodoc
 class ResourceRequirement {
   /// The type of resource to assign to a container. The supported resources
   /// include <code>GPU</code>, <code>MEMORY</code>, and <code>VCPU</code>.
@@ -6739,6 +6862,7 @@ class ResourceRequirement {
   }
 }
 
+/// @nodoc
 class ResourceType {
   static const gpu = ResourceType._('GPU');
   static const vcpu = ResourceType._('VCPU');
@@ -6764,6 +6888,8 @@ class ResourceType {
 }
 
 /// A key-value pair object.
+///
+/// @nodoc
 class KeyValuePair {
   /// The name of the key-value pair. For environment variables, this is the name
   /// of the environment variable.
@@ -6797,6 +6923,8 @@ class KeyValuePair {
 
 /// An object that contains overrides for the Kubernetes pod properties of a
 /// job.
+///
+/// @nodoc
 class EksPodPropertiesOverride {
   /// The overrides for the container that's used on the Amazon EKS pod.
   final List<EksContainerOverride>? containers;
@@ -6838,6 +6966,8 @@ class EksPodPropertiesOverride {
 /// running in the pod. For more information, see <a
 /// href="https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/">
 /// Understanding Kubernetes Objects</a> in the <i>Kubernetes documentation</i>.
+///
+/// @nodoc
 class EksMetadata {
   /// Key-value pairs used to attach arbitrary, non-identifying metadata to
   /// Kubernetes objects. Valid annotation keys have two segments: an optional
@@ -6851,8 +6981,8 @@ class EksMetadata {
   /// </li>
   /// <li>
   /// The name segment is required and must be 63 characters or less. It can
-  /// include alphanumeric characters ([a-z0-9A-Z]), dashes (-), underscores (_),
-  /// and dots (.), but must begin and end with an alphanumeric character.
+  /// include alphanumeric characters (\[a-z0-9A-Z\]), dashes (-), underscores
+  /// (_), and dots (.), but must begin and end with an alphanumeric character.
   /// </li>
   /// </ul> <note>
   /// Annotation values must be 255 characters or less.
@@ -6887,7 +7017,7 @@ class EksMetadata {
   /// </li>
   /// <li>
   /// Must match the following regular expression:
-  /// <code>^[a-z0-9]([-a-z0-9]*[a-z0-9])?$</code>
+  /// <code>^\[a-z0-9\](\[-a-z0-9\]*\[a-z0-9\])?$</code>
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -6932,6 +7062,8 @@ class EksMetadata {
 /// in a <a
 /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html">SubmitJob</a>
 /// API operation.
+///
+/// @nodoc
 class EksContainerOverride {
   /// The arguments to the entrypoint to send to the container that overrides the
   /// default arguments from the Docker image or the job definition. For more
@@ -7005,6 +7137,8 @@ class EksContainerOverride {
 /// href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Resource
 /// management for pods and containers</a> in the <i>Kubernetes
 /// documentation</i>.
+///
+/// @nodoc
 class EksContainerResourceRequirements {
   /// The type and quantity of the resources to reserve for the container. The
   /// values vary based on the <code>name</code> that's specified. Resources can
@@ -7099,6 +7233,8 @@ class EksContainerResourceRequirements {
 }
 
 /// An environment variable.
+///
+/// @nodoc
 class EksContainerEnvironmentVariable {
   /// The name of the environment variable.
   final String name;
@@ -7132,6 +7268,8 @@ class EksContainerEnvironmentVariable {
 /// (<code>RETRY</code> or <code>EXIT</code>) if all conditions are met. If none
 /// of the <code>EvaluateOnExit</code> conditions in a
 /// <code>RetryStrategy</code> match, then the job is retried.
+///
+/// @nodoc
 class EvaluateOnExit {
   /// Specifies the action to take if all of the specified conditions
   /// (<code>onStatusReason</code>, <code>onReason</code>, and
@@ -7190,6 +7328,7 @@ class EvaluateOnExit {
   }
 }
 
+/// @nodoc
 class RetryAction {
   static const retry = RetryAction._('RETRY');
   static const exit = RetryAction._('EXIT');
@@ -7217,6 +7356,8 @@ class RetryAction {
 /// used in a <a
 /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html">SubmitJob</a>
 /// API operation.
+///
+/// @nodoc
 class NodePropertyOverride {
   /// The range of nodes, using node index values, that's used to override. A
   /// range of <code>0:3</code> indicates nodes with index values of
@@ -7277,6 +7418,8 @@ class NodePropertyOverride {
 }
 
 /// An object that represents an Batch job dependency.
+///
+/// @nodoc
 class JobDependency {
   /// The job ID of the Batch job that's associated with this dependency.
   final String? jobId;
@@ -7306,6 +7449,7 @@ class JobDependency {
   }
 }
 
+/// @nodoc
 class ArrayJobDependency {
   static const nToN = ArrayJobDependency._('N_TO_N');
   static const sequential = ArrayJobDependency._('SEQUENTIAL');
@@ -7331,6 +7475,7 @@ class ArrayJobDependency {
   String toString() => value;
 }
 
+/// @nodoc
 class JobDefinitionType {
   static const container = JobDefinitionType._('container');
   static const multinode = JobDefinitionType._('multinode');
@@ -7357,6 +7502,8 @@ class JobDefinitionType {
 
 /// Container properties are used for Amazon ECS based job definitions. These
 /// properties to describe the container that's launched as part of a job.
+///
+/// @nodoc
 class ContainerProperties {
   /// The command that's passed to the container. This parameter maps to
   /// <code>Cmd</code> in the <a
@@ -7427,8 +7574,8 @@ class ContainerProperties {
   /// <ul>
   /// <li>
   /// Images in Amazon ECR Public repositories use the full
-  /// <code>registry/repository[:tag]</code> or
-  /// <code>registry/repository[@digest]</code> naming conventions. For example,
+  /// <code>registry/repository\[:tag\]</code> or
+  /// <code>registry/repository\[@digest\]</code> naming conventions. For example,
   /// <code>public.ecr.aws/<i>registry_alias</i>/<i>my-web-app</i>:<i>latest</i>
   /// </code>.
   /// </li>
@@ -7776,6 +7923,8 @@ class ContainerProperties {
 /// <note>
 /// Node properties can't be specified for Amazon EKS based job definitions.
 /// </note>
+///
+/// @nodoc
 class NodeProperties {
   /// Specifies the node index for the main node of a multi-node parallel job.
   /// This node index value must be fewer than the number of nodes.
@@ -7819,6 +7968,8 @@ class NodeProperties {
 
 /// An object that contains the properties for the Kubernetes resources of a
 /// job.
+///
+/// @nodoc
 class EksProperties {
   /// The properties for the Kubernetes pod resources of a job.
   final EksPodProperties? podProperties;
@@ -7846,6 +7997,8 @@ class EksProperties {
 
 /// An object that contains the properties for the Amazon ECS resources of a
 /// job.
+///
+/// @nodoc
 class EcsProperties {
   /// An object that contains the properties for the Amazon ECS task definition of
   /// a job.
@@ -7880,6 +8033,8 @@ class EcsProperties {
 /// definitions of an Amazon ECS task. You can specify which Docker images to
 /// use, the required resources, and other configurations related to launching
 /// the task definition through an Amazon ECS service or task.
+///
+/// @nodoc
 class EcsTaskProperties {
   /// This object is a list of containers.
   final List<TaskContainerProperties> containers;
@@ -8048,6 +8203,8 @@ class EcsTaskProperties {
 /// The amount of ephemeral storage to allocate for the task. This parameter is
 /// used to expand the total amount of ephemeral storage available, beyond the
 /// default amount, for tasks hosted on Fargate.
+///
+/// @nodoc
 class EphemeralStorage {
   /// The total amount, in GiB, of ephemeral storage to set for the task. The
   /// minimum supported value is <code>21</code> GiB and the maximum supported
@@ -8075,6 +8232,8 @@ class EphemeralStorage {
 /// The network configuration for jobs that are running on Fargate resources.
 /// Jobs that are running on Amazon EC2 resources must not specify this
 /// parameter.
+///
+/// @nodoc
 class NetworkConfiguration {
   /// Indicates whether the job has a public IP address. For a job that's running
   /// on Fargate resources in a private subnet to send outbound traffic to the
@@ -8107,6 +8266,8 @@ class NetworkConfiguration {
 
 /// An object that represents the compute environment architecture for Batch
 /// jobs on Fargate.
+///
+/// @nodoc
 class RuntimePlatform {
   /// The vCPU architecture. The default value is <code>X86_64</code>. Valid
   /// values are <code>X86_64</code> and <code>ARM64</code>.
@@ -8171,6 +8332,8 @@ class RuntimePlatform {
 }
 
 /// A data volume that's used in a job's container properties.
+///
+/// @nodoc
 class Volume {
   /// This parameter is specified when you're using an Amazon Elastic File System
   /// file system for job storage. Jobs that are running on Fargate resources must
@@ -8242,6 +8405,8 @@ class Volume {
 /// and where it's stored. If this parameter is empty, then the Docker daemon
 /// assigns a host path for your data volume. However, the data isn't guaranteed
 /// to persist after the containers that are associated with it stop running.
+///
+/// @nodoc
 class Host {
   /// The path on the host container instance that's presented to the container.
   /// If this parameter is empty, then the Docker daemon has assigned a host path
@@ -8278,6 +8443,8 @@ class Host {
 /// job storage. For more information, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/efs-volumes.html">Amazon
 /// EFS Volumes</a> in the <i>Batch User Guide</i>.
+///
+/// @nodoc
 class EFSVolumeConfiguration {
   /// The Amazon EFS file system ID to use.
   final String fileSystemId;
@@ -8355,6 +8522,8 @@ class EFSVolumeConfiguration {
 }
 
 /// This is used when you're using an S3Files file system for job storage.
+///
+/// @nodoc
 class S3FilesVolumeConfiguration {
   /// The Amazon Resource Name (ARN) of the S3Files file system to use.
   final String fileSystemArn;
@@ -8400,6 +8569,7 @@ class S3FilesVolumeConfiguration {
   }
 }
 
+/// @nodoc
 class EFSTransitEncryption {
   static const enabled = EFSTransitEncryption._('ENABLED');
   static const disabled = EFSTransitEncryption._('DISABLED');
@@ -8426,6 +8596,8 @@ class EFSTransitEncryption {
 }
 
 /// The authorization configuration details for the Amazon EFS file system.
+///
+/// @nodoc
 class EFSAuthorizationConfig {
   /// The Amazon EFS access point ID to use. If an access point is specified, the
   /// root directory value specified in the <code>EFSVolumeConfiguration</code>
@@ -8471,6 +8643,7 @@ class EFSAuthorizationConfig {
   }
 }
 
+/// @nodoc
 class EFSAuthorizationConfigIAM {
   static const enabled = EFSAuthorizationConfigIAM._('ENABLED');
   static const disabled = EFSAuthorizationConfigIAM._('DISABLED');
@@ -8496,6 +8669,7 @@ class EFSAuthorizationConfigIAM {
   String toString() => value;
 }
 
+/// @nodoc
 class AssignPublicIp {
   static const enabled = AssignPublicIp._('ENABLED');
   static const disabled = AssignPublicIp._('DISABLED');
@@ -8522,6 +8696,8 @@ class AssignPublicIp {
 
 /// Container properties are used for Amazon ECS-based job definitions. These
 /// properties to describe the container that's launched as part of a job.
+///
+/// @nodoc
 class TaskContainerProperties {
   /// The image used to start a container. This string is passed directly to the
   /// Docker daemon. By default, images in the Docker Hub registry are available.
@@ -8909,6 +9085,8 @@ class TaskContainerProperties {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html">Custom
 /// log</a> routing in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class FirelensConfiguration {
   /// The log router to use. The valid values are <code>fluentd</code> or
   /// <code>fluentbit</code>.
@@ -8951,6 +9129,8 @@ class FirelensConfiguration {
 
 /// Linux-specific modifications that are applied to the container, such as
 /// details for device mappings.
+///
+/// @nodoc
 class LinuxParameters {
   /// Any of the host devices to expose to the container. This parameter maps to
   /// <code>Devices</code> in the <a
@@ -9104,6 +9284,8 @@ class LinuxParameters {
 }
 
 /// Log configuration options to send to a custom log driver for the container.
+///
+/// @nodoc
 class LogConfiguration {
   /// The log driver to use for the container. The valid values that are listed
   /// for this parameter are log drivers that the Amazon ECS container agent can
@@ -9217,6 +9399,8 @@ class LogConfiguration {
 }
 
 /// The repository credentials for private registry authentication.
+///
+/// @nodoc
 class RepositoryCredentials {
   /// The Amazon Resource Name (ARN) of the secret containing the private
   /// repository credentials.
@@ -9246,6 +9430,8 @@ class RepositoryCredentials {
 /// <note>
 /// This object isn't applicable to jobs that are running on Fargate resources.
 /// </note>
+///
+/// @nodoc
 class Ulimit {
   /// The hard limit for the <code>ulimit</code> type.
   final int hardLimit;
@@ -9303,6 +9489,8 @@ class Ulimit {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
 /// sensitive data</a> in the <i>Batch User Guide</i>.
+///
+/// @nodoc
 class Secret {
   /// The name of the secret.
   final String name;
@@ -9346,6 +9534,8 @@ class Secret {
 /// href="https://docs.docker.com/engine/api/v1.43/#tag/Container/operation/ContainerCreate">Create
 /// a container</a> section of the <i>Docker Remote API</i> and the
 /// <code>--volume</code> option to docker run.
+///
+/// @nodoc
 class MountPoint {
   /// The path on the container where the host volume is mounted.
   final String? containerPath;
@@ -9384,6 +9574,7 @@ class MountPoint {
   }
 }
 
+/// @nodoc
 class LogDriver {
   static const jsonFile = LogDriver._('json-file');
   static const syslog = LogDriver._('syslog');
@@ -9426,6 +9617,8 @@ class LogDriver {
 /// <note>
 /// This object isn't applicable to jobs that are running on Fargate resources.
 /// </note>
+///
+/// @nodoc
 class Tmpfs {
   /// The absolute file path in the container where the <code>tmpfs</code> volume
   /// is mounted.
@@ -9485,6 +9678,8 @@ class Tmpfs {
 /// This object isn't applicable to jobs that are running on Fargate resources
 /// and shouldn't be provided.
 /// </note>
+///
+/// @nodoc
 class Device {
   /// The path for the device on the host container instance.
   final String hostPath;
@@ -9528,6 +9723,7 @@ class Device {
   }
 }
 
+/// @nodoc
 class DeviceCgroupPermission {
   static const read = DeviceCgroupPermission._('READ');
   static const write = DeviceCgroupPermission._('WRITE');
@@ -9554,6 +9750,7 @@ class DeviceCgroupPermission {
   String toString() => value;
 }
 
+/// @nodoc
 class FirelensConfigurationType {
   static const fluentd = FirelensConfigurationType._('fluentd');
   static const fluentbit = FirelensConfigurationType._('fluentbit');
@@ -9580,6 +9777,8 @@ class FirelensConfigurationType {
 }
 
 /// A list of containers that this task depends on.
+///
+/// @nodoc
 class TaskContainerDependency {
   /// The dependency condition of the container. The following are the available
   /// conditions and their behavior:
@@ -9630,6 +9829,8 @@ class TaskContainerDependency {
 }
 
 /// The properties for the pod.
+///
+/// @nodoc
 class EksPodProperties {
   /// The properties of the container that's used on the Amazon EKS pod.
   /// <note>
@@ -9770,6 +9971,8 @@ class EksPodProperties {
 }
 
 /// Specifies an Amazon EKS volume for a job definition.
+///
+/// @nodoc
 class EksVolume {
   /// The name of the volume. The name must be allowed as a DNS subdomain name.
   /// For more information, see <a
@@ -9851,6 +10054,8 @@ class EksVolume {
 /// host node's filesystem into your pod. For more information, see <a
 /// href="https://kubernetes.io/docs/concepts/storage/volumes/#hostpath">hostPath</a>
 /// in the <i>Kubernetes documentation</i>.
+///
+/// @nodoc
 class EksHostPath {
   /// The path of the file or directory on the host to mount into containers on
   /// the pod.
@@ -9885,6 +10090,8 @@ class EksHostPath {
 /// information, see <a
 /// href="https://kubernetes.io/docs/concepts/storage/volumes/#emptydir">emptyDir</a>
 /// in the <i>Kubernetes documentation</i>.
+///
+/// @nodoc
 class EksEmptyDir {
   /// The medium to store the volume. The default value is an empty string, which
   /// uses the storage of the node.
@@ -9926,6 +10133,8 @@ class EksEmptyDir {
 /// more information, see <a
 /// href="https://kubernetes.io/docs/concepts/storage/volumes/#secret">secret</a>
 /// in the <i>Kubernetes documentation</i>.
+///
+/// @nodoc
 class EksSecret {
   /// The name of the secret. The name must be allowed as a DNS subdomain name.
   /// For more information, see <a
@@ -9965,6 +10174,8 @@ class EksSecret {
 /// the information about <a
 /// href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">PersistentVolumes</a>
 /// in the <i>Kubernetes documentation</i>.
+///
+/// @nodoc
 class EksPersistentVolumeClaim {
   /// The name of the <code>persistentVolumeClaim</code> bounded to a
   /// <code>persistentVolume</code>. For more information, see <a
@@ -10004,6 +10215,8 @@ class EksPersistentVolumeClaim {
 /// job definitions to describe the properties for a container node in the pod
 /// that's launched as part of a job. This can't be specified for Amazon ECS
 /// based job definitions.
+///
+/// @nodoc
 class EksContainer {
   /// The Docker image used to start the container.
   final String image;
@@ -10165,6 +10378,8 @@ class EksContainer {
 /// href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Configure
 /// a security context for a pod or container</a> in the <i>Kubernetes
 /// documentation</i>.
+///
+/// @nodoc
 class EksContainerSecurityContext {
   /// Whether or not a container or a Kubernetes pod is allowed to gain more
   /// privileges than its parent process. The default value is <code>false</code>.
@@ -10255,6 +10470,8 @@ class EksContainerSecurityContext {
 /// information about volumes and volume mounts in Kubernetes, see <a
 /// href="https://kubernetes.io/docs/concepts/storage/volumes/">Volumes</a> in
 /// the <i>Kubernetes documentation</i>.
+///
+/// @nodoc
 class EksContainerVolumeMount {
   /// The path on the container where the volume is mounted.
   final String? mountPath;
@@ -10305,6 +10522,8 @@ class EksContainerVolumeMount {
 /// and end with an alphanumeric character, is required to be lowercase, can
 /// include periods (.) and hyphens (-), and can't contain more than 253
 /// characters.
+///
+/// @nodoc
 class ImagePullSecret {
   /// Provides a unique identifier for the <code>ImagePullSecret</code>. This
   /// object is required when <code>EksPodProperties$imagePullSecrets</code> is
@@ -10329,6 +10548,7 @@ class ImagePullSecret {
   }
 }
 
+/// @nodoc
 class PlatformCapability {
   static const ec2 = PlatformCapability._('EC2');
   static const fargate = PlatformCapability._('FARGATE');
@@ -10356,6 +10576,8 @@ class PlatformCapability {
 
 /// This is an object that represents the properties of the node range for a
 /// multi-node parallel job.
+///
+/// @nodoc
 class NodeRangeProperty {
   /// The range of nodes, using node index values. A range of <code>0:3</code>
   /// indicates nodes with index values of <code>0</code> through <code>3</code>.
@@ -10448,6 +10670,8 @@ class NodeRangeProperty {
 
 /// The platform configuration for jobs that are running on Fargate resources.
 /// Jobs that run on Amazon EC2 resources must not specify this parameter.
+///
+/// @nodoc
 class FargatePlatformConfiguration {
   /// The Fargate platform version where the jobs are running. A platform version
   /// is specified only for jobs that are running on Fargate resources. If one
@@ -10478,6 +10702,8 @@ class FargatePlatformConfiguration {
 }
 
 /// Summary information about a service job.
+///
+/// @nodoc
 class ServiceJobSummary {
   /// The job ID for the service job.
   final String jobId;
@@ -10607,6 +10833,8 @@ class ServiceJobSummary {
 /// Information about the latest attempt of a service job. A Service job can
 /// transition from <code>SCHEDULED</code> back to <code>RUNNABLE</code> state
 /// when they encounter capacity constraints.
+///
+/// @nodoc
 class LatestServiceJobAttempt {
   /// The service resource identifier associated with the service job attempt.
   final ServiceResourceId? serviceResourceId;
@@ -10632,6 +10860,7 @@ class LatestServiceJobAttempt {
   }
 }
 
+/// @nodoc
 class ServiceJobStatus {
   static const submitted = ServiceJobStatus._('SUBMITTED');
   static const pending = ServiceJobStatus._('PENDING');
@@ -10673,6 +10902,8 @@ class ServiceJobStatus {
 
 /// The capacity usage for a service job, including the unit of measure and
 /// quantity of resources being used.
+///
+/// @nodoc
 class ServiceJobCapacityUsageSummary {
   /// The unit of measure for the service job capacity usage. For service jobs,
   /// this is the instance type.
@@ -10705,6 +10936,8 @@ class ServiceJobCapacityUsageSummary {
 }
 
 /// The Batch unique identifier.
+///
+/// @nodoc
 class ServiceResourceId {
   /// The name of the resource identifier.
   final ServiceResourceIdName name;
@@ -10734,6 +10967,7 @@ class ServiceResourceId {
   }
 }
 
+/// @nodoc
 class ServiceResourceIdName {
   static const trainingJobArn = ServiceResourceIdName._('TrainingJobArn');
 
@@ -10761,6 +10995,8 @@ class ServiceResourceIdName {
 /// A filter name and value pair that's used to return a more specific list of
 /// results from a <code>ListJobs</code> or
 /// <code>ListJobsByConsumableResource</code> API operation.
+///
+/// @nodoc
 class KeyValuesPair {
   /// The name of the filter. Filter names are case sensitive.
   final String? name;
@@ -10785,6 +11021,8 @@ class KeyValuesPair {
 
 /// An object that contains the details of a scheduling policy that's returned
 /// in a <code>ListSchedulingPolicy</code> action.
+///
+/// @nodoc
 class SchedulingPolicyListingDetail {
   /// Amazon Resource Name (ARN) of the scheduling policy.
   final String arn;
@@ -10809,6 +11047,8 @@ class SchedulingPolicyListingDetail {
 
 /// Detailed information about a quota share, including its configuration,
 /// state, and capacity limits.
+///
+/// @nodoc
 class QuotaShareDetail {
   /// A list that specifies the quantity and type of compute capacity allocated to
   /// the quota share.
@@ -10895,6 +11135,7 @@ class QuotaShareDetail {
   }
 }
 
+/// @nodoc
 class QuotaShareStatus {
   static const creating = QuotaShareStatus._('CREATING');
   static const valid = QuotaShareStatus._('VALID');
@@ -10923,6 +11164,8 @@ class QuotaShareStatus {
 }
 
 /// Current information about a consumable resource required by a job.
+///
+/// @nodoc
 class ListJobsByConsumableResourceSummary {
   /// Contains a list of consumable resources required by the job.
   final ConsumableResourceProperties consumableResourceProperties;
@@ -11047,6 +11290,8 @@ class ListJobsByConsumableResourceSummary {
 }
 
 /// An object that represents summary details of a job.
+///
+/// @nodoc
 class JobSummary {
   /// The job ID.
   final String jobId;
@@ -11198,6 +11443,7 @@ class JobSummary {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const pending = JobStatus._('PENDING');
@@ -11235,6 +11481,8 @@ class JobStatus {
 }
 
 /// An object that represents summary details of a container within a job.
+///
+/// @nodoc
 class ContainerSummary {
   /// The exit code to return upon completion.
   final int? exitCode;
@@ -11266,6 +11514,8 @@ class ContainerSummary {
 }
 
 /// An object that represents the array properties of a job.
+///
+/// @nodoc
 class ArrayPropertiesSummary {
   /// The job index within the array that's associated with this job. This
   /// parameter is returned for children of array jobs.
@@ -11316,6 +11566,8 @@ class ArrayPropertiesSummary {
 
 /// An object that represents the properties of a node that's associated with a
 /// multi-node parallel job.
+///
+/// @nodoc
 class NodePropertiesSummary {
   /// Specifies whether the current node is the main node for a multi-node
   /// parallel job.
@@ -11357,6 +11609,8 @@ class NodePropertiesSummary {
 
 /// The capacity usage for a job, including the unit of measure and quantity of
 /// resources being used.
+///
+/// @nodoc
 class JobCapacityUsageSummary {
   /// The unit of measure for the capacity usage. This is <code>VCPU</code> for
   /// Amazon EC2 and <code>cpu</code> for Amazon EKS.
@@ -11389,6 +11643,8 @@ class JobCapacityUsageSummary {
 }
 
 /// Current information about a consumable resource.
+///
+/// @nodoc
 class ConsumableResourceSummary {
   /// The Amazon Resource Name (ARN) of the consumable resource.
   final String consumableResourceArn;
@@ -11451,6 +11707,8 @@ class ConsumableResourceSummary {
 
 /// Contains a list of the first 100 <code>RUNNABLE</code> jobs associated to a
 /// single job queue.
+///
+/// @nodoc
 class FrontOfQueueDetail {
   /// The Amazon Resource Names (ARNs) of the first 100 <code>RUNNABLE</code> jobs
   /// in a named job queue. For first-in-first-out (FIFO) job queues, jobs are
@@ -11490,6 +11748,8 @@ class FrontOfQueueDetail {
 
 /// An object that represents the details of the first <code>RUNNABLE</code> job
 /// in each named quota share associated with a single job queue.
+///
+/// @nodoc
 class FrontOfQuotaSharesDetail {
   /// The Unix timestamp (in milliseconds) for when the first
   /// <code>RUNNABLE</code> job per quota share were all last updated.
@@ -11531,6 +11791,8 @@ class FrontOfQuotaSharesDetail {
 /// The job queue utilization at a specific point in time, including total
 /// capacity usage, and quota share or fairshare utilization breakdown depending
 /// on the job queue scheduling policy.
+///
+/// @nodoc
 class QueueSnapshotUtilizationDetail {
   /// The utilization information for a fairshare scheduling job queues, including
   /// active share count and top capacity utilization by share.
@@ -11591,6 +11853,8 @@ class QueueSnapshotUtilizationDetail {
 
 /// The fairshare utilization for a job queue, including the number of active
 /// shares and top capacity utilization.
+///
+/// @nodoc
 class FairshareUtilizationDetail {
   /// The total number of active shares in the fairshare scheduling job queue that
   /// are currently utilizing capacity.
@@ -11629,6 +11893,8 @@ class FairshareUtilizationDetail {
 
 /// An object that represents the capacity utilization details of all quota
 /// shares associated with a single job queue.
+///
+/// @nodoc
 class QuotaShareUtilizationDetail {
   /// A list of the top capacity utilizations across quota shares associated with
   /// a job queue.
@@ -11659,6 +11925,8 @@ class QuotaShareUtilizationDetail {
 
 /// The capacity utilization for a specific quota share, including the quota
 /// share name and its current usage.
+///
+/// @nodoc
 class QuotaShareCapacityUtilization {
   /// The capacity usage information for this quota share, including the units of
   /// compute capacity and quantity being used.
@@ -11695,6 +11963,8 @@ class QuotaShareCapacityUtilization {
 
 /// The capacity usage for a quota share, including units of compute capacity
 /// and quantity of resources being used.
+///
+/// @nodoc
 class QuotaShareCapacityUsage {
   /// The unit of compute capacity for the capacity usage.
   final String? capacityUnit;
@@ -11726,6 +11996,8 @@ class QuotaShareCapacityUsage {
 
 /// The capacity utilization for a specific share in a fairshare scheduling job
 /// queue, including the share identifier and its current usage.
+///
+/// @nodoc
 class FairshareCapacityUtilization {
   /// The capacity usage information for this share, including the unit of measure
   /// and quantity being used. This is <code>VCPU</code> for Amazon EC2 and
@@ -11762,6 +12034,8 @@ class FairshareCapacityUtilization {
 }
 
 /// The capacity usage for a fairshare scheduling job queue.
+///
+/// @nodoc
 class FairshareCapacityUsage {
   /// The unit of measure for the capacity usage. For compute jobs, this is
   /// <code>VCPU</code> for Amazon EC2 and <code>cpu</code> for Amazon EKS. For
@@ -11796,6 +12070,8 @@ class FairshareCapacityUsage {
 
 /// The configured capacity usage for a job queue snapshot, including the unit
 /// of measure and quantity of resources being used.
+///
+/// @nodoc
 class QueueSnapshotCapacityUsage {
   /// The unit of measure for the capacity usage. For compute jobs, this is
   /// <code>VCPU</code> for Amazon EC2 and <code>cpu</code> for Amazon EKS. For
@@ -11830,6 +12106,8 @@ class QueueSnapshotCapacityUsage {
 
 /// An object that represents summary details for the first
 /// <code>RUNNABLE</code> job in a quota share.
+///
+/// @nodoc
 class FrontOfQuotaShareJobSummary {
   /// The Unix timestamp (in milliseconds) for when the job transitioned to its
   /// current position in the quota share.
@@ -11863,6 +12141,8 @@ class FrontOfQuotaShareJobSummary {
 
 /// An object that represents summary details for the first 100
 /// <code>RUNNABLE</code> jobs in a job queue.
+///
+/// @nodoc
 class FrontOfQueueJobSummary {
   /// The Unix timestamp (in milliseconds) for when the job transitioned to its
   /// current position in the job queue.
@@ -11896,6 +12176,8 @@ class FrontOfQueueJobSummary {
 
 /// Summarizes the preemptions of the service job. This field appears on a
 /// service job when it has been preempted.
+///
+/// @nodoc
 class ServiceJobPreemptionSummary {
   /// The total number of times the service job has been preempted.
   final int? preemptedAttemptCount;
@@ -11932,6 +12214,8 @@ class ServiceJobPreemptionSummary {
 }
 
 /// Detailed information about a preempted attempt of a service job.
+///
+/// @nodoc
 class ServiceJobPreemptedAttempt {
   /// The service resource identifier associated with the service job attempt.
   final ServiceResourceId? serviceResourceId;
@@ -11983,6 +12267,8 @@ class ServiceJobPreemptedAttempt {
 
 /// The capacity usage for a service job, including the unit of measure and
 /// quantity of resources being consumed.
+///
+/// @nodoc
 class ServiceJobCapacityUsageDetail {
   /// The unit of measure for the service job capacity usage. For service jobs,
   /// this is the instance type.
@@ -12015,6 +12301,8 @@ class ServiceJobCapacityUsageDetail {
 }
 
 /// Detailed information about an attempt to run a service job.
+///
+/// @nodoc
 class ServiceJobAttemptDetail {
   /// The service resource identifier associated with the service job attempt.
   final ServiceResourceId? serviceResourceId;
@@ -12066,6 +12354,8 @@ class ServiceJobAttemptDetail {
 
 /// Detailed information about a service environment, including its
 /// configuration, state, and capacity limits.
+///
+/// @nodoc
 class ServiceEnvironmentDetail {
   /// The capacity limits for the service environment. This defines the maximum
   /// resources that can be used by service jobs in this environment.
@@ -12143,6 +12433,7 @@ class ServiceEnvironmentDetail {
   }
 }
 
+/// @nodoc
 class ServiceEnvironmentType {
   static const sagemakerTraining =
       ServiceEnvironmentType._('SAGEMAKER_TRAINING');
@@ -12168,6 +12459,7 @@ class ServiceEnvironmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class ServiceEnvironmentStatus {
   static const creating = ServiceEnvironmentStatus._('CREATING');
   static const updating = ServiceEnvironmentStatus._('UPDATING');
@@ -12198,6 +12490,8 @@ class ServiceEnvironmentStatus {
 }
 
 /// An object that represents a scheduling policy.
+///
+/// @nodoc
 class SchedulingPolicyDetail {
   /// The Amazon Resource Name (ARN) of the scheduling policy. An example is
   /// <code>arn:<i>aws</i>:batch:<i>us-east-1</i>:<i>123456789012</i>:scheduling-policy/<i>HighPriority</i>
@@ -12263,6 +12557,8 @@ class SchedulingPolicyDetail {
 }
 
 /// An object that represents an Batch job.
+///
+/// @nodoc
 class JobDetail {
   /// The Amazon Resource Name (ARN) of the job definition that this job uses.
   final String jobDefinition;
@@ -12586,6 +12882,8 @@ class JobDetail {
 }
 
 /// An object that represents the details of a container that's part of a job.
+///
+/// @nodoc
 class ContainerDetail {
   /// The command that's passed to the container.
   final List<String>? command;
@@ -12984,6 +13282,8 @@ class ContainerDetail {
 }
 
 /// An object that represents the details of a multi-node parallel job node.
+///
+/// @nodoc
 class NodeDetails {
   /// Specifies whether the current node is the main node for a multi-node
   /// parallel job.
@@ -13017,6 +13317,8 @@ class NodeDetails {
 }
 
 /// An object that represents the array properties of a job.
+///
+/// @nodoc
 class ArrayPropertiesDetail {
   /// The job index within the array that's associated with this job. This
   /// parameter is returned for array job children.
@@ -13066,6 +13368,8 @@ class ArrayPropertiesDetail {
 }
 
 /// An object that contains the details for the Kubernetes resources of a job.
+///
+/// @nodoc
 class EksPropertiesDetail {
   /// The properties for the Kubernetes pod resources of a job.
   final EksPodPropertiesDetail? podProperties;
@@ -13092,6 +13396,8 @@ class EksPropertiesDetail {
 }
 
 /// An object that contains the details for the Amazon ECS resources of a job.
+///
+/// @nodoc
 class EcsPropertiesDetail {
   /// The properties for the Amazon ECS task definition of a job.
   final List<EcsTaskDetails>? taskProperties;
@@ -13119,6 +13425,8 @@ class EcsPropertiesDetail {
 
 /// The details of a task definition that describes the container and volume
 /// definitions of an Amazon ECS task.
+///
+/// @nodoc
 class EcsTaskDetails {
   /// The Amazon Resource Name (ARN) of the container instance that hosts the
   /// task.
@@ -13268,6 +13576,8 @@ class EcsTaskDetails {
 }
 
 /// The details for the container in this task attempt.
+///
+/// @nodoc
 class TaskContainerDetails {
   /// The command that's passed to the container. This parameter maps to
   /// <code>Cmd</code> in the <a
@@ -13688,6 +13998,8 @@ class TaskContainerDetails {
 
 /// An object that represents the elastic network interface for a multi-node
 /// parallel job node.
+///
+/// @nodoc
 class NetworkInterface {
   /// The attachment ID for the network interface.
   final String? attachmentId;
@@ -13726,6 +14038,8 @@ class NetworkInterface {
 
 /// An object that represents the details of a job attempt for a job attempt by
 /// an Amazon EKS container.
+///
+/// @nodoc
 class EksAttemptDetail {
   /// The details for the final status of the containers for this job attempt.
   final List<EksAttemptContainerDetail>? containers;
@@ -13819,6 +14133,8 @@ class EksAttemptDetail {
 
 /// An object that represents the details for an attempt for a job attempt that
 /// an Amazon EKS container runs.
+///
+/// @nodoc
 class EksAttemptContainerDetail {
   /// The ID for the container.
   final String? containerID;
@@ -13865,6 +14181,8 @@ class EksAttemptContainerDetail {
 }
 
 /// The details for the pod.
+///
+/// @nodoc
 class EksPodPropertiesDetail {
   /// The properties of the container that's used on the Amazon EKS pod.
   final List<EksContainerDetail>? containers;
@@ -14019,6 +14337,8 @@ class EksPodPropertiesDetail {
 
 /// The details for container properties that are returned by
 /// <code>DescribeJobs</code> for jobs that use Amazon EKS.
+///
+/// @nodoc
 class EksContainerDetail {
   /// An array of arguments to the entrypoint. If this isn't specified, the
   /// <code>CMD</code> of the container image is used. This corresponds to the
@@ -14175,6 +14495,8 @@ class EksContainerDetail {
 }
 
 /// An object that represents a job attempt.
+///
+/// @nodoc
 class AttemptDetail {
   /// The details for the container in this job attempt.
   final AttemptContainerDetail? container;
@@ -14239,6 +14561,8 @@ class AttemptDetail {
 
 /// An object that represents the details of a container that's part of a job
 /// attempt.
+///
+/// @nodoc
 class AttemptContainerDetail {
   /// The Amazon Resource Name (ARN) of the Amazon ECS container instance that
   /// hosts the job attempt.
@@ -14309,6 +14633,8 @@ class AttemptContainerDetail {
 }
 
 /// An object that represents the details of a task.
+///
+/// @nodoc
 class AttemptEcsTaskDetails {
   /// The Amazon Resource Name (ARN) of the container instance that hosts the
   /// task.
@@ -14354,6 +14680,8 @@ class AttemptEcsTaskDetails {
 
 /// An object that represents the details of a container that's part of a job
 /// attempt.
+///
+/// @nodoc
 class AttemptTaskContainerDetails {
   /// The exit code for the container’s attempt. A non-zero exit code is
   /// considered failed.
@@ -14413,6 +14741,8 @@ class AttemptTaskContainerDetails {
 }
 
 /// An object that represents the details for an Batch job queue.
+///
+/// @nodoc
 class JobQueueDetail {
   /// The compute environments that are attached to the job queue and the order
   /// that job placement is preferred. Compute environments are selected for job
@@ -14572,6 +14902,7 @@ class JobQueueDetail {
   }
 }
 
+/// @nodoc
 class JQStatus {
   static const creating = JQStatus._('CREATING');
   static const updating = JQStatus._('UPDATING');
@@ -14599,6 +14930,7 @@ class JQStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class JobQueueType {
   static const eks = JobQueueType._('EKS');
   static const ecs = JobQueueType._('ECS');
@@ -14625,6 +14957,8 @@ class JobQueueType {
 }
 
 /// An object that represents an Batch job definition.
+///
+/// @nodoc
 class JobDefinition {
   /// The Amazon Resource Name (ARN) for the job definition.
   final String jobDefinitionArn;
@@ -14838,6 +15172,7 @@ class JobDefinition {
   }
 }
 
+/// @nodoc
 class OrchestrationType {
   static const ecs = OrchestrationType._('ECS');
   static const eks = OrchestrationType._('EKS');
@@ -14863,6 +15198,8 @@ class OrchestrationType {
 }
 
 /// An object that represents an Batch compute environment.
+///
+/// @nodoc
 class ComputeEnvironmentDetail {
   /// The Amazon Resource Name (ARN) of the compute environment.
   final String computeEnvironmentArn;
@@ -15048,6 +15385,7 @@ class ComputeEnvironmentDetail {
   }
 }
 
+/// @nodoc
 class CEType {
   static const managed = CEType._('MANAGED');
   static const unmanaged = CEType._('UNMANAGED');
@@ -15071,6 +15409,7 @@ class CEType {
   String toString() => value;
 }
 
+/// @nodoc
 class CEStatus {
   static const creating = CEStatus._('CREATING');
   static const updating = CEStatus._('UPDATING');
@@ -15102,6 +15441,8 @@ class CEStatus {
 /// see <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
 /// environments</a> in the <i>Batch User Guide</i>.
+///
+/// @nodoc
 class ComputeResource {
   /// The maximum number of vCPUs that a compute environment can support.
   /// <note>
@@ -15539,6 +15880,8 @@ class ComputeResource {
 /// Configuration for the Amazon EKS cluster that supports the Batch compute
 /// environment. The cluster must exist before the compute environment can be
 /// created.
+///
+/// @nodoc
 class EksConfiguration {
   /// The Amazon Resource Name (ARN) of the Amazon EKS cluster. An example is
   /// <code>arn:<i>aws</i>:eks:<i>us-east-1</i>:<i>123456789012</i>:cluster/<i>ClusterForBatch</i>
@@ -15549,7 +15892,8 @@ class EksConfiguration {
   /// namespace. The value can't left empty or null. It must be fewer than 64
   /// characters long, can't be set to <code>default</code>, can't start with
   /// "<code>kube-</code>," and must match this regular expression:
-  /// <code>^[a-z0-9]([-a-z0-9]*[a-z0-9])?$</code>. For more information, see <a
+  /// <code>^\[a-z0-9\](\[-a-z0-9\]*\[a-z0-9\])?$</code>. For more information,
+  /// see <a
   /// href="https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/">Namespaces</a>
   /// in the Kubernetes documentation.
   final String kubernetesNamespace;
@@ -15576,6 +15920,7 @@ class EksConfiguration {
   }
 }
 
+/// @nodoc
 class CRAllocationStrategy {
   static const bestFit = CRAllocationStrategy._('BEST_FIT');
   static const bestFitProgressive =
@@ -15611,11 +15956,13 @@ class CRAllocationStrategy {
   String toString() => value;
 }
 
+/// @nodoc
 class ClientException extends _s.GenericAwsException {
   ClientException({String? type, String? message})
       : super(type: type, code: 'ClientException', message: message);
 }
 
+/// @nodoc
 class ServerException extends _s.GenericAwsException {
   ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);

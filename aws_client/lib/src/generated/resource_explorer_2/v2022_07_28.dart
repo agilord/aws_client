@@ -1538,6 +1538,7 @@ class ResourceExplorer2 {
   }
 }
 
+/// @nodoc
 class BatchGetViewOutput {
   /// If any of the specified ARNs result in an error, then this structure
   /// describes the error.
@@ -1575,6 +1576,7 @@ class BatchGetViewOutput {
   }
 }
 
+/// @nodoc
 class CreateResourceExplorerSetupOutput {
   /// The unique identifier for the setup task. Use this ID with
   /// <code>GetResourceExplorerSetup</code> to monitor the progress of the
@@ -1600,6 +1602,7 @@ class CreateResourceExplorerSetupOutput {
   }
 }
 
+/// @nodoc
 class DeleteResourceExplorerSetupOutput {
   /// The unique identifier for the deletion task. Use this ID with
   /// <code>GetResourceExplorerSetup</code> to monitor the progress of the
@@ -1625,6 +1628,7 @@ class DeleteResourceExplorerSetupOutput {
   }
 }
 
+/// @nodoc
 class GetAccountLevelServiceConfigurationOutput {
   /// Details about the organization, and whether configuration is
   /// <code>ENABLED</code> or <code>DISABLED</code>.
@@ -1652,6 +1656,7 @@ class GetAccountLevelServiceConfigurationOutput {
   }
 }
 
+/// @nodoc
 class GetDefaultViewOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1677,6 +1682,7 @@ class GetDefaultViewOutput {
   }
 }
 
+/// @nodoc
 class GetIndexOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -1770,6 +1776,7 @@ class GetIndexOutput {
   }
 }
 
+/// @nodoc
 class GetManagedViewOutput {
   /// Details about the specified managed view.
   final ManagedView? managedView;
@@ -1794,6 +1801,7 @@ class GetManagedViewOutput {
   }
 }
 
+/// @nodoc
 class GetResourceExplorerSetupOutput {
   /// The pagination token to use in a subsequent
   /// <code>GetResourceExplorerSetup</code> request to retrieve the next set of
@@ -1829,6 +1837,7 @@ class GetResourceExplorerSetupOutput {
   }
 }
 
+/// @nodoc
 class GetServiceIndexOutput {
   /// The Amazon Resource Name (ARN) of the Resource Explorer index in the current
   /// Region.
@@ -1861,6 +1870,7 @@ class GetServiceIndexOutput {
   }
 }
 
+/// @nodoc
 class GetServiceViewOutput {
   /// A <code>ServiceView</code> object that contains the details and
   /// configuration of the requested service view.
@@ -1885,6 +1895,7 @@ class GetServiceViewOutput {
   }
 }
 
+/// @nodoc
 class ListIndexesForMembersOutput {
   /// A structure that contains the details and status of each index.
   final List<MemberIndex>? indexes;
@@ -1922,6 +1933,7 @@ class ListIndexesForMembersOutput {
   }
 }
 
+/// @nodoc
 class ListManagedViewsOutput {
   /// The list of managed views available in the Amazon Web Services Region in
   /// which you called this operation.
@@ -1960,6 +1972,7 @@ class ListManagedViewsOutput {
   }
 }
 
+/// @nodoc
 class ListResourcesOutput {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -2005,6 +2018,7 @@ class ListResourcesOutput {
   }
 }
 
+/// @nodoc
 class ListServiceIndexesOutput {
   /// A list of <code>Index</code> objects that describe the Resource Explorer
   /// indexes found in the specified Regions.
@@ -2039,6 +2053,7 @@ class ListServiceIndexesOutput {
   }
 }
 
+/// @nodoc
 class ListServiceViewsOutput {
   /// The pagination token to use in a subsequent <code>ListServiceViews</code>
   /// request to retrieve the next set of results.
@@ -2073,6 +2088,7 @@ class ListServiceViewsOutput {
   }
 }
 
+/// @nodoc
 class ListStreamingAccessForServicesOutput {
   /// A list of Amazon Web Services services that have streaming access to your
   /// Resource Explorer data, including details about when the access was granted.
@@ -2114,6 +2130,7 @@ class ListStreamingAccessForServicesOutput {
   }
 }
 
+/// @nodoc
 class ListSupportedResourceTypesOutput {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -2151,6 +2168,7 @@ class ListSupportedResourceTypesOutput {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceOutput {
   /// The tag key and value pairs that you want to attach to the specified view or
   /// index.
@@ -2175,6 +2193,7 @@ class ListTagsForResourceOutput {
   }
 }
 
+/// @nodoc
 class SearchOutput {
   /// The number of resources that match the query.
   final ResourceCount? count;
@@ -2231,6 +2250,7 @@ class SearchOutput {
   }
 }
 
+/// @nodoc
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -2243,6 +2263,7 @@ class TagResourceOutput {
   }
 }
 
+/// @nodoc
 class UntagResourceOutput {
   UntagResourceOutput();
 
@@ -2255,6 +2276,7 @@ class UntagResourceOutput {
   }
 }
 
+/// @nodoc
 class CreateIndexOutput {
   /// The ARN of the new local index for the Region. You can reference this ARN in
   /// IAM permission policies to authorize the following operations:
@@ -2300,6 +2322,7 @@ class CreateIndexOutput {
   }
 }
 
+/// @nodoc
 class UpdateIndexTypeOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2346,6 +2369,7 @@ class UpdateIndexTypeOutput {
   }
 }
 
+/// @nodoc
 class DeleteIndexOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2389,6 +2413,7 @@ class DeleteIndexOutput {
   }
 }
 
+/// @nodoc
 class ListIndexesOutput {
   /// A structure that contains the details and status of each index.
   final List<Index>? indexes;
@@ -2426,6 +2451,7 @@ class ListIndexesOutput {
   }
 }
 
+/// @nodoc
 class CreateViewOutput {
   /// A structure that contains the details about the new view.
   final View? view;
@@ -2450,6 +2476,7 @@ class CreateViewOutput {
   }
 }
 
+/// @nodoc
 class GetViewOutput {
   /// Tag key and value pairs that are attached to the view.
   final Map<String, String>? tags;
@@ -2482,6 +2509,7 @@ class GetViewOutput {
   }
 }
 
+/// @nodoc
 class UpdateViewOutput {
   /// Details about the view that you changed with this operation.
   final View? view;
@@ -2506,6 +2534,7 @@ class UpdateViewOutput {
   }
 }
 
+/// @nodoc
 class DeleteViewOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2530,6 +2559,7 @@ class DeleteViewOutput {
   }
 }
 
+/// @nodoc
 class ListViewsOutput {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
@@ -2566,6 +2596,7 @@ class ListViewsOutput {
   }
 }
 
+/// @nodoc
 class AssociateDefaultViewOutput {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2599,6 +2630,8 @@ class AssociateDefaultViewOutput {
 /// that are tagged with the key "ENV" and the value "DEVELOPMENT" in the
 /// results returned by this view. You could also create a second view that
 /// includes only resources that are tagged with "ENV" and "PRODUCTION".
+///
+/// @nodoc
 class View {
   /// An array of <a>SearchFilter</a> objects that specify which resources can be
   /// included in the results of queries made using this view.
@@ -2681,6 +2714,8 @@ class View {
 
 /// A search filter defines which resources can be part of a search query result
 /// set.
+///
+/// @nodoc
 class SearchFilter {
   /// The string that contains the search keywords, prefixes, and operators to
   /// control the results that can be returned by a <a>Search</a> operation. For
@@ -2711,6 +2746,8 @@ class SearchFilter {
 /// can optionally include in the view. This lets you view that property in
 /// search results, and filter your search results based on the value of the
 /// property.
+///
+/// @nodoc
 class IncludedProperty {
   /// The name of the property that is included in this view.
   ///
@@ -2753,6 +2790,8 @@ class IncludedProperty {
 /// aggregator index receives a replicated copy of the index information from
 /// all other Regions where Resource Explorer is turned on. This allows search
 /// operations in that Region to return results from all Regions in the account.
+///
+/// @nodoc
 class Index {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2805,6 +2844,7 @@ class Index {
   }
 }
 
+/// @nodoc
 class IndexType {
   static const local = IndexType._('LOCAL');
   static const aggregator = IndexType._('AGGREGATOR');
@@ -2828,6 +2868,7 @@ class IndexType {
   String toString() => value;
 }
 
+/// @nodoc
 class IndexState {
   static const creating = IndexState._('CREATING');
   static const active = IndexState._('ACTIVE');
@@ -2860,6 +2901,8 @@ class IndexState {
 /// exceeded this limit.
 ///
 /// This field is included in every page when you paginate the results.
+///
+/// @nodoc
 class ResourceCount {
   /// Indicates whether the <code>TotalResources</code> value represents an
   /// exhaustive count of search results.
@@ -2908,6 +2951,8 @@ class ResourceCount {
 /// A resource in Amazon Web Services that Amazon Web Services Resource Explorer
 /// has discovered, and for which it has stored information in the index of the
 /// Amazon Web Services Region that contains the resource.
+///
+/// @nodoc
 class Resource {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
@@ -2983,6 +3028,8 @@ class Resource {
 }
 
 /// A structure that describes a property of a resource.
+///
+/// @nodoc
 class ResourceProperty {
   /// Details about this property. The content of this field is a JSON object that
   /// varies based on the resource type.
@@ -3026,6 +3073,8 @@ class ResourceProperty {
 
 /// A structure that describes a resource type supported by Amazon Web Services
 /// Resource Explorer.
+///
+/// @nodoc
 class SupportedResourceType {
   /// The unique identifier of the resource type.
   final String? resourceType;
@@ -3059,6 +3108,8 @@ class SupportedResourceType {
 
 /// Contains information about an Amazon Web Services service that has been
 /// granted streaming access to your Resource Explorer data.
+///
+/// @nodoc
 class StreamingAccessDetails {
   /// The date and time when streaming access was granted to the Amazon Web
   /// Services service, in ISO 8601 format.
@@ -3094,6 +3145,8 @@ class StreamingAccessDetails {
 /// An index is the data store used by Amazon Web Services Resource Explorer to
 /// hold information about your Amazon Web Services resources that the service
 /// discovers.
+///
+/// @nodoc
 class MemberIndex {
   /// The account ID for the index.
   final String? accountId;
@@ -3155,6 +3208,8 @@ class MemberIndex {
 
 /// Contains the configuration and properties of a Resource Explorer service
 /// view.
+///
+/// @nodoc
 class ServiceView {
   /// The Amazon Resource Name (ARN) of the service view.
   final String serviceViewArn;
@@ -3221,6 +3276,8 @@ class ServiceView {
 
 /// Contains information about the status of Resource Explorer configuration in
 /// a specific Amazon Web Services Region.
+///
+/// @nodoc
 class RegionStatus {
   /// The status information for the Resource Explorer index in this Region.
   final IndexStatus? index;
@@ -3263,6 +3320,8 @@ class RegionStatus {
 
 /// Contains information about the status of a Resource Explorer index operation
 /// in a specific Region.
+///
+/// @nodoc
 class IndexStatus {
   /// Details about any error that occurred during the index operation.
   final ErrorDetails? errorDetails;
@@ -3305,6 +3364,8 @@ class IndexStatus {
 
 /// Contains information about the status of a Resource Explorer view operation
 /// in a specific Region.
+///
+/// @nodoc
 class ViewStatus {
   /// Details about any error that occurred during the view operation.
   final ErrorDetails? errorDetails;
@@ -3345,6 +3406,7 @@ class ViewStatus {
   }
 }
 
+/// @nodoc
 class OperationStatus {
   static const succeeded = OperationStatus._('SUCCEEDED');
   static const failed = OperationStatus._('FAILED');
@@ -3373,6 +3435,8 @@ class OperationStatus {
 
 /// Contains information about an error that occurred during a Resource Explorer
 /// setup operation.
+///
+/// @nodoc
 class ErrorDetails {
   /// The error code that identifies the type of error that occurred.
   final String? code;
@@ -3408,6 +3472,8 @@ class ErrorDetails {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html">Managed
 /// views</a>.
+///
+/// @nodoc
 class ManagedView {
   final SearchFilter? filters;
 
@@ -3511,6 +3577,8 @@ class ManagedView {
 /// This is a structure that contains the status of Amazon Web Services service
 /// access, and whether you have a valid service-linked role to enable
 /// multi-account search for your organization.
+///
+/// @nodoc
 class OrgConfiguration {
   /// This value displays whether your Amazon Web Services service access is
   /// <code>ENABLED</code> or <code>DISABLED</code>.
@@ -3543,6 +3611,7 @@ class OrgConfiguration {
   }
 }
 
+/// @nodoc
 class AWSServiceAccessStatus {
   static const enabled = AWSServiceAccessStatus._('ENABLED');
   static const disabled = AWSServiceAccessStatus._('DISABLED');
@@ -3570,6 +3639,8 @@ class AWSServiceAccessStatus {
 
 /// A collection of error messages for any views that Amazon Web Services
 /// Resource Explorer couldn't retrieve details.
+///
+/// @nodoc
 class BatchGetViewError {
   /// The description of the error for the specified view.
   final String errorMessage;
@@ -3602,6 +3673,7 @@ class BatchGetViewError {
   }
 }
 
+/// @nodoc
 class Document {
   Document();
 
@@ -3614,26 +3686,31 @@ class Document {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3642,16 +3719,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedException extends _s.GenericAwsException {
   UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

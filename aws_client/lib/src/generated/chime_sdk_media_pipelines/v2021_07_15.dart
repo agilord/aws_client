@@ -1291,6 +1291,7 @@ class ChimeSdkMediaPipelines {
   }
 }
 
+/// @nodoc
 class CreateMediaCapturePipelineResponse {
   /// A media pipeline object, the ID, source type, source ARN, sink type, and
   /// sink ARN of a media pipeline object.
@@ -1319,6 +1320,7 @@ class CreateMediaCapturePipelineResponse {
   }
 }
 
+/// @nodoc
 class CreateMediaConcatenationPipelineResponse {
   /// A media concatenation pipeline object, the ID, source type,
   /// <code>MediaPipelineARN</code>, and sink of a media concatenation pipeline
@@ -1348,6 +1350,7 @@ class CreateMediaConcatenationPipelineResponse {
   }
 }
 
+/// @nodoc
 class CreateMediaInsightsPipelineResponse {
   /// The media insights pipeline object.
   final MediaInsightsPipeline mediaInsightsPipeline;
@@ -1373,6 +1376,7 @@ class CreateMediaInsightsPipelineResponse {
   }
 }
 
+/// @nodoc
 class CreateMediaInsightsPipelineConfigurationResponse {
   /// The configuration settings for the media insights pipeline.
   final MediaInsightsPipelineConfiguration? mediaInsightsPipelineConfiguration;
@@ -1404,6 +1408,7 @@ class CreateMediaInsightsPipelineConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateMediaLiveConnectorPipelineResponse {
   /// The new media live connector pipeline.
   final MediaLiveConnectorPipeline? mediaLiveConnectorPipeline;
@@ -1431,6 +1436,7 @@ class CreateMediaLiveConnectorPipelineResponse {
   }
 }
 
+/// @nodoc
 class CreateMediaPipelineKinesisVideoStreamPoolResponse {
   /// The configuration for applying the streams to the pool.
   /// <note>
@@ -1466,6 +1472,7 @@ class CreateMediaPipelineKinesisVideoStreamPoolResponse {
   }
 }
 
+/// @nodoc
 class CreateMediaStreamPipelineResponse {
   /// The requested media pipeline.
   final MediaStreamPipeline? mediaStreamPipeline;
@@ -1493,6 +1500,7 @@ class CreateMediaStreamPipelineResponse {
   }
 }
 
+/// @nodoc
 class GetMediaCapturePipelineResponse {
   /// The media pipeline object.
   final MediaCapturePipeline? mediaCapturePipeline;
@@ -1519,6 +1527,7 @@ class GetMediaCapturePipelineResponse {
   }
 }
 
+/// @nodoc
 class GetMediaInsightsPipelineConfigurationResponse {
   /// The requested media insights pipeline configuration.
   final MediaInsightsPipelineConfiguration? mediaInsightsPipelineConfiguration;
@@ -1550,6 +1559,7 @@ class GetMediaInsightsPipelineConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetMediaPipelineResponse {
   /// The media pipeline object.
   final MediaPipeline? mediaPipeline;
@@ -1575,6 +1585,7 @@ class GetMediaPipelineResponse {
   }
 }
 
+/// @nodoc
 class GetMediaPipelineKinesisVideoStreamPoolResponse {
   /// The video stream pool configuration object.
   final KinesisVideoStreamPoolConfiguration?
@@ -1607,6 +1618,7 @@ class GetMediaPipelineKinesisVideoStreamPoolResponse {
   }
 }
 
+/// @nodoc
 class GetSpeakerSearchTaskResponse {
   /// The details of the speaker search task.
   final SpeakerSearchTask? speakerSearchTask;
@@ -1632,6 +1644,7 @@ class GetSpeakerSearchTaskResponse {
   }
 }
 
+/// @nodoc
 class GetVoiceToneAnalysisTaskResponse {
   /// The details of the voice tone analysis task.
   final VoiceToneAnalysisTask? voiceToneAnalysisTask;
@@ -1658,6 +1671,7 @@ class GetVoiceToneAnalysisTaskResponse {
   }
 }
 
+/// @nodoc
 class ListMediaCapturePipelinesResponse {
   /// The media pipeline objects in the list.
   final List<MediaCapturePipelineSummary>? mediaCapturePipelines;
@@ -1693,6 +1707,7 @@ class ListMediaCapturePipelinesResponse {
   }
 }
 
+/// @nodoc
 class ListMediaInsightsPipelineConfigurationsResponse {
   /// The requested list of media insights pipeline configurations.
   final List<MediaInsightsPipelineConfigurationSummary>?
@@ -1732,6 +1747,7 @@ class ListMediaInsightsPipelineConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListMediaPipelineKinesisVideoStreamPoolsResponse {
   /// The list of video stream pools.
   final List<KinesisVideoStreamPoolSummary>? kinesisVideoStreamPools;
@@ -1767,6 +1783,7 @@ class ListMediaPipelineKinesisVideoStreamPoolsResponse {
   }
 }
 
+/// @nodoc
 class ListMediaPipelinesResponse {
   /// The media pipeline objects in the list.
   final List<MediaPipelineSummary>? mediaPipelines;
@@ -1799,6 +1816,7 @@ class ListMediaPipelinesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// The tags associated with the specified media pipeline.
   final List<Tag>? tags;
@@ -1824,6 +1842,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartSpeakerSearchTaskResponse {
   /// The details of the speaker search task.
   final SpeakerSearchTask? speakerSearchTask;
@@ -1849,6 +1868,7 @@ class StartSpeakerSearchTaskResponse {
   }
 }
 
+/// @nodoc
 class StartVoiceToneAnalysisTaskResponse {
   /// The details of the voice tone analysis task.
   final VoiceToneAnalysisTask? voiceToneAnalysisTask;
@@ -1876,6 +1896,7 @@ class StartVoiceToneAnalysisTaskResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1888,6 +1909,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1900,6 +1922,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateMediaInsightsPipelineConfigurationResponse {
   /// The updated configuration settings.
   final MediaInsightsPipelineConfiguration? mediaInsightsPipelineConfiguration;
@@ -1931,6 +1954,7 @@ class UpdateMediaInsightsPipelineConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateMediaPipelineKinesisVideoStreamPoolResponse {
   /// The video stream pool configuration object.
   final KinesisVideoStreamPoolConfiguration?
@@ -1964,6 +1988,8 @@ class UpdateMediaPipelineKinesisVideoStreamPoolResponse {
 }
 
 /// The video stream pool configuration object.
+///
+/// @nodoc
 class KinesisVideoStreamPoolConfiguration {
   /// The time at which the configuration was created.
   final DateTime? createdTimestamp;
@@ -2043,6 +2069,7 @@ class KinesisVideoStreamPoolConfiguration {
   }
 }
 
+/// @nodoc
 class KinesisVideoStreamPoolStatus {
   static const creating = KinesisVideoStreamPoolStatus._('CREATING');
   static const active = KinesisVideoStreamPoolStatus._('ACTIVE');
@@ -2097,6 +2124,8 @@ class KinesisVideoStreamPoolStatus {
 /// which AWS Regions your account can use</a>, in the <i>AWS Account Management
 /// Reference Guide</i>.
 /// </note>
+///
+/// @nodoc
 class KinesisVideoStreamConfiguration {
   /// The Amazon Web Services Region of the video stream.
   final String region;
@@ -2128,6 +2157,8 @@ class KinesisVideoStreamConfiguration {
 }
 
 /// The updated Kinesis video stream configuration object.
+///
+/// @nodoc
 class KinesisVideoStreamConfigurationUpdate {
   /// The updated time that data is retained.
   final int? dataRetentionInHours;
@@ -2145,6 +2176,7 @@ class KinesisVideoStreamConfigurationUpdate {
   }
 }
 
+/// @nodoc
 class MediaPipelineStatusUpdate {
   static const pause = MediaPipelineStatusUpdate._('Pause');
   static const resume = MediaPipelineStatusUpdate._('Resume');
@@ -2172,6 +2204,8 @@ class MediaPipelineStatusUpdate {
 
 /// A structure that contains the configuration settings for a media insights
 /// pipeline.
+///
+/// @nodoc
 class MediaInsightsPipelineConfiguration {
   /// The time at which the configuration was created.
   final DateTime? createdTimestamp;
@@ -2269,6 +2303,8 @@ class MediaInsightsPipelineConfiguration {
 }
 
 /// A structure that contains the configuration settings for real-time alerts.
+///
+/// @nodoc
 class RealTimeAlertConfiguration {
   /// Turns off real-time alerts.
   final bool? disabled;
@@ -2303,6 +2339,8 @@ class RealTimeAlertConfiguration {
 }
 
 /// An element in a media insights pipeline configuration.
+///
+/// @nodoc
 class MediaInsightsPipelineConfigurationElement {
   /// The element type.
   final MediaInsightsPipelineConfigurationElementType type;
@@ -2460,6 +2498,7 @@ class MediaInsightsPipelineConfigurationElement {
   }
 }
 
+/// @nodoc
 class MediaInsightsPipelineConfigurationElementType {
   static const amazonTranscribeCallAnalyticsProcessor =
       MediaInsightsPipelineConfigurationElementType._(
@@ -2518,6 +2557,8 @@ class MediaInsightsPipelineConfigurationElementType {
 
 /// A structure that contains the configuration settings for an Amazon
 /// Transcribe call analytics processor.
+///
+/// @nodoc
 class AmazonTranscribeCallAnalyticsProcessorConfiguration {
   /// The language code in the configuration.
   final CallAnalyticsLanguageCode languageCode;
@@ -2752,6 +2793,8 @@ class AmazonTranscribeCallAnalyticsProcessorConfiguration {
 /// parameter. If you include more than one of those parameters, your
 /// transcription job fails.
 /// </note>
+///
+/// @nodoc
 class AmazonTranscribeProcessorConfiguration {
   /// Labels all personally identifiable information (PII) identified in your
   /// transcript.
@@ -3008,6 +3051,8 @@ class AmazonTranscribeProcessorConfiguration {
 
 /// A structure that contains the configuration settings for a Kinesis Data
 /// Stream sink.
+///
+/// @nodoc
 class KinesisDataStreamSinkConfiguration {
   /// The ARN of the sink.
   final String? insightsTarget;
@@ -3034,6 +3079,8 @@ class KinesisDataStreamSinkConfiguration {
 /// The structure that holds the settings for transmitting media to the Amazon
 /// S3 bucket. These values are used as defaults if
 /// <code>S3RecordingSinkRuntimeConfiguration</code> is not specified.
+///
+/// @nodoc
 class S3RecordingSinkConfiguration {
   /// The default URI of the Amazon S3 bucket used as the recording sink.
   final String? destination;
@@ -3066,6 +3113,8 @@ class S3RecordingSinkConfiguration {
 }
 
 /// The configuration settings for a voice analytics processor.
+///
+/// @nodoc
 class VoiceAnalyticsProcessorConfiguration {
   /// The status of the speaker search task.
   final VoiceAnalyticsConfigurationStatus? speakerSearchStatus;
@@ -3102,6 +3151,8 @@ class VoiceAnalyticsProcessorConfiguration {
 
 /// A structure that contains the configuration settings for an AWS Lambda
 /// function's data sink.
+///
+/// @nodoc
 class LambdaFunctionSinkConfiguration {
   /// The ARN of the sink.
   final String? insightsTarget;
@@ -3125,6 +3176,8 @@ class LambdaFunctionSinkConfiguration {
 }
 
 /// The configuration settings for the SQS sink.
+///
+/// @nodoc
 class SqsQueueSinkConfiguration {
   /// The ARN of the SQS sink.
   final String? insightsTarget;
@@ -3148,6 +3201,8 @@ class SqsQueueSinkConfiguration {
 }
 
 /// The configuration settings for the SNS topic sink.
+///
+/// @nodoc
 class SnsTopicSinkConfiguration {
   /// The ARN of the SNS sink.
   final String? insightsTarget;
@@ -3172,6 +3227,8 @@ class SnsTopicSinkConfiguration {
 
 /// A static structure that contains the configuration data for a
 /// <code>VoiceEnhancementSinkConfiguration</code> element.
+///
+/// @nodoc
 class VoiceEnhancementSinkConfiguration {
   /// Disables the <code>VoiceEnhancementSinkConfiguration</code> element.
   final bool? disabled;
@@ -3195,6 +3252,7 @@ class VoiceEnhancementSinkConfiguration {
   }
 }
 
+/// @nodoc
 class VoiceAnalyticsConfigurationStatus {
   static const enabled = VoiceAnalyticsConfigurationStatus._('Enabled');
   static const disabled = VoiceAnalyticsConfigurationStatus._('Disabled');
@@ -3220,6 +3278,7 @@ class VoiceAnalyticsConfigurationStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class RecordingFileFormat {
   static const wav = RecordingFileFormat._('Wav');
   static const opus = RecordingFileFormat._('Opus');
@@ -3245,6 +3304,7 @@ class RecordingFileFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class CallAnalyticsLanguageCode {
   static const enUs = CallAnalyticsLanguageCode._('en-US');
   static const enGb = CallAnalyticsLanguageCode._('en-GB');
@@ -3277,6 +3337,7 @@ class CallAnalyticsLanguageCode {
   String toString() => value;
 }
 
+/// @nodoc
 class VocabularyFilterMethod {
   static const remove = VocabularyFilterMethod._('remove');
   static const mask = VocabularyFilterMethod._('mask');
@@ -3303,6 +3364,7 @@ class VocabularyFilterMethod {
   String toString() => value;
 }
 
+/// @nodoc
 class PartialResultsStability {
   static const high = PartialResultsStability._('high');
   static const medium = PartialResultsStability._('medium');
@@ -3329,6 +3391,7 @@ class PartialResultsStability {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentType {
   static const pii = ContentType._('PII');
 
@@ -3363,6 +3426,8 @@ class ContentType {
 /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-post-call.html">Post-call
 /// analytics with real-time transcriptions</a> in the <i>Amazon Transcribe
 /// Developer Guide</i>.
+///
+/// @nodoc
 class PostCallAnalyticsSettings {
   /// The ARN of the role used by Amazon Web Services Transcribe to upload your
   /// post call analysis. For more information, see <a
@@ -3413,6 +3478,7 @@ class PostCallAnalyticsSettings {
   }
 }
 
+/// @nodoc
 class ContentRedactionOutput {
   static const redacted = ContentRedactionOutput._('redacted');
   static const redactedAndUnredacted =
@@ -3440,6 +3506,8 @@ class ContentRedactionOutput {
 }
 
 /// Specifies the words or phrases that trigger an alert.
+///
+/// @nodoc
 class RealTimeAlertRule {
   /// The type of alert rule.
   final RealTimeAlertRuleType type;
@@ -3495,6 +3563,7 @@ class RealTimeAlertRule {
   }
 }
 
+/// @nodoc
 class RealTimeAlertRuleType {
   static const keywordMatch = RealTimeAlertRuleType._('KeywordMatch');
   static const sentiment = RealTimeAlertRuleType._('Sentiment');
@@ -3522,6 +3591,8 @@ class RealTimeAlertRuleType {
 }
 
 /// A structure that contains the settings for a keyword match task.
+///
+/// @nodoc
 class KeywordMatchConfiguration {
   /// The keywords or phrases that you want to match.
   final List<String> keywords;
@@ -3565,6 +3636,8 @@ class KeywordMatchConfiguration {
 
 /// A structure that contains the configuration settings for a sentiment
 /// analysis task.
+///
+/// @nodoc
 class SentimentConfiguration {
   /// The name of the rule in the sentiment configuration.
   final String ruleName;
@@ -3605,6 +3678,8 @@ class SentimentConfiguration {
 
 /// A structure that contains the configuration settings for an issue detection
 /// task.
+///
+/// @nodoc
 class IssueDetectionConfiguration {
   /// The name of the issue detection rule.
   final String ruleName;
@@ -3627,6 +3702,7 @@ class IssueDetectionConfiguration {
   }
 }
 
+/// @nodoc
 class SentimentType {
   static const negative = SentimentType._('NEGATIVE');
 
@@ -3651,6 +3727,8 @@ class SentimentType {
 }
 
 /// A key/value pair that grants users access to meeting resources.
+///
+/// @nodoc
 class Tag {
   /// The key half of a tag.
   final String key;
@@ -3682,6 +3760,8 @@ class Tag {
 
 /// A representation of an asynchronous request to perform voice tone analysis
 /// on a media insights pipeline.
+///
+/// @nodoc
 class VoiceToneAnalysisTask {
   /// The time at which a voice tone analysis task was created.
   final DateTime? createdTimestamp;
@@ -3731,6 +3811,7 @@ class VoiceToneAnalysisTask {
   }
 }
 
+/// @nodoc
 class MediaPipelineTaskStatus {
   static const notStarted = MediaPipelineTaskStatus._('NotStarted');
   static const initializing = MediaPipelineTaskStatus._('Initializing');
@@ -3767,6 +3848,7 @@ class MediaPipelineTaskStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class VoiceAnalyticsLanguageCode {
   static const enUs = VoiceAnalyticsLanguageCode._('en-US');
 
@@ -3792,6 +3874,8 @@ class VoiceAnalyticsLanguageCode {
 }
 
 /// The task configuration settings for the Kinesis video stream source.
+///
+/// @nodoc
 class KinesisVideoStreamSourceTaskConfiguration {
   /// The channel ID.
   final int channelId;
@@ -3822,6 +3906,8 @@ class KinesisVideoStreamSourceTaskConfiguration {
 
 /// A representation of an asynchronous request to perform speaker search
 /// analysis on a media insights pipeline.
+///
+/// @nodoc
 class SpeakerSearchTask {
   /// The time at which a speaker search task was created.
   final DateTime? createdTimestamp;
@@ -3871,6 +3957,8 @@ class SpeakerSearchTask {
 }
 
 /// The summary of the media pipeline.
+///
+/// @nodoc
 class MediaPipelineSummary {
   /// The ARN of the media pipeline in the summary.
   final String? mediaPipelineArn;
@@ -3901,6 +3989,8 @@ class MediaPipelineSummary {
 }
 
 /// A summary of the Kinesis video stream pool.
+///
+/// @nodoc
 class KinesisVideoStreamPoolSummary {
   /// The ARN of the video stream pool.
   final String? poolArn;
@@ -3938,6 +4028,8 @@ class KinesisVideoStreamPoolSummary {
 }
 
 /// A summary of the media insights pipeline configuration.
+///
+/// @nodoc
 class MediaInsightsPipelineConfigurationSummary {
   /// The ARN of the media insights pipeline configuration.
   final String? mediaInsightsPipelineConfigurationArn;
@@ -3988,6 +4080,8 @@ class MediaInsightsPipelineConfigurationSummary {
 }
 
 /// The summary data of a media capture pipeline.
+///
+/// @nodoc
 class MediaCapturePipelineSummary {
   /// The ARN of the media pipeline in the summary.
   final String? mediaPipelineArn;
@@ -4019,6 +4113,8 @@ class MediaCapturePipelineSummary {
 
 /// A pipeline consisting of a media capture, media concatenation, or
 /// live-streaming pipeline.
+///
+/// @nodoc
 class MediaPipeline {
   /// A pipeline that enables users to capture audio and video.
   final MediaCapturePipeline? mediaCapturePipeline;
@@ -4091,6 +4187,8 @@ class MediaPipeline {
 
 /// A media pipeline object consisting of an ID, source type, source ARN, a sink
 /// type, a sink ARN, and a configuration object.
+///
+/// @nodoc
 class MediaCapturePipeline {
   /// The configuration for a specified media pipeline. <code>SourceType</code>
   /// must be <code>ChimeSdkMeeting</code>.
@@ -4209,6 +4307,8 @@ class MediaCapturePipeline {
 }
 
 /// The connector pipeline.
+///
+/// @nodoc
 class MediaLiveConnectorPipeline {
   /// The time at which the connector pipeline was created.
   final DateTime? createdTimestamp;
@@ -4284,6 +4384,8 @@ class MediaLiveConnectorPipeline {
 }
 
 /// Concatenates audio and video data from one or more data streams.
+///
+/// @nodoc
 class MediaConcatenationPipeline {
   /// The time at which the concatenation pipeline was created.
   final DateTime? createdTimestamp;
@@ -4358,6 +4460,8 @@ class MediaConcatenationPipeline {
 }
 
 /// A media pipeline that streams call analytics data.
+///
+/// @nodoc
 class MediaInsightsPipeline {
   /// The time at which the media insights pipeline was created.
   final DateTime? createdTimestamp;
@@ -4487,6 +4591,8 @@ class MediaInsightsPipeline {
 }
 
 /// Structure that contains the settings for a media stream pipeline.
+///
+/// @nodoc
 class MediaStreamPipeline {
   /// The time at which the media stream pipeline was created.
   final DateTime? createdTimestamp;
@@ -4559,6 +4665,7 @@ class MediaStreamPipeline {
   }
 }
 
+/// @nodoc
 class MediaPipelineStatus {
   static const initializing = MediaPipelineStatus._('Initializing');
   static const inProgress = MediaPipelineStatus._('InProgress');
@@ -4598,6 +4705,8 @@ class MediaPipelineStatus {
 }
 
 /// Structure that contains the settings for a media stream sink.
+///
+/// @nodoc
 class MediaStreamSink {
   /// The media stream sink's media stream type.
   final MediaStreamType mediaStreamType;
@@ -4644,6 +4753,7 @@ class MediaStreamSink {
   }
 }
 
+/// @nodoc
 class MediaStreamPipelineSinkType {
   static const kinesisVideoStreamPool =
       MediaStreamPipelineSinkType._('KinesisVideoStreamPool');
@@ -4669,6 +4779,7 @@ class MediaStreamPipelineSinkType {
   String toString() => value;
 }
 
+/// @nodoc
 class MediaStreamType {
   static const mixedAudio = MediaStreamType._('MixedAudio');
   static const individualAudio = MediaStreamType._('IndividualAudio');
@@ -4694,6 +4805,8 @@ class MediaStreamType {
 }
 
 /// Structure that contains the settings for media stream sources.
+///
+/// @nodoc
 class MediaStreamSource {
   /// The ARN of the meeting.
   final String sourceArn;
@@ -4724,6 +4837,7 @@ class MediaStreamSource {
   }
 }
 
+/// @nodoc
 class MediaPipelineSourceType {
   static const chimeSdkMeeting = MediaPipelineSourceType._('ChimeSdkMeeting');
 
@@ -4749,6 +4863,8 @@ class MediaPipelineSourceType {
 }
 
 /// The runtime configuration settings for the Kinesis video stream source.
+///
+/// @nodoc
 class KinesisVideoStreamSourceRuntimeConfiguration {
   /// Specifies the encoding of your input audio. Supported format: PCM (only
   /// signed 16-bit little-endian audio formats, which does not include WAV)
@@ -4802,6 +4918,8 @@ class KinesisVideoStreamSourceRuntimeConfiguration {
 
 /// A structure that contains the runtime settings for recording a Kinesis video
 /// stream.
+///
+/// @nodoc
 class KinesisVideoStreamRecordingSourceRuntimeConfiguration {
   /// Describes the timestamp range and timestamp origin of a range of fragments
   /// in the Kinesis video stream.
@@ -4842,6 +4960,8 @@ class KinesisVideoStreamRecordingSourceRuntimeConfiguration {
 /// A structure that holds the settings for transmitting media files to the
 /// Amazon S3 bucket. If specified, the settings in this structure override any
 /// settings in <code>S3RecordingSinkConfiguration</code>.
+///
+/// @nodoc
 class S3RecordingSinkRuntimeConfiguration {
   /// The URI of the S3 bucket used as the sink.
   final String destination;
@@ -4874,6 +4994,8 @@ class S3RecordingSinkRuntimeConfiguration {
 }
 
 /// The status of the pipeline element.
+///
+/// @nodoc
 class MediaInsightsPipelineElementStatus {
   /// The element's status.
   final MediaPipelineElementStatus? status;
@@ -4906,6 +5028,7 @@ class MediaInsightsPipelineElementStatus {
   }
 }
 
+/// @nodoc
 class MediaPipelineElementStatus {
   static const notStarted = MediaPipelineElementStatus._('NotStarted');
   static const notSupported = MediaPipelineElementStatus._('NotSupported');
@@ -4969,6 +5092,8 @@ class MediaPipelineElementStatus {
 /// A fragment selector range with a start time of 00:00:01 and end time of
 /// 00:00:04 would return the fragments with start times of 00:00:02 and
 /// 00:00:04.
+///
+/// @nodoc
 class FragmentSelector {
   /// The origin of the timestamps to use, <code>Server</code> or
   /// <code>Producer</code>. For more information, see <a
@@ -5004,6 +5129,7 @@ class FragmentSelector {
   }
 }
 
+/// @nodoc
 class FragmentSelectorType {
   static const producerTimestamp = FragmentSelectorType._('ProducerTimestamp');
   static const serverTimestamp = FragmentSelectorType._('ServerTimestamp');
@@ -5030,6 +5156,8 @@ class FragmentSelectorType {
 }
 
 /// The range of timestamps to return.
+///
+/// @nodoc
 class TimestampRange {
   /// The ending timestamp for the specified range.
   final DateTime endTimestamp;
@@ -5060,6 +5188,8 @@ class TimestampRange {
 }
 
 /// A structure that holds the settings for recording media.
+///
+/// @nodoc
 class RecordingStreamConfiguration {
   /// The ARN of the recording stream.
   final String? streamArn;
@@ -5082,6 +5212,7 @@ class RecordingStreamConfiguration {
   }
 }
 
+/// @nodoc
 class MediaEncoding {
   static const pcm = MediaEncoding._('pcm');
 
@@ -5106,6 +5237,8 @@ class MediaEncoding {
 }
 
 /// The configuration settings for a stream.
+///
+/// @nodoc
 class StreamConfiguration {
   /// The ARN of the stream.
   final String streamArn;
@@ -5145,6 +5278,8 @@ class StreamConfiguration {
 }
 
 /// Defines a streaming channel.
+///
+/// @nodoc
 class StreamChannelDefinition {
   /// The number of channels in a streaming channel.
   final int numberOfChannels;
@@ -5178,6 +5313,8 @@ class StreamChannelDefinition {
 }
 
 /// Defines an audio channel in a Kinesis video stream.
+///
+/// @nodoc
 class ChannelDefinition {
   /// The channel ID.
   final int channelId;
@@ -5209,6 +5346,7 @@ class ChannelDefinition {
   }
 }
 
+/// @nodoc
 class ParticipantRole {
   static const agent = ParticipantRole._('AGENT');
   static const customer = ParticipantRole._('CUSTOMER');
@@ -5234,6 +5372,8 @@ class ParticipantRole {
 }
 
 /// The data sink of the configuration object.
+///
+/// @nodoc
 class ConcatenationSink {
   /// The configuration settings for an Amazon S3 bucket sink.
   final S3BucketSinkConfiguration s3BucketSinkConfiguration;
@@ -5265,6 +5405,7 @@ class ConcatenationSink {
   }
 }
 
+/// @nodoc
 class ConcatenationSinkType {
   static const s3Bucket = ConcatenationSinkType._('S3Bucket');
 
@@ -5290,6 +5431,8 @@ class ConcatenationSinkType {
 }
 
 /// The configuration settings for the S3 bucket.
+///
+/// @nodoc
 class S3BucketSinkConfiguration {
   /// The destination URL of the S3 bucket.
   final String destination;
@@ -5314,6 +5457,8 @@ class S3BucketSinkConfiguration {
 
 /// The source type and media pipeline configuration settings in a configuration
 /// object.
+///
+/// @nodoc
 class ConcatenationSource {
   /// The concatenation settings for the media pipeline in a configuration object.
   final MediaCapturePipelineSourceConfiguration
@@ -5350,6 +5495,7 @@ class ConcatenationSource {
   }
 }
 
+/// @nodoc
 class ConcatenationSourceType {
   static const mediaCapturePipeline =
       ConcatenationSourceType._('MediaCapturePipeline');
@@ -5376,6 +5522,8 @@ class ConcatenationSourceType {
 }
 
 /// The source configuration object of a media capture pipeline.
+///
+/// @nodoc
 class MediaCapturePipelineSourceConfiguration {
   /// The meeting configuration settings in a media capture pipeline configuration
   /// object.
@@ -5413,6 +5561,8 @@ class MediaCapturePipelineSourceConfiguration {
 
 /// The configuration object of the Amazon Chime SDK meeting concatenation for a
 /// specified media pipeline.
+///
+/// @nodoc
 class ChimeSdkMeetingConcatenationConfiguration {
   /// The configuration for the artifacts in an Amazon Chime SDK meeting
   /// concatenation.
@@ -5440,6 +5590,8 @@ class ChimeSdkMeetingConcatenationConfiguration {
 }
 
 /// The configuration for the artifacts concatenation.
+///
+/// @nodoc
 class ArtifactsConcatenationConfiguration {
   /// The configuration for the audio artifacts concatenation.
   final AudioConcatenationConfiguration audio;
@@ -5521,6 +5673,8 @@ class ArtifactsConcatenationConfiguration {
 }
 
 /// The audio artifact concatenation configuration object.
+///
+/// @nodoc
 class AudioConcatenationConfiguration {
   /// Enables or disables the configuration object.
   final AudioArtifactsConcatenationState state;
@@ -5545,6 +5699,8 @@ class AudioConcatenationConfiguration {
 }
 
 /// The configuration object of a video concatenation pipeline.
+///
+/// @nodoc
 class VideoConcatenationConfiguration {
   /// Enables or disables the configuration object.
   final ArtifactsConcatenationState state;
@@ -5569,6 +5725,8 @@ class VideoConcatenationConfiguration {
 }
 
 /// The composited content configuration object for a specified media pipeline.
+///
+/// @nodoc
 class ContentConcatenationConfiguration {
   /// Enables or disables the configuration object.
   final ArtifactsConcatenationState state;
@@ -5594,6 +5752,8 @@ class ContentConcatenationConfiguration {
 }
 
 /// The content configuration object's data channel.
+///
+/// @nodoc
 class DataChannelConcatenationConfiguration {
   /// Enables or disables the configuration object.
   final ArtifactsConcatenationState state;
@@ -5619,6 +5779,8 @@ class DataChannelConcatenationConfiguration {
 }
 
 /// The configuration object for concatenating transcription messages.
+///
+/// @nodoc
 class TranscriptionMessagesConcatenationConfiguration {
   /// Enables or disables the configuration object.
   final ArtifactsConcatenationState state;
@@ -5644,6 +5806,8 @@ class TranscriptionMessagesConcatenationConfiguration {
 }
 
 /// The configuration object for an event concatenation pipeline.
+///
+/// @nodoc
 class MeetingEventsConcatenationConfiguration {
   /// Enables or disables the configuration object.
   final ArtifactsConcatenationState state;
@@ -5670,6 +5834,8 @@ class MeetingEventsConcatenationConfiguration {
 
 /// The composited video configuration object for a specified media pipeline.
 /// <code>SourceType</code> must be <code>ChimeSdkMeeting</code>.
+///
+/// @nodoc
 class CompositedVideoConcatenationConfiguration {
   /// Enables or disables the configuration object.
   final ArtifactsConcatenationState state;
@@ -5694,6 +5860,7 @@ class CompositedVideoConcatenationConfiguration {
   }
 }
 
+/// @nodoc
 class ArtifactsConcatenationState {
   static const enabled = ArtifactsConcatenationState._('Enabled');
   static const disabled = ArtifactsConcatenationState._('Disabled');
@@ -5719,6 +5886,7 @@ class ArtifactsConcatenationState {
   String toString() => value;
 }
 
+/// @nodoc
 class AudioArtifactsConcatenationState {
   static const enabled = AudioArtifactsConcatenationState._('Enabled');
 
@@ -5744,6 +5912,8 @@ class AudioArtifactsConcatenationState {
 }
 
 /// The media pipeline's sink configuration settings.
+///
+/// @nodoc
 class LiveConnectorSinkConfiguration {
   /// The sink configuration's RTMP configuration settings.
   final LiveConnectorRTMPConfiguration rTMPConfiguration;
@@ -5776,6 +5946,7 @@ class LiveConnectorSinkConfiguration {
   }
 }
 
+/// @nodoc
 class LiveConnectorSinkType {
   static const rtmp = LiveConnectorSinkType._('RTMP');
 
@@ -5801,6 +5972,8 @@ class LiveConnectorSinkType {
 }
 
 /// The media pipeline's RTMP configuration object.
+///
+/// @nodoc
 class LiveConnectorRTMPConfiguration {
   /// The URL of the RTMP configuration.
   final String url;
@@ -5838,6 +6011,7 @@ class LiveConnectorRTMPConfiguration {
   }
 }
 
+/// @nodoc
 class AudioChannelsOption {
   static const stereo = AudioChannelsOption._('Stereo');
   static const mono = AudioChannelsOption._('Mono');
@@ -5864,6 +6038,8 @@ class AudioChannelsOption {
 }
 
 /// The data source configuration object of a streaming media pipeline.
+///
+/// @nodoc
 class LiveConnectorSourceConfiguration {
   /// The configuration settings of the connector pipeline.
   final ChimeSdkMeetingLiveConnectorConfiguration
@@ -5901,6 +6077,7 @@ class LiveConnectorSourceConfiguration {
   }
 }
 
+/// @nodoc
 class LiveConnectorSourceType {
   static const chimeSdkMeeting = LiveConnectorSourceType._('ChimeSdkMeeting');
 
@@ -5926,6 +6103,8 @@ class LiveConnectorSourceType {
 }
 
 /// The media pipeline's configuration object.
+///
+/// @nodoc
 class ChimeSdkMeetingLiveConnectorConfiguration {
   /// The configuration object's Chime SDK meeting ARN.
   final String arn;
@@ -5979,6 +6158,7 @@ class ChimeSdkMeetingLiveConnectorConfiguration {
   }
 }
 
+/// @nodoc
 class LiveConnectorMuxType {
   static const audioWithCompositedVideo =
       LiveConnectorMuxType._('AudioWithCompositedVideo');
@@ -6007,6 +6187,8 @@ class LiveConnectorMuxType {
 }
 
 /// Specifies the configuration for compositing video artifacts.
+///
+/// @nodoc
 class CompositedVideoArtifactsConfiguration {
   /// The <code>GridView</code> configuration setting.
   final GridViewConfiguration gridViewConfiguration;
@@ -6050,6 +6232,8 @@ class CompositedVideoArtifactsConfiguration {
 }
 
 /// Source configuration for a specified media pipeline.
+///
+/// @nodoc
 class SourceConfiguration {
   /// The selected video streams for a specified media pipeline. The number of
   /// video streams can't exceed 25.
@@ -6079,6 +6263,8 @@ class SourceConfiguration {
 
 /// The video streams for a specified media pipeline. The total number of video
 /// streams can't exceed 25.
+///
+/// @nodoc
 class SelectedVideoStreams {
   /// The attendee IDs of the streams selected for a media pipeline.
   final List<String>? attendeeIds;
@@ -6114,6 +6300,7 @@ class SelectedVideoStreams {
   }
 }
 
+/// @nodoc
 class LayoutOption {
   static const gridView = LayoutOption._('GridView');
 
@@ -6136,6 +6323,7 @@ class LayoutOption {
   String toString() => value;
 }
 
+/// @nodoc
 class ResolutionOption {
   static const hd = ResolutionOption._('HD');
   static const fhd = ResolutionOption._('FHD');
@@ -6161,6 +6349,8 @@ class ResolutionOption {
 }
 
 /// Specifies the type of grid layout.
+///
+/// @nodoc
 class GridViewConfiguration {
   /// Defines the layout of the video tiles when content sharing is enabled.
   final ContentShareLayoutOption contentShareLayout;
@@ -6249,6 +6439,7 @@ class GridViewConfiguration {
   }
 }
 
+/// @nodoc
 class ContentShareLayoutOption {
   static const presenterOnly = ContentShareLayoutOption._('PresenterOnly');
   static const horizontal = ContentShareLayoutOption._('Horizontal');
@@ -6283,6 +6474,8 @@ class ContentShareLayoutOption {
 }
 
 /// Defines the configuration for a presenter-only video tile.
+///
+/// @nodoc
 class PresenterOnlyConfiguration {
   /// Defines the position of the presenter video tile. Default:
   /// <code>TopRight</code>.
@@ -6309,6 +6502,8 @@ class PresenterOnlyConfiguration {
 }
 
 /// Defines the configuration for an <code>ActiveSpeakerOnly</code> video tile.
+///
+/// @nodoc
 class ActiveSpeakerOnlyConfiguration {
   /// The position of the <code>ActiveSpeakerOnly</code> video tile.
   final ActiveSpeakerPosition? activeSpeakerPosition;
@@ -6334,6 +6529,8 @@ class ActiveSpeakerOnlyConfiguration {
 }
 
 /// Defines the configuration settings for the horizontal layout.
+///
+/// @nodoc
 class HorizontalLayoutConfiguration {
   /// Specifies the aspect ratio of all video tiles.
   final String? tileAspectRatio;
@@ -6379,6 +6576,8 @@ class HorizontalLayoutConfiguration {
 }
 
 /// Defines the configuration settings for a vertical layout.
+///
+/// @nodoc
 class VerticalLayoutConfiguration {
   /// Sets the aspect ratio of the video tiles, such as 16:9.
   final String? tileAspectRatio;
@@ -6424,6 +6623,8 @@ class VerticalLayoutConfiguration {
 }
 
 /// Defines the settings for a video tile.
+///
+/// @nodoc
 class VideoAttribute {
   /// Defines the border color of all video tiles.
   final BorderColor? borderColor;
@@ -6469,6 +6670,7 @@ class VideoAttribute {
   }
 }
 
+/// @nodoc
 class CanvasOrientation {
   static const landscape = CanvasOrientation._('Landscape');
   static const portrait = CanvasOrientation._('Portrait');
@@ -6493,6 +6695,7 @@ class CanvasOrientation {
   String toString() => value;
 }
 
+/// @nodoc
 class BorderColor {
   static const black = BorderColor._('Black');
   static const blue = BorderColor._('Blue');
@@ -6520,6 +6723,7 @@ class BorderColor {
   String toString() => value;
 }
 
+/// @nodoc
 class HighlightColor {
   static const black = HighlightColor._('Black');
   static const blue = HighlightColor._('Blue');
@@ -6548,6 +6752,7 @@ class HighlightColor {
   String toString() => value;
 }
 
+/// @nodoc
 class TileOrder {
   static const joinSequence = TileOrder._('JoinSequence');
   static const speakerSequence = TileOrder._('SpeakerSequence');
@@ -6571,6 +6776,7 @@ class TileOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class VerticalTilePosition {
   static const left = VerticalTilePosition._('Left');
   static const right = VerticalTilePosition._('Right');
@@ -6596,6 +6802,7 @@ class VerticalTilePosition {
   String toString() => value;
 }
 
+/// @nodoc
 class HorizontalTilePosition {
   static const top = HorizontalTilePosition._('Top');
   static const bottom = HorizontalTilePosition._('Bottom');
@@ -6621,6 +6828,7 @@ class HorizontalTilePosition {
   String toString() => value;
 }
 
+/// @nodoc
 class ActiveSpeakerPosition {
   static const topLeft = ActiveSpeakerPosition._('TopLeft');
   static const topRight = ActiveSpeakerPosition._('TopRight');
@@ -6648,6 +6856,7 @@ class ActiveSpeakerPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class PresenterPosition {
   static const topLeft = PresenterPosition._('TopLeft');
   static const topRight = PresenterPosition._('TopRight');
@@ -6674,6 +6883,7 @@ class PresenterPosition {
   String toString() => value;
 }
 
+/// @nodoc
 class MediaPipelineSinkType {
   static const s3Bucket = MediaPipelineSinkType._('S3Bucket');
 
@@ -6701,6 +6911,8 @@ class MediaPipelineSinkType {
 /// The configuration object of the Amazon Chime SDK meeting for a specified
 /// media pipeline. <code>SourceType</code> must be
 /// <code>ChimeSdkMeeting</code>.
+///
+/// @nodoc
 class ChimeSdkMeetingConfiguration {
   /// The configuration for the artifacts in an Amazon Chime SDK meeting.
   final ArtifactsConfiguration? artifactsConfiguration;
@@ -6741,6 +6953,8 @@ class ChimeSdkMeetingConfiguration {
 /// Contains server side encryption parameters to be used by media capture
 /// pipeline. The parameters can also be used by media concatenation pipeline
 /// taking media capture pipeline as a media source.
+///
+/// @nodoc
 class SseAwsKeyManagementParams {
   /// The KMS key you want to use to encrypt your media pipeline output.
   /// Decryption is required for concatenation pipeline. If using a key located in
@@ -6820,6 +7034,8 @@ class SseAwsKeyManagementParams {
 }
 
 /// The configuration for the artifacts.
+///
+/// @nodoc
 class ArtifactsConfiguration {
   /// The configuration for the audio artifacts.
   final AudioArtifactsConfiguration audio;
@@ -6873,6 +7089,8 @@ class ArtifactsConfiguration {
 }
 
 /// The audio artifact configuration object.
+///
+/// @nodoc
 class AudioArtifactsConfiguration {
   /// The MUX type of the audio artifact configuration object.
   final AudioMuxType muxType;
@@ -6896,6 +7114,8 @@ class AudioArtifactsConfiguration {
 }
 
 /// The video artifact configuration object.
+///
+/// @nodoc
 class VideoArtifactsConfiguration {
   /// Indicates whether the video artifact is enabled or disabled.
   final ArtifactsState state;
@@ -6926,6 +7146,8 @@ class VideoArtifactsConfiguration {
 }
 
 /// The content artifact object.
+///
+/// @nodoc
 class ContentArtifactsConfiguration {
   /// Indicates whether the content artifact is enabled or disabled.
   final ArtifactsState state;
@@ -6955,6 +7177,7 @@ class ContentArtifactsConfiguration {
   }
 }
 
+/// @nodoc
 class ArtifactsState {
   static const enabled = ArtifactsState._('Enabled');
   static const disabled = ArtifactsState._('Disabled');
@@ -6979,6 +7202,7 @@ class ArtifactsState {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentMuxType {
   static const contentOnly = ContentMuxType._('ContentOnly');
 
@@ -7002,6 +7226,7 @@ class ContentMuxType {
   String toString() => value;
 }
 
+/// @nodoc
 class VideoMuxType {
   static const videoOnly = VideoMuxType._('VideoOnly');
 
@@ -7024,6 +7249,7 @@ class VideoMuxType {
   String toString() => value;
 }
 
+/// @nodoc
 class AudioMuxType {
   static const audioOnly = AudioMuxType._('AudioOnly');
   static const audioWithActiveSpeakerVideo =
@@ -7054,26 +7280,31 @@ class AudioMuxType {
   String toString() => value;
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class ForbiddenException extends _s.GenericAwsException {
   ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceLimitExceededException extends _s.GenericAwsException {
   ResourceLimitExceededException({String? type, String? message})
       : super(
@@ -7082,22 +7313,26 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceFailureException extends _s.GenericAwsException {
   ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
+/// @nodoc
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
+/// @nodoc
 class ThrottledClientException extends _s.GenericAwsException {
   ThrottledClientException({String? type, String? message})
       : super(type: type, code: 'ThrottledClientException', message: message);
 }
 
+/// @nodoc
 class UnauthorizedClientException extends _s.GenericAwsException {
   UnauthorizedClientException({String? type, String? message})
       : super(

@@ -1888,6 +1888,7 @@ class Ivs {
   }
 }
 
+/// @nodoc
 class BatchGetChannelResponse {
   /// See <a
   /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
@@ -1959,6 +1960,7 @@ class BatchGetChannelResponse {
   }
 }
 
+/// @nodoc
 class BatchGetStreamKeyResponse {
   /// See <a
   /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
@@ -2030,6 +2032,7 @@ class BatchGetStreamKeyResponse {
   }
 }
 
+/// @nodoc
 class BatchStartViewerSessionRevocationResponse {
   /// See <a
   /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin">Access-Control-Allow-Origin</a>
@@ -2096,6 +2099,7 @@ class BatchStartViewerSessionRevocationResponse {
   }
 }
 
+/// @nodoc
 class CreateAdConfigurationResponse {
   /// <p/>
   final AdConfiguration adConfiguration;
@@ -2120,6 +2124,7 @@ class CreateAdConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateChannelResponse {
   /// <p/>
   final Channel? channel;
@@ -2153,6 +2158,7 @@ class CreateChannelResponse {
   }
 }
 
+/// @nodoc
 class CreatePlaybackRestrictionPolicyResponse {
   /// <p/>
   final PlaybackRestrictionPolicy? playbackRestrictionPolicy;
@@ -2180,6 +2186,7 @@ class CreatePlaybackRestrictionPolicyResponse {
   }
 }
 
+/// @nodoc
 class CreateRecordingConfigurationResponse {
   final RecordingConfiguration? recordingConfiguration;
 
@@ -2206,6 +2213,7 @@ class CreateRecordingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class CreateStreamKeyResponse {
   /// Stream key used to authenticate an RTMPS stream for ingestion.
   final StreamKey? streamKey;
@@ -2230,6 +2238,7 @@ class CreateStreamKeyResponse {
   }
 }
 
+/// @nodoc
 class DeletePlaybackKeyPairResponse {
   DeletePlaybackKeyPairResponse();
 
@@ -2242,6 +2251,7 @@ class DeletePlaybackKeyPairResponse {
   }
 }
 
+/// @nodoc
 class GetAdConfigurationResponse {
   /// <p/>
   final AdConfiguration? adConfiguration;
@@ -2267,6 +2277,7 @@ class GetAdConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetChannelResponse {
   /// <p/>
   final Channel? channel;
@@ -2291,6 +2302,7 @@ class GetChannelResponse {
   }
 }
 
+/// @nodoc
 class GetPlaybackKeyPairResponse {
   final PlaybackKeyPair? keyPair;
 
@@ -2314,6 +2326,7 @@ class GetPlaybackKeyPairResponse {
   }
 }
 
+/// @nodoc
 class GetPlaybackRestrictionPolicyResponse {
   /// <p/>
   final PlaybackRestrictionPolicy? playbackRestrictionPolicy;
@@ -2341,6 +2354,7 @@ class GetPlaybackRestrictionPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetRecordingConfigurationResponse {
   final RecordingConfiguration? recordingConfiguration;
 
@@ -2367,6 +2381,7 @@ class GetRecordingConfigurationResponse {
   }
 }
 
+/// @nodoc
 class GetStreamResponse {
   /// <p/>
   final Stream? stream;
@@ -2391,6 +2406,7 @@ class GetStreamResponse {
   }
 }
 
+/// @nodoc
 class GetStreamKeyResponse {
   final StreamKey? streamKey;
 
@@ -2414,6 +2430,7 @@ class GetStreamKeyResponse {
   }
 }
 
+/// @nodoc
 class GetStreamSessionResponse {
   /// List of stream details.
   final StreamSession? streamSession;
@@ -2439,6 +2456,7 @@ class GetStreamSessionResponse {
   }
 }
 
+/// @nodoc
 class ImportPlaybackKeyPairResponse {
   /// <p/>
   final PlaybackKeyPair? keyPair;
@@ -2463,6 +2481,7 @@ class ImportPlaybackKeyPairResponse {
   }
 }
 
+/// @nodoc
 class InsertAdBreakResponse {
   /// Unique identifier for the ad break that was inserted into the playlist.
   final String? adBreakId;
@@ -2485,6 +2504,7 @@ class InsertAdBreakResponse {
   }
 }
 
+/// @nodoc
 class ListAdConfigurationsResponse {
   /// List of the matching ad configurations.
   final List<AdConfigurationSummary> adConfigurations;
@@ -2519,6 +2539,7 @@ class ListAdConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListChannelsResponse {
   /// List of the matching channels.
   final List<ChannelSummary> channels;
@@ -2552,6 +2573,7 @@ class ListChannelsResponse {
   }
 }
 
+/// @nodoc
 class ListPlaybackKeyPairsResponse {
   /// List of key pairs.
   final List<PlaybackKeyPairSummary> keyPairs;
@@ -2586,6 +2608,7 @@ class ListPlaybackKeyPairsResponse {
   }
 }
 
+/// @nodoc
 class ListPlaybackRestrictionPoliciesResponse {
   /// List of the matching policies.
   final List<PlaybackRestrictionPolicySummary> playbackRestrictionPolicies;
@@ -2622,6 +2645,7 @@ class ListPlaybackRestrictionPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListRecordingConfigurationsResponse {
   /// List of the matching recording configurations.
   final List<RecordingConfigurationSummary> recordingConfigurations;
@@ -2658,6 +2682,7 @@ class ListRecordingConfigurationsResponse {
   }
 }
 
+/// @nodoc
 class ListStreamKeysResponse {
   /// List of stream keys.
   final List<StreamKeySummary> streamKeys;
@@ -2691,6 +2716,7 @@ class ListStreamKeysResponse {
   }
 }
 
+/// @nodoc
 class ListStreamsResponse {
   /// List of streams.
   final List<StreamSummary> streams;
@@ -2724,6 +2750,7 @@ class ListStreamsResponse {
   }
 }
 
+/// @nodoc
 class ListStreamSessionsResponse {
   /// List of stream sessions.
   final List<StreamSessionSummary> streamSessions;
@@ -2757,6 +2784,7 @@ class ListStreamSessionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Tags attached to the resource. Array of maps, each of the form
   /// <code>string:string (key:value)</code>.
@@ -2782,6 +2810,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class StartViewerSessionRevocationResponse {
   StartViewerSessionRevocationResponse();
 
@@ -2795,6 +2824,7 @@ class StartViewerSessionRevocationResponse {
   }
 }
 
+/// @nodoc
 class StopStreamResponse {
   StopStreamResponse();
 
@@ -2807,6 +2837,7 @@ class StopStreamResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2819,6 +2850,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -2831,6 +2863,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateAdConfigurationResponse {
   /// Object specifying the updated ad configuration.
   final AdConfiguration adConfiguration;
@@ -2855,6 +2888,7 @@ class UpdateAdConfigurationResponse {
   }
 }
 
+/// @nodoc
 class UpdateChannelResponse {
   /// Object specifying the updated channel.
   final Channel? channel;
@@ -2879,6 +2913,7 @@ class UpdateChannelResponse {
   }
 }
 
+/// @nodoc
 class UpdatePlaybackRestrictionPolicyResponse {
   /// Object specifying the updated policy.
   final PlaybackRestrictionPolicy? playbackRestrictionPolicy;
@@ -2908,6 +2943,8 @@ class UpdatePlaybackRestrictionPolicyResponse {
 
 /// An object representing a policy to constrain playback by country and/or
 /// origin sites.
+///
+/// @nodoc
 class PlaybackRestrictionPolicy {
   /// A list of country codes that control geoblocking restriction. Allowed values
   /// are the officially assigned <a
@@ -2988,6 +3025,8 @@ class PlaybackRestrictionPolicy {
 }
 
 /// Object specifying a channel.
+///
+/// @nodoc
 class Channel {
   /// ARN of the ad configuration associated with the channel.
   final String? adConfigurationArn;
@@ -3158,6 +3197,7 @@ class Channel {
   }
 }
 
+/// @nodoc
 class ChannelLatencyMode {
   static const normal = ChannelLatencyMode._('NORMAL');
   static const low = ChannelLatencyMode._('LOW');
@@ -3183,6 +3223,7 @@ class ChannelLatencyMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ChannelType {
   static const basic = ChannelType._('BASIC');
   static const standard = ChannelType._('STANDARD');
@@ -3208,6 +3249,7 @@ class ChannelType {
   String toString() => value;
 }
 
+/// @nodoc
 class TranscodePreset {
   static const higherBandwidthDelivery =
       TranscodePreset._('HIGHER_BANDWIDTH_DELIVERY');
@@ -3235,6 +3277,8 @@ class TranscodePreset {
 }
 
 /// Specifies information needed to stream using the SRT protocol.
+///
+/// @nodoc
 class Srt {
   /// The endpoint to be used when streaming with IVS using the SRT protocol.
   final String? endpoint;
@@ -3267,6 +3311,8 @@ class Srt {
 }
 
 /// A complex type that specifies multitrack input configuration.
+///
+/// @nodoc
 class MultitrackInputConfiguration {
   /// Indicates whether multitrack input is enabled. Can be set to
   /// <code>true</code> only if channel type is <code>STANDARD</code>. Setting
@@ -3313,6 +3359,7 @@ class MultitrackInputConfiguration {
   }
 }
 
+/// @nodoc
 class ContainerFormat {
   static const ts = ContainerFormat._('TS');
   static const fragmentedMp4 = ContainerFormat._('FRAGMENTED_MP4');
@@ -3337,6 +3384,7 @@ class ContainerFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class MultitrackPolicy {
   static const allow = MultitrackPolicy._('ALLOW');
   static const require = MultitrackPolicy._('REQUIRE');
@@ -3361,6 +3409,7 @@ class MultitrackPolicy {
   String toString() => value;
 }
 
+/// @nodoc
 class MultitrackMaximumResolution {
   static const sd = MultitrackMaximumResolution._('SD');
   static const hd = MultitrackMaximumResolution._('HD');
@@ -3389,6 +3438,8 @@ class MultitrackMaximumResolution {
 
 /// Object specifying a configuration for a server-side advertising insertion
 /// (which can be triggered with the operation).
+///
+/// @nodoc
 class AdConfiguration {
   /// Ad configuration ARN.
   final String arn;
@@ -3453,6 +3504,8 @@ class AdConfiguration {
 
 /// Object specifying a configuration for integration with an AWS Elemental
 /// MediaTailor (EMT).
+///
+/// @nodoc
 class MediaTailorPlaybackConfiguration {
   /// ARN of the customer-created EMT PlaybackConfiguration resource in the same
   /// region and account.
@@ -3478,6 +3531,8 @@ class MediaTailorPlaybackConfiguration {
 }
 
 /// Summary information about a stream session.
+///
+/// @nodoc
 class StreamSessionSummary {
   /// Time when the channel went offline. This is an ISO 8601 timestamp; <i>note
   /// that this is returned as a string</i>. For live streams, this is
@@ -3526,6 +3581,8 @@ class StreamSessionSummary {
 }
 
 /// Summary information about a stream.
+///
+/// @nodoc
 class StreamSummary {
   /// Channel ARN for the stream.
   final String? channelArn;
@@ -3591,6 +3648,7 @@ class StreamSummary {
   }
 }
 
+/// @nodoc
 class StreamState {
   static const live = StreamState._('LIVE');
   static const offline = StreamState._('OFFLINE');
@@ -3614,6 +3672,7 @@ class StreamState {
   String toString() => value;
 }
 
+/// @nodoc
 class StreamHealth {
   static const healthy = StreamHealth._('HEALTHY');
   static const starving = StreamHealth._('STARVING');
@@ -3639,6 +3698,8 @@ class StreamHealth {
 }
 
 /// Object specifying the stream attribute on which to filter.
+///
+/// @nodoc
 class StreamFilters {
   /// The stream’s health.
   final StreamHealth? health;
@@ -3656,6 +3717,8 @@ class StreamFilters {
 }
 
 /// Summary information about a stream key.
+///
+/// @nodoc
 class StreamKeySummary {
   /// Stream-key ARN.
   final String? arn;
@@ -3700,6 +3763,8 @@ class StreamKeySummary {
 }
 
 /// Summary information about a RecordingConfiguration.
+///
+/// @nodoc
 class RecordingConfigurationSummary {
   /// Recording-configuration ARN.
   final String arn;
@@ -3766,6 +3831,8 @@ class RecordingConfigurationSummary {
 /// A complex type that describes a location where recorded videos will be
 /// stored. Each member represents a type of destination configuration. For
 /// recording, you define one and only one type of destination configuration.
+///
+/// @nodoc
 class DestinationConfiguration {
   /// An S3 destination configuration where recorded videos will be stored.
   final S3DestinationConfiguration? s3;
@@ -3791,6 +3858,7 @@ class DestinationConfiguration {
   }
 }
 
+/// @nodoc
 class RecordingConfigurationState {
   static const creating = RecordingConfigurationState._('CREATING');
   static const createFailed = RecordingConfigurationState._('CREATE_FAILED');
@@ -3819,6 +3887,8 @@ class RecordingConfigurationState {
 
 /// A complex type that describes an S3 location where recorded videos will be
 /// stored.
+///
+/// @nodoc
 class S3DestinationConfiguration {
   /// Location (S3 bucket name) where recorded videos will be stored.
   final String bucketName;
@@ -3842,6 +3912,8 @@ class S3DestinationConfiguration {
 }
 
 /// Summary information about a PlaybackRestrictionPolicy.
+///
+/// @nodoc
 class PlaybackRestrictionPolicySummary {
   /// A list of country codes that control geoblocking restriction. Allowed values
   /// are the officially assigned <a
@@ -3922,6 +3994,8 @@ class PlaybackRestrictionPolicySummary {
 }
 
 /// Summary information about a playback key pair.
+///
+/// @nodoc
 class PlaybackKeyPairSummary {
   /// Key-pair ARN.
   final String? arn;
@@ -3966,6 +4040,8 @@ class PlaybackKeyPairSummary {
 }
 
 /// Summary information about a channel.
+///
+/// @nodoc
 class ChannelSummary {
   /// ARN of the ad configuration associated with the channel.
   final String? adConfigurationArn;
@@ -4087,6 +4163,8 @@ class ChannelSummary {
 }
 
 /// Summary information about an ad configuration.
+///
+/// @nodoc
 class AdConfigurationSummary {
   /// Ad configuration ARN.
   final String arn;
@@ -4150,6 +4228,8 @@ class AdConfigurationSummary {
 }
 
 /// A key pair used to sign and validate a playback authorization token.
+///
+/// @nodoc
 class PlaybackKeyPair {
   /// Key-pair ARN.
   final String? arn;
@@ -4203,6 +4283,8 @@ class PlaybackKeyPair {
 /// Object that captures the Amazon IVS configuration that the customer
 /// provisioned, the ingest configurations that the broadcaster used, and the
 /// most recent Amazon IVS stream events it encountered.
+///
+/// @nodoc
 class StreamSession {
   /// The properties of the channel at the time of going live.
   final Channel? channel;
@@ -4319,6 +4401,8 @@ class StreamSession {
 /// contain the same data, namely information about Track0 (the sole track). If
 /// multitrack is enabled, IngestConfiguration contains data for only the first
 /// track (Track0) and IngestConfigurations contains data for all tracks.
+///
+/// @nodoc
 class IngestConfiguration {
   /// Encoder settings for audio.
   final AudioConfiguration? audio;
@@ -4361,6 +4445,8 @@ class IngestConfiguration {
 /// (the sole track). If multitrack is enabled, IngestConfiguration contains
 /// data for only the first track (Track0) and IngestConfigurations contains
 /// data for all tracks.
+///
+/// @nodoc
 class IngestConfigurations {
   /// Encoder settings for audio.
   final List<AudioConfiguration> audioConfigurations;
@@ -4397,6 +4483,8 @@ class IngestConfigurations {
 }
 
 /// An object representing a configuration to record a channel stream.
+///
+/// @nodoc
 class RecordingConfiguration {
   /// Recording-configuration ARN.
   final String arn;
@@ -4499,6 +4587,8 @@ class RecordingConfiguration {
 /// Object specifying a stream’s events. For a list of events, see <a
 /// href="https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html">Using
 /// Amazon EventBridge with Amazon IVS</a>.
+///
+/// @nodoc
 class StreamEvent {
   /// Provides additional details about the stream event. There are several
   /// values; the long descriptions are provided in the IVS console but not
@@ -4596,6 +4686,8 @@ class StreamEvent {
 }
 
 /// An object representing a configuration of thumbnails for recorded video.
+///
+/// @nodoc
 class ThumbnailConfiguration {
   /// Thumbnail recording mode. Default: <code>INTERVAL</code>.
   final RecordingMode? recordingMode;
@@ -4672,6 +4764,8 @@ class ThumbnailConfiguration {
 }
 
 /// Object that describes which renditions should be recorded for a stream.
+///
+/// @nodoc
 class RenditionConfiguration {
   /// Indicates which set of renditions are recorded for a stream. For
   /// <code>BASIC</code> channels, the <code>CUSTOM</code> value has no effect. If
@@ -4717,6 +4811,7 @@ class RenditionConfiguration {
   }
 }
 
+/// @nodoc
 class RenditionConfigurationRenditionSelection {
   static const all = RenditionConfigurationRenditionSelection._('ALL');
   static const none = RenditionConfigurationRenditionSelection._('NONE');
@@ -4743,6 +4838,7 @@ class RenditionConfigurationRenditionSelection {
   String toString() => value;
 }
 
+/// @nodoc
 class RenditionConfigurationRendition {
   static const sd = RenditionConfigurationRendition._('SD');
   static const hd = RenditionConfigurationRendition._('HD');
@@ -4771,6 +4867,7 @@ class RenditionConfigurationRendition {
   String toString() => value;
 }
 
+/// @nodoc
 class RecordingMode {
   static const disabled = RecordingMode._('DISABLED');
   static const interval = RecordingMode._('INTERVAL');
@@ -4795,6 +4892,7 @@ class RecordingMode {
   String toString() => value;
 }
 
+/// @nodoc
 class ThumbnailConfigurationResolution {
   static const sd = ThumbnailConfigurationResolution._('SD');
   static const hd = ThumbnailConfigurationResolution._('HD');
@@ -4823,6 +4921,7 @@ class ThumbnailConfigurationResolution {
   String toString() => value;
 }
 
+/// @nodoc
 class ThumbnailConfigurationStorage {
   static const sequential = ThumbnailConfigurationStorage._('SEQUENTIAL');
   static const latest = ThumbnailConfigurationStorage._('LATEST');
@@ -4852,6 +4951,8 @@ class ThumbnailConfigurationStorage {
 /// broadcaster (usually in an encoder). This is part of the
 /// <a>IngestConfigurations</a> object and the deprecated
 /// <a>IngestConfiguration</a> object. It is used for monitoring stream health.
+///
+/// @nodoc
 class AudioConfiguration {
   /// Number of audio channels.
   final int? channels;
@@ -4908,6 +5009,8 @@ class AudioConfiguration {
 /// broadcaster (usually in an encoder). This is part of the
 /// <a>IngestConfigurations</a> object and the deprecated
 /// <a>IngestConfiguration</a> object. It is used for monitoring stream health.
+///
+/// @nodoc
 class VideoConfiguration {
   /// (Deprecated) Indicates the degree of required decoder performance for a
   /// profile. Normally this is set automatically by the encoder. For details, see
@@ -5013,6 +5116,8 @@ class VideoConfiguration {
 }
 
 /// Object specifying a stream key.
+///
+/// @nodoc
 class StreamKey {
   /// Stream-key ARN.
   final String? arn;
@@ -5064,6 +5169,8 @@ class StreamKey {
 }
 
 /// Specifies a live video stream that has been ingested and distributed.
+///
+/// @nodoc
 class Stream {
   /// Channel ARN for the stream.
   final String? channelArn;
@@ -5139,6 +5246,8 @@ class Stream {
 
 /// Error for a request in the batch for BatchStartViewerSessionRevocation. Each
 /// error is related to a specific channel-ARN and viewer-ID pair.
+///
+/// @nodoc
 class BatchStartViewerSessionRevocationError {
   /// Channel ARN.
   final String channelArn;
@@ -5185,6 +5294,8 @@ class BatchStartViewerSessionRevocationError {
 
 /// A viewer session to revoke in the call to
 /// <a>BatchStartViewerSessionRevocation</a>.
+///
+/// @nodoc
 class BatchStartViewerSessionRevocationViewerSession {
   /// The ARN of the channel associated with the viewer session to revoke.
   final String channelArn;
@@ -5221,6 +5332,8 @@ class BatchStartViewerSessionRevocationViewerSession {
 }
 
 /// Error related to a specific channel, specified by its ARN.
+///
+/// @nodoc
 class BatchError {
   /// ARN of an IVS resource; e.g., channel.
   final String? arn;
@@ -5257,36 +5370,43 @@ class BatchError {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ChannelNotBroadcasting extends _s.GenericAwsException {
   ChannelNotBroadcasting({String? type, String? message})
       : super(type: type, code: 'ChannelNotBroadcasting', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class PendingVerification extends _s.GenericAwsException {
   PendingVerification({String? type, String? message})
       : super(type: type, code: 'PendingVerification', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -5295,21 +5415,25 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ServiceUnavailable extends _s.GenericAwsException {
   ServiceUnavailable({String? type, String? message})
       : super(type: type, code: 'ServiceUnavailable', message: message);
 }
 
+/// @nodoc
 class StreamUnavailable extends _s.GenericAwsException {
   StreamUnavailable({String? type, String? message})
       : super(type: type, code: 'StreamUnavailable', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

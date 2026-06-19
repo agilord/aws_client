@@ -784,6 +784,7 @@ class MedicalImaging {
   }
 }
 
+/// @nodoc
 class CopyImageSetResponse {
   /// The data store identifier.
   final String datastoreId;
@@ -824,6 +825,7 @@ class CopyImageSetResponse {
   }
 }
 
+/// @nodoc
 class DeleteImageSetResponse {
   /// The data store identifier.
   final String datastoreId;
@@ -869,6 +871,7 @@ class DeleteImageSetResponse {
   }
 }
 
+/// @nodoc
 class GetDICOMImportJobResponse {
   /// The properties of the import job.
   final DICOMImportJobProperties jobProperties;
@@ -893,6 +896,7 @@ class GetDICOMImportJobResponse {
   }
 }
 
+/// @nodoc
 class GetImageFrameResponse {
   /// The blob containing the aggregated image frame information.
   final Uint8List imageFrameBlob;
@@ -985,6 +989,7 @@ class GetImageFrameResponse {
   }
 }
 
+/// @nodoc
 class GetImageSetResponse {
   /// The data store identifier.
   final String datastoreId;
@@ -1108,6 +1113,7 @@ class GetImageSetResponse {
   }
 }
 
+/// @nodoc
 class GetImageSetMetadataResponse {
   /// The blob containing the aggregated metadata information for the image set.
   final Uint8List imageSetMetadataBlob;
@@ -1135,6 +1141,7 @@ class GetImageSetMetadataResponse {
   }
 }
 
+/// @nodoc
 class ListDICOMImportJobsResponse {
   /// A list of job summaries.
   final List<DICOMImportJobSummary> jobSummaries;
@@ -1168,6 +1175,7 @@ class ListDICOMImportJobsResponse {
   }
 }
 
+/// @nodoc
 class ListImageSetVersionsResponse {
   /// Lists all properties associated with an image set.
   final List<ImageSetProperties> imageSetPropertiesList;
@@ -1202,6 +1210,7 @@ class ListImageSetVersionsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of all tags associated with a medical imaging resource.
   final Map<String, String> tags;
@@ -1226,6 +1235,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class SearchImageSetsResponse {
   /// The model containing the image set results.
   final List<ImageSetsMetadataSummary> imageSetsMetadataSummaries;
@@ -1269,6 +1279,7 @@ class SearchImageSetsResponse {
   }
 }
 
+/// @nodoc
 class StartDICOMImportJobResponse {
   /// The data store identifier.
   final String datastoreId;
@@ -1312,6 +1323,7 @@ class StartDICOMImportJobResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1324,6 +1336,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1336,6 +1349,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateImageSetMetadataResponse {
   /// The data store identifier.
   final String datastoreId;
@@ -1410,6 +1424,7 @@ class UpdateImageSetMetadataResponse {
   }
 }
 
+/// @nodoc
 class CreateDatastoreResponse {
   /// The data store identifier.
   final String datastoreId;
@@ -1440,6 +1455,7 @@ class CreateDatastoreResponse {
   }
 }
 
+/// @nodoc
 class GetDatastoreResponse {
   /// The data store properties.
   final DatastoreProperties datastoreProperties;
@@ -1464,6 +1480,7 @@ class GetDatastoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteDatastoreResponse {
   /// The data store identifier.
   final String datastoreId;
@@ -1494,6 +1511,7 @@ class DeleteDatastoreResponse {
   }
 }
 
+/// @nodoc
 class ListDatastoresResponse {
   /// The list of summaries of data stores.
   final List<DatastoreSummary>? datastoreSummaries;
@@ -1528,6 +1546,8 @@ class ListDatastoresResponse {
 }
 
 /// List of summaries of data stores.
+///
+/// @nodoc
 class DatastoreSummary {
   /// The data store identifier.
   final String datastoreId;
@@ -1586,6 +1606,7 @@ class DatastoreSummary {
   }
 }
 
+/// @nodoc
 class DatastoreStatus {
   static const creating = DatastoreStatus._('CREATING');
   static const createFailed = DatastoreStatus._('CREATE_FAILED');
@@ -1614,6 +1635,8 @@ class DatastoreStatus {
 }
 
 /// The properties associated with the data store.
+///
+/// @nodoc
 class DatastoreProperties {
   /// The data store identifier.
   final String datastoreId;
@@ -1697,6 +1720,7 @@ class DatastoreProperties {
   }
 }
 
+/// @nodoc
 class LosslessStorageFormat {
   static const htj2k = LosslessStorageFormat._('HTJ2K');
   static const jpeg_2000Lossless =
@@ -1723,6 +1747,7 @@ class LosslessStorageFormat {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageSetState {
   static const active = ImageSetState._('ACTIVE');
   static const locked = ImageSetState._('LOCKED');
@@ -1748,6 +1773,7 @@ class ImageSetState {
   String toString() => value;
 }
 
+/// @nodoc
 class ImageSetWorkflowStatus {
   static const created = ImageSetWorkflowStatus._('CREATED');
   static const copied = ImageSetWorkflowStatus._('COPIED');
@@ -1803,6 +1829,8 @@ class ImageSetWorkflowStatus {
 }
 
 /// Contains DICOMUpdates.
+///
+/// @nodoc
 class MetadataUpdates {
   /// The object containing <code>removableAttributes</code> and
   /// <code>updatableAttributes</code>.
@@ -1835,6 +1863,8 @@ class MetadataUpdates {
 
 /// The object containing <code>removableAttributes</code> and
 /// <code>updatableAttributes</code>.
+///
+/// @nodoc
 class DICOMUpdates {
   /// The DICOM tags to be removed from <code>ImageSetMetadata</code>.
   final Uint8List? removableAttributes;
@@ -1859,6 +1889,7 @@ class DICOMUpdates {
   }
 }
 
+/// @nodoc
 class JobStatus {
   static const submitted = JobStatus._('SUBMITTED');
   static const inProgress = JobStatus._('IN_PROGRESS');
@@ -1885,6 +1916,8 @@ class JobStatus {
 }
 
 /// The configuration options for different types of import operations.
+///
+/// @nodoc
 class ImportConfiguration {
   final DicomJsonMetadataImportConfiguration?
       dicomJsonMetadataImportConfiguration;
@@ -1917,6 +1950,8 @@ class ImportConfiguration {
 
 /// The configuration parameters that are specific to DICOM JSON metadata import
 /// operations.
+///
+/// @nodoc
 class DicomJsonMetadataImportConfiguration {
   /// Maps DCM files to their metadata.
   final List<DicomMetadataMapping> dicomMetadataMappings;
@@ -1945,6 +1980,8 @@ class DicomJsonMetadataImportConfiguration {
 }
 
 /// Maps DCM files to their metadata.
+///
+/// @nodoc
 class DicomMetadataMapping {
   /// The path to the JSON metadata file relative to inputS3Uri.
   final String metadataFilePath;
@@ -1983,6 +2020,8 @@ class DicomMetadataMapping {
 }
 
 /// Sort search results.
+///
+/// @nodoc
 class Sort {
   /// The sort field for search criteria.
   final SortField sortField;
@@ -2012,6 +2051,7 @@ class Sort {
   }
 }
 
+/// @nodoc
 class SortOrder {
   static const asc = SortOrder._('ASC');
   static const desc = SortOrder._('DESC');
@@ -2035,6 +2075,7 @@ class SortOrder {
   String toString() => value;
 }
 
+/// @nodoc
 class SortField {
   static const updatedAt = SortField._('updatedAt');
   static const createdAt = SortField._('createdAt');
@@ -2060,6 +2101,8 @@ class SortField {
 }
 
 /// Summary of the image set metadata.
+///
+/// @nodoc
 class ImageSetsMetadataSummary {
   /// The image set identifier.
   final String imageSetId;
@@ -2137,6 +2180,8 @@ class ImageSetsMetadataSummary {
 }
 
 /// Storage tier for image sets
+///
+/// @nodoc
 class StorageTier {
   static const frequentAccess = StorageTier._('FREQUENT_ACCESS');
   static const archiveInstantAccess = StorageTier._('ARCHIVE_INSTANT_ACCESS');
@@ -2162,6 +2207,8 @@ class StorageTier {
 
 /// The DICOM attributes returned as a part of a response. Each image set has
 /// these properties as part of a search result.
+///
+/// @nodoc
 class DICOMTags {
   /// The accession number for the DICOM study.
   final String? dICOMAccessionNumber;
@@ -2304,6 +2351,8 @@ class DICOMTags {
 }
 
 /// The search criteria.
+///
+/// @nodoc
 class SearchCriteria {
   /// The filters for the search criteria.
   final List<SearchFilter>? filters;
@@ -2327,6 +2376,8 @@ class SearchCriteria {
 }
 
 /// The search filter.
+///
+/// @nodoc
 class SearchFilter {
   /// The search filter operator for <code>imageSetDateTime</code>.
   final Operator operator;
@@ -2349,6 +2400,7 @@ class SearchFilter {
   }
 }
 
+/// @nodoc
 class Operator {
   static const equal = Operator._('EQUAL');
   static const between = Operator._('BETWEEN');
@@ -2373,6 +2425,8 @@ class Operator {
 }
 
 /// The search input attribute value.
+///
+/// @nodoc
 class SearchByAttributeValue {
   /// The DICOM accession number for search.
   final String? dICOMAccessionNumber;
@@ -2444,6 +2498,8 @@ class SearchByAttributeValue {
 
 /// The aggregated structure to store DICOM study date and study time for search
 /// capabilities.
+///
+/// @nodoc
 class DICOMStudyDateAndTime {
   /// The DICOM study date provided in <code>yyMMdd</code> format.
   final String dICOMStudyDate;
@@ -2467,6 +2523,8 @@ class DICOMStudyDateAndTime {
 }
 
 /// The image set properties.
+///
+/// @nodoc
 class ImageSetProperties {
   /// The image set identifier.
   final String imageSetId;
@@ -2561,6 +2619,8 @@ class ImageSetProperties {
 
 /// Specifies the overrides used in image set modification calls to
 /// <code>CopyImageSet</code> and <code>UpdateImageSetMetadata</code>.
+///
+/// @nodoc
 class Overrides {
   /// Providing this parameter will force completion of the
   /// <code>CopyImageSet</code> and <code>UpdateImageSetMetadata</code> actions,
@@ -2587,6 +2647,8 @@ class Overrides {
 }
 
 /// Summary of import job.
+///
+/// @nodoc
 class DICOMImportJobSummary {
   /// The data store identifier.
   final String datastoreId;
@@ -2660,6 +2722,8 @@ class DICOMImportJobSummary {
 }
 
 /// Information about the image frame (pixel data) identifier.
+///
+/// @nodoc
 class ImageFrameInformation {
   /// The image frame (pixel data) identifier.
   final String imageFrameId;
@@ -2677,6 +2741,8 @@ class ImageFrameInformation {
 }
 
 /// Properties of the import job.
+///
+/// @nodoc
 class DICOMImportJobProperties {
   /// The Amazon Resource Name (ARN) that grants permissions to access medical
   /// imaging resources.
@@ -2777,6 +2843,8 @@ class DICOMImportJobProperties {
 }
 
 /// Copy source image set properties.
+///
+/// @nodoc
 class CopySourceImageSetProperties {
   /// The image set identifier for the copied source image set.
   final String imageSetId;
@@ -2845,6 +2913,8 @@ class CopySourceImageSetProperties {
 }
 
 /// Copy the image set properties of the destination image set.
+///
+/// @nodoc
 class CopyDestinationImageSetProperties {
   /// The image set identifier of the copied image set properties.
   final String imageSetId;
@@ -2914,6 +2984,8 @@ class CopyDestinationImageSetProperties {
 }
 
 /// Copy image set information.
+///
+/// @nodoc
 class CopyImageSetInformation {
   /// The source image set.
   final CopySourceImageSetInformation sourceImageSet;
@@ -2938,6 +3010,8 @@ class CopyImageSetInformation {
 }
 
 /// Copy source image set information.
+///
+/// @nodoc
 class CopySourceImageSetInformation {
   /// The latest version identifier for the source image set.
   final String latestVersionId;
@@ -2962,6 +3036,8 @@ class CopySourceImageSetInformation {
 }
 
 /// Copy the destination image set.
+///
+/// @nodoc
 class CopyDestinationImageSet {
   /// The image set identifier for the destination image set.
   final String imageSetId;
@@ -2986,6 +3062,8 @@ class CopyDestinationImageSet {
 
 /// Contains copiable <code>Attributes</code> structure and wraps information
 /// related to specific copy use cases. For example, when copying subsets.
+///
+/// @nodoc
 class MetadataCopies {
   /// The JSON string used to specify a subset of SOP Instances to copy from
   /// source to destination image set.
@@ -3003,36 +3081,43 @@ class MetadataCopies {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class NotAcceptableException extends _s.GenericAwsException {
   NotAcceptableException({String? type, String? message})
       : super(type: type, code: 'NotAcceptableException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3041,11 +3126,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);

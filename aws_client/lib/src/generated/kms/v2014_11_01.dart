@@ -9755,6 +9755,7 @@ class Kms {
   }
 }
 
+/// @nodoc
 class CancelKeyDeletionResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
@@ -9779,6 +9780,7 @@ class CancelKeyDeletionResponse {
   }
 }
 
+/// @nodoc
 class ConnectCustomKeyStoreResponse {
   ConnectCustomKeyStoreResponse();
 
@@ -9791,6 +9793,7 @@ class ConnectCustomKeyStoreResponse {
   }
 }
 
+/// @nodoc
 class CreateCustomKeyStoreResponse {
   /// A unique identifier for the new custom key store.
   final String? customKeyStoreId;
@@ -9813,6 +9816,7 @@ class CreateCustomKeyStoreResponse {
   }
 }
 
+/// @nodoc
 class CreateGrantResponse {
   /// The unique identifier for the grant.
   ///
@@ -9853,6 +9857,7 @@ class CreateGrantResponse {
   }
 }
 
+/// @nodoc
 class CreateKeyResponse {
   /// Metadata associated with the KMS key.
   final KeyMetadata? keyMetadata;
@@ -9877,6 +9882,7 @@ class CreateKeyResponse {
   }
 }
 
+/// @nodoc
 class DecryptResponse {
   /// The plaintext data encrypted with the public key from the attestation
   /// document. This ciphertext can be decrypted only by using a private key from
@@ -9952,6 +9958,7 @@ class DecryptResponse {
   }
 }
 
+/// @nodoc
 class DeleteCustomKeyStoreResponse {
   DeleteCustomKeyStoreResponse();
 
@@ -9964,6 +9971,7 @@ class DeleteCustomKeyStoreResponse {
   }
 }
 
+/// @nodoc
 class DeleteImportedKeyMaterialResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
@@ -9996,6 +10004,7 @@ class DeleteImportedKeyMaterialResponse {
   }
 }
 
+/// @nodoc
 class DeriveSharedSecretResponse {
   /// The plaintext shared secret encrypted with the public key from the
   /// attestation document. This ciphertext can be decrypted only by using a
@@ -10074,6 +10083,7 @@ class DeriveSharedSecretResponse {
   }
 }
 
+/// @nodoc
 class DescribeCustomKeyStoresResponse {
   /// Contains metadata about each custom key store.
   final List<CustomKeyStoresListEntry>? customKeyStores;
@@ -10119,6 +10129,7 @@ class DescribeCustomKeyStoresResponse {
   }
 }
 
+/// @nodoc
 class DescribeKeyResponse {
   /// Metadata associated with the key.
   final KeyMetadata? keyMetadata;
@@ -10143,6 +10154,7 @@ class DescribeKeyResponse {
   }
 }
 
+/// @nodoc
 class DisconnectCustomKeyStoreResponse {
   DisconnectCustomKeyStoreResponse();
 
@@ -10155,6 +10167,7 @@ class DisconnectCustomKeyStoreResponse {
   }
 }
 
+/// @nodoc
 class EncryptResponse {
   /// The encrypted plaintext. When you use the HTTP API or the Amazon Web
   /// Services CLI, the value is Base64-encoded. Otherwise, it is not
@@ -10199,6 +10212,7 @@ class EncryptResponse {
   }
 }
 
+/// @nodoc
 class GenerateDataKeyResponse {
   /// The encrypted copy of the data key. When you use the HTTP API or the Amazon
   /// Web Services CLI, the value is Base64-encoded. Otherwise, it is not
@@ -10275,6 +10289,7 @@ class GenerateDataKeyResponse {
   }
 }
 
+/// @nodoc
 class GenerateDataKeyPairResponse {
   /// The plaintext private data key encrypted with the public key from the
   /// attestation document. This ciphertext can be decrypted only by using a
@@ -10368,6 +10383,7 @@ class GenerateDataKeyPairResponse {
   }
 }
 
+/// @nodoc
 class GenerateDataKeyPairWithoutPlaintextResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
@@ -10428,6 +10444,7 @@ class GenerateDataKeyPairWithoutPlaintextResponse {
   }
 }
 
+/// @nodoc
 class GenerateDataKeyWithoutPlaintextResponse {
   /// The encrypted data key. When you use the HTTP API or the Amazon Web Services
   /// CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
@@ -10470,6 +10487,7 @@ class GenerateDataKeyWithoutPlaintextResponse {
   }
 }
 
+/// @nodoc
 class GenerateMacResponse {
   /// The HMAC KMS key used in the operation.
   final String? keyId;
@@ -10511,6 +10529,7 @@ class GenerateMacResponse {
   }
 }
 
+/// @nodoc
 class GenerateRandomResponse {
   /// The plaintext random bytes encrypted with the public key from the
   /// attestation document. This ciphertext can be decrypted only by using a
@@ -10557,6 +10576,7 @@ class GenerateRandomResponse {
   }
 }
 
+/// @nodoc
 class GetKeyLastUsageResponse {
   /// The date and time when the KMS key was created.
   final DateTime? keyCreationDate;
@@ -10608,6 +10628,7 @@ class GetKeyLastUsageResponse {
   }
 }
 
+/// @nodoc
 class GetKeyPolicyResponse {
   /// A key policy document in JSON format.
   final String? policy;
@@ -10637,6 +10658,7 @@ class GetKeyPolicyResponse {
   }
 }
 
+/// @nodoc
 class GetKeyRotationStatusResponse {
   /// Identifies the specified symmetric encryption KMS key.
   final String? keyId;
@@ -10700,6 +10722,7 @@ class GetKeyRotationStatusResponse {
   }
 }
 
+/// @nodoc
 class GetParametersForImportResponse {
   /// The import token to send in a subsequent <a>ImportKeyMaterial</a> request.
   final Uint8List? importToken;
@@ -10752,6 +10775,7 @@ class GetParametersForImportResponse {
   }
 }
 
+/// @nodoc
 class GetPublicKeyResponse {
   /// Instead, use the <code>KeySpec</code> field in the <code>GetPublicKey</code>
   /// response.
@@ -10872,6 +10896,7 @@ class GetPublicKeyResponse {
   }
 }
 
+/// @nodoc
 class ImportKeyMaterialResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
@@ -10903,6 +10928,7 @@ class ImportKeyMaterialResponse {
   }
 }
 
+/// @nodoc
 class ListAliasesResponse {
   /// A list of aliases.
   final List<AliasListEntry>? aliases;
@@ -10947,6 +10973,7 @@ class ListAliasesResponse {
   }
 }
 
+/// @nodoc
 class ListGrantsResponse {
   /// A list of grants.
   final List<GrantListEntry>? grants;
@@ -10991,6 +11018,7 @@ class ListGrantsResponse {
   }
 }
 
+/// @nodoc
 class ListKeyPoliciesResponse {
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
@@ -11035,6 +11063,7 @@ class ListKeyPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListKeyRotationsResponse {
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
@@ -11082,6 +11111,7 @@ class ListKeyRotationsResponse {
   }
 }
 
+/// @nodoc
 class ListKeysResponse {
   /// A list of KMS keys.
   final List<KeyListEntry>? keys;
@@ -11126,6 +11156,7 @@ class ListKeysResponse {
   }
 }
 
+/// @nodoc
 class ListResourceTagsResponse {
   /// When <code>Truncated</code> is true, this element is present and contains
   /// the value to use for the <code>Marker</code> parameter in a subsequent
@@ -11178,6 +11209,7 @@ class ListResourceTagsResponse {
   }
 }
 
+/// @nodoc
 class ReEncryptResponse {
   /// The reencrypted data. When you use the HTTP API or the Amazon Web Services
   /// CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
@@ -11258,6 +11290,7 @@ class ReEncryptResponse {
   }
 }
 
+/// @nodoc
 class ReplicateKeyResponse {
   /// Displays details about the new replica key, including its Amazon Resource
   /// Name (<a
@@ -11308,6 +11341,7 @@ class ReplicateKeyResponse {
   }
 }
 
+/// @nodoc
 class RotateKeyOnDemandResponse {
   /// Identifies the symmetric encryption KMS key that you initiated on-demand
   /// rotation on.
@@ -11331,6 +11365,7 @@ class RotateKeyOnDemandResponse {
   }
 }
 
+/// @nodoc
 class ScheduleKeyDeletionResponse {
   /// The date and time after which KMS deletes the KMS key.
   ///
@@ -11391,6 +11426,7 @@ class ScheduleKeyDeletionResponse {
   }
 }
 
+/// @nodoc
 class SignResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
@@ -11448,6 +11484,7 @@ class SignResponse {
   }
 }
 
+/// @nodoc
 class UpdateCustomKeyStoreResponse {
   UpdateCustomKeyStoreResponse();
 
@@ -11460,6 +11497,7 @@ class UpdateCustomKeyStoreResponse {
   }
 }
 
+/// @nodoc
 class VerifyResponse {
   /// The Amazon Resource Name (<a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">key
@@ -11504,6 +11542,7 @@ class VerifyResponse {
   }
 }
 
+/// @nodoc
 class VerifyMacResponse {
   /// The HMAC KMS key used in the verification.
   final String? keyId;
@@ -11548,6 +11587,7 @@ class VerifyMacResponse {
   }
 }
 
+/// @nodoc
 class MacAlgorithmSpec {
   static const hmacSha_224 = MacAlgorithmSpec._('HMAC_SHA_224');
   static const hmacSha_256 = MacAlgorithmSpec._('HMAC_SHA_256');
@@ -11574,6 +11614,7 @@ class MacAlgorithmSpec {
   String toString() => value;
 }
 
+/// @nodoc
 class SigningAlgorithmSpec {
   static const rsassaPssSha_256 = SigningAlgorithmSpec._('RSASSA_PSS_SHA_256');
   static const rsassaPssSha_384 = SigningAlgorithmSpec._('RSASSA_PSS_SHA_384');
@@ -11627,6 +11668,7 @@ class SigningAlgorithmSpec {
   String toString() => value;
 }
 
+/// @nodoc
 class MessageType {
   static const raw = MessageType._('RAW');
   static const digest = MessageType._('DIGEST');
@@ -11657,6 +11699,8 @@ class MessageType {
 ///
 /// The <code>XksProxyAuthenticationCredential</code> includes two required
 /// elements.
+///
+/// @nodoc
 class XksProxyAuthenticationCredentialType {
   /// A unique identifier for the raw secret access key.
   final String accessKeyId;
@@ -11680,6 +11724,7 @@ class XksProxyAuthenticationCredentialType {
   }
 }
 
+/// @nodoc
 class XksProxyConnectivityType {
   static const publicEndpoint = XksProxyConnectivityType._('PUBLIC_ENDPOINT');
   static const vpcEndpointService =
@@ -11717,6 +11762,8 @@ class XksProxyConnectivityType {
 /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
 /// Tag Restrictions</a> in the <i>Amazon Web Services Billing and Cost
 /// Management User Guide</i>.
+///
+/// @nodoc
 class Tag {
   /// The key of the tag.
   final String tagKey;
@@ -11746,6 +11793,7 @@ class Tag {
   }
 }
 
+/// @nodoc
 class KeyState {
   static const creating = KeyState._('Creating');
   static const enabled = KeyState._('Enabled');
@@ -11788,6 +11836,8 @@ class KeyState {
 ///
 /// This data type is used as a response element for the <a>CreateKey</a>,
 /// <a>DescribeKey</a>, and <a>ReplicateKey</a> operations.
+///
+/// @nodoc
 class KeyMetadata {
   /// The globally unique identifier for the KMS key.
   final String keyId;
@@ -12130,6 +12180,7 @@ class KeyMetadata {
   }
 }
 
+/// @nodoc
 class KeyUsageType {
   static const signVerify = KeyUsageType._('SIGN_VERIFY');
   static const encryptDecrypt = KeyUsageType._('ENCRYPT_DECRYPT');
@@ -12160,6 +12211,7 @@ class KeyUsageType {
   String toString() => value;
 }
 
+/// @nodoc
 class OriginType {
   static const awsKms = OriginType._('AWS_KMS');
   static const external = OriginType._('EXTERNAL');
@@ -12185,6 +12237,7 @@ class OriginType {
   String toString() => value;
 }
 
+/// @nodoc
 class ExpirationModelType {
   static const keyMaterialExpires =
       ExpirationModelType._('KEY_MATERIAL_EXPIRES');
@@ -12212,6 +12265,7 @@ class ExpirationModelType {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyManagerType {
   static const aws = KeyManagerType._('AWS');
   static const customer = KeyManagerType._('CUSTOMER');
@@ -12236,6 +12290,7 @@ class KeyManagerType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomerMasterKeySpec {
   static const rsa_2048 = CustomerMasterKeySpec._('RSA_2048');
   static const rsa_3072 = CustomerMasterKeySpec._('RSA_3072');
@@ -12286,6 +12341,7 @@ class CustomerMasterKeySpec {
   String toString() => value;
 }
 
+/// @nodoc
 class KeySpec {
   static const rsa_2048 = KeySpec._('RSA_2048');
   static const rsa_3072 = KeySpec._('RSA_3072');
@@ -12347,6 +12403,8 @@ class KeySpec {
 ///
 /// For more information about any listed KMS key, use the <a>DescribeKey</a>
 /// operation.
+///
+/// @nodoc
 class MultiRegionConfiguration {
   /// Indicates whether the KMS key is a <code>PRIMARY</code> or
   /// <code>REPLICA</code> key.
@@ -12407,6 +12465,8 @@ class MultiRegionConfiguration {
 /// external key. For more information, see <a
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key">External
 /// key</a> in the <i>Key Management Service Developer Guide</i>.
+///
+/// @nodoc
 class XksKeyConfigurationType {
   /// The ID of the external key in its external key manager. This is the ID that
   /// the external key store proxy uses to identify the external key.
@@ -12430,6 +12490,7 @@ class XksKeyConfigurationType {
   }
 }
 
+/// @nodoc
 class MultiRegionKeyType {
   static const primary = MultiRegionKeyType._('PRIMARY');
   static const replica = MultiRegionKeyType._('REPLICA');
@@ -12456,6 +12517,8 @@ class MultiRegionKeyType {
 }
 
 /// Describes the primary or replica key in a multi-Region key.
+///
+/// @nodoc
 class MultiRegionKey {
   /// Displays the key ARN of a primary or replica key of a multi-Region key.
   final String? arn;
@@ -12486,6 +12549,7 @@ class MultiRegionKey {
   }
 }
 
+/// @nodoc
 class KeyAgreementAlgorithmSpec {
   static const ecdh = KeyAgreementAlgorithmSpec._('ECDH');
 
@@ -12510,6 +12574,7 @@ class KeyAgreementAlgorithmSpec {
   String toString() => value;
 }
 
+/// @nodoc
 class EncryptionAlgorithmSpec {
   static const symmetricDefault =
       EncryptionAlgorithmSpec._('SYMMETRIC_DEFAULT');
@@ -12544,6 +12609,7 @@ class EncryptionAlgorithmSpec {
   String toString() => value;
 }
 
+/// @nodoc
 class DryRunModifierType {
   static const ignoreCiphertext = DryRunModifierType._('IGNORE_CIPHERTEXT');
 
@@ -12569,6 +12635,8 @@ class DryRunModifierType {
 }
 
 /// Contains information about each entry in the key list.
+///
+/// @nodoc
 class KeyListEntry {
   /// ARN of the key.
   final String? keyArn;
@@ -12600,6 +12668,8 @@ class KeyListEntry {
 
 /// Each entry contains information about one of the key materials associated
 /// with a KMS key.
+///
+/// @nodoc
 class RotationsListEntry {
   /// Indicates if the key material is configured to automatically expire. There
   /// are two possible values for this field: <code>KEY_MATERIAL_EXPIRES</code>
@@ -12724,6 +12794,7 @@ class RotationsListEntry {
   }
 }
 
+/// @nodoc
 class ImportState {
   static const imported = ImportState._('IMPORTED');
   static const pendingImport = ImportState._('PENDING_IMPORT');
@@ -12747,6 +12818,7 @@ class ImportState {
   String toString() => value;
 }
 
+/// @nodoc
 class KeyMaterialState {
   static const nonCurrent = KeyMaterialState._('NON_CURRENT');
   static const current = KeyMaterialState._('CURRENT');
@@ -12779,6 +12851,7 @@ class KeyMaterialState {
   String toString() => value;
 }
 
+/// @nodoc
 class RotationType {
   static const automatic = RotationType._('AUTOMATIC');
   static const onDemand = RotationType._('ON_DEMAND');
@@ -12802,6 +12875,7 @@ class RotationType {
   String toString() => value;
 }
 
+/// @nodoc
 class IncludeKeyMaterial {
   static const allKeyMaterial = IncludeKeyMaterial._('ALL_KEY_MATERIAL');
   static const rotationsOnly = IncludeKeyMaterial._('ROTATIONS_ONLY');
@@ -12828,6 +12902,8 @@ class IncludeKeyMaterial {
 }
 
 /// Contains information about a grant.
+///
+/// @nodoc
 class GrantListEntry {
   /// The constraints on the grant, such as encryption context pairs or a
   /// SourceArn, that restrict the subsequent operations the grant allows.
@@ -12993,6 +13069,8 @@ class GrantListEntry {
 /// not apply to <a>RetireGrant</a> operation.
 /// </li>
 /// </ul>
+///
+/// @nodoc
 class GrantConstraints {
   /// A list of key-value pairs that must match the encryption context in the <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations">cryptographic
@@ -13052,6 +13130,7 @@ class GrantConstraints {
   }
 }
 
+/// @nodoc
 class GrantOperation {
   static const decrypt = GrantOperation._('Decrypt');
   static const encrypt = GrantOperation._('Encrypt');
@@ -13112,6 +13191,8 @@ class GrantOperation {
 }
 
 /// Contains information about an alias.
+///
+/// @nodoc
 class AliasListEntry {
   /// String that contains the key ARN.
   final String? aliasArn;
@@ -13167,6 +13248,7 @@ class AliasListEntry {
   }
 }
 
+/// @nodoc
 class ImportType {
   static const newKeyMaterial = ImportType._('NEW_KEY_MATERIAL');
   static const existingKeyMaterial = ImportType._('EXISTING_KEY_MATERIAL');
@@ -13190,6 +13272,7 @@ class ImportType {
   String toString() => value;
 }
 
+/// @nodoc
 class AlgorithmSpec {
   static const rsaesPkcs1V1_5 = AlgorithmSpec._('RSAES_PKCS1_V1_5');
   static const rsaesOaepSha_1 = AlgorithmSpec._('RSAES_OAEP_SHA_1');
@@ -13226,6 +13309,7 @@ class AlgorithmSpec {
   String toString() => value;
 }
 
+/// @nodoc
 class WrappingKeySpec {
   static const rsa_2048 = WrappingKeySpec._('RSA_2048');
   static const rsa_3072 = WrappingKeySpec._('RSA_3072');
@@ -13254,6 +13338,8 @@ class WrappingKeySpec {
 
 /// Contains usage information about the last time the KMS key was used for a
 /// successful cryptographic operation.
+///
+/// @nodoc
 class KeyLastUsageData {
   /// The CloudTrail <code>eventId</code> associated with the last successful
   /// cryptographic operation. Absent if the key has not been used since KMS began
@@ -13304,6 +13390,7 @@ class KeyLastUsageData {
   }
 }
 
+/// @nodoc
 class KeyLastUsageTrackingOperation {
   static const decrypt = KeyLastUsageTrackingOperation._('Decrypt');
   static const deriveSharedSecret =
@@ -13367,6 +13454,8 @@ class KeyLastUsageTrackingOperation {
 /// href="https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html">Cryptographic
 /// attestation support in KMS</a> in the <i>Key Management Service Developer
 /// Guide</i>.
+///
+/// @nodoc
 class RecipientInfo {
   /// The attestation document for an Amazon Web Services Nitro Enclave or a
   /// NitroTPM. This document includes the enclave's public key.
@@ -13394,6 +13483,7 @@ class RecipientInfo {
   }
 }
 
+/// @nodoc
 class KeyEncryptionMechanism {
   static const rsaesOaepSha_256 =
       KeyEncryptionMechanism._('RSAES_OAEP_SHA_256');
@@ -13419,6 +13509,7 @@ class KeyEncryptionMechanism {
   String toString() => value;
 }
 
+/// @nodoc
 class DataKeySpec {
   static const aes_256 = DataKeySpec._('AES_256');
   static const aes_128 = DataKeySpec._('AES_128');
@@ -13442,6 +13533,7 @@ class DataKeySpec {
   String toString() => value;
 }
 
+/// @nodoc
 class DataKeyPairSpec {
   static const rsa_2048 = DataKeyPairSpec._('RSA_2048');
   static const rsa_3072 = DataKeyPairSpec._('RSA_3072');
@@ -13485,6 +13577,8 @@ class DataKeyPairSpec {
 
 /// Contains information about each custom key store in the custom key store
 /// list.
+///
+/// @nodoc
 class CustomKeyStoresListEntry {
   /// A unique identifier for the CloudHSM cluster that is associated with an
   /// CloudHSM key store. This field appears only when the
@@ -13811,6 +13905,7 @@ class CustomKeyStoresListEntry {
   }
 }
 
+/// @nodoc
 class ConnectionStateType {
   static const connected = ConnectionStateType._('CONNECTED');
   static const connecting = ConnectionStateType._('CONNECTING');
@@ -13845,6 +13940,7 @@ class ConnectionStateType {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionErrorCodeType {
   static const invalidCredentials =
       ConnectionErrorCodeType._('INVALID_CREDENTIALS');
@@ -13917,6 +14013,7 @@ class ConnectionErrorCodeType {
   String toString() => value;
 }
 
+/// @nodoc
 class CustomKeyStoreType {
   static const awsCloudhsm = CustomKeyStoreType._('AWS_CLOUDHSM');
   static const externalKeyStore = CustomKeyStoreType._('EXTERNAL_KEY_STORE');
@@ -13947,6 +14044,8 @@ class CustomKeyStoreType {
 /// external key manager can understand. These fields appear in a
 /// <a>DescribeCustomKeyStores</a> response only when the
 /// <code>CustomKeyStoreType</code> is <code>EXTERNAL_KEY_STORE</code>.
+///
+/// @nodoc
 class XksProxyConfigurationType {
   /// The part of the external key store <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateCustomKeyStore.html#KMS-CreateCustomKeyStore-request-XksProxyAuthenticationCredential">proxy
@@ -14022,11 +14121,13 @@ class XksProxyConfigurationType {
   }
 }
 
+/// @nodoc
 class AlreadyExistsException extends _s.GenericAwsException {
   AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
+/// @nodoc
 class CloudHsmClusterInUseException extends _s.GenericAwsException {
   CloudHsmClusterInUseException({String? type, String? message})
       : super(
@@ -14035,6 +14136,7 @@ class CloudHsmClusterInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudHsmClusterInvalidConfigurationException
     extends _s.GenericAwsException {
   CloudHsmClusterInvalidConfigurationException({String? type, String? message})
@@ -14044,6 +14146,7 @@ class CloudHsmClusterInvalidConfigurationException
             message: message);
 }
 
+/// @nodoc
 class CloudHsmClusterNotActiveException extends _s.GenericAwsException {
   CloudHsmClusterNotActiveException({String? type, String? message})
       : super(
@@ -14052,6 +14155,7 @@ class CloudHsmClusterNotActiveException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudHsmClusterNotFoundException extends _s.GenericAwsException {
   CloudHsmClusterNotFoundException({String? type, String? message})
       : super(
@@ -14060,6 +14164,7 @@ class CloudHsmClusterNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CloudHsmClusterNotRelatedException extends _s.GenericAwsException {
   CloudHsmClusterNotRelatedException({String? type, String? message})
       : super(
@@ -14068,11 +14173,13 @@ class CloudHsmClusterNotRelatedException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class CustomKeyStoreHasCMKsException extends _s.GenericAwsException {
   CustomKeyStoreHasCMKsException({String? type, String? message})
       : super(
@@ -14081,6 +14188,7 @@ class CustomKeyStoreHasCMKsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomKeyStoreInvalidStateException extends _s.GenericAwsException {
   CustomKeyStoreInvalidStateException({String? type, String? message})
       : super(
@@ -14089,6 +14197,7 @@ class CustomKeyStoreInvalidStateException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomKeyStoreNameInUseException extends _s.GenericAwsException {
   CustomKeyStoreNameInUseException({String? type, String? message})
       : super(
@@ -14097,6 +14206,7 @@ class CustomKeyStoreNameInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class CustomKeyStoreNotFoundException extends _s.GenericAwsException {
   CustomKeyStoreNotFoundException({String? type, String? message})
       : super(
@@ -14105,32 +14215,38 @@ class CustomKeyStoreNotFoundException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DependencyTimeoutException extends _s.GenericAwsException {
   DependencyTimeoutException({String? type, String? message})
       : super(type: type, code: 'DependencyTimeoutException', message: message);
 }
 
+/// @nodoc
 class DisabledException extends _s.GenericAwsException {
   DisabledException({String? type, String? message})
       : super(type: type, code: 'DisabledException', message: message);
 }
 
+/// @nodoc
 class DryRunOperationException extends _s.GenericAwsException {
   DryRunOperationException({String? type, String? message})
       : super(type: type, code: 'DryRunOperationException', message: message);
 }
 
+/// @nodoc
 class ExpiredImportTokenException extends _s.GenericAwsException {
   ExpiredImportTokenException({String? type, String? message})
       : super(
             type: type, code: 'ExpiredImportTokenException', message: message);
 }
 
+/// @nodoc
 class IncorrectKeyException extends _s.GenericAwsException {
   IncorrectKeyException({String? type, String? message})
       : super(type: type, code: 'IncorrectKeyException', message: message);
 }
 
+/// @nodoc
 class IncorrectKeyMaterialException extends _s.GenericAwsException {
   IncorrectKeyMaterialException({String? type, String? message})
       : super(
@@ -14139,6 +14255,7 @@ class IncorrectKeyMaterialException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IncorrectTrustAnchorException extends _s.GenericAwsException {
   IncorrectTrustAnchorException({String? type, String? message})
       : super(
@@ -14147,78 +14264,93 @@ class IncorrectTrustAnchorException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidAliasNameException extends _s.GenericAwsException {
   InvalidAliasNameException({String? type, String? message})
       : super(type: type, code: 'InvalidAliasNameException', message: message);
 }
 
+/// @nodoc
 class InvalidArnException extends _s.GenericAwsException {
   InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
+/// @nodoc
 class InvalidCiphertextException extends _s.GenericAwsException {
   InvalidCiphertextException({String? type, String? message})
       : super(type: type, code: 'InvalidCiphertextException', message: message);
 }
 
+/// @nodoc
 class InvalidGrantIdException extends _s.GenericAwsException {
   InvalidGrantIdException({String? type, String? message})
       : super(type: type, code: 'InvalidGrantIdException', message: message);
 }
 
+/// @nodoc
 class InvalidGrantTokenException extends _s.GenericAwsException {
   InvalidGrantTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidGrantTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidImportTokenException extends _s.GenericAwsException {
   InvalidImportTokenException({String? type, String? message})
       : super(
             type: type, code: 'InvalidImportTokenException', message: message);
 }
 
+/// @nodoc
 class InvalidKeyUsageException extends _s.GenericAwsException {
   InvalidKeyUsageException({String? type, String? message})
       : super(type: type, code: 'InvalidKeyUsageException', message: message);
 }
 
+/// @nodoc
 class InvalidMarkerException extends _s.GenericAwsException {
   InvalidMarkerException({String? type, String? message})
       : super(type: type, code: 'InvalidMarkerException', message: message);
 }
 
+/// @nodoc
 class KMSInternalException extends _s.GenericAwsException {
   KMSInternalException({String? type, String? message})
       : super(type: type, code: 'KMSInternalException', message: message);
 }
 
+/// @nodoc
 class KMSInvalidMacException extends _s.GenericAwsException {
   KMSInvalidMacException({String? type, String? message})
       : super(type: type, code: 'KMSInvalidMacException', message: message);
 }
 
+/// @nodoc
 class KMSInvalidSignatureException extends _s.GenericAwsException {
   KMSInvalidSignatureException({String? type, String? message})
       : super(
             type: type, code: 'KMSInvalidSignatureException', message: message);
 }
 
+/// @nodoc
 class KMSInvalidStateException extends _s.GenericAwsException {
   KMSInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateException', message: message);
 }
 
+/// @nodoc
 class KeyUnavailableException extends _s.GenericAwsException {
   KeyUnavailableException({String? type, String? message})
       : super(type: type, code: 'KeyUnavailableException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -14227,16 +14359,19 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class NotFoundException extends _s.GenericAwsException {
   NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
+/// @nodoc
 class TagException extends _s.GenericAwsException {
   TagException({String? type, String? message})
       : super(type: type, code: 'TagException', message: message);
 }
 
+/// @nodoc
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(
@@ -14245,12 +14380,14 @@ class UnsupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class XksKeyAlreadyInUseException extends _s.GenericAwsException {
   XksKeyAlreadyInUseException({String? type, String? message})
       : super(
             type: type, code: 'XksKeyAlreadyInUseException', message: message);
 }
 
+/// @nodoc
 class XksKeyInvalidConfigurationException extends _s.GenericAwsException {
   XksKeyInvalidConfigurationException({String? type, String? message})
       : super(
@@ -14259,11 +14396,13 @@ class XksKeyInvalidConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class XksKeyNotFoundException extends _s.GenericAwsException {
   XksKeyNotFoundException({String? type, String? message})
       : super(type: type, code: 'XksKeyNotFoundException', message: message);
 }
 
+/// @nodoc
 class XksProxyIncorrectAuthenticationCredentialException
     extends _s.GenericAwsException {
   XksProxyIncorrectAuthenticationCredentialException(
@@ -14274,6 +14413,7 @@ class XksProxyIncorrectAuthenticationCredentialException
             message: message);
 }
 
+/// @nodoc
 class XksProxyInvalidConfigurationException extends _s.GenericAwsException {
   XksProxyInvalidConfigurationException({String? type, String? message})
       : super(
@@ -14282,6 +14422,7 @@ class XksProxyInvalidConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class XksProxyInvalidResponseException extends _s.GenericAwsException {
   XksProxyInvalidResponseException({String? type, String? message})
       : super(
@@ -14290,6 +14431,7 @@ class XksProxyInvalidResponseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class XksProxyUriEndpointInUseException extends _s.GenericAwsException {
   XksProxyUriEndpointInUseException({String? type, String? message})
       : super(
@@ -14298,11 +14440,13 @@ class XksProxyUriEndpointInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class XksProxyUriInUseException extends _s.GenericAwsException {
   XksProxyUriInUseException({String? type, String? message})
       : super(type: type, code: 'XksProxyUriInUseException', message: message);
 }
 
+/// @nodoc
 class XksProxyUriUnreachableException extends _s.GenericAwsException {
   XksProxyUriUnreachableException({String? type, String? message})
       : super(
@@ -14311,6 +14455,7 @@ class XksProxyUriUnreachableException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class XksProxyVpcEndpointServiceInUseException extends _s.GenericAwsException {
   XksProxyVpcEndpointServiceInUseException({String? type, String? message})
       : super(
@@ -14319,6 +14464,7 @@ class XksProxyVpcEndpointServiceInUseException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class XksProxyVpcEndpointServiceInvalidConfigurationException
     extends _s.GenericAwsException {
   XksProxyVpcEndpointServiceInvalidConfigurationException(
@@ -14329,6 +14475,7 @@ class XksProxyVpcEndpointServiceInvalidConfigurationException
             message: message);
 }
 
+/// @nodoc
 class XksProxyVpcEndpointServiceNotFoundException
     extends _s.GenericAwsException {
   XksProxyVpcEndpointServiceNotFoundException({String? type, String? message})

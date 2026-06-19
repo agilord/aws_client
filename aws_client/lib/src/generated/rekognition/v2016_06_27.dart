@@ -2129,12 +2129,12 @@ class Rekognition {
   /// <code>BoundingBox</code>, <code>Confidence</code>, <code>Pose</code>,
   /// <code>Quality</code>, and <code>Landmarks</code> - will always be
   /// returned. You can request for specific facial attributes (in addition to
-  /// the default list) - by using [<code>"DEFAULT", "FACE_OCCLUDED"</code>] or
-  /// just [<code>"FACE_OCCLUDED"</code>]. You can request for all facial
-  /// attributes by using [<code>"ALL"]</code>. Requesting more attributes may
+  /// the default list) - by using \[<code>"DEFAULT", "FACE_OCCLUDED"</code>\]
+  /// or just \[<code>"FACE_OCCLUDED"</code>\]. You can request for all facial
+  /// attributes by using \[<code>"ALL"\]</code>. Requesting more attributes may
   /// increase response time.
   ///
-  /// If you provide both, <code>["ALL", "DEFAULT"]</code>, the service uses a
+  /// If you provide both, <code>\["ALL", "DEFAULT"\]</code>, the service uses a
   /// logical "AND" operator to determine which attributes to return (in this
   /// case, all attributes).
   ///
@@ -3906,12 +3906,12 @@ class Rekognition {
   /// <code>BoundingBox</code>, <code>Confidence</code>, <code>Pose</code>,
   /// <code>Quality</code>, and <code>Landmarks</code> - will always be
   /// returned. You can request for specific facial attributes (in addition to
-  /// the default list) - by using <code>["DEFAULT", "FACE_OCCLUDED"]</code> or
-  /// just <code>["FACE_OCCLUDED"]</code>. You can request for all facial
-  /// attributes by using <code>["ALL"]</code>. Requesting more attributes may
+  /// the default list) - by using <code>\["DEFAULT", "FACE_OCCLUDED"\]</code>
+  /// or just <code>\["FACE_OCCLUDED"\]</code>. You can request for all facial
+  /// attributes by using <code>\["ALL"\]</code>. Requesting more attributes may
   /// increase response time.
   ///
-  /// If you provide both, <code>["ALL", "DEFAULT"]</code>, the service uses a
+  /// If you provide both, <code>\["ALL", "DEFAULT"\]</code>, the service uses a
   /// logical AND operator to determine which attributes to return (in this
   /// case, all attributes).
   ///
@@ -6320,6 +6320,7 @@ class Rekognition {
   }
 }
 
+/// @nodoc
 class AssociateFacesResponse {
   /// An array of AssociatedFace objects containing FaceIDs that have been
   /// successfully associated with the UserID. Returned if the AssociateFaces
@@ -6370,6 +6371,7 @@ class AssociateFacesResponse {
   }
 }
 
+/// @nodoc
 class CompareFacesResponse {
   /// An array of faces in the target image that match the source image face. Each
   /// <code>CompareFacesMatch</code> object provides the bounding box, the
@@ -6467,6 +6469,7 @@ class CompareFacesResponse {
   }
 }
 
+/// @nodoc
 class CopyProjectVersionResponse {
   /// The ARN of the copied model version in the destination project.
   final String? projectVersionArn;
@@ -6489,6 +6492,7 @@ class CopyProjectVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateCollectionResponse {
   /// Amazon Resource Name (ARN) of the collection. You can use this to manage
   /// permissions on your resources.
@@ -6527,6 +6531,7 @@ class CreateCollectionResponse {
   }
 }
 
+/// @nodoc
 class CreateDatasetResponse {
   /// The ARN of the created Amazon Rekognition Custom Labels dataset.
   final String? datasetArn;
@@ -6549,6 +6554,7 @@ class CreateDatasetResponse {
   }
 }
 
+/// @nodoc
 class CreateFaceLivenessSessionResponse {
   /// A unique 128-bit UUID identifying a Face Liveness session. A new sessionID
   /// must be used for every Face Liveness check. If a given sessionID is used for
@@ -6577,6 +6583,7 @@ class CreateFaceLivenessSessionResponse {
   }
 }
 
+/// @nodoc
 class CreateProjectResponse {
   /// The Amazon Resource Name (ARN) of the new project. You can use the ARN to
   /// configure IAM access to the project.
@@ -6600,6 +6607,7 @@ class CreateProjectResponse {
   }
 }
 
+/// @nodoc
 class CreateProjectVersionResponse {
   /// The ARN of the model or the project version that was created. Use
   /// <code>DescribeProjectVersion</code> to get the current status of the
@@ -6624,6 +6632,7 @@ class CreateProjectVersionResponse {
   }
 }
 
+/// @nodoc
 class CreateStreamProcessorResponse {
   /// Amazon Resource Number for the newly created stream processor.
   final String? streamProcessorArn;
@@ -6646,6 +6655,7 @@ class CreateStreamProcessorResponse {
   }
 }
 
+/// @nodoc
 class CreateUserResponse {
   CreateUserResponse();
 
@@ -6658,6 +6668,7 @@ class CreateUserResponse {
   }
 }
 
+/// @nodoc
 class DeleteCollectionResponse {
   /// HTTP status code that indicates the result of the operation.
   final int? statusCode;
@@ -6680,6 +6691,7 @@ class DeleteCollectionResponse {
   }
 }
 
+/// @nodoc
 class DeleteDatasetResponse {
   DeleteDatasetResponse();
 
@@ -6692,6 +6704,7 @@ class DeleteDatasetResponse {
   }
 }
 
+/// @nodoc
 class DeleteFacesResponse {
   /// An array of strings (face IDs) of the faces that were deleted.
   final List<String>? deletedFaces;
@@ -6729,6 +6742,7 @@ class DeleteFacesResponse {
   }
 }
 
+/// @nodoc
 class DeleteProjectResponse {
   /// The current status of the delete project operation.
   final ProjectStatus? status;
@@ -6751,6 +6765,7 @@ class DeleteProjectResponse {
   }
 }
 
+/// @nodoc
 class DeleteProjectPolicyResponse {
   DeleteProjectPolicyResponse();
 
@@ -6763,6 +6778,7 @@ class DeleteProjectPolicyResponse {
   }
 }
 
+/// @nodoc
 class DeleteProjectVersionResponse {
   /// The status of the deletion operation.
   final ProjectVersionStatus? status;
@@ -6785,6 +6801,7 @@ class DeleteProjectVersionResponse {
   }
 }
 
+/// @nodoc
 class DeleteStreamProcessorResponse {
   DeleteStreamProcessorResponse();
 
@@ -6797,6 +6814,7 @@ class DeleteStreamProcessorResponse {
   }
 }
 
+/// @nodoc
 class DeleteUserResponse {
   DeleteUserResponse();
 
@@ -6809,6 +6827,7 @@ class DeleteUserResponse {
   }
 }
 
+/// @nodoc
 class DescribeCollectionResponse {
   /// The Amazon Resource Name (ARN) of the collection.
   final String? collectionARN;
@@ -6867,6 +6886,7 @@ class DescribeCollectionResponse {
   }
 }
 
+/// @nodoc
 class DescribeDatasetResponse {
   /// The description for the dataset.
   final DatasetDescription? datasetDescription;
@@ -6892,6 +6912,7 @@ class DescribeDatasetResponse {
   }
 }
 
+/// @nodoc
 class DescribeProjectsResponse {
   /// If the previous response was incomplete (because there is more results to
   /// retrieve), Amazon Rekognition returns a pagination token in the response.
@@ -6928,6 +6949,7 @@ class DescribeProjectsResponse {
   }
 }
 
+/// @nodoc
 class DescribeProjectVersionsResponse {
   /// If the previous response was incomplete (because there is more results to
   /// retrieve), Amazon Rekognition returns a pagination token in the response.
@@ -6965,6 +6987,7 @@ class DescribeProjectVersionsResponse {
   }
 }
 
+/// @nodoc
 class DescribeStreamProcessorResponse {
   /// Date and time the stream processor was created
   final DateTime? creationTimestamp;
@@ -7109,6 +7132,7 @@ class DescribeStreamProcessorResponse {
   }
 }
 
+/// @nodoc
 class DetectCustomLabelsResponse {
   /// An array of custom labels detected in the input image.
   final List<CustomLabel>? customLabels;
@@ -7134,6 +7158,7 @@ class DetectCustomLabelsResponse {
   }
 }
 
+/// @nodoc
 class DetectFacesResponse {
   /// Details of each face found in the image.
   final List<FaceDetail>? faceDetails;
@@ -7180,6 +7205,7 @@ class DetectFacesResponse {
   }
 }
 
+/// @nodoc
 class DetectLabelsResponse {
   /// Information about the properties of the input image, such as brightness,
   /// sharpness, contrast, and dominant colors.
@@ -7244,6 +7270,7 @@ class DetectLabelsResponse {
   }
 }
 
+/// @nodoc
 class DetectModerationLabelsResponse {
   /// A list of predicted results for the type of content an image contains. For
   /// example, the image content might be from animation, sports, or a video game.
@@ -7310,6 +7337,7 @@ class DetectModerationLabelsResponse {
   }
 }
 
+/// @nodoc
 class DetectProtectiveEquipmentResponse {
   /// An array of persons detected in the image (including persons not wearing
   /// PPE).
@@ -7360,6 +7388,7 @@ class DetectProtectiveEquipmentResponse {
   }
 }
 
+/// @nodoc
 class DetectTextResponse {
   /// An array of text that was detected in the input image.
   final List<TextDetection>? textDetections;
@@ -7392,6 +7421,7 @@ class DetectTextResponse {
   }
 }
 
+/// @nodoc
 class DisassociateFacesResponse {
   /// An array of DissociatedFace objects containing FaceIds that are successfully
   /// disassociated with the UserID is returned. Returned if the
@@ -7443,6 +7473,7 @@ class DisassociateFacesResponse {
   }
 }
 
+/// @nodoc
 class DistributeDatasetEntriesResponse {
   DistributeDatasetEntriesResponse();
 
@@ -7455,6 +7486,7 @@ class DistributeDatasetEntriesResponse {
   }
 }
 
+/// @nodoc
 class GetCelebrityInfoResponse {
   /// Retrieves the known gender for the celebrity.
   final KnownGender? knownGender;
@@ -7493,6 +7525,7 @@ class GetCelebrityInfoResponse {
   }
 }
 
+/// @nodoc
 class GetCelebrityRecognitionResponse {
   /// Array of celebrities recognized in the video.
   final List<CelebrityRecognition>? celebrities;
@@ -7579,6 +7612,7 @@ class GetCelebrityRecognitionResponse {
   }
 }
 
+/// @nodoc
 class GetContentModerationResponse {
   /// Information about the paramters used when getting a response. Includes
   /// information on aggregation and sorting methods.
@@ -7687,6 +7721,7 @@ class GetContentModerationResponse {
   }
 }
 
+/// @nodoc
 class GetFaceDetectionResponse {
   /// An array of faces detected in the video. Each element contains a detected
   /// face's details and the time, in milliseconds from the start of the video,
@@ -7774,6 +7809,7 @@ class GetFaceDetectionResponse {
   }
 }
 
+/// @nodoc
 class GetFaceLivenessSessionResultsResponse {
   /// The sessionId for which this request was called.
   final String sessionId;
@@ -7853,6 +7889,7 @@ class GetFaceLivenessSessionResultsResponse {
   }
 }
 
+/// @nodoc
 class GetFaceSearchResponse {
   /// Job identifier for the face search operation for which you want to obtain
   /// results. The job identifer is returned by an initial call to
@@ -7946,6 +7983,7 @@ class GetFaceSearchResponse {
   }
 }
 
+/// @nodoc
 class GetLabelDetectionResponse {
   /// Information about the paramters used when getting a response. Includes
   /// information on aggregation and sorting methods.
@@ -8052,6 +8090,7 @@ class GetLabelDetectionResponse {
   }
 }
 
+/// @nodoc
 class GetMediaAnalysisJobResponse {
   /// The Unix date and time when the job was started.
   final DateTime creationTimestamp;
@@ -8171,6 +8210,7 @@ class GetMediaAnalysisJobResponse {
   }
 }
 
+/// @nodoc
 class GetPersonTrackingResponse {
   /// Job identifier for the person tracking operation for which you want to
   /// obtain results. The job identifer is returned by an initial call to
@@ -8259,6 +8299,7 @@ class GetPersonTrackingResponse {
   }
 }
 
+/// @nodoc
 class GetSegmentDetectionResponse {
   /// An array of objects. There can be multiple audio streams. Each
   /// <code>AudioMetadata</code> object contains metadata for a single audio
@@ -8379,6 +8420,7 @@ class GetSegmentDetectionResponse {
   }
 }
 
+/// @nodoc
 class GetTextDetectionResponse {
   /// Job identifier for the text detection operation for which you want to obtain
   /// results. The job identifer is returned by an initial call to
@@ -8469,6 +8511,7 @@ class GetTextDetectionResponse {
   }
 }
 
+/// @nodoc
 class IndexFacesResponse {
   /// The version number of the face detection model that's associated with the
   /// input collection (<code>CollectionId</code>).
@@ -8554,14 +8597,15 @@ class IndexFacesResponse {
   }
 }
 
+/// @nodoc
 class ListCollectionsResponse {
   /// An array of collection IDs.
   final List<String>? collectionIds;
 
   /// Version numbers of the face detection models associated with the collections
   /// in the array <code>CollectionIds</code>. For example, the value of
-  /// <code>FaceModelVersions[2]</code> is the version number for the face
-  /// detection model used by the collection in <code>CollectionId[2]</code>.
+  /// <code>FaceModelVersions\[2\]</code> is the version number for the face
+  /// detection model used by the collection in <code>CollectionId\[2\]</code>.
   final List<String>? faceModelVersions;
 
   /// If the result is truncated, the response provides a <code>NextToken</code>
@@ -8601,6 +8645,7 @@ class ListCollectionsResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetEntriesResponse {
   /// A list of entries (images) in the dataset.
   final List<String>? datasetEntries;
@@ -8636,6 +8681,7 @@ class ListDatasetEntriesResponse {
   }
 }
 
+/// @nodoc
 class ListDatasetLabelsResponse {
   /// A list of the labels in the dataset.
   final List<DatasetLabelDescription>? datasetLabelDescriptions;
@@ -8673,6 +8719,7 @@ class ListDatasetLabelsResponse {
   }
 }
 
+/// @nodoc
 class ListFacesResponse {
   /// Version number of the face detection model associated with the input
   /// collection (<code>CollectionId</code>).
@@ -8714,6 +8761,7 @@ class ListFacesResponse {
   }
 }
 
+/// @nodoc
 class ListMediaAnalysisJobsResponse {
   /// Contains a list of all media analysis jobs.
   final List<MediaAnalysisJobDescription> mediaAnalysisJobs;
@@ -8747,6 +8795,7 @@ class ListMediaAnalysisJobsResponse {
   }
 }
 
+/// @nodoc
 class ListProjectPoliciesResponse {
   /// If the response is truncated, Amazon Rekognition returns this token that you
   /// can use in the subsequent request to retrieve the next set of project
@@ -8781,6 +8830,7 @@ class ListProjectPoliciesResponse {
   }
 }
 
+/// @nodoc
 class ListStreamProcessorsResponse {
   /// If the response is truncated, Amazon Rekognition Video returns this token
   /// that you can use in the subsequent request to retrieve the next set of
@@ -8815,6 +8865,7 @@ class ListStreamProcessorsResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// A list of key-value tags assigned to the resource.
   final Map<String, String>? tags;
@@ -8838,6 +8889,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class ListUsersResponse {
   /// A pagination token to be used with the subsequent request if the response is
   /// truncated.
@@ -8871,6 +8923,7 @@ class ListUsersResponse {
   }
 }
 
+/// @nodoc
 class PutProjectPolicyResponse {
   /// The ID of the project policy.
   final String? policyRevisionId;
@@ -8893,6 +8946,7 @@ class PutProjectPolicyResponse {
   }
 }
 
+/// @nodoc
 class RecognizeCelebritiesResponse {
   /// Details about each celebrity found in the image. Amazon Rekognition can
   /// detect a maximum of 64 celebrities in an image. Each celebrity object
@@ -8961,6 +9015,7 @@ class RecognizeCelebritiesResponse {
   }
 }
 
+/// @nodoc
 class SearchFacesResponse {
   /// An array of faces that matched the input face, along with the confidence in
   /// the match.
@@ -9002,6 +9057,7 @@ class SearchFacesResponse {
   }
 }
 
+/// @nodoc
 class SearchFacesByImageResponse {
   /// An array of faces that match the input face, along with the confidence in
   /// the match.
@@ -9057,6 +9113,7 @@ class SearchFacesByImageResponse {
   }
 }
 
+/// @nodoc
 class SearchUsersResponse {
   /// Version number of the face detection model associated with the input
   /// CollectionId.
@@ -9111,6 +9168,7 @@ class SearchUsersResponse {
   }
 }
 
+/// @nodoc
 class SearchUsersByImageResponse {
   /// Version number of the face detection model associated with the input
   /// collection CollectionId.
@@ -9171,6 +9229,7 @@ class SearchUsersByImageResponse {
   }
 }
 
+/// @nodoc
 class StartCelebrityRecognitionResponse {
   /// The identifier for the celebrity recognition analysis job. Use
   /// <code>JobId</code> to identify the job in a subsequent call to
@@ -9196,6 +9255,7 @@ class StartCelebrityRecognitionResponse {
   }
 }
 
+/// @nodoc
 class StartContentModerationResponse {
   /// The identifier for the content analysis job. Use <code>JobId</code> to
   /// identify the job in a subsequent call to <code>GetContentModeration</code>.
@@ -9219,6 +9279,7 @@ class StartContentModerationResponse {
   }
 }
 
+/// @nodoc
 class StartFaceDetectionResponse {
   /// The identifier for the face detection job. Use <code>JobId</code> to
   /// identify the job in a subsequent call to <code>GetFaceDetection</code>.
@@ -9242,6 +9303,7 @@ class StartFaceDetectionResponse {
   }
 }
 
+/// @nodoc
 class StartFaceSearchResponse {
   /// The identifier for the search job. Use <code>JobId</code> to identify the
   /// job in a subsequent call to <code>GetFaceSearch</code>.
@@ -9265,6 +9327,7 @@ class StartFaceSearchResponse {
   }
 }
 
+/// @nodoc
 class StartLabelDetectionResponse {
   /// The identifier for the label detection job. Use <code>JobId</code> to
   /// identify the job in a subsequent call to <code>GetLabelDetection</code>.
@@ -9288,6 +9351,7 @@ class StartLabelDetectionResponse {
   }
 }
 
+/// @nodoc
 class StartMediaAnalysisJobResponse {
   /// Identifier for the created job.
   final String jobId;
@@ -9310,6 +9374,7 @@ class StartMediaAnalysisJobResponse {
   }
 }
 
+/// @nodoc
 class StartPersonTrackingResponse {
   /// The identifier for the person detection job. Use <code>JobId</code> to
   /// identify the job in a subsequent call to <code>GetPersonTracking</code>.
@@ -9333,6 +9398,7 @@ class StartPersonTrackingResponse {
   }
 }
 
+/// @nodoc
 class StartProjectVersionResponse {
   /// The current running status of the model.
   final ProjectVersionStatus? status;
@@ -9355,6 +9421,7 @@ class StartProjectVersionResponse {
   }
 }
 
+/// @nodoc
 class StartSegmentDetectionResponse {
   /// Unique identifier for the segment detection job. The <code>JobId</code> is
   /// returned from <code>StartSegmentDetection</code>.
@@ -9378,6 +9445,7 @@ class StartSegmentDetectionResponse {
   }
 }
 
+/// @nodoc
 class StartStreamProcessorResponse {
   /// A unique identifier for the stream processing session.
   final String? sessionId;
@@ -9400,6 +9468,7 @@ class StartStreamProcessorResponse {
   }
 }
 
+/// @nodoc
 class StartTextDetectionResponse {
   /// Identifier for the text detection job. Use <code>JobId</code> to identify
   /// the job in a subsequent call to <code>GetTextDetection</code>.
@@ -9423,6 +9492,7 @@ class StartTextDetectionResponse {
   }
 }
 
+/// @nodoc
 class StopProjectVersionResponse {
   /// The current status of the stop operation.
   final ProjectVersionStatus? status;
@@ -9445,6 +9515,7 @@ class StopProjectVersionResponse {
   }
 }
 
+/// @nodoc
 class StopStreamProcessorResponse {
   StopStreamProcessorResponse();
 
@@ -9457,6 +9528,7 @@ class StopStreamProcessorResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -9469,6 +9541,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -9481,6 +9554,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateDatasetEntriesResponse {
   UpdateDatasetEntriesResponse();
 
@@ -9493,6 +9567,7 @@ class UpdateDatasetEntriesResponse {
   }
 }
 
+/// @nodoc
 class UpdateStreamProcessorResponse {
   UpdateStreamProcessorResponse();
 
@@ -9508,6 +9583,8 @@ class UpdateStreamProcessorResponse {
 /// The stream processor settings that you want to update.
 /// <code>ConnectedHome</code> settings can be updated to detect different
 /// labels with a different minimum confidence.
+///
+/// @nodoc
 class StreamProcessorSettingsForUpdate {
   /// The label detection settings you want to use for your stream processor.
   final ConnectedHomeSettingsForUpdate? connectedHomeForUpdate;
@@ -9529,6 +9606,8 @@ class StreamProcessorSettingsForUpdate {
 /// model performance. You can choose this option at the account level or on a
 /// per-stream basis. Note that if you opt out at the account level this setting
 /// is ignored on individual streams.
+///
+/// @nodoc
 class StreamProcessorDataSharingPreference {
   /// If this option is set to true, you choose to share data with Rekognition to
   /// improve model performance.
@@ -9553,6 +9632,7 @@ class StreamProcessorDataSharingPreference {
   }
 }
 
+/// @nodoc
 class StreamProcessorParameterToDelete {
   static const connectedHomeMinConfidence =
       StreamProcessorParameterToDelete._('ConnectedHomeMinConfidence');
@@ -9588,6 +9668,8 @@ class StreamProcessorParameterToDelete {
 /// that region. If there is more than one region, the word, face, or label is
 /// compared with all regions of the screen. Any object of interest that is more
 /// than half in a region is kept in the results.
+///
+/// @nodoc
 class RegionOfInterest {
   /// The box representing a region of interest on screen.
   final BoundingBox? boundingBox;
@@ -9647,6 +9729,8 @@ class RegionOfInterest {
 /// values or values greater than 1 for the <code>left</code> or
 /// <code>top</code> values.
 /// </note>
+///
+/// @nodoc
 class BoundingBox {
   /// Height of the bounding box as a ratio of the overall image height.
   final double? height;
@@ -9700,6 +9784,8 @@ class BoundingBox {
 /// <a>DetectCustomLabels</a> <code>Polygon</code> represents a fine-grained
 /// polygon around a detected item. For more information, see Geometry in the
 /// Amazon Rekognition Developer Guide.
+///
+/// @nodoc
 class Point {
   /// The value of the X coordinate for a point on a <code>Polygon</code>.
   final double? x;
@@ -9732,6 +9818,8 @@ class Point {
 /// The label detection settings you want to use in your stream processor. This
 /// includes the labels you want the stream processor to detect and the minimum
 /// confidence level allowed to label objects.
+///
+/// @nodoc
 class ConnectedHomeSettingsForUpdate {
   /// Specifies what you want to detect in the video, such as people, packages, or
   /// pets. The current valid labels you can include in this list are: "PERSON",
@@ -9762,6 +9850,8 @@ class ConnectedHomeSettingsForUpdate {
 /// update entry with the <code>source-ref</code> filed of the entry that you
 /// want to update. If the <code>source-ref</code> field doesn't match an
 /// existing entry, the entry is added to dataset as a new entry.
+///
+/// @nodoc
 class DatasetChanges {
   /// A Base64-encoded binary data object containing one or JSON lines that either
   /// update the dataset or are additions to the dataset. You change a dataset by
@@ -9786,6 +9876,7 @@ class DatasetChanges {
   }
 }
 
+/// @nodoc
 class ProjectVersionStatus {
   static const trainingInProgress =
       ProjectVersionStatus._('TRAINING_IN_PROGRESS');
@@ -9844,6 +9935,8 @@ class ProjectVersionStatus {
 /// operations such as <a>StartLabelDetection</a> use <code>Video</code> to
 /// specify a video for analysis. The supported file formats are .mp4, .mov and
 /// .avi.
+///
+/// @nodoc
 class Video {
   /// The Amazon S3 bucket name and file name for the video.
   final S3Object? s3Object;
@@ -9878,6 +9971,8 @@ class Video {
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/rekognition/latest/dg/api-video-roles.html#api-video-roles-all-topics">Giving
 /// access to multiple Amazon SNS topics</a>.
+///
+/// @nodoc
 class NotificationChannel {
   /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions
   /// to the Amazon SNS topic.
@@ -9906,6 +10001,8 @@ class NotificationChannel {
 /// be included in your response. <code>WordFilter</code> looks at a word's
 /// height, width and minimum confidence. <code>RegionOfInterest</code> lets you
 /// set a specific region of the screen to look for text in.
+///
+/// @nodoc
 class StartTextDetectionFilters {
   /// Filter focusing on a certain area of the frame. Uses a
   /// <code>BoundingBox</code> object to set the region of the screen.
@@ -9931,6 +10028,8 @@ class StartTextDetectionFilters {
 
 /// A set of parameters that allow you to filter out certain results from your
 /// returned results.
+///
+/// @nodoc
 class DetectionFilter {
   /// Sets the minimum height of the word bounding box. Words with bounding box
   /// heights lesser than this value will be excluded from the result. Value is
@@ -9975,6 +10074,8 @@ class DetectionFilter {
 /// For Amazon Rekognition to process an S3 object, the user must have
 /// permission to access the S3 object. For more information, see How Amazon
 /// Rekognition works with IAM in the Amazon Rekognition Developer Guide.
+///
+/// @nodoc
 class S3Object {
   /// Name of the S3 bucket.
   final String? bucket;
@@ -10013,6 +10114,8 @@ class S3Object {
 
 /// This is a required parameter for label detection stream processors and
 /// should not be used to start a face search stream processor.
+///
+/// @nodoc
 class StreamProcessingStartSelector {
   /// Specifies the starting point in the stream to start processing. This can be
   /// done with a producer timestamp or a fragment number in a Kinesis stream.
@@ -10033,6 +10136,8 @@ class StreamProcessingStartSelector {
 
 /// Specifies when to stop processing the stream. You can specify a maximum
 /// amount of time to process the video.
+///
+/// @nodoc
 class StreamProcessingStopSelector {
   /// Specifies the maximum amount of time in seconds that you want the stream to
   /// be processed. The largest amount of time is 2 minutes. The default is 10
@@ -10058,6 +10163,8 @@ class StreamProcessingStopSelector {
 /// timestamp, you must put the time in milliseconds. For more information about
 /// fragment numbers, see <a
 /// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html">Fragment</a>.
+///
+/// @nodoc
 class KinesisVideoStreamStartSelector {
   /// The unique identifier of the fragment. This value monotonically increases
   /// based on the ingestion order.
@@ -10084,6 +10191,8 @@ class KinesisVideoStreamStartSelector {
 
 /// Filters applied to the technical cue or shot detection segments. For more
 /// information, see <a>StartSegmentDetection</a>.
+///
+/// @nodoc
 class StartSegmentDetectionFilters {
   /// Filters that are specific to shot detections.
   final StartShotDetectionFilter? shotFilter;
@@ -10106,6 +10215,7 @@ class StartSegmentDetectionFilters {
   }
 }
 
+/// @nodoc
 class SegmentType {
   static const technicalCue = SegmentType._('TECHNICAL_CUE');
   static const shot = SegmentType._('SHOT');
@@ -10131,6 +10241,8 @@ class SegmentType {
 
 /// Filters for the technical segments returned by <a>GetSegmentDetection</a>.
 /// For more information, see <a>StartSegmentDetectionFilters</a>.
+///
+/// @nodoc
 class StartTechnicalCueDetectionFilter {
   /// A filter that allows you to control the black frame detection by specifying
   /// the black levels and pixel coverage of black pixels in a frame. Videos can
@@ -10169,6 +10281,8 @@ class StartTechnicalCueDetectionFilter {
 /// Filters for the shot detection segments returned by
 /// <code>GetSegmentDetection</code>. For more information, see
 /// <a>StartSegmentDetectionFilters</a>.
+///
+/// @nodoc
 class StartShotDetectionFilter {
   /// Specifies the minimum confidence that Amazon Rekognition Video must have in
   /// order to return a detected segment. Confidence represents how certain Amazon
@@ -10199,6 +10313,8 @@ class StartShotDetectionFilter {
 /// can come from multiple sources, formats, and time periods, they may contain
 /// different standards and varying noise levels for black frames that need to
 /// be accounted for. For more information, see <a>StartSegmentDetection</a>.
+///
+/// @nodoc
 class BlackFrame {
   /// A threshold used to determine the maximum luminance value for a pixel to be
   /// considered black. In a full color range video, luminance values range from
@@ -10241,6 +10357,8 @@ class BlackFrame {
 
 /// Configuration options for a media analysis job. Configuration is
 /// operation-specific.
+///
+/// @nodoc
 class MediaAnalysisOperationsConfig {
   /// Contains configuration options for a DetectModerationLabels job.
   final MediaAnalysisDetectModerationLabelsConfig? detectModerationLabels;
@@ -10268,6 +10386,8 @@ class MediaAnalysisOperationsConfig {
 }
 
 /// Contains input information for a media analysis job.
+///
+/// @nodoc
 class MediaAnalysisInput {
   final S3Object s3Object;
 
@@ -10291,6 +10411,8 @@ class MediaAnalysisInput {
 }
 
 /// Output configuration provided in the job creation request.
+///
+/// @nodoc
 class MediaAnalysisOutputConfig {
   /// Specifies the Amazon S3 bucket to contain the output of the media analysis
   /// job.
@@ -10323,6 +10445,8 @@ class MediaAnalysisOutputConfig {
 }
 
 /// Configuration for Moderation Labels Detection.
+///
+/// @nodoc
 class MediaAnalysisDetectModerationLabelsConfig {
   /// Specifies the minimum confidence level for the moderation labels to return.
   /// Amazon Rekognition doesn't return any labels with a confidence level lower
@@ -10358,6 +10482,8 @@ class MediaAnalysisDetectModerationLabelsConfig {
 
 /// Contains the specified filters that should be applied to a list of returned
 /// GENERAL_LABELS.
+///
+/// @nodoc
 class LabelDetectionSettings {
   final GeneralLabelsSettings? generalLabels;
 
@@ -10379,6 +10505,8 @@ class LabelDetectionSettings {
 /// categories, see <a
 /// href="https://docs.aws.amazon.com/rekognition/latest/dg/labels.html">Detecting
 /// Labels</a>.
+///
+/// @nodoc
 class GeneralLabelsSettings {
   /// The label categories that should be excluded from the return from
   /// DetectLabels.
@@ -10419,6 +10547,7 @@ class GeneralLabelsSettings {
   }
 }
 
+/// @nodoc
 class LabelDetectionFeatureName {
   static const generalLabels = LabelDetectionFeatureName._('GENERAL_LABELS');
 
@@ -10443,6 +10572,7 @@ class LabelDetectionFeatureName {
   String toString() => value;
 }
 
+/// @nodoc
 class FaceAttributes {
   static const $default = FaceAttributes._('DEFAULT');
   static const all = FaceAttributes._('ALL');
@@ -10468,6 +10598,8 @@ class FaceAttributes {
 }
 
 /// Contains data regarding the input face used for a search.
+///
+/// @nodoc
 class SearchedFaceDetails {
   final FaceDetail? faceDetail;
 
@@ -10493,6 +10625,8 @@ class SearchedFaceDetails {
 
 /// Face details inferred from the image but not used for search. The response
 /// attribute contains reasons for why a face wasn't used for Search.
+///
+/// @nodoc
 class UnsearchedFace {
   final FaceDetail? faceDetails;
 
@@ -10557,6 +10691,8 @@ class UnsearchedFace {
 /// return, use the <code>Attributes</code> input parameter for
 /// <code>DetectFaces</code>. For <code>IndexFaces</code>, use the
 /// <code>DetectAttributes</code> input parameter.
+///
+/// @nodoc
 class FaceDetail {
   /// The estimated age range, in years, for the face. Low represents the lowest
   /// estimated age and High represents the highest estimated age.
@@ -10745,6 +10881,7 @@ class FaceDetail {
   }
 }
 
+/// @nodoc
 class UnsearchedFaceReason {
   static const faceNotLargest = UnsearchedFaceReason._('FACE_NOT_LARGEST');
   static const exceedsMaxFaces = UnsearchedFaceReason._('EXCEEDS_MAX_FACES');
@@ -10791,6 +10928,8 @@ class UnsearchedFaceReason {
 /// image. Estimated age ranges can overlap. A face of a 5-year-old might have
 /// an estimated range of 4-6, while the face of a 6-year-old might have an
 /// estimated range of 4-8.
+///
+/// @nodoc
 class AgeRange {
   /// The highest estimated age.
   final int? high;
@@ -10822,6 +10961,8 @@ class AgeRange {
 
 /// Indicates whether or not the face is smiling, and the confidence level in
 /// the determination.
+///
+/// @nodoc
 class Smile {
   /// Level of confidence in the determination.
   final double? confidence;
@@ -10853,6 +10994,8 @@ class Smile {
 
 /// Indicates whether or not the face is wearing eye glasses, and the confidence
 /// level in the determination.
+///
+/// @nodoc
 class Eyeglasses {
   /// Level of confidence in the determination.
   final double? confidence;
@@ -10884,6 +11027,8 @@ class Eyeglasses {
 
 /// Indicates whether or not the face is wearing sunglasses, and the confidence
 /// level in the determination.
+///
+/// @nodoc
 class Sunglasses {
   /// Level of confidence in the determination.
   final double? confidence;
@@ -10929,6 +11074,8 @@ class Sunglasses {
 ///
 /// We don't recommend using gender binary predictions to make decisions that
 /// impact an individual's rights, privacy, or access to services.
+///
+/// @nodoc
 class Gender {
   /// Level of confidence in the prediction.
   final double? confidence;
@@ -10960,6 +11107,8 @@ class Gender {
 
 /// Indicates whether or not the face has a beard, and the confidence level in
 /// the determination.
+///
+/// @nodoc
 class Beard {
   /// Level of confidence in the determination.
   final double? confidence;
@@ -10991,6 +11140,8 @@ class Beard {
 
 /// Indicates whether or not the face has a mustache, and the confidence level
 /// in the determination.
+///
+/// @nodoc
 class Mustache {
   /// Level of confidence in the determination.
   final double? confidence;
@@ -11022,6 +11173,8 @@ class Mustache {
 
 /// Indicates whether or not the eyes on the face are open, and the confidence
 /// level in the determination.
+///
+/// @nodoc
 class EyeOpen {
   /// Level of confidence in the determination.
   final double? confidence;
@@ -11053,6 +11206,8 @@ class EyeOpen {
 
 /// Indicates whether or not the mouth on the face is open, and the confidence
 /// level in the determination.
+///
+/// @nodoc
 class MouthOpen {
   /// Level of confidence in the determination.
   final double? confidence;
@@ -11083,6 +11238,8 @@ class MouthOpen {
 }
 
 /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
+///
+/// @nodoc
 class Pose {
   /// Value representing the face rotation on the pitch axis.
   final double? pitch;
@@ -11120,6 +11277,8 @@ class Pose {
 }
 
 /// Identifies face image brightness and sharpness.
+///
+/// @nodoc
 class ImageQuality {
   /// Value representing brightness of the face. The service returns a value
   /// between 0 and 100 (inclusive). A higher value indicates a brighter face
@@ -11162,6 +11321,8 @@ class ImageQuality {
 ///
 /// You can use <code>FaceOccluded</code> to determine if an obstruction on a
 /// face negatively impacts using the image for face matching.
+///
+/// @nodoc
 class FaceOccluded {
   /// The confidence that the service has detected the presence of a face
   /// occlusion.
@@ -11198,6 +11359,8 @@ class FaceOccluded {
 
 /// Indicates the direction the eyes are gazing in (independent of the head
 /// pose) as determined by its pitch and yaw.
+///
+/// @nodoc
 class EyeDirection {
   /// The confidence that the service has in its predicted eye direction.
   final double? confidence;
@@ -11235,6 +11398,8 @@ class EyeDirection {
 }
 
 /// Indicates the location of the landmark on the face.
+///
+/// @nodoc
 class Landmark {
   /// Type of landmark.
   final LandmarkType? type;
@@ -11277,6 +11442,7 @@ class Landmark {
   }
 }
 
+/// @nodoc
 class LandmarkType {
   static const eyeLeft = LandmarkType._('eyeLeft');
   static const eyeRight = LandmarkType._('eyeRight');
@@ -11366,6 +11532,8 @@ class LandmarkType {
 /// face might not be sad emotionally. The API is not intended to be used, and
 /// you may not use it, in a manner that violates the EU Artificial Intelligence
 /// Act or any other applicable law.
+///
+/// @nodoc
 class Emotion {
   /// Level of confidence in the determination.
   final double? confidence;
@@ -11395,6 +11563,7 @@ class Emotion {
   }
 }
 
+/// @nodoc
 class EmotionName {
   static const happy = EmotionName._('HAPPY');
   static const sad = EmotionName._('SAD');
@@ -11435,6 +11604,7 @@ class EmotionName {
   String toString() => value;
 }
 
+/// @nodoc
 class GenderType {
   static const male = GenderType._('Male');
   static const female = GenderType._('Female');
@@ -11460,6 +11630,8 @@ class GenderType {
 
 /// Provides UserID metadata along with the confidence in the match of this
 /// UserID with the input face.
+///
+/// @nodoc
 class UserMatch {
   /// Describes the UserID metadata.
   final double? similarity;
@@ -11492,6 +11664,8 @@ class UserMatch {
 }
 
 /// Contains metadata for a UserID matched with a given face.
+///
+/// @nodoc
 class MatchedUser {
   /// A provided ID for the UserID. Unique within the collection.
   final String? userId;
@@ -11521,6 +11695,7 @@ class MatchedUser {
   }
 }
 
+/// @nodoc
 class UserStatus {
   static const active = UserStatus._('ACTIVE');
   static const updating = UserStatus._('UPDATING');
@@ -11573,6 +11748,8 @@ class UserStatus {
 /// For Amazon Rekognition to process an S3 object, the user must have
 /// permission to access the S3 object. For more information, see How Amazon
 /// Rekognition works with IAM in the Amazon Rekognition Developer Guide.
+///
+/// @nodoc
 class Image {
   /// Blob of image bytes up to 5 MBs. Note that the maximum image size you can
   /// pass to <code>DetectCustomLabels</code> is 4MB.
@@ -11596,6 +11773,7 @@ class Image {
   }
 }
 
+/// @nodoc
 class QualityFilter {
   static const none = QualityFilter._('NONE');
   static const auto = QualityFilter._('AUTO');
@@ -11625,6 +11803,8 @@ class QualityFilter {
 
 /// Provides face metadata such as FaceId, BoundingBox, Confidence of the input
 /// face used for search.
+///
+/// @nodoc
 class SearchedFace {
   /// Unique identifier assigned to the face.
   final String? faceId;
@@ -11648,6 +11828,8 @@ class SearchedFace {
 }
 
 /// Contains metadata about a User searched for within a collection.
+///
+/// @nodoc
 class SearchedUser {
   /// A provided ID for the UserID. Unique within the collection.
   final String? userId;
@@ -11672,6 +11854,8 @@ class SearchedUser {
 
 /// Provides face metadata. In addition, it also provides the confidence in the
 /// match of this face with the input face.
+///
+/// @nodoc
 class FaceMatch {
   /// Describes the face properties such as the bounding box, face ID, image ID of
   /// the source image, and external image ID that you assigned.
@@ -11706,6 +11890,8 @@ class FaceMatch {
 
 /// Describes the face properties such as the bounding box, face ID, image ID of
 /// the input image, and external image ID that you assigned.
+///
+/// @nodoc
 class Face {
   /// Bounding box of the face.
   final BoundingBox? boundingBox;
@@ -11775,6 +11961,7 @@ class Face {
   }
 }
 
+/// @nodoc
 class OrientationCorrection {
   static const rotate_0 = OrientationCorrection._('ROTATE_0');
   static const rotate_90 = OrientationCorrection._('ROTATE_90');
@@ -11804,6 +11991,8 @@ class OrientationCorrection {
 
 /// Provides face metadata for target image faces that are analyzed by
 /// <code>CompareFaces</code> and <code>RecognizeCelebrities</code>.
+///
+/// @nodoc
 class ComparedFace {
   /// Bounding box of the face.
   final BoundingBox? boundingBox;
@@ -11887,6 +12076,8 @@ class ComparedFace {
 
 /// Provides information about a celebrity recognized by the
 /// <a>RecognizeCelebrities</a> operation.
+///
+/// @nodoc
 class Celebrity {
   /// Provides information about the celebrity's face, such as its location on the
   /// image.
@@ -11951,6 +12142,8 @@ class Celebrity {
 
 /// The known gender identity for the celebrity that matches the provided ID.
 /// The known gender identity can be Male, Female, Nonbinary, or Unlisted.
+///
+/// @nodoc
 class KnownGender {
   /// A string value of the KnownGender info about the Celebrity.
   final KnownGenderType? type;
@@ -11974,6 +12167,8 @@ class KnownGender {
 }
 
 /// A list of enum string of possible gender values that Celebrity returns.
+///
+/// @nodoc
 class KnownGenderType {
   static const male = KnownGenderType._('Male');
   static const female = KnownGenderType._('Female');
@@ -12001,6 +12196,8 @@ class KnownGenderType {
 }
 
 /// Metadata of the user stored in a collection.
+///
+/// @nodoc
 class User {
   /// A provided ID for the User. Unique within the collection.
   final String? userId;
@@ -12037,6 +12234,8 @@ class User {
 /// <code>CreateStreamProcessor</code> describe the Kinesis video stream source
 /// for the streaming video, face recognition parameters, and where to stream
 /// the analysis resullts.
+///
+/// @nodoc
 class StreamProcessor {
   /// Name of the Amazon Rekognition stream processor.
   final String? name;
@@ -12067,6 +12266,7 @@ class StreamProcessor {
   }
 }
 
+/// @nodoc
 class StreamProcessorStatus {
   static const stopped = StreamProcessorStatus._('STOPPED');
   static const starting = StreamProcessorStatus._('STARTING');
@@ -12106,6 +12306,8 @@ class StreamProcessorStatus {
 /// Describes a project policy in the response from <a>ListProjectPolicies</a>.
 ///
 ///
+///
+/// @nodoc
 class ProjectPolicy {
   /// The Unix datetime for the creation of the project policy.
   final DateTime? creationTimestamp;
@@ -12167,6 +12369,8 @@ class ProjectPolicy {
 }
 
 /// Description for a media analysis job.
+///
+/// @nodoc
 class MediaAnalysisJobDescription {
   /// The Unix date and time when the job was started.
   final DateTime creationTimestamp;
@@ -12286,6 +12490,7 @@ class MediaAnalysisJobDescription {
   }
 }
 
+/// @nodoc
 class MediaAnalysisJobStatus {
   static const created = MediaAnalysisJobStatus._('CREATED');
   static const queued = MediaAnalysisJobStatus._('QUEUED');
@@ -12315,6 +12520,8 @@ class MediaAnalysisJobStatus {
 }
 
 /// Details about the error that resulted in failure of the job.
+///
+/// @nodoc
 class MediaAnalysisJobFailureDetails {
   /// Error code for the failed job.
   final MediaAnalysisJobFailureCode? code;
@@ -12347,6 +12554,8 @@ class MediaAnalysisJobFailureDetails {
 
 /// Contains the results for a media analysis job created with
 /// StartMediaAnalysisJob.
+///
+/// @nodoc
 class MediaAnalysisResults {
   /// Information about the model versions for the features selected in a given
   /// job.
@@ -12382,6 +12591,8 @@ class MediaAnalysisResults {
 
 /// Summary that provides statistics on input manifest and errors identified in
 /// the input manifest.
+///
+/// @nodoc
 class MediaAnalysisManifestSummary {
   final S3Object? s3Object;
 
@@ -12407,6 +12618,8 @@ class MediaAnalysisManifestSummary {
 
 /// Object containing information about the model versions of selected features
 /// in a given job.
+///
+/// @nodoc
 class MediaAnalysisModelVersions {
   /// The Moderation base model version.
   final String? moderation;
@@ -12429,6 +12642,7 @@ class MediaAnalysisModelVersions {
   }
 }
 
+/// @nodoc
 class MediaAnalysisJobFailureCode {
   static const internalError = MediaAnalysisJobFailureCode._('INTERNAL_ERROR');
   static const invalidS3Object =
@@ -12478,6 +12692,8 @@ class MediaAnalysisJobFailureCode {
 
 /// Describes a dataset label. For more information, see
 /// <a>ListDatasetLabels</a>.
+///
+/// @nodoc
 class DatasetLabelDescription {
   /// The name of the label.
   final String? labelName;
@@ -12512,6 +12728,8 @@ class DatasetLabelDescription {
 
 /// Statistics about a label used in a dataset. For more information, see
 /// <a>DatasetLabelDescription</a>.
+///
+/// @nodoc
 class DatasetLabelStats {
   /// The total number of images that have the label assigned to a bounding box.
   final int? boundingBoxCount;
@@ -12544,6 +12762,8 @@ class DatasetLabelStats {
 /// A face that <a>IndexFaces</a> detected, but didn't index. Use the
 /// <code>Reasons</code> response attribute to determine why a face wasn't
 /// indexed.
+///
+/// @nodoc
 class UnindexedFace {
   /// The structure that contains attributes of a face that
   /// <code>IndexFaces</code>detected, but didn't index.
@@ -12603,6 +12823,7 @@ class UnindexedFace {
   }
 }
 
+/// @nodoc
 class Reason {
   static const exceedsMaxFaces = Reason._('EXCEEDS_MAX_FACES');
   static const extremePose = Reason._('EXTREME_POSE');
@@ -12641,6 +12862,8 @@ class Reason {
 
 /// Object containing both the face metadata (stored in the backend database),
 /// and facial attributes that are detected but aren't stored in the database.
+///
+/// @nodoc
 class FaceRecord {
   /// Describes the face properties such as the bounding box, face ID, image ID of
   /// the input image, and external image ID that you assigned.
@@ -12675,6 +12898,7 @@ class FaceRecord {
   }
 }
 
+/// @nodoc
 class Attribute {
   static const $default = Attribute._('DEFAULT');
   static const all = Attribute._('ALL');
@@ -12725,6 +12949,7 @@ class Attribute {
   String toString() => value;
 }
 
+/// @nodoc
 class VideoJobStatus {
   static const inProgress = VideoJobStatus._('IN_PROGRESS');
   static const succeeded = VideoJobStatus._('SUCCEEDED');
@@ -12753,6 +12978,8 @@ class VideoJobStatus {
 /// Information about a video that Amazon Rekognition analyzed.
 /// <code>Videometadata</code> is returned in every page of paginated responses
 /// from a Amazon Rekognition video operation.
+///
+/// @nodoc
 class VideoMetadata {
   /// Type of compression used in the analyzed video.
   final String? codec;
@@ -12822,6 +13049,8 @@ class VideoMetadata {
 /// Information about text detected in a video. Incudes the detected text, the
 /// time in milliseconds from the start of the video that the text was detected,
 /// and where it was detected on the screen.
+///
+/// @nodoc
 class TextDetectionResult {
   /// Details about text detected in a video.
   final TextDetection? textDetection;
@@ -12868,6 +13097,8 @@ class TextDetectionResult {
 ///
 /// For more information, see Detecting text in the Amazon Rekognition Developer
 /// Guide.
+///
+/// @nodoc
 class TextDetection {
   /// The confidence that Amazon Rekognition has in the accuracy of the detected
   /// text and the accuracy of the geometry points around the detected text.
@@ -12933,6 +13164,7 @@ class TextDetection {
   }
 }
 
+/// @nodoc
 class TextTypes {
   static const line = TextTypes._('LINE');
   static const word = TextTypes._('WORD');
@@ -12958,6 +13190,8 @@ class TextTypes {
 
 /// Information about where an object (<a>DetectCustomLabels</a>) or text
 /// (<a>DetectText</a>) is located on an image.
+///
+/// @nodoc
 class Geometry {
   /// An axis-aligned coarse representation of the detected item's location on the
   /// image.
@@ -12993,6 +13227,7 @@ class Geometry {
   }
 }
 
+/// @nodoc
 class VideoColorRange {
   static const full = VideoColorRange._('FULL');
   static const limited = VideoColorRange._('LIMITED');
@@ -13020,6 +13255,8 @@ class VideoColorRange {
 /// Information about the type of a segment requested in a call to
 /// <a>StartSegmentDetection</a>. An array of <code>SegmentTypeInfo</code>
 /// objects is returned by the response from <a>GetSegmentDetection</a>.
+///
+/// @nodoc
 class SegmentTypeInfo {
   /// The version of the model used to detect segments.
   final String? modelVersion;
@@ -13052,6 +13289,8 @@ class SegmentTypeInfo {
 /// A technical cue or shot detection segment detected in a video. An array of
 /// <code>SegmentDetection</code> objects containing all segments detected in a
 /// stored video is returned by <a>GetSegmentDetection</a>.
+///
+/// @nodoc
 class SegmentDetection {
   /// The duration of a video segment, expressed in frames.
   final int? durationFrames;
@@ -13173,6 +13412,8 @@ class SegmentDetection {
 
 /// Information about a technical cue segment. For more information, see
 /// <a>SegmentDetection</a>.
+///
+/// @nodoc
 class TechnicalCueSegment {
   /// The confidence that Amazon Rekognition Video has in the accuracy of the
   /// detected segment.
@@ -13205,6 +13446,8 @@ class TechnicalCueSegment {
 
 /// Information about a shot detection segment detected in a video. For more
 /// information, see <a>SegmentDetection</a>.
+///
+/// @nodoc
 class ShotSegment {
   /// The confidence that Amazon Rekognition Video has in the accuracy of the
   /// detected segment.
@@ -13235,6 +13478,7 @@ class ShotSegment {
   }
 }
 
+/// @nodoc
 class TechnicalCueType {
   static const colorBars = TechnicalCueType._('ColorBars');
   static const endCredits = TechnicalCueType._('EndCredits');
@@ -13275,6 +13519,8 @@ class TechnicalCueType {
 /// Metadata information about an audio stream. An array of
 /// <code>AudioMetadata</code> objects for the audio streams found in a stored
 /// video is returned by <a>GetSegmentDetection</a>.
+///
+/// @nodoc
 class AudioMetadata {
   /// The audio codec used to encode or decode the audio stream.
   final String? codec;
@@ -13325,6 +13571,8 @@ class AudioMetadata {
 ///
 /// For more information, see GetPersonTracking in the Amazon Rekognition
 /// Developer Guide.
+///
+/// @nodoc
 class PersonDetection {
   /// Details about a person whose path was tracked in a video.
   final PersonDetail? person;
@@ -13359,6 +13607,8 @@ class PersonDetection {
 }
 
 /// Details about a person detected in a video analysis request.
+///
+/// @nodoc
 class PersonDetail {
   /// Bounding box around the detected person.
   final BoundingBox? boundingBox;
@@ -13401,6 +13651,7 @@ class PersonDetail {
   }
 }
 
+/// @nodoc
 class PersonTrackingSortBy {
   static const $index = PersonTrackingSortBy._('INDEX');
   static const timestamp = PersonTrackingSortBy._('TIMESTAMP');
@@ -13428,6 +13679,8 @@ class PersonTrackingSortBy {
 
 /// Contains metadata about a label detection request, including the SortBy and
 /// AggregateBy options.
+///
+/// @nodoc
 class GetLabelDetectionRequestMetadata {
   /// The aggregation method chosen for a GetLabelDetection request.
   final LabelDetectionAggregateBy? aggregateBy;
@@ -13458,6 +13711,7 @@ class GetLabelDetectionRequestMetadata {
   }
 }
 
+/// @nodoc
 class LabelDetectionSortBy {
   static const name = LabelDetectionSortBy._('NAME');
   static const timestamp = LabelDetectionSortBy._('TIMESTAMP');
@@ -13483,6 +13737,7 @@ class LabelDetectionSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class LabelDetectionAggregateBy {
   static const timestamps = LabelDetectionAggregateBy._('TIMESTAMPS');
   static const segments = LabelDetectionAggregateBy._('SEGMENTS');
@@ -13510,6 +13765,8 @@ class LabelDetectionAggregateBy {
 
 /// Information about a label detected in a video analysis request and the time
 /// the label was detected in the video.
+///
+/// @nodoc
 class LabelDetection {
   /// The time duration of a segment in milliseconds, I.e. time elapsed from
   /// StartTimestampMillis to EndTimestampMillis.
@@ -13572,6 +13829,8 @@ class LabelDetection {
 /// detected instances, parent labels, and level of confidence.
 ///
 ///
+///
+/// @nodoc
 class Label {
   /// A list of potential aliases for a given label.
   final List<LabelAlias>? aliases;
@@ -13645,6 +13904,8 @@ class Label {
 }
 
 /// The category that applies to a given label.
+///
+/// @nodoc
 class LabelCategory {
   /// The name of a category that applies to a given label.
   final String? name;
@@ -13668,6 +13929,8 @@ class LabelCategory {
 }
 
 /// A potential alias of for a given label.
+///
+/// @nodoc
 class LabelAlias {
   /// The name of an alias for a given label.
   final String? name;
@@ -13691,6 +13954,8 @@ class LabelAlias {
 }
 
 /// A parent label for a label. A label can have 0, 1, or more parents.
+///
+/// @nodoc
 class Parent {
   /// The name of the parent label.
   final String? name;
@@ -13716,6 +13981,8 @@ class Parent {
 /// An instance of a label returned by Amazon Rekognition Image
 /// (<a>DetectLabels</a>) or by Amazon Rekognition Video
 /// (<a>GetLabelDetection</a>).
+///
+/// @nodoc
 class Instance {
   /// The position of the label instance on the image.
   final BoundingBox? boundingBox;
@@ -13759,6 +14026,8 @@ class Instance {
 }
 
 /// A description of the dominant colors in an image.
+///
+/// @nodoc
 class DominantColor {
   /// The Blue RGB value for a dominant color.
   final int? blue;
@@ -13829,6 +14098,8 @@ class DominantColor {
 /// (<a>PersonDetail</a>), and the time stamp for when the person was detected
 /// in a video. An array of <code>PersonMatch</code> objects is returned by
 /// <a>GetFaceSearch</a>.
+///
+/// @nodoc
 class PersonMatch {
   /// Information about the faces in the input collection that match the face of a
   /// person in the video.
@@ -13872,6 +14143,7 @@ class PersonMatch {
   }
 }
 
+/// @nodoc
 class FaceSearchSortBy {
   static const $index = FaceSearchSortBy._('INDEX');
   static const timestamp = FaceSearchSortBy._('TIMESTAMP');
@@ -13896,6 +14168,7 @@ class FaceSearchSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class LivenessSessionStatus {
   static const created = LivenessSessionStatus._('CREATED');
   static const inProgress = LivenessSessionStatus._('IN_PROGRESS');
@@ -13926,6 +14199,8 @@ class LivenessSessionStatus {
 
 /// An image that is picked from the Face Liveness video and returned for audit
 /// trail purposes, returned as Base64-encoded bytes.
+///
+/// @nodoc
 class AuditImage {
   final BoundingBox? boundingBox;
 
@@ -13966,6 +14241,8 @@ class AuditImage {
 
 /// Describes the type and version of the challenge being used for the Face
 /// Liveness session.
+///
+/// @nodoc
 class Challenge {
   /// The type of the challenge being used for the Face Liveness session.
   final ChallengeType type;
@@ -13995,6 +14272,7 @@ class Challenge {
   }
 }
 
+/// @nodoc
 class ChallengeType {
   static const faceMovementAndLightChallenge =
       ChallengeType._('FaceMovementAndLightChallenge');
@@ -14022,6 +14300,8 @@ class ChallengeType {
 
 /// Information about a face detected in a video analysis request and the time
 /// the face was detected in the video.
+///
+/// @nodoc
 class FaceDetection {
   /// The face properties for the detected face.
   final FaceDetail? face;
@@ -14057,6 +14337,8 @@ class FaceDetection {
 
 /// Contains metadata about a content moderation request, including the SortBy
 /// and AggregateBy options.
+///
+/// @nodoc
 class GetContentModerationRequestMetadata {
   /// The aggregation method chosen for a GetContentModeration request.
   final ContentModerationAggregateBy? aggregateBy;
@@ -14089,6 +14371,7 @@ class GetContentModerationRequestMetadata {
   }
 }
 
+/// @nodoc
 class ContentModerationSortBy {
   static const name = ContentModerationSortBy._('NAME');
   static const timestamp = ContentModerationSortBy._('TIMESTAMP');
@@ -14114,6 +14397,7 @@ class ContentModerationSortBy {
   String toString() => value;
 }
 
+/// @nodoc
 class ContentModerationAggregateBy {
   static const timestamps = ContentModerationAggregateBy._('TIMESTAMPS');
   static const segments = ContentModerationAggregateBy._('SEGMENTS');
@@ -14141,6 +14425,8 @@ class ContentModerationAggregateBy {
 
 /// Information about an inappropriate, unwanted, or offensive content label
 /// detection in a stored video.
+///
+/// @nodoc
 class ContentModerationDetection {
   /// A list of predicted results for the type of content an image contains. For
   /// example, the image content might be from animation, sports, or a video game.
@@ -14216,6 +14502,8 @@ class ContentModerationDetection {
 /// offensive content found in an image or video. Each type of moderated content
 /// has a label within a hierarchical taxonomy. For more information, see
 /// Content moderation in the Amazon Rekognition Developer Guide.
+///
+/// @nodoc
 class ModerationLabel {
   /// Specifies the confidence that Amazon Rekognition has that the label has been
   /// correctly identified.
@@ -14267,6 +14555,8 @@ class ModerationLabel {
 
 /// Contains information regarding the confidence and name of a detected content
 /// type.
+///
+/// @nodoc
 class ContentType {
   /// The confidence level of the label given
   final double? confidence;
@@ -14299,6 +14589,8 @@ class ContentType {
 /// Information about a detected celebrity and the time the celebrity was
 /// detected in a stored video. For more information, see
 /// GetCelebrityRecognition in the Amazon Rekognition Developer Guide.
+///
+/// @nodoc
 class CelebrityRecognition {
   /// Information about a recognized celebrity.
   final CelebrityDetail? celebrity;
@@ -14333,6 +14625,8 @@ class CelebrityRecognition {
 }
 
 /// Information about a recognized celebrity.
+///
+/// @nodoc
 class CelebrityDetail {
   /// Bounding box around the body of a celebrity.
   final BoundingBox? boundingBox;
@@ -14404,6 +14698,7 @@ class CelebrityDetail {
   }
 }
 
+/// @nodoc
 class CelebrityRecognitionSortBy {
   static const id = CelebrityRecognitionSortBy._('ID');
   static const timestamp = CelebrityRecognitionSortBy._('TIMESTAMP');
@@ -14431,6 +14726,8 @@ class CelebrityRecognitionSortBy {
 
 /// A training dataset or a test dataset used in a dataset distribution
 /// operation. For more information, see <a>DistributeDatasetEntries</a>.
+///
+/// @nodoc
 class DistributeDataset {
   /// The Amazon Resource Name (ARN) of the dataset that you want to use.
   final String arn;
@@ -14449,6 +14746,8 @@ class DistributeDataset {
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
 /// unsuccessfully disassociated.
+///
+/// @nodoc
 class UnsuccessfulFaceDisassociation {
   /// A unique identifier assigned to the face.
   final String? faceId;
@@ -14489,6 +14788,7 @@ class UnsuccessfulFaceDisassociation {
   }
 }
 
+/// @nodoc
 class UnsuccessfulFaceDisassociationReason {
   static const faceNotFound =
       UnsuccessfulFaceDisassociationReason._('FACE_NOT_FOUND');
@@ -14518,6 +14818,8 @@ class UnsuccessfulFaceDisassociationReason {
 
 /// Provides face metadata for the faces that are disassociated from a specific
 /// UserID.
+///
+/// @nodoc
 class DisassociatedFace {
   /// Unique identifier assigned to the face.
   final String? faceId;
@@ -14545,6 +14847,8 @@ class DisassociatedFace {
 /// looks at a word’s height, width, and minimum confidence.
 /// <code>RegionOfInterest</code> lets you set a specific region of the image to
 /// look for text in.
+///
+/// @nodoc
 class DetectTextFilters {
   /// A Filter focusing on a certain area of the image. Uses a
   /// <code>BoundingBox</code> object to set the region of the image.
@@ -14584,6 +14888,8 @@ class DetectTextFilters {
 /// array element. Each person ID matches the ID field of a
 /// <a>ProtectiveEquipmentPerson</a> object returned in the <code>Persons</code>
 /// array by <code>DetectProtectiveEquipment</code>.
+///
+/// @nodoc
 class ProtectiveEquipmentSummary {
   /// An array of IDs for persons where it was not possible to determine if they
   /// are wearing personal protective equipment.
@@ -14642,6 +14948,8 @@ class ProtectiveEquipmentSummary {
 /// A person detected by a call to <a>DetectProtectiveEquipment</a>. The API
 /// returns all persons detected in the input image in an array of
 /// <code>ProtectiveEquipmentPerson</code> objects.
+///
+/// @nodoc
 class ProtectiveEquipmentPerson {
   /// An array of body parts detected on a person's body (including body parts
   /// without PPE).
@@ -14698,6 +15006,8 @@ class ProtectiveEquipmentPerson {
 /// that contains PPE. An array of <code>ProtectiveEquipmentBodyPart</code>
 /// objects is returned for each person detected by
 /// <code>DetectProtectiveEquipment</code>.
+///
+/// @nodoc
 class ProtectiveEquipmentBodyPart {
   /// The confidence that Amazon Rekognition has in the detection accuracy of the
   /// detected body part.
@@ -14739,6 +15049,7 @@ class ProtectiveEquipmentBodyPart {
   }
 }
 
+/// @nodoc
 class BodyPart {
   static const face = BodyPart._('FACE');
   static const head = BodyPart._('HEAD');
@@ -14767,6 +15078,8 @@ class BodyPart {
 /// Information about an item of Personal Protective Equipment (PPE) detected by
 /// <a>DetectProtectiveEquipment</a>. For more information, see
 /// <a>DetectProtectiveEquipment</a>.
+///
+/// @nodoc
 class EquipmentDetection {
   /// A bounding box surrounding the item of detected PPE.
   final BoundingBox? boundingBox;
@@ -14816,6 +15129,7 @@ class EquipmentDetection {
   }
 }
 
+/// @nodoc
 class ProtectiveEquipmentType {
   static const faceCover = ProtectiveEquipmentType._('FACE_COVER');
   static const handCover = ProtectiveEquipmentType._('HAND_COVER');
@@ -14845,6 +15159,8 @@ class ProtectiveEquipmentType {
 /// Information about an item of Personal Protective Equipment covering a
 /// corresponding body part. For more information, see
 /// <a>DetectProtectiveEquipment</a>.
+///
+/// @nodoc
 class CoversBodyPart {
   /// The confidence that Amazon Rekognition has in the value of
   /// <code>Value</code>.
@@ -14885,6 +15201,8 @@ class CoversBodyPart {
 /// equipment (PPE), which persons were detected as not wearing PPE, and the
 /// persons in which a determination could not be made. For more information,
 /// see <a>ProtectiveEquipmentSummary</a>.
+///
+/// @nodoc
 class ProtectiveEquipmentSummarizationAttributes {
   /// The minimum confidence level for which you want summary information. The
   /// confidence level applies to person detection, body part detection, equipment
@@ -14925,6 +15243,8 @@ class ProtectiveEquipmentSummarizationAttributes {
 
 /// Shows the results of the human in the loop evaluation. If there is no
 /// HumanLoopArn, the input did not trigger human review.
+///
+/// @nodoc
 class HumanLoopActivationOutput {
   /// Shows the result of condition evaluations, including those conditions which
   /// activated a human review.
@@ -14977,6 +15297,8 @@ class HumanLoopActivationOutput {
 /// Sets up the flow definition the image will be sent to if one of the
 /// conditions is met. You can also set certain attributes of the image before
 /// review.
+///
+/// @nodoc
 class HumanLoopConfig {
   /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow
   /// definition by using the Amazon Sagemaker <a
@@ -15011,6 +15333,8 @@ class HumanLoopConfig {
 
 /// Allows you to set attributes of the image. Currently, you can declare an
 /// image as free of personally identifiable information.
+///
+/// @nodoc
 class HumanLoopDataAttributes {
   /// Sets whether the input image is free of personally identifiable information.
   final List<ContentClassifier>? contentClassifiers;
@@ -15028,6 +15352,7 @@ class HumanLoopDataAttributes {
   }
 }
 
+/// @nodoc
 class ContentClassifier {
   static const freeOfPersonallyIdentifiableInformation =
       ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
@@ -15059,6 +15384,8 @@ class ContentClassifier {
 /// Information about the quality and dominant colors of an input image. Quality
 /// and color information is returned for the entire image, foreground, and
 /// background.
+///
+/// @nodoc
 class DetectLabelsImageProperties {
   /// Information about the properties of an image’s background, including the
   /// background’s quality and dominant colors, including the quality and dominant
@@ -15124,6 +15451,8 @@ class DetectLabelsImageProperties {
 
 /// The quality of an image provided for label detection, with regard to
 /// brightness, sharpness, and contrast.
+///
+/// @nodoc
 class DetectLabelsImageQuality {
   /// The brightness of an image provided for label detection.
   final double? brightness;
@@ -15162,6 +15491,8 @@ class DetectLabelsImageQuality {
 
 /// The foreground of the image with regard to image quality and dominant
 /// colors.
+///
+/// @nodoc
 class DetectLabelsImageForeground {
   /// The dominant colors found in the foreground of an image, defined with RGB
   /// values, CSS color name, simplified color name, and PixelPercentage (the
@@ -15201,6 +15532,8 @@ class DetectLabelsImageForeground {
 
 /// The background of the image with regard to image quality and dominant
 /// colors.
+///
+/// @nodoc
 class DetectLabelsImageBackground {
   /// The dominant colors found in the background of an image, defined with RGB
   /// values, CSS color name, simplified color name, and PixelPercentage (the
@@ -15243,6 +15576,8 @@ class DetectLabelsImageBackground {
 /// or exclusive and applied to individual labels or label categories.
 /// IMAGE_PROPERTIES filters allow specification of a maximum number of dominant
 /// colors.
+///
+/// @nodoc
 class DetectLabelsSettings {
   /// Contains the specified filters for GENERAL_LABELS.
   final GeneralLabelsSettings? generalLabels;
@@ -15266,6 +15601,8 @@ class DetectLabelsSettings {
 }
 
 /// Settings for the IMAGE_PROPERTIES feature type.
+///
+/// @nodoc
 class DetectLabelsImagePropertiesSettings {
   /// The maximum number of dominant colors to return when detecting labels in an
   /// image. The default value is 10.
@@ -15283,6 +15620,7 @@ class DetectLabelsImagePropertiesSettings {
   }
 }
 
+/// @nodoc
 class DetectLabelsFeatureName {
   static const generalLabels = DetectLabelsFeatureName._('GENERAL_LABELS');
   static const imageProperties = DetectLabelsFeatureName._('IMAGE_PROPERTIES');
@@ -15309,6 +15647,8 @@ class DetectLabelsFeatureName {
 }
 
 /// A custom label detected in an image by a call to <a>DetectCustomLabels</a>.
+///
+/// @nodoc
 class CustomLabel {
   /// The confidence that the model has in the detection of the custom label. The
   /// range is 0-100. A higher value indicates a higher confidence.
@@ -15351,6 +15691,8 @@ class CustomLabel {
 }
 
 /// Information about the source streaming video.
+///
+/// @nodoc
 class StreamProcessorInput {
   /// The Kinesis video stream input stream for the source streaming video.
   final KinesisVideoStream? kinesisVideoStream;
@@ -15380,6 +15722,8 @@ class StreamProcessorInput {
 /// Rekognition Video stream processor streams the results of a video analysis.
 /// For more information, see CreateStreamProcessor in the Amazon Rekognition
 /// Developer Guide.
+///
+/// @nodoc
 class StreamProcessorOutput {
   /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition
   /// stream processor streams the analysis results.
@@ -15421,6 +15765,8 @@ class StreamProcessorOutput {
 /// stream processor. You can use <code>FaceSearch</code> to recognize faces in
 /// a streaming video, or you can use <code>ConnectedHome</code> to detect
 /// labels.
+///
+/// @nodoc
 class StreamProcessorSettings {
   final ConnectedHomeSettings? connectedHome;
 
@@ -15467,6 +15813,8 @@ class StreamProcessorSettings {
 ///
 /// Amazon Rekognition also publishes an an end-of-session notification with a
 /// summary when the stream processing session is complete.
+///
+/// @nodoc
 class StreamProcessorNotificationChannel {
   /// The Amazon Resource Number (ARN) of the Amazon Amazon Simple Notification
   /// Service topic to which Amazon Rekognition posts the completion status.
@@ -15495,6 +15843,8 @@ class StreamProcessorNotificationChannel {
 /// processor. Includes the collection to use for face recognition and the face
 /// attributes to detect. Defining the settings is required in the request
 /// parameter for <a>CreateStreamProcessor</a>.
+///
+/// @nodoc
 class FaceSearchSettings {
   /// The ID of a collection that contains faces that you want to search for.
   final String? collectionId;
@@ -15537,6 +15887,8 @@ class FaceSearchSettings {
 /// SNS notification is published the first time a package is detected and one
 /// SNS notification is published the first time a pet is detected, as well as
 /// an end-of-session summary.
+///
+/// @nodoc
 class ConnectedHomeSettings {
   /// Specifies what you want to detect in the video, such as people, packages, or
   /// pets. The current valid labels you can include in this list are: "PERSON",
@@ -15574,6 +15926,8 @@ class ConnectedHomeSettings {
 /// The Kinesis data stream Amazon Rekognition to which the analysis results of
 /// a Amazon Rekognition stream processor are streamed. For more information,
 /// see CreateStreamProcessor in the Amazon Rekognition Developer Guide.
+///
+/// @nodoc
 class KinesisDataStream {
   /// ARN of the output Amazon Kinesis Data Streams stream.
   final String? arn;
@@ -15601,6 +15955,8 @@ class KinesisDataStream {
 /// include the name of the stream processor resource, the session ID of the
 /// stream processing session, and labeled timestamps and bounding boxes for
 /// detected labels.
+///
+/// @nodoc
 class S3Destination {
   /// The name of the Amazon S3 bucket you want to associate with the streaming
   /// video project. You must be the owner of the Amazon S3 bucket.
@@ -15637,6 +15993,8 @@ class S3Destination {
 /// Kinesis video stream stream that provides the source streaming video for a
 /// Amazon Rekognition Video stream processor. For more information, see
 /// CreateStreamProcessor in the Amazon Rekognition Developer Guide.
+///
+/// @nodoc
 class KinesisVideoStream {
   /// ARN of the Kinesis video stream stream that streams the source video.
   final String? arn;
@@ -15660,6 +16018,8 @@ class KinesisVideoStream {
 }
 
 /// A description of a version of a Amazon Rekognition project version.
+///
+/// @nodoc
 class ProjectVersionDescription {
   /// The base detection model version used to create the project version.
   final String? baseModelVersion;
@@ -15843,6 +16203,8 @@ class ProjectVersionDescription {
 }
 
 /// The S3 bucket and folder location where training output is placed.
+///
+/// @nodoc
 class OutputConfig {
   /// The S3 bucket where training output is placed.
   final String? s3Bucket;
@@ -15874,6 +16236,8 @@ class OutputConfig {
 
 /// The data validation manifest created for the training dataset during model
 /// training.
+///
+/// @nodoc
 class TrainingDataResult {
   /// The training data that you supplied.
   final TrainingData? input;
@@ -15920,6 +16284,8 @@ class TrainingDataResult {
 
 /// Sagemaker Groundtruth format manifest files for the input, output and
 /// validation datasets that are used and created during testing.
+///
+/// @nodoc
 class TestingDataResult {
   /// The testing dataset that was supplied for training.
   final TestingData? input;
@@ -15965,6 +16331,8 @@ class TestingDataResult {
 }
 
 /// The evaluation results for the training of a model.
+///
+/// @nodoc
 class EvaluationResult {
   /// The F1 score for the evaluation of all labels. The F1 score metric evaluates
   /// the overall precision and recall performance of the model as a single value.
@@ -16001,6 +16369,8 @@ class EvaluationResult {
 
 /// The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest
 /// file.
+///
+/// @nodoc
 class GroundTruthManifest {
   final S3Object? s3Object;
 
@@ -16024,6 +16394,7 @@ class GroundTruthManifest {
   }
 }
 
+/// @nodoc
 class CustomizationFeature {
   static const contentModeration = CustomizationFeature._('CONTENT_MODERATION');
   static const customLabels = CustomizationFeature._('CUSTOM_LABELS');
@@ -16053,6 +16424,8 @@ class CustomizationFeature {
 /// for the job must match the feature type parameter associated with project.
 /// If configuration and feature type do not match an InvalidParameterException
 /// is returned.
+///
+/// @nodoc
 class CustomizationFeatureConfig {
   /// Configuration options for Custom Moderation training.
   final CustomizationFeatureContentModerationConfig? contentModeration;
@@ -16079,6 +16452,8 @@ class CustomizationFeatureConfig {
 }
 
 /// Configuration options for Content Moderation training.
+///
+/// @nodoc
 class CustomizationFeatureContentModerationConfig {
   /// The confidence level you plan to use to identify if unsafe content is
   /// present during inference.
@@ -16110,6 +16485,8 @@ class CustomizationFeatureContentModerationConfig {
 ///
 /// You get the training summary S3 bucket location by calling
 /// <a>DescribeProjectVersions</a>.
+///
+/// @nodoc
 class Summary {
   final S3Object? s3Object;
 
@@ -16136,6 +16513,8 @@ class Summary {
 /// The dataset used for testing. Optionally, if <code>AutoCreate</code> is set,
 /// Amazon Rekognition uses the training dataset to create a test dataset with a
 /// temporary split of the training dataset.
+///
+/// @nodoc
 class TestingData {
   /// The assets used for testing.
   final List<Asset>? assets;
@@ -16183,6 +16562,8 @@ class TestingData {
 /// The assets array contains a single <a>Asset</a> object. The
 /// <a>GroundTruthManifest</a> field of the Asset object contains the S3 bucket
 /// location of the validation data.
+///
+/// @nodoc
 class ValidationData {
   /// The assets that comprise the validation data.
   final List<Asset>? assets;
@@ -16211,6 +16592,8 @@ class ValidationData {
 /// Assets are the images that you use to train and evaluate a model version.
 /// Assets can also contain validation information that you use to debug a
 /// failed model training.
+///
+/// @nodoc
 class Asset {
   final GroundTruthManifest? groundTruthManifest;
 
@@ -16237,6 +16620,8 @@ class Asset {
 }
 
 /// The dataset used for training.
+///
+/// @nodoc
 class TrainingData {
   /// A manifest file that contains references to the training images and
   /// ground-truth annotations.
@@ -16265,6 +16650,8 @@ class TrainingData {
 
 /// A description of an Amazon Rekognition Custom Labels project. For more
 /// information, see <a>DescribeProjects</a>.
+///
+/// @nodoc
 class ProjectDescription {
   /// Indicates whether automatic retraining will be attempted for the versions of
   /// the project. Applies only to adapters.
@@ -16329,6 +16716,7 @@ class ProjectDescription {
   }
 }
 
+/// @nodoc
 class ProjectStatus {
   static const creating = ProjectStatus._('CREATING');
   static const created = ProjectStatus._('CREATED');
@@ -16354,6 +16742,7 @@ class ProjectStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class ProjectAutoUpdate {
   static const enabled = ProjectAutoUpdate._('ENABLED');
   static const disabled = ProjectAutoUpdate._('DISABLED');
@@ -16380,6 +16769,8 @@ class ProjectAutoUpdate {
 
 /// Summary information for an Amazon Rekognition Custom Labels dataset. For
 /// more information, see <a>ProjectDescription</a>.
+///
+/// @nodoc
 class DatasetMetadata {
   /// The Unix timestamp for the date and time that the dataset was created.
   final DateTime? creationTimestamp;
@@ -16443,6 +16834,7 @@ class DatasetMetadata {
   }
 }
 
+/// @nodoc
 class DatasetType {
   static const train = DatasetType._('TRAIN');
   static const test = DatasetType._('TEST');
@@ -16466,6 +16858,7 @@ class DatasetType {
   String toString() => value;
 }
 
+/// @nodoc
 class DatasetStatus {
   static const createInProgress = DatasetStatus._('CREATE_IN_PROGRESS');
   static const createComplete = DatasetStatus._('CREATE_COMPLETE');
@@ -16503,6 +16896,7 @@ class DatasetStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class DatasetStatusMessageCode {
   static const success = DatasetStatusMessageCode._('SUCCESS');
   static const serviceError = DatasetStatusMessageCode._('SERVICE_ERROR');
@@ -16534,6 +16928,8 @@ class DatasetStatusMessageCode {
 ///
 /// The status fields <code>Status</code>, <code>StatusMessage</code>, and
 /// <code>StatusMessageCode</code> reflect the last operation on the dataset.
+///
+/// @nodoc
 class DatasetDescription {
   /// The Unix timestamp for the time and date that the dataset was created.
   final DateTime? creationTimestamp;
@@ -16601,6 +16997,8 @@ class DatasetDescription {
 
 /// Provides statistics about a dataset. For more information, see
 /// <a>DescribeDataset</a>.
+///
+/// @nodoc
 class DatasetStats {
   /// The total number of entries that contain at least one error.
   final int? errorEntries;
@@ -16646,6 +17044,8 @@ class DatasetStats {
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
 /// unsuccessfully deleted.
+///
+/// @nodoc
 class UnsuccessfulFaceDeletion {
   /// A unique identifier assigned to the face.
   final String? faceId;
@@ -16685,6 +17085,7 @@ class UnsuccessfulFaceDeletion {
   }
 }
 
+/// @nodoc
 class UnsuccessfulFaceDeletionReason {
   static const associatedToAnExistingUser =
       UnsuccessfulFaceDeletionReason._('ASSOCIATED_TO_AN_EXISTING_USER');
@@ -16714,6 +17115,8 @@ class UnsuccessfulFaceDeletionReason {
 
 /// A session settings object. It contains settings for the operation to be
 /// performed. It accepts arguments for OutputConfig and AuditImagesLimit.
+///
+/// @nodoc
 class CreateFaceLivenessSessionRequestSettings {
   /// Number of audit images to be returned back. Takes an integer between 0-4.
   /// Any integer less than 0 will return 0, any integer above 4 will return 4
@@ -16757,6 +17160,8 @@ class CreateFaceLivenessSessionRequestSettings {
 /// located in the caller's AWS account and in the same region as the Face
 /// Liveness end-point. Additionally, the Amazon S3 object keys are
 /// auto-generated by the Face Liveness system.
+///
+/// @nodoc
 class LivenessOutputConfig {
   /// The path to an AWS Amazon S3 bucket used to store Face Liveness session
   /// results.
@@ -16782,6 +17187,8 @@ class LivenessOutputConfig {
 }
 
 /// An ordered list of preferred challenge type and versions.
+///
+/// @nodoc
 class ChallengePreference {
   /// The types of challenges that have been selected for the Face Liveness
   /// session.
@@ -16807,6 +17214,8 @@ class ChallengePreference {
 }
 
 /// Object specifying the acceptable range of challenge versions.
+///
+/// @nodoc
 class Versions {
   /// The desired maximum version for the challenge.
   final String? maximum;
@@ -16842,6 +17251,8 @@ class Versions {
 /// occurs.
 ///
 /// For more information, see <a>CreateDataset</a>.
+///
+/// @nodoc
 class DatasetSource {
   /// The ARN of an Amazon Rekognition Custom Labels dataset that you want to
   /// copy.
@@ -16869,6 +17280,8 @@ class DatasetSource {
 /// confidence level that the bounding box contains a face. Note that Amazon
 /// Rekognition selects the largest face in the source image for this
 /// comparison.
+///
+/// @nodoc
 class ComparedSourceImageFace {
   /// Bounding box of the face.
   final BoundingBox? boundingBox;
@@ -16905,6 +17318,8 @@ class ComparedSourceImageFace {
 /// property contains the bounding box of the face in the target image. The
 /// <code>Similarity</code> property is the confidence that the source image
 /// face matches the face in the bounding box.
+///
+/// @nodoc
 class CompareFacesMatch {
   /// Provides face metadata (bounding box and confidence that the bounding box
   /// actually contains a face).
@@ -16939,6 +17354,8 @@ class CompareFacesMatch {
 
 /// Contains metadata like FaceId, UserID, and Reasons, for a face that was
 /// unsuccessfully associated.
+///
+/// @nodoc
 class UnsuccessfulFaceAssociation {
   /// Match confidence with the UserID, provides information regarding if a face
   /// association was unsuccessful because it didn't meet UserMatchThreshold.
@@ -16987,6 +17404,7 @@ class UnsuccessfulFaceAssociation {
   }
 }
 
+/// @nodoc
 class UnsuccessfulFaceAssociationReason {
   static const faceNotFound =
       UnsuccessfulFaceAssociationReason._('FACE_NOT_FOUND');
@@ -17022,6 +17440,8 @@ class UnsuccessfulFaceAssociationReason {
 
 /// Provides face metadata for the faces that are associated to a specific
 /// UserID.
+///
+/// @nodoc
 class AssociatedFace {
   /// Unique identifier assigned to the face.
   final String? faceId;
@@ -17044,16 +17464,19 @@ class AssociatedFace {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class HumanLoopQuotaExceededException extends _s.GenericAwsException {
   HumanLoopQuotaExceededException({String? type, String? message})
       : super(
@@ -17062,6 +17485,7 @@ class HumanLoopQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
   IdempotentParameterMismatchException({String? type, String? message})
       : super(
@@ -17070,27 +17494,32 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ImageTooLargeException extends _s.GenericAwsException {
   ImageTooLargeException({String? type, String? message})
       : super(type: type, code: 'ImageTooLargeException', message: message);
 }
 
+/// @nodoc
 class InternalServerError extends _s.GenericAwsException {
   InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
+/// @nodoc
 class InvalidImageFormatException extends _s.GenericAwsException {
   InvalidImageFormatException({String? type, String? message})
       : super(
             type: type, code: 'InvalidImageFormatException', message: message);
 }
 
+/// @nodoc
 class InvalidManifestException extends _s.GenericAwsException {
   InvalidManifestException({String? type, String? message})
       : super(type: type, code: 'InvalidManifestException', message: message);
 }
 
+/// @nodoc
 class InvalidPaginationTokenException extends _s.GenericAwsException {
   InvalidPaginationTokenException({String? type, String? message})
       : super(
@@ -17099,11 +17528,13 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class InvalidPolicyRevisionIdException extends _s.GenericAwsException {
   InvalidPolicyRevisionIdException({String? type, String? message})
       : super(
@@ -17112,16 +17543,19 @@ class InvalidPolicyRevisionIdException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidS3ObjectException extends _s.GenericAwsException {
   InvalidS3ObjectException({String? type, String? message})
       : super(type: type, code: 'InvalidS3ObjectException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
   MalformedPolicyDocumentException({String? type, String? message})
       : super(
@@ -17130,6 +17564,7 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
   ProvisionedThroughputExceededException({String? type, String? message})
       : super(
@@ -17138,6 +17573,7 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
   ResourceAlreadyExistsException({String? type, String? message})
       : super(
@@ -17146,21 +17582,25 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ResourceInUseException extends _s.GenericAwsException {
   ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ResourceNotReadyException extends _s.GenericAwsException {
   ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -17169,16 +17609,19 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class SessionNotFoundException extends _s.GenericAwsException {
   SessionNotFoundException({String? type, String? message})
       : super(type: type, code: 'SessionNotFoundException', message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class VideoTooLargeException extends _s.GenericAwsException {
   VideoTooLargeException({String? type, String? message})
       : super(type: type, code: 'VideoTooLargeException', message: message);

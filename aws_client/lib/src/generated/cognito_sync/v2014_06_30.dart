@@ -356,7 +356,7 @@ class CognitoSync {
   /// 332 { "Output": { "__type":
   /// "com.amazonaws.cognito.sync.model#GetIdentityPoolConfigurationResponse",
   /// "IdentityPoolId": "ID_POOL_ID", "PushSync": { "ApplicationArns":
-  /// ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN" } }, "Version":
+  /// \["PLATFORMARN1", "PLATFORMARN2"\], "RoleArn": "ROLEARN" } }, "Version":
   /// "1.0" } </response> </example> </examples>
   ///
   /// May throw [InternalErrorException].
@@ -406,9 +406,9 @@ class CognitoSync {
   /// content-type: application/json content-length: 355 date: Tue, 11 Nov 2014
   /// 21:56:40 GMT { "Output": { "__type":
   /// "com.amazonaws.cognito.sync.model#ListDatasetsResponse", "Count": 1,
-  /// "Datasets": [ { "CreationDate": 1.412974057151E9, "DataStorage": 16,
+  /// "Datasets": \[ { "CreationDate": 1.412974057151E9, "DataStorage": 16,
   /// "DatasetName": "my_list", "IdentityId": "IDENTITY_ID", "LastModifiedBy":
-  /// "123456789012", "LastModifiedDate": 1.412974057244E9, "NumRecords": 1 }],
+  /// "123456789012", "LastModifiedDate": 1.412974057244E9, "NumRecords": 1 }\],
   /// "NextToken": null }, "Version": "1.0" } </response> </example> </examples>
   ///
   /// May throw [InternalErrorException].
@@ -473,11 +473,11 @@ class CognitoSync {
   /// content-length: 519 date: Tue, 11 Nov 2014 21:14:14 GMT { "Output": {
   /// "__type":
   /// "com.amazonaws.cognito.sync.model#ListIdentityPoolUsageResponse", "Count":
-  /// 2, "IdentityPoolUsages": [ { "DataStorage": 0, "IdentityPoolId":
+  /// 2, "IdentityPoolUsages": \[ { "DataStorage": 0, "IdentityPoolId":
   /// "IDENTITY_POOL_ID", "LastModifiedDate": 1.413836234607E9,
   /// "SyncSessionsCount": null }, { "DataStorage": 0, "IdentityPoolId":
   /// "IDENTITY_POOL_ID", "LastModifiedDate": 1.410892165601E9,
-  /// "SyncSessionsCount": null }], "MaxResults": 2, "NextToken":
+  /// "SyncSessionsCount": null }\], "MaxResults": 2, "NextToken":
   /// "dXMtZWFzdC0xOjBjMWJhMDUyLWUwOTgtNDFmYS1hNzZlLWVhYTJjMTI1Zjg2MQ==" },
   /// "Version": "1.0" } </response> </example> </examples>
   ///
@@ -536,8 +536,9 @@ class CognitoSync {
   /// "com.amazonaws.cognito.sync.model#ListRecordsResponse", "Count": 0,
   /// "DatasetDeletedAfterRequestedSyncCount": false, "DatasetExists": false,
   /// "DatasetSyncCount": 0, "LastModifiedBy": null, "MergedDatasetNames": null,
-  /// "NextToken": null, "Records": [], "SyncSessionToken": "SYNC_SESSION_TOKEN"
-  /// }, "Version": "1.0" } </response> </example> </examples>
+  /// "NextToken": null, "Records": \[\], "SyncSessionToken":
+  /// "SYNC_SESSION_TOKEN" }, "Version": "1.0" } </response> </example>
+  /// </examples>
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
@@ -712,13 +713,13 @@ class CognitoSync {
   /// "com.amazonaws.cognito.sync.model#SetIdentityPoolConfiguration",
   /// "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
   /// "Input": { "IdentityPoolId": "ID_POOL_ID", "PushSync": {
-  /// "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN"
-  /// } } } </request> <response> 1.1 200 OK x-amzn-requestid:
+  /// "ApplicationArns": \["PLATFORMARN1", "PLATFORMARN2"\], "RoleArn":
+  /// "ROLEARN" } } } </request> <response> 1.1 200 OK x-amzn-requestid:
   /// a46db021-f5dd-45d6-af5b-7069fa4a211b date: Sat, 04 Oct 2014 20:00:06 GMT
   /// content-type: application/json content-length: 332 { "Output": { "__type":
   /// "com.amazonaws.cognito.sync.model#SetIdentityPoolConfigurationResponse",
   /// "IdentityPoolId": "ID_POOL_ID", "PushSync": { "ApplicationArns":
-  /// ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN" } }, "Version":
+  /// \["PLATFORMARN1", "PLATFORMARN2"\], "RoleArn": "ROLEARN" } }, "Version":
   /// "1.0" } </response> </example> </examples>
   ///
   /// May throw [ConcurrentModificationException].
@@ -966,6 +967,8 @@ class CognitoSync {
 }
 
 /// The output for the BulkPublish operation.
+///
+/// @nodoc
 class BulkPublishResponse {
   /// A name-spaced GUID (for example,
   /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
@@ -991,6 +994,8 @@ class BulkPublishResponse {
 }
 
 /// Response to a successful DeleteDataset request.
+///
+/// @nodoc
 class DeleteDatasetResponse {
   /// A collection of data for an identity pool. An identity pool can have
   /// multiple datasets. A dataset is per identity and can be general or
@@ -1020,6 +1025,8 @@ class DeleteDatasetResponse {
 }
 
 /// Response to a successful DescribeDataset request.
+///
+/// @nodoc
 class DescribeDatasetResponse {
   /// Meta data for a collection of data for an identity. An identity can have
   /// multiple datasets. A dataset can be general or associated with a particular
@@ -1049,6 +1056,8 @@ class DescribeDatasetResponse {
 }
 
 /// Response to a successful DescribeIdentityPoolUsage request.
+///
+/// @nodoc
 class DescribeIdentityPoolUsageResponse {
   /// Information about the usage of the identity pool.
   final IdentityPoolUsage? identityPoolUsage;
@@ -1076,6 +1085,8 @@ class DescribeIdentityPoolUsageResponse {
 }
 
 /// The response to a successful DescribeIdentityUsage request.
+///
+/// @nodoc
 class DescribeIdentityUsageResponse {
   /// Usage information for the identity.
   final IdentityUsage? identityUsage;
@@ -1102,6 +1113,8 @@ class DescribeIdentityUsageResponse {
 }
 
 /// The output for the GetBulkPublishDetails operation.
+///
+/// @nodoc
 class GetBulkPublishDetailsResponse {
   /// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation
   /// completed.
@@ -1171,6 +1184,8 @@ class GetBulkPublishDetailsResponse {
 }
 
 /// The response from the GetCognitoEvents request
+///
+/// @nodoc
 class GetCognitoEventsResponse {
   /// The Cognito Events returned from the GetCognitoEvents request
   final Map<String, String>? events;
@@ -1195,6 +1210,8 @@ class GetCognitoEventsResponse {
 }
 
 /// The output for the GetIdentityPoolConfiguration operation.
+///
+/// @nodoc
 class GetIdentityPoolConfigurationResponse {
   /// Options to apply to this identity pool for Amazon Cognito streams.
   final CognitoStreams? cognitoStreams;
@@ -1239,6 +1256,8 @@ class GetIdentityPoolConfigurationResponse {
 }
 
 /// Returned for a successful ListDatasets request.
+///
+/// @nodoc
 class ListDatasetsResponse {
   /// Number of datasets returned.
   final int? count;
@@ -1279,6 +1298,8 @@ class ListDatasetsResponse {
 }
 
 /// Returned for a successful ListIdentityPoolUsage request.
+///
+/// @nodoc
 class ListIdentityPoolUsageResponse {
   /// Total number of identities for the identity pool.
   final int? count;
@@ -1326,6 +1347,8 @@ class ListIdentityPoolUsageResponse {
 }
 
 /// Returned for a successful ListRecordsRequest.
+///
+/// @nodoc
 class ListRecordsResponse {
   /// Total number of records.
   final int? count;
@@ -1415,6 +1438,8 @@ class ListRecordsResponse {
 }
 
 /// Response to a RegisterDevice request.
+///
+/// @nodoc
 class RegisterDeviceResponse {
   /// The unique ID generated for this device by Cognito.
   final String? deviceId;
@@ -1438,6 +1463,8 @@ class RegisterDeviceResponse {
 }
 
 /// The output for the SetIdentityPoolConfiguration operation
+///
+/// @nodoc
 class SetIdentityPoolConfigurationResponse {
   /// Options to apply to this identity pool for Amazon Cognito streams.
   final CognitoStreams? cognitoStreams;
@@ -1482,6 +1509,8 @@ class SetIdentityPoolConfigurationResponse {
 }
 
 /// Response to a SubscribeToDataset request.
+///
+/// @nodoc
 class SubscribeToDatasetResponse {
   SubscribeToDatasetResponse();
 
@@ -1495,6 +1524,8 @@ class SubscribeToDatasetResponse {
 }
 
 /// Response to an UnsubscribeFromDataset request.
+///
+/// @nodoc
 class UnsubscribeFromDatasetResponse {
   UnsubscribeFromDatasetResponse();
 
@@ -1508,6 +1539,8 @@ class UnsubscribeFromDatasetResponse {
 }
 
 /// Returned for a successful UpdateRecordsRequest.
+///
+/// @nodoc
 class UpdateRecordsResponse {
   /// A list of records that have been updated.
   final List<Record>? records;
@@ -1534,6 +1567,8 @@ class UpdateRecordsResponse {
 }
 
 /// The basic data structure of a dataset.
+///
+/// @nodoc
 class Record {
   /// The last modified date of the client device.
   final DateTime? deviceLastModifiedDate;
@@ -1594,6 +1629,8 @@ class Record {
 }
 
 /// An update operation for a record.
+///
+/// @nodoc
 class RecordPatch {
   /// The key associated with the record patch.
   final String key;
@@ -1635,6 +1672,7 @@ class RecordPatch {
   }
 }
 
+/// @nodoc
 class Operation {
   static const replace = Operation._('replace');
   static const remove = Operation._('remove');
@@ -1659,6 +1697,8 @@ class Operation {
 }
 
 /// Configuration options to be applied to the identity pool.
+///
+/// @nodoc
 class PushSync {
   /// List of SNS platform application ARNs that could be used by clients.
   final List<String>? applicationArns;
@@ -1692,6 +1732,8 @@ class PushSync {
 }
 
 /// Configuration options for configure Cognito streams.
+///
+/// @nodoc
 class CognitoStreams {
   /// The ARN of the role Amazon Cognito can assume in order to publish to the
   /// stream. This role must grant access to Amazon Cognito (cognito-sync) to
@@ -1736,6 +1778,7 @@ class CognitoStreams {
   }
 }
 
+/// @nodoc
 class StreamingStatus {
   static const enabled = StreamingStatus._('ENABLED');
   static const disabled = StreamingStatus._('DISABLED');
@@ -1760,6 +1803,7 @@ class StreamingStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class Platform {
   static const apns = Platform._('APNS');
   static const apnsSandbox = Platform._('APNS_SANDBOX');
@@ -1786,6 +1830,8 @@ class Platform {
 }
 
 /// Usage information for the identity pool.
+///
+/// @nodoc
 class IdentityPoolUsage {
   /// Data storage information for the identity pool.
   final int? dataStorage;
@@ -1837,6 +1883,8 @@ class IdentityPoolUsage {
 /// associated with a particular entity in an application (like a saved game).
 /// Datasets are automatically created if they don't exist. Data is synced by
 /// dataset, and a dataset can hold up to 1MB of key-value pairs.
+///
+/// @nodoc
 class Dataset {
   /// Date on which the dataset was created.
   final DateTime? creationDate;
@@ -1906,6 +1954,7 @@ class Dataset {
   }
 }
 
+/// @nodoc
 class BulkPublishStatus {
   static const notStarted = BulkPublishStatus._('NOT_STARTED');
   static const inProgress = BulkPublishStatus._('IN_PROGRESS');
@@ -1933,6 +1982,8 @@ class BulkPublishStatus {
 }
 
 /// Usage information for the identity.
+///
+/// @nodoc
 class IdentityUsage {
   /// Total data storage for this identity.
   final int? dataStorage;
@@ -1988,11 +2039,13 @@ class IdentityUsage {
   }
 }
 
+/// @nodoc
 class AlreadyStreamedException extends _s.GenericAwsException {
   AlreadyStreamedException({String? type, String? message})
       : super(type: type, code: 'AlreadyStreamedException', message: message);
 }
 
+/// @nodoc
 class ConcurrentModificationException extends _s.GenericAwsException {
   ConcurrentModificationException({String? type, String? message})
       : super(
@@ -2001,16 +2054,19 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class DuplicateRequestException extends _s.GenericAwsException {
   DuplicateRequestException({String? type, String? message})
       : super(type: type, code: 'DuplicateRequestException', message: message);
 }
 
+/// @nodoc
 class InternalErrorException extends _s.GenericAwsException {
   InternalErrorException({String? type, String? message})
       : super(type: type, code: 'InternalErrorException', message: message);
 }
 
+/// @nodoc
 class InvalidConfigurationException extends _s.GenericAwsException {
   InvalidConfigurationException({String? type, String? message})
       : super(
@@ -2019,6 +2075,7 @@ class InvalidConfigurationException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidLambdaFunctionOutputException extends _s.GenericAwsException {
   InvalidLambdaFunctionOutputException({String? type, String? message})
       : super(
@@ -2027,36 +2084,43 @@ class InvalidLambdaFunctionOutputException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class InvalidParameterException extends _s.GenericAwsException {
   InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
+/// @nodoc
 class LambdaThrottledException extends _s.GenericAwsException {
   LambdaThrottledException({String? type, String? message})
       : super(type: type, code: 'LambdaThrottledException', message: message);
 }
 
+/// @nodoc
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+/// @nodoc
 class NotAuthorizedException extends _s.GenericAwsException {
   NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
+/// @nodoc
 class ResourceConflictException extends _s.GenericAwsException {
   ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);

@@ -105,6 +105,7 @@ class SageMakerMetrics {
   }
 }
 
+/// @nodoc
 class BatchGetMetricsResponse {
   /// The results of a query to retrieve training metrics from SageMaker.
   final List<MetricQueryResult>? metricQueryResults;
@@ -130,6 +131,7 @@ class BatchGetMetricsResponse {
   }
 }
 
+/// @nodoc
 class BatchPutMetricsResponse {
   /// Lists any errors that occur when inserting metric data.
   final List<BatchPutMetricsError>? errors;
@@ -156,6 +158,8 @@ class BatchPutMetricsResponse {
 }
 
 /// An error that occured when putting the metric data.
+///
+/// @nodoc
 class BatchPutMetricsError {
   /// The error code of an error that occured when attempting to put metrics.
   ///
@@ -202,6 +206,7 @@ class BatchPutMetricsError {
   }
 }
 
+/// @nodoc
 class PutMetricsErrorCode {
   static const metricLimitExceeded =
       PutMetricsErrorCode._('METRIC_LIMIT_EXCEEDED');
@@ -236,6 +241,8 @@ class PutMetricsErrorCode {
 }
 
 /// The raw metric data to associate with the resource.
+///
+/// @nodoc
 class RawMetricData {
   /// The name of the metric.
   final String metricName;
@@ -271,6 +278,8 @@ class RawMetricData {
 }
 
 /// The result of a query to retrieve training metrics from SageMaker.
+///
+/// @nodoc
 class MetricQueryResult {
   /// The metric values retrieved by the query.
   final List<double> metricValues;
@@ -321,6 +330,7 @@ class MetricQueryResult {
   }
 }
 
+/// @nodoc
 class MetricQueryResultStatus {
   static const complete = MetricQueryResultStatus._('Complete');
   static const truncated = MetricQueryResultStatus._('Truncated');
@@ -349,6 +359,8 @@ class MetricQueryResultStatus {
 }
 
 /// Specifies a query to retrieve training metrics from SageMaker.
+///
+/// @nodoc
 class MetricQuery {
   /// The name of the metric to retrieve.
   final String metricName;
@@ -401,6 +413,7 @@ class MetricQuery {
   }
 }
 
+/// @nodoc
 class MetricStatistic {
   static const min = MetricStatistic._('Min');
   static const max = MetricStatistic._('Max');
@@ -429,6 +442,7 @@ class MetricStatistic {
   String toString() => value;
 }
 
+/// @nodoc
 class Period {
   static const oneMinute = Period._('OneMinute');
   static const fiveMinute = Period._('FiveMinute');
@@ -454,6 +468,7 @@ class Period {
   String toString() => value;
 }
 
+/// @nodoc
 class XAxisType {
   static const iterationNumber = XAxisType._('IterationNumber');
   static const timestamp = XAxisType._('Timestamp');

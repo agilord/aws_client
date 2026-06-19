@@ -1044,6 +1044,7 @@ class Invoicing {
   }
 }
 
+/// @nodoc
 class BatchGetInvoiceProfileResponse {
   /// A list of invoice profiles corresponding to the requested accounts.
   final List<InvoiceProfile>? profiles;
@@ -1069,6 +1070,7 @@ class BatchGetInvoiceProfileResponse {
   }
 }
 
+/// @nodoc
 class CreateInvoiceUnitResponse {
   /// The ARN to identify an invoice unit. This information can't be modified or
   /// deleted.
@@ -1092,6 +1094,7 @@ class CreateInvoiceUnitResponse {
   }
 }
 
+/// @nodoc
 class CreateProcurementPortalPreferenceResponse {
   /// The Amazon Resource Name (ARN) of the created procurement portal preference.
   final String procurementPortalPreferenceArn;
@@ -1116,6 +1119,7 @@ class CreateProcurementPortalPreferenceResponse {
   }
 }
 
+/// @nodoc
 class DeleteInvoiceUnitResponse {
   /// The ARN to identify an invoice unit. This information can't be modified or
   /// deleted.
@@ -1139,6 +1143,7 @@ class DeleteInvoiceUnitResponse {
   }
 }
 
+/// @nodoc
 class DeleteProcurementPortalPreferenceResponse {
   /// The Amazon Resource Name (ARN) of the deleted procurement portal preference.
   final String procurementPortalPreferenceArn;
@@ -1163,6 +1168,7 @@ class DeleteProcurementPortalPreferenceResponse {
   }
 }
 
+/// @nodoc
 class GetInvoicePDFResponse {
   /// The invoice document and supplemental documents associated with the invoice.
   final InvoicePDF? invoicePDF;
@@ -1187,6 +1193,7 @@ class GetInvoicePDFResponse {
   }
 }
 
+/// @nodoc
 class GetInvoiceUnitResponse {
   /// The assigned description for an invoice unit.
   final String? description;
@@ -1257,6 +1264,7 @@ class GetInvoiceUnitResponse {
   }
 }
 
+/// @nodoc
 class GetProcurementPortalPreferenceResponse {
   /// The detailed configuration of the requested procurement portal preference.
   final ProcurementPortalPreference procurementPortalPreference;
@@ -1282,6 +1290,7 @@ class GetProcurementPortalPreferenceResponse {
   }
 }
 
+/// @nodoc
 class ListInvoiceSummariesResponse {
   /// List of key (summary level) invoice details without line item details.
   final List<InvoiceSummary> invoiceSummaries;
@@ -1315,6 +1324,7 @@ class ListInvoiceSummariesResponse {
   }
 }
 
+/// @nodoc
 class ListInvoiceUnitsResponse {
   /// An invoice unit is a set of mutually exclusive accounts that correspond to
   /// your business entity.
@@ -1348,6 +1358,7 @@ class ListInvoiceUnitsResponse {
   }
 }
 
+/// @nodoc
 class ListProcurementPortalPreferencesResponse {
   /// The token to use to retrieve the next set of results, or null if there are
   /// no more results.
@@ -1386,6 +1397,7 @@ class ListProcurementPortalPreferencesResponse {
   }
 }
 
+/// @nodoc
 class ListTagsForResourceResponse {
   /// Adds a tag to a resource.
   final List<ResourceTag>? resourceTags;
@@ -1411,6 +1423,7 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// @nodoc
 class PutProcurementPortalPreferenceResponse {
   /// The Amazon Resource Name (ARN) of the updated procurement portal preference.
   final String procurementPortalPreferenceArn;
@@ -1435,6 +1448,7 @@ class PutProcurementPortalPreferenceResponse {
   }
 }
 
+/// @nodoc
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1447,6 +1461,7 @@ class TagResourceResponse {
   }
 }
 
+/// @nodoc
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -1459,6 +1474,7 @@ class UntagResourceResponse {
   }
 }
 
+/// @nodoc
 class UpdateInvoiceUnitResponse {
   /// The ARN to identify an invoice unit. This information can't be modified or
   /// deleted.
@@ -1482,6 +1498,7 @@ class UpdateInvoiceUnitResponse {
   }
 }
 
+/// @nodoc
 class UpdateProcurementPortalPreferenceStatusResponse {
   /// The Amazon Resource Name (ARN) of the procurement portal preference with
   /// updated status.
@@ -1507,6 +1524,7 @@ class UpdateProcurementPortalPreferenceStatusResponse {
   }
 }
 
+/// @nodoc
 class ProcurementPortalPreferenceStatus {
   static const pendingVerification =
       ProcurementPortalPreferenceStatus._('PENDING_VERIFICATION');
@@ -1549,6 +1567,8 @@ class ProcurementPortalPreferenceStatus {
 /// This is used to categorize the invoice unit. Values are Amazon Web Services
 /// account IDs. Currently, the only supported rule is
 /// <code>LINKED_ACCOUNT</code>.
+///
+/// @nodoc
 class InvoiceUnitRule {
   /// A list of Amazon Web Services account IDs that have delegated their billing
   /// responsibility to the receiver account through transfer billing. Unlike
@@ -1589,6 +1609,8 @@ class InvoiceUnitRule {
 }
 
 /// The tag structure that contains a tag key and value.
+///
+/// @nodoc
 class ResourceTag {
   /// The object key of your of your resource tag.
   final String key;
@@ -1620,6 +1642,8 @@ class ResourceTag {
 
 /// Specifies criteria for selecting which invoices should be processed using a
 /// particular procurement portal preference.
+///
+/// @nodoc
 class ProcurementPortalPreferenceSelector {
   /// The Amazon Resource Name (ARN) of invoice unit identifiers to which this
   /// preference applies.
@@ -1659,6 +1683,8 @@ class ProcurementPortalPreferenceSelector {
 
 /// Input parameters for configuring test environment preferences for a
 /// procurement portal.
+///
+/// @nodoc
 class TestEnvPreferenceInput {
   /// The domain identifier to use for the buyer in the test environment.
   final BuyerDomain buyerDomain;
@@ -1711,6 +1737,8 @@ class TestEnvPreferenceInput {
 
 /// Specifies the preferences for e-invoice delivery, including document types,
 /// attachment types, and customization settings.
+///
+/// @nodoc
 class EinvoiceDeliveryPreference {
   /// The method to use for testing the connection to the procurement portal.
   final ConnectionTestingMethod connectionTestingMethod;
@@ -1792,6 +1820,8 @@ class EinvoiceDeliveryPreference {
 
 /// Represents contact information for a person or role associated with the
 /// procurement portal preference.
+///
+/// @nodoc
 class Contact {
   /// The email address of the contact person or role.
   final String? email;
@@ -1821,6 +1851,7 @@ class Contact {
   }
 }
 
+/// @nodoc
 class Protocol {
   static const cxml = Protocol._('CXML');
 
@@ -1843,6 +1874,7 @@ class Protocol {
   String toString() => value;
 }
 
+/// @nodoc
 class ConnectionTestingMethod {
   static const prodEnvDollarTest =
       ConnectionTestingMethod._('PROD_ENV_DOLLAR_TEST');
@@ -1871,6 +1903,8 @@ class ConnectionTestingMethod {
 }
 
 /// Specifies the source configuration for retrieving purchase order data.
+///
+/// @nodoc
 class PurchaseOrderDataSource {
   /// The type of e-invoice document that requires purchase order data.
   final EinvoiceDeliveryDocumentType? einvoiceDeliveryDocumentType;
@@ -1906,6 +1940,7 @@ class PurchaseOrderDataSource {
   }
 }
 
+/// @nodoc
 class EinvoiceDeliveryDocumentType {
   static const awsCloudInvoice =
       EinvoiceDeliveryDocumentType._('AWS_CLOUD_INVOICE');
@@ -1945,6 +1980,7 @@ class EinvoiceDeliveryDocumentType {
   String toString() => value;
 }
 
+/// @nodoc
 class PurchaseOrderDataSourceType {
   static const associatedPurchaseOrderRequired =
       PurchaseOrderDataSourceType._('ASSOCIATED_PURCHASE_ORDER_REQUIRED');
@@ -1975,6 +2011,7 @@ class PurchaseOrderDataSourceType {
   String toString() => value;
 }
 
+/// @nodoc
 class EinvoiceDeliveryAttachmentType {
   static const invoicePdf = EinvoiceDeliveryAttachmentType._('INVOICE_PDF');
   static const rfpPdf = EinvoiceDeliveryAttachmentType._('RFP_PDF');
@@ -2000,6 +2037,7 @@ class EinvoiceDeliveryAttachmentType {
   String toString() => value;
 }
 
+/// @nodoc
 class BuyerDomain {
   static const networkID = BuyerDomain._('NetworkID');
 
@@ -2022,6 +2060,7 @@ class BuyerDomain {
   String toString() => value;
 }
 
+/// @nodoc
 class SupplierDomain {
   static const networkID = SupplierDomain._('NetworkID');
 
@@ -2047,6 +2086,8 @@ class SupplierDomain {
 
 /// Provides a summary of a procurement portal preference, including key
 /// identifiers and status information.
+///
+/// @nodoc
 class ProcurementPortalPreferenceSummary {
   /// The Amazon Web Services account ID associated with this procurement portal
   /// preference summary.
@@ -2215,6 +2256,7 @@ class ProcurementPortalPreferenceSummary {
   }
 }
 
+/// @nodoc
 class ProcurementPortalName {
   static const sapBusinessNetwork =
       ProcurementPortalName._('SAP_BUSINESS_NETWORK');
@@ -2245,6 +2287,8 @@ class ProcurementPortalName {
 /// your business entity. Invoice units allow you separate Amazon Web Services
 /// account costs and configures your invoice for each business entity going
 /// forward.
+///
+/// @nodoc
 class InvoiceUnit {
   /// The assigned description for an invoice unit. This information can't be
   /// modified or deleted.
@@ -2323,6 +2367,8 @@ class InvoiceUnit {
 /// returned list will be a configuration that match all of the provided
 /// filters. Supported filter types are <code>InvoiceReceivers</code>,
 /// <code>Names</code>, and <code>Accounts</code>.
+///
+/// @nodoc
 class Filters {
   /// You can specify a list of Amazon Web Services account IDs inside filters to
   /// return invoice units that match only the specified accounts. If multiple
@@ -2372,6 +2418,8 @@ class Filters {
 }
 
 /// The invoice that the API retrieved.
+///
+/// @nodoc
 class InvoiceSummary {
   /// The Amazon Web Services account ID.
   final String? accountId;
@@ -2559,6 +2607,7 @@ class InvoiceSummary {
   }
 }
 
+/// @nodoc
 class ReceiverRole {
   static const seller = ReceiverRole._('SELLER');
   static const reseller = ReceiverRole._('RESELLER');
@@ -2584,6 +2633,8 @@ class ReceiverRole {
 }
 
 /// The organization name providing Amazon Web Services services.
+///
+/// @nodoc
 class Entity {
   /// Helps you identify whether your invoices are for Amazon Web Services
   /// Marketplace or for purchases of other Amazon Web Services services.
@@ -2616,6 +2667,8 @@ class Entity {
 }
 
 /// The billing period for which you want to retrieve invoice-related documents.
+///
+/// @nodoc
 class BillingPeriod {
   /// The billing period month.
   final int month;
@@ -2645,6 +2698,7 @@ class BillingPeriod {
   }
 }
 
+/// @nodoc
 class InvoiceFrequency {
   static const oneTime = InvoiceFrequency._('ONE_TIME');
   static const recurring = InvoiceFrequency._('RECURRING');
@@ -2669,6 +2723,7 @@ class InvoiceFrequency {
   String toString() => value;
 }
 
+/// @nodoc
 class BillType {
   static const anniversary = BillType._('ANNIVERSARY');
   static const purchase = BillType._('PURCHASE');
@@ -2693,6 +2748,7 @@ class BillType {
   String toString() => value;
 }
 
+/// @nodoc
 class InvoiceType {
   static const invoice = InvoiceType._('INVOICE');
   static const creditMemo = InvoiceType._('CREDIT_MEMO');
@@ -2717,6 +2773,7 @@ class InvoiceType {
   String toString() => value;
 }
 
+/// @nodoc
 class EinvoiceDeliveryStatus {
   static const delivered = EinvoiceDeliveryStatus._('DELIVERED');
   static const notDelivered = EinvoiceDeliveryStatus._('NOT_DELIVERED');
@@ -2742,6 +2799,7 @@ class EinvoiceDeliveryStatus {
   String toString() => value;
 }
 
+/// @nodoc
 class TaxAuthorityStatus {
   static const issued = TaxAuthorityStatus._('ISSUED');
   static const cancelled = TaxAuthorityStatus._('CANCELLED');
@@ -2768,6 +2826,8 @@ class TaxAuthorityStatus {
 }
 
 /// The amount charged after taxes, in the preferred currency.
+///
+/// @nodoc
 class InvoiceCurrencyAmount {
   /// Details about the invoice currency amount.
   final AmountBreakdown? amountBreakdown;
@@ -2827,6 +2887,8 @@ class InvoiceCurrencyAmount {
 }
 
 /// Details about how the total amount was calculated and categorized.
+///
+/// @nodoc
 class AmountBreakdown {
   /// The discounted amount.
   final DiscountsBreakdown? discounts;
@@ -2878,6 +2940,8 @@ class AmountBreakdown {
 }
 
 /// The details of currency exchange.
+///
+/// @nodoc
 class CurrencyExchangeDetails {
   /// The currency exchange rate.
   final String? rate;
@@ -2915,6 +2979,8 @@ class CurrencyExchangeDetails {
 }
 
 /// The discounts details.
+///
+/// @nodoc
 class DiscountsBreakdown {
   /// The list of discounts information.
   final List<DiscountsBreakdownAmount>? breakdown;
@@ -2949,6 +3015,8 @@ class DiscountsBreakdown {
 }
 
 /// The details of the taxes.
+///
+/// @nodoc
 class TaxesBreakdown {
   /// A list of tax information.
   final List<TaxesBreakdownAmount>? breakdown;
@@ -2982,6 +3050,8 @@ class TaxesBreakdown {
 }
 
 /// The details of fees.
+///
+/// @nodoc
 class FeesBreakdown {
   /// The list of fees information.
   final List<FeesBreakdownAmount>? breakdown;
@@ -3015,6 +3085,8 @@ class FeesBreakdown {
 }
 
 /// The fee amount.
+///
+/// @nodoc
 class FeesBreakdownAmount {
   /// The fee amount.
   final String? amount;
@@ -3052,6 +3124,8 @@ class FeesBreakdownAmount {
 }
 
 /// The tax amount.
+///
+/// @nodoc
 class TaxesBreakdownAmount {
   /// The tax amount.
   final String? amount;
@@ -3089,6 +3163,8 @@ class TaxesBreakdownAmount {
 }
 
 /// The discounted amount.
+///
+/// @nodoc
 class DiscountsBreakdownAmount {
   /// The discounted amount.
   final String? amount;
@@ -3125,6 +3201,7 @@ class DiscountsBreakdownAmount {
   }
 }
 
+/// @nodoc
 class BillingEntity {
   static const aws = BillingEntity._('AWS');
   static const awsMarketplace = BillingEntity._('AWS_MARKETPLACE');
@@ -3150,6 +3227,8 @@ class BillingEntity {
 }
 
 /// Specifies the invoice summary.
+///
+/// @nodoc
 class InvoiceSummariesSelector {
   /// The query identifier type (<code>INVOICE_ID</code> or
   /// <code>ACCOUNT_ID</code>).
@@ -3174,6 +3253,8 @@ class InvoiceSummariesSelector {
 }
 
 /// Filters for your invoice summaries.
+///
+/// @nodoc
 class InvoiceSummariesFilter {
   /// The billing period associated with the invoice documents.
   final BillingPeriod? billingPeriod;
@@ -3223,6 +3304,8 @@ class InvoiceSummariesFilter {
 }
 
 /// The time period that you want invoice-related documents for.
+///
+/// @nodoc
 class DateInterval {
   /// The end of the time period that you want invoice-related documents for. The
   /// end date is exclusive. For example, if <code>end</code> is
@@ -3252,6 +3335,7 @@ class DateInterval {
   }
 }
 
+/// @nodoc
 class ListInvoiceSummariesResourceType {
   static const accountId = ListInvoiceSummariesResourceType._('ACCOUNT_ID');
   static const invoiceId = ListInvoiceSummariesResourceType._('INVOICE_ID');
@@ -3279,6 +3363,8 @@ class ListInvoiceSummariesResourceType {
 
 /// Represents the full configuration of a procurement portal preference,
 /// including settings for e-invoice delivery and purchase order retrieval.
+///
+/// @nodoc
 class ProcurementPortalPreference {
   /// The Amazon Web Services account ID associated with this procurement portal
   /// preference.
@@ -3508,6 +3594,8 @@ class ProcurementPortalPreference {
 
 /// Contains configuration settings for testing the procurement portal
 /// integration in a non-production environment.
+///
+/// @nodoc
 class TestEnvPreference {
   /// The domain identifier for the buyer in the test environment of the
   /// procurement portal.
@@ -3588,6 +3676,8 @@ class TestEnvPreference {
 }
 
 /// Invoice document data.
+///
+/// @nodoc
 class InvoicePDF {
   /// The pre-signed URL to download the invoice document.
   final String? documentUrl;
@@ -3639,6 +3729,8 @@ class InvoicePDF {
 }
 
 /// Supplemental document associated with the invoice.
+///
+/// @nodoc
 class SupplementalDocument {
   /// The ID of the supplemental document.
   final String? documentId;
@@ -3686,6 +3778,7 @@ class SupplementalDocument {
   }
 }
 
+/// @nodoc
 class SupplementalDocumentType {
   static const governmentInvoice =
       SupplementalDocumentType._('GOVERNMENT_INVOICE');
@@ -3720,6 +3813,8 @@ class SupplementalDocumentType {
 }
 
 /// Contains high-level information about the invoice receiver.
+///
+/// @nodoc
 class InvoiceProfile {
   /// The account ID the invoice profile is generated for.
   final String? accountId;
@@ -3782,6 +3877,8 @@ class InvoiceProfile {
 }
 
 /// The details of the address associated with the receiver.
+///
+/// @nodoc
 class ReceiverAddress {
   /// The first line of the address.
   final String? addressLine1;
@@ -3860,26 +3957,31 @@ class ReceiverAddress {
   }
 }
 
+/// @nodoc
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+/// @nodoc
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
+/// @nodoc
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+/// @nodoc
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+/// @nodoc
 class ServiceQuotaExceededException extends _s.GenericAwsException {
   ServiceQuotaExceededException({String? type, String? message})
       : super(
@@ -3888,11 +3990,13 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+/// @nodoc
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+/// @nodoc
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
